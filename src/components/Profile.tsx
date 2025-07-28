@@ -8,6 +8,7 @@ import { verifySubscription } from '../api/userSubscription';
 import { Subscription } from '../types/shared-types';
 import PaymentModal from './PaymentModal';
 import { isSessionValid } from '../api/userSession';
+import ReactMarkdown from 'react-markdown';
 
 // Define a simple hook for TermsModal since the original import is incorrect
 function useTermsModal() {
@@ -664,33 +665,34 @@ function Modal({ open, onClose, children, className }: ModalProps) {
 }
 
 // TermsModal component
-type TermsModalProps = {
+interface TermsModalProps {
   open: boolean;
   onClose: () => void;
   content: string;
-};
+}
 
-function TermsModal({ open, onClose, content }: TermsModalProps) {
+const TermsModal = ({ open, onClose, content }: TermsModalProps) => {
   return (
-    <Modal 
-      open={open} 
+    <Modal
+      open={open}
       onClose={onClose} 
-      className="max-w-2xl mx-auto p-6 bg-weatheredWhite rounded shadow-lg max-h-[80vh] overflow-auto"
+      className="max-w-4xl mx-auto p-6 bg-weatheredWhite rounded shadow-lg max-h-[80vh] overflow-auto"
     >
-      <h2 className="text-2xl font-retro mb-4 text-maineBlue">Terms of Service & Privacy Policy</h2>
-      <div className="mb-4 text-gray-700 whitespace-pre-line">
-        {content}
+      <div className="prose max-w-none">
+        <ReactMarkdown className="markdown-content">
+          {content}
+        </ReactMarkdown>
       </div>
-      <div className="flex justify-end">
+      <div className="mt-6 text-center">
         <button
-          className="px-4 py-2 bg-seafoam text-maineBlue rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors"
           onClick={onClose}
+          className="px-4 py-2 bg-maineBlue text-white rounded hover:bg-blue-700 transition-colors"
         >
           Close
         </button>
       </div>
     </Modal>
   );
-}
+};
 
 export default Profile;
