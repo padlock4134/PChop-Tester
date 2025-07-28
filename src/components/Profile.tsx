@@ -46,8 +46,29 @@ const Profile = () => {
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [kitchenSetup, setKitchenSetup] = useState<string>('Apartment Kitchen');
+  const [termsContent, setTermsContent] = useState<string>('Loading terms and conditions...');
+  const [termsModalOpen, setTermsModalOpen] = useState(false);
 
-  const { modalOpen: termsModalOpen, setModalOpen: setTermsModalOpen, termsContent } = useTermsModal();
+  // Load terms from the public/TERMS.md file
+  useEffect(() => {
+    const loadTerms = async () => {
+      try {
+        const response = await fetch('/TERMS.md');
+        if (!response.ok) {
+          throw new Error('Failed to load terms and conditions');
+        }
+        const text = await response.text();
+        setTermsContent(text);
+      } catch (error) {
+        console.error('Error loading terms:', error);
+        setTermsContent('Failed to load terms and conditions. Please try again later.');
+      }
+    };
+
+    loadTerms();
+  }, []);
+
+  const { modalOpen: termsModalOpenState, setModalOpen: setTermsModalOpenState, termsContent: termsContentState } = useTermsModal();
 
   // 9 talents per tree, unlock at 10, 14, 25, 30, 36, 42, 48, 55, 60
   const talentTrees = {
@@ -387,7 +408,7 @@ const Profile = () => {
           onClick={() => setTermsModalOpen(true)}
           className="text-maineBlue hover:underline mt-1"
         >
-          Terms of Service
+          Terms of Service & Privacy Policy
         </button>
       </footer>
     </div>
@@ -656,7 +677,7 @@ function TermsModal({ open, onClose, content }: TermsModalProps) {
       onClose={onClose} 
       className="max-w-2xl mx-auto p-6 bg-weatheredWhite rounded shadow-lg max-h-[80vh] overflow-auto"
     >
-      <h2 className="text-2xl font-retro mb-4 text-maineBlue">Terms of Service</h2>
+      <h2 className="text-2xl font-retro mb-4 text-maineBlue">Terms of Service & Privacy Policy</h2>
       <div className="mb-4 text-gray-700 whitespace-pre-line">
         {content}
       </div>
