@@ -49,6 +49,8 @@ const Profile = () => {
   const [kitchenSetup, setKitchenSetup] = useState<string>('Apartment Kitchen');
   const [termsContent, setTermsContent] = useState<string>('Loading terms and conditions...');
   const [termsModalOpen, setTermsModalOpen] = useState(false);
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarUploading, setAvatarUploading] = useState(false);
 
   // Load terms from the public/TERMS.md file
   useEffect(() => {
@@ -202,6 +204,17 @@ const Profile = () => {
     }
   }, [userProfile]);
 
+  // Handle avatar file selection
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setAvatarFile(file);
+      // For now, just log the file. We'll implement actual upload later
+      console.log('Avatar file selected:', file.name);
+      // TODO: Implement upload functionality
+    }
+  };
+
   if (loading) {
     return <div className="text-center mt-10">Loading profile...</div>;
   } 
@@ -219,11 +232,31 @@ const Profile = () => {
       {/* Header: User Name with Avatar */}
       <div className="flex flex-col items-center mb-6">
         <div className="flex items-center gap-4 mb-2">
-          <div className="w-16 h-16 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-xl overflow-hidden shrink-0">
+          <div className="w-16 h-16 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-xl overflow-hidden shrink-0 relative group">
             {userProfile.avatar ? (
               <img src={userProfile.avatar} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               <span>{userProfile.name.slice(0, 2).toUpperCase()}</span>
+            )}
+            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition-all duration-200 cursor-pointer">
+              <label htmlFor="avatar-upload" className="text-white opacity-0 group-hover:opacity-100 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </label>
+              <input 
+                type="file" 
+                id="avatar-upload" 
+                className="hidden" 
+                accept="image/*"
+                onChange={handleAvatarChange}
+              />
+            </div>
+            {avatarUploading && (
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
+              </div>
             )}
           </div>
           <h1 className="text-3xl font-retro text-maineBlue">
@@ -679,7 +712,9 @@ const TermsModal = ({ open, onClose, content }: TermsModalProps) => {
       className="max-w-4xl mx-auto p-6 bg-weatheredWhite rounded shadow-lg max-h-[80vh] overflow-auto"
     >
       <div className="prose max-w-none">
-        <ReactMarkdown className="markdown-content">
+        <ReactMarkdown components={{
+          p: ({node, ...props}) => <p className="markdown-content" {...props} />
+        }}>
           {content}
         </ReactMarkdown>
       </div>
