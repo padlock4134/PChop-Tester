@@ -205,13 +205,81 @@ const Profile = () => {
   }, [userProfile]);
 
   // Handle avatar file selection
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0] && userProfile) {
       const file = e.target.files[0];
       setAvatarFile(file);
-      // For now, just log the file. We'll implement actual upload later
-      console.log('Avatar file selected:', file.name);
-      // TODO: Implement upload functionality
+      
+      try {
+        setAvatarUploading(true);
+        console.log('Starting avatar upload process...');
+        
+        // Create a unique filename
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${userProfile.id}-${Date.now()}.${fileExt}`;
+        const filePath = fileName; // Don't use nested paths
+        
+        console.log('Uploading file:', fileName);
+        
+        // Upload to Supabase Storage using the 'avatarphotos' bucket
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('avatarphotos')
+          .upload(filePath, file, {
+            upsert: true,
+            contentType: file.type // Explicitly set content type
+          });
+          
+        if (uploadError) {
+          console.error('Upload error details:', uploadError);
+          throw uploadError;
+        }
+        
+        console.log('Upload successful:', uploadData);
+        
+        // Get the public URL
+        const { data } = supabase.storage
+          .from('avatarphotos')
+          .getPublicUrl(filePath);
+          
+        const avatarUrl = data?.publicUrl;
+        
+        console.log('Avatar URL:', avatarUrl);
+        
+        if (!avatarUrl) {
+          throw new Error('Failed to get avatar URL');
+        }
+        
+        // Update the user profile with the new avatar URL
+        const { data: updateData, error: updateError } = await supabase
+          .from('profiles')
+          .update({ avatar: avatarUrl })
+          .eq('id', userProfile.id);
+          
+        if (updateError) {
+          console.error('Profile update error:', updateError);
+          throw updateError;
+        }
+        
+        console.log('Profile update successful:', updateData);
+        
+        // Update the local state with proper type safety
+        setUserProfile(prevProfile => {
+          if (prevProfile) {
+            return {
+              ...prevProfile,
+              avatar: avatarUrl
+            };
+          }
+          return prevProfile;
+        });
+        
+        console.log('Avatar updated successfully');
+      } catch (error) {
+        console.error('Error uploading avatar:', error);
+        alert('Failed to upload avatar. Please try again.');
+      } finally {
+        setAvatarUploading(false);
+      }
     }
   };
 
