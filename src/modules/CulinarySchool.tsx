@@ -168,8 +168,8 @@ const CulinarySchool = () => {
   }, [isRecipeSelected, selectedRecipe?.id]);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 pt-8 pb-8 bg-white min-h-screen rounded-lg shadow">
-        <div className="w-full mx-auto mt-8">
+    <div className="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-lg shadow">
+        <div className="w-full mx-auto">
       <div className="flex items-center justify-center mb-2">
         <span className="text-5xl mr-2">🍳</span>
         <h1 className="text-3xl font-retro text-maineBlue mb-0">Culinary School</h1>

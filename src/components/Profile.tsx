@@ -9,6 +9,7 @@ import { Subscription } from '../types/shared-types';
 import PaymentModal from './PaymentModal';
 import { isSessionValid } from '../api/userSession';
 import ReactMarkdown from 'react-markdown';
+import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
 
 // Define a simple hook for TermsModal since the original import is incorrect
 function useTermsModal() {
@@ -40,7 +41,7 @@ const Profile = () => {
   // Store selected talents in state; permanent for this session
   const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const [talentPoints, setTalentPoints] = useState(0);
-  const [activeTab, setActiveTab] = useState('Cast Iron Champion');
+  const [activeTab, setActiveTab] = useState('');
   const [showTalents, setShowTalents] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -51,6 +52,14 @@ const Profile = () => {
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarUploading, setAvatarUploading] = useState(false);
+  const [levelProgress, setLevelProgress] = useState({
+    title: LEVEL_TITLES_AND_ICONS[0].title,
+    level: 1,
+    icon: LEVEL_TITLES_AND_ICONS[0].icon,
+    current: 0,
+    required: 100,
+    progressPercent: 0,
+  });
 
   // Load terms from the public/TERMS.md file
   useEffect(() => {
@@ -172,6 +181,23 @@ const Profile = () => {
         const calculatedTalentPoints = Math.floor(xp / 100);
         setTalentPoints(calculatedTalentPoints);
         
+        // Calculate level progress based on XP
+        const { level, current, required } = getXPProgress(xp);
+        
+        // Map level to title index
+        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
+        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const progressPercent = (current / required) * 100;
+        
+        setLevelProgress({
+          title,
+          level,
+          icon,
+          current,
+          required,
+          progressPercent,
+        });
+        
         // Fetch subscription information
         try {
           const subscriptionData = await verifySubscription(user?.id || '');
@@ -194,7 +220,21 @@ const Profile = () => {
     if (userProfile) {
       const points = Math.floor(userProfile.xp / 100);
       setTalentPoints(points);
-      // No more mock activeTalents logic
+      
+      // Update level progress when userProfile changes
+      const { level, current, required } = getXPProgress(userProfile.xp);
+      const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
+      const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+      const progressPercent = (current / required) * 100;
+      
+      setLevelProgress({
+        title,
+        level,
+        icon,
+        current,
+        required,
+        progressPercent,
+      });
     }
   }, [userProfile]);
 
@@ -292,7 +332,7 @@ const Profile = () => {
   } 
 
   if (!userProfile) {
-    return null;
+    return <div className="text-center py-8">No profile data found.</div>;
   } 
 
   return (
@@ -302,7 +342,12 @@ const Profile = () => {
         <div className="flex items-center gap-4 mb-2">
           <div className="w-16 h-16 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-xl overflow-hidden shrink-0 relative group">
             {userProfile.avatar ? (
-              <img src={userProfile.avatar} alt="Avatar" className="w-full h-full object-cover" />
+              <img 
+                src={userProfile.avatar} 
+                alt="Avatar" 
+                className="w-full h-full object-cover absolute inset-0" 
+                style={{ objectPosition: 'center' }}
+              />
             ) : (
               <span>{userProfile.name.slice(0, 2).toUpperCase()}</span>
             )}
@@ -332,11 +377,7 @@ const Profile = () => {
           </h1>
         </div>
         {subscription && (
-          <span className={`px-2 py-0.5 text-xs rounded-full mt-2 ${
-            subscription.plan === 'yearly'
-              ? 'bg-amber-100 text-amber-800 border border-amber-300'
-              : 'bg-blue-100 text-blue-800 border border-blue-300'
-          }`}>
+          <span className={`px-2 py-0.5 rounded-full border font-bold text-xs bg-amber-100 text-amber-800 border-amber-300`}>
             {subscription.plan === 'yearly' ? 'Yearly' : 'Monthly'}
           </span>
         )}
@@ -368,6 +409,24 @@ const Profile = () => {
       <div className="flex items-start mb-6">
         <div className="flex-1">
           <h2 className="text-lg font-retro mb-2 text-center">My Culinary Journey</h2>
+          
+          {/* Leveling Display */}
+          <div className="flex flex-col items-center mb-4">
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="text-xl">{levelProgress.icon}</span>
+              <span className="font-bold">{levelProgress.title} (Lv {levelProgress.level})</span>
+            </div>
+            <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-seafoam transition-all duration-500"
+                style={{ width: `${Math.min(100, Math.max(0, levelProgress.progressPercent))}%` }}
+              ></div>
+            </div>
+            <div className="text-xs text-gray-500 mt-1">
+              {levelProgress.current} / {levelProgress.required} XP
+            </div>
+          </div>
+          
           {/* Active Talents and Talent Trees - Compact and Centered Buttons */}
           <div className="mb-4">
             <div className="flex flex-wrap justify-center gap-1.5 mb-1.5">

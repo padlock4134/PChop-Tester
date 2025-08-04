@@ -25,6 +25,7 @@ import type { WristbandSessionMetadata } from './types/session-types';
 import { setSupabaseJwt } from './api/supabaseClient';
 import PlanSelectionModal from './components/PlanSelectionModal';
 import PaymentModal from './components/PaymentModal';
+import { useDeviceDetect, getResponsiveClasses } from './utils/responsiveUtils';
 
 const PUBLIC_ROUTES = ['/'];
 const devOnlyPaymentBypass = (import.meta as any).env.VITE_PORKCHOP_DEV_ONLY_PAYMENT_BYPASS === 'true';
@@ -41,6 +42,12 @@ const AppRoutes = () => {
 
   const { authStatus} = useWristbandAuth();
   const { user, isLoading, isPaid } = useSupabase();
+  
+  // Use the device detection hook
+  const { deviceType } = useDeviceDetect();
+  
+  // Get responsive classes based on device type
+  const responsiveClasses = getResponsiveClasses(deviceType);
 
   // We have this check here because the SupabaseProvider isLoading flag will never flip to false
   // in the event the initial Wristband auth session check fails. This status gets set to UNAUTHENTICATED
@@ -92,7 +99,7 @@ const AppRoutes = () => {
   return (
     <div className="min-h-screen bg-sand">
       {!isPublicRoute && <NavBar />}
-      <main className="max-w-5xl mx-auto px-4 pt-8 pb-8">
+      <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-8 pb-8`}>
         <Routes>
           {/* Protected routes */}
           <Route path="/dashboard" element={<Dashboard />} />
@@ -111,6 +118,22 @@ const AppRoutes = () => {
 };
 
 const App = () => {
+  // Add meta viewport tag to ensure proper scaling on mobile devices
+  useEffect(() => {
+    // Check if the viewport meta tag exists
+    let viewportMeta = document.querySelector('meta[name="viewport"]');
+    
+    // If it doesn't exist, create it
+    if (!viewportMeta) {
+      viewportMeta = document.createElement('meta');
+      viewportMeta.setAttribute('name', 'viewport');
+      document.head.appendChild(viewportMeta);
+    }
+    
+    // Set the content attribute for proper mobile scaling
+    viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+  }, []);
+
   return (
     <WristbandAuthProvider<WristbandSessionMetadata>
       loginUrl='/.netlify/functions/auth-login'

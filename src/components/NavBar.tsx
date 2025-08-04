@@ -84,28 +84,6 @@ const useLevelProgress = (): [LevelProgress, () => void] => {
   return [progress, refreshXP];
 };
 
-const LevelBadge = () => {
-  const { progress } = useLevelProgressContext();
-  return (
-    <div className="flex items-center ml-2 space-x-3">
-      {/* Icon, title, level */}
-      <div className="flex items-center space-x-1">
-        <span className="text-xl">{progress.icon}</span>
-        <span className="font-bold">{progress.title} (Lv {progress.level})</span>
-      </div>
-      {/* XP bar only */}
-      <div className="flex flex-col justify-center">
-        <div className="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-          <div
-            className="h-full bg-seafoam transition-all duration-500"
-            style={{ width: `${Math.min(100, Math.max(0, progress.progressPercent))}%` }}
-          ></div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const LastBadge = () => {
   const [lastBadge, setLastBadge] = useState<{icon: string, name: string, description: string} | null>(null);
   const [loading, setLoading] = useState(true);
@@ -181,32 +159,31 @@ const NavBar: React.FC = () => {
   const { progress, refreshXP } = useLevelProgressContext();
   const location = useLocation();
   return (
-    <nav className="navbar bg-maineBlue text-weatheredWhite w-full px-4 lg:px-8 py-3 shadow-md">
-      <div className="max-w-2xl mx-auto flex items-center justify-between">
+    <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md">
+      <div className="max-w-5xl mx-auto px-4">
         {/* Flex container for all items */}
-        <div className="flex items-center space-x-3 w-full">
-          {/* Weekly Challenge */}
-          <ChallengeOfTheWeek />
-          
-          {/* PorkChop Logo and Text as Dashboard Link */}
-          <Link to="/dashboard" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-            <img src={logo} alt="PorkChop" className="h-8 w-8 sm:h-10 sm:w-10 rounded-full" />
-            <span className="hidden sm:block text-3xl font-bold tracking-wider font-retro">PorkChop</span>
-          </Link>
-
-          {/* Centered LevelBadge */}
-          <div className="flex-1 flex justify-center">
-            <LevelBadge />
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center space-x-2">
+            {/* Weekly Challenge */}
+            <ChallengeOfTheWeek />
+            
+            {/* PorkChop Logo and Text as Dashboard Link */}
+            <Link to="/dashboard" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+              <img src={logo} alt="PorkChop" className="h-7 w-7 sm:h-8 sm:w-8 rounded-full" />
+              <span className="text-lg sm:text-2xl font-bold tracking-wider font-retro">PorkChop</span>
+            </Link>
           </div>
 
-          {/* Profile Avatar */}
-          <Link
-            to="/profile"
-            className="ml-4 p-2 rounded-full hover:bg-seafoam hover:text-maineBlue transition-colors flex items-center"
-            aria-label="Profile"
-          >
-            <UserCircleIcon className="h-8 w-8" />
-          </Link>
+          <div className="flex items-center">
+            {/* Profile Avatar */}
+            <Link
+              to="/profile"
+              className="p-1 rounded-full hover:bg-seafoam hover:text-maineBlue transition-colors flex items-center"
+              aria-label="Profile"
+            >
+              <UserCircleIcon className="h-6 w-6 sm:h-7 sm:w-7" />
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
