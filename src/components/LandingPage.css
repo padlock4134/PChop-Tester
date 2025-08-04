@@ -3,30 +3,30 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: #f9fafb;
+  background: #fff;
   font-family: 'Bree Serif', 'Inter', 'Segoe UI', 'Roboto', sans-serif;
   overflow-x: hidden;
-  padding-top: 30vh;  /* Increased from 25vh */
   box-sizing: border-box;
-  background: linear-gradient(white 0%, white 30%, #f9fafb 30%, #f9fafb 100%);
 }
+
 
 /* Cookbook wrapper for responsive scaling */
 .cookbook-wrapper {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem 1rem;
+  padding: 2rem 0;
   box-sizing: border-box;
-  background: radial-gradient(circle at center, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 65%);
-  box-shadow: inset 0 0 80px rgba(233, 78, 60, 0.2);
-  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 32px 0 rgba(233, 78, 60, 0.08);
+  border-radius: 1.5rem;
   position: relative;
   z-index: 50;
 }
+
 
 .cookbook-wrapper::before {
   content: '';
@@ -172,37 +172,62 @@
   letter-spacing: 2px;
   font-family: 'Bree Serif', serif;
 }
+.landing-nav-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2.5rem 0 1.5rem 0;
+}
+.landing-nav-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2.5rem 0 1.5rem 0;
+  width: 100%;
+  max-width: 900px;
+}
+
 .landing-nav-btn {
-  margin-left: 1.5rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: 24px;
-  border: none;
-  background: none;
-  color: #24344d; /* navy */
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  border-radius: 999px;
   text-decoration: none;
-  font-family: 'Inter', sans-serif;
-  transition: background 0.2s, color 0.2s;
-  font-size: 1.1rem;
-  box-shadow: 0 2px 8px rgba(42,77,105,0.07);
+  font-weight: 600;
+  transition: all 0.18s ease;
+  min-width: 160px;
+  text-align: center;
+  font-family: 'Bree Serif', serif;
+  font-size: 1.4rem;
+  box-shadow: 0 2px 8px rgba(42,77,105,0.06);
+  flex: 1;
+  border: 2px solid #000;
 }
-.landing-nav-btn.primary {
-  background: #e94e3c; /* lobsterRed */
-  color: #f9fafb; /* weatheredWhite */
-  font-weight: 700;
+
+.landing-nav-btn:nth-child(1) {
+  background: #2a4d69; /* maineBlue */
+  color: #fff;
 }
-.landing-nav-btn:hover {
+
+.landing-nav-btn:nth-child(2) {
   background: #63ace5; /* seafoam */
-  color: #2a4d69; /* maineBlue */
+  color: #fff;
 }
-.landing-nav-btn.primary {
+
+.landing-nav-btn:nth-child(3) {
   background: #e94e3c; /* lobsterRed */
   color: #fff;
-  box-shadow: 0 2px 8px rgba(233,78,60,0.10); /* lobsterRed shadow */
 }
-.landing-nav-btn:hover, .landing-cta-btn:hover {
-  background: #63ace5; /* seafoam */
-  color: #e94e3c; /* lobsterRed */
+
+.landing-nav-btn:nth-child(4) {
+  background: #e94e3c; /* lobsterRed */
+  color: #fff;
+}
+
+.landing-nav-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(42,77,105,0.15);
 }
 .landing-main {
   flex: 1;
@@ -210,7 +235,20 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background: #f9fafb;
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 32px 0 rgba(42,77,105,0.10);
+  margin: 2.5rem auto 2rem auto;
+  max-width: 6500px;
+  padding: 2.5rem 2rem;
+}
+
+.landing-content {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .landing-hero {
   margin-top: 7vh;
@@ -294,6 +332,99 @@
   border-radius: 1.25rem 1.25rem 0 0;
   box-shadow: 0 -2px 12px rgba(42,77,105,0.04) inset;
   font-family: 'Inter', sans-serif;
+}
+
+/* Device-specific styles based on device detection */
+.device-mobile .landing-nav-row.mobile {
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.device-mobile .landing-nav-btn.mobile {
+  font-size: 1.1rem;
+  padding: 0.75rem 1rem;
+  min-width: 120px;
+  width: 100%;
+}
+
+.device-mobile .mobile-auth-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.device-mobile .cookbook-wrapper.mobile {
+  padding: 0.5rem 0.25rem;
+  margin-top: 0;
+}
+
+.device-mobile .landing-main {
+  padding: 0.5rem;
+}
+
+.device-mobile .landing-cookbook-section {
+  padding: 30px 0 50px 0 !important;
+  margin-bottom: 20px !important;
+  min-height: 500px !important; /* Ensure enough height for cookbook */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.device-mobile .landing-section {
+  padding: 20px 15px !important;
+}
+
+.device-tablet .landing-nav-row {
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.device-tablet .landing-nav-btn {
+  font-size: 1.2rem;
+  padding: 0.85rem 1.25rem;
+  min-width: 140px;
+}
+
+/* Optimizations for touch devices */
+.device-mobile .landing-nav-btn,
+.device-tablet .landing-nav-btn {
+  transition: transform 0.2s ease;
+}
+
+.device-mobile .landing-nav-btn:active,
+.device-tablet .landing-nav-btn:active {
+  transform: scale(0.95);
+}
+
+/* Ensure content is properly sized on all devices */
+.device-mobile .landing-main,
+.device-tablet .landing-main {
+  transform: none;
+  width: 100%;
+  padding-top: 0;
+}
+
+/* Adjust cookbook display for mobile */
+.device-mobile .cookbook-wrapper {
+  transform: scale(0.85);
+  transform-origin: top center;
+}
+
+/* Ensure proper spacing on mobile */
+.device-mobile .landing-root {
+  padding: 0.5rem;
+}
+
+/* Ensure buttons are properly sized on mobile */
+.device-mobile .landing-nav-btn {
+  border-width: 1px;
 }
 
 /* App color palette as CSS variables for easy reference */

@@ -1,0 +1,222 @@
+/* Kitchen Comebacks Page Styles */
+.kc-page-container {
+  max-width: 900px;
+  margin: 2.5rem auto 2rem auto;
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 32px 0 rgba(42,77,105,0.10);
+  padding: 2.5rem 2rem;
+  font-family: 'Inter', 'Bree Serif', serif;
+}
+
+.kc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.kc-logo {
+  height: 50px;
+  width: auto;
+}
+
+.kc-back-arrow {
+  display: inline-block;
+  color: #e94e3c; /* lobsterRed */
+  font-size: 1.1rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.18s;
+}
+
+.kc-back-arrow:hover { 
+  color: #2a4d69; /* maineBlue */
+}
+
+.kc-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f5e9da; /* sand */
+}
+
+.kc-title {
+  font-size: 2.8rem;
+  color: #e94e3c; /* lobsterRed */
+  margin-bottom: 0.5rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.kc-tagline {
+  font-size: 1.3rem;
+  color: #2a4d69; /* maineBlue */
+  font-family: 'Inter', sans-serif;
+}
+
+.kc-description {
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #24344d; /* navy */
+}
+
+.kc-quote {
+  font-size: 1.5rem;
+  font-style: italic;
+  color: #e94e3c; /* lobsterRed */
+  border-left: 4px solid #63ace5; /* seafoam */
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  margin: 1.5rem 0;
+  font-family: 'Bree Serif', serif;
+}
+
+.kc-featured-episode {
+  margin-bottom: 3rem;
+}
+
+.kc-featured-episode h2,
+.kc-episodes-list h2,
+.kc-cta h2 {
+  font-size: 1.8rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1.2rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.kc-episode-card {
+  background: #f9fafb; /* weatheredWhite */
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(42,77,105,0.09);
+  border: 2px solid #63ace5; /* seafoam */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kc-episode-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(42,77,105,0.12);
+}
+
+.kc-episode-card h3 {
+  font-size: 1.4rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 0.3rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.kc-guest {
+  display: block;
+  font-size: 1rem;
+  color: #e94e3c; /* lobsterRed */
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.kc-episode-card p {
+  margin-bottom: 1.2rem;
+  color: #24344d; /* navy */
+}
+
+.kc-listen-btn {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  background: #63ace5; /* seafoam */
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.18s;
+}
+
+.kc-listen-btn:hover {
+  background: #e94e3c; /* lobsterRed */
+}
+
+.kc-episodes-list {
+  margin-bottom: 3rem;
+}
+
+.kc-episodes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.kc-footer {
+  background: #f5e9da; /* sand */
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.kc-footer-buttons {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.kc-footer-btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.18s ease;
+  min-width: 160px;
+  text-align: center;
+}
+
+.kc-listen-now {
+  background: #e94e3c; /* lobsterRed */
+  color: #fff;
+}
+
+.kc-submit-story {
+  background: #63ace5; /* seafoam */
+  color: #fff;
+}
+
+.kc-discover {
+  background: #2a4d69; /* maineBlue */
+  color: #fff;
+}
+
+.kc-footer-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(42,77,105,0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .kc-page-container {
+    padding: 2rem 1.5rem;
+    margin: 1.5rem 1rem;
+  }
+  
+  .kc-title {
+    font-size: 2.2rem;
+  }
+  
+  .kc-episodes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .kc-page-container {
+    padding: 1.5rem 1rem;
+    margin: 1rem 0.5rem;
+  }
+  
+  .kc-title {
+    font-size: 1.8rem;
+  }
+  
+  .kc-quote {
+    font-size: 1.3rem;
+  }
+}

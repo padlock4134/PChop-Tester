@@ -6,6 +6,7 @@ import TermsModal from './TermsModal';
 import { useTermsModal } from './useTermsModal';
 import InstallPWAButton from "./InstallPWAButton";
 import FlippableCookbook from "./FlippableCookbook";
+import { useDeviceDetect, getResponsiveClasses } from '../utils/responsiveUtils';
 
 const wristbandConsumerLoginUrl = (import.meta as any).env.VITE_WRISTBAND_CONSUMER_LOGIN_URL;
 const wristbandConsumerSignupUrl = (import.meta as any).env.VITE_WRISTBAND_CONSUMER_SIGNUP_URL;
@@ -42,185 +43,51 @@ declare global {
 
 const LandingPage: React.FC = () => {
   const { modalOpen, setModalOpen, termsContent } = useTermsModal();
-  const [deferredPrompt, setDeferredPrompt] = React.useState<any>(null);
+  const { deviceType } = useDeviceDetect();
   
-  React.useEffect(() => {
-    const handler = (e: any) => {
-      e.preventDefault();
-      window.deferredPrompt = e;
-      setDeferredPrompt(e);
-    };
-    window.addEventListener('beforeinstallprompt', handler);
-    return () => window.removeEventListener('beforeinstallprompt', handler);
-  }, []);
+  // Render different navigation based on device type
+  const renderNavigation = () => {
+    if (deviceType === 'mobile') {
+      return (
+        <nav className="landing-nav-row mobile">
+          <Link to="/AboutUs" className="landing-nav-btn mobile">About Us</Link>
+          <Link to="/KitchenComebacks" className="landing-nav-btn mobile">Kitchen Comebacks</Link>
+          <div className="mobile-auth-buttons">
+            <a href={wristbandConsumerLoginUrl} className="landing-nav-btn mobile" rel="noopener noreferrer">Sign In</a>
+            <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary mobile" rel="noopener noreferrer">Sign Up</a>
+          </div>
+        </nav>
+      );
+    }
+    
+    return (
+      <nav className="landing-nav-row">
+        <Link to="/AboutUs" className="landing-nav-btn primary">About Us</Link>
+        <Link to="/KitchenComebacks" className="landing-nav-btn">Kitchen Comebacks</Link>
+        <a href={wristbandConsumerLoginUrl} className="landing-nav-btn" rel="noopener noreferrer">Sign In</a>
+        <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary" rel="noopener noreferrer">Sign Up</a>
+      </nav>
+    );
+  };
+  
   return (
-    <div className="landing-root bg-sand font-retro min-h-screen flex flex-col">
-      <main className="landing-main flex-1 flex flex-col items-center px-4">
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: '1rem',
-          margin: '1.5rem 0',
-          width: '900px',
-          maxWidth: '100%',
-          padding: '0 1rem',
-          boxSizing: 'border-box',
-          marginLeft: 'auto',
-          marginRight: 'auto'
-        }} className="landing-buttons">
-          <style>{`
-            @media (max-width: 900px) {
-              .landing-buttons {
-                width: 100%;
-                padding: 0 0.5rem;
-              }
-            }
-            @media (max-width: 768px) {
-              .landing-buttons {
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                flex-wrap: nowrap;
-                gap: 0.25rem;
-              }
-              .landing-buttons a, .landing-buttons button {
-                font-size: 0.9rem !important;
-                padding: 0.4rem 0.8rem !important;
-                min-width: 100px !important;
-                margin: 0 !important;
-              }
-            }
-          `}</style>
-          <Link
-            to={wristbandConsumerLoginUrl}
-            style={{
-              fontFamily: 'Bree Serif, serif',
-              fontSize: 'clamp(1rem, 3vw, 1.5rem)',
-              background: '#e7c89e',
-              color: '#2a4d69',
-              padding: '0.6rem 1.5rem',
-              borderRadius: '1.4rem',
-              fontWeight: 700,
-              letterSpacing: '0.04em',
-              boxShadow: '0 2px 12px #2a4d6922',
-              border: '2px solid #e94e3c',
-              textDecoration: 'none',
-              transition: 'all 0.2s',
-              outline: 'none',
-              flex: '0 0 auto',
-              minWidth: '140px',
-              textAlign: 'center',
-              margin: '0 1rem'
-            }}
-            onMouseOver={e => { e.currentTarget.style.background = '#e94e3c'; e.currentTarget.style.color = '#fff'; }}
-            onMouseOut={e => { e.currentTarget.style.background = '#e7c89e'; e.currentTarget.style.color = '#2a4d69'; }}
-          >
-            Log In
-          </Link>
-          <Link
-            to={wristbandConsumerSignupUrl}
-            style={{
-              fontFamily: 'Bree Serif, serif',
-              fontSize: 'clamp(1rem, 3vw, 1.5rem)',
-              background: '#63ace5',
-              color: '#fff',
-              padding: '0.6rem 1.5rem',
-              borderRadius: '1.4rem',
-              fontWeight: 700,
-              letterSpacing: '0.04em',
-              boxShadow: '0 2px 12px #2a4d6922',
-              border: '2px solid #2a4d69',
-              textDecoration: 'none',
-              transition: 'all 0.2s',
-              outline: 'none',
-              flex: '0 0 auto',
-              minWidth: '140px',
-              textAlign: 'center',
-              margin: '0 1rem'
-            }}
-            onMouseOver={e => { e.currentTarget.style.background = '#2a4d69'; e.currentTarget.style.color = '#fff'; }}
-            onMouseOut={e => { e.currentTarget.style.background = '#63ace5'; e.currentTarget.style.color = '#fff'; }}
-          >
-            Sign Up
-          </Link>
-          <button
-            style={{
-              fontFamily: 'Bree Serif, serif',
-              fontSize: 'clamp(1rem, 3vw, 1.5rem)',
-              background: '#e94e3c',
-              color: '#fff',
-              padding: '0.6rem 1.5rem',
-              borderRadius: '1.4rem',
-              fontWeight: 700,
-              letterSpacing: '0.04em',
-              boxShadow: '0 2px 12px #2a4d6922',
-              border: '2px solid #63ace5',
-              textDecoration: 'none',
-              transition: 'all 0.2s',
-              outline: 'none',
-              cursor: 'pointer',
-              flex: '0 0 auto',
-              minWidth: '140px',
-              textAlign: 'center',
-              margin: '0 1rem'
-            }}
-            onMouseOver={e => { e.currentTarget.style.background = '#63ace5'; e.currentTarget.style.color = '#fff'; }}
-            onMouseOut={e => { e.currentTarget.style.background = '#e94e3c'; e.currentTarget.style.color = '#fff'; }}
-            onClick={(e) => {
-              e.stopPropagation();
-              const isIOS = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-              if (isIOS) {
-                window.alert('To install PorkChop on iOS, tap the Share icon in Safari, then choose "Add to Home Screen".');
-              } else {
-                if (deferredPrompt) {
-                  deferredPrompt.prompt();
-                  deferredPrompt.userChoice.then(() => {
-                    window.deferredPrompt = null;
-                    setDeferredPrompt(null);
-                  });
-                } else {
-                  alert('Installation is only available when accessing this site directly in a compatible browser.');
-                }
-              }
-            }}
-          >
-            Install App
-          </button>
-        </div>
-        <div style={{ marginTop: '2rem', marginBottom: '2rem', display: 'flex', justifyContent: 'center' }}>
-          <a
-            href="/kitchen_comebacks.html"
-            style={{
-              fontFamily: 'Bree Serif, serif',
-              fontSize: 'clamp(1rem, 3vw, 1.5rem)',
-              background: '#4CA89B', /* seafoam color */
-              color: '#fff',
-              padding: '0.6rem 1.5rem',
-              borderRadius: '1.4rem',
-              fontWeight: 700,
-              letterSpacing: '0.04em',
-              boxShadow: '0 2px 12px #2a4d6922',
-              border: '2px solid #003366', /* maineBlue */
-              textDecoration: 'none',
-              transition: 'all 0.2s',
-              outline: 'none',
-              minWidth: '220px',
-              textAlign: 'center'
-            }}
-            onMouseOver={e => { e.currentTarget.style.background = '#003366'; e.currentTarget.style.color = '#fff'; }}
-            onMouseOut={e => { e.currentTarget.style.background = '#4CA89B'; e.currentTarget.style.color = '#fff'; }}
-          >
-            Kitchen Comebacks
-          </a>
-        </div>
-        <section className="flex flex-col items-center justify-center w-full" style={{ margin: '3rem 0 1rem' }}>
-          <div className="cookbook-wrapper">
+    <div className={`landing-root bg-sand font-retro min-h-screen flex flex-col device-${deviceType}`}>
+      <main className="landing-main flex-1 flex flex-col items-center justify-center px-4">
+        {renderNavigation()}
+        <section className={`flex flex-col items-center justify-center w-full ${deviceType === 'mobile' ? 'mt-2' : 'mt-12'}`} style={{ margin: deviceType === 'mobile' ? '1rem 0 1rem' : '3rem 0 1rem' }}>
+          <div className={`cookbook-wrapper ${deviceType === 'mobile' ? 'mobile' : ''}`}>
             <FlippableCookbook />
           </div>
         </section>
-        <div style={{ marginTop: '2rem', textAlign: 'center', paddingBottom: '2rem' }}>
-          <span style={{ fontSize: '0.85rem', color: '#2a4d69' }}>
+        <div style={{ 
+          marginTop: deviceType === 'mobile' ? '1rem' : '2rem', 
+          textAlign: 'center', 
+          paddingBottom: deviceType === 'mobile' ? '1rem' : '2rem' 
+        }}>
+          <span style={{ 
+            fontSize: deviceType === 'mobile' ? '0.75rem' : '0.85rem', 
+            color: '#2a4d69' 
+          }}>
             {new Date().getFullYear()} PorkChop. All rights reserved. |{' '}
             <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => setModalOpen(true)}>Terms of Service</span>
           </span>

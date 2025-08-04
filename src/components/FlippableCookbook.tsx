@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './FlippableCookbook.css';
+import { useDeviceDetect } from '../utils/responsiveUtils';
 
 const PAGES = [
   // Cover
@@ -221,37 +222,42 @@ const PAGES = [
 
 const FlippableCookbook: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [turnedPages, setTurnedPages] = useState<number[]>([]);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [currentTurningPage, setCurrentTurningPage] = useState<number | null>(null);
   const [turnDirection, setTurnDirection] = useState<'forward' | 'backward'>('forward');
-
+  
+  // Use the device detection hook
+  const { deviceType } = useDeviceDetect();
+  
   // Function to go to next page
   const goToNextPage = () => {
     if (isAnimating || pageNumber >= PAGES.length - 1) return;
+    
     setIsAnimating(true);
     setCurrentTurningPage(pageNumber);
     setTurnDirection('forward');
     
     setTimeout(() => {
-      // Add current page to turned pages
-      setTurnedPages(prev => [...prev, pageNumber]);
+      setTurnedPages([...turnedPages, pageNumber]);
       setPageNumber(pageNumber + 1);
       setIsAnimating(false);
       setCurrentTurningPage(null);
     }, 500);
   };
-
+  
   // Function to go to previous page
   const goToPrevPage = () => {
     if (isAnimating || pageNumber <= 0) return;
+    
     setIsAnimating(true);
     setCurrentTurningPage(pageNumber - 1);
     setTurnDirection('backward');
     
     setTimeout(() => {
-      // Remove the page we're turning back from
-      setTurnedPages(prev => prev.filter(p => p !== pageNumber - 1));
+      const newTurnedPages = [...turnedPages];
+      newTurnedPages.pop();
+      setTurnedPages(newTurnedPages);
       setPageNumber(pageNumber - 1);
       setIsAnimating(false);
       setCurrentTurningPage(null);
@@ -260,7 +266,7 @@ const FlippableCookbook: React.FC = () => {
 
   // When showing the cover or any page
   return (
-    <div className={`cookbook-container ${pageNumber === 0 ? 'cover-only' : ''}`}>
+    <div className={`cookbook-container ${pageNumber === 0 ? 'cover-only' : ''} device-${deviceType}`}>
       <div className="cookbook-spine" />
       
       {/* Turned pages - these are the pages that have been turned and stick */}
@@ -287,9 +293,9 @@ const FlippableCookbook: React.FC = () => {
       ))}
       
       {/* Current page */}
-      <div className={pageNumber === 0 ? "cover-page" : "book-page"}>
+      <div className={`${pageNumber === 0 ? "cover-page" : "book-page"} ${deviceType === 'mobile' ? 'mobile' : ''}`}>
         <div className="spiral-binding">
-          {[...Array(15)].map((_, i) => (
+          {[...Array(deviceType === 'mobile' ? 10 : 15)].map((_, i) => (
             <div key={i} className="spiral-hole"></div>
           ))}
         </div>
@@ -333,7 +339,7 @@ const FlippableCookbook: React.FC = () => {
       {/* Page turn animation */}
       {isAnimating && currentTurningPage !== null && (
         <div className={`page-turn-animation ${turnDirection === 'backward' ? 'reverse' : ''}`}>
-          <div className="turning-page">
+          <div className={`turning-page ${deviceType === 'mobile' ? 'mobile' : ''}`}>
             {turnDirection === 'forward' ? (
               <div className="page-content">
                 <h1 className="page-title">{PAGES[currentTurningPage].title}</h1>

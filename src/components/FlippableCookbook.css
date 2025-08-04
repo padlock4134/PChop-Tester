@@ -4,8 +4,8 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  width: 900px;
-  max-width: 100%;
+  width: 100vw !important;
+  max-width: 100vw !important;
   height: 750px;
   max-height: 98vh;
   perspective: 1500px;
@@ -19,7 +19,6 @@
 }
 
 .cookbook-container.cover-only {
-  max-width: 900px;
   width: 100%;
   height: auto;
   aspect-ratio: 3/2;
@@ -657,6 +656,86 @@
     font-size: 0.85rem !important;
     line-height: 1.4 !important;
   }
+  
+  /* Mobile pricing layout */
+  .pricing-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  .pricing-card {
+    width: 90% !important;
+    margin: 0 auto !important;
+  }
+  
+  .page-title {
+    font-size: 1.2rem;
+    margin-top: 8px;
+    margin-bottom: 4px;
+    width: 85%;
+  }
+  
+  .page-content.page {
+    padding: 20px 15px;
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  .page {
+    padding: 20px 15px;
+    overflow-x: hidden;
+  }
+  
+  .page-content-text {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    font-size: 0.8rem;
+    padding: 0 10px;
+  }
+  
+  /* Inspiration page specific fixes */
+  .inspiration-logo-container {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 10px;
+  }
+  
+  .inspiration-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .page-header {
+    margin-top: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .page-content-text {
+    font-size: 0.8rem;
+    margin: 8px 0 12px;
+    padding: 0 12px;
+    line-height: 1.3;
+  }
+  
+  .page-image-container {
+    height: 180px;
+    width: 85%;
+    margin-top: 8px;
+  }
+  
+  .book-page {
+    padding-top: 12px;
+  }
+  
+  .page-number {
+    bottom: 8px;
+    font-size: 0.8rem;
+    gap: 5px;
+  }
 }
 
 @media (max-width: 400px) {
@@ -1186,4 +1265,267 @@
 
 .iphone-device .page-screenshot {
   max-height: 200px !important;
+}
+
+/* Device-specific styles */
+.device-mobile .cookbook-container {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 3/3.2 !important;
+  max-height: none !important;
+  transform: none !important;
+  margin: 20px auto !important;
+  padding: 10px 0 !important;
+  overflow: visible !important;
+}
+
+.device-mobile .cover-page {
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 3/3 !important;
+  padding: 20px 15px !important;
+  margin: 10px 0 !important;
+}
+
+.device-mobile .book-page {
+  width: 100% !important;
+  height: auto !important;
+  min-height: calc(100% - 40px) !important;
+  padding: 20px 10px !important;
+  margin: 10px 0 !important;
+}
+
+.device-mobile .page {
+  padding: 20px 10px !important;
+  overflow-x: hidden !important;
+}
+
+.device-mobile .page-content {
+  transform: scale(0.85) !important;
+  transform-origin: center center !important;
+  width: 100% !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow: visible !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+}
+
+.device-mobile .page {
+  padding: 20px 10px !important;
+  overflow-x: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: auto !important;
+  min-height: 100% !important;
+}
+
+.device-mobile .book-page {
+  width: 100% !important;
+  height: auto !important;
+  min-height: calc(100% - 40px) !important;
+  padding: 20px 10px !important;
+  margin: 10px 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.device-mobile .page-content {
+  transform: scale(0.85) !important;
+  transform-origin: center center !important;
+  width: 100% !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow: visible !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+}
+
+.device-mobile .page-title {
+  font-size: 1.4rem !important;
+  margin-bottom: 10px !important;
+  padding: 10px 0 8px 0 !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.device-mobile .page-content.page h1 {
+  font-size: 1.3rem !important;
+  margin-bottom: 0.8rem !important;
+  text-align: center !important;
+}
+
+.device-mobile .page-content.page h2 {
+  font-size: 1.1rem !important;
+  margin-bottom: 0.7rem !important;
+  text-align: center !important;
+}
+
+.device-mobile .page-content.page {
+  font-size: 0.85rem !important;
+  line-height: 1.4 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.device-mobile .page-content-text {
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+  font-size: 0.8rem !important;
+  padding: 0 10px !important;
+  text-align: center !important;
+}
+
+.device-mobile .page-number {
+  bottom: 8px !important;
+  font-size: 0.8rem !important;
+  gap: 5px !important;
+  position: relative !important;
+  margin-top: auto !important;
+}
+
+.device-mobile .spiral-binding {
+  width: 20px !important;
+}
+
+.device-mobile .cookbook-spine {
+  left: 20px !important;
+  width: 3px !important;
+}
+
+.device-mobile .spiral-hole {
+  width: 6px !important;
+  height: 6px !important;
+  margin: 4px auto !important;
+}
+
+.device-mobile .turning-page {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.device-mobile .page-turn-animation {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Tablet styles */
+.device-tablet .cookbook-container {
+  width: 100% !important;
+  max-width: 700px !important;
+  height: auto !important;
+  aspect-ratio: 3/2.5 !important;
+  max-height: 90vh !important;
+}
+
+.device-tablet .page-content {
+  transform: scale(0.9) !important;
+  transform-origin: center center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.device-tablet .page-title {
+  font-size: 1.6rem !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.device-tablet .spiral-binding {
+  width: 25px !important;
+}
+
+.device-tablet .cookbook-spine {
+  left: 25px !important;
+}
+
+.device-tablet .spiral-hole {
+  width: 7px !important;
+  height: 7px !important;
+}
+
+/* Ensure content is centered and visible for all device types */
+.page-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.page-content > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Ensure the page title is centered */
+.page-title {
+  text-align: center;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Ensure the page content text is centered and visible */
+.page-content-text {
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Ensure tablet content is also centered */
+.device-tablet .page-content {
+  transform-origin: center center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* Touch interaction improvements */
+.device-mobile .nav-zone, 
+.device-tablet .nav-zone {
+  width: 40% !important; /* Smaller touch targets to avoid accidental taps */
+}
+
+.device-mobile .page-arrow, 
+.device-tablet .page-arrow {
+  font-size: 1.2rem !important; /* Larger arrows for touch */
+  padding: 5px !important;
+}
+
+/* Improved touch feedback */
+.device-mobile .nav-zone:active, 
+.device-tablet .nav-zone:active {
+  background-color: rgba(233, 78, 60, 0.1) !important;
 }

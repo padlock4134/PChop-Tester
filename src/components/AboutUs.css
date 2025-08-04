@@ -1,0 +1,169 @@
+/* About Us Page Styles */
+.about-page-container {
+  max-width: 900px;
+  margin: 2.5rem auto 2rem auto;
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 32px 0 rgba(42,77,105,0.10);
+  padding: 2.5rem 2rem;
+  font-family: 'Inter', 'Bree Serif', serif;
+}
+
+.about-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.about-logo {
+  height: 50px;
+  width: auto;
+}
+
+.about-back-arrow {
+  display: inline-block;
+  color: #e94e3c; /* lobsterRed */
+  font-size: 1.1rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.18s;
+}
+
+.about-back-arrow:hover { 
+  color: #2a4d69; /* maineBlue */
+}
+
+.about-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f5e9da; /* sand */
+}
+
+.about-title {
+  font-size: 2.8rem;
+  color: #e94e3c; /* lobsterRed */
+  margin-bottom: 0.5rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.about-tagline {
+  font-size: 1.3rem;
+  color: #2a4d69; /* maineBlue */
+  font-family: 'Inter', sans-serif;
+}
+
+.about-content {
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #24344d; /* navy */
+}
+
+.about-section {
+  margin-bottom: 2.5rem;
+}
+
+.about-section h2 {
+  font-size: 1.8rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1.2rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.about-card {
+  background: #f9fafb; /* weatheredWhite */
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(42,77,105,0.09);
+  border: 2px solid #63ace5; /* seafoam */
+}
+
+.about-team {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.team-member {
+  text-align: center;
+  padding: 1.5rem;
+  background: #f9fafb; /* weatheredWhite */
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(42,77,105,0.09);
+  border: 2px solid #63ace5; /* seafoam */
+}
+
+.team-member h3 {
+  font-size: 1.4rem;
+  color: #2a4d69; /* maineBlue */
+  margin: 0.8rem 0 0.3rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.team-member p {
+  color: #24344d; /* navy */
+  font-style: italic;
+}
+
+.team-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #63ace5; /* seafoam */
+}
+
+.about-cta {
+  background: #f5e9da; /* sand */
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.about-cta-btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: #e94e3c; /* lobsterRed */
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.18s;
+  margin-top: 1rem;
+}
+
+.about-cta-btn:hover {
+  background: #63ace5; /* seafoam */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .about-page-container {
+    padding: 2rem 1.5rem;
+    margin: 1.5rem 1rem;
+  }
+  
+  .about-title {
+    font-size: 2.2rem;
+  }
+  
+  .about-team {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-page-container {
+    padding: 1.5rem 1rem;
+    margin: 1rem 0.5rem;
+  }
+  
+  .about-title {
+    font-size: 1.8rem;
+  }
+}
