@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./LandingPage.css";
 import "./AboutUs.css";
+import logo from '../images/logo.png';
 
 const teamMembers = [
   {
@@ -27,7 +28,7 @@ const AboutUs: React.FC = () => (
       <Link to="/" className="about-back-arrow" aria-label="Back to Home">
         ← Back to Home
       </Link>
-      <img src="/src/images/logo.png" alt="PorkChop Logo" className="about-logo" />
+      <img src={logo} alt="PorkChop Logo" className="about-logo" />
     </div>
     
     <section className="about-hero">
