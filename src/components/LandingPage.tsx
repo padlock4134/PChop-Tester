@@ -51,12 +51,12 @@ const LandingPage: React.FC = () => {
       return (
         <nav className="landing-nav-row mobile">
           <InstallPWAButton />
-          <Link to="/AboutUs" className="landing-nav-btn mobile">About Us</Link>
-          <Link to="/KitchenComebacks" className="landing-nav-btn mobile">Kitchen Comebacks</Link>
+          <Link to="/AboutUs" className="landing-nav-btn mobile about-us-btn">About Us</Link>
+          <Link to="/KitchenComebacks" className="landing-nav-btn mobile kitchen-comebacks-btn">Kitchen Comebacks</Link>
           <Link to="/TenantWellness" className="landing-nav-btn mobile tenant-wellness-btn">Tenant Wellness</Link>
           <div className="mobile-auth-buttons">
             <a href={wristbandConsumerLoginUrl} className="landing-nav-btn mobile" rel="noopener noreferrer">Sign In</a>
-            <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary mobile" rel="noopener noreferrer">Sign Up</a>
+            <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary mobile signup-btn" rel="noopener noreferrer">Sign Up</a>
           </div>
         </nav>
       );
@@ -65,11 +65,11 @@ const LandingPage: React.FC = () => {
     return (
       <nav className="landing-nav-column">
         <InstallPWAButton />
-        <Link to="/AboutUs" className="landing-nav-btn">About Us</Link>
-        <Link to="/KitchenComebacks" className="landing-nav-btn">Kitchen Comebacks</Link>
+        <Link to="/AboutUs" className="landing-nav-btn about-us-btn">About Us</Link>
+        <Link to="/KitchenComebacks" className="landing-nav-btn kitchen-comebacks-btn">Kitchen Comebacks</Link>
         <Link to="/TenantWellness" className="landing-nav-btn tenant-wellness-btn">Tenant Wellness</Link>
         <a href={wristbandConsumerLoginUrl} className="landing-nav-btn" rel="noopener noreferrer">Sign In</a>
-        <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary" rel="noopener noreferrer">Sign Up</a>
+        <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary signup-btn" rel="noopener noreferrer">Sign Up</a>
       </nav>
     );
   };

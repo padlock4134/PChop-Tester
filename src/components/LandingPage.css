@@ -233,6 +233,31 @@
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(42,77,105,0.15);
 }
+
+/* Specific styling for About Us button */
+.about-us-btn {
+  background: #e94e3c !important; /* Soft Lobster Red */
+  color: #fff !important;
+  border-color: #000 !important; /* Black border */
+  border-width: 2px !important;
+}
+
+/* Specific styling for Kitchen Comebacks button */
+.kitchen-comebacks-btn {
+  background: #2E8B57 !important; /* Sea Green */
+  color: #fff !important;
+  border-color: #000 !important; /* Black border */
+  border-width: 2px !important;
+}
+
+/* Specific styling for Sign Up button */
+.signup-btn {
+  background: #87CEEB !important; /* Soft Sky Blue */
+  color: #2a4d69 !important; /* Darker text for better contrast */
+  border-color: #000 !important; /* Black border */
+  border-width: 2px !important;
+}
+
 .landing-main {
   flex: 1;
   display: flex;
