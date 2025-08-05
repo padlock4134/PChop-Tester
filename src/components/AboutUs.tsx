@@ -6,18 +6,23 @@ import logo from '../images/logo.png';
 
 const teamMembers = [
   {
-    name: "Alex Johnson",
-    role: "Founder & CEO",
+    name: "Patrick Adukonis",
+    role: "Founder",
+    photo: "../images/paddy.png"
+  },
+  {
+    name: "Coming Soon!",
+    role: "Chief Culinary Officer",
     photo: "https://via.placeholder.com/150"
   },
   {
-    name: "Jamie Rivera",
-    role: "Head of Product",
+    name: "Coming Soon!",
+    role: "Head of Go To Market",
     photo: "https://via.placeholder.com/150"
-  },
+  }
   {
-    name: "Taylor Kim",
-    role: "Lead Developer",
+    name: "Coming Soon!", 
+    role: "Head of Sales",
     photo: "https://via.placeholder.com/150"
   }
 ];
