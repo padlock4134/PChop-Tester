@@ -114,7 +114,24 @@
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
+  object-position: center;
   border: 3px solid #63ace5; /* seafoam */
+  display: block;
+  margin: 0 auto;
+}
+
+.team-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: scale-down;
+  object-position: center;
+  border: 3px solid #63ace5; /* seafoam */
+  display: block;
+  margin: 0 auto;
+  background-color: #f9fafb;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .about-cta {

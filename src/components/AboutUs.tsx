@@ -7,18 +7,21 @@ import logo from '../images/logo.png';
 const teamMembers = [
   {
     name: "Patrick Adukonis",
-    role: "Founder",
-    photo: "/paddy.png"
+    role: "Founder & CEO",
+    photo: "/paddy.png",
+    isIcon: false
   },
   {
-    name: "Coming Soon!",
+    name: "Announcing Soon!",
     role: "Chief Culinary Officer",
-    photo: "https://via.placeholder.com/150"
+    photo: "https://cdn-icons-png.flaticon.com/64/1830/1830839.png",
+    isIcon: true
   },
   {
-    name: "Coming Soon!",
+    name: "Stay Tuned!",
     role: "Head of Go To Market",
-    photo: "https://via.placeholder.com/150"
+    photo: "https://cdn-icons-png.flaticon.com/64/9357/9357543.png",
+    isIcon: true
   },
 ];
 
@@ -56,7 +59,11 @@ const AboutUs: React.FC = () => (
       <div className="about-team">
         {teamMembers.map(member => (
           <div className="team-member" key={member.name}>
-            <img src={member.photo} alt={member.name} className="team-photo" />
+            <img 
+              src={member.photo} 
+              alt={member.name} 
+              className={member.isIcon ? "team-icon" : "team-photo"} 
+            />
             <h3>{member.name}</h3>
             <p>{member.role}</p>
           </div>
