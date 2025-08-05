@@ -8,7 +8,7 @@ const teamMembers = [
   {
     name: "Patrick Adukonis",
     role: "Founder",
-    photo: "../public/paddy.png"
+    photo: "/paddy.png"
   },
   {
     name: "Coming Soon!",
