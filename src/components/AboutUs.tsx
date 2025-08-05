@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./LandingPage.css";
 import "./AboutUs.css";
-import logo from '../images/logo.png';
+import logo from '/logo.png';
 
 const teamMembers = [
   {
@@ -54,9 +54,17 @@ const AboutUs: React.FC = () => {
   return (
     <div className="about-page-container">
       <div className="about-header">
-        <Link to="/" className="about-back-arrow" aria-label="Back to Home">
-          ← Back to Home
-        </Link>
+        <div className="about-nav-links">
+          <Link to="/" className="about-back-arrow" aria-label="Back to Home">
+            ← Back to Home
+          </Link>
+          <Link to="/TenantWellness" className="about-back-arrow about-back-to-tw" aria-label="Back to Tenant Wellness">
+            ← Back to Tenant Wellness
+          </Link>
+          <Link to="/KitchenComebacks" className="about-back-arrow about-back-to-kc" aria-label="Back to Kitchen Comebacks">
+            ← Back to Kitchen Comebacks
+          </Link>
+        </div>
         <img src={logo} alt="PorkChop Logo" className="about-logo" />
       </div>
       
@@ -142,7 +150,7 @@ const AboutUs: React.FC = () => {
       <section className="about-cta">
         <h2>Join the PorkChop Community</h2>
         <p>Ready to transform your cooking experience? Sign up today and discover the future of kitchen technology.</p>
-        <Link to="/" className="about-cta-btn">Get Started</Link>
+        <a href="https://global-mvp123-porkchop.us.wristband.dev/signup" className="about-cta-btn" target="_blank" rel="noopener noreferrer">Get Started</a>
       </section>
     </div>
   );

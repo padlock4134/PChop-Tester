@@ -7,6 +7,7 @@
   box-shadow: 0 4px 32px 0 rgba(42,77,105,0.10);
   padding: 2.5rem 2rem;
   font-family: 'Inter', 'Bree Serif', serif;
+  border: 1px solid black;
 }
 
 .kc-header {
@@ -21,17 +22,37 @@
   width: auto;
 }
 
+.kc-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
 .kc-back-arrow {
   display: inline-block;
-  color: #e94e3c; /* lobsterRed */
   font-size: 1.1rem;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.18s;
+  position: relative;
+  padding-left: 5px;
 }
 
-.kc-back-arrow:hover { 
+.kc-back-arrow[aria-label="Back to Home"] {
+  color: #e94e3c; /* lobsterRed */
+}
+
+.kc-back-arrow[aria-label="Back to About Us"] {
   color: #2a4d69; /* maineBlue */
+}
+
+.kc-back-arrow[aria-label="Back to Tenant Wellness"] {
+  color: #63ace5; /* seafoam */
+}
+
+.kc-back-arrow:hover {
+  opacity: 0.8;
 }
 
 .kc-hero {
@@ -59,16 +80,23 @@
   font-size: 1.1rem;
   line-height: 1.6;
   color: #24344d; /* navy */
+  text-align: center;
+}
+
+.kc-description p {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .kc-quote {
-  font-size: 1.5rem;
+  text-align: center;
   font-style: italic;
   color: #e94e3c; /* lobsterRed */
-  border-left: 4px solid #63ace5; /* seafoam */
-  padding: 0.5rem 0 0.5rem 1.5rem;
-  margin: 1.5rem 0;
-  font-family: 'Bree Serif', serif;
+  font-size: 1.2rem;
+  margin: 1.5rem auto;
+  max-width: 700px;
+  display: block;
 }
 
 .kc-featured-episode {
@@ -82,6 +110,7 @@
   color: #2a4d69; /* maineBlue */
   margin-bottom: 1.2rem;
   font-family: 'Bree Serif', serif;
+  text-align: center;
 }
 
 .kc-episode-card {
@@ -119,19 +148,48 @@
   color: #24344d; /* navy */
 }
 
+.kc-episode-content {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+}
+
+.kc-episode-content h3 {
+  margin-top: 0;
+}
+
+.kc-button-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 .kc-listen-btn {
-  display: inline-block;
-  padding: 0.6rem 1.5rem;
-  background: #63ace5; /* seafoam */
-  color: #fff;
-  border-radius: 999px;
+  background-color: #F2D0A9; /* Soft cream/beige - matches Kitchen Comebacks button */
+  color: #2a4d69; /* maineBlue - for better contrast on light background */
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
   text-decoration: none;
   font-weight: 600;
-  transition: background 0.18s;
+  transition: background-color 0.2s;
+  margin-top: auto;
+  border: 1px solid #000;
 }
 
 .kc-listen-btn:hover {
-  background: #e94e3c; /* lobsterRed */
+  background-color: #e8c399; /* Slightly darker cream/beige */
+}
+
+.kc-coming-soon-disclaimer {
+  color: #b31b1b; /* lobster red */
+  font-style: italic;
+  margin-left: 1rem;
+  font-size: 0.9rem;
 }
 
 .kc-episodes-list {
@@ -144,19 +202,94 @@
   gap: 1.5rem;
 }
 
+.kc-episodes-container {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.kc-coming-soon-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background-color: rgba(99, 172, 229, 0.5); /* seafoam blue with transparency */
+  border-radius: 1rem;
+}
+
+.kc-chef-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.kc-coming-soon-overlay h2 {
+  font-size: 2.5rem;
+  color: white;
+  margin: 0;
+  font-family: 'Bree Serif', serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  background-color: rgba(42, 77, 105, 0.7); /* maineBlue with transparency */
+  padding: 0.5rem 2rem;
+  border-radius: 0.5rem;
+}
+
+.kc-coming-soon-heading {
+  font-size: 2.5rem;
+  color: #63ace5; /* seafoam blue */
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Bree Serif', serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.kc-episode-obfuscated {
+  filter: blur(4px);
+  opacity: 0.7;
+  pointer-events: none; /* Disable interaction */
+  user-select: none; /* Prevent text selection */
+}
+
+.kc-episode-obfuscated .kc-listen-btn {
+  opacity: 0.5;
+}
+
 .kc-footer {
   background: #f5e9da; /* sand */
   border-radius: 1rem;
   padding: 2rem;
   text-align: center;
   margin-top: 2rem;
+  border: 2px solid #63ace5; /* seafoam blue - matching About Us CTA */
+}
+
+.kc-footer h2 {
+  font-size: 1.8rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1.2rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.kc-footer-tagline {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: #24344d; /* navy */
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
 }
 
 .kc-footer-buttons {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .kc-footer-btn {
@@ -171,8 +304,9 @@
 }
 
 .kc-listen-now {
-  background: #e94e3c; /* lobsterRed */
+  background: #63ace5; /* soft blue (seafoam) */
   color: #fff;
+  border: 1px solid #000;
 }
 
 .kc-submit-story {
@@ -188,6 +322,123 @@
 .kc-footer-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(42,77,105,0.15);
+}
+
+.kc-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: backdropFadeIn 0.3s ease;
+}
+
+@keyframes backdropFadeIn {
+  from { background-color: rgba(0, 0, 0, 0); }
+  to { background-color: rgba(0, 0, 0, 0.5); }
+}
+
+.kc-modal-content {
+  background-color: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.kc-modal-content h2 {
+  font-size: 1.8rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1.5rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.kc-modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.kc-modal-content label {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #24344d; /* navy */
+}
+
+.kc-modal-content input,
+.kc-modal-content textarea {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+}
+
+.kc-modal-content textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.kc-modal-content button[type="submit"] {
+  background-color: #e94e3c; /* lobsterRed */
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+.kc-modal-content button[type="submit"]:hover {
+  background-color: #d03c2c;
+}
+
+.kc-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #2a4d69;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.kc-modal-close:hover {
+  background-color: #f5e9da;
 }
 
 /* Responsive adjustments */
@@ -217,6 +468,6 @@
   }
   
   .kc-quote {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 }

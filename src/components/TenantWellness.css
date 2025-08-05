@@ -1,0 +1,612 @@
+/* TenantWellness.css */
+
+.tw-page-container {
+  max-width: 900px;
+  margin: 2.5rem auto 2rem auto;
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 32px 0 rgba(42,77,105,0.10);
+  padding: 2.5rem 2rem;
+  font-family: 'Inter', 'Bree Serif', serif;
+  border: 1px solid black;
+}
+
+.tw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.tw-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Base style for all back arrows */
+.tw-back-arrow {
+  display: inline-block;
+  font-size: 1.1rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.18s;
+  position: relative;
+  padding-left: 5px;
+}
+
+/* Home link - lobsterRed */
+.tw-back-arrow[aria-label="Back to Home"] {
+  color: #e94e3c; /* lobsterRed */
+}
+
+/* About Us link - maineBlue */
+.tw-back-arrow[aria-label="Back to About Us"] {
+  color: #2a4d69; /* maineBlue */
+}
+
+/* Kitchen Comebacks link - seafoam */
+.tw-back-arrow[aria-label="Back to Kitchen Comebacks"] {
+  color: #63ace5; /* seafoam */
+}
+
+/* Hover effect for all back arrows */
+.tw-back-arrow:hover {
+  opacity: 0.8;
+}
+
+.tw-logo {
+  height: 50px;
+  width: auto;
+}
+
+.tw-hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f5e9da; /* sand */
+}
+
+.tw-title {
+  font-size: 2.8rem;
+  color: #e94e3c; /* lobsterRed */
+  margin-bottom: 0.5rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.tw-tagline {
+  font-size: 1.3rem;
+  color: #2a4d69; /* maineBlue */
+  font-family: 'Inter', sans-serif;
+}
+
+.tw-description {
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #24344d; /* navy */
+}
+
+.tw-description p {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tw-quote {
+  text-align: center;
+  font-style: italic;
+  color: #63ace5; /* seafoam */
+  font-size: 1.2rem;
+  margin: 1.5rem auto;
+  max-width: 700px;
+  display: block;
+}
+
+.tw-resources, .tw-programs, .tw-contact {
+  margin-bottom: 2.5rem;
+}
+
+.tw-resources h2, .tw-programs h2, .tw-contact h2 {
+  font-size: 1.8rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1.2rem;
+  font-family: 'Bree Serif', serif;
+  text-align: center;
+}
+
+.tw-resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.tw-resource-card {
+  text-align: center;
+  padding: 1.5rem;
+  background: #f9fafb; /* weatheredWhite */
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(42,77,105,0.09);
+  border: 2px solid #63ace5; /* seafoam */
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tw-resource-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(42,77,105,0.15);
+}
+
+.tw-resource-image img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 3px solid #63ace5; /* seafoam */
+  display: block;
+  margin: 0 auto;
+}
+
+.tw-resource-content {
+  padding: 1rem 0 0;
+}
+
+.tw-resource-content h3 {
+  font-size: 1.4rem;
+  color: #2a4d69; /* maineBlue */
+  margin: 0.8rem 0 0.3rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.tw-resource-content p {
+  color: #24344d; /* navy */
+  margin-bottom: 1rem;
+}
+
+.tw-resource-btn {
+  display: inline-block;
+  background-color: #e94e3c; /* lobsterRed */
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.18s;
+  margin-top: 1rem;
+}
+
+.tw-resource-btn:hover {
+  background-color: #63ace5; /* seafoam */
+}
+
+.tw-programs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.tw-program-item {
+  background: #f9fafb; /* weatheredWhite */
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(42,77,105,0.09);
+  border: 2px solid #63ace5; /* seafoam */
+}
+
+.tw-program-item h3 {
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #63ace5; /* seafoam */
+  padding-bottom: 0.5rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.tw-program-details {
+  line-height: 1.6;
+  color: #24344d; /* navy */
+}
+
+.tw-register-btn {
+  display: inline-block;
+  background-color: #e94e3c; /* lobsterRed */
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.18s;
+  margin-top: 1rem;
+}
+
+.tw-register-btn:hover {
+  background-color: #63ace5; /* seafoam */
+}
+
+.tw-contact {
+  background: #f5e9da; /* sand - matching About Us CTA */
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+  border: 2px solid #63ace5; /* seafoam */
+}
+
+.tw-contact h2 {
+  font-size: 1.8rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1.2rem;
+  font-family: 'Bree Serif', serif;
+  text-align: center;
+}
+
+.tw-contact-options {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.tw-contact-btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: #e94e3c; /* lobsterRed - matching About Us CTA button */
+  color: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.18s;
+}
+
+.tw-contact-btn:hover {
+  background: #63ace5; /* seafoam - matching About Us CTA button hover */
+}
+
+.tw-contact p {
+  margin-bottom: 2.5rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tw-footer {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+.tw-footer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tw-footer-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tw-footer-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tw-resources-btn {
+  background-color: #e94e3c; /* lobsterRed */
+  color: white;
+}
+
+.tw-calendar-btn {
+  background-color: #2a4d69; /* maineBlue */
+  color: white;
+}
+
+.tw-discover-btn {
+  background-color: #f5e9da; /* sand */
+  color: #2a4d69; /* maineBlue */
+}
+
+.tw-amenities h2 {
+  font-size: 1.8rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1.2rem;
+  font-family: 'Bree Serif', serif;
+  text-align: center;
+}
+
+/* Add spacing for emoji in section title */
+.tw-amenities h2 span.emoji {
+  margin-right: 0.5rem;
+  font-size: 2rem;
+  vertical-align: middle;
+}
+
+.tw-amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+  margin-top: 3rem;
+  align-items: stretch;
+}
+
+/* Add line break between benefit boxes */
+@media (min-width: 768px) {
+  .tw-amenity-card:nth-child(n+4) {
+    margin-top: 0.25rem; /* Reduced from 1.5rem */
+  }
+}
+
+@media (max-width: 767px) {
+  .tw-amenities-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tw-amenity-card + .tw-amenity-card {
+    margin-top: 1.5rem;
+  }
+}
+
+/* Custom margin for specific cards */
+.tw-amenity-card:nth-child(3) {
+  margin-top: 5px; /* Adjust this value as needed to align with the 4th card */
+}
+
+/* Flip card styling */
+.tw-amenity-card {
+  text-align: left;
+  background: #f9fafb; /* weatheredWhite */
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(42,77,105,0.09);
+  border: 2px solid #63ace5; /* seafoam */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 280px; /* Increased height to accommodate text */
+  perspective: 1000px;
+  cursor: pointer;
+  margin-bottom: 20px; /* Add space between cards */
+}
+
+.tw-amenity-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.tw-amenity-card:hover .tw-amenity-card-inner {
+  transform: rotateY(180deg);
+}
+
+.tw-amenity-card-front, .tw-amenity-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 1rem;
+}
+
+.tw-amenity-card-front {
+  background: #f9fafb; /* weatheredWhite */
+  z-index: 2;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tw-amenity-card-front h3 {
+  text-align: center;
+  margin-top: 0;
+}
+
+.tw-amenity-card-back {
+  background: #edf2f7; /* Slightly different background for back */
+  transform: rotateY(180deg);
+  text-align: center;
+  align-items: center;
+}
+
+.tw-amenity-card-back p {
+  text-align: center;
+}
+
+/* Add a visual indicator that cards are flippable */
+.tw-amenity-card-front::after {
+  content: "↻";
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 16px;
+  color: #63ace5;
+  opacity: 0.7;
+}
+
+.tw-amenity-card h3 {
+  font-size: 1.3rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 0.8rem;
+  font-family: 'Bree Serif', serif;
+  line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.tw-amenity-card p {
+  color: #24344d; /* navy */
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.emoji-icon {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 5rem;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emoji-icon span {
+  display: inline-block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tw-page-container {
+    padding: 2rem 1.5rem;
+    margin: 1.5rem 1rem;
+  }
+  
+  .tw-title {
+    font-size: 2.2rem;
+  }
+  
+  .tw-resources-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tw-contact-options, .tw-footer-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tw-contact-btn, .tw-footer-btn {
+    width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .tw-page-container {
+    padding: 1.5rem 1rem;
+    margin: 1rem 0.5rem;
+  }
+  
+  .tw-title {
+    font-size: 1.8rem;
+  }
+}
+
+/* Modal styles */
+.tw-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.tw-modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.tw-modal-content h2 {
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1.5rem;
+  font-family: 'Bree Serif', serif;
+  text-align: center;
+}
+
+.tw-modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tw-modal-content label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #24344d; /* navy */
+}
+
+.tw-modal-content input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.tw-modal-content input:focus {
+  outline: none;
+  border-color: #63ace5; /* seafoam */
+  box-shadow: 0 0 0 2px rgba(99, 172, 229, 0.2);
+}
+
+.tw-modal-content button[type="submit"] {
+  background-color: #e94e3c; /* lobsterRed */
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.tw-modal-content button[type="submit"]:hover {
+  background-color: #d03c2c;
+}
+
+.tw-modal-content button[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.tw-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #24344d; /* navy */
+  padding: 0.25rem 0.5rem;
+}
+
+.tw-modal-close:hover {
+  color: #e94e3c; /* lobsterRed */
+}
+
+@media (max-width: 480px) {
+  .tw-page-container {
+    padding: 1.5rem 1rem;
+    margin: 1rem 0.5rem;
+  }
+  
+  .tw-title {
+    font-size: 1.8rem;
+  }
+}

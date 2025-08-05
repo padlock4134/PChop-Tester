@@ -22,6 +22,7 @@ import LandingPage from './components/LandingPage';
 import './components/LandingPage.css';
 import AboutUs from './components/AboutUs';
 import KitchenComebacks from './components/KitchenComebacks';
+import TenantWellness from './components/TenantWellness';
 import SupabaseProvider, { useSupabase } from './components/SupabaseProvider';
 import type { WristbandSessionMetadata } from './types/session-types';
 import { setSupabaseJwt } from './api/supabaseClient';
@@ -29,7 +30,7 @@ import PlanSelectionModal from './components/PlanSelectionModal';
 import PaymentModal from './components/PaymentModal';
 import { useDeviceDetect, getResponsiveClasses } from './utils/responsiveUtils';
 
-const PUBLIC_ROUTES = ['/', '/AboutUs', '/KitchenComebacks'];
+const PUBLIC_ROUTES = ['/', '/AboutUs', '/KitchenComebacks', '/TenantWellness'];
 const devOnlyPaymentBypass = (import.meta as any).env.VITE_PORKCHOP_DEV_ONLY_PAYMENT_BYPASS === 'true';
 
 const AppRoutes = () => {
@@ -112,8 +113,9 @@ const AppRoutes = () => {
           <Route path="/profile" element={<Profile />} />
           {/* Public routes */}
           <Route path="/AboutUs" element={<AboutUs />} />
-<Route path="/KitchenComebacks" element={<KitchenComebacks />} />
-<Route path="/" element={<LandingPage />} />
+          <Route path="/KitchenComebacks" element={<KitchenComebacks />} />
+          <Route path="/TenantWellness" element={<TenantWellness />} />
+          <Route path="/" element={<LandingPage />} />
         </Routes>
       </main>
       {!isPublicRoute && <ChefFreddieWidget />}

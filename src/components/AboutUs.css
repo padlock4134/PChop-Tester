@@ -7,6 +7,7 @@
   box-shadow: 0 4px 32px 0 rgba(42,77,105,0.10);
   padding: 2.5rem 2rem;
   font-family: 'Inter', 'Bree Serif', serif;
+  border: 1px solid black;
 }
 
 .about-header {
@@ -28,6 +29,8 @@
   text-decoration: none;
   font-weight: 600;
   transition: color 0.18s;
+  position: relative;
+  padding-left: 5px;
 }
 
 .about-back-arrow:hover { 
@@ -59,6 +62,7 @@
   font-size: 1.1rem;
   line-height: 1.6;
   color: #24344d; /* navy */
+  text-align: center;
 }
 
 .about-section {
@@ -70,6 +74,7 @@
   color: #2a4d69; /* maineBlue */
   margin-bottom: 1.2rem;
   font-family: 'Bree Serif', serif;
+  text-align: center;
 }
 
 .about-card {
@@ -79,6 +84,10 @@
   margin-bottom: 1.5rem;
   box-shadow: 0 4px 16px rgba(42,77,105,0.09);
   border: 2px solid #63ace5; /* seafoam */
+}
+
+.about-card p {
+  text-align: center;
 }
 
 .about-team {
@@ -177,6 +186,15 @@
   padding: 2rem;
   text-align: center;
   margin-top: 2rem;
+  border: 2px solid #63ace5; /* seafoam blue - matching team boxes */
+}
+
+.about-cta h2 {
+  font-size: 1.8rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1.2rem;
+  font-family: 'Bree Serif', serif;
+  text-align: center;
 }
 
 .about-cta-btn {
@@ -268,7 +286,7 @@
 .bio-modal-text {
   line-height: 1.6;
   color: #24344d;
-  text-align: left;
+  text-align: center;
 }
 
 .bio-modal-header {
@@ -300,6 +318,29 @@
 .linkedin-icon svg {
   width: 24px;
   height: 24px;
+}
+
+.about-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-back-to-tw {
+  color: #4CAF50; /* seafoam green */
+}
+
+.about-back-to-tw:hover {
+  color: #63ace5; /* seafoam blue */
+}
+
+.about-back-to-kc {
+  color: #2a4d69; /* maineBlue */
+}
+
+.about-back-to-kc:hover {
+  color: #63ace5; /* seafoam blue */
 }
 
 /* Responsive adjustments */
