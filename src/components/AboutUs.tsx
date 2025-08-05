@@ -20,11 +20,6 @@ const teamMembers = [
     role: "Head of Go To Market",
     photo: "https://via.placeholder.com/150"
   },
-  {
-    name: "Coming Soon!", 
-    role: "Head of Sales",
-    photo: "https://via.placeholder.com/150"
-  }
 ];
 
 const AboutUs: React.FC = () => (
