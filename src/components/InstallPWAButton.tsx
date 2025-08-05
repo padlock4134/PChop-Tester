@@ -38,16 +38,11 @@ const InstallPWAButton: React.FC = () => {
 
   return (
     <button
-      className="landing-cta-btn transition-colors shadow-lg px-6 py-3 rounded text-lg font-bold"
-      style={{ backgroundColor: '#e94e3c', color: '#f9fafb' }}
-      onMouseOver={e => { e.currentTarget.style.backgroundColor = '#63ace5'; e.currentTarget.style.color = '#2a4d69'; }}
-      onFocus={e => { e.currentTarget.style.backgroundColor = '#63ace5'; e.currentTarget.style.color = '#2a4d69'; }}
-      onMouseOut={e => { e.currentTarget.style.backgroundColor = '#e94e3c'; e.currentTarget.style.color = '#f9fafb'; }}
-      onBlur={e => { e.currentTarget.style.backgroundColor = '#e94e3c'; e.currentTarget.style.color = '#f9fafb'; }}
+      className="landing-nav-btn install-app-btn"
       onClick={handleClick}
       type="button"
     >
-      Install PorkChop App
+      Install App
     </button>
   );
 };

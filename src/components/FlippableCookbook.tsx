@@ -8,38 +8,49 @@ const PAGES = [
     title: "",
     content: (
       <>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center',
+          height: '100%',
+          width: '100%',
+          padding: '20px'
+        }}>
           <div 
             style={{ 
-              marginBottom: '1rem',
-              width: '120px',
-              height: '120px',
+              marginBottom: '1.5rem',
+              width: '230px',
+              height: '230px',
               borderRadius: '50%',
               overflow: 'hidden',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              background: 'transparent'
+              background: 'white',
+              border: '4px solid black',
+              padding: '5px'
             }}
           >
             <img 
               src="/logo.png" 
               alt="PorkChop Logo" 
               style={{ 
-                width: '100%',
-                height: '100%',
+                width: '92%',
+                height: '92%',
                 objectFit: 'cover'
               }} 
             />
           </div>
-          <h1 className="cover-title" style={{ fontSize: '2.5rem', margin: 0, color: '#fff' }}>PorkChop</h1>
-          <h2 className="cover-subtitle" style={{ margin: '0.5rem 0 1.5rem 0', color: '#fff' }}>Your Kitchen, Leveled Up</h2>
-        </div>
-        <p className="cover-body">
-          More than a recipe app—your personal culinary ecosystem that grows with you.
-        </p>
-        <div style={{ marginTop: "2rem", textAlign: "center" }}>
-          <span style={{ fontSize: "1.5rem", color: "#fff" }}>Click to continue</span>
+          <h1 className="cover-title" style={{ fontSize: '2.8rem', margin: 0, color: '#fff', textAlign: 'center' }}>PorkChop</h1>
+          <h2 className="cover-subtitle" style={{ margin: '0.5rem 0 1.5rem 0', color: '#fff', textAlign: 'center' }}>Your Kitchen, Leveled Up</h2>
+        
+          <p className="cover-body" style={{ textAlign: 'center', maxWidth: '80%', margin: '0 auto' }}>
+            We are not a generic, ad trapped recipe app!<br></br>PorkChop is a hyper personalized culinary companion that grows and learns with you.
+          </p>
+          <div style={{ marginTop: "2rem", textAlign: "center" }}>
+            <span style={{ fontSize: "1.5rem", color: "#fff" }}>Click to continue</span>
+          </div>
         </div>
       </>
     ),

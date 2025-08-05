@@ -52,20 +52,28 @@ const LandingPage: React.FC = () => {
         <nav className="landing-nav-row mobile">
           <Link to="/AboutUs" className="landing-nav-btn mobile">About Us</Link>
           <Link to="/KitchenComebacks" className="landing-nav-btn mobile">Kitchen Comebacks</Link>
+          <Link to="/TenantWellness" className="landing-nav-btn mobile tenant-wellness-btn">Tenant Wellness</Link>
           <div className="mobile-auth-buttons">
             <a href={wristbandConsumerLoginUrl} className="landing-nav-btn mobile" rel="noopener noreferrer">Sign In</a>
             <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary mobile" rel="noopener noreferrer">Sign Up</a>
+            <div className="mt-3">
+              <InstallPWAButton />
+            </div>
           </div>
         </nav>
       );
     }
     
     return (
-      <nav className="landing-nav-row">
-        <Link to="/AboutUs" className="landing-nav-btn primary">About Us</Link>
+      <nav className="landing-nav-column">
+        <Link to="/AboutUs" className="landing-nav-btn">About Us</Link>
         <Link to="/KitchenComebacks" className="landing-nav-btn">Kitchen Comebacks</Link>
+        <Link to="/TenantWellness" className="landing-nav-btn tenant-wellness-btn">Tenant Wellness</Link>
         <a href={wristbandConsumerLoginUrl} className="landing-nav-btn" rel="noopener noreferrer">Sign In</a>
         <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary" rel="noopener noreferrer">Sign Up</a>
+        <div className="mt-4">
+          <InstallPWAButton />
+        </div>
       </nav>
     );
   };
@@ -73,12 +81,15 @@ const LandingPage: React.FC = () => {
   return (
     <div className={`landing-root bg-sand font-retro min-h-screen flex flex-col device-${deviceType}`}>
       <main className="landing-main flex-1 flex flex-col items-center justify-center px-4">
-        {renderNavigation()}
-        <section className={`flex flex-col items-center justify-center w-full ${deviceType === 'mobile' ? 'mt-2' : 'mt-12'}`} style={{ margin: deviceType === 'mobile' ? '1rem 0 1rem' : '3rem 0 1rem' }}>
+        <section className={`landing-content-wrapper ${deviceType === 'mobile' ? 'mobile-layout' : 'desktop-layout'}`}>
           <div className={`cookbook-wrapper ${deviceType === 'mobile' ? 'mobile' : ''}`}>
             <FlippableCookbook />
           </div>
+          {deviceType !== 'mobile' && renderNavigation()}
         </section>
+        
+        {deviceType === 'mobile' && renderNavigation()}
+        
         <div style={{ 
           marginTop: deviceType === 'mobile' ? '1rem' : '2rem', 
           textAlign: 'center', 

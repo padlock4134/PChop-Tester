@@ -20,8 +20,9 @@
 
 .cookbook-container.cover-only {
   width: 100%;
-  height: auto;
-  aspect-ratio: 3/2;
+  height: 750px;
+  max-height: 98vh;
+  aspect-ratio: auto;
 }
 
 /* Remove all focus outlines */
@@ -124,6 +125,15 @@
   transition: transform 0.5s;
   backface-visibility: hidden;
   box-sizing: border-box;
+}
+
+.cover-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .page-container {
@@ -250,11 +260,6 @@
 
 .cover-turned-page {
   z-index: 8000; /* Ensure cover is visible but behind other turned pages */
-}
-
-.cover-content {
-  background: #e94e3c; /* Match the cover background color */
-  color: #fff;
 }
 
 .page-content.page {
@@ -409,23 +414,23 @@
   }
   
   .cookbook-container.cover-only {
-    width: 700px;
-    height: 600px;
+    width: 800px;
+    height: 633px;
   }
   
   .cover-page {
-    width: 700px;
-    height: 600px;
+    width: 800px;
+    height: 633px;
   }
   
   .book-page {
-    width: 700px;
-    height: 600px;
+    width: 800px;
+    height: 633px;
   }
   
   .page {
-    width: 700px;
-    height: 600px;
+    width: 800px;
+    height: 633px;
     padding: 40px 50px;
   }
   
@@ -434,14 +439,14 @@
   }
   
   .turning-page {
-    width: 700px;
-    height: 600px;
+    width: 800px;
+    height: 633px;
     padding: 30px 40px;
   }
   
   .turned-page {
-    width: 700px;
-    height: 600px;
+    width: 800px;
+    height: 633px;
   }
   
   .page-content.page h1 {
@@ -464,34 +469,34 @@
   }
   
   .cookbook-container.cover-only {
-    width: 500px;
-    height: 500px;
+    width: 700px;
+    height: 566px;
   }
   
   .cover-page {
-    width: 500px;
-    height: 500px;
+    width: 700px;
+    height: 566px;
   }
   
   .book-page {
-    width: 500px;
-    height: 500px;
+    width: 700px;
+    height: 566px;
   }
   
   .page {
-    width: 500px;
-    height: 500px;
+    width: 700px;
+    height: 566px;
     padding: 25px 15px;
   }
   
   .turning-page {
-    width: 500px;
-    height: 500px;
+    width: 700px;
+    height: 566px;
   }
   
   .turned-page {
-    width: 500px;
-    height: 500px;
+    width: 700px;
+    height: 566px;
   }
   
   .spiral-binding {
@@ -510,6 +515,15 @@
 
 @media (max-width: 768px) {
   .cookbook-container {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 3/2.5 !important;
+    max-height: 85vh !important;
+    transform: none !important;
+    margin: 0 auto !important;
+  }
+  
+  .cookbook-container.cover-only {
     width: 100% !important;
     height: auto !important;
     aspect-ratio: 3/2.5 !important;
