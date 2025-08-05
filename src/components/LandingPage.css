@@ -204,19 +204,13 @@
 }
 
 .landing-nav-btn:nth-child(1) {
-  background: #D8737F; /* Soft red */
+  background: #e94e3c; /* Soft Lobster Red for About Us */
   color: #fff;
 }
 
 .landing-nav-btn:nth-child(2) {
-  background: #F2D0A9; /* Soft cream/beige */
-  color: #2a4d69;
-}
-
-/* Tenant Wellness button already has its own class */
-.tenant-wellness-btn {
-  background: #8BBF9F !important; /* Softer green */
-  color: #fff !important;
+  background: #63ace5; /* Blue for Kitchen Comebacks */
+  color: #fff;
 }
 
 .landing-nav-btn:nth-child(4) {

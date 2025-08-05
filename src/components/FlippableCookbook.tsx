@@ -176,13 +176,13 @@ const PAGES = [
         <div className="faq-content">
           <ul className="faq-list">
             <li><strong>Why not use ChatGPT?</strong><br />
-            PorkChop is your personal culinary ecosystem - specialized for cooking with real-time pantry tracking and kitchen-aware suggestions.</li>
+            PorkChop is a hyper personalize culinary companion that grows and learns with you.</li>
             
             <li><strong>Are you just a recipe app?</strong><br />
-            We're your complete pocket kitchen - combining smart inventory, meal planning, and cooking education in one ecosystem.</li>
+            We combine it all - smart pantry technology, meal planning, ingredient sourcing and AI blended education.</li>
             
             <li><strong>How is this different?</strong><br />
-            It's like having a chef in your pocket - adapting to your actual ingredients, skill level, and tastes in real-time.</li>
+            It adapts to your ingredients, skill level, and tastes in real-time.</li>
           </ul>
         </div>
       </>
@@ -193,36 +193,29 @@ const PAGES = [
   {
     title: "Pricing",
     content: (
-      <div className="pricing-container">
+      <div className="pricing-container single-column">
         <div className="pricing-card">
           <div className="pricing-header">
-            <h3>Monthly Plan</h3>
-            <div className="pricing-badge">Most Flexible</div>
+            <h3>Pricing Plans</h3>
           </div>
-          <div className="pricing-amount">
-            $10.99<span className="pricing-period">/month</span>
+          
+          <div className="pricing-options">
+            <div className="pricing-option">
+              <span className="pricing-badge">Monthly</span>
+              <span className="pricing-amount">$10.99</span>
+            </div>
+            
+            <div className="pricing-option highlight">
+              <span className="pricing-badge pricing-best">Annual</span>
+              <span className="pricing-amount">$99</span>
+              <small className="pricing-savings">Save 25%</small>
+            </div>
           </div>
-          <ul className="pricing-features">
-            <li>Full access to all features</li>
-            <li>Unlimited recipe storage</li>
-            <li>Priority support</li>
-          </ul>
-        </div>
-        
-        <div className="pricing-card pricing-highlight">
-          <div className="pricing-header">
-            <h3>Annual Plan</h3>
-            <div className="pricing-badge pricing-best">Best Value</div>
-          </div>
-          <div className="pricing-amount">
-            $99.00<span className="pricing-period">/year</span>
-          </div>
-          <div className="pricing-savings">Save 25% vs monthly</div>
-          <ul className="pricing-features">
-            <li>All Monthly features</li>
-            <li>Sake Secret Menu Recipes</li>
-            <li>Cocktail Pairing Suggestions</li>
-            <li>Meal Kit Delivery (Coming Soon)</li>
+          
+          <ul className="pricing-features compact">
+            <li>All features included</li>
+            <li>Unlimited storage</li>
+            <li>AI suggestions</li>
           </ul>
         </div>
       </div>
@@ -287,7 +280,7 @@ const FlippableCookbook: React.FC = () => {
             {pageNum === 0 ? (
               PAGES[0].content
             ) : (
-              <div>
+              <div className="page-inner-content">
                 <h1 className="page-title">{PAGES[pageNum].title}</h1>
                 {PAGES[pageNum].content}
                 {PAGES[pageNum].pageNumber && (
@@ -314,7 +307,7 @@ const FlippableCookbook: React.FC = () => {
           {pageNumber === 0 ? (
             PAGES[0].content
           ) : (
-            <div>
+            <div className="page-inner-content">
               <h1 className="page-title">{PAGES[pageNumber].title}</h1>
               {PAGES[pageNumber].content}
               {PAGES[pageNumber].pageNumber && (
@@ -351,8 +344,8 @@ const FlippableCookbook: React.FC = () => {
       {isAnimating && currentTurningPage !== null && (
         <div className={`page-turn-animation ${turnDirection === 'backward' ? 'reverse' : ''}`}>
           <div className={`turning-page ${deviceType === 'mobile' ? 'mobile' : ''}`}>
-            {turnDirection === 'forward' ? (
-              <div className="page-content">
+            <div className="page-content front-face">
+              <div className="page-inner-content">
                 <h1 className="page-title">{PAGES[currentTurningPage].title}</h1>
                 {PAGES[currentTurningPage].content}
                 {PAGES[currentTurningPage].pageNumber && (
@@ -363,19 +356,8 @@ const FlippableCookbook: React.FC = () => {
                   </div>
                 )}
               </div>
-            ) : (
-              <div className="page-content">
-                <h1 className="page-title">{PAGES[currentTurningPage].title}</h1>
-                {PAGES[currentTurningPage].content}
-                {PAGES[currentTurningPage].pageNumber && (
-                  <div className="page-number">
-                    <span className="page-arrow left-arrow">←</span>
-                    {PAGES[currentTurningPage].pageNumber}
-                    <span className="page-arrow right-arrow">→</span>
-                  </div>
-                )}
-              </div>
-            )}
+            </div>
+            {/* Empty back face - will be styled via CSS */}
           </div>
         </div>
       )}
