@@ -19,7 +19,7 @@ const teamMembers = [
     name: "Coming Soon!",
     role: "Head of Go To Market",
     photo: "https://via.placeholder.com/150"
-  }
+  },
   {
     name: "Coming Soon!", 
     role: "Head of Sales",
