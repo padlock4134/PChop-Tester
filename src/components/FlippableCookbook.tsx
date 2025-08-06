@@ -46,7 +46,7 @@ const PAGES = [
           <h2 className="cover-subtitle" style={{ margin: '0.5rem 0 1.5rem 0', color: '#fff', textAlign: 'center' }}>Your Kitchen, Leveled Up</h2>
         
           <p className="cover-body" style={{ textAlign: 'center', maxWidth: '80%', margin: '0 auto' }}>
-            We are not a generic, ad trapped recipe app!<br></br>PorkChop is a hyper personalized culinary companion that grows and learns with you.
+            <br></br>We are your hyper personalized culinary companion!<br></br>
           </p>
           <div style={{ marginTop: "2rem", textAlign: "center" }}>
             <span style={{ fontSize: "1.5rem", color: "#fff" }}>Click to continue</span>
@@ -196,7 +196,6 @@ const PAGES = [
       <div className="pricing-container single-column">
         <div className="pricing-card">
           <div className="pricing-header">
-            <h3>Pricing Plans</h3>
           </div>
           
           <div className="pricing-options">
@@ -206,9 +205,8 @@ const PAGES = [
             </div>
             
             <div className="pricing-option highlight">
-              <span className="pricing-badge pricing-best">Annual</span>
+              <span className="pricing-badge pricing-best">Yearly</span>
               <span className="pricing-amount">$99</span>
-              <small className="pricing-savings">Save 25%</small>
             </div>
           </div>
           
