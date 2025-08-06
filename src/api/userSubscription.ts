@@ -48,3 +48,24 @@ export async function createStripeCheckoutSession(userId: string, plan: string):
   }
 }
 
+// Cancel the user's subscription in Stripe and update Supabase
+export async function cancelSubscription(userId: string): Promise<{ message: string; subscription: any }> {
+  if (!userId) {
+    throw new Error('Valid userId not provided');
+  }
+
+  try {
+    const response = await netlifyApiClient.post('/cancel-subscription', { userId });
+
+    // Non-200 response - something went wrong!
+    if (response.status !== 200) {
+      throw new Error(`Bad response canceling subscription, status=[${response.status}]`);
+    }
+
+    // Return the data with cancellation details
+    return response.data;
+  } catch (error) {
+    console.error('Subscription cancellation failed', error);
+    throw error;
+  }
+}

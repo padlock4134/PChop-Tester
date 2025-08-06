@@ -1,5 +1,5 @@
-import React from 'react';
-import { createStripeCheckoutSession } from '../api/userSubscription';
+import React, { useState } from 'react';
+import { createStripeCheckoutSession, cancelSubscription } from '../api/userSubscription';
 
 interface PaymentModalProps {
   open: boolean;
@@ -9,18 +9,48 @@ interface PaymentModalProps {
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose, plan, userId }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const handleStripeCheckout = async (e?: React.MouseEvent | React.FormEvent) => {
     if (e) e.preventDefault();
     
-    // Redirect to the checkout link based on the selected plan
-    const checkoutUrl = await createStripeCheckoutSession(userId, plan);
-    window.location.href = checkoutUrl;
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      // Redirect to the checkout link based on the selected plan
+      const checkoutUrl = await createStripeCheckoutSession(userId, plan);
+      window.location.href = checkoutUrl;
+    } catch (err) {
+      setError('Failed to create checkout session. Please try again.');
+      console.error('Checkout error:', err);
+      setIsLoading(false);
+    }
   };
 
-  // Cancel Subscription handler (placeholder)
+  // Cancel Subscription handler
   const handleCancelSubscription = async () => {
-    // TODO: Replace with actual cancellation logic (Stripe portal, API call, etc.)
-    alert('Cancel subscription functionality coming soon!');
+    setIsLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+    
+    try {
+      const result = await cancelSubscription(userId);
+      setSuccessMessage(result.message || 'Subscription canceled successfully.');
+      // You might want to update the UI or redirect the user after successful cancellation
+      setTimeout(() => {
+        onClose();
+        // Optionally refresh the page or update the UI to reflect the canceled status
+        window.location.reload();
+      }, 3000);
+    } catch (err) {
+      setError('Failed to cancel subscription. Please try again or contact support.');
+      console.error('Cancellation error:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   
@@ -38,6 +68,18 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose, plan, userId
         </button>
         <h2 className="text-2xl font-bold mb-4 text-center">Complete Your Subscription</h2>
         
+        {/* Display success message or error if any */}
+        {successMessage && (
+          <div className="mb-4 p-3 bg-green-100 text-green-800 rounded">
+            {successMessage}
+          </div>
+        )}
+        {error && (
+          <div className="mb-4 p-3 bg-red-100 text-red-800 rounded">
+            {error}
+          </div>
+        )}
+        
         {/* Pricing display */}
         <div className="mb-6 text-center">
           <p className="text-xl font-bold text-maineBlue">
@@ -49,19 +91,22 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose, plan, userId
           )}
         </div>
         
-        {/* Single Subscribe button */}
+        {/* Subscribe button */}
         <button
           onClick={handleStripeCheckout}
-          className="w-full py-3 rounded bg-seafoam text-maineBlue font-bold text-lg hover:bg-maineBlue hover:text-seafoam transition-colors"
+          disabled={isLoading}
+          className={`w-full py-3 rounded bg-seafoam text-maineBlue font-bold text-lg hover:bg-maineBlue hover:text-seafoam transition-colors ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          Subscribe
+          {isLoading ? 'Processing...' : 'Subscribe'}
         </button>
+        
         {/* Cancel Subscription button */}
         <button
           onClick={handleCancelSubscription}
-          className="w-full py-3 mt-3 rounded bg-lobsterRed text-weatheredWhite font-bold text-lg hover:bg-red-700 transition-colors"
+          disabled={isLoading}
+          className={`w-full py-3 mt-3 rounded bg-lobsterRed text-weatheredWhite font-bold text-lg hover:bg-red-700 transition-colors ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          Cancel Subscription
+          {isLoading ? 'Processing...' : 'Cancel Subscription'}
         </button>
         
         <p className="mt-4 text-xs text-gray-500 text-center">
