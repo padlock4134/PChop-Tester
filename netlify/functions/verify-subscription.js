@@ -90,7 +90,7 @@ exports.handler = async function(event) {
       .insert([{ 
         user_id: userId,
         stripe_customer_id: customer.id,
-        subscription_id: subscription.id,
+        stripe_subscription_id: subscription.id,
         plan: subscription.plan || 'monthly',
         status: subscription.status,
         current_period_end: subscription.current_period_end
