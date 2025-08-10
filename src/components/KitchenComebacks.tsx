@@ -125,7 +125,7 @@ const KitchenComebacks = () => {
         <p><strong>Kitchen Comebacks</strong> is a podcast about how the art of cooking can be a powerful healing mechanism. We share real stories from people who have used cooking to overcome trauma, abuse, and adversity. Whether you found hope in the kitchen after hardship, or used food as a way to rebuild your life, this show is for you.</p>
         <blockquote className="kc-quote">“I was abused and cooking healed me.”</blockquote>
         <p>These are the stories and voices we amplify - stories of resilience and transformation.</p>
-        <p>If you have a comeback story you'd like you’re in the right place.</p>
+        <p>If you have a comeback story you'd like to share or listen to, you’re in the right place.</p>
       </section>
       
       <section className="kc-latest-episodes">
