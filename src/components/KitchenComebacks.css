@@ -121,10 +121,14 @@
   box-shadow: 0 4px 16px rgba(42,77,105,0.09);
   border: 2px solid #63ace5; /* seafoam */
   transition: transform 0.2s, box-shadow 0.2s;
+  flex: 0 0 300px;
+  min-width: 300px;
+  margin: 0;
+  transition: transform 0.3s ease;
 }
 
 .kc-episode-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
   box-shadow: 0 6px 20px rgba(42,77,105,0.12);
 }
 
@@ -197,9 +201,28 @@
 }
 
 .kc-episodes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  display: flex;
+  overflow-x: auto;
   gap: 1.5rem;
+  padding: 1rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: #e94e3c #f5e9da;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+.kc-episodes-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.kc-episodes-grid::-webkit-scrollbar-track {
+  background: #f5e9da;
+  border-radius: 4px;
+}
+
+.kc-episodes-grid::-webkit-scrollbar-thumb {
+  background-color: #e94e3c;
+  border-radius: 4px;
 }
 
 .kc-episodes-container {

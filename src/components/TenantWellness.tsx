@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { HomeIcon, GiftIcon } from "@heroicons/react/24/solid";
 import "./LandingPage.css";
 import "./TenantWellness.css";
 import logo from '../images/logo.png';
@@ -250,20 +251,28 @@ const TenantWellness: React.FC = () => {
       </div>
 
       <section className="tw-hero">
-        <h1 className="tw-title">Partner Verticals</h1>
+        <h1 className="tw-title">PorkChop Perks Cantina</h1>
         <p className="tw-tagline">Powering modern experiences for your customers</p>
       </section>
 
       <div className="tw-verticals-container">
         <div className="tw-vertical-card" onClick={() => setActiveModal('amenity')}>
-          <h3>Amenity Programs</h3>
-          <p>Elevate your residential property with a unique wellness offering.</p>
-          <button className="tw-vertical-btn">Learn More</button>
+          <div className="tw-icon-container">
+            <HomeIcon className="tw-card-icon text-blue-600" />
+          </div>
+          <div className="tw-card-content">
+            <h3>Amenity Programs</h3>
+            <p>Elevate your residential property with a unique wellness offering.</p>
+          </div>
         </div>
         <div className="tw-vertical-card" onClick={() => setActiveModal('loyalty')}>
-          <h3>Loyalty & Rewards</h3>
-          <p>Drive customer engagement for your grocery brand.</p>
-          <button className="tw-vertical-btn">Coming Soon</button>
+          <div className="tw-icon-container">
+            <GiftIcon className="tw-card-icon text-red-600" />
+          </div>
+          <div className="tw-card-content">
+            <h3>Loyalty & Rewards</h3>
+            <p>Drive customer engagement for your grocery brand.</p>
+          </div>
         </div>
       </div>
 
@@ -280,6 +289,15 @@ const TenantWellness: React.FC = () => {
           onScheduleDemo={() => setShowDemoModal(true)} 
         />
       }
+
+      <section className="tw-footer">
+        <h2>Get Started with PorkChop Perks</h2>
+        <p className="tw-footer-tagline">Enhance your property's value with our innovative culinary wellness program</p>
+        <div className="tw-footer-buttons">
+          <button onClick={() => setShowDemoModal(true)} className="tw-footer-btn tw-schedule-demo">Schedule a Demo</button>
+          <a href="https://global-prod-porkchop.us.wristband.dev/signup" className="tw-footer-btn tw-learn-more" target="_blank" rel="noopener noreferrer">Learn More</a>
+        </div>
+      </section>
 
       {showDemoModal && (
         <div className="tw-modal">
