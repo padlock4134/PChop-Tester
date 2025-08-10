@@ -184,11 +184,10 @@ const TenantWellness: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Show sending feedback to user
-    const submitButton = (e.target as HTMLFormElement).querySelector('button[type="submit"]');
+    const submitButton = (e.target as HTMLFormElement).querySelector<HTMLButtonElement>('button[type="submit"]');
     if (!submitButton) return;
 
     const originalText = submitButton.textContent;
@@ -226,8 +225,10 @@ const TenantWellness: React.FC = () => {
       alert('There was an error submitting your request. Please try again later.');
     } finally {
       // Reset button
-      submitButton.textContent = originalText;
-      submitButton.disabled = false;
+      if (submitButton) {
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+      }
     }
   };
 
