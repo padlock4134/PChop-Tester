@@ -102,7 +102,7 @@ const Pricing: React.FC = () => {
       
       <section className="tw-hero">
         <h1 className="tw-title">Find Your Perfect Plan</h1>
-        <p className="tw-tagline">Unlock your culinary potential with a plan that fits your appetite.</p>
+        <p className="tw-tagline">Unlock culinary potential or community with a plan that fits your appetite.</p>
       </section>
       
       <section className="pricing-plans">

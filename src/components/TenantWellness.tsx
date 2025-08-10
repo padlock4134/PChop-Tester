@@ -76,7 +76,7 @@ const AmenityModal = ({ onClose, onScheduleDemo }) => (
       <section className="tw-amenities">
         <h2>
           <span role="img" aria-label="Building"></span> 
-          Why PorkChop for Residential Property Managers?
+          Why PorkChop for Residential Property Managers
         </h2>
         <div className="tw-amenities-grid">
           {amenityBenefits.map((benefit, index) => {
@@ -131,7 +131,7 @@ const LoyaltyModal = ({ onClose, onScheduleDemo }) => (
       <section className="tw-amenities">
         <h2>
           <span role="img" aria-label="Shopping Cart"></span> 
-          Why PorkChop for Grocery Partners?
+          Why PorkChop for Grocery
         </h2>
         <div className="tw-amenities-grid">
           {loyaltyBenefits.map((benefit) => {
