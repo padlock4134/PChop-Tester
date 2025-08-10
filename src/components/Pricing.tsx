@@ -22,7 +22,7 @@ const pricingTiers = [
     cta: "Start Your Journey"
   },
   {
-    title: "Amenity Partner",
+    title: "PorkChop Perks",
     price: "Just Ask!",
     features: [
       "Wholesale costs for partners",

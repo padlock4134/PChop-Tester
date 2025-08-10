@@ -40,6 +40,9 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   cursor: pointer;
+  /* Simple brown binding */
+  border-left: 20px solid #5D4037;
+  box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.3);
 }
 
 .cover-page.mobile {
@@ -80,6 +83,38 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.page {
+  position: relative;
+  padding: 40px;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #fff;
+  background-image: linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 20px 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 8px solid #8B4513; /* Brown color for the edge */
+  box-shadow: inset -2px 0 10px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
+}
+
+.page::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 8px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0, 0, 0, 0.1) 50%,
+    transparent
+  );
+  pointer-events: none;
 }
 
 .page-inner-content {
