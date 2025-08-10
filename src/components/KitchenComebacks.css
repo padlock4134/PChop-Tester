@@ -114,17 +114,19 @@
 }
 
 .kc-episode-card {
-  background: #f9fafb; /* weatheredWhite */
-  border-radius: 1rem;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 4px 16px rgba(42,77,105,0.09);
-  border: 2px solid #63ace5; /* seafoam */
-  transition: transform 0.2s, box-shadow 0.2s;
   flex: 0 0 300px;
   min-width: 300px;
-  margin: 0;
-  transition: transform 0.3s ease;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(42, 77, 105, 0.09);
+  border: 2px solid #63ace5;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .kc-episode-card:hover {
@@ -202,27 +204,32 @@
 
 .kc-episodes-grid {
   display: flex;
-  overflow-x: auto;
+  overflow: hidden; /* Hide overflow to prevent scrollbar */
+  width: 100%;
+  padding: 2rem 0;
+  position: relative;
+}
+
+.kc-episodes-scroll-container {
+  display: flex;
   gap: 1.5rem;
-  padding: 1rem 0;
-  scrollbar-width: thin;
-  scrollbar-color: #e94e3c #f5e9da;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  animation: scroll 30s linear infinite; /* Adjust timing as needed */
+  will-change: transform;
 }
 
-.kc-episodes-grid::-webkit-scrollbar {
-  height: 8px;
+/* Animation for the scrolling effect */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-300px * var(--episode-count, 4))); /* Adjust based on number of episodes */
+  }
 }
 
-.kc-episodes-grid::-webkit-scrollbar-track {
-  background: #f5e9da;
-  border-radius: 4px;
-}
-
-.kc-episodes-grid::-webkit-scrollbar-thumb {
-  background-color: #e94e3c;
-  border-radius: 4px;
+/* Pause animation on hover */
+.kc-episodes-grid:hover .kc-episodes-scroll-container {
+  animation-play-state: paused;
 }
 
 .kc-episodes-container {

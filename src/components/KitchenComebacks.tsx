@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './KitchenComebacks.css';
 import logoImage from '../images/logo.png';
@@ -45,6 +45,20 @@ const KitchenComebacks = () => {
     email: '',
     story: ''
   });
+  
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContentRef = useRef<HTMLDivElement>(null);
+  const [episodes, setEpisodes] = useState(latestEpisodes);
+
+  useEffect(() => {
+    setEpisodes([...latestEpisodes, ...latestEpisodes]);
+    
+    document.documentElement.style.setProperty('--episode-count', latestEpisodes.length.toString());
+    
+    return () => {
+      document.documentElement.style.removeProperty('--episode-count');
+    };
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -115,22 +129,23 @@ const KitchenComebacks = () => {
       </section>
       
       <section className="kc-latest-episodes">
-        <div className="kc-episodes-grid">
-          {latestEpisodes.map((episode, index) => (
-            <div className="kc-episode-card" key={episode.title}>
-              <div className="kc-episode-content">
-                <h3>{episode.title}</h3>
-                <span className="kc-guest">with {episode.guest}</span>
-                <p>{episode.description}</p>
-                <div className="kc-button-container">
-                  <a className="kc-listen-btn" href={episode.audioUrl}>Listen Now</a>
-                  <span className="kc-coming-soon-disclaimer">Coming Soon</span>
+        <div className="kc-episodes-grid" ref={scrollContainerRef}>
+          <div className="kc-episodes-scroll-container" ref={scrollContentRef}>
+            {episodes.map((episode, index) => (
+              <div className="kc-episode-card" key={`${episode.title}-${index}`}>
+                <div className="kc-episode-content">
+                  <h3>{episode.title}</h3>
+                  <p className="kc-episode-desc">{episode.description}</p>
+                  <div className="kc-button-container">
+                    <a className="kc-listen-btn" href={episode.audioUrl}>
+                      <span className="kc-play-icon">▶</span> Listen Now
+                    </a>
+                    <span className="kc-coming-soon-disclaimer">Coming Soon</span>
+                  </div>
                 </div>
               </div>
-              <div className="kc-episode-overlay">
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
       
