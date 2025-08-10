@@ -46,7 +46,7 @@ const KitchenComebacks = () => {
     story: ''
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setStoryForm({
       ...storyForm,
@@ -54,46 +54,35 @@ const KitchenComebacks = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Show sending feedback to user
-    const submitButton = e.target.querySelector('button[type="submit"]');
+
+    const form = e.currentTarget as HTMLFormElement;
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (!submitButton) return;
+
     const originalText = submitButton.textContent;
     submitButton.textContent = 'Sending...';
     submitButton.disabled = true;
-    
-    try {
-      // Prepare form data
-      const formData = {
-        name: storyForm.name,
-        email: storyForm.email,
-        story: storyForm.story,
-        subject: 'Kitchen Comebacks Story Submission'
-      };
-      
-      // In a real implementation, you would send this data to your backend
-      // For now, we'll simulate a successful submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Reset form and close modal
-      setStoryForm({
-        name: '',
-        email: '',
-        story: ''
-      });
-      setShowModal(false);
-      
-      // Show success message
-      alert('Thank you for sharing your story! We will review it soon.');
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('There was an error submitting your story. Please try again later.');
-      
-      // Reset button
+
+    const formData = new FormData(form);
+    const body = new URLSearchParams(formData as any).toString();
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    })
+    .then(() => {
+        alert('Thank you for sharing your story! We will review it soon.');
+        setShowModal(false);
+        setStoryForm({ name: '', email: '', story: '' });
+    })
+    .catch((error) => alert(error))
+    .finally(() => {
       submitButton.textContent = originalText;
       submitButton.disabled = false;
-    }
+    });
   };
 
   return (
@@ -158,18 +147,24 @@ const KitchenComebacks = () => {
         <div className="kc-modal">
           <div className="kc-modal-content">
             <h2>Share Your Story</h2>
-            <form onSubmit={handleSubmit}>
+            <form name="story-submission" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={handleSubmit}>
+              <input type="hidden" name="form-name" value="story-submission" />
+              <p hidden>
+                <label>
+                  Don’t fill this out if you’re human: <input name="bot-field" />
+                </label>
+              </p>
               <label>
                 Name:
-                <input type="text" name="name" value={storyForm.name} onChange={handleInputChange} />
+                <input type="text" name="name" value={storyForm.name} onChange={handleInputChange} required />
               </label>
               <label>
                 Email:
-                <input type="email" name="email" value={storyForm.email} onChange={handleInputChange} />
+                <input type="email" name="email" value={storyForm.email} onChange={handleInputChange} required />
               </label>
               <label>
                 Story:
-                <textarea name="story" value={storyForm.story} onChange={handleInputChange} />
+                <textarea name="story" value={storyForm.story} onChange={handleInputChange} required />
               </label>
               <button type="submit">Submit</button>
             </form>
