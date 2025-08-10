@@ -291,8 +291,8 @@ const TenantWellness: React.FC = () => {
       }
 
       <section className="tw-footer">
-        <h2>Get Started with PorkChop Perks</h2>
-        <p className="tw-footer-tagline">Enhance your property's value with our innovative culinary wellness program</p>
+        <h2>Lets Get Started!</h2>
+        <p className="tw-footer-tagline">Our culinary companion is the perfect every day 'perk me up'.</p>
         <div className="tw-footer-buttons">
           <button onClick={() => setShowDemoModal(true)} className="tw-footer-btn tw-schedule-demo">Schedule a Demo</button>
           <a href="https://global-prod-porkchop.us.wristband.dev/signup" className="tw-footer-btn tw-learn-more" target="_blank" rel="noopener noreferrer">Learn More</a>
