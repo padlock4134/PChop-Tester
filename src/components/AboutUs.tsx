@@ -59,7 +59,7 @@ const AboutUs: React.FC = () => {
             ← Back to Home
           </Link>
           <Link to="/TenantWellness" className="about-back-arrow about-back-to-tw" aria-label="Back to Tenant Wellness">
-            ← Back to Tenant Wellness
+            ← Back to PorkChop Perks
           </Link>
           <Link to="/KitchenComebacks" className="about-back-arrow about-back-to-kc" aria-label="Back to Kitchen Comebacks">
             ← Back to Kitchen Comebacks
