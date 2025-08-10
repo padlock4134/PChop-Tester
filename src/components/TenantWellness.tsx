@@ -75,7 +75,7 @@ const AmenityModal = ({ onClose, onScheduleDemo }) => (
       
       <section className="tw-amenities">
         <h2>
-          <span role="img" aria-label="Building">🏢</span> 
+          <span role="img" aria-label="Building"></span> 
           Why PorkChop for Residential Property Managers?
         </h2>
         <div className="tw-amenities-grid">
@@ -130,7 +130,7 @@ const LoyaltyModal = ({ onClose, onScheduleDemo }) => (
 
       <section className="tw-amenities">
         <h2>
-          <span role="img" aria-label="Shopping Cart">🛒</span> 
+          <span role="img" aria-label="Shopping Cart"></span> 
           Why PorkChop for Grocery Partners?
         </h2>
         <div className="tw-amenities-grid">
@@ -158,7 +158,7 @@ const LoyaltyModal = ({ onClose, onScheduleDemo }) => (
 
       <section className="tw-contact">
         <h2>Partner with PorkChop</h2>
-        <p>Offer a loyalty reward that truly sticks. Let's talk about how PorkChop can drive growth for your business.</p>
+        <p>Offer a loyalty perk that can drive more shoppers to your aisles.</p>
         <div className="tw-contact-options">
           <button onClick={onScheduleDemo} className="tw-contact-btn">Schedule Demo</button>
         </div>

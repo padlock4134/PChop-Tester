@@ -102,11 +102,11 @@ const AboutUs: React.FC = () => {
       </section>
 
       <section className="about-section">
-        <h2>Our Story</h2>
+        <h2>My Journey</h2>
         <div className="about-card">
-          <p>PorkChop was born from a simple observation: despite the digital revolution transforming nearly every aspect of our lives, the kitchen remained largely unchanged. Our founder, frustrated by disorganized recipes and forgotten ingredients, envisioned a smarter kitchen assistant that could streamline the cooking process.</p>
+          <p>My grandfather Fred, originally from Turin, first brought my mother into the kitchen, and later, she brought me in too. Through generations, our family kitchen became a place of learning and healing. Fred showed us that food is more than just ingredients - it's a timeless way to spark creativity, wellness, and tradition.</p>
           
-          <p>What started as a personal project quickly evolved into a comprehensive platform designed to address the common pain points of home cooking. Today, PorkChop continues to grow and innovate, driven by our passion for good food and great technology.</p>
+          <p>Years later, surrounded by over 40 well-worn cookbooks inherited from Fred and my mother, I found myself in a rut. As a trained butcher, sake brewer, and tech professional I'd stand before my fridge each night, the weight of culinary history on my shelves, yet feeling uninspired. That's when I taught myself to code & built PorkChop. It's our way to pay forward the lessons that papa and my mother taught me - that cooking isn't about perfection, but about finding tradition in the process while getting better each time.</p>
         </div>
       </section>
       
@@ -142,8 +142,8 @@ const AboutUs: React.FC = () => {
       )}
       
       <section className="about-cta">
-        <h2>Join the PorkChop Community</h2>
-        <p>Ready to transform your cooking experience? Sign up today and discover the future of kitchen technology.</p>
+        <h2>Join the PorkChop Community!</h2>
+        <p>Just imagine if DuoLingo and your grandfather's cookbook had a baby. That's PorkChop.</p>
         <a href="https://global-mvp123-porkchop.us.wristband.dev/signup" className="about-cta-btn" target="_blank" rel="noopener noreferrer">Get Started</a>
       </section>
     </div>
