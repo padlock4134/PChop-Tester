@@ -252,7 +252,7 @@ const TenantWellness: React.FC = () => {
 
       <section className="tw-hero">
         <h1 className="tw-title">PorkChop Perks Cantina</h1>
-        <p className="tw-tagline">Powering modern experiences for your customers</p>
+        <p className="tw-tagline">Blending tradtiion with modern culinary experiences for everyone.</p>
       </section>
 
       <div className="tw-verticals-container">
