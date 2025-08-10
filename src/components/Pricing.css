@@ -1,0 +1,114 @@
+/* Pricing.css */
+
+.pricing-plans {
+  padding: 2.5rem 1rem;
+  background-color: #fff; /* Match the page container background */
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pricing-card {
+  background: #f9fafb; /* weatheredWhite */
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(42,77,105,0.09);
+  border: 2px solid #63ace5; /* seafoam */
+  padding: 2rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative; /* For the popular badge */
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(42,77,105,0.15);
+}
+
+.pricing-card.popular {
+  transform: scale(1.05);
+  border-color: #e94e3c; /* lobsterRed for popular tier */
+}
+
+.pricing-card.popular:hover {
+  transform: translateY(-5px) scale(1.05);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #e94e3c; /* lobsterRed */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.pricing-card-title {
+  font-family: 'Bree Serif', serif;
+  font-size: 1.75rem;
+  color: #2a4d69; /* maineBlue */
+  margin-bottom: 1rem;
+}
+
+.pricing-card-price {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2a4d69;
+  margin-bottom: 1.5rem;
+  font-family: 'Bree Serif', serif;
+}
+
+.pricing-card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 2rem auto;
+  text-align: left;
+  flex-grow: 1; /* Pushes button to the bottom */
+  max-width: 220px;
+}
+
+.pricing-card-features li {
+  font-family: 'Inter', sans-serif;
+  color: #24344d; /* navy */
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+/* Use the same button style as other pages */
+.pricing-card .tw-contact-btn {
+  background-color: #e94e3c; /* lobsterRed */
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.18s;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  align-self: center;
+}
+
+.pricing-card .tw-contact-btn:hover {
+  background-color: #63ace5; /* seafoam */
+}
+
+.tw-footer {
+  margin-top: 4rem;
+  padding: 2rem;
+  text-align: center;
+  background-color: #f9fafb;
+  color: #4a5568;
+  border-top: 1px solid #e0e0e0;
+}

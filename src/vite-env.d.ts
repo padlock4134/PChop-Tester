@@ -12,6 +12,8 @@ interface ImportMetaEnv {
   // add more custom env vars here as needed
 }
 
+declare module '*.png';
+
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
