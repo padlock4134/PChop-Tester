@@ -295,7 +295,7 @@ const TenantWellness: React.FC = () => {
         <p className="tw-footer-tagline">Our culinary companion is the perfect every day 'perk me up'.</p>
         <div className="tw-footer-buttons">
           <button onClick={() => setShowDemoModal(true)} className="tw-footer-btn tw-schedule-demo">Schedule a Demo</button>
-          <a href="https://global-prod-porkchop.us.wristband.dev/signup" className="tw-footer-btn tw-learn-more" target="_blank" rel="noopener noreferrer">Learn More</a>
+          <a href="https://porkchop.app/demo.html" className="tw-footer-btn tw-learn-more" target="_blank" rel="noopener noreferrer">Learn More</a>
         </div>
       </section>
 
