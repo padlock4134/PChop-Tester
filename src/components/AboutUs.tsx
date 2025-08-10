@@ -73,21 +73,6 @@ const AboutUs: React.FC = () => {
         <p className="about-tagline">Elevating your kitchen experience</p>
       </section>
       
-      <section className="about-content">
-        <p>PorkChop is revolutionizing the way you interact with your kitchen. We believe that cooking should be accessible, enjoyable, and rewarding for everyone, regardless of skill level.</p>
-        
-        <p>Our mission is to provide innovative tools and resources that make cooking more intuitive, efficient, and fun. Whether you're a seasoned chef or just starting your culinary journey, PorkChop is designed to meet you where you are and help you level up.</p>
-      </section>
-      
-      <section className="about-section">
-        <h2>Our Story</h2>
-        <div className="about-card">
-          <p>PorkChop was born from a simple observation: despite the digital revolution transforming nearly every aspect of our lives, the kitchen remained largely unchanged. Our founder, frustrated by disorganized recipes and forgotten ingredients, envisioned a smarter kitchen assistant that could streamline the cooking process.</p>
-          
-          <p>What started as a personal project quickly evolved into a comprehensive platform designed to address the common pain points of home cooking. Today, PorkChop continues to grow and innovate, driven by our passion for good food and great technology.</p>
-        </div>
-      </section>
-      
       <section className="about-section">
         <h2>Meet Our Team</h2>
         <div className="about-team">
@@ -113,6 +98,15 @@ const AboutUs: React.FC = () => {
               )}
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="about-section">
+        <h2>Our Story</h2>
+        <div className="about-card">
+          <p>PorkChop was born from a simple observation: despite the digital revolution transforming nearly every aspect of our lives, the kitchen remained largely unchanged. Our founder, frustrated by disorganized recipes and forgotten ingredients, envisioned a smarter kitchen assistant that could streamline the cooking process.</p>
+          
+          <p>What started as a personal project quickly evolved into a comprehensive platform designed to address the common pain points of home cooking. Today, PorkChop continues to grow and innovate, driven by our passion for good food and great technology.</p>
         </div>
       </section>
       

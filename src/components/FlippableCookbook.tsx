@@ -188,37 +188,6 @@ const PAGES = [
       </>
     ),
     pageNumber: 8
-  },
-  // Page 9 - Pricing
-  {
-    title: "Pricing",
-    content: (
-      <div className="pricing-container single-column">
-        <div className="pricing-card">
-          <div className="pricing-header">
-          </div>
-          
-          <div className="pricing-options">
-            <div className="pricing-option">
-              <span className="pricing-badge">Monthly</span>
-              <span className="pricing-amount">$10.99</span>
-            </div>
-            
-            <div className="pricing-option highlight">
-              <span className="pricing-badge pricing-best">Yearly</span>
-              <span className="pricing-amount">$99</span>
-            </div>
-          </div>
-          
-          <ul className="pricing-features compact">
-            <li>All features included</li>
-            <li>Unlimited storage</li>
-            <li>AI suggestions</li>
-          </ul>
-        </div>
-      </div>
-    ),
-    pageNumber: 9
   }
 ];
 
