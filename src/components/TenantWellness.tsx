@@ -227,13 +227,13 @@ const TenantWellness: React.FC = () => {
     const form = e.target as HTMLFormElement;
     
     // Create form data object
-    const formData = new FormData();
-    formData.append('form-name', 'tenant-wellness-demo');
-    formData.append('name', demoForm.name);
-    formData.append('company', demoForm.company);
-    formData.append('email', demoForm.email);
-    formData.append('phone', demoForm.phone);
-    formData.append('preferredTime', demoForm.preferredTime);
+    const formData = new FormData(form);
+    formData.append('form-name', 'demo-request');
+    
+    // Add all form fields
+    Object.entries(demoForm).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
     
     try {
       // Submit to Netlify
@@ -412,14 +412,15 @@ const TenantWellness: React.FC = () => {
             <button className="tw-modal-close" onClick={() => setShowDemoModal(false)} style={{ position: 'absolute', top: '10px', right: '10px' }}>×</button>
             <h2></h2>
             <form 
-              name="tenant-wellness-demo"
+              name="demo-request"
               method="POST"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
               netlify-honeypot="bot-field"
+              netlify
             >
-              <input type="hidden" name="form-name" value="tenant-wellness-demo" />
+              <input type="hidden" name="form-name" value="demo-request" />
               <p hidden>
                 <label>Don't fill this out if you're human: <input name="bot-field" /></label>
               </p>
