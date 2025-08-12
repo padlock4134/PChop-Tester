@@ -222,7 +222,8 @@ const TenantWellness: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const submitButton = (e.target as HTMLFormElement).querySelector<HTMLButtonElement>('button[type="submit"]');
+    const form = e.target as HTMLFormElement;
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     if (!submitButton) return;
 
     const originalText = submitButton.textContent;
@@ -230,19 +231,17 @@ const TenantWellness: React.FC = () => {
     submitButton.disabled = true;
     
     try {
-      // Create mailto link with form data
-      const subject = encodeURIComponent("PorkChop Demo Request");
-      const body = encodeURIComponent(
-        `Name: ${demoForm.name}\n\nCompany: ${demoForm.company}\n\nEmail: ${demoForm.email}\n\nPhone: ${demoForm.phone}\n\nPreferred Time: ${demoForm.preferredTime}`
-      );
+      // Submit to Netlify
+      const formData = new FormData(form);
+      formData.append('form-name', 'tenant-wellness-demo');
       
-      // Create a hidden link and click it
-      const mailtoLink = document.createElement('a');
-      mailtoLink.href = `mailto:chef@porkchop.app?subject=${subject}&body=${body}`;
-      mailtoLink.style.display = 'none';
-      document.body.appendChild(mailtoLink);
-      mailtoLink.click();
-      document.body.removeChild(mailtoLink);
+      await fetch('/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
       
       // Reset form and close modal
       setDemoForm({
@@ -392,7 +391,17 @@ const TenantWellness: React.FC = () => {
           <div className="tw-modal-content">
             <button className="tw-modal-close" onClick={() => setShowDemoModal(false)} style={{ position: 'absolute', top: '10px', right: '10px' }}>×</button>
             <h2></h2>
-            <form onSubmit={handleSubmit}>
+            <form 
+              name="tenant-wellness-demo"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
+            >
+              <input type="hidden" name="form-name" value="tenant-wellness-demo" />
+              <p className="hidden">
+                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+              </p>
               <label>
                 Name:
                 <input type="text" name="name" value={demoForm.name} onChange={handleInputChange} required />
