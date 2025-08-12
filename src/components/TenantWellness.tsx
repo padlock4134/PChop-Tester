@@ -222,16 +222,32 @@ const TenantWellness: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Get the form element
     const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
+    
+    // Create form data object
+    const formData = new FormData();
+    formData.append('form-name', 'tenant-wellness-demo');
+    formData.append('name', demoForm.name);
+    formData.append('company', demoForm.company);
+    formData.append('email', demoForm.email);
+    formData.append('phone', demoForm.phone);
+    formData.append('preferredTime', demoForm.preferredTime);
     
     try {
       // Submit to Netlify
-      await fetch('/', {
+      const response = await fetch('/', {
         method: 'POST',
         body: new URLSearchParams(formData as any).toString(),
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
       });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       
       // Reset form and show thank you modal
       setDemoForm({
@@ -243,6 +259,7 @@ const TenantWellness: React.FC = () => {
       });
       setShowDemoModal(false);
       setShowThankYouModal(true);
+      
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('There was an error submitting your request. Please try again.');
@@ -252,6 +269,24 @@ const TenantWellness: React.FC = () => {
   return (
     <div className="tw-page-container">
       <div className="tw-header">
+        <Link 
+          to="/" 
+          className="back-arrow" 
+          style={{
+            position: 'absolute',
+            left: '20px',
+            top: '20px',
+            color: '#fff',
+            textDecoration: 'none',
+            fontSize: '1.2rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            zIndex: 10
+          }}
+        >
+          <span style={{ fontSize: '1.5rem' }}>←</span>
+        </Link>
         <div className="tw-nav-links">
           <Link to="/" className="tw-back-arrow" aria-label="Back to Home">
             ← Back to Home
@@ -261,6 +296,9 @@ const TenantWellness: React.FC = () => {
           </Link>
           <Link to="/KitchenComebacks" className="tw-back-arrow" aria-label="Back to Kitchen Comebacks">
             ← Back to Kitchen Comebacks
+          </Link>
+          <Link to="/Pricing" className="tw-back-arrow" aria-label="Go to Pricing">
+            ← Back to Pricing
           </Link>
         </div>
         <img src={logo} alt="PorkChop Logo" className="tw-logo" />
@@ -379,7 +417,7 @@ const TenantWellness: React.FC = () => {
               data-netlify="true"
               data-netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
-              action="#"
+              netlify-honeypot="bot-field"
             >
               <input type="hidden" name="form-name" value="tenant-wellness-demo" />
               <p hidden>
