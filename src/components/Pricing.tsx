@@ -217,8 +217,18 @@ const Pricing: React.FC = () => {
 
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <h2>Schedule a Call</h2>
-          <form onSubmit={handleSubmit}>
+          <h2></h2>
+          <form 
+            name="pricing-demo-request"
+            method="POST"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            onSubmit={handleSubmit}
+          >
+            <input type="hidden" name="form-name" value="pricing-demo-request" />
+            <p className="hidden">
+              <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+            </p>
             <label>
               Name:
               <input type="text" name="name" value={demoForm.name} onChange={handleInputChange} required />
@@ -262,21 +272,21 @@ const Pricing: React.FC = () => {
 
       {showQuestionsModal && (
         <Modal onClose={() => setShowQuestionsModal(false)}>
-          <h2></h2>
-          <div style={{ textAlign: 'left', marginBottom: '1.5rem' }}>
-            <div style={{ marginBottom: '1.5rem' }}>
-              <h3 style={{ color: '#e94e3c' }}>How does the pricing work?</h3>
-              <p>Our pricing is simple - pay a flat monthly fee for unlimited access to all features.</p>
+          <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}></h2>
+          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto', padding: '0 1rem' }}>
+            <div style={{ marginBottom: '2rem' }}>
+              <h3 style={{ color: '#e94e3c', marginBottom: '0.5rem' }}>How does the pricing work?</h3>
+              <p style={{ margin: 0 }}>Our pricing is simple - pay a flat monthly fee for unlimited access to all features.</p>
             </div>
             
-            <div style={{ marginBottom: '1.5rem' }}>
-              <h3 style={{ color: '#e94e3c' }}>Can I cancel anytime?</h3>
-              <p>Yes, you can cancel your subscription at any time with no hidden fees.</p>
+            <div style={{ marginBottom: '2rem' }}>
+              <h3 style={{ color: '#e94e3c', marginBottom: '0.5rem' }}>Can I cancel anytime?</h3>
+              <p style={{ margin: 0 }}>Yes, you can cancel your subscription at any time with no hidden fees.</p>
             </div>
             
             <div>
-              <h3 style={{ color: '#e94e3c' }}>Is there a free trial?</h3>
-              <p>We offer a 7-day free trial with full access to all features.</p>
+              <h3 style={{ color: '#e94e3c', marginBottom: '0.5rem' }}>How do I start?</h3>
+              <p style={{ margin: 0 }}>Just go to the home page and hit sign up! Questions? Just email chef@porkchop.app. Simple.</p>
             </div>
           </div>
         </Modal>

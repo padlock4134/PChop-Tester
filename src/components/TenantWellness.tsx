@@ -59,6 +59,16 @@ const loyaltyBenefits = [
   }
 ];
 
+// Helper function to handle whitepaper download
+const downloadWhitepaper = (filePath: string, fileName: string) => {
+  const link = document.createElement('a');
+  link.href = filePath;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
 const AmenityModal = ({ onClose, onScheduleDemo }) => (
   <div className="tw-modal-large">
     <div className="tw-modal-content-large">
@@ -107,7 +117,18 @@ const AmenityModal = ({ onClose, onScheduleDemo }) => (
         <h2>Bring PorkChop to Your Property</h2>
         <p>Elevate your property's wellness offering with our zero-installation culinary amenity</p>
         <div className="tw-contact-options">
-          <button onClick={onScheduleDemo} className="tw-contact-btn">The Secret Ingredient to Happy Tenants</button>
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              downloadWhitepaper(
+                '/porkchop-perks-residential.pdf',
+                'PorkChop-Perks-Residential-Whitepaper.pdf'
+              );
+            }} 
+            className="tw-contact-btn"
+          >
+            The Secret Ingredient to Happy Tenants
+          </button>
         </div>
       </section>
     </div>
@@ -160,7 +181,18 @@ const LoyaltyModal = ({ onClose, onScheduleDemo }) => (
         <h2>Partner with PorkChop</h2>
         <p>Offer a loyalty perk that can drive more shoppers to your aisles.</p>
         <div className="tw-contact-options">
-          <button onClick={onScheduleDemo} className="tw-contact-btn">Sprinkle Some Success into Your Aisles</button>
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              downloadWhitepaper(
+                '/porkchop-perks-grocery.pdf',
+                'PorkChop-Perks-Grocery-Whitepaper.pdf'
+              );
+            }} 
+            className="tw-contact-btn"
+          >
+            Sprinkle Some Success into Your Aisles
+          </button>
         </div>
       </section>
     </div>
@@ -312,7 +344,7 @@ const TenantWellness: React.FC = () => {
               marginBottom: '10px',
               fontSize: '2rem',
               fontFamily: "'Bree Serif', serif"
-            }}>PorkChop Demo</h2>
+            }}></h2>
             <p style={{ 
               color: '#2a4d69', 
               textAlign: 'center', 
