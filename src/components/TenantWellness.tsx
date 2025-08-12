@@ -202,6 +202,7 @@ const LoyaltyModal = ({ onClose, onScheduleDemo }) => (
 const TenantWellness: React.FC = () => {
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showThankYouModal, setShowThankYouModal] = useState(false);
   const [activeModal, setActiveModal] = useState<'amenity' | 'loyalty' | null>(null);
   const [demoForm, setDemoForm] = useState({
     name: '',
@@ -219,22 +220,33 @@ const TenantWellness: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
     
-    // Let the form submit naturally
-    form.submit();
-    
-    // Reset form and close modal
-    setDemoForm({
-      name: '',
-      company: '',
-      email: '',
-      phone: '',
-      preferredTime: ''
-    });
-    setShowDemoModal(false);
+    try {
+      // Submit to Netlify
+      await fetch('/', {
+        method: 'POST',
+        body: new URLSearchParams(formData as any).toString(),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      });
+      
+      // Reset form and show thank you modal
+      setDemoForm({
+        name: '',
+        company: '',
+        email: '',
+        phone: '',
+        preferredTime: ''
+      });
+      setShowDemoModal(false);
+      setShowThankYouModal(true);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('There was an error submitting your request. Please try again.');
+    }
   };
 
   return (
@@ -367,7 +379,7 @@ const TenantWellness: React.FC = () => {
               data-netlify="true"
               data-netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
-              action="/thank-you"
+              action="#"
             >
               <input type="hidden" name="form-name" value="tenant-wellness-demo" />
               <p hidden>
@@ -410,6 +422,40 @@ const TenantWellness: React.FC = () => {
               </label>
               <button type="submit">Schedule Call</button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Thank You Modal */}
+      {showThankYouModal && (
+        <div className="tw-modal">
+          <div className="tw-modal-content" style={{ textAlign: 'center', padding: '2rem' }}>
+            <button 
+              className="tw-modal-close" 
+              onClick={() => setShowThankYouModal(false)}
+              style={{ position: 'absolute', top: '10px', right: '10px' }}
+            >
+              ×
+            </button>
+            <h2 style={{ color: '#e94e3c', marginBottom: '1rem' }}>Thank You!</h2>
+            <p style={{ fontSize: '1.1rem', marginBottom: '1.5rem' }}>
+              Your request has been submitted successfully. We'll be in touch shortly to schedule your call.
+            </p>
+            <button 
+              onClick={() => setShowThankYouModal(false)}
+              style={{
+                backgroundColor: '#e94e3c',
+                color: 'white',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '1rem',
+                fontWeight: 'bold'
+              }}
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
