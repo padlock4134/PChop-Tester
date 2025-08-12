@@ -121,13 +121,13 @@ const ChefsCorner = () => {
               <span className="text-5xl mr-2">🦐</span>
               <h1 className="text-3xl font-retro text-maineBlue mb-0">Chefs Corner</h1>
             </div>
-            <p className="text-lg text-gray-700 mb-4 text-center">Shop the freshest ingredients, meal kits, and more—all with a Maine Fish Market flair.</p>
+            <p className="text-lg text-gray-700 mb-4 text-center">Eat like a Mainer by shopping the freshest local markets.</p>
           </header>
           {/* Shopping List - now at the top */}
           <section className="mb-8">
-            <h2 className="text-xl font-bold text-maineBlue mb-3 text-center">Shopping List</h2>
+            <h2 className="text-xl font-bold text-maineBlue mb-3 text-center"></h2>
             <div className="bg-sand rounded shadow p-4 flex flex-col items-center">
-              <p className="mb-2 text-gray-700 text-center">Import your saved recipes from My CookBook and shop everything you need in one click!</p>
+              <p className="mb-2 text-gray-700 text-center">Import your saved recipes, build your list, and shop everything you need.</p>
               <button 
                 onClick={importFromCookBook} 
                 className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full"
