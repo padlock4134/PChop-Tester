@@ -30,6 +30,7 @@ import { setSupabaseJwt } from './api/supabaseClient';
 import PlanSelectionModal from './components/PlanSelectionModal';
 import PaymentModal from './components/PaymentModal';
 import { useDeviceDetect, getResponsiveClasses } from './utils/responsiveUtils';
+import SwoopyArrow from './components/SwoopyArrow';
 
 const PUBLIC_ROUTES = ['/', '/AboutUs', '/KitchenComebacks', '/TenantWellness', '/Pricing'];
 const devOnlyPaymentBypass = (import.meta as any).env.VITE_PORKCHOP_DEV_ONLY_PAYMENT_BYPASS === 'true';
@@ -103,7 +104,8 @@ const AppRoutes = () => {
   return (
     <div className="min-h-screen bg-sand">
       {!isPublicRoute && <NavBar />}
-      <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-8 pb-8`}>
+      <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
+        {!isPublicRoute && location.pathname !== '/dashboard' && <SwoopyArrow />}
         <Routes>
           {/* Protected routes */}
           <Route path="/dashboard" element={<Dashboard />} />
