@@ -231,16 +231,20 @@ const TenantWellness: React.FC = () => {
     submitButton.disabled = true;
     
     try {
-      // Submit to Netlify
-      const formData = new FormData(form);
+      // Create URL-encoded form data
+      const formData = new URLSearchParams();
       formData.append('form-name', 'tenant-wellness-demo');
+      formData.append('name', demoForm.name);
+      formData.append('company', demoForm.company);
+      formData.append('email', demoForm.email);
+      formData.append('phone', demoForm.phone);
+      formData.append('preferredTime', demoForm.preferredTime);
       
+      // Submit to Netlify
       await fetch('/', {
         method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
       });
       
       // Reset form and close modal
