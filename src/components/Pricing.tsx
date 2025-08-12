@@ -198,8 +198,8 @@ const Pricing: React.FC = () => {
           <Link to="/" className="tw-back-arrow" aria-label="Back to Home">← Back to Home</Link>
           <Link to="/AboutUs" className="tw-back-arrow" aria-label="Back to About Us">← Back to About Us</Link>
           <Link to="/KitchenComebacks" className="tw-back-arrow" aria-label="Back to Kitchen Comebacks">← Back to Kitchen Comebacks</Link>
-          <Link to="/Pricing" className="tw-back-arrow" aria-label="Go to Pricing">
-            ← Back to Pricing
+          <Link to="/TenantWellness" className="tw-back-arrow" aria-label="Go to Tenant Wellness">
+            ← Back to PorkChop Perks
           </Link>
         </div>
         <img src={logo} alt="PorkChop Logo" className="tw-logo" />
