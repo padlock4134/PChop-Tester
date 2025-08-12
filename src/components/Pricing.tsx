@@ -83,26 +83,25 @@ const Pricing: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const submitButton = (e.target as HTMLFormElement).querySelector<HTMLButtonElement>('button[type="submit"]');
-    if (!submitButton) return;
-
+    const form = e.target as HTMLFormElement;
+    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     const originalText = submitButton.textContent;
-    submitButton.textContent = 'Sending...';
-    submitButton.disabled = true;
     
     try {
-      const subject = encodeURIComponent("PorkChop Demo Request");
-      const body = encodeURIComponent(
-        `Name: ${demoForm.name}\n\nCompany: ${demoForm.company}\n\nEmail: ${demoForm.email}\n\nPhone: ${demoForm.phone}\n\nPreferred Time: ${demoForm.preferredTime || 'Not specified'}`
-      );
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending...';
       
-      const mailtoLink = document.createElement('a');
-      mailtoLink.href = `mailto:chef@porkchop.app?subject=${subject}&body=${body}`;
-      mailtoLink.style.display = 'none';
-      document.body.appendChild(mailtoLink);
-      mailtoLink.click();
-      document.body.removeChild(mailtoLink);
+      const formData = new FormData(form);
+      formData.append('form-name', 'demo-request');
       
+      // Submit to Netlify
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString()
+      });
+      
+      // Reset form
       setDemoForm({ 
         name: '', 
         company: '', 
@@ -110,15 +109,17 @@ const Pricing: React.FC = () => {
         phone: '',
         preferredTime: ''
       });
-      setShowModal(false);
       
+      setShowModal(false);
       alert('Thank you for your interest! Your demo request has been sent to our team.');
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('There was an error submitting your request. Please try again later.');
     } finally {
+      if (submitButton) {
         submitButton.textContent = originalText;
         submitButton.disabled = false;
+      }
     }
   };
 
@@ -222,13 +223,15 @@ const Pricing: React.FC = () => {
         <Modal onClose={() => setShowModal(false)}>
           <h2></h2>
           <form 
-            name="pricing-demo-request"
+            name="demo-request"
             method="POST"
             data-netlify="true"
             data-netlify-honeypot="bot-field"
             onSubmit={handleSubmit}
+            netlify-honeypot="bot-field"
+            netlify
           >
-            <input type="hidden" name="form-name" value="pricing-demo-request" />
+            <input type="hidden" name="form-name" value="demo-request" />
             <p className="hidden">
               <label>Don't fill this out if you're human: <input name="bot-field" /></label>
             </p>
