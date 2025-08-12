@@ -169,6 +169,7 @@ const LoyaltyModal = ({ onClose, onScheduleDemo }) => (
 
 const TenantWellness: React.FC = () => {
   const [showDemoModal, setShowDemoModal] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
   const [activeModal, setActiveModal] = useState<'amenity' | 'loyalty' | null>(null);
   const [demoForm, setDemoForm] = useState({
     name: '',
@@ -295,9 +296,62 @@ const TenantWellness: React.FC = () => {
         <p className="tw-footer-tagline">Our culinary companion is the perfect every day 'perk me up'.</p>
         <div className="tw-footer-buttons">
           <button onClick={() => setShowDemoModal(true)} className="tw-footer-btn tw-schedule-demo">Schedule a Demo</button>
-          <a href="https://porkchop.app/demo.html" className="tw-footer-btn tw-learn-more" target="_blank" rel="noopener noreferrer">Learn More</a>
+          <button onClick={() => setShowVideoModal(true)} className="tw-footer-btn tw-learn-more">Learn More</button>
         </div>
       </section>
+
+      {showVideoModal && (
+        <div className="tw-modal">
+          <div className="tw-modal-content" style={{ maxWidth: '800px', padding: '20px' }}>
+            <button className="tw-modal-close" onClick={() => setShowVideoModal(false)}>×</button>
+            <h2 style={{ 
+              color: '#e94e3c', 
+              textAlign: 'center', 
+              marginBottom: '10px',
+              fontSize: '2rem',
+              fontFamily: "'Bree Serif', serif"
+            }}>PorkChop Demo</h2>
+            <p style={{ 
+              color: '#2a4d69', 
+              textAlign: 'center', 
+              marginBottom: '25px',
+              fontSize: '1.1rem',
+              fontWeight: 500
+            }}>
+            </p>
+            
+            <p style={{
+              textAlign: 'center',
+              marginBottom: '20px',
+              color: '#2a4d69',
+              fontSize: '1.1rem',
+              lineHeight: '1.6'
+            }}>
+              Watch how our platform transforms your cooking experience.
+            </p>
+            
+            <div style={{
+              width: '100%',
+              margin: '10px 0',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+              border: '2px solid #2a4d69'
+            }}>
+              <video 
+                className="demo-video" 
+                controls 
+                autoPlay 
+                style={{ width: '100%' }}
+                onPlay={(e) => { e.currentTarget.volume = 0.5; }}
+              >
+                <source src="/PorkChop - Google Chrome 2025-06-28 12-15-21.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showDemoModal && (
         <div className="tw-modal">
