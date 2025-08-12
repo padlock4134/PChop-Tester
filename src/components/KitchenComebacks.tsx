@@ -161,7 +161,8 @@ const KitchenComebacks = () => {
       {showModal && (
         <div className="kc-modal">
           <div className="kc-modal-content">
-            <h2>Share Your Story</h2>
+            <button className="kc-modal-close" onClick={() => setShowModal(false)}>×</button>
+            <h2></h2>
             <form name="story-submission" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={handleSubmit}>
               <input type="hidden" name="form-name" value="story-submission" />
               <p hidden>
@@ -183,7 +184,6 @@ const KitchenComebacks = () => {
               </label>
               <button type="submit">Submit</button>
             </form>
-            <button className="kc-modal-close" onClick={() => setShowModal(false)}>Close</button>
           </div>
         </div>
       )}

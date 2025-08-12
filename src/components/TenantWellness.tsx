@@ -107,7 +107,7 @@ const AmenityModal = ({ onClose, onScheduleDemo }) => (
         <h2>Bring PorkChop to Your Property</h2>
         <p>Elevate your property's wellness offering with our zero-installation culinary amenity</p>
         <div className="tw-contact-options">
-          <button onClick={onScheduleDemo} className="tw-contact-btn">Schedule Demo</button>
+          <button onClick={onScheduleDemo} className="tw-contact-btn">The Secret Ingredient to Happy Tenants</button>
         </div>
       </section>
     </div>
@@ -160,7 +160,7 @@ const LoyaltyModal = ({ onClose, onScheduleDemo }) => (
         <h2>Partner with PorkChop</h2>
         <p>Offer a loyalty perk that can drive more shoppers to your aisles.</p>
         <div className="tw-contact-options">
-          <button onClick={onScheduleDemo} className="tw-contact-btn">Schedule Demo</button>
+          <button onClick={onScheduleDemo} className="tw-contact-btn">Sprinkle Some Success into Your Aisles</button>
         </div>
       </section>
     </div>
@@ -175,7 +175,8 @@ const TenantWellness: React.FC = () => {
     name: '',
     company: '',
     email: '',
-    phone: ''
+    phone: '',
+    preferredTime: ''
   });
 
   const handleInputChange = (e) => {
@@ -200,7 +201,7 @@ const TenantWellness: React.FC = () => {
       // Create mailto link with form data
       const subject = encodeURIComponent("PorkChop Demo Request");
       const body = encodeURIComponent(
-        `Name: ${demoForm.name}\n\nCompany: ${demoForm.company}\n\nEmail: ${demoForm.email}\n\nPhone: ${demoForm.phone}`
+        `Name: ${demoForm.name}\n\nCompany: ${demoForm.company}\n\nEmail: ${demoForm.email}\n\nPhone: ${demoForm.phone}\n\nPreferred Time: ${demoForm.preferredTime}`
       );
       
       // Create a hidden link and click it
@@ -216,7 +217,8 @@ const TenantWellness: React.FC = () => {
         name: '',
         company: '',
         email: '',
-        phone: ''
+        phone: '',
+        preferredTime: ''
       });
       setShowDemoModal(false);
       
@@ -295,8 +297,8 @@ const TenantWellness: React.FC = () => {
         <h2>Lets Get Started!</h2>
         <p className="tw-footer-tagline">Our culinary companion is the perfect every day 'perk me up'.</p>
         <div className="tw-footer-buttons">
-          <button onClick={() => setShowDemoModal(true)} className="tw-footer-btn tw-schedule-demo">Schedule a Demo</button>
-          <button onClick={() => setShowVideoModal(true)} className="tw-footer-btn tw-learn-more">Learn More</button>
+          <button onClick={() => setShowDemoModal(true)} className="tw-footer-btn tw-schedule-demo">Book a Call</button>
+          <button onClick={() => setShowVideoModal(true)} className="tw-footer-btn tw-learn-more">Watch Demo</button>
         </div>
       </section>
 
@@ -356,7 +358,8 @@ const TenantWellness: React.FC = () => {
       {showDemoModal && (
         <div className="tw-modal">
           <div className="tw-modal-content">
-            <h2>Schedule a Demo</h2>
+            <button className="tw-modal-close" onClick={() => setShowDemoModal(false)} style={{ position: 'absolute', top: '10px', right: '10px' }}>×</button>
+            <h2></h2>
             <form onSubmit={handleSubmit}>
               <label>
                 Name:
@@ -374,9 +377,27 @@ const TenantWellness: React.FC = () => {
                 Phone:
                 <input type="tel" name="phone" value={demoForm.phone} onChange={handleInputChange} required />
               </label>
-              <button type="submit">Submit Request</button>
+              <label>
+                Preferred Date & Time:
+                <input 
+                  type="datetime-local" 
+                  name="preferredTime" 
+                  value={demoForm.preferredTime}
+                  onChange={handleInputChange}
+                  min={new Date().toISOString().slice(0, 16)} // Prevent selecting past dates
+                  required 
+                  style={{
+                    padding: '8px',
+                    borderRadius: '4px',
+                    border: '1px solid #ccc',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    marginTop: '5px'
+                  }}
+                />
+              </label>
+              <button type="submit">Schedule Call</button>
             </form>
-            <button className="tw-modal-close" onClick={() => setShowDemoModal(false)}>Close</button>
           </div>
         </div>
       )}
