@@ -127,7 +127,7 @@ const ChefsCorner = () => {
           <section className="mb-8">
             <h2 className="text-xl font-bold text-maineBlue mb-3 text-center"></h2>
             <div className="bg-sand rounded shadow p-4 flex flex-col items-center">
-              <p className="mb-2 text-gray-700 text-center">Import your saved recipes, build your list, and shop everything you need.</p>
+              <p className="mb-2 text-gray-700 text-center">Import your saved recipes, build your list and shop everything you need.</p>
               <button 
                 onClick={importFromCookBook} 
                 className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full"
