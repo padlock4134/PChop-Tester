@@ -3,6 +3,20 @@
   publish = "dist"
   functions = "netlify/functions"
 
+# Form submissions handling
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Handle form submissions
+[[redirects]]
+  from = "/"
+  to = "/.netlify/functions/handle-form"
+  status = 200
+  force = true
+  conditions = {Form = "*"}
+
 [build.environment]
   NODE_VERSION = "18"
 

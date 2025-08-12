@@ -219,56 +219,22 @@ const TenantWellness: React.FC = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     const form = e.target as HTMLFormElement;
-    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    if (!submitButton) return;
-
-    const originalText = submitButton.textContent;
-    submitButton.textContent = 'Sending...';
-    submitButton.disabled = true;
     
-    try {
-      // Create URL-encoded form data
-      const formData = new URLSearchParams();
-      formData.append('form-name', 'tenant-wellness-demo');
-      formData.append('name', demoForm.name);
-      formData.append('company', demoForm.company);
-      formData.append('email', demoForm.email);
-      formData.append('phone', demoForm.phone);
-      formData.append('preferredTime', demoForm.preferredTime);
-      
-      // Submit to Netlify
-      await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString()
-      });
-      
-      // Reset form and close modal
-      setDemoForm({
-        name: '',
-        company: '',
-        email: '',
-        phone: '',
-        preferredTime: ''
-      });
-      setShowDemoModal(false);
-      
-      // Show success message
-      alert('Thank you for your interest! Your demo request has been sent to our team.');
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('There was an error submitting your request. Please try again later.');
-    } finally {
-      // Reset button
-      if (submitButton) {
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-      }
-    }
+    // Let the form submit naturally
+    form.submit();
+    
+    // Reset form and close modal
+    setDemoForm({
+      name: '',
+      company: '',
+      email: '',
+      phone: '',
+      preferredTime: ''
+    });
+    setShowDemoModal(false);
   };
 
   return (
@@ -401,9 +367,10 @@ const TenantWellness: React.FC = () => {
               data-netlify="true"
               data-netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
+              action="/thank-you"
             >
               <input type="hidden" name="form-name" value="tenant-wellness-demo" />
-              <p className="hidden">
+              <p hidden>
                 <label>Don't fill this out if you're human: <input name="bot-field" /></label>
               </p>
               <label>

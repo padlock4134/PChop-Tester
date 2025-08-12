@@ -49,7 +49,7 @@ const PAGES = [
             <br></br>We are your hyper personalized culinary companion!<br></br>
           </p>
           <div style={{ marginTop: "2rem", textAlign: "center" }}>
-            <span style={{ fontSize: "1.5rem", color: "#fff" }}>Click to continue</span>
+            <span style={{ fontSize: "1.5rem", color: "#fff" }}>Click Right to Open <br></br>Left to Close Once Opened</span>
           </div>
         </div>
       </>
