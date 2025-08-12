@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Link } from "react-router-dom";
 import "./LandingPage.css"; // Shared styles
 import "./Pricing.css";     // New styles for this page
@@ -37,6 +37,102 @@ const pricingTiers = [
   }
 ];
 
+const DemoRequestForm = memo(({ onSubmit, onClose }) => {
+  const [formData, setFormData] = React.useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    preferredTime: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    onSubmit(formData);
+  };
+
+  return (
+    <form 
+      name="demo-request"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      onSubmit={handleSubmit}
+      netlify-honeypot="bot-field"
+      netlify
+    >
+      <input type="hidden" name="form-name" value="demo-request" />
+      <p className="hidden">
+        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+      </p>
+      <label>
+        Name:
+        <input 
+          type="text" 
+          name="name" 
+          value={formData.name} 
+          onChange={handleChange} 
+          required 
+        />
+      </label>
+      <label>
+        Company Name:
+        <input 
+          type="text" 
+          name="company" 
+          value={formData.company} 
+          onChange={handleChange} 
+          required 
+        />
+      </label>
+      <label>
+        Email:
+        <input 
+          type="email" 
+          name="email" 
+          value={formData.email} 
+          onChange={handleChange} 
+          required 
+        />
+      </label>
+      <label>
+        Phone:
+        <input 
+          type="tel" 
+          name="phone" 
+          value={formData.phone} 
+          onChange={handleChange} 
+          required 
+        />
+      </label>
+      <label>
+        Preferred Date & Time:
+        <input 
+          type="datetime-local" 
+          name="preferredTime" 
+          value={formData.preferredTime}
+          onChange={handleChange}
+          min={new Date().toISOString().slice(0, 16)}
+          required 
+        />
+      </label>
+      <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+        <button type="submit" className="tw-contact-btn">Schedule Call</button>
+      </div>
+    </form>
+  );
+});
+
 const Pricing: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showQuestionsModal, setShowQuestionsModal] = useState(false);
@@ -64,51 +160,27 @@ const Pricing: React.FC = () => {
     'https://images.unsplash.com/photo-1559847844-5315695dadae?w=800&auto=format&fit=crop&q=80', // 19. Burger
     'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=80'  // 20. Pasta
   ];
-  const [demoForm, setDemoForm] = useState({
-    name: '',
-    company: '',
-    email: '',
-    phone: '',
-    preferredTime: ''
-  });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setDemoForm({
-      ...demoForm,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const form = e.target as HTMLFormElement;
-    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-    const originalText = submitButton.textContent;
+  const handleFormSubmit = async (formData: FormData) => {
+    const submitButton = document.querySelector('button[type="submit"]') as HTMLButtonElement;
+    const originalText = submitButton?.textContent;
     
     try {
-      submitButton.disabled = true;
-      submitButton.textContent = 'Sending...';
-      
-      const formData = new FormData(form);
-      formData.append('form-name', 'demo-request');
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+      }
       
       // Submit to Netlify
-      await fetch('/', {
+      const response = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(formData as any).toString()
       });
       
-      // Reset form
-      setDemoForm({ 
-        name: '', 
-        company: '', 
-        email: '', 
-        phone: '',
-        preferredTime: ''
-      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       
       setShowModal(false);
       alert('Thank you for your interest! Your demo request has been sent to our team.');
@@ -117,7 +189,7 @@ const Pricing: React.FC = () => {
       alert('There was an error submitting your request. Please try again later.');
     } finally {
       if (submitButton) {
-        submitButton.textContent = originalText;
+        submitButton.textContent = originalText || 'Schedule Call';
         submitButton.disabled = false;
       }
     }
@@ -222,57 +294,7 @@ const Pricing: React.FC = () => {
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <h2></h2>
-          <form 
-            name="demo-request"
-            method="POST"
-            data-netlify="true"
-            data-netlify-honeypot="bot-field"
-            onSubmit={handleSubmit}
-            netlify-honeypot="bot-field"
-            netlify
-          >
-            <input type="hidden" name="form-name" value="demo-request" />
-            <p className="hidden">
-              <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-            </p>
-            <label>
-              Name:
-              <input type="text" name="name" value={demoForm.name} onChange={handleInputChange} required />
-            </label>
-            <label>
-              Company Name:
-              <input type="text" name="company" value={demoForm.company} onChange={handleInputChange} required />
-            </label>
-            <label>
-              Email:
-              <input type="email" name="email" value={demoForm.email} onChange={handleInputChange} required />
-            </label>
-            <label>
-              Phone:
-              <input type="tel" name="phone" value={demoForm.phone} onChange={handleInputChange} required />
-            </label>
-            <label>
-              Preferred Date & Time:
-              <input 
-                type="datetime-local" 
-                name="preferredTime" 
-                value={demoForm.preferredTime}
-                onChange={handleInputChange}
-                min={new Date().toISOString().slice(0, 16)}
-                style={{
-                  padding: '8px',
-                  borderRadius: '4px',
-                  border: '1px solid #ccc',
-                  width: '100%',
-                  boxSizing: 'border-box',
-                  marginTop: '5px'
-                }}
-              />
-            </label>
-            <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-              <button type="submit" className="tw-contact-btn">Schedule Call</button>
-            </div>
-          </form>
+          <DemoRequestForm onSubmit={handleFormSubmit} onClose={() => setShowModal(false)} />
         </Modal>
       )}
 
