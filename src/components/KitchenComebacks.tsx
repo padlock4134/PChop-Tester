@@ -112,6 +112,9 @@ const KitchenComebacks = () => {
           <Link to="/TenantWellness" className="kc-back-arrow" aria-label="Back to PorkChop Perks">
             ← Back to PorkChop Perks
           </Link>
+          <Link to="/Pricing" className="tw-back-arrow" aria-label="Go to Pricing">
+            ← Back to Pricing
+          </Link>
         </div>
         <img src={logoImage} alt="PorkChop Logo" className="kc-logo" />
       </div>

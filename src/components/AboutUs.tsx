@@ -64,6 +64,9 @@ const AboutUs: React.FC = () => {
           <Link to="/KitchenComebacks" className="about-back-arrow about-back-to-kc" aria-label="Back to Kitchen Comebacks">
             ← Back to Kitchen Comebacks
           </Link>
+          <Link to="/Pricing" className="about-back-arrow about-back-to-pricing" aria-label="Go to Pricing">
+            ← Back to Pricing
+          </Link>
         </div>
         <img src={logo} alt="PorkChop Logo" className="about-logo" />
       </div>
