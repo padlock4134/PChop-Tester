@@ -305,7 +305,7 @@ const TenantWellness: React.FC = () => {
       </div>
 
       <section className="tw-hero">
-        <h1 className="tw-title">PorkChop Perks Cantina</h1>
+        <h1 className="tw-title">PorkChop Provisions</h1>
         <p className="tw-tagline">Blending tradition with modern culinary experiences for everyone.</p>
       </section>
 
