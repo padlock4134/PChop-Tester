@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Our Sales Team - PorkChop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        :root {
+            --lobsterRed: #e94e3c;
+            --maineBlue: #2a4d69;
+            --navy: #24344d;
+            --seafoam: #63ace5;
+            --sand: #f5e9da;
+            --weatheredWhite: #f9fafb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--navy);
+            background-color: #f0f4f8;
+            padding: 20px;
+        }
+
+        /* Page Container */
+        .sales-page-container {
+            max-width: 900px;
+            margin: 2.5rem auto;
+            background: #fff;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 32px 0 rgba(42,77,105,0.10);
+            padding: 2.5rem 2rem;
+            font-family: 'Inter', 'Bree Serif', serif;
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        /* Header */
+        .sales-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+
+        .sales-logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .back-arrow {
+            display: inline-block;
+            color: var(--lobsterRed);
+            font-size: 1.1rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.18s;
+            position: relative;
+            padding-left: 5px;
+        }
+
+        .back-arrow:hover { 
+            color: var(--maineBlue);
+        }
+
+        /* Hero Section */
+        .sales-hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--sand);
+        }
+
+        .sales-title {
+            font-size: 2.8rem;
+            color: var(--lobsterRed);
+            margin-bottom: 0.5rem;
+            font-family: 'Bree Serif', serif;
+        }
+
+        .sales-tagline {
+            font-size: 1.3rem;
+            color: var(--maineBlue);
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Content Sections */
+        .sales-section {
+            margin: 0 auto 2.5rem;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .sales-section h2 {
+            font-size: 1.8rem;
+            color: var(--maineBlue);
+            margin-bottom: 1.2rem;
+            font-family: 'Bree Serif', serif;
+        }
+
+        .sales-card {
+            background: var(--weatheredWhite);
+            border-radius: 1rem;
+            padding: 2.5rem 3rem;
+            margin: 0 auto 2.5rem;
+            box-shadow: 0 4px 16px rgba(42,77,105,0.09);
+            border: 2px solid var(--seafoam);
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .sales-card h2 {
+            margin-bottom: 1.5rem;
+            color: var(--maineBlue);
+            font-family: 'Bree Serif', serif;
+            font-size: 2rem;
+        }
+
+        .sales-card h3 {
+            color: var(--maineBlue);
+            margin: 2rem 0 1.25rem;
+            font-family: 'Bree Serif', serif;
+            font-size: 1.5rem;
+        }
+
+        .sales-card h4 {
+            color: var(--maineBlue);
+            margin: 1.5rem 0 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .sales-card p,
+        .sales-card ul,
+        .sales-card ol {
+            margin: 0 0 1.5rem 0;
+            line-height: 1.8;
+            text-align: left;
+            display: inline-block;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .sales-card ul,
+        .sales-card ol {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sales-card li {
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(42, 77, 105, 0.1);
+        }
+
+        .sales-card li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .sales-card strong {
+            color: var(--maineBlue);
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .sales-cta {
+            background: var(--sand);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            border: 2px solid var(--seafoam);
+        }
+
+        .sales-cta h2 {
+            font-size: 1.8rem;
+            color: var(--maineBlue);
+            margin-bottom: 1.2rem;
+            font-family: 'Bree Serif', serif;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--lobsterRed);
+            color: #fff;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.18s;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .cta-btn:hover {
+            background: var(--seafoam);
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: #fff3e0;
+            border-left: 4px solid var(--lobsterRed);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sales-page-container {
+                padding: 2rem 1.5rem;
+                margin: 1.5rem 1rem;
+            }
+            
+            .sales-title {
+                font-size: 2.2rem;
+            }
+            
+            .sales-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sales-page-container {
+                padding: 1.5rem 1rem;
+                margin: 1rem 0.5rem;
+            }
+            
+            .sales-title {
+                font-size: 1.8rem;
+            }
+            
+            .sales-card {
+                padding: 1.2rem;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 4px 32px rgba(0, 0, 0, 0.2);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--maineBlue);
+            transition: color 0.2s;
+        }
+
+        .close:hover {
+            color: var(--lobsterRed);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--maineBlue);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--seafoam);
+            box-shadow: 0 0 0 2px rgba(99, 172, 229, 0.2);
+        }
+
+        /* Drop Zone Styles */
+        .drop-zone {
+            border: 2px dashed var(--seafoam);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 1rem;
+            background-color: rgba(245, 233, 218, 0.2);
+        }
+
+        .drop-zone--over {
+            background-color: rgba(99, 172, 229, 0.1);
+            border-color: var(--lobsterRed);
+        }
+
+        .drop-zone__prompt {
+            color: var(--maineBlue);
+        }
+
+        .drop-zone__icon {
+            margin-bottom: 1rem;
+        }
+
+        .drop-zone__hint {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .drop-zone__input {
+            display: none;
+        }
+
+        /* File List Styles */
+        .file-list {
+            margin-top: 1rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            background: #f5f8fa;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-item__icon {
+            margin-right: 0.75rem;
+            color: var(--seafoam);
+        }
+
+        .file-item__name {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--maineBlue);
+        }
+
+        .file-item__remove {
+            color: #ff6b6b;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            font-weight: bold;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            background: var(--lobsterRed);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 999px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #d63c2a;
+        }
+
+        .submit-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
+            .modal-content {
+                padding: 1.5rem 1rem;
+                width: 95%;
+            }
+            
+            .drop-zone {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sales-page-container">
+        <header class="sales-header">
+            <a href="/" class="back-arrow">← Back to Home</a>
+            <img src="/logo.png" alt="PorkChop Logo" class="sales-logo">
+        </header>
+
+        <section class="sales-hero">
+            <h1 class="sales-title">Join Our Sales Team</h1>
+            <p class="sales-tagline">Earn big while revolutionizing home cooking</p>
+        </section>
+
+        <section class="sales-section">
+            <div class="sales-card">
+                <h2>🚀 About PorkChop</h2>
+                <p style="text-align: center;">PorkChop is transforming home cooking with <b>AI-powered culinary experiences</b>.
+                    Our culinary companion's <b>personalized recipes</b>, <b>smart pantry management</b>, and <b>interactive cooking guidance</b> make every meal exceptional while getting the most out of what's in your pantry — and to bring joy, tradition and technique back into the kitchen.</p>
+            </div>
+        </section>
+
+        <section class="sales-section">
+            <div class="sales-card">
+                <h2>🌟 Front of House (Sales Leader)</h2>
+                <p style="text-align: center;">We're looking for a <b>dynamic, proactive sales leader</b> to <b>scale</b> our sales function from the ground up. As the <b>first sales hire</b>, you'll have a hand in collaborationg on our <b>go-to-market strategy</b> and leading the charge on what PorkChop is all about. Competitive spirit and self awareness will be huge here, but, the kinder you are - the more flexlibily you'll get.</p>
+                
+                <h3>What You'll Do</h3>
+                <div>
+                    <div>Own the <b>net new sales cycle</b> - prospect, pitch and close.</div>
+                    <div>Create and execute <b>revenue-driving sales strategies</b>.</div>
+                    <div>Build and manage a robust <b>sales pipeline</b>.</div>
+                    <div><b>Collaborate internally</b> on revenue-generating initiatives.</div>
+                    <div>Provide market feedback to support product development.</div>
+                </div>
+
+                <h3>What We're Looking For</h3>
+                <div>
+                    <div>Proven track record in <b>sales leadership</b></div>
+                    <div>Experience <b>building or optimizing</b> sales processes.</div>
+                    <div>A floor general who can <b>lead</b> by example.</div>
+                    <div><b>Early Stage ready</b>; independent, resourceful and quick on your feet.</div>
+                    <div>Experience with <b>CRM systems</b> and evaluating sales and/or marketing tools.</div>
+                    <div>Willing to grow your own understanding of<b>AI</b></div>
+                    <div><b>Passion for food tech,culinary innovation</b> is a plus.</div>
+                </div>
+
+                <h3>Why Join Us</h3>
+                <div>
+                    <div><b>First sales hire</b> with <b>HUGE</b> growth potential.</div>
+                    <div><b>Aggressive commission structure</b> with quarterly profit sharing.</div>
+                    <div>Flexible and collaborative work environment - <b>Whatever works!</b></div>
+                    <div>Opportunity to <b>recruit your own team</b> as we grow.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sales-section">
+            <div class="sales-card">
+                <h2>💰 Compensation Plan</h2>
+                <p style="text-align: center;">As our first sales hire, you'll have the opportunity to redifine what amenity and loyalty programs look like while laying the brick work of what relationships at PorkChop look like. Your impact directly shapes our revenue and your earning potential - the more we grow together, the bigger the payout!</p>
+                
+                <h3>Commission Structure</h3>
+                <div>
+                    <div><b>50% of Net Margin on all sales</b></div>
+                    <div><em>Net Margin = Revenue - Direct Costs</em></div>
+                </div>
+                <div>
+                    <div><b>Paid monthly</b> and issued after customer launch.</div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4 style="text-align: center;">What This Means For You</h4>
+                    <p style="text-align: center;">As a founding sales team member, you'll have direct input into our sales strategy and the opportunity to make that pivot you always wanted to. <br><br>Your compensation will grow as you help us scale.</br></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="sales-cta">
+            <h2>🔥 Ready to Build Something Amazing?</h2>
+            <p>Join us in revolutionizing the culinary experience - lets ruffle some feathers!</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                <button id="openApplyModal" class="cta-btn">Apply Now</button>
+                <a href="https://www.porkchop.app" class="cta-btn" style="background: var(--maineBlue);">Our Vision</a>
+            </div>
+            <p style="margin-top: 1.5rem; font-size: 0.9rem;">Last Updated: August 2025</p>
+        </section>
+    </div>
+
+    <!-- Apply Modal -->
+    <div id="applyModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Apply to Join Our Sales Team</h2>
+            <form 
+                id="applicationForm" 
+                name="sales-application" 
+                method="POST" 
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                action="/thank-you"
+            >
+                <input type="hidden" name="form-name" value="sales-application">
+                <p class="hidden">
+                    <label>Don't fill this out if you're human: <input name="bot-field"></label>
+                </p>
+                <div class="form-group">
+                    <label for="fullName">Full Name*</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label>Resume & Documents*</label>
+                    <div id="dropZone" class="drop-zone">
+                        <div class="drop-zone__prompt">
+                            <svg class="drop-zone__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#63ace5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p>Drag & drop your files here or click to browse</p>
+                            <p class="drop-zone__hint">Accepted file types: .pdf, .doc, .docx, .txt (Max size: 5MB)</p>
+                        </div>
+                        <input type="file" id="fileInput" class="drop-zone__input" multiple accept=".pdf,.doc,.docx,.txt" name="resume">
+                    </div>
+                    <div id="fileList" class="file-list"></div>
+                </div>
+                <div class="form-group">
+                    <label for="message">Why do you want to join our sales team?*</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('applyModal');
+        const btn = document.getElementById('openApplyModal');
+        const span = document.getElementsByClassName('close')[0];
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const form = document.getElementById('applicationForm');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        let files = [];
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+        const ALLOWED_FILE_TYPES = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
+        
+        // Open modal
+        btn.onclick = function() {
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close modal
+        span.onclick = function() {
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        // Close when clicking outside modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        // Highlight drop zone when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        // Handle dropped files
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = Array.from(dt.files);
+            handleFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = Array.from(this.files);
+            handleFiles(files);
+            // Reset the input value to allow selecting the same file again if needed
+            this.value = '';
+        }
+
+        function handleFiles(selectedFiles) {
+            selectedFiles.forEach(file => {
+                // Validate file type
+                if (!ALLOWED_FILE_TYPES.includes(file.type) && 
+                    !['.pdf', '.doc', '.docx', '.txt'].some(ext => file.name.toLowerCase().endsWith(ext))) {
+                    alert(`Error: ${file.name} is not a supported file type. Please upload PDF, DOC, DOCX, or TXT files.`);
+                    return;
+                }
+                
+                // Validate file size
+                if (file.size > MAX_FILE_SIZE) {
+                    alert(`Error: ${file.name} is too large. Maximum file size is 5MB.`);
+                    return;
+                }
+                
+                // Check if file already exists
+                if (!files.some(f => f.name === file.name && f.size === file.size)) {
+                    files.push(file);
+                }
+            });
+            
+            updateFileList();
+        }
+
+        function updateFileList() {
+            fileList.innerHTML = '';
+            
+            if (files.length === 0) {
+                return;
+            }
+            
+            files.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                // Get file icon based on type
+                let iconClass = 'far fa-file';
+                const fileName = file.name.toLowerCase();
+                
+                if (fileName.endsWith('.pdf')) {
+                    iconClass = 'far fa-file-pdf';
+                } else if (fileName.endsWith('.doc') || fileName.endsWith('.docx')) {
+                    iconClass = 'far fa-file-word';
+                } else if (fileName.endsWith('.txt')) {
+                    iconClass = 'far fa-file-alt';
+                }
+                
+                fileItem.innerHTML = `
+                    <i class="${iconClass} file-item__icon"></i>
+                    <span class="file-item__name" title="${file.name}">${file.name}</span>
+                    <span class="file-item__size">${formatFileSize(file.size)}</span>
+                    <span class="file-item__remove" data-index="${index}">&times;</span>
+                `;
+                
+                fileList.appendChild(fileItem);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.file-item__remove').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    files.splice(index, 1);
+                    updateFileList();
+                });
+            });
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            
+            if (files.length === 0) {
+                alert('Please upload at least one file.');
+                return;
+            }
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            
+            // Add files to form data
+            files.forEach((file, index) => {
+                formData.append('resume', file, file.name);
+            });
+            
+            // Disable submit button and show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = 'Submitting...';
+            
+            try {
+                // Submit to Netlify
+                const response = await fetch('/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Redirect to thank you page on success
+                    window.location.href = '/thank-you';
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.message || 'Network response was not ok');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('There was an error submitting your application. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Submit Application';
+            }
+        }
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight() {
+            dropZone.classList.add('drop-zone--over');
+        }
+
+        function unhighlight() {
+            dropZone.classList.remove('drop-zone--over');
+        }
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        fileInput.addEventListener('change', handleFileSelect, false);
+        
+        form.addEventListener('submit', handleSubmit);
+    </script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</body>
+</html>

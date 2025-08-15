@@ -99,6 +99,8 @@ const LandingPage: React.FC = () => {
           }}>
             {new Date().getFullYear()} PorkChop. All rights reserved. |{' '}
             <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => setModalOpen(true)}>Terms of Service</span>
+            {' '}|{' '}
+            <a href="/sales.html" style={{ textDecoration: 'underline', color: '#2a4d69' }}>Careers</a>
           </span>
         </div>
         <TermsModal isOpen={modalOpen} onClose={() => setModalOpen(false)} termsContent={termsContent} />
