@@ -250,30 +250,34 @@
 
         /* Modal Styles */
         .modal {
-            display: none;
+            display: flex;
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal:not(.show) {
+            display: none;
         }
 
         .modal-content {
             background-color: white;
             padding: 2rem;
             border-radius: 8px;
-            position: relative;
-            width: 90%;
+            width: 100%;
             max-width: 500px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal.show {
-            display: flex;
+            position: relative;
+            margin: 0;
         }
 
         .close {
@@ -283,6 +287,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
+            color: #333;
         }
 
         /* Form Styles */
@@ -517,10 +522,12 @@
     </div>
 
     <!-- Apply Modal -->
-    <div id="applyModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Apply to Join Our Sales Team</h2>
+    <div id="applyModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; overflow-y: auto; padding: 20px; box-sizing: border-box;">
+        <div style="background: white; border-radius: 8px; width: 90%; max-width: 600px; margin: 10vh auto; padding: 20px; position: relative;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <p style="text-align:center;"><h2 style="margin: 0; color: #2a4d69;">Apply to Join Our Team</h2></p>
+                <span class="close" style="font-size: 28px; font-weight: bold; cursor: pointer; color: #333; line-height: 1;">&times;</span>
+            </div>
             <form 
                 id="applicationForm" 
                 name="sales-application" 
@@ -528,58 +535,54 @@
                 data-netlify="true"
                 netlify-honeypot="bot-field"
                 action="/thank-you"
+                style="max-height: 60vh; overflow-y: auto; padding: 10px;"
             >
                 <input type="hidden" name="form-name" value="sales-application">
-                <p class="hidden">
-                    <label>Don't fill this out if you're human: <input name="bot-field"></label>
-                </p>
-                <div class="form-group">
-                    <label for="fullName">Full Name*</label>
-                    <input type="text" id="fullName" name="fullName" required>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label for="fullName" style="font-size: 0.9em; margin-bottom: 4px; display: block;">Full Name*</label>
+                    <input type="text" id="fullName" name="fullName" required style="padding: 6px 8px; font-size: 0.9em;">
                 </div>
-                <div class="form-group">
-                    <label for="email">Email*</label>
-                    <input type="email" id="email" name="email" required>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label for="email" style="font-size: 0.9em; margin-bottom: 4px; display: block;">Email*</label>
+                    <input type="email" id="email" name="email" required style="padding: 6px 8px; font-size: 0.9em; width: 100%;">
                 </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone">
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label for="phone" style="font-size: 0.9em; margin-bottom: 4px; display: block;">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" style="padding: 6px 8px; font-size: 0.9em; width: 100%;">
                 </div>
-                <div class="form-group">
-                    <label for="resume">Resume & Documents*</label>
-                    <div id="dropZone" class="drop-zone">
-                        <i class="fas fa-cloud-upload-alt fa-3x mb-3" style="color: #4CAF50;"></i>
-                        <p class="text-gray-700 mb-2">Drag & drop your resume or documents here</p>
-                        <p class="text-sm text-gray-500">(PDF, DOC, DOCX, TXT, max 5MB)</p>
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label for="resume" style="font-size: 0.9em; margin-bottom: 4px; display: block;">Resume & Documents*</label>
+                    <div id="dropZone" class="drop-zone" style="border: 2px dashed #ccc; border-radius: 4px; padding: 15px; text-align: center; cursor: pointer; transition: border-color 0.3s;">
+                        <i class="fas fa-cloud-upload-alt fa-2x mb-2" style="color: #4CAF50;"></i>
+                        <p style="margin: 5px 0; font-size: 0.9em; color: #333;">Drag & drop your resume or documents here</p>
+                        <p style="margin: 5px 0; font-size: 0.8em; color: #666;">(PDF, DOC, DOCX, TXT, max 5MB)</p>
                         <input type="file" id="fileInput" name="resume" style="display: none;" multiple accept=".pdf,.doc,.docx,.txt" />
                     </div>
-                    <div id="fileList"></div>
+                    <div id="fileList" style="margin-top: 8px;"></div>
                 </div>
-                <div class="form-group">
-                    <label for="message">Why do you want to join our sales team?*</label>
-                    <textarea id="message" name="message" rows="4" required></textarea>
+                <div style="margin: 20px 0; text-align: right;">
+                    <button type="submit" class="submit-btn" style="margin: 0; padding: 0.5rem 1.5rem; font-size: 0.9rem;">Submit Application</button>
                 </div>
-                <button type="submit" class="submit-btn">Submit Application</button>
             </form>
         </div>
     </div>
 
     <!-- Thank You Modal -->
-    <div id="thankYouModal" class="modal" style="display: none;">
-        <div class="modal-content" style="text-align: center; max-width: 500px;">
-            <span class="close" id="closeThankYou" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-            <h2>Thank You!</h2>
+    <div id="thankYouModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; align-items: center; justify-content: center;">
+        <div style="background: white; padding: 2rem; border-radius: 8px; max-width: 500px; width: 90%; text-align: center; position: relative; margin: 20px;">
+            <span id="closeThankYou" style="position: absolute; right: 15px; top: 10px; font-size: 28px; font-weight: bold; cursor: pointer; color: #333; line-height: 1;">&times;</span>
+            <h2 style="color: #2a4d69; margin: 15px 0 20px 0;">Thank You!</h2>
             <p>Your application has been submitted successfully.</p>
             <p>We'll review your information and get back to you soon.</p>
-            <button id="closeThankYouBtn" style="margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+            <button id="closeThankYouBtn" style="margin-top: 20px; padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: 600;">Close</button>
         </div>
     </div>
 
     <script>
-        // Initialize modal and elements
-        const modal = document.getElementById('applyModal');
-        const btn = document.getElementById('openApplyModal');
-        const span = document.getElementsByClassName('close')[0];
+        // Initialize elements
+        const applyModal = document.getElementById('applyModal');
+        const openApplyBtn = document.getElementById('openApplyModal');
+        const closeApplyBtn = applyModal ? applyModal.querySelector('.close') : null;
         const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('fileInput');
         const fileList = document.getElementById('fileList');
@@ -588,31 +591,57 @@
         // Initialize files array
         let files = [];
         
-        // Initialize modal when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize modal if elements exist
-            if (btn && modal && span) {
-                // Open modal
-                btn.onclick = function() {
-                    modal.classList.add('show');
-                    document.body.style.overflow = 'hidden';
-                    initializeDropZone();
-                }
-                
-                // Close modal
-                span.onclick = function() {
-                    modal.classList.remove('show');
-                    document.body.style.overflow = '';
-                }
-                
-                // Close when clicking outside modal
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.classList.remove('show');
-                        document.body.style.overflow = '';
-                    }
-                }
+        // Show apply modal
+        function showApplyModal() {
+            if (applyModal) {
+                applyModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                // Force reflow and ensure it's visible
+                setTimeout(() => {
+                    applyModal.style.opacity = '1';
+                }, 10);
+                initializeDropZone();
             }
+        }
+        
+        // Hide apply modal
+        function hideApplyModal() {
+            if (applyModal) {
+                applyModal.style.opacity = '0';
+                setTimeout(() => {
+                    applyModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 200);
+            }
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set initial styles for apply modal
+            if (applyModal) {
+                applyModal.style.transition = 'opacity 0.2s ease-in-out';
+                applyModal.style.opacity = '0';
+            }
+            
+            // Open modal button
+            if (openApplyBtn) {
+                openApplyBtn.onclick = showApplyModal;
+            }
+            
+            // Close button
+            if (closeApplyBtn) {
+                closeApplyBtn.onclick = hideApplyModal;
+            }
+            
+            // Close when clicking outside modal
+            if (applyModal) {
+                applyModal.onclick = function(event) {
+                    if (event.target === applyModal) {
+                        hideApplyModal();
+                    }
+                };
+            }
+
             
             // Initialize form submission
             if (form) {
@@ -620,7 +649,9 @@
             }
             
             // Initialize drop zone
-            initializeDropZone();
+            if (typeof initializeDropZone === 'function') {
+                initializeDropZone();
+            }
         });
         
         function initializeDropZone() {
@@ -775,58 +806,55 @@
         async function handleSubmit(e) {
             e.preventDefault();
             
+            // Optional: Require at least one file
             if (files.length === 0) {
                 alert('Please upload at least one file.');
                 return;
             }
             
-            const form = e.target;
-            const formData = new FormData(form);
-            
-            // Clear any existing file entries to prevent duplicates
-            formData.delete('resume');
-            
-            // Add each file to the form data
-            for (let i = 0; i < files.length; i++) {
-                formData.append('resume', files[i]);
-            }
-            
-            // Debug: Log form data entries
-            for (let pair of formData.entries()) {
-                console.log(pair[0] + ': ', pair[1]);
-            }
-            
             // Disable submit button and show loading state
-            const submitBtn = form.querySelector('button[type="submit"]');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
             const originalBtnText = submitBtn.innerHTML;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = 'Submitting...';
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
             
             try {
-                // Submit to Netlify
+                // Create FormData object
+                const formData = new FormData(e.target);
+                
+                // Add files to FormData
+                files.forEach((file, index) => {
+                    formData.append(`file-${index}`, file);
+                });
+                
+                // Submit the form data
                 const response = await fetch('/', {
                     method: 'POST',
                     body: formData,
                     headers: {
-                        'Accept': 'application/json'
-                    }
+                        'Accept': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
                 });
                 
                 if (response.ok) {
                     // Show thank you modal
                     showThankYouModal();
+                    // Hide the application modal
+                    hideApplyModal();
                     // Reset form
                     e.target.reset();
-                    // Clear files array
+                    // Clear files
                     files = [];
                     updateFileList();
                 } else {
                     throw new Error('Network response was not ok');
                 }
-                
             } catch (error) {
                 console.error('Error:', error);
                 alert('There was an error submitting your application. Please try again.');
+            } finally {
+                // Re-enable submit button
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             }
@@ -835,8 +863,23 @@
         function showThankYouModal() {
             const modal = document.getElementById('thankYouModal');
             if (modal) {
-                modal.style.display = 'block';
+                modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
+                // Force reflow and ensure it's visible
+                setTimeout(() => {
+                    modal.style.opacity = '1';
+                }, 10);
+            }
+        }
+
+        function hideThankYouModal() {
+            const modal = document.getElementById('thankYouModal');
+            if (modal) {
+                modal.style.opacity = '0';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 200);
             }
         }
 
@@ -845,26 +888,28 @@
             const closeThankYou = document.getElementById('closeThankYou');
             const closeThankYouBtn = document.getElementById('closeThankYouBtn');
 
+            // Set initial styles
+            if (thankYouModal) {
+                thankYouModal.style.transition = 'opacity 0.2s ease-in-out';
+                thankYouModal.style.opacity = '0';
+            }
+
+            // Close handlers
             if (closeThankYou) {
-                closeThankYou.onclick = function() {
-                    thankYouModal.style.display = 'none';
-                    document.body.style.overflow = '';
-                }
+                closeThankYou.onclick = hideThankYouModal;
             }
 
             if (closeThankYouBtn) {
-                closeThankYouBtn.onclick = function() {
-                    thankYouModal.style.display = 'none';
-                    document.body.style.overflow = '';
-                }
+                closeThankYouBtn.onclick = hideThankYouModal;
             }
 
             // Close when clicking outside modal
-            window.onclick = function(event) {
-                if (event.target == thankYouModal) {
-                    thankYouModal.style.display = 'none';
-                    document.body.style.overflow = '';
-                }
+            if (thankYouModal) {
+                thankYouModal.onclick = function(event) {
+                    if (event.target === thankYouModal) {
+                        hideThankYouModal();
+                    }
+                };
             }
         });
     </script>
