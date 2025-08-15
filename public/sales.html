@@ -581,6 +581,17 @@
         </div>
     </div>
 
+    <!-- Thank You Modal -->
+    <div id="thankYouModal" class="modal" style="display: none;">
+        <div class="modal-content" style="text-align: center; max-width: 500px;">
+            <span class="close" id="closeThankYou" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+            <h2>Thank You!</h2>
+            <p>Your application has been submitted successfully.</p>
+            <p>We'll review your information and get back to you soon.</p>
+            <button id="closeThankYouBtn" style="margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+
     <script>
         // Initialize modal and elements
         const modal = document.getElementById('applyModal');
@@ -819,11 +830,14 @@
                 });
                 
                 if (response.ok) {
-                    // Redirect to thank you page on success
-                    window.location.href = '/thank-you';
+                    // Show thank you modal
+                    showThankYouModal();
+                    // Reset form
+                    e.target.reset();
+                    // Clear files array
+                    files = [];
+                    updateFileList();
                 } else {
-                    const error = await response.text();
-                    console.error('Server response:', error);
                     throw new Error('Network response was not ok');
                 }
                 
@@ -834,6 +848,42 @@
                 submitBtn.innerHTML = originalBtnText;
             }
         }
+        
+        function showThankYouModal() {
+            const modal = document.getElementById('thankYouModal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const thankYouModal = document.getElementById('thankYouModal');
+            const closeThankYou = document.getElementById('closeThankYou');
+            const closeThankYouBtn = document.getElementById('closeThankYouBtn');
+
+            if (closeThankYou) {
+                closeThankYou.onclick = function() {
+                    thankYouModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+
+            if (closeThankYouBtn) {
+                closeThankYouBtn.onclick = function() {
+                    thankYouModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Close when clicking outside modal
+            window.onclick = function(event) {
+                if (event.target == thankYouModal) {
+                    thankYouModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+        });
     </script>
     
     <!-- Font Awesome for icons -->
