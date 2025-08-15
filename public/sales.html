@@ -594,67 +594,84 @@
         // Initialize files array
         let files = [];
         
-        // Initialize modal
-        if (btn && modal && span) {
-            // Open modal
-            btn.onclick = function() {
-                modal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-                initializeDropZone();
-            }
-            
-            // Close modal
-            span.onclick = function() {
-                modal.classList.remove('show');
-                document.body.style.overflow = '';
-            }
-            
-            // Close when clicking outside modal
-            window.onclick = function(event) {
-                if (event.target == modal) {
+        // Initialize modal when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize modal if elements exist
+            if (btn && modal && span) {
+                // Open modal
+                btn.onclick = function() {
+                    modal.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                    initializeDropZone();
+                }
+                
+                // Close modal
+                span.onclick = function() {
                     modal.classList.remove('show');
                     document.body.style.overflow = '';
                 }
+                
+                // Close when clicking outside modal
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.classList.remove('show');
+                        document.body.style.overflow = '';
+                    }
+                }
             }
-        }
+            
+            // Initialize form submission
+            if (form) {
+                form.addEventListener('submit', handleSubmit);
+            }
+            
+            // Initialize drop zone
+            initializeDropZone();
+        });
         
         function initializeDropZone() {
-            if (!dropZone) return;
-            
-            // Clear any existing event listeners
-            const newDropZone = dropZone.cloneNode(true);
-            dropZone.parentNode.replaceChild(newDropZone, dropZone);
-            
-            // Get new references after cloning
             const dropZoneEl = document.getElementById('dropZone');
-            const fileInputEl = document.getElementById('fileInput');
+            if (!dropZoneEl) return;
             
-            // Add event listeners
-            dropZoneEl.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                dropZoneEl.classList.add('drop-zone--over');
+            // Add event listeners for drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZoneEl.addEventListener(eventName, preventDefaults, false);
             });
             
-            dropZoneEl.addEventListener('dragleave', () => {
-                dropZoneEl.classList.remove('drop-zone--over');
+            // Highlight drop zone when item is dragged over it
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropZoneEl.addEventListener(eventName, highlight, false);
             });
             
-            dropZoneEl.addEventListener('drop', handleDrop);
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropZoneEl.addEventListener(eventName, unhighlight, false);
+            });
+            
+            // Handle dropped files
+            dropZoneEl.addEventListener('drop', handleDrop, false);
+        }
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        function highlight() {
+            const dropZoneEl = document.getElementById('dropZone');
+            if (dropZoneEl) dropZoneEl.classList.add('drop-zone--over');
+        }
+        
+        function unhighlight() {
+            const dropZoneEl = document.getElementById('dropZone');
+            if (dropZoneEl) dropZoneEl.classList.remove('drop-zone--over');
         }
         
         function handleDrop(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
             const dt = e.dataTransfer;
-            if (dt.files && dt.files.length > 0) {
-                handleFiles(Array.from(dt.files));
-            }
+            const files = dt.files;
             
-            // Remove highlight
-            const dropZone = document.getElementById('dropZone');
-            if (dropZone) {
-                dropZone.classList.remove('drop-zone--over');
+            if (files.length) {
+                handleFiles(Array.from(files));
             }
         }
         
@@ -772,13 +789,22 @@
             const form = e.target;
             const formData = new FormData(form);
             
-            // Add files to form data
-            files.forEach((file, index) => {
-                formData.append('resume', file, file.name);
-            });
+            // Clear any existing file entries to prevent duplicates
+            formData.delete('resume');
+            
+            // Add each file to the form data
+            for (let i = 0; i < files.length; i++) {
+                formData.append('resume', files[i]);
+            }
+            
+            // Debug: Log form data entries
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ', pair[1]);
+            }
             
             // Disable submit button and show loading state
             const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = 'Submitting...';
             
@@ -796,19 +822,18 @@
                     // Redirect to thank you page on success
                     window.location.href = '/thank-you';
                 } else {
-                    const error = await response.json();
-                    throw new Error(error.message || 'Network response was not ok');
+                    const error = await response.text();
+                    console.error('Server response:', error);
+                    throw new Error('Network response was not ok');
                 }
                 
             } catch (error) {
                 console.error('Error:', error);
                 alert('There was an error submitting your application. Please try again.');
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = 'Submit Application';
+                submitBtn.innerHTML = originalBtnText;
             }
         }
-
-        form.addEventListener('submit', handleSubmit);
     </script>
     
     <!-- Font Awesome for icons -->
