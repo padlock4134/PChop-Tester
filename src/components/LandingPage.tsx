@@ -97,8 +97,10 @@ const LandingPage: React.FC = () => {
             fontSize: deviceType === 'mobile' ? '0.75rem' : '0.85rem', 
             color: '#2a4d69' 
           }}>
-            {new Date().getFullYear()} PorkChop. All rights reserved. |{' '}
+            {new Date().getFullYear()} PorkChop. All rights reserved.<br></br>{' '}
             <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => setModalOpen(true)}>Terms of Service</span>
+            {' '}|{' '}
+            <a href="/investment.html" style={{ textDecoration: 'underline', color: '#2a4d69' }}>Investment</a>
             {' '}|{' '}
             <a href="/sales.html" style={{ textDecoration: 'underline', color: '#2a4d69' }}>Careers</a>
           </span>
