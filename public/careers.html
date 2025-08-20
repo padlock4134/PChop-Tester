@@ -453,6 +453,79 @@
                 min-height: 44px;
             }
         }
+
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            margin: 2rem 0 0;
+            z-index: 10;
+        }
+
+        .tab-btn {
+            background: #f8f4e9;
+            border: 2px solid #d4a76a;
+            border-bottom: none;
+            border-radius: 12px 12px 0 0;
+            padding: 0.75rem 1.5rem;
+            margin: 0 -10px;
+            font-family: 'Bree Serif', serif;
+            font-size: 1rem;
+            color: #5c3a21;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            transform: perspective(100px) rotateX(15deg);
+            transform-origin: bottom center;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn:hover {
+            background: #f0e6d2;
+            z-index: 2;
+        }
+
+        .tab-btn.active {
+            background: #fff9e6;
+            z-index: 3;
+            transform: perspective(100px) rotateX(0);
+            padding-bottom: 1rem;
+            margin-bottom: -1px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab-notch {
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #f8f4e9;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active .tab-notch {
+            background: #fff9e6;
+        }
+
+        /* Add a subtle page curl effect to active tab */
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(45deg, transparent 50%, rgba(0,0,0,0.03) 50%);
+            border-radius: 0 12px 0 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -462,88 +535,176 @@
             <img src="/logo.png" alt="PorkChop Logo" class="sales-logo">
         </header>
 
-        <section class="sales-hero">
-            <h1 class="sales-title">Join Our Sales Team</h1>
-            <p class="sales-tagline">Earn big while revolutionizing home cooking</p>
-        </section>
+        <!-- Role Tabs -->
+        <div class="tabs" style="display: flex; justify-content: center; margin: 2rem 0 0; position: relative; z-index: 10;">
+            <button id="cmoTab" class="tab-btn active" onclick="showRole('cmo')">
+                <span>CMO Co-Founder</span>
+                <div class="tab-notch"></div>
+            </button>
+            <button id="salesTab" class="tab-btn" onclick="showRole('sales')">
+                <span>Sales Role</span>
+                <div class="tab-notch"></div>
+            </button>
+        </div>
 
-        <section class="sales-section">
-            <div class="sales-card">
-                <h2>🚀 About PorkChop</h2>
-                <p style="text-align: center;">PorkChop is transforming home cooking with <b>AI-powered culinary experiences</b>.
-                    Our culinary companion's <b>personalized recipes</b>, <b>smart pantry management</b>, and <b>interactive cooking guidance</b> make every meal exceptional while getting the most out of what's in your pantry — and to bring joy, tradition and technique back into the kitchen.</p>
-            </div>
-        </section>
+        <!-- CMO Role Content -->
+        <div id="cmoRole" class="role-content" style="display: block;">
+            <section class="sales-hero">
+                <h1 class="sales-title">Join Our Leadership Team</h1>
+                <p class="sales-tagline">Shape the future of culinary engagement</p>
+            </section>
 
-        <section class="sales-section">
-            <div class="sales-card">
-                <h2>🌟 Front of House (Sales Leader)</h2>
-                <p style="text-align: center;">We're looking for a <b>dynamic, proactive sales leader</b> to <b>scale</b> our sales function from the ground up. As the <b>first sales hire</b>, you'll have a hand in collaborationg on our <b>go-to-market strategy</b> and leading the charge on what PorkChop is all about. Competitive spirit and self awareness will be huge here, but, the kinder you are - the more flexlibily you'll get.</p>
-                
-                <h3>What You'll Do</h3>
-                <div>
-                    <div>Own the <b>net new sales cycle</b> - prospect, pitch and close.</div>
-                    <div>Create and execute <b>revenue-driving sales strategies</b>.</div>
-                    <div>Build and manage a robust <b>sales pipeline</b>.</div>
-                    <div><b>Collaborate internally</b> on revenue-generating initiatives.</div>
-                    <div>Provide market feedback to support product development.</div>
+            <section class="sales-section">
+                <div class="sales-card">
+                    <h2>🚀 About PorkChop</h2>
+                    <p style="text-align: center;">PorkChop is transforming home cooking with <b>AI-powered culinary experiences</b>.
+                        Our culinary companion's <b>personalized recipes</b>, <b>smart pantry management</b>, and <b>interactive cooking guidance</b> make every meal exceptional while getting the most out of what's in your pantry — and to bring joy, tradition and technique back into the kitchen.</p>
                 </div>
+            </section>
 
-                <h3>What We're Looking For</h3>
-                <div>
-                    <div>Proven track record in <b>sales leadership</b></div>
-                    <div>Experience <b>building or optimizing</b> sales processes.</div>
-                    <div>A floor general who can <b>lead</b> by example.</div>
-                    <div><b>Early Stage ready</b>; independent, resourceful and quick on your feet.</div>
-                    <div>Experience with <b>CRM systems</b> and evaluating sales and/or marketing tools.</div>
-                    <div>Willing to grow your own understanding of<b>AI</b></div>
-                    <div><b>Passion for food tech,culinary innovation</b> is a plus.</div>
-                </div>
+            <section class="sales-section">
+                <div class="sales-card">
+                    <h2>🌟 Co-Founder (CMO)</h2>
+                    <p style="text-align: center;">We're looking for a <b>visionary marketing leader</b> to <b>define and scale</b> our brand and growth strategy. As the <b>first marketing hire</b>, you'll have a hand in building our marketing function from the ground up. Creativity and data-driven thinking will be huge here, but the more you understand our users, the more impact you'll make.</p>
+                    
+                    <h3>What You'll Do</h3>
+                    <div>
+                        <div>Own and execute our <b>go-to-market strategy</b> and brand positioning</div>
+                        <div>Build and manage <b>performance marketing channels</b> and growth initiatives</div>
+                        <div>Develop and maintain our <b>brand voice and visual identity</b></div>
+                        <div>Create <b>data-driven campaigns</b> that drive user acquisition and retention</div>
+                        <div>Establish <b>partnerships</b> that extend our reach and impact</div>
+                        <div>Hire and lead the <b>marketing team</b> as we scale</div>
+                    </div>
 
-                <h3>Why Join Us</h3>
-                <div>
-                    <div><b>First sales hire</b> with <b>HUGE</b> growth potential.</div>
-                    <div><b>Aggressive commission structure</b> with quarterly profit sharing.</div>
-                    <div>Flexible and collaborative work environment - <b>Whatever works!</b></div>
-                    <div>Opportunity to <b>recruit your own team</b> as we grow.</div>
-                </div>
-            </div>
-        </section>
+                    <h3>What We're Looking For</h3>
+                    <div>
+                        <div>Proven experience in <b>growth marketing and brand building</b></div>
+                        <div>Track record of <b>scaling user acquisition</b> in early-stage startups</div>
+                        <div>Strong <b>analytical skills</b> with the ability to interpret data and make decisions</div>
+                        <div>Experience with <b>digital marketing tools</b> and platforms</div>
+                        <div>Passion for <b>food, cooking, and culinary innovation</b> is a plus</div>
+                        <div>Comfortable with <b>equity-heavy compensation</b> in the early stages</div>
+                    </div>
 
-        <section class="sales-section">
-            <div class="sales-card">
-                <h2>💰 Compensation Plan</h2>
-                <p style="text-align: center;">As our first sales hire, you'll have the opportunity to redifine what amenity and loyalty programs look like while laying the brick work of what relationships at PorkChop look like. Your impact directly shapes our revenue and your earning potential - the more we grow together, the bigger the payout!</p>
-                
-                <h3>Commission Structure</h3>
-                <div>
-                    <div><b>35% of Net Margin on all your sales</b></div>
-                    <div><em>(Top Line - Costs) x 35%</em></div>
+                    <h3>Why Join Us</h3>
+                    <div>
+                        <div><b>First marketing hire</b> with <b>significant equity</b> and leadership opportunity</div>
+                        <div>Chance to <b>build and own</b> the marketing function</div>
+                        <div>Flexible and collaborative work environment - <b>Your vision, your way</b></div>
+                        <div>Opportunity to <b>grow a team</b> as we scale</div>
+                    </div>
                 </div>
-                <div>
-                    <div><b>Paid monthly</b> and issued after customer launch.</div>
-                </div>
+            </section>
 
-                <div class="highlight-box">
-                    <h4 style="text-align: center;">What This Means For You</h4>
-                    <p style="text-align: center;">As a founding sales team member, you'll have direct input into our sales strategy and the opportunity to make that pivot you always wanted to. <br><br>Your compensation will grow as you help us scale.</br></p>
+            <section class="sales-section">
+                <div class="sales-card">
+                    <h2>💰 Equity & Future Compensation</h2>
+                    <p style="text-align: center;">As a co-founding team member, you'll have significant equity in the company with a clear path to future compensation as we grow. We're looking for someone who believes in our vision and wants to build something extraordinary together.</p>
+                    
+                    <div class="highlight-box">
+                        <h4 style="text-align: center;">What This Means For You</h4>
+                        <p style="text-align: center;">As a founding team member, you'll have direct input into our company's direction and the opportunity to shape our culture. <br><br>Your impact will be directly tied to the company's success.</p>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="sales-cta">
-            <h2>🔥 Ready to Scale Something Amazing?</h2>
-            <p>Join us in revolutionizing the culinary experience - lets ruffle some feathers!</p>
-            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
-                <button id="openApplyModal" class="cta-btn">Apply Now</button>
-                <a href="https://www.porkchop.app" class="cta-btn" style="background: var(--maineBlue);">Our Vision</a>
-            </div>
-            <p style="margin-top: 1.5rem; font-size: 0.9rem;">Last Updated: August 2025</p>
-        </section>
+            <section class="sales-cta">
+                <h2>🔥 Ready to Scale Something Amazing?</h2>
+                <p>Join us in revolutionizing the culinary experience - let's cook up something special!</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                    <button id="openCmoApplyModal" class="cta-btn">Apply Now</button>
+                    <a href="https://www.porkchop.app" class="cta-btn" style="background: var(--maineBlue);">Our Vision</a>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem;">Last Updated: August 2025</p>
+            </section>
+        </div>
+
+        <!-- Sales Role Content -->
+        <div id="salesRole" class="role-content" style="display: none;">
+            <section class="sales-hero">
+                <h1 class="sales-title">Join Our Sales Team</h1>
+                <p class="sales-tagline">Earn big while revolutionizing home cooking</p>
+            </section>
+
+            <section class="sales-section">
+                <div class="sales-card">
+                    <h2>🚀 About PorkChop</h2>
+                    <p style="text-align: center;">PorkChop is transforming home cooking with <b>AI-powered culinary experiences</b>.
+                        Our culinary companion's <b>personalized recipes</b>, <b>smart pantry management</b>, and <b>interactive cooking guidance</b> make every meal exceptional while getting the most out of what's in your pantry — and to bring joy, tradition and technique back into the kitchen.</p>
+                </div>
+            </section>
+
+            <section class="sales-section">
+                <div class="sales-card">
+                    <h2>🌟 Front of House (Sales Leader)</h2>
+                    <p style="text-align: center;">We're looking for a <b>dynamic, proactive sales leader</b> to <b>scale</b> our sales function from the ground up. As the <b>first sales hire</b>, you'll have a hand in collaborationg on our <b>go-to-market strategy</b> and leading the charge on what PorkChop is all about. Competitive spirit and self awareness will be huge here, but, the kinder you are - the more flexlibily you'll get.</p>
+                    
+                    <h3>What You'll Do</h3>
+                    <div>
+                        <div>Own the <b>net new sales cycle</b> - prospect, pitch and close.</div>
+                        <div>Create and execute <b>revenue-driving sales strategies</b>.</div>
+                        <div>Build and manage a robust <b>sales pipeline</b>.</div>
+                        <div><b>Collaborate internally</b> on revenue-generating initiatives.</div>
+                        <div>Provide market feedback to support product development.</div>
+                    </div>
+
+                    <h3>What We're Looking For</h3>
+                    <div>
+                        <div>Proven track record in <b>sales leadership</b></div>
+                        <div>Experience <b>building or optimizing</b> sales processes.</div>
+                        <div>A floor general who can <b>lead</b> by example.</div>
+                        <div><b>Early Stage ready</b>; independent, resourceful and quick on your feet.</div>
+                        <div>Experience with <b>CRM systems</b> and evaluating sales and/or marketing tools.</div>
+                        <div>Willing to grow your own understanding of<b>AI</b></div>
+                        <div><b>Passion for food tech,culinary innovation</b> is a plus.</div>
+                    </div>
+
+                    <h3>Why Join Us</h3>
+                    <div>
+                        <div><b>First sales hire</b> with <b>HUGE</b> growth potential.</div>
+                        <div><b>Aggressive commission structure</b> with quarterly profit sharing.</div>
+                        <div>Flexible and collaborative work environment - <b>Whatever works!</b></div>
+                        <div>Opportunity to <b>recruit your own team</b> as we grow.</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="sales-section">
+                <div class="sales-card">
+                    <h2>💰 Compensation Plan</h2>
+                    <p style="text-align: center;">As our first sales hire, you'll have the opportunity to redifine what amenity and loyalty programs look like while laying the brick work of what relationships at PorkChop look like. Your impact directly shapes our revenue and your earning potential - the more we grow together, the bigger the payout!</p>
+                    
+                    <h3>Commission Structure</h3>
+                    <div>
+                        <div><b>35% of Net Margin on all your sales</b></div>
+                        <div><em>(Top Line - Costs) x 35%</em></div>
+                    </div>
+                    <div>
+                        <div><b>Paid monthly</b> and issued after customer launch.</div>
+                    </div>
+
+                    <div class="highlight-box">
+                        <h4 style="text-align: center;">What This Means For You</h4>
+                        <p style="text-align: center;">As a founding sales team member, you'll have direct input into our sales strategy and the opportunity to make that pivot you always wanted to. <br><br>Your compensation will grow as you help us scale.</br></p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="sales-cta">
+                <h2>🔥 Ready to Scale Something Amazing?</h2>
+                <p>Join us in revolutionizing the culinary experience - lets ruffle some feathers!</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                    <button id="openApplyModal" class="cta-btn">Apply Now</button>
+                    <a href="https://www.porkchop.app" class="cta-btn" style="background: var(--maineBlue);">Our Vision</a>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem;">Last Updated: August 2025</p>
+            </section>
+        </div>
     </div>
 
     <!-- Apply Modal -->
-    <div id="applyModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
+    <div id="applyModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
         <div style="background: white; border-radius: 8px; width: 100%; max-width: 500px; padding: 25px; position: relative; margin: 0 15px; max-height: 90vh; overflow-y: auto;">
             <div style="text-align: center; margin-bottom: 20px;">
                 <h2 style="margin: 0 0 15px 0; color: #2a4d69; font-size: 1.5rem;">Apply to Join Our Team</h2>
@@ -753,7 +914,9 @@
             if (hasNewFiles) {
                 // Update the file input
                 const dataTransfer = new DataTransfer();
-                files.forEach(file => dataTransfer.items.add(file));
+                files.forEach((file, index) => {
+                    dataTransfer.items.add(file);
+                });
                 fileInput.files = dataTransfer.files;
                 
                 // Update the UI
@@ -934,6 +1097,35 @@
                         hideThankYouModal();
                     }
                 };
+            }
+        });
+
+        // Role switching functionality
+        function showRole(role) {
+            // Hide all role contents
+            document.querySelectorAll('.role-content').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected role and activate tab
+            document.getElementById(role + 'Role').style.display = 'block';
+            document.getElementById(role + 'Tab').classList.add('active');
+        }
+
+        // Initialize modals
+        document.addEventListener('DOMContentLoaded', () => {
+            // Existing modal code...
+            // ...
+
+            // Add event listener for CMO apply button
+            const openCmoApplyBtn = document.getElementById('openCmoApplyModal');
+            if (openCmoApplyBtn) {
+                openCmoApplyBtn.addEventListener('click', showApplyModal);
             }
         });
     </script>

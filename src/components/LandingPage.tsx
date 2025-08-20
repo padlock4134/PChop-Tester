@@ -102,7 +102,7 @@ const LandingPage: React.FC = () => {
             {' '}|{' '}
             <a href="/investment.html" style={{ textDecoration: 'underline', color: '#2a4d69' }}>Investment</a>
             {' '}|{' '}
-            <a href="/sales.html" style={{ textDecoration: 'underline', color: '#2a4d69' }}>Careers</a>
+            <a href="/careers.html" style={{ textDecoration: 'underline', color: '#2a4d69' }}>Careers</a>
           </span>
         </div>
         <TermsModal isOpen={modalOpen} onClose={() => setModalOpen(false)} termsContent={termsContent} />
