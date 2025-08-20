@@ -63,6 +63,12 @@ Any legal action or proceeding relating to these Terms shall be brought exclusiv
 
 ---
 
+## 9. Intellectual Property Protection
+
+All content, features, and functionality on PorkChop, including but not limited to text, graphics, logos, recipes, and software, are the exclusive property of PorkChop and its licensors. By using PorkChop, you agree not to copy, reproduce, distribute, or create derivative works from any content without express written permission. Violation of these terms may result in immediate termination of your account and legal action to protect our intellectual property rights.
+
+---
+
 # Privacy Policy
 
 ## What Information We Collect
