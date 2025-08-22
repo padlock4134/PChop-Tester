@@ -545,6 +545,10 @@
                 <span>Sales Role</span>
                 <div class="tab-notch"></div>
             </button>
+            <button id="generalTab" class="tab-btn" onclick="showRole('general')">
+                <span>General Application</span>
+                <div class="tab-notch"></div>
+            </button>
         </div>
 
         <!-- CMO Role Content -->
@@ -570,6 +574,7 @@
                     <h3>What You'll Do</h3>
                     <div>
                         <div>Own and execute our <b>go-to-market strategy</b> and brand positioning</div>
+                        <div>Lead all <b>SEO strategy and execution</b> to drive organic growth</div>
                         <div>Build and manage <b>performance marketing channels</b> and growth initiatives</div>
                         <div>Develop and maintain our <b>brand voice and visual identity</b></div>
                         <div>Create <b>data-driven campaigns</b> that drive user acquisition and retention</div>
@@ -599,12 +604,59 @@
 
             <section class="sales-section">
                 <div class="sales-card">
-                    <h2>💰 Equity & Future Compensation</h2>
-                    <p style="text-align: center;">As a co-founding team member, you'll have significant equity in the company with a clear path to future compensation as we grow. We're looking for someone who believes in our vision and wants to build something extraordinary together.</p>
+                    <h2>💰 Compensation & Equity</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        <b>Equity-first role with immediate profit sharing</b> - Get rewarded as we grow together.
+                    </p>
                     
-                    <div class="highlight-box">
-                        <h4 style="text-align: center;">What This Means For You</h4>
-                        <p style="text-align: center;">As a founding team member, you'll have direct input into our company's direction and the opportunity to shape our culture. <br><br>Your impact will be directly tied to the company's success.</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                        <div style="padding: 1.5rem; background: #f0f7ff; border-radius: 12px; border: 1px solid #d0e3ff; text-align: center;">
+                            <h3>Equity</h3>
+                            <p style="font-size: 1.75rem; font-weight: 700; color: var(--maineBlue); margin: 0.5rem 0;">10% - 15%</p>
+                            <p style="color: #4a6b8a;">Vesting over 4 years<br>(1-year cliff)</p>
+                        </div>
+                        
+                        <div style="padding: 1.5rem; background: #fff0f5; border-radius: 12px; border: 1px solid #ffd6e7; text-align: center;">
+                            <h3>Profit Share</h3>
+                            <p style="font-size: 1.75rem; font-weight: 700; color: var(--lobsterRed); margin: 0.5rem 0;">10%</p>
+                            <p style="color: #8a4a6b;">Of net profits, paid quarterly<br><span style="font-size: 0.9rem;">(Begins with first revenue)</span></p>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f5f9f0; padding: 1.5rem; border-radius: 12px; margin: 2rem 0 0; border: 1px solid #e1f0c4; text-align: center;">
+                        <h3 style="color: #5a8a2e;">Compensation Path</h3>
+                        <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap;">
+                            <div style="text-align: center; padding: 0.5rem 1rem; background: rgba(90, 138, 46, 0.1); border-radius: 6px;">
+                                <div style="font-weight: 600; color: #5a8a2e;">Now</div>
+                                <div>Equity + 10% profit share</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem 1rem; background: rgba(90, 138, 46, 0.1); border-radius: 6px;">
+                                <div style="font-weight: 600; color: #5a8a2e;">Post-Funding</div>
+                                <div>Negotiable salary + 5% profit share</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem 1rem; background: rgba(90, 138, 46, 0.1); border-radius: 6px;">
+                                <div style="font-weight: 600; color: #5a8a2e;">Growth</div>
+                                <div>Market salary + equity upside</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="highlight-box" style="margin-top: 2rem;">
+                        <h4 style="text-align: center; color: var(--maineBlue);">Why This Works For You</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="padding: 1rem; background: rgba(42, 77, 105, 0.05); border-radius: 8px;">
+                                <h5>Founder-Level Equity</h5>
+                                <p>Significant ownership stake with 10-15% equity</p>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(233, 78, 60, 0.05); border-radius: 8px;">
+                                <h5>Immediate Profit Share</h5>
+                                <p>10% of net profits paid quarterly from first revenue</p>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(90, 138, 46, 0.05); border-radius: 8px;">
+                                <h5>Clear Growth Path</h5>
+                                <p>Transition to market salary with equity upside as we scale</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -672,21 +724,61 @@
 
             <section class="sales-section">
                 <div class="sales-card">
-                    <h2>💰 Compensation Plan</h2>
-                    <p style="text-align: center;">As our first sales hire, you'll have the opportunity to redifine what amenity and loyalty programs look like while laying the brick work of what relationships at PorkChop look like. Your impact directly shapes our revenue and your earning potential - the more we grow together, the bigger the payout!</p>
+                    <h2>💰 Commission & Earnings</h2>
+                    <p style="text-align: center; margin-bottom: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                        <b>High-commission role with unlimited earning potential</b> - The more you sell, the more you earn.
+                    </p>
                     
-                    <h3>Commission Structure</h3>
-                    <div>
-                        <div><b>35% of Net Margin on all your sales</b></div>
-                        <div><em>(Top Line - Costs) x 35%</em></div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                        <div style="padding: 1.5rem; background: #f0f7ff; border-radius: 12px; border: 1px solid #d0e3ff; text-align: center;">
+                            <h3>Commission Rate</h3>
+                            <p style="font-size: 1.75rem; font-weight: 700; color: var(--maineBlue); margin: 0.5rem 0;">35%</p>
+                            <p style="color: #4a6b8a;">Of net margin on all your sales</p>
+                        </div>
+                        
+                        <div style="padding: 1.5rem; background: #fff0f5; border-radius: 12px; border: 1px solid #ffd6e7; text-align: center;">
+                            <h3>Payout Schedule</h3>
+                            <p style="font-size: 1.75rem; font-weight: 700; color: var(--lobsterRed); margin: 0.5rem 0;">Monthly</p>
+                            <p style="color: #8a4a6b;">Paid after customer launch</p>
+                            <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">(Net Margin = Revenue - Costs)</p>
+                        </div>
                     </div>
-                    <div>
-                        <div><b>Paid monthly</b> and issued after customer launch.</div>
+                    
+                    <div style="background: #f5f9f0; padding: 1.5rem; border-radius: 12px; margin: 2rem 0 0; border: 1px solid #e1f0c4; text-align: center;">
+                        <h3 style="color: #5a8a2e;">Earnings Potential</h3>
+                        <p style="margin-bottom: 1rem;">Example: Close $50,000 in annual contracts with 40% net margin</p>
+                        <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap;">
+                            <div style="text-align: center; padding: 0.5rem 1rem; background: rgba(90, 138, 46, 0.1); border-radius: 6px;">
+                                <div style="font-weight: 600; color: #5a8a2e;">Annual Revenue</div>
+                                <div>$50,000</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem 1rem; background: rgba(90, 138, 46, 0.1); border-radius: 6px;">
+                                <div style="font-weight: 600; color: #5a8a2e;">Net Margin (40%)</div>
+                                <div>$20,000</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.5rem 1rem; background: rgba(90, 138, 46, 0.1); border-radius: 6px;">
+                                <div style="font-weight: 600; color: #5a8a2e;">Your Commission (35%)</div>
+                                <div>$7,000</div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="highlight-box">
-                        <h4 style="text-align: center;">What This Means For You</h4>
-                        <p style="text-align: center;">As a founding sales team member, you'll have direct input into our sales strategy and the opportunity to make that pivot you always wanted to. <br><br>Your compensation will grow as you help us scale.</br></p>
+                    <div class="highlight-box" style="margin-top: 2rem;">
+                        <h4 style="text-align: center; color: var(--maineBlue);">Why This Works For You</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                            <div style="padding: 1rem; background: rgba(42, 77, 105, 0.05); border-radius: 8px;">
+                                <h5>Uncapped Earnings</h5>
+                                <p>No limit to what you can earn</p>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(233, 78, 60, 0.05); border-radius: 8px;">
+                                <h5>Direct Impact</h5>
+                                <p>Your efforts directly impact your paycheck</p>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(90, 138, 46, 0.05); border-radius: 8px;">
+                                <h5>Growth Potential</h5>
+                                <p>Build and lead your own team as we grow</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -696,6 +788,52 @@
                 <p>Join us in revolutionizing the culinary experience - lets ruffle some feathers!</p>
                 <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
                     <button id="openApplyModal" class="cta-btn">Apply Now</button>
+                    <a href="https://www.porkchop.app" class="cta-btn" style="background: var(--maineBlue);">Our Vision</a>
+                </div>
+                <p style="margin-top: 1.5rem; font-size: 0.9rem;">Last Updated: August 2025</p>
+            </section>
+        </div>
+
+        <!-- General Application Content -->
+        <div id="generalRole" class="role-content" style="display: none;">
+            <section class="sales-hero">
+                <h1 class="sales-title">Join Our Team</h1>
+                <p class="sales-tagline">Help us build the future of culinary experiences</p>
+            </section>
+
+            <section class="sales-section">
+                <div class="sales-card">
+                    <h2>🚀 About PorkChop</h2>
+                    <p style="text-align: center;">PorkChop is transforming home cooking with <b>AI-powered culinary experiences</b>.
+                        Our culinary companion's <b>personalized recipes</b>, <b>smart pantry management</b>, and <b>interactive cooking guidance</b> make every meal exceptional while getting the most out of what's in your pantry — and to bring joy, tradition and technique back into the kitchen.</p>
+                </div>
+            </section>
+
+            <section class="sales-section">
+                <div class="sales-card">
+                    <h2>🌟 Join Our Team</h2>
+                    <p style="text-align: center;">We're always looking for talented individuals who are passionate about food, technology, and creating amazing user experiences. If you don't see a specific role that fits your skills, we'd still love to hear from you!</p>
+                    
+                    <h3>What We Look For</h3>
+                    <div style="margin: 1.5rem 0;">
+                        <div>• Passion for <b>food and culinary innovation</b></div>
+                        <div>• Entrepreneurial <b>hustle and creativity</b></div>
+                        <div>• Ability to <b>thrive in ambiguity</b> and wear multiple hats</div>
+                        <div>• Strong <b>problem-solving skills</b> and growth mindset</div>
+                        <div>• Excellent <b>communication and collaboration</b> abilities</div>
+                    </div>
+
+                    <p style="text-align: center; margin-top: 1.5rem;">
+                        Think you'd be a great fit? We're excited to learn more about you!
+                    </p>
+                </div>
+            </section>
+
+            <section class="sales-cta">
+                <h2>🔥 Interested in Joining Us?</h2>
+                <p>We're excited to hear from you! Send us your resume and tell us why you'd be a great fit for our team.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                    <button id="openGeneralApplyModal" class="cta-btn">Apply Now</button>
                     <a href="https://www.porkchop.app" class="cta-btn" style="background: var(--maineBlue);">Our Vision</a>
                 </div>
                 <p style="margin-top: 1.5rem; font-size: 0.9rem;">Last Updated: August 2025</p>
@@ -1126,6 +1264,12 @@
             const openCmoApplyBtn = document.getElementById('openCmoApplyModal');
             if (openCmoApplyBtn) {
                 openCmoApplyBtn.addEventListener('click', showApplyModal);
+            }
+
+            // Add event listener for General Application apply button
+            const openGeneralApplyBtn = document.getElementById('openGeneralApplyModal');
+            if (openGeneralApplyBtn) {
+                openGeneralApplyBtn.addEventListener('click', showApplyModal);
             }
         });
     </script>
