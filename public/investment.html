@@ -255,8 +255,41 @@
                 font-size: 1.5rem;
                 margin-bottom: 1.25rem;
             }
+            
+            /* Founder & Visionary Section */
+            #paddyBioTrigger {
+                flex-direction: column !important;
+                text-align: center !important;
+                padding: 1.5rem !important;
+                gap: 1.5rem !important;
+            }
+            
+            .vertical-divider {
+                display: none !important;
+            }
+            
+            #paddyBioTrigger > div {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            
+            #paddyBioTrigger p {
+                max-width: 100% !important;
+                margin: 0 auto !important;
+            }
+            
+            #paddyBioTrigger img {
+                width: 180px !important;
+                height: 180px !important;
+                margin: 0 auto !important;
+            }
+            
+            .team-member {
+                min-height: auto !important;
+                padding: 1.5rem !important;
+            }
         }
-
+        
         @media screen and (max-width: 576px) {
             .page-container {
                 padding: 1rem 0.75rem;
@@ -303,6 +336,12 @@
                 max-width: 100%;
                 overflow-x: auto;
                 white-space: nowrap;
+            }
+            
+            /* Make founder photo slightly smaller on very small screens */
+            #paddyBioTrigger img {
+                width: 150px !important;
+                height: 150px !important;
             }
         }
 
