@@ -75,12 +75,7 @@ exports.handler = async function(event) {
           save_default_payment_method: 'on_subscription',
           payment_method_types: ['card']
         },
-        collection_method: 'charge_automatically',
-        days_until_due: null
-      },
-      payment_intent_data: {
-        capture_method: 'automatic',
-        setup_future_usage: 'off_session'
+        collection_method: 'charge_automatically'
       },
       payment_method_collection: 'if_required',
       success_url: `${process.env.STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
@@ -90,12 +85,7 @@ exports.handler = async function(event) {
         user_id: userId,
       },
       invoice_creation: {
-        enabled: true,
-        invoice_data: {
-          collection_method: 'charge_automatically',
-          days_until_due: null,
-          auto_advance: false
-        }
+        enabled: true
       }
     });
 
