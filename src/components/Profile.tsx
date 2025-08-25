@@ -33,6 +33,21 @@ type UserProfile = {
   xp: number;
 };
 
+// Experience level mapping between UI labels and backend values
+const EXPERIENCE_LEVEL_MAPPING = {
+  'Beginner': 'new_to_cooking',
+  'Intermediate': 'home_cook', 
+  'Advanced': 'kitchen_confident',
+  'Professional': 'kitchen_confident' // Both Advanced and Professional map to kitchen_confident
+} as const;
+
+// Reverse mapping for displaying in UI
+const EXPERIENCE_LEVEL_DISPLAY = {
+  'new_to_cooking': 'Beginner',
+  'home_cook': 'Intermediate',
+  'kitchen_confident': 'Advanced'
+} as const;
+
 const Profile = () => {
   const { user } = useSupabase();
   const [loading, setLoading] = useState(true);
@@ -167,8 +182,8 @@ const Profile = () => {
           ...profile,
           name: profile.name || 'User',
           xp,
-          // ADD THIS LINE to map cooking_experience to experience:
-          experience: profile.cooking_experience || 'Beginner',
+          // Map backend cooking_experience to UI display value
+          experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
           kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
@@ -613,7 +628,7 @@ function EditProfileModal({
       const updatedProfile = {
         name,
         email,
-        cooking_experience: experience,  // String value from dropdown
+        cooking_experience: EXPERIENCE_LEVEL_MAPPING[experience as keyof typeof EXPERIENCE_LEVEL_MAPPING] || 'new_to_cooking',  // Convert UI value to backend value
         dietary,                         // Array of selected dietary preferences
         cuisine,                         // Array of selected cuisine preferences  
         kitchen_setup: kitchenSetup     // String value from dropdown
@@ -646,7 +661,7 @@ function EditProfileModal({
           ...user,
           name: savedData.name,
           email: savedData.email,
-          experience: savedData.cooking_experience, // Map cooking_experience to experience
+          experience: EXPERIENCE_LEVEL_DISPLAY[savedData.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner', // Map backend value to UI display
           dietary: savedData.dietary || [],
           cuisine: savedData.cuisine || [],
           kitchenSetup: savedData.kitchen_setup
