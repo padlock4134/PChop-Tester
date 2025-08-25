@@ -18,7 +18,7 @@ if (missingVars.length > 0) {
 let stripe;
 try {
   stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: '2023-10-16',
+    apiVersion: '2024-06-20', // Updated to a more recent version
     timeout: 10000, // 10 second timeout
     maxNetworkRetries: 2
   });
@@ -29,27 +29,19 @@ try {
       await stripe.customers.list({ limit: 1 });
       console.log('Stripe connection successful');
     } catch (err) {
-      console.error('Stripe connection test failed:', err.message);
+      console.error('Stripe connection test failed:', err);
     }
   })();
-  
 } catch (err) {
-  console.error('Failed to initialize Stripe:', err.message);
-  throw err; // Re-throw to prevent the app from starting with a bad Stripe config
+  console.error('Failed to initialize Stripe:', err);
+  throw err;
 }
 
 // Helper function to handle Stripe errors
-function handleStripeError(err) {
-  console.error('Stripe Error:', {
-    message: err.message,
-    type: err.type,
-    code: err.code,
-    statusCode: err.statusCode,
-    requestId: err.requestId,
-    stack: err.stack
-  });
-  throw err; // Re-throw to be handled by the calling function
-}
+const handleStripeError = (err) => {
+  console.error('Stripe error:', err);
+  throw new Error(err.message || 'Payment processing failed');
+};
 
 module.exports = {
   stripe,

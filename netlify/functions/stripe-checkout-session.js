@@ -77,39 +77,40 @@ exports.handler = async function(event) {
     const successUrl = `${baseUrl}/dashboard?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${baseUrl}/dashboard`;
 
-    console.log('Creating checkout session with URLs:', { successUrl, cancelUrl });
-
-    const sessionParams = {
-      payment_method_types: ['card'],
-      line_items: [
-        {
+    console.log('Creating checkout session with price ID:', priceId);
+    
+    try {
+      // Verify the price exists first
+      const price = await stripe.prices.retrieve(priceId);
+      console.log('Price details:', JSON.stringify(price, null, 2));
+      
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [{
           price: priceId,
           quantity: 1,
-        },
-      ],
-      mode: 'subscription',
-      allow_promotion_codes: true,
-      subscription_data: {
-        trial_period_days: 3,
-        payment_behavior: 'default_incomplete',
-      },
-      payment_method_collection: 'if_required',
-      success_url: successUrl,
-      cancel_url: cancelUrl,
-      customer: customer.id,
-      metadata: {
-        user_id: userId,
-      }
-    };
-
-    console.log('Session params:', JSON.stringify(sessionParams, null, 2));
-    
-    const stripeSession = await stripe.checkout.sessions.create(sessionParams);
-    console.log('Checkout session created:', stripeSession.id);
-    
-    return createOkResponseWithBody(JSON.stringify({ 
-      checkoutUrl: stripeSession.url 
-    }), cookiesToSet, true);
+        }],
+        mode: 'subscription',
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        customer: customer.id
+      });
+      
+      return createOkResponseWithBody(JSON.stringify({ 
+        checkoutUrl: session.url 
+      }), cookiesToSet, true);
+      
+    } catch (err) {
+      console.error('Stripe API Error:', {
+        message: err.message,
+        type: err.type,
+        code: err.code,
+        statusCode: err.statusCode,
+        requestId: err.requestId,
+        raw: JSON.stringify(err.raw || {})
+      });
+      return createErrorResponse(500, 'Failed to create checkout session: ' + err.message);
+    }
 
   } catch (err) {
     console.error('Error creating checkout session:', {
