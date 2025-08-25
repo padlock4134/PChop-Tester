@@ -57,7 +57,12 @@ const LandingPage: React.FC = () => {
           <Link to="/Pricing" className="landing-nav-btn mobile pricing-btn">Pricing</Link>
           <div className="mobile-auth-buttons">
             <a href={wristbandConsumerLoginUrl} className="landing-nav-btn mobile" rel="noopener noreferrer">Sign In</a>
-            <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary mobile signup-btn" rel="noopener noreferrer">Sign Up</a>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
+              <div className="trial-text">FREE TRIAL</div>
+              <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary mobile signup-btn" rel="noopener noreferrer">
+                Sign Up
+              </a>
+            </div>
           </div>
         </nav>
       );
@@ -71,7 +76,12 @@ const LandingPage: React.FC = () => {
         <Link to="/TenantWellness" className="landing-nav-btn tenant-wellness-btn">PorkChop Perks</Link>
         <Link to="/Pricing" className="landing-nav-btn pricing-btn">Pricing</Link>
         <a href={wristbandConsumerLoginUrl} className="landing-nav-btn" rel="noopener noreferrer">Sign In</a>
-        <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary signup-btn" rel="noopener noreferrer">Sign Up</a>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <div className="trial-text">FREE TRIAL</div>
+          <a href={wristbandConsumerSignupUrl} className="landing-nav-btn primary signup-btn" rel="noopener noreferrer">
+            Sign Up
+          </a>
+        </div>
       </nav>
     );
   };
