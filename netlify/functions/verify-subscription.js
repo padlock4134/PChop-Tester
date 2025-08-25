@@ -92,7 +92,7 @@ exports.handler = async function(event) {
       plan: subscription.plan?.id?.includes('yearly') ? 'yearly' : 'monthly',
       status: subscription.status,
       current_period_end: subscription.current_period_end,
-      trial_end: subscription.trial_end || Math.floor(Date.now() / 1000) + (3 * 24 * 60 * 60), // 3 days from now
+      trial_end: subscription.trial_end, // Use actual Stripe value
       updated_at: new Date().toISOString()
     };
 

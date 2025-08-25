@@ -38,12 +38,12 @@ exports.handler = async (event) => {
       .from('user_subscriptions')
       .select('*')
       .eq('user_id', userId)
-      .eq('status', 'active')
+      .in('status', ['active', 'trialing'])
       .single();
 
     if (fetchError || !subscription) {
-      console.error('No active subscription found:', fetchError);
-      return createErrorResponse(404, 'No active subscription found.');
+      console.error('No active or trialing subscription found:', fetchError);
+      return createErrorResponse(404, 'No active or trialing subscription found.');
     }
 
     // Cancel the subscription in Stripe
