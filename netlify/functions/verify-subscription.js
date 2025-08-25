@@ -84,27 +84,39 @@ exports.handler = async function(event) {
 
     const subscription = subscriptions.data[0];
 
+    // Check if subscription is active or in trial
+    const isPaid = subscription.status === 'active' || 
+                  subscription.status === 'trialing' || 
+                  (subscription.trial_end && subscription.trial_end > Math.floor(Date.now() / 1000));
+
     // Otherwise, provision a new subscription record in Supabase for the user.
     const { data: createdSubscription, error: createSubError } = await supabase
       .from('user_subscriptions')
-      .insert([{ 
+      .upsert({ 
         user_id: userId,
         stripe_customer_id: customer.id,
         stripe_subscription_id: subscription.id,
-        plan: subscription.plan || 'monthly',
+        plan: subscription.plan?.id?.includes('yearly') ? 'yearly' : 'monthly',
         status: subscription.status,
-        current_period_end: subscription.current_period_end
-      }]);
+        current_period_end: subscription.current_period_end,
+        trial_end: subscription.trial_end
+      }, {
+        onConflict: 'user_id'
+      });
 
     if (createSubError) {
       console.error('Failed to create subscription: ', createSubError);
       return createErrorResponse(500, `Unexpected error: ${createSubError.message}`);
     }
 
-    // Return the newly created subscription
+    // Return the subscription status
     const responseBody = JSON.stringify({
-      isPaid: createdSubscription.status === 'active',
-      subscription: createdSubscription
+      isPaid,
+      subscription: {
+        ...createdSubscription,
+        isTrial: subscription.status === 'trialing',
+        trialEnd: subscription.trial_end
+      }
     });
     return createOkResponseWithBody(responseBody, cookiesToSet, true);
   } catch (err) {
