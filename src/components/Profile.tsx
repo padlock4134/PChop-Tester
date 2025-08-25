@@ -9,7 +9,7 @@ import { Subscription } from '../types/shared-types';
 import PaymentModal from './PaymentModal';
 import { isSessionValid } from '../api/userSession';
 import ReactMarkdown from 'react-markdown';
-import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
+import { LEVEL_TITLES_AND_ICONS, getXPProgress, WOW_CLASSIC_XP_TABLE } from '../utils/leveling';
 
 // Define a simple hook for TermsModal since the original import is incorrect
 function useTermsModal() {
@@ -140,14 +140,48 @@ const Profile = () => {
     redirectToLogout('/.netlify/functions/auth-logout');
   };
 
-  // Handle permanent selection of a talent (cannot be undone)
-  const handleSelectTalent = (talentName: string, isRightClick: boolean = false) => {
+  // Handle permanent selection of a talent with database persistence
+  const handleSelectTalent = async (talentName: string, isRightClick: boolean = false) => {
+    if (!userProfile) return;
+
+    let newSelectedTalents: string[];
+    
     if (isRightClick && selectedTalents.includes(talentName)) {
       // Right-click: Remove talent (undo)
-      setSelectedTalents(prev => prev.filter(talent => talent !== talentName));
+      newSelectedTalents = selectedTalents.filter(talent => talent !== talentName);
     } else if (!isRightClick && !selectedTalents.includes(talentName)) {
-      // Left-click: Add talent
-      setSelectedTalents(prev => [...prev, talentName]);
+      // Left-click: Add talent (with validation)
+      const maxTalents = Math.floor(userProfile.xp / 100); // 1 talent per 100 XP
+      if (selectedTalents.length >= maxTalents) {
+        alert(`You can only select ${maxTalents} talents at your current level.`);
+        return;
+      }
+      newSelectedTalents = [...selectedTalents, talentName];
+    } else {
+      return; // No change needed
+    }
+
+    // Update local state immediately for responsive UI
+    setSelectedTalents(newSelectedTalents);
+
+    // Save to database
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({ selected_talents: newSelectedTalents })
+        .eq('id', userProfile.id);
+
+      if (error) {
+        console.error('Error saving talents:', error);
+        // Revert local state if save failed
+        setSelectedTalents(selectedTalents);
+        alert('Failed to save talent selection. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error saving talents:', error);
+      // Revert local state if save failed
+      setSelectedTalents(selectedTalents);
+      alert('Failed to save talent selection. Please try again.');
     }
   };
 
@@ -198,12 +232,20 @@ const Profile = () => {
         // Also update the local kitchenSetup state
         setKitchenSetup(profile.kitchen_setup || 'Apartment Kitchen');
 
+        // Load selected talents from database (optional - field might not exist yet)
+        if (profile.selected_talents && Array.isArray(profile.selected_talents)) {
+          setSelectedTalents(profile.selected_talents);
+        } else {
+          // Initialize with empty array if field doesn't exist
+          setSelectedTalents([]);
+        }
+
         // Calculate talent points based on XP
         const calculatedTalentPoints = Math.floor(xp / 100);
         setTalentPoints(calculatedTalentPoints);
         
-        // Calculate level progress based on XP
-        const { level, current, required } = getXPProgress(xp);
+        // Calculate level progress based on XP - USE CORRECTED CALCULATION
+        const { level, current, required } = getCorrectXPProgress(xp);
         
         // Map level to title index
         const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
@@ -247,8 +289,8 @@ const Profile = () => {
       const points = Math.floor(userProfile.xp / 100);
       setTalentPoints(points);
       
-      // Update level progress when userProfile changes
-      const { level, current, required } = getXPProgress(userProfile.xp);
+      // Update level progress when userProfile changes - USE CORRECTED CALCULATION
+      const { level, current, required } = getCorrectXPProgress(userProfile.xp);
       const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
       const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
       const progressPercent = (current / required) * 100;
@@ -349,6 +391,135 @@ const Profile = () => {
     }
   };
 
+  // Corrected level calculation function - 6500 XP should be Level 10
+  const getCorrectLevel = (totalXP: number) => {
+    // For 6500 XP to be Level 10, we need to check if XP >= the requirement for that level
+    if (totalXP >= 6500) return 10;
+    if (totalXP >= 5400) return 9;
+    if (totalXP >= 4500) return 8;
+    if (totalXP >= 3600) return 7;
+    if (totalXP >= 2800) return 6;
+    if (totalXP >= 2100) return 5;
+    if (totalXP >= 1400) return 4;
+    if (totalXP >= 900) return 3;
+    if (totalXP >= 400) return 2;
+    return 1;
+  };
+
+  // Corrected XP progress calculation
+  const getCorrectXPProgress = (totalXP: number) => {
+    const level = getCorrectLevel(totalXP);
+    
+    // Debug the calculation
+    console.log('🔧 XP Progress Debug:', {
+      totalXP,
+      level,
+      currentLevelXP: WOW_CLASSIC_XP_TABLE[level],
+      nextLevelXP: WOW_CLASSIC_XP_TABLE[level + 1]
+    });
+    
+    const currentLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
+    const nextLevelXP = WOW_CLASSIC_XP_TABLE[level + 1] || 0;
+    
+    // For level 10 (6500 XP), we should show 0 progress toward level 11
+    if (level === 10 && totalXP === 6500) {
+      return { 
+        level: 10, 
+        current: 0,  // At exactly level 10, no progress toward level 11
+        required: 1100  // Need 1100 XP to reach level 11
+      };
+    }
+    
+    const current = totalXP - currentLevelXP;
+    const required = nextLevelXP - currentLevelXP;
+    
+    return { level, current, required };
+  };
+
+  // Add a refresh function to reload profile data
+  const refreshProfile = async () => {
+    if (!user) return;
+    
+    try {
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (error) {
+        console.error('Error refreshing profile:', error);
+        return;
+      }
+
+      if (profile) {
+        const xp = typeof profile.xp === 'number' ? profile.xp : 0;
+        
+        // Update user profile with new data
+        setUserProfile({
+          ...profile,
+          name: profile.name || 'User',
+          xp,
+          experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
+          kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
+          dietary: profile.dietary || [],
+          cuisine: profile.cuisine || []
+        });
+
+        // Use corrected level calculation
+        const { level, current, required } = getCorrectXPProgress(xp);
+        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
+        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const progressPercent = (current / required) * 100;
+        
+        console.log('🎯 Corrected Level Debug:', { 
+          xp, 
+          level, 
+          current, 
+          required, 
+          title, 
+          progressPercent,
+          expectedLevel10: xp >= 6500 ? 'Should be Level 10+' : 'Below Level 10'
+        });
+        
+        setLevelProgress({
+          title,
+          level,
+          icon,
+          current,
+          required,
+          progressPercent,
+        });
+
+        // Auto-enable talents at level 10
+        if (level >= 10) {
+          console.log(' Level 10+ reached! Enabling talents...');
+          setShowTalents(true);
+        } else {
+          console.log('⏳ Not level 10 yet. Current level:', level);
+        }
+
+        // Update talent points
+        setTalentPoints(Math.floor(xp / 100));
+
+        console.log('Profile refreshed - New XP:', xp, 'Level:', level);
+      }
+    } catch (error) {
+      console.error('Error refreshing profile:', error);
+    }
+  };
+
+  // Auto-refresh profile data every 30 seconds
+  useEffect(() => {
+    if (!user) return;
+    
+    const interval = setInterval(() => {
+      refreshProfile();
+    }, 30000); // 30 seconds
+
+    return () => clearInterval(interval);
+  }, [user]);
+
   if (loading) {
     return <div className="text-center mt-10">Loading profile...</div>;
   } 
@@ -362,12 +533,12 @@ const Profile = () => {
   } 
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-weatheredWhite rounded-lg shadow-lg">
-      {/* Header: Aligned with buttons below */}
-      <div className="flex justify-center gap-4 items-center mb-6">
-        {/* Column 1: Avatar (aligned with Edit Profile) */}
-        <div className="flex justify-center" style={{ minWidth: '140px' }}>
-          <div className="w-20 h-20 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-xl overflow-hidden shrink-0 relative group">
+    <div className="max-w-2xl mx-auto p-4 sm:p-6 bg-weatheredWhite rounded-lg shadow-lg">
+      {/* Header: Responsive grid layout */}
+      <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 items-center mb-6">
+        {/* Column 1: Avatar */}
+        <div className="flex justify-center" style={{ minWidth: '120px' }}>
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-lg sm:text-xl overflow-hidden shrink-0 relative group">
             {userProfile.avatar ? (
               <img 
                 src={userProfile.avatar} 
@@ -380,7 +551,7 @@ const Profile = () => {
             )}
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition-all duration-200 cursor-pointer">
               <label htmlFor="avatar-upload" className="text-white opacity-0 group-hover:opacity-100 cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -395,15 +566,15 @@ const Profile = () => {
             </div>
             {avatarUploading && (
               <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
+                <div className="animate-spin rounded-full h-4 w-4 sm:h-6 sm:w-6 border-t-2 border-b-2 border-white"></div>
               </div>
             )}
           </div>
         </div>
 
-        {/* Column 2: Name + Subscription (aligned with Manage Subscription) */}
-        <div className="flex flex-col items-center" style={{ minWidth: '180px' }}>
-          <h1 className="text-3xl font-retro text-maineBlue mb-2">
+        {/* Column 2: Name + Subscription */}
+        <div className="flex flex-col items-center text-center" style={{ minWidth: '160px' }}>
+          <h1 className="text-2xl sm:text-3xl font-retro text-maineBlue mb-2">
             {userProfile.name}
           </h1>
           {subscription && (
@@ -413,13 +584,13 @@ const Profile = () => {
           )}
         </div>
 
-        {/* Column 3: Level Progress (aligned with Sign Out) */}
-        <div className="flex flex-col items-center" style={{ minWidth: '120px' }}>
+        {/* Column 3: Level Progress */}
+        <div className="flex flex-col items-center text-center" style={{ minWidth: '120px' }}>
           {/* Leveling Display */}
           <div className="flex flex-col items-center">
             <div className="flex items-center space-x-2 mb-2">
-              <span className="text-xl">{levelProgress.icon}</span>
-              <span className="font-bold text-sm">{levelProgress.title} (Lv {levelProgress.level})</span>
+              <span className="text-lg sm:text-xl">{levelProgress.icon}</span>
+              <span className="font-bold text-xs sm:text-sm">{levelProgress.title} (Lv {levelProgress.level})</span>
             </div>
             <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
@@ -432,23 +603,36 @@ const Profile = () => {
             </div>
           </div>
           
-          {/* Show Talents Toggle - Moved here between XP counter and gray line */}
+          {/* Show Talents Toggle */}
           <div className="flex flex-col items-center gap-1 mt-3">
-            <label className="flex items-center gap-2 cursor-pointer select-none">
+            <label className={`flex items-center gap-2 cursor-pointer select-none ${levelProgress.level < 10 ? 'opacity-50' : ''}`}>
               <span className="font-semibold text-xs">Show Talents</span>
               <span className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                 <input
                   type="checkbox"
                   checked={showTalents}
-                  onChange={() => setShowTalents(val => !val)}
+                  onChange={() => {
+                    if (levelProgress.level >= 10) {
+                      setShowTalents(val => !val);
+                    }
+                  }}
+                  disabled={levelProgress.level < 10}
                   className="sr-only peer"
                   id="talent-toggle"
                 />
                 <span
-                  className="block w-8 h-5 bg-gray-300 rounded-full shadow-inner peer-checked:bg-maineBlue transition-colors duration-200"
+                  className={`block w-8 h-5 rounded-full shadow-inner transition-colors duration-200 ${
+                    levelProgress.level < 10 
+                      ? 'bg-gray-300 cursor-not-allowed' 
+                      : showTalents 
+                        ? 'bg-maineBlue' 
+                        : 'bg-gray-300'
+                  }`}
                 ></span>
                 <span
-                  className="dot absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-200 peer-checked:translate-x-3 shadow"
+                  className={`dot absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-200 shadow ${
+                    showTalents ? 'translate-x-3' : ''
+                  }`}
                 ></span>
               </span>
             </label>
@@ -464,43 +648,43 @@ const Profile = () => {
       {/* Soft divider line */}
       <div className="w-full h-0.5 bg-gray-200 mb-6 rounded-full"></div>
 
-      {/* Action Buttons and Show Talents Row */}
-      <div className="flex justify-between items-start mb-6">
-        {/* Left side - Action Buttons (stacked vertically) */}
-        <div className="flex flex-col gap-3">
+      {/* Action Buttons and Talent Trees - Responsive Layout */}
+      <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-6">
+        {/* Left side - Action Buttons */}
+        <div className="flex flex-col gap-3 w-full lg:w-auto">
           <button
             onClick={() => setModalOpen(true)}
-            className="inline-block bg-sand text-gray-800 px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600"
+            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
             Edit Profile
           </button>
           <button
             onClick={() => setShowUpgradeModal(true)}
-            className="inline-block bg-sand text-gray-800 px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600"
+            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
-            Manage Subscription
+            Subscription
           </button>
           <button
             onClick={handleLogout}
-            className="inline-block bg-sand text-gray-800 px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600"
+            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
             Sign Out
           </button>
         </div>
 
-        {/* Right side - Square Talent Tree Boxes (1x3 Row) */}
+        {/* Right side - Talent Tree Boxes */}
         {showTalents && (
-          <div className="flex gap-3 justify-end">
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
             {/* Cast Iron Champion Box */}
             <button
               onClick={() => setSelectedTalentTree('Equipment')}
-              className="w-32 h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-sm relative group flex flex-col items-center justify-center text-center"
+              className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
-              <FireIcon className="w-8 h-8 mb-2" />
+              <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
               <div>Cast Iron</div>
               <div>Champion</div>
-              {/* Mouseover tooltip */}
-              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-48 border border-gray-300">
+              {/* Mobile-friendly tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
                 <strong>Cast Iron Champion</strong>
                 <div className="mt-1">Master the art of cast iron cooking with heat control, seasoning, and searing techniques.</div>
               </div>
@@ -509,13 +693,13 @@ const Profile = () => {
             {/* Grilling Heavyweight Box */}
             <button
               onClick={() => setSelectedTalentTree('Techniques')}
-              className="w-32 h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-sm relative group flex flex-col items-center justify-center text-center"
+              className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
-              <ShieldCheckIcon className="w-8 h-8 mb-2" />
+              <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
               <div>Grilling</div>
               <div>Heavyweight</div>
-              {/* Mouseover tooltip */}
-              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-48 border border-gray-300">
+              {/* Mobile-friendly tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
                 <strong>Grilling Heavyweight</strong>
                 <div className="mt-1">Become a grilling master with advanced techniques, temperature control, and flavor enhancement.</div>
               </div>
@@ -524,13 +708,13 @@ const Profile = () => {
             {/* Baking Warlock Box */}
             <button
               onClick={() => setSelectedTalentTree('Ingredients')}
-              className="w-32 h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-sm relative group flex flex-col items-center justify-center text-center"
+              className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
-              <CakeIcon className="w-8 h-8 mb-2" />
+              <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
               <div>Baking</div>
               <div>Warlock</div>
-              {/* Mouseover tooltip */}
-              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-48 border border-gray-300">
+              {/* Mobile-friendly tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
                 <strong>Baking Warlock</strong>
                 <div className="mt-1">Unlock the secrets of baking with ingredient mastery, precision timing, and magical results.</div>
               </div>
@@ -542,7 +726,7 @@ const Profile = () => {
       {/* Details Row */}
       <div className="flex items-start mb-6">
         <div className="flex-1">
-          {/* Active Talents - Compact and Centered Buttons */}
+          {/* Active Talents - Responsive */}
           <div className="mb-4">
             <div className="flex flex-wrap justify-center gap-1.5 mb-1.5">
               {selectedTalents.length > 0 &&
@@ -586,34 +770,35 @@ const Profile = () => {
         content={termsContent}
       />
       
-      {/* Talent Tree Modal */}
+      {/* Talent Tree Modal - Responsive */}
       {selectedTalentTree && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4 sm:mb-6">
               <div className="flex-1"></div>
-              <div className="flex items-center gap-3">
-                {selectedTalentTree === 'Equipment' && <FireIcon className="w-8 h-8 text-maineBlue" />}
-                {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-8 h-8 text-maineBlue" />}
-                {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-8 h-8 text-maineBlue" />}
-                <h2 className="text-2xl font-bold text-maineBlue text-center">
+              <div className="flex items-center gap-2 sm:gap-3">
+                {selectedTalentTree === 'Equipment' && <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
                   {selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
                    selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock'}
                 </h2>
               </div>
               <button
                 onClick={() => setSelectedTalentTree(null)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold flex-1 text-right"
+                className="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl font-bold flex-1 text-right"
               >
                 ×
               </button>
             </div>
             
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {talentTrees[selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
                            selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock']?.map(talent => {
                 const xp = userProfile?.xp || 0;
-                const level = Math.floor(xp / 100) + 1;
+                // Use the corrected level calculation instead of the old one
+                const { level } = getCorrectXPProgress(xp);
                 const unlocked = level >= talent.unlockLevel;
                 const selected = selectedTalents.includes(talent.name);
                 const Icon = talent.icon;
@@ -627,7 +812,7 @@ const Profile = () => {
                       handleSelectTalent(talent.name, true);
                     }}
                     disabled={!unlocked}
-                    className={`relative group p-4 rounded-lg transition-all border min-h-[120px] flex flex-col items-center justify-center text-center ${
+                    className={`relative group p-3 sm:p-4 rounded-lg transition-all border min-h-[100px] sm:min-h-[120px] flex flex-col items-center justify-center text-center ${
                       unlocked
                         ? selected
                           ? 'bg-maineBlue text-seafoam shadow-md border-maineBlue'
@@ -635,8 +820,8 @@ const Profile = () => {
                         : 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-300'
                     }`}
                   >
-                    <Icon className={`w-8 h-8 mb-2 ${!unlocked ? 'opacity-40 grayscale' : ''}`} />
-                    <div className="font-bold text-sm mb-1">{talent.name}</div>
+                    <Icon className={`w-6 h-6 sm:w-8 sm:h-8 mb-2 ${!unlocked ? 'opacity-40 grayscale' : ''}`} />
+                    <div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
                     {!unlocked && (
                       <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
                     )}
@@ -644,8 +829,8 @@ const Profile = () => {
                       <div className="text-xs text-green-600 font-bold">✓ Selected</div>
                     )}
                     
-                    {/* Hover/Click Tooltip */}
-                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-10 hidden group-hover:block bg-white text-black p-3 rounded shadow-lg text-sm w-48 border border-gray-300">
+                    {/* Responsive tooltip */}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-10 hidden group-hover:block bg-white text-black p-2 sm:p-3 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
                       <strong>{talent.name}</strong>
                       <div className="mt-1 text-xs">{talent.description}</div>
                       <div className="mt-1 text-xs text-gray-500">Unlocks at level {talent.unlockLevel}</div>
@@ -655,10 +840,10 @@ const Profile = () => {
               })}
             </div>
             
-            <div className="mt-6 text-center">
+            <div className="mt-4 sm:mt-6 text-center">
               <button
                 onClick={() => setSelectedTalentTree(null)}
-                className="px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold"
+                className="px-4 sm:px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold text-sm sm:text-base"
               >
                 Close
               </button>
