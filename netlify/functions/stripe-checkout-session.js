@@ -91,15 +91,7 @@ exports.handler = async function(event) {
       allow_promotion_codes: true,
       subscription_data: {
         trial_period_days: 3,
-        trial_settings: {
-          end_behavior: {
-            missing_payment_method: 'pause'
-          }
-        },
         payment_behavior: 'default_incomplete',
-        payment_settings: {
-          save_default_payment_method: 'on_subscription'
-        }
       },
       payment_method_collection: 'if_required',
       success_url: successUrl,
@@ -107,9 +99,6 @@ exports.handler = async function(event) {
       customer: customer.id,
       metadata: {
         user_id: userId,
-      },
-      invoice_creation: {
-        enabled: true
       }
     };
 
