@@ -85,6 +85,12 @@ exports.handler = async function(event) {
     const subscription = subscriptions.data[0];
 
     // Update or create subscription record in Supabase
+    const { data: existingSubscription, error: subscriptionError } = await supabase
+      .from('user_subscriptions')
+      .select('*')
+      .eq('stripe_customer_id', customer.id)
+      .maybeSingle();
+
     const subscriptionData = {
       user_id: userId,
       stripe_customer_id: customer.id,
@@ -92,25 +98,35 @@ exports.handler = async function(event) {
       plan: subscription.plan?.id?.includes('yearly') ? 'yearly' : 'monthly',
       status: subscription.status,
       current_period_end: subscription.current_period_end,
-      trial_end: subscription.trial_end, // Use actual Stripe value
+      trial_end: subscription.trial_end,
       updated_at: new Date().toISOString()
     };
 
     console.log('Upserting subscription data:', JSON.stringify(subscriptionData, null, 2));
 
-    const { data: createdSubscription, error: createSubError } = await supabase
-      .from('user_subscriptions')
-      .upsert([subscriptionData], {
-        onConflict: 'user_id,stripe_subscription_id'  // Specify both columns for conflict resolution
-      })
-      .select();
-
-    if (createSubError) {
-      console.error('Failed to create subscription:', createSubError);
-      return createErrorResponse(500, `Failed to update subscription: ${createSubError.message}`);
+    let subscriptionResult;
+    if (existingSubscription) {
+      // Update existing subscription
+      const { data: updatedSubscription, error: updateError } = await supabase
+        .from('user_subscriptions')
+        .update(subscriptionData)
+        .eq('id', existingSubscription.id)
+        .select();
+      
+      if (updateError) throw updateError;
+      subscriptionResult = updatedSubscription[0];
+    } else {
+      // Insert new subscription
+      const { data: newSubscription, error: insertError } = await supabase
+        .from('user_subscriptions')
+        .insert([subscriptionData])
+        .select();
+      
+      if (insertError) throw insertError;
+      subscriptionResult = newSubscription[0];
     }
 
-    console.log('Subscription upsert successful:', JSON.stringify(createdSubscription, null, 2));
+    console.log('Subscription upsert successful:', JSON.stringify(subscriptionResult, null, 2));
 
     // Check if subscription is active or in trial
     const isPaid = subscription.status === 'active' || 
@@ -120,7 +136,7 @@ exports.handler = async function(event) {
     const responseBody = JSON.stringify({
       isPaid,
       subscription: {
-        ...createdSubscription[0],
+        ...subscriptionResult,
         trial_end: subscriptionData.trial_end
       }
     });

@@ -64,14 +64,23 @@ exports.handler = async function(event) {
       mode: 'subscription',
       allow_promotion_codes: true,
       subscription_data: {
-        trial_period_days: priceId.includes('monthly') ? 3 : undefined,
-        trial_settings: priceId.includes('monthly') ? {
+        trial_period_days: 3,
+        trial_settings: {
           end_behavior: {
             missing_payment_method: 'pause'
           }
-        } : undefined,
+        },
+        payment_behavior: 'default_incomplete',
+        payment_settings: {
+          save_default_payment_method: 'on_subscription',
+          payment_method_types: ['card']
+        }
       },
-      payment_method_collection: priceId.includes('monthly') ? 'if_required' : 'always',
+      payment_intent_data: {
+        capture_method: 'automatic',
+        setup_future_usage: 'off_session'
+      },
+      payment_method_collection: 'if_required',
       success_url: `${process.env.STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: process.env.STRIPE_CANCEL_URL,
       customer: customer.id,
