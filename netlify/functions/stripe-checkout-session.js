@@ -60,6 +60,11 @@ exports.handler = async function(event) {
       line_items: [
         { price: priceId, quantity: 1 }
       ],
+      ...(plan === 'monthly' && {
+        subscription_data: {
+          trial_period_days: 3
+        }
+      }),
       success_url: process.env.STRIPE_SUCCESS_URL,
       cancel_url: process.env.STRIPE_CANCEL_URL,
       // No customer_email field here —> email will be locked to customer's existing email
