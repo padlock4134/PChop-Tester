@@ -54,20 +54,29 @@ exports.handler = async function(event) {
   // Create the Stripe Checkout session URL to redirect the user to
   try {
     const session = await stripe.checkout.sessions.create({
-      customer: customer.id, // Existing Stripe customer ID
       payment_method_types: ['card'],
-      mode: 'subscription',
       line_items: [
-        { price: priceId, quantity: 1 }
+        {
+          price: priceId,
+          quantity: 1,
+        },
       ],
-      ...(plan === 'monthly' && {
-        subscription_data: {
-          trial_period_days: 3
-        }
-      }),
-      success_url: process.env.STRIPE_SUCCESS_URL,
+      mode: 'subscription',
+      allow_promotion_codes: true,
+      subscription_data: {
+        trial_period_days: priceId.includes('monthly') ? 3 : undefined,
+        trial_settings: {
+          end_behavior: {
+            missing_payment_method: 'cancel',
+          },
+        },
+      },
+      success_url: `${process.env.STRIPE_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: process.env.STRIPE_CANCEL_URL,
-      // No customer_email field here —> email will be locked to customer's existing email
+      customer: customer.id,
+      metadata: {
+        user_id: userId,
+      },
     });
 
     return createOkResponseWithBody(JSON.stringify({ checkoutUrl: session.url }), cookiesToSet, true);

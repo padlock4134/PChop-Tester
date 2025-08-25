@@ -45,14 +45,27 @@ const AppRoutes = () => {
 
   const navigate = useNavigate();
 
-  const { authStatus} = useWristbandAuth();
-  const { user, isLoading, isPaid } = useSupabase();
+  const { authStatus } = useWristbandAuth();
+  const { user, isLoading, isPaid, refreshAuthState } = useSupabase();
   
   // Use the device detection hook
   const { deviceType } = useDeviceDetect();
   
   // Get responsive classes based on device type
   const responsiveClasses = getResponsiveClasses(deviceType);
+
+  // Handle Stripe redirect with session ID
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+    
+    if (sessionId && authStatus === AuthStatus.AUTHENTICATED) {
+      // Refresh auth state to ensure subscription is verified
+      refreshAuthState?.();
+      // Clean up the URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [authStatus]);
 
   // We have this check here because the SupabaseProvider isLoading flag will never flip to false
   // in the event the initial Wristband auth session check fails. This status gets set to UNAUTHENTICATED

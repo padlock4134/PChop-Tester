@@ -84,40 +84,47 @@ exports.handler = async function(event) {
 
     const subscription = subscriptions.data[0];
 
-    // Check if subscription is active or in trial
-    const isPaid = subscription.status === 'active' || 
-                  subscription.status === 'trialing' || 
-                  (subscription.trial_end && subscription.trial_end > Math.floor(Date.now() / 1000));
+    // Update or create subscription record in Supabase
+    const subscriptionData = {
+      user_id: userId,
+      stripe_customer_id: customer.id,
+      stripe_subscription_id: subscription.id,
+      plan: subscription.plan?.id?.includes('yearly') ? 'yearly' : 'monthly',
+      status: subscription.status,
+      current_period_end: subscription.current_period_end,
+      trial_end: subscription.trial_end || Math.floor(Date.now() / 1000) + (3 * 24 * 60 * 60), // 3 days from now
+      updated_at: new Date().toISOString()
+    };
 
-    // Otherwise, provision a new subscription record in Supabase for the user.
+    console.log('Upserting subscription data:', JSON.stringify(subscriptionData, null, 2));
+
     const { data: createdSubscription, error: createSubError } = await supabase
       .from('user_subscriptions')
-      .upsert({ 
-        user_id: userId,
-        stripe_customer_id: customer.id,
-        stripe_subscription_id: subscription.id,
-        plan: subscription.plan?.id?.includes('yearly') ? 'yearly' : 'monthly',
-        status: subscription.status,
-        current_period_end: subscription.current_period_end,
-        trial_end: subscription.trial_end
-      }, {
-        onConflict: 'user_id'
-      });
+      .upsert([subscriptionData], {
+        onConflict: 'user_id,stripe_subscription_id'  // Specify both columns for conflict resolution
+      })
+      .select();
 
     if (createSubError) {
-      console.error('Failed to create subscription: ', createSubError);
-      return createErrorResponse(500, `Unexpected error: ${createSubError.message}`);
+      console.error('Failed to create subscription:', createSubError);
+      return createErrorResponse(500, `Failed to update subscription: ${createSubError.message}`);
     }
+
+    console.log('Subscription upsert successful:', JSON.stringify(createdSubscription, null, 2));
+
+    // Check if subscription is active or in trial
+    const isPaid = subscription.status === 'active' || 
+                  subscription.status === 'trialing';
 
     // Return the subscription status
     const responseBody = JSON.stringify({
       isPaid,
       subscription: {
-        ...createdSubscription,
-        isTrial: subscription.status === 'trialing',
-        trialEnd: subscription.trial_end
+        ...createdSubscription[0],
+        trial_end: subscriptionData.trial_end
       }
     });
+
     return createOkResponseWithBody(responseBody, cookiesToSet, true);
   } catch (err) {
     console.error('Error verifying subscription:', err);

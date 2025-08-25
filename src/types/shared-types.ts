@@ -19,4 +19,5 @@ export interface Subscription {
   status: string;
   current_period_end: string;
   created_at: string;
+  trial_end?: number;  // Added trial_end as optional for backward compatibility
 };
