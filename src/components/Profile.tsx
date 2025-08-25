@@ -57,7 +57,9 @@ const Profile = () => {
   const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const [talentPoints, setTalentPoints] = useState(0);
   const [activeTab, setActiveTab] = useState('');
-  const [showTalents, setShowTalents] = useState(true);
+  const [showTalents, setShowTalents] = useState(false);
+  const [selectedTalentTree, setSelectedTalentTree] = useState<string | null>(null);
+  const [talentTreeModalOpen, setTalentTreeModalOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
@@ -139,8 +141,12 @@ const Profile = () => {
   };
 
   // Handle permanent selection of a talent (cannot be undone)
-  const handleSelectTalent = (talentName: string) => {
-    if (!selectedTalents.includes(talentName)) {
+  const handleSelectTalent = (talentName: string, isRightClick: boolean = false) => {
+    if (isRightClick && selectedTalents.includes(talentName)) {
+      // Right-click: Remove talent (undo)
+      setSelectedTalents(prev => prev.filter(talent => talent !== talentName));
+    } else if (!isRightClick && !selectedTalents.includes(talentName)) {
+      // Left-click: Add talent
       setSelectedTalents(prev => [...prev, talentName]);
     }
   };
@@ -213,6 +219,11 @@ const Profile = () => {
           progressPercent,
         });
         
+        // Auto-enable talents at level 10
+        if (level >= 10) {
+          setShowTalents(true);
+        }
+
         // Fetch subscription information
         try {
           const subscriptionData = await verifySubscription(user?.id || '');
@@ -352,10 +363,11 @@ const Profile = () => {
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-weatheredWhite rounded-lg shadow-lg">
-      {/* Header: User Name with Avatar */}
-      <div className="flex flex-col items-center mb-6">
-        <div className="flex items-center gap-4 mb-2">
-          <div className="w-16 h-16 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-xl overflow-hidden shrink-0 relative group">
+      {/* Header: Aligned with buttons below */}
+      <div className="flex justify-center gap-4 items-center mb-6">
+        {/* Column 1: Avatar (aligned with Edit Profile) */}
+        <div className="flex justify-center" style={{ minWidth: '140px' }}>
+          <div className="w-20 h-20 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-xl overflow-hidden shrink-0 relative group">
             {userProfile.avatar ? (
               <img 
                 src={userProfile.avatar} 
@@ -387,49 +399,27 @@ const Profile = () => {
               </div>
             )}
           </div>
-          <h1 className="text-3xl font-retro text-maineBlue">
+        </div>
+
+        {/* Column 2: Name + Subscription (aligned with Manage Subscription) */}
+        <div className="flex flex-col items-center" style={{ minWidth: '180px' }}>
+          <h1 className="text-3xl font-retro text-maineBlue mb-2">
             {userProfile.name}
           </h1>
+          {subscription && (
+            <span className={`px-2 py-0.5 rounded-full border font-bold text-xs bg-amber-100 text-amber-800 border-amber-300`}>
+              {subscription.plan === 'yearly' ? 'Yearly' : 'Monthly'}
+            </span>
+          )}
         </div>
-        {subscription && (
-          <span className={`px-2 py-0.5 rounded-full border font-bold text-xs bg-amber-100 text-amber-800 border-amber-300`}>
-            {subscription.plan === 'yearly' ? 'Yearly' : 'Monthly'}
-          </span>
-        )}
-      </div>
-      
-      {/* Action Buttons */}
-      <div className="flex justify-center gap-4 mb-6">
-        <button
-          onClick={() => setModalOpen(true)}
-          className="inline-block bg-sand text-gray-800 px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors"
-        >
-          Edit Profile
-        </button>
-        <button
-          onClick={() => setShowUpgradeModal(true)}
-          className="inline-block bg-sand text-gray-800 px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors"
-        >
-          Manage Subscription
-        </button>
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 bg-gray-100 text-gray-700 border border-gray-300 rounded-md font-medium hover:bg-gray-200 transition-colors"
-        >
-          Sign Out
-        </button>
-      </div>
-      
-      {/* Details Row */}
-      <div className="flex items-start mb-6">
-        <div className="flex-1">
-          <h2 className="text-lg font-retro mb-2 text-center">My Culinary Journey</h2>
-          
+
+        {/* Column 3: Level Progress (aligned with Sign Out) */}
+        <div className="flex flex-col items-center" style={{ minWidth: '120px' }}>
           {/* Leveling Display */}
-          <div className="flex flex-col items-center mb-4">
+          <div className="flex flex-col items-center">
             <div className="flex items-center space-x-2 mb-2">
               <span className="text-xl">{levelProgress.icon}</span>
-              <span className="font-bold">{levelProgress.title} (Lv {levelProgress.level})</span>
+              <span className="font-bold text-sm">{levelProgress.title} (Lv {levelProgress.level})</span>
             </div>
             <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
@@ -442,7 +432,117 @@ const Profile = () => {
             </div>
           </div>
           
-          {/* Active Talents and Talent Trees - Compact and Centered Buttons */}
+          {/* Show Talents Toggle - Moved here between XP counter and gray line */}
+          <div className="flex flex-col items-center gap-1 mt-3">
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <span className="font-semibold text-xs">Show Talents</span>
+              <span className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
+                <input
+                  type="checkbox"
+                  checked={showTalents}
+                  onChange={() => setShowTalents(val => !val)}
+                  className="sr-only peer"
+                  id="talent-toggle"
+                />
+                <span
+                  className="block w-8 h-5 bg-gray-300 rounded-full shadow-inner peer-checked:bg-maineBlue transition-colors duration-200"
+                ></span>
+                <span
+                  className="dot absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-200 peer-checked:translate-x-3 shadow"
+                ></span>
+              </span>
+            </label>
+            {levelProgress.level < 10 && (
+              <div className="text-xs text-red-500 text-center">
+                Available at Level 10
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      
+      {/* Soft divider line */}
+      <div className="w-full h-0.5 bg-gray-200 mb-6 rounded-full"></div>
+
+      {/* Action Buttons and Show Talents Row */}
+      <div className="flex justify-between items-start mb-6">
+        {/* Left side - Action Buttons (stacked vertically) */}
+        <div className="flex flex-col gap-3">
+          <button
+            onClick={() => setModalOpen(true)}
+            className="inline-block bg-sand text-gray-800 px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600"
+          >
+            Edit Profile
+          </button>
+          <button
+            onClick={() => setShowUpgradeModal(true)}
+            className="inline-block bg-sand text-gray-800 px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600"
+          >
+            Manage Subscription
+          </button>
+          <button
+            onClick={handleLogout}
+            className="inline-block bg-sand text-gray-800 px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600"
+          >
+            Sign Out
+          </button>
+        </div>
+
+        {/* Right side - Square Talent Tree Boxes (1x3 Row) */}
+        {showTalents && (
+          <div className="flex gap-3 justify-end">
+            {/* Cast Iron Champion Box */}
+            <button
+              onClick={() => setSelectedTalentTree('Equipment')}
+              className="w-32 h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-sm relative group flex flex-col items-center justify-center text-center"
+            >
+              <FireIcon className="w-8 h-8 mb-2" />
+              <div>Cast Iron</div>
+              <div>Champion</div>
+              {/* Mouseover tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-48 border border-gray-300">
+                <strong>Cast Iron Champion</strong>
+                <div className="mt-1">Master the art of cast iron cooking with heat control, seasoning, and searing techniques.</div>
+              </div>
+            </button>
+
+            {/* Grilling Heavyweight Box */}
+            <button
+              onClick={() => setSelectedTalentTree('Techniques')}
+              className="w-32 h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-sm relative group flex flex-col items-center justify-center text-center"
+            >
+              <ShieldCheckIcon className="w-8 h-8 mb-2" />
+              <div>Grilling</div>
+              <div>Heavyweight</div>
+              {/* Mouseover tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-48 border border-gray-300">
+                <strong>Grilling Heavyweight</strong>
+                <div className="mt-1">Become a grilling master with advanced techniques, temperature control, and flavor enhancement.</div>
+              </div>
+            </button>
+
+            {/* Baking Warlock Box */}
+            <button
+              onClick={() => setSelectedTalentTree('Ingredients')}
+              className="w-32 h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-sm relative group flex flex-col items-center justify-center text-center"
+            >
+              <CakeIcon className="w-8 h-8 mb-2" />
+              <div>Baking</div>
+              <div>Warlock</div>
+              {/* Mouseover tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-48 border border-gray-300">
+                <strong>Baking Warlock</strong>
+                <div className="mt-1">Unlock the secrets of baking with ingredient mastery, precision timing, and magical results.</div>
+              </div>
+            </button>
+          </div>
+        )}
+      </div>
+      
+      {/* Details Row */}
+      <div className="flex items-start mb-6">
+        <div className="flex-1">
+          {/* Active Talents - Compact and Centered Buttons */}
           <div className="mb-4">
             <div className="flex flex-wrap justify-center gap-1.5 mb-1.5">
               {selectedTalents.length > 0 &&
@@ -458,98 +558,7 @@ const Profile = () => {
                 <span className="px-2 py-0.5 rounded-full border font-bold text-xs text-gray-500">+{selectedTalents.length - 3} more</span>
               )}
             </div>
-            <div className="flex justify-center gap-2">
-              <label className="flex items-center gap-2 cursor-pointer select-none">
-                <span className="font-semibold text-xs">Show Talents</span>
-                <span className="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
-                  <input
-                    type="checkbox"
-                    checked={showTalents}
-                    onChange={() => setShowTalents(val => !val)}
-                    className="sr-only peer"
-                    id="talent-toggle"
-                  />
-                  <span
-                    className="block w-10 h-6 bg-gray-300 rounded-full shadow-inner peer-checked:bg-maineBlue transition-colors duration-200"
-                  ></span>
-                  <span
-                    className="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 peer-checked:translate-x-4 shadow"
-                  ></span>
-                </span>
-              </label>
-            </div>
           </div>
-
-          {/* Talent Trees Collapsible Panel - Condensed */}
-          {showTalents && (
-            <div className="space-y-2">
-              <div className="flex gap-2 justify-center flex-wrap">
-                {Object.entries(talentTrees).map(([tree, talents]) => (
-                  <button
-                    key={tree}
-                    className={`px-3 py-1 rounded text-sm font-bold transition-colors ${
-                      activeTab === tree ? 'bg-maineBlue text-seafoam' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'
-                    }`}
-                    onClick={() => setActiveTab(tree)}
-                  >
-                    {tree}
-                  </button>
-                ))}
-              </div>
-              {Object.entries(talentTrees).map(([tree, talents]) => (
-                <div key={tree} className={activeTab === tree ? 'block' : 'hidden'}>
-                  <div className="bg-gray-100 p-3 rounded-lg border border-gray-200">
-                    <h3 className="text-lg font-bold mb-2 text-maineBlue">{tree}</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      {talents.map(talent => {
-                        // Calculate if talent is unlocked by level
-                        const xp = userProfile?.xp || 0;
-                        const level = Math.floor(xp / 100) + 1;
-                        const unlocked = level >= talent.unlockLevel;
-                        const selected = selectedTalents.includes(talent.name);
-                        const Icon = talent.icon;
-                        return (
-                          <div
-                            key={talent.name}
-                            className={`relative group p-2 rounded border text-xs flex flex-col items-center justify-center transition-colors min-h-[96px] w-full ${
-                              selected
-                                ? 'bg-green-600 text-white border-green-700' // selected
-                                : unlocked
-                                  ? 'bg-maineBlue text-seafoam border-maineBlue' // unlocked, not selected
-                                  : 'bg-gray-200 text-gray-500 border-gray-200 opacity-60' // locked
-                            }`}
-                          >
-                            <Icon className={`w-8 h-8 mb-1 ${!unlocked ? 'opacity-40 grayscale' : ''} ${selected ? 'drop-shadow-lg' : ''}`} />
-                            <div className="font-bold mb-0.5 text-center">{talent.name}</div>
-                            {/* Tooltip on hover */}
-                            <div className="absolute left-1/2 -translate-x-1/2 mt-2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-44 border border-gray-300">
-                              <strong>{talent.name}</strong>
-                              <div className="mt-1">{talent.description}</div>
-                              <div className="mt-1 text-xs text-gray-500">Unlocks at level {talent.unlockLevel}</div>
-                            </div>
-                            {/* Select button if unlocked and not selected */}
-                            {!selected && unlocked && (
-                              <button
-                                className="mt-1 px-2 py-0.5 rounded bg-seafoam text-maineBlue border border-maineBlue font-bold text-xs hover:bg-maineBlue hover:text-seafoam transition-colors"
-                                onClick={() => handleSelectTalent(talent.name)}
-                                disabled={selected}
-                              >
-                                Select
-                              </button>
-                            )}
-                            {/* Show 'Selected' if selected */}
-                            {selected && (
-                              <span className="mt-1 px-2 py-0.5 rounded bg-green-700 text-white text-xs font-bold">Selected</span>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       </div>
       
@@ -576,6 +585,81 @@ const Profile = () => {
         onClose={() => setTermsModalOpen(false)}
         content={termsContent}
       />
+      
+      {/* Talent Tree Modal */}
+      {selectedTalentTree && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue">
+                {selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
+                 selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock'}
+              </h2>
+              <button
+                onClick={() => setSelectedTalentTree(null)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-4">
+              {talentTrees[selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
+                           selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock']?.map(talent => {
+                const xp = userProfile?.xp || 0;
+                const level = Math.floor(xp / 100) + 1;
+                const unlocked = level >= talent.unlockLevel;
+                const selected = selectedTalents.includes(talent.name);
+                const Icon = talent.icon;
+                
+                return (
+                  <button
+                    key={talent.name}
+                    onClick={(e) => handleSelectTalent(talent.name, e.button === 2)}
+                    onContextMenu={(e) => {
+                      e.preventDefault();
+                      handleSelectTalent(talent.name, true);
+                    }}
+                    disabled={!unlocked}
+                    className={`relative group p-4 rounded-lg transition-all border min-h-[120px] flex flex-col items-center justify-center text-center ${
+                      unlocked
+                        ? selected
+                          ? 'bg-maineBlue text-seafoam shadow-md border-maineBlue'
+                          : 'bg-gray-50 hover:bg-seafoam hover:text-maineBlue border-gray-200'
+                        : 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-300'
+                    }`}
+                  >
+                    <Icon className={`w-8 h-8 mb-2 ${!unlocked ? 'opacity-40 grayscale' : ''}`} />
+                    <div className="font-bold text-sm mb-1">{talent.name}</div>
+                    {!unlocked && (
+                      <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
+                    )}
+                    {selected && (
+                      <div className="text-xs text-green-600 font-bold">✓ Selected</div>
+                    )}
+                    
+                    {/* Hover/Click Tooltip */}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-10 hidden group-hover:block bg-white text-black p-3 rounded shadow-lg text-sm w-48 border border-gray-300">
+                      <strong>{talent.name}</strong>
+                      <div className="mt-1 text-xs">{talent.description}</div>
+                      <div className="mt-1 text-xs text-gray-500">Unlocks at level {talent.unlockLevel}</div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+            
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => setSelectedTalentTree(null)}
+                className="px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Footer with Terms of Service link */}
       <footer className="mt-8 text-center text-sm text-gray-500 py-4 border-t border-gray-200">
