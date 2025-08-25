@@ -167,9 +167,9 @@ const Profile = () => {
           ...profile,
           name: profile.name || 'User',
           xp,
-          // Map kitchen_setup from database to kitchenSetup in state
+          // ADD THIS LINE to map cooking_experience to experience:
+          experience: profile.cooking_experience || 'Beginner',
           kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
-          // Ensure these arrays are never undefined
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
@@ -613,45 +613,51 @@ function EditProfileModal({
       const updatedProfile = {
         name,
         email,
-        experience,
-        dietary,
-        cuisine,
-        kitchen_setup: kitchenSetup // Make sure this matches the database column name
+        cooking_experience: experience,  // String value from dropdown
+        dietary,                         // Array of selected dietary preferences
+        cuisine,                         // Array of selected cuisine preferences  
+        kitchen_setup: kitchenSetup     // String value from dropdown
       };
 
-      // First update the profile
+      console.log('Attempting to save just name:', updatedProfile);
+
       const { error: updateError } = await supabase
         .from('profiles')
         .update(updatedProfile)
         .eq('id', user.id);
 
-      if (updateError) throw updateError;
+      if (updateError) {
+        console.error('Update error:', updateError);
+        throw updateError;
+      }
 
-      // Then fetch the updated profile to ensure we have the latest data
-      const { data: updatedUser, error: fetchError } = await supabase
+      console.log('Profile updated successfully!');
+      // Add this: Fetch the data back to see what actually saved
+      const { data: savedData } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
+      console.log('Data in database after save:', savedData);
 
-      if (fetchError) throw fetchError;
-
-      if (updatedUser) {
-        // Update the local state with the fresh data from the database
+      // ADD THIS: Update the local UI state with the saved data
+      if (savedData) {
         onProfileUpdated({
           ...user,
-          name: updatedUser.name,
-          email: updatedUser.email,
-          experience: updatedUser.experience,
-          dietary: updatedUser.dietary || [],
-          cuisine: updatedUser.cuisine || [],
-          kitchenSetup: updatedUser.kitchen_setup || 'Apartment Kitchen'
+          name: savedData.name,
+          email: savedData.email,
+          experience: savedData.cooking_experience, // Map cooking_experience to experience
+          dietary: savedData.dietary || [],
+          cuisine: savedData.cuisine || [],
+          kitchenSetup: savedData.kitchen_setup
         });
-        onClose();
       }
-    } catch (err) {
-      console.error('Error updating profile:', err);
-      alert('Failed to update profile. Please try again.');
+
+      onClose(); // Close the modal
+      setIsSaving(false); // Reset saving state
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      console.error('Full error details:', JSON.stringify(error, null, 2));
     } finally {
       setIsSaving(false);
     }

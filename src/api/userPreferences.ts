@@ -5,22 +5,37 @@ import { isSessionValid } from './userSession';
 export async function getUserPreferences(userId: string): Promise<UserPreferences> {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) {
-    return { experienceLevel: DEFAULT_EXPERIENCE_LEVEL };
+    return { 
+      experienceLevel: DEFAULT_EXPERIENCE_LEVEL,
+      dietary: [],
+      cuisine: [],
+      kitchenSetup: 'Apartment Kitchen'
+    };
   }
 
   const { data, error } = await supabase
-    .from('user_preferences')
-    .select('experience_level')
-    .eq('user_id', userId)
+    .from('profiles')
+    .select('cooking_experience, dietary, cuisine, kitchen_setup, level, selected_talent_tree')
+    .eq('id', userId)
     .single();
 
   if (error || !data) {
     console.warn('Failed to fetch user preferences:', error);
-    return { experienceLevel: DEFAULT_EXPERIENCE_LEVEL };
+    return { 
+      experienceLevel: DEFAULT_EXPERIENCE_LEVEL,
+      dietary: [],
+      cuisine: [],
+      kitchenSetup: 'Apartment Kitchen'
+    };
   }
 
   return {
-    experienceLevel: (data.experience_level as ExperienceLevel) || DEFAULT_EXPERIENCE_LEVEL
+    experienceLevel: (data.cooking_experience as ExperienceLevel) || DEFAULT_EXPERIENCE_LEVEL,
+    dietary: data.dietary || [],
+    cuisine: data.cuisine || [],
+    kitchenSetup: data.kitchen_setup || 'Apartment Kitchen',
+    talentTree: (data.level >= 10 && data.selected_talent_tree) ? data.selected_talent_tree : null,
+    level: data.level || 1
   };
 }
 
@@ -32,12 +47,12 @@ export async function updateExperienceLevel(userId: string, level: ExperienceLev
   }
 
   const { error } = await supabase
-    .from('user_preferences')
-    .upsert({
-      user_id: userId,
-      experience_level: level,
+    .from('profiles')
+    .update({
+      cooking_experience: level,
       updated_at: new Date().toISOString()
-    });
+    })
+    .eq('id', userId);
 
   if (error) {
     console.error('Failed to update experience level:', error);
