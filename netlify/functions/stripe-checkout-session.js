@@ -85,7 +85,7 @@ exports.handler = async function(event) {
       console.log('Price details:', JSON.stringify(price, null, 2));
       
       const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
+        payment_method_types: ['card', 'link'],
         line_items: [{
           price: priceId,
           quantity: 1,
@@ -93,14 +93,8 @@ exports.handler = async function(event) {
         mode: 'subscription',
         subscription_data: {
           trial_period_days: 3,
-          payment_behavior: 'default_incomplete',
-          payment_settings: {
-            save_default_payment_method: 'on_subscription',
-            payment_method_types: ['card']
-          },
-          collection_method: 'charge_automatically'
         },
-        payment_method_collection: 'if_required',
+        payment_method_collection: 'always',
         success_url: successUrl,
         cancel_url: cancelUrl,
         customer: customer.id

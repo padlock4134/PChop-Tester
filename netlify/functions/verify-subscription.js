@@ -43,12 +43,20 @@ exports.handler = async function(event) {
       .from('user_subscriptions')
       .select('*')
       .eq('user_id', userId)
-      .eq('status', 'active')
+      .in('status', ['active', 'trialing'])
       .single();
+
+    console.log('Existing subscription check:', { userId, existingSub });
 
     // If it exists, simply return it.
     if (existingSub) {
-      return createOkResponseWithBody(JSON.stringify({ isPaid: true, subscription: existingSub }), cookiesToSet, true);
+      console.log('Found existing subscription, returning isPaid: true');
+      // Convert trial_end back to Unix timestamp for frontend
+      const subscription = {
+        ...existingSub,
+        trial_end: existingSub.trial_end ? Math.floor(new Date(existingSub.trial_end).getTime() / 1000) : null
+      };
+      return createOkResponseWithBody(JSON.stringify({ isPaid: true, subscription }), cookiesToSet, true);
     }
 
     // If subscription is not in Supabase, then check if both customer and subscription are in Stripe.
@@ -97,8 +105,8 @@ exports.handler = async function(event) {
       stripe_subscription_id: subscription.id,
       plan: subscription.plan?.id?.includes('yearly') ? 'yearly' : 'monthly',
       status: subscription.status,
-      current_period_end: subscription.current_period_end,
-      trial_end: subscription.trial_end,
+      current_period_end: subscription.current_period_end ? new Date(subscription.current_period_end * 1000).toISOString() : null,
+      trial_end: subscription.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null,
       updated_at: new Date().toISOString()
     };
 
@@ -129,17 +137,27 @@ exports.handler = async function(event) {
     console.log('Subscription upsert successful:', JSON.stringify(subscriptionResult, null, 2));
 
     // Check if subscription is active or in trial
+    console.log('Subscription status check:', {
+      status: subscription.status,
+      trial_end: subscription.trial_end,
+      current_period_end: subscription.current_period_end
+    });
+    
     const isPaid = subscription.status === 'active' || 
                   subscription.status === 'trialing';
+                  
+    console.log('Final isPaid result:', isPaid);
 
     // Return the subscription status
     const responseBody = JSON.stringify({
       isPaid,
       subscription: {
         ...subscriptionResult,
-        trial_end: subscriptionData.trial_end
+        trial_end: subscription.trial_end
       }
     });
+    
+    console.log('Sending response:', responseBody);
 
     return createOkResponseWithBody(responseBody, cookiesToSet, true);
   } catch (err) {
