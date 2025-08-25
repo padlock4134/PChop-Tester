@@ -591,13 +591,19 @@ const Profile = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-maineBlue">
-                {selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
-                 selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock'}
-              </h2>
+              <div className="flex-1"></div>
+              <div className="flex items-center gap-3">
+                {selectedTalentTree === 'Equipment' && <FireIcon className="w-8 h-8 text-maineBlue" />}
+                {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-8 h-8 text-maineBlue" />}
+                {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-8 h-8 text-maineBlue" />}
+                <h2 className="text-2xl font-bold text-maineBlue text-center">
+                  {selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
+                   selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock'}
+                </h2>
+              </div>
               <button
                 onClick={() => setSelectedTalentTree(null)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold flex-1 text-right"
               >
                 ×
               </button>
