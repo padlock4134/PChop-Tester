@@ -91,6 +91,16 @@ exports.handler = async function(event) {
           quantity: 1,
         }],
         mode: 'subscription',
+        subscription_data: {
+          trial_period_days: 3,
+          payment_behavior: 'default_incomplete',
+          payment_settings: {
+            save_default_payment_method: 'on_subscription',
+            payment_method_types: ['card']
+          },
+          collection_method: 'charge_automatically'
+        },
+        payment_method_collection: 'if_required',
         success_url: successUrl,
         cancel_url: cancelUrl,
         customer: customer.id
