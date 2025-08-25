@@ -98,10 +98,8 @@ exports.handler = async function(event) {
         },
         payment_behavior: 'default_incomplete',
         payment_settings: {
-          save_default_payment_method: 'on_subscription',
-          payment_method_types: ['card']
-        },
-        collection_method: 'charge_automatically'
+          save_default_payment_method: 'on_subscription'
+        }
       },
       payment_method_collection: 'if_required',
       success_url: successUrl,
