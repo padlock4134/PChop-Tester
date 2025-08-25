@@ -28,6 +28,7 @@ class YouTubeAPIRotator {
   constructor() {
     // Load all available API keys from environment
     const keyVars = [
+      'VITE_YOUTUBE_API_KEY',      // Your existing key
       'VITE_YOUTUBE_API_KEY_1',
       'VITE_YOUTUBE_API_KEY_2', 
       'VITE_YOUTUBE_API_KEY_3',
@@ -35,11 +36,19 @@ class YouTubeAPIRotator {
       'VITE_YOUTUBE_API_KEY_5'
     ];
     
+    console.log('[YouTubeAPIRotator] Looking for keys:', keyVars);
+    console.log('[YouTubeAPIRotator] Environment values:', keyVars.map(varName => ({
+      name: varName,
+      present: !!(import.meta.env as any)[varName],
+      value: (import.meta.env as any)[varName] ? 'PRESENT' : 'MISSING'
+    })));
+    
     this.keys = keyVars
       .map(varName => (import.meta.env as any)[varName])
       .filter(key => key && key.length > 0);
       
     console.log(`[YouTubeAPIRotator] Loaded ${this.keys.length} API keys`);
+    console.log('[YouTubeAPIRotator] Keys loaded:', this.keys.map(key => key ? key.substring(0, 10) + '...' : 'undefined'));
     
     // Initialize usage tracking
     this.keys.forEach(key => {
@@ -88,6 +97,10 @@ class YouTubeAPIRotator {
 const apiRotator = new YouTubeAPIRotator();
 
 export async function searchYouTube(query: string): Promise<TutorialVideoResult | null> {
+  console.log('[VideoSearch] Starting search for:', query);
+  console.log('[VideoSearch] Available keys:', apiRotator.keys?.length);
+  console.log('[VideoSearch] API key stats:', apiRotator.getStats());
+  
   const maxRetries = apiRotator.keys?.length || 1;
   
   for (let attempt = 0; attempt < maxRetries; attempt++) {
@@ -95,6 +108,14 @@ export async function searchYouTube(query: string): Promise<TutorialVideoResult 
     
     if (!apiKey) {
       console.log('[VideoSearch] No YouTube API keys available');
+      console.log('[VideoSearch] Environment check:', {
+        main_key: !!(import.meta.env as any).VITE_YOUTUBE_API_KEY,
+        key1: !!(import.meta.env as any).VITE_YOUTUBE_API_KEY_1,
+        key2: !!(import.meta.env as any).VITE_YOUTUBE_API_KEY_2,
+        key3: !!(import.meta.env as any).VITE_YOUTUBE_API_KEY_3,
+        main_key_value: (import.meta.env as any).VITE_YOUTUBE_API_KEY ? 'PRESENT' : 'MISSING',
+        all_env_keys: Object.keys(import.meta.env).filter(key => key.includes('YOUTUBE'))
+      });
       return null;
     }
     

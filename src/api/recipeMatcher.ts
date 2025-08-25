@@ -220,17 +220,30 @@ Return ONLY the JSON array, no other text.`;
     const content = anthropicData.content[0].text;
     
     // Extract JSON array using regex in case there's additional text
+    let jsonText = '';
     const jsonMatch = content.match(/\[\s*\{[\s\S]*\}\s*\]/); 
     if (jsonMatch) {
-      recipes = JSON.parse(jsonMatch[0]);
+      jsonText = jsonMatch[0];
     } else {
-      recipes = JSON.parse(content);
+      jsonText = content;
     }
+    
+    // Clean up common JSON issues
+    jsonText = jsonText
+      .replace(/,\s*}/g, '}')  // Remove trailing commas in objects
+      .replace(/,\s*]/g, ']')  // Remove trailing commas in arrays
+      .replace(/[\u201C\u201D]/g, '"')  // Replace smart quotes with regular quotes
+      .replace(/[\u2018\u2019]/g, "'");  // Replace smart apostrophes
+    
+    console.log('Cleaned JSON text length:', jsonText.length);
+    
+    recipes = JSON.parse(jsonText);
     
     if (!Array.isArray(recipes)) throw new Error('Response not an array');
   } catch (err) {
     console.error('Failed to parse recipes:', err);
     console.log('Raw content:', anthropicData.content[0].text);
+    console.log('Error at position:', err.message);
     return generateFallbackRecipes(userId, ingredients, numRecipes);
   }
 

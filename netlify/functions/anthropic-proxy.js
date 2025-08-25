@@ -49,31 +49,55 @@ exports.handler = async function(event) {
     }
 
     console.log(`Making ${apiKeyIdentifier} request to Anthropic...`);
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': apiKey,
-        'content-type': 'application/json',
-        'anthropic-version': event.headers['anthropic-version'] || '2023-06-01'
-      },
-      body: JSON.stringify(requestBody)
-    });
+    
+    // Add timeout handling (25 seconds to stay under Netlify's 30s limit)
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 25000);
+    
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': apiKey,
+          'content-type': 'application/json',
+          'anthropic-version': event.headers['anthropic-version'] || '2023-06-01'
+        },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Anthropic API error for ${apiKeyIdentifier}:`, errorText);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(`Anthropic API error for ${apiKeyIdentifier}:`, errorText);
+        return {
+          statusCode: response.status,
+          body: errorText
+        };
+      }
+
+      const data = await response.json();
+      console.log('Successful response from Anthropic');
       return {
-        statusCode: response.status,
-        body: errorText
+        statusCode: 200,
+        body: JSON.stringify(data)
       };
+      
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      
+      if (fetchError.name === 'AbortError') {
+        console.error(`Request timeout for ${apiKeyIdentifier}`);
+        return { 
+          statusCode: 504, 
+          body: JSON.stringify({ error: 'Request timeout - please try again' }) 
+        };
+      }
+      
+      throw fetchError; // Re-throw other fetch errors
     }
-
-    const data = await response.json();
-    console.log('Successful response from Anthropic');
-    return {
-      statusCode: 200,
-      body: JSON.stringify(data)
-    };
+    
   } catch (err) {
     console.error('Error proxying to Anthropic:', err);
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };

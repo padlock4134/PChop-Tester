@@ -219,6 +219,8 @@ const CulinarySchool = () => {
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
       console.log('[CulinarySchool] Fetching videos with API key rotation');
+      console.log('[CulinarySchool] Tutorials to fetch:', tutorials);
+      console.log('[CulinarySchool] Selected recipe:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {

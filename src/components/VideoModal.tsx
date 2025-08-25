@@ -114,9 +114,11 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
             </div>
           )}
         </div>
-        {/* Debug: show the raw videoUrl value */}
+        {/* Debug: show the raw videoUrl value and API key status */}
         <div className="mt-2 text-xs text-gray-400 break-all">
           <span className="font-semibold">Debug videoUrl:</span> {videoUrl ? videoUrl : '(empty)'}
+          <br />
+          <span className="font-semibold">API Keys Available:</span> {(import.meta.env as any).VITE_YOUTUBE_API_KEY_1 ? 'Yes' : 'No'}
         </div>
       </div>
     </div>
