@@ -74,7 +74,9 @@ exports.handler = async function(event) {
         payment_settings: {
           save_default_payment_method: 'on_subscription',
           payment_method_types: ['card']
-        }
+        },
+        collection_method: 'charge_automatically',
+        days_until_due: null
       },
       payment_intent_data: {
         capture_method: 'automatic',
@@ -87,6 +89,14 @@ exports.handler = async function(event) {
       metadata: {
         user_id: userId,
       },
+      invoice_creation: {
+        enabled: true,
+        invoice_data: {
+          collection_method: 'charge_automatically',
+          days_until_due: null,
+          auto_advance: false
+        }
+      }
     });
 
     return createOkResponseWithBody(JSON.stringify({ checkoutUrl: session.url }), cookiesToSet, true);
