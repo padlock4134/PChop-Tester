@@ -15,29 +15,112 @@ const generalLessons = [
   { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
 ];
 
-const defaultTutorials = [
-  {
-    title: 'Tutorials and Cooking Hacks',
-    desc: 'Learn specialized techniques and shortcuts for better cooking.',
-    comingSoon: true
-  },
-  {
-    title: 'Let\'s Cook This Meal!',
-    desc: 'How to prepare the main ingredient for this dish.'
-  }
+// Generate default tutorials including the weekly technique
+function getDefaultTutorials() {
+  const weeklyTechnique = getCurrentWeekTechnique();
+  
+  return [
+    {
+      title: `Technique of the Week: ${weeklyTechnique.title}`,
+      desc: weeklyTechnique.desc,
+      type: 'weekly_technique',
+      techniqueData: weeklyTechnique
+    },
+    {
+      title: 'Let\'s Cook This Meal!',
+      desc: 'How to prepare the main ingredient for this dish.'
+    }
+  ];
+}
+
+// 52 Fundamental Cooking Techniques (one for each week of the year)
+const WEEKLY_TECHNIQUES = [
+  // Knife & Prep Techniques (Weeks 1-13)
+  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
+  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
+  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
+  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
+  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
+  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
+  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
+  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
+  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
+  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
+  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
+  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
+  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
+
+  // Heat & Temperature (Weeks 14-26)
+  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
+  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
+  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
+  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
+  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
+  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
+  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
+  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
+  { title: "Steam Control", desc: "Managing moisture while cooking" },
+  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
+  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
+  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
+  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
+
+  // Flavor Building (Weeks 27-39)
+  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
+  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
+  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
+  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
+  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
+  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
+  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
+  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
+  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
+  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
+  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
+  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
+  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
+
+  // Texture & Technique (Weeks 40-52)
+  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
+  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
+  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
+  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
+  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
+  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
+  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
+  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
+  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
+  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
+  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
+  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
+  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
 ];
+
+// Get the technique for current week (1-52)
+function getCurrentWeekTechnique() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 1);
+  const weekNumber = Math.ceil((((now.getTime() - start.getTime()) / 86400000) + start.getDay() + 1) / 7);
+  const techniqueIndex = (weekNumber - 1) % 52; // Cycle through 52 techniques
+  return WEEKLY_TECHNIQUES[techniqueIndex];
+}
 
 function getTwoTutorials(recipe) {
   if (!recipe) return [];
+  
+  const weeklyTechnique = getCurrentWeekTechnique();
+  
   return [
     {
-      title: `Tutorials and Cooking Hacks`,
-      desc: `Learn specialized techniques and shortcuts for better cooking.`,
-      comingSoon: true
+      title: `Technique of the Week: ${weeklyTechnique.title}`,
+      desc: weeklyTechnique.desc,
+      type: 'weekly_technique',
+      techniqueData: weeklyTechnique
     },
     {
       title: `Let\'s Cook This Meal!`,
-      desc: `How to prep the main ingredient (e.g., fish, chicken, clams) for this recipe.`
+      desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
+      type: 'cooking_tutorial'
     }
   ];
 }
@@ -53,7 +136,7 @@ const CulinarySchool = () => {
   }, [updateContext]);
 
   const isRecipeSelected = !!selectedRecipe;
-  const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : [];
+  const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
   // Helper: extract main protein from ingredients
@@ -79,25 +162,30 @@ const CulinarySchool = () => {
 
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe, tut, idx) {
-    // For the 3rd tutorial (idx === 2), just search the recipe name
-    if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
-      return recipe.title;
-    }
-    // For the main recipe tutorial, try to generate a focused query
     let query = '';
-    if (recipe && tut && tut.title && tut.title.toLowerCase().includes('recipe')) {
+    
+    // Handle different tutorial types
+    if (tut.type === 'weekly_technique') {
+      // For technique of the week, search for the specific technique
+      query = `how to ${tut.techniqueData.title.toLowerCase()} cooking technique`;
+    } else if (tut.type === 'cooking_tutorial') {
+      // For cooking tutorials, focus on the recipe
       const mainProtein = getMainProtein(recipe.ingredients || []);
       const mainEquipment = getMainEquipment(recipe.equipment || []);
       if (mainProtein && mainEquipment) {
         query = `How to cook ${mainProtein} using ${mainEquipment}`;
       } else if (mainProtein) {
         query = `How to cook ${mainProtein}`;
-      } else if (mainEquipment) {
-        query = `How to cook with ${mainEquipment}`;
+      } else {
+        query = `how to make ${recipe.title}`;
       }
-    }
-    // Fallback to the old prompt if not main recipe step or missing info
-    if (!query) {
+    } else {
+      // Legacy fallback for older tutorial formats
+      if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
+        return recipe.title;
+      }
+      
+      // Use Chef Freddie for complex queries
       const prompt = `
         Given the following recipe and tutorial step, generate a concise YouTube search query for a relevant cooking video.\n
         - Only use the equipment and ingredients listed.\n
@@ -117,51 +205,47 @@ const CulinarySchool = () => {
           body: JSON.stringify({ prompt })
         });
         const data = await res.json();
-        return data.query || tut.title + ' ' + (recipe.title || '');
+        query = data.query || tut.title + ' ' + (recipe.title || '');
       } catch {
-        return tut.title + ' ' + (recipe.title || '');
+        query = tut.title + ' ' + (recipe.title || '');
       }
     }
+    
     return query;
   }
 
   useEffect(() => {
     let cancelled = false;
     async function fetchVideos() {
-      if (!isRecipeSelected) return;
+      // Now using API key rotation system for better quota management
+      console.log('[CulinarySchool] Fetching videos with API key rotation');
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
-        // No more tut.videoUrl, just fetch video for each tutorial
-        // Generate distinct queries for each tutorial step
-        let query = '';
-        if (idx === 0) {
-          // Step 1: How to make the meal
-          query = selectedRecipe.title ? `how to make ${selectedRecipe.title}` : tut.title;
-        } else if (idx === 1) {
-          // Step 2: Main Ingredient Prep
-          const mainIngredient = getMainIngredient(selectedRecipe.ingredients || []);
-          query = mainIngredient && selectedRecipe.title
-            ? `how to prepare ${mainIngredient} for ${selectedRecipe.title}`
-            : tut.title;
-
+        try {
+          // Use the improved video query generation that handles different tutorial types
+          const query = await getVideoQueryFromFreddie(
+            selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
+            tut, 
+            idx
+          );
+          
+          console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
+          
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          // Debug: log the query and result
-          console.log(`[CulinarySchool] Tutorial step`, { query, result });
-          const lowerTitle = result?.title?.toLowerCase() || '';
-          const equipmentArr = Array.isArray(selectedRecipe?.equipment) ? selectedRecipe.equipment : [];
-          const ingredientsArr = Array.isArray(selectedRecipe?.ingredients) ? selectedRecipe.ingredients : [];
-          const relevant =
-            (equipmentArr.some(eq => lowerTitle.includes(eq.toLowerCase())) ||
-             ingredientsArr.some(ing => lowerTitle.includes(ing.toLowerCase())) ||
-             lowerTitle.includes((selectedRecipe?.title || '').toLowerCase()));
-          // If not relevant but we have a result, use it anyway as a fallback
-          newUrls[idx] = (relevant && result?.url) ? result.url : (result?.url || null);
+          console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
+          
+          if (result && result.url) {
+            newUrls[idx] = result.url;
+          }
+        } catch (error) {
+          console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
+      
       if (!cancelled) setVideoUrls(newUrls);
-
     }
+    
     fetchVideos();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -175,7 +259,7 @@ const CulinarySchool = () => {
         <h1 className="text-3xl font-retro text-maineBlue mb-0">Culinary School</h1>
       </div>
         {/* Always render a VideoModal for the currently displayed tutorial list */}
-        {(isRecipeSelected ? tutorials : defaultTutorials).map((tut, idx) => (
+        {tutorials.map((tut, idx) => (
           <VideoModal
             key={idx}
             open={modalIdx === idx}
@@ -260,7 +344,7 @@ const CulinarySchool = () => {
           <>
             <h3 className="text-lg font-retro mb-2 text-maineBlue">General Tutorials</h3>
             <ol className="space-y-4 list-decimal list-inside">
-              {defaultTutorials.map((tut, idx) => (
+              {tutorials.map((tut, idx) => (
                 <li
                   key={idx}
                   className={`bg-sand p-4 rounded shadow-inner relative ${tut.comingSoon ? 'cursor-default' : 'cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors'}`}

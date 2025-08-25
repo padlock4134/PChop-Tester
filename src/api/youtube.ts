@@ -26,13 +26,7 @@ function isRelevantYouTubeResult(result: any, item: string): boolean {
 }
 
 export async function getTutorialVideoUrl(query: string, recipeTitle?: string, type: 'main_ingredient' | 'equipment' | 'recipe' = 'recipe'): Promise<string | null> {
-  const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
-  if (!apiKey) throw new Error('YouTube API key missing');
-  const searchQuery = recipeTitle ? buildVideoQuery(recipeTitle, query, type) : query;
-  const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=5&q=${encodeURIComponent(searchQuery)}&key=${apiKey}`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('YouTube API error');
-  const data = await res.json();
-  const relevant = data.items?.find((r: any) => isRelevantYouTubeResult(r, query));
-  return relevant ? `https://www.youtube.com/watch?v=${relevant.id.videoId}` : null;
+  // YouTube API disabled to prevent quota issues affecting user's personal account
+  console.log(`[YouTube API] Disabled. Query was: ${query}, Recipe: ${recipeTitle}, Type: ${type}`);
+  return null;
 }
