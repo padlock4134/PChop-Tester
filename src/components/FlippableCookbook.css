@@ -1,3 +1,17 @@
+/* Cookbook Logo */
+.cookbook-logo {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto 1rem;
+}
+
+@media (max-width: 768px) {
+  .cookbook-logo {
+    width: 200px;
+    height: 200px;
+  }
+}
+
 /* Cookbook Container */
 .cookbook-container {
   position: relative;
@@ -808,4 +822,10 @@
   overflow-y: auto;
   padding: 0 10px;
   margin-bottom: 20px;
+}
+
+/* Mobile responsive styles for the cookbook logo */
+.device-mobile .cookbook-logo {
+  width: 200px !important;
+  height: 200px !important;
 }

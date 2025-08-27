@@ -17,18 +17,22 @@ const PAGES = [
           width: '100%',
           padding: '20px'
         }}>
+          <h1 className="cover-title" style={{ fontSize: '3.3rem', margin: '1rem 0 0.5rem 0', color: '#fff', textAlign: 'center' }}>PORKCHOP</h1>
+          <h2 className="cover-subtitle" style={{ fontSize: '1.8rem', margin: '0 0 2rem 0', color: '#fff', textAlign: 'center' }}>The AI Cooking Companion</h2>
+          <h3 className="cover-body" style={{ fontSize: '1.5rem', textAlign: 'center', margin: '0 auto 2rem', color: '#fff' }}>Open To Learn More</h3>
           <div 
+            className="cookbook-logo"
             style={{ 
-              marginBottom: '1.5rem',
-              width: '230px',
-              height: '230px',
-              borderRadius: '50%',
-              overflow: 'hidden',
+              width: '300px',
+              height: '300px',
+              margin: '0 auto 1rem',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               background: 'white',
               border: '4px solid black',
+              borderRadius: '50%',
+              overflow: 'hidden',
               padding: '5px'
             }}
           >
@@ -36,21 +40,14 @@ const PAGES = [
               src="/logo.png" 
               alt="PorkChop Logo" 
               style={{ 
-                width: '92%',
-                height: '92%',
-                objectFit: 'cover'
+                width: '95%',
+                height: '95%',
+                objectFit: 'cover',
+                borderRadius: '50%'
               }} 
             />
           </div>
-          <h1 className="cover-title" style={{ fontSize: '2.8rem', margin: 0, color: '#fff', textAlign: 'center' }}>PorkChop</h1>
-          <h2 className="cover-subtitle" style={{ margin: '0.5rem 0 1.5rem 0', color: '#fff', textAlign: 'center' }}>Your Kitchen, Leveled Up</h2>
-        
-          <p className="cover-body" style={{ textAlign: 'center', maxWidth: '80%', margin: '0 auto' }}>
-            <br></br>We are your hyper personalized culinary companion!<br></br>
-          </p>
-          <div style={{ marginTop: "2rem", textAlign: "center" }}>
-            <span style={{ fontSize: "1.5rem", color: "#fff" }}>Click "Right Edge" to Open <br></br>Click "Left Edge" to Close</span>
-          </div>
+
         </div>
       </>
     ),
