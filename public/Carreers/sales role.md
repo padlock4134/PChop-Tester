@@ -59,20 +59,15 @@ Pre-qualified leads delivered to your calendar
 Pre-call briefs with lead information
 All administrative work handled by support team
 
-Tools You'll Use
-Email: your.name@sales.porkchop.app
-Calendar: Google Calendar (shared with team)
-CRM: HubSpot (login provided)
-Demo Environment: demo.porkchop.app
-Documentation: docs.porkchop.app
-Internal Wiki: wiki.porkchop.app
-
-🛠️ Sales Tools & Resources
-Dedicated sales portal access
-Customizable demo environment
-Marketing materials & sales decks
-CRM access for lead tracking
-Real-time performance dashboard
+## 🛠️ Tools & Resources
+- **CRM**: HubSpot (our only sales management platform)
+- **Email**: your.name@porkchop.ai
+- **Calendar**: Google Calendar (shared with team)
+- **Demo Environment**: Customizable platform at demo.porkchop.app
+- **Documentation**: Comprehensive product info at docs.porkchop.app
+- **Sales Portal**: Dedicated access with marketing materials and sales decks
+- **Lead Database**: Access to 500+ mid-market rental company leads
+- **Performance Dashboard**: Real-time tracking of your sales metrics
 
 📈 Growth Opportunities
 Tier 1: Sales Associate (0-3 months)
@@ -92,6 +87,9 @@ Set up your sales tools
 Start building your pipeline
 Close your first deal!
 
+Interested candidates should send their resume and a brief introduction to:
+**sales-careers@porkchop.ai**
+
 ---
 Last Updated: August 2025
-Contact: chef@porkchop.app
+Contact: sales-careers@porkchop.ai

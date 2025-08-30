@@ -6,9 +6,10 @@ interface PaymentModalProps {
   onClose: () => void;
   plan: 'monthly' | 'yearly';
   userId: string;
+  hasActiveSubscription?: boolean;
 }
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose, plan, userId }) => {
+const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose, plan, userId, hasActiveSubscription = false }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -91,23 +92,27 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose, plan, userId
           )}
         </div>
         
-        {/* Subscribe button */}
-        <button
-          onClick={handleStripeCheckout}
-          disabled={isLoading}
-          className={`w-full py-3 rounded bg-seafoam text-maineBlue font-bold text-lg hover:bg-maineBlue hover:text-seafoam transition-colors ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          {isLoading ? 'Processing...' : 'Subscribe'}
-        </button>
+        {/* Show Subscribe button only if no active subscription */}
+        {!hasActiveSubscription && (
+          <button
+            onClick={handleStripeCheckout}
+            disabled={isLoading}
+            className={`w-full py-3 rounded bg-seafoam text-maineBlue font-bold text-lg hover:bg-maineBlue hover:text-seafoam transition-colors ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {isLoading ? 'Processing...' : 'Subscribe'}
+          </button>
+        )}
         
-        {/* Cancel Subscription button */}
-        <button
-          onClick={handleCancelSubscription}
-          disabled={isLoading}
-          className={`w-full py-3 mt-3 rounded bg-lobsterRed text-weatheredWhite font-bold text-lg hover:bg-red-700 transition-colors ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          {isLoading ? 'Processing...' : 'Cancel Subscription'}
-        </button>
+        {/* Show Cancel Subscription button only if has active subscription */}
+        {hasActiveSubscription && (
+          <button
+            onClick={handleCancelSubscription}
+            disabled={isLoading}
+            className={`w-full py-3 rounded bg-lobsterRed text-weatheredWhite font-bold text-lg hover:bg-red-700 transition-colors ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {isLoading ? 'Processing...' : 'Cancel Subscription'}
+          </button>
+        )}
         
         <p className="mt-4 text-xs text-gray-500 text-center">
           Payments are securely processed by Stripe. You'll be redirected to your dashboard after payment.

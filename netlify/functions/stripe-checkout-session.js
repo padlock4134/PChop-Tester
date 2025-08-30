@@ -84,21 +84,46 @@ exports.handler = async function(event) {
       const price = await stripe.prices.retrieve(priceId);
       console.log('Price details:', JSON.stringify(price, null, 2));
       
-      const session = await stripe.checkout.sessions.create({
+      // Check if user already has an active or trialing subscription
+      const existingSubscriptions = await stripe.subscriptions.list({ 
+        customer: customer.id, 
+        status: 'all' 
+      });
+      
+      const hasActiveOrTrialing = existingSubscriptions.data.some(sub => 
+        sub.status === 'active' || sub.status === 'trialing'
+      );
+      
+      console.log('Existing subscriptions check:', { 
+        customerId: customer.id, 
+        hasActiveOrTrialing, 
+        subscriptionCount: existingSubscriptions.data.length 
+      });
+
+      const sessionConfig = {
         payment_method_types: ['card', 'link'],
         line_items: [{
           price: priceId,
           quantity: 1,
         }],
         mode: 'subscription',
-        subscription_data: {
-          trial_period_days: 3,
-        },
         payment_method_collection: 'always',
         success_url: successUrl,
         cancel_url: cancelUrl,
         customer: customer.id
-      });
+      };
+
+      // Only add trial for new customers without existing subscriptions
+      if (!hasActiveOrTrialing) {
+        sessionConfig.subscription_data = {
+          trial_period_days: 3,
+        };
+        console.log('Adding 3-day trial for new customer');
+      } else {
+        console.log('Skipping trial - customer has existing subscription');
+      }
+      
+      const session = await stripe.checkout.sessions.create(sessionConfig);
       
       return createOkResponseWithBody(JSON.stringify({ 
         checkoutUrl: session.url 
