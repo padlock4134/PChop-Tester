@@ -1,61 +1,61 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { HomeIcon, GiftIcon } from "@heroicons/react/24/solid";
+import { PuzzlePieceIcon, AcademicCapIcon } from "@heroicons/react/24/solid";
 import "./LandingPage.css";
 import "./TenantWellness.css";
 import logo from '../images/logo.png';
 
-const amenityBenefits = [
+const partnershipBenefits = [
   {
-    title: "🔒 Risk Mitigation",
-    description: "Kitchens are a leading source of residential claims. PorkChop uses AI-driven guidance paired with real chef techniques to teach safe, skill-based cooking—helping residents avoid accidents, misuse, and property damage."
+    title: "🔄 Seamless Integration",
+    description: "PorkChop's API-first architecture allows for easy integration with your existing systems. Our flexible platform connects with your tech stack, whether you're a marketplace, SaaS provider, or technology platform."
   },
   {
-    title: "🤖 AI Blended Coaching",
-    description: "Chef Freddie, our contextual AI chef, offers real-time, personalized support—while human-vetted culinary videos teach proper form, knife safety, and cooking technique. It's smart, skill-agnostic coaching that evolves with each user."
+    title: "🚀 Expanded Offerings",
+    description: "Enhance your product portfolio with PorkChop's culinary AI capabilities. Give your customers access to personalized cooking assistance, recipe recommendations, and skill-building tools without building these features from scratch."
   },
   {
-    title: "👥 Build Community",
-    description: "Encourage connection with recipe sharing, cooking challenges, and hyperlocal food storytelling. PorkChop turns mealtime into a shared experience—even in individual units. Builds a sense of belonging and community engagement."
+    title: "💼 New Revenue Streams",
+    description: "Create additional value for your customers and unlock new monetization opportunities. Our partnership models include revenue sharing, white-label solutions, and customized integration options to fit your business model."
   },
   {
-    title: "🏠 Resident Happiness",
-    description: "PorkChop becomes part of residents' daily lives—supporting healthier eating, self-confidence, and enjoyment at home. Happier, more capable tenants = longer leases and better reviews."
+    title: "🔍 Customer Insights",
+    description: "Gain valuable data on food preferences, cooking habits, and engagement patterns. Our analytics dashboard provides partners with actionable insights while maintaining end-user privacy and data security."
   },
   {
-    title: "📲 Minimal CapEx",
-    description: "No hardware. No build-outs. Just a branded, tech-forward amenity that elevates your property's wellness offering—with digital deployment, usage analytics, and high perceived value."
+    title: "🌐 Market Expansion",
+    description: "Reach new customer segments and markets by adding culinary technology to your offering. PorkChop helps you differentiate in competitive markets and appeal to food-conscious consumers across demographics."
   },
   {
-    title: "🍽️ What Do They Get?",
-    description: "Residents receive unlimited access to PorkChop's digital cookbook with hundreds of curated recipes, personalized meal plans, step-by-step cooking tutorials, and skill-building resources that adapt to their dietary preferences and cooking abilities."
+    title: "🛠️ Developer Resources",
+    description: "Access comprehensive documentation, SDKs, and dedicated support to make integration smooth and efficient. Our partnership team provides technical assistance throughout the implementation process."
   }
 ];
 
-const loyaltyBenefits = [
+const culinarySchoolBenefits = [
   {
-    title: "📈 Increase Basket Size",
-    description: "Our meal planning and recipe discovery tools encourage shoppers to buy a wider variety of ingredients, directly increasing their average spend per visit."
+    title: "🎓 Enhanced Learning Experience",
+    description: "Supplement traditional culinary education with AI-driven personalized guidance. PorkChop works alongside your existing curriculum to reinforce classroom learning, not replace it—ensuring quality education while accelerating skill development."
   },
   {
-    title: "🚶‍♂️ Drive In-Store & Online Traffic",
-    description: "Feature your weekly specials, private label products, or high-margin items within our recipes to guide customers' purchasing decisions and drive traffic to specific aisles or online categories."
+    title: "🔪 Practical Skill Development",
+    description: "Students can practice techniques taught by instructors at their own pace with step-by-step visual guidance. Our platform provides additional practice opportunities that complement hands-on classroom instruction—preserving quality while improving efficiency."
   },
   {
-    title: "🎁 A Modern, Sticky Reward",
-    description: "Offer a high-value digital experience that customers use daily. PorkChop becomes an indispensable tool, creating a powerful new reason for customers to choose your store."
+    title: "📱 Modern Educational Tools",
+    description: "Bring your culinary program into the digital age with a tech platform that enhances traditional teaching methods. Our tools work in harmony with instructor expertise, creating a blended learning approach that maintains educational quality."
   },
   {
-    title: "💡 Gain Customer Insights",
-    description: "Understand what your customers are cooking and buying. Leverage powerful data on food trends and preferences to optimize inventory, promotions, and marketing efforts."
+    title: "📊 Progress Tracking & Analytics",
+    description: "Gain valuable insights into student performance and engagement without sacrificing personalized instruction. Instructors can use data to tailor their teaching, identifying where students need additional hands-on guidance."
   },
   {
-    title: "⚙️ Seamless Integration",
-    description: "PorkChop is a lightweight, digital-first reward that can be easily integrated into your existing loyalty program with minimal technical overhead."
+    title: "🌐 Remote Learning Support",
+    description: "Extend your classroom's reach while maintaining educational quality. Our platform bridges the gap between in-person and remote learning, ensuring consistent instruction that complements—never replaces—the irreplaceable value of hands-on teaching."
   },
   {
-    title: "🛒 Automated Shopping & E-commerce Integration",
-    description: "Allow customers to instantly turn any recipe into a pre-filled shopping cart on your e-commerce platform. This seamless one-click experience removes friction and makes online grocery shopping easier than ever."
+    title: "🍳 Industry-Ready Graduates",
+    description: "Prepare students for professional kitchens with a tool that reinforces the techniques taught by your expert instructors. Graduates enter the workforce with the perfect blend of traditional culinary education and modern technological proficiency."
   }
 ];
 
@@ -69,27 +69,27 @@ const downloadWhitepaper = (filePath: string, fileName: string) => {
   document.body.removeChild(link);
 };
 
-const AmenityModal = ({ onClose, onScheduleDemo }) => (
+const PartnershipsModal = ({ onClose, onScheduleDemo }) => (
   <div className="tw-modal-large">
     <div className="tw-modal-content-large">
       <button className="tw-modal-close-large" onClick={onClose}>×</button>
       <section className="tw-hero">
-        <h1 className="tw-title">Your Culinary Companion</h1>
-        <p className="tw-tagline">Level up your property offering by rethinking resident wellness</p>
+        <h1 className="tw-title">Strategic Partnerships</h1>
+        <p className="tw-tagline">Integrate culinary AI into your platform and marketplace</p>
       </section>
       
       <section className="tw-description">
-        <p>In today's rushed world, <strong>the kitchen has quietly disappeard from daily life for most</strong> - along with the confidence, joy and the connection it once brought. Many residents no longer feel equipped to cook satisfying meals, losing not just skills but a sense of home. The result? A growing dependence on processed food, rising health concerns and a silent loneliness around supper. PorkChop transforms this crisis into an opportunity by offering a modern amenity that brings neighbors together through shared cooking, recipe exchanges and a boost in kitchen confidence.</p>
-        <blockquote className="tw-quote">"PorkChop isn't just another app—it's a property amenity that reconnects residents with the joy and wellness benefits of cooking."</blockquote>
+        <p>In today's digital ecosystem, <strong>partnerships and integrations</strong> are key to delivering comprehensive solutions to end users. PorkChop's culinary AI platform offers powerful capabilities that can enhance your existing products and services. Whether you're a marketplace looking to add food-related features, a technology platform seeking culinary content, or an integration partner wanting to expand your offering, our flexible API and partnership models make it easy to bring cooking intelligence to your users.</p>
+        <blockquote className="tw-quote">"PorkChop's partnership program allows you to tap into the growing demand for personalized culinary experiences without building these capabilities from scratch."</blockquote>
       </section>
       
       <section className="tw-amenities">
         <h2>
-          <span role="img" aria-label="Building"></span> 
-          Why PorkChop for Residential Property Managers
+          <span role="img" aria-label="Puzzle Piece"></span> 
+          Why Partner with PorkChop
         </h2>
         <div className="tw-amenities-grid">
-          {amenityBenefits.map((benefit, index) => {
+          {partnershipBenefits.map((benefit, index) => {
             const emoji = benefit.title.substring(0, 2);
             const title = benefit.title.substring(3);
             return (
@@ -114,20 +114,20 @@ const AmenityModal = ({ onClose, onScheduleDemo }) => (
       </section>
       
       <section className="tw-contact">
-        <h2>Bring PorkChop to Your Property</h2>
-        <p>Elevate your property's wellness offering with our zero-installation culinary amenity</p>
+        <h2>Become a PorkChop Partner</h2>
+        <p>Explore how our culinary AI can enhance your platform and create new opportunities</p>
         <div className="tw-contact-options">
           <button 
             onClick={(e) => {
               e.preventDefault();
               downloadWhitepaper(
-                '/porkchop-perks-residential.pdf',
-                'PorkChop-Perks-Residential-Whitepaper.pdf'
+                '/porkchop-partnerships.pdf',
+                'PorkChop-Partnerships-Overview.pdf'
               );
             }} 
             className="tw-contact-btn"
           >
-            The Secret Ingredient to Happy Tenants
+            Partnership & Integration Guide
           </button>
         </div>
       </section>
@@ -135,27 +135,27 @@ const AmenityModal = ({ onClose, onScheduleDemo }) => (
   </div>
 );
 
-const LoyaltyModal = ({ onClose, onScheduleDemo }) => (
+const CulinarySchoolModal = ({ onClose, onScheduleDemo }) => (
   <div className="tw-modal-large">
     <div className="tw-modal-content-large">
       <button className="tw-modal-close-large" onClick={onClose}>×</button>
       <section className="tw-hero">
-        <h1 className="tw-title">Redefine Loyalty & Rewards</h1>
-        <p className="tw-tagline">Turn everyday groceries into a unique culinary experience.</p>
+        <h1 className="tw-title">Elevate Culinary Education</h1>
+        <p className="tw-tagline">Transform how students learn, practice, and master culinary skills.</p>
       </section>
 
       <section className="tw-description">
-        <p>Move beyond points and discounts. PorkChop offers a dynamic, digital reward that integrates directly into your customers' lives, transforming how they shop and cook. By offering our platform as a loyalty benefit, you give customers a powerful tool to plan meals, discover recipes using your products, and reduce food waste—all while building a deeper connection with your brand.</p>
-        <blockquote className="tw-quote">"PorkChop is the modern loyalty solution that makes your grocery store an indispensable part of your customers' kitchens."</blockquote>
+        <p>Today's culinary students need more than just classroom instruction. They require consistent practice, personalized feedback, and modern tools that reflect the evolving food industry. PorkChop bridges the gap between traditional culinary education and digital innovation, providing students with an AI-powered companion that <strong>augments instructor expertise</strong>, builds confidence, and accelerates skill development—without sacrificing the quality and depth of traditional culinary training.</p>
+        <blockquote className="tw-quote">"PorkChop is the digital teaching assistant that extends your culinary curriculum beyond the classroom walls, enhancing—never replacing—the irreplaceable value of expert instruction."</blockquote>
       </section>
 
       <section className="tw-amenities">
         <h2>
-          <span role="img" aria-label="Shopping Cart"></span> 
-          Why PorkChop for Grocery
+          <span role="img" aria-label="Academic Cap"></span> 
+          Why PorkChop for Culinary Schools
         </h2>
         <div className="tw-amenities-grid">
-          {loyaltyBenefits.map((benefit) => {
+          {culinarySchoolBenefits.map((benefit) => {
             const emoji = benefit.title.substring(0, 2);
             const title = benefit.title.substring(3);
             return (
@@ -179,19 +179,19 @@ const LoyaltyModal = ({ onClose, onScheduleDemo }) => (
 
       <section className="tw-contact">
         <h2>Partner with PorkChop</h2>
-        <p>Offer a loyalty perk that can drive more shoppers to your aisles.</p>
+        <p>Enhance your culinary curriculum with our innovative digital platform.</p>
         <div className="tw-contact-options">
           <button 
             onClick={(e) => {
               e.preventDefault();
               downloadWhitepaper(
-                '/porkchop-perks-grocery.pdf',
-                'PorkChop-Perks-Grocery-Whitepaper.pdf'
+                '/porkchop-whitepaper.pdf',
+                'PorkChop-Culinary-Education-Guide.pdf'
               );
             }} 
             className="tw-contact-btn"
           >
-            Sprinkle Some Success into Your Aisles
+            The Recipe for Culinary Education Success
           </button>
         </div>
       </section>
@@ -203,7 +203,7 @@ const TenantWellness: React.FC = () => {
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [showThankYouModal, setShowThankYouModal] = useState(false);
-  const [activeModal, setActiveModal] = useState<'amenity' | 'loyalty' | null>(null);
+  const [activeModal, setActiveModal] = useState<'partnerships' | 'culinary' | null>(null);
   const [demoForm, setDemoForm] = useState({
     name: '',
     company: '',
@@ -310,35 +310,35 @@ const TenantWellness: React.FC = () => {
       </section>
 
       <div className="tw-verticals-container">
-        <div className="tw-vertical-card" onClick={() => setActiveModal('amenity')}>
+        <div className="tw-vertical-card" onClick={() => setActiveModal('partnerships')}>
           <div className="tw-icon-container">
-            <HomeIcon className="tw-card-icon text-blue-600" />
+            <PuzzlePieceIcon className="tw-card-icon text-blue-600" />
           </div>
           <div className="tw-card-content">
-            <h3>Amenity Programs</h3>
-            <p>Elevate your residential property with a unique wellness offering.</p>
+            <h3>Partnerships</h3>
+            <p>Integrate our culinary AI into your marketplace or platform.</p>
           </div>
         </div>
-        <div className="tw-vertical-card" onClick={() => setActiveModal('loyalty')}>
+        <div className="tw-vertical-card" onClick={() => setActiveModal('culinary')}>
           <div className="tw-icon-container">
-            <GiftIcon className="tw-card-icon text-red-600" />
+            <AcademicCapIcon className="tw-card-icon text-green-600" />
           </div>
           <div className="tw-card-content">
-            <h3>Loyalty & Rewards</h3>
-            <p>Drive customer engagement for your grocery brand.</p>
+            <h3>Culinary Education</h3>
+            <p>Enhance your culinary school with modern learning tools.</p>
           </div>
         </div>
       </div>
 
-      {activeModal === 'amenity' && 
-        <AmenityModal 
+      {activeModal === 'partnerships' && 
+        <PartnershipsModal 
           onClose={() => setActiveModal(null)} 
           onScheduleDemo={() => setShowDemoModal(true)} 
         />
       }
 
-      {activeModal === 'loyalty' && 
-        <LoyaltyModal 
+      {activeModal === 'culinary' && 
+        <CulinarySchoolModal 
           onClose={() => setActiveModal(null)} 
           onScheduleDemo={() => setShowDemoModal(true)} 
         />
@@ -418,7 +418,6 @@ const TenantWellness: React.FC = () => {
               data-netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
               netlify-honeypot="bot-field"
-              netlify
             >
               <input type="hidden" name="form-name" value="demo-request" />
               <p hidden>

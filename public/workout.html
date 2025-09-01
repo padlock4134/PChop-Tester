@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Workout Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f7fa;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #24344d;
+        }
+        
+        .about-page-container {
+            max-width: 900px;
+            margin: 2.5rem auto 2rem auto;
+            background: #fff;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 32px 0 rgba(42,77,105,0.10);
+            padding: 2.5rem 2rem;
+            font-family: 'Inter', 'Bree Serif', serif;
+            border: 1px solid black;
+        }
+        
+        .about-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+        
+        .about-hero {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #f5e9da;
+        }
+        
+        .about-title {
+            font-size: 2.8rem;
+            color: #e94e3c;
+            margin-bottom: 0.5rem;
+            font-family: 'Bree Serif', serif;
+        }
+        
+        .about-content {
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #24344d;
+            text-align: center;
+        }
+        
+        .about-section h2 {
+            font-size: 1.8rem;
+            color: #2a4d69;
+            margin-bottom: 1.2rem;
+            font-family: 'Bree Serif', serif;
+            text-align: center;
+        }
+        
+        .about-card {
+            background: #f9fafb;
+            border-radius: 1rem;
+            padding: 2rem 3rem;
+            margin: 0 auto 2.5rem;
+            box-shadow: 0 4px 16px rgba(42,77,105,0.09);
+            border: 2px solid #63ace5;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .about-card p {
+            margin: 0 auto 1.5rem;
+            line-height: 1.8;
+            max-width: 700px;
+            font-size: 1.1rem;
+            color: #2a4d69;
+        }
+        
+        .about-button {
+            display: inline-block;
+            background-color: #e94e3c;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            margin: 0 0.5rem;
+        }
+        
+        .about-button:hover {
+            background-color: #d03c2b;
+            transform: translateY(-2px);
+        }
+        
+        .about-button.active {
+            background-color: #2a4d69;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        ul {
+            text-align: left;
+            margin: 1.5rem auto;
+            max-width: 500px;
+        }
+        
+        li {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        strong {
+            color: #2a4d69;
+            font-weight: 600;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .exercise-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            justify-content: space-between;
+        }
+        
+        .exercise-name {
+            flex: 1;
+        }
+        
+        .exercise-inputs {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+        
+        .set-count {
+            background-color: #e0e0e0;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin: 0 8px;
+            font-weight: bold;
+            min-width: 15px;
+            text-align: center;
+        }
+        
+        .rep-input {
+            width: 40px;
+            padding: 2px 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+        
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-60px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close-modal:hover,
+        .close-modal:focus {
+            color: #e94e3c;
+            text-decoration: none;
+        }
+        
+        .workout-link {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .modal-title {
+            color: #e94e3c;
+            font-family: 'Bree Serif', serif;
+            margin-top: 0;
+            border-bottom: 2px solid #e94e3c;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="about-page-container">
+        <div class="about-hero">
+            <h1 class="about-title">Workout Tracker</h1>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <button class="about-button active" onclick="openTab('Calendar')">Calendar</button>
+            <button class="about-button" onclick="openTab('Workouts')">Workouts</button>
+        </div>
+
+        <div id="Calendar" class="tab-content active">
+            
+            <div class="about-card">
+                
+                <div style="margin: 20px auto; max-width: 800px; overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif;">
+                        <thead>
+                            <tr style="background-color: #2a4d69; color: white;">
+                                <th style="padding: 10px; border: 1px solid #ddd;">Sunday</th>
+                                <th style="padding: 10px; border: 1px solid #ddd;">Monday</th>
+                                <th style="padding: 10px; border: 1px solid #ddd;">Tuesday</th>
+                                <th style="padding: 10px; border: 1px solid #ddd;">Wednesday</th>
+                                <th style="padding: 10px; border: 1px solid #ddd;">Thursday</th>
+                                <th style="padding: 10px; border: 1px solid #ddd;">Friday</th>
+                                <th style="padding: 10px; border: 1px solid #ddd;">Saturday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Week 1: August 31 - September 6 -->
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9e4d4; cursor: pointer;" onclick="openModal('bike1abs1Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Aug 31</div>
+                                    <strong style="color: #e94e3c;">Bike 1 + Abs 1</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 1</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('fullBody1Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 2</div>
+                                    <strong style="color: #2a4d69;">Full Body 1</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('fullBody2Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 3</div>
+                                    <strong style="color: #2a4d69;">Full Body 2</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 4</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('fullBody3Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 5</div>
+                                    <strong style="color: #2a4d69;">Full Body 3</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 6</div>
+                                    Rest
+                                </td>
+                            </tr>
+                            
+                            <!-- Week 2: September 7-13 -->
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9e4d4; cursor: pointer;" onclick="openModal('bike2abs2Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 7</div>
+                                    <strong style="color: #e94e3c;">Bike 2 + Abs 2</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 8</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('upperHypertrophyModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 9</div>
+                                    <strong style="color: #2a4d69;">Upper Hypertrophy</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('pushHypertrophyModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 10</div>
+                                    <strong style="color: #2a4d69;">Push Hypertrophy</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 11</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('pullHypertrophyModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 12</div>
+                                    <strong style="color: #2a4d69;">Pull Hypertrophy</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 13</div>
+                                    Rest
+                                </td>
+                            </tr>
+                            
+                            <!-- Week 3: September 14-20 -->
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9e4d4; cursor: pointer;" onclick="openModal('bike3abs3Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 14</div>
+                                    <strong style="color: #e94e3c;">Bike 3 + Abs 3</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 15</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('lowerBody1Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 16</div>
+                                    <strong style="color: #2a4d69;">Lower Body 1</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('lowerBody2Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 17</div>
+                                    <strong style="color: #2a4d69;">Lower Body 2</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 18</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('legs2Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 19</div>
+                                    <strong style="color: #2a4d69;">Legs 2</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 20</div>
+                                    Rest
+                                </td>
+                            </tr>
+                            
+                            <!-- Week 4: September 21-27 -->
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9e4d4; cursor: pointer;" onclick="openModal('bike4abs4Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 21</div>
+                                    <strong style="color: #e94e3c;">Bike 4 + Abs 4</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 22</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('legs4Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 23</div>
+                                    <strong style="color: #2a4d69;">Legs 4</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('shouldersArmsModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 24</div>
+                                    <strong style="color: #2a4d69;">Shoulders & Arms</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 25</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('chestBack1Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 26</div>
+                                    <strong style="color: #2a4d69;">Chest & Back 1</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 27</div>
+                                    Rest
+                                </td>
+                            </tr>
+                            
+                            <!-- Week 5: September 28 - October 4 -->
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9e4d4; cursor: pointer;" onclick="openModal('bike1abs1Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 28</div>
+                                    <strong style="color: #e94e3c;">Bike 1 + Abs 1</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 29</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('chestBack4Modal')">
+                                    <div style="font-size: 0.8em; color: #666;">Sep 30</div>
+                                    <strong style="color: #2a4d69;">Chest & Back 4</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('fullPowerModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Oct 1</div>
+                                    <strong style="color: #2a4d69;">Full Power</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Oct 2</div>
+                                    Rest
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color: #e6f2ff; cursor: pointer;" onclick="openModal('maxToFailureModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Oct 3</div>
+                                    <strong style="color: #2a4d69;">Max to Failure</strong>
+                                </td>
+                                <td style="padding: 10px; border: 1px solid #ddd; cursor: pointer;" onclick="openModal('restModal')">
+                                    <div style="font-size: 0.8em; color: #666;">Oct 4</div>
+                                    Rest
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif; text-align: center;">Form Tips & Workout Advice</h3>
+                    <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif; text-align: center; margin-top: 10px; font-size: 1.2em;">3 sets of 15-20 reps | 45 seconds rest between sets</h4>
+                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 15px;">
+                        <div style="flex: 1; min-width: 300px; margin-right: 20px;">
+                            <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Form Tips:</h4>
+                            <ul>
+                                <li><strong>Breathing:</strong> Exhale on exertion, inhale on return</li>
+                                <li><strong>Core:</strong> Keep engaged throughout all exercises</li>
+                                <li><strong>Range:</strong> Use full range of motion for maximum benefit</li>
+                                <li><strong>Tempo:</strong> Control the weight, avoid momentum</li>
+                                <li><strong>Focus:</strong> Maintain mind-muscle connection</li>
+                            </ul>
+                        </div>
+                        <div style="flex: 1; min-width: 300px;">
+                            <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Workout Advice:</h4>
+                            <ul>
+                                <li><strong>Warm-up:</strong> 5-10 minutes before each session</li>
+                                <li><strong>Hydration:</strong> Drink water before, during, and after</li>
+                                <li><strong>Rest:</strong> Allow 48 hours recovery for muscle groups</li>
+                                <li><strong>Progression:</strong> Increase weight when you can do 12 reps easily</li>
+                                <li><strong>Consistency:</strong> Follow the program for best results</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="Workouts" class="tab-content">
+            <div class="about-card">
+                <h2>My Workouts</h2>
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Weekly Schedule:</h3>
+                <ul>
+                    <li><strong>Sunday:</strong> Biking + Ab Work</li>
+                    <li><strong>Tuesday:</strong> Full Body (Machine 1, Machine 2, or Machine 3)</li>
+                    <li><strong>Wednesday:</strong> Hypertrophy (Upper, Push, or Pull)</li>
+                    <li><strong>Friday:</strong> Specific Muscle Groups (Chest & Back, Lower Body, Shoulders & Arms, or Full Power)</li>
+                </ul>
+            </div>
+            
+            
+            <div class="about-card">
+                <h2>Sunday Biking + Abs Workouts</h2>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">🚴‍♂️ Stationary Bike HIIT Workouts (Endurance-Focused)</h3>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Bike Workout 1 – Sprint Intervals</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>30 sec sprint (RPE 9–10)</li>
+                    <li>90 sec easy (RPE 3–4)</li>
+                    <li>→ 6 rounds</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Bike Workout 2 – Tabata Power</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>20 sec sprint / 10 sec rest</li>
+                    <li>→ 8x = 1 round</li>
+                    <li>→ 2–3 total rounds</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Bike Workout 3 – Climb Intervals</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>1 min high-resistance climb</li>
+                    <li>1 min easy ride</li>
+                    <li>→ 8–10 rounds</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Bike Workout 4 – Descending Ladder</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>45 sec sprint / 15 sec rest</li>
+                    <li>40 sec sprint / 20 sec rest</li>
+                    <li>...down to 20 sec</li>
+                    <li>→ Then climb back up</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Bike Workout 5 – Mixed Zones</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>1 min fast pace</li>
+                    <li>1 min climb</li>
+                    <li>30 sec sprint</li>
+                    <li>1 min easy</li>
+                    <li>→ 4–5 rounds</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif; margin-top: 30px;">💥 Ab/Core Workouts (Section Focused)</h3>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Abs Workout 1 – Upper Abs</h4>
+                <ul>
+                    <li>Hollow Body Hold – 30 sec</li>
+                    <li>Crunches – 20 reps</li>
+                    <li>Toe Reaches – 15 reps</li>
+                    <li>Pulse-Ups – 10 reps</li>
+                </ul>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Abs Workout 2 – Lower Abs</h4>
+                <ul>
+                    <li>Lying Leg Raises – 15 reps</li>
+                    <li>Reverse Crunch – 15 reps</li>
+                    <li>Seated In-Outs – 20 reps</li>
+                    <li>Plank Knee Tucks – 10/side</li>
+                </ul>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Abs Workout 3 – Obliques</h4>
+                <ul>
+                    <li>Side Plank Hip Dips – 10/side</li>
+                    <li>Russian Twists – 20 total</li>
+                    <li>Cross-Body Mountain Climbers – 20 total</li>
+                    <li>Side V-Ups – 12/side</li>
+                </ul>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Abs Workout 4 – Deep Core / Stability</h4>
+                <ul>
+                    <li>Dead Bug – 10/side</li>
+                    <li>Bird Dog Plank – 10/side</li>
+                    <li>Bear Crawl Hold – 30 sec</li>
+                    <li>RKC Plank – 20–30 sec</li>
+                </ul>
+                
+                <h4 style="color: #e94e3c; font-family: 'Bree Serif', serif;">Abs Workout 5 – Full Core Circuit</h4>
+                <ul>
+                    <li>Bicycle Crunch – 20 total</li>
+                    <li>Plank Shoulder Taps – 20 total</li>
+                    <li>V-Ups – 15 reps</li>
+                    <li>Flutter Kicks – 30 sec</li>
+                    <li>Plank to Push-Up – 10 reps</li>
+                </ul>
+            </div>
+            
+            <div class="about-card">
+                <h2>Full Body Routines</h2>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Machine 1</h3>
+                <ul>
+                    <li>DB Flat Bench Press</li>
+                    <li>Inverted Row</li>
+                    <li>DB Bulgarian Split Squat</li>
+                    <li>Leaning DB Lateral Raise</li>
+                    <li>Zottman Curl</li>
+                    <li>Bench Dips</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Machine 2</h3>
+                <ul>
+                    <li>Push-Ups</li>
+                    <li>DB Gorilla Rows</li>
+                    <li>Step-Ups on Bench</li>
+                    <li>DB Cuban Press</li>
+                    <li>Concentration Curl</li>
+                    <li>Overhead DB Triceps Extension</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Machine 3</h3>
+                <ul>
+                    <li>DB Walking Lunges</li>
+                    <li>Incline Push-Ups</li>
+                    <li>DB Upright Row</li>
+                    <li>Single-Arm DB Row</li>
+                    <li>Spider Curl</li>
+                    <li>Diamond Push-Ups</li>
+                </ul>
+            </div>
+            
+            <div class="about-card">
+                <h2>Hypertrophy Routines</h2>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Upper Hypertrophy</h3>
+                <ul>
+                    <li>DB Arnold Press</li>
+                    <li>Push-Up to Row</li>
+                    <li>Cross-Body DB Lateral Raise</li>
+                    <li>DB Seal Row</li>
+                    <li>Close-Grip Push-Up</li>
+                    <li>Hammer Curl + Bodyweight Skull Crushers (Superset)</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Push Hypertrophy</h3>
+                <ul>
+                    <li>DB Floor Press</li>
+                    <li>Pike Push-Ups</li>
+                    <li>DB Lateral Raise w/ Pause</li>
+                    <li>DB Incline Front Raise + DB Plate Press-Out (Superset)</li>
+                    <li>Close-Grip Push-Up on Bench</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Pull Hypertrophy</h3>
+                <ul>
+                    <li>Chest-Supported DB Row</li>
+                    <li>DB Preacher Curl</li>
+                    <li>Superman Hold + Raise (Superset)</li>
+                    <li>DB Rear Delt Row</li>
+                    <li>Cross-Body Hammer Curl</li>
+                </ul>
+            </div>
+            
+            <div class="about-card">
+                <h2>Specific Muscle Groups</h2>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Chest & Back 1</h3>
+                <ul>
+                    <li>DB Incline Fly</li>
+                    <li>Bent Over DB Row (wide grip)</li>
+                    <li>Feet-Elevated Push-Ups</li>
+                    <li>DB Pendlay Row</li>
+                    <li>DB Pullover</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Chest & Back 4</h3>
+                <ul>
+                    <li>Decline Push-Up</li>
+                    <li>Meadows Row</li>
+                    <li>DB Squeeze Press</li>
+                    <li>Chest-Supported Face Pull</li>
+                    <li>Svend Press</li>
+                    <li>Straight-Arm Pulldown</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Lower Body Strength 1</h3>
+                <ul>
+                    <li>DB Front Squat</li>
+                    <li>DB Staggered-Stance RDL</li>
+                    <li>Wall Sit</li>
+                    <li>Glute Bridge March</li>
+                    <li>Standing Calf Raise</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Lower Body Strength 2</h3>
+                <ul>
+                    <li>DB Sumo Deadlift</li>
+                    <li>Glute-Focused Step-Up</li>
+                    <li>Single-Leg DB RDL</li>
+                    <li>Frog Pump</li>
+                    <li>Seated Calf Raise</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Shoulders & Arms</h3>
+                <ul>
+                    <li>Seated DB Overhead Press</li>
+                    <li>DB Power Raise</li>
+                    <li>DB Shrugs (behind hips)</li>
+                    <li>Seated DB Lateral Raise</li>
+                    <li>Incline DB Front Raise</li>
+                    <li>Incline Inner Bicep Curl</li>
+                    <li>Bench Triceps Kickbacks</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Legs 2</h3>
+                <ul>
+                    <li>Goblet Squat to Box</li>
+                    <li>Lying Ham Curl (Bodyweight)</li>
+                    <li>DB Lateral Lunge</li>
+                    <li>Curtsy Lunge</li>
+                    <li>Glute Kickback</li>
+                    <li>Single-Leg Calf Raise</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Full Power</h3>
+                <ul>
+                    <li>DB Clean and Press</li>
+                    <li>DB Renegade Row to Knee Tuck</li>
+                    <li>Jump Squats</li>
+                    <li>Bent Over Rear Delt Fly</li>
+                    <li>DB Drag Curl + Bench Dips (Superset)</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Legs 4</h3>
+                <ul>
+                    <li>Cossack Squat</li>
+                    <li>Toes-Elevated DB RDL</li>
+                    <li>Wall Sit Calf Raise</li>
+                    <li>Single-Leg Glute Bridge</li>
+                    <li>Seated Glute March</li>
+                    <li>Nordic Curl</li>
+                </ul>
+                
+                <h3 style="color: #2a4d69; font-family: 'Bree Serif', serif;">Max Effort To Failure</h3>
+                <ul>
+                    <li>Push-Ups to Failure</li>
+                    <li>DB Goblet Squats to Failure</li>
+                    <li>Bent Over DB Row to Failure</li>
+                    <li>DB Arnold Press to Failure</li>
+                    <li>DB Romanian Deadlift (RDL) to Failure</li>
+                    <li>Incline DB Bicep Curls to Failure</li>
+                    <li>Bench Dips to Failure</li>
+                    <li>DB Shrugs to Failure</li>
+                    <li>DB Calf Raises to Failure</li>
+                    <li>Plank Hold to Failure</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab functionality moved to the end of the body -->
+    <script>
+        function openTab(tabName) {
+            // Hide all tab contents
+            var tabContents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabContents.length; i++) {
+                tabContents[i].style.display = "none";
+            }
+            
+            // Remove active class from all buttons
+            var buttons = document.getElementsByClassName("about-button");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+            
+            // Show the selected tab content
+            document.getElementById(tabName).style.display = "block";
+            
+            // Add active class to the clicked button
+            event.currentTarget.classList.add("active");
+        }
+    </script>
+    
+    <!-- Workout Modals -->
+    <!-- Bike + Abs Modals -->
+    <div id="bike1abs1Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Bike 1 + Abs 1 Workout</h3>
+            <div>
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">🚴‍♂️ Bike Workout 1 – Sprint Intervals</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>30 sec sprint (RPE 9–10)</li>
+                    <li>90 sec easy (RPE 3–4)</li>
+                    <li>→ 6 rounds</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">💥 Abs Workout 1 – Upper Abs</h4>
+                <ul>
+                    <li>Hollow Body Hold – 30 sec</li>
+                    <li>Crunches – 20 reps</li>
+                    <li>Toe Reaches – 15 reps</li>
+                    <li>Pulse-Ups – 10 reps</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div id="bike2abs2Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Bike 2 + Abs 2 Workout</h3>
+            <div>
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">🚴‍♂️ Bike Workout 2 – Tabata Power</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>20 sec sprint / 10 sec rest</li>
+                    <li>→ 8x = 1 round</li>
+                    <li>→ 2–3 total rounds</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">💥 Abs Workout 2 – Lower Abs</h4>
+                <ul>
+                    <li>Lying Leg Raises – 15 reps</li>
+                    <li>Reverse Crunch – 15 reps</li>
+                    <li>Seated In-Outs – 20 reps</li>
+                    <li>Plank Knee Tucks – 10/side</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div id="bike3abs3Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Bike 3 + Abs 3 Workout</h3>
+            <div>
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">🚴‍♂️ Bike Workout 3 – Climb Intervals</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>1 min high-resistance climb</li>
+                    <li>1 min easy ride</li>
+                    <li>→ 8–10 rounds</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">💥 Abs Workout 3 – Obliques</h4>
+                <ul>
+                    <li>Side Plank Hip Dips – 10/side</li>
+                    <li>Russian Twists – 20 total</li>
+                    <li>Cross-Body Mountain Climbers – 20 total</li>
+                    <li>Side V-Ups – 12/side</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div id="bike4abs4Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Bike 4 + Abs 4 Workout</h3>
+            <div>
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">🚴‍♂️ Bike Workout 4 – Descending Ladder</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>45 sec sprint / 15 sec rest</li>
+                    <li>40 sec sprint / 20 sec rest</li>
+                    <li>...down to 20 sec</li>
+                    <li>→ Then climb back up</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">💥 Abs Workout 4 – Deep Core / Stability</h4>
+                <ul>
+                    <li>Dead Bug – 10/side</li>
+                    <li>Bird Dog Plank – 10/side</li>
+                    <li>Bear Crawl Hold – 30 sec</li>
+                    <li>RKC Plank – 20–30 sec</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div id="bike5abs5Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Bike 5 + Abs 5 Workout</h3>
+            <div>
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">🚴‍♂️ Bike Workout 5 – Mixed Zones</h4>
+                <ul>
+                    <li>5-min warm-up</li>
+                    <li>1 min fast pace</li>
+                    <li>1 min climb</li>
+                    <li>30 sec sprint</li>
+                    <li>1 min easy</li>
+                    <li>→ 4–5 rounds</li>
+                    <li>5-min cooldown</li>
+                </ul>
+                
+                <h4 style="color: #2a4d69; font-family: 'Bree Serif', serif;">💥 Abs Workout 5 – Full Core Circuit</h4>
+                <ul>
+                    <li>Bicycle Crunch – 20 total</li>
+                    <li>Plank Shoulder Taps – 20 total</li>
+                    <li>V-Ups – 15 reps</li>
+                    <li>Flutter Kicks – 30 sec</li>
+                    <li>Plank to Push-Up – 10 reps</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lifting Workout Modals -->
+    <div id="fullBody1Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Full Body 1 Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Flat Bench Press</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Inverted Row</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Bulgarian Split Squat</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Leaning DB Lateral Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Zottman Curl</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Bench Dips</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('fullBody1Modal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="fullBody1Modal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="fullBody2Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Full Body 2 Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">Push-Ups</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Gorilla Rows</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Step-Ups on Bench</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Cuban Press</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Concentration Curl</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Overhead DB Triceps Extension</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('fullBody2Modal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="fullBody2Modal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="fullBody3Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Full Body 3 Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Walking Lunges</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Incline Push-Ups</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Upright Row</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Bent Over Fly</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Hammer Curl</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Triceps Kickback</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('fullBody3Modal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="fullBody3Modal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="upperHypertrophyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Upper Hypertrophy Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Arnold Press</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Push-Up to Row</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Cross-Body DB Lateral Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Seal Row</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Close-Grip Push-Up</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Hammer Curl + Bodyweight Skull Crushers (Superset)</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('upperHypertrophyModal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="upperHypertrophyModal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="pushHypertrophyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Push Hypertrophy Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Floor Press</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Pike Push-Ups</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Lateral Raise w/ Pause</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Incline Front Raise + DB Plate Press-Out (Superset)</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Close-Grip Push-Up on Bench</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('pushHypertrophyModal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="pushHypertrophyModal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="pullHypertrophyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Pull Hypertrophy Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">Chest-Supported DB Row</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Preacher Curl</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Superman Hold + Raise (Superset)</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Rear Delt Row</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Cross-Body Hammer Curl</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('pullHypertrophyModal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="pullHypertrophyModal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="lowerBody1Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Lower Body 1 Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Front Squat</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Staggered-Stance RDL</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Wall Sit</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Glute Bridge March</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Standing Calf Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('lowerBody1Modal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="lowerBody1Modal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="lowerBody2Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Lower Body 2 Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Sumo Deadlift</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Glute-Focused Step-Up</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Single-Leg DB RDL</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Frog Pump</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Seated Calf Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('lowerBody2Modal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="lowerBody2Modal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="legs2Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Legs 2 Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">Goblet Squat to Box</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Lying Ham Curl (Bodyweight)</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Lateral Lunge</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Curtsy Lunge</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Glute Kickback</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Single-Leg Calf Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('legs2Modal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="legs2Modal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="legs4Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Legs 4 Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">Cossack Squat</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Toes-Elevated DB RDL</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Wall Sit Calf Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Single-Leg Glute Bridge</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Seated Glute March</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Nordic Curl</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('legs4Modal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="legs4Modal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="shouldersArmsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Shoulders & Arms Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">Seated DB Overhead Press</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Power Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Shrugs (behind hips)</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Seated DB Lateral Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Incline DB Front Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Incline Inner Bicep Curl</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Bench Triceps Kickbacks</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('shouldersArmsModal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="shouldersArmsModal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="chestBack1Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Chest & Back 1 Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Incline Fly</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Bent Over DB Row (wide grip)</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Feet-Elevated Push-Ups</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Pendlay Row</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Pullover</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('chestBack1Modal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="chestBack1Modal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="chestBack4Modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Chest & Back 4 Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">Incline DB Press</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Floor Press</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Lateral Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Front Raise</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Triceps Dips</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Overhead Triceps Extension</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('chestBack4Modal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="chestBack4Modal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="fullPowerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Full Power Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Clean and Press</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Renegade Row to Knee Tuck</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Jump Squats</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Bent Over Rear Delt Fly</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Drag Curl + Bench Dips (Superset)</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('fullPowerModal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="fullPowerModal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="maxToFailureModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="modal-title">Max Effort To Failure Workout</h3>
+            <div>
+                <ul style="list-style-type: none; padding-left: 0;">
+                    <li class="exercise-item">
+                        <span class="exercise-name">Push-Ups to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Goblet Squats to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Bent Over DB Row to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Arnold Press to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Romanian Deadlift (RDL) to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Incline DB Bicep Curls to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Bench Dips to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Shrugs to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">DB Calf Raises to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                    <li class="exercise-item">
+                        <span class="exercise-name">Plank Hold to Failure</span>
+                        <div class="exercise-inputs">
+                            <span class="set-count">3</span> Reps: <input type="text" class="rep-input">
+                        </div>
+                    </li>
+                </ul>
+                <div style="margin-top: 15px; text-align: center;">
+                    <button onclick="saveAllReps('maxToFailureModal')" style="background-color: #e94e3c; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Bree Serif', serif;">Save Workout</button>
+                    <span id="maxToFailureModal-status" style="display: none; margin-left: 10px;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Removed duplicate modal -->
+    
+    <div id="restModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Rest Day</h2>
+            <div class="workout-meta">Recovery Day</div>
+            <div class="workout-description">
+                <p>Rest days are crucial for muscle recovery and growth. Use this time to:</p>
+                <ul>
+                    <li>Get adequate sleep (7-9 hours)</li>
+                    <li>Stay hydrated</li>
+                    <li>Maintain proper nutrition</li>
+                    <li>Consider light stretching or walking</li>
+                    <li>Foam rolling for muscle recovery</li>
+                </ul>
+                <p>Remember: Rest days are when your muscles actually grow and repair!</p>
+            </div>
+        </div>
+    </div>
+    <!-- Tab functionality is defined earlier in the document -->
+    
+    <!-- Modal JavaScript -->    
+    <script>
+        // Function to open modal
+        function openModal(modalId) {
+            console.log('Opening modal with ID:', modalId);
+            // Get the modal
+            var modal = document.getElementById(modalId);
+            
+            // Check if modal exists
+            if (!modal) {
+                console.error('Modal not found with ID:', modalId);
+                return;
+            }
+            
+            // Display the modal
+            console.log('Setting modal display to block');
+            modal.style.display = "block";
+            
+            // Load saved rep counts when opening a modal
+            loadRepCounts(modalId);
+            
+            // When the user clicks anywhere outside of the modal content, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    closeModal(modalId);
+                }
+            }
+        }
+        
+        // Function to close modal
+        function closeModal(modalId) {
+            var modal = document.getElementById(modalId);
+            modal.style.display = "none";
+        }
+        
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all close buttons
+            var closeButtons = document.getElementsByClassName("close-modal");
+            
+            // Add event listeners to all close buttons
+            for (var i = 0; i < closeButtons.length; i++) {
+                closeButtons[i].addEventListener("click", function() {
+                    // Find the parent modal
+                    var modal = this.closest('.modal');
+                    modal.style.display = "none";
+                });
+            }
+            
+            // Add event listeners to all rep inputs to save data when changed
+            var repInputs = document.querySelectorAll('.rep-input');
+            repInputs.forEach(function(input) {
+                input.addEventListener('change', function() {
+                    saveRepCount(this);
+                });
+            });
+        });
+    </script>
+    
+    <!-- Supabase Integration for Workout Data Persistence -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = window.SUPABASE_URL || 'https://your-project-url.supabase.co';
+        const supabaseKey = window.SUPABASE_ANON_KEY || 'your-anon-key';
+        
+        // Create Supabase client using the global object
+        const { createClient } = supabase;
+        const supabaseClient = createClient(supabaseUrl, supabaseKey);
+        
+        // Function to get current user ID
+        async function getCurrentUserId() {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            return user ? user.id : null;
+        }
+        
+        // Function to save rep count to Supabase
+        async function saveRepCount(inputElement) {
+            const userId = await getCurrentUserId();
+            console.log('Current user ID:', userId);
+            if (!userId) {
+                console.error('User not authenticated - cannot save workout data');
+                return;
+            }
+            
+            // Get workout name from modal title
+            const modal = inputElement.closest('.modal');
+            const modalTitle = modal.querySelector('h3.modal-title').textContent;
+            const workoutName = modalTitle;
+            
+            // Get exercise name from the exercise item
+            const exerciseItem = inputElement.closest('.exercise-item');
+            const exerciseName = exerciseItem.querySelector('.exercise-name').textContent.trim();
+            
+            // Get rep count value
+            const repCount = inputElement.value ? parseInt(inputElement.value) : null;
+            
+            console.log('Saving workout data:', {
+                workout: workoutName,
+                exercise: exerciseName,
+                reps: repCount,
+                userId: userId
+            });
+            
+            // Save to Supabase
+            const { data, error } = await supabaseClient
+                .from('workout_data')
+                .upsert({
+                    user_id: userId,
+                    workout_name: workoutName,
+                    exercise_name: exerciseName,
+                    rep_count: repCount,
+                    workout_date: new Date().toISOString().split('T')[0] // Current date in YYYY-MM-DD format
+                }, {
+                    onConflict: 'user_id, workout_name, exercise_name, workout_date'
+                });
+                
+            if (error) {
+                console.error('Error saving rep count:', error);
+            } else {
+                console.log('Rep count saved successfully:', data);
+            }
+        }
+        
+        // Function to load rep counts for a specific workout
+        async function loadRepCounts(modalId) {
+            const userId = await getCurrentUserId();
+            if (!userId) {
+                console.log('User not authenticated');
+                return;
+            }
+            
+            // Get workout name from modal title
+            const modal = document.getElementById(modalId);
+            const modalTitle = modal.querySelector('h3.modal-title').textContent;
+            const workoutName = modalTitle;
+            
+            console.log('Loading rep counts for workout:', workoutName);
+            
+            // Fetch saved rep counts from Supabase - get the most recent data for each exercise
+            const { data, error } = await supabaseClient
+                .from('workout_data')
+                .select('exercise_name, rep_count, workout_date')
+                .eq('user_id', userId)
+                .eq('workout_name', workoutName)
+                .order('workout_date', { ascending: false });
+                
+            if (error) {
+                console.error('Error loading rep counts:', error);
+                return;
+            }
+            
+            if (data && data.length > 0) {
+                console.log('Found saved rep counts:', data);
+                
+                // Create a map to store the most recent rep count for each exercise
+                const mostRecentReps = new Map();
+                
+                // Get the most recent rep count for each exercise
+                data.forEach(item => {
+                    if (!mostRecentReps.has(item.exercise_name) && item.rep_count !== null) {
+                        mostRecentReps.set(item.exercise_name, item.rep_count);
+                    }
+                });
+                
+                // Populate rep inputs with saved values
+                const exerciseItems = modal.querySelectorAll('.exercise-item');
+                exerciseItems.forEach(exerciseItem => {
+                    const exerciseName = exerciseItem.querySelector('.exercise-name').textContent.trim();
+                    if (mostRecentReps.has(exerciseName)) {
+                        const repInput = exerciseItem.querySelector('.rep-input');
+                        if (repInput) {
+                            repInput.value = mostRecentReps.get(exerciseName);
+                        }
+                    }
+                });
+                
+                console.log('Rep counts loaded successfully');
+            } else {
+                console.log('No saved rep counts found for this workout');
+            }
+        }
+        
+        // Function to save all rep counts in a modal and close it
+        async function saveAllReps(modalId) {
+            const modal = document.getElementById(modalId);
+            const statusElement = document.getElementById(`${modalId}-status`);
+            
+            if (statusElement) {
+                statusElement.textContent = "Saving...";
+                statusElement.style.display = "inline";
+            }
+            
+            try {
+                // Get all rep inputs in the modal
+                const repInputs = modal.querySelectorAll('.rep-input');
+                const savePromises = [];
+                
+                // Save each rep input
+                repInputs.forEach(input => {
+                    if (input.value) {
+                        savePromises.push(saveRepCount(input));
+                    }
+                });
+                
+                // Wait for all saves to complete
+                await Promise.all(savePromises);
+                
+                if (statusElement) {
+                    statusElement.textContent = "Saved!";
+                    statusElement.style.color = "green";
+                }
+                
+                // Close the modal after a short delay
+                setTimeout(() => {
+                    // Hide the modal
+                    modal.style.display = "none";
+                    
+                    // Reset status display
+                    if (statusElement) {
+                        statusElement.style.display = "none";
+                        statusElement.textContent = "";
+                    }
+                }, 800); // 800ms delay so user can see "Saved!" message
+                
+            } catch (error) {
+                console.error('Error saving workout data:', error);
+                if (statusElement) {
+                    statusElement.textContent = "Error saving!";
+                    statusElement.style.color = "red";
+                }
+            }
+        }
+        
+        // Expose functions to global scope
+        window.saveRepCount = saveRepCount;
+        window.loadRepCounts = loadRepCounts;
+        window.saveAllReps = saveAllReps;
+    </script>
+</body>
+</html>
