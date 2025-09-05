@@ -11,7 +11,7 @@ exports.handler = async (event) => {
 
   try {
     const { base64Image } = JSON.parse(event.body);
-    
+
     if (!base64Image) {
       return {
         statusCode: 400,
@@ -21,12 +21,15 @@ exports.handler = async (event) => {
 
     // Get API key from environment variables
     const apiKey = process.env.GOOGLE_VISION_API_KEY;
-    
+
+    // Debug log to check if Netlify injected the key
+    console.log("GOOGLE_VISION_API_KEY length:", apiKey ? apiKey.length : "MISSING");
+
     // Check for API key
     if (!apiKey) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Server configuration error' })
+        body: JSON.stringify({ error: 'Server configuration error (missing API key)' })
       };
     }
 
@@ -51,6 +54,7 @@ exports.handler = async (event) => {
 
     if (!response.ok) {
       const error = await response.text();
+      console.error("Vision API error:", error);
       return {
         statusCode: response.status,
         body: JSON.stringify({ error: `Vision API error: ${error}` })
@@ -58,18 +62,18 @@ exports.handler = async (event) => {
     }
 
     const data = await response.json();
-    
+
     // Text detection
     const text = data?.responses?.[0]?.fullTextAnnotation?.text || '';
     const textLines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-    
+
     // Label detection
     const labels = data?.responses?.[0]?.labelAnnotations?.map(l => l.description) || [];
-    
+
     // Food-specific terms to enhance detection
     const foodTerms = ['vegetable', 'produce', 'bean', 'legume', 'green'];
     const looseProduceItems = ['green beans', 'string beans', 'snap beans', 'loose produce', 'fresh vegetables'];
-    
+
     // Add specific produce items if general food terms are detected
     const additionalItems = [];
     labels.forEach(item => {
@@ -78,7 +82,7 @@ exports.handler = async (event) => {
         additionalItems.push(...looseProduceItems);
       }
     });
-    
+
     // Combine and deduplicate all results
     const results = Array.from(new Set([...textLines, ...labels, ...additionalItems]));
 
@@ -87,6 +91,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({ results })
     };
   } catch (error) {
+    console.error("Function crashed:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message })
