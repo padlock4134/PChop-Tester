@@ -42,8 +42,12 @@ exports.handler = async (event) => {
         image: { content: base64Image },
         features: [
           { type: 'TEXT_DETECTION', maxResults: 1 },
-          { type: 'LABEL_DETECTION', maxResults: 10 }
-        ]
+          { type: 'LABEL_DETECTION', maxResults: 20, model: 'builtin/latest' },
+          { type: 'OBJECT_LOCALIZATION', maxResults: 15 }
+        ],
+        imageContext: {
+          languageHints: ['en']
+        }
       }]
     };
 
@@ -70,10 +74,34 @@ exports.handler = async (event) => {
     // Base detection
     const text = data?.responses?.[0]?.fullTextAnnotation?.text || '';
     const textLines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-    const labels = data?.responses?.[0]?.labelAnnotations?.map(l => l.description) || [];
+    
+    // Process object localization results - these are the most specific
+    const objects = data?.responses?.[0]?.localizedObjectAnnotations
+      ?.filter(obj => obj.score > 0.5) // Lowered confidence threshold
+      ?.map(obj => obj.name) || [];
+    
+    // Process labels with adjusted confidence threshold
+    const labels = data?.responses?.[0]?.labelAnnotations
+      ?.filter(label => label.score > 0.7) // Lowered confidence threshold
+      ?.map(label => label.description) || [];
+    
+    // Combine text, labels, and objects
+    const allRawResults = [...textLines, ...labels, ...objects];
+    
+    // Filter out generic terms and non-food items
+    const genericTerms = ['food', 'dish', 'cuisine', 'meal', 'delicacy', 'art', 'product', 'buffet', 'close up', 'photography', 'table', 'plate', 'box', 'container', 'bento', 'wicker', 'basket', 'fruit', 'ingredient', 'produce', 'natural foods', 
+                          'carton', 'glass', 'bottle', 'jar', 'can', 'tin', 'package', 'packaging', 'wrapper', 'bag', 'tub', 'tube'];
+    const specificResults = allRawResults.filter(item => {
+      const text = item.toLowerCase();
+      // Only filter if the term is exactly generic or part of a longer phrase
+      return !genericTerms.some(term => 
+        text === term || 
+        new RegExp(`\\b${term}\\b`).test(text)
+      );
+    });
     
     // Start with basic results
-    let results = Array.from(new Set([...textLines, ...labels]));
+    let results = Array.from(new Set(specificResults));
     
     // Enhanced food detection - only add if base detection worked
     if (results.length > 0) {
