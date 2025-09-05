@@ -25,11 +25,22 @@ exports.handler = async (event) => {
                   process.env['vision-proxy'] ||
                   process.env.VISION_API_KEY;
                   
-    if (!apiKey) {
-      console.log('Available env vars:', Object.keys(process.env).filter(k => k.toLowerCase().includes('vision')));
+    console.log('Environment variables available:', Object.keys(process.env).length);
+    console.log('Vision-related env vars:', Object.keys(process.env).filter(k => k.toLowerCase().includes('vision') || k.toLowerCase().includes('google')));
+    console.log('API key found:', !!apiKey);
+    
+    // Validate API key format (should be a non-empty string)
+    if (!apiKey || typeof apiKey !== 'string' || apiKey.trim() === '') {
+      console.error('Invalid API key format or missing API key');
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Server configuration error' })
+        body: JSON.stringify({ 
+          error: 'Server configuration error: Missing or invalid API key',
+          debug: {
+            envVarsCount: Object.keys(process.env).length,
+            visionVars: Object.keys(process.env).filter(k => k.toLowerCase().includes('vision') || k.toLowerCase().includes('google'))
+          }
+        })
       };
     }
 
@@ -45,6 +56,7 @@ exports.handler = async (event) => {
 
     let response;
     try {
+      console.log('Making Vision API request...');
       response = await fetch(
         `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
         {
@@ -54,14 +66,30 @@ exports.handler = async (event) => {
         }
       );
       
+      console.log('Vision API response status:', response.status);
+      
       if (!response.ok) {
         const error = await response.text();
-        return {
-          statusCode: response.status,
-          body: JSON.stringify({ error: `Vision API error: ${error}` })
-        };
+        console.error('Vision API error response:', error);
+        try {
+          const errorJson = JSON.parse(error);
+          console.error('Vision API error details:', errorJson);
+          return {
+            statusCode: response.status,
+            body: JSON.stringify({ 
+              error: `Vision API error: ${errorJson.error?.message || error}`,
+              details: errorJson
+            })
+          };
+        } catch (e) {
+          return {
+            statusCode: response.status,
+            body: JSON.stringify({ error: `Vision API error: ${error}` })
+          };
+        }
       }
     } catch (error) {
+      console.error('Request error:', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ error: `Request error: ${error.message}` })
