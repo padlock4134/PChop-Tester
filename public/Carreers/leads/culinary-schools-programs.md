@@ -18,12 +18,6 @@
    - *Contact*: admissions@ice.edu | (212) 847-0700
    - *Note*: Career-focused programs with strong industry placement rates
 
-3. **International Culinary Center** - New York, NY
-   - *Programs Offered*: Professional Culinary Arts, Pastry Arts, Italian Culinary Experience
-   - *Specializations*: Farm-to-Table, Sommelier Training, Food Business
-   - *Website*: [internationalculinarycenter.com](https://www.internationalculinarycenter.com)
-   - *Contact*: info@culinarycenter.com | (212) 219-8890
-   - *Note*: Founded as French Culinary Institute with distinguished alumni network
 
 4. **SUNY Delhi Culinary Arts Program** - Delhi, NY
    - *Programs Offered*: Associate and Bachelor's Degrees in Culinary Arts
@@ -32,40 +26,17 @@
    - *Contact*: enroll@delhi.edu | (607) 746-4550
    - *Note*: Affordable state university program with strong industry reputation
 
-5. **Culinary Tech Center** - New York, NY
-   - *Programs Offered*: Commercial Cooking, Professional Cooking
-   - *Specializations*: Hotel & Restaurant Management
-   - *Website*: [culinarytechcenter.edu](https://www.culinarytechcenter.edu)
-   - *Contact*: info@culinarytechcenter.edu | (646) 559-8551
-   - *Note*: Career-focused training with job placement assistance
-
+5. *
 6. **Monroe College Culinary Institute** - New Rochelle, NY
    - *Programs Offered*: Associate and Bachelor's Degrees in Culinary Arts, Baking & Pastry
    - *Specializations*: Hospitality Management, Wine Studies
    - *Website*: [monroecollege.edu/academics/school-of-hospitality-management](https://www.monroecollege.edu/academics/school-of-hospitality-management)
-   - *Contact*: admissions@monroecollege.edu | (914) 740-6500
+   - *Contact*: admissions@monroecollege.edu | (914) 74032-6500
    - *Note*: Award-winning student competition team with international training options
 
-7. **New York City College of Technology (City Tech)** - Brooklyn, NY
-   - *Programs Offered*: Associate and Bachelor's Degrees in Hospitality Management
-   - *Specializations*: Culinary Arts, Pastry Arts
-   - *Website*: [citytech.cuny.edu/hospitality](https://www.citytech.cuny.edu/hospitality)
-   - *Contact*: admissions@citytech.cuny.edu | (718) 260-5500
-   - *Note*: CUNY system program with affordable tuition and diverse student body
+8. *
 
-8. **Schenectady County Community College** - Schenectady, NY
-   - *Programs Offered*: Associate Degree in Culinary Arts
-   - *Specializations*: Baking, Restaurant Management
-   - *Website*: [sunysccc.edu/academics/school-of-hotel-culinary-arts-and-tourism](https://www.sunysccc.edu/academics/school-of-hotel-culinary-arts-and-tourism)
-   - *Contact*: admissions@sunysccc.edu | (518) 381-1366
-   - *Note*: Affordable program with modern facilities
-
-9. **Erie Community College** - Buffalo, NY
-   - *Programs Offered*: Associate Degree in Culinary Arts
-   - *Specializations*: Baking & Pastry Arts, Restaurant Management
-   - *Website*: [ecc.edu/academics/programs-degrees](https://www.ecc.edu/academics/programs-degrees)
-   - *Contact*: admissions@ecc.edu | (716) 851-1ECC
-   - *Note*: Strong local industry connections in Western New York
+9.
 
 10. **Niagara County Community College** - Sanborn, NY
     - *Programs Offered*: Associate Degree in Culinary Arts
