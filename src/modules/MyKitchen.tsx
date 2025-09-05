@@ -156,7 +156,14 @@ const MyKitchen = () => {
                   console.log('Detected items:', detectedItems);
                   
                   const newIngredients = Array.from(new Set(detectedItems))
-                    .filter(d => !ingredients.some(i => i.name.toLowerCase() === d.toLowerCase()));
+                    .filter(d => {
+                      const normalizedDetected = d.toLowerCase().trim();
+                      return !ingredients.some(i => 
+                        i.name.toLowerCase().trim() === normalizedDetected ||
+                        i.name.toLowerCase().trim().includes(normalizedDetected) ||
+                        normalizedDetected.includes(i.name.toLowerCase().trim())
+                      );
+                    });
                   
                   console.log('New ingredients to add:', newIngredients);
                   if (newIngredients.length === 0) {
@@ -354,8 +361,7 @@ const MyKitchen = () => {
           <div className="text-gray-500 italic text-center py-8 relative z-10">No matching ingredients in your digital cupboard!</div>
         ) : (
           <div className="flex flex-col gap-4 relative z-10">
-            {/* Render up to 3 'shelves' of filtered ingredients */}
-            {[0,1,2].map(shelfIdx => {
+            {[0,1,2,3,4,5].map(shelfIdx => {
               const shelfItems = filteredIngredients.slice(shelfIdx*3, (shelfIdx+1)*3);
               if (shelfItems.length === 0) return null;
               return (
