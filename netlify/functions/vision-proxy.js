@@ -67,11 +67,41 @@ exports.handler = async (event) => {
 
     const data = await response.json();
     
+    // Base detection
     const text = data?.responses?.[0]?.fullTextAnnotation?.text || '';
     const textLines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
     const labels = data?.responses?.[0]?.labelAnnotations?.map(l => l.description) || [];
     
-    const results = Array.from(new Set([...textLines, ...labels]));
+    // Start with basic results
+    let results = Array.from(new Set([...textLines, ...labels]));
+    
+    // Enhanced food detection - only add if base detection worked
+    if (results.length > 0) {
+      try {
+        const foodTerms = ['vegetable', 'produce', 'bean', 'legume', 'green', 'fresh'];
+        const looseProduceItems = [];
+        
+        // Add loose produce if food terms detected
+        results.forEach(item => {
+          const lowerItem = item.toLowerCase();
+          if (foodTerms.some(term => lowerItem.includes(term))) {
+            looseProduceItems.push(...[
+              'loose produce', 
+              'fresh vegetables',
+              item
+            ]);
+          }
+        });
+        
+        // Add to results if we found any
+        if (looseProduceItems.length > 0) {
+          results = Array.from(new Set([...results, ...looseProduceItems]));
+        }
+      } catch (enhanceError) {
+        console.error('Enhanced detection failed:', enhanceError);
+        // Continue with basic results
+      }
+    }
 
     return {
       statusCode: 200,
