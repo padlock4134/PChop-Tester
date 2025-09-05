@@ -3,20 +3,6 @@
   publish = "dist"
   functions = "netlify/functions"
 
-# Form submissions handling
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# Handle form submissions
-[[redirects]]
-  from = "/"
-  to = "/.netlify/functions/handle-form"
-  status = 200
-  force = true
-  conditions = {Form = "*"}
-
 [build.environment]
   NODE_VERSION = "18"
 
@@ -25,13 +11,27 @@
   targetPort = 3000
   autoLaunch = false
 
-# Fix for the root URL to bypass asset handling
+# ✅ Always let function calls through
+[[redirects]]
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# ✅ Handle form submissions explicitly
 [[redirects]]
   from = "/"
+  to = "/.netlify/functions/handle-form"
+  status = 200
+  force = true
+  conditions = {Form = "*"}
+
+# ✅ Standard SPA redirect (must come last to avoid overriding functions)
+[[redirects]]
+  from = "/*"
   to = "/index.html"
   status = 200
 
-# Fix for ES modules MIME type issue - minimal required headers
+# ✅ Minimal required headers for JS files
 [[headers]]
   for = "/*.js"
   [headers.values]
@@ -41,9 +41,3 @@
   for = "/assets/*.js"
   [headers.values]
     Content-Type = "application/javascript"
-
-# Standard SPA redirect
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200

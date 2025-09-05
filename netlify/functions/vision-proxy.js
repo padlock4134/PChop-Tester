@@ -1,7 +1,10 @@
 const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
-  // Only allow POST requests
+  // Debug: Log all environment variables (safely)
+  console.log('Environment variables:', Object.keys(process.env).sort());
+  console.log('GOOGLE_APPLICATION_CREDENTIALS exists:', 'GOOGLE_APPLICATION_CREDENTIALS' in process.env);
+  
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -11,7 +14,7 @@ exports.handler = async (event) => {
 
   try {
     const { base64Image } = JSON.parse(event.body);
-
+    
     if (!base64Image) {
       return {
         statusCode: 400,
@@ -19,17 +22,18 @@ exports.handler = async (event) => {
       };
     }
 
-    // Get API key from environment variables
     const apiKey = process.env.GOOGLE_VISION_API_KEY;
-
-    // Debug log to check if Netlify injected the key
-    console.log("GOOGLE_VISION_API_KEY length:", apiKey ? apiKey.length : "MISSING");
-
-    // Check for API key
+    console.log('API key found:', !!apiKey);
+    
     if (!apiKey) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Server configuration error (missing API key)' })
+        body: JSON.stringify({ 
+          error: 'Server configuration error',
+          debug: {
+            availableVars: Object.keys(process.env).filter(k => k.includes('GOOGLE') || k.includes('KEY'))
+          }
+        })
       };
     }
 
@@ -54,7 +58,7 @@ exports.handler = async (event) => {
 
     if (!response.ok) {
       const error = await response.text();
-      console.error("Vision API error:", error);
+      console.error('Vision API error:', error);
       return {
         statusCode: response.status,
         body: JSON.stringify({ error: `Vision API error: ${error}` })
@@ -62,36 +66,19 @@ exports.handler = async (event) => {
     }
 
     const data = await response.json();
-
-    // Text detection
+    
     const text = data?.responses?.[0]?.fullTextAnnotation?.text || '';
     const textLines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-
-    // Label detection
     const labels = data?.responses?.[0]?.labelAnnotations?.map(l => l.description) || [];
-
-    // Food-specific terms to enhance detection
-    const foodTerms = ['vegetable', 'produce', 'bean', 'legume', 'green'];
-    const looseProduceItems = ['green beans', 'string beans', 'snap beans', 'loose produce', 'fresh vegetables'];
-
-    // Add specific produce items if general food terms are detected
-    const additionalItems = [];
-    labels.forEach(item => {
-      const lowerItem = item.toLowerCase();
-      if (foodTerms.some(term => lowerItem.includes(term))) {
-        additionalItems.push(...looseProduceItems);
-      }
-    });
-
-    // Combine and deduplicate all results
-    const results = Array.from(new Set([...textLines, ...labels, ...additionalItems]));
+    
+    const results = Array.from(new Set([...textLines, ...labels]));
 
     return {
       statusCode: 200,
       body: JSON.stringify({ results })
     };
   } catch (error) {
-    console.error("Function crashed:", error);
+    console.error('Function error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message })
