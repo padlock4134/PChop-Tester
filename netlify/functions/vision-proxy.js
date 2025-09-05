@@ -38,30 +38,38 @@ exports.handler = async (event) => {
         image: { content: base64Image },
         features: [
           { type: 'TEXT_DETECTION', maxResults: 1 },
-          { type: 'LABEL_DETECTION', maxResults: 20 },
-          { type: 'OBJECT_LOCALIZATION', maxResults: 20 }
+          { type: 'LABEL_DETECTION', maxResults: 20 }
         ]
       }]
     };
 
-    const response = await fetch(
-      `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
+    let response;
+    try {
+      response = await fetch(
+        `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        }
+      );
+      
+      if (!response.ok) {
+        const error = await response.text();
+        return {
+          statusCode: response.status,
+          body: JSON.stringify({ error: `Vision API error: ${error}` })
+        };
       }
-    );
-
-    if (!response.ok) {
-      const error = await response.text();
+    } catch (error) {
       return {
-        statusCode: response.status,
-        body: JSON.stringify({ error: `Vision API error: ${error}` })
+        statusCode: 500,
+        body: JSON.stringify({ error: `Request error: ${error.message}` })
       };
     }
 
     const data = await response.json();
+    
     // Text detection
     const text = data?.responses?.[0]?.fullTextAnnotation?.text || '';
     const textLines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
@@ -69,16 +77,13 @@ exports.handler = async (event) => {
     // Label detection
     const labels = data?.responses?.[0]?.labelAnnotations?.map(l => l.description) || [];
     
-    // Object localization (better for detecting specific items like produce)
-    const objects = data?.responses?.[0]?.localizedObjectAnnotations?.map(obj => obj.name) || [];
-    
     // Food-specific terms to enhance detection
     const foodTerms = ['vegetable', 'produce', 'bean', 'legume', 'green'];
     const looseProduceItems = ['green beans', 'string beans', 'snap beans', 'loose produce', 'fresh vegetables'];
     
     // Add specific produce items if general food terms are detected
     const additionalItems = [];
-    [...labels, ...objects].forEach(item => {
+    labels.forEach(item => {
       const lowerItem = item.toLowerCase();
       if (foodTerms.some(term => lowerItem.includes(term))) {
         additionalItems.push(...looseProduceItems);
@@ -86,7 +91,7 @@ exports.handler = async (event) => {
     });
     
     // Combine and deduplicate all results
-    const results = Array.from(new Set([...textLines, ...labels, ...objects, ...additionalItems]));
+    const results = Array.from(new Set([...textLines, ...labels, ...additionalItems]));
 
     return {
       statusCode: 200,
