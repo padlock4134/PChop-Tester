@@ -32,7 +32,8 @@ exports.handler = async (event) => {
         image: { content: base64Image },
         features: [
           { type: 'TEXT_DETECTION', maxResults: 1 },
-          { type: 'LABEL_DETECTION', maxResults: 10 }
+          { type: 'LABEL_DETECTION', maxResults: 20 },
+          { type: 'OBJECT_LOCALIZATION', maxResults: 20 }
         ]
       }]
     };
@@ -58,10 +59,28 @@ exports.handler = async (event) => {
     // Text detection
     const text = data?.responses?.[0]?.fullTextAnnotation?.text || '';
     const textLines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    
     // Label detection
     const labels = data?.responses?.[0]?.labelAnnotations?.map(l => l.description) || [];
-    // Combine and deduplicate
-    const results = Array.from(new Set([...textLines, ...labels]));
+    
+    // Object localization (better for detecting specific items like produce)
+    const objects = data?.responses?.[0]?.localizedObjectAnnotations?.map(obj => obj.name) || [];
+    
+    // Food-specific terms to enhance detection
+    const foodTerms = ['vegetable', 'produce', 'bean', 'legume', 'green'];
+    const looseProduceItems = ['green beans', 'string beans', 'snap beans', 'loose produce', 'fresh vegetables'];
+    
+    // Add specific produce items if general food terms are detected
+    const additionalItems = [];
+    [...labels, ...objects].forEach(item => {
+      const lowerItem = item.toLowerCase();
+      if (foodTerms.some(term => lowerItem.includes(term))) {
+        additionalItems.push(...looseProduceItems);
+      }
+    });
+    
+    // Combine and deduplicate all results
+    const results = Array.from(new Set([...textLines, ...labels, ...objects, ...additionalItems]));
 
     return {
       statusCode: 200,

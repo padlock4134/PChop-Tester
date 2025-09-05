@@ -27,6 +27,9 @@ const CATEGORIES = [
 // Categorize ingredient names to best-fit category
 function categorizeIngredient(name: string): string {
   const n = name.toLowerCase();
+  // Enhanced detection for loose produce and specific food items
+  if (/(green bean|string bean|snap bean|haricot vert|french bean)/.test(n)) return "Vegetable";
+  if (/(loose|raw|fresh|unpackaged|bulk) (vegetable|produce|bean|legume)/.test(n)) return "Vegetable";
   if (/(lettuce|spinach|carrot|broccoli|onion|pepper|cabbage|kale|tomato|bean|pea|potato|corn|mushroom|zucchini|cucumber|asparagus|squash|celery|radish|beet|turnip|eggplant|avocado)/.test(n)) return "Vegetable";
   if (/(apple|banana|orange|lemon|lime|berry|grape|melon|peach|pear|plum|kiwi|mango|pineapple|apricot|cherry|fig|date|papaya|guava|coconut)/.test(n)) return "Fruit";
   if (/(chicken|beef|pork|lamb|turkey|fish|salmon|shrimp|egg|duck|bacon|ham|sausage|steak|tofu|tempeh|seitan|crab|lobster|clam|mussel|scallop|oyster)/.test(n)) return "Protein";
@@ -118,7 +121,6 @@ const MyKitchen = () => {
     return ing.name.toLowerCase().includes(filterText.toLowerCase());
   });
 
-  const visionKey = (import.meta as any).env.VITE_GOOGLE_VISION_API_KEY;
   return (
     <div className="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-lg shadow">
       <div className="flex items-center justify-center mb-2">
@@ -149,29 +151,13 @@ const MyKitchen = () => {
               reader.onload = async (ev) => {
                 const base64 = (ev.target?.result as string)?.split(',')[1];
                 try {
-                  const apiKey = visionKey;
-                  const visionRes = await fetch(
-                    `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
-                    {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        requests: [
-                          {
-                            image: { content: base64 },
-                            features: [{ type: 'LABEL_DETECTION', maxResults: 10 }],
-                          },
-                        ],
-                      }),
-                    }
-                  );
-                  const visionData = await visionRes.json();
-                  console.log('Vision API raw response:', visionData);
-                  // Use LABEL_DETECTION results
-                  const labels = visionData?.responses?.[0]?.labelAnnotations || [];
-                  const labelNames: string[] = labels.map((label: any) => label.description).filter(Boolean);
-                  console.log('Extracted labels:', labelNames);
-                  const newIngredients = Array.from(new Set(labelNames)).filter(d => !ingredients.some(i => i.name.toLowerCase() === d.toLowerCase()));
+                  // Use the scanImage API function instead of direct Vision API calls
+                  const detectedItems = await scanImage(base64);
+                  console.log('Detected items:', detectedItems);
+                  
+                  const newIngredients = Array.from(new Set(detectedItems))
+                    .filter(d => !ingredients.some(i => i.name.toLowerCase() === d.toLowerCase()));
+                  
                   console.log('New ingredients to add:', newIngredients);
                   if (newIngredients.length === 0) {
                     setScanStatus('No new ingredients detected from the scan.');
