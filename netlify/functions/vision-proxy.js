@@ -19,8 +19,14 @@ exports.handler = async (event) => {
       };
     }
 
-    const apiKey = process.env.GOOGLE_VISION_API_KEY;
+    // Try multiple possible environment variable names
+    const apiKey = process.env.GOOGLE_VISION_API_KEY || 
+                  process.env.Google_Vision_API_Key || 
+                  process.env['vision-proxy'] ||
+                  process.env.VISION_API_KEY;
+                  
     if (!apiKey) {
+      console.log('Available env vars:', Object.keys(process.env).filter(k => k.toLowerCase().includes('vision')));
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Server configuration error' })
