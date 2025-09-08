@@ -1,5 +1,6 @@
 import { netlifyApiClient } from "../client/netlify-api-client";
 import { SubscriptionVerification } from "../types/session-types";
+import { supabase } from '../api/supabaseClient';  // Corrected path
 
 // Ensures the user has a subscription in Supabase and Stripe.
 export async function verifySubscription(userId: string): Promise<SubscriptionVerification> {

@@ -1,5 +1,9 @@
 // Add to your user profile component
-const SubscriptionBadge = ({ status }) => {
+interface SubscriptionBadgeProps {
+  status: string;
+}
+
+const SubscriptionBadge = ({ status }: SubscriptionBadgeProps) => {
   if (status === 'trialing') {
     return <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Trial</span>;
   }
@@ -8,6 +12,3 @@ const SubscriptionBadge = ({ status }) => {
   }
   return null;
 };
-
-// Usage in user profile:
-<SubscriptionBadge status={user.subscriptionStatus} />
