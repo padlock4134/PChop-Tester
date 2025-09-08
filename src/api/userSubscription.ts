@@ -69,3 +69,14 @@ export async function cancelSubscription(userId: string): Promise<{ message: str
     throw error;
   }
 }
+
+// Modify your user fetching to include subscription status
+async function getUserWithSubscription(userId: string) {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*, user_subscriptions(status)')
+    .eq('id', userId)
+    .single();
+  
+  return data;
+}
