@@ -733,11 +733,17 @@
                 document.body.style.overflow = 'auto';
             }
 
-            hamburgerBtn.addEventListener('click', toggleMenu);
-            overlay.addEventListener('click', closeMenu);
+            // Only add event listeners if elements exist
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', toggleMenu);
+            }
+            
+            if (overlay) {
+                overlay.addEventListener('click', closeMenu);
+            }
 
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                if (e.key === 'Escape' && navMenu && navMenu.classList.contains('active')) {
                     closeMenu();
                 }
             });
@@ -860,33 +866,36 @@
             updateProgressDots();
 
             // Simple modal implementation
-            document.addEventListener('click', function(e) {
+            const modal = document.getElementById('kojiModal');
+            const openBtn = document.getElementById('openKojiki');
+            const closeBtn = document.querySelector('.koji-close');
+
+            // Only proceed if modal and open button exist
+            if (modal && openBtn) {
                 // Open modal
-                if (e.target && e.target.id === 'openKojiki') {
+                openBtn.onclick = function(e) {
                     e.preventDefault();
-                    const modal = document.getElementById('kojiModal');
-                    if (modal) {
-                        modal.style.display = 'block';
-                        document.body.style.overflow = 'hidden';
-                    }
-                }
-                
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                };
+
                 // Close modal when clicking X
-                if (e.target && e.target.classList.contains('koji-close')) {
-                    e.preventDefault();
-                    const modal = document.getElementById('kojiModal');
-                    if (modal) {
+                if (closeBtn) {
+                    closeBtn.onclick = function(e) {
+                        e.preventDefault();
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    };
+                }
+
+                // Close modal when clicking outside
+                modal.onclick = function(e) {
+                    if (e.target === modal) {
                         modal.style.display = 'none';
                         document.body.style.overflow = 'auto';
                     }
-                }
-                
-                // Close modal when clicking outside
-                if (e.target && e.target.classList.contains('koji-modal')) {
-                    e.target.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
+                };
+            }
         });
     </script>
 </body>
