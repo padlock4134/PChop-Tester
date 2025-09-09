@@ -861,11 +861,17 @@
             const openBtn = document.getElementById('openKojiki');
             const closeBtn = document.querySelector('.koji-close');
 
+            console.log('Modal elements:', { modal, openBtn, closeBtn });
+
             // Only set up event listeners if elements exist
             if (openBtn && modal) {
+                console.log('Setting up modal event listeners');
                 openBtn.addEventListener('click', function(e) {
+                    console.log('Open button clicked');
                     e.preventDefault();
+                    console.log('Modal display before:', modal.style.display);
                     modal.style.display = 'block';
+                    console.log('Modal display after:', modal.style.display);
                     document.body.style.overflow = 'hidden';
                 });
 
@@ -881,9 +887,12 @@
             // Close button handler
             if (closeBtn && modal) {
                 closeBtn.addEventListener('click', function() {
+                    console.log('Close button clicked');
                     modal.style.display = 'none';
                     document.body.style.overflow = 'auto';
                 });
+            } else {
+                console.log('Close button or modal not found:', { closeBtn, modal });
             }
         });
     </script>
