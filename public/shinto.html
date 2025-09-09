@@ -865,26 +865,42 @@
             const kojiBtn = document.getElementById('openKojiki');
             const kojiClose = document.querySelector('.koji-close');
 
+            console.log('Modal elements:', { kojiModal, kojiBtn, kojiClose });
+
             // Open modal
-            if (kojiBtn && kojiModal) {
+            if (kojiBtn) {
                 kojiBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     console.log('Button clicked');
-                    kojiModal.classList.add('visible');
-                    document.body.style.overflow = 'hidden';
+                    if (kojiModal) {
+                        console.log('Showing modal');
+                        document.body.style.overflow = 'hidden';
+                        document.body.classList.add('modal-open');
+                        kojiModal.style.display = 'block';
+                    } else {
+                        console.error('Modal element not found');
+                    }
                 });
+            } else {
+                console.error('Kojiki button not found');
             }
 
             // Close modal
-            if (kojiClose && kojiModal) {
+            if (kojiClose) {
                 kojiClose.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     console.log('Close clicked');
-                    kojiModal.classList.remove('visible');
-                    document.body.style.overflow = 'auto';
+                    if (kojiModal) {
+                        console.log('Hiding modal');
+                        document.body.style.overflow = 'auto';
+                        document.body.classList.remove('modal-open');
+                        kojiModal.style.display = 'none';
+                    }
                 });
+            } else {
+                console.warn('Close button not found');
             }
 
             // Close when clicking outside modal
@@ -892,18 +908,20 @@
                 window.addEventListener('click', function(e) {
                     if (e.target === kojiModal) {
                         console.log('Clicked outside modal');
-                        kojiModal.classList.remove('visible');
                         document.body.style.overflow = 'auto';
+                        document.body.classList.remove('modal-open');
+                        kojiModal.style.display = 'none';
                     }
                 });
             }
 
             // Close with ESC key
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && kojiModal && kojiModal.classList.contains('visible')) {
+                if (e.key === 'Escape' && kojiModal && window.getComputedStyle(kojiModal).display === 'block') {
                     console.log('ESC pressed');
-                    kojiModal.classList.remove('visible');
                     document.body.style.overflow = 'auto';
+                    document.body.classList.remove('modal-open');
+                    kojiModal.style.display = 'none';
                 }
             });
         });
