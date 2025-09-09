@@ -384,10 +384,6 @@
             padding: 20px;
         }
 
-        .koji-modal.visible {
-            display: block;
-        }
-
         .koji-modal-content {
             background: white;
             max-width: 800px;
@@ -702,7 +698,7 @@
     </div>
 
     <!-- Kojiki Modal -->
-    <div id="kojiModal" class="koji-modal">
+    <div id="kojiModal" class="koji-modal" style="display: none;">
         <div class="koji-modal-content">
             <span class="koji-close">&times;</span>
             <h2>The Kojiki</h2>
@@ -861,69 +857,48 @@
             updateProgressDots();
 
             // Kojiki Modal functionality
-            const kojiModal = document.getElementById('kojiModal');
-            const kojiBtn = document.getElementById('openKojiki');
-            const kojiClose = document.querySelector('.koji-close');
-
-            console.log('Modal elements:', { kojiModal, kojiBtn, kojiClose });
-
-            // Open modal
-            if (kojiBtn) {
-                kojiBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Button clicked');
-                    if (kojiModal) {
-                        console.log('Showing modal');
-                        document.body.style.overflow = 'hidden';
-                        document.body.classList.add('modal-open');
-                        kojiModal.style.display = 'block';
-                    } else {
-                        console.error('Modal element not found');
+            const modal = {
+                element: document.getElementById('kojiModal'),
+                openBtn: document.getElementById('openKojiki'),
+                closeBtn: document.querySelector('.koji-close'),
+                
+                init: function() {
+                    if (!this.element || !this.openBtn) return;
+                    
+                    this.openBtn.addEventListener('click', this.open.bind(this));
+                    if (this.closeBtn) {
+                        this.closeBtn.addEventListener('click', this.close.bind(this));
                     }
-                });
-            } else {
-                console.error('Kojiki button not found');
-            }
-
-            // Close modal
-            if (kojiClose) {
-                kojiClose.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Close clicked');
-                    if (kojiModal) {
-                        console.log('Hiding modal');
-                        document.body.style.overflow = 'auto';
-                        document.body.classList.remove('modal-open');
-                        kojiModal.style.display = 'none';
-                    }
-                });
-            } else {
-                console.warn('Close button not found');
-            }
-
-            // Close when clicking outside modal
-            if (kojiModal) {
-                window.addEventListener('click', function(e) {
-                    if (e.target === kojiModal) {
-                        console.log('Clicked outside modal');
-                        document.body.style.overflow = 'auto';
-                        document.body.classList.remove('modal-open');
-                        kojiModal.style.display = 'none';
-                    }
-                });
-            }
-
-            // Close with ESC key
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && kojiModal && window.getComputedStyle(kojiModal).display === 'block') {
-                    console.log('ESC pressed');
+                    
+                    // Close when clicking outside
+                    this.element.addEventListener('click', (e) => {
+                        if (e.target === this.element) {
+                            this.close();
+                        }
+                    });
+                    
+                    // Close with ESC key
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape' && this.element.style.display === 'block') {
+                            this.close();
+                        }
+                    });
+                },
+                
+                open: function(e) {
+                    if (e) e.preventDefault();
+                    this.element.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                },
+                
+                close: function() {
+                    this.element.style.display = 'none';
                     document.body.style.overflow = 'auto';
-                    document.body.classList.remove('modal-open');
-                    kojiModal.style.display = 'none';
                 }
-            });
+            };
+            
+            // Initialize modal
+            modal.init();
         });
     </script>
 </body>
