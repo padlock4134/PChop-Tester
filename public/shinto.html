@@ -384,6 +384,10 @@
             padding: 20px;
         }
 
+        .koji-modal.visible {
+            display: block;
+        }
+
         .koji-modal-content {
             background: white;
             max-width: 800px;
@@ -862,37 +866,43 @@
             const kojiClose = document.querySelector('.koji-close');
 
             // Open modal
-            if (kojiBtn) {
-                kojiBtn.addEventListener('click', function() {
-                    if (kojiModal) {
-                        kojiModal.style.display = 'block';
-                        document.body.style.overflow = 'hidden';
-                    }
+            if (kojiBtn && kojiModal) {
+                kojiBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Button clicked');
+                    kojiModal.classList.add('visible');
+                    document.body.style.overflow = 'hidden';
                 });
             }
 
             // Close modal
-            if (kojiClose) {
-                kojiClose.addEventListener('click', function() {
-                    if (kojiModal) {
-                        kojiModal.style.display = 'none';
+            if (kojiClose && kojiModal) {
+                kojiClose.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Close clicked');
+                    kojiModal.classList.remove('visible');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+
+            // Close when clicking outside modal
+            if (kojiModal) {
+                window.addEventListener('click', function(e) {
+                    if (e.target === kojiModal) {
+                        console.log('Clicked outside modal');
+                        kojiModal.classList.remove('visible');
                         document.body.style.overflow = 'auto';
                     }
                 });
             }
 
-            // Close when clicking outside modal
-            window.addEventListener('click', function(event) {
-                if (event.target === kojiModal) {
-                    kojiModal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-
             // Close with ESC key
-            document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape' && kojiModal && kojiModal.style.display === 'block') {
-                    kojiModal.style.display = 'none';
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && kojiModal && kojiModal.classList.contains('visible')) {
+                    console.log('ESC pressed');
+                    kojiModal.classList.remove('visible');
                     document.body.style.overflow = 'auto';
                 }
             });
