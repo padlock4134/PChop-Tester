@@ -862,28 +862,36 @@
             const kojiClose = document.querySelector('.koji-close');
 
             // Open modal
-            kojiBtn.onclick = function() {
-                kojiModal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
+            if (kojiBtn) {
+                kojiBtn.addEventListener('click', function() {
+                    if (kojiModal) {
+                        kojiModal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
             }
 
             // Close modal
-            kojiClose.onclick = function() {
-                kojiModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+            if (kojiClose) {
+                kojiClose.addEventListener('click', function() {
+                    if (kojiModal) {
+                        kojiModal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
             }
 
             // Close when clicking outside modal
-            window.onclick = function(event) {
-                if (event.target == kojiModal) {
+            window.addEventListener('click', function(event) {
+                if (event.target === kojiModal) {
                     kojiModal.style.display = 'none';
                     document.body.style.overflow = 'auto';
                 }
-            }
+            });
 
             // Close with ESC key
             document.addEventListener('keydown', function(event) {
-                if (event.key === 'Escape' && kojiModal.style.display === 'block') {
+                if (event.key === 'Escape' && kojiModal && kojiModal.style.display === 'block') {
                     kojiModal.style.display = 'none';
                     document.body.style.overflow = 'auto';
                 }
