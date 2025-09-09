@@ -712,41 +712,82 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM fully loaded and parsed');
+            
+            // Hamburger menu functionality with null checks
             const hamburgerBtn = document.getElementById('hamburgerBtn');
             const navMenu = document.getElementById('navMenu');
             const overlay = document.getElementById('overlay');
-            const backToTop = document.getElementById('backToTop');
-            const progressDots = document.querySelectorAll('.progress-dot');
+            
+            if (hamburgerBtn && navMenu && overlay) {
+                function toggleMenu() {
+                    hamburgerBtn.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                    overlay.classList.toggle('active');
+                    document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+                }
 
-            // Hamburger menu functionality
-            function toggleMenu() {
-                hamburgerBtn.classList.toggle('active');
-                navMenu.classList.toggle('active');
-                overlay.classList.toggle('active');
-                document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
-            }
+                function closeMenu() {
+                    hamburgerBtn.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
 
-            function closeMenu() {
-                hamburgerBtn.classList.remove('active');
-                navMenu.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-
-            // Only add event listeners if elements exist
-            if (hamburgerBtn) {
                 hamburgerBtn.addEventListener('click', toggleMenu);
+                overlay.addEventListener('click', closeMenu);
+
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+                        closeMenu();
+                    }
+                });
+            } else {
+                console.error('Hamburger menu elements not found:', {hamburgerBtn, navMenu, overlay});
+            }
+
+            // Modal functionality with robust error handling
+            const modal = document.getElementById('kojiModal');
+            const openBtn = document.getElementById('openKojiki');
+            const closeBtn = document.querySelector('.koji-close');
+            
+            console.log('Modal elements:', { modal, openBtn, closeBtn });
+            
+            if (openBtn && modal) {
+                openBtn.addEventListener('click', function(e) {
+                    console.log('Open button clicked');
+                    e.preventDefault();
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                    console.log('Modal should be visible now');
+                });
+            } else {
+                console.error('Modal or open button not found:', {openBtn, modal});
             }
             
-            if (overlay) {
-                overlay.addEventListener('click', closeMenu);
+            if (closeBtn && modal) {
+                closeBtn.addEventListener('click', function() {
+                    console.log('Close button clicked');
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                });
+            } else {
+                console.error('Close button or modal not found:', {closeBtn, modal});
+            }
+            
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        console.log('Clicked outside modal');
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
             }
 
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && navMenu && navMenu.classList.contains('active')) {
-                    closeMenu();
-                }
-            });
+            // Rest of the original JavaScript code
+            const backToTop = document.getElementById('backToTop');
+            const progressDots = document.querySelectorAll('.progress-dot');
 
             // Navigation links
             document.querySelectorAll('.nav-item a').forEach(link => {
@@ -798,12 +839,14 @@
                 }
             }
 
-            backToTop.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
+            if (backToTop) {
+                backToTop.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 });
-            });
+            }
 
             // Progress dots functionality
             progressDots.forEach(dot => {
@@ -864,38 +907,6 @@
 
             // Initialize
             updateProgressDots();
-
-            // Simple modal implementation
-            const modal = document.getElementById('kojiModal');
-            const openBtn = document.getElementById('openKojiki');
-            const closeBtn = document.querySelector('.koji-close');
-
-            // Only proceed if modal and open button exist
-            if (modal && openBtn) {
-                // Open modal
-                openBtn.onclick = function(e) {
-                    e.preventDefault();
-                    modal.style.display = 'block';
-                    document.body.style.overflow = 'hidden';
-                };
-
-                // Close modal when clicking X
-                if (closeBtn) {
-                    closeBtn.onclick = function(e) {
-                        e.preventDefault();
-                        modal.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    };
-                }
-
-                // Close modal when clicking outside
-                modal.onclick = function(e) {
-                    if (e.target === modal) {
-                        modal.style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }
-                };
-            }
         });
     </script>
 </body>
