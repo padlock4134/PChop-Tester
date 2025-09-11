@@ -5,6 +5,8 @@ import VideoModal from '../components/VideoModal';
 import { useRecipeContext } from '../components/RecipeContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
+import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
+import { KeyNutrients } from '../types/nutrition';
 
 const generalLessons = [
   { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
@@ -129,11 +131,29 @@ function getTwoTutorials(recipe) {
 const CulinarySchool = () => {
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
+  console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
+  console.log('Culinary School - Full Recipe:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
+  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
 
   useEffect(() => {
     updateContext({ page: 'CulinarySchool' });
   }, [updateContext]);
+
+  useEffect(() => {
+    if (selectedRecipe && !selectedRecipe.nutrition) {
+      // Calculate nutrition if missing
+      calculateRecipeNutrition(selectedRecipe.ingredients)
+        .then(nutrition => {
+          setRecipeNutrition(nutrition);
+        })
+        .catch(error => {
+          console.error('Error calculating nutrition:', error);
+        });
+    } else {
+      setRecipeNutrition(selectedRecipe?.nutrition || null);
+    }
+  }, [selectedRecipe]);
 
   const isRecipeSelected = !!selectedRecipe;
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
@@ -316,6 +336,17 @@ const CulinarySchool = () => {
                     <li className="italic text-gray-400">No ingredients listed.</li>
                   )}
                 </ul>
+                {recipeNutrition && (
+                  <div className="mt-2">
+                    <div className="font-semibold mb-1">Nutrition per serving:</div>
+                    <div className="text-sm">
+                      <div>Carbs: {recipeNutrition.carbs.toFixed(1)}g</div>
+                      <div>Sugars: {recipeNutrition.sugars.toFixed(1)}g</div>
+                      <div>Fiber: {recipeNutrition.fiber.toFixed(1)}g</div>
+                      <div>Protein: {recipeNutrition.protein.toFixed(1)}g</div>
+                    </div>
+                  </div>
+                )}
               </div>
               {/* Right Page */}
               <div className="flex-1 p-6 bg-white flex flex-col">

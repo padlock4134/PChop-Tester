@@ -1,8 +1,9 @@
-import { RecipeCard } from '../components/RecipeMatcherModal';
 import { ExperienceLevel, DEFAULT_EXPERIENCE_LEVEL } from '../types/userPreferences';
 import { getUserPreferences } from './userPreferences';
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
+import { fetchNutritionData, getKeyNutrients } from './nutritionService';
+import { KeyNutrients } from '../types/nutrition';
 
 // Define equipment available for each kitchen setup
 const KITCHEN_EQUIPMENT = {
@@ -35,7 +36,8 @@ const RECIPE_PROMPTS = {
     2. Only basic cooking methods (pan fry, boil, mix)
     3. Very detailed step-by-step instructions
     4. Keep cook time under 20 minutes
-    5. Include necessary equipment for each recipe`,
+    5. Include necessary equipment for each recipe
+    6. Add dietary tags from: Heart Healthy, Anti Inflammatory, Low Glycemic, Low Cholesterol, Renal Friendly, DASH Diet`,
 
   home_cook: (numRecipes: number, ingredients: string[]) => 
     `You are a helpful home cooking expert. Create ${numRecipes} recipes for someone comfortable with basic cooking using ingredients from: ${ingredients.join(", ")}.
@@ -44,7 +46,8 @@ const RECIPE_PROMPTS = {
     2. Standard cooking methods
     3. Clear instructions
     4. Keep cook time under 30 minutes
-    5. Include necessary equipment for each recipe`,
+    5. Include necessary equipment for each recipe
+    6. Add dietary tags from: Heart Healthy, Anti Inflammatory, Low Glycemic, Low Cholesterol, Renal Friendly, DASH Diet`,
 
   kitchen_confident: (numRecipes: number, ingredients: string[]) => 
     `You are a professional chef. Create ${numRecipes} interesting recipes for an experienced home cook using ingredients from: ${ingredients.join(", ")}.
@@ -53,7 +56,8 @@ const RECIPE_PROMPTS = {
     2. Can include advanced techniques
     3. Professional-style instructions
     4. Focus on flavor and technique
-    5. Include necessary equipment for each recipe`
+    5. Include necessary equipment for each recipe
+    6. Add dietary tags from: Heart Healthy, Anti Inflammatory, Low Glycemic, Low Cholesterol, Renal Friendly, DASH Diet`
 };
 
 async function getUserProfile(userId: string) {
@@ -143,6 +147,8 @@ function scoreRecipe(
   return score;
 }
 
+import { RecipeCard } from '../components/RecipeMatcherModal';
+
 export interface RecipeMatchOptions {
   userId: string;
   ingredients: string[];
@@ -150,6 +156,133 @@ export interface RecipeMatchOptions {
   kitchenSetup?: string;
   talentsEnabled?: boolean;
   talentTree?: string | null;
+}
+
+// Helper to estimate recipe nutrition
+async function calculateRecipeNutrition(
+  ingredients: string[]
+): Promise<KeyNutrients> {
+  console.log('Calculating nutrition for ingredients:', ingredients);
+  
+  try {
+    const nutritionData = await Promise.all(
+      ingredients.map(ingredient => fetchNutritionData(ingredient))
+    );
+    
+    console.log('Nutrition data:', nutritionData);
+    
+    const totalNutrition: KeyNutrients = {
+      carbs: 0,
+      sugars: 0,
+      fiber: 0,
+      protein: 0,
+      saturatedFat: 0,
+      omega3: 0,
+      cholesterol: 0,
+      sodium: 0,
+      phosphorus: 0
+    };
+    
+    nutritionData.forEach((food, index) => {
+      if (food) {
+        console.log(`Food ${index}: ${food.name}`, food.nutrients);
+        
+        const nutrients = getKeyNutrients(food.nutrients);
+        console.log(`Key nutrients for ${food.name}:`, nutrients);
+        
+        Object.keys(nutrients).forEach(key => {
+          const k = key as keyof KeyNutrients;
+          totalNutrition[k] += nutrients[k];
+        });
+        
+        console.log('Updated total nutrition:', totalNutrition);
+      }
+    });
+    
+    console.log('Total nutrition:', totalNutrition);
+    return totalNutrition;
+  } catch (error) {
+    console.error('Error in calculateRecipeNutrition:', error);
+    // Return default nutrition data to avoid breaking health tags
+    return {
+      carbs: 0,
+      sugars: 0,
+      fiber: 0,
+      protein: 0,
+      saturatedFat: 0,
+      omega3: 0,
+      cholesterol: 0,
+      sodium: 0,
+      phosphorus: 0
+    };
+  }
+}
+
+// Define ideal nutrition profiles for each health tag
+const HEALTH_TAG_IDEALS = {
+  'Heart Healthy': { saturatedFat: 0, cholesterol: 0, sodium: 0 },
+  'Anti Inflammatory': { omega3: 10, saturatedFat: 0 },
+  'Low Glycemic': { carbs: 30, sugars: 5, fiber: 10 },
+  'Low Cholesterol': { cholesterol: 0, saturatedFat: 0 },
+  'Renal Friendly': { phosphorus: 100, sodium: 500 },
+  'DASH Diet': { sodium: 500, saturatedFat: 0 },
+  'Low Sodium': { sodium: 500 },
+  'High Fiber': { fiber: 10 }
+};
+
+function getHealthTags(nutrition: KeyNutrients): string[] {
+  console.log('Nutrition data for health tags:', nutrition);
+  const tags: string[] = [];
+  
+  const satFat = nutrition.saturatedFat || 0;
+  if (satFat < 5) {
+    console.log(`Qualifies for Heart Healthy: saturatedFat=${satFat} < 5`);
+    tags.push('Heart Healthy');
+  }
+  
+  const omega3 = nutrition.omega3 || 0;
+  if (omega3 > 0.5) {
+    console.log(`Qualifies for Anti Inflammatory: omega3=${omega3} > 0.5`);
+    tags.push('Anti Inflammatory');
+  }
+  
+  const cholesterol = nutrition.cholesterol || 0;
+  if (cholesterol < 100) {
+    console.log(`Qualifies for Low Cholesterol: cholesterol=${cholesterol} < 100`);
+    tags.push('Low Cholesterol');
+  }
+  
+  const phosphorus = nutrition.phosphorus || 0;
+  if (phosphorus < 100) {
+    console.log(`Qualifies for Renal Friendly: phosphorus=${phosphorus} < 100`);
+    tags.push('Renal Friendly');
+  }
+  
+  const sodium = nutrition.sodium || 0;
+  if (sodium < 500) {
+    console.log(`Qualifies for DASH Diet and Low Sodium: sodium=${sodium} < 500`);
+    tags.push('DASH Diet');
+    tags.push('Low Sodium');
+  }
+  
+  if (nutrition.fiber > 10) {
+    console.log(`Qualifies for High Fiber: fiber=${nutrition.fiber} > 10`);
+    tags.push('High Fiber');
+  }
+  
+  const netCarbs = nutrition.carbs - nutrition.fiber;
+  if (netCarbs < 20 && nutrition.sugars < 10) {
+    console.log(`Qualifies for Low Glycemic: netCarbs=${netCarbs} < 20 and sugars=${nutrition.sugars} < 10`);
+    tags.push('Low Glycemic');
+  }
+  
+  if (tags.length === 0) {
+    console.log('No tags qualified, using fallback: Heart Healthy');
+    tags.push('Heart Healthy');
+  }
+  
+  console.log('Selected health tags:', tags);
+  return tags;
 }
 
 export async function fetchRecipesWithImages({
@@ -187,7 +320,8 @@ Return the recipes as a JSON array with the following structure for each recipe:
   "title": "Recipe Name",
   "ingredients": ["ingredient 1", "ingredient 2"],
   "instructions": ["Step 1", "Step 2"],
-  "equipment": ["equipment 1", "equipment 2"]
+  "equipment": ["equipment 1", "equipment 2"],
+  "healthTags": ["tag 1", "tag 2"]
 }
 
 For equipment, list all necessary kitchen tools and appliances needed to prepare the recipe (e.g., "frying pan", "mixing bowl", "oven", "blender").
@@ -282,14 +416,35 @@ Return ONLY the JSON array, no other text.`;
 
   const images = await Promise.all(imagePromises);
 
-  // 6. Return scored recipe cards with images
-  return scoredRecipes.map((recipe, i) => ({
+  // 6. Add nutrition and tags
+  const recipesWithNutrition = await Promise.all(scoredRecipes.map(async recipe => {
+    try {
+      const nutrition = await calculateRecipeNutrition(recipe.ingredients);
+      const healthTags = getHealthTags(nutrition);
+      return {
+        ...recipe,
+        nutrition,
+        healthTags
+      };
+    } catch (error) {
+      console.error('Error calculating nutrition:', error);
+      return {
+        ...recipe,
+        healthTags: ['Heart Healthy']
+      };
+    }
+  }));
+
+  // 7. Return scored recipe cards with images
+  return recipesWithNutrition.map((recipe, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
     title: recipe.title,
     image: images[i],
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     instructions: Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '',
-    equipment: Array.isArray(recipe.equipment) ? recipe.equipment : []
+    equipment: Array.isArray(recipe.equipment) ? recipe.equipment : [],
+    healthTags: recipe.healthTags,
+    nutrition: recipe.nutrition
   }));
 }
 
@@ -304,7 +459,8 @@ Format your response as a JSON array of recipe objects. Each recipe object MUST 
   "title": "Recipe Name",
   "ingredients": ["ingredient 1", "ingredient 2", ...],
   "instructions": ["step 1", "step 2", ...],
-  "equipment": ["equipment 1", "equipment 2", ...]
+  "equipment": ["equipment 1", "equipment 2", ...],
+  "healthTags": ["tag 1", "tag 2"]
 }
 
 For equipment, list all necessary kitchen tools and appliances needed to prepare the recipe (e.g., "frying pan", "mixing bowl", "oven", "blender").

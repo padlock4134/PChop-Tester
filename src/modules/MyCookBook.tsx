@@ -51,6 +51,13 @@ export interface Recipe {
   ingredients?: string[];
   instructions?: string;
   equipment?: string[];
+  nutrition?: {
+    carbs: number;
+    sugars: number;
+    fiber: number;
+    protein: number;
+    saturatedFat?: number;
+  };
 }
 
 const MyCookBook = () => {
@@ -59,12 +66,12 @@ const MyCookBook = () => {
   const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [recipesPerPage] = useState(2); // Changed from 6 to 2 to show just 1 row of 2 cards
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [showShareModal, setShowShareModal] = useState(false);
   const [recipeToShare, setRecipeToShare] = useState<Recipe | null>(null);
+  const [flipped, setFlipped] = useState(false);
 
   const { user } = useSupabase();
 
@@ -182,7 +189,8 @@ const MyCookBook = () => {
           photo: r.image,
           ingredients: r.ingredients,
           instructions: r.instructions,
-          equipment: r.equipment
+          equipment: r.equipment,
+          nutrition: r.nutrition
         }));
         setLocalRecipes(converted);
       } catch (err) {
@@ -245,17 +253,6 @@ const MyCookBook = () => {
       default: return matchesSearch;
     }
   });
-
-  // Get current recipes for pagination
-  const indexOfLastRecipe = currentPage * recipesPerPage;
-  const indexOfFirstRecipe = indexOfLastRecipe - recipesPerPage;
-  const currentRecipes = filteredRecipes.slice(indexOfFirstRecipe, indexOfLastRecipe);
-  const totalPages = Math.ceil(filteredRecipes.length / recipesPerPage);
-
-  // Change page
-  const paginate = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
 
   if (loading) {
     return (
@@ -331,21 +328,21 @@ const MyCookBook = () => {
               className="p-2 rounded-full hover:bg-red-100"
               title="Share on Pinterest"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#E60023"><path d="M9.04 21.54c.96.29 1.93.46 2.96.46a10 10 0 0 0 10-10A10 10 0 0 0 12 2 10 10 0 0 0 2 12c0 4.25 2.67 7.9 6.44 9.34-.09-.78-.18-2.07 0-2.96l1.15-4.94s-.29-.58-.29-1.5c0-1.38.86-2.41 1.84-2.41.86 0 1.26.63 1.26 1.44 0 .86-.57 2.09-.86 3.27-.17.98.52 1.84 1.52 1.84 1.78 0 3.16-1.9 3.16-4.58 0-2.4-1.72-4.04-4.19-4.04-2.82 0-4.48 2.1-4.48 4.31 0 .86.28 1.73.74 2.3.09.06.09.14.06.29l-.29 1.09c0 .17-.11.23-.28.11-1.28-.56-2.02-2.38-2.02-3.85 0-3.16 2.24-6.03 6.56-6.03 3.44 0 6.12 2.47 6.12 5.75 0 3.44-2.13 6.2-5.18 6.2-.97 0-1.92-.52-2.26-1.13l-.67 2.37c-.23.86-.86 2.01-1.29 2.7v-.03z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#E60023"><path d="M9.04 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.527 2.527 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
             </button>
             <button 
               onClick={() => handleShare('whatsapp')}
               className="p-2 rounded-full hover:bg-green-100"
               title="Share on WhatsApp"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#25D366"><path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.195 2.105 3.195 5.1 4.485.714.3 1.27.48 1.704.629.714.227 1.365.195 1.88.121.574-.091 1.767-.721 2.016-1.426.255-.705.255-1.29.18-1.425-.074-.135-.27-.21-.57-.345m-5.446 7.443h-.016c-1.77 0-3.524-.48-5.055-1.38l-.36-.214-3.75.975 1.005-3.645-.239-.375c-.99-1.576-1.516-3.391-1.516-5.26 0-5.445 4.455-9.885 9.942-9.885 2.654 0 5.145 1.035 7.021 2.91 1.875 1.859 2.909 4.35 2.909 6.99-.004 5.444-4.46 9.885-9.935 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.176-1.24-6.165-3.495-8.411"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#25D366"><path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.195 2.105 3.195 5.1 4.485.714.3 1.27.48 1.704.629.714.227 1.365.195 1.88.121.574-.091 1.767-.721 2.016-1.426.255-.705.255-1.29.18-1.425-.074-.135-.27-.21-.57-.345m-5.446 7.443h-.016c-1.77 0-3.524-.48-5.055-1.38l-.36-.214-3.75.975 1.005-3.645-.239-.375c-.99-1.576-1.516-3.391-1.516-5.26 0-5.445 4.455-9.885 9.942-9.885 2.654 0 5.145 1.035 7.021 2.91 1.875 1.859 2.909 4.35 2.909 6.99-.004 5.444-4.46 9.885-9.935 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </button>
             <button 
               onClick={() => handleShare('instagram')}
               className="p-2 rounded-full hover:bg-pink-100"
               title="Share on Instagram"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </button>
             <button 
               onClick={() => handleShare('slack')}
@@ -386,7 +383,7 @@ const MyCookBook = () => {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setCurrentPage(1); // Reset to first page on search
+              setCurrentIndex(0); // Reset to first recipe on search
             }}
           />
           <div className="absolute left-2 top-2.5 text-gray-400">🔍</div>
@@ -399,7 +396,7 @@ const MyCookBook = () => {
               key={category}
               onClick={() => {
                 setActiveCategory(category);
-                setCurrentPage(1); // Reset to first page on category change
+                setCurrentIndex(0); // Reset to first recipe on category change
               }}
               className={`px-3 py-1 rounded-full text-sm ${
                 activeCategory === category
@@ -416,64 +413,109 @@ const MyCookBook = () => {
       <div className="text-sm text-gray-500 mb-4">
         {filteredRecipes.length === 0 
           ? 'No recipes found' 
-          : `Showing ${indexOfFirstRecipe + 1}-${Math.min(indexOfLastRecipe, filteredRecipes.length)} of ${filteredRecipes.length} recipes`}
+          : `Recipe ${currentIndex + 1} of ${filteredRecipes.length}`}
       </div>
 
-      {/* Digital Cookbook Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        {currentRecipes.length === 0 ? (
+      {/* Navigation Buttons */}
+      <div className="flex justify-between mb-4">
+        <button
+          onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+          disabled={currentIndex === 0}
+          className={`px-4 py-2 rounded ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+        >
+          Previous
+        </button>
+        <button
+          onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
+          disabled={currentIndex === filteredRecipes.length - 1}
+          className={`px-4 py-2 rounded ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+        >
+          Next
+        </button>
+      </div>
+
+      {/* Digital Cookbook - Single Recipe */}
+      <div className="mt-4">
+        {filteredRecipes.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
             {recipes.length === 0 
               ? 'No recipes yet. Add your first recipe!' 
               : 'No recipes match your search criteria.'}
           </div>
-        ) : currentRecipes.map((recipe, idx) => (
-          <div key={idx} className="group h-[400px] [perspective:1000px]">
-            <div className="relative h-full w-full rounded-xl transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+        ) : (
+          <div 
+            className="relative h-[500px] md:h-[400px] w-full [perspective:1000px] cursor-pointer"
+            onClick={() => setFlipped(!flipped)}
+          >
+            <div 
+              className={`relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] ${flipped ? '[transform:rotateY(180deg)]' : ''}`}
+            >
               {/* Front */}
-              <div className="absolute inset-0 bg-white p-4 rounded-lg shadow-md">
-                {recipe.photo && (
+              <div className="absolute inset-0 bg-white p-4 rounded-lg shadow-md flex flex-col items-center [backface-visibility:hidden]">
+                {filteredRecipes[currentIndex].photo && (
                   <img 
-                    src={recipe.photo} 
-                    alt={recipe.name} 
+                    src={filteredRecipes[currentIndex].photo} 
+                    alt={filteredRecipes[currentIndex].name} 
                     className="w-full h-32 object-cover rounded-t-lg mb-4"
                   />
                 )}
-                <h3 className="text-xl font-bold mb-2 line-clamp-1">{recipe.name}</h3>
-                <div className="text-gray-600 overflow-hidden">
-                  <h4 className="font-semibold mb-1">Ingredients:</h4>
-                  <ul className="list-disc pl-4 max-h-[100px] overflow-y-auto">
-                    {recipe.ingredients?.map((ingredient, i) => (
-                      <li key={i} className="line-clamp-1">{ingredient}</li>
-                    ))}
-                  </ul>
+                <h3 className="text-xl font-bold mb-2 text-center">{filteredRecipes[currentIndex].name}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 mt-4 w-full justify-items-center">
+                  {/* Ingredients */}
+                  <div className="bg-gray-100 p-1 md:p-4 rounded-lg text-center w-full">
+                    <h4 className="font-semibold mb-1 text-xs md:text-base">Ingredients</h4>
+                    <ul className="list-disc pl-4 max-h-[80px] md:max-h-[100px] overflow-y-auto text-left text-xs md:text-sm">
+                      {filteredRecipes[currentIndex].ingredients?.map((ingredient, i) => (
+                        <li key={i} className="line-clamp-1">{ingredient}</li>
+                      ))}
+                    </ul>
+                  </div>
                   
-                  {recipe.equipment && recipe.equipment.length > 0 && (
-                    <>
-                      <h4 className="font-semibold mb-1 mt-2">Equipment Needed:</h4>
-                      <ul className="list-disc pl-4 max-h-[60px] overflow-y-auto">
-                        {recipe.equipment.map((item, i) => (
-                          <li key={i} className="line-clamp-1">{item}</li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
+                  {/* Equipment */}
+                  <div className="bg-gray-100 p-1 md:p-4 rounded-lg text-center w-full">
+                    <h4 className="font-semibold mb-1 text-xs md:text-base">Equipment</h4>
+                    <ul className="list-disc pl-4 max-h-[80px] md:max-h-[100px] overflow-y-auto text-left text-xs md:text-sm">
+                      {filteredRecipes[currentIndex].equipment?.map((item, i) => (
+                        <li key={i} className="line-clamp-1">{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {/* Nutrition */}
+                  <div className="bg-gray-100 p-1 md:p-4 rounded-lg text-center w-full">
+                    <h4 className="font-semibold mb-1 text-xs md:text-base">Nutrition</h4>
+                    {filteredRecipes[currentIndex].nutrition && (
+                      <div className="text-xs md:text-sm text-gray-600">
+                        <div className="font-bold text-center mb-1">Per Serving</div>
+                        <div className="flex flex-row justify-center gap-2">
+                          <div title="Carbs">Carbs: {filteredRecipes[currentIndex].nutrition.carbs.toFixed(1)}g</div>
+                          <div title="Protein">Protien: {filteredRecipes[currentIndex].nutrition.protein.toFixed(1)}g</div>
+                          <div title="Saturated Fat">Fat: {filteredRecipes[currentIndex].nutrition.saturatedFat?.toFixed(1) || '0.0'}g</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="mt-auto text-xs text-gray-500 text-center w-full">
+                  Tap to flip for instructions
                 </div>
               </div>
+              
               {/* Back */}
-              <div className="absolute inset-0 h-full w-full rounded-xl bg-white p-4 shadow-md [transform:rotateY(180deg)] [backface-visibility:hidden]">
-                <h3 className="text-xl font-bold mb-2 line-clamp-1">{recipe.name}</h3>
-                <div className="text-gray-600 overflow-y-auto h-[280px] mb-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+              <div className="absolute inset-0 h-full w-full rounded-xl bg-white p-4 shadow-md [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
+                <h3 className="text-xl font-bold mb-2 text-center">{filteredRecipes[currentIndex].name}</h3>
+                <div className="flex-grow overflow-y-auto mb-4">
                   <h4 className="font-semibold mb-1">Instructions:</h4>
-                  <p className="whitespace-pre-wrap">{recipe.instructions}</p>
+                  <p className="whitespace-pre-wrap">{filteredRecipes[currentIndex].instructions}</p>
                 </div>
                 <div className="flex justify-between items-center absolute bottom-4 left-4 right-4">
                   <button
                     onClick={async () => {
                       try {
-                        const recipeId = recipe.id;
+                        const recipeId = filteredRecipes[currentIndex].id;
                         await removeRecipeFromCookbook(user?.id!, recipeId);
                         setLocalRecipes(recipes.filter(r => r.id !== recipeId));
+                        setCurrentIndex(0);
                       } catch (err) {
                         console.error('Error deleting recipe:', err);
                         setError('Failed to delete recipe');
@@ -488,15 +530,15 @@ const MyCookBook = () => {
                   <button
                     onClick={() => {
                       const fullRecipe = {
-                        id: `${recipe.name.replace(/\s+/g, '-')}-${idx}`,
-                        title: recipe.name,
-                        image: recipe.photo || '',
-                        ingredients: recipe.ingredients || [],
-                        instructions: recipe.instructions || '',
-                        equipment: recipe.equipment || [],
+                        id: `${filteredRecipes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                        title: filteredRecipes[currentIndex].name,
+                        image: filteredRecipes[currentIndex].photo || '',
+                        ingredients: filteredRecipes[currentIndex].ingredients || [],
+                        instructions: filteredRecipes[currentIndex].instructions || '',
+                        equipment: filteredRecipes[currentIndex].equipment || [],
                         tutorials: [
                           {
-                            title: `Equipment: Using the right tools for ${recipe.name}`,
+                            title: `Equipment: Using the right tools for ${filteredRecipes[currentIndex].name}`,
                             desc: `Learn how to use the main equipment needed for this dish.`
                           },
                           {
@@ -504,8 +546,8 @@ const MyCookBook = () => {
                             desc: `How to prep the main protein (e.g., fish, chicken, clams) for this recipe.`
                           },
                           {
-                            title: `Recipe: ${recipe.name}`,
-                            desc: recipe.instructions || ''
+                            title: `Recipe: ${filteredRecipes[currentIndex].name}`,
+                            desc: filteredRecipes[currentIndex].instructions || ''
                           }
                         ]
                       };
@@ -518,7 +560,7 @@ const MyCookBook = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setRecipeToShare(recipe);
+                      setRecipeToShare(filteredRecipes[currentIndex]);
                       setShowShareModal(true);
                     }}
                     className="bg-maineBlue text-seafoam px-4 py-2 rounded hover:bg-seafoam hover:text-maineBlue transition-colors"
@@ -529,70 +571,11 @@ const MyCookBook = () => {
               </div>
             </div>
           </div>
-        ))}
+        )}
       </div>
-      
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center mt-8">
-          <nav className="flex items-center">
-            <button 
-              onClick={() => paginate(Math.max(1, currentPage - 1))}
-              disabled={currentPage === 1}
-              className={`mx-1 px-3 py-1 rounded ${
-                currentPage === 1 
-                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
-                  : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'
-              } transition-colors`}
-            >
-              ←
-            </button>
-            
-            {[...Array(totalPages)].map((_, i) => {
-              // Show limited page numbers with ellipsis for better UX
-              if (
-                i === 0 || // First page
-                i === totalPages - 1 || // Last page
-                (i >= currentPage - 2 && i <= currentPage) || // 2 pages before current
-                (i >= currentPage && i <= currentPage + 1) // 1 page after current
-              ) {
-                return (
-                  <button
-                    key={i}
-                    onClick={() => paginate(i + 1)}
-                    className={`mx-1 px-3 py-1 rounded ${
-                      currentPage === i + 1
-                        ? 'bg-maineBlue text-seafoam font-medium'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    } transition-colors`}
-                  >
-                    {i + 1}
-                  </button>
-                );
-              } else if (
-                (i === 1 && currentPage > 3) || 
-                (i === totalPages - 2 && currentPage < totalPages - 2)
-              ) {
-                // Show ellipsis
-                return <span key={i} className="mx-1">...</span>;
-              }
-              return null;
-            })}
-            
-            <button 
-              onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
-              disabled={currentPage === totalPages}
-              className={`mx-1 px-3 py-1 rounded ${
-                currentPage === totalPages 
-                  ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
-                  : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'
-              } transition-colors`}
-            >
-              →
-            </button>
-          </nav>
-        </div>
-      )}
+      <div className="mt-2 text-xs text-gray-500 text-center w-full italic">
+        Scroll within boxes to see more content
+      </div>
     </div>
   );
 };

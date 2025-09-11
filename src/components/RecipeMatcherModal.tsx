@@ -20,6 +20,20 @@ export type RecipeCard = {
     price: string;
     image: string;
   }>;
+  healthTags?: string[];
+  nutrition?: {
+    carbs: number;
+    sugars: number;
+    fiber: number;
+    protein: number;
+    saturatedFat?: number;
+    sodium?: number;
+    omega3?: number;
+    antioxidants?: number;
+    cholesterol?: number;
+    potassium?: number;
+    phosphorus?: number;
+  };
 };
 
 type Props = {
@@ -27,12 +41,13 @@ type Props = {
   onClose: () => void;
   cupboardIngredients: string[];
   onLike: (recipe: RecipeCard) => void;
+  saveRecipeToCookbook: (recipe: RecipeCard) => void;
   recipes: RecipeCard[];
   loading: boolean;
   error: string;
 };
 
-const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, recipes, loading, error }) => {
+const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const { setSelectedRecipe } = useRecipeContext();
@@ -43,10 +58,12 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const handleLike = async () => {
     try {
       setIsSaving(true);
+      // Save recipe to cookbook
+      await saveRecipeToCookbook(recipes[currentIdx]);
       await onLike(recipes[currentIdx]);
       setCurrentIdx(idx => idx + 1);
     } catch (error) {
-      console.error('Error liking recipe:', error);
+      console.error('Error saving recipe:', error);
     } finally {
       setIsSaving(false);
     }
@@ -80,6 +97,18 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
     navigate('/culinary-school');
   };
 
+  const DIETARY_TAGS = [
+    'Heart Healthy',
+    'Anti Inflammatory',
+    'Low Glycemic',
+    'Low Cholesterol',
+    'Renal Friendly',
+    'DASH Diet',
+    'Low Sodium',
+    'High Fiber'
+
+  ];
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
       <div className="bg-weatheredWhite rounded-lg shadow-lg p-6 max-w-xl w-full relative">
@@ -95,33 +124,52 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         ) : recipes.length === 0 || currentIdx >= recipes.length ? (
           <div className="text-center text-maineBlue font-bold py-10">No more suggestions.<br/>Try updating your cupboard!</div>
         ) : (
-          <div className="flex flex-col items-center">
-            <div className="bg-sand rounded-xl shadow-lg p-4 w-full max-w-md mb-4 relative">
-              <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
-              <h3 className="font-retro text-xl mb-1">{recipes[currentIdx].title}</h3>
-              <div className="text-xs text-gray-600 mb-2">Ingredients: {recipes[currentIdx].ingredients.join(', ')}</div>
-              {recipes[currentIdx].equipment && recipes[currentIdx].equipment.length > 0 && (
-                <div className="text-xs text-gray-600 mb-2">Equipment: {recipes[currentIdx].equipment.join(', ')}</div>
-              )}
-              <div className="text-sm text-gray-800 mb-2 line-clamp-3">{recipes[currentIdx].instructions}</div>
-            </div>
-            <div className="flex gap-8 mt-2">
-              <button className="bg-lobsterRed text-weatheredWhite px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" onClick={handleSkip}>
-                ✕
-              </button>
-              <button 
-                className="bg-seafoam text-maineBlue px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" 
-                onClick={handleLike}
-                disabled={isSaving}
-              >
-                {isSaving ? '...' : '♥'}
-              </button>
-              <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                Cook Me
-              </button>
-            </div>
-            <div className="text-xs mt-4 text-center text-gray-500">Swipe through AI-powered recipes based on your cupboard!</div>
-          </div>
+          (() => {
+            console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
+            return (
+              <div className="flex flex-col items-center">
+                <div className="bg-sand rounded-xl shadow-lg p-4 w-full max-w-md mb-4 relative">
+                  <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
+                  <h3 className="font-retro text-xl mb-3 text-center">{recipes[currentIdx].title}</h3>
+                  <div className="flex flex-wrap gap-1 mb-3 justify-center">
+                    {DIETARY_TAGS.map(tag => {
+                      const isMatch = recipes[currentIdx].healthTags?.includes(tag);
+                      return (
+                        <span 
+                          key={tag}
+                          className={`px-2 py-1 rounded-full text-xs ${
+                            isMatch ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'
+                          }`}
+                        >
+                          {tag}
+                        </span>
+                      );
+                    })}
+                  </div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">Ingredients:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">Equipment:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                  )}
+                </div>
+                <div className="flex gap-8 mt-2">
+                  <button className="bg-lobsterRed text-weatheredWhite px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" onClick={handleSkip}>
+                    ✕
+                  </button>
+                  <button 
+                    className="bg-seafoam text-maineBlue px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" 
+                    onClick={handleLike}
+                    disabled={isSaving}
+                  >
+                    {isSaving ? '...' : '♥'}
+                  </button>
+                  <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
+                    Cook Me
+                  </button>
+                </div>
+                <div className="text-xs mt-4 text-center text-gray-500">Swipe through AI-powered recipes based on your cupboard!</div>
+              </div>
+            );
+          })()
         )}
       </div>
     </div>

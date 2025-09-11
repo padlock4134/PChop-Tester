@@ -10,6 +10,8 @@ import RecipeMatcherModal, { RecipeCard } from '../components/RecipeMatcherModal
 import { useFreddieContext } from '../components/FreddieContext';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
+import { supabase } from '../api/supabaseClient';
+import RecipeCardComponent from '../components/RecipeCard';
 
 const CATEGORIES = [
   "Vegetable",
@@ -120,6 +122,50 @@ const MyKitchen = () => {
   const filteredIngredients = ingredients.filter(ing => {
     return ing.name.toLowerCase().includes(filterText.toLowerCase());
   });
+
+  const handleLikeRecipe = async (recipe: RecipeCard) => {
+    console.log('Saving recipe with nutrition data:', recipe.nutrition);
+    
+    try {
+      const { data, error } = await supabase
+        .from('saved_recipes')
+        .insert([
+          { 
+            user_id: user?.id, 
+            recipe: {
+              ...recipe,
+              nutrition: recipe.nutrition // Include nutrition data
+            }
+          }
+        ]);
+      
+      if (error) throw error;
+      
+      // Award XP for saving a recipe
+      if (user) {
+        await import('../services/xpService').then(m => 
+          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
+        );
+        refreshXP();
+      }
+    } catch (error) {
+      console.error('Error saving recipe:', error.message || error);
+      console.error('Failed recipe:', {
+        id: recipe.id,
+        title: recipe.title,
+        user: user?.id || 'no user'
+      });
+    }
+  };
+
+  const handleSaveRecipeToCookbook = async (recipe: RecipeCard) => {
+    try {
+      await addRecipeToCookbook(user?.id!, recipe);
+      setCookbook(prevCookbook => [...prevCookbook, recipe]);
+    } catch (error) {
+      console.error('Error saving recipe to cookbook:', error);
+    }
+  };
 
   return (
     <div className="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-lg shadow">
@@ -277,24 +323,8 @@ const MyKitchen = () => {
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
         cupboardIngredients={ingredients.map(i => i.name)}
-        onLike={async recipe => {
-          try {
-            await addRecipeToCookbook(user?.id!, recipe);
-            const updatedCookbook = await fetchCookbook(user?.id!);
-            setCookbook(updatedCookbook);
-            
-            // Award XP for saving a recipe
-            if (user) {
-              await import('../services/xpService').then(m => 
-                m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
-              );
-              refreshXP();
-            }
-          } catch (error) {
-            console.error('Error saving recipe:', error);
-            throw error;
-          }
-        }}
+        onLike={handleLikeRecipe}
+        saveRecipeToCookbook={handleSaveRecipeToCookbook}
         recipes={matcherRecipes}
         loading={matcherLoading}
         error={matcherError}
@@ -392,7 +422,6 @@ const MyKitchen = () => {
           </div>
         )}
       </div>
-
     </div>
   );
 };
