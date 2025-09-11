@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 exports.handler = async (event) => {
   try {
     const { ingredient } = event.queryStringParameters;
-    const apiKey = process.env.USDA_API_KEY;
+    const apiKey = process.env.VITE_USDA_API_KEY;
     
     if (!apiKey) {
       return {
