@@ -91,7 +91,7 @@ exports.handler = async (event) => {
     // Filter out generic terms and non-food items
     const genericTerms = ['food', 'dish', 'cuisine', 'meal', 'delicacy', 'art', 'product', 'buffet', 'close up', 'photography', 'table', 'plate', 'box', 'container', 'bento', 'wicker', 'basket', 'fruit', 'ingredient', 'produce', 'natural foods', 
                           'carton', 'glass', 'bottle', 'jar', 'can', 'tin', 'package', 'packaging', 'wrapper', 'bag', 'tub', 'tube',
-                          'culinary arts', 'garnish', 'dessert', 'tableware'];
+                          'culinary arts', 'garnish', 'dessert', 'tableware', 'bowl', 'cup', 'plate', 'garnish', 'desert', ];
     const specificResults = allRawResults.filter(item => {
       const text = item.toLowerCase();
       // Only filter if the term is exactly generic or part of a longer phrase

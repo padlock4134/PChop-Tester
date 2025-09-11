@@ -58,6 +58,7 @@ export interface Recipe {
     protein: number;
     saturatedFat?: number;
   };
+  healthTags?: string[];
 }
 
 const MyCookBook = () => {
@@ -190,7 +191,8 @@ const MyCookBook = () => {
           ingredients: r.ingredients,
           instructions: r.instructions,
           equipment: r.equipment,
-          nutrition: r.nutrition
+          nutrition: r.nutrition,
+          healthTags: r.healthTags
         }));
         setLocalRecipes(converted);
       } catch (err) {
@@ -481,19 +483,18 @@ const MyCookBook = () => {
                     </ul>
                   </div>
                   
-                  {/* Nutrition */}
+                  {/* Health Tags */}
                   <div className="bg-gray-100 p-1 md:p-4 rounded-lg text-center w-full">
-                    <h4 className="font-semibold mb-1 text-xs md:text-base">Nutrition</h4>
-                    {filteredRecipes[currentIndex].nutrition && (
-                      <div className="text-xs md:text-sm text-gray-600">
-                        <div className="font-bold text-center mb-1">Per Serving</div>
-                        <div className="flex flex-row justify-center gap-2">
-                          <div title="Carbs">Carbs: {filteredRecipes[currentIndex].nutrition.carbs.toFixed(1)}g</div>
-                          <div title="Protein">Protien: {filteredRecipes[currentIndex].nutrition.protein.toFixed(1)}g</div>
-                          <div title="Saturated Fat">Fat: {filteredRecipes[currentIndex].nutrition.saturatedFat?.toFixed(1) || '0.0'}g</div>
-                        </div>
-                      </div>
-                    )}
+                    <h4 className="font-semibold mb-1 text-xs md:text-base">Health Tags</h4>
+                    <div className="grid grid-cols-2 gap-1">
+                      {filteredRecipes[currentIndex].healthTags?.map(tag => (
+                        <span key={tag} className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs text-center">
+                          {tag}
+                        </span>
+                      )) || (
+                        <span className="text-xs text-gray-500 col-span-2">No health tags</span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="mt-auto text-xs text-gray-500 text-center w-full">
