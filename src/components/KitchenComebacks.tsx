@@ -110,7 +110,7 @@ const KitchenComebacks = () => {
             ← Back to About Us
           </Link>
           <Link to="/TenantWellness" className="kc-back-arrow" aria-label="Back to PorkChop Perks">
-            ← Back to PorkChop Perks
+            ← Back to PorkChop Provisions
           </Link>
           <Link to="/Pricing" className="tw-back-arrow" aria-label="Go to Pricing">
             ← Back to Pricing
@@ -120,12 +120,12 @@ const KitchenComebacks = () => {
       </div>
       
       <section className="kc-hero">
-        <h1 className="kc-title">Kitchen Comebacks</h1>
+        <h1 className="kc-title">Scars & Soufflés</h1>
         <p className="kc-tagline">Healing trauma through the power of cooking</p>
       </section>
       
       <section className="kc-description">
-        <p><strong>Kitchen Comebacks</strong> is a podcast about how the art of cooking can be a powerful healing mechanism. We share real stories from people who have used cooking to overcome trauma, abuse, and adversity. Whether you found hope in the kitchen after hardship, or used food as a way to rebuild your life, this show is for you.</p>
+        <p><strong>Scars & Soufflés</strong> is a podcast about how the art of cooking can be a powerful healing mechanism. We share real stories from people who have used cooking to overcome trauma, abuse, and adversity. Whether you found hope in the kitchen after hardship, or used food as a way to rebuild your life, this show is for you.</p>
         <blockquote className="kc-quote">“I was abused and cooking healed me.”</blockquote>
         <p>These are the stories and voices we amplify - stories of resilience and transformation.</p>
         <p>If you have a comeback story you'd like to share or listen to, you’re in the right place.</p>

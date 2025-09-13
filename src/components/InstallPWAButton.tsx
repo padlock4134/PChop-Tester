@@ -42,7 +42,7 @@ const InstallPWAButton: React.FC = () => {
       onClick={handleClick}
       type="button"
     >
-      Install App
+      Install
     </button>
   );
 };

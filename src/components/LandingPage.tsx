@@ -5,6 +5,7 @@ import "./LandingPage.css";
 import TermsModal from './TermsModal';
 import { useTermsModal } from './useTermsModal';
 import InstallPWAButton from "./InstallPWAButton";
+import TestRunButton from "./TestRunButton";
 import FlippableCookbook from "./FlippableCookbook";
 import { useDeviceDetect, getResponsiveClasses } from '../utils/responsiveUtils';
 
@@ -50,10 +51,11 @@ const LandingPage: React.FC = () => {
     if (deviceType === 'mobile') {
       return (
         <nav className="landing-nav-row mobile">
+          <TestRunButton />
           <InstallPWAButton />
           <Link to="/AboutUs" className="landing-nav-btn mobile about-us-btn">About Us</Link>
-          <Link to="/KitchenComebacks" className="landing-nav-btn mobile kitchen-comebacks-btn">Kitchen Comebacks</Link>
-          <Link to="/TenantWellness" className="landing-nav-btn mobile tenant-wellness-btn">PorkChop Perks</Link>
+          <Link to="/KitchenComebacks" className="landing-nav-btn mobile kitchen-comebacks-btn">Podcast</Link>
+          <Link to="/TenantWellness" className="landing-nav-btn mobile tenant-wellness-btn">Provisions</Link>
           <Link to="/Pricing" className="landing-nav-btn mobile pricing-btn">Pricing</Link>
           <div className="mobile-auth-buttons">
             <a href={wristbandConsumerLoginUrl} className="landing-nav-btn mobile" rel="noopener noreferrer">Sign In</a>
@@ -70,10 +72,11 @@ const LandingPage: React.FC = () => {
     
     return (
       <nav className="landing-nav-column">
+        <TestRunButton />
         <InstallPWAButton />
-        <Link to="/AboutUs" className="landing-nav-btn about-us-btn">About Us</Link>
-        <Link to="/KitchenComebacks" className="landing-nav-btn kitchen-comebacks-btn">Kitchen Comebacks</Link>
-        <Link to="/TenantWellness" className="landing-nav-btn tenant-wellness-btn">PorkChop Perks</Link>
+        <Link to="/AboutUs" className="landing-nav-btn about-us-btn">Who We Are</Link>
+        <Link to="/KitchenComebacks" className="landing-nav-btn kitchen-comebacks-btn">PorkChop Podcast</Link>
+        <Link to="/TenantWellness" className="landing-nav-btn tenant-wellness-btn">Our Prime Cuts</Link>
         <Link to="/Pricing" className="landing-nav-btn pricing-btn">Pricing</Link>
         <a href={wristbandConsumerLoginUrl} className="landing-nav-btn" rel="noopener noreferrer">Sign In</a>
         <div style={{ position: 'relative', display: 'inline-block' }}>

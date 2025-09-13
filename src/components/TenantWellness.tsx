@@ -295,7 +295,7 @@ const TenantWellness: React.FC = () => {
             ← Back to About Us
           </Link>
           <Link to="/KitchenComebacks" className="tw-back-arrow" aria-label="Back to Kitchen Comebacks">
-            ← Back to Kitchen Comebacks
+            ← Back to Scars & Soufflés
           </Link>
           <Link to="/Pricing" className="tw-back-arrow" aria-label="Go to Pricing">
             ← Back to Pricing

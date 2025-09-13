@@ -198,102 +198,80 @@
   text-align: center;
   font-family: 'Bree Serif', serif;
   font-size: 1.4rem;
-  box-shadow: 0 2px 8px rgba(42,77,105,0.06);
-  flex: 1;
-  border: 2px solid #000;
+  color: #000000; /* Black text for all buttons */
+  border: 2px solid #000000; /* Black border */
 }
 
-.landing-nav-btn:nth-child(1) {
-  background: #e94e3c; /* Soft Lobster Red for About Us */
-  color: #fff;
+.about-us-btn {
+  background: #F8C8DC !important; /* Pastel Pink */
 }
 
-.landing-nav-btn:nth-child(2) {
-  background: #63ace5; /* Blue for Kitchen Comebacks */
-  color: #fff;
+.kitchen-comebacks-btn {
+  background: #77DDE7 !important; /* Turquoise */
 }
 
-.landing-nav-btn:nth-child(4) {
-  background: #5885AF; /* Soft navy blue */
-  color: #fff;
+.tenant-wellness-btn {
+  background: #B5EAD7 !important; /* Mint Green */
 }
 
-.landing-nav-btn:nth-child(5) {
-  background: #E98A68; /* Soft orange - sign up */
-  color: #fff;
+.pricing-btn {
+  background: #FFDAC1 !important; /* Soft Peach */
 }
 
-/* Add a class for the Install App button */
-.install-app-btn {
-  background: #F2C091 !important; /* Soft yellow-orange */
-  color: #2a4d69 !important;
+.signup-btn {
+  background: #E2F0CB !important; /* Seafoam Green */
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.landing-nav-btn.primary:not([href*="login"]) {
+  background-color: #E2F0CB; /* Seafoam Green for primary */
+  color: #000000;
+  border: 2px solid #000000;
+}
+
+.landing-nav-btn[href*="login"] {
+  background: #FFE5B4 !important; /* Buttery Yellow */
+  color: #000000 !important;
+}
+
+.landing-nav-btn[href*="login"]:hover {
+  filter: brightness(0.95);
 }
 
 .landing-nav-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(42,77,105,0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  filter: brightness(0.95);
 }
 
-/* Specific styling for About Us button */
-.about-us-btn {
-  background: #e94e3c !important; /* Soft Lobster Red */
-  color: #fff !important;
-  border-color: #000 !important; /* Black border */
-  border-width: 2px !important;
+.landing-nav-btn:active {
+  transform: translateY(0);
+  filter: brightness(0.9);
 }
 
-/* Specific styling for Kitchen Comebacks button */
-.kitchen-comebacks-btn {
-  background: #2E8B57 !important; /* Sea Green */
-  color: #fff !important;
-  border-color: #000 !important; /* Black border */
-  border-width: 2px !important;
-}
-
-/* Specific styling for Sign Up button */
-.signup-btn {
-  background: #87CEEB !important; /* Soft Sky Blue */
-  color: #2a4d69 !important; /* Darker text for better contrast */
-  border-color: #000 !important; /* Black border */
-  border-width: 2px !important;
-  position: relative;
-  margin-top: 1.25rem;
-  margin-bottom: 0.5rem;
-}
-
+/* Trial text styling - moved below button */
 .trial-text {
   position: absolute;
-  top: -1.25rem;
+  bottom: -20px;
   left: 50%;
   transform: translateX(-50%);
-  color: #E94E3C;
-  font-family: 'Caveat', cursive, sans-serif;
-  font-weight: 700;
-  font-size: 1.5rem;
+  background: #000000;
+  color: #ffffff;
+  padding: 2px 12px;
+  border-radius: 10px;
+  font-size: 0.8rem;
   white-space: nowrap;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  font-weight: bold;
+  letter-spacing: 0.5px;
 }
 
-.signup-btn::after {
-  content: '↓';
-  position: absolute;
-  top: -1.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.25rem;
-  color: #E94E3C;
-  animation: bounce 2s infinite;
-}
-
-@keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-  40% { transform: translateX(-50%) translateY(-10px); }
-  60% { transform: translateX(-50%) translateY(-5px); }
-}
-
-.signup-text {
-  display: inline-block;
+/* Adjust the container for proper positioning */
+.landing-nav-btn.primary,
+.landing-nav-btn.signup-btn {
   position: relative;
+  margin-bottom: 2rem; /* Add space for the trial text */
 }
 
 .landing-main {
@@ -632,4 +610,29 @@
   .trial-text {
     font-size: 0.75rem; /* Half of 1.5rem */
   }
+}
+
+/* Add these new styles for the special action buttons */
+.landing-nav-btn.test-run-btn {
+  background: #FFD1A8 !important; /* Softer Pastel Orange */
+  color: #000000 !important;
+}
+
+.landing-nav-btn.install-app-btn {
+  background: #C3CDE6 !important; /* Periwinkle */
+  color: #000000 !important;
+}
+
+/* Ensure hover states work for the new buttons */
+.landing-nav-btn.test-run-btn:hover,
+.landing-nav-btn.install-app-btn:hover {
+  filter: brightness(0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.landing-nav-btn.test-run-btn:active,
+.landing-nav-btn.install-app-btn:active {
+  transform: translateY(0);
+  filter: brightness(0.9);
 }

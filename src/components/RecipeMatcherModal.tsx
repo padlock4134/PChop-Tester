@@ -110,9 +110,15 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-      <div className="bg-weatheredWhite rounded-lg shadow-lg p-6 max-w-xl w-full relative">
-        <button className="absolute top-2 right-2 text-lobsterRed font-bold text-xl" onClick={onClose}>✕</button>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-weatheredWhite rounded-lg shadow-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 text-2xl text-lobsterRed hover:text-red-700 focus:outline-none"
+          aria-label="Close modal"
+        >
+          &times;
+        </button>
         <h2 className="font-retro text-2xl mb-2 text-center">Recipe Matcher</h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">

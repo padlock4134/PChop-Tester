@@ -1,8 +1,39 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, FormEvent, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
-import "./LandingPage.css"; // Shared styles
-import "./Pricing.css";     // New styles for this page
-import logo from '/logo.png';
+import "./LandingPage.css";
+import "./Pricing.css";
+import logo from "/logo.png";
+
+// Extend form attributes to include Netlify's custom attributes
+declare module 'react' {
+  interface FormHTMLAttributes<T> extends React.HTMLAttributes<T> {
+    'data-netlify'?: boolean | string;
+    'data-netlify-honeypot'?: string;
+    'netlify-honeypot'?: string;
+    netlify?: boolean | string;
+  }
+}
+
+interface FormData {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  preferredTime: string;
+}
+
+interface DemoRequestFormProps {
+  onSubmit: (formData: FormData) => void;
+  onClose: () => void;
+}
+
+interface PricingTier {
+  title: string;
+  price: string;
+  features: string[];
+  cta: string;
+  popular?: boolean;
+}
 
 // This URL should direct users to your signup page.
 const wristbandConsumerSignupUrl = (import.meta as any).env.VITE_WRISTBAND_CONSUMER_SIGNUP_URL;
@@ -37,8 +68,8 @@ const pricingTiers = [
   }
 ];
 
-const DemoRequestForm = memo(({ onSubmit, onClose }) => {
-  const [formData, setFormData] = React.useState({
+const DemoRequestForm = memo(({ onSubmit, onClose }: DemoRequestFormProps) => {
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     company: '',
     email: '',
@@ -46,7 +77,7 @@ const DemoRequestForm = memo(({ onSubmit, onClose }) => {
     preferredTime: ''
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -54,82 +85,84 @@ const DemoRequestForm = memo(({ onSubmit, onClose }) => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.target as HTMLFormElement;
-    const formData = new FormData(form);
     onSubmit(formData);
   };
 
   return (
-    <form 
-      name="demo-request"
-      method="POST"
-      data-netlify="true"
-      data-netlify-honeypot="bot-field"
-      onSubmit={handleSubmit}
-      netlify-honeypot="bot-field"
-      netlify
-    >
-      <input type="hidden" name="form-name" value="demo-request" />
-      <p className="hidden">
-        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-      </p>
-      <label>
-        Name:
-        <input 
-          type="text" 
-          name="name" 
-          value={formData.name} 
-          onChange={handleChange} 
-          required 
-        />
-      </label>
-      <label>
-        Company Name:
-        <input 
-          type="text" 
-          name="company" 
-          value={formData.company} 
-          onChange={handleChange} 
-          required 
-        />
-      </label>
-      <label>
-        Email:
-        <input 
-          type="email" 
-          name="email" 
-          value={formData.email} 
-          onChange={handleChange} 
-          required 
-        />
-      </label>
-      <label>
-        Phone:
-        <input 
-          type="tel" 
-          name="phone" 
-          value={formData.phone} 
-          onChange={handleChange} 
-          required 
-        />
-      </label>
-      <label>
-        Preferred Date & Time:
-        <input 
-          type="datetime-local" 
-          name="preferredTime" 
-          value={formData.preferredTime}
-          onChange={handleChange}
-          min={new Date().toISOString().slice(0, 16)}
-          required 
-        />
-      </label>
-      <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-        <button type="submit" className="tw-contact-btn">Schedule Call</button>
-      </div>
-    </form>
+    <div className="demo-form-container">
+      <button className="close-button" onClick={onClose}>×</button>
+      <h3>Schedule a Demo</h3>
+      <form 
+        name="demo-request"
+        method="POST"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        onSubmit={handleSubmit}
+        netlify-honeypot="bot-field"
+        netlify
+      >
+        <input type="hidden" name="form-name" value="demo-request" />
+        <p className="hidden">
+          <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+        </p>
+        <label>
+          Name:
+          <input 
+            type="text" 
+            name="name" 
+            value={formData.name} 
+            onChange={handleChange} 
+            required 
+          />
+        </label>
+        <label>
+          Company Name:
+          <input 
+            type="text" 
+            name="company" 
+            value={formData.company} 
+            onChange={handleChange} 
+            required 
+          />
+        </label>
+        <label>
+          Email:
+          <input 
+            type="email" 
+            name="email" 
+            value={formData.email} 
+            onChange={handleChange} 
+            required 
+          />
+        </label>
+        <label>
+          Phone:
+          <input 
+            type="tel" 
+            name="phone" 
+            value={formData.phone} 
+            onChange={handleChange} 
+            required 
+          />
+        </label>
+        <label>
+          Preferred Date & Time:
+          <input 
+            type="datetime-local" 
+            name="preferredTime" 
+            value={formData.preferredTime}
+            onChange={handleChange}
+            min={new Date().toISOString().slice(0, 16)}
+            required 
+          />
+        </label>
+        <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+          <button type="submit" className="tw-contact-btn">Schedule Call</button>
+        </div>
+      </form>
+    </div>
   );
 });
 
@@ -142,7 +175,7 @@ const Pricing: React.FC = () => {
     'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80', // 1. Grilled Steak
     'https://images.pexels.com/photos/2098085/pexels-photo-2098085.jpeg?auto=compress&cs=tinysrgb&w=800', // 2. Asian - Sushi Rolls
     'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=80', // 3. Burger
-    'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=800&auto=format&fit=crop&q=80', // 4. Breakfast
+    'https://images.unsplash.com/photo-1482049016688-2d3e1b4a4f8?w=800&auto=format&fit=crop&q=80', // 4. Breakfast
     'https://images.unsplash.com/photo-1485921325833-c519f76c4927?w=800&auto=format&fit=crop&q=80', // 5. Pizza
     'https://images.pexels.com/photos/5409015/pexels-photo-5409015.jpeg?auto=compress&cs=tinysrgb&w=800', // 6. Asian - Dumplings
     'https://images.pexels.com/photos/2664216/pexels-photo-2664216.jpeg?auto=compress&cs=tinysrgb&w=800', // 7. Asian - Ramen
@@ -212,7 +245,7 @@ const Pricing: React.FC = () => {
     );
   };
 
-  const PricingTier = ({ tier }) => {
+  const PricingTier = ({ tier }: { tier: PricingTier }) => {
     return (
       <div key={tier.title} className={`pricing-card ${tier.popular ? 'popular' : ''}`}>
         {tier.popular && <div className="popular-badge">Most Popular</div>}
@@ -234,7 +267,13 @@ const Pricing: React.FC = () => {
     );
   };
 
-  const MetricsBox = ({ value, label, icon }) => {
+  interface MetricsBoxProps {
+    value: string;
+    label: string;
+    icon?: string;
+  }
+
+  const MetricsBox: React.FC<MetricsBoxProps> = ({ value, label, icon }) => {
     return (
       <div style={{
         backgroundColor: '#e6f2ff',
@@ -251,7 +290,7 @@ const Pricing: React.FC = () => {
           color: '#e94e3c',
           marginBottom: '0.5rem'
         }}>
-          {value}
+          {value} {icon && <span>{icon}</span>}
         </div>
         <div style={{ 
           fontSize: '1rem',
@@ -270,9 +309,9 @@ const Pricing: React.FC = () => {
         <div className="tw-nav-links">
           <Link to="/" className="tw-back-arrow" aria-label="Back to Home">← Back to Home</Link>
           <Link to="/AboutUs" className="tw-back-arrow" aria-label="Back to About Us">← Back to About Us</Link>
-          <Link to="/KitchenComebacks" className="tw-back-arrow" aria-label="Back to Kitchen Comebacks">← Back to Kitchen Comebacks</Link>
+          <Link to="/KitchenComebacks" className="tw-back-arrow" aria-label="Back to Kitchen Comebacks">← Back to Scars & Soufflés</Link>
           <Link to="/TenantWellness" className="tw-back-arrow" aria-label="Go to Tenant Wellness">
-            ← Back to PorkChop Perks
+            ← Back to PorkChop Provisions
           </Link>
         </div>
         <img src={logo} alt="PorkChop Logo" className="tw-logo" />
