@@ -33,7 +33,6 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const [matcherOpen, setMatcherOpen] = useState(false);
   const [matcherLoading, setMatcherLoading] = useState(false);
   const [showRecipeMatcher, setShowRecipeMatcher] = useState(false);
-  const [showVideoModal, setShowVideoModal] = useState(false);
   const [showWelcomeTooltip, setShowWelcomeTooltip] = useState(true);
   const [matchedRecipes, setMatchedRecipes] = useState<Array<{
     recipe: any;
@@ -669,32 +668,6 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           >
             {matcherLoading ? 'Loading...' : 'Recipe Matcher'}
           </button>
-          
-          <button
-            className="bg-[#F2C091] text-maineBlue px-4 py-2 rounded font-bold hover:bg-[#e0ad7f] transition-colors w-full sm:w-auto max-w-xs"
-            onClick={() => setShowVideoModal(true)}
-          >
-            Full Demo
-          </button>
-          
-          {showVideoModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[60] p-4" onClick={() => setShowVideoModal(false)}>
-              <div className="relative w-full max-w-4xl" onClick={e => e.stopPropagation()}>
-                <button 
-                  className="absolute -top-10 right-0 text-white text-2xl hover:text-gray-300"
-                  onClick={() => setShowVideoModal(false)}
-                >
-                  ✕
-                </button>
-                <video 
-                  className="w-full max-h-[80vh] border-4 border-black rounded-lg" 
-                  controls 
-                  autoPlay
-                  src="/PorkChop - Google Chrome 2025-06-28 12-15-21.mp4"
-                />
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Digital Cupboard Section */}
