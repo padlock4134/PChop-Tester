@@ -349,7 +349,6 @@ const TenantWellness: React.FC = () => {
         <p className="tw-footer-tagline">Our culinary companion is the perfect every day 'perk me up'.</p>
         <div className="tw-footer-buttons">
           <button onClick={() => setShowDemoModal(true)} className="tw-footer-btn tw-schedule-demo">Book a Call</button>
-          <button onClick={() => setShowVideoModal(true)} className="tw-footer-btn tw-learn-more">Watch Demo</button>
         </div>
       </section>
 
