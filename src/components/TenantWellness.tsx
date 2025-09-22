@@ -1,61 +1,33 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { PuzzlePieceIcon, AcademicCapIcon } from "@heroicons/react/24/solid";
 import "./LandingPage.css";
 import "./TenantWellness.css";
 import logo from '../images/logo.png';
 
-const partnershipBenefits = [
-  {
-    title: "🔄 Seamless Integration",
-    description: "PorkChop's API-first architecture allows for easy integration with your existing systems. Our flexible platform connects with your tech stack, whether you're a marketplace, SaaS provider, or technology platform."
-  },
-  {
-    title: "🚀 Expanded Offerings",
-    description: "Enhance your product portfolio with PorkChop's culinary AI capabilities. Give your customers access to personalized cooking assistance, recipe recommendations, and skill-building tools without building these features from scratch."
-  },
-  {
-    title: "💼 New Revenue Streams",
-    description: "Create additional value for your customers and unlock new monetization opportunities. Our partnership models include revenue sharing, white-label solutions, and customized integration options to fit your business model."
-  },
-  {
-    title: "🔍 Customer Insights",
-    description: "Gain valuable data on food preferences, cooking habits, and engagement patterns. Our analytics dashboard provides partners with actionable insights while maintaining end-user privacy and data security."
-  },
-  {
-    title: "🌐 Market Expansion",
-    description: "Reach new customer segments and markets by adding culinary technology to your offering. PorkChop helps you differentiate in competitive markets and appeal to food-conscious consumers across demographics."
-  },
-  {
-    title: "🛠️ Developer Resources",
-    description: "Access comprehensive documentation, SDKs, and dedicated support to make integration smooth and efficient. Our partnership team provides technical assistance throughout the implementation process."
-  }
-];
-
 const culinarySchoolBenefits = [
   {
-    title: "🎓 Enhanced Learning Experience",
-    description: "Supplement traditional culinary education with AI-driven personalized guidance. PorkChop works alongside your existing curriculum to reinforce classroom learning, not replace it—ensuring quality education while accelerating skill development."
+    title: "🎓 Keener Focus",
+    description: 'Students get basic technique questions answered at home by Chef Freddie instead of coming to class confused.'
   },
   {
-    title: "🔪 Practical Skill Development",
-    description: "Students can practice techniques taught by instructors at their own pace with step-by-step visual guidance. Our platform provides additional practice opportunities that complement hands-on classroom instruction—preserving quality while improving efficiency."
+    title: "🔪 Better Prep",
+    description: "Students arrive having already practiced your recipes at home, ready to refine techniques rather than learn from scratch."
   },
   {
-    title: "📱 Modern Educational Tools",
-    description: "Bring your culinary program into the digital age with a tech platform that enhances traditional teaching methods. Our tools work in harmony with instructor expertise, creating a blended learning approach that maintains educational quality."
+    title: "📱 Safety Conscious",
+    description: "Students work through knife skills and heat techniques at home first, reducing accidents."
   },
   {
-    title: "📊 Progress Tracking & Analytics",
-    description: "Gain valuable insights into student performance and engagement without sacrificing personalized instruction. Instructors can use data to tailor their teaching, identifying where students need additional hands-on guidance."
+    title: "🏆 Maximized Lab",
+    description: "Turn expensive kitchen lab time into skill refinement and advanced techniques since students practiced basics at home."
   },
   {
-    title: "🌐 Remote Learning Support",
-    description: "Extend your classroom's reach while maintaining educational quality. Our platform bridges the gap between in-person and remote learning, ensuring consistent instruction that complements—never replaces—the irreplaceable value of hands-on teaching."
+    title: "🌐 Consistent Standards",
+    description: "Your teaching methods get reinforced through home practice, ensuring students learn YOUR techniques even outside class."
   },
   {
-    title: "🍳 Industry-Ready Graduates",
-    description: "Prepare students for professional kitchens with a tool that reinforces the techniques taught by your expert instructors. Graduates enter the workforce with the perfect blend of traditional culinary education and modern technological proficiency."
+    title: "🍳 24/7 Learning",
+    description: "Students maintain and build skills between lab sessions instead of forgetting techniques during gaps in hands-on instruction."
   }
 ];
 
@@ -68,72 +40,6 @@ const downloadWhitepaper = (filePath: string, fileName: string) => {
   link.click();
   document.body.removeChild(link);
 };
-
-const PartnershipsModal = ({ onClose, onScheduleDemo }) => (
-  <div className="tw-modal-large">
-    <div className="tw-modal-content-large">
-      <button className="tw-modal-close-large" onClick={onClose}>×</button>
-      <section className="tw-hero">
-        <h1 className="tw-title">Strategic Partnerships</h1>
-        <p className="tw-tagline">Integrate culinary AI into your platform and marketplace</p>
-      </section>
-      
-      <section className="tw-description">
-        <p>In today's digital ecosystem, <strong>partnerships and integrations</strong> are key to delivering comprehensive solutions to end users. PorkChop's culinary AI platform offers powerful capabilities that can enhance your existing products and services. Whether you're a marketplace looking to add food-related features, a technology platform seeking culinary content, or an integration partner wanting to expand your offering, our flexible API and partnership models make it easy to bring cooking intelligence to your users.</p>
-        <blockquote className="tw-quote">"PorkChop's partnership program allows you to tap into the growing demand for personalized culinary experiences without building these capabilities from scratch."</blockquote>
-      </section>
-      
-      <section className="tw-amenities">
-        <h2>
-          <span role="img" aria-label="Puzzle Piece"></span> 
-          Why Partner with PorkChop
-        </h2>
-        <div className="tw-amenities-grid">
-          {partnershipBenefits.map((benefit, index) => {
-            const emoji = benefit.title.substring(0, 2);
-            const title = benefit.title.substring(3);
-            return (
-              <div className="tw-amenity-card" key={benefit.title}>
-                <div className="tw-amenity-card-inner">
-                  <div className="tw-amenity-card-front">
-                    <h3>
-                      {title}
-                    </h3>
-                    <div className="emoji-icon">
-                      <span role="img" aria-label="Icon">{emoji}</span>
-                    </div>
-                  </div>
-                  <div className="tw-amenity-card-back">
-                    <p>{benefit.description}</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-      
-      <section className="tw-contact">
-        <h2>Become a PorkChop Partner</h2>
-        <p>Explore how our culinary AI can enhance your platform and create new opportunities</p>
-        <div className="tw-contact-options">
-          <button 
-            onClick={(e) => {
-              e.preventDefault();
-              downloadWhitepaper(
-                '/porkchop-partnerships.pdf',
-                'PorkChop-Partnerships-Overview.pdf'
-              );
-            }} 
-            className="tw-contact-btn"
-          >
-            Partnership & Integration Guide
-          </button>
-        </div>
-      </section>
-    </div>
-  </div>
-);
 
 const CulinarySchoolModal = ({ onClose, onScheduleDemo }) => (
   <div className="tw-modal-large">
@@ -203,7 +109,6 @@ const TenantWellness: React.FC = () => {
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [showThankYouModal, setShowThankYouModal] = useState(false);
-  const [activeModal, setActiveModal] = useState<'partnerships' | 'culinary' | null>(null);
   const [demoForm, setDemoForm] = useState({
     name: '',
     company: '',
@@ -211,6 +116,30 @@ const TenantWellness: React.FC = () => {
     phone: '',
     preferredTime: ''
   });
+  const [flippedCards, setFlippedCards] = useState<number[]>([]);
+  
+  // Toggle card flip state
+  const toggleCardFlip = (index: number) => {
+    setFlippedCards(prev => 
+      prev.includes(index) 
+        ? prev.filter(i => i !== index) // Remove if exists (flip back)
+        : [...prev, index] // Add if not exists (flip over)
+    );
+  };
+
+  // Handle card click - toggle the flip state
+  const handleCardClick = (index: number) => (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleCardFlip(index);
+  };
+
+  // Handle keyboard navigation
+  const handleKeyDown = (index: number) => (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleCardFlip(index);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -306,43 +235,66 @@ const TenantWellness: React.FC = () => {
 
       <section className="tw-hero">
         <h1 className="tw-title">PorkChop Provisions</h1>
-        <p className="tw-tagline">Blending tradition with modern culinary experiences for everyone.</p>
+        <p className="tw-tagline">Where culinary passion meets professional education and growth.</p>
       </section>
 
-      <div className="tw-verticals-container">
-        <div className="tw-vertical-card" onClick={() => setActiveModal('partnerships')}>
-          <div className="tw-icon-container">
-            <PuzzlePieceIcon className="tw-card-icon text-blue-600" />
-          </div>
-          <div className="tw-card-content">
-            <h3>Partnerships</h3>
-            <p>Integrate our culinary AI into your marketplace or platform.</p>
+      <section className="tw-benefits-section">
+        <div className="benefits-container" style={{
+          background: '#f9fafb',
+          borderRadius: '1rem',
+          boxShadow: '0 4px 16px rgba(42,77,105,0.09)',
+          border: '2px solid #63ace5',
+          padding: '2rem',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          marginTop: '.3rem',
+          marginBottom: '2rem'
+        }}>
+          <h2 className="tw-section-title" style={{
+            textAlign: 'center',
+            color: '#2a4d69',
+            marginBottom: '1.5rem',
+            fontSize: '1.75rem',
+            fontWeight: '600'
+          }}>What Teachers Love</h2>
+          <div className="tw-benefits-grid">
+            {culinarySchoolBenefits.map((benefit, index) => {
+              const emojiMatch = benefit.title.match(/^([\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1F0}-\u{1F1FF}\u{1F1E0}-\u{1F1FF}\u{1F200}-\u{1F2FF}\u{1F0CF}]\s*)/u);
+              const emoji = emojiMatch ? emojiMatch[1].trim() : '';
+              const titleWithoutEmoji = benefit.title.replace(/^[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F1F0}-\u{1F1FF}\u{1F1E0}-\u{1F1FF}\u{1F200}-\u{1F2FF}\u{1F0CF}]\s*/u, '').trim();
+              
+              return (
+                <div 
+                  key={index} 
+                  className={`tw-benefit-card ${flippedCards.includes(index) ? 'flipped' : ''}`}
+                  onClick={handleCardClick(index)}
+                  onKeyDown={handleKeyDown(index)}
+                  role="button"
+                  tabIndex={0}
+                  aria-pressed={flippedCards.includes(index)}
+                  aria-label={`${titleWithoutEmoji}. Click to ${flippedCards.includes(index) ? 'show front' : 'learn more'}`}
+                >
+                  <div className="tw-benefit-card-inner">
+                    <div className="tw-benefit-card-front">
+                      <h3>{titleWithoutEmoji}</h3>
+                      {emoji && <div className="tw-benefit-emoji">{emoji}</div>}
+                      <div className="tw-flip-hint">
+                        {flippedCards.includes(index) ? '← Click to return' : 'Click to learn more →'}
+                      </div>
+                    </div>
+                    <div className="tw-benefit-card-back">
+                      <p>{benefit.description}</p>
+                      <div className="tw-flip-hint">
+                        ← Click to return
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-        <div className="tw-vertical-card" onClick={() => setActiveModal('culinary')}>
-          <div className="tw-icon-container">
-            <AcademicCapIcon className="tw-card-icon text-green-600" />
-          </div>
-          <div className="tw-card-content">
-            <h3>Culinary Education</h3>
-            <p>Enhance your culinary school with modern learning tools.</p>
-          </div>
-        </div>
-      </div>
-
-      {activeModal === 'partnerships' && 
-        <PartnershipsModal 
-          onClose={() => setActiveModal(null)} 
-          onScheduleDemo={() => setShowDemoModal(true)} 
-        />
-      }
-
-      {activeModal === 'culinary' && 
-        <CulinarySchoolModal 
-          onClose={() => setActiveModal(null)} 
-          onScheduleDemo={() => setShowDemoModal(true)} 
-        />
-      }
+      </section>
 
       <section className="tw-footer">
         <h2>Lets Get Started!</h2>
