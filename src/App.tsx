@@ -71,10 +71,10 @@ const AppRoutes = () => {
   // in the event the initial Wristband auth session check fails. This status gets set to UNAUTHENTICATED
   // just once upfront right after the auth isLoading is set to false.
   useEffect(() => {
-    if (authStatus === AuthStatus.UNAUTHENTICATED) {
+    if (authStatus === AuthStatus.UNAUTHENTICATED && !isPublicRoute) {
       navigate('/');
     }
-  }, [authStatus]);
+  }, [authStatus, isPublicRoute, navigate]);
 
   // Only show loading for protected routes, skip for landing page
   if (isLoading && !isPublicRoute) {
