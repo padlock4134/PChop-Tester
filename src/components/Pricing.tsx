@@ -133,6 +133,17 @@ const PricingCalculator: React.FC<PricingCalculatorProps> = ({ onGetStarted }) =
           <span>$499.00</span>
           <span>$5,000+</span>
         </div>
+        <p style={{
+          fontSize: '0.75rem',
+          color: '#6c757d',
+          fontStyle: 'italic',
+          margin: '0.5rem auto 1.5rem',
+          lineHeight: '1.4',
+          textAlign: 'center',
+          maxWidth: '90%'
+        }}>
+          *Pick your comfort level - your monthly budget controls your seat costs.*
+        </p>
       </div>
       
       <button 
@@ -467,7 +478,7 @@ const DemoRequestForm = memo(({ onSubmit, onClose }: DemoRequestFormProps) => {
       </form>
     </div>
   );
-});
+}); // Added missing closing parenthesis and semicolon here
 
 const Pricing: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
