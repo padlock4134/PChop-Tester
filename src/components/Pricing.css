@@ -78,6 +78,44 @@
   max-width: 220px;
 }
 
+/* Mobile styles */
+@media (max-width: 768px) {
+  .pricing-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .pricing-card-features {
+    margin: 0 0 1.5rem 0;
+    padding: 0 1rem;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+  }
+  
+  .pricing-card-features li {
+    text-align: left;
+    padding: 0.25rem 0;
+    list-style-type: none;
+  }
+  
+  /* Align feature boxes to the left on mobile */
+  .pricing-plans > div > div > ul {
+    grid-template-columns: 1fr !important;
+    padding: 0 1rem !important;
+  }
+  
+  .pricing-plans > div > div > ul li {
+    text-align: left !important;
+    justify-content: flex-start !important;
+    padding: 0.75rem 0 !important;
+    margin: 0.25rem 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #e9ecef !important;
+    border-radius: 0 !important;
+  }
+}
+
 .pricing-card-features li {
   font-family: 'Inter', sans-serif;
   color: #24344d; /* navy */
@@ -102,6 +140,12 @@
 
 .pricing-card .tw-contact-btn:hover {
   background-color: #63ace5; /* seafoam */
+}
+
+/* FAQ Question Styling */
+.faq-item h3 {
+  color: #e94e3c; /* Orange color for FAQ questions */
+  font-weight: 600;
 }
 
 .tw-footer {
