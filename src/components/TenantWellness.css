@@ -893,6 +893,20 @@
 
 /* Desktop styles */
 @media (min-width: 769px) {
+  .tw-benefit-card {
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
+  }
+  
+  .tw-benefit-card-inner {
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
   .tw-benefit-emoji {
     font-size: 5rem;
     min-height: 7rem;
@@ -901,6 +915,19 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  .tw-benefit-card-front,
+  .tw-benefit-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
   }
   
   .tw-benefit-card-front {
@@ -914,6 +941,17 @@
     font-size: 1.25rem;
     position: relative;
     z-index: 1;
+    transform: translateZ(30px);
+    -webkit-transform: translateZ(30px);
+  }
+  
+  .tw-benefit-card-back {
+    transform: rotateY(180deg);
+    -webkit-transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
 
@@ -943,23 +981,30 @@
 }
 
 .tw-benefit-card-back {
-  transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg) translateZ(1px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: #2a4d69;
   color: white;
-  /* Ensure proper 3D rendering */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   padding: 1.5rem 1rem;
+  justify-content: flex-start;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   text-align: center;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
+  transform: rotateY(180deg) translateZ(1px);
+  -webkit-transform: rotateY(180deg) translateZ(1px);
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .tw-benefit-card-back {
+    transform: rotateY(180deg) translateZ(1px);
+  }
 }
 
 .tw-benefit-card-back p {
@@ -1111,7 +1156,7 @@
     background: #2a4d69;
     color: white;
     padding: 1.5rem 1rem;
-    justify-content: center;
+    justify-content: flex-start;
     display: flex;
     flex-direction: column;
     align-items: center;
