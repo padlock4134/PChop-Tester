@@ -54,6 +54,8 @@ const GlobalTestKitchen: React.FC = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [viewerCount, setViewerCount] = useState(0);
   const [newPost, setNewPost] = useState('');
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   
   // Schedule form states
   const [scheduledDishName, setScheduledDishName] = useState('');
@@ -245,26 +247,61 @@ const GlobalTestKitchen: React.FC = () => {
     setViewerCount(0);
   };
   
-  // Simulate viewer count (replace with real-time updates later)
+  // Simplified viewer count (no intervals to improve performance)
   useEffect(() => {
     if (isRecording) {
       setViewerCount(Math.floor(Math.random() * 30) + 15); // Start with 15-45 viewers
-      const interval = setInterval(() => {
-        setViewerCount(prev => Math.max(10, prev + (Math.random() > 0.5 ? 1 : -1)));
-      }, 5000);
-      return () => clearInterval(interval);
     } else {
       setViewerCount(0);
     }
   }, [isRecording]);
 
-  // Simple recording functions (no actual video)
-  const startRecording = () => {
-    setIsRecording(true);
-    setViewerCount(Math.floor(Math.random() * 30) + 15);
+  // Update video element when stream changes
+  useEffect(() => {
+    if (stream && videoRef.current) {
+      console.log('Setting video stream');
+      videoRef.current.srcObject = stream;
+      videoRef.current.onloadedmetadata = () => {
+        console.log('Video metadata loaded');
+        if (videoRef.current) {
+          videoRef.current.play().catch(console.error);
+        }
+      };
+    }
+  }, [stream]);
+
+  // Recording functions with camera access
+  const startRecording = async () => {
+    try {
+      // Get camera and microphone access
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      
+      setStream(mediaStream);
+      
+      // Set up video element
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
+        videoRef.current.play().catch(console.error);
+      }
+      
+      setIsRecording(true);
+      setViewerCount(Math.floor(Math.random() * 30) + 15);
+    } catch (error) {
+      console.error('Error accessing camera/microphone:', error);
+      alert('Could not access camera/microphone. Please check permissions.');
+    }
   };
 
   const stopRecording = () => {
+    // Stop camera/microphone
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
+    
     setIsRecording(false);
     setViewerCount(0);
   };
@@ -346,13 +383,7 @@ END:VCALENDAR`;
     }
   };
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      setIsRecording(false);
-      setViewerCount(0);
-    };
-  }, []);
+  // Removed cleanup useEffect to improve performance
 
   const [posts, setPosts] = useState<TimelinePost[]>([
     {
@@ -808,13 +839,29 @@ END:VCALENDAR`;
                   Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
                 </p>
               )}
-              {/* Simplified Live Area */}
+              {/* Live Video Area */}
               <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
-                <div className="text-white text-center">
-                  <div className="text-6xl mb-4">👨‍🍳</div>
-                  <p className="text-lg">Live Cooking Session</p>
-                  <p className="text-sm opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
-                </div>
+                {stream ? (
+                  // Show camera feed when streaming
+                  <video
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                    muted
+                    className="w-full h-full object-cover"
+                    onLoadStart={() => console.log('Video load start')}
+                    onCanPlay={() => console.log('Video can play')}
+                    onPlay={() => console.log('Video playing')}
+                    onError={(e) => console.error('Video error:', e)}
+                  />
+                ) : (
+                  // Show placeholder when not streaming
+                  <div className="text-white text-center">
+                    <div className="text-6xl mb-4">👨‍🍳</div>
+                    <p className="text-lg">Live Cooking Session</p>
+                    <p className="text-sm opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
+                  </div>
+                )}
                 
                 {/* Live Indicator */}
                 {isRecording && (

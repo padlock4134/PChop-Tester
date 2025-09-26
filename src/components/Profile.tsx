@@ -305,13 +305,13 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
         <div className="flex justify-center gap-4 mb-6">
           <button 
             onClick={onOpenRegistration}
-            className="bg-red-600 text-white px-8 py-3 rounded-lg text-lg font-bold hover:bg-red-700 transition-colors border border-black"
+            className="bg-lobsterRed text-weatheredWhite px-8 py-3 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
           >
             Register for Classes
           </button>
           <button 
             onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
-            className="bg-maineBlue text-white px-8 py-3 rounded-lg text-lg font-bold hover:bg-blue-700 transition-colors border border-black"
+            className="bg-seafoam text-maineBlue px-8 py-3 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
           >
             Contact Professor
           </button>
@@ -336,6 +336,7 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
+          <div></div>
           <h2 className="text-2xl font-bold text-maineBlue">Register for Classes</h2>
           <button
             onClick={onClose}
@@ -345,29 +346,20 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
           </button>
         </div>
         
-        <div className="space-y-4">
+        <div className="grid grid-cols-3 gap-4">
           {availableClasses.map((classItem, index) => (
-            <div key={index} className="bg-weatheredWhite border-2 border-gray-300 rounded-lg p-4 flex justify-between items-center">
-              <div className="flex-1">
-                <h4 className="font-bold text-gray-800 text-lg">{classItem.name}</h4>
-                <p className="text-gray-600">Instructor: {classItem.instructor}</p>
-                <p className="text-gray-600">{classItem.time}</p>
+            <div key={index} className="bg-weatheredWhite border-2 border-gray-300 rounded-lg p-4 flex flex-col text-center">
+              <div className="flex-1 mb-4">
+                <h4 className="font-bold text-gray-800 text-lg mb-2">{classItem.name}</h4>
+                <p className="text-gray-600 text-sm">Instructor: {classItem.instructor}</p>
+                <p className="text-gray-600 text-sm">{classItem.time}</p>
                 <p className="text-sm text-green-600">{classItem.spots} spots available</p>
               </div>
-              <button className="bg-maineBlue text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors font-bold">
+              <button className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black w-full">
                 Register
               </button>
             </div>
           ))}
-        </div>
-        
-        <div className="text-center mt-6">
-          <button 
-            onClick={onClose}
-            className="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 transition-colors"
-          >
-            Close
-          </button>
         </div>
       </div>
     </div>
