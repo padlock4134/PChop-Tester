@@ -119,7 +119,7 @@ const ChefFreddieWidget = () => {
 
       {open && (
         <React.Fragment>
-          <div className="fixed bottom-24 right-6 bg-white border border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
+          <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
               <span className="font-bold text-maineBlue">Chef Freddie</span>
               <button onClick={() => {

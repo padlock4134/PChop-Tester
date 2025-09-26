@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRecipeContext } from './RecipeContext';
 import { useNavigate } from 'react-router-dom';
+// @ts-ignore
+import chefFreddiePng from '../images/logo.png';
 
 export type RecipeCard = {
   id: string;
@@ -50,8 +52,32 @@ type Props = {
 const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
+  const [loadingStep, setLoadingStep] = useState(0);
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
+
+  const loadingMessages = [
+    "Chef Freddie Taking A Look...",
+    "Preparing Your Meals...",
+    "Almost Ready..."
+  ];
+
+  // Timer effect for loading steps
+  useEffect(() => {
+    if (loading) {
+      setLoadingStep(0);
+      const timer = setInterval(() => {
+        setLoadingStep(prev => {
+          if (prev < loadingMessages.length - 1) {
+            return prev + 1;
+          }
+          return prev;
+        });
+      }, 2000); // Change message every 2 seconds
+
+      return () => clearInterval(timer);
+    }
+  }, [loading, loadingMessages.length]);
 
   if (!open) return null;
 
@@ -111,7 +137,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-weatheredWhite rounded-lg shadow-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+      <div className="bg-weatheredWhite rounded-lg shadow-lg border-4 border-black p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
         <button 
           onClick={onClose}
           className="absolute top-4 right-4 text-2xl text-lobsterRed hover:text-red-700 focus:outline-none"
@@ -119,7 +145,15 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         >
           &times;
         </button>
-        <h2 className="font-retro text-2xl mb-2 text-center">Recipe Matcher</h2>
+        <h2 className="font-retro text-2xl mb-2 text-center flex items-center justify-center">
+          {loading ? (
+            <div className="flex items-center gap-3">
+              <img src={chefFreddiePng} alt="Chef Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
+              <span>{loadingMessages[loadingStep]}</span>
+            </div>
+          ) : 
+           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : 'Recipe Matcher')}
+        </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
@@ -134,9 +168,8 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
             console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
             return (
               <div className="flex flex-col items-center">
-                <div className="bg-sand rounded-xl shadow-lg p-4 w-full max-w-md mb-4 relative">
+                <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
                   <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
-                  <h3 className="font-retro text-xl mb-3 text-center">{recipes[currentIdx].title}</h3>
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
                     {DIETARY_TAGS.map(tag => {
                       const isMatch = recipes[currentIdx].healthTags?.includes(tag);

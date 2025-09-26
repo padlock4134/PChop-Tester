@@ -7,6 +7,8 @@ import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
+import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
+import CookingTimer from '../components/CookingTimer';
 
 const generalLessons = [
   { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
@@ -135,6 +137,59 @@ const CulinarySchool = () => {
   console.log('Culinary School - Full Recipe:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
+  const [servingSize, setServingSize] = useState(2);
+
+  // Mock syllabus data
+  const mockSyllabusData = {
+    title: "First Year Culinary Curriculum",
+    courses: [
+      {
+        id: "course-1",
+        title: "Term 1: Culinary Foundations",
+        lessons: [
+          { id: "lesson-1-1", title: "Kitchen Safety and Sanitation", completed: true, current: false },
+          { id: "lesson-1-2", title: "Food Handling and Storage", completed: true, current: false },
+          { id: "lesson-1-3", title: "Introduction to Kitchen Equipment", completed: true, current: false },
+          { id: "lesson-1-4", title: "Basic Cooking Terminology", completed: false, current: true },
+          { id: "lesson-1-5", title: "Weights, Measures, and Conversions", completed: false, current: false },
+        ]
+      },
+      {
+        id: "course-2",
+        title: "Term 1: Knife Skills",
+        lessons: [
+          { id: "lesson-2-1", title: "Knife Safety and Maintenance", completed: false, current: false },
+          { id: "lesson-2-2", title: "Basic Knife Cuts", completed: false, current: false },
+          { id: "lesson-2-3", title: "Vegetable Fabrication", completed: false, current: false },
+          { id: "lesson-2-4", title: "Meat and Fish Fabrication", completed: false, current: false },
+        ]
+      },
+      {
+        id: "course-3",
+        title: "Term 2: Breakfast & Garde Manger",
+        lessons: [
+          { id: "lesson-3-1", title: "Egg Cookery", completed: false, current: false },
+          { id: "lesson-3-2", title: "Breakfast Preparations", completed: false, current: false },
+          { id: "lesson-3-3", title: "Cold Food Preparation", completed: false, current: false },
+          { id: "lesson-3-4", title: "Salads and Dressings", completed: false, current: false },
+        ]
+      },
+      {
+        id: "course-4",
+        title: "Term 2: Baking & Pastry",
+        lessons: [
+          { id: "lesson-4-1", title: "Basic Dough and Batters", completed: false, current: false },
+          { id: "lesson-4-2", title: "Quick Breads and Muffins", completed: false, current: false },
+          { id: "lesson-4-3", title: "Yeast Breads", completed: false, current: false },
+          { id: "lesson-4-4", title: "Basic Pastry and Desserts", completed: false, current: false },
+        ]
+      }
+    ] as SyllabusCourse[]
+  };
+
+  const handleLessonClick = (lessonId: string) => {
+    console.log(`Navigating to lesson: ${lessonId}`);
+  };
 
   useEffect(() => {
     updateContext({ page: 'CulinarySchool' });
@@ -274,12 +329,15 @@ const CulinarySchool = () => {
   }, [isRecipeSelected, selectedRecipe?.id]);
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-lg shadow">
+    <div className="max-w-6xl mx-auto mt-8">
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue">
         <div className="w-full mx-auto">
       <div className="flex items-center justify-center mb-2">
         <span className="text-5xl mr-2">🍳</span>
         <h1 className="text-3xl font-retro text-maineBlue mb-0">Culinary School</h1>
       </div>
+        <CookingTimer servingSize={servingSize} setServingSize={setServingSize} />
         {/* Always render a VideoModal for the currently displayed tutorial list */}
         {tutorials.map((tut, idx) => (
           <VideoModal
@@ -293,14 +351,13 @@ const CulinarySchool = () => {
           />
         ))}
         {isRecipeSelected && selectedRecipe ? (
-          <div className="mb-6">
+          <div className="mb-6 mt-8">
             {/* Tutorials Section */}
-            <h3 className="text-lg font-retro mb-2 text-maineBlue">For {selectedRecipe.title}</h3>
             <ol className="space-y-4 list-decimal list-inside">
               {tutorials.map((tut, idx) => (
                 <li
                   key={idx}
-                  className={`bg-sand p-4 rounded shadow-inner relative ${tut.comingSoon ? 'cursor-default' : 'cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors'}`}
+                  className={`bg-sand p-4 rounded shadow-inner border border-black relative ${tut.comingSoon ? 'cursor-default' : 'cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors'}`}
                   onClick={() => !tut.comingSoon && setModalIdx(idx)}
                 >
                   <div className="font-bold mb-1">Step {idx + 1}: {tut.title}</div>
@@ -314,7 +371,14 @@ const CulinarySchool = () => {
               ))}
             </ol>
             {/* Recipe Card Display at Bottom (matching MyCookBook RecipeCard layout) */}
-            <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden w-full min-h-[350px] mt-8 mx-auto">
+            <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
+              <button
+                onClick={() => window.location.reload()}
+                className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
+                title="Close recipe"
+              >
+                <span className="text-red-500 font-bold text-lg">✕</span>
+              </button>
               {/* Left Page */}
               <div className="flex-1 p-6 bg-weatheredWhite border-r border-gray-200 flex flex-col">
                 {selectedRecipe.image && (
@@ -338,12 +402,12 @@ const CulinarySchool = () => {
                 </ul>
                 {recipeNutrition && (
                   <div className="mt-2">
-                    <div className="font-semibold mb-1">Nutrition per serving:</div>
+                    <div className="font-semibold mb-1">Nutrition (total for {servingSize} servings):</div>
                     <div className="text-sm">
-                      <div>Carbs: {recipeNutrition.carbs.toFixed(1)}g</div>
-                      <div>Sugars: {recipeNutrition.sugars.toFixed(1)}g</div>
-                      <div>Fiber: {recipeNutrition.fiber.toFixed(1)}g</div>
-                      <div>Protein: {recipeNutrition.protein.toFixed(1)}g</div>
+                      <div>Carbs: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
+                      <div>Sugars: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
+                      <div>Fiber: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
+                      <div>Protein: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
                     </div>
                   </div>
                 )}
@@ -375,12 +439,11 @@ const CulinarySchool = () => {
           </div>
         ) : (
           <>
-            <h3 className="text-lg font-retro mb-2 text-maineBlue">General Tutorials</h3>
-            <ol className="space-y-4 list-decimal list-inside">
+            <ol className="space-y-4 list-decimal list-inside mt-8">
               {tutorials.map((tut, idx) => (
                 <li
                   key={idx}
-                  className={`bg-sand p-4 rounded shadow-inner relative ${tut.comingSoon ? 'cursor-default' : 'cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors'}`}
+                  className={`bg-sand p-4 rounded shadow-inner border border-black relative ${tut.comingSoon ? 'cursor-default' : 'cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors'}`}
                   onClick={() => !tut.comingSoon && setModalIdx(idx)}
                 >
                   <div className="font-bold mb-1">Step {idx + 1}: {tut.title}</div>
@@ -402,6 +465,16 @@ const CulinarySchool = () => {
             </div>
           </>
         )}
+      </div>
+        </div>
+        
+        <div className="lg:w-1/3">
+          <SyllabusCard 
+            title={mockSyllabusData.title}
+            courses={mockSyllabusData.courses}
+            onLessonClick={handleLessonClick}
+          />
+        </div>
       </div>
     </div>
   );

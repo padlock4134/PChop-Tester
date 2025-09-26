@@ -1,0 +1,36 @@
+Skill Mastery Tracking Report - PorkChop Ed Tech
+Generated: September 26, 2024
+Report Period: Fall 2024 Semester
+
+Summary Statistics:
+Total Students,15
+Average Knife Skills Score,81.2
+Average Cooking Techniques Score,79.8
+Certification Rate,86.7%
+Overall Progress Rate,81.1%
+
+Student Progress Data:
+Student ID,Student Name,Knife Skills Score,Cooking Techniques Score,Food Safety Certification,Recipe Completion Rate,Overall Progress,Level,Last Assessment
+STU001,Alex Johnson,85,78,Certified,80,81,Intermediate,2024-09-25
+STU002,Maria Garcia,92,88,Certified,95,92,Advanced,2024-09-26
+STU003,David Chen,67,72,In Progress,65,68,Beginner,2024-09-24
+STU004,Sarah Williams,88,85,Certified,90,88,Advanced,2024-09-26
+STU005,Michael Brown,75,80,Certified,75,77,Intermediate,2024-09-25
+STU006,Emma Davis,90,87,Certified,85,87,Advanced,2024-09-26
+STU007,James Wilson,82,79,In Progress,78,80,Intermediate,2024-09-25
+STU008,Lisa Anderson,95,92,Certified,98,95,Expert,2024-09-26
+STU009,Robert Taylor,70,75,Certified,70,72,Beginner,2024-09-24
+STU010,Jennifer Martinez,86,83,Certified,88,86,Advanced,2024-09-26
+
+Skill Breakdown Analysis:
+Skill Category,Average Score,Students Above 80%,Students Below 70%,Improvement Needed
+Knife Skills,81.2,8,2,Julienne cuts and precision
+Cooking Techniques,79.8,7,3,Sauce making and timing
+Food Safety,86.7% Certified,13,2,Temperature monitoring
+Recipe Completion,81.1,9,1,Following instructions precisely
+
+Recommendations:
+Priority,Action Item,Target Students,Timeline
+High,Additional knife skills practice,Students below 75%,2 weeks
+Medium,Sauce making workshop,All intermediate students,1 month
+Low,Advanced technique modules,Expert level students,Ongoing

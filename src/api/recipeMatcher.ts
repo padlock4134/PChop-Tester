@@ -309,11 +309,19 @@ export async function fetchRecipesWithImages({
   const cuisinePrefs = profile?.cuisine || [];
   const kitchenSetup = profile?.kitchen_setup || '';
   
+  // Add talent tree equipment preference to prompt
+  let talentTreePrompt = '';
+  if (talentsEnabled && talentTree && talentTree in TALENT_TREE_EQUIPMENT) {
+    const preferredEquipment = TALENT_TREE_EQUIPMENT[talentTree as keyof typeof TALENT_TREE_EQUIPMENT];
+    talentTreePrompt = `IMPORTANT: User has selected "${talentTree}" talent tree. Prioritize recipes that use these cooking methods/equipment: ${preferredEquipment.join(', ')}. Generate recipes that showcase these tools and techniques.`;
+  }
+
   const prompt = `${basePrompt}
 
 ${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
 ${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
 ${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
+${talentTreePrompt}
 
 Return the recipes as a JSON array with the following structure for each recipe:
 {

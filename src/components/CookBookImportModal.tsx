@@ -136,7 +136,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div 
         ref={modalRef} 
-        className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col"
+        className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-2xl max-h-[90vh] flex flex-col"
       >
         <div className="p-6 pb-0">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Import from CookBook</h2>
@@ -212,14 +212,14 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
         <div className="p-4 bg-gray-50 border-t flex justify-end space-x-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-black rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             disabled={isLoading}
           >
             Cancel
           </button>
           <button
             onClick={handleImport}
-            className={`px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+            className={`px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-black rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
             disabled={isLoading || selected.length === 0}
           >
             {isLoading ? 'Importing...' : `Import ${selected.length} selected`}

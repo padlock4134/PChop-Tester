@@ -399,7 +399,7 @@ const ChallengeOfTheWeek: React.FC = () => {
           onClick={() => setOpen(false)}
         >
           <div
-            className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full relative z-50 flex flex-col items-center"
+            className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-sm w-full relative z-50 flex flex-col items-center"
             onClick={e => e.stopPropagation()}
           >
             <span className="text-3xl mb-2">🏆</span>
@@ -407,7 +407,7 @@ const ChallengeOfTheWeek: React.FC = () => {
             <span className="text-gray-800 mb-2 text-center">{challenge.description}</span>
             <span className="text-sm text-gray-500">Reward: <b>{challenge.reward.xp} XP</b> and <b>{challenge.reward.badge}</b> badge</span>
             <button
-              className="mt-4 px-4 py-2 rounded bg-maineBlue hover:bg-seafoam text-seafoam hover:text-maineBlue font-bold shadow w-full"
+              className="mt-4 px-4 py-2 rounded bg-maineBlue hover:bg-seafoam text-seafoam hover:text-maineBlue font-bold shadow border border-black w-full"
               onClick={handleCookMe}
               disabled={loading}
             >
@@ -415,7 +415,7 @@ const ChallengeOfTheWeek: React.FC = () => {
             </button>
             {error && <div className="text-red-600 mt-2">{error}</div>}
             <button
-              className="mt-2 px-4 py-1 rounded bg-yellow-200 hover:bg-yellow-300 text-yellow-900 font-semibold shadow w-full"
+              className="mt-2 px-4 py-1 rounded bg-yellow-200 hover:bg-yellow-300 text-yellow-900 font-semibold shadow border border-black w-full"
               onClick={() => setOpen(false)}
             >Close</button>
           </div>

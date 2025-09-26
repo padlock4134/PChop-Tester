@@ -82,7 +82,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-      <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full p-4 relative">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-2xl w-full p-4 relative">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-maineBlue text-2xl"
@@ -99,11 +99,11 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
               title={title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              className="w-full h-72 rounded"
+              className="w-full h-72 rounded border border-black"
               onLoad={checkVideoProgress}
             />
           ) : (
-            <div className="flex flex-col items-center justify-center w-full h-72 bg-gray-100 rounded text-gray-500 p-6">
+            <div className="flex flex-col items-center justify-center w-full h-72 bg-gray-100 rounded border border-black text-gray-500 p-6">
               <div className="text-lg font-semibold text-gray-700 mb-2">🎥 Video Tutorial</div>
               <div className="text-center text-gray-600 mb-4">
                 Video tutorials are temporarily unavailable to prevent API rate limits.

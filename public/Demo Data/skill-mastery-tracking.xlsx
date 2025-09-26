@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
+  <sheets>
+    <sheet name="Skill Mastery Data" sheetId="1" r:id="rId1"/>
+    <sheet name="Summary" sheetId="2" r:id="rId2"/>
+    <sheet name="Charts" sheetId="3" r:id="rId3"/>
+  </sheets>
+</workbook>
+
+<!-- This is a demo Excel file for Skill Mastery Tracking -->
+<!-- In a real implementation, this would be a proper Excel file -->
+<!-- with multiple worksheets containing: -->
+<!-- - Raw data with formulas -->
+<!-- - Pivot tables for analysis -->
+<!-- - Charts and visualizations -->
+<!-- - Summary statistics -->
+<!-- - Conditional formatting -->
+
+DEMO EXCEL FILE: SKILL MASTERY TRACKING
+=======================================
+Sheet 1: Raw Data
+- Student information and scores
+- Calculated fields and formulas
+- Data validation
+
+Sheet 2: Summary Dashboard  
+- Key performance indicators
+- Progress tracking metrics
+- Trend analysis
+
+Sheet 3: Charts & Visualizations
+- Progress charts by student
+- Skill distribution graphs
+- Certification status overview

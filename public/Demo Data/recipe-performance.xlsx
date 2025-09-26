@@ -1,0 +1,30 @@
+DEMO EXCEL FILE: RECIPE PERFORMANCE ANALYSIS
+==========================================
+
+SHEET 1: Recipe Data
+- Recipe success rates and attempt counts
+- Difficulty ratings and time tracking
+- Student feedback scores
+- Modification frequency analysis
+
+SHEET 2: Performance Dashboard
+- Success rate trends over time
+- Difficulty vs. success rate correlation
+- Most/least successful recipes
+- Student feedback analysis
+
+SHEET 3: Recommendations
+- Recipes needing curriculum updates
+- Difficulty level adjustments
+- Time allocation recommendations
+- Student support suggestions
+
+FORMULAS INCLUDED:
+- =AVERAGE(SuccessRate) for overall performance
+- =COUNTIF(Difficulty,"Hard") for difficulty distribution
+- =VLOOKUP for recipe details
+- Pivot tables for trend analysis
+
+This Excel file would contain interactive charts,
+conditional formatting, and advanced formulas for
+comprehensive recipe performance analysis.

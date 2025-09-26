@@ -8,6 +8,7 @@ import MarketDirectory from '../components/MarketDirectory';
 import { useRecipeContext } from '../components/RecipeContext';
 import { fetchCookbook } from './cookbookSupabase';
 import { useSupabase } from '../components/SupabaseProvider';
+import GlobalTestKitchen from '../components/GlobalTestKitchen';
 
 const ChefsCorner = () => {
   const { updateContext } = useFreddieContext();
@@ -112,10 +113,10 @@ const ChefsCorner = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow">
-      <div className="chefs-corner-root relative flex flex-col md:flex-row gap-8">
+    <div className="max-w-6xl mx-auto mt-8">
+      <div className="flex flex-col lg:flex-row gap-6">
         {/* Main Content */}
-        <div className="flex-1 min-w-0">
+        <div className="lg:w-2/3 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">{/* Remove the max-w-2xl constraint and use the same layout as Culinary School */}
           <header className="chefs-corner-header mb-6 flex flex-col items-center">
             <div className="flex items-center justify-center mb-1">
               <span className="text-5xl mr-2">🦐</span>
@@ -126,11 +127,11 @@ const ChefsCorner = () => {
           {/* Shopping List - now at the top */}
           <section className="mb-8">
             <h2 className="text-xl font-bold text-maineBlue mb-3 text-center"></h2>
-            <div className="bg-sand rounded shadow p-4 flex flex-col items-center">
+            <div className="bg-sand rounded shadow border border-black p-4 flex flex-col items-center max-w-lg mx-auto">
               <p className="mb-2 text-gray-700 text-center">Import your saved recipes, build your list and shop everything you need.</p>
               <button 
                 onClick={importFromCookBook} 
-                className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full"
+                className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full border border-black"
                 disabled={isLoading}
               >
                 {isLoading ? 'Loading...' : 'Import from My CookBook'}
@@ -168,7 +169,11 @@ const ChefsCorner = () => {
 
         </div>
 
-        <ChefFreddieWidget />
+        {/* Right Sidebar */}
+        <div className="lg:w-1/3 space-y-6">
+          <GlobalTestKitchen />
+          <ChefFreddieWidget />
+        </div>
       </div>
     </div>
   );

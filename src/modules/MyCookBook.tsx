@@ -258,7 +258,7 @@ const MyCookBook = () => {
 
   if (loading) {
     return (
-      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow">
+      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
           <div className="text-lg font-retro mb-2">Loading your cookbook...</div>
@@ -269,7 +269,7 @@ const MyCookBook = () => {
 
   if (error) {
     return (
-      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow">
+      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="text-xl text-red-600 mb-4">⚠️</div>
           <div className="text-lg font-retro mb-2">{error}</div>
@@ -279,7 +279,7 @@ const MyCookBook = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow">
+    <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
       {/* My Cook Book header with emoji */}
       <div className="flex items-center justify-center mb-6">
         <span className="text-5xl mr-2">📖</span>
@@ -419,18 +419,18 @@ const MyCookBook = () => {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between mb-4">
+      <div className="flex justify-center gap-4 mb-4">
         <button
           onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
           disabled={currentIndex === 0}
-          className={`px-4 py-2 rounded ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+          className={`px-4 py-2 rounded border border-black font-bold transition-colors ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
         >
           Previous
         </button>
         <button
           onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
           disabled={currentIndex === filteredRecipes.length - 1}
-          className={`px-4 py-2 rounded ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+          className={`px-4 py-2 rounded border border-black ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
         >
           Next
         </button>
@@ -453,7 +453,7 @@ const MyCookBook = () => {
               className={`relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] ${flipped ? '[transform:rotateY(180deg)]' : ''}`}
             >
               {/* Front */}
-              <div className="absolute inset-0 bg-white p-4 rounded-lg shadow-md flex flex-col items-center [backface-visibility:hidden]">
+              <div className="absolute inset-0 bg-white p-4 rounded-lg shadow-md border border-black flex flex-col items-center [backface-visibility:hidden]">
                 {filteredRecipes[currentIndex].photo && (
                   <img 
                     src={filteredRecipes[currentIndex].photo} 
@@ -461,49 +461,60 @@ const MyCookBook = () => {
                     className="w-full h-32 object-cover rounded-t-lg mb-4"
                   />
                 )}
-                <h3 className="text-xl font-bold mb-2 text-center">{filteredRecipes[currentIndex].name}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-1 md:gap-4 mt-4 w-full justify-items-center">
-                  {/* Ingredients */}
-                  <div className="bg-gray-100 p-1 md:p-4 rounded-lg text-center w-full">
-                    <h4 className="font-semibold mb-1 text-xs md:text-base">Ingredients</h4>
-                    <ul className="list-disc pl-4 max-h-[80px] md:max-h-[100px] overflow-y-auto text-left text-xs md:text-sm">
-                      {filteredRecipes[currentIndex].ingredients?.map((ingredient, i) => (
-                        <li key={i} className="line-clamp-1">{ingredient}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  {/* Equipment */}
-                  <div className="bg-gray-100 p-1 md:p-4 rounded-lg text-center w-full">
-                    <h4 className="font-semibold mb-1 text-xs md:text-base">Equipment</h4>
-                    <ul className="list-disc pl-4 max-h-[80px] md:max-h-[100px] overflow-y-auto text-left text-xs md:text-sm">
-                      {filteredRecipes[currentIndex].equipment?.map((item, i) => (
-                        <li key={i} className="line-clamp-1">{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  {/* Health Tags */}
-                  <div className="bg-gray-100 p-1 md:p-4 rounded-lg text-center w-full">
-                    <h4 className="font-semibold mb-1 text-xs md:text-base">Health Tags</h4>
-                    <div className="grid grid-cols-2 gap-1">
-                      {filteredRecipes[currentIndex].healthTags?.map(tag => (
-                        <span key={tag} className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs text-center">
-                          {tag}
-                        </span>
-                      )) || (
-                        <span className="text-xs text-gray-500 col-span-2">No health tags</span>
-                      )}
+                <h3 className="text-xl font-bold mb-3 text-center">{filteredRecipes[currentIndex].name}</h3>
+                <div className="flex-1 flex flex-col justify-center px-2">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3 w-full">
+                    {/* Ingredients */}
+                    <div className="bg-gray-100 p-2 md:p-3 rounded-lg text-center border border-gray-300">
+                      <h4 className="font-semibold mb-1 text-xs md:text-sm">Ingredients</h4>
+                      <ul className="list-disc pl-3 max-h-[60px] md:max-h-[80px] overflow-y-auto text-left text-xs">
+                        {filteredRecipes[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
+                          <li key={i} className="line-clamp-1">{ingredient}</li>
+                        ))}
+                        {(filteredRecipes[currentIndex].ingredients?.length || 0) > 6 && (
+                          <li className="text-gray-500 italic">+{(filteredRecipes[currentIndex].ingredients?.length || 0) - 6} more...</li>
+                        )}
+                      </ul>
+                    </div>
+                    
+                    {/* Equipment */}
+                    <div className="bg-gray-100 p-2 md:p-3 rounded-lg text-center border border-gray-300">
+                      <h4 className="font-semibold mb-1 text-xs md:text-sm">Equipment</h4>
+                      <ul className="list-disc pl-3 max-h-[60px] md:max-h-[80px] overflow-y-auto text-left text-xs">
+                        {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
+                          <li key={i} className="line-clamp-1">{item}</li>
+                        ))}
+                        {(filteredRecipes[currentIndex].equipment?.length || 0) > 4 && (
+                          <li className="text-gray-500 italic">+{(filteredRecipes[currentIndex].equipment?.length || 0) - 4} more...</li>
+                        )}
+                      </ul>
+                    </div>
+                    
+                    {/* Health Tags */}
+                    <div className="bg-gray-100 p-2 md:p-3 rounded-lg text-center border border-gray-300">
+                      <h4 className="font-semibold mb-1 text-xs md:text-sm">Health Tags</h4>
+                      <div className="flex flex-wrap gap-1 justify-center max-h-[60px] md:max-h-[80px] overflow-y-auto">
+                        {filteredRecipes[currentIndex].healthTags?.slice(0, 4).map(tag => (
+                          <span key={tag} className="bg-green-100 text-green-800 px-1 py-0.5 rounded-full text-xs">
+                            {tag}
+                          </span>
+                        )) || (
+                          <span className="text-xs text-gray-500">No health tags</span>
+                        )}
+                        {(filteredRecipes[currentIndex].healthTags?.length || 0) > 4 && (
+                          <span className="text-xs text-gray-500">+{(filteredRecipes[currentIndex].healthTags?.length || 0) - 4}</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="mt-auto text-xs text-gray-500 text-center w-full">
+                <div className="mt-3 text-xs text-gray-500 text-center">
                   Tap to flip for instructions
                 </div>
               </div>
               
               {/* Back */}
-              <div className="absolute inset-0 h-full w-full rounded-xl bg-white p-4 shadow-md [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
+              <div className="absolute inset-0 h-full w-full rounded-xl bg-white p-4 shadow-md border border-black [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
                 <h3 className="text-xl font-bold mb-2 text-center">{filteredRecipes[currentIndex].name}</h3>
                 <div className="flex-grow overflow-y-auto mb-4">
                   <h4 className="font-semibold mb-1">Instructions:</h4>
@@ -555,7 +566,7 @@ const MyCookBook = () => {
                       setSelectedRecipe(fullRecipe);
                       navigate('/culinary-school');
                     }}
-                    className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors"
+                    className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
                     Cook This
                   </button>
@@ -564,7 +575,7 @@ const MyCookBook = () => {
                       setRecipeToShare(filteredRecipes[currentIndex]);
                       setShowShareModal(true);
                     }}
-                    className="bg-maineBlue text-seafoam px-4 py-2 rounded hover:bg-seafoam hover:text-maineBlue transition-colors"
+                    className="bg-maineBlue text-seafoam px-4 py-2 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
                   >
                     Share
                   </button>

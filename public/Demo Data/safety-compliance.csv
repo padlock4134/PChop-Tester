@@ -1,0 +1,15 @@
+Incident ID,Date,Type,Severity,Description,Corrective Action,Status,Reported By
+INC001,2024-09-15,Minor Cut,Low,Student cut finger while dicing,First aid applied,Closed,Chef Martinez
+INC002,2024-09-18,Temperature Violation,Medium,Refrigerator temp 45°F,Maintenance called,Closed,Chef Johnson
+INC003,2024-09-20,Slip/Fall,Low,Wet floor in prep area,Signage added,Closed,Chef Williams
+INC004,2024-09-22,Burn,Medium,Steam burn from pasta pot,First aid applied,Closed,Chef Chen
+INC005,2024-09-24,Contamination Risk,High,Raw chicken on prep surface,Deep cleaning done,Closed,Chef Davis
+CHK001,2024-09-16,Sanitation Check,N/A,Kitchen deep clean,All areas passed,Passed,Health Inspector
+CHK002,2024-09-17,Temperature Check,N/A,All refrigeration units,2 units flagged,Action Required,Chef Brown
+CHK003,2024-09-19,Equipment Check,N/A,Safety equipment inspection,All equipment functional,Passed,Safety Officer
+CHK004,2024-09-21,Hygiene Check,N/A,Staff hygiene compliance,100% compliance,Passed,Chef Wilson
+CHK005,2024-09-23,Food Storage Check,N/A,Proper food storage,Minor violations found,Action Required,Health Inspector
+ALL001,2024-09-14,Nut Allergy,High,Student allergic to tree nuts,EpiPen available,Monitored,Nurse Station
+ALL002,2024-09-16,Shellfish Allergy,Medium,Student allergic to shellfish,Alternative recipes provided,Monitored,Chef Anderson
+ALL003,2024-09-18,Dairy Allergy,Medium,Student lactose intolerant,Dairy-free options available,Monitored,Chef Taylor
+ALL004,2024-09-20,Gluten Sensitivity,Low,Student gluten sensitive,Gluten-free workspace assigned,Monitored,Chef Garcia

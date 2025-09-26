@@ -17,11 +17,13 @@
     "axios": "^1.10.0",
     "iron-webcrypto": "^1.2.1",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^3.0.3",
     "nodemailer": "^7.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.23.0",
+    "recordrtc": "^5.6.2",
     "stripe": "^18.3.0",
     "supabase": "^2.31.8"
   },

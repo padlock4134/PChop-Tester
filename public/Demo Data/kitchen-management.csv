@@ -1,0 +1,16 @@
+Equipment ID,Equipment Name,Usage Hours,Maintenance Due,Efficiency Rating,Inventory Level,Waste Tracking (lbs)
+EQP001,Commercial Oven #1,145,2024-10-15,92%,N/A,0
+EQP002,Stand Mixer #1,89,2024-11-01,88%,N/A,0
+EQP003,Food Processor #1,67,2024-10-30,95%,N/A,0
+EQP004,Grill Station #1,112,2024-10-20,85%,N/A,0
+EQP005,Refrigeration Unit #1,168,2024-12-01,90%,N/A,0
+INV001,Flour - All Purpose,N/A,N/A,N/A,85 lbs,2.3
+INV002,Butter - Unsalted,N/A,N/A,N/A,45 lbs,1.8
+INV003,Eggs - Large,N/A,N/A,N/A,12 dozen,0.5
+INV004,Olive Oil - Extra Virgin,N/A,N/A,N/A,8 bottles,0.2
+INV005,Salt - Kosher,N/A,N/A,N/A,25 lbs,0.1
+INV006,Beef - Tenderloin,N/A,N/A,N/A,15 lbs,0.8
+INV007,Salmon - Atlantic,N/A,N/A,N/A,20 lbs,1.2
+INV008,Tomatoes - Roma,N/A,N/A,N/A,30 lbs,3.5
+INV009,Onions - Yellow,N/A,N/A,N/A,40 lbs,2.1
+INV010,Herbs - Fresh Mixed,N/A,N/A,N/A,5 lbs,0.9

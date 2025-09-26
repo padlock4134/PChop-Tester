@@ -1,26 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FireIcon, ShieldCheckIcon, StarIcon, TrophyIcon, SparklesIcon, CakeIcon, AcademicCapIcon } from '@heroicons/react/24/solid';
 import { redirectToLogout } from '@wristband/react-client-auth';
-
-import { supabase } from '../api/supabaseClient';
 import { useSupabase } from '../components/SupabaseProvider';
-import { verifySubscription } from '../api/userSubscription';
-import { Subscription } from '../types/shared-types';
-import PaymentModal from './PaymentModal';
-import { isSessionValid } from '../api/userSession';
+import { supabase } from '../api/supabaseClient';
+// Removed external imports that don't exist
 import ReactMarkdown from 'react-markdown';
-import { LEVEL_TITLES_AND_ICONS, getXPProgress, WOW_CLASSIC_XP_TABLE } from '../utils/leveling';
+import jsPDF from 'jspdf';
 
-// Define a simple hook for TermsModal since the original import is incorrect
-function useTermsModal() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const termsContent = `Terms of Service for Porkchop (effective July 2025)
-
-Welcome to Porkchop. By using this app, you agree to be bound by the following terms and conditions.`;
-  return { modalOpen, setModalOpen, termsContent };
-}
-
-// Define UserProfile type to resolve missing type error
+// Define UserProfile type
 type UserProfile = {
   id: string;
   name: string;
@@ -32,6 +19,21 @@ type UserProfile = {
   kitchenSetup: string;
   xp: number;
 };
+
+// Level titles and icons
+const LEVEL_TITLES_AND_ICONS = [
+  { title: "Novice Cook", icon: "🥄", level: 1 },
+  { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
+  { title: "Home Chef", icon: "🍳", level: 3 },
+  { title: "Culinary Expert", icon: "👨‍🍳", level: 4 },
+  { title: "Master Chef", icon: "🏆", level: 5 }
+];
+
+// WoW Classic XP table
+const WOW_CLASSIC_XP_TABLE = [
+  0, 400, 900, 1400, 2100, 2800, 3600, 4500, 5400, 6500,
+  7600, 8700, 9800, 11000, 12300, 13600, 15000, 16500, 18000, 19600
+];
 
 // Experience level mapping between UI labels and backend values
 const EXPERIENCE_LEVEL_MAPPING = {
@@ -48,20 +50,352 @@ const EXPERIENCE_LEVEL_DISPLAY = {
   'kitchen_confident': 'Advanced'
 } as const;
 
+// Modal components
+const EditProfileModal = ({ 
+  open, 
+  onClose, 
+  user, 
+  onProfileUpdated 
+}: { 
+  open: boolean; 
+  onClose: () => void; 
+  user: UserProfile; 
+  onProfileUpdated: (updatedUser: UserProfile) => void; 
+}) => {
+  const [formData, setFormData] = useState({
+    name: user?.name || '',
+    cuisinePreference: user?.cuisine?.[0] || 'Italian',
+    dietPreference: user?.dietary?.[0] || 'None',
+    kitchenSetup: user?.kitchenSetup || 'Apartment Kitchen',
+    experienceLevel: user?.experience || 'Beginner'
+  });
+
+  if (!open) return null;
+
+  const handleSave = async () => {
+    try {
+      // Update the profile in the database
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          name: formData.name,
+          cuisine: [formData.cuisinePreference],
+          dietary: [formData.dietPreference],
+          kitchen_setup: formData.kitchenSetup,
+          cooking_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]]
+        })
+        .eq('id', user.id);
+
+      if (error) {
+        console.error('Error updating profile:', error);
+        alert('Failed to save profile changes. Please try again.');
+        return;
+      }
+
+      // Update the local state with the new data
+      const updatedUser = {
+        ...user,
+        name: formData.name,
+        cuisine_preference: formData.cuisinePreference,
+        diet_preference: formData.dietPreference,
+        kitchen_setup: formData.kitchenSetup,
+        experience: formData.experienceLevel
+      };
+
+      onProfileUpdated(updatedUser);
+      onClose();
+    } catch (error) {
+      console.error('Error saving profile:', error);
+      alert('Failed to save profile changes. Please try again.');
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white p-6 rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto border-4 border-black">
+        <div className="flex justify-between items-center mb-6">
+          <div></div>
+          <h3 className="text-2xl font-bold text-maineBlue">Edit Profile</h3>
+          <button 
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+          >
+            ×
+          </button>
+        </div>
+
+        <div className="space-y-6">
+          {/* Name */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Name</label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
+              placeholder="Enter your name"
+            />
+          </div>
+
+          {/* Cuisine Preference */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Cuisine Preference</label>
+            <select
+              value={formData.cuisinePreference}
+              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
+            >
+              <option value="American">🍔 American</option>
+              <option value="Asian">🥢 Asian</option>
+              <option value="French">🥖 French</option>
+              <option value="Indian">🍛 Indian</option>
+              <option value="Italian">🍝 Italian</option>
+              <option value="Mediterranean">🫒 Mediterranean</option>
+              <option value="Mexican">🌮 Mexican</option>
+            </select>
+          </div>
+
+          {/* Diet Preference */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Diet Preference</label>
+            <select
+              value={formData.dietPreference}
+              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
+            >
+              <option value="Gluten-Free">🌾 Gluten-Free</option>
+              <option value="Keto">🥑 Keto</option>
+              <option value="None">🍽️ None</option>
+              <option value="Paleo">🥩 Paleo</option>
+              <option value="Pescatarian">🐟 Pescatarian</option>
+              <option value="Vegan">🌱 Vegan</option>
+              <option value="Vegetarian">🥗 Vegetarian</option>
+            </select>
+          </div>
+
+          {/* Kitchen Setup */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Kitchen Setup</label>
+            <select
+              value={formData.kitchenSetup}
+              onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
+            >
+              <option value="Apartment Kitchen">🏠 Apartment Kitchen</option>
+              <option value="Full Kitchen">🏡 Full Kitchen</option>
+              <option value="Minimal Setup">📦 Minimal Setup</option>
+              <option value="Outdoor Kitchen">🔥 Outdoor Kitchen</option>
+              <option value="Professional Kitchen">👨‍🍳 Professional Kitchen</option>
+            </select>
+          </div>
+
+          {/* Experience Level */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Experience Level</label>
+            <select
+              value={formData.experienceLevel}
+              onChange={(e) => setFormData({...formData, experienceLevel: e.target.value})}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
+            >
+              <option value="Advanced">⭐ Advanced</option>
+              <option value="Beginner">🌱 Beginner</option>
+              <option value="Intermediate">📈 Intermediate</option>
+              <option value="Professional">👨‍🍳 Professional</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex justify-center mt-8">
+          <button 
+            onClick={handleSave}
+            className="bg-maineBlue text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors border border-black"
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => void; content: string }) => {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white p-6 rounded-lg max-w-4xl w-full max-h-[80vh] overflow-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-bold">Terms of Service & Privacy Policy</h3>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-xl">×</button>
+        </div>
+        <div className="prose max-w-none">
+          <ReactMarkdown>{content}</ReactMarkdown>
+        </div>
+        <div className="mt-6 text-center">
+          <button 
+            onClick={onClose}
+            className="bg-maineBlue text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const PaymentModal = ({ open, onClose, userId, plan }: { open: boolean; onClose: () => void; userId: string; plan: string }) => {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
+        <h3 className="text-lg font-bold mb-4">Upgrade Plan</h3>
+        <p className="text-gray-600 mb-4">Payment functionality coming soon!</p>
+        <button 
+          onClick={onClose}
+          className="bg-maineBlue text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boolean; onClose: () => void; onOpenRegistration: () => void }) => {
+  if (!open) return null;
+  
+  const currentClasses = [
+    { icon: '🔪', name: 'Knife Skills Fundamentals', instructor: 'Chef Martinez', time: 'Mon/Wed 9:00 AM' },
+    { icon: '🍲', name: 'Sauce Making Techniques', instructor: 'Chef Johnson', time: 'Tue/Thu 11:00 AM' },
+    { icon: '🧁', name: 'Baking & Pastry Arts', instructor: 'Chef Williams', time: 'Fri 1:00 PM' }
+  ];
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-6">
+          <div></div>
+          <h2 className="text-2xl font-bold text-maineBlue">Class Schedule</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+          >
+            ×
+          </button>
+        </div>
+        
+        {/* Classes Section */}
+        <div className="mb-8">
+          <div className="space-y-3">
+            {currentClasses.map((classItem, index) => (
+              <div key={index} className="bg-weatheredWhite border-2 border-gray-300 rounded-lg p-4 text-center">
+                <div className="flex justify-center items-center mb-2">
+                  <span className="text-4xl mr-3">{classItem.icon}</span>
+                  <h4 className="font-bold text-gray-800 text-lg">{classItem.name}</h4>
+                </div>
+                <p className="text-gray-600">Instructor: {classItem.instructor}</p>
+                <p className="text-gray-600">{classItem.time}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Sign Up and Close Buttons */}
+        <div className="flex justify-center gap-4 mb-6">
+          <button 
+            onClick={onOpenRegistration}
+            className="bg-red-600 text-white px-8 py-3 rounded-lg text-lg font-bold hover:bg-red-700 transition-colors border border-black"
+          >
+            Register for Classes
+          </button>
+          <button 
+            onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
+            className="bg-maineBlue text-white px-8 py-3 rounded-lg text-lg font-bold hover:bg-blue-700 transition-colors border border-black"
+          >
+            Contact Professor
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  if (!open) return null;
+  
+  const availableClasses = [
+    { name: 'Advanced Knife Skills', instructor: 'Chef Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
+    { name: 'International Cuisine', instructor: 'Chef Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
+    { name: 'Pastry Fundamentals', instructor: 'Chef Anderson', time: 'Fri 3:00 PM', spots: 6 },
+    { name: 'Food Safety Certification', instructor: 'Chef Thompson', time: 'Sat 9:00 AM', spots: 15 },
+    { name: 'Restaurant Management', instructor: 'Chef Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
+  ];
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-maineBlue">Register for Classes</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+          >
+            ×
+          </button>
+        </div>
+        
+        <div className="space-y-4">
+          {availableClasses.map((classItem, index) => (
+            <div key={index} className="bg-weatheredWhite border-2 border-gray-300 rounded-lg p-4 flex justify-between items-center">
+              <div className="flex-1">
+                <h4 className="font-bold text-gray-800 text-lg">{classItem.name}</h4>
+                <p className="text-gray-600">Instructor: {classItem.instructor}</p>
+                <p className="text-gray-600">{classItem.time}</p>
+                <p className="text-sm text-green-600">{classItem.spots} spots available</p>
+              </div>
+              <button className="bg-maineBlue text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors font-bold">
+                Register
+              </button>
+            </div>
+          ))}
+        </div>
+        
+        <div className="text-center mt-6">
+          <button 
+            onClick={onClose}
+            className="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 transition-colors"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+function useTermsModal() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const termsContent = `Terms of Service for Porkchop (effective July 2025)
+
+Welcome to Porkchop. By using this app, you agree to be bound by the following terms and conditions.`;
+  return { modalOpen, setModalOpen, termsContent };
+}
+
 const Profile = () => {
   const { user } = useSupabase();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  // Store selected talents in state; permanent for this session
   const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const [talentPoints, setTalentPoints] = useState(0);
   const [activeTab, setActiveTab] = useState('');
   const [showTalents, setShowTalents] = useState(false);
   const [selectedTalentTree, setSelectedTalentTree] = useState<string | null>(null);
-  const [talentTreeModalOpen, setTalentTreeModalOpen] = useState(false);
+  const [unlockedTalents, setUnlockedTalents] = useState<string[]>([]);
+  const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
+  const [currentTutorial, setCurrentTutorial] = useState<{name: string, videoUrl: string} | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [kitchenSetup, setKitchenSetup] = useState<string>('Apartment Kitchen');
@@ -69,6 +403,20 @@ const Profile = () => {
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarUploading, setAvatarUploading] = useState(false);
+  const [showReportsModal, setShowReportsModal] = useState(false);
+  const [currentReportIndex, setCurrentReportIndex] = useState(0);
+  const [showGenerateModal, setShowGenerateModal] = useState(false);
+  const [selectedReport, setSelectedReport] = useState<{title: string, description: string} | null>(null);
+  const [showClassScheduleModal, setShowClassScheduleModal] = useState(false);
+  const [showClassRegistrationModal, setShowClassRegistrationModal] = useState(false);
+  
+  // Report filtering states
+  const [selectedClass, setSelectedClass] = useState<string>('all');
+  const [selectedDepartment, setSelectedDepartment] = useState<string>('all');
+  const [selectedTimeRange, setSelectedTimeRange] = useState<string>('30days');
+  const [selectedStudentSegment, setSelectedStudentSegment] = useState<string>('all');
+  const [selectedUserRole, setSelectedUserRole] = useState<string>('administrator');
+  
   const [levelProgress, setLevelProgress] = useState({
     title: LEVEL_TITLES_AND_ICONS[0].title,
     level: 1,
@@ -77,6 +425,48 @@ const Profile = () => {
     required: 100,
     progressPercent: 0,
   });
+
+  // Filter options for reports
+  const filterOptions = {
+    userRoles: [
+      { value: 'administrator', label: 'School Administrator', description: 'High-level institutional overview' },
+      { value: 'department_head', label: 'Department Head', description: 'Department-specific insights' },
+      { value: 'instructor', label: 'Individual Instructor', description: 'Class-specific data only' },
+      { value: 'coordinator', label: 'Academic Coordinator', description: 'Cross-department analysis' }
+    ],
+    departments: [
+      { value: 'all', label: 'All Departments' },
+      { value: 'culinary_arts', label: 'Culinary Arts' },
+      { value: 'baking_pastry', label: 'Baking & Pastry' },
+      { value: 'business', label: 'Culinary Business' },
+      { value: 'nutrition', label: 'Nutrition & Dietetics' }
+    ],
+    classes: [
+      { value: 'all', label: 'All Classes' },
+      { value: 'fundamentals', label: 'Fundamentals of Cooking' },
+      { value: 'advanced_techniques', label: 'Advanced Culinary Techniques' },
+      { value: 'food_safety', label: 'Food Safety & Sanitation' },
+      { value: 'menu_planning', label: 'Menu Planning & Costing' },
+      { value: 'baking_basics', label: 'Baking Fundamentals' },
+      { value: 'pastry_arts', label: 'Advanced Pastry Arts' }
+    ],
+    timeRanges: [
+      { value: '7days', label: 'Last 7 Days' },
+      { value: '30days', label: 'Last 30 Days' },
+      { value: 'semester', label: 'Current Semester' },
+      { value: 'academic_year', label: 'Academic Year' },
+      { value: 'custom', label: 'Custom Range' }
+    ],
+    studentSegments: [
+      { value: 'all', label: 'All Students' },
+      { value: 'top_performers', label: 'Top 25% Performers' },
+      { value: 'struggling', label: 'Students Needing Support' },
+      { value: 'full_time', label: 'Full-Time Students' },
+      { value: 'part_time', label: 'Part-Time Students' },
+      { value: 'certificate', label: 'Certificate Program' },
+      { value: 'diploma', label: 'Diploma Program' }
+    ]
+  };
 
   // Load terms from the public/TERMS.md file
   useEffect(() => {
@@ -138,6 +528,499 @@ const Profile = () => {
 
   const handleLogout = async () => {
     redirectToLogout('/.netlify/functions/auth-logout');
+  };
+
+  // Report categories with 2 reports each
+  const reportCategories = [
+    {
+      title: 'Student Progress',
+      reports: [
+        { title: '📊 Skill Mastery Tracking', description: 'Monitor student progress in culinary skills and certifications', metrics: ['Knife skills progression', 'Cooking techniques proficiency', 'Food safety certification', 'Recipe completion rates'], color: 'blue' },
+        { title: '📈 Learning Analytics', description: 'Analyze engagement, quiz scores, and knowledge retention', metrics: ['Module time tracking', 'Quiz/test scores', 'Video engagement metrics', 'Knowledge retention rates'], color: 'indigo' }
+      ]
+    },
+    {
+      title: 'Class Analytics',
+      reports: [
+        { title: '👥 Class Performance', description: 'View class scores, completion rates, and knowledge gaps', metrics: ['Average scores by module', 'Completion rates by demographic', 'Common knowledge gaps', 'Assignment submission timeliness'], color: 'green' },
+        { title: '🎤 Live Session Metrics', description: 'Track attendance and engagement in live cooking sessions', metrics: ['Attendance rates', 'Participation levels', 'Q&A engagement', 'Session feedback scores'], color: 'teal' }
+      ]
+    },
+    {
+      title: 'Culinary Metrics',
+      reports: [
+        { title: '🍳 Recipe Performance', description: 'Analyze recipe success rates and cooking outcomes', metrics: ['Recipe success rates', 'Common modifications', 'Ingredient substitutions', 'Difficulty ratings'], color: 'orange' },
+        { title: '🔪 Technique Analysis', description: 'Track progress on specific culinary techniques and skills', metrics: ['Most challenging techniques', 'Common mistakes by technique', 'Time-to-proficiency metrics', 'Video replay frequency'], color: 'amber' }
+      ]
+    },
+    {
+      title: 'Operations',
+      reports: [
+        { title: '🏪 Kitchen Management', description: 'Monitor equipment usage and operational efficiency', metrics: ['Equipment usage statistics', 'Ingredient waste tracking', 'Inventory management', 'Equipment maintenance'], color: 'purple' },
+        { title: '🛡️ Safety & Compliance', description: 'Track food safety violations and compliance metrics', metrics: ['Food safety violations', 'Sanitation check completion', 'Incident reports', 'Allergy compliance tracking'], color: 'red' }
+      ]
+    },
+    {
+      title: 'Engagement',
+      reports: [
+        { title: '📱 Platform Usage', description: 'Analyze student interaction with the learning platform', metrics: ['Peak usage times', 'Feature adoption rates', 'Mobile vs desktop usage', 'Session duration patterns'], color: 'pink' },
+        { title: '👥 Community Engagement', description: 'Track social learning and community participation', metrics: ['Forum participation', 'Recipe sharing metrics', 'Peer feedback statistics', 'Social learning interactions'], color: 'purple' }
+      ]
+    }
+  ];
+
+  const nextReport = () => {
+    setCurrentReportIndex((prev) => (prev + 1) % reportCategories.length);
+  };
+
+  const prevReport = () => {
+    setCurrentReportIndex((prev) => (prev - 1 + reportCategories.length) % reportCategories.length);
+  };
+
+  const handleGenerateReport = (reportTitle: string, reportDescription: string) => {
+    setSelectedReport({ title: reportTitle, description: reportDescription });
+    setShowGenerateModal(true);
+  };
+
+  // Map report titles to file names
+  const getReportFileName = (reportTitle: string) => {
+    const titleMap: { [key: string]: string } = {
+      '📊 Skill Mastery Tracking': 'skill-mastery-tracking',
+      '📈 Learning Analytics': 'learning-analytics',
+      '👥 Class Performance': 'class-performance',
+      '🎤 Live Session Metrics': 'live-session-metrics',
+      '🍳 Recipe Performance': 'recipe-performance',
+      '🔪 Technique Analysis': 'technique-analysis',
+      '🏪 Kitchen Management': 'kitchen-management',
+      '🛡️ Safety & Compliance': 'safety-compliance',
+      '📱 Platform Usage': 'platform-usage',
+      '👥 Community Engagement': 'community-engagement'
+    };
+    return titleMap[reportTitle] || 'unknown-report';
+  };
+
+  const generatePDF = async (reportTitle: string) => {
+    const doc = new jsPDF();
+    const currentDate = new Date().toLocaleDateString();
+    const fileName = getReportFileName(reportTitle);
+    
+    // Get filter labels for display
+    const userRoleLabel = filterOptions.userRoles.find(r => r.value === selectedUserRole)?.label || 'Administrator';
+    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || 'All Departments';
+    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || 'All Classes';
+    const timeRangeLabel = filterOptions.timeRanges.find(t => t.value === selectedTimeRange)?.label || 'Last 30 Days';
+    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || 'All Students';
+    
+    // Clean text function to remove problematic characters
+    const cleanText = (text: string) => {
+      return text
+        .replace(/[^\x00-\x7F]/g, '') // Remove non-ASCII characters
+        .replace(/•/g, '-') // Replace bullets with dashes
+        .replace(/&/g, 'and') // Replace ampersands
+        .replace(/[""]/g, '"') // Replace smart quotes
+        .replace(/['']/g, "'") // Replace smart apostrophes
+        .trim();
+    };
+    
+    // Set background color (light gray like your app)
+    doc.setFillColor(248, 250, 252); // Very light gray background
+    doc.rect(0, 0, 210, 297, 'F'); // Fill entire page
+    
+    // Create main rounded card with thick blue border (like your About Us page)
+    doc.setFillColor(255, 255, 255); // White card background
+    
+    // Draw rounded rectangle for main card
+    const cardX = 15, cardY = 15, cardW = 180, cardH = 267, radius = 8;
+    
+    // Main card background with rounded corners
+    doc.roundedRect(cardX, cardY, cardW, cardH, radius, radius, 'F');
+    
+    // Subtle border with rounded corners
+    doc.setDrawColor(100, 116, 139); // Muted slate gray border
+    doc.setLineWidth(0.8); // Very thin border
+    doc.roundedRect(cardX, cardY, cardW, cardH, radius, radius, 'S');
+    
+    // Header subcard with color
+    doc.setFillColor(239, 246, 255); // Light blue background
+    doc.roundedRect(25, 25, 160, 40, 6, 6, 'F'); // Header subcard background
+    doc.setDrawColor(59, 130, 246); // Blue border
+    doc.setLineWidth(0.5); // Very thin border for subcard
+    doc.roundedRect(25, 25, 160, 40, 6, 6, 'S'); // Header subcard border
+    
+    // Load and add the actual logo
+    try {
+      const logoImg = new Image();
+      logoImg.crossOrigin = 'anonymous';
+      
+      await new Promise((resolve, reject) => {
+        logoImg.onload = () => {
+          // Add larger logo image centered in header
+          doc.addImage(logoImg, 'PNG', 30, 28, 30, 20); // x, y, width, height (larger)
+          resolve(true);
+        };
+        logoImg.onerror = reject;
+        logoImg.src = '/logo.png';
+      });
+    } catch (error) {
+      console.log('Logo not found, using text fallback');
+      // Fallback - center the report title
+      doc.setFontSize(14);
+      doc.setTextColor(37, 99, 235);
+      const titleWidth = doc.getTextWidth(cleanText(reportTitle));
+      doc.text(cleanText(reportTitle), 105 - titleWidth/2, 42);
+    }
+    
+    // Report title (main heading) centered in header subcard
+    doc.setFontSize(14);
+    doc.setTextColor(37, 99, 235); // Maine Blue
+    doc.setFont('helvetica', 'bold'); // Bold title
+    const titleWidth = doc.getTextWidth(cleanText(reportTitle));
+    doc.text(cleanText(reportTitle), 105 - titleWidth/2, 38);
+    
+    doc.setFont('helvetica', 'normal'); // Reset to normal
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    const platformWidth = doc.getTextWidth(cleanText('Culinary Education Analytics Platform'));
+    doc.text(cleanText('Culinary Education Analytics Platform'), 105 - platformWidth/2, 48);
+    
+    doc.setFontSize(7);
+    doc.setTextColor(100, 100, 100);
+    const dateWidth = doc.getTextWidth(cleanText(`Generated: ${currentDate} | ${userRoleLabel}`));
+    doc.text(cleanText(`Generated: ${currentDate} | ${userRoleLabel}`), 105 - dateWidth/2, 55);
+    
+    const filterWidth = doc.getTextWidth(cleanText(`${departmentLabel} | ${timeRangeLabel}`));
+    doc.text(cleanText(`${departmentLabel} | ${timeRangeLabel}`), 105 - filterWidth/2, 62);
+    
+    // Executive Summary subcard (Green theme)
+    doc.setFillColor(240, 253, 244); // Light green background
+    doc.roundedRect(25, 75, 160, 45, 6, 6, 'F'); // Subcard background
+    doc.setDrawColor(34, 197, 94); // Green border
+    doc.setLineWidth(0.5); // Very thin border for subcard
+    doc.roundedRect(25, 75, 160, 45, 6, 6, 'S'); // Subcard border
+    
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold'); // Bold title
+    doc.setTextColor(22, 163, 74); // Green for section headers
+    const summaryWidth = doc.getTextWidth(cleanText('Executive Summary'));
+    doc.text(cleanText('Executive Summary'), 105 - summaryWidth/2, 87);
+    doc.setFont('helvetica', 'normal'); // Reset to normal
+    
+    doc.setFontSize(8);
+    doc.setTextColor(60, 60, 60);
+    
+    if (fileName === 'skill-mastery-tracking') {
+      const line1Width = doc.getTextWidth(cleanText('This report analyzes student skill development across core culinary competencies.'));
+      doc.text(cleanText('This report analyzes student skill development across core culinary competencies.'), 105 - line1Width/2, 97);
+      const line2Width = doc.getTextWidth(cleanText('Data reflects performance metrics for knife skills, cooking techniques, food safety,'));
+      doc.text(cleanText('Data reflects performance metrics for knife skills, cooking techniques, food safety,'), 105 - line2Width/2, 104);
+      const line3Width = doc.getTextWidth(cleanText('and recipe execution during the current academic period.'));
+      doc.text(cleanText('and recipe execution during the current academic period.'), 105 - line3Width/2, 111);
+    } else if (fileName === 'class-performance') {
+      const line1Width = doc.getTextWidth(cleanText('This report provides comprehensive analysis of class-level performance metrics'));
+      doc.text(cleanText('This report provides comprehensive analysis of class-level performance metrics'), 105 - line1Width/2, 97);
+      const line2Width = doc.getTextWidth(cleanText('including completion rates, knowledge gaps, and instructor effectiveness across'));
+      doc.text(cleanText('including completion rates, knowledge gaps, and instructor effectiveness across'), 105 - line2Width/2, 104);
+      const line3Width = doc.getTextWidth(cleanText('all culinary program courses for the current semester.'));
+      doc.text(cleanText('all culinary program courses for the current semester.'), 105 - line3Width/2, 111);
+    } else if (fileName === 'live-session-metrics') {
+      const line1Width = doc.getTextWidth(cleanText('This report examines student engagement and participation in live cooking'));
+      doc.text(cleanText('This report examines student engagement and participation in live cooking'), 105 - line1Width/2, 97);
+      const line2Width = doc.getTextWidth(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'));
+      doc.text(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'), 105 - line2Width/2, 104);
+      const line3Width = doc.getTextWidth(cleanText('and learning outcomes from real-time culinary instruction.'));
+      doc.text(cleanText('and learning outcomes from real-time culinary instruction.'), 105 - line3Width/2, 111);
+    } else {
+      const line1Width = doc.getTextWidth(cleanText('This report provides detailed analytics and insights for culinary education'));
+      doc.text(cleanText('This report provides detailed analytics and insights for culinary education'), 105 - line1Width/2, 97);
+      const line2Width = doc.getTextWidth(cleanText('management, offering data-driven recommendations to enhance student'));
+      doc.text(cleanText('management, offering data-driven recommendations to enhance student'), 105 - line2Width/2, 104);
+      const line3Width = doc.getTextWidth(cleanText('learning outcomes and institutional performance.'));
+      doc.text(cleanText('learning outcomes and institutional performance.'), 105 - line3Width/2, 111);
+    }
+    
+    // Key Performance Indicators subcard (Purple theme)
+    doc.setFillColor(250, 245, 255); // Light purple background
+    doc.roundedRect(25, 130, 160, 55, 6, 6, 'F'); // Subcard background
+    doc.setDrawColor(147, 51, 234); // Purple border
+    doc.setLineWidth(0.5); // Very thin border for subcard
+    doc.roundedRect(25, 130, 160, 55, 6, 6, 'S'); // Subcard border
+    
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold'); // Bold title
+    doc.setTextColor(126, 34, 206); // Purple for section headers
+    const kpiWidth = doc.getTextWidth(cleanText('Key Performance Indicators'));
+    doc.text(cleanText('Key Performance Indicators'), 105 - kpiWidth/2, 142);
+    doc.setFont('helvetica', 'normal'); // Reset to normal
+    
+    doc.setFontSize(9);
+    doc.setTextColor(60, 60, 60);
+    
+    if (fileName === 'skill-mastery-tracking') {
+      // Adjust data based on filters
+      const avgProficiency = selectedClass === 'fundamentals' ? '73.8%' : selectedClass === 'advanced_techniques' ? '89.4%' : '81.2%';
+      const safetyRate = selectedDepartment === 'baking_pastry' ? '92.1%' : '86.7%';
+      const completionRate = selectedStudentSegment === 'struggling' ? '67.3%' : selectedStudentSegment === 'top_performers' ? '96.8%' : '85.1%';
+      const supportNeeded = selectedClass === 'all' ? '3 of 15' : selectedStudentSegment === 'struggling' ? '8 of 12' : '1 of 8';
+      
+      doc.text(cleanText('Average Skill Proficiency:'), 35, 153);
+      doc.text(cleanText(avgProficiency), 130, 153);
+      doc.text(cleanText('Food Safety Certification Rate:'), 35, 163);
+      doc.text(cleanText(safetyRate), 130, 163);
+      doc.text(cleanText('Recipe Completion Success:'), 35, 173);
+      doc.text(cleanText(completionRate), 130, 173);
+      doc.text(cleanText('Students Requiring Additional Support:'), 35, 183);
+      doc.text(cleanText(supportNeeded), 130, 183);
+    } else if (fileName === 'class-performance') {
+      doc.text(cleanText('Overall Class Average:'), 35, 153);
+      doc.text(cleanText('85.4%'), 130, 153);
+      doc.text(cleanText('Course Completion Rate:'), 35, 163);
+      doc.text(cleanText('84.9%'), 130, 163);
+      doc.text(cleanText('Highest Performing Course:'), 35, 173);
+      doc.text(cleanText('Food Safety and Sanitation (94%)'), 130, 173);
+      doc.text(cleanText('Course Requiring Attention:'), 35, 183);
+      doc.text(cleanText('Menu Planning and Costing (79%)'), 130, 183);
+    } else {
+      doc.text(cleanText('Overall Performance Score:'), 35, 153);
+      doc.text(cleanText('85.4%'), 130, 153);
+      doc.text(cleanText('Student Engagement Level:'), 35, 163);
+      doc.text(cleanText('88.2%'), 130, 163);
+      doc.text(cleanText('Completion Rate:'), 35, 173);
+      doc.text(cleanText('84.9%'), 130, 173);
+      doc.text(cleanText('Satisfaction Rating:'), 35, 183);
+      doc.text(cleanText('92.1%'), 130, 183);
+    }
+    
+    // Analysis and Recommendations subcard (Orange theme)
+    doc.setFillColor(255, 247, 237); // Light orange background
+    doc.roundedRect(25, 195, 160, 65, 6, 6, 'F'); // Subcard background
+    doc.setDrawColor(249, 115, 22); // Orange border
+    doc.setLineWidth(0.5); // Very thin border for subcard
+    doc.roundedRect(25, 195, 160, 65, 6, 6, 'S'); // Subcard border
+    
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold'); // Bold title
+    doc.setTextColor(194, 65, 12); // Orange for section headers
+    const analysisWidth = doc.getTextWidth(cleanText('Analysis and Recommendations'));
+    doc.text(cleanText('Analysis and Recommendations'), 105 - analysisWidth/2, 207);
+    doc.setFont('helvetica', 'normal'); // Reset to normal
+    
+    doc.setFontSize(8);
+    doc.setTextColor(60, 60, 60);
+    
+    if (fileName === 'skill-mastery-tracking') {
+      const line1Width = doc.getTextWidth(cleanText('- Knife skills show consistent improvement with 81% average proficiency'));
+      doc.text(cleanText('- Knife skills show consistent improvement with 81% average proficiency'), 105 - line1Width/2, 218);
+      const line2Width = doc.getTextWidth(cleanText('- Food safety certification maintains high completion rate at 87%'));
+      doc.text(cleanText('- Food safety certification maintains high completion rate at 87%'), 105 - line2Width/2, 228);
+      const line3Width = doc.getTextWidth(cleanText('- Recipe execution demonstrates strong practical application skills'));
+      doc.text(cleanText('- Recipe execution demonstrates strong practical application skills'), 105 - line3Width/2, 238);
+      const line4Width = doc.getTextWidth(cleanText('- Recommend additional practice sessions for students below 75% threshold'));
+      doc.text(cleanText('- Recommend additional practice sessions for students below 75% threshold'), 105 - line4Width/2, 248);
+      const line5Width = doc.getTextWidth(cleanText('- Consider advanced modules for students achieving 90% proficiency'));
+      doc.text(cleanText('- Consider advanced modules for students achieving 90% proficiency'), 105 - line5Width/2, 258);
+    } else if (fileName === 'class-performance') {
+      const line1Width = doc.getTextWidth(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'));
+      doc.text(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'), 105 - line1Width/2, 218);
+      const line2Width = doc.getTextWidth(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'));
+      doc.text(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'), 105 - line2Width/2, 228);
+      const line3Width = doc.getTextWidth(cleanText('- Menu Planning and Costing requires curriculum review and support'));
+      doc.text(cleanText('- Menu Planning and Costing requires curriculum review and support'), 105 - line3Width/2, 238);
+      const line4Width = doc.getTextWidth(cleanText('- Recommend instructor development for underperforming courses'));
+      doc.text(cleanText('- Recommend instructor development for underperforming courses'), 105 - line4Width/2, 248);
+      const line5Width = doc.getTextWidth(cleanText('- Implement peer mentoring programs to improve completion rates'));
+      doc.text(cleanText('- Implement peer mentoring programs to improve completion rates'), 105 - line5Width/2, 258);
+    } else {
+      const line1Width = doc.getTextWidth(cleanText('- Performance metrics indicate strong overall program effectiveness'));
+      doc.text(cleanText('- Performance metrics indicate strong overall program effectiveness'), 105 - line1Width/2, 218);
+      const line2Width = doc.getTextWidth(cleanText('- Student engagement levels exceed industry benchmarks'));
+      doc.text(cleanText('- Student engagement levels exceed industry benchmarks'), 105 - line2Width/2, 228);
+      const line3Width = doc.getTextWidth(cleanText('- Completion rates demonstrate successful retention strategies'));
+      doc.text(cleanText('- Completion rates demonstrate successful retention strategies'), 105 - line3Width/2, 238);
+      const line4Width = doc.getTextWidth(cleanText('- Recommend continued monitoring of identified improvement areas'));
+      doc.text(cleanText('- Recommend continued monitoring of identified improvement areas'), 105 - line4Width/2, 248);
+      const line5Width = doc.getTextWidth(cleanText('- Consider expansion of successful program elements'));
+      doc.text(cleanText('- Consider expansion of successful program elements'), 105 - line5Width/2, 258);
+    }
+    
+    // Footer (inside card at bottom)
+    doc.setFontSize(7);
+    doc.setTextColor(150, 150, 150);
+    const footerWidth1 = doc.getTextWidth(cleanText('PorkChop Ed Tech | Culinary Education Analytics Platform'));
+    doc.text(cleanText('PorkChop Ed Tech | Culinary Education Analytics Platform'), 105 - footerWidth1/2, 270);
+    const footerWidth2 = doc.getTextWidth(cleanText('This report contains demonstration data for platform capabilities.'));
+    doc.text(cleanText('This report contains demonstration data for platform capabilities.'), 105 - footerWidth2/2, 277);
+    
+    return doc;
+  };
+
+  const generateReportContent = (reportTitle: string, format: 'csv' | 'pdf' | 'xlsx') => {
+    const fileName = getReportFileName(reportTitle);
+    const currentDate = new Date().toLocaleDateString();
+    
+    if (format === 'csv') {
+      // Generate CSV content
+      if (fileName === 'skill-mastery-tracking') {
+        return `Student ID,Student Name,Knife Skills Score,Cooking Techniques Score,Food Safety Certification,Recipe Completion Rate,Overall Progress
+STU001,Alex Johnson,85,78,Certified,80%,81%
+STU002,Maria Garcia,92,88,Certified,95%,92%
+STU003,David Chen,67,72,In Progress,65%,68%
+STU004,Sarah Williams,88,85,Certified,90%,88%
+STU005,Michael Brown,75,80,Certified,75%,77%
+STU006,Emma Davis,90,87,Certified,85%,87%
+STU007,James Wilson,82,79,In Progress,78%,80%
+STU008,Lisa Anderson,95,92,Certified,98%,95%
+STU009,Robert Taylor,70,75,Certified,70%,72%
+STU010,Jennifer Martinez,86,83,Certified,88%,86%`;
+      } else if (fileName === 'class-performance') {
+        return `Class ID,Class Name,Average Score,Completion Rate,Knowledge Gaps,Assignment Timeliness,Instructor
+CLS001,Fundamentals of Cooking,82,85%,Knife Skills,90%,Chef Martinez
+CLS002,Advanced Culinary Techniques,88,78%,Sauce Making,85%,Chef Johnson
+CLS003,Baking & Pastry Arts,91,92%,Bread Making,95%,Chef Williams
+CLS004,International Cuisine,85,80%,Spice Usage,88%,Chef Chen
+CLS005,Food Safety & Sanitation,94,96%,Temperature Control,98%,Chef Davis
+CLS006,Menu Planning & Costing,79,75%,Cost Analysis,82%,Chef Brown
+CLS007,Restaurant Operations,83,82%,Service Flow,87%,Chef Wilson
+CLS008,Nutrition & Dietary Planning,87,89%,Macro Calculations,91%,Chef Anderson
+CLS009,Culinary Arts Capstone,90,88%,Presentation Skills,93%,Chef Taylor
+CLS010,Professional Kitchen Management,86,84%,Team Leadership,89%,Chef Garcia`;
+      } else {
+        return `Report Type,${reportTitle}
+Generated Date,${currentDate}
+Sample Data,This is demo data for ${reportTitle}
+Metric 1,85%
+Metric 2,78%
+Metric 3,92%
+Status,Active`;
+      }
+    } else {
+      // Generate Excel-compatible CSV
+      return `${reportTitle} - Comprehensive Analysis
+Generated: ${currentDate}
+Report Type: Excel Format Demo
+
+Summary Statistics:
+Metric,Value,Target,Status
+Overall Performance,85%,80%,Above Target
+Completion Rate,78%,75%,Above Target
+Student Satisfaction,92%,85%,Excellent
+Engagement Level,88%,80%,Above Target
+
+Detailed Data:
+ID,Name,Score,Status,Notes
+001,Sample Entry 1,85,Good,Demo data
+002,Sample Entry 2,92,Excellent,Demo data
+003,Sample Entry 3,78,Satisfactory,Demo data
+004,Sample Entry 4,88,Good,Demo data
+005,Sample Entry 5,91,Excellent,Demo data
+
+Analysis Notes:
+This is demonstration data for ${reportTitle}
+In production this would contain real student/class data
+Charts and pivot tables would be included
+Automated calculations and formulas would be present`;
+    }
+  };
+
+  const handleDownload = async (format: 'csv' | 'pdf' | 'xlsx') => {
+    if (!selectedReport) return;
+    
+    const fileName = getReportFileName(selectedReport.title);
+    
+    if (format === 'pdf') {
+      // Generate and download actual PDF
+      const doc = await generatePDF(selectedReport.title);
+      doc.save(`${fileName}.pdf`);
+      return;
+    }
+    
+    // Handle CSV and Excel formats
+    const content = generateReportContent(selectedReport.title, format);
+    
+    // Create blob with appropriate MIME type
+    let mimeType: string;
+    let fileExtension: string;
+    
+    if (format === 'csv') {
+      mimeType = 'text/csv;charset=utf-8;';
+      fileExtension = 'csv';
+    } else {
+      mimeType = 'text/csv;charset=utf-8;';
+      fileExtension = 'xlsx';
+    }
+    
+    const blob = new Blob([content], { type: mimeType });
+    const url = window.URL.createObjectURL(blob);
+    
+    // Create download link
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${fileName}.${fileExtension}`;
+    document.body.appendChild(link);
+    link.click();
+    
+    // Cleanup
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  };
+
+  // ReportCard component for the reports modal
+  const ReportCard = ({ title, description, metrics, color }: {
+    title: string;
+    description: string;
+    metrics: string[];
+    color: string;
+  }) => {
+    const colorClasses = {
+      blue: 'bg-blue-50 border-blue-500 text-blue-800',
+      indigo: 'bg-indigo-50 border-indigo-500 text-indigo-800',
+      green: 'bg-green-50 border-green-500 text-green-800',
+      teal: 'bg-teal-50 border-teal-500 text-teal-800',
+      orange: 'bg-orange-50 border-orange-500 text-orange-800',
+      amber: 'bg-amber-50 border-amber-500 text-amber-800',
+      purple: 'bg-purple-50 border-purple-500 text-purple-800',
+      pink: 'bg-pink-50 border-pink-500 text-pink-800',
+      red: 'bg-red-50 border-red-500 text-red-800',
+      gray: 'bg-gray-50 border-gray-500 text-gray-800'
+    };
+
+    const buttonClasses = {
+      blue: 'bg-blue-600 hover:bg-blue-700',
+      indigo: 'bg-indigo-600 hover:bg-indigo-700',
+      green: 'bg-green-600 hover:bg-green-700',
+      teal: 'bg-teal-600 hover:bg-teal-700',
+      orange: 'bg-orange-600 hover:bg-orange-700',
+      amber: 'bg-amber-600 hover:bg-amber-700',
+      purple: 'bg-purple-600 hover:bg-purple-700',
+      pink: 'bg-pink-600 hover:bg-pink-700',
+      red: 'bg-red-600 hover:bg-red-700',
+      gray: 'bg-gray-600 hover:bg-gray-700'
+    };
+
+    return (
+      <div className={`${colorClasses[color as keyof typeof colorClasses]} border-4 rounded-lg p-4 text-center`}>
+        <h3 className="text-lg font-bold mb-3">{title}</h3>
+        <p className="text-sm text-gray-600 mb-3">{description}</p>
+        <div className="mb-4">
+          <p className="text-xs font-semibold mb-2">Includes:</p>
+          <ul className="text-xs space-y-1 text-left inline-block">
+            {metrics.map((metric, index) => (
+              <li key={index} className="flex items-center">
+                <span className="w-1 h-1 bg-current rounded-full mr-2"></span>
+                {metric}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="flex justify-center">
+          <button 
+            onClick={() => handleGenerateReport(title, description)}
+            className={`${buttonClasses[color as keyof typeof buttonClasses]} text-white px-4 py-2 rounded transition-colors text-sm`}
+          >
+            Generate Report
+          </button>
+        </div>
+      </div>
+    );
   };
 
   // Handle permanent selection of a talent with database persistence
@@ -266,14 +1149,6 @@ const Profile = () => {
           setShowTalents(true);
         }
 
-        // Fetch subscription information
-        try {
-          const subscriptionData = await verifySubscription(user?.id || '');
-          setSubscription(subscriptionData.subscription);
-        } catch (subError) {
-          console.error('Error fetching subscription:', subError);
-          // Don't set error state here to avoid blocking profile display
-        }
       } catch (err) {
         console.error('Profile fetch error:', err);
         setError('An unexpected error occurred while loading your profile.');
@@ -533,7 +1408,7 @@ const Profile = () => {
   } 
 
   return (
-    <div className="max-w-2xl mx-auto p-4 sm:p-6 bg-weatheredWhite rounded-lg shadow-lg">
+    <div className="max-w-2xl mx-auto p-4 sm:p-6 bg-weatheredWhite rounded-lg shadow-lg border-4 border-maineBlue">
       {/* Header: Responsive grid layout */}
       <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 items-center mb-6">
         {/* Column 1: Avatar */}
@@ -572,16 +1447,11 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Column 2: Name + Subscription */}
+        {/* Column 2: Name */}
         <div className="flex flex-col items-center text-center" style={{ minWidth: '160px' }}>
           <h1 className="text-2xl sm:text-3xl font-retro text-maineBlue mb-2">
             {userProfile.name}
           </h1>
-          {subscription && (
-            <span className={`px-2 py-0.5 rounded-full border font-bold text-xs bg-amber-100 text-amber-800 border-amber-300`}>
-              {subscription.plan === 'yearly' ? 'Yearly' : 'Monthly'}
-            </span>
-          )}
         </div>
 
         {/* Column 3: Level Progress */}
@@ -659,16 +1529,22 @@ const Profile = () => {
             Edit Profile
           </button>
           <button
-            onClick={() => setShowUpgradeModal(true)}
+            onClick={() => setShowClassScheduleModal(true)}
             className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
-            Subscription
+            Class Schedule
           </button>
           <button
             onClick={handleLogout}
             className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
             Sign Out
+          </button>
+          <button
+            onClick={() => setShowReportsModal(true)}
+            className="w-full lg:w-auto inline-block bg-gray-200 text-gray-600 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-gray-300 hover:text-gray-800 font-bold transition-colors border border-gray-400 text-sm sm:text-base"
+          >
+            Reports
           </button>
         </div>
 
@@ -764,16 +1640,74 @@ const Profile = () => {
         plan="monthly"
       />
       
+      <ClassScheduleModal
+        open={showClassScheduleModal}
+        onClose={() => setShowClassScheduleModal(false)}
+        onOpenRegistration={() => setShowClassRegistrationModal(true)}
+      />
+      
+      <ClassRegistrationModal
+        open={showClassRegistrationModal}
+        onClose={() => setShowClassRegistrationModal(false)}
+      />
+      
       <TermsModal
         open={termsModalOpen}
         onClose={() => setTermsModalOpen(false)}
         content={termsContent}
       />
+
+      {/* Talent Tutorial Modal */}
+      {tutorialModalOpen && currentTutorial && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+            <button
+              onClick={() => {
+                setTutorialModalOpen(false);
+                setCurrentTutorial(null);
+              }}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
+              aria-label="Close"
+            >
+              ×
+            </button>
+            
+            <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
+              {currentTutorial.name} Tutorial
+            </h2>
+            
+            <div className="aspect-video mb-4">
+              <iframe
+                src={currentTutorial.videoUrl}
+                title={`${currentTutorial.name} Tutorial`}
+                className="w-full h-full rounded-lg border border-gray-300"
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              />
+            </div>
+            
+            <div className="text-center">
+              <p className="text-gray-600 mb-4">
+                Master the techniques shown in this tutorial to unlock your full culinary potential!
+              </p>
+              <button
+                onClick={() => {
+                  setTutorialModalOpen(false);
+                  setCurrentTutorial(null);
+                }}
+                className="px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold"
+              >
+                Close Tutorial
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Talent Tree Modal - Responsive */}
       {selectedTalentTree && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <div className="flex-1"></div>
               <div className="flex items-center gap-2 sm:gap-3">
@@ -812,29 +1746,77 @@ const Profile = () => {
                       handleSelectTalent(talent.name, true);
                     }}
                     disabled={!unlocked}
-                    className={`relative group p-3 sm:p-4 rounded-lg transition-all border min-h-[100px] sm:min-h-[120px] flex flex-col items-center justify-center text-center ${
+                    className={`relative group p-3 sm:p-4 rounded-lg transition-all border border-black min-h-[100px] sm:min-h-[120px] flex flex-col items-center justify-center text-center ${
                       unlocked
                         ? selected
-                          ? 'bg-maineBlue text-seafoam shadow-md border-maineBlue'
-                          : 'bg-gray-50 hover:bg-seafoam hover:text-maineBlue border-gray-200'
-                        : 'bg-gray-100 text-gray-400 cursor-not-allowed border-gray-300'
+                          ? 'bg-maineBlue text-seafoam shadow-md'
+                          : 'bg-gray-50 hover:bg-seafoam hover:text-maineBlue'
+                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                     }`}
                   >
-                    <Icon className={`w-6 h-6 sm:w-8 sm:h-8 mb-2 ${!unlocked ? 'opacity-40 grayscale' : ''}`} />
+                    <Icon className={`w-6 h-6 sm:w-8 sm:h-8 mb-2 ${
+                      !unlocked 
+                        ? 'opacity-40 grayscale' 
+                        : selected
+                          ? 'text-seafoam'
+                          : selectedTalentTree === 'Equipment'
+                            ? 'text-orange-500'
+                            : selectedTalentTree === 'Techniques'
+                              ? 'text-red-500'
+                              : 'text-purple-500'
+                    }`} />
                     <div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
+                    <div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
                     {!unlocked && (
                       <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
                     )}
                     {selected && (
-                      <div className="text-xs text-green-600 font-bold">✓ Selected</div>
+                      <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
                     )}
-                    
-                    {/* Responsive tooltip */}
-                    <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 z-10 hidden group-hover:block bg-white text-black p-2 sm:p-3 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                      <strong>{talent.name}</strong>
-                      <div className="mt-1 text-xs">{talent.description}</div>
-                      <div className="mt-1 text-xs text-gray-500">Unlocks at level {talent.unlockLevel}</div>
-                    </div>
+                    {selected && (
+                      <div className="flex gap-1">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Add talent to unlocked list
+                            if (!unlockedTalents.includes(talent.name)) {
+                              setUnlockedTalents([...unlockedTalents, talent.name]);
+                              console.log(`Unlocked ${talent.name}`);
+                            }
+                          }}
+                          className={`text-xs px-2 py-1 rounded transition-colors font-medium ${
+                            unlockedTalents.includes(talent.name)
+                              ? 'bg-green-500 text-white hover:bg-green-600'
+                              : 'bg-yellow-500 text-white hover:bg-yellow-600'
+                          }`}
+                        >
+                          {unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            // Open tutorial modal if unlocked
+                            if (unlockedTalents.includes(talent.name)) {
+                              setCurrentTutorial({
+                                name: talent.name,
+                                videoUrl: `https://www.youtube.com/embed/dQw4w9WgXcQ` // Placeholder video
+                              });
+                              setTutorialModalOpen(true);
+                            } else {
+                              console.log(`${talent.name} not unlocked yet!`);
+                            }
+                          }}
+                          disabled={!unlockedTalents.includes(talent.name)}
+                          className={`text-xs px-2 py-1 rounded transition-colors font-medium ${
+                            unlockedTalents.includes(talent.name)
+                              ? 'bg-red-500 text-white hover:bg-red-600'
+                              : 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                          }`}
+                        >
+                          📹 Tutorial
+                        </button>
+                      </div>
+                    )}
                   </button>
                 );
               })}
@@ -852,9 +1834,272 @@ const Profile = () => {
         </div>
       )}
       
+      {/* Reports Modal */}
+      {showReportsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center mb-4">
+              <div></div>
+              <h2 className="text-2xl font-bold text-maineBlue text-center">Culinary Education Reports</h2>
+              <button
+                onClick={() => setShowReportsModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            {/* Navigation Header */}
+            <div className="flex items-center justify-between mb-4">
+              <button
+                onClick={prevReport}
+                className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm"
+              >
+                <span className="text-lg mr-1">←</span>
+                Prev
+              </button>
+              
+              <div className="text-center">
+                <h3 className="text-lg font-bold text-gray-800">{reportCategories[currentReportIndex].title}</h3>
+                <p className="text-sm text-gray-500">
+                  {currentReportIndex + 1} of {reportCategories.length}
+                </p>
+              </div>
+              
+              <button
+                onClick={nextReport}
+                className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm"
+              >
+                Next
+                <span className="text-lg ml-1">→</span>
+              </button>
+            </div>
+            
+            {/* Two Reports Content */}
+            <div className="flex-1 overflow-y-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                {reportCategories[currentReportIndex].reports.map((report, index) => (
+                  <ReportCard
+                    key={index}
+                    title={report.title}
+                    description={report.description}
+                    metrics={report.metrics}
+                    color={report.color}
+                  />
+                ))}
+              </div>
+            </div>
+            
+            {/* Progress Dots */}
+            <div className="flex justify-center mt-3 space-x-2">
+              {reportCategories.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentReportIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-colors ${
+                    index === currentReportIndex ? 'bg-maineBlue' : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Generate Report Modal */}
+      {showGenerateModal && selectedReport && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-3xl w-full overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center p-4 pb-3">
+              <div></div>
+              <h2 className="text-2xl font-bold text-maineBlue">Generate Report</h2>
+              <button
+                onClick={() => setShowGenerateModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            {/* Report Info */}
+            <div className="px-4 pb-3 text-center">
+              <h3 className="text-xl font-bold text-gray-800 mb-2">{selectedReport.title}</h3>
+              <p className="text-gray-600">{selectedReport.description}</p>
+            </div>
+            
+            {/* Main Content - Side by Side Layout */}
+            <div className="px-4 pb-4">
+              <div className="flex gap-4 items-start">
+                {/* Left Side - Filters */}
+                <div className="w-56 bg-white border-4 border-blue-400 rounded-lg p-3 h-full">
+                  <h4 className="font-bold text-gray-800 mb-3 text-sm text-center">🎯 Report Filters</h4>
+                  <div className="space-y-3 flex-1">
+                    {/* User Role Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        👤 User Role
+                      </label>
+                      <select 
+                        value={selectedUserRole}
+                        onChange={(e) => setSelectedUserRole(e.target.value)}
+                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      >
+                        {filterOptions.userRoles.map(role => (
+                          <option key={role.value} value={role.value}>
+                            {role.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Class Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        📚 Class/Course
+                      </label>
+                      <select 
+                        value={selectedClass}
+                        onChange={(e) => setSelectedClass(e.target.value)}
+                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      >
+                        {filterOptions.classes.map(cls => (
+                          <option key={cls.value} value={cls.value}>
+                            {cls.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Time Range Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        📅 Time Range
+                      </label>
+                      <select 
+                        value={selectedTimeRange}
+                        onChange={(e) => setSelectedTimeRange(e.target.value)}
+                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      >
+                        {filterOptions.timeRanges.map(range => (
+                          <option key={range.value} value={range.value}>
+                            {range.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Student Segment Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        👥 Student Segment
+                      </label>
+                      <select 
+                        value={selectedStudentSegment}
+                        onChange={(e) => setSelectedStudentSegment(e.target.value)}
+                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      >
+                        {filterOptions.studentSegments.map(segment => (
+                          <option key={segment.value} value={segment.value}>
+                            {segment.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Quick Presets */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        ⚡ Quick Presets
+                      </label>
+                      <div className="space-y-2">
+                        <button 
+                          onClick={() => {
+                            setSelectedUserRole('administrator');
+                            setSelectedClass('all');
+                            setSelectedTimeRange('semester');
+                            setSelectedStudentSegment('all');
+                          }}
+                          className="w-full text-left px-3 py-2 text-xs bg-blue-100 hover:bg-blue-200 rounded transition-colors border border-blue-300"
+                        >
+                          📊 Executive Overview
+                        </button>
+                        <button 
+                          onClick={() => {
+                            setSelectedUserRole('instructor');
+                            setSelectedClass('fundamentals');
+                            setSelectedTimeRange('30days');
+                            setSelectedStudentSegment('struggling');
+                          }}
+                          className="w-full text-left px-3 py-2 text-xs bg-orange-100 hover:bg-orange-200 rounded transition-colors border border-orange-300"
+                        >
+                          🎯 At-Risk Students
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Side - Download Options */}
+                <div className="flex-1">
+                  <div className="space-y-3">
+                    {/* CSV Download */}
+                    <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 text-center">
+                      <div className="text-2xl mb-2">📊</div>
+                      <h4 className="font-bold text-green-800 mb-1 text-sm">CSV Format</h4>
+                      <p className="text-xs text-gray-600 mb-3">Raw data for analysis</p>
+                      <button 
+                        onClick={() => handleDownload('csv')}
+                        className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition-colors text-xs w-full border border-black"
+                      >
+                        Download CSV
+                      </button>
+                    </div>
+                    
+                    {/* PDF Download */}
+                    <div className="bg-red-50 border-4 border-red-400 rounded-lg p-3 text-center">
+                      <div className="text-2xl mb-2">📄</div>
+                      <h4 className="font-bold text-red-800 mb-1 text-sm">PDF Report</h4>
+                      <p className="text-xs text-gray-600 mb-3">Formatted report</p>
+                      <button 
+                        onClick={() => handleDownload('pdf')}
+                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition-colors text-xs w-full border border-black"
+                      >
+                        Download PDF
+                      </button>
+                    </div>
+                    
+                    {/* Excel Download */}
+                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 text-center">
+                      <div className="text-2xl mb-2">📈</div>
+                      <h4 className="font-bold text-blue-800 mb-1 text-sm">Excel Format</h4>
+                      <p className="text-xs text-gray-600 mb-3">Spreadsheet data</p>
+                      <button 
+                        onClick={() => handleDownload('xlsx')}
+                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition-colors text-xs w-full border border-black"
+                      >
+                        Download Excel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Close Button */}
+              <div className="flex justify-end mt-4">
+                <button 
+                  onClick={() => setShowGenerateModal(false)}
+                  className="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 transition-colors text-sm border border-black"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Footer with Terms of Service link */}
       <footer className="mt-8 text-center text-sm text-gray-500 py-4 border-t border-gray-200">
-        <p> {new Date().getFullYear()} Porkchop. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Porkchop. All rights reserved.</p>
         <button 
           onClick={() => setTermsModalOpen(true)}
           className="text-maineBlue hover:underline mt-1"
@@ -862,294 +2107,14 @@ const Profile = () => {
           Terms of Service & Privacy Policy
         </button>
       </footer>
-    </div>
-  );
-};
-
-// EditProfileModal component moved outside of Profile component
-function EditProfileModal({ 
-  open, 
-  onClose, 
-  user,
-  onProfileUpdated 
-}: {
-  open: boolean;
-  onClose: () => void;
-  user: UserProfile;
-  onProfileUpdated: (updatedUser: UserProfile) => void;
-}) {
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [experience, setExperience] = useState(user.experience || 'Beginner');
-  const [dietary, setDietary] = useState<string[]>(user.dietary || []);
-  const [cuisine, setCuisine] = useState<string[]>(user.cuisine || []);
-  const [kitchenSetup, setKitchenSetup] = useState<string>(user.kitchenSetup || 'Apartment Kitchen');
-  const [isSaving, setIsSaving] = useState(false);
-
-  useEffect(() => {
-    if (open) {
-      setName(user.name);
-      setEmail(user.email);
-      setExperience(user.experience || 'Beginner');
-      setDietary(user.dietary || []);
-      setCuisine(user.cuisine || []);
-      setKitchenSetup(user.kitchenSetup || 'Apartment Kitchen');
-    }
-  }, [open, user]);
-
-  const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      const updatedProfile = {
-        name,
-        email,
-        cooking_experience: EXPERIENCE_LEVEL_MAPPING[experience as keyof typeof EXPERIENCE_LEVEL_MAPPING] || 'new_to_cooking',  // Convert UI value to backend value
-        dietary,                         // Array of selected dietary preferences
-        cuisine,                         // Array of selected cuisine preferences  
-        kitchen_setup: kitchenSetup     // String value from dropdown
-      };
-
-      console.log('Attempting to save just name:', updatedProfile);
-
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update(updatedProfile)
-        .eq('id', user.id);
-
-      if (updateError) {
-        console.error('Update error:', updateError);
-        throw updateError;
-      }
-
-      console.log('Profile updated successfully!');
-      // Add this: Fetch the data back to see what actually saved
-      const { data: savedData } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-      console.log('Data in database after save:', savedData);
-
-      // ADD THIS: Update the local UI state with the saved data
-      if (savedData) {
-        onProfileUpdated({
-          ...user,
-          name: savedData.name,
-          email: savedData.email,
-          experience: EXPERIENCE_LEVEL_DISPLAY[savedData.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner', // Map backend value to UI display
-          dietary: savedData.dietary || [],
-          cuisine: savedData.cuisine || [],
-          kitchenSetup: savedData.kitchen_setup
-        });
-      }
-
-      onClose(); // Close the modal
-      setIsSaving(false); // Reset saving state
-    } catch (error) {
-      console.error('Error updating profile:', error);
-      console.error('Full error details:', JSON.stringify(error, null, 2));
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  return (
-    <Modal open={open} onClose={onClose} className="max-w-lg mx-auto p-6 bg-weatheredWhite rounded shadow-lg">
-      <h2 className="text-2xl font-retro mb-4 text-maineBlue">Edit Profile</h2>
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
-          placeholder="Your Name"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
-          placeholder="Your Email"
-        />
-      </div>
       
-      {/* Preferences Section - Directly under Cooking Experience */}
-      <h3 className="text-lg font-retro mb-2 text-maineBlue">Preferences</h3>
-      {/* Cooking Experience - Single-Select Dropdown */}
-      <div className="mb-3">
-        <label className="block text-sm font-medium text-gray-700 mb-1">Cooking Experience</label>
-        <select
-          value={experience}
-          onChange={(e) => setExperience(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
-        >
-          <option value="Beginner">Beginner</option>
-          <option value="Intermediate">Intermediate</option>
-          <option value="Advanced">Advanced</option>
-          <option value="Professional">Professional</option>
-        </select>
-      </div>
-      {/* Dietary Preferences - Single-Select Dropdown */}
-      <div className="mb-3">
-        <span className="block mb-1 font-semibold text-sm">Dietary</span>
-        <select
-          className="w-full p-2 border border-gray-300 rounded text-sm bg-weatheredWhite text-maineBlue"
-          value={dietary.length > 0 ? dietary[0] : ''}
-          onChange={(e) => {
-            setDietary(e.target.value ? [e.target.value] : []);
-          }}
-        >
-          <option value="">None</option>
-          {[
-            'Vegetarian', 'Vegan', 'Gluten-Free', 'Dairy-Free', 'Pescatarian', 'Low-Carb', 'Keto', 'Paleo', 'Nut-Free', 'Halal', 'Kosher'
-          ].map(option => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* Cuisine Preferences - Single-Select Dropdown */}
-      <div className="mb-3">
-        <span className="block mb-1 font-semibold text-sm">Cuisine</span>
-        <select
-          className="w-full p-2 border border-gray-300 rounded text-sm bg-weatheredWhite text-maineBlue"
-          value={cuisine.length > 0 ? cuisine[0] : ''}
-          onChange={(e) => {
-            setCuisine(e.target.value ? [e.target.value] : []);
-          }}
-        >
-          <option value="">None</option>
-          {[
-            'Italian', 'Thai', 'Seafood', 'Mexican', 'Japanese', 'Chinese', 'Indian', 'French', 'Greek', 'American', 'Spanish', 'Middle Eastern', 'Korean'
-          ].map(option => (
-            <option key={option} value={option}>{option}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* Kitchen Setup - Single-Select Dropdown */}
-      <div className="mb-3">
-        <span className="block mb-1 font-semibold text-sm">Kitchen Setup</span>
-        <select
-          className="w-full p-2 border border-gray-300 rounded text-sm bg-weatheredWhite text-maineBlue"
-          value={kitchenSetup}
-          onChange={(e) => {
-            setKitchenSetup(e.target.value);
-          }}
-          title={
-            kitchenSetup === 'Apartment Kitchen' ? 'Basic stovetop and oven' :
-            kitchenSetup === 'Outdoor Grilling' ? 'Grill and basic prep tools' :
-            kitchenSetup === 'Home Chef' ? 'Standard equipment + some specialty tools' :
-            kitchenSetup === 'Minimalist' ? 'Just the basics' :
-            kitchenSetup === 'Dorm Life' ? 'Microwave, mini-fridge, and basic appliances' :
-            'Professional setup with all equipment'
-          }
-        >
-          {[
-            'Apartment Kitchen',
-            'Outdoor Grilling',
-            'Home Chef',
-            'Minimalist',
-            'Dorm Life',
-            'Full Chef\'s Kitchen'
-          ].map(option => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-        <p className="text-xs text-gray-500 mt-1">
-          {kitchenSetup === 'Apartment Kitchen' && 'Basic stovetop and oven'}
-          {kitchenSetup === 'Outdoor Grilling' && 'Grill and basic prep tools'}
-          {kitchenSetup === 'Home Chef' && 'Standard equipment + some specialty tools'}
-          {kitchenSetup === 'Minimalist' && 'Just the basics'}
-          {kitchenSetup === 'Dorm Life' && 'Microwave, mini-fridge, and basic appliances'}
-          {kitchenSetup === 'Full Chef\'s Kitchen' && 'Professional setup with all equipment'}
-        </p>
-      </div>
-
-      <div className="flex justify-end gap-2 mt-4">
-        <button
-          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-          onClick={onClose}
-        >
-          Cancel
-        </button>
-        <button
-          className={`px-4 py-2 bg-seafoam text-maineBlue rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors ${
-            isSaving ? 'opacity-70 cursor-not-allowed' : ''
-          }`}
-          onClick={handleSave}
-          disabled={isSaving}
-        >
-          {isSaving ? 'Saving...' : 'Save'}
-        </button>
-      </div>
-    </Modal>
-  );
-}
-
-// Modal component
-type ModalProps = {
-  open: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-  className?: string;
-};
-
-function Modal({ open, onClose, children, className }: ModalProps) {
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className={`relative ${className || ''}`}>
-        <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-          onClick={onClose}
-          aria-label="Close modal"
-        >
-          ✕
-        </button>
-        {children}
-      </div>
+      {/* Terms Modal */}
+      <TermsModal 
+        open={termsModalOpen} 
+        onClose={() => setTermsModalOpen(false)} 
+        content={termsContent} 
+      />
     </div>
-  );
-}
-
-// TermsModal component
-interface TermsModalProps {
-  open: boolean;
-  onClose: () => void;
-  content: string;
-}
-
-const TermsModal = ({ open, onClose, content }: TermsModalProps) => {
-  return (
-    <Modal
-      open={open}
-      onClose={onClose} 
-      className="max-w-4xl mx-auto p-6 bg-weatheredWhite rounded shadow-lg max-h-[80vh] overflow-auto"
-    >
-      <div className="prose max-w-none">
-        <ReactMarkdown components={{
-          p: ({node, ...props}) => <p className="markdown-content" {...props} />
-        }}>
-          {content}
-        </ReactMarkdown>
-      </div>
-      <div className="mt-6 text-center">
-        <button
-          onClick={onClose}
-          className="px-4 py-2 bg-maineBlue text-white rounded hover:bg-blue-700 transition-colors"
-        >
-          Close
-        </button>
-      </div>
-    </Modal>
   );
 };
 

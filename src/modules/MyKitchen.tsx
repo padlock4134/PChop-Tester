@@ -168,7 +168,7 @@ const MyKitchen = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-lg shadow">
+    <div className="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue">
       <div className="flex items-center justify-center mb-2">
         <span className="text-5xl mr-2">🐟</span>
         <h1 className="text-3xl font-retro text-maineBlue mb-0">My Kitchen</h1>
@@ -264,14 +264,14 @@ const MyKitchen = () => {
           }}
         />
         <button
-          className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full sm:w-auto max-w-xs"
+          className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black w-full sm:w-auto max-w-xs"
           onClick={() => document.getElementById('scan-kitchen-file')?.click()}
           disabled={scanLoading}
         >
           {scanLoading ? 'Scanning...' : 'Scan Kitchen'}
         </button>
         <button
-          className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors w-full sm:w-auto max-w-xs"
+          className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black w-full sm:w-auto max-w-xs"
           onClick={async () => {
              setMatcherOpen(true);
             setMatcherLoading(true);
@@ -374,7 +374,7 @@ const MyKitchen = () => {
           ))}
         </select>
         <button
-          className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors"
+          className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
           onClick={addIngredient}
         >
           Add

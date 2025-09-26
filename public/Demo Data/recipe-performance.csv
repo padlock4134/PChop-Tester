@@ -1,0 +1,16 @@
+Recipe ID,Recipe Name,Success Rate,Attempts,Modifications Made,Difficulty Rating,Average Time (min),Student Feedback
+RCP001,Classic Beef Bourguignon,78%,45,12,Hard,180,4.2
+RCP002,Chocolate Soufflé,65%,38,8,Very Hard,90,4.0
+RCP003,Caesar Salad,95%,52,3,Easy,15,4.7
+RCP004,Coq au Vin,82%,41,15,Medium,120,4.4
+RCP005,Crème Brûlée,71%,35,6,Hard,75,4.3
+RCP006,Fish and Chips,88%,48,9,Medium,45,4.5
+RCP007,Ratatouille,85%,42,11,Medium,90,4.6
+RCP008,Beef Wellington,58%,28,18,Very Hard,240,3.9
+RCP009,Pasta Carbonara,92%,55,4,Easy,25,4.8
+RCP010,Duck Confit,69%,32,14,Hard,300,4.1
+RCP011,Tiramisu,76%,39,7,Medium,60,4.4
+RCP012,Bouillabaisse,73%,34,13,Hard,150,4.2
+RCP013,Apple Tarte Tatin,80%,43,10,Medium,105,4.5
+RCP014,Lobster Thermidor,62%,26,16,Very Hard,90,3.8
+RCP015,Mushroom Risotto,89%,51,5,Medium,35,4.7

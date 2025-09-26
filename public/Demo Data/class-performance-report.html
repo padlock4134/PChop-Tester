@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Performance Report - PorkChop Ed Tech</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .logo {
+            color: #2563eb;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .report-title {
+            font-size: 28px;
+            color: #1f2937;
+            margin: 0;
+        }
+        .report-meta {
+            color: #6b7280;
+            margin-top: 10px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .summary-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .summary-card h3 {
+            margin: 0 0 10px 0;
+            color: #374151;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .summary-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2563eb;
+            margin: 0;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section h2 {
+            color: #1f2937;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #d1d5db;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f3f4f6;
+            font-weight: bold;
+            color: #374151;
+        }
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        .high-score {
+            color: #059669;
+            font-weight: bold;
+        }
+        .low-score {
+            color: #dc2626;
+            font-weight: bold;
+        }
+        .medium-score {
+            color: #d97706;
+            font-weight: bold;
+        }
+        .recommendations {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        .recommendations h3 {
+            color: #92400e;
+            margin-top: 0;
+        }
+        .recommendations ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🐟 PorkChop Ed Tech</div>
+        <h1 class="report-title">Class Performance Report</h1>
+        <div class="report-meta">
+            Generated: September 26, 2024 | Report Period: Fall 2024 Semester
+        </div>
+    </div>
+
+    <div class="summary-grid">
+        <div class="summary-card">
+            <h3>Total Classes</h3>
+            <div class="value">10</div>
+        </div>
+        <div class="summary-card">
+            <h3>Average Score</h3>
+            <div class="value">85.4%</div>
+        </div>
+        <div class="summary-card">
+            <h3>Completion Rate</h3>
+            <div class="value">84.9%</div>
+        </div>
+        <div class="summary-card">
+            <h3>Total Students</h3>
+            <div class="value">200</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📊 Class Performance Overview</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Class Name</th>
+                    <th>Instructor</th>
+                    <th>Enrollment</th>
+                    <th>Avg Score</th>
+                    <th>Completion Rate</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Food Safety & Sanitation</td>
+                    <td>Chef Davis</td>
+                    <td>28</td>
+                    <td class="high-score">94%</td>
+                    <td class="high-score">96%</td>
+                    <td>Food Safety</td>
+                </tr>
+                <tr>
+                    <td>Baking & Pastry Arts</td>
+                    <td>Chef Williams</td>
+                    <td>22</td>
+                    <td class="high-score">91%</td>
+                    <td class="high-score">92%</td>
+                    <td>Baking & Pastry</td>
+                </tr>
+                <tr>
+                    <td>Culinary Arts Capstone</td>
+                    <td>Chef Taylor</td>
+                    <td>15</td>
+                    <td class="high-score">90%</td>
+                    <td class="medium-score">88%</td>
+                    <td>Culinary Arts</td>
+                </tr>
+                <tr>
+                    <td>Advanced Culinary Techniques</td>
+                    <td>Chef Johnson</td>
+                    <td>18</td>
+                    <td class="medium-score">88%</td>
+                    <td class="low-score">78%</td>
+                    <td>Culinary Arts</td>
+                </tr>
+                <tr>
+                    <td>Nutrition & Dietary Planning</td>
+                    <td>Chef Anderson</td>
+                    <td>21</td>
+                    <td class="medium-score">87%</td>
+                    <td class="medium-score">89%</td>
+                    <td>Nutrition</td>
+                </tr>
+                <tr>
+                    <td>Professional Kitchen Management</td>
+                    <td>Chef Garcia</td>
+                    <td>17</td>
+                    <td class="medium-score">86%</td>
+                    <td class="medium-score">84%</td>
+                    <td>Management</td>
+                </tr>
+                <tr>
+                    <td>International Cuisine</td>
+                    <td>Chef Chen</td>
+                    <td>20</td>
+                    <td class="medium-score">85%</td>
+                    <td class="medium-score">80%</td>
+                    <td>Culinary Arts</td>
+                </tr>
+                <tr>
+                    <td>Restaurant Operations</td>
+                    <td>Chef Wilson</td>
+                    <td>19</td>
+                    <td class="medium-score">83%</td>
+                    <td class="medium-score">82%</td>
+                    <td>Business</td>
+                </tr>
+                <tr>
+                    <td>Fundamentals of Cooking</td>
+                    <td>Chef Martinez</td>
+                    <td>24</td>
+                    <td class="medium-score">82%</td>
+                    <td class="medium-score">85%</td>
+                    <td>Culinary Arts</td>
+                </tr>
+                <tr>
+                    <td>Menu Planning & Costing</td>
+                    <td>Chef Brown</td>
+                    <td>16</td>
+                    <td class="low-score">79%</td>
+                    <td class="low-score">75%</td>
+                    <td>Business</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>🎯 Knowledge Gaps Identified</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Skill Area</th>
+                    <th>Classes Affected</th>
+                    <th>Severity</th>
+                    <th>Recommended Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Knife Skills</td>
+                    <td>3 classes</td>
+                    <td class="medium-score">Medium</td>
+                    <td>Additional practice sessions</td>
+                </tr>
+                <tr>
+                    <td>Sauce Making</td>
+                    <td>2 classes</td>
+                    <td class="low-score">High</td>
+                    <td>Dedicated workshop needed</td>
+                </tr>
+                <tr>
+                    <td>Cost Analysis</td>
+                    <td>1 class</td>
+                    <td class="low-score">High</td>
+                    <td>Curriculum revision required</td>
+                </tr>
+                <tr>
+                    <td>Temperature Control</td>
+                    <td>1 class</td>
+                    <td class="high-score">Low</td>
+                    <td>Monitor progress</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="recommendations">
+        <h3>📋 Recommendations</h3>
+        <ul>
+            <li><strong>Menu Planning & Costing:</strong> Requires immediate attention - consider additional instructor support or curriculum updates</li>
+            <li><strong>Advanced Culinary Techniques:</strong> Low completion rate suggests pacing issues - review course structure</li>
+            <li><strong>Knife Skills Training:</strong> Implement mandatory practice sessions across multiple courses</li>
+            <li><strong>Food Safety Excellence:</strong> Use as model for other courses - document best practices</li>
+            <li><strong>Cross-Department Collaboration:</strong> Share successful strategies between high and low performing classes</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <p>Report generated by PorkChop Ed Tech Analytics Platform</p>
+        <p>For questions about this report, contact your academic administrator</p>
+    </div>
+</body>
+</html>

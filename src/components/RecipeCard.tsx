@@ -7,7 +7,7 @@ type Props = {
 
 const RecipeCardComponent: React.FC<Props> = ({ recipe }) => {
   return (
-    <div className="bg-sand rounded-xl shadow-lg p-4 w-full max-w-md mb-4 relative">
+    <div className="bg-sand rounded-xl shadow-lg border-4 border-maineBlue p-4 w-full max-w-md mb-4 relative">
       <img src={recipe.image} alt={recipe.title} className="w-full h-48 object-cover rounded mb-2" />
       <h3 className="font-retro text-xl mb-1 text-center">{recipe.title}</h3>
       <div className="flex flex-wrap gap-1 mb-2">
