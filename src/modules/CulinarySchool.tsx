@@ -330,13 +330,17 @@ const CulinarySchool = () => {
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
+      {/* Culinary School header - moved above modal */}
+      <header className="culinary-school-header mb-6 hidden sm:flex flex-col items-center lg:w-2/3">
+        <div className="flex items-center justify-center mb-1">
+          <span className="text-5xl mr-2">🍳</span>
+          <h1 className="text-3xl font-retro text-maineBlue mb-0">Culinary School</h1>
+        </div>
+      </header>
+      
       <div className="flex flex-col lg:flex-row gap-6">
         <div className="lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue">
         <div className="w-full mx-auto">
-      <div className="flex items-center justify-center mb-2">
-        <span className="text-5xl mr-2">🍳</span>
-        <h1 className="text-3xl font-retro text-maineBlue mb-0">Culinary School</h1>
-      </div>
         <CookingTimer servingSize={servingSize} setServingSize={setServingSize} />
         {/* Always render a VideoModal for the currently displayed tutorial list */}
         {tutorials.map((tut, idx) => (
