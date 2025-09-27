@@ -241,6 +241,15 @@ const StudentProgressDashboard: React.FC = () => {
     <div className="mb-8 mx-auto">
       {/* Main Dashboard */}
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
+        {/* Dashboard header - moved inside the module */}
+        <div className="text-center mb-6">
+          <h1 className="text-4xl font-retro text-maineBlue mb-2">Welcome to your Student Dashboard</h1>
+          <p className="text-gray-600 italic">Click any module below to begin your culinary journey!</p>
+        </div>
+        
+        {/* Separation line */}
+        <hr className="border-t-2 border-maineBlue mb-6" />
+        
         {/* Module Navigation */}
         <div className="mb-4 p-3">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
@@ -425,7 +434,7 @@ const StudentProgressDashboard: React.FC = () => {
               </p>
               
               {/* Main Video Area */}
-              <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden">
+              <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
                 <div className="text-white text-center">
                   <div className="text-6xl mb-4">{currentLiveSession.thumbnail}</div>
                   <p className="text-lg">Watching {currentLiveSession.hostName}'s live session</p>

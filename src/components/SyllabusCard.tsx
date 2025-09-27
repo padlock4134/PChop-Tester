@@ -36,8 +36,8 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
 
   return (
     <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full">
-      <div className="p-4 bg-maineBlue text-seafoam font-retro">
-        <h3 className="text-xl">{title}</h3>
+      <div className="p-4 bg-yellow-400 text-maineBlue font-retro">
+        <h3 className="text-xl">✏️ {title}</h3>
       </div>
       
       <div className="p-4">

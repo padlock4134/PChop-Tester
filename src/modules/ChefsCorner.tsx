@@ -118,7 +118,6 @@ const ChefsCorner = () => {
   const currentQuote = getCurrentWeekQuote();
   const [localMarketsModalOpen, setLocalMarketsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'market' | 'kitchen'>('market');
 
   useEffect(() => {
     updateContext({ page: 'ChefsCorner' });
@@ -200,17 +199,17 @@ const ChefsCorner = () => {
       />
       
       <div className="max-w-6xl mx-auto mt-8">
-        {/* Chef's Corner header with emoji - Centered over market section, Hidden on Mobile */}
-        <header className="chefs-corner-header mb-6 hidden sm:flex flex-col items-center lg:w-2/3">
-          <div className="flex items-center justify-center mb-1">
-            <span className="text-5xl mr-2">🦐</span>
-            <h1 className="text-3xl font-retro text-maineBlue mb-0">Chefs Corner</h1>
-          </div>
-        </header>
-        
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Main Content */}
           <div className="lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue">
+            {/* Chef's Corner header - moved back inside the module */}
+            <div className="flex items-center justify-center mb-4">
+              <span className="text-5xl mr-2">🦐</span>
+              <h1 className="text-3xl font-retro text-maineBlue mb-0">Chefs Corner</h1>
+            </div>
+            
+            {/* Separation line */}
+            <hr className="border-t-2 border-maineBlue mb-6" />
             <div className="w-full mx-auto">
               {/* Shopping List - now at the top */}
               <section className="mb-8">
@@ -315,38 +314,11 @@ const ChefsCorner = () => {
                 "{currentQuote.quote}" — {currentQuote.chef}
               </p>
 
-              {/* Mobile Tab System */}
-              <div className="lg:hidden">
-            <div className="flex border-b border-gray-300 mb-6">
-              <button
-                onClick={() => setActiveTab('market')}
-                className={`flex-1 py-3 px-4 text-center font-bold transition-colors border-b-2 ${
-                  activeTab === 'market'
-                    ? 'border-maineBlue text-maineBlue bg-sand'
-                    : 'border-transparent text-gray-600 hover:text-maineBlue'
-                }`}
-              >
-                🛒 Market Directory
-              </button>
-              <button
-                onClick={() => setActiveTab('kitchen')}
-                className={`flex-1 py-3 px-4 text-center font-bold transition-colors border-b-2 ${
-                  activeTab === 'kitchen'
-                    ? 'border-maineBlue text-maineBlue bg-sand'
-                    : 'border-transparent text-gray-600 hover:text-maineBlue'
-                }`}
-              >
-                🍳 Test Kitchen
-              </button>
-            </div>
-            
-            {activeTab === 'market' && (
-              <div className="mb-6 mt-8">
-                {/* Market content can be added here if needed */}
+              {/* Global Test Kitchen - Mobile Only */}
+              <div className="lg:hidden mb-6">
+                <GlobalTestKitchen />
               </div>
-            )}
-            {activeTab === 'kitchen' && <GlobalTestKitchen />}
-          </div>
+
             </div>
           {/* Desktop Layout - Markets Directory */}
           <div className="hidden lg:block">

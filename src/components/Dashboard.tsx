@@ -18,11 +18,6 @@ const ModuleButton = ({ to, emoji, title, description, borderColor }) => (
 
 const Dashboard = () => (
   <div className="max-w-4xl mx-auto mt-6">
-    <div className="text-center mb-8">
-      <h1 className="text-4xl font-retro text-maineBlue">Welcome to your Student Dashboard</h1>
-      <p className="text-gray-600 italic mt-2">Click any module below to begin your culinary journey!</p>
-    </div>
-    
     <StudentProgressDashboard />
   </div>
 );

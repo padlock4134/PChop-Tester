@@ -73,6 +73,16 @@ const MyCookBook = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [recipeToShare, setRecipeToShare] = useState<Recipe | null>(null);
   const [flipped, setFlipped] = useState(false);
+  const [showCreateCollectionModal, setShowCreateCollectionModal] = useState(false);
+  const [showViewCollectionModal, setShowViewCollectionModal] = useState(false);
+  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
+  const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
+  const [newCollectionName, setNewCollectionName] = useState('');
+  const [collections, setCollections] = useState([
+    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
+    { id: '2', name: 'Quick Cook', emoji: '⚡', recipes: ['1', '2'] },
+    { id: '3', name: 'Healthy Options', emoji: '🥗', recipes: ['1', '2', '3', '4', '5'] }
+  ]);
 
   const { user } = useSupabase();
 
@@ -82,6 +92,46 @@ const MyCookBook = () => {
   
   // Categories for filtering
   const categories = ['All', 'Seafood', 'Meat', 'Vegetarian', 'Dessert'];
+
+  // Handle recipe selection for collections
+  const handleRecipeSelect = (recipeId: string) => {
+    setSelectedRecipes(prev => 
+      prev.includes(recipeId) 
+        ? prev.filter(id => id !== recipeId)
+        : [...prev, recipeId]
+    );
+  };
+
+  // Handle creating a new collection
+  const handleCreateCollection = () => {
+    if (newCollectionName.trim() && selectedRecipes.length > 0) {
+      const newCollection = {
+        id: Date.now().toString(),
+        name: newCollectionName.trim(),
+        emoji: '📁',
+        recipes: [...selectedRecipes]
+      };
+      setCollections(prev => [...prev, newCollection]);
+      setNewCollectionName('');
+      setSelectedRecipes([]);
+      setShowCreateCollectionModal(false);
+    }
+  };
+
+  // Handle viewing a collection
+  const handleViewCollection = (collection) => {
+    setSelectedCollection(collection);
+    setShowViewCollectionModal(true);
+  };
+
+  // Handle deleting a collection
+  const handleDeleteCollection = (collectionId: string) => {
+    if (window.confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
+      setCollections(prev => prev.filter(collection => collection.id !== collectionId));
+      setShowViewCollectionModal(false);
+      setSelectedCollection(null);
+    }
+  };
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
@@ -279,28 +329,17 @@ const MyCookBook = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
-      {/* My Cook Book header with emoji */}
-      <div className="flex items-center justify-center mb-6">
-        <span className="text-5xl mr-2">📖</span>
-        <h1 className="text-3xl font-retro text-maineBlue mb-0">My Cook Book</h1>
-      </div>
-      {/* Chef of the Day Quote */}
-      <div className="mb-6 p-4 border-l-4 border-seafoam rounded flex items-center">
-        <div className="mr-4 text-3xl" role="img" aria-label="chef-hat">👨‍🍳</div>
-        <div>
-          {/* Store quote in variable to avoid duplicate function calls */}
-          {(() => {
-            const quoteOfDay = getChefQuoteOfTheDay();
-            return (
-              <>
-                <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
-                <div className="font-retro text-seafoam font-bold text-right">— {quoteOfDay.chef}</div>
-              </>
-            );
-          })()}
-        </div>
-      </div>
+    <div className="max-w-6xl mx-auto mt-8">
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="lg:w-2/3 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+          {/* My Cook Book header - moved back inside the module */}
+          <div className="flex items-center justify-center mb-4">
+            <span className="text-5xl mr-2">📖</span>
+            <h1 className="text-3xl font-retro text-maineBlue mb-0">My Cook Book</h1>
+          </div>
+          
+          {/* Separation line */}
+          <hr className="border-t-2 border-maineBlue mb-6" />
       {showShareModal && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => {
         setShowShareModal(false);
@@ -375,40 +414,187 @@ const MyCookBook = () => {
       </div>
       )}
       
+      {/* Create Collection Modal */}
+      {showCreateCollectionModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => {
+          setShowCreateCollectionModal(false);
+          setNewCollectionName('');
+        }}>
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4 border-4 border-black" onClick={e => e.stopPropagation()}>
+            <h3 className="text-lg font-bold mb-4">Create New Collection</h3>
+            
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Collection Name
+              </label>
+              <input
+                type="text"
+                value={newCollectionName}
+                onChange={(e) => setNewCollectionName(e.target.value)}
+                placeholder="Enter collection name..."
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                autoFocus
+              />
+            </div>
+            
+            <div className="mb-4">
+              <p className="text-sm text-gray-600">
+                Selected recipes: {selectedRecipes.length}
+              </p>
+            </div>
+            
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setShowCreateCollectionModal(false);
+                  setNewCollectionName('');
+                }}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleCreateCollection}
+                disabled={!newCollectionName.trim()}
+                className={`px-4 py-2 rounded transition-colors ${
+                  newCollectionName.trim()
+                    ? 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'
+                    : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                Create Collection
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* View Collection Modal */}
+      {showViewCollectionModal && selectedCollection && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => {
+          setShowViewCollectionModal(false);
+          setSelectedCollection(null);
+        }}>
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4 border-4 border-black" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center mb-4">
+              <span className="text-2xl mr-2">{selectedCollection.emoji}</span>
+              <h3 className="text-lg font-bold">{selectedCollection.name}</h3>
+            </div>
+            
+            <div className="mb-4">
+              <p className="text-sm text-gray-600 mb-3">
+                Recipes in this collection ({selectedCollection.recipes.length}):
+              </p>
+              
+              <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+                {selectedCollection.recipes.map((recipeId, index) => {
+                  const recipe = recipes.find(r => r.id === recipeId);
+                  return (
+                    <div key={recipeId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
+                      <div className="flex items-center">
+                        <span className="mr-2">🍽️</span>
+                        <span className="text-sm">{recipe ? recipe.name : `Recipe ${index + 1}`}</span>
+                      </div>
+                      {recipe && recipe.healthTags && recipe.healthTags.length > 0 && (
+                        <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                          🥗
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+                {selectedCollection.recipes.length === 0 && (
+                  <div className="py-4 text-center text-gray-500 text-sm italic">
+                    No recipes in this collection yet.
+                  </div>
+                )}
+              </div>
+            </div>
+            
+            <div className="flex justify-between">
+              <button
+                onClick={() => handleDeleteCollection(selectedCollection.id)}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+              >
+                Delete Collection
+              </button>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowViewCollectionModal(false);
+                    setSelectedCollection(null);
+                  }}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => {
+                    // Future: Add edit collection functionality
+                    console.log('Edit collection:', selectedCollection.name);
+                  }}
+                  className="px-4 py-2 bg-seafoam text-maineBlue rounded hover:bg-maineBlue hover:text-seafoam transition-colors"
+                >
+                  Edit Collection
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
       {/* Search and Filters */}
       <div className="mb-6">
-        <div className="relative mb-4">
-          <input
-            type="text"
-            placeholder="Search recipes..."
-            className="pl-8 pr-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam w-full"
-            value={searchTerm}
+        <div className="flex gap-3 mb-4 items-center">
+          {/* Category Pick List */}
+          <select
+            value={activeCategory}
             onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentIndex(0); // Reset to first recipe on search
+              setActiveCategory(e.target.value);
+              setCurrentIndex(0); // Reset to first recipe on category change
             }}
-          />
-          <div className="absolute left-2 top-2.5 text-gray-400">🔍</div>
-        </div>
-      
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {categories.map(category => (
-            <button
-              key={category}
-              onClick={() => {
-                setActiveCategory(category);
-                setCurrentIndex(0); // Reset to first recipe on category change
+            className="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam bg-white text-sm min-w-[120px]"
+          >
+            {categories.map(category => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+          
+          {/* Search Bar */}
+          <div className="relative flex-1">
+            <input
+              type="text"
+              placeholder="Search recipes..."
+              className="pl-8 pr-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam w-full"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentIndex(0); // Reset to first recipe on search
               }}
-              className={`px-3 py-1 rounded-full text-sm ${
-                activeCategory === category
-                  ? 'bg-seafoam text-maineBlue font-medium'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              } transition-colors`}
+            />
+            <div className="absolute left-2 top-2.5 text-gray-400">🔍</div>
+          </div>
+          
+          {/* Navigation Buttons */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+              disabled={currentIndex === 0}
+              className={`px-3 py-2 rounded border border-black text-sm font-bold transition-colors ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
             >
-              {category}
+              Previous
             </button>
-          ))}
+            <button
+              onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
+              disabled={currentIndex === filteredRecipes.length - 1}
+              className={`px-3 py-2 rounded border border-black text-sm ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
       {/* Recipe Count */}
@@ -418,23 +604,6 @@ const MyCookBook = () => {
           : `Recipe ${currentIndex + 1} of ${filteredRecipes.length}`}
       </div>
 
-      {/* Navigation Buttons */}
-      <div className="flex justify-center gap-4 mb-4">
-        <button
-          onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
-          disabled={currentIndex === 0}
-          className={`px-4 py-2 rounded border border-black font-bold transition-colors ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
-        >
-          Previous
-        </button>
-        <button
-          onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
-          disabled={currentIndex === filteredRecipes.length - 1}
-          className={`px-4 py-2 rounded border border-black ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
-        >
-          Next
-        </button>
-      </div>
 
       {/* Digital Cookbook - Single Recipe */}
       <div className="mt-4">
@@ -587,6 +756,114 @@ const MyCookBook = () => {
       </div>
       <div className="mt-2 text-xs text-gray-500 text-center w-full italic">
         Scroll within boxes to see more content
+      </div>
+      
+      {/* Chef of the Day Quote - simplified text only */}
+      <div className="mt-6 text-center">
+        {(() => {
+          const quoteOfDay = getChefQuoteOfTheDay();
+          return (
+            <>
+              <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
+              <div className="text-gray-600">— {quoteOfDay.chef}</div>
+            </>
+          );
+        })()}
+      </div>
+        </div>
+        
+        {/* Collections Library - Right Side */}
+        <div className="lg:w-1/3">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
+            <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
+              <h3 className="text-xl">📚 Collections Library</h3>
+            </div>
+            
+            <div className="p-4">
+              {/* Existing Collections Section */}
+              <div className="mb-6">
+                <h4 className="font-bold text-maineBlue mb-3">📋 My Collections</h4>
+                
+                <div className="max-h-32 overflow-y-auto border border-gray-300 rounded p-2 bg-gray-50">
+                  {collections.map(collection => (
+                    <div 
+                      key={collection.id} 
+                      onClick={() => handleViewCollection(collection)}
+                      className="py-2 px-2 hover:bg-sand rounded cursor-pointer flex items-center justify-between"
+                    >
+                      <div className="flex items-center">
+                        <span className="mr-2">{collection.emoji}</span>
+                        <span className="text-sm">{collection.name}</span>
+                      </div>
+                      <span className="text-xs text-gray-500 bg-seafoam px-2 py-1 rounded-full">
+                        {collection.recipes.length}
+                      </span>
+                    </div>
+                  ))}
+                  {collections.length === 0 && (
+                    <div className="py-4 text-center text-gray-500 text-sm italic">
+                      No collections yet. Create your first one below!
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Create Collection Section */}
+              <div className="mb-6">
+                {recipes.length > 0 ? (
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-600 mb-3">Select recipes from your cookbook to add to collections:</p>
+                    
+                    <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+                      {recipes.map((recipe) => (
+                        <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              id={`recipe-${recipe.id}`}
+                              checked={selectedRecipes.includes(recipe.id)}
+                              onChange={() => handleRecipeSelect(recipe.id)}
+                              className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
+                            />
+                            <label htmlFor={`recipe-${recipe.id}`} className="text-sm cursor-pointer">
+                              {recipe.name}
+                            </label>
+                          </div>
+                          <div className="flex gap-1">
+                            {recipe.healthTags && recipe.healthTags.length > 0 && (
+                              <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                                🥗
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {/* Create Collection Button */}
+                    <button
+                      onClick={() => setShowCreateCollectionModal(true)}
+                      disabled={selectedRecipes.length === 0}
+                      className={`w-full mt-3 px-4 py-2 rounded border transition-colors ${
+                        selectedRecipes.length === 0 
+                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
+                          : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
+                      }`}
+                    >
+                      Create Collection ({selectedRecipes.length} selected)
+                    </button>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="text-4xl mb-2">📝</div>
+                    <p className="text-gray-500 text-sm">No recipes in your cookbook yet.</p>
+                    <p className="text-gray-500 text-sm">Add some recipes first to create collections!</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

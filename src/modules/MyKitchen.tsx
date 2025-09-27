@@ -169,13 +169,15 @@ const MyKitchen = () => {
 
   return (
     <>
-      {/* My Kitchen header with emoji - Outside container, Hidden on Mobile */}
-      <div className="hidden sm:flex items-center justify-center mb-6 mt-8">
-        <span className="text-5xl mr-2">🐟</span>
-        <h1 className="text-3xl font-retro text-maineBlue mb-0">My Kitchen</h1>
-      </div>
-      
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue">
+        {/* My Kitchen header - moved back inside the module */}
+        <div className="flex items-center justify-center mb-4">
+          <span className="text-5xl mr-2">🐟</span>
+          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Kitchen</h1>
+        </div>
+        
+        {/* Separation line */}
+        <hr className="border-t-2 border-maineBlue mb-6" />
       {/* Kitchen, Recipe Matcher, and Upload Photo Action Buttons */}
       <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
         {/* Scan status feedback */}

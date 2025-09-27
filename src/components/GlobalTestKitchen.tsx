@@ -500,9 +500,9 @@ END:VCALENDAR`;
 
   return (
     <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full min-h-[800px]">
-      <div className="p-4 bg-maineBlue text-seafoam font-retro">
-        <h2 className="text-xl flex items-center">
-          <GlobeAltIcon className="h-6 w-6 mr-2" />
+      <div className="p-4 bg-red-500 text-white font-retro text-center">
+        <h2 className="text-xl flex items-center justify-center">
+          <span className="text-2xl mr-2">🌍</span>
           Global Test Kitchen
         </h2>
       </div>
@@ -817,7 +817,7 @@ END:VCALENDAR`;
       {/* Live Session Modal */}
       {liveSessionModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-3 sm:p-6 w-full h-full sm:h-auto max-h-[95vh] overflow-y-auto relative flex flex-col lg:flex-row gap-3 sm:gap-6">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-3 sm:p-4 w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[70vh] lg:w-2/3 lg:max-h-[65vh] overflow-hidden relative flex flex-col lg:flex-row gap-2 sm:gap-4">
             <button
               onClick={() => setLiveSessionModalOpen(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
@@ -828,14 +828,14 @@ END:VCALENDAR`;
             
             {/* Left Side - Video */}
             <div className="flex-1">
-              <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
+              <h2 className="text-lg font-bold mb-2 text-center text-maineBlue">
                 {isViewer && currentLiveSession ? 
                   `🔴 LIVE: ${currentLiveSession.dishName}` : 
                   '🔴 LIVE: Cooking Session'
                 }
               </h2>
               {isViewer && currentLiveSession && (
-                <p className="text-center text-sm text-gray-600 mb-4">
+                <p className="text-center text-xs text-gray-600 mb-2">
                   Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
                 </p>
               )}
@@ -857,9 +857,9 @@ END:VCALENDAR`;
                 ) : (
                   // Show placeholder when not streaming
                   <div className="text-white text-center">
-                    <div className="text-6xl mb-4">👨‍🍳</div>
-                    <p className="text-lg">Live Cooking Session</p>
-                    <p className="text-sm opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
+                    <div className="text-4xl mb-2">👨‍🍳</div>
+                    <p className="text-sm">Live Cooking Session</p>
+                    <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
                   </div>
                 )}
                 
@@ -878,18 +878,18 @@ END:VCALENDAR`;
               </div>
 
               {/* Simple Controls */}
-              <div className="flex justify-center space-x-4 mt-4">
+              <div className="flex justify-center space-x-2 mt-2 mb-12">
                 {!isRecording ? (
                   <button 
                     onClick={startRecording}
-                    className="bg-lobsterRed text-weatheredWhite px-6 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
+                    className="bg-lobsterRed text-weatheredWhite px-4 py-1 text-sm rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
                   >
                     🔴 Go Live
                   </button>
                 ) : (
                   <button 
                     onClick={stopRecording}
-                    className="bg-red-500 text-white px-6 py-2 rounded-lg"
+                    className="bg-red-500 text-white px-4 py-1 text-sm rounded-lg"
                   >
                     ⏹️ End Live
                   </button>
@@ -897,7 +897,7 @@ END:VCALENDAR`;
               </div>
               
               {/* Recording Notice */}
-              <div className="text-center text-xs text-gray-600 mt-3">
+              <div className="text-center text-xs text-gray-600 mt-4">
                 📹 This session is being recorded
               </div>
             </div>
