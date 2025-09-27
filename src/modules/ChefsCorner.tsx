@@ -19,6 +19,7 @@ const ChefsCorner = () => {
   const [shoppingList, setShoppingList] = useState<string[]>([]);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'market' | 'kitchen'>('market');
 
   useEffect(() => {
     updateContext({ page: 'ChefsCorner' });
@@ -164,13 +165,44 @@ const ChefsCorner = () => {
           </section>
 
 
-          {/* Markets Directory */}
-          <MarketDirectory />
+          {/* Mobile Tab System */}
+          <div className="lg:hidden">
+            <div className="flex border-b border-gray-300 mb-6">
+              <button
+                onClick={() => setActiveTab('market')}
+                className={`flex-1 py-3 px-4 text-center font-bold transition-colors border-b-2 ${
+                  activeTab === 'market'
+                    ? 'border-maineBlue text-maineBlue bg-sand'
+                    : 'border-transparent text-gray-600 hover:text-maineBlue'
+                }`}
+              >
+                🛒 Market Directory
+              </button>
+              <button
+                onClick={() => setActiveTab('kitchen')}
+                className={`flex-1 py-3 px-4 text-center font-bold transition-colors border-b-2 ${
+                  activeTab === 'kitchen'
+                    ? 'border-maineBlue text-maineBlue bg-sand'
+                    : 'border-transparent text-gray-600 hover:text-maineBlue'
+                }`}
+              >
+                🍳 Test Kitchen
+              </button>
+            </div>
+            
+            {activeTab === 'market' && <MarketDirectory />}
+            {activeTab === 'kitchen' && <GlobalTestKitchen />}
+          </div>
+
+          {/* Desktop Layout - Markets Directory */}
+          <div className="hidden lg:block">
+            <MarketDirectory />
+          </div>
 
         </div>
 
-        {/* Right Sidebar */}
-        <div className="lg:w-1/3 space-y-6">
+        {/* Right Sidebar - Desktop Only */}
+        <div className="hidden lg:block lg:w-1/3 space-y-6">
           <GlobalTestKitchen />
           <ChefFreddieWidget />
         </div>

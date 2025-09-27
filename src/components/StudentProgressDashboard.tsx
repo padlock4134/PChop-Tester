@@ -402,7 +402,7 @@ const StudentProgressDashboard: React.FC = () => {
       {/* Live Session Modal */}
       {liveSessionModalOpen && currentLiveSession && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-6xl w-full relative flex gap-6">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-3 sm:p-6 w-full max-w-4xl h-full sm:h-auto max-h-[95vh] overflow-y-auto relative flex flex-col lg:flex-row gap-3 sm:gap-6">
             <button
               onClick={() => {
                 setLiveSessionModalOpen(false);
@@ -460,7 +460,7 @@ const StudentProgressDashboard: React.FC = () => {
             </div>
             
             {/* Right Side - Community Feed */}
-            <div className="w-80 border-l border-gray-200 pl-6">
+            <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-6 lg:pt-0 lg:pl-6">
               <h3 className="text-lg font-bold mb-4 text-maineBlue">
                 🌍 Community Feed
               </h3>
