@@ -816,8 +816,8 @@ END:VCALENDAR`;
 
       {/* Live Session Modal */}
       {liveSessionModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-6xl w-full relative flex gap-6">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-3 sm:p-6 w-full h-full sm:h-auto max-h-[95vh] overflow-y-auto relative flex flex-col lg:flex-row gap-3 sm:gap-6">
             <button
               onClick={() => setLiveSessionModalOpen(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
@@ -903,10 +903,32 @@ END:VCALENDAR`;
             </div>
             
             {/* Right Side - Community Feed */}
-            <div className="w-80 border-l border-gray-200 pl-6">
+            <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-6 lg:pt-0 lg:pl-6">
               <h3 className="text-lg font-bold mb-4 text-maineBlue">
                 🌍 Community Feed
               </h3>
+              
+              {/* Quick Post - Mobile Only (moved to top) */}
+              <div className="lg:hidden mb-4 pb-3 border-b border-gray-200">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm">👨‍🍳</span>
+                  <input
+                    type="text"
+                    value={newPost}
+                    onChange={(e) => setNewPost(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Share what you're cooking..."
+                    className="flex-1 text-xs border border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-maineBlue focus:border-transparent"
+                  />
+                  <button 
+                    onClick={handlePost}
+                    disabled={!newPost.trim()}
+                    className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
               
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {posts.slice(0, 5).map((post) => (
@@ -956,8 +978,8 @@ END:VCALENDAR`;
                 ))}
               </div>
               
-              {/* Quick Post */}
-              <div className="pt-3 border-t border-gray-200 mt-4">
+              {/* Quick Post - Desktop Only (original position) */}
+              <div className="hidden lg:block pt-3 border-t border-gray-200 mt-4">
                 <div className="flex items-center space-x-2">
                   <span className="text-sm">👨‍🍳</span>
                   <input

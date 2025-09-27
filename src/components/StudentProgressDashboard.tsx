@@ -465,6 +465,28 @@ const StudentProgressDashboard: React.FC = () => {
                 🌍 Community Feed
               </h3>
               
+              {/* Quick Post - Mobile Only (moved to top) */}
+              <div className="lg:hidden mb-4 pb-3 border-b border-gray-200">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm">👨‍🍳</span>
+                  <input
+                    type="text"
+                    value={newPost}
+                    onChange={(e) => setNewPost(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Share what you're cooking..."
+                    className="flex-1 text-xs border border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-maineBlue focus:border-transparent"
+                  />
+                  <button 
+                    onClick={handlePost}
+                    disabled={!newPost.trim()}
+                    className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+              
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {posts.slice(0, 5).map((post) => (
                   <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
@@ -513,8 +535,8 @@ const StudentProgressDashboard: React.FC = () => {
                 ))}
               </div>
               
-              {/* Quick Post */}
-              <div className="pt-3 border-t border-gray-200 mt-4">
+              {/* Quick Post - Desktop Only (original position) */}
+              <div className="hidden lg:block pt-3 border-t border-gray-200 mt-4">
                 <div className="flex items-center space-x-2">
                   <span className="text-sm">👨‍🍳</span>
                   <input

@@ -121,15 +121,15 @@ const ChefsCorner = () => {
           <header className="chefs-corner-header mb-6 flex flex-col items-center">
             <div className="flex items-center justify-center mb-1">
               <span className="text-5xl mr-2">🦐</span>
-              <h1 className="text-3xl font-retro text-maineBlue mb-0">Chefs Corner</h1>
+              <h1 className="text-3xl font-retro text-maineBlue mb-0">Chefs Corner</h1><br></br>
             </div>
-            <p className="text-lg text-gray-700 mb-4 text-center">Eat like a Mainer by shopping the freshest local markets.</p>
+            <p className="text-lg text-gray-700 mb-4 text-center">Eat like a Mainer by shopping YOUR local markets.</p>
           </header>
           {/* Shopping List - now at the top */}
           <section className="mb-8">
             <h2 className="text-xl font-bold text-maineBlue mb-3 text-center"></h2>
             <div className="bg-sand rounded shadow border border-black p-4 flex flex-col items-center max-w-lg mx-auto">
-              <p className="mb-2 text-gray-700 text-center">Import your saved recipes, build your list and shop everything you need.</p>
+              <p className="mb-2 text-gray-700 text-center">Create a shopping list from your saved recipes!</p>
               <button 
                 onClick={importFromCookBook} 
                 className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full border border-black"
