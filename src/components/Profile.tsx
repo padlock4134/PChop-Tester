@@ -307,13 +307,13 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
             onClick={onOpenRegistration}
             className="bg-lobsterRed text-weatheredWhite px-8 py-3 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
           >
-            Register for Classes
+            Register
           </button>
           <button 
             onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
             className="bg-seafoam text-maineBlue px-8 py-3 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
           >
-            Contact Professor
+            Contact
           </button>
         </div>
       </div>
@@ -346,7 +346,7 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
           </button>
         </div>
         
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {availableClasses.map((classItem, index) => (
             <div key={index} className="bg-weatheredWhite border-2 border-gray-300 rounded-lg p-4 flex flex-col text-center">
               <div className="flex-1 mb-4">
@@ -1405,18 +1405,26 @@ Automated calculations and formulas would be present`;
       <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 items-center mb-6">
         {/* Column 1: Avatar */}
         <div className="flex justify-center" style={{ minWidth: '120px' }}>
-          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-lg sm:text-xl overflow-hidden shrink-0 relative group">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-lg sm:text-xl overflow-hidden shrink-0 relative group border-2 border-black">
             {userProfile.avatar ? (
               <img 
                 src={userProfile.avatar} 
                 alt="Avatar" 
-                className="w-full h-full object-cover absolute inset-0" 
-                style={{ objectPosition: 'center' }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0
+                }}
+                onLoad={() => console.log('✅ Avatar loaded:', userProfile.avatar)}
+                onError={(e) => console.error('❌ Avatar failed:', userProfile.avatar, e)}
               />
             ) : (
               <span>{userProfile.name.slice(0, 2).toUpperCase()}</span>
             )}
-            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition-all duration-200 cursor-pointer">
+            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 flex items-center justify-center transition-all duration-200 cursor-pointer" style={{ zIndex: 10 }}>
               <label htmlFor="avatar-upload" className="text-white opacity-0 group-hover:opacity-100 cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
