@@ -817,7 +817,7 @@ END:VCALENDAR`;
       {/* Live Session Modal */}
       {liveSessionModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-3 sm:p-4 w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[70vh] lg:w-2/3 lg:max-h-[65vh] overflow-hidden relative flex flex-col lg:flex-row gap-2 sm:gap-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-3 sm:p-4 w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] overflow-y-auto relative flex flex-col lg:flex-row gap-2 sm:gap-4">
             <button
               onClick={() => setLiveSessionModalOpen(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
