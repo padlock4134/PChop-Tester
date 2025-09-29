@@ -75,6 +75,112 @@ const MyCookBook = () => {
   const [flipped, setFlipped] = useState(false);
   const [showCreateCollectionModal, setShowCreateCollectionModal] = useState(false);
   const [showViewCollectionModal, setShowViewCollectionModal] = useState(false);
+  const [showGradebookModal, setShowGradebookModal] = useState(false);
+  const [currentAssignmentPage, setCurrentAssignmentPage] = useState(0);
+  const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showVideoConfirmModal, setShowVideoConfirmModal] = useState(false);
+  const [selectedVideoOption, setSelectedVideoOption] = useState('');
+  const [submittedVideos, setSubmittedVideos] = useState<{[key: number]: string}>({});
+  const [currentStudentIndex, setCurrentStudentIndex] = useState(0);
+  
+  // Assignment data
+  const assignments = [
+    {
+      id: 1,
+      week: "Week 3",
+      title: "French Knife Skills & Mother Sauces",
+      emoji: "🔪",
+      dueDate: "Oct 15, 2024",
+      points: 100,
+      weight: "15%",
+      techniques: ["Julienne cuts (2mm strips)", "Brunoise dice (2mm cubes)", "Chiffonade herbs", "Proper knife grip"],
+      submission: ["Video demo (3-5 min)", "Photos of cuts", "Self-reflection", "Upload to cookbook"],
+      objectives: ["Safety protocols", "Uniform cuts", "Consistent speed", "Mise en place"],
+      studentName: "Sarah Chen",
+      videoTitle: "Knife Skills Demo"
+    },
+    {
+      id: 2,
+      week: "Week 5",
+      title: "Sauce Making & Emulsification",
+      emoji: "🥄",
+      dueDate: "Oct 29, 2024",
+      points: 100,
+      weight: "15%",
+      techniques: ["Hollandaise sauce", "Mayonnaise emulsion", "Beurre blanc", "Pan sauce reduction"],
+      submission: ["Video demonstration", "Sauce samples", "Temperature logs", "Technique notes"],
+      objectives: ["Temperature control", "Emulsion stability", "Flavor balance", "Professional presentation"],
+      studentName: "Sarah Chen",
+      videoTitle: "Sauce Emulsification Demo"
+    },
+    {
+      id: 3,
+      week: "Week 7",
+      title: "Protein Cookery & Temperature Control",
+      emoji: "🥩",
+      dueDate: "Nov 12, 2024",
+      points: 100,
+      weight: "15%",
+      techniques: ["Searing techniques", "Internal temperatures", "Resting periods", "Carryover cooking"],
+      submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
+      objectives: ["Food safety", "Proper doneness", "Texture control", "Flavor development"],
+      studentName: "Sarah Chen",
+      videoTitle: "Protein Cookery Demo"
+    }
+  ];
+
+  // Student data
+  const students = [
+    {
+      id: 1,
+      name: "Sarah Chen",
+      email: "sarah.chen@culinaryschool.edu",
+      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique"}
+    },
+    {
+      id: 2,
+      name: "Marcus Rodriguez",
+      email: "marcus.rodriguez@culinaryschool.edu", 
+      submittedVideos: {1: "knife-skills-demo", 3: "protein-cookery"}
+    },
+    {
+      id: 3,
+      name: "Emma Thompson",
+      email: "emma.thompson@culinaryschool.edu",
+      submittedVideos: {2: "sauce-technique"}
+    },
+    {
+      id: 4,
+      name: "David Kim",
+      email: "david.kim@culinaryschool.edu",
+      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique", 3: "protein-cookery"}
+    }
+  ];
+
+  // Mock grades for each student and assignment
+  const mockGrades = {
+    1: { // Sarah Chen
+      1: { total: 89, grade: "A-" }, // Assignment 1
+      2: { total: 92, grade: "A-" }, // Assignment 2
+      3: { total: 85, grade: "B+" }  // Assignment 3
+    },
+    2: { // Marcus Rodriguez
+      1: { total: 78, grade: "C+" },
+      2: { total: 88, grade: "B+" },
+      3: { total: 94, grade: "A" }
+    },
+    3: { // Emma Thompson
+      1: { total: 91, grade: "A-" },
+      2: { total: 87, grade: "B+" },
+      3: { total: 82, grade: "B-" }
+    },
+    4: { // David Kim
+      1: { total: 96, grade: "A" },
+      2: { total: 93, grade: "A" },
+      3: { total: 98, grade: "A+" }
+    }
+  };
+
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
@@ -131,6 +237,20 @@ const MyCookBook = () => {
       setShowViewCollectionModal(false);
       setSelectedCollection(null);
     }
+  };
+
+  // Handle opening gradebook
+  const handleOpenGradebook = () => {
+    setShowGradebookModal(true);
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+  };
+
+  // Handle closing gradebook
+  const handleCloseGradebook = () => {
+    setShowGradebookModal(false);
+    // Restore body scroll when modal is closed
+    document.body.style.overflow = 'unset';
   };
 
   const handleShare = async (platform: string = 'native') => {
@@ -852,6 +972,14 @@ const MyCookBook = () => {
                     >
                       Create Collection ({selectedRecipes.length} selected)
                     </button>
+
+                    {/* View Gradebook Button */}
+                    <button
+                      onClick={handleOpenGradebook}
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
+                    >
+                      📊 View Gradebook
+                    </button>
                   </div>
                 ) : (
                   <div className="text-center py-8">
@@ -865,6 +993,383 @@ const MyCookBook = () => {
           </div>
         </div>
       </div>
+
+      {/* Gradebook Modal - Book Style */}
+      {showGradebookModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={handleCloseGradebook}>
+          <div className="relative max-w-5xl w-[85%] mx-4 h-[68vh]" onClick={(e) => e.stopPropagation()}>
+            {/* Book Container */}
+            <div className="relative w-full h-full [perspective:2000px]">
+              {/* Book */}
+              <div className="relative w-full h-full bg-gradient-to-br from-amber-100 to-amber-200 rounded-lg shadow-2xl border-4 border-black [transform-style:preserve-3d]">
+                
+                {/* Book Spine Shadow */}
+                <div className="absolute left-1/2 top-0 bottom-0 w-4 bg-gradient-to-r from-amber-900 to-amber-700 transform -translate-x-1/2 z-10 rounded-sm shadow-inner"></div>
+                
+                {/* Left Page - Assignment Recipe Card */}
+                <div className="absolute left-0 top-0 w-1/2 h-full bg-white border-r-2 border-gray-300 rounded-l-lg p-6 overflow-hidden">
+                  {/* Assignment Recipe Card (matching CulinarySchool layout) */}
+                  <div className="flex flex-col bg-white rounded-2xl shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full relative">
+                    {/* Assignment Image */}
+                    <div className="w-full h-24 bg-gray-100 flex items-center justify-center border-b border-gray-200">
+                      <div className="text-center">
+                        <div className="text-3xl mb-1">{assignments[currentAssignmentPage].emoji}</div>
+                        <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} Assignment</div>
+                      </div>
+                    </div>
+
+                    {/* Assignment Details */}
+                    <div className="flex-1 p-3 bg-white flex flex-col justify-center text-center">
+                      {/* Dividing Line */}
+                      <hr className="border-t-2 border-amber-300 mb-3" />
+                      
+                      <h3 className="font-bold text-lg mb-2 text-maineBlue">{assignments[currentAssignmentPage].title}</h3>
+                      <div className="text-xs text-gray-600 mb-4">Due: {assignments[currentAssignmentPage].dueDate} | {assignments[currentAssignmentPage].points} pts | {assignments[currentAssignmentPage].weight}</div>
+                      
+                      <div className="space-y-3">
+                        <div>
+                          <div className="font-semibold mb-1 text-sm text-amber-800">Required Techniques</div>
+                          <div className="text-xs text-gray-700 leading-tight">
+                            {assignments[currentAssignmentPage].techniques.join(' • ')}
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="font-semibold mb-1 text-sm text-amber-800">Submission</div>
+                          <div className="text-xs text-gray-700 leading-tight">
+                            {assignments[currentAssignmentPage].submission.join(' • ')}
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="font-semibold mb-1 text-sm text-amber-800">Objectives</div>
+                          <div className="text-xs text-gray-700 leading-tight">
+                            {assignments[currentAssignmentPage].objectives.join(' • ')}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Dividing Line */}
+                      <hr className="border-t-2 border-amber-300 my-3" />
+
+                      {/* Student Submission Video */}
+                      <div className="text-center flex-1 flex flex-col">
+                        <div className="flex items-center justify-center gap-3 mb-2">
+                          <h4 className="font-serif font-semibold text-amber-800 text-sm">{students[currentStudentIndex].name} - My Submission</h4>
+                          <select 
+                            className={`text-xs border border-amber-300 rounded px-2 py-1 font-serif ${
+                              students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id] ? 'bg-green-50 text-green-800 cursor-not-allowed' : 'bg-white'
+                            }`}
+                            onChange={(e) => {
+                              if (e.target.value && !students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id]) {
+                                setSelectedVideoOption(e.target.value);
+                                setShowVideoConfirmModal(true);
+                              }
+                            }}
+                            value={students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id] || ""}
+                            disabled={!!students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id]}
+                          >
+                            <option value="">Select Video</option>
+                            <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
+                            <option value="sauce-technique">Sauce Technique.mp4</option>
+                            <option value="protein-cookery">Protein Cookery.mp4</option>
+                            <option value="plating-final">Final Plating.mp4</option>
+                          </select>
+                        </div>
+                        <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 flex-1 flex flex-col">
+                          <div className="flex-1 bg-gray-800 flex items-center justify-center relative">
+                            <div className="text-center text-white">
+                              <div className="text-4xl mb-2">▶️</div>
+                              <div className="text-sm">{assignments[currentAssignmentPage].videoTitle}</div>
+                              <div className="text-xs text-gray-300 mt-1">Submitted via Global Test Kitchen</div>
+                            </div>
+                            <button 
+                              onClick={() => setShowVideoModal(true)}
+                              className="absolute inset-0 w-full h-full bg-black bg-opacity-0 hover:bg-opacity-20 transition-all flex items-center justify-center"
+                            >
+                              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                                <div className="text-white text-2xl">▶️</div>
+                              </div>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Page - Grading & Feedback */}
+                <div className="absolute right-0 top-0 w-1/2 h-full bg-white border-l-2 border-gray-300 rounded-r-lg p-6 overflow-hidden flex flex-col">
+
+                  {/* Grading Rubric */}
+                  <div className="bg-white border-4 border-green-500 rounded-lg p-3 mb-3 shadow-sm flex-1">
+                    <div className="flex justify-between items-center mb-2">
+                      <h4 className="font-serif font-bold text-emerald-800 text-xs">📊 Rubric</h4>
+                      <select 
+                        className="bg-white border border-emerald-300 rounded px-2 py-1 text-xs font-serif"
+                        value={currentStudentIndex}
+                        onChange={(e) => setCurrentStudentIndex(Number(e.target.value))}
+                      >
+                        {students.map((student, index) => (
+                          <option key={student.id} value={index}>
+                            {student.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-1">
+                      {/* Technique Score */}
+                      <div className="bg-white/60 p-1 rounded border border-emerald-200">
+                        <div className="text-xs font-medium text-emerald-900 mb-1">Technique (25)</div>
+                        <select className="w-full text-xs border border-emerald-300 rounded px-1 py-0.5 bg-white">
+                          <option value="">Score</option>
+                          <option value="25">A (23-25)</option>
+                          <option value="22">B (20-22)</option>
+                          <option value="19">C (17-19)</option>
+                          <option value="16">D (15-16)</option>
+                          <option value="10">F (0-14)</option>
+                        </select>
+                      </div>
+
+                      {/* Safety Score */}
+                      <div className="bg-white/60 p-1 rounded border border-emerald-200">
+                        <div className="text-xs font-medium text-emerald-900 mb-1">Safety (25)</div>
+                        <select className="w-full text-xs border border-emerald-300 rounded px-1 py-0.5 bg-white">
+                          <option value="">Score</option>
+                          <option value="25">A (23-25)</option>
+                          <option value="22">B (20-22)</option>
+                          <option value="19">C (17-19)</option>
+                          <option value="16">D (15-16)</option>
+                          <option value="10">F (0-14)</option>
+                        </select>
+                      </div>
+
+                      {/* Consistency Score */}
+                      <div className="bg-white/60 p-1 rounded border border-emerald-200">
+                        <div className="text-xs font-medium text-emerald-900 mb-1">Consistency (25)</div>
+                        <select className="w-full text-xs border border-emerald-300 rounded px-1 py-0.5 bg-white">
+                          <option value="">Score</option>
+                          <option value="25">A (23-25)</option>
+                          <option value="22">B (20-22)</option>
+                          <option value="19">C (17-19)</option>
+                          <option value="16">D (15-16)</option>
+                          <option value="10">F (0-14)</option>
+                        </select>
+                      </div>
+
+                      {/* Presentation Score */}
+                      <div className="bg-white/60 p-1 rounded border border-emerald-200">
+                        <div className="text-xs font-medium text-emerald-900 mb-1">Presentation (25)</div>
+                        <select className="w-full text-xs border border-emerald-300 rounded px-1 py-0.5 bg-white">
+                          <option value="">Score</option>
+                          <option value="25">A (23-25)</option>
+                          <option value="22">B (20-22)</option>
+                          <option value="19">C (17-19)</option>
+                          <option value="16">D (15-16)</option>
+                          <option value="10">F (0-14)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Total Score */}
+                    <div className="mt-2 pt-2 border-t border-emerald-300 text-center py-3">
+                      <span className="text-xl font-bold text-red-600">
+                        Total: {mockGrades[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100 | 
+                        Grade: {mockGrades[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Instructor Feedback */}
+                  <div className="bg-white border-4 border-yellow-500 rounded-lg p-3 mb-3 shadow-sm">
+                    <h4 className="font-serif font-bold text-amber-800 mb-2 text-sm">💬 Feedback</h4>
+                    
+                    <textarea 
+                      placeholder="Feedback on technique and areas for improvement..."
+                      className="w-full h-16 text-sm border border-amber-300 rounded p-2 bg-white/80 resize-none focus:border-amber-500 focus:outline-none"
+                    />
+
+                    <div className="mt-2 flex space-x-2">
+                      <button className="flex-1 bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-2 rounded text-sm hover:bg-emerald-200 transition-all">
+                        💾 Save
+                      </button>
+                      <button className="flex-1 bg-blue-100 text-blue-800 border border-blue-300 px-3 py-2 rounded text-sm hover:bg-blue-200 transition-all">
+                        📧 Send
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Saved Feedback Notepad */}
+                  <div className="h-40 bg-white border-4 border-amber-700 rounded-lg p-3 shadow-sm">
+                    <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 Saved Feedback Notes</h4>
+                    
+                    <div className="bg-white/80 rounded border border-yellow-200 p-2 h-24 overflow-y-auto">
+                      <div className="space-y-2 text-xs">
+                        <div className="border-b border-gray-200 pb-2">
+                          <div className="font-medium text-gray-700 mb-1">Oct 28, 2024 - 2:15 PM</div>
+                          <div className="text-gray-600">
+                            "Great improvement on knife grip! Your julienne cuts are much more consistent than last week. 
+                            Focus on maintaining steady rhythm for the brunoise. Overall excellent progress."
+                          </div>
+                        </div>
+                        
+                        <div className="border-b border-gray-200 pb-2">
+                          <div className="font-medium text-gray-700 mb-1">Oct 21, 2024 - 1:45 PM</div>
+                          <div className="text-gray-600">
+                            "Good safety awareness throughout the demo. Work on keeping fingers curled more consistently 
+                            during chopping. Your mise en place organization was excellent."
+                          </div>
+                        </div>
+
+                        <div className="border-b border-gray-200 pb-2">
+                          <div className="font-medium text-gray-700 mb-1">Oct 14, 2024 - 3:20 PM</div>
+                          <div className="text-gray-600">
+                            "First knife skills assessment - showing natural talent! Remember to keep the knife tip on 
+                            the board for better control. Practice the rocking motion we discussed."
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Navigation Controls */}
+                <button 
+                  onClick={() => setCurrentAssignmentPage(prev => prev > 0 ? prev - 1 : assignments.length - 1)}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-maineBlue text-white hover:bg-blue-700 w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold shadow-lg z-20 transition-colors"
+                >
+                  ‹
+                </button>
+                
+                <button 
+                  onClick={() => setCurrentAssignmentPage(prev => prev < assignments.length - 1 ? prev + 1 : 0)}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-maineBlue text-white hover:bg-blue-700 w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold shadow-lg z-20 transition-colors"
+                >
+                  ›
+                </button>
+
+                {/* Page Indicator */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm z-20">
+                  {currentAssignmentPage + 1} of {assignments.length}
+                </div>
+
+
+                {/* Close Button */}
+                <button 
+                  onClick={handleCloseGradebook}
+                  className="absolute top-4 right-4 bg-amber-800 text-amber-100 hover:bg-amber-900 w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold shadow-lg z-20 transition-colors"
+                >
+                  ×
+                </button>
+
+                {/* Book Binding Details */}
+                <div className="absolute left-1/2 top-4 transform -translate-x-1/2 w-8 h-8 bg-amber-900 rounded-full shadow-inner z-20"></div>
+                <div className="absolute left-1/2 bottom-4 transform -translate-x-1/2 w-8 h-8 bg-amber-900 rounded-full shadow-inner z-20"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Video Modal */}
+      {showVideoModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setShowVideoModal(false)}>
+          <div className="relative max-w-4xl w-[90%] mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-black">
+              {/* Modal Header */}
+              <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-4 relative">
+                <div className="text-center">
+                  <h3 className="text-lg font-bold">{students[currentStudentIndex].name} - {assignments[currentAssignmentPage].videoTitle}</h3>
+                  <p className="text-sm opacity-90">{assignments[currentAssignmentPage].week}: {assignments[currentAssignmentPage].title}</p>
+                </div>
+                <button 
+                  onClick={() => setShowVideoModal(false)}
+                  className="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              
+              {/* Video Player */}
+              <div className="p-4 bg-gray-100">
+                <div className="bg-black aspect-video flex items-center justify-center border-2 border-gray-400 rounded-lg overflow-hidden shadow-lg">
+                  <div className="text-center text-white">
+                    <div className="text-6xl mb-4">▶️</div>
+                    <div className="text-xl mb-2">{assignments[currentAssignmentPage].videoTitle}</div>
+                    <div className="text-sm text-gray-300">Click to play video submission</div>
+                    <div className="text-xs text-gray-400 mt-2">Submitted via Global Test Kitchen</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Video Controls/Info */}
+              <div className="p-4 bg-gray-50">
+                <div className="flex justify-between items-center text-sm text-gray-600">
+                  <span>Assignment Due: {assignments[currentAssignmentPage].dueDate}</span>
+                  <span>Worth: {assignments[currentAssignmentPage].points} points ({assignments[currentAssignmentPage].weight})</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Video Confirmation Modal */}
+      {showVideoConfirmModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-black max-w-md w-[90%] mx-4">
+            {/* Modal Header */}
+            <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-4 text-center">
+              <h3 className="text-lg font-bold">Confirm Video Submission</h3>
+            </div>
+            
+            {/* Modal Content */}
+            <div className="p-6 text-center">
+              <div className="text-4xl mb-4">📹</div>
+              <p className="text-gray-700 mb-2">Are you sure you want to submit:</p>
+              <p className="font-bold text-maineBlue mb-4">
+                {selectedVideoOption === 'knife-skills-demo' && 'Knife Skills Demo.mp4'}
+                {selectedVideoOption === 'sauce-technique' && 'Sauce Technique.mp4'}
+                {selectedVideoOption === 'protein-cookery' && 'Protein Cookery.mp4'}
+                {selectedVideoOption === 'plating-final' && 'Final Plating.mp4'}
+              </p>
+              <p className="text-sm text-gray-600 mb-6">
+                For: {assignments[currentAssignmentPage].week} - {assignments[currentAssignmentPage].title}
+              </p>
+              
+              {/* Buttons */}
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => {
+                    setShowVideoConfirmModal(false);
+                    setSelectedVideoOption('');
+                  }}
+                  className="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded border hover:bg-gray-300 transition-colors"
+                >
+                  No, Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    // Set the submitted video for this specific assignment
+                    setSubmittedVideos(prev => ({
+                      ...prev,
+                      [assignments[currentAssignmentPage].id]: selectedVideoOption
+                    }));
+                    console.log('Video submitted for assignment', assignments[currentAssignmentPage].id, ':', selectedVideoOption);
+                    setShowVideoConfirmModal(false);
+                    setSelectedVideoOption('');
+                    // Could show success message here
+                  }}
+                  className="flex-1 bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 transition-colors"
+                >
+                  Yes, Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
