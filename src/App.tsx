@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import {
   AuthStatus,
   redirectToLogout,
@@ -34,6 +34,17 @@ import SwoopyArrow from './components/SwoopyArrow';
 
 const PUBLIC_ROUTES = ['/', '/AboutUs', '/KitchenComebacks', '/TenantWellness', '/Pricing'];
 const devOnlyPaymentBypass = (import.meta as any).env.VITE_PORKCHOP_DEV_ONLY_PAYMENT_BYPASS === 'true';
+
+const HomeRedirect = () => {
+  const { authStatus } = useWristbandAuth();
+  
+  if (authStatus === AuthStatus.AUTHENTICATED) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  
+  window.location.href = '/.netlify/functions/auth-login';
+  return null;
+};
 
 const AppRoutes = () => {
   const [showPlanModal, setShowPlanModal] = useState(false);
@@ -132,7 +143,7 @@ const AppRoutes = () => {
           <Route path="/KitchenComebacks" element={<KitchenComebacks />} />
           <Route path="/TenantWellness" element={<TenantWellness />} />
           <Route path="/Pricing" element={<Pricing />} />
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<HomeRedirect />} />
         </Routes>
       </main>
       {!isPublicRoute && <ChefFreddieWidget />}
