@@ -1201,10 +1201,10 @@ const MyCookBook = () => {
                   </div>
 
                   {/* Saved Feedback Notepad */}
-                  <div className="h-40 bg-white border-4 border-amber-700 rounded-lg p-3 shadow-sm">
+                  <div className="flex-1 bg-white border-4 border-amber-700 rounded-lg p-3 shadow-sm overflow-hidden flex flex-col">
                     <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 Saved Feedback Notes</h4>
                     
-                    <div className="bg-white/80 rounded border border-yellow-200 p-2 h-24 overflow-y-auto">
+                    <div className="bg-white/80 rounded border border-yellow-200 p-2 flex-1 overflow-y-auto">
                       <div className="space-y-2 text-xs">
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 28, 2024 - 2:15 PM</div>
