@@ -10,7 +10,7 @@ const WRISTBAND_CONFIG = {
   isApplicationCustomDomainActive: true,
   loginStateSecret: process.env.WRISTBAND_LOGIN_STATE_SECRET,
   loginUrl: process.env.WRISTBAND_LOGIN_URL,
-  parseTenantFromRootDomain: 'demo.porkchop.app',
+  parseTenantFromRootDomain: '',
   redirectUri: process.env.WRISTBAND_REDIRECT_URI,
   scopes: (process.env.WRISTBAND_SCOPES || 'openid,offline_access,email').split(','),
   wristbandApplicationVanityDomain: process.env.WRISTBAND_APPLICATION_VANITY_DOMAIN,
