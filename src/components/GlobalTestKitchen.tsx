@@ -199,18 +199,38 @@ const GlobalTestKitchen: React.FC = () => {
   const handleScheduleSession = async () => {
     if (scheduledDishName.trim() && scheduledCuisine && scheduledDescription.trim() && scheduledDate && scheduledTime) {
       try {
-        // Save to Supabase database (RLS will handle user_id automatically)
+        // Create new session object
+        const newSessionData = {
+          id: `session_${Date.now()}`,
+          dish_name: scheduledDishName,
+          cuisine: scheduledCuisine,
+          description: scheduledDescription,
+          scheduled_date: scheduledDate,
+          scheduled_time: scheduledTime,
+          session_type: scheduledSessionType,
+          teacher_tag: scheduledTeacher || null,
+          created_at: new Date().toISOString()
+        };
+
+        // Get current user's scheduled sessions and add new one
+        const { data: userData, error: fetchError } = await supabase
+          .from('users')
+          .select('scheduled_sessions')
+          .single();
+
+        if (fetchError) {
+          console.error('Error fetching user data:', fetchError);
+          alert('Failed to schedule session. Please try again.');
+          return;
+        }
+
+        const currentSessions = userData?.scheduled_sessions || [];
+        const updatedSessions = [newSessionData, ...currentSessions];
+
+        // Update user's scheduled_sessions JSONB column
         const { data, error } = await supabase
-          .from('scheduled_sessions')
-          .insert({
-            dish_name: scheduledDishName,
-            cuisine: scheduledCuisine,
-            description: scheduledDescription,
-            scheduled_date: scheduledDate,
-            scheduled_time: scheduledTime,
-            session_type: scheduledSessionType,
-            teacher_tag: scheduledTeacher || null
-          })
+          .from('users')
+          .update({ scheduled_sessions: updatedSessions })
           .select()
           .single();
 
@@ -226,7 +246,7 @@ const GlobalTestKitchen: React.FC = () => {
         
         // Add to local state for immediate UI update
         const newSession: UpcomingSession = {
-          id: data.id,
+          id: newSessionData.id,
           hostName: 'You',
           dishName: scheduledDishName,
           culture: scheduledCuisine,
