@@ -215,7 +215,7 @@ const GlobalTestKitchen: React.FC = () => {
         // Get current user's scheduled sessions and add new one
         const { data: userData, error: fetchError } = await supabase
           .from('users')
-          .select('scheduled_sessions')
+          .select('scheduled_sessions, id')
           .single();
 
         if (fetchError) {
@@ -227,10 +227,11 @@ const GlobalTestKitchen: React.FC = () => {
         const currentSessions = userData?.scheduled_sessions || [];
         const updatedSessions = [newSessionData, ...currentSessions];
 
-        // Update user's scheduled_sessions JSONB column
+        // Update user's scheduled_sessions JSONB column with WHERE clause
         const { data, error } = await supabase
           .from('users')
           .update({ scheduled_sessions: updatedSessions })
+          .eq('id', userData.id)
           .select()
           .single();
 
