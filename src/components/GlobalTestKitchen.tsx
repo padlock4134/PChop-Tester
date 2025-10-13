@@ -322,22 +322,28 @@ const GlobalTestKitchen: React.FC = () => {
   };
 
   const stopRecording = () => {
-    // Stop MediaRecorder if it exists
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-      mediaRecorder.stop();
+    // Ask user if they want to save
+    const shouldSave = confirm('Do you want to save this cooking session?');
+    
+    if (shouldSave) {
+      alert('Video saving feature coming soon! Session will end for now.');
     }
     
-    // Show save confirmation modal
-    setSaveConfirmModalOpen(true);
-  };
-
-  const handleEndSession = () => {
     // Stop camera/microphone
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
       setStream(null);
     }
     
+    setIsRecording(false);
+    setViewerCount(0);
+  };
+
+  const handleEndSession = () => {
+    // Reset states
+    setIsHost(false);
+    setIsViewer(false);
+    setCurrentLiveSession(null);
     setIsRecording(false);
     setViewerCount(0);
     setRecordedBlob(null);
