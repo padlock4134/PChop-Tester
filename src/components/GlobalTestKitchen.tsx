@@ -52,6 +52,7 @@ const GlobalTestKitchen: React.FC = () => {
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
   const [saveConfirmModalOpen, setSaveConfirmModalOpen] = useState(false);
   
+  
   // Recording states (simplified)
   const [isRecording, setIsRecording] = useState(false);
   const [viewerCount, setViewerCount] = useState(0);
@@ -322,13 +323,22 @@ const GlobalTestKitchen: React.FC = () => {
   };
 
   const stopRecording = () => {
-    // Ask user if they want to save
-    const shouldSave = confirm('Do you want to save this cooking session?');
-    
-    if (shouldSave) {
-      alert('Video saving feature coming soon! Session will end for now.');
-    }
-    
+    // Show save confirmation modal instead of browser confirm
+    setSaveConfirmModalOpen(true);
+  };
+
+  const handleSaveSession = () => {
+    setSaveConfirmModalOpen(false);
+    alert('Video saving feature coming soon! Session will end for now.');
+    endRecordingSession();
+  };
+
+  const handleDontSave = () => {
+    setSaveConfirmModalOpen(false);
+    endRecordingSession();
+  };
+
+  const endRecordingSession = () => {
     // Stop camera/microphone
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
@@ -1227,6 +1237,43 @@ END:VCALENDAR`;
                   📅 Schedule Session
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Save Confirmation Modal */}
+      {saveConfirmModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-md w-full mx-4 relative">
+            <div className="text-center">
+              <div className="text-4xl mb-4">🎥</div>
+              <h2 className="text-2xl font-bold mb-4 text-maineBlue font-retro">
+                Save Your Cooking Session?
+              </h2>
+              
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                You've just finished an amazing cooking session! Would you like to save this video to your <span className="font-semibold text-maineBlue">Test Kitchen Videos</span> collection?
+              </p>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={handleDontSave}
+                  className="flex-1 bg-gray-500 text-white py-3 px-4 rounded-lg font-bold hover:bg-gray-600 transition-colors border-2 border-gray-600"
+                >
+                  🚫 No, Don't Save
+                </button>
+                <button
+                  onClick={handleSaveSession}
+                  className="flex-1 bg-lobsterRed text-weatheredWhite py-3 px-4 rounded-lg font-bold hover:bg-red-600 transition-colors border-2 border-black"
+                >
+                  💾 Yes, Save Video!
+                </button>
+              </div>
+              
+              <p className="text-xs text-gray-500 mt-4">
+                💡 Saved videos can be shared with students and used for future reference
+              </p>
             </div>
           </div>
         </div>
