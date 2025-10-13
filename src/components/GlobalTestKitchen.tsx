@@ -318,17 +318,19 @@ const GlobalTestKitchen: React.FC = () => {
     const loadScheduledSessions = async () => {
       try {
         const { data, error } = await supabase
-          .from('scheduled_sessions')
-          .select('*')
-          .order('created_at', { ascending: false });
+          .from('users')
+          .select('scheduled_sessions')
+          .single();
 
         if (error) {
           console.error('Error loading scheduled sessions:', error);
           return;
         }
 
+        const scheduledSessions = data?.scheduled_sessions || [];
+        
         // Convert database format to component format
-        const sessions: UpcomingSession[] = data.map(session => ({
+        const sessions: UpcomingSession[] = scheduledSessions.map((session: any) => ({
           id: session.id,
           hostName: 'You',
           dishName: session.dish_name,
