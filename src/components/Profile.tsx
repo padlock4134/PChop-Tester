@@ -1475,28 +1475,21 @@ Automated calculations and formulas would be present`;
           
           {/* Show Talents Toggle */}
           <div className="flex flex-col items-center gap-1 mt-3">
-            <label className={`flex items-center gap-2 cursor-pointer select-none ${levelProgress.level < 10 ? 'opacity-50' : ''}`}>
+            <label className="flex items-center gap-2 cursor-pointer select-none">
               <span className="font-semibold text-xs">Show Talents</span>
               <span className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                 <input
                   type="checkbox"
                   checked={showTalents}
-                  onChange={() => {
-                    if (levelProgress.level >= 10) {
-                      setShowTalents(val => !val);
-                    }
-                  }}
-                  disabled={levelProgress.level < 10}
+                  onChange={() => setShowTalents(val => !val)}
                   className="sr-only peer"
                   id="talent-toggle"
                 />
                 <span
                   className={`block w-8 h-5 rounded-full shadow-inner transition-colors duration-200 ${
-                    levelProgress.level < 10 
-                      ? 'bg-gray-300 cursor-not-allowed' 
-                      : showTalents 
-                        ? 'bg-maineBlue' 
-                        : 'bg-gray-300'
+                    showTalents 
+                      ? 'bg-maineBlue' 
+                      : 'bg-gray-300'
                   }`}
                 ></span>
                 <span
@@ -1506,11 +1499,6 @@ Automated calculations and formulas would be present`;
                 ></span>
               </span>
             </label>
-            {levelProgress.level < 10 && (
-              <div className="text-xs text-red-500 text-center">
-                Available at Level 10
-              </div>
-            )}
           </div>
         </div>
       </div>
