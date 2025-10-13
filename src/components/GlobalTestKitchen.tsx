@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { PlayIcon, VideoCameraIcon, UserGroupIcon, GlobeAltIcon, HeartIcon, ChatBubbleOvalLeftIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { PlayIcon as PlaySolidIcon, HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
+import { supabase } from '../api/supabaseClient';
 // Removed RecordRTC import to improve performance
 
 interface LiveSession {
@@ -49,6 +50,7 @@ const GlobalTestKitchen: React.FC = () => {
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   const [liveSessionModalOpen, setLiveSessionModalOpen] = useState(false);
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
+  const [saveConfirmModalOpen, setSaveConfirmModalOpen] = useState(false);
   
   // Recording states (simplified)
   const [isRecording, setIsRecording] = useState(false);
@@ -56,6 +58,9 @@ const GlobalTestKitchen: React.FC = () => {
   const [newPost, setNewPost] = useState('');
   const [stream, setStream] = useState<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
   
   // Schedule form states
   const [scheduledDishName, setScheduledDishName] = useState('');
@@ -287,6 +292,27 @@ const GlobalTestKitchen: React.FC = () => {
         videoRef.current.play().catch(console.error);
       }
       
+      // Set up MediaRecorder for video recording
+      const recorder = new MediaRecorder(mediaStream, {
+        mimeType: 'video/webm;codecs=vp9'
+      });
+      
+      const chunks: BlobPart[] = [];
+      
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      };
+      
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        setRecordedBlob(blob);
+      };
+      
+      recorder.start();
+      setMediaRecorder(recorder);
+      
       setIsRecording(true);
       setViewerCount(Math.floor(Math.random() * 30) + 15);
     } catch (error) {
@@ -296,6 +322,16 @@ const GlobalTestKitchen: React.FC = () => {
   };
 
   const stopRecording = () => {
+    // Stop MediaRecorder if it exists
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.stop();
+    }
+    
+    // Show save confirmation modal
+    setSaveConfirmModalOpen(true);
+  };
+
+  const handleEndSession = () => {
     // Stop camera/microphone
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
@@ -304,6 +340,50 @@ const GlobalTestKitchen: React.FC = () => {
     
     setIsRecording(false);
     setViewerCount(0);
+    setRecordedBlob(null);
+    setMediaRecorder(null);
+    setSaveConfirmModalOpen(false);
+  };
+
+  const saveVideoToSupabase = async () => {
+    if (!recordedBlob) {
+      alert('No recording found to save.');
+      return;
+    }
+
+    setIsSaving(true);
+    
+    try {
+      // Generate unique filename
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const filename = `test-kitchen-session-${timestamp}.webm`;
+      
+      // Upload to Supabase Storage
+      const { data, error } = await supabase.storage
+        .from('Test Kitchen Videos')
+        .upload(filename, recordedBlob, {
+          contentType: 'video/webm',
+          upsert: false
+        });
+
+      if (error) {
+        console.error('Upload error:', error);
+        alert('Failed to save video. Please try again.');
+        return;
+      }
+
+      console.log('Video saved successfully:', data);
+      alert('Video saved successfully to Test Kitchen Videos!');
+      
+      // End the session after successful save
+      handleEndSession();
+      
+    } catch (error) {
+      console.error('Error saving video:', error);
+      alert('Failed to save video. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Calendar functions
