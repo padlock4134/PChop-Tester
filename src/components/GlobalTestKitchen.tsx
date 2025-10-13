@@ -199,10 +199,20 @@ const GlobalTestKitchen: React.FC = () => {
   const handleScheduleSession = async () => {
     if (scheduledDishName.trim() && scheduledCuisine && scheduledDescription.trim() && scheduledDate && scheduledTime) {
       try {
+        // Get current user
+        const { data: { user } } = await supabase.auth.getUser();
+        console.log('Current user:', user);
+        
+        if (!user) {
+          alert('You must be logged in to schedule sessions.');
+          return;
+        }
+        
         // Save to Supabase database
         const { data, error } = await supabase
           .from('scheduled_sessions')
           .insert({
+            user_id: user.id,
             dish_name: scheduledDishName,
             cuisine: scheduledCuisine,
             description: scheduledDescription,
