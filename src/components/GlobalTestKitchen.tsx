@@ -394,7 +394,10 @@ const GlobalTestKitchen: React.FC = () => {
       }
 
       console.log('Video saved successfully:', data);
-      alert(`Video "${videoTitle}" saved successfully to Test Kitchen Videos!`);
+      
+      // Show branded success modal instead of alert
+      setSavedVideoTitle(videoTitle);
+      setSuccessModalOpen(true);
       
       // Clear form data
       setVideoTitle('');
