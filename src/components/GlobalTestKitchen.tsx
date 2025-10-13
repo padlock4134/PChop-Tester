@@ -372,6 +372,10 @@ const GlobalTestKitchen: React.FC = () => {
       
       console.log('Attempting to upload:', filename, 'Size:', recordedBlob.size);
       
+      // First, let's list available buckets to debug
+      const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+      console.log('Available buckets:', buckets, 'Error:', bucketsError);
+      
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
         .from('test-kitchen-videos')
