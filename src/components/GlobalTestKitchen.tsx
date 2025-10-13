@@ -63,6 +63,11 @@ const GlobalTestKitchen: React.FC = () => {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   
+  // Video metadata for saving
+  const [videoTitle, setVideoTitle] = useState('');
+  const [videoDescription, setVideoDescription] = useState('');
+  const [videoCuisine, setVideoCuisine] = useState('');
+  
   // Schedule form states
   const [scheduledDishName, setScheduledDishName] = useState('');
   const [scheduledCuisine, setScheduledCuisine] = useState('');
