@@ -51,6 +51,8 @@ const GlobalTestKitchen: React.FC = () => {
   const [liveSessionModalOpen, setLiveSessionModalOpen] = useState(false);
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
   const [saveConfirmModalOpen, setSaveConfirmModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [savedVideoTitle, setSavedVideoTitle] = useState('');
   
   
   // Recording states (simplified)
@@ -1419,6 +1421,45 @@ END:VCALENDAR`;
               <p className="text-xs text-gray-500 mt-4">
                 💡 * Required field. Saved videos can be shared with students and used for future reference
               </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Modal */}
+      {successModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-500 p-6 max-w-md w-full mx-4 relative">
+            <div className="text-center">
+              <div className="text-6xl mb-4">🎉</div>
+              <h2 className="text-2xl font-bold mb-4 text-green-600 font-retro">
+                Video Saved Successfully!
+              </h2>
+              
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <p className="text-green-800 font-semibold mb-2">
+                  "🎥 {savedVideoTitle}"
+                </p>
+                <p className="text-green-700 text-sm">
+                  Your cooking session has been saved to <span className="font-bold">Test Kitchen Videos</span> and is ready to share with students!
+                </p>
+              </div>
+              
+              <div className="space-y-3">
+                <button
+                  onClick={() => {
+                    setSuccessModalOpen(false);
+                    setSavedVideoTitle('');
+                  }}
+                  className="w-full bg-green-500 text-white py-3 px-4 rounded-lg font-bold hover:bg-green-600 transition-colors border-2 border-green-600"
+                >
+                  👍 Awesome!
+                </button>
+                
+                <p className="text-xs text-gray-500">
+                  📚 Your video is now available in the Test Kitchen Videos collection
+                </p>
+              </div>
             </div>
           </div>
         </div>
