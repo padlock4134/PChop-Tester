@@ -996,37 +996,43 @@ const MyCookBook = () => {
 
       {/* Gradebook Modal - Book Style */}
       {showGradebookModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={handleCloseGradebook}>
-          <div className="relative max-w-5xl w-[85%] mx-4 h-[68vh]" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={handleCloseGradebook}>
+          <div className="relative w-full max-w-5xl mx-auto h-[85vh] lg:h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
             {/* Book Container */}
-            <div className="relative w-full h-full [perspective:2000px]">
-              {/* Book */}
-              <div className="relative w-full h-full bg-gradient-to-br from-amber-100 to-amber-200 rounded-lg shadow-2xl border-4 border-black [transform-style:preserve-3d]">
+            <div className="relative w-full h-full overflow-hidden">
+              {/* Book - Responsive: Stack on mobile, side-by-side on desktop */}
+              <div className="relative w-full h-full bg-gradient-to-br from-amber-100 to-amber-200 rounded-lg shadow-2xl border-4 border-black flex flex-col">
                 
-                {/* Book Spine Shadow */}
-                <div className="absolute left-1/2 top-0 bottom-0 w-4 bg-gradient-to-r from-amber-900 to-amber-700 transform -translate-x-1/2 z-10 rounded-sm shadow-inner"></div>
+                {/* Book Spine Shadow - Hidden on mobile */}
+                <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-4 bg-gradient-to-r from-amber-900 to-amber-700 transform -translate-x-1/2 z-10 rounded-sm shadow-inner"></div>
                 
-                {/* Left Page - Assignment Recipe Card */}
-                <div className="absolute left-0 top-0 w-1/2 h-full bg-white border-r-2 border-gray-300 rounded-l-lg p-6 overflow-hidden">
-                  {/* Assignment Recipe Card (matching CulinarySchool layout) */}
-                  <div className="flex flex-col bg-white rounded-2xl shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full relative">
-                    {/* Assignment Image */}
-                    <div className="w-full h-24 bg-gray-100 flex items-center justify-center border-b border-gray-200">
-                      <div className="text-center">
-                        <div className="text-3xl mb-1">{assignments[currentAssignmentPage].emoji}</div>
-                        <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} Assignment</div>
+                {/* Pages Container - Flex column on mobile, row on desktop */}
+                <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
+                  {/* Left Page - Assignment Recipe Card */}
+                  <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white border-b lg:border-b-0 lg:border-r-2 border-gray-300 rounded-t-lg lg:rounded-t-none lg:rounded-l-lg p-3 lg:p-4 overflow-y-auto">
+                    {/* Assignment Recipe Card (matching CulinarySchool layout) */}
+                    <div className="flex flex-col bg-white rounded-2xl shadow-lg border-2 lg:border-4 border-maineBlue w-full">
+                      {/* Assignment Image */}
+                      <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b border-gray-200">
+                        <div className="text-center">
+                          <div className="text-2xl lg:text-3xl mb-1">{assignments[currentAssignmentPage].emoji}</div>
+                          <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} Assignment</div>
                       </div>
                     </div>
 
-                    {/* Assignment Details */}
-                    <div className="flex-1 p-3 bg-white flex flex-col justify-center text-center">
+                      {/* Assignment Details */}
+                      <div className="p-2 lg:p-3 bg-white text-center">
                       {/* Dividing Line */}
                       <hr className="border-t-2 border-amber-300 mb-3" />
                       
-                      <h3 className="font-bold text-lg mb-2 text-maineBlue">{assignments[currentAssignmentPage].title}</h3>
-                      <div className="text-xs text-gray-600 mb-4">Due: {assignments[currentAssignmentPage].dueDate} | {assignments[currentAssignmentPage].points} pts | {assignments[currentAssignmentPage].weight}</div>
+                        <h3 className="font-bold text-base lg:text-lg mb-2 text-maineBlue">{assignments[currentAssignmentPage].title}</h3>
+                        <div className="text-xs text-gray-600 mb-2 lg:mb-4">
+                          <span className="block lg:inline">Due: {assignments[currentAssignmentPage].dueDate}</span>
+                          <span className="hidden lg:inline"> | </span>
+                          <span className="block lg:inline">{assignments[currentAssignmentPage].points} pts | {assignments[currentAssignmentPage].weight}</span>
+                        </div>
                       
-                      <div className="space-y-3">
+                        <div className="space-y-2 lg:space-y-3">
                         <div>
                           <div className="font-semibold mb-1 text-sm text-amber-800">Required Techniques</div>
                           <div className="text-xs text-gray-700 leading-tight">
@@ -1052,10 +1058,10 @@ const MyCookBook = () => {
                       {/* Dividing Line */}
                       <hr className="border-t-2 border-amber-300 my-3" />
 
-                      {/* Student Submission Video */}
-                      <div className="text-center flex-1 flex flex-col">
-                        <div className="flex items-center justify-center gap-3 mb-2">
-                          <h4 className="font-serif font-semibold text-amber-800 text-sm">{students[currentStudentIndex].name} - My Submission</h4>
+                        {/* Student Submission Video */}
+                        <div className="text-center mt-2">
+                          <div className="flex flex-col lg:flex-row items-center justify-center gap-1 lg:gap-2 mb-2">
+                            <h4 className="font-serif font-semibold text-amber-800 text-sm">{students[currentStudentIndex].name} - Submission</h4>
                           <select 
                             className={`text-xs border border-amber-300 rounded px-2 py-1 font-serif ${
                               students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id] ? 'bg-green-50 text-green-800 cursor-not-allowed' : 'bg-white'
@@ -1076,12 +1082,13 @@ const MyCookBook = () => {
                             <option value="plating-final">Final Plating.mp4</option>
                           </select>
                         </div>
-                        <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 flex-1 flex flex-col">
-                          <div className="flex-1 bg-gray-800 flex items-center justify-center relative">
-                            <div className="text-center text-white">
-                              <div className="text-4xl mb-2">▶️</div>
-                              <div className="text-sm">{assignments[currentAssignmentPage].videoTitle}</div>
-                              <div className="text-xs text-gray-300 mt-1">Submitted via Global Test Kitchen</div>
+                          <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 h-[100px] lg:h-[120px] relative">
+                            <div className="h-full bg-gray-800 flex items-center justify-center">
+                              <div className="text-center text-white p-2">
+                                <div className="text-2xl lg:text-3xl mb-1">▶️</div>
+                                <div className="text-xs">{assignments[currentAssignmentPage].videoTitle}</div>
+                                <div className="text-xs text-gray-300 mt-1 hidden lg:block">Submitted via Global Test Kitchen</div>
+                              </div>
                             </div>
                             <button 
                               onClick={() => setShowVideoModal(true)}
@@ -1096,15 +1103,15 @@ const MyCookBook = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                  </div>
 
-                {/* Right Page - Grading & Feedback */}
-                <div className="absolute right-0 top-0 w-1/2 h-full bg-white border-l-2 border-gray-300 rounded-r-lg p-6 overflow-hidden flex flex-col">
+                  {/* Right Page - Grading & Feedback */}
+                  <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 overflow-y-auto flex flex-col">
 
-                  {/* Grading Rubric */}
-                  <div className="bg-white border-4 border-green-500 rounded-lg p-3 mb-3 shadow-sm flex-1">
-                    <div className="flex justify-between items-center mb-2">
-                      <h4 className="font-serif font-bold text-emerald-800 text-xs">📊 Rubric</h4>
+                    {/* Grading Rubric */}
+                    <div className="bg-white border-2 lg:border-4 border-green-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm">
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
+                        <h4 className="font-serif font-bold text-emerald-800 text-sm lg:text-xs">📊 Rubric</h4>
                       <select 
                         className="bg-white border border-emerald-300 rounded px-2 py-1 text-xs font-serif"
                         value={currentStudentIndex}
@@ -1118,11 +1125,11 @@ const MyCookBook = () => {
                       </select>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-1">
-                      {/* Technique Score */}
-                      <div className="bg-white/60 p-1 rounded border border-emerald-200">
-                        <div className="text-xs font-medium text-emerald-900 mb-1">Technique (25)</div>
-                        <select className="w-full text-xs border border-emerald-300 rounded px-1 py-0.5 bg-white">
+                      <div className="grid grid-cols-2 gap-1 lg:gap-1">
+                        {/* Technique Score */}
+                        <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
+                          <div className="text-xs font-medium text-emerald-900 mb-1">Technique (25)</div>
+                          <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
                           <option value="">Score</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
@@ -1132,10 +1139,10 @@ const MyCookBook = () => {
                         </select>
                       </div>
 
-                      {/* Safety Score */}
-                      <div className="bg-white/60 p-1 rounded border border-emerald-200">
-                        <div className="text-xs font-medium text-emerald-900 mb-1">Safety (25)</div>
-                        <select className="w-full text-xs border border-emerald-300 rounded px-1 py-0.5 bg-white">
+                        {/* Safety Score */}
+                        <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
+                          <div className="text-xs font-medium text-emerald-900 mb-1">Safety (25)</div>
+                          <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
                           <option value="">Score</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
@@ -1145,10 +1152,10 @@ const MyCookBook = () => {
                         </select>
                       </div>
 
-                      {/* Consistency Score */}
-                      <div className="bg-white/60 p-1 rounded border border-emerald-200">
-                        <div className="text-xs font-medium text-emerald-900 mb-1">Consistency (25)</div>
-                        <select className="w-full text-xs border border-emerald-300 rounded px-1 py-0.5 bg-white">
+                        {/* Consistency Score */}
+                        <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
+                          <div className="text-xs font-medium text-emerald-900 mb-1">Consistency (25)</div>
+                          <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
                           <option value="">Score</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
@@ -1158,10 +1165,10 @@ const MyCookBook = () => {
                         </select>
                       </div>
 
-                      {/* Presentation Score */}
-                      <div className="bg-white/60 p-1 rounded border border-emerald-200">
-                        <div className="text-xs font-medium text-emerald-900 mb-1">Presentation (25)</div>
-                        <select className="w-full text-xs border border-emerald-300 rounded px-1 py-0.5 bg-white">
+                        {/* Presentation Score */}
+                        <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
+                          <div className="text-xs font-medium text-emerald-900 mb-1">Presentation (25)</div>
+                          <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
                           <option value="">Score</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
@@ -1172,37 +1179,38 @@ const MyCookBook = () => {
                       </div>
                     </div>
 
-                    {/* Total Score */}
-                    <div className="mt-2 pt-2 border-t border-emerald-300 text-center py-3">
-                      <span className="text-xl font-bold text-red-600">
-                        Total: {mockGrades[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100 | 
-                        Grade: {mockGrades[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}
-                      </span>
+                      {/* Total Score */}
+                      <div className="mt-2 pt-2 border-t border-emerald-300 text-center py-2 lg:py-3">
+                        <span className="text-base lg:text-xl font-bold text-red-600">
+                          <span className="block lg:inline">Total: {mockGrades[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100</span>
+                          <span className="hidden lg:inline"> | </span>
+                          <span className="block lg:inline">Grade: {mockGrades[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Instructor Feedback */}
+                    <div className="bg-white border-2 lg:border-4 border-yellow-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm">
+                      <h4 className="font-serif font-bold text-amber-800 mb-1 lg:mb-2 text-sm">💬 Feedback</h4>
+                      
+                      <textarea 
+                        placeholder="Feedback on technique and areas for improvement..."
+                        className="w-full h-16 lg:h-14 text-xs border border-amber-300 rounded p-2 bg-white/80 resize-none focus:border-amber-500 focus:outline-none"
+                      />
+
+                      <div className="mt-2 flex space-x-2">
+                        <button className="flex-1 bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-1 lg:px-3 lg:py-2 rounded text-xs hover:bg-emerald-200 transition-all">
+                          💾 Save
+                        </button>
+                        <button className="flex-1 bg-blue-100 text-blue-800 border border-blue-300 px-2 py-1 lg:px-3 lg:py-2 rounded text-xs hover:bg-blue-200 transition-all">
+                          📧 Send
+                        </button>
                     </div>
                   </div>
 
-                  {/* Instructor Feedback */}
-                  <div className="bg-white border-4 border-yellow-500 rounded-lg p-3 mb-3 shadow-sm">
-                    <h4 className="font-serif font-bold text-amber-800 mb-2 text-sm">💬 Feedback</h4>
-                    
-                    <textarea 
-                      placeholder="Feedback on technique and areas for improvement..."
-                      className="w-full h-16 text-sm border border-amber-300 rounded p-2 bg-white/80 resize-none focus:border-amber-500 focus:outline-none"
-                    />
-
-                    <div className="mt-2 flex space-x-2">
-                      <button className="flex-1 bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-2 rounded text-sm hover:bg-emerald-200 transition-all">
-                        💾 Save
-                      </button>
-                      <button className="flex-1 bg-blue-100 text-blue-800 border border-blue-300 px-3 py-2 rounded text-sm hover:bg-blue-200 transition-all">
-                        📧 Send
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Saved Feedback Notepad */}
-                  <div className="flex-1 bg-white border-4 border-amber-700 rounded-lg p-3 shadow-sm overflow-hidden flex flex-col">
-                    <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 Saved Feedback Notes</h4>
+                    {/* Saved Feedback Notepad */}
+                    <div className="bg-white border-2 lg:border-4 border-amber-700 rounded-lg p-2 lg:p-3 shadow-sm overflow-hidden flex flex-col max-h-[150px] lg:max-h-[200px]">
+                      <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 Saved Feedback Notes</h4>
                     
                     <div className="bg-white/80 rounded border border-yellow-200 p-2 flex-1 overflow-y-auto">
                       <div className="space-y-2 text-xs">
@@ -1234,38 +1242,38 @@ const MyCookBook = () => {
                   </div>
                 </div>
 
-                {/* Navigation Controls */}
+                {/* Navigation Controls - Touch-friendly sizing */}
                 <button 
                   onClick={() => setCurrentAssignmentPage(prev => prev > 0 ? prev - 1 : assignments.length - 1)}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-maineBlue text-white hover:bg-blue-700 w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold shadow-lg z-20 transition-colors"
+                  className="absolute left-2 lg:left-4 top-1/2 transform -translate-y-1/2 bg-maineBlue text-white hover:bg-blue-700 w-11 h-11 lg:w-10 lg:h-10 rounded-full flex items-center justify-center text-xl font-bold shadow-lg z-20 transition-colors"
                 >
                   ‹
                 </button>
                 
                 <button 
                   onClick={() => setCurrentAssignmentPage(prev => prev < assignments.length - 1 ? prev + 1 : 0)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-maineBlue text-white hover:bg-blue-700 w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold shadow-lg z-20 transition-colors"
+                  className="absolute right-2 lg:right-4 top-1/2 transform -translate-y-1/2 bg-maineBlue text-white hover:bg-blue-700 w-11 h-11 lg:w-10 lg:h-10 rounded-full flex items-center justify-center text-xl font-bold shadow-lg z-20 transition-colors"
                 >
                   ›
                 </button>
 
                 {/* Page Indicator */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm z-20">
+                <div className="absolute bottom-2 lg:bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-xs lg:text-sm z-20">
                   {currentAssignmentPage + 1} of {assignments.length}
                 </div>
 
 
-                {/* Close Button */}
+                {/* Close Button - Touch-friendly */}
                 <button 
                   onClick={handleCloseGradebook}
-                  className="absolute top-4 right-4 bg-amber-800 text-amber-100 hover:bg-amber-900 w-10 h-10 rounded-full flex items-center justify-center text-xl font-bold shadow-lg z-20 transition-colors"
+                  className="absolute top-2 right-2 lg:top-4 lg:right-4 bg-amber-800 text-amber-100 hover:bg-amber-900 w-11 h-11 lg:w-10 lg:h-10 rounded-full flex items-center justify-center text-xl font-bold shadow-lg z-20 transition-colors"
                 >
                   ×
                 </button>
 
-                {/* Book Binding Details */}
-                <div className="absolute left-1/2 top-4 transform -translate-x-1/2 w-8 h-8 bg-amber-900 rounded-full shadow-inner z-20"></div>
-                <div className="absolute left-1/2 bottom-4 transform -translate-x-1/2 w-8 h-8 bg-amber-900 rounded-full shadow-inner z-20"></div>
+                {/* Book Binding Details - Hidden on mobile */}
+                <div className="hidden lg:block absolute left-1/2 top-4 transform -translate-x-1/2 w-8 h-8 bg-amber-900 rounded-full shadow-inner z-20"></div>
+                <div className="hidden lg:block absolute left-1/2 bottom-4 transform -translate-x-1/2 w-8 h-8 bg-amber-900 rounded-full shadow-inner z-20"></div>
               </div>
             </div>
           </div>
