@@ -1008,106 +1008,9 @@ const MyCookBook = () => {
                 
                 {/* Pages Container - Flex column on mobile, row on desktop */}
                 <div className="flex flex-col lg:flex-row flex-1 overflow-hidden">
-                  {/* Left Page - Assignment Recipe Card */}
-                  <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white border-b lg:border-b-0 lg:border-r-2 border-gray-300 rounded-t-lg lg:rounded-t-none lg:rounded-l-lg p-3 lg:p-4 overflow-y-auto">
-                    {/* Assignment Recipe Card (matching CulinarySchool layout) */}
-                    <div className="flex flex-col bg-white rounded-2xl shadow-lg border-2 lg:border-4 border-maineBlue w-full">
-                      {/* Assignment Image */}
-                      <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b border-gray-200">
-                        <div className="text-center">
-                          <div className="text-2xl lg:text-3xl mb-1">{assignments[currentAssignmentPage].emoji}</div>
-                          <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} Assignment</div>
-                      </div>
-                    </div>
-
-                      {/* Assignment Details */}
-                      <div className="p-2 lg:p-3 bg-white text-center">
-                      {/* Dividing Line */}
-                      <hr className="border-t-2 border-amber-300 mb-3" />
-                      
-                        <h3 className="font-bold text-base lg:text-lg mb-2 text-maineBlue">{assignments[currentAssignmentPage].title}</h3>
-                        <div className="text-xs text-gray-600 mb-2 lg:mb-4">
-                          <span className="block lg:inline">Due: {assignments[currentAssignmentPage].dueDate}</span>
-                          <span className="hidden lg:inline"> | </span>
-                          <span className="block lg:inline">{assignments[currentAssignmentPage].points} pts | {assignments[currentAssignmentPage].weight}</span>
-                        </div>
-                      
-                        <div className="space-y-2 lg:space-y-3">
-                        <div>
-                          <div className="font-semibold mb-1 text-sm text-amber-800">Required Techniques</div>
-                          <div className="text-xs text-gray-700 leading-tight">
-                            {assignments[currentAssignmentPage].techniques.join(' • ')}
-                          </div>
-                        </div>
-
-                        <div>
-                          <div className="font-semibold mb-1 text-sm text-amber-800">Submission</div>
-                          <div className="text-xs text-gray-700 leading-tight">
-                            {assignments[currentAssignmentPage].submission.join(' • ')}
-                          </div>
-                        </div>
-
-                        <div>
-                          <div className="font-semibold mb-1 text-sm text-amber-800">Objectives</div>
-                          <div className="text-xs text-gray-700 leading-tight">
-                            {assignments[currentAssignmentPage].objectives.join(' • ')}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Dividing Line */}
-                      <hr className="border-t-2 border-amber-300 my-3" />
-
-                        {/* Student Submission Video */}
-                        <div className="text-center mt-2">
-                          <div className="flex flex-col lg:flex-row items-center justify-center gap-1 lg:gap-2 mb-2">
-                            <h4 className="font-serif font-semibold text-amber-800 text-sm">{students[currentStudentIndex].name} - Submission</h4>
-                          <select 
-                            className={`text-xs border border-amber-300 rounded px-2 py-1 font-serif ${
-                              students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id] ? 'bg-green-50 text-green-800 cursor-not-allowed' : 'bg-white'
-                            }`}
-                            onChange={(e) => {
-                              if (e.target.value && !students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id]) {
-                                setSelectedVideoOption(e.target.value);
-                                setShowVideoConfirmModal(true);
-                              }
-                            }}
-                            value={students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id] || ""}
-                            disabled={!!students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id]}
-                          >
-                            <option value="">Select Video</option>
-                            <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
-                            <option value="sauce-technique">Sauce Technique.mp4</option>
-                            <option value="protein-cookery">Protein Cookery.mp4</option>
-                            <option value="plating-final">Final Plating.mp4</option>
-                          </select>
-                        </div>
-                          <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 h-[100px] lg:h-[120px] relative">
-                            <div className="h-full bg-gray-800 flex items-center justify-center">
-                              <div className="text-center text-white p-2">
-                                <div className="text-2xl lg:text-3xl mb-1">▶️</div>
-                                <div className="text-xs">{assignments[currentAssignmentPage].videoTitle}</div>
-                                <div className="text-xs text-gray-300 mt-1 hidden lg:block">Submitted via Global Test Kitchen</div>
-                              </div>
-                            </div>
-                            <button 
-                              onClick={() => setShowVideoModal(true)}
-                              className="absolute inset-0 w-full h-full bg-black bg-opacity-0 hover:bg-opacity-20 transition-all flex items-center justify-center"
-                            >
-                              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <div className="text-white text-2xl">▶️</div>
-                              </div>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  </div>
-
-                  {/* Right Page - Grading & Feedback */}
-                  <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 overflow-y-auto flex flex-col">
-
+                  {/* Left Page - Grading & Feedback */}
+                  <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white border-b lg:border-b-0 lg:border-r-2 border-gray-300 rounded-t-lg lg:rounded-t-none lg:rounded-l-lg p-3 lg:p-4 overflow-y-auto flex flex-col">
+                    
                     {/* Grading Rubric */}
                     <div className="bg-white border-2 lg:border-4 border-green-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm">
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
@@ -1235,6 +1138,103 @@ const MyCookBook = () => {
                           <div className="text-gray-600">
                             "First knife skills assessment - showing natural talent! Remember to keep the knife tip on 
                             the board for better control. Practice the rocking motion we discussed."
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+
+                  {/* Right Page - Assignment Recipe Card */}
+                  <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 overflow-y-auto">
+                    {/* Assignment Recipe Card (matching CulinarySchool layout) */}
+                    <div className="flex flex-col bg-white rounded-2xl shadow-lg border-2 lg:border-4 border-maineBlue w-full">
+                      {/* Assignment Image */}
+                      <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b border-gray-200">
+                        <div className="text-center">
+                          <div className="text-2xl lg:text-3xl mb-1">{assignments[currentAssignmentPage].emoji}</div>
+                          <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} Assignment</div>
+                        </div>
+                      </div>
+
+                      {/* Assignment Details */}
+                      <div className="p-2 lg:p-3 bg-white text-center">
+                        {/* Dividing Line */}
+                        <hr className="border-t-2 border-amber-300 mb-3" />
+                        
+                        <h3 className="font-bold text-base lg:text-lg mb-2 text-maineBlue">{assignments[currentAssignmentPage].title}</h3>
+                        <div className="text-xs text-gray-600 mb-2 lg:mb-4">
+                          <span className="block lg:inline">Due: {assignments[currentAssignmentPage].dueDate}</span>
+                          <span className="hidden lg:inline"> | </span>
+                          <span className="block lg:inline">{assignments[currentAssignmentPage].points} pts | {assignments[currentAssignmentPage].weight}</span>
+                        </div>
+                        
+                        <div className="space-y-2 lg:space-y-3">
+                          <div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">Required Techniques</div>
+                            <div className="text-xs text-gray-700 leading-tight">
+                              {assignments[currentAssignmentPage].techniques.join(' • ')}
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">Submission</div>
+                            <div className="text-xs text-gray-700 leading-tight">
+                              {assignments[currentAssignmentPage].submission.join(' • ')}
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">Objectives</div>
+                            <div className="text-xs text-gray-700 leading-tight">
+                              {assignments[currentAssignmentPage].objectives.join(' • ')}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Dividing Line */}
+                        <hr className="border-t-2 border-amber-300 my-3" />
+
+                        {/* Student Submission Video */}
+                        <div className="text-center mt-2">
+                          <div className="flex flex-col lg:flex-row items-center justify-center gap-1 lg:gap-2 mb-2">
+                            <h4 className="font-serif font-semibold text-amber-800 text-sm">{students[currentStudentIndex].name} - Submission</h4>
+                            <select 
+                              className={`text-xs border border-amber-300 rounded px-2 py-1 font-serif ${
+                                students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id] ? 'bg-green-50 text-green-800 cursor-not-allowed' : 'bg-white'
+                              }`}
+                              onChange={(e) => {
+                                if (e.target.value && !students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id]) {
+                                  setSelectedVideoOption(e.target.value);
+                                  setShowVideoConfirmModal(true);
+                                }
+                              }}
+                              value={students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id] || ""}
+                              disabled={!!students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id]}
+                            >
+                              <option value="">Select Video</option>
+                              <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
+                              <option value="sauce-technique">Sauce Technique.mp4</option>
+                              <option value="protein-cookery">Protein Cookery.mp4</option>
+                              <option value="plating-final">Final Plating.mp4</option>
+                            </select>
+                          </div>
+                          <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 h-[100px] lg:h-[120px] relative">
+                            <div className="h-full bg-gray-800 flex items-center justify-center">
+                              <div className="text-center text-white p-2">
+                                <div className="text-2xl lg:text-3xl mb-1">▶️</div>
+                                <div className="text-xs">{assignments[currentAssignmentPage].videoTitle}</div>
+                                <div className="text-xs text-gray-300 mt-1 hidden lg:block">Submitted via Global Test Kitchen</div>
+                              </div>
+                            </div>
+                            <button 
+                              onClick={() => setShowVideoModal(true)}
+                              className="absolute inset-0 w-full h-full bg-black bg-opacity-0 hover:bg-opacity-20 transition-all flex items-center justify-center"
+                            >
+                              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                                <div className="text-white text-2xl">▶️</div>
+                              </div>
+                            </button>
                           </div>
                         </div>
                       </div>
