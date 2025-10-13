@@ -357,17 +357,19 @@ const GlobalTestKitchen: React.FC = () => {
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
       const filename = `${videoTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${timestamp}.webm`;
       
+      console.log('Attempting to upload:', filename, 'Size:', recordedBlob.size);
+      
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
-        .from('Test Kitchen Videos')
+        .from('test-kitchen-videos')
         .upload(filename, recordedBlob, {
           contentType: 'video/webm',
           upsert: false
         });
 
       if (error) {
-        console.error('Upload error:', error);
-        alert('Failed to save video. Please try again.');
+        console.error('Upload error details:', error);
+        alert(`Failed to save video: ${error.message || 'Unknown error'}. Please try again.`);
         setIsSaving(false);
         return;
       }
