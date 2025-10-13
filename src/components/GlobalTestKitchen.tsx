@@ -215,8 +215,10 @@ const GlobalTestKitchen: React.FC = () => {
           .single();
 
         if (error) {
-          console.error('Error saving session:', error);
-          alert('Failed to schedule session. Please try again.');
+          console.error('Error saving session details:', error);
+          console.error('Error message:', error.message);
+          console.error('Error code:', error.code);
+          alert(`Failed to schedule session: ${error.message}. Please try again.`);
           return;
         }
 
