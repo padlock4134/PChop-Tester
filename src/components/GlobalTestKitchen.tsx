@@ -196,33 +196,63 @@ const GlobalTestKitchen: React.FC = () => {
     }
   };
 
-  const handleScheduleSession = () => {
+  const handleScheduleSession = async () => {
     if (scheduledDishName.trim() && scheduledCuisine && scheduledDescription.trim() && scheduledDate && scheduledTime) {
-      const newSession: UpcomingSession = {
-        id: Date.now().toString(),
-        hostName: 'You',
-        dishName: scheduledDishName,
-        culture: scheduledCuisine,
-        scheduledTime: `${scheduledDate} at ${scheduledTime}`,
-        description: scheduledDescription,
-        sessionType: scheduledSessionType,
-        teacherTag: scheduledTeacher || undefined
-      };
-      
-      setUpcomingSessions(prev => [newSession, ...prev]);
-      
-      // Clear form
-      setScheduledDishName('');
-      setScheduledCuisine('');
-      setScheduledDescription('');
-      setScheduledDate('');
-      setScheduledTime('');
-      setScheduledSessionType('practice');
-      setScheduledTeacher('');
-      setScheduleModalOpen(false);
-      
-      // Switch to upcoming tab to show the new session
-      setActiveTab('upcoming');
+      try {
+        // Save to Supabase database
+        const { data, error } = await supabase
+          .from('scheduled_sessions')
+          .insert({
+            dish_name: scheduledDishName,
+            cuisine: scheduledCuisine,
+            description: scheduledDescription,
+            scheduled_date: scheduledDate,
+            scheduled_time: scheduledTime,
+            session_type: scheduledSessionType,
+            teacher_tag: scheduledTeacher || null
+          })
+          .select()
+          .single();
+
+        if (error) {
+          console.error('Error saving session:', error);
+          alert('Failed to schedule session. Please try again.');
+          return;
+        }
+
+        console.log('Session saved successfully:', data);
+        
+        // Add to local state for immediate UI update
+        const newSession: UpcomingSession = {
+          id: data.id,
+          hostName: 'You',
+          dishName: scheduledDishName,
+          culture: scheduledCuisine,
+          scheduledTime: `${scheduledDate} at ${scheduledTime}`,
+          description: scheduledDescription,
+          sessionType: scheduledSessionType,
+          teacherTag: scheduledTeacher || undefined
+        };
+        
+        setUpcomingSessions(prev => [newSession, ...prev]);
+        
+        // Clear form
+        setScheduledDishName('');
+        setScheduledCuisine('');
+        setScheduledDescription('');
+        setScheduledDate('');
+        setScheduledTime('');
+        setScheduledSessionType('practice');
+        setScheduledTeacher('');
+        setScheduleModalOpen(false);
+        
+        // Switch to upcoming tab to show the new session
+        setActiveTab('upcoming');
+        
+      } catch (error) {
+        console.error('Error scheduling session:', error);
+        alert('Failed to schedule session. Please try again.');
+      }
     }
   };
 
@@ -260,6 +290,41 @@ const GlobalTestKitchen: React.FC = () => {
     setViewerCount(0);
   };
   
+  // Load user's scheduled sessions on component mount
+  useEffect(() => {
+    const loadScheduledSessions = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('scheduled_sessions')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Error loading scheduled sessions:', error);
+          return;
+        }
+
+        // Convert database format to component format
+        const sessions: UpcomingSession[] = data.map(session => ({
+          id: session.id,
+          hostName: 'You',
+          dishName: session.dish_name,
+          culture: session.cuisine,
+          scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
+          description: session.description,
+          sessionType: session.session_type,
+          teacherTag: session.teacher_tag || undefined
+        }));
+
+        setUpcomingSessions(sessions);
+      } catch (error) {
+        console.error('Error loading scheduled sessions:', error);
+      }
+    };
+
+    loadScheduledSessions();
+  }, []);
+
   // Simplified viewer count (no intervals to improve performance)
   useEffect(() => {
     if (isRecording) {
