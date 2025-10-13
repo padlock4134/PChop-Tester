@@ -299,6 +299,7 @@ const GlobalTestKitchen: React.FC = () => {
       }
       
       // Set up MediaRecorder for video recording
+      console.log('Setting up MediaRecorder...');
       const recorder = new MediaRecorder(mediaStream, {
         mimeType: 'video/webm;codecs=vp9'
       });
@@ -306,18 +307,22 @@ const GlobalTestKitchen: React.FC = () => {
       const chunks: BlobPart[] = [];
       
       recorder.ondataavailable = (event) => {
+        console.log('Data available:', event.data.size, 'bytes');
         if (event.data.size > 0) {
           chunks.push(event.data);
         }
       };
       
       recorder.onstop = () => {
+        console.log('MediaRecorder stopped. Total chunks:', chunks.length);
         const blob = new Blob(chunks, { type: 'video/webm' });
+        console.log('Created blob:', blob.size, 'bytes');
         setRecordedBlob(blob);
       };
       
-      recorder.start();
+      recorder.start(1000); // Record in 1-second chunks
       setMediaRecorder(recorder);
+      console.log('MediaRecorder started');
       
       setIsRecording(true);
       setViewerCount(Math.floor(Math.random() * 30) + 15);
@@ -338,8 +343,16 @@ const GlobalTestKitchen: React.FC = () => {
   };
 
   const handleSaveSession = async () => {
+    console.log('Save session called. Blob:', recordedBlob);
     if (!recordedBlob) {
       alert('No recording found to save.');
+      setSaveConfirmModalOpen(false);
+      endRecordingSession();
+      return;
+    }
+    
+    if (recordedBlob.size === 0) {
+      alert('Recording is empty. Please try recording again.');
       setSaveConfirmModalOpen(false);
       endRecordingSession();
       return;
