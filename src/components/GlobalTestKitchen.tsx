@@ -328,14 +328,66 @@ const GlobalTestKitchen: React.FC = () => {
   };
 
   const stopRecording = () => {
-    // Show save confirmation modal instead of browser confirm
+    // Stop MediaRecorder if it exists
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.stop();
+    }
+    
+    // Show save confirmation modal
     setSaveConfirmModalOpen(true);
   };
 
-  const handleSaveSession = () => {
-    setSaveConfirmModalOpen(false);
-    alert('Video saving feature coming soon! Session will end for now.');
-    endRecordingSession();
+  const handleSaveSession = async () => {
+    if (!recordedBlob) {
+      alert('No recording found to save.');
+      setSaveConfirmModalOpen(false);
+      endRecordingSession();
+      return;
+    }
+
+    if (!videoTitle.trim()) {
+      alert('Please enter a title for your video.');
+      return;
+    }
+
+    setIsSaving(true);
+    
+    try {
+      // Generate unique filename
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const filename = `${videoTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${timestamp}.webm`;
+      
+      // Upload to Supabase Storage
+      const { data, error } = await supabase.storage
+        .from('Test Kitchen Videos')
+        .upload(filename, recordedBlob, {
+          contentType: 'video/webm',
+          upsert: false
+        });
+
+      if (error) {
+        console.error('Upload error:', error);
+        alert('Failed to save video. Please try again.');
+        setIsSaving(false);
+        return;
+      }
+
+      console.log('Video saved successfully:', data);
+      alert(`Video "${videoTitle}" saved successfully to Test Kitchen Videos!`);
+      
+      // Clear form data
+      setVideoTitle('');
+      setVideoDescription('');
+      setVideoCuisine('');
+      
+    } catch (error) {
+      console.error('Error saving video:', error);
+      alert('Failed to save video. Please try again.');
+    } finally {
+      setIsSaving(false);
+      setSaveConfirmModalOpen(false);
+      endRecordingSession();
+    }
   };
 
   const handleDontSave = () => {
@@ -352,6 +404,13 @@ const GlobalTestKitchen: React.FC = () => {
     
     setIsRecording(false);
     setViewerCount(0);
+    setRecordedBlob(null);
+    setMediaRecorder(null);
+    
+    // Clear video metadata
+    setVideoTitle('');
+    setVideoDescription('');
+    setVideoCuisine('');
   };
 
   const handleEndSession = () => {
@@ -1250,34 +1309,96 @@ END:VCALENDAR`;
       {/* Save Confirmation Modal */}
       {saveConfirmModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-md w-full mx-4 relative">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-lg w-full mx-4 relative">
             <div className="text-center">
               <div className="text-4xl mb-4">🎥</div>
               <h2 className="text-2xl font-bold mb-4 text-maineBlue font-retro">
-                Save Your Cooking Session?
+                Save Your Cooking Session
               </h2>
               
               <p className="text-gray-700 mb-6 leading-relaxed">
-                You've just finished an amazing cooking session! Would you like to save this video to your <span className="font-semibold text-maineBlue">Test Kitchen Videos</span> collection?
+                Add details to save this video to your <span className="font-semibold text-maineBlue">Test Kitchen Videos</span> collection:
               </p>
+              
+              {/* Video Metadata Form */}
+              <div className="space-y-4 mb-6 text-left">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Video Title *
+                  </label>
+                  <input
+                    type="text"
+                    value={videoTitle}
+                    onChange={(e) => setVideoTitle(e.target.value)}
+                    placeholder="e.g., Perfect Pasta Technique Demo"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    disabled={isSaving}
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Cuisine Type
+                  </label>
+                  <select 
+                    value={videoCuisine}
+                    onChange={(e) => setVideoCuisine(e.target.value)}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    disabled={isSaving}
+                  >
+                    <option value="">Select cuisine type</option>
+                    <option value="Italian">Italian</option>
+                    <option value="French">French</option>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Asian">Asian</option>
+                    <option value="American">American</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Description
+                  </label>
+                  <textarea
+                    value={videoDescription}
+                    onChange={(e) => setVideoDescription(e.target.value)}
+                    placeholder="Brief description of what you cooked and any key techniques..."
+                    rows={3}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    disabled={isSaving}
+                  />
+                </div>
+              </div>
               
               <div className="flex gap-3">
                 <button
                   onClick={handleDontSave}
-                  className="flex-1 bg-gray-500 text-white py-3 px-4 rounded-lg font-bold hover:bg-gray-600 transition-colors border-2 border-gray-600"
+                  disabled={isSaving}
+                  className="flex-1 bg-gray-500 text-white py-3 px-4 rounded-lg font-bold hover:bg-gray-600 transition-colors border-2 border-gray-600 disabled:opacity-50"
                 >
                   🚫 No, Don't Save
                 </button>
                 <button
                   onClick={handleSaveSession}
-                  className="flex-1 bg-lobsterRed text-weatheredWhite py-3 px-4 rounded-lg font-bold hover:bg-red-600 transition-colors border-2 border-black"
+                  disabled={isSaving || !videoTitle.trim()}
+                  className="flex-1 bg-lobsterRed text-weatheredWhite py-3 px-4 rounded-lg font-bold hover:bg-red-600 transition-colors border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                 >
-                  💾 Yes, Save Video!
+                  {isSaving ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Saving...
+                    </>
+                  ) : (
+                    '💾 Save Video'
+                  )}
                 </button>
               </div>
               
               <p className="text-xs text-gray-500 mt-4">
-                💡 Saved videos can be shared with students and used for future reference
+                💡 * Required field. Saved videos can be shared with students and used for future reference
               </p>
             </div>
           </div>
