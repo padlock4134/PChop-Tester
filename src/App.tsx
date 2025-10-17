@@ -8,13 +8,14 @@ import {
   WristbandAuthProvider
 } from '@wristband/react-client-auth';
 
-import NavBar from './components/NavBar';
+import NavBar, { useAdminToggle } from './components/NavBar';
 import MyKitchen from './modules/MyKitchen';
 import MyCookBook from './modules/MyCookBook';
 import ChefsCorner from './modules/ChefsCorner';
 import CulinarySchool from './modules/CulinarySchool';
 import Profile from './components/Profile';
 import Dashboard from './components/Dashboard';
+import AdminDashboard from './components/AdminDashboard';
 import ChefFreddieWidget from './components/ChefFreddieWidget';
 import { FreddieProvider } from './components/FreddieContext';
 import { RecipeProvider } from './components/RecipeContext';
@@ -58,6 +59,7 @@ const AppRoutes = () => {
 
   const { authStatus } = useWristbandAuth();
   const { user, isLoading, isPaid, refreshAuthState } = useSupabase();
+  const { isAdminMode } = useAdminToggle();
   
   // Use the device detection hook
   const { deviceType } = useDeviceDetect();
@@ -121,6 +123,16 @@ const AppRoutes = () => {
           plan={selectedPlan || 'monthly'}
           userId={user.id}
         />
+      </div>
+    );
+  }
+
+  // If admin mode is enabled and user is authenticated, show admin dashboard
+  if (isAdminMode && user && !isPublicRoute) {
+    return (
+      <div className="min-h-screen bg-sand">
+        <NavBar />
+        <AdminDashboard />
       </div>
     );
   }

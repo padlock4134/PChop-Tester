@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { UserCircleIcon, Bars3Icon } from '@heroicons/react/24/outline';
+import { UserCircleIcon, Bars3Icon, CogIcon } from '@heroicons/react/24/outline';
 import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
 import { supabase } from '../api/supabaseClient';
 import ChallengeOfTheWeek from './ChallengeOfTheWeek';
@@ -28,6 +28,13 @@ const LevelProgressContext = createContext<{ refreshXP: () => void; progress: Le
   progressPercent: 0,
 }});
 export const useLevelProgressContext = () => useContext(LevelProgressContext);
+
+// Admin toggle context
+const AdminToggleContext = createContext<{ isAdminMode: boolean; toggleAdminMode: () => void }>({ 
+  isAdminMode: false, 
+  toggleAdminMode: () => {} 
+});
+export const useAdminToggle = () => useContext(AdminToggleContext);
 
 const useLevelProgress = (): [LevelProgress, () => void] => {
   const [progress, setProgress] = useState<LevelProgress>({
@@ -155,6 +162,26 @@ const navItems = [
   { path: '/chefs-corner', label: 'Chefs Corner' },
 ];
 
+// Admin Toggle Button Component
+const AdminToggleButton: React.FC = () => {
+  const { isAdminMode, toggleAdminMode } = useAdminToggle();
+  
+  return (
+    <button
+      onClick={toggleAdminMode}
+      className={`p-1 rounded-full transition-colors flex items-center ${
+        isAdminMode 
+          ? 'bg-lobsterRed text-white hover:bg-red-700' 
+          : 'hover:bg-seafoam hover:text-maineBlue'
+      }`}
+      aria-label={isAdminMode ? 'Switch to Student View' : 'Switch to Admin View'}
+      title={isAdminMode ? 'Switch to Student View' : 'Switch to Admin View'}
+    >
+      <CogIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+    </button>
+  );
+};
+
 const NavBar: React.FC = () => {
   const { progress, refreshXP } = useLevelProgressContext();
   const location = useLocation();
@@ -174,7 +201,10 @@ const NavBar: React.FC = () => {
             </Link>
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-center space-x-2">
+            {/* Admin Toggle */}
+            <AdminToggleButton />
+            
             {/* Profile Avatar */}
             <Link
               to="/profile"
@@ -192,9 +222,17 @@ const NavBar: React.FC = () => {
 
 const NavBarWithProvider: React.FC = (props) => {
   const [progress, refreshXP] = useLevelProgress();
+  const [isAdminMode, setIsAdminMode] = useState(false);
+  
+  const toggleAdminMode = () => {
+    setIsAdminMode(!isAdminMode);
+  };
+  
   return (
     <LevelProgressContext.Provider value={{ progress, refreshXP }}>
-      <NavBar {...props} />
+      <AdminToggleContext.Provider value={{ isAdminMode, toggleAdminMode }}>
+        <NavBar {...props} />
+      </AdminToggleContext.Provider>
     </LevelProgressContext.Provider>
   );
 };
