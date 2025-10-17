@@ -579,78 +579,79 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Connect PorkChop to your school's Learning Management System for seamless grade sync and student data integration.</p>
+            <p className="text-gray-600 mb-6">Configure PorkChop's Learning Management System features for your culinary school's specific needs.</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {/* Canvas Integration */}
-              <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🎨</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Canvas LMS</h3>
-                <p className="text-sm text-gray-600 mb-4">Integrate with Canvas for automatic grade passback and roster sync</p>
-                <button className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full">
-                  Connect Canvas
-                </button>
-              </div>
-
-              {/* Blackboard Integration */}
-              <div className="border-4 border-gray-400 bg-gray-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">⚫</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Blackboard</h3>
-                <p className="text-sm text-gray-600 mb-4">Connect to Blackboard Learn for seamless course integration</p>
-                <button className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 font-retro w-full">
-                  Connect Blackboard
-                </button>
-              </div>
-
-              {/* Moodle Integration */}
+              {/* Student Information System */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🎓</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Moodle</h3>
-                <p className="text-sm text-gray-600 mb-4">Integrate with Moodle for assignment and grade synchronization</p>
+                <div className="mb-3 text-4xl">👥</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Student Information System</h3>
+                <p className="text-sm text-gray-600 mb-4">Connect to your school's SIS for automatic enrollment and roster management</p>
                 <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro w-full">
-                  Connect Moodle
+                  Configure SIS
                 </button>
               </div>
 
-              {/* Google Classroom Integration */}
+              {/* Gradebook Settings */}
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📚</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Google Classroom</h3>
-                <p className="text-sm text-gray-600 mb-4">Connect to Google Classroom for streamlined assignment distribution</p>
+                <div className="mb-3 text-4xl">📊</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Gradebook Configuration</h3>
+                <p className="text-sm text-gray-600 mb-4">Set up grading scales, rubrics, and assessment criteria for culinary programs</p>
                 <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-retro w-full">
-                  Connect Google Classroom
+                  Setup Gradebook
                 </button>
               </div>
 
-              {/* Schoology Integration */}
+              {/* Course Templates */}
               <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🏫</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Schoology</h3>
-                <p className="text-sm text-gray-600 mb-4">Integrate with Schoology for comprehensive course management</p>
+                <div className="mb-3 text-4xl">📚</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Course Templates</h3>
+                <p className="text-sm text-gray-600 mb-4">Create standardized course structures for culinary arts programs</p>
                 <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 font-retro w-full">
-                  Connect Schoology
+                  Manage Templates
                 </button>
               </div>
 
-              {/* Custom LTI Integration */}
+              {/* Assessment Tools */}
+              <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">✅</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Assessment Tools</h3>
+                <p className="text-sm text-gray-600 mb-4">Configure practical assessments, skill evaluations, and competency tracking</p>
+                <button className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full">
+                  Setup Assessments
+                </button>
+              </div>
+
+              {/* Communication Hub */}
+              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">💬</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Communication Hub</h3>
+                <p className="text-sm text-gray-600 mb-4">Set up announcements, messaging, and notification preferences</p>
+                <button className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-retro w-full">
+                  Configure Communications
+                </button>
+              </div>
+
+              {/* Accreditation Tracking */}
               <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🔧</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Custom LTI</h3>
-                <p className="text-sm text-gray-600 mb-4">Set up custom LTI integration for other learning management systems</p>
+                <div className="mb-3 text-4xl">🏆</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Accreditation Tracking</h3>
+                <p className="text-sm text-gray-600 mb-4">Configure compliance tracking for culinary education standards</p>
                 <button className="bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 font-retro w-full">
-                  Setup Custom LTI
+                  Setup Compliance
                 </button>
               </div>
             </div>
             
-            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
-              <h4 className="font-bold text-blue-900 mb-2">🔒 Integration Benefits:</h4>
-              <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Automatic grade passback to your LMS gradebook</li>
-                <li>• Single sign-on (SSO) for seamless student access</li>
-                <li>• Roster synchronization for easy class management</li>
-                <li>• Assignment distribution and collection</li>
-                <li>• Real-time progress tracking and analytics</li>
+            <div className="bg-seafoam border-2 border-maineBlue rounded-lg p-4 mb-6">
+              <h4 className="font-bold text-maineBlue mb-2">🍳 PorkChop LMS Features:</h4>
+              <ul className="text-sm text-gray-800 space-y-1">
+                <li>• Culinary-specific curriculum and skill tracking</li>
+                <li>• Real-time cooking session management and assessment</li>
+                <li>• Recipe portfolio and technique progression</li>
+                <li>• Industry-standard food safety and sanitation tracking</li>
+                <li>• Integrated video tutorials and chef demonstrations</li>
+                <li>• Comprehensive reporting for accreditation compliance</li>
               </ul>
             </div>
             
