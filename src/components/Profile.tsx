@@ -1528,12 +1528,6 @@ Automated calculations and formulas would be present`;
           >
             Sign Out
           </button>
-          <button
-            onClick={() => setShowReportsModal(true)}
-            className="w-full lg:w-auto inline-block bg-gray-200 text-gray-600 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-gray-300 hover:text-gray-800 font-bold transition-colors border border-gray-400 text-sm sm:text-base"
-          >
-            Reports
-          </button>
         </div>
 
         {/* Right side - Talent Tree Boxes */}
