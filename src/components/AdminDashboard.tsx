@@ -287,8 +287,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('overview')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'overview' 
-                  ? 'border-maineBlue bg-blue-50 scale-105' 
-                  : 'border-maineBlue bg-blue-50'
+                  ? 'border-seafoam bg-teal-50 scale-105' 
+                  : 'border-seafoam bg-teal-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">🌡️</div>
@@ -311,8 +311,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('content')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'content' 
-                  ? 'border-maineBlue bg-blue-50 scale-105' 
-                  : 'border-maineBlue bg-blue-50'
+                  ? 'border-red-400 bg-red-50 scale-105' 
+                  : 'border-red-400 bg-red-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">📚</div>
@@ -323,8 +323,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('system')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'system' 
-                  ? 'border-maineBlue bg-blue-50 scale-105' 
-                  : 'border-maineBlue bg-blue-50'
+                  ? 'border-yellow-300 bg-yellow-50 scale-105' 
+                  : 'border-yellow-300 bg-yellow-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">🏫</div>
