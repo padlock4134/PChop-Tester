@@ -57,6 +57,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showModuleIntegrationModal, setShowModuleIntegrationModal] = useState(false);
   const [showContentAnalyticsModal, setShowContentAnalyticsModal] = useState(false);
   const [showConfigurationModal, setShowConfigurationModal] = useState(false);
+  const [showUserActivityModal, setShowUserActivityModal] = useState(false);
+  const [showProgramPerformanceModal, setShowProgramPerformanceModal] = useState(false);
+  const [showEnrollmentHealthModal, setShowEnrollmentHealthModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -361,21 +364,42 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
             </div>
 
-            {/* Program Health Metrics */}
+            {/* Program Health */}
             <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-              <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Culinary Program Performance</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-green-50 rounded-lg border-4 border-green-400">
-                  <p className="text-2xl font-bold text-green-600">87%</p>
-                  <p className="text-sm text-gray-600 font-retro">Program Completion Rate</p>
+              <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Program Health</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                  <div className="mb-3 text-4xl">👥</div>
+                  <h4 className="font-semibold text-gray-900 mb-2 font-retro">User Activity</h4>
+                  <p className="text-sm text-gray-600 mb-3 italic">Monitor student engagement, login patterns, and module usage across the platform</p>
+                  <button 
+                    onClick={() => setShowUserActivityModal(true)}
+                    className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  >
+                    View Activity
+                  </button>
                 </div>
-                <div className="text-center p-4 bg-blue-50 rounded-lg border-4 border-blue-400">
-                  <p className="text-2xl font-bold text-blue-600">92%</p>
-                  <p className="text-sm text-gray-600 font-retro">Job Placement Rate</p>
+                <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                  <div className="mb-3 text-4xl">📊</div>
+                  <h4 className="font-semibold text-gray-900 mb-2 font-retro">Culinary Program Performance</h4>
+                  <p className="text-sm text-gray-600 mb-3 italic">Track completion rates, job placement success, and overall program effectiveness</p>
+                  <button 
+                    onClick={() => setShowProgramPerformanceModal(true)}
+                    className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  >
+                    View Performance
+                  </button>
                 </div>
-                <div className="text-center p-4 bg-purple-50 rounded-lg border-4 border-purple-400">
-                  <p className="text-2xl font-bold text-purple-600">4.2/5</p>
-                  <p className="text-sm text-gray-600 font-retro">Student Satisfaction</p>
+                <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                  <div className="mb-3 text-4xl">📈</div>
+                  <h4 className="font-semibold text-gray-900 mb-2 font-retro">Enrollment Health</h4>
+                  <p className="text-sm text-gray-600 mb-3 italic">Monitor enrollment trends, retention rates, and student satisfaction metrics</p>
+                  <button 
+                    onClick={() => setShowEnrollmentHealthModal(true)}
+                    className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  >
+                    View Enrollment
+                  </button>
                 </div>
               </div>
             </div>
