@@ -52,7 +52,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showExportModal, setShowExportModal] = useState(false);
-  const [showLMSModal, setShowLMSModal] = useState(false);
+  const [showJobPlacementModal, setShowJobPlacementModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -462,14 +462,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
               
               <div className="border-4 border-green-300 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📋</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">LMS Integration</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Connect to your school's learning management system</p>
+                <div className="mb-3 text-4xl">🎯</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Job Placement & Career Services</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Track graduate employment rates and industry partnerships</p>
                 <button 
-                  onClick={() => setShowLMSModal(true)}
+                  onClick={() => setShowJobPlacementModal(true)}
                   className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Setup LMS
+                  Manage Placements
                 </button>
               </div>
 
@@ -565,99 +565,79 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
       )}
 
-      {/* LMS Setup Modal */}
-      {showLMSModal && (
+      {/* Job Placement Modal */}
+      {showJobPlacementModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">LMS Integration Setup</h2>
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Job Placement & Career Services</h2>
               <button
-                onClick={() => setShowLMSModal(false)}
+                onClick={() => setShowJobPlacementModal(false)}
                 className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Configure PorkChop's Learning Management System features for your culinary school's specific needs.</p>
+            <p className="text-gray-600 mb-6">Track graduate employment outcomes, manage industry partnerships, and monitor career services effectiveness.</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {/* Student Information System */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">👥</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Student Information System</h3>
-                <p className="text-sm text-gray-600 mb-4">Connect to your school's SIS for automatic enrollment and roster management</p>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro w-full">
-                  Configure SIS
-                </button>
-              </div>
-
-              {/* Gradebook Settings */}
+              {/* Employment Tracking */}
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📊</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Gradebook Configuration</h3>
-                <p className="text-sm text-gray-600 mb-4">Set up grading scales, rubrics, and assessment criteria for culinary programs</p>
+                <div className="mb-3 text-4xl">📈</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Employment Tracking</h3>
+                <p className="text-sm text-gray-600 mb-4">Monitor graduate employment rates and job placement statistics</p>
                 <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-retro w-full">
-                  Setup Gradebook
+                  View Employment Data
                 </button>
               </div>
 
-              {/* Course Templates */}
+              {/* Industry Partnerships */}
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🤝</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Industry Partnerships</h3>
+                <p className="text-sm text-gray-600 mb-4">Manage relationships with restaurants, hotels, and culinary employers</p>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro w-full">
+                  Manage Partners
+                </button>
+              </div>
+
+              {/* Career Services */}
               <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📚</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Course Templates</h3>
-                <p className="text-sm text-gray-600 mb-4">Create standardized course structures for culinary arts programs</p>
+                <div className="mb-3 text-4xl">💼</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Career Services</h3>
+                <p className="text-sm text-gray-600 mb-4">Coordinate job fairs, internships, and career counseling services</p>
                 <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 font-retro w-full">
-                  Manage Templates
+                  Manage Services
                 </button>
               </div>
 
-              {/* Assessment Tools */}
+              {/* Alumni Network */}
               <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">✅</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Assessment Tools</h3>
-                <p className="text-sm text-gray-600 mb-4">Configure practical assessments, skill evaluations, and competency tracking</p>
+                <div className="mb-3 text-4xl">🎓</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Alumni Network</h3>
+                <p className="text-sm text-gray-600 mb-4">Track alumni success stories and maintain graduate connections</p>
                 <button className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full">
-                  Setup Assessments
-                </button>
-              </div>
-
-              {/* Communication Hub */}
-              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">💬</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Communication Hub</h3>
-                <p className="text-sm text-gray-600 mb-4">Set up announcements, messaging, and notification preferences</p>
-                <button className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-retro w-full">
-                  Configure Communications
-                </button>
-              </div>
-
-              {/* Accreditation Tracking */}
-              <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🏆</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Accreditation Tracking</h3>
-                <p className="text-sm text-gray-600 mb-4">Configure compliance tracking for culinary education standards</p>
-                <button className="bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 font-retro w-full">
-                  Setup Compliance
+                  Alumni Database
                 </button>
               </div>
             </div>
             
-            <div className="bg-seafoam border-2 border-maineBlue rounded-lg p-4 mb-6">
-              <h4 className="font-bold text-maineBlue mb-2">🍳 PorkChop LMS Features:</h4>
-              <ul className="text-sm text-gray-800 space-y-1">
-                <li>• Culinary-specific curriculum and skill tracking</li>
-                <li>• Real-time cooking session management and assessment</li>
-                <li>• Recipe portfolio and technique progression</li>
-                <li>• Industry-standard food safety and sanitation tracking</li>
-                <li>• Integrated video tutorials and chef demonstrations</li>
-                <li>• Comprehensive reporting for accreditation compliance</li>
+            <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-6">
+              <h4 className="font-bold text-green-900 mb-2">🎯 Key Placement Metrics:</h4>
+              <ul className="text-sm text-green-800 space-y-1">
+                <li>• Graduate employment rate within 6 months</li>
+                <li>• Average starting salary by program</li>
+                <li>• Industry sector placement distribution</li>
+                <li>• Employer satisfaction ratings</li>
+                <li>• Alumni career advancement tracking</li>
+                <li>• Internship to full-time conversion rates</li>
               </ul>
             </div>
             
             <div className="flex justify-center">
               <button
-                onClick={() => setShowLMSModal(false)}
+                onClick={() => setShowJobPlacementModal(false)}
                 className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
               >
                 Close
