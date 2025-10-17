@@ -996,48 +996,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
 
 
-              {/* Module Permissions */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">🔒 Module Permissions</h3>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-2 px-3 text-sm font-medium text-gray-700">Module</th>
-                        <th className="text-center py-2 px-3 text-sm font-medium text-gray-700">Read</th>
-                        <th className="text-center py-2 px-3 text-sm font-medium text-gray-700">Write</th>
-                        <th className="text-center py-2 px-3 text-sm font-medium text-gray-700">Admin</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-sm">
-                      <tr className="border-b">
-                        <td className="py-2 px-3">MyCookBook</td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="py-2 px-3">CulinarySchool</td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="py-2 px-3">Chef's Corner</td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
-                      </tr>
-                      <tr>
-                        <td className="py-2 px-3">Global Test Kitchen</td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
-                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
 
               {/* Publishing Controls */}
               <div className="border-4 border-green-200 bg-green-50 rounded-lg p-4">
