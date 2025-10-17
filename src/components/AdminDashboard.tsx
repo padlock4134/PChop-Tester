@@ -310,7 +310,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">🎓</div>
-              <h3 className="text-sm font-bold font-retro">Students & Faculty</h3>
+              <h3 className="text-sm font-bold font-retro">People Management</h3>
             </button>
             
             <button
@@ -322,7 +322,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">📚</div>
-              <h3 className="text-sm font-bold font-retro">School Curriculum</h3>
+              <h3 className="text-sm font-bold font-retro">Curriculum & Content</h3>
             </button>
             
             <button
@@ -334,7 +334,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">🏫</div>
-              <h3 className="text-sm font-bold font-retro">School Operations</h3>
+              <h3 className="text-sm font-bold font-retro">School Settings</h3>
             </button>
           </div>
         </div>
@@ -387,8 +387,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         {activeTab === 'users' && (
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Students & Faculty Management</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">People Management</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">🎓</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">Student Management</h4>
@@ -420,6 +420,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Manage Alumni
+                </button>
+              </div>
+              <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🎯</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Job Placement & Career Services</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Track graduate employment rates and industry partnerships</p>
+                <button 
+                  onClick={() => setShowJobPlacementModal(true)}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Manage Placements
                 </button>
               </div>
             </div>
@@ -469,7 +480,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         {activeTab === 'system' && (
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">School Operations</h3>
+            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">School Settings</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">🎨</div>
@@ -484,14 +495,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
               
               <div className="border-4 border-green-300 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🎯</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Job Placement & Career Services</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Track graduate employment rates and industry partnerships</p>
+                <div className="mb-3 text-4xl">📤</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Export & Data Management</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Export student data, reports, and manage data backup</p>
                 <button 
-                  onClick={() => setShowJobPlacementModal(true)}
+                  onClick={() => setShowExportModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Manage Placements
+                  Export Data
                 </button>
               </div>
 
@@ -1505,7 +1516,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-gray-900 mb-3">Employment Distribution</h4>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
-                        <span className="text-sm text-gray-700">Fine Dining Restaurants</span>
+                        <span className="text-sm text-gray-700">People Management</span>
                         <div className="flex items-center">
                           <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
                             <div className="bg-blue-500 h-2 rounded-full" style={{width: '34%'}}></div>
