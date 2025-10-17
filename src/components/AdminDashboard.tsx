@@ -287,8 +287,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('overview')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'overview' 
-                  ? 'border-seafoam bg-teal-50 scale-105' 
-                  : 'border-seafoam bg-teal-50'
+                  ? 'border-maineBlue bg-blue-50 scale-105' 
+                  : 'border-maineBlue bg-blue-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">🌡️</div>
@@ -311,8 +311,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('content')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'content' 
-                  ? 'border-red-400 bg-red-50 scale-105' 
-                  : 'border-red-400 bg-red-50'
+                  ? 'border-maineBlue bg-blue-50 scale-105' 
+                  : 'border-maineBlue bg-blue-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">📚</div>
@@ -323,8 +323,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('system')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'system' 
-                  ? 'border-yellow-300 bg-yellow-50 scale-105' 
-                  : 'border-yellow-300 bg-yellow-50'
+                  ? 'border-maineBlue bg-blue-50 scale-105' 
+                  : 'border-maineBlue bg-blue-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">🏫</div>
@@ -449,7 +449,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <p className="text-sm text-gray-600 mb-3 italic">Connect MyCookBook recipes to CulinarySchool curriculum and assignments</p>
                 <button 
                   onClick={() => setShowModuleIntegrationModal(true)}
-                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Manage Connections
                 </button>
@@ -460,7 +460,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <p className="text-sm text-gray-600 mb-3 italic">Monitor content usage, engagement, and curriculum completion across all modules</p>
                 <button 
                   onClick={() => setShowContentAnalyticsModal(true)}
-                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   View Analytics
                 </button>
@@ -471,7 +471,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <p className="text-sm text-gray-600 mb-3 italic">Configure content permissions, access levels, and approval workflows</p>
                 <button 
                   onClick={() => setShowConfigurationModal(true)}
-                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Configure Settings
                 </button>
@@ -490,7 +490,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <p className="text-sm text-gray-600 mb-3 italic">Customize platform with your school's identity</p>
                 <button 
                   onClick={() => setShowBrandingModal(true)}
-                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Customize Branding
                 </button>
@@ -502,7 +502,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <p className="text-sm text-gray-600 mb-3 italic">Track graduate employment rates and industry partnerships</p>
                 <button 
                   onClick={() => setShowJobPlacementModal(true)}
-                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Manage Placements
                 </button>
@@ -514,7 +514,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <p className="text-sm text-gray-600 mb-3 italic">Generate reports for accreditation and outcomes</p>
                 <button
                   onClick={() => setShowExportModal(true)}
-                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Export Data
                 </button>
@@ -700,7 +700,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="space-y-6">
               {/* School Logo */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
+              <div className="border-4 border-gray-200 rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-3">🏫 School Logo</h3>
                 <div className="flex items-center space-x-4">
                   <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
@@ -716,7 +716,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* School Information */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
+              <div className="border-4 border-gray-200 rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-3">📝 School Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -747,7 +747,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Color Scheme */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
+              <div className="border-4 border-gray-200 rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-3">🎨 Color Scheme</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
@@ -782,7 +782,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Contact Information */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
+              <div className="border-4 border-gray-200 rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-3">📞 Contact Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
