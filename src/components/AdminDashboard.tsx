@@ -365,15 +365,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
               <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Culinary Program Performance</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
+                <div className="text-center p-4 bg-green-50 rounded-lg border-4 border-green-400">
                   <p className="text-2xl font-bold text-green-600">87%</p>
                   <p className="text-sm text-gray-600 font-retro">Program Completion Rate</p>
                 </div>
-                <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+                <div className="text-center p-4 bg-blue-50 rounded-lg border-4 border-blue-400">
                   <p className="text-2xl font-bold text-blue-600">92%</p>
                   <p className="text-sm text-gray-600 font-retro">Job Placement Rate</p>
                 </div>
-                <div className="text-center p-4 bg-purple-50 rounded-lg border-2 border-purple-200">
+                <div className="text-center p-4 bg-purple-50 rounded-lg border-4 border-purple-400">
                   <p className="text-2xl font-bold text-purple-600">4.2/5</p>
                   <p className="text-sm text-gray-600 font-retro">Student Satisfaction</p>
                 </div>
@@ -384,15 +384,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
               <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Enrollment Health</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-emerald-50 rounded-lg border-2 border-emerald-200">
+                <div className="text-center p-4 bg-emerald-50 rounded-lg border-4 border-emerald-400">
                   <p className="text-2xl font-bold text-emerald-600">{stats.subscriptions.active}</p>
                   <p className="text-sm text-gray-600 font-retro">Active Enrollments</p>
                 </div>
-                <div className="text-center p-4 bg-yellow-50 rounded-lg border-2 border-yellow-200">
+                <div className="text-center p-4 bg-yellow-50 rounded-lg border-4 border-yellow-400">
                   <p className="text-2xl font-bold text-yellow-600">{stats.subscriptions.trial}</p>
                   <p className="text-sm text-gray-600 font-retro">Trial Students</p>
                 </div>
-                <div className="text-center p-4 bg-red-50 rounded-lg border-2 border-red-200">
+                <div className="text-center p-4 bg-red-50 rounded-lg border-4 border-red-400">
                   <p className="text-2xl font-bold text-red-600">{Math.round((stats.activeUsers / Math.max(stats.totalUsers, 1)) * 100)}%</p>
                   <p className="text-sm text-gray-600 font-retro">Weekly Engagement</p>
                 </div>
