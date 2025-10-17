@@ -1032,24 +1032,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
             </div>
-            
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => setShowModuleIntegrationModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  alert('Content uploaded and distributed successfully!');
-                  setShowModuleIntegrationModal(false);
-                }}
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
-              >
-                Process Upload
-              </button>
-            </div>
           </div>
         </div>
       )}
