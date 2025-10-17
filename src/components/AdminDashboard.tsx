@@ -1375,6 +1375,238 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
       )}
 
+      {/* Alumni Management Modal */}
+      {showAlumniManagementModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Alumni Management Dashboard</h2>
+              <button
+                onClick={() => setShowAlumniManagementModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">Track graduate success stories, career outcomes, and maintain alumni network connections.</p>
+            
+            <div className="space-y-6">
+              {/* Alumni Overview Stats */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">🎓 Alumni Overview</h3>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-blue-600">342</div>
+                    <p className="text-sm text-blue-800 font-medium">Total Alumni</p>
+                    <p className="text-xs text-blue-600">Program graduates</p>
+                  </div>
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-green-600">89%</div>
+                    <p className="text-sm text-green-800 font-medium">Employment Rate</p>
+                    <p className="text-xs text-green-600">Within 6 months</p>
+                  </div>
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-purple-600">$52K</div>
+                    <p className="text-sm text-purple-800 font-medium">Avg Starting Salary</p>
+                    <p className="text-xs text-purple-600">First year post-grad</p>
+                  </div>
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-orange-600">47</div>
+                    <p className="text-sm text-orange-800 font-medium">Business Owners</p>
+                    <p className="text-xs text-orange-600">Started own restaurants</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Success Stories */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">⭐ Success Stories</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4 border-2 border-blue-200">
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        MS
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900">Maria Santos</h4>
+                        <p className="text-sm text-gray-600">Class of 2022</p>
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-700 space-y-2">
+                      <p className="font-medium text-blue-800">🏆 Executive Chef at Michelin-starred restaurant</p>
+                      <p>📍 Currently: Le Bernardin, New York</p>
+                      <p>💰 Salary: $85,000/year</p>
+                      <p className="italic text-gray-600">"The program's focus on classical techniques gave me the foundation to excel in fine dining."</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 border-2 border-green-200">
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        JC
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900">James Chen</h4>
+                        <p className="text-sm text-gray-600">Class of 2021</p>
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-700 space-y-2">
+                      <p className="font-medium text-green-800">🏢 Restaurant Owner & Entrepreneur</p>
+                      <p>📍 Currently: Chen's Kitchen (3 locations)</p>
+                      <p>💰 Revenue: $2.1M annually</p>
+                      <p className="italic text-gray-600">"The business management courses were just as valuable as the culinary training."</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 border-2 border-purple-200">
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        AR
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900">Ashley Rodriguez</h4>
+                        <p className="text-sm text-gray-600">Class of 2023</p>
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-700 space-y-2">
+                      <p className="font-medium text-purple-800">📺 Food Network Personality</p>
+                      <p>📍 Currently: Host of "Pastry Perfection"</p>
+                      <p>💰 Salary: $120,000/year + endorsements</p>
+                      <p className="italic text-gray-600">"The video production skills I learned here launched my media career."</p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg p-4 border-2 border-orange-200">
+                    <div className="flex items-center mb-3">
+                      <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        DM
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900">David Miller</h4>
+                        <p className="text-sm text-gray-600">Class of 2020</p>
+                      </div>
+                    </div>
+                    <div className="text-sm text-gray-700 space-y-2">
+                      <p className="font-medium text-orange-800">🍟 Corporate Food Service Director</p>
+                      <p>📍 Currently: Google Campus Dining</p>
+                      <p>💰 Salary: $95,000/year + benefits</p>
+                      <p className="italic text-gray-600">"Managing large-scale operations was exactly what I wanted to do."</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Career Outcomes */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">📈 Career Outcomes by Industry</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-3">Employment Distribution</h4>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-700">Fine Dining Restaurants</span>
+                        <div className="flex items-center">
+                          <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                            <div className="bg-blue-500 h-2 rounded-full" style={{width: '34%'}}></div>
+                          </div>
+                          <span className="text-sm font-medium">34%</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-700">Casual Dining</span>
+                        <div className="flex items-center">
+                          <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                            <div className="bg-green-500 h-2 rounded-full" style={{width: '28%'}}></div>
+                          </div>
+                          <span className="text-sm font-medium">28%</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-700">Hotel & Hospitality</span>
+                        <div className="flex items-center">
+                          <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                            <div className="bg-purple-500 h-2 rounded-full" style={{width: '18%'}}></div>
+                          </div>
+                          <span className="text-sm font-medium">18%</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-700">Own Business</span>
+                        <div className="flex items-center">
+                          <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                            <div className="bg-orange-500 h-2 rounded-full" style={{width: '14%'}}></div>
+                          </div>
+                          <span className="text-sm font-medium">14%</span>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-700">Corporate/Other</span>
+                        <div className="flex items-center">
+                          <div className="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                            <div className="bg-gray-500 h-2 rounded-full" style={{width: '6%'}}></div>
+                          </div>
+                          <span className="text-sm font-medium">6%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-3">Salary Ranges by Experience</h4>
+                    <div className="space-y-3">
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm font-medium text-gray-700">0-2 Years</span>
+                          <span className="text-sm font-bold text-green-600">$38K - $55K</span>
+                        </div>
+                        <p className="text-xs text-gray-600">Entry-level positions, line cooks</p>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm font-medium text-gray-700">3-5 Years</span>
+                          <span className="text-sm font-bold text-blue-600">$55K - $75K</span>
+                        </div>
+                        <p className="text-xs text-gray-600">Sous chefs, department heads</p>
+                      </div>
+                      <div className="bg-gray-50 rounded-lg p-3">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm font-medium text-gray-700">5+ Years</span>
+                          <span className="text-sm font-bold text-purple-600">$75K - $120K+</span>
+                        </div>
+                        <p className="text-xs text-gray-600">Executive chefs, owners</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Alumni Network Actions */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">⚡ Alumni Network Management</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <button className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                    <div className="text-2xl mb-2">📧</div>
+                    <h4 className="font-medium text-blue-800">Alumni Newsletter</h4>
+                    <p className="text-xs text-blue-600">Send updates and opportunities</p>
+                  </button>
+                  <button className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                    <div className="text-2xl mb-2">🎉</div>
+                    <h4 className="font-medium text-green-800">Plan Alumni Event</h4>
+                    <p className="text-xs text-green-600">Networking and reunions</p>
+                  </button>
+                  <button className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                    <div className="text-2xl mb-2">📄</div>
+                    <h4 className="font-medium text-purple-800">Career Outcomes Report</h4>
+                    <p className="text-xs text-purple-600">Generate success metrics</p>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* User Activity Modal */}
       {showUserActivityModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
