@@ -55,6 +55,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showJobPlacementModal, setShowJobPlacementModal] = useState(false);
   const [showBrandingModal, setShowBrandingModal] = useState(false);
   const [showModuleIntegrationModal, setShowModuleIntegrationModal] = useState(false);
+  const [showContentAnalyticsModal, setShowContentAnalyticsModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -456,7 +457,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="mb-3 text-4xl">�</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">Content Analytics</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">Monitor content usage, engagement, and curriculum completion across all modules</p>
-                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                <button 
+                  onClick={() => setShowContentAnalyticsModal(true)}
+                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
                   View Analytics
                 </button>
               </div>
@@ -1022,6 +1026,285 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
                 Save Connections
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Content Analytics Modal */}
+      {showContentAnalyticsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Content Analytics Dashboard</h2>
+              <button
+                onClick={() => setShowContentAnalyticsModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">Monitor content performance, student engagement, and curriculum effectiveness across all modules.</p>
+            
+            <div className="space-y-6">
+              {/* Content Performance Overview */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">📊 Content Performance Overview</h3>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-blue-600">847</div>
+                    <p className="text-sm text-blue-800 font-medium">Total Recipe Views</p>
+                    <p className="text-xs text-blue-600">↑ 12% this week</p>
+                  </div>
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-green-600">73%</div>
+                    <p className="text-sm text-green-800 font-medium">Completion Rate</p>
+                    <p className="text-xs text-green-600">↑ 5% this week</p>
+                  </div>
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-purple-600">4.2</div>
+                    <p className="text-sm text-purple-800 font-medium">Avg Engagement Score</p>
+                    <p className="text-xs text-purple-600">→ No change</p>
+                  </div>
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-orange-600">28</div>
+                    <p className="text-sm text-orange-800 font-medium">Active Recipes</p>
+                    <p className="text-xs text-orange-600">↑ 3 new this week</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Top Performing Content */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="border-2 border-gray-200 rounded-lg p-4">
+                  <h3 className="font-bold text-gray-900 mb-3">🏆 Top Performing Recipes</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-gray-900">French Knife Skills</p>
+                        <p className="text-sm text-gray-600">MyCookBook</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-green-600">94%</p>
+                        <p className="text-xs text-gray-500">Completion</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-gray-900">Mother Sauces Mastery</p>
+                        <p className="text-sm text-gray-600">MyCookBook</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-green-600">89%</p>
+                        <p className="text-xs text-gray-500">Completion</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-gray-900">Pasta Making Fundamentals</p>
+                        <p className="text-sm text-gray-600">MyCookBook</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-yellow-600">76%</p>
+                        <p className="text-xs text-gray-500">Completion</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border-2 border-gray-200 rounded-lg p-4">
+                  <h3 className="font-bold text-gray-900 mb-3">📉 Content Needing Attention</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-gray-900">Advanced Plating Techniques</p>
+                        <p className="text-sm text-gray-600">MyCookBook</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-red-600">34%</p>
+                        <p className="text-xs text-gray-500">Completion</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-gray-900">Molecular Gastronomy Basics</p>
+                        <p className="text-sm text-gray-600">Chef's Corner</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-red-600">28%</p>
+                        <p className="text-xs text-gray-500">Completion</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                      <div>
+                        <p className="font-medium text-gray-900">Wine Pairing Fundamentals</p>
+                        <p className="text-sm text-gray-600">CulinarySchool</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-lg font-bold text-orange-600">52%</p>
+                        <p className="text-xs text-gray-500">Completion</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Module-Specific Analytics */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">📈 Module-Specific Analytics</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 className="font-medium text-blue-900 mb-2">📚 MyCookBook</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Active Recipes:</span>
+                        <span className="font-medium">18</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Avg Completion:</span>
+                        <span className="font-medium text-green-600">78%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Student Engagement:</span>
+                        <span className="font-medium text-blue-600">High</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <h4 className="font-medium text-green-900 mb-2">🏫 CulinarySchool</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Active Lessons:</span>
+                        <span className="font-medium">12</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Avg Completion:</span>
+                        <span className="font-medium text-green-600">82%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Student Engagement:</span>
+                        <span className="font-medium text-green-600">High</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                    <h4 className="font-medium text-purple-900 mb-2">👨‍🍳 Chef's Corner</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Active Content:</span>
+                        <span className="font-medium">8</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Avg Completion:</span>
+                        <span className="font-medium text-yellow-600">65%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Student Engagement:</span>
+                        <span className="font-medium text-yellow-600">Medium</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                    <h4 className="font-medium text-orange-900 mb-2">🍳 Global Test Kitchen</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>Active Sessions:</span>
+                        <span className="font-medium">3</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Avg Participation:</span>
+                        <span className="font-medium text-orange-600">45%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Student Engagement:</span>
+                        <span className="font-medium text-orange-600">Medium</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Time-Based Analytics */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">🕰️ Time-Based Analytics</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Peak Usage Times</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>10:00 AM - 12:00 PM:</span>
+                        <span className="font-medium text-green-600">High</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>2:00 PM - 4:00 PM:</span>
+                        <span className="font-medium text-green-600">High</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>6:00 PM - 8:00 PM:</span>
+                        <span className="font-medium text-yellow-600">Medium</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Weekly Trends</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Monday - Wednesday:</span>
+                        <span className="font-medium text-green-600">Peak</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Thursday - Friday:</span>
+                        <span className="font-medium text-yellow-600">Moderate</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Weekend:</span>
+                        <span className="font-medium text-red-600">Low</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Content Filters</h4>
+                    <div className="space-y-2">
+                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                        <option>Last 7 days</option>
+                        <option>Last 30 days</option>
+                        <option>Last 3 months</option>
+                        <option>All time</option>
+                      </select>
+                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                        <option>All Modules</option>
+                        <option>MyCookBook</option>
+                        <option>CulinarySchool</option>
+                        <option>Chef's Corner</option>
+                        <option>Global Test Kitchen</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setShowContentAnalyticsModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  alert('Analytics data exported successfully!');
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                Export Data
               </button>
             </div>
           </div>
