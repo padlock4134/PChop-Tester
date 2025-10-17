@@ -891,7 +891,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="font-bold text-gray-900 mb-3">📋 Content Distribution</h3>
                 <p className="text-sm text-gray-600 mb-4">Choose which parts of your uploaded content go to each module:</p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                     <div className="flex items-center mb-3">
                       <div className="text-2xl mr-2">🍳</div>
