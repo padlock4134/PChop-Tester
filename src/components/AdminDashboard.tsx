@@ -162,10 +162,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     value: string | number;
     icon: React.ElementType;
   }) => (
-    <div className="bg-white rounded-lg shadow-md p-6 border-l-4 border-maineBlue">
+    <div className="bg-white rounded-lg shadow-md p-4 border-4 border-maineBlue">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-600">{title}</p>
+          <p className="text-sm font-medium text-gray-600 font-retro">{title}</p>
           <p className="text-2xl font-bold text-maineBlue">{value}</p>
         </div>
         <Icon className="h-8 w-8 text-maineBlue" />
@@ -230,56 +230,73 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="min-h-screen bg-sand">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-4">
-              <h1 className="text-2xl font-bold text-maineBlue">👑 Admin Dashboard</h1>
-              <span className="text-sm text-gray-500">Welcome, {currentUser?.email}</span>
-            </div>
-            {onClose && (
-              <button
-                onClick={onClose}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <XCircleIcon className="h-6 w-6" />
-              </button>
-            )}
+    <div className="mb-8 mx-auto">
+      {/* Main Admin Dashboard - matching student dashboard style */}
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
+        {/* Dashboard header - matching student dashboard */}
+        <div className="text-center mb-6">
+          <h1 className="text-4xl font-retro text-maineBlue mb-2">👑 Admin Dashboard</h1>
+          <p className="text-gray-600 italic">Manage your PorkChop platform with powerful admin tools!</p>
+        </div>
+        
+        {/* Separation line */}
+        <hr className="border-t-2 border-maineBlue mb-6" />
+        
+        {/* Admin Module Navigation - matching student dashboard grid */}
+        <div className="mb-4 p-3">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`flex flex-col items-center p-6 rounded-lg border-4 ${
+                activeTab === 'overview' 
+                  ? 'border-seafoam bg-teal-50 scale-105' 
+                  : 'border-seafoam bg-teal-50'
+              } text-black hover:scale-105 transition-transform duration-200 text-center`}
+            >
+              <div className="mb-3 text-4xl">📊</div>
+              <h3 className="text-sm font-bold font-retro">Overview</h3>
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('users')}
+              className={`flex flex-col items-center p-6 rounded-lg border-4 ${
+                activeTab === 'users' 
+                  ? 'border-blue-400 bg-blue-50 scale-105' 
+                  : 'border-blue-400 bg-blue-50'
+              } text-black hover:scale-105 transition-transform duration-200 text-center`}
+            >
+              <div className="mb-3 text-4xl">👥</div>
+              <h3 className="text-sm font-bold font-retro">Users</h3>
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('content')}
+              className={`flex flex-col items-center p-6 rounded-lg border-4 ${
+                activeTab === 'content' 
+                  ? 'border-red-400 bg-red-50 scale-105' 
+                  : 'border-red-400 bg-red-50'
+              } text-black hover:scale-105 transition-transform duration-200 text-center`}
+            >
+              <div className="mb-3 text-4xl">📝</div>
+              <h3 className="text-sm font-bold font-retro">Content</h3>
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('system')}
+              className={`flex flex-col items-center p-6 rounded-lg border-4 ${
+                activeTab === 'system' 
+                  ? 'border-yellow-300 bg-yellow-50 scale-105' 
+                  : 'border-yellow-300 bg-yellow-50'
+              } text-black hover:scale-105 transition-transform duration-200 text-center`}
+            >
+              <div className="mb-3 text-4xl">⚙️</div>
+              <h3 className="text-sm font-bold font-retro">System</h3>
+            </button>
           </div>
         </div>
-      </div>
 
-      {/* Navigation Tabs */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="border-b border-gray-200">
-          <nav className="-mb-px flex space-x-8">
-            {[
-              { id: 'overview', name: 'Overview', icon: ChartBarIcon },
-              { id: 'users', name: 'Users', icon: UsersIcon },
-              { id: 'content', name: 'Content', icon: DocumentTextIcon },
-              { id: 'system', name: 'System', icon: CogIcon },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`${
-                  activeTab === tab.id
-                    ? 'border-maineBlue text-maineBlue'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex items-center space-x-2`}
-              >
-                <tab.icon className="h-5 w-5" />
-                <span>{tab.name}</span>
-              </button>
-            ))}
-          </nav>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Content Area */}
+        <div className="px-2">
         {activeTab === 'overview' && (
           <div className="space-y-6">
             {/* Stats Grid */}
@@ -291,20 +308,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </div>
 
             {/* Subscription Stats */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-lg font-bold text-maineBlue mb-4">Subscription Overview</h3>
+            <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
+              <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Subscription Overview</h3>
               <div className="grid grid-cols-3 gap-4">
-                <div className="text-center">
+                <div className="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
                   <p className="text-2xl font-bold text-green-600">{stats.subscriptions.active}</p>
-                  <p className="text-sm text-gray-600">Active</p>
+                  <p className="text-sm text-gray-600 font-retro">Active</p>
                 </div>
-                <div className="text-center">
+                <div className="text-center p-4 bg-yellow-50 rounded-lg border-2 border-yellow-200">
                   <p className="text-2xl font-bold text-yellow-600">{stats.subscriptions.trial}</p>
-                  <p className="text-sm text-gray-600">Trial</p>
+                  <p className="text-sm text-gray-600 font-retro">Trial</p>
                 </div>
-                <div className="text-center">
+                <div className="text-center p-4 bg-red-50 rounded-lg border-2 border-red-200">
                   <p className="text-2xl font-bold text-red-600">{stats.subscriptions.cancelled}</p>
-                  <p className="text-sm text-gray-600">Cancelled</p>
+                  <p className="text-sm text-gray-600 font-retro">Cancelled</p>
                 </div>
               </div>
             </div>
@@ -312,10 +329,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         )}
 
         {activeTab === 'users' && (
-          <div className="bg-white rounded-lg shadow-md">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <h3 className="text-lg font-bold text-maineBlue">User Management</h3>
-              <p className="text-sm text-gray-600">Manage user accounts, XP, and activity</p>
+          <div className="bg-white rounded-lg shadow-md border-4 border-maineBlue">
+            <div className="px-6 py-4 border-b border-maineBlue">
+              <h3 className="text-lg font-bold text-maineBlue font-retro">User Management</h3>
+              <p className="text-sm text-gray-600 italic">Manage user accounts, XP, and activity</p>
             </div>
             
             <div className="overflow-x-auto">
@@ -366,20 +383,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         )}
 
         {activeTab === 'content' && (
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-bold text-maineBlue mb-4">Content Management</h3>
+          <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
+            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Content Management</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="border border-gray-200 rounded-lg p-4">
-                <h4 className="font-semibold text-gray-900 mb-2">Weekly Challenges</h4>
-                <p className="text-sm text-gray-600 mb-3">Manage weekly cooking challenges</p>
-                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700">
+              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🏆</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Weekly Challenges</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Manage weekly cooking challenges</p>
+                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
                   Manage Challenges
                 </button>
               </div>
-              <div className="border border-gray-200 rounded-lg p-4">
-                <h4 className="font-semibold text-gray-900 mb-2">Recipe Moderation</h4>
-                <p className="text-sm text-gray-600 mb-3">Review and moderate user recipes</p>
-                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700">
+              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">📋</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Recipe Moderation</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Review and moderate user recipes</p>
+                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
                   Review Recipes
                 </button>
               </div>
@@ -388,32 +407,31 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         )}
 
         {activeTab === 'system' && (
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-bold text-maineBlue mb-4">System Controls</h3>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-                <div>
-                  <h4 className="font-semibold text-gray-900">Refresh Admin Data</h4>
-                  <p className="text-sm text-gray-600">Reload all dashboard statistics</p>
-                </div>
+          <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
+            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">System Controls</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="border-4 border-yellow-300 bg-yellow-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🔄</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Refresh Data</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Reload all dashboard statistics</p>
                 <button
                   onClick={fetchAdminData}
-                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Refresh
                 </button>
               </div>
               
-              <div className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
-                <div>
-                  <h4 className="font-semibold text-gray-900">Database Health</h4>
-                  <p className="text-sm text-gray-600">Check database connection and performance</p>
-                </div>
-                <span className="text-green-600 font-semibold">✓ Healthy</span>
+              <div className="border-4 border-green-300 bg-green-50 rounded-lg p-6 text-center">
+                <div className="mb-3 text-4xl">💚</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Database Health</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">System status and performance</p>
+                <span className="text-green-600 font-semibold font-retro text-lg">✓ Healthy</span>
               </div>
             </div>
           </div>
         )}
+        </div>
       </div>
 
       {/* User Edit Modal */}
