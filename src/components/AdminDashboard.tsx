@@ -418,30 +418,30 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         {activeTab === 'content' && (
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">School Curriculum Management</h3>
+            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Content Integration & Management</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📖</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Upload School Recipes</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Import your school's proprietary curriculum content</p>
+                <div className="mb-3 text-4xl">�</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Module Integration</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Connect MyCookBook recipes to CulinarySchool curriculum and assignments</p>
                 <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
-                  Upload Content
+                  Manage Connections
                 </button>
               </div>
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🗂️</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Curriculum Mapping</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Organize content into your course structure</p>
+                <div className="mb-3 text-4xl">�</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Content Analytics</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Monitor content usage, engagement, and curriculum completion across all modules</p>
                 <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
-                  Map Courses
+                  View Analytics
                 </button>
               </div>
               <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📊</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Assessment Tools</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Create school-specific assessments and grading</p>
+                <div className="mb-3 text-4xl">⚙️</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Cross-Platform Configuration</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Configure content permissions, access levels, and approval workflows</p>
                 <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
-                  Manage Assessments
+                  Configure Settings
                 </button>
               </div>
             </div>
