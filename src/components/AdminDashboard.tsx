@@ -60,6 +60,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showUserActivityModal, setShowUserActivityModal] = useState(false);
   const [showProgramPerformanceModal, setShowProgramPerformanceModal] = useState(false);
   const [showEnrollmentHealthModal, setShowEnrollmentHealthModal] = useState(false);
+  const [showStudentManagementModal, setShowStudentManagementModal] = useState(false);
+  const [showFacultyManagementModal, setShowFacultyManagementModal] = useState(false);
+  const [showUserRolesModal, setShowUserRolesModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -383,55 +386,42 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         )}
 
         {activeTab === 'users' && (
-          <div className="bg-white rounded-lg shadow-md border-4 border-maineBlue">
-            <div className="px-6 py-4 border-b border-maineBlue">
-              <h3 className="text-lg font-bold text-maineBlue font-retro">Students & Faculty Management</h3>
-              <p className="text-sm text-gray-600 italic">Manage student progress and faculty access to your school's curriculum</p>
-            </div>
-            
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">XP</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Level</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Chat Count</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Active</th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {users.map((user) => (
-                    <tr key={user.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{user.email}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.username || 'N/A'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.xp || 0}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.level || 1}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.chat_count || 0}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {user.last_chat_date ? new Date(user.last_chat_date).toLocaleDateString() : 'Never'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button
-                          onClick={() => setSelectedUser(user)}
-                          className="text-maineBlue hover:text-lobsterRed mr-3"
-                        >
-                          <PencilIcon className="h-4 w-4" />
-                        </button>
-                        <button
-                          onClick={() => resetUserChatCount(user.id)}
-                          className="text-yellow-600 hover:text-yellow-800"
-                          title="Reset Chat Count"
-                        >
-                          <ArrowUpIcon className="h-4 w-4" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
+            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Students & Faculty Management</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🎓</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Student Management</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Manage student progress, XP levels, and academic performance tracking</p>
+                <button 
+                  onClick={() => setShowStudentManagementModal(true)}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Manage Students
+                </button>
+              </div>
+              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">👩‍🏫</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Faculty Management</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Manage instructor access, permissions, and curriculum responsibilities</p>
+                <button 
+                  onClick={() => setShowFacultyManagementModal(true)}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Manage Faculty
+                </button>
+              </div>
+              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🔑</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">User Roles & Permissions</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Configure access levels, role assignments, and platform permissions</p>
+                <button 
+                  onClick={() => setShowUserRolesModal(true)}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Manage Roles
+                </button>
+              </div>
             </div>
           </div>
         )}
