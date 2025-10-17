@@ -379,25 +379,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
             </div>
-            
-            {/* Enrollment Health */}
-            <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-              <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Enrollment Health</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="text-center p-4 bg-emerald-50 rounded-lg border-4 border-emerald-400">
-                  <p className="text-2xl font-bold text-emerald-600">{stats.subscriptions.active}</p>
-                  <p className="text-sm text-gray-600 font-retro">Active Enrollments</p>
-                </div>
-                <div className="text-center p-4 bg-yellow-50 rounded-lg border-4 border-yellow-400">
-                  <p className="text-2xl font-bold text-yellow-600">{stats.subscriptions.trial}</p>
-                  <p className="text-sm text-gray-600 font-retro">Trial Students</p>
-                </div>
-                <div className="text-center p-4 bg-red-50 rounded-lg border-4 border-red-400">
-                  <p className="text-2xl font-bold text-red-600">{Math.round((stats.activeUsers / Math.max(stats.totalUsers, 1)) * 100)}%</p>
-                  <p className="text-sm text-gray-600 font-retro">Weekly Engagement</p>
-                </div>
-              </div>
-            </div>
           </div>
         )}
 
