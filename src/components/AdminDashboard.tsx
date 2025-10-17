@@ -56,6 +56,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showBrandingModal, setShowBrandingModal] = useState(false);
   const [showModuleIntegrationModal, setShowModuleIntegrationModal] = useState(false);
   const [showContentAnalyticsModal, setShowContentAnalyticsModal] = useState(false);
+  const [showConfigurationModal, setShowConfigurationModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -468,7 +469,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="mb-3 text-4xl">⚙️</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">Cross-Platform Configuration</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">Configure content permissions, access levels, and approval workflows</p>
-                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                <button 
+                  onClick={() => setShowConfigurationModal(true)}
+                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
                   Configure Settings
                 </button>
               </div>
@@ -1305,6 +1309,357 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
                 Export Data
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cross-Platform Configuration Modal */}
+      {showConfigurationModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-5xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Cross-Platform Configuration</h2>
+              <button
+                onClick={() => setShowConfigurationModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">Configure content permissions, access levels, and approval workflows across all PorkChop modules.</p>
+            
+            <div className="space-y-6">
+              {/* Content Approval Workflows */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">✅ Content Approval Workflows</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-3">Recipe Approval Process</h4>
+                    <div className="space-y-3">
+                      <label className="flex items-center">
+                        <input type="radio" name="recipe-approval" className="mr-2" checked />
+                        <span className="text-sm">Auto-approve all recipes</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="recipe-approval" className="mr-2" />
+                        <span className="text-sm">Require instructor approval</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="recipe-approval" className="mr-2" />
+                        <span className="text-sm">Require admin approval</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="recipe-approval" className="mr-2" />
+                        <span className="text-sm">Multi-level approval (Instructor → Admin)</span>
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-3">Assignment Submission Process</h4>
+                    <div className="space-y-3">
+                      <label className="flex items-center">
+                        <input type="radio" name="assignment-approval" className="mr-2" />
+                        <span className="text-sm">Auto-accept submissions</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="assignment-approval" className="mr-2" checked />
+                        <span className="text-sm">Require instructor review</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="assignment-approval" className="mr-2" />
+                        <span className="text-sm">Peer review + instructor approval</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="radio" name="assignment-approval" className="mr-2" />
+                        <span className="text-sm">AI pre-screening + instructor review</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Access Level Management */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">🔐 Access Level Management</h3>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">User Role</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">MyCookBook</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">CulinarySchool</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Chef's Corner</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Global Test Kitchen</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Admin Dashboard</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-sm">
+                      <tr className="border-b">
+                        <td className="py-3 px-4 font-medium">Student</td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Read Only</option>
+                            <option>Full Access</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>No Access</option>
+                            <option>Read Only</option>
+                            <option>Full Access</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="py-3 px-4 font-medium">Instructor</td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Read Only</option>
+                            <option>Full Access</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="py-3 px-4 font-medium">Administrator</td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                        <td className="text-center py-3 px-4">
+                          <select className="px-2 py-1 border rounded text-xs">
+                            <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Platform-Wide Settings */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">⚙️ Platform-Wide Settings</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-3">Content Moderation</h4>
+                    <div className="space-y-2">
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span className="text-sm">Enable AI content filtering</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span className="text-sm">Flag inappropriate language</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span className="text-sm">Auto-moderate chat messages</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span className="text-sm">Require image approval</span>
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-3">Data Privacy & Security</h4>
+                    <div className="space-y-2">
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span className="text-sm">Enable audit logging</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span className="text-sm">Encrypt sensitive data</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span className="text-sm">Allow data export requests</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span className="text-sm">Require 2FA for admins</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Integration Settings */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">🔗 Integration Settings</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">External APIs</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between items-center">
+                        <span>Google Vision API:</span>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Anthropic AI:</span>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Stripe Payments:</span>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>YouTube API:</span>
+                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Limited</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Notification Settings</h4>
+                    <div className="space-y-2">
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span>Email notifications</span>
+                      </label>
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" />
+                        <span>SMS notifications</span>
+                      </label>
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span>Push notifications</span>
+                      </label>
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span>In-app notifications</span>
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Backup & Recovery</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between items-center">
+                        <span>Auto Backup:</span>
+                        <select className="px-2 py-1 border rounded text-xs">
+                          <option>Daily</option>
+                          <option>Weekly</option>
+                          <option>Monthly</option>
+                          <option>Disabled</option>
+                        </select>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span>Retention:</span>
+                        <select className="px-2 py-1 border rounded text-xs">
+                          <option>30 days</option>
+                          <option>90 days</option>
+                          <option>1 year</option>
+                          <option>Indefinite</option>
+                        </select>
+                      </div>
+                      <button className="w-full px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-xs">
+                        Manual Backup Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setShowConfigurationModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  alert('Configuration settings saved successfully!');
+                  setShowConfigurationModal(false);
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                Save Configuration
               </button>
             </div>
           </div>
