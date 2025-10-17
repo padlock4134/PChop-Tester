@@ -1193,6 +1193,119 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
       )}
 
+      {/* Program Performance Modal */}
+      {showProgramPerformanceModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Culinary Program Performance</h2>
+              <button
+                onClick={() => setShowProgramPerformanceModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">Track program completion rates, student satisfaction, and overall curriculum effectiveness.</p>
+            
+            <div className="space-y-6">
+              {/* Program Completion Rates */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">🎓 Program Completion Rates</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-green-600">87%</div>
+                    <p className="text-sm text-green-800 font-medium">Overall Completion</p>
+                    <p className="text-xs text-green-600">↑ 5% vs last semester</p>
+                  </div>
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-blue-600">92%</div>
+                    <p className="text-sm text-blue-800 font-medium">Assignment Completion</p>
+                    <p className="text-xs text-blue-600">↑ 3% vs last semester</p>
+                  </div>
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-purple-600">78%</div>
+                    <p className="text-sm text-purple-800 font-medium">Video Submissions</p>
+                    <p className="text-xs text-purple-600">↑ 12% vs last semester</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Student Satisfaction */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">⭐ Student Satisfaction Metrics</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="bg-yellow-50 border-4 border-yellow-400 rounded-lg p-4 text-center">
+                    <div className="text-4xl font-bold text-yellow-600">4.2/5</div>
+                    <p className="text-sm text-yellow-800 font-medium">Overall Program Rating</p>
+                    <p className="text-xs text-yellow-600">Based on 234 student reviews</p>
+                  </div>
+                  <div className="bg-emerald-50 border-4 border-emerald-400 rounded-lg p-4 text-center">
+                    <div className="text-4xl font-bold text-emerald-600">94%</div>
+                    <p className="text-sm text-emerald-800 font-medium">Would Recommend</p>
+                    <p className="text-xs text-emerald-600">Students who'd recommend program</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Skill Progression Tracking */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">📊 Skill Progression Tracking</h3>
+                <div className="space-y-4">
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Knife Skills (52 Techniques)</span>
+                      <span className="text-sm font-bold text-blue-600">Average: 38/52 completed</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-3">
+                      <div className="bg-blue-600 h-3 rounded-full" style={{width: '73%'}}></div>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Assignment Grades</span>
+                      <span className="text-sm font-bold text-green-600">Average: 85.2%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-3">
+                      <div className="bg-green-600 h-3 rounded-full" style={{width: '85%'}}></div>
+                    </div>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium">Video Quality Scores</span>
+                      <span className="text-sm font-bold text-purple-600">Average: 4.1/5</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-3">
+                      <div className="bg-purple-600 h-3 rounded-full" style={{width: '82%'}}></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Learning Outcomes Achievement */}
+              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-6">
+                <h3 className="font-bold text-red-900 mb-4">⚠️ Areas Needing Attention</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-white border border-red-200 rounded-lg p-3">
+                    <div className="text-2xl font-bold text-red-600 mb-1">23%</div>
+                    <p className="text-sm text-red-800">Students struggling with timing</p>
+                  </div>
+                  <div className="bg-white border border-red-200 rounded-lg p-3">
+                    <div className="text-2xl font-bold text-red-600 mb-1">15%</div>
+                    <p className="text-sm text-red-800">Late assignment submissions</p>
+                  </div>
+                  <div className="bg-white border border-red-200 rounded-lg p-3">
+                    <div className="text-2xl font-bold text-red-600 mb-1">8%</div>
+                    <p className="text-sm text-red-800">Below 70% grade average</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Content Analytics Modal */}
       {showContentAnalyticsModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
