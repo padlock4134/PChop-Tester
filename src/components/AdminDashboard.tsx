@@ -1143,6 +1143,30 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <span className="text-sm font-bold text-orange-600">42%</span>
                     </div>
                   </div>
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center">
+                      <span className="text-lg mr-3">📁</span>
+                      <span className="font-medium">Collections Library</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                        <div className="bg-purple-600 h-2 rounded-full" style={{width: '58%'}}></div>
+                      </div>
+                      <span className="text-sm font-bold text-purple-600">58%</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center">
+                      <span className="text-lg mr-3">📊</span>
+                      <span className="font-medium">Gradebook</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                        <div className="bg-green-600 h-2 rounded-full" style={{width: '73%'}}></div>
+                      </div>
+                      <span className="text-sm font-bold text-green-600">73%</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
