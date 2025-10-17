@@ -900,19 +900,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 text-sm">
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" checked />
-                        <span>Recipe database for matcher</span>
+                        <span>Recipe databases → Feeds matcher algorithm</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Ingredient-recipe relationships</span>
+                        <span>Ingredient knowledge bases → Enhances fuzzy matching</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Recipe matching algorithms</span>
+                        <span>Kitchen setup configurations → Equipment recommendations</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Culinary pairing rules</span>
+                        <span>Dietary restriction mappings → Health tag generation</span>
                       </label>
                     </div>
                   </div>
@@ -925,19 +925,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 text-sm">
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" checked />
-                        <span>Assignment recipes</span>
+                        <span>Assignment templates → Creates new gradebook assignments</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" checked />
-                        <span>Grading rubrics & criteria</span>
+                        <span>Grading rubrics → Video submission evaluation</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Video submission requirements</span>
+                        <span>Recipe collections → Organized by curriculum week</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Assessment frameworks</span>
+                        <span>Video requirements → Student demonstration specs</span>
                       </label>
                     </div>
                   </div>
@@ -950,19 +950,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 text-sm">
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" checked />
-                        <span>Complete syllabus structure</span>
+                        <span>Custom technique sequences → Supplements 52 fundamentals</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Weekly lesson plans</span>
+                        <span>Syllabus structures → Maps techniques to curriculum</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>52 technique progression</span>
+                        <span>Lesson plans → Adds to 6 general lessons</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Learning outcomes</span>
+                        <span>Learning objectives → Student achievement goals</span>
                       </label>
                     </div>
                   </div>
@@ -975,19 +975,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 text-sm">
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Chef demonstration content</span>
+                        <span>Chef demonstration videos → Global Test Kitchen content</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Global Test Kitchen session plans</span>
+                        <span>Industry insights → Professional tips & knowledge</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Professional tips & industry insights</span>
+                        <span>Live session schedules → Planned cooking demonstrations</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Live session schedules</span>
+                        <span>Market partnerships → Local sourcing connections</span>
                       </label>
                     </div>
                   </div>
