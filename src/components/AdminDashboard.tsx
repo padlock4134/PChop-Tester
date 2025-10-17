@@ -1065,8 +1065,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Module Usage Breakdown */}
-              <div className="border-4 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">📊 Module Usage Breakdown</h3>
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">📊 Module Usage Breakdown</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                     <div className="flex items-center mb-2">
@@ -1104,8 +1104,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Feature Adoption */}
-              <div className="border-4 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">🚀 Feature Adoption Rates</h3>
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">🚀 Feature Adoption Rates</h3>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
