@@ -54,6 +54,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showExportModal, setShowExportModal] = useState(false);
   const [showJobPlacementModal, setShowJobPlacementModal] = useState(false);
   const [showBrandingModal, setShowBrandingModal] = useState(false);
+  const [showModuleIntegrationModal, setShowModuleIntegrationModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -444,7 +445,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="mb-3 text-4xl">�</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">Module Integration</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">Connect MyCookBook recipes to CulinarySchool curriculum and assignments</p>
-                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                <button 
+                  onClick={() => setShowModuleIntegrationModal(true)}
+                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
                   Manage Connections
                 </button>
               </div>
@@ -816,6 +820,208 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
                 Save Branding
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Module Integration Modal */}
+      {showModuleIntegrationModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Module Integration & Connections</h2>
+              <button
+                onClick={() => setShowModuleIntegrationModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">Connect and synchronize content between MyCookBook, CulinarySchool, and other modules.</p>
+            
+            <div className="space-y-6">
+              {/* Connection Status Overview */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">🔗 Connection Status</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
+                    <div className="text-2xl text-green-600 mb-1">✓</div>
+                    <p className="text-sm font-medium text-green-800">MyCookBook ↔ CulinarySchool</p>
+                    <p className="text-xs text-green-600">Connected</p>
+                  </div>
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-center">
+                    <div className="text-2xl text-yellow-600 mb-1">⚠</div>
+                    <p className="text-sm font-medium text-yellow-800">Chef's Corner ↔ Curriculum</p>
+                    <p className="text-xs text-yellow-600">Partial</p>
+                  </div>
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
+                    <div className="text-2xl text-red-600 mb-1">✗</div>
+                    <p className="text-sm font-medium text-red-800">Global Test Kitchen ↔ Assignments</p>
+                    <p className="text-xs text-red-600">Disconnected</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Recipe-to-Curriculum Mapping */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">📚 Recipe-to-Curriculum Mapping</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">French Knife Skills</p>
+                      <p className="text-sm text-gray-600">MyCookBook Recipe</p>
+                    </div>
+                    <div className="text-2xl text-gray-400 mx-4">↔</div>
+                    <div className="flex-1">
+                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                        <option>Week 3: Knife Skills & Mother Sauces</option>
+                        <option>Week 1: Kitchen Fundamentals</option>
+                        <option>Week 5: Protein Cookery</option>
+                        <option>Unassigned</option>
+                      </select>
+                    </div>
+                    <button className="ml-3 px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 text-sm">
+                      Link
+                    </button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">Mother Sauces Mastery</p>
+                      <p className="text-sm text-gray-600">MyCookBook Recipe</p>
+                    </div>
+                    <div className="text-2xl text-gray-400 mx-4">↔</div>
+                    <div className="flex-1">
+                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                        <option>Week 3: Knife Skills & Mother Sauces</option>
+                        <option>Week 1: Kitchen Fundamentals</option>
+                        <option>Week 5: Protein Cookery</option>
+                        <option>Unassigned</option>
+                      </select>
+                    </div>
+                    <button className="ml-3 px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 text-sm">
+                      Link
+                    </button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex-1">
+                      <p className="font-medium text-gray-900">Pasta Making Fundamentals</p>
+                      <p className="text-sm text-gray-600">MyCookBook Recipe</p>
+                    </div>
+                    <div className="text-2xl text-gray-400 mx-4">↔</div>
+                    <div className="flex-1">
+                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                        <option>Unassigned</option>
+                        <option>Week 1: Kitchen Fundamentals</option>
+                        <option>Week 3: Knife Skills & Mother Sauces</option>
+                        <option>Week 5: Protein Cookery</option>
+                      </select>
+                    </div>
+                    <button className="ml-3 px-3 py-1 bg-gray-100 text-gray-600 rounded hover:bg-gray-200 text-sm">
+                      Link
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Assignment Integration */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">📋 Assignment Integration</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Auto-Link Settings</h4>
+                    <div className="space-y-2">
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span className="text-sm">Auto-assign recipes to matching curriculum topics</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span className="text-sm">Sync gradebook entries across modules</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span className="text-sm">Update XP rewards for linked content</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-2">Sync Frequency</h4>
+                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                      <option>Real-time</option>
+                      <option>Every 15 minutes</option>
+                      <option>Hourly</option>
+                      <option>Daily</option>
+                      <option>Manual only</option>
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">How often to synchronize data between modules</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Module Permissions */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">🔒 Module Permissions</h3>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-2 px-3 text-sm font-medium text-gray-700">Module</th>
+                        <th className="text-center py-2 px-3 text-sm font-medium text-gray-700">Read</th>
+                        <th className="text-center py-2 px-3 text-sm font-medium text-gray-700">Write</th>
+                        <th className="text-center py-2 px-3 text-sm font-medium text-gray-700">Admin</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-sm">
+                      <tr className="border-b">
+                        <td className="py-2 px-3">MyCookBook</td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="py-2 px-3">CulinarySchool</td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
+                      </tr>
+                      <tr className="border-b">
+                        <td className="py-2 px-3">Chef's Corner</td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" checked /></td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
+                      </tr>
+                      <tr>
+                        <td className="py-2 px-3">Global Test Kitchen</td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
+                        <td className="text-center py-2 px-3"><input type="checkbox" /></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setShowModuleIntegrationModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  alert('Module integration settings saved successfully!');
+                  setShowModuleIntegrationModal(false);
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                Save Connections
               </button>
             </div>
           </div>
