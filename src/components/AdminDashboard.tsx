@@ -899,16 +899,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="space-y-2 text-sm">
                       <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
-                        <span>Ingredient lists</span>
+                        <input type="checkbox" className="mr-2" checked />
+                        <span>Recipe database for matcher</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Equipment requirements</span>
+                        <span>Ingredient-recipe relationships</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Shopping lists</span>
+                        <span>Recipe matching algorithms</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Culinary pairing rules</span>
                       </label>
                     </div>
                   </div>
@@ -921,15 +925,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 text-sm">
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" checked />
-                        <span>Recipes & instructions</span>
+                        <span>Assignment recipes</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" checked />
-                        <span>Assignments & projects</span>
+                        <span>Grading rubrics & criteria</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Grading rubrics</span>
+                        <span>Video submission requirements</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Assessment frameworks</span>
                       </label>
                     </div>
                   </div>
@@ -942,15 +950,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 text-sm">
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" checked />
-                        <span>Syllabus structure</span>
+                        <span>Complete syllabus structure</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Learning objectives</span>
+                        <span>Weekly lesson plans</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Course timeline</span>
+                        <span>52 technique progression</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Learning outcomes</span>
                       </label>
                     </div>
                   </div>
@@ -963,15 +975,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 text-sm">
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Chef demonstrations</span>
+                        <span>Chef demonstration content</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Cooking tips & tricks</span>
+                        <span>Global Test Kitchen session plans</span>
                       </label>
                       <label className="flex items-center">
                         <input type="checkbox" className="mr-2" />
-                        <span>Live session content</span>
+                        <span>Professional tips & industry insights</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Live session schedules</span>
                       </label>
                     </div>
                   </div>
