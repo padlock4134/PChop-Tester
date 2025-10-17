@@ -1041,22 +1041,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-maineBlue rounded-lg p-6">
                 <h3 className="font-bold text-maineBlue mb-4">📅 Login Patterns</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-blue-600">342</div>
                     <p className="text-sm text-blue-800 font-medium">Daily Logins</p>
                     <p className="text-xs text-blue-600">↑ 8% vs yesterday</p>
                   </div>
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-green-600">1,847</div>
                     <p className="text-sm text-green-800 font-medium">Weekly Logins</p>
                     <p className="text-xs text-green-600">↑ 15% vs last week</p>
                   </div>
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-purple-600">23 min</div>
                     <p className="text-sm text-purple-800 font-medium">Avg Session</p>
                     <p className="text-xs text-purple-600">↑ 3 min vs last week</p>
                   </div>
-                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-orange-600">89%</div>
                     <p className="text-sm text-orange-800 font-medium">Weekly Active</p>
                     <p className="text-xs text-orange-600">↑ 4% vs last week</p>
@@ -1068,7 +1068,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-gray-200 rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-3">📊 Module Usage Breakdown</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                     <div className="flex items-center mb-2">
                       <div className="text-2xl mr-2">🍳</div>
                       <h4 className="font-medium text-blue-800">MyKitchen</h4>
@@ -1076,7 +1076,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="text-2xl font-bold text-blue-600 mb-1">67%</div>
                     <p className="text-xs text-blue-600">2,340 sessions this week</p>
                   </div>
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4">
                     <div className="flex items-center mb-2">
                       <div className="text-2xl mr-2">📖</div>
                       <h4 className="font-medium text-green-800">MyCookBook</h4>
@@ -1084,7 +1084,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="text-2xl font-bold text-green-600 mb-1">84%</div>
                     <p className="text-xs text-green-600">1,890 assignments viewed</p>
                   </div>
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4">
                     <div className="flex items-center mb-2">
                       <div className="text-2xl mr-2">🏫</div>
                       <h4 className="font-medium text-purple-800">CulinarySchool</h4>
@@ -1092,7 +1092,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="text-2xl font-bold text-purple-600 mb-1">72%</div>
                     <p className="text-xs text-purple-600">1,456 technique views</p>
                   </div>
-                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4">
                     <div className="flex items-center mb-2">
                       <div className="text-2xl mr-2">👨‍🍳</div>
                       <h4 className="font-medium text-orange-800">Chef's Corner</h4>
