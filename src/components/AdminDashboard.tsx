@@ -53,6 +53,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showJobPlacementModal, setShowJobPlacementModal] = useState(false);
+  const [showBrandingModal, setShowBrandingModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -475,7 +476,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="mb-3 text-4xl">🎨</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">School Branding</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">Customize platform with your school's identity</p>
-                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                <button 
+                  onClick={() => setShowBrandingModal(true)}
+                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
                   Customize Branding
                 </button>
               </div>
@@ -660,6 +664,158 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
               >
                 Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* School Branding Modal */}
+      {showBrandingModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">School Branding & Identity</h2>
+              <button
+                onClick={() => setShowBrandingModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">Customize PorkChop's appearance to match your school's brand and identity.</p>
+            
+            <div className="space-y-6">
+              {/* School Logo */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">🏫 School Logo</h3>
+                <div className="flex items-center space-x-4">
+                  <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
+                    <span className="text-gray-400 text-sm">Logo</span>
+                  </div>
+                  <div className="flex-1">
+                    <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                      Upload Logo
+                    </button>
+                    <p className="text-sm text-gray-500 mt-1">Recommended: 200x200px, PNG or JPG</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* School Information */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">📝 School Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">School Name</label>
+                    <input
+                      type="text"
+                      placeholder="Culinary Institute of Excellence"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+                    <input
+                      type="text"
+                      placeholder="Where Culinary Dreams Come True"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">School Description</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Brief description of your culinary program..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Color Scheme */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">🎨 Color Scheme</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
+                    <div className="flex items-center space-x-2">
+                      <input type="color" value="#1e40af" className="w-8 h-8 rounded border" />
+                      <span className="text-sm text-gray-600">#1e40af</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Color</label>
+                    <div className="flex items-center space-x-2">
+                      <input type="color" value="#059669" className="w-8 h-8 rounded border" />
+                      <span className="text-sm text-gray-600">#059669</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
+                    <div className="flex items-center space-x-2">
+                      <input type="color" value="#dc2626" className="w-8 h-8 rounded border" />
+                      <span className="text-sm text-gray-600">#dc2626</span>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Background</label>
+                    <div className="flex items-center space-x-2">
+                      <input type="color" value="#f8fafc" className="w-8 h-8 rounded border" />
+                      <span className="text-sm text-gray-600">#f8fafc</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Information */}
+              <div className="border-2 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">📞 Contact Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input
+                      type="tel"
+                      placeholder="(555) 123-4567"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input
+                      type="email"
+                      placeholder="info@culinaryschool.edu"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                    <input
+                      type="text"
+                      placeholder="123 Culinary Way, Food City, FC 12345"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setShowBrandingModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  alert('Branding settings saved successfully!');
+                  setShowBrandingModal(false);
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                Save Branding
               </button>
             </div>
           </div>
