@@ -855,7 +855,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Module Integration & Connections</h2>
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Content Upload & Distribution</h2>
               <button
                 onClick={() => setShowModuleIntegrationModal(false)}
                 className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -864,32 +864,116 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Manage and configure content that your school provides to each PorkChop module.</p>
+            <p className="text-gray-600 mb-6">Upload your curriculum, syllabus, and course materials, then distribute content to the appropriate modules.</p>
             
             <div className="space-y-6">
-              {/* Module Content Overview */}
+              {/* Content Upload Area */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">📁 Upload Course Materials</h3>
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                  <div className="text-4xl mb-4">📄</div>
+                  <p className="text-lg font-medium text-gray-700 mb-2">Drag & drop your files here</p>
+                  <p className="text-sm text-gray-500 mb-4">Syllabus, curriculum, recipes, assignments, lesson plans</p>
+                  <div className="flex justify-center gap-4">
+                    <button className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro">
+                      Browse Files
+                    </button>
+                    <button className="bg-gray-100 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-200 font-retro">
+                      Upload from URL
+                    </button>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-2">Supports: PDF, Word, Excel, PowerPoint, Images</p>
+                </div>
+              </div>
+
+              {/* Content Preview & Mapping */}
               <div className="border-4 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">📚 School Content by Module</h3>
+                <h3 className="font-bold text-gray-900 mb-3">📋 Content Distribution</h3>
+                <p className="text-sm text-gray-600 mb-4">Choose which parts of your uploaded content go to each module:</p>
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                    <div className="text-2xl mb-2">🍳</div>
-                    <p className="text-sm font-medium text-blue-800">MyKitchen</p>
-                    <p className="text-xs text-blue-600">Ingredient databases, scanning setup</p>
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
+                    <div className="flex items-center mb-3">
+                      <div className="text-2xl mr-2">🍳</div>
+                      <h4 className="font-medium text-blue-800">MyKitchen</h4>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Ingredient lists</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Equipment requirements</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Shopping lists</span>
+                      </label>
+                    </div>
                   </div>
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                    <div className="text-2xl mb-2">📖</div>
-                    <p className="text-sm font-medium text-green-800">MyCookBook</p>
-                    <p className="text-xs text-green-600">Assignments, gradebook, recipes</p>
+
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4">
+                    <div className="flex items-center mb-3">
+                      <div className="text-2xl mr-2">📖</div>
+                      <h4 className="font-medium text-green-800">MyCookBook</h4>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span>Recipes & instructions</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span>Assignments & projects</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Grading rubrics</span>
+                      </label>
+                    </div>
                   </div>
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
-                    <div className="text-2xl mb-2">🏫</div>
-                    <p className="text-sm font-medium text-purple-800">CulinarySchool</p>
-                    <p className="text-xs text-purple-600">Curriculum, syllabus, techniques</p>
+
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4">
+                    <div className="flex items-center mb-3">
+                      <div className="text-2xl mr-2">🏫</div>
+                      <h4 className="font-medium text-purple-800">CulinarySchool</h4>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" checked />
+                        <span>Syllabus structure</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Learning objectives</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Course timeline</span>
+                      </label>
+                    </div>
                   </div>
-                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
-                    <div className="text-2xl mb-2">👨‍🍳</div>
-                    <p className="text-sm font-medium text-orange-800">Chef's Corner</p>
-                    <p className="text-xs text-orange-600">Chef content, Global Test Kitchen</p>
+
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4">
+                    <div className="flex items-center mb-3">
+                      <div className="text-2xl mr-2">👨‍🍳</div>
+                      <h4 className="font-medium text-orange-800">Chef's Corner</h4>
+                    </div>
+                    <div className="space-y-2 text-sm">
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Chef demonstrations</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Cooking tips & tricks</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input type="checkbox" className="mr-2" />
+                        <span>Live session content</span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1049,6 +1133,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </table>
                 </div>
               </div>
+
+              {/* Publishing Controls */}
+              <div className="border-4 border-green-200 bg-green-50 rounded-lg p-4">
+                <h3 className="font-bold text-green-900 mb-3">🚀 Publish Content</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Publish Date</label>
+                    <input type="date" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Visibility</label>
+                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                      <option>All Students</option>
+                      <option>Specific Classes</option>
+                      <option>Draft (Instructors Only)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Notification</label>
+                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                      <option>Notify Students</option>
+                      <option>Silent Update</option>
+                      <option>Email Announcement</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="flex justify-center gap-4">
+                  <button className="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro">
+                    Save as Draft
+                  </button>
+                  <button className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro">
+                    Publish to Modules
+                  </button>
+                </div>
+              </div>
             </div>
             
             <div className="flex justify-center gap-4 mt-6">
@@ -1060,12 +1179,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
               <button
                 onClick={() => {
-                  alert('Module integration settings saved successfully!');
+                  alert('Content uploaded and distributed successfully!');
                   setShowModuleIntegrationModal(false);
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
-                Save Connections
+                Process Upload
               </button>
             </div>
           </div>
