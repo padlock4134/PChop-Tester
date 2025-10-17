@@ -864,90 +864,110 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Connect and synchronize content between MyCookBook, CulinarySchool, and other modules.</p>
+            <p className="text-gray-600 mb-6">Manage and configure content that your school provides to each PorkChop module.</p>
             
             <div className="space-y-6">
-              {/* Connection Status Overview */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">🔗 Connection Status</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-center">
-                    <div className="text-2xl text-green-600 mb-1">✓</div>
-                    <p className="text-sm font-medium text-green-800">MyCookBook ↔ CulinarySchool</p>
-                    <p className="text-xs text-green-600">Connected</p>
+              {/* Module Content Overview */}
+              <div className="border-4 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">📚 School Content by Module</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                    <div className="text-2xl mb-2">🍳</div>
+                    <p className="text-sm font-medium text-blue-800">MyKitchen</p>
+                    <p className="text-xs text-blue-600">Ingredient databases, scanning setup</p>
                   </div>
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-center">
-                    <div className="text-2xl text-yellow-600 mb-1">⚠</div>
-                    <p className="text-sm font-medium text-yellow-800">Chef's Corner ↔ Curriculum</p>
-                    <p className="text-xs text-yellow-600">Partial</p>
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                    <div className="text-2xl mb-2">📖</div>
+                    <p className="text-sm font-medium text-green-800">MyCookBook</p>
+                    <p className="text-xs text-green-600">Assignments, gradebook, recipes</p>
                   </div>
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-center">
-                    <div className="text-2xl text-red-600 mb-1">✗</div>
-                    <p className="text-sm font-medium text-red-800">Global Test Kitchen ↔ Assignments</p>
-                    <p className="text-xs text-red-600">Disconnected</p>
+                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-3">
+                    <div className="text-2xl mb-2">🏫</div>
+                    <p className="text-sm font-medium text-purple-800">CulinarySchool</p>
+                    <p className="text-xs text-purple-600">Curriculum, syllabus, techniques</p>
+                  </div>
+                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                    <div className="text-2xl mb-2">👨‍🍳</div>
+                    <p className="text-sm font-medium text-orange-800">Chef's Corner</p>
+                    <p className="text-xs text-orange-600">Chef content, Global Test Kitchen</p>
                   </div>
                 </div>
               </div>
 
-              {/* Recipe-to-Curriculum Mapping */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">📚 Recipe-to-Curriculum Mapping</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">French Knife Skills</p>
-                      <p className="text-sm text-gray-600">MyCookBook Recipe</p>
+              {/* School Content Management */}
+              <div className="border-4 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-3">🏢 School Content Management</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-3">MyCookBook Assignments</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between items-center p-2 bg-green-50 rounded">
+                        <span>French Knife Skills & Mother Sauces</span>
+                        <span className="px-2 py-1 bg-green-200 text-green-800 rounded text-xs">Active</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
+                        <span>Protein Cookery Techniques</span>
+                        <span className="px-2 py-1 bg-blue-200 text-blue-800 rounded text-xs">Draft</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                        <span>Baking & Pastry Fundamentals</span>
+                        <span className="px-2 py-1 bg-gray-200 text-gray-800 rounded text-xs">Planned</span>
+                      </div>
                     </div>
-                    <div className="text-2xl text-gray-400 mx-4">↔</div>
-                    <div className="flex-1">
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
-                        <option>Week 3: Knife Skills & Mother Sauces</option>
-                        <option>Week 1: Kitchen Fundamentals</option>
-                        <option>Week 5: Protein Cookery</option>
-                        <option>Unassigned</option>
-                      </select>
-                    </div>
-                    <button className="ml-3 px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 text-sm">
-                      Link
-                    </button>
                   </div>
                   
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">Mother Sauces Mastery</p>
-                      <p className="text-sm text-gray-600">MyCookBook Recipe</p>
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-3">CulinarySchool Curriculum</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between items-center p-2 bg-purple-50 rounded">
+                        <span>52 Weekly Techniques</span>
+                        <span className="px-2 py-1 bg-purple-200 text-purple-800 rounded text-xs">Complete</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-purple-50 rounded">
+                        <span>General Lessons (6 topics)</span>
+                        <span className="px-2 py-1 bg-purple-200 text-purple-800 rounded text-xs">Complete</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-yellow-50 rounded">
+                        <span>Syllabus Structure</span>
+                        <span className="px-2 py-1 bg-yellow-200 text-yellow-800 rounded text-xs">In Progress</span>
+                      </div>
                     </div>
-                    <div className="text-2xl text-gray-400 mx-4">↔</div>
-                    <div className="flex-1">
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
-                        <option>Week 3: Knife Skills & Mother Sauces</option>
-                        <option>Week 1: Kitchen Fundamentals</option>
-                        <option>Week 5: Protein Cookery</option>
-                        <option>Unassigned</option>
-                      </select>
-                    </div>
-                    <button className="ml-3 px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 text-sm">
-                      Link
-                    </button>
                   </div>
                   
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-900">Pasta Making Fundamentals</p>
-                      <p className="text-sm text-gray-600">MyCookBook Recipe</p>
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-3">MyKitchen Setup</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
+                        <span>Ingredient Categories (10)</span>
+                        <span className="px-2 py-1 bg-blue-200 text-blue-800 rounded text-xs">Active</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-blue-50 rounded">
+                        <span>Vision API Integration</span>
+                        <span className="px-2 py-1 bg-blue-200 text-blue-800 rounded text-xs">Active</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                        <span>Custom Ingredient Database</span>
+                        <span className="px-2 py-1 bg-gray-200 text-gray-800 rounded text-xs">Optional</span>
+                      </div>
                     </div>
-                    <div className="text-2xl text-gray-400 mx-4">↔</div>
-                    <div className="flex-1">
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
-                        <option>Unassigned</option>
-                        <option>Week 1: Kitchen Fundamentals</option>
-                        <option>Week 3: Knife Skills & Mother Sauces</option>
-                        <option>Week 5: Protein Cookery</option>
-                      </select>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-gray-800 mb-3">Chef's Corner Content</h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between items-center p-2 bg-orange-50 rounded">
+                        <span>Chef Quotes (52 weekly)</span>
+                        <span className="px-2 py-1 bg-orange-200 text-orange-800 rounded text-xs">Active</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-orange-50 rounded">
+                        <span>Global Test Kitchen</span>
+                        <span className="px-2 py-1 bg-orange-200 text-orange-800 rounded text-xs">Live</span>
+                      </div>
+                      <div className="flex justify-between items-center p-2 bg-orange-50 rounded">
+                        <span>Market Directory</span>
+                        <span className="px-2 py-1 bg-orange-200 text-orange-800 rounded text-xs">Active</span>
+                      </div>
                     </div>
-                    <button className="ml-3 px-3 py-1 bg-gray-100 text-gray-600 rounded hover:bg-gray-200 text-sm">
-                      Link
-                    </button>
                   </div>
                 </div>
               </div>
