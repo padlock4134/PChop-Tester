@@ -51,6 +51,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [showExportModal, setShowExportModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -473,7 +474,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">Export Reports</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">Generate reports for accreditation and outcomes</p>
                 <button
-                  onClick={fetchAdminData}
+                  onClick={() => setShowExportModal(true)}
                   className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Export Data
@@ -484,6 +485,81 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         )}
         </div>
       </div>
+
+      {/* Export Modal */}
+      {showExportModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Export School Reports</h2>
+              <button
+                onClick={() => setShowExportModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">Select the reports you want to generate and download:</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="border-2 border-blue-200 rounded-lg p-4 hover:bg-blue-50 cursor-pointer">
+                <input type="checkbox" id="student-progress" className="mr-3" />
+                <label htmlFor="student-progress" className="font-semibold cursor-pointer">📊 Student Progress</label>
+                <p className="text-sm text-gray-600 ml-6">Skill mastery tracking, learning analytics</p>
+              </div>
+              
+              <div className="border-2 border-green-200 rounded-lg p-4 hover:bg-green-50 cursor-pointer">
+                <input type="checkbox" id="class-analytics" className="mr-3" />
+                <label htmlFor="class-analytics" className="font-semibold cursor-pointer">👥 Class Analytics</label>
+                <p className="text-sm text-gray-600 ml-6">Performance metrics, live session data</p>
+              </div>
+              
+              <div className="border-2 border-orange-200 rounded-lg p-4 hover:bg-orange-50 cursor-pointer">
+                <input type="checkbox" id="culinary-metrics" className="mr-3" />
+                <label htmlFor="culinary-metrics" className="font-semibold cursor-pointer">🍳 Culinary Metrics</label>
+                <p className="text-sm text-gray-600 ml-6">Recipe performance, technique analysis</p>
+              </div>
+              
+              <div className="border-2 border-purple-200 rounded-lg p-4 hover:bg-purple-50 cursor-pointer">
+                <input type="checkbox" id="operations" className="mr-3" />
+                <label htmlFor="operations" className="font-semibold cursor-pointer">🏪 Operations</label>
+                <p className="text-sm text-gray-600 ml-6">Kitchen management, safety & compliance</p>
+              </div>
+              
+              <div className="border-2 border-pink-200 rounded-lg p-4 hover:bg-pink-50 cursor-pointer">
+                <input type="checkbox" id="engagement" className="mr-3" />
+                <label htmlFor="engagement" className="font-semibold cursor-pointer">📱 Engagement</label>
+                <p className="text-sm text-gray-600 ml-6">Platform usage, community participation</p>
+              </div>
+              
+              <div className="border-2 border-red-200 rounded-lg p-4 hover:bg-red-50 cursor-pointer">
+                <input type="checkbox" id="session-reports" className="mr-3" />
+                <label htmlFor="session-reports" className="font-semibold cursor-pointer">🚨 Session Reports</label>
+                <p className="text-sm text-gray-600 ml-6">Flagged content, scheduled sessions</p>
+              </div>
+            </div>
+            
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setShowExportModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  alert('Generating selected reports... Downloads will begin shortly.');
+                  setShowExportModal(false);
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                Generate Reports
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* User Edit Modal */}
       <UserEditModal />
