@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { PlayIcon, VideoCameraIcon, UserGroupIcon, GlobeAltIcon, HeartIcon, ChatBubbleOvalLeftIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { PlayIcon as PlaySolidIcon, HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { supabase } from '../api/supabaseClient';
+import { useSupabase } from './SupabaseProvider';
 // Removed RecordRTC import to improve performance
 
 interface LiveSession {
@@ -45,7 +46,25 @@ interface TimelinePost {
 }
 
 const GlobalTestKitchen: React.FC = () => {
+  const { user } = useSupabase();
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'host'>('live');
+
+  // User activity tracking for admin dashboard
+  const logUserActivity = async (action: string, metadata?: any) => {
+    if (!user) return;
+    
+    try {
+      await supabase.from('user_activity').insert({
+        user_id: user.id,
+        action,
+        component: 'global_test_kitchen',
+        metadata: metadata || {},
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('Error logging user activity:', error);
+    }
+  };
   const [goLiveModalOpen, setGoLiveModalOpen] = useState(false);
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   const [liveSessionModalOpen, setLiveSessionModalOpen] = useState(false);
@@ -163,11 +182,43 @@ const GlobalTestKitchen: React.FC = () => {
     }
   ]);
   
-  // Report function
-  const handleReport = () => {
+  // Report function - now logs to database for admin dashboard
+  const handleReport = async (sessionId?: string, reason?: string) => {
+    if (!user) {
+      alert('Please log in to report sessions.');
+      return;
+    }
+
+    const reportReason = reason || prompt('Please describe the issue (optional):') || 'General report';
+    
     if (confirm('Report this session to an administrator?')) {
-      // In a real app, this would send a report to the server
-      alert('Thank you for your report. An administrator will review this session.');
+      try {
+        // Log report to database for admin dashboard
+        const { error } = await supabase
+          .from('session_reports')
+          .insert({
+            session_id: sessionId || currentLiveSession?.id || 'unknown',
+            reported_by: user.id,
+            reason: reportReason,
+            timestamp: new Date().toISOString(),
+            status: 'pending'
+          });
+
+        if (error) {
+          console.error('Error logging report:', error);
+          alert('Failed to submit report. Please try again.');
+        } else {
+          // Log the report activity for admin dashboard
+          logUserActivity('session_reported', { 
+            session_id: sessionId || currentLiveSession?.id, 
+            reason: reportReason 
+          });
+          alert('Thank you for your report. An administrator will review this session.');
+        }
+      } catch (error) {
+        console.error('Error submitting report:', error);
+        alert('Failed to submit report. Please try again.');
+      }
     }
   };
 
@@ -197,57 +248,48 @@ const GlobalTestKitchen: React.FC = () => {
   };
 
   const handleScheduleSession = async () => {
+    if (!user) {
+      alert('Please log in to schedule sessions.');
+      return;
+    }
+
     if (scheduledDishName.trim() && scheduledCuisine && scheduledDescription.trim() && scheduledDate && scheduledTime) {
       try {
-        // Create new session object
-        const newSessionData = {
-          id: `session_${Date.now()}`,
-          dish_name: scheduledDishName,
-          cuisine: scheduledCuisine,
-          description: scheduledDescription,
-          scheduled_date: scheduledDate,
-          scheduled_time: scheduledTime,
-          session_type: scheduledSessionType,
-          teacher_tag: scheduledTeacher || null,
-          created_at: new Date().toISOString()
-        };
-
-        // Get current user's scheduled sessions and add new one
-        const { data: userData, error: fetchError } = await supabase
-          .from('users')
-          .select('scheduled_sessions, id')
-          .single();
-
-        if (fetchError) {
-          console.error('Error fetching user data:', fetchError);
-          alert('Failed to schedule session. Please try again.');
-          return;
-        }
-
-        const currentSessions = userData?.scheduled_sessions || [];
-        const updatedSessions = [newSessionData, ...currentSessions];
-
-        // Update user's scheduled_sessions JSONB column with WHERE clause
+        // Save to proper scheduled_sessions table for admin dashboard reporting
         const { data, error } = await supabase
-          .from('users')
-          .update({ scheduled_sessions: updatedSessions })
-          .eq('id', userData.id)
+          .from('scheduled_sessions')
+          .insert({
+            user_id: user.id,
+            dish_name: scheduledDishName,
+            cuisine: scheduledCuisine,
+            description: scheduledDescription,
+            scheduled_date: scheduledDate,
+            scheduled_time: scheduledTime,
+            session_type: scheduledSessionType,
+            teacher_tag: scheduledTeacher || null
+          })
           .select()
           .single();
 
         if (error) {
-          console.error('Error saving session details:', error);
-          console.error('Error message:', error.message);
-          console.error('Error code:', error.code);
+          console.error('Error saving session:', error);
           alert(`Failed to schedule session: ${error.message}. Please try again.`);
           return;
         }
 
-        console.log('Session saved successfully:', data);
+        console.log('Session saved successfully to database:', data);
+        
+        // Log the scheduling activity for admin dashboard
+        logUserActivity('session_scheduled', {
+          dish_name: scheduledDishName,
+          cuisine: scheduledCuisine,
+          session_type: scheduledSessionType,
+          scheduled_date: scheduledDate
+        });
         
         // Add to local state for immediate UI update
         const newSession: UpcomingSession = {
-          id: newSessionData.id,
+          id: data.id,
           hostName: 'You',
           dishName: scheduledDishName,
           culture: scheduledCuisine,

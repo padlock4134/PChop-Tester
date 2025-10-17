@@ -55,6 +55,38 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
   useEffect(() => {
     fetchAdminData();
+
+    // Set up real-time subscriptions for live admin dashboard updates
+    const profilesSubscription = supabase
+      .channel('profiles_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, () => {
+        console.log('Profile data changed, refreshing admin stats...');
+        fetchAdminData();
+      })
+      .subscribe();
+
+    const sessionsSubscription = supabase
+      .channel('sessions_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'scheduled_sessions' }, () => {
+        console.log('Session data changed, refreshing admin stats...');
+        fetchAdminData();
+      })
+      .subscribe();
+
+    const reportsSubscription = supabase
+      .channel('reports_changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'session_reports' }, () => {
+        console.log('New reports received, refreshing admin stats...');
+        fetchAdminData();
+      })
+      .subscribe();
+
+    // Cleanup subscriptions on unmount
+    return () => {
+      supabase.removeChannel(profilesSubscription);
+      supabase.removeChannel(sessionsSubscription);
+      supabase.removeChannel(reportsSubscription);
+    };
   }, []);
 
   const fetchAdminData = async () => {
