@@ -235,8 +235,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
         {/* Dashboard header - matching student dashboard */}
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-retro text-maineBlue mb-2">👑 Admin Dashboard</h1>
-          <p className="text-gray-600 italic">Manage your PorkChop platform with powerful admin tools!</p>
+          <h1 className="text-4xl font-retro text-maineBlue mb-2">👑 School Admin Dashboard</h1>
+          <p className="text-gray-600 italic">Manage your school's curriculum delivery and student engagement!</p>
         </div>
         
         {/* Separation line */}
@@ -254,7 +254,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
               <div className="mb-3 text-4xl">📊</div>
-              <h3 className="text-sm font-bold font-retro">Overview</h3>
+              <h3 className="text-sm font-bold font-retro">School Analytics</h3>
             </button>
             
             <button
@@ -265,8 +265,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   : 'border-blue-400 bg-blue-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
-              <div className="mb-3 text-4xl">👥</div>
-              <h3 className="text-sm font-bold font-retro">Users</h3>
+              <div className="mb-3 text-4xl">🎓</div>
+              <h3 className="text-sm font-bold font-retro">Students & Faculty</h3>
             </button>
             
             <button
@@ -277,8 +277,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   : 'border-red-400 bg-red-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
-              <div className="mb-3 text-4xl">📝</div>
-              <h3 className="text-sm font-bold font-retro">Content</h3>
+              <div className="mb-3 text-4xl">📚</div>
+              <h3 className="text-sm font-bold font-retro">School Curriculum</h3>
             </button>
             
             <button
@@ -289,8 +289,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   : 'border-yellow-300 bg-yellow-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
-              <div className="mb-3 text-4xl">⚙️</div>
-              <h3 className="text-sm font-bold font-retro">System</h3>
+              <div className="mb-3 text-4xl">🏫</div>
+              <h3 className="text-sm font-bold font-retro">School Operations</h3>
             </button>
           </div>
         </div>
@@ -307,21 +307,21 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <StatCard title="Total XP Earned" value={stats.totalXP.toLocaleString()} icon={ArrowUpIcon} />
             </div>
 
-            {/* Subscription Stats */}
+            {/* School Engagement Stats */}
             <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-              <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Subscription Overview</h3>
+              <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">School Curriculum Engagement</h3>
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center p-4 bg-green-50 rounded-lg border-2 border-green-200">
-                  <p className="text-2xl font-bold text-green-600">{stats.subscriptions.active}</p>
-                  <p className="text-sm text-gray-600 font-retro">Active</p>
+                  <p className="text-2xl font-bold text-green-600">{Math.round((stats.totalRecipes / Math.max(stats.totalUsers, 1)) * 100)}%</p>
+                  <p className="text-sm text-gray-600 font-retro">Curriculum Completion</p>
                 </div>
-                <div className="text-center p-4 bg-yellow-50 rounded-lg border-2 border-yellow-200">
-                  <p className="text-2xl font-bold text-yellow-600">{stats.subscriptions.trial}</p>
-                  <p className="text-sm text-gray-600 font-retro">Trial</p>
+                <div className="text-center p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+                  <p className="text-2xl font-bold text-blue-600">{stats.activeUsers}</p>
+                  <p className="text-sm text-gray-600 font-retro">Active This Week</p>
                 </div>
-                <div className="text-center p-4 bg-red-50 rounded-lg border-2 border-red-200">
-                  <p className="text-2xl font-bold text-red-600">{stats.subscriptions.cancelled}</p>
-                  <p className="text-sm text-gray-600 font-retro">Cancelled</p>
+                <div className="text-center p-4 bg-purple-50 rounded-lg border-2 border-purple-200">
+                  <p className="text-2xl font-bold text-purple-600">{Math.round(stats.totalXP / Math.max(stats.totalUsers, 1))}</p>
+                  <p className="text-sm text-gray-600 font-retro">Avg XP Per Student</p>
                 </div>
               </div>
             </div>
@@ -331,8 +331,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         {activeTab === 'users' && (
           <div className="bg-white rounded-lg shadow-md border-4 border-maineBlue">
             <div className="px-6 py-4 border-b border-maineBlue">
-              <h3 className="text-lg font-bold text-maineBlue font-retro">User Management</h3>
-              <p className="text-sm text-gray-600 italic">Manage user accounts, XP, and activity</p>
+              <h3 className="text-lg font-bold text-maineBlue font-retro">Students & Faculty Management</h3>
+              <p className="text-sm text-gray-600 italic">Manage student progress and faculty access to your school's curriculum</p>
             </div>
             
             <div className="overflow-x-auto">
@@ -384,22 +384,30 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         {activeTab === 'content' && (
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">Content Management</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🏆</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Weekly Challenges</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Manage weekly cooking challenges</p>
+            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">School Curriculum Management</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">📖</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Upload School Recipes</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Import your school's proprietary curriculum content</p>
                 <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
-                  Manage Challenges
+                  Upload Content
                 </button>
               </div>
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📋</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Recipe Moderation</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Review and moderate user recipes</p>
+                <div className="mb-3 text-4xl">🗂️</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Curriculum Mapping</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Organize content into your course structure</p>
                 <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
-                  Review Recipes
+                  Map Courses
+                </button>
+              </div>
+              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">📊</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Assessment Tools</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Create school-specific assessments and grading</p>
+                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                  Manage Assessments
                 </button>
               </div>
             </div>
@@ -408,25 +416,36 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         {activeTab === 'system' && (
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">System Controls</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="border-4 border-yellow-300 bg-yellow-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🔄</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Refresh Data</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Reload all dashboard statistics</p>
+            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">School Operations</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🎨</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">School Branding</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Customize platform with your school's identity</p>
+                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                  Customize Branding
+                </button>
+              </div>
+              
+              <div className="border-4 border-green-300 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">📋</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">LMS Integration</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Connect to your school's learning management system</p>
+                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                  Setup LMS
+                </button>
+              </div>
+
+              <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">📊</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Export Reports</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Generate reports for accreditation and outcomes</p>
                 <button
                   onClick={fetchAdminData}
                   className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Refresh
+                  Export Data
                 </button>
-              </div>
-              
-              <div className="border-4 border-green-300 bg-green-50 rounded-lg p-6 text-center">
-                <div className="mb-3 text-4xl">💚</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Database Health</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">System status and performance</p>
-                <span className="text-green-600 font-semibold font-retro text-lg">✓ Healthy</span>
               </div>
             </div>
           </div>
