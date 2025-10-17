@@ -52,6 +52,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showExportModal, setShowExportModal] = useState(false);
+  const [showLMSModal, setShowLMSModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -464,7 +465,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="mb-3 text-4xl">📋</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">LMS Integration</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">Connect to your school's learning management system</p>
-                <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                <button 
+                  onClick={() => setShowLMSModal(true)}
+                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
                   Setup LMS
                 </button>
               </div>
@@ -555,6 +559,107 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
                 Generate Reports
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* LMS Setup Modal */}
+      {showLMSModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">LMS Integration Setup</h2>
+              <button
+                onClick={() => setShowLMSModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">Connect PorkChop to your school's Learning Management System for seamless grade sync and student data integration.</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Canvas Integration */}
+              <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🎨</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Canvas LMS</h3>
+                <p className="text-sm text-gray-600 mb-4">Integrate with Canvas for automatic grade passback and roster sync</p>
+                <button className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full">
+                  Connect Canvas
+                </button>
+              </div>
+
+              {/* Blackboard Integration */}
+              <div className="border-4 border-gray-400 bg-gray-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">⚫</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Blackboard</h3>
+                <p className="text-sm text-gray-600 mb-4">Connect to Blackboard Learn for seamless course integration</p>
+                <button className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 font-retro w-full">
+                  Connect Blackboard
+                </button>
+              </div>
+
+              {/* Moodle Integration */}
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🎓</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Moodle</h3>
+                <p className="text-sm text-gray-600 mb-4">Integrate with Moodle for assignment and grade synchronization</p>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro w-full">
+                  Connect Moodle
+                </button>
+              </div>
+
+              {/* Google Classroom Integration */}
+              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">📚</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Google Classroom</h3>
+                <p className="text-sm text-gray-600 mb-4">Connect to Google Classroom for streamlined assignment distribution</p>
+                <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-retro w-full">
+                  Connect Google Classroom
+                </button>
+              </div>
+
+              {/* Schoology Integration */}
+              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🏫</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Schoology</h3>
+                <p className="text-sm text-gray-600 mb-4">Integrate with Schoology for comprehensive course management</p>
+                <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 font-retro w-full">
+                  Connect Schoology
+                </button>
+              </div>
+
+              {/* Custom LTI Integration */}
+              <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
+                <div className="mb-3 text-4xl">🔧</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Custom LTI</h3>
+                <p className="text-sm text-gray-600 mb-4">Set up custom LTI integration for other learning management systems</p>
+                <button className="bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 font-retro w-full">
+                  Setup Custom LTI
+                </button>
+              </div>
+            </div>
+            
+            <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-6">
+              <h4 className="font-bold text-blue-900 mb-2">🔒 Integration Benefits:</h4>
+              <ul className="text-sm text-blue-800 space-y-1">
+                <li>• Automatic grade passback to your LMS gradebook</li>
+                <li>• Single sign-on (SSO) for seamless student access</li>
+                <li>• Roster synchronization for easy class management</li>
+                <li>• Assignment distribution and collection</li>
+                <li>• Real-time progress tracking and analytics</li>
+              </ul>
+            </div>
+            
+            <div className="flex justify-center">
+              <button
+                onClick={() => setShowLMSModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Close
               </button>
             </div>
           </div>
