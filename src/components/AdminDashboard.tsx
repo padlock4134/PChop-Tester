@@ -62,7 +62,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showEnrollmentHealthModal, setShowEnrollmentHealthModal] = useState(false);
   const [showStudentManagementModal, setShowStudentManagementModal] = useState(false);
   const [showFacultyManagementModal, setShowFacultyManagementModal] = useState(false);
-  const [showUserRolesModal, setShowUserRolesModal] = useState(false);
+  const [showAlumniManagementModal, setShowAlumniManagementModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -412,14 +412,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
               </div>
               <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🔑</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">User Roles & Permissions</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Configure access levels, role assignments, and platform permissions</p>
+                <div className="mb-3 text-4xl">🎓</div>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Alumni Management</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">Track graduate success stories, career outcomes, and maintain alumni network connections</p>
                 <button 
-                  onClick={() => setShowUserRolesModal(true)}
+                  onClick={() => setShowAlumniManagementModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Manage Roles
+                  Manage Alumni
                 </button>
               </div>
             </div>
