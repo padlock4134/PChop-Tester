@@ -995,40 +995,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
 
-              {/* Assignment Integration */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">📋 Assignment Integration</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Auto-Link Settings</h4>
-                    <div className="space-y-2">
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
-                        <span className="text-sm">Auto-assign recipes to matching curriculum topics</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
-                        <span className="text-sm">Sync gradebook entries across modules</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
-                        <span className="text-sm">Update XP rewards for linked content</span>
-                      </label>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Sync Frequency</h4>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
-                      <option>Real-time</option>
-                      <option>Every 15 minutes</option>
-                      <option>Hourly</option>
-                      <option>Daily</option>
-                      <option>Manual only</option>
-                    </select>
-                    <p className="text-xs text-gray-500 mt-1">How often to synchronize data between modules</p>
-                  </div>
-                </div>
-              </div>
 
               {/* Module Permissions */}
               <div className="border-2 border-gray-200 rounded-lg p-4">
