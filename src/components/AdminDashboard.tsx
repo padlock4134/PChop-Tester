@@ -1189,20 +1189,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
             </div>
-            
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => setShowUserActivityModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Close
-              </button>
-              <button
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
-              >
-                Export Report
-              </button>
-            </div>
           </div>
         </div>
       )}
