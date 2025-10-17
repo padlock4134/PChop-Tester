@@ -1038,8 +1038,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="space-y-6">
               {/* Login Patterns */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">📅 Login Patterns</h3>
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">📅 Login Patterns</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-blue-600">342</div>
@@ -1065,7 +1065,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Module Usage Breakdown */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
+              <div className="border-4 border-gray-200 rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-3">📊 Module Usage Breakdown</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
@@ -1104,7 +1104,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Feature Adoption */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
+              <div className="border-4 border-gray-200 rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-3">🚀 Feature Adoption Rates</h3>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
@@ -1171,7 +1171,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Inactive Students Alert */}
-              <div className="border-2 border-red-200 bg-red-50 rounded-lg p-4">
+              <div className="border-4 border-red-200 bg-red-50 rounded-lg p-4">
                 <h3 className="font-bold text-red-900 mb-3">⚠️ Inactive Students Alert</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white border border-red-200 rounded-lg p-3">
