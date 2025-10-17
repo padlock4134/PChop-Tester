@@ -339,22 +339,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="space-y-6">
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-blue-50 border-4 border-black rounded-lg p-6 text-center">
+              <div className="bg-blue-50 border border-black rounded-lg p-6 text-center">
                 <UsersIcon className="h-8 w-8 mx-auto mb-2 text-blue-600" />
                 <h3 className="text-lg font-semibold text-blue-700 font-retro">Total Users</h3>
                 <p className="text-3xl font-bold text-blue-600">{stats.totalUsers}</p>
               </div>
-              <div className="bg-green-50 border-4 border-black rounded-lg p-6 text-center">
+              <div className="bg-green-50 border border-black rounded-lg p-6 text-center">
                 <CheckCircleIcon className="h-8 w-8 mx-auto mb-2 text-green-600" />
                 <h3 className="text-lg font-semibold text-green-700 font-retro">Active Users (7d)</h3>
                 <p className="text-3xl font-bold text-green-600">{stats.activeUsers}</p>
               </div>
-              <div className="bg-orange-50 border-4 border-black rounded-lg p-6 text-center">
+              <div className="bg-orange-50 border border-black rounded-lg p-6 text-center">
                 <DocumentTextIcon className="h-8 w-8 mx-auto mb-2 text-orange-600" />
                 <h3 className="text-lg font-semibold text-orange-700 font-retro">Total Recipes</h3>
                 <p className="text-3xl font-bold text-orange-600">{stats.totalRecipes}</p>
               </div>
-              <div className="bg-purple-50 border-4 border-black rounded-lg p-6 text-center">
+              <div className="bg-purple-50 border border-black rounded-lg p-6 text-center">
                 <ArrowUpIcon className="h-8 w-8 mx-auto mb-2 text-purple-600" />
                 <h3 className="text-lg font-semibold text-purple-700 font-retro">Total XP Earned</h3>
                 <p className="text-3xl font-bold text-purple-600">{stats.totalXP.toLocaleString()}</p>
