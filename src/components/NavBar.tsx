@@ -9,6 +9,7 @@ import { getUserBadges, BADGES } from '../utils/badges';
 import logo from '../images/logo.png';
 import { useSupabase } from './SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
+import { useAdminToggle } from '../App';
 
 interface LevelProgress {
   title: string;
@@ -29,12 +30,6 @@ const LevelProgressContext = createContext<{ refreshXP: () => void; progress: Le
 }});
 export const useLevelProgressContext = () => useContext(LevelProgressContext);
 
-// Admin toggle context
-const AdminToggleContext = createContext<{ isAdminMode: boolean; toggleAdminMode: () => void }>({ 
-  isAdminMode: false, 
-  toggleAdminMode: () => {} 
-});
-export const useAdminToggle = () => useContext(AdminToggleContext);
 
 const useLevelProgress = (): [LevelProgress, () => void] => {
   const [progress, setProgress] = useState<LevelProgress>({
@@ -222,17 +217,10 @@ const NavBar: React.FC = () => {
 
 const NavBarWithProvider: React.FC = (props) => {
   const [progress, refreshXP] = useLevelProgress();
-  const [isAdminMode, setIsAdminMode] = useState(false);
-  
-  const toggleAdminMode = () => {
-    setIsAdminMode(!isAdminMode);
-  };
   
   return (
     <LevelProgressContext.Provider value={{ progress, refreshXP }}>
-      <AdminToggleContext.Provider value={{ isAdminMode, toggleAdminMode }}>
-        <NavBar {...props} />
-      </AdminToggleContext.Provider>
+      <NavBar {...props} />
     </LevelProgressContext.Provider>
   );
 };

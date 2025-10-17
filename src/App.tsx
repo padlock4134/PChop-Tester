@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext, useContext } from 'react';
 import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import {
   AuthStatus,
@@ -8,7 +8,7 @@ import {
   WristbandAuthProvider
 } from '@wristband/react-client-auth';
 
-import NavBar, { useAdminToggle } from './components/NavBar';
+import NavBar from './components/NavBar';
 import MyKitchen from './modules/MyKitchen';
 import MyCookBook from './modules/MyCookBook';
 import ChefsCorner from './modules/ChefsCorner';
@@ -35,6 +35,28 @@ import SwoopyArrow from './components/SwoopyArrow';
 
 const PUBLIC_ROUTES = ['/', '/AboutUs', '/KitchenComebacks', '/TenantWellness', '/Pricing'];
 const devOnlyPaymentBypass = (import.meta as any).env.VITE_PORKCHOP_DEV_ONLY_PAYMENT_BYPASS === 'true';
+
+// Admin toggle context
+const AdminToggleContext = createContext<{ isAdminMode: boolean; toggleAdminMode: () => void }>({ 
+  isAdminMode: false, 
+  toggleAdminMode: () => {} 
+});
+export const useAdminToggle = () => useContext(AdminToggleContext);
+
+// Admin Toggle Provider Component
+const AdminToggleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isAdminMode, setIsAdminMode] = useState(false);
+  
+  const toggleAdminMode = () => {
+    setIsAdminMode(!isAdminMode);
+  };
+  
+  return (
+    <AdminToggleContext.Provider value={{ isAdminMode, toggleAdminMode }}>
+      {children}
+    </AdminToggleContext.Provider>
+  );
+};
 
 const HomeRedirect = () => {
   const { authStatus } = useWristbandAuth();
@@ -181,27 +203,29 @@ const App = () => {
   }, []);
 
   return (
-    <WristbandAuthProvider<WristbandSessionMetadata>
-      loginUrl='/.netlify/functions/auth-login'
-      logoutUrl='/.netlify/functions/auth-logout'
-      sessionUrl='/.netlify/functions/auth-session'
-      disableRedirectOnUnauthenticated={true}
-      onSessionSuccess={(sessionResponse: SessionResponse) => {
-        // Before isAuthenticated is set to true, set the Supabase token in the client
-        // so it can be used for all authenticated Supabase requests.
-        const { metadata } = sessionResponse;
-        const { supabaseToken } = metadata as WristbandSessionMetadata;
-        setSupabaseJwt(supabaseToken);
-      }}
-    >
-      <SupabaseProvider devOnlyPaymentBypass={devOnlyPaymentBypass}>
-        <RecipeProvider>
-          <FreddieProvider>
-            <AppRoutes />
-          </FreddieProvider>
-        </RecipeProvider>
-      </SupabaseProvider>
-    </WristbandAuthProvider>
+    <AdminToggleProvider>
+      <WristbandAuthProvider<WristbandSessionMetadata>
+        loginUrl='/.netlify/functions/auth-login'
+        logoutUrl='/.netlify/functions/auth-logout'
+        sessionUrl='/.netlify/functions/auth-session'
+        disableRedirectOnUnauthenticated={true}
+        onSessionSuccess={(sessionResponse: SessionResponse) => {
+          // Before isAuthenticated is set to true, set the Supabase token in the client
+          // so it can be used for all authenticated Supabase requests.
+          const { metadata } = sessionResponse;
+          const { supabaseToken } = metadata as WristbandSessionMetadata;
+          setSupabaseJwt(supabaseToken);
+        }}
+      >
+        <SupabaseProvider devOnlyPaymentBypass={devOnlyPaymentBypass}>
+          <RecipeProvider>
+            <FreddieProvider>
+              <AppRoutes />
+            </FreddieProvider>
+          </RecipeProvider>
+        </SupabaseProvider>
+      </WristbandAuthProvider>
+    </AdminToggleProvider>
   );
 };
 
