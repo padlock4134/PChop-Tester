@@ -1010,6 +1010,132 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
       )}
 
+      {/* Student Management Modal */}
+      {showStudentManagementModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Student Management Dashboard</h2>
+              <button
+                onClick={() => setShowStudentManagementModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <p className="text-gray-600 mb-6">Manage student progress, XP levels, academic performance, and individual student records.</p>
+            
+            <div className="space-y-6">
+              {/* Student Overview Stats */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">📊 Student Overview</h3>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-blue-600">{stats.totalUsers}</div>
+                    <p className="text-sm text-blue-800 font-medium">Total Students</p>
+                    <p className="text-xs text-blue-600">Currently enrolled</p>
+                  </div>
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-green-600">{stats.activeUsers}</div>
+                    <p className="text-sm text-green-800 font-medium">Active Students</p>
+                    <p className="text-xs text-green-600">Last 7 days</p>
+                  </div>
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-purple-600">{Math.round(stats.totalXP / Math.max(stats.totalUsers, 1))}</div>
+                    <p className="text-sm text-purple-800 font-medium">Avg XP per Student</p>
+                    <p className="text-xs text-purple-600">Experience points</p>
+                  </div>
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-orange-600">{users.filter(u => (u.chat_count || 0) === 0).length}</div>
+                    <p className="text-sm text-orange-800 font-medium">Inactive Students</p>
+                    <p className="text-xs text-orange-600">Need attention</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Student List Management */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">📋 Student Records</h3>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">XP</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Level</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Activity</th>
+                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Active</th>
+                        <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {users.slice(0, 10).map((user) => (
+                        <tr key={user.id} className="hover:bg-gray-50">
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">{user.username || 'N/A'}</div>
+                              <div className="text-sm text-gray-500">{user.email}</div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{user.xp || 0}</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{user.level || 1}</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{user.chat_count || 0} chats</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {user.last_chat_date ? new Date(user.last_chat_date).toLocaleDateString() : 'Never'}
+                          </td>
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <button
+                              onClick={() => setSelectedUser(user)}
+                              className="text-maineBlue hover:text-lobsterRed mr-2 px-3 py-1 border border-maineBlue rounded hover:bg-blue-50"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => resetUserChatCount(user.id)}
+                              className="text-yellow-600 hover:text-yellow-800 px-3 py-1 border border-yellow-600 rounded hover:bg-yellow-50"
+                            >
+                              Reset
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {users.length > 10 && (
+                  <div className="mt-4 text-center">
+                    <p className="text-sm text-gray-500">Showing first 10 students. Total: {users.length} students</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Quick Actions */}
+              <div className="border-4 border-maineBlue rounded-lg p-6">
+                <h3 className="font-bold text-maineBlue mb-4">⚡ Quick Actions</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <button className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                    <div className="text-2xl mb-2">📧</div>
+                    <h4 className="font-medium text-blue-800">Send Announcement</h4>
+                    <p className="text-xs text-blue-600">Notify all students</p>
+                  </button>
+                  <button className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                    <div className="text-2xl mb-2">📈</div>
+                    <h4 className="font-medium text-green-800">Bulk XP Update</h4>
+                    <p className="text-xs text-green-600">Award XP to multiple students</p>
+                  </button>
+                  <button className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                    <div className="text-2xl mb-2">📄</div>
+                    <h4 className="font-medium text-purple-800">Export Student Data</h4>
+                    <p className="text-xs text-purple-600">Download student records</p>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* User Activity Modal */}
       {showUserActivityModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
