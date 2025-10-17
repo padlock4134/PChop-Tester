@@ -1171,8 +1171,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Inactive Students Alert */}
-              <div className="border-4 border-red-200 bg-red-50 rounded-lg p-4">
-                <h3 className="font-bold text-red-900 mb-3">⚠️ Inactive Students Alert</h3>
+              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-6">
+                <h3 className="font-bold text-red-900 mb-4">⚠️ Inactive Students Alert</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white border border-red-200 rounded-lg p-3">
                     <div className="text-2xl font-bold text-red-600 mb-1">23</div>
