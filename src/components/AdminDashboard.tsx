@@ -856,6 +856,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <button className="bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro">
                       Generate API Key
                     </button>
+                    <button className="bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center gap-2">
+                      <span className="text-lg">👨‍🍳</span>
+                      Chef Freddie
+                    </button>
                   </div>
                   <p className="text-xs text-gray-400 mt-2">Supports: PDF, Word, Excel, PowerPoint, Images</p>
                 </div>
