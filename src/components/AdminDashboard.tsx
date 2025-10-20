@@ -2807,36 +2807,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                 </div>
               </div>
-              
-              {/* Upload Options */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-4 text-center">
-                  <div className="text-3xl mb-2">🔗</div>
-                  <h4 className="font-bold text-blue-800 mb-2">Upload from URL</h4>
-                  <p className="text-sm text-blue-600 mb-3">Import files from web links</p>
-                  <button className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-200 font-retro text-sm">
-                    Add URL
-                  </button>
-                </div>
-                
-                <div className="border-4 border-green-300 bg-green-50 rounded-lg p-4 text-center">
-                  <div className="text-3xl mb-2">☁️</div>
-                  <h4 className="font-bold text-green-800 mb-2">Cloud Storage</h4>
-                  <p className="text-sm text-green-600 mb-3">Import from Google Drive, Dropbox</p>
-                  <button className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-sm">
-                    Connect
-                  </button>
-                </div>
-                
-                <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-4 text-center">
-                  <div className="text-3xl mb-2">🎨</div>
-                  <h4 className="font-bold text-purple-800 mb-2">Create New</h4>
-                  <p className="text-sm text-purple-600 mb-3">Generate content with AI</p>
-                  <button className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200 font-retro text-sm">
-                    Generate
-                  </button>
-                </div>
-              </div>
             </div>
             
             <div className="flex justify-center gap-4 mt-6">
