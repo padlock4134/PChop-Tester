@@ -2933,7 +2933,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="bg-white rounded-lg shadow-lg border-4 border-red-400 p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
             <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-red-700 font-retro flex items-center justify-center gap-2">
-                <span className="text-3xl">👨‍🍳</span>
+                <span className="text-3xl"></span>
                 Chef Freddie: Curriculum Assistant
               </h2>
               <button
