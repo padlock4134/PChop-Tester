@@ -2418,22 +2418,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showConfigurationModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-5xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">Cross-Platform Configuration</h2>
               <button
                 onClick={() => setShowConfigurationModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Configure content permissions, access levels, and approval workflows across all PorkChop modules.</p>
+            <p className="text-center text-gray-600 mb-6">Configure content permissions, access levels, and approval workflows across all PorkChop modules.</p>
             
             <div className="space-y-6">
               {/* Content Approval Workflows */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">✅ Content Approval Workflows</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">✅ Content Approval Workflows</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-3">Recipe Approval Process</h4>
@@ -2483,7 +2483,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Access Level Management */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">🔐 Access Level Management</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">🔐 Access Level Management</h3>
                 <div className="overflow-x-auto">
                   <table className="min-w-full">
                     <thead>
@@ -2618,7 +2618,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Platform-Wide Settings */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">⚙️ Platform-Wide Settings</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">⚙️ Platform-Wide Settings</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-3">Content Moderation</h4>
@@ -2668,7 +2668,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Integration Settings */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">🔗 Integration Settings</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">🔗 Integration Settings</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-2">External APIs</h4>
@@ -2745,12 +2745,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </div>
             
             <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => setShowConfigurationModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Cancel
-              </button>
               <button
                 onClick={() => {
                   alert('Configuration settings saved successfully!');
