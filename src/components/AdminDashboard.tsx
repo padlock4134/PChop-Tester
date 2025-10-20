@@ -429,7 +429,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         {activeTab === 'users' && (
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-            <h3 className="text-lg font-bold text-maineBlue mb-4 font-retro">People Management</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">🎓</div>
