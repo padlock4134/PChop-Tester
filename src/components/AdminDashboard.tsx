@@ -1919,16 +1919,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="text-center font-bold text-red-900 mb-4">⚠️ Areas Needing Attention</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white border border-red-200 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-red-600 mb-1">23%</div>
-                    <p className="text-sm text-red-800">Students struggling with timing</p>
+                    <div className="text-center text-2xl font-bold text-red-600 mb-1">23%</div>
+                    <p className="text-center text-sm text-red-800">Students struggling with timing</p>
                   </div>
                   <div className="bg-white border border-red-200 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-red-600 mb-1">15%</div>
-                    <p className="text-sm text-red-800">Late assignment submissions</p>
+                    <div className="text-center text-2xl font-bold text-red-600 mb-1">15%</div>
+                    <p className="text-center text-sm text-red-800">Late assignment submissions</p>
                   </div>
                   <div className="bg-white border border-red-200 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-red-600 mb-1">8%</div>
-                    <p className="text-sm text-red-800">Below 70% grade average</p>
+                    <div className="text-center text-2xl font-bold text-red-600 mb-1">8%</div>
+                    <p className="text-center text-sm text-red-800">Below 70% grade average</p>
                   </div>
                 </div>
               </div>
@@ -2141,11 +2141,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showContentAnalyticsModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-center text-2xl font-bold text-maineBlue font-retro">Content Analytics Dashboard</h2>
               <button
                 onClick={() => setShowContentAnalyticsModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
