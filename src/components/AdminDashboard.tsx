@@ -1668,7 +1668,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showUserActivityModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">User Activity Dashboard</h2>
               <button
                 onClick={() => setShowUserActivityModal(false)}
