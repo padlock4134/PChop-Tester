@@ -2770,7 +2770,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
               
               {/* Recent Files */}
-              <div className="border-4 border-gray-200 rounded-lg p-4">
+              <div className="border-4 border-maineBlue rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-4">📋 Recent Uploads</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
