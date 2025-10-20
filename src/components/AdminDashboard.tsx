@@ -559,11 +559,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showExportModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">Export School Reports</h2>
               <button
                 onClick={() => setShowExportModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
@@ -634,11 +634,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showJobPlacementModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">Job Placement & Career Services</h2>
               <button
                 onClick={() => setShowJobPlacementModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
@@ -716,11 +716,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showBrandingModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">School Branding & Identity</h2>
               <button
                 onClick={() => setShowBrandingModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
@@ -868,11 +868,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showModuleIntegrationModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">Content Upload & Distribution</h2>
               <button
                 onClick={() => setShowModuleIntegrationModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
@@ -2784,11 +2784,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showBrowseFilesModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">📁 Browse & Upload Files</h2>
               <button
                 onClick={() => setShowBrowseFilesModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
@@ -2890,11 +2890,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showApiKeyModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 max-w-2xl w-full">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-green-700 font-retro">🔑 API Key Generated</h2>
               <button
                 onClick={() => setShowApiKeyModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
@@ -2982,14 +2982,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showChefFreddieModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-pink-400 p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-pink-700 font-retro flex items-center gap-2">
+            <div className="text-center mb-6 relative">
+              <h2 className="text-2xl font-bold text-pink-700 font-retro flex items-center justify-center gap-2">
                 <span className="text-3xl">👨‍🍳</span>
                 Chef Freddie: Curriculum Assistant
               </h2>
               <button
                 onClick={() => setShowChefFreddieModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
