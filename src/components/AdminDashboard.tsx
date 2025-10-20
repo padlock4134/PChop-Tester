@@ -847,7 +847,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <p className="text-lg font-medium text-gray-700 mb-2">Drag & drop your files here</p>
                   <p className="text-sm text-gray-500 mb-4">Syllabus, curriculum, recipes, assignments, lesson plans</p>
                   <div className="flex justify-center gap-4">
-                    <button className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro">
+                    <button 
+                      onClick={() => setShowBrowseFilesModal(true)}
+                      className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                    >
                       Browse Files
                     </button>
                     <button className="bg-gray-100 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-200 font-retro">
