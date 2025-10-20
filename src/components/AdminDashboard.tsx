@@ -3106,16 +3106,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="flex justify-center gap-4 mt-6">
               <button
-                onClick={() => setShowChefFreddieModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Close
-              </button>
-              <button
                 onClick={() => {
                   alert('Chef Freddie is ready to help! This would integrate with your AI curriculum system.');
                 }}
-                className="bg-pink-400 text-white px-6 py-2 rounded-md hover:bg-pink-500 font-retro"
+                className="bg-red-400 text-white px-6 py-2 rounded-md hover:bg-red-500 font-retro"
               >
                 Start Creating
               </button>
