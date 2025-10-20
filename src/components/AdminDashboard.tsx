@@ -1635,8 +1635,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </button>
                   <button className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
                     <div className="text-2xl mb-2">📄</div>
-                    <h4 className="font-medium text-purple-800">Career Outcomes Report</h4>
-                    <p className="text-xs text-purple-600">Generate success metrics</p>
+                    <h4 className="font-medium text-purple-800">Gifting & Donations</h4>
+                    <p className="text-xs text-purple-600">Fundraising Strategy</p>
                   </button>
                 </div>
               </div>
