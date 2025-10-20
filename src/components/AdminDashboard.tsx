@@ -731,10 +731,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-6">
               {/* School Logo */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">🏦 School Logo</h3>
+                <h3 className="font-bold text-blue-900 mb-3">🏦 School Logo</h3>
                 <div className="flex items-center justify-center space-x-4">
                   <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                    <span className="text-gray-400 text-sm">Logo</span>
+                    <span className=" text-gray-400 text-sm">Logo</span>
                   </div>
                   <div className="flex-1">
                     <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
@@ -766,7 +766,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">School Description</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">School Description</label>
                     <textarea
                       rows={3}
                       placeholder="Brief description of your culinary program..."
@@ -778,31 +778,31 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Color Scheme */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">🎨 Color Scheme</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">🎨 Color Scheme</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
                     <div className="flex items-center space-x-2">
                       <input type="color" value="#1e40af" className="w-8 h-8 rounded border" />
                       <span className="text-sm text-gray-600">#1e40af</span>
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Color</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Secondary Color</label>
                     <div className="flex items-center space-x-2">
                       <input type="color" value="#059669" className="w-8 h-8 rounded border" />
                       <span className="text-sm text-gray-600">#059669</span>
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
                     <div className="flex items-center space-x-2">
                       <input type="color" value="#dc2626" className="w-8 h-8 rounded border" />
                       <span className="text-sm text-gray-600">#dc2626</span>
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Background</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Background</label>
                     <div className="flex items-center space-x-2">
                       <input type="color" value="#f8fafc" className="w-8 h-8 rounded border" />
                       <span className="text-sm text-gray-600">#f8fafc</span>
@@ -813,10 +813,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Contact Information */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">📞 Contact Information</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">📞 Contact Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                     <input
                       type="tel"
                       placeholder="(555) 123-4567"
@@ -824,7 +824,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Email Address</label>
                     <input
                       type="email"
                       placeholder="info@culinaryschool.edu"
@@ -832,7 +832,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Address</label>
                     <input
                       type="text"
                       placeholder="123 Culinary Way, Food City, FC 12345"
