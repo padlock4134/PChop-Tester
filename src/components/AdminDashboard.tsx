@@ -1678,7 +1678,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Monitor student engagement, login patterns, and platform usage across all modules.</p>
+            <p className="text-center text-gray-600 mb-6">Monitor student engagement, login patterns, and platform usage across all modules.</p>
             
             <div className="space-y-6">
               {/* Login Patterns */}
