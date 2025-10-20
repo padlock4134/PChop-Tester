@@ -861,7 +861,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Content Preview & Mapping */}
-              <div className="border-4 border-gray-200 rounded-lg p-4">
+              <div className="border-4 border-maineBlue rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-3">📋 Content Distribution</h3>
                 <p className="text-sm text-gray-600 mb-4">Choose which parts of your uploaded content go to each module:</p>
                 
