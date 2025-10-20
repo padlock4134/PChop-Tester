@@ -2146,7 +2146,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Content Analytics Dashboard</h2>
+              <h2 className="text-center text-2xl font-bold text-maineBlue font-retro">Content Analytics Dashboard</h2>
               <button
                 onClick={() => setShowContentAnalyticsModal(false)}
                 className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -2155,12 +2155,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Monitor content performance, student engagement, and curriculum effectiveness across all modules.</p>
+            <p className="text-center text-gray-600 mb-6">Monitor content performance, student engagement, and curriculum effectiveness across all modules.</p>
             
             <div className="space-y-6">
               {/* Content Performance Overview */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">📊 Content Performance Overview</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">📊 Content Performance Overview</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-blue-600">847</div>
@@ -2188,7 +2188,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               {/* Top Performing Content */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                  <h3 className="font-bold text-blue-900 mb-3">🏆 Top Performing Recipes</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-3">🏆 Top Performing Recipes</h3>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
@@ -2224,7 +2224,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
 
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                  <h3 className="font-bold text-blue-900 mb-3">📉 Content Needing Attention</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-3">📉 Content Needing Attention</h3>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
@@ -2262,7 +2262,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Module-Specific Analytics */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">📈 Module-Specific Analytics</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">📈 Module-Specific Analytics</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                     <h4 className="font-medium text-blue-900 mb-2">📚 MyCookBook</h4>
@@ -2340,7 +2340,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Time-Based Analytics */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">🕰️ Time-Based Analytics</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">🕰️ Time-Based Analytics</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-2">Peak Usage Times</h4>
@@ -2379,7 +2379,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                   
                   <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Content Filters</h4>
+                    <h4 className="text-center font-medium text-gray-800 mb-2">Content Filters</h4>
                     <div className="space-y-2">
                       <select className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue">
                         <option>Last 7 days</option>
@@ -2401,12 +2401,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </div>
             
             <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => setShowContentAnalyticsModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Close
-              </button>
               <button
                 onClick={() => {
                   alert('Analytics data exported successfully!');
