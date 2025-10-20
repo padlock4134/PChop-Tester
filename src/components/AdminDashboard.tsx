@@ -1338,12 +1338,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <table className="min-w-full">
                     <thead>
                       <tr className="border-b">
-                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">Faculty Member</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Admin Panel</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Grade Management</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Content Creation</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Student Reports</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Live Sessions</th>
+                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-500 uppercase tracking-wider">Faculty Member</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-500 uppercase tracking-wider">Admin Panel</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-500 uppercase tracking-wider">Grade Management</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-500 uppercase tracking-wider">Content Creation</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-500 uppercase tracking-wider">Student Reports</th>
+                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-500 uppercase tracking-wider">Live Sessions</th>
                       </tr>
                     </thead>
                     <tbody className="text-sm">
@@ -2168,100 +2168,100 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="space-y-6">
               {/* Content Performance Overview */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">📊 Content Performance Overview</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">📊 Content Performance Overview</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-blue-600">847</div>
                     <p className="text-sm text-blue-800 font-medium">Total Recipe Views</p>
                     <p className="text-xs text-blue-600">↑ 12% this week</p>
                   </div>
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-green-600">73%</div>
-                    <p className="text-sm text-green-800 font-medium">Completion Rate</p>
-                    <p className="text-xs text-green-600">↑ 5% this week</p>
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-blue-600">73%</div>
+                    <p className="text-sm text-blue-800 font-medium">Completion Rate</p>
+                    <p className="text-xs text-blue-600">↑ 5% this week</p>
                   </div>
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-purple-600">4.2</div>
-                    <p className="text-sm text-purple-800 font-medium">Avg Engagement Score</p>
-                    <p className="text-xs text-purple-600">→ No change</p>
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-blue-600">4.2</div>
+                    <p className="text-sm text-blue-800 font-medium">Avg Engagement Score</p>
+                    <p className="text-xs text-blue-600">→ No change</p>
                   </div>
-                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-orange-600">28</div>
-                    <p className="text-sm text-orange-800 font-medium">Active Recipes</p>
-                    <p className="text-xs text-orange-600">↑ 3 new this week</p>
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
+                    <div className="text-3xl font-bold text-blue-600">28</div>
+                    <p className="text-sm text-blue-800 font-medium">Active Recipes</p>
+                    <p className="text-xs text-blue-600">↑ 3 new this week</p>
                   </div>
                 </div>
               </div>
 
               {/* Top Performing Content */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="border-2 border-gray-200 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-3">🏆 Top Performing Recipes</h3>
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                  <h3 className="font-bold text-blue-900 mb-3">🏆 Top Performing Recipes</h3>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
                         <p className="font-medium text-gray-900">French Knife Skills</p>
                         <p className="text-sm text-gray-600">MyCookBook</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-green-600">94%</p>
+                        <p className="text-lg font-bold text-blue-600">94%</p>
                         <p className="text-xs text-gray-500">Completion</p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
                         <p className="font-medium text-gray-900">Mother Sauces Mastery</p>
                         <p className="text-sm text-gray-600">MyCookBook</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-green-600">89%</p>
+                        <p className="text-lg font-bold text-blue-600">89%</p>
                         <p className="text-xs text-gray-500">Completion</p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
                         <p className="font-medium text-gray-900">Pasta Making Fundamentals</p>
                         <p className="text-sm text-gray-600">MyCookBook</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-yellow-600">76%</p>
+                        <p className="text-lg font-bold text-blue-600">76%</p>
                         <p className="text-xs text-gray-500">Completion</p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="border-2 border-gray-200 rounded-lg p-4">
-                  <h3 className="font-bold text-gray-900 mb-3">📉 Content Needing Attention</h3>
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                  <h3 className="font-bold text-blue-900 mb-3">📉 Content Needing Attention</h3>
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
                         <p className="font-medium text-gray-900">Advanced Plating Techniques</p>
                         <p className="text-sm text-gray-600">MyCookBook</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-red-600">34%</p>
+                        <p className="text-lg font-bold text-blue-600">34%</p>
                         <p className="text-xs text-gray-500">Completion</p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
                         <p className="font-medium text-gray-900">Molecular Gastronomy Basics</p>
                         <p className="text-sm text-gray-600">Chef's Corner</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-red-600">28%</p>
+                        <p className="text-lg font-bold text-blue-600">28%</p>
                         <p className="text-xs text-gray-500">Completion</p>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                       <div>
                         <p className="font-medium text-gray-900">Wine Pairing Fundamentals</p>
                         <p className="text-sm text-gray-600">CulinarySchool</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-lg font-bold text-orange-600">52%</p>
+                        <p className="text-lg font-bold text-blue-600">52%</p>
                         <p className="text-xs text-gray-500">Completion</p>
                       </div>
                     </div>
@@ -2270,10 +2270,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Module-Specific Analytics */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">📈 Module-Specific Analytics</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">📈 Module-Specific Analytics</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                     <h4 className="font-medium text-blue-900 mb-2">📚 MyCookBook</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
@@ -2282,7 +2282,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex justify-between">
                         <span>Avg Completion:</span>
-                        <span className="font-medium text-green-600">78%</span>
+                        <span className="font-medium text-blue-600">78%</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Student Engagement:</span>
@@ -2291,8 +2291,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   </div>
                   
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <h4 className="font-medium text-green-900 mb-2">🏫 CulinarySchool</h4>
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
+                    <h4 className="font-medium text-blue-900 mb-2">🏫 CulinarySchool</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
                         <span>Active Lessons:</span>
@@ -2300,17 +2300,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex justify-between">
                         <span>Avg Completion:</span>
-                        <span className="font-medium text-green-600">82%</span>
+                        <span className="font-medium text-blue-600">82%</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Student Engagement:</span>
-                        <span className="font-medium text-green-600">High</span>
+                        <span className="font-medium text-blue-600">High</span>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                    <h4 className="font-medium text-purple-900 mb-2">👨‍🍳 Chef's Corner</h4>
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
+                    <h4 className="font-medium text-blue-900 mb-2">👨‍🍳 Chef's Corner</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
                         <span>Active Content:</span>
@@ -2318,17 +2318,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex justify-between">
                         <span>Avg Completion:</span>
-                        <span className="font-medium text-yellow-600">65%</span>
+                        <span className="font-medium text-blue-600">65%</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Student Engagement:</span>
-                        <span className="font-medium text-yellow-600">Medium</span>
+                        <span className="font-medium text-blue-600">Medium</span>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                    <h4 className="font-medium text-orange-900 mb-2">🍳 Global Test Kitchen</h4>
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
+                    <h4 className="font-medium text-blue-900 mb-2">🍳 Global Test Kitchen</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
                         <span>Active Sessions:</span>
@@ -2336,11 +2336,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex justify-between">
                         <span>Avg Participation:</span>
-                        <span className="font-medium text-orange-600">45%</span>
+                        <span className="font-medium text-blue-600">45%</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Student Engagement:</span>
-                        <span className="font-medium text-orange-600">Medium</span>
+                        <span className="font-medium text-blue-600">Medium</span>
                       </div>
                     </div>
                   </div>
@@ -2348,8 +2348,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Time-Based Analytics */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">🕰️ Time-Based Analytics</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">🕰️ Time-Based Analytics</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-2">Peak Usage Times</h4>
@@ -2447,8 +2447,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="space-y-6">
               {/* Content Approval Workflows */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">✅ Content Approval Workflows</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">✅ Content Approval Workflows</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-3">Recipe Approval Process</h4>
@@ -2497,8 +2497,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Access Level Management */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">🔐 Access Level Management</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">🔐 Access Level Management</h3>
                 <div className="overflow-x-auto">
                   <table className="min-w-full">
                     <thead>
@@ -2632,8 +2632,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Platform-Wide Settings */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">⚙️ Platform-Wide Settings</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">⚙️ Platform-Wide Settings</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-3">Content Moderation</h4>
@@ -2682,8 +2682,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Integration Settings */}
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">🔗 Integration Settings</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">🔗 Integration Settings</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-2">External APIs</h4>
@@ -2901,14 +2901,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </div>
             
             <div className="space-y-6">
-              <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4">
+              <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-3">✅ Success! Your API Key has been generated</h3>
                 <p className="text-sm text-green-700 mb-4">
                   Keep this key secure and don't share it publicly. You can use this key to integrate with PorkChop's curriculum management system.
                 </p>
               </div>
               
-              <div className="bg-gray-50 border-2 border-gray-200 rounded-lg p-4">
+              <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Your API Key:</label>
                 <div className="flex items-center gap-2">
                   <input 
@@ -2944,7 +2944,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </p>
               </div>
               
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
+              <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                 <h4 className="font-bold text-blue-800 mb-2">📄 API Documentation</h4>
                 <p className="text-sm text-blue-700 mb-3">
                   Use this key to access PorkChop's curriculum management endpoints:
