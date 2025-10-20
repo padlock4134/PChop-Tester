@@ -572,37 +572,37 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <p className="text-gray-600 mb-6">Select the reports you want to generate and download:</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="border-2 border-blue-200 rounded-lg p-4 hover:bg-blue-50 cursor-pointer">
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4 hover:bg-blue-100 cursor-pointer">
                 <input type="checkbox" id="student-progress" className="mr-3" />
                 <label htmlFor="student-progress" className="font-semibold cursor-pointer">📊 Student Progress</label>
                 <p className="text-sm text-gray-600 ml-6">Skill mastery tracking, learning analytics</p>
               </div>
               
-              <div className="border-2 border-green-200 rounded-lg p-4 hover:bg-green-50 cursor-pointer">
+              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-4 hover:bg-green-100 cursor-pointer">
                 <input type="checkbox" id="class-analytics" className="mr-3" />
                 <label htmlFor="class-analytics" className="font-semibold cursor-pointer">👥 Class Analytics</label>
                 <p className="text-sm text-gray-600 ml-6">Performance metrics, live session data</p>
               </div>
               
-              <div className="border-2 border-orange-200 rounded-lg p-4 hover:bg-orange-50 cursor-pointer">
+              <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-4 hover:bg-orange-100 cursor-pointer">
                 <input type="checkbox" id="culinary-metrics" className="mr-3" />
                 <label htmlFor="culinary-metrics" className="font-semibold cursor-pointer">🍳 Culinary Metrics</label>
                 <p className="text-sm text-gray-600 ml-6">Recipe performance, technique analysis</p>
               </div>
               
-              <div className="border-2 border-purple-200 rounded-lg p-4 hover:bg-purple-50 cursor-pointer">
+              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-4 hover:bg-purple-100 cursor-pointer">
                 <input type="checkbox" id="operations" className="mr-3" />
                 <label htmlFor="operations" className="font-semibold cursor-pointer">🏪 Operations</label>
                 <p className="text-sm text-gray-600 ml-6">Kitchen management, safety & compliance</p>
               </div>
               
-              <div className="border-2 border-pink-200 rounded-lg p-4 hover:bg-pink-50 cursor-pointer">
+              <div className="border-4 border-pink-400 bg-pink-50 rounded-lg p-4 hover:bg-pink-100 cursor-pointer">
                 <input type="checkbox" id="engagement" className="mr-3" />
                 <label htmlFor="engagement" className="font-semibold cursor-pointer">📱 Engagement</label>
                 <p className="text-sm text-gray-600 ml-6">Platform usage, community participation</p>
               </div>
               
-              <div className="border-2 border-red-200 rounded-lg p-4 hover:bg-red-50 cursor-pointer">
+              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-4 hover:bg-red-100 cursor-pointer">
                 <input type="checkbox" id="session-reports" className="mr-3" />
                 <label htmlFor="session-reports" className="font-semibold cursor-pointer">🚨 Session Reports</label>
                 <p className="text-sm text-gray-600 ml-6">Flagged content, scheduled sessions</p>
