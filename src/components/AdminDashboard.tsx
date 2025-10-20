@@ -2997,9 +2997,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="space-y-6">
               {/* Welcome Message */}
-              <div className="bg-pink-50 border-2 border-pink-200 rounded-lg p-4">
-                <h3 className="font-bold text-pink-800 mb-2">🎉 Welcome! I'm here to help with your culinary curriculum</h3>
-                <p className="text-sm text-pink-700">
+              <div className="bg-red-50 border-4 border-red-400 rounded-lg p-4">
+                <h3 className="font-bold text-red-800 mb-2">🎉 Welcome! I'm here to help with your culinary curriculum</h3>
+                <p className="text-sm text-red-700">
                   I can help you create assignments, lesson plans, rubrics, and apply curriculum to your modules. What would you like to work on today?
                 </p>
               </div>
@@ -3044,8 +3044,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
               
               {/* Chat Interface */}
-              <div className="border-4 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-4">💬 Ask Chef Freddie Anything</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-4">💬 Ask Chef Freddie Anything</h3>
                 <div className="bg-gray-50 rounded-lg p-4 mb-4 min-h-[200px] max-h-[300px] overflow-y-auto">
                   <div className="space-y-3">
                     {freddieMessages.map((msg, index) => (
