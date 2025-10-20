@@ -688,7 +688,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
             </div>
             
-            <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-6">
+            <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 mb-6">
               <h4 className="font-bold text-green-900 mb-2">🎯 Key Placement Metrics:</h4>
               <ul className="text-sm text-green-800 space-y-1">
                 <li>• Graduate employment rate within 6 months</li>
