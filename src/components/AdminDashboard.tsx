@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../api/supabaseClient';
 import { useSupabase } from './SupabaseProvider';
+import { askChefFreddie } from '../api/chefFreddie';
 import {
   UsersIcon,
   ChartBarIcon,
@@ -67,7 +68,45 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
   const [showChefFreddieModal, setShowChefFreddieModal] = useState(false);
+  const [freddieMessages, setFreddieMessages] = useState<Array<{sender: 'freddie' | 'user', text: string}>>([]);
+  const [freddieInput, setFreddieInput] = useState('');
+  const [freddieLoading, setFreddieLoading] = useState(false);
   const { user: currentUser } = useSupabase();
+
+  // Initialize Chef Freddie with welcome message
+  useEffect(() => {
+    if (showChefFreddieModal && freddieMessages.length === 0) {
+      setFreddieMessages([{
+        sender: 'freddie',
+        text: "Hi! I'm Chef Freddie, your curriculum assistant. I can help you create assignments, lesson plans, rubrics, and apply curriculum to your modules. Try asking me something like: 'Create a Week 5 assignment for sauce making' or 'Design a rubric for knife skills assessment'"
+      }]);
+    }
+  }, [showChefFreddieModal, freddieMessages.length]);
+
+  // Function to send message to Chef Freddie
+  const sendFreddieMessage = async (message: string) => {
+    if (!message.trim() || !currentUser?.id) return;
+    
+    // Add user message
+    setFreddieMessages(prev => [...prev, { sender: 'user', text: message }]);
+    setFreddieInput('');
+    setFreddieLoading(true);
+    
+    try {
+      // Create curriculum-focused prompt
+      const curriculumPrompt = `You are Chef Freddie, a curriculum assistant for culinary trade schools. Help create educational content, assignments, lesson plans, and rubrics for culinary education. Focus on practical cooking skills, food safety, kitchen management, and professional culinary techniques. Here's the request: ${message}`;
+      
+      const response = await askChefFreddie(currentUser.id, curriculumPrompt);
+      setFreddieMessages(prev => [...prev, { sender: 'freddie', text: response }]);
+    } catch (error: any) {
+      setFreddieMessages(prev => [...prev, { 
+        sender: 'freddie', 
+        text: error.message || 'Sorry, I encountered an error. Please try again.' 
+      }]);
+    } finally {
+      setFreddieLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchAdminData();
@@ -3007,18 +3046,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               {/* Chat Interface */}
               <div className="border-4 border-gray-200 rounded-lg p-4">
                 <h3 className="font-bold text-gray-900 mb-4">💬 Ask Chef Freddie Anything</h3>
-                <div className="bg-gray-50 rounded-lg p-4 mb-4 min-h-[200px]">
+                <div className="bg-gray-50 rounded-lg p-4 mb-4 min-h-[200px] max-h-[300px] overflow-y-auto">
                   <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <span className="text-2xl">👨‍🍳</span>
-                      <div className="bg-pink-100 rounded-lg p-3 flex-1">
-                        <p className="text-sm text-pink-800">
-                          Hi! I'm Chef Freddie. I can help you create curriculum for any culinary skill level. 
-                          Try asking me something like: "Create a Week 5 assignment for sauce making" or 
-                          "Design a rubric for knife skills assessment"
-                        </p>
+                    {freddieMessages.map((msg, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        {msg.sender === 'freddie' && <span className="text-2xl">👨‍🍳</span>}
+                        <div className={`rounded-lg p-3 flex-1 ${
+                          msg.sender === 'freddie' 
+                            ? 'bg-pink-100' 
+                            : 'bg-blue-100 ml-auto max-w-[80%]'
+                        }`}>
+                          <p className={`text-sm ${
+                            msg.sender === 'freddie' ? 'text-pink-800' : 'text-blue-800'
+                          }`}>
+                            {msg.text}
+                          </p>
+                        </div>
+                        {msg.sender === 'user' && <span className="text-2xl">👤</span>}
                       </div>
-                    </div>
+                    ))}
+                    {freddieLoading && (
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl">👨‍🍳</span>
+                        <div className="bg-pink-100 rounded-lg p-3 flex-1">
+                          <p className="text-sm text-pink-800">
+                            Chef Freddie is thinking... 🤔
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
@@ -3026,13 +3082,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <input 
                     type="text" 
                     placeholder="Ask Chef Freddie to create curriculum..."
-                    className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                    value={freddieInput}
+                    onChange={(e) => setFreddieInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && !freddieLoading) {
+                        sendFreddieMessage(freddieInput);
+                      }
+                    }}
+                    disabled={freddieLoading}
+                    className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm disabled:opacity-50"
                   />
                   <button 
-                    onClick={() => alert('Chef Freddie is thinking... This would connect to your AI curriculum generation system!')}
-                    className="bg-pink-400 text-white px-6 py-2 rounded-md hover:bg-pink-500 font-retro"
+                    onClick={() => sendFreddieMessage(freddieInput)}
+                    disabled={freddieLoading || !freddieInput.trim()}
+                    className="bg-pink-400 text-white px-6 py-2 rounded-md hover:bg-pink-500 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Ask
+                    {freddieLoading ? 'Thinking...' : 'Ask'}
                   </button>
                 </div>
               </div>
