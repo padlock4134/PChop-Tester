@@ -3076,17 +3076,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
             </div>
-            
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => {
-                  alert('Chef Freddie is ready to help! This would integrate with your AI curriculum system.');
-                }}
-                className="bg-red-400 text-white px-6 py-2 rounded-md hover:bg-red-500 font-retro"
-              >
-                Start Creating
-              </button>
-            </div>
           </div>
         </div>
       )}
