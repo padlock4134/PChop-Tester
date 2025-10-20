@@ -758,7 +758,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Tagline</label>
                     <input
                       type="text"
                       placeholder="Where Culinary Dreams Come True"
