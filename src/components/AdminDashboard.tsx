@@ -1071,22 +1071,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showStudentManagementModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">Student Management Dashboard</h2>
               <button
                 onClick={() => setShowStudentManagementModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Manage student progress, XP levels, academic performance, and individual student records.</p>
+            <p className="text-center text-gray-600 mb-6">Manage student progress, XP levels, academic performance, and individual student records.</p>
             
             <div className="space-y-6">
               {/* Student Overview Stats */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">📊 Student Overview</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📊 Student Overview</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-blue-600">{stats.totalUsers}</div>
@@ -1113,7 +1113,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Student List Management */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">📋 Student Records</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📋 Student Records</h3>
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
@@ -1169,7 +1169,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Quick Actions */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">⚡ Quick Actions</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">⚡ Quick Actions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <button className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
                     <div className="text-2xl mb-2">📧</div>
