@@ -577,7 +577,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-4 hover:bg-green-100 cursor-pointer">
                 <input type="checkbox" id="class-analytics" className="mr-3" />
                 <label htmlFor="class-analytics" className="font-semibold cursor-pointer">👥 Class Analytics</label>
-                <p className="text-sm text-gray-600 ml-6">Performance metrics, live session data</p>
+                <p className="text-sm text-gray-600 ml-6">Performance & content metrics, live session data</p>
               </div>
               
               <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-4 hover:bg-orange-100 cursor-pointer">
