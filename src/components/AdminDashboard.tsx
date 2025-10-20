@@ -453,7 +453,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
               </div>
               <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🎓</div>
+                <div className="mb-3 text-4xl">📜</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">Alumni Management</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">Track graduate success stories, career outcomes, and maintain alumni network connections</p>
                 <button 
@@ -482,7 +482,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
               </div>
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">�</div>
+                <div className="mb-3 text-4xl">🔍</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">Content Analytics</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">Monitor content usage, engagement, and curriculum completion across all modules</p>
                 <button 
