@@ -734,23 +734,23 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="text-center font-bold text-blue-900 mb-3">🏦 School Logo</h3>
                 <div className="flex items-center space-x-4">
                   <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                    <span className="text-gray-400 text-sm">Logo</span>
+                    <span className="text-center text-gray-400 text-sm">Logo</span>
                   </div>
                   <div className="flex-1">
-                    <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                    <button className="text-center bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
                       Upload Logo
                     </button>
-                    <p className="text-sm text-gray-500 mt-1">Recommended: 200x200px, PNG or JPG</p>
+                    <p className="text-center text-sm text-gray-500 mt-1">Recommended: 200x200px, PNG or JPG</p>
                   </div>
                 </div>
               </div>
 
               {/* School Information */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">📝 School Information</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">📝 School Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">School Name</label>
+                    <label className="block text-center text-sm font-medium text-gray-700 mb-1">School Name</label>
                     <input
                       type="text"
                       placeholder="Culinary Institute of Excellence"
