@@ -732,15 +732,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               {/* School Logo */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
                 <h3 className="text-center font-bold text-blue-900 mb-3">🏦 School Logo</h3>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center justify-center space-x-4">
                   <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                    <span className="text-center text-gray-400 text-sm">Logo</span>
+                    <span className="text-gray-400 text-sm">Logo</span>
                   </div>
                   <div className="flex-1">
-                    <button className="text-center bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
+                    <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
                       Upload Logo
                     </button>
-                    <p className="text-center text-sm text-gray-500 mt-1">Recommended: 200x200px, PNG or JPG</p>
+                    <p className="text-sm text-gray-500 mt-1">Recommended: 200x200px, PNG or JPG</p>
                   </div>
                 </div>
               </div>
