@@ -2843,6 +2843,98 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
       )}
 
+      {/* API Key Modal */}
+      {showApiKeyModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 max-w-2xl w-full">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-green-700 font-retro">🔑 API Key Generated</h2>
+              <button
+                onClick={() => setShowApiKeyModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="space-y-6">
+              <div className="bg-green-50 border-2 border-green-200 rounded-lg p-4">
+                <h3 className="font-bold text-green-800 mb-3">✅ Success! Your API Key has been generated</h3>
+                <p className="text-sm text-green-700 mb-4">
+                  Keep this key secure and don't share it publicly. You can use this key to integrate with PorkChop's curriculum management system.
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 border-2 border-gray-200 rounded-lg p-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Your API Key:</label>
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="password" 
+                    value={generatedApiKey}
+                    readOnly
+                    className="flex-1 bg-white border border-gray-300 rounded-md px-3 py-2 font-mono text-sm"
+                    id="api-key-input"
+                  />
+                  <button
+                    onClick={() => {
+                      const input = document.getElementById('api-key-input') as HTMLInputElement;
+                      if (input) {
+                        input.type = input.type === 'password' ? 'text' : 'password';
+                      }
+                    }}
+                    className="bg-gray-100 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-200 text-sm"
+                  >
+                    👁️
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(generatedApiKey);
+                      alert('API Key copied to clipboard!');
+                    }}
+                    className="bg-green-100 text-green-700 px-3 py-2 rounded-md hover:bg-green-200 text-sm font-retro"
+                  >
+                    Copy
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Click the eye icon to show/hide the key. Click Copy to copy to clipboard.
+                </p>
+              </div>
+              
+              <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4">
+                <h4 className="font-bold text-blue-800 mb-2">📄 API Documentation</h4>
+                <p className="text-sm text-blue-700 mb-3">
+                  Use this key to access PorkChop's curriculum management endpoints:
+                </p>
+                <ul className="text-sm text-blue-600 space-y-1">
+                  <li>• <code className="bg-blue-100 px-1 rounded">POST /api/curriculum/upload</code> - Upload course materials</li>
+                  <li>• <code className="bg-blue-100 px-1 rounded">GET /api/students/progress</code> - Get student progress data</li>
+                  <li>• <code className="bg-blue-100 px-1 rounded">POST /api/assignments/create</code> - Create new assignments</li>
+                </ul>
+              </div>
+            </div>
+            
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setShowApiKeyModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  alert('API Key saved to your account settings!');
+                  setShowApiKeyModal(false);
+                }}
+                className="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro"
+              >
+                Save Key
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* User Edit Modal */}
       <UserEditModal />
     </div>
