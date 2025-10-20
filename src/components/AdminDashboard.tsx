@@ -730,8 +730,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="space-y-6">
               {/* School Logo */}
-              <div className="border-4 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">🏫 School Logo</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">🏦 School Logo</h3>
                 <div className="flex items-center space-x-4">
                   <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
                     <span className="text-gray-400 text-sm">Logo</span>
@@ -746,8 +746,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* School Information */}
-              <div className="border-4 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">📝 School Information</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">📝 School Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">School Name</label>
@@ -777,8 +777,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Color Scheme */}
-              <div className="border-4 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">🎨 Color Scheme</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">🎨 Color Scheme</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
@@ -812,8 +812,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Contact Information */}
-              <div className="border-4 border-gray-200 rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-3">📞 Contact Information</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
+                <h3 className="font-bold text-blue-900 mb-3">📞 Contact Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
@@ -909,7 +909,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       onClick={() => setShowChefFreddieModal(true)}
                       className="bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center gap-2 border-2 border-pink-400"
                     >
-                      <span className="text-lg">👨‍🍳</span>
+                      <img src="/images/logo.png" alt="PorkChop Logo" className="w-5 h-5" />
                       Chef Freddie
                     </button>
                   </div>
