@@ -2042,7 +2042,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="text-center font-bold text-maineBlue mb-4">👥 Class Cohort Performance</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-medium text-gray-800 mb-3">Current Cohorts</h4>
+                    <h4 className="text-center font-medium text-gray-800 mb-3">Current Cohorts</h4>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                         <div>
@@ -2077,7 +2077,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-800 mb-3">Graduation Pipeline</h4>
+                    <h4 className="text-center font-medium text-gray-800 mb-3">Graduation Pipeline</h4>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between p-3 bg-emerald-50 rounded-lg">
                         <div>
@@ -2119,16 +2119,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="text-center font-bold text-yellow-900 mb-4">⚠️ License Utilization Status</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white border border-yellow-200 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-yellow-600 mb-1">82%</div>
-                    <p className="text-sm text-yellow-800">Current utilization</p>
+                    <div className="text-center text-2xl font-bold text-yellow-600 mb-1">82%</div>
+                    <p className="text-center text-sm text-yellow-800">Current utilization</p>
                   </div>
                   <div className="bg-white border border-yellow-200 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-yellow-600 mb-1">53</div>
-                    <p className="text-sm text-yellow-800">Available licenses</p>
+                    <div className="text-center text-2xl font-bold text-yellow-600 mb-1">53</div>
+                    <p className="text-center text-sm text-yellow-800">Available licenses</p>
                   </div>
                   <div className="bg-white border border-yellow-200 rounded-lg p-3">
-                    <div className="text-2xl font-bold text-yellow-600 mb-1">Q2</div>
-                    <p className="text-sm text-yellow-800">Projected capacity</p>
+                    <div className="text-center text-2xl font-bold text-yellow-600 mb-1">Q2</div>
+                    <p className="text-center text-sm text-yellow-800">Projected capacity</p>
                   </div>
                 </div>
               </div>
