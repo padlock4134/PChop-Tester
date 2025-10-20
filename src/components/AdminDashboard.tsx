@@ -471,7 +471,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">�</div>
+                <div className="mb-3 text-4xl">🤖</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">Module Integration</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">Connect MyCookBook recipes to CulinarySchool curriculum and assignments</p>
                 <button 
