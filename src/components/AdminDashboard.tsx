@@ -911,7 +911,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               {/* Content Preview & Mapping */}
               <div className="border-4 border-maineBlue rounded-lg p-4">
                 <h3 className="text-center font-bold text-gray-900 mb-3">📋 Content Distribution</h3>
-                <p className="text-sm text-gray-600 mb-4">Choose which parts of your uploaded content go to each module:</p>
+                <p className="text-center text-sm text-gray-600 mb-4">Choose which parts of your uploaded content go to each module:</p>
                 
                 <div className="grid grid-cols-1 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
@@ -1024,11 +1024,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="text-center font-bold text-green-900 mb-3">🚀 Publish Content</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Publish Date</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Publish Date</label>
                     <input type="date" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Visibility</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Visibility</label>
                     <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
                       <option>All Students</option>
                       <option>Specific Classes</option>
@@ -1036,7 +1036,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Notification</label>
+                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Notification</label>
                     <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
                       <option>Notify Students</option>
                       <option>Silent Update</option>
