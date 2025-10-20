@@ -63,6 +63,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showStudentManagementModal, setShowStudentManagementModal] = useState(false);
   const [showFacultyManagementModal, setShowFacultyManagementModal] = useState(false);
   const [showAlumniManagementModal, setShowAlumniManagementModal] = useState(false);
+  const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -2717,6 +2718,142 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
                 Save Configuration
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Browse Files Modal */}
+      {showBrowseFilesModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">📁 Browse & Upload Files</h2>
+              <button
+                onClick={() => setShowBrowseFilesModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="space-y-6">
+              {/* File Upload Area */}
+              <div className="border-2 border-dashed border-maineBlue rounded-lg p-8 text-center bg-blue-50">
+                <div className="text-6xl mb-4">📁</div>
+                <h3 className="text-xl font-bold text-maineBlue mb-2">Select Files to Upload</h3>
+                <p className="text-gray-600 mb-4">Choose curriculum files, recipes, assignments, or lesson plans</p>
+                
+                <input 
+                  type="file" 
+                  multiple 
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.gif"
+                  className="hidden" 
+                  id="file-upload"
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files || []);
+                    console.log('Selected files:', files);
+                    // Handle file upload logic here
+                  }}
+                />
+                <label 
+                  htmlFor="file-upload" 
+                  className="bg-maineBlue text-white px-8 py-3 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block"
+                >
+                  Choose Files
+                </label>
+                
+                <p className="text-xs text-gray-500 mt-4">
+                  Supported formats: PDF, Word, Excel, PowerPoint, Images (JPG, PNG, GIF)
+                </p>
+              </div>
+              
+              {/* Recent Files */}
+              <div className="border-4 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-4">📋 Recent Uploads</h3>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center">
+                      <span className="text-2xl mr-3">📄</span>
+                      <div>
+                        <p className="font-medium">Culinary Fundamentals Syllabus.pdf</p>
+                        <p className="text-sm text-gray-500">2.4 MB • Uploaded 2 hours ago</p>
+                      </div>
+                    </div>
+                    <button className="text-maineBlue hover:text-blue-700 font-medium">Use</button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center">
+                      <span className="text-2xl mr-3">🍳</span>
+                      <div>
+                        <p className="font-medium">Week 3 - Knife Skills Recipes.docx</p>
+                        <p className="text-sm text-gray-500">1.8 MB • Uploaded yesterday</p>
+                      </div>
+                    </div>
+                    <button className="text-maineBlue hover:text-blue-700 font-medium">Use</button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center">
+                      <span className="text-2xl mr-3">📊</span>
+                      <div>
+                        <p className="font-medium">Assignment Rubric Template.xlsx</p>
+                        <p className="text-sm text-gray-500">456 KB • Uploaded 3 days ago</p>
+                      </div>
+                    </div>
+                    <button className="text-maineBlue hover:text-blue-700 font-medium">Use</button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Upload Options */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-4 text-center">
+                  <div className="text-3xl mb-2">🔗</div>
+                  <h4 className="font-bold text-blue-800 mb-2">Upload from URL</h4>
+                  <p className="text-sm text-blue-600 mb-3">Import files from web links</p>
+                  <button className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-200 font-retro text-sm">
+                    Add URL
+                  </button>
+                </div>
+                
+                <div className="border-4 border-green-300 bg-green-50 rounded-lg p-4 text-center">
+                  <div className="text-3xl mb-2">☁️</div>
+                  <h4 className="font-bold text-green-800 mb-2">Cloud Storage</h4>
+                  <p className="text-sm text-green-600 mb-3">Import from Google Drive, Dropbox</p>
+                  <button className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-sm">
+                    Connect
+                  </button>
+                </div>
+                
+                <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-4 text-center">
+                  <div className="text-3xl mb-2">🎨</div>
+                  <h4 className="font-bold text-purple-800 mb-2">Create New</h4>
+                  <p className="text-sm text-purple-600 mb-3">Generate content with AI</p>
+                  <button className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200 font-retro text-sm">
+                    Generate
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setShowBrowseFilesModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  alert('Files uploaded successfully! Content will be processed and distributed to selected modules.');
+                  setShowBrowseFilesModal(false);
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                Upload & Process
               </button>
             </div>
           </div>
