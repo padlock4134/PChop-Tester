@@ -893,7 +893,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       onClick={() => setShowChefFreddieModal(true)}
                       className="bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center gap-2 border-2 border-pink-400"
                     >
-                      <img src="logo.png" className="w-5 h-5" />
+                      <img src="logo.png" className="w-5 h-5 border border-gray-400 rounded" />
                       Ask Chef Freddie
                     </button>
                   </div>
