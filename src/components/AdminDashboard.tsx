@@ -1672,7 +1672,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <h2 className="text-2xl font-bold text-maineBlue font-retro">User Activity Dashboard</h2>
               <button
                 onClick={() => setShowUserActivityModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
