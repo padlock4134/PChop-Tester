@@ -569,7 +569,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Select the reports you want to generate and download:</p>
+            <p className="text-center text-gray-600 mb-6">Select the reports you want to generate and download:</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4 hover:bg-blue-100 cursor-pointer">
@@ -644,7 +644,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Track graduate employment outcomes, manage industry partnerships, and monitor career services effectiveness.</p>
+            <p className="text-center text-gray-600 mb-6">Track graduate employment outcomes, manage industry partnerships, and monitor career services effectiveness.</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               {/* Employment Tracking */}
@@ -689,8 +689,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </div>
             
             <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 mb-6">
-              <h4 className="font-bold text-green-900 mb-2">🎯 Key Placement Metrics:</h4>
-              <ul className="text-sm text-green-800 space-y-1">
+              <h4 className="text-center font-bold text-green-900 mb-2">🎯 Key Placement Metrics:</h4>
+              <ul className="text-center text-sm text-green-800 space-y-1">
                 <li>• Graduate employment rate within 6 months</li>
                 <li>• Average starting salary by program</li>
                 <li>• Industry sector placement distribution</li>
@@ -726,12 +726,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Customize PorkChop's appearance to match your school's brand and identity.</p>
+            <p className="text-center text-gray-600 mb-6">Customize PorkChop's appearance to match your school's brand and identity.</p>
             
             <div className="space-y-6">
               {/* School Logo */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">🏦 School Logo</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3">🏦 School Logo</h3>
                 <div className="flex items-center space-x-4">
                   <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
                     <span className="text-gray-400 text-sm">Logo</span>
