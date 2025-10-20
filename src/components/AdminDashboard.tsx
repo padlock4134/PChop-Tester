@@ -2954,9 +2954,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Chef Freddie Modal */}
       {showChefFreddieModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-pink-400 p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-red-400 p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
             <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-pink-700 font-retro flex items-center justify-center gap-2">
+              <h2 className="text-2xl font-bold text-red-700 font-retro flex items-center justify-center gap-2">
                 <span className="text-3xl">👨‍🍳</span>
                 Chef Freddie: Curriculum Assistant
               </h2>
