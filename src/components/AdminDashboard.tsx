@@ -336,7 +336,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('overview')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'overview' 
-                  ? 'border-seafoam bg-teal-50 scale-105' 
+                  ? 'border-seafoam bg-teal-50 scale-105 ring-4 ring-black' 
                   : 'border-seafoam bg-teal-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
@@ -348,7 +348,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('users')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'users' 
-                  ? 'border-blue-400 bg-blue-50 scale-105' 
+                  ? 'border-blue-400 bg-blue-50 scale-105 ring-4 ring-black' 
                   : 'border-blue-400 bg-blue-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
@@ -360,7 +360,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('content')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'content' 
-                  ? 'border-red-400 bg-red-50 scale-105' 
+                  ? 'border-red-400 bg-red-50 scale-105 ring-4 ring-black' 
                   : 'border-red-400 bg-red-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
@@ -372,7 +372,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               onClick={() => setActiveTab('system')}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'system' 
-                  ? 'border-yellow-300 bg-yellow-50 scale-105' 
+                  ? 'border-yellow-300 bg-yellow-50 scale-105 ring-4 ring-black' 
                   : 'border-yellow-300 bg-yellow-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center`}
             >
