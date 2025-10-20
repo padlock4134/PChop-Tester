@@ -382,6 +382,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           </div>
         </div>
 
+        {/* Second separation line between nav and content */}
+        <hr className="border-t-2 border-maineBlue my-6" />
+        
         {/* Content Area */}
         <div className="px-2">
         {activeTab === 'overview' && (
