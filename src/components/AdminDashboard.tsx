@@ -972,7 +972,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
 
               {/* Publishing Controls */}
-              <div className="border-4 border-green-200 bg-green-50 rounded-lg p-4">
+              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-4">
                 <h3 className="font-bold text-green-900 mb-3">🚀 Publish Content</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div>
