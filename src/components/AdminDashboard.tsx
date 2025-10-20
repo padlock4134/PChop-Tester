@@ -66,6 +66,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
+  const [showChefFreddieModal, setShowChefFreddieModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -865,7 +866,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     >
                       Generate API Key
                     </button>
-                    <button className="bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center gap-2 border-2 border-pink-400">
+                    <button 
+                      onClick={() => setShowChefFreddieModal(true)}
+                      className="bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center gap-2 border-2 border-pink-400"
+                    >
                       <span className="text-lg">👨‍🍳</span>
                       Chef Freddie
                     </button>
@@ -2929,6 +2933,153 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 className="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro"
               >
                 Save Key
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Chef Freddie Modal */}
+      {showChefFreddieModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-pink-400 p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-pink-700 font-retro flex items-center gap-2">
+                <span className="text-3xl">👨‍🍳</span>
+                Chef Freddie: Curriculum Assistant
+              </h2>
+              <button
+                onClick={() => setShowChefFreddieModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="space-y-6">
+              {/* Welcome Message */}
+              <div className="bg-pink-50 border-2 border-pink-200 rounded-lg p-4">
+                <h3 className="font-bold text-pink-800 mb-2">🎉 Welcome! I'm here to help with your culinary curriculum</h3>
+                <p className="text-sm text-pink-700">
+                  I can help you create assignments, lesson plans, rubrics, and apply curriculum to your modules. What would you like to work on today?
+                </p>
+              </div>
+              
+              {/* Quick Actions */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                  <div className="text-3xl mb-2">📝</div>
+                  <h4 className="font-bold text-blue-800 mb-2">Create Assignment</h4>
+                  <p className="text-sm text-blue-600 mb-3">Generate practical cooking assignments with rubrics</p>
+                  <button className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-200 font-retro text-sm">
+                    Start Creating
+                  </button>
+                </div>
+                
+                <div className="border-4 border-green-300 bg-green-50 rounded-lg p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                  <div className="text-3xl mb-2">📅</div>
+                  <h4 className="font-bold text-green-800 mb-2">Build Lesson Plan</h4>
+                  <p className="text-sm text-green-600 mb-3">Create structured weekly lesson plans</p>
+                  <button className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-sm">
+                    Plan Lesson
+                  </button>
+                </div>
+                
+                <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                  <div className="text-3xl mb-2">🏆</div>
+                  <h4 className="font-bold text-purple-800 mb-2">Design Rubric</h4>
+                  <p className="text-sm text-purple-600 mb-3">Create assessment rubrics for skills</p>
+                  <button className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200 font-retro text-sm">
+                    Design Rubric
+                  </button>
+                </div>
+                
+                <div className="border-4 border-orange-300 bg-orange-50 rounded-lg p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                  <div className="text-3xl mb-2">🔄</div>
+                  <h4 className="font-bold text-orange-800 mb-2">Apply to Modules</h4>
+                  <p className="text-sm text-orange-600 mb-3">Distribute curriculum to MyKitchen, MyCookBook</p>
+                  <button className="bg-orange-100 text-orange-700 px-4 py-2 rounded-md hover:bg-orange-200 font-retro text-sm">
+                    Apply Now
+                  </button>
+                </div>
+              </div>
+              
+              {/* Chat Interface */}
+              <div className="border-4 border-gray-200 rounded-lg p-4">
+                <h3 className="font-bold text-gray-900 mb-4">💬 Ask Chef Freddie Anything</h3>
+                <div className="bg-gray-50 rounded-lg p-4 mb-4 min-h-[200px]">
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">👨‍🍳</span>
+                      <div className="bg-pink-100 rounded-lg p-3 flex-1">
+                        <p className="text-sm text-pink-800">
+                          Hi! I'm Chef Freddie. I can help you create curriculum for any culinary skill level. 
+                          Try asking me something like: "Create a Week 5 assignment for sauce making" or 
+                          "Design a rubric for knife skills assessment"
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex gap-2">
+                  <input 
+                    type="text" 
+                    placeholder="Ask Chef Freddie to create curriculum..."
+                    className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm"
+                  />
+                  <button 
+                    onClick={() => alert('Chef Freddie is thinking... This would connect to your AI curriculum generation system!')}
+                    className="bg-pink-400 text-white px-6 py-2 rounded-md hover:bg-pink-500 font-retro"
+                  >
+                    Ask
+                  </button>
+                </div>
+              </div>
+              
+              {/* Recent Curriculum */}
+              <div className="border-4 border-yellow-300 bg-yellow-50 rounded-lg p-4">
+                <h3 className="font-bold text-yellow-800 mb-4">📁 Recently Created Curriculum</h3>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-yellow-200">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xl">🔪</span>
+                      <div>
+                        <p className="font-medium text-yellow-800">Week 3: French Knife Skills Assignment</p>
+                        <p className="text-sm text-yellow-600">Created 2 hours ago • Applied to CulinarySchool</p>
+                      </div>
+                    </div>
+                    <button className="text-yellow-700 hover:text-yellow-800 font-medium text-sm">View</button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-yellow-200">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xl">🍲</span>
+                      <div>
+                        <p className="font-medium text-yellow-800">Sauce Making Rubric Template</p>
+                        <p className="text-sm text-yellow-600">Created yesterday • Ready to apply</p>
+                      </div>
+                    </div>
+                    <button className="text-yellow-700 hover:text-yellow-800 font-medium text-sm">Use</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setShowChefFreddieModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  alert('Chef Freddie is ready to help! This would integrate with your AI curriculum system.');
+                }}
+                className="bg-pink-400 text-white px-6 py-2 rounded-md hover:bg-pink-500 font-retro"
+              >
+                Start Creating
               </button>
             </div>
           </div>
