@@ -1683,7 +1683,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-6">
               {/* Login Patterns */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">📅 Login Patterns</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📅 Login Patterns</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-blue-600">342</div>
@@ -1710,7 +1710,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Module Usage Breakdown */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">📊 Module Usage Breakdown</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📊 Module Usage Breakdown</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                     <div className="flex items-center mb-2">
@@ -1749,7 +1749,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Feature Adoption */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">🚀 Feature Adoption Rates</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">🚀 Feature Adoption Rates</h3>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
@@ -1816,7 +1816,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Inactive Students Alert */}
               <div className="border-4 border-red-400 bg-red-50 rounded-lg p-6">
-                <h3 className="font-bold text-red-900 mb-4">⚠️ Inactive Students Alert</h3>
+                <h3 className="text-center font-bold text-red-900 mb-4">⚠️ Inactive Students Alert</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white border border-red-200 rounded-lg p-3">
                     <div className="text-2xl font-bold text-red-600 mb-1">23</div>
@@ -1856,7 +1856,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-6">
               {/* Program Completion Rates */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">🎓 Program Completion Rates</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">🎓 Program Completion Rates</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-green-600">87%</div>
@@ -1878,7 +1878,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Student Satisfaction */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">⭐ Student Satisfaction Metrics</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">⭐ Student Satisfaction Metrics</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-yellow-50 border-4 border-yellow-400 rounded-lg p-4 text-center">
                     <div className="text-4xl font-bold text-yellow-600">4.2/5</div>
@@ -1895,7 +1895,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Skill Progression Tracking */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">📊 Skill Progression Tracking</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📊 Skill Progression Tracking</h3>
                 <div className="space-y-4">
                   <div className="bg-gray-50 rounded-lg p-4">
                     <div className="flex justify-between items-center mb-2">
@@ -1929,7 +1929,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Learning Outcomes Achievement */}
               <div className="border-4 border-red-400 bg-red-50 rounded-lg p-6">
-                <h3 className="font-bold text-red-900 mb-4">⚠️ Areas Needing Attention</h3>
+                <h3 className="text-center font-bold text-red-900 mb-4">⚠️ Areas Needing Attention</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white border border-red-200 rounded-lg p-3">
                     <div className="text-2xl font-bold text-red-600 mb-1">23%</div>
@@ -1969,7 +1969,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-6">
               {/* Current Enrollment Status */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">📊 Current Enrollment Status</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📊 Current Enrollment Status</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-blue-600">247</div>
@@ -1996,7 +1996,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Retention & Completion Rates */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">🎓 Retention & Completion Rates</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">🎓 Retention & Completion Rates</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="bg-emerald-50 border-4 border-emerald-400 rounded-lg p-4 text-center">
                     <div className="text-4xl font-bold text-emerald-600">94%</div>
@@ -2018,7 +2018,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Enrollment Trends */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">📈 Enrollment Trends</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📈 Enrollment Trends</h3>
                 <div className="space-y-4">
                   <div className="bg-gray-50 rounded-lg p-4">
                     <div className="flex justify-between items-center mb-2">
@@ -2052,7 +2052,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Class Cohort Performance */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">👥 Class Cohort Performance</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">👥 Class Cohort Performance</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <h4 className="font-medium text-gray-800 mb-3">Current Cohorts</h4>
@@ -2129,7 +2129,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* License Utilization Alert */}
               <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-6">
-                <h3 className="font-bold text-yellow-900 mb-4">⚠️ License Utilization Status</h3>
+                <h3 className="text-center font-bold text-yellow-900 mb-4">⚠️ License Utilization Status</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="bg-white border border-yellow-200 rounded-lg p-3">
                     <div className="text-2xl font-bold text-yellow-600 mb-1">82%</div>
