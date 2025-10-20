@@ -607,12 +607,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="flex justify-center gap-4">
               <button
-                onClick={() => setShowExportModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Cancel
-              </button>
-              <button
                 onClick={() => {
                   alert('Generating selected reports... Downloads will begin shortly.');
                   setShowExportModal(false);
@@ -2394,17 +2388,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => {
-                  alert('Analytics data exported successfully!');
-                }}
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
-              >
-                Export Data
-              </button>
             </div>
           </div>
         </div>
