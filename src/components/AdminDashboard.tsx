@@ -2812,7 +2812,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               
               {/* Recent Files */}
               <div className="border-4 border-maineBlue rounded-lg p-4">
-                <h3 className="font-bold text-gray-900 mb-4">📋 Recent Uploads</h3>
+                <h3 className="text-center font-bold text-gray-900 mb-4">📋 Recent Uploads</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
@@ -2851,12 +2851,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </div>
             
             <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => setShowBrowseFilesModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Cancel
-              </button>
               <button
                 onClick={() => {
                   alert('Files uploaded successfully! Content will be processed and distributed to selected modules.');
