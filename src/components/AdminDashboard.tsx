@@ -853,9 +853,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     >
                       Browse Files
                     </button>
-                    <button className="bg-gray-100 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-200 font-retro">
-                      Upload from URL
-                    </button>
                     <button className="bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro">
                       Generate API Key
                     </button>
