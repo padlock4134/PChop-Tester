@@ -2893,8 +2893,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="space-y-6">
               <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4">
-                <h3 className="font-bold text-green-800 mb-3">✅ Success! Your API Key has been generated</h3>
-                <p className="text-sm text-green-700 mb-4">
+                <h3 className="text-center font-bold text-green-800 mb-3">✅ Success! Your API Key has been generated</h3>
+                <p className="text-center text-sm text-green-700 mb-4">
                   Keep this key secure and don't share it publicly. You can use this key to integrate with PorkChop's curriculum management system.
                 </p>
               </div>
@@ -2930,17 +2930,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     Copy
                   </button>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-center text-xs text-gray-500 mt-2">
                   Click the eye icon to show/hide the key. Click Copy to copy to clipboard.
                 </p>
               </div>
               
               <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                <h4 className="font-bold text-blue-800 mb-2">📄 API Documentation</h4>
-                <p className="text-sm text-blue-700 mb-3">
+                <h4 className="text-center font-bold text-blue-800 mb-2">📄 API Documentation</h4>
+                <p className="text-center text-sm text-blue-700 mb-3">
                   Use this key to access PorkChop's curriculum management endpoints:
                 </p>
-                <ul className="text-sm text-blue-600 space-y-1">
+                <ul className="text-center text-sm text-blue-600 space-y-1">
                   <li>• <code className="bg-blue-100 px-1 rounded">POST /api/curriculum/upload</code> - Upload course materials</li>
                   <li>• <code className="bg-blue-100 px-1 rounded">GET /api/students/progress</code> - Get student progress data</li>
                   <li>• <code className="bg-blue-100 px-1 rounded">POST /api/assignments/create</code> - Create new assignments</li>
@@ -2949,12 +2949,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </div>
             
             <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => setShowApiKeyModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Close
-              </button>
               <button
                 onClick={() => {
                   alert('API Key saved to your account settings!');
