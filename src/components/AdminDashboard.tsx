@@ -2900,7 +2900,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
               
               <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Your API Key:</label>
+                <label className="text-center block text-sm font-medium text-gray-700 mb-2">Your API Key:</label>
                 <div className="flex items-center gap-2">
                   <input 
                     type="password" 
