@@ -1203,7 +1203,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-6">
               {/* Faculty Overview Stats */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">👩‍🏫 Faculty Overview</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">👩‍🏫 Faculty Overview</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-blue-600">12</div>
@@ -1230,7 +1230,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Faculty Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">📋 Faculty Directory</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📋 Faculty Directory</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-gray-50 rounded-lg p-4">
                     <div className="flex items-center justify-between mb-3">
@@ -1324,7 +1324,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Faculty Permissions & Access */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">🔐 Faculty Permissions & Access</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">🔐 Faculty Permissions & Access</h3>
                 <div className="overflow-x-auto">
                   <table className="min-w-full">
                     <thead>
@@ -1399,7 +1399,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Faculty Quick Actions */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">⚡ Faculty Management Actions</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">⚡ Faculty Management Actions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <button className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
                     <div className="text-2xl mb-2">👥</div>
@@ -1427,22 +1427,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {showAlumniManagementModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
+            <div className="text-center mb-6 relative">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">Alumni Management Dashboard</h2>
               <button
                 onClick={() => setShowAlumniManagementModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
             </div>
             
-            <p className="text-gray-600 mb-6">Track graduate success stories, career outcomes, and maintain alumni network connections.</p>
+            <p className="text-center text-gray-600 mb-6">Track graduate success stories, career outcomes, and maintain alumni network connections.</p>
             
             <div className="space-y-6">
               {/* Alumni Overview Stats */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">🎓 Alumni Overview</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">🎓 Alumni Overview</h3>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
                     <div className="text-3xl font-bold text-blue-600">342</div>
@@ -1469,7 +1469,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Success Stories */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">⭐ Success Stories</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">⭐ Success Stories</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4 border-2 border-blue-200">
                     <div className="flex items-center mb-3">
@@ -1547,10 +1547,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Career Outcomes */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">📈 Career Outcomes by Industry</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📈 Career Outcomes by Industry</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-3">Employment Distribution</h4>
+                    <h4 className="text-center font-medium text-gray-900 mb-3">Employment Distribution</h4>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-gray-700">People Management</span>
@@ -1601,7 +1601,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                   
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-3">Salary Ranges by Experience</h4>
+                    <h4 className="text-center font-medium text-gray-900 mb-3">Salary Ranges by Experience</h4>
                     <div className="space-y-3">
                       <div className="bg-gray-50 rounded-lg p-3">
                         <div className="flex justify-between items-center mb-1">
@@ -1631,7 +1631,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Alumni Network Actions */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue mb-4">⚡ Alumni Network Management</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-4">⚡ Alumni Network Management</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <button className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
                     <div className="text-2xl mb-2">📧</div>
