@@ -64,6 +64,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showFacultyManagementModal, setShowFacultyManagementModal] = useState(false);
   const [showAlumniManagementModal, setShowAlumniManagementModal] = useState(false);
   const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
+  const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+  const [generatedApiKey, setGeneratedApiKey] = useState('');
   const { user: currentUser } = useSupabase();
 
   useEffect(() => {
@@ -853,7 +855,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     >
                       Browse Files
                     </button>
-                    <button className="bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400">
+                    <button 
+                      onClick={() => {
+                        const mockKey = 'pk_' + Math.random().toString(36).substr(2, 32);
+                        setGeneratedApiKey(mockKey);
+                        setShowApiKeyModal(true);
+                      }}
+                      className="bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400"
+                    >
                       Generate API Key
                     </button>
                     <button className="bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center gap-2 border-2 border-pink-400">
