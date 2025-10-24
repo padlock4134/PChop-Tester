@@ -17,14 +17,6 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
-# ✅ Handle form submissions explicitly
-[[redirects]]
-  from = "/"
-  to = "/.netlify/functions/handle-form"
-  status = 200
-  force = true
-  conditions = {Form = "*"}
-
 # ✅ Standard SPA redirect (must come last to avoid overriding functions)
 [[redirects]]
   from = "/*"
