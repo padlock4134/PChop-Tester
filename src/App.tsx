@@ -28,13 +28,10 @@ import Pricing from './components/Pricing';
 import SupabaseProvider, { useSupabase } from './components/SupabaseProvider';
 import type { WristbandSessionMetadata } from './types/session-types';
 import { setSupabaseJwt } from './api/supabaseClient';
-import PlanSelectionModal from './components/PlanSelectionModal';
-import PaymentModal from './components/PaymentModal';
 import { useDeviceDetect, getResponsiveClasses } from './utils/responsiveUtils';
 import SwoopyArrow from './components/SwoopyArrow';
 
 const PUBLIC_ROUTES = ['/', '/AboutUs', '/KitchenComebacks', '/TenantWellness', '/Pricing'];
-const devOnlyPaymentBypass = (import.meta as any).env.VITE_PORKCHOP_DEV_ONLY_PAYMENT_BYPASS === 'true';
 
 // Admin toggle context
 const AdminToggleContext = createContext<{ isAdminMode: boolean; toggleAdminMode: () => void }>({ 
@@ -70,17 +67,13 @@ const HomeRedirect = () => {
 };
 
 const AppRoutes = () => {
-  const [showPlanModal, setShowPlanModal] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly' | null>(null);
-
   const location = useLocation();
   const isPublicRoute = PUBLIC_ROUTES.includes(location.pathname);
 
   const navigate = useNavigate();
 
   const { authStatus } = useWristbandAuth();
-  const { user, isLoading, isPaid, refreshAuthState } = useSupabase();
+  const { user, isLoading, refreshAuthState } = useSupabase();
   const { isAdminMode } = useAdminToggle();
   
   // Use the device detection hook
@@ -89,18 +82,6 @@ const AppRoutes = () => {
   // Get responsive classes based on device type
   const responsiveClasses = getResponsiveClasses(deviceType);
 
-  // Handle Stripe redirect with session ID
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const sessionId = params.get('session_id');
-    
-    if (sessionId && authStatus === AuthStatus.AUTHENTICATED) {
-      // Refresh auth state to ensure subscription is verified
-      refreshAuthState?.();
-      // Clean up the URL
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, [authStatus]);
 
   // We have this check here because the SupabaseProvider isLoading flag will never flip to false
   // in the event the initial Wristband auth session check fails. This status gets set to UNAUTHENTICATED
@@ -126,28 +107,6 @@ const AppRoutes = () => {
     return null;
   }
 
-  // Paywall check - hard gate
-  if (!isLoading && user && !isPaid && !isPublicRoute) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-sand">
-        <PlanSelectionModal
-          open={!showPlanModal}
-          onClose={() => redirectToLogout('/.netlify/functions/auth-logout')}
-          onSelectPlan={plan => {
-            setSelectedPlan(plan);
-            setShowPlanModal(false);
-            setShowPaymentModal(true);
-          }}
-        />
-        <PaymentModal
-          open={showPaymentModal}
-          onClose={() => setShowPaymentModal(false)}
-          plan={selectedPlan || 'monthly'}
-          userId={user.id}
-        />
-      </div>
-    );
-  }
 
   // If admin mode is enabled and user is authenticated, show admin dashboard
   if (isAdminMode && user && !isPublicRoute) {
@@ -219,7 +178,7 @@ const App = () => {
           setSupabaseJwt(supabaseToken);
         }}
       >
-        <SupabaseProvider devOnlyPaymentBypass={devOnlyPaymentBypass}>
+        <SupabaseProvider>
           <RecipeProvider>
             <FreddieProvider>
               <AppRoutes />

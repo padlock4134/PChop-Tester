@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "backfill-subscriptions": "node ./netlify/functions/backfill-subscriptions.js",
     "dev": "vite --port 3000",
     "build": "vite build",
     "preview": "vite preview"
@@ -24,7 +23,6 @@
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.23.0",
     "recordrtc": "^5.6.2",
-    "stripe": "^18.3.0",
     "supabase": "^2.31.8"
   },
   "devDependencies": {

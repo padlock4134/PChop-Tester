@@ -10,12 +10,12 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Placeholder for actual sign-up and Stripe logic
+  // Placeholder for actual sign-up logic
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    // TODO: Integrate Supabase Auth and Stripe trial logic
+    // TODO: Integrate Wristband Auth
     setTimeout(() => {
       setLoading(false);
       window.location.href = '/dashboard';

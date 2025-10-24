@@ -2,17 +2,12 @@ import React, { useState } from 'react';
 import logo from '../images/logo.png';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../api/supabaseClient';
-import PaymentModal from '../components/PaymentModal';
-import PlanSelectionModal from '../components/PlanSelectionModal';
 import { useAuth } from '../components/AuthProvider';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [showPlanModal, setShowPlanModal] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly' | null>(null);
   const [groceryStore, setGroceryStore] = useState('');
   const [customStore, setCustomStore] = useState('');
   const navigate = useNavigate();
@@ -46,7 +41,8 @@ const SignUp = () => {
         if (data.session) {
           localStorage.setItem('porkchop-session', JSON.stringify(data.session));
         }
-        setShowPlanModal(true); // Only show the plan modal, do not navigate away
+        // Navigate directly to dashboard after signup
+        navigate('/dashboard');
       }
     } catch (err) {
       console.error('Sign up error:', err);
@@ -121,25 +117,6 @@ const SignUp = () => {
           </form>
         </div>
       </div>
-      <PlanSelectionModal
-        open={showPlanModal}
-        onClose={() => {}}
-        onSelectPlan={plan => {
-          setSelectedPlan(plan);
-          setShowPlanModal(false);
-          setShowPaymentModal(true);
-        }}
-      />
-      <PaymentModal
-        open={showPaymentModal}
-        onClose={() => setShowPaymentModal(false)}
-        onDevBypass={() => {
-          setShowPaymentModal(false);
-          navigate('/my-kitchen'); // Ensure this goes to dashboard, not sign-in
-        }}
-        plan={selectedPlan || 'monthly'}
-        email={email}
-      />
     </>
   );
 };

@@ -7,14 +7,12 @@ import { awardXP } from '../services/xpService';
 import { XP_REWARDS } from '../services/xpService';
 import { supabase } from '../api/supabaseClient';
 import { WristbandSessionMetadata } from '../types/session-types';
-import { verifySubscription } from '../api/userSubscription';
 import { isAdminRole } from '../utils/auth';
 
 // Define the shape of our Supabase context
 interface SupabaseContextType {
   user: User | null;
   isLoading: boolean;
-  isPaid: boolean;
   refreshAuthState: () => Promise<void>;
 }
 
@@ -22,7 +20,6 @@ interface SupabaseContextType {
 const SupabaseContext = createContext<SupabaseContextType>({
   user: null,
   isLoading: true,
-  isPaid: false,
   refreshAuthState: async () => {},
 });
 
@@ -31,26 +28,11 @@ export const useSupabase = () => useContext(SupabaseContext);
 
 interface SupabaseProviderProps {
   children: React.ReactNode;
-  devOnlyPaymentBypass: boolean;
 }
 
-interface Subscription {
-  id: string;
-  user_id: string;
-  stripe_customer_id: string;
-  stripe_subscription_id: string;
-  plan: string;
-  status: string;
-  current_period_end: string;
-  created_at: string;
-  trial_end: number;
-  [key: string]: any;
-}
-
-export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children, devOnlyPaymentBypass = false }) => {
+export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isPaid, setIsPaid] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -70,26 +52,6 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children, de
       const user = await getOrProvisionUserByExtenalId(wristbandUserId, wristbandTenantId);
       await ensureProfileExists(user.id, wristbandEmail);
       setUser(user);
-      
-      if (!isAdminRole(role.name)) {
-        const subscriptionVerification = await verifySubscription(user.id);
-        if (subscriptionVerification?.subscription) {
-          const now = Math.floor(Date.now() / 1000);
-          const trialEnd = subscriptionVerification.subscription.trial_end || 0;
-          const isTrialActive = subscriptionVerification.subscription.status === 'trialing' && 
-                              trialEnd > now;
-                              
-          if (subscriptionVerification.subscription.status === 'active' || isTrialActive) {
-            setIsPaid(true);
-          } else {
-            setIsPaid(false);
-          }
-        } else {
-          setIsPaid(false);
-        }
-      } else {
-        setIsPaid(true);
-      }
     } catch (error) {
       console.error('Error refreshing auth state:', error);
       navigate('/');
@@ -106,30 +68,7 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children, de
         await ensureProfileExists(user.id, wristbandEmail);
         setUser(user);
 
-        // Now check if we need to display payment modal before giving them app access.
-        // Admins get to skip this for full access.
-        if (!isAdminRole(role.name)) {
-          const subscriptionVerification = await verifySubscription(user.id);
-          if (subscriptionVerification?.subscription) {
-            const now = Math.floor(Date.now() / 1000);
-            const trialEnd = subscriptionVerification.subscription.trial_end || 0;
-            const isTrialActive = subscriptionVerification.subscription.status === 'trialing' && 
-                                trialEnd > now;
-                                
-            if (subscriptionVerification.subscription.status === 'active' || isTrialActive) {
-              setIsPaid(true);
-              checkAndAwardDailyXP(user.id);
-              return;
-            } else {
-              setIsPaid(false);
-              return;
-            }
-          } else {
-            setIsPaid(false);
-            return;
-          }
-        }
-        setIsPaid(true);
+        // Award daily XP for all authenticated users
         checkAndAwardDailyXP(user.id);
       } catch (error) {
         console.error('Error getting user:', error);
@@ -243,7 +182,7 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children, de
   };
 
   return (
-    <SupabaseContext.Provider value={{ user, isLoading, isPaid, refreshAuthState }}>
+    <SupabaseContext.Provider value={{ user, isLoading, refreshAuthState }}>
       {children}
     </SupabaseContext.Provider>
   );

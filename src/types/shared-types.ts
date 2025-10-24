@@ -9,15 +9,3 @@ export interface RecipeCard {
   name: string;
   category: string;
 };
-
-export interface Subscription {
-  id: string;
-  user_id: string;
-  stripe_customer_id: string;
-  stripe_subscription_id: string;
-  plan: string;
-  status: string;
-  current_period_end: string;
-  created_at: string;
-  trial_end?: number;  // Added trial_end as optional for backward compatibility
-};

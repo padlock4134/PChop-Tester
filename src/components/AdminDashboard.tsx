@@ -2664,10 +2664,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span>Stripe Payments:</span>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
-                      </div>
-                      <div className="flex justify-between items-center">
                         <span>YouTube API:</span>
                         <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Limited</span>
                       </div>
