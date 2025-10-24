@@ -19,19 +19,11 @@ import AdminDashboard from './components/AdminDashboard';
 import ChefFreddieWidget from './components/ChefFreddieWidget';
 import { FreddieProvider } from './components/FreddieContext';
 import { RecipeProvider } from './components/RecipeContext';
-import LandingPage from './components/LandingPage';
-import './components/LandingPage.css';
-import AboutUs from './components/AboutUs';
-import KitchenComebacks from './components/KitchenComebacks';
-import TenantWellness from './components/TenantWellness';
-import Pricing from './components/Pricing';
 import SupabaseProvider, { useSupabase } from './components/SupabaseProvider';
 import type { WristbandSessionMetadata } from './types/session-types';
 import { setSupabaseJwt } from './api/supabaseClient';
 import { useDeviceDetect, getResponsiveClasses } from './utils/responsiveUtils';
 import SwoopyArrow from './components/SwoopyArrow';
-
-const PUBLIC_ROUTES = ['/', '/AboutUs', '/KitchenComebacks', '/TenantWellness', '/Pricing'];
 
 // Admin toggle context
 const AdminToggleContext = createContext<{ isAdminMode: boolean; toggleAdminMode: () => void }>({ 
@@ -68,7 +60,6 @@ const HomeRedirect = () => {
 
 const AppRoutes = () => {
   const location = useLocation();
-  const isPublicRoute = PUBLIC_ROUTES.includes(location.pathname);
 
   const navigate = useNavigate();
 
@@ -87,13 +78,13 @@ const AppRoutes = () => {
   // in the event the initial Wristband auth session check fails. This status gets set to UNAUTHENTICATED
   // just once upfront right after the auth isLoading is set to false.
   useEffect(() => {
-    if (authStatus === AuthStatus.UNAUTHENTICATED && !isPublicRoute) {
+    if (authStatus === AuthStatus.UNAUTHENTICATED) {
       navigate('/');
     }
-  }, [authStatus, isPublicRoute, navigate]);
+  }, [authStatus, navigate]);
 
-  // Only show loading for protected routes, skip for landing page
-  if (isLoading && !isPublicRoute) {
+  // Show loading for authenticated routes
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-sand">
         <div className="text-maineBlue text-xl">Loading...</div>
@@ -101,15 +92,15 @@ const AppRoutes = () => {
     );
   }
 
-  // If not authenticated on protected route, redirect immediately
-  if (!isLoading && !user && !isPublicRoute) {
+  // If not authenticated, redirect immediately
+  if (!isLoading && !user) {
     navigate('/');
     return null;
   }
 
 
   // If admin mode is enabled and user is authenticated, show admin dashboard
-  if (isAdminMode && user && !isPublicRoute) {
+  if (isAdminMode && user) {
     return (
       <div className="min-h-screen bg-sand">
         <NavBar />
@@ -122,26 +113,20 @@ const AppRoutes = () => {
 
   return (
     <div className="min-h-screen bg-sand">
-      {!isPublicRoute && <NavBar />}
+      <NavBar />
       <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
-        {!isPublicRoute && location.pathname !== '/dashboard' && <SwoopyArrow />}
+        {location.pathname !== '/dashboard' && <SwoopyArrow />}
         <Routes>
-          {/* Protected routes */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-kitchen" element={<MyKitchen />} />
           <Route path="/my-cookbook" element={<MyCookBook />} />
           <Route path="/chefs-corner" element={<ChefsCorner />} />
           <Route path="/culinary-school" element={<CulinarySchool />} />
           <Route path="/profile" element={<Profile />} />
-          {/* Public routes */}
-          <Route path="/AboutUs" element={<AboutUs />} />
-          <Route path="/KitchenComebacks" element={<KitchenComebacks />} />
-          <Route path="/TenantWellness" element={<TenantWellness />} />
-          <Route path="/Pricing" element={<Pricing />} />
           <Route path="/" element={<HomeRedirect />} />
         </Routes>
       </main>
-      {!isPublicRoute && <ChefFreddieWidget />}
+      <ChefFreddieWidget />
     </div>
   );
 };
