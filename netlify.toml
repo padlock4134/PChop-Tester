@@ -11,13 +11,7 @@
   targetPort = 3000
   autoLaunch = false
 
-# ✅ Always let function calls through
-[[redirects]]
-  from = "/.netlify/functions/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-# ✅ Standard SPA redirect (must come last to avoid overriding functions)
+# ✅ Standard SPA redirect for React Router
 [[redirects]]
   from = "/*"
   to = "/index.html"
