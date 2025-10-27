@@ -81,6 +81,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showAddFacultyModal, setShowAddFacultyModal] = useState(false);
   const [showManagePermissionsModal, setShowManagePermissionsModal] = useState(false);
   const [showFacultyReportsModal, setShowFacultyReportsModal] = useState(false);
+  const [showAlumniNewsletterModal, setShowAlumniNewsletterModal] = useState(false);
+  const [showPlanEventModal, setShowPlanEventModal] = useState(false);
+  const [showGiftingDonationsModal, setShowGiftingDonationsModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   // Initialize Chef Freddie with welcome message
@@ -1771,17 +1774,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-maineBlue rounded-lg p-6">
                 <h3 className="text-center font-bold text-maineBlue mb-4">⚡ Alumni Network Management</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <button className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                  <button 
+                    onClick={() => setShowAlumniNewsletterModal(true)}
+                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                  >
                     <div className="text-2xl mb-2">📧</div>
                     <h4 className="font-medium text-blue-800">Alumni Newsletter</h4>
                     <p className="text-xs text-blue-600">Send updates and opportunities</p>
                   </button>
-                  <button className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                  <button 
+                    onClick={() => setShowPlanEventModal(true)}
+                    className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                  >
                     <div className="text-2xl mb-2">🎉</div>
                     <h4 className="font-medium text-green-800">Plan Alumni Event</h4>
                     <p className="text-xs text-green-600">Networking and reunions</p>
                   </button>
-                  <button className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                  <button 
+                    onClick={() => setShowGiftingDonationsModal(true)}
+                    className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                  >
                     <div className="text-2xl mb-2">📄</div>
                     <h4 className="font-medium text-purple-800">Gifting & Donations</h4>
                     <p className="text-xs text-purple-600">Fundraising Strategy</p>
@@ -3832,6 +3844,270 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Export Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Alumni Newsletter Modal */}
+      {showAlumniNewsletterModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-blue-600 font-retro">📧 Alumni Newsletter</h2>
+              <button
+                onClick={() => setShowAlumniNewsletterModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Newsletter Title:</label>
+                <input
+                  type="text"
+                  placeholder="e.g., Monthly Alumni Update - January 2025"
+                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Content:</label>
+                <textarea
+                  rows={8}
+                  placeholder="Share alumni success stories, upcoming events, job opportunities, and program updates..."
+                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50">
+                <h3 className="font-bold text-blue-800 mb-2">Include Sections:</h3>
+                <div className="space-y-2">
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" defaultChecked />
+                    <span className="text-gray-700">Alumni Spotlight</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" defaultChecked />
+                    <span className="text-gray-700">Job Opportunities</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-gray-700">Upcoming Events</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-gray-700">Program Updates</span>
+                  </label>
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowAlumniNewsletterModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    alert('Newsletter sent to all alumni!');
+                    setShowAlumniNewsletterModal(false);
+                  }}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Send Newsletter
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Plan Alumni Event Modal */}
+      {showPlanEventModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-green-600 font-retro">🎉 Plan Alumni Event</h2>
+              <button
+                onClick={() => setShowPlanEventModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Event Name:</label>
+                <input
+                  type="text"
+                  placeholder="e.g., Annual Alumni Reunion 2025"
+                  className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Date:</label>
+                  <input
+                    type="date"
+                    className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-gray-700 mb-2">Time:</label>
+                  <input
+                    type="time"
+                    className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Location:</label>
+                <input
+                  type="text"
+                  placeholder="Venue name and address"
+                  className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50">
+                <h3 className="font-bold text-green-800 mb-2">Event Type:</h3>
+                <div className="space-y-2">
+                  <label className="flex items-center">
+                    <input type="radio" name="eventType" className="mr-2" defaultChecked />
+                    <span className="text-gray-700">Networking Event</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="radio" name="eventType" className="mr-2" />
+                    <span className="text-gray-700">Reunion Dinner</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="radio" name="eventType" className="mr-2" />
+                    <span className="text-gray-700">Career Fair</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="radio" name="eventType" className="mr-2" />
+                    <span className="text-gray-700">Cooking Workshop</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Event Description:</label>
+                <textarea
+                  rows={4}
+                  placeholder="Describe the event, activities, and what alumni can expect..."
+                  className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowPlanEventModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    alert('Event created and invitations sent!');
+                    setShowPlanEventModal(false);
+                  }}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Create Event
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Gifting & Donations Modal */}
+      {showGiftingDonationsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-purple-600 font-retro">📄 Gifting & Donations</h2>
+              <button
+                onClick={() => setShowGiftingDonationsModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50 text-center">
+                  <div className="text-3xl font-bold text-purple-600">$45,000</div>
+                  <p className="text-sm text-purple-800 font-medium mt-1">Total Raised</p>
+                </div>
+                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
+                  <div className="text-3xl font-bold text-blue-600">127</div>
+                  <p className="text-sm text-blue-800 font-medium mt-1">Donors</p>
+                </div>
+                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
+                  <div className="text-3xl font-bold text-green-600">$354</div>
+                  <p className="text-sm text-green-800 font-medium mt-1">Avg. Donation</p>
+                </div>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50">
+                <h3 className="font-bold text-purple-800 mb-3">Active Campaigns:</h3>
+                <div className="space-y-3">
+                  <div className="bg-white border-2 border-purple-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="font-semibold text-gray-900">Scholarship Fund 2025</p>
+                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                      <div className="bg-purple-600 h-2 rounded-full" style={{width: '75%'}}></div>
+                    </div>
+                    <p className="text-xs text-gray-600">$22,500 of $30,000 goal</p>
+                  </div>
+                  <div className="bg-white border-2 border-purple-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="font-semibold text-gray-900">New Kitchen Equipment</p>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">In Progress</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                      <div className="bg-purple-600 h-2 rounded-full" style={{width: '45%'}}></div>
+                    </div>
+                    <p className="text-xs text-gray-600">$13,500 of $30,000 goal</p>
+                  </div>
+                </div>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4">
+                <h3 className="font-bold text-purple-800 mb-2">Create New Campaign:</h3>
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    placeholder="Campaign name"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                  />
+                  <input
+                    type="number"
+                    placeholder="Fundraising goal ($)"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                  />
+                  <textarea
+                    rows={3}
+                    placeholder="Campaign description..."
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowGiftingDonationsModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => {
+                    alert('New campaign created!');
+                  }}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Launch Campaign
                 </button>
               </div>
             </div>
