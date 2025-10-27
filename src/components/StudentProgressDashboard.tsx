@@ -286,6 +286,9 @@ const StudentProgressDashboard: React.FC = () => {
           </div>
         </div>
 
+        {/* Separation line */}
+        <hr className="border-t-2 border-maineBlue mb-6" />
+
       {/* Live Session Notification Banner */}
       {activeLiveSessions.length > 0 && (
         <div 
@@ -331,6 +334,9 @@ const StudentProgressDashboard: React.FC = () => {
           )}
         </div>
       )}
+
+      {/* Separation line */}
+      <hr className="border-t-2 border-maineBlue mb-6" />
 
       {/* Progress Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-3 border border-black rounded-lg mb-4">
