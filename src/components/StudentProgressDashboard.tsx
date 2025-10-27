@@ -108,33 +108,21 @@ const StudentProgressDashboard: React.FC = () => {
   };
 
   interface ProgressCardProps {
-    icon: React.ComponentType<{ className?: string }>;
+    emoji: string;
     title: string;
-    data: Record<string, string | number>;
+    description: string;
     bgColor: string;
     textColor: string;
     borderColor: string;
+    onClick: () => void;
   }
 
-  const ProgressCard: React.FC<ProgressCardProps> = ({ icon: Icon, title, data, bgColor, textColor, borderColor }) => (
-    <div className={`${bgColor} rounded-lg p-4 border-4 ${borderColor} text-center`}>
-      <div className="flex items-center justify-center mb-3">
-        <Icon className={`h-5 w-5 ${textColor} mr-2`} />
-        <h3 className={`font-bold text-sm ${textColor}`}>{title}</h3>
-      </div>
-      <div className="space-y-2">
-        {Object.entries(data).map(([key, value]) => (
-          <div key={key} className="flex justify-between items-center text-center w-full">
-            <span className="text-xs text-gray-600 capitalize text-left flex-1">
-              {key.replace(/([A-Z])/g, ' $1').trim()}:
-            </span>
-            <span className="text-xs font-medium text-gray-800 text-right flex-1">
-              {Array.isArray(value) ? value.join(', ') : String(value)}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
+  const ProgressCard: React.FC<ProgressCardProps> = ({ emoji, title, description, bgColor, textColor, borderColor, onClick }) => (
+    <button onClick={onClick} className={`${bgColor} border-4 ${borderColor} rounded-lg p-4 hover:scale-105 transition-transform duration-200`}>
+      <div className="text-2xl mb-2">{emoji}</div>
+      <h4 className={`font-medium ${textColor}`}>{title}</h4>
+      <p className={`text-xs ${textColor}`}>{description}</p>
+    </button>
   );
 
   // Auto-scroll effect
@@ -341,57 +329,43 @@ const StudentProgressDashboard: React.FC = () => {
       {/* Progress Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-3 border-4 border-maineBlue rounded-lg mb-4">
         <ProgressCard
-          icon={AcademicCapIcon}
+          emoji="📚"
           title="Curriculum Progress"
-          data={{
-            completedLessons: `${progressData.curriculum.completedLessons}/${progressData.curriculum.totalLessons}`,
-            currentLesson: progressData.curriculum.currentLesson,
-            timeSpent: progressData.curriculum.timeSpent
-          }}
+          description="View lesson completion"
           bgColor="bg-blue-50"
-          textColor="text-blue-700"
+          textColor="text-blue-800"
           borderColor="border-blue-400"
+          onClick={() => alert('Curriculum modal coming soon')}
         />
 
         <ProgressCard
-          icon={ChartBarIcon}
+          emoji="⭐"
           title="Skill Development"
-          data={{
-            recipesCompleted: `${progressData.skills.recipesCompleted}/${progressData.skills.recipesAttempted}`,
-            currentLevel: progressData.skills.currentLevel,
-            nextMilestone: progressData.skills.nextMilestone
-          }}
+          description="Track your skill level"
           bgColor="bg-green-50"
-          textColor="text-green-700"
+          textColor="text-green-800"
           borderColor="border-green-400"
+          onClick={() => alert('Skills modal coming soon')}
         />
 
         <ProgressCard
-          icon={FireIcon}
+          emoji="🔥"
           title="My Engagement"
-          data={{
-            appUsage: progressData.engagement.appUsage,
-            liveSessionsAttended: progressData.engagement.liveSessionsAttended,
-            communityPosts: progressData.engagement.communityPosts,
-            recipesSaved: progressData.engagement.recipesSaved
-          }}
+          description="See your activity stats"
           bgColor="bg-orange-50"
-          textColor="text-orange-700"
+          textColor="text-orange-800"
           borderColor="border-orange-400"
+          onClick={() => alert('Engagement modal coming soon')}
         />
 
         <ProgressCard
-          icon={LightBulbIcon}
-          title="Learning Insights"
-          data={{
-            strongestArea: progressData.insights.strongestArea,
-            improvementArea: progressData.insights.improvementArea,
-            learningVelocity: progressData.insights.learningVelocity,
-            achievements: progressData.insights.achievements.length
-          }}
+          emoji="🏆"
+          title="Achievements"
+          description="View badges & milestones"
           bgColor="bg-purple-50"
-          textColor="text-purple-700"
+          textColor="text-purple-800"
           borderColor="border-purple-400"
+          onClick={() => alert('Achievements modal coming soon')}
         />
       </div>
       </div>
