@@ -339,7 +339,7 @@ const StudentProgressDashboard: React.FC = () => {
       <hr className="border-t-2 border-maineBlue mb-6" />
 
       {/* Progress Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-3 border border-black rounded-lg mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-3 border-4 border-maineBlue rounded-lg mb-4">
         <ProgressCard
           icon={AcademicCapIcon}
           title="Curriculum Progress"
