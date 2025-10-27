@@ -136,7 +136,8 @@ exports.handler = async (event) => {
 
     // Return successful response with session and CSRF cookies
     const cookiesToSet = [loginStateCookieToClear, sessionCookie, csrfCookie];
-    return createRedirectResponse(returnUrl || process.env.WRISBAND_POST_CALLBACK_LANDING_URL, cookiesToSet);
+    const redirectTo = returnUrl || process.env.WRISTBAND_POST_CALLBACK_LANDING_URL || '/dashboard';
+    return createRedirectResponse(redirectTo, cookiesToSet);
   } catch (error) {
     console.error('Wristband callback error:', error);
     return createErrorResponse(500, 'Internal Server Error', error.message);
