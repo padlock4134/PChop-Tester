@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { groupIngredientsByMarketType } from '../utils/ingredientMapping';
 
 // TypeScript declarations for Google Maps API (will be available at runtime)
 declare global {
@@ -21,10 +22,12 @@ interface Market {
 interface LocalMarketsModalProps {
   open: boolean;
   onClose: () => void;
+  selectedRecipes?: any[]; // Optional: recipes from Build Menu feature
 }
 
 interface MarketCardProps {
   market: Market;
+  ingredientsForMarket?: string[]; // Optional: ingredients to buy at this market
 }
 
 interface CategoryCardProps {
@@ -34,9 +37,10 @@ interface CategoryCardProps {
   description: string;
   markets: Market[];
   loading: boolean;
+  ingredientsForCategory?: string[]; // Optional: ingredients to buy at this market type
 }
 
-const MarketCard: React.FC<MarketCardProps> = ({ market }) => {
+const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket }) => {
   const [flipped, setFlipped] = useState(false);
 
   const getTypeIcon = (type: string) => {
@@ -93,6 +97,19 @@ const MarketCard: React.FC<MarketCardProps> = ({ market }) => {
         <div className="absolute inset-0 bg-white p-4 rounded-lg shadow-md border border-black [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col justify-between">
           <div>
             <h4 className="font-bold text-maineBlue text-lg mb-3">{market.name}</h4>
+            
+            {/* Show ingredients if in menu mode */}
+            {ingredientsForMarket && ingredientsForMarket.length > 0 && (
+              <div className="mb-3 pb-3 border-b border-gray-200">
+                <div className="text-xs font-semibold text-gray-600 mb-1">Buy here:</div>
+                <div className="space-y-1 max-h-20 overflow-y-auto">
+                  {ingredientsForMarket.map((ing, idx) => (
+                    <div key={idx} className="text-xs text-gray-700">• {ing}</div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
             <div className="space-y-2 text-sm">
               <div className="flex items-start gap-2">
                 <span className="text-gray-500">📍</span>
@@ -170,7 +187,7 @@ const EmptyCard: React.FC = () => {
   );
 };
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, description, markets, loading }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, description, markets, loading, ingredientsForCategory }) => {
   const [flipped, setFlipped] = useState(false);
 
   // Get category-specific colors
@@ -225,6 +242,18 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
             </div>
           ) : (
             <div className="space-y-2">
+              {/* Show ingredients if in menu mode */}
+              {ingredientsForCategory && ingredientsForCategory.length > 0 && (
+                <div className="mb-2 pb-2 border-b border-gray-200">
+                  <div className="text-xs font-semibold text-gray-600 mb-1">Buy here:</div>
+                  <div className="space-y-0.5 max-h-16 overflow-y-auto">
+                    {ingredientsForCategory.map((ing, idx) => (
+                      <div key={idx} className="text-xs text-gray-700">• {ing}</div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
               {markets.slice(0, 3).map((market, index) => (
                 <div key={index} className="flex items-center justify-between text-xs">
                   <div className="font-medium text-gray-800 truncate flex-1">{market.name}</div>
@@ -249,11 +278,25 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
   );
 };
 
-const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose }) => {
+const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, selectedRecipes }) => {
   const [markets, setMarkets] = useState<Market[]>([]);
   const [loading, setLoading] = useState(false);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  // Extract and group ingredients from selected recipes
+  const ingredientsByMarketType = React.useMemo(() => {
+    if (!selectedRecipes || selectedRecipes.length === 0) return {};
+    
+    const allIngredients: string[] = [];
+    selectedRecipes.forEach(recipe => {
+      if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
+        allIngredients.push(...recipe.ingredients);
+      }
+    });
+    
+    return groupIngredientsByMarketType(allIngredients);
+  }, [selectedRecipes]);
 
   const marketCategories = [
     { key: 'all', label: 'All Markets', icon: '🏪' },
@@ -336,9 +379,9 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose }) 
               query: searchQuery.query,
               location: location,
               radius: 24140, // 15 miles in meters
-            }, (results, status) => {
+            }, (results: any, status: any) => {
               if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-                results.forEach(place => {
+                results.forEach((place: any) => {
                   // Filter out big box retailers
                   const name = place.name?.toLowerCase() || '';
                   if (name.includes('walmart') || name.includes('costco') || name.includes('target')) {
@@ -441,6 +484,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose }) 
             description="Regional grocery stores and supermarkets"
             markets={markets.filter(m => m.type === 'grocery')}
             loading={loading}
+            ingredientsForCategory={ingredientsByMarketType['grocery']}
           />
           <CategoryCard 
             category="butcher" 
@@ -449,6 +493,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose }) 
             description="Local butcher shops and meat markets"
             markets={markets.filter(m => m.type === 'butcher')}
             loading={loading}
+            ingredientsForCategory={ingredientsByMarketType['butcher']}
           />
           <CategoryCard 
             category="seafood" 
@@ -457,6 +502,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose }) 
             description="Fresh seafood markets and fishmongers"
             markets={markets.filter(m => m.type === 'seafood')}
             loading={loading}
+            ingredientsForCategory={ingredientsByMarketType['seafood']}
           />
           <CategoryCard 
             category="produce" 
@@ -465,6 +511,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose }) 
             description="Fresh produce markets and farm stands"
             markets={markets.filter(m => m.type === 'produce')}
             loading={loading}
+            ingredientsForCategory={ingredientsByMarketType['produce']}
           />
           <CategoryCard 
             category="farms" 
@@ -473,6 +520,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose }) 
             description="Local farms and farmers markets"
             markets={markets.filter(m => m.type === 'farms')}
             loading={loading}
+            ingredientsForCategory={ingredientsByMarketType['farms']}
           />
           <CategoryCard 
             category="specialty" 
@@ -481,6 +529,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose }) 
             description="Delis, bakeries, and specialty food stores"
             markets={markets.filter(m => ['deli', 'dairy', 'bakery'].includes(m.type))}
             loading={loading}
+            ingredientsForCategory={ingredientsByMarketType['deli'] || ingredientsByMarketType['dairy']}
           />
         </div>
 

@@ -210,6 +210,7 @@ const ChefsCorner = () => {
       <LocalMarketsModal
         open={localMarketsModalOpen}
         onClose={() => setLocalMarketsModalOpen(false)}
+        selectedRecipes={selectedMenuRecipes}
       />
       
       <div className="max-w-6xl mx-auto mt-8">
