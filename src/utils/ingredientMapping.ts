@@ -45,7 +45,7 @@ export const ingredientToMarketType: Record<string, string> = {
   'onion': 'produce',
   'carrot': 'produce',
   'celery': 'produce',
-  'pepper': 'produce',
+  'bell pepper': 'produce',
   'cucumber': 'produce',
   'spinach': 'produce',
   'kale': 'produce',
@@ -90,6 +90,93 @@ export const ingredientToMarketType: Record<string, string> = {
   'polenta': 'grocery',
   'noodles': 'grocery',
   'spaghetti': 'grocery',
+  
+  // Eggs (dairy section)
+  'egg': 'dairy',
+  'eggs': 'dairy',
+  
+  // Oils & Fats (grocery)
+  'oil': 'grocery',
+  'olive oil': 'grocery',
+  'vegetable oil': 'grocery',
+  'canola oil': 'grocery',
+  'coconut oil': 'grocery',
+  'sesame oil': 'grocery',
+  
+  // Condiments (grocery)
+  'mayo': 'grocery',
+  'mayonnaise': 'grocery',
+  'mustard': 'grocery',
+  'ketchup': 'grocery',
+  'soy sauce': 'grocery',
+  'vinegar': 'grocery',
+  'hot sauce': 'grocery',
+  'worcestershire': 'grocery',
+  
+  // Canned/Jarred (grocery)
+  'tomato sauce': 'grocery',
+  'tomato paste': 'grocery',
+  'beans': 'grocery',
+  'chickpeas': 'grocery',
+  'black beans': 'grocery',
+  'kidney beans': 'grocery',
+  'stock': 'grocery',
+  'broth': 'grocery',
+  'chicken stock': 'grocery',
+  'beef stock': 'grocery',
+  'vegetable stock': 'grocery',
+  
+  // Sweeteners (grocery)
+  'sugar': 'grocery',
+  'brown sugar': 'grocery',
+  'honey': 'grocery',
+  'maple syrup': 'grocery',
+  'molasses': 'grocery',
+  
+  // Baking (grocery)
+  'baking powder': 'grocery',
+  'baking soda': 'grocery',
+  'vanilla': 'grocery',
+  'vanilla extract': 'grocery',
+  'yeast': 'grocery',
+  'cocoa powder': 'grocery',
+  'chocolate': 'grocery',
+  
+  // Herbs & Spices (grocery)
+  'salt': 'grocery',
+  'pepper': 'grocery',
+  'basil': 'grocery',
+  'oregano': 'grocery',
+  'thyme': 'grocery',
+  'rosemary': 'grocery',
+  'parsley': 'grocery',
+  'cilantro': 'grocery',
+  'cumin': 'grocery',
+  'paprika': 'grocery',
+  'cinnamon': 'grocery',
+  'nutmeg': 'grocery',
+  'ginger': 'grocery',
+  'chili powder': 'grocery',
+  'cayenne': 'grocery',
+  'turmeric': 'grocery',
+  
+  // Nuts & Seeds (grocery)
+  'almonds': 'grocery',
+  'walnuts': 'grocery',
+  'pecans': 'grocery',
+  'peanuts': 'grocery',
+  'cashews': 'grocery',
+  'sesame seeds': 'grocery',
+  'sunflower seeds': 'grocery',
+  
+  // Beans & Legumes (grocery)
+  'lentils': 'grocery',
+  'split peas': 'grocery',
+  
+  // Frozen (grocery)
+  'peas': 'grocery',
+  'corn': 'grocery',
+  'berries': 'grocery',
 };
 
 // Basic price estimates (in USD)
@@ -119,7 +206,7 @@ export const ingredientPriceEstimates: Record<string, { price: number; unit: str
   'onion': { price: 1.5, unit: 'lb' },
   'carrot': { price: 1.5, unit: 'lb' },
   'celery': { price: 2, unit: 'bunch' },
-  'pepper': { price: 1.5, unit: 'each' },
+  'bell pepper': { price: 1.5, unit: 'each' },
   
   // Dairy
   'milk': { price: 4, unit: 'gallon' },
@@ -144,6 +231,59 @@ export const ingredientPriceEstimates: Record<string, { price: number; unit: str
   'cornmeal': { price: 2, unit: 'lb' },
   'noodles': { price: 2, unit: 'lb' },
   'spaghetti': { price: 1.5, unit: 'lb' },
+  
+  // Eggs
+  'egg': { price: 0.25, unit: 'each' },
+  'eggs': { price: 3, unit: 'dozen' },
+  
+  // Oils
+  'olive oil': { price: 8, unit: 'bottle' },
+  'vegetable oil': { price: 4, unit: 'bottle' },
+  'oil': { price: 5, unit: 'bottle' },
+  
+  // Condiments
+  'mayo': { price: 4, unit: 'jar' },
+  'mustard': { price: 3, unit: 'jar' },
+  'ketchup': { price: 3, unit: 'bottle' },
+  'soy sauce': { price: 4, unit: 'bottle' },
+  'vinegar': { price: 3, unit: 'bottle' },
+  
+  // Canned/Jarred
+  'tomato sauce': { price: 2, unit: 'can' },
+  'tomato paste': { price: 1.5, unit: 'can' },
+  'beans': { price: 1.5, unit: 'can' },
+  'chickpeas': { price: 1.5, unit: 'can' },
+  'stock': { price: 3, unit: 'carton' },
+  'broth': { price: 3, unit: 'carton' },
+  
+  // Sweeteners
+  'sugar': { price: 3, unit: 'lb' },
+  'honey': { price: 8, unit: 'jar' },
+  'maple syrup': { price: 12, unit: 'bottle' },
+  
+  // Baking
+  'baking powder': { price: 3, unit: 'container' },
+  'baking soda': { price: 1, unit: 'box' },
+  'vanilla extract': { price: 6, unit: 'bottle' },
+  'yeast': { price: 5, unit: 'jar' },
+  'chocolate': { price: 4, unit: 'bar' },
+  
+  // Herbs & Spices (dried)
+  'salt': { price: 1, unit: 'container' },
+  'pepper': { price: 4, unit: 'container' },
+  'basil': { price: 3, unit: 'jar' },
+  'oregano': { price: 3, unit: 'jar' },
+  'cumin': { price: 4, unit: 'jar' },
+  'paprika': { price: 3, unit: 'jar' },
+  'cinnamon': { price: 4, unit: 'jar' },
+  
+  // Nuts
+  'almonds': { price: 10, unit: 'lb' },
+  'walnuts': { price: 12, unit: 'lb' },
+  'pecans': { price: 14, unit: 'lb' },
+  
+  // Legumes
+  'lentils': { price: 2, unit: 'lb' },
 };
 
 /**
