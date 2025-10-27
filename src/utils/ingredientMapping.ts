@@ -77,6 +77,19 @@ export const ingredientToMarketType: Record<string, string> = {
   'bagel': 'deli',
   'croissant': 'deli',
   'tortilla': 'deli',
+  
+  // Grains (typically grocery)
+  'rice': 'grocery',
+  'pasta': 'grocery',
+  'quinoa': 'grocery',
+  'couscous': 'grocery',
+  'barley': 'grocery',
+  'oats': 'grocery',
+  'flour': 'grocery',
+  'cornmeal': 'grocery',
+  'polenta': 'grocery',
+  'noodles': 'grocery',
+  'spaghetti': 'grocery',
 };
 
 // Basic price estimates (in USD)
@@ -119,6 +132,18 @@ export const ingredientPriceEstimates: Record<string, { price: number; unit: str
   'bun': { price: 0.5, unit: 'each' },
   'buns': { price: 4, unit: 'pack' },
   'roll': { price: 0.5, unit: 'each' },
+  
+  // Grains
+  'rice': { price: 2, unit: 'lb' },
+  'pasta': { price: 1.5, unit: 'lb' },
+  'quinoa': { price: 5, unit: 'lb' },
+  'couscous': { price: 3, unit: 'lb' },
+  'barley': { price: 2, unit: 'lb' },
+  'oats': { price: 3, unit: 'lb' },
+  'flour': { price: 0.5, unit: 'lb' },
+  'cornmeal': { price: 2, unit: 'lb' },
+  'noodles': { price: 2, unit: 'lb' },
+  'spaghetti': { price: 1.5, unit: 'lb' },
 };
 
 /**
