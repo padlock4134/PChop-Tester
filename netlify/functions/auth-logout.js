@@ -6,7 +6,7 @@ const { createErrorResponse, createRedirectResponse } = require('./lib/http-util
 const { revokeRefreshToken } = require('./lib/wristband-api.js');
 
 // Placeholder values for now since we don't have a Netlify SDK to pass in default values yet.
-const logoutRedirectUrl = process.env.WRISBAND_POST_LOGOUT_LANDING_URL;
+const logoutRedirectUrl = process.env.WRISTBAND_POST_LOGOUT_LANDING_URL;
 const logoutConfigTenantCustomDomain = '';
 const logoutConfigTenantDomainName = process.env.WRISTBAND_GLOBAL_TENANT_DOMAIN_NAME;
 
