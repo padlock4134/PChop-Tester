@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon, UserGroupIcon, HeartIcon, ChatBubbleOvalLeftIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 
@@ -253,37 +254,37 @@ const StudentProgressDashboard: React.FC = () => {
         {/* Module Navigation */}
         <div className="mb-4 p-3">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
-            <a
-              href="/my-kitchen"
+            <Link
+              to="/my-kitchen"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center"
             >
               <div className="mb-3 text-4xl">🐟</div>
               <h3 className="text-sm font-bold font-retro">My Kitchen</h3>
-            </a>
+            </Link>
             
-            <a
-              href="/my-cookbook"
+            <Link
+              to="/my-cookbook"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-blue-400 bg-blue-50 text-black hover:scale-105 transition-transform duration-200 text-center"
             >
               <div className="mb-3 text-4xl">📖</div>
               <h3 className="text-sm font-bold font-retro">My Cook Book</h3>
-            </a>
+            </Link>
             
-            <a
-              href="/chefs-corner"
+            <Link
+              to="/chefs-corner"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-red-400 bg-red-50 text-black hover:scale-105 transition-transform duration-200 text-center"
             >
               <div className="mb-3 text-4xl">🦐</div>
               <h3 className="text-sm font-bold font-retro">Chefs' Corner</h3>
-            </a>
+            </Link>
             
-            <a
-              href="/culinary-school"
+            <Link
+              to="/culinary-school"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-black hover:scale-105 transition-transform duration-200 text-center"
             >
               <div className="mb-3 text-4xl">🍳</div>
               <h3 className="text-sm font-bold font-retro">Culinary School</h3>
-            </a>
+            </Link>
           </div>
         </div>
 
