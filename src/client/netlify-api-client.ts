@@ -1,6 +1,5 @@
-// import axios, { AxiosResponse } from 'axios';
-// import { redirectToLogin } from '@wristband/react-client-auth';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import { redirectToLogin } from '@wristband/react-client-auth';
 
 /**
  * This API client is used for most API calls to Netlify functions. It passes along the CSRF token
@@ -15,14 +14,17 @@ const netlifyApiClient = axios.create({
   withXSRFToken: true,
 });
 
-// vvv OPTIONAL vvv
-// You can make HTTP 401s/403s trigger the user to go log in again.  This happens when their
-// session cookie has expired and/or the CSRF cookie/header are missing in the request.
-// netlifyApiClient.interceptors.response.use(undefined, async (error: AxiosResponse) => {
-//   if (error.status && [401, 403].includes(error.status)) {
-//     redirectToLogin('/.netlify/functions/auth-login');
-//   }
-//   return Promise.reject(error);
-// });
+// Automatically redirect to login when session expires (401/403 errors)
+// This happens when the session cookie has expired and/or the CSRF cookie/header are missing
+netlifyApiClient.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    if (error.response && [401, 403].includes(error.response.status)) {
+      console.log('Session expired or unauthorized, redirecting to login...');
+      redirectToLogin('/.netlify/functions/auth-login');
+    }
+    return Promise.reject(error);
+  }
+);
 
 export { netlifyApiClient };

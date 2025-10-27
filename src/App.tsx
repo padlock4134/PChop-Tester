@@ -24,6 +24,7 @@ import type { WristbandSessionMetadata } from './types/session-types';
 import { setSupabaseJwt } from './api/supabaseClient';
 import { useDeviceDetect, getResponsiveClasses } from './utils/responsiveUtils';
 import SwoopyArrow from './components/SwoopyArrow';
+import { useAutoLogout } from './hooks/useAutoLogout';
 
 // Admin toggle context
 const AdminToggleContext = createContext<{ isAdminMode: boolean; toggleAdminMode: () => void }>({ 
@@ -72,6 +73,12 @@ const AppRoutes = () => {
   
   // Get responsive classes based on device type
   const responsiveClasses = getResponsiveClasses(deviceType);
+
+  // Auto-logout after 30 minutes of inactivity
+  useAutoLogout({
+    inactivityTimeout: 30 * 60 * 1000, // 30 minutes
+    enabled: !!user // Only enable when user is authenticated
+  });
 
 
   // We have this check here because the SupabaseProvider isLoading flag will never flip to false
