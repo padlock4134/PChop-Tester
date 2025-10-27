@@ -71,6 +71,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [freddieMessages, setFreddieMessages] = useState<Array<{sender: 'freddie' | 'user', text: string}>>([]);
   const [freddieInput, setFreddieInput] = useState('');
   const [freddieLoading, setFreddieLoading] = useState(false);
+  const [showCsvImportModal, setShowCsvImportModal] = useState(false);
+  const [csvFile, setCsvFile] = useState<File | null>(null);
+  const [parsedStudents, setParsedStudents] = useState<Array<{email: string, name?: string, error?: string}>>([]);
+  const [importProgress, setImportProgress] = useState(0);
+  const [importStatus, setImportStatus] = useState<'idle' | 'parsing' | 'uploading' | 'complete' | 'error'>('idle');
   const { user: currentUser } = useSupabase();
 
   // Initialize Chef Freddie with welcome message
@@ -241,6 +246,123 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     } catch (error) {
       console.error('Error resetting chat count:', error);
       alert('Failed to reset chat count');
+    }
+  };
+
+  // CSV Import Functions
+  const handleCsvFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type === 'text/csv') {
+      setCsvFile(file);
+      parseCsvFile(file);
+    } else {
+      alert('Please upload a valid CSV file');
+    }
+  };
+
+  const parseCsvFile = (file: File) => {
+    setImportStatus('parsing');
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      const lines = text.split('\n').filter(line => line.trim());
+      
+      if (lines.length < 2) {
+        alert('CSV file must have at least a header row and one student row');
+        setImportStatus('error');
+        return;
+      }
+      
+      // Parse header
+      const headers = lines[0].toLowerCase().split(',').map(h => h.trim());
+      const emailIndex = headers.findIndex(h => h.includes('email'));
+      const nameIndex = headers.findIndex(h => h.includes('name') || h.includes('full'));
+      
+      if (emailIndex === -1) {
+        alert('CSV must have an "email" column');
+        setImportStatus('error');
+        return;
+      }
+      
+      // Parse students
+      const students = lines.slice(1).map((line, index) => {
+        const values = line.split(',').map(v => v.trim());
+        const email = values[emailIndex]?.toLowerCase();
+        const name = nameIndex !== -1 ? values[nameIndex] : undefined;
+        
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+          return { email: email || `row-${index + 2}`, name, error: 'Invalid email format' };
+        }
+        
+        return { email, name };
+      }).filter(s => s.email);
+      
+      setParsedStudents(students);
+      setImportStatus('idle');
+    };
+    
+    reader.onerror = () => {
+      alert('Error reading CSV file');
+      setImportStatus('error');
+    };
+    
+    reader.readAsText(file);
+  };
+
+  const handleBulkImport = async () => {
+    setImportStatus('uploading');
+    setImportProgress(0);
+    
+    const validStudents = parsedStudents.filter(s => !s.error);
+    const total = validStudents.length;
+    
+    if (total === 0) {
+      alert('No valid students to import');
+      setImportStatus('error');
+      return;
+    }
+    
+    try {
+      // Note: This creates profiles in Supabase. Actual Wristband user creation
+      // would need to happen via Wristband's API or invite flow
+      for (let i = 0; i < validStudents.length; i++) {
+        const student = validStudents[i];
+        
+        // Check if user already exists
+        const { data: existingProfile } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('email', student.email)
+          .single();
+        
+        if (!existingProfile) {
+          // Create profile (user will be created when they log in via Wristband)
+          await supabase.from('profiles').insert([{
+            email: student.email,
+            username: student.name || student.email.split('@')[0],
+            created_at: new Date().toISOString()
+          }]);
+        }
+        
+        setImportProgress(Math.round(((i + 1) / total) * 100));
+      }
+      
+      setImportStatus('complete');
+      fetchAdminData(); // Refresh the student list
+      
+      setTimeout(() => {
+        setShowCsvImportModal(false);
+        setImportStatus('idle');
+        setCsvFile(null);
+        setParsedStudents([]);
+      }, 2000);
+    } catch (error) {
+      console.error('Error importing students:', error);
+      setImportStatus('error');
+      alert('Failed to import students. Please try again.');
     }
   };
 
