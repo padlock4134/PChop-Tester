@@ -236,8 +236,6 @@ const StudentProgressDashboard: React.FC = () => {
     }
   };
 
-  const completionPercentage = Math.round((progressData.curriculum.completedLessons / progressData.curriculum.totalLessons) * 100);
-
   return (
     <div className="mb-8 mx-auto">
       {/* Main Dashboard */}
@@ -333,23 +331,6 @@ const StudentProgressDashboard: React.FC = () => {
           )}
         </div>
       )}
-
-      {/* Progress Overview Bar */}
-      <div className="bg-white rounded-lg p-3 mb-4 border border-black">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-gray-700">Overall Progress</span>
-          <span className="text-sm font-bold text-maineBlue">{completionPercentage}%</span>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
-          <div 
-            className="bg-maineBlue h-3 rounded-full transition-all duration-300" 
-            style={{ width: `${completionPercentage}%` }}
-          ></div>
-        </div>
-        <p className="text-xs text-gray-500 mt-1">
-          {progressData.curriculum.completedLessons} of {progressData.curriculum.totalLessons} lessons completed
-        </p>
-      </div>
 
       {/* Progress Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-3 border border-black rounded-lg mb-4">
