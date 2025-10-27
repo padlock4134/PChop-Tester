@@ -49,18 +49,8 @@ const AdminToggleProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 const HomeRedirect = () => {
-  const { authStatus } = useWristbandAuth();
-  
-  // If authenticated, go to dashboard
-  if (authStatus === AuthStatus.AUTHENTICATED) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  
-  // Otherwise, immediately redirect to login - don't wait
-  React.useEffect(() => {
-    window.location.href = '/.netlify/functions/auth-login';
-  }, []);
-  
+  // Just redirect to login immediately - Wristband will handle if already authenticated
+  window.location.href = '/.netlify/functions/auth-login';
   return null;
 };
 
