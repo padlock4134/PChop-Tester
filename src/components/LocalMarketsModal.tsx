@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { groupIngredientsByMarketType } from '../utils/ingredientMapping';
+import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
 
 // TypeScript declarations for Google Maps API (will be available at runtime)
 declare global {
@@ -103,9 +103,17 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
               <div className="mb-3 pb-3 border-b border-gray-200">
                 <div className="text-xs font-semibold text-gray-600 mb-1">Buy here:</div>
                 <div className="space-y-1 max-h-20 overflow-y-auto">
-                  {ingredientsForMarket.map((ing, idx) => (
-                    <div key={idx} className="text-xs text-gray-700">• {ing}</div>
-                  ))}
+                  {ingredientsForMarket.map((ing, idx) => {
+                    const priceInfo = getEstimatedPrice(ing);
+                    return (
+                      <div key={idx} className="text-xs text-gray-700 flex justify-between items-center">
+                        <span>• {ing}</span>
+                        {priceInfo && (
+                          <span className="text-gray-500 ml-2">~${priceInfo.price}/{priceInfo.unit}</span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -247,9 +255,17 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
                 <div className="mb-2 pb-2 border-b border-gray-200">
                   <div className="text-xs font-semibold text-gray-600 mb-1">Buy here:</div>
                   <div className="space-y-0.5 max-h-16 overflow-y-auto">
-                    {ingredientsForCategory.map((ing, idx) => (
-                      <div key={idx} className="text-xs text-gray-700">• {ing}</div>
-                    ))}
+                    {ingredientsForCategory.map((ing, idx) => {
+                      const priceInfo = getEstimatedPrice(ing);
+                      return (
+                        <div key={idx} className="text-xs text-gray-700 flex justify-between items-center">
+                          <span>• {ing}</span>
+                          {priceInfo && (
+                            <span className="text-gray-500 ml-2">~${priceInfo.price}/{priceInfo.unit}</span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               )}
