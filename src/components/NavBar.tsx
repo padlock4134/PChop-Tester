@@ -180,6 +180,8 @@ const AdminToggleButton: React.FC = () => {
 const NavBar: React.FC = () => {
   const { progress, refreshXP } = useLevelProgressContext();
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+  
   return (
     <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md">
       <div className="max-w-5xl mx-auto px-4">
@@ -197,6 +199,32 @@ const NavBar: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-2">
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-1 rounded-full hover:bg-seafoam hover:text-maineBlue transition-colors lg:hidden"
+              aria-label="Menu"
+            >
+              <Bars3Icon className="h-6 w-6" />
+            </button>
+            
+            {/* Desktop Navigation Links */}
+            <div className="hidden lg:flex items-center space-x-1">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                    location.pathname === item.path
+                      ? 'bg-seafoam text-maineBlue'
+                      : 'hover:bg-seafoam hover:text-maineBlue'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+            
             {/* Admin Toggle */}
             <AdminToggleButton />
             
@@ -210,6 +238,26 @@ const NavBar: React.FC = () => {
             </Link>
           </div>
         </div>
+        
+        {/* Mobile Menu Dropdown */}
+        {menuOpen && (
+          <div className="lg:hidden mt-2 pb-2 space-y-1">
+            {navItems.map((item) => (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setMenuOpen(false)}
+                className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  location.pathname === item.path
+                    ? 'bg-seafoam text-maineBlue'
+                    : 'hover:bg-seafoam hover:text-maineBlue'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </nav>
   );
