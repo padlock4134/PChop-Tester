@@ -372,7 +372,7 @@ const StudentProgressDashboard: React.FC = () => {
           emoji="🏆"
           title="Achievements"
           description=""
-          buttonText="View Achievements"
+          buttonText="View Milestones"
           bgColor="bg-purple-50"
           textColor="text-purple-800"
           borderColor="border-purple-400"
