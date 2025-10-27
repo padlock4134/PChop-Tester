@@ -1,0 +1,148 @@
+import React, { useState, useEffect } from 'react';
+import { useSupabase } from './SupabaseProvider';
+import { fetchCookbook } from '../modules/cookbookSupabase';
+import { RecipeCard } from './RecipeMatcherModal';
+
+interface BuildMenuModalProps {
+  open: boolean;
+  onClose: () => void;
+  onFindMarkets: (selectedRecipes: RecipeCard[]) => void;
+}
+
+const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMarkets }) => {
+  const { user } = useSupabase();
+  const [recipes, setRecipes] = useState<RecipeCard[]>([]);
+  const [selectedRecipeIds, setSelectedRecipeIds] = useState<Set<string>>(new Set());
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (open && user?.id) {
+      loadRecipes();
+    }
+  }, [open, user?.id]);
+
+  const loadRecipes = async () => {
+    if (!user?.id) return;
+    
+    try {
+      setLoading(true);
+      const savedRecipes = await fetchCookbook(user.id);
+      setRecipes(savedRecipes || []);
+    } catch (err) {
+      console.error('Error loading cookbook recipes:', err);
+      setRecipes([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleRecipe = (recipeId: string) => {
+    const newSelected = new Set(selectedRecipeIds);
+    if (newSelected.has(recipeId)) {
+      newSelected.delete(recipeId);
+    } else {
+      newSelected.add(recipeId);
+    }
+    setSelectedRecipeIds(newSelected);
+  };
+
+  const handleFindMarkets = () => {
+    const selected = recipes.filter(r => selectedRecipeIds.has(r.id));
+    onFindMarkets(selected);
+  };
+
+  if (!open) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+        <div className="p-6">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">🍽️ Build Your Menu</h2>
+            <button 
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700 text-2xl"
+            >
+              ×
+            </button>
+          </div>
+
+          {/* Instructions */}
+          <p className="text-sm text-gray-600 mb-4">
+            Select recipes from your cookbook to build your menu, then find local markets for ingredients.
+          </p>
+
+          {/* Recipe List */}
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
+              <p className="text-gray-500 mt-2">Loading your cookbook...</p>
+            </div>
+          ) : recipes.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500">No recipes in your cookbook yet.</p>
+              <p className="text-sm text-gray-400 mt-2">Add recipes to your cookbook first!</p>
+            </div>
+          ) : (
+            <div className="space-y-2 mb-6 max-h-96 overflow-y-auto">
+              {recipes.map((recipe) => (
+                <label
+                  key={recipe.id}
+                  className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-colors ${
+                    selectedRecipeIds.has(recipe.id)
+                      ? 'border-maineBlue bg-blue-50'
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedRecipeIds.has(recipe.id)}
+                    onChange={() => toggleRecipe(recipe.id)}
+                    className="mr-3 h-5 w-5 text-maineBlue"
+                  />
+                  <div className="flex-1">
+                    <div className="font-medium text-gray-900">{recipe.title}</div>
+                    {recipe.ingredients && (
+                      <div className="text-xs text-gray-400 mt-1">
+                        {recipe.ingredients.length} ingredients
+                      </div>
+                    )}
+                  </div>
+                </label>
+              ))}
+            </div>
+          )}
+
+          {/* Footer */}
+          <div className="flex items-center justify-between pt-4 border-t">
+            <div className="text-sm text-gray-600">
+              {selectedRecipeIds.size} recipe{selectedRecipeIds.size !== 1 ? 's' : ''} selected
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={onClose}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleFindMarkets}
+                disabled={selectedRecipeIds.size === 0}
+                className={`px-6 py-2 rounded font-bold transition-colors ${
+                  selectedRecipeIds.size === 0
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue border border-maineBlue'
+                }`}
+              >
+                🛒 Find Markets
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BuildMenuModal;

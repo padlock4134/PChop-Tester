@@ -6,7 +6,9 @@ import { fetchKitchen } from './kitchenSupabase';
 import CookBookImportModal from '../components/CookBookImportModal';
 import MarketDirectory from '../components/MarketDirectory';
 import LocalMarketsModal from '../components/LocalMarketsModal';
+import BuildMenuModal from '../components/BuildMenuModal';
 import { useRecipeContext } from '../components/RecipeContext';
+import { RecipeCard } from '../components/RecipeMatcherModal';
 import { fetchCookbook } from './cookbookSupabase';
 import { useSupabase } from '../components/SupabaseProvider';
 import GlobalTestKitchen from '../components/GlobalTestKitchen';
@@ -117,6 +119,8 @@ const ChefsCorner = () => {
   
   const currentQuote = getCurrentWeekQuote();
   const [localMarketsModalOpen, setLocalMarketsModalOpen] = useState(false);
+  const [buildMenuModalOpen, setBuildMenuModalOpen] = useState(false);
+  const [selectedMenuRecipes, setSelectedMenuRecipes] = useState<RecipeCard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -193,6 +197,16 @@ const ChefsCorner = () => {
 
   return (
     <>
+      <BuildMenuModal
+        open={buildMenuModalOpen}
+        onClose={() => setBuildMenuModalOpen(false)}
+        onFindMarkets={(recipes) => {
+          setSelectedMenuRecipes(recipes);
+          setBuildMenuModalOpen(false);
+          setLocalMarketsModalOpen(true);
+        }}
+      />
+      
       <LocalMarketsModal
         open={localMarketsModalOpen}
         onClose={() => setLocalMarketsModalOpen(false)}
@@ -220,10 +234,10 @@ const ChefsCorner = () => {
                     </label>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => setLocalMarketsModalOpen(true)}
+                        onClick={() => setBuildMenuModalOpen(true)}
                         className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                       >
-                        🛒 Find Markets
+                        🍽️ Build Menu
                       </button>
                       <button 
                         onClick={importFromCookBook} 
@@ -263,7 +277,7 @@ const ChefsCorner = () => {
                         <div className="font-semibold mb-1 mt-2">Ingredients:</div>
                         <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                           {showcaseRecipe.ingredients?.length ? (
-                            showcaseRecipe.ingredients.map((ing, i) => <li key={i}>{ing}</li>)
+                            showcaseRecipe.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
                           ) : (
                             <li className="italic text-gray-400">No ingredients listed.</li>
                           )}
@@ -293,7 +307,7 @@ const ChefsCorner = () => {
                           <>
                             <div className="font-semibold mt-4 mb-1">Equipment Needed:</div>
                             <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                              {showcaseRecipe.equipment.map((eq, i) => (
+                              {showcaseRecipe.equipment.map((eq: string, i: number) => (
                                 <li key={i}>{eq}</li>
                               ))}
                             </ul>

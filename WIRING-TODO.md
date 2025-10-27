@@ -485,6 +485,67 @@ function downloadFile(content: string, filename: string) {
 
 ---
 
+## 🧹 STEP 4: REMOVE MOCK DATA (FINAL CLEANUP)
+
+After everything is wired up and working, remove all mock/placeholder data:
+
+### Files to Check for Mock Data:
+
+**1. AdminDashboard.tsx**
+- Mock student data in state (if any)
+- Placeholder stats/metrics
+- Test user accounts
+
+**2. GlobalTestKitchen.tsx**
+- Mock live sessions
+- Test scheduled sessions
+- Placeholder viewer counts
+
+**3. ChallengeOfTheWeek.tsx**
+- Should be fine - uses real weekly rotation
+
+**4. Profile.tsx**
+- Mock talent tree data (if any)
+- Test user profiles
+
+**5. TestRunModal.tsx**
+- Pre-populated test ingredients
+- Mock recipe data
+- This is intentionally a "test" feature - decide if you want to keep it
+
+**6. Any component with:**
+```typescript
+// Look for patterns like:
+const mockData = [...]
+const testUsers = [...]
+const sampleRecipes = [...]
+```
+
+### What to Keep:
+- ✅ Default/empty state values
+- ✅ Placeholder text in inputs
+- ✅ Example data in documentation
+- ✅ TestRunModal (it's a demo feature)
+
+### What to Remove:
+- ❌ Hardcoded user lists
+- ❌ Fake statistics
+- ❌ Pre-populated forms with test data
+- ❌ Mock API responses
+- ❌ Development-only data
+
+### How to Find Mock Data:
+```bash
+# Search for common mock data patterns
+grep -r "mock" src/
+grep -r "test.*=.*\[" src/
+grep -r "sample.*=.*\[" src/
+grep -r "dummy" src/
+grep -r "fake" src/
+```
+
+---
+
 **Good luck! The hard work is done - this is just connecting the dots. 🚀**
 
 **Take a break after that 7-hour debugging session! You earned it. 😴**
