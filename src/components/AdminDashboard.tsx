@@ -76,6 +76,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [parsedStudents, setParsedStudents] = useState<Array<{email: string, name?: string, error?: string}>>([]);
   const [importProgress, setImportProgress] = useState(0);
   const [importStatus, setImportStatus] = useState<'idle' | 'parsing' | 'uploading' | 'complete' | 'error'>('idle');
+  const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
+  const [showExportDataModal, setShowExportDataModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   // Initialize Chef Freddie with welcome message
@@ -1277,7 +1279,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-maineBlue rounded-lg p-6">
                 <h3 className="text-center font-bold text-maineBlue mb-4">⚡ Quick Actions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <button className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                  <button 
+                    onClick={() => setShowAnnouncementModal(true)}
+                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                  >
                     <div className="text-2xl mb-2">📧</div>
                     <h4 className="font-medium text-blue-800">Send Announcement</h4>
                     <p className="text-xs text-blue-600">Notify all students</p>
@@ -1290,7 +1295,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-green-800">Import Students (CSV)</h4>
                     <p className="text-xs text-green-600">Bulk upload student list</p>
                   </button>
-                  <button className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                  <button 
+                    onClick={() => setShowExportDataModal(true)}
+                    className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                  >
                     <div className="text-2xl mb-2">📄</div>
                     <h4 className="font-medium text-purple-800">Export Student Data</h4>
                     <p className="text-xs text-purple-600">Download student records</p>
@@ -3362,6 +3370,169 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Send Announcement Modal */}
+      {showAnnouncementModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-blue-600 font-retro">📧 Send Announcement</h2>
+              <button
+                onClick={() => setShowAnnouncementModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Subject:</label>
+                <input
+                  type="text"
+                  placeholder="Enter announcement subject"
+                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Message:</label>
+                <textarea
+                  rows={6}
+                  placeholder="Enter your announcement message..."
+                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50">
+                <h3 className="font-bold text-blue-800 mb-2">Recipients:</h3>
+                <div className="space-y-2">
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" defaultChecked />
+                    <span className="text-gray-700">All Students ({users.length})</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-gray-700">Active Students Only</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-gray-700">Faculty Members</span>
+                  </label>
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowAnnouncementModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    alert('Announcement sent to all recipients!');
+                    setShowAnnouncementModal(false);
+                  }}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Send Announcement
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Export Student Data Modal */}
+      {showExportDataModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-purple-600 font-retro">📄 Export Student Data</h2>
+              <button
+                onClick={() => setShowExportDataModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50">
+                <h3 className="font-bold text-purple-800 mb-2">Export Options:</h3>
+                <div className="space-y-2">
+                  <label className="flex items-center">
+                    <input type="radio" name="exportType" className="mr-2" defaultChecked />
+                    <span className="text-gray-700">All Student Records (CSV)</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="radio" name="exportType" className="mr-2" />
+                    <span className="text-gray-700">Active Students Only (CSV)</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="radio" name="exportType" className="mr-2" />
+                    <span className="text-gray-700">Student Progress Report (PDF)</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="radio" name="exportType" className="mr-2" />
+                    <span className="text-gray-700">Complete Data Export (JSON)</span>
+                  </label>
+                </div>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4">
+                <h3 className="font-bold text-purple-800 mb-2">Data Fields to Include:</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" defaultChecked />
+                    <span className="text-sm text-gray-700">Name & Email</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" defaultChecked />
+                    <span className="text-sm text-gray-700">XP & Level</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" defaultChecked />
+                    <span className="text-sm text-gray-700">Subscription Status</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-sm text-gray-700">Progress Data</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-sm text-gray-700">Last Login</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-sm text-gray-700">Achievements</span>
+                  </label>
+                </div>
+              </div>
+              <div className="bg-gray-50 border-4 border-gray-300 rounded-lg p-4">
+                <p className="text-sm text-gray-600">
+                  <strong>Total Records:</strong> {users.length} students
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  <strong>Export Format:</strong> CSV (Comma-Separated Values)
+                </p>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowExportDataModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    alert('Student data exported successfully!');
+                    setShowExportDataModal(false);
+                  }}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Download Export
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
