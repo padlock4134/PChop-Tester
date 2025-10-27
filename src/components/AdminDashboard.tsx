@@ -84,6 +84,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showAlumniNewsletterModal, setShowAlumniNewsletterModal] = useState(false);
   const [showPlanEventModal, setShowPlanEventModal] = useState(false);
   const [showGiftingDonationsModal, setShowGiftingDonationsModal] = useState(false);
+  const [showEmploymentDataModal, setShowEmploymentDataModal] = useState(false);
+  const [showManagePartnersModal, setShowManagePartnersModal] = useState(false);
+  const [showCareerServicesModal, setShowCareerServicesModal] = useState(false);
+  const [showAlumniDatabaseModal, setShowAlumniDatabaseModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   // Initialize Chef Freddie with welcome message
@@ -775,7 +779,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="mb-3 text-4xl">📈</div>
                 <h3 className="font-bold text-gray-900 mb-2 font-retro">Employment Tracking</h3>
                 <p className="text-sm text-gray-600 mb-4">Monitor graduate employment rates and job placement statistics</p>
-                <button className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-retro w-full">
+                <button 
+                  onClick={() => setShowEmploymentDataModal(true)}
+                  className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-retro w-full"
+                >
                   View Employment Data
                 </button>
               </div>
@@ -785,7 +792,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="mb-3 text-4xl">🤝</div>
                 <h3 className="font-bold text-gray-900 mb-2 font-retro">Industry Partnerships</h3>
                 <p className="text-sm text-gray-600 mb-4">Manage relationships with restaurants, hotels, and culinary employers</p>
-                <button className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro w-full">
+                <button 
+                  onClick={() => setShowManagePartnersModal(true)}
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro w-full"
+                >
                   Manage Partners
                 </button>
               </div>
@@ -795,7 +805,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="mb-3 text-4xl">💼</div>
                 <h3 className="font-bold text-gray-900 mb-2 font-retro">Career Services</h3>
                 <p className="text-sm text-gray-600 mb-4">Coordinate job fairs, internships, and career counseling services</p>
-                <button className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 font-retro w-full">
+                <button 
+                  onClick={() => setShowCareerServicesModal(true)}
+                  className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 font-retro w-full"
+                >
                   Manage Services
                 </button>
               </div>
@@ -805,7 +818,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="mb-3 text-4xl">🎓</div>
                 <h3 className="font-bold text-gray-900 mb-2 font-retro">Alumni Network</h3>
                 <p className="text-sm text-gray-600 mb-4">Track alumni success stories and maintain graduate connections</p>
-                <button className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full">
+                <button 
+                  onClick={() => setShowAlumniDatabaseModal(true)}
+                  className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full"
+                >
                   Alumni Database
                 </button>
               </div>
@@ -4108,6 +4124,371 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Launch Campaign
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Employment Data Modal */}
+      {showEmploymentDataModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-green-600 font-retro">📈 Employment Data</h2>
+              <button
+                onClick={() => setShowEmploymentDataModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
+                  <div className="text-3xl font-bold text-green-600">87%</div>
+                  <p className="text-sm text-green-800 font-medium mt-1">Employment Rate</p>
+                </div>
+                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
+                  <div className="text-3xl font-bold text-blue-600">156</div>
+                  <p className="text-sm text-blue-800 font-medium mt-1">Graduates Placed</p>
+                </div>
+                <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50 text-center">
+                  <div className="text-3xl font-bold text-purple-600">$52k</div>
+                  <p className="text-sm text-purple-800 font-medium mt-1">Avg. Starting Salary</p>
+                </div>
+                <div className="border-4 border-orange-400 rounded-lg p-4 bg-orange-50 text-center">
+                  <div className="text-3xl font-bold text-orange-600">45</div>
+                  <p className="text-sm text-orange-800 font-medium mt-1">Days to Placement</p>
+                </div>
+              </div>
+              <div className="border-4 border-green-400 rounded-lg p-4">
+                <h3 className="font-bold text-green-800 mb-3">Recent Placements:</h3>
+                <div className="space-y-2">
+                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Sarah Johnson</p>
+                      <p className="text-xs text-gray-600">Sous Chef at The French Laundry</p>
+                    </div>
+                    <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Placed</span>
+                  </div>
+                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Michael Chen</p>
+                      <p className="text-xs text-gray-600">Pastry Chef at Eleven Madison Park</p>
+                    </div>
+                    <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Placed</span>
+                  </div>
+                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Emma Rodriguez</p>
+                      <p className="text-xs text-gray-600">Executive Chef at Nobu</p>
+                    </div>
+                    <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Placed</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowEmploymentDataModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => alert('Exporting employment report...')}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Export Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Manage Partners Modal */}
+      {showManagePartnersModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-blue-600 font-retro">🤝 Industry Partners</h2>
+              <button
+                onClick={() => setShowManagePartnersModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50">
+                <h3 className="font-bold text-blue-800 mb-3">Active Partners ({3}):</h3>
+                <div className="space-y-3">
+                  <div className="bg-white border-2 border-blue-300 rounded-lg p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900 text-lg">The French Laundry</p>
+                        <p className="text-sm text-gray-600">Yountville, CA</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-sm mt-3">
+                      <div>
+                        <p className="text-gray-600">Students Hired: <strong>12</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Open Positions: <strong>3</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Partnership Since: <strong>2020</strong></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white border-2 border-blue-300 rounded-lg p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900 text-lg">Eleven Madison Park</p>
+                        <p className="text-sm text-gray-600">New York, NY</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-sm mt-3">
+                      <div>
+                        <p className="text-gray-600">Students Hired: <strong>8</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Open Positions: <strong>2</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Partnership Since: <strong>2019</strong></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="border-4 border-blue-400 rounded-lg p-4">
+                <h3 className="font-bold text-blue-800 mb-2">Add New Partner:</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <input
+                    type="text"
+                    placeholder="Restaurant/Company Name"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Location"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Contact Email"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Phone Number"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowManagePartnersModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => alert('Partner added successfully!')}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Add Partner
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Career Services Modal */}
+      {showCareerServicesModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-purple-600 font-retro">💼 Career Services</h2>
+              <button
+                onClick={() => setShowCareerServicesModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50 text-center">
+                  <div className="text-3xl font-bold text-purple-600">24</div>
+                  <p className="text-sm text-purple-800 font-medium mt-1">Active Internships</p>
+                </div>
+                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
+                  <div className="text-3xl font-bold text-blue-600">8</div>
+                  <p className="text-sm text-blue-800 font-medium mt-1">Job Fairs Scheduled</p>
+                </div>
+                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
+                  <div className="text-3xl font-bold text-green-600">156</div>
+                  <p className="text-sm text-green-800 font-medium mt-1">Students Counseled</p>
+                </div>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50">
+                <h3 className="font-bold text-purple-800 mb-3">Upcoming Events:</h3>
+                <div className="space-y-2">
+                  <div className="bg-white border-2 border-purple-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">Spring Career Fair 2025</p>
+                        <p className="text-xs text-gray-600">March 15, 2025 • 10:00 AM - 4:00 PM</p>
+                      </div>
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Upcoming</span>
+                    </div>
+                  </div>
+                  <div className="bg-white border-2 border-purple-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">Resume Workshop</p>
+                        <p className="text-xs text-gray-600">February 20, 2025 • 2:00 PM - 4:00 PM</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Open</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4">
+                <h3 className="font-bold text-purple-800 mb-2">Schedule New Service:</h3>
+                <div className="space-y-3">
+                  <select className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm">
+                    <option>Select Service Type</option>
+                    <option>Career Fair</option>
+                    <option>Resume Workshop</option>
+                    <option>Interview Prep</option>
+                    <option>Networking Event</option>
+                  </select>
+                  <input
+                    type="date"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                  />
+                  <textarea
+                    rows={3}
+                    placeholder="Event details..."
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowCareerServicesModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => alert('Event scheduled successfully!')}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Schedule Event
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Alumni Database Modal */}
+      {showAlumniDatabaseModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-orange-600 font-retro">🎓 Alumni Database</h2>
+              <button
+                onClick={() => setShowAlumniDatabaseModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="border-4 border-orange-400 rounded-lg p-4 bg-orange-50 text-center">
+                  <div className="text-3xl font-bold text-orange-600">342</div>
+                  <p className="text-sm text-orange-800 font-medium mt-1">Total Alumni</p>
+                </div>
+                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
+                  <div className="text-3xl font-bold text-blue-600">87%</div>
+                  <p className="text-sm text-blue-800 font-medium mt-1">Employed</p>
+                </div>
+                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
+                  <div className="text-3xl font-bold text-green-600">45</div>
+                  <p className="text-sm text-green-800 font-medium mt-1">Success Stories</p>
+                </div>
+              </div>
+              <div className="border-4 border-orange-400 rounded-lg p-4">
+                <h3 className="font-bold text-orange-800 mb-3">Featured Alumni:</h3>
+                <div className="space-y-3">
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900">Chef Maria Santos</p>
+                        <p className="text-sm text-gray-600">Executive Chef at Nobu Malibu</p>
+                        <p className="text-xs text-gray-500">Class of 2019</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Featured</span>
+                    </div>
+                    <p className="text-xs text-gray-700 italic">"The program gave me the foundation to pursue my dream of becoming an executive chef."</p>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900">Chef David Kim</p>
+                        <p className="text-sm text-gray-600">Owner of Kim's Kitchen (Michelin Star)</p>
+                        <p className="text-xs text-gray-500">Class of 2018</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Featured</span>
+                    </div>
+                    <p className="text-xs text-gray-700 italic">"Best decision I ever made. Now running my own Michelin-starred restaurant!"</p>
+                  </div>
+                </div>
+              </div>
+              <div className="border-4 border-orange-400 rounded-lg p-4 bg-orange-50">
+                <h3 className="font-bold text-orange-800 mb-2">Search Alumni:</h3>
+                <div className="grid grid-cols-3 gap-2">
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    className="border-2 border-orange-300 rounded-lg p-2 text-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Graduation Year"
+                    className="border-2 border-orange-300 rounded-lg p-2 text-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Current Employer"
+                    className="border-2 border-orange-300 rounded-lg p-2 text-sm"
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowAlumniDatabaseModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => alert('Exporting alumni database...')}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Export Database
                 </button>
               </div>
             </div>
