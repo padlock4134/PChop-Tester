@@ -124,7 +124,7 @@ const StudentProgressDashboard: React.FC = () => {
       <p className={`text-xs ${textColor} mb-3`}>{description}</p>
       <button 
         onClick={onClick}
-        className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+        className="bg-maineBlue text-white px-4 py-1.5 rounded-md hover:bg-blue-700 font-retro text-sm"
       >
         View
       </button>
