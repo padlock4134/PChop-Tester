@@ -118,10 +118,15 @@ const StudentProgressDashboard: React.FC = () => {
   }
 
   const ProgressCard: React.FC<ProgressCardProps> = ({ emoji, title, description, bgColor, textColor, borderColor, onClick }) => (
-    <button onClick={onClick} className={`${bgColor} border-4 ${borderColor} rounded-lg p-4 hover:scale-105 transition-transform duration-200`}>
+    <button onClick={onClick} className={`${bgColor} border-4 ${borderColor} rounded-lg p-4 hover:scale-105 transition-transform duration-200 text-center`}>
       <div className="text-2xl mb-2">{emoji}</div>
-      <h4 className={`font-medium ${textColor}`}>{title}</h4>
-      <p className={`text-xs ${textColor}`}>{description}</p>
+      <h4 className={`font-medium ${textColor} mb-2`}>{title}</h4>
+      <p className={`text-xs ${textColor} mb-3`}>{description}</p>
+      <div className="text-xs font-medium text-gray-700 mt-2">
+        <span className="inline-flex items-center">
+          👁️ View
+        </span>
+      </div>
     </button>
   );
 
@@ -331,7 +336,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="📚"
           title="Curriculum Progress"
-          description="View lesson completion"
+          description="Lessons & time spent"
           bgColor="bg-blue-50"
           textColor="text-blue-800"
           borderColor="border-blue-400"
@@ -341,7 +346,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="⭐"
           title="Skill Development"
-          description="Track your skill level"
+          description="Level & recipes completed"
           bgColor="bg-green-50"
           textColor="text-green-800"
           borderColor="border-green-400"
@@ -351,7 +356,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="🔥"
           title="My Engagement"
-          description="See your activity stats"
+          description="Activity & participation"
           bgColor="bg-orange-50"
           textColor="text-orange-800"
           borderColor="border-orange-400"
@@ -361,7 +366,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="🏆"
           title="Achievements"
-          description="View badges & milestones"
+          description="Badges & milestones earned"
           bgColor="bg-purple-50"
           textColor="text-purple-800"
           borderColor="border-purple-400"
