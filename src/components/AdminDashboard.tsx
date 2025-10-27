@@ -1282,10 +1282,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-blue-800">Send Announcement</h4>
                     <p className="text-xs text-blue-600">Notify all students</p>
                   </button>
-                  <button className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
-                    <div className="text-2xl mb-2">📈</div>
-                    <h4 className="font-medium text-green-800">Bulk XP Update</h4>
-                    <p className="text-xs text-green-600">Award XP to multiple students</p>
+                  <button 
+                    onClick={() => setShowCsvImportModal(true)}
+                    className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                  >
+                    <div className="text-2xl mb-2">📤</div>
+                    <h4 className="font-medium text-green-800">Import Students (CSV)</h4>
+                    <p className="text-xs text-green-600">Bulk upload student list</p>
                   </button>
                   <button className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
                     <div className="text-2xl mb-2">📄</div>
@@ -3197,6 +3200,168 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* CSV Import Modal */}
+      {showCsvImportModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="text-center mb-6 relative">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">Import Students from CSV</h2>
+              <button
+                onClick={() => {
+                  setShowCsvImportModal(false);
+                  setImportStatus('idle');
+                  setCsvFile(null);
+                  setParsedStudents([]);
+                }}
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Instructions */}
+            <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 mb-6">
+              <h3 className="font-bold text-blue-800 mb-2">📋 CSV Format Requirements:</h3>
+              <ul className="text-sm text-blue-700 space-y-1 list-disc list-inside">
+                <li>Must include an <strong>"email"</strong> column (required)</li>
+                <li>Optional: <strong>"name"</strong> or <strong>"full name"</strong> column</li>
+                <li>First row must be headers</li>
+                <li>Example: <code className="bg-blue-100 px-1 rounded">email,name</code></li>
+              </ul>
+            </div>
+
+            {/* File Upload */}
+            {importStatus === 'idle' && parsedStudents.length === 0 && (
+              <div className="border-4 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
+                <div className="text-6xl mb-4">📤</div>
+                <h3 className="text-lg font-medium text-gray-700 mb-2">Upload CSV File</h3>
+                <p className="text-sm text-gray-500 mb-4">Drag and drop or click to browse</p>
+                <input
+                  type="file"
+                  accept=".csv"
+                  onChange={handleCsvFileChange}
+                  className="hidden"
+                  id="csv-upload"
+                />
+                <label
+                  htmlFor="csv-upload"
+                  className="bg-maineBlue text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 inline-block"
+                >
+                  Choose CSV File
+                </label>
+              </div>
+            )}
+
+            {/* Parsing Status */}
+            {importStatus === 'parsing' && (
+              <div className="text-center py-8">
+                <div className="text-4xl mb-4">⏳</div>
+                <p className="text-gray-600">Parsing CSV file...</p>
+              </div>
+            )}
+
+            {/* Preview Parsed Students */}
+            {parsedStudents.length > 0 && importStatus !== 'uploading' && importStatus !== 'complete' && (
+              <div className="mb-6">
+                <h3 className="font-bold text-maineBlue mb-3">📊 Preview ({parsedStudents.length} students)</h3>
+                <div className="border-4 border-maineBlue rounded-lg overflow-hidden max-h-64 overflow-y-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50 sticky top-0">
+                      <tr>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {parsedStudents.map((student, index) => (
+                        <tr key={index} className={student.error ? 'bg-red-50' : ''}>
+                          <td className="px-4 py-2 text-sm text-gray-900">{student.email}</td>
+                          <td className="px-4 py-2 text-sm text-gray-500">{student.name || '-'}</td>
+                          <td className="px-4 py-2 text-sm">
+                            {student.error ? (
+                              <span className="text-red-600">❌ {student.error}</span>
+                            ) : (
+                              <span className="text-green-600">✅ Valid</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="mt-3 flex justify-between items-center">
+                  <p className="text-sm text-gray-600">
+                    {parsedStudents.filter(s => !s.error).length} valid students, {parsedStudents.filter(s => s.error).length} errors
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        setCsvFile(null);
+                        setParsedStudents([]);
+                      }}
+                      className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleBulkImport}
+                      disabled={parsedStudents.filter(s => !s.error).length === 0}
+                      className="bg-maineBlue text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Import {parsedStudents.filter(s => !s.error).length} Students
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Upload Progress */}
+            {importStatus === 'uploading' && (
+              <div className="text-center py-8">
+                <div className="text-4xl mb-4">⬆️</div>
+                <p className="text-gray-600 mb-4">Importing students...</p>
+                <div className="w-full bg-gray-200 rounded-full h-4 mb-2">
+                  <div
+                    className="bg-maineBlue h-4 rounded-full transition-all duration-300"
+                    style={{ width: `${importProgress}%` }}
+                  ></div>
+                </div>
+                <p className="text-sm text-gray-500">{importProgress}% complete</p>
+              </div>
+            )}
+
+            {/* Success Message */}
+            {importStatus === 'complete' && (
+              <div className="text-center py-8">
+                <div className="text-6xl mb-4">✅</div>
+                <h3 className="text-xl font-bold text-green-600 mb-2">Import Complete!</h3>
+                <p className="text-gray-600">Students have been successfully imported.</p>
+              </div>
+            )}
+
+            {/* Error Message */}
+            {importStatus === 'error' && (
+              <div className="text-center py-8">
+                <div className="text-6xl mb-4">❌</div>
+                <h3 className="text-xl font-bold text-red-600 mb-2">Import Failed</h3>
+                <p className="text-gray-600">Please check your CSV file and try again.</p>
+                <button
+                  onClick={() => {
+                    setImportStatus('idle');
+                    setCsvFile(null);
+                    setParsedStudents([]);
+                  }}
+                  className="mt-4 bg-maineBlue text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                >
+                  Try Again
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
