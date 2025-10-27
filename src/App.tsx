@@ -145,7 +145,7 @@ const App = () => {
         loginUrl='/.netlify/functions/auth-login'
         logoutUrl='/.netlify/functions/auth-logout'
         sessionUrl='/.netlify/functions/auth-session'
-        disableRedirectOnUnauthenticated={true}
+        disableRedirectOnUnauthenticated={false}
         onSessionSuccess={(sessionResponse: SessionResponse) => {
           // Before isAuthenticated is set to true, set the Supabase token in the client
           // so it can be used for all authenticated Supabase requests.
