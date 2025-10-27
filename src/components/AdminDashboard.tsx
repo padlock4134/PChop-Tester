@@ -78,6 +78,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [importStatus, setImportStatus] = useState<'idle' | 'parsing' | 'uploading' | 'complete' | 'error'>('idle');
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
   const [showExportDataModal, setShowExportDataModal] = useState(false);
+  const [showAddFacultyModal, setShowAddFacultyModal] = useState(false);
+  const [showManagePermissionsModal, setShowManagePermissionsModal] = useState(false);
+  const [showFacultyReportsModal, setShowFacultyReportsModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   // Initialize Chef Freddie with welcome message
@@ -1527,17 +1530,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-maineBlue rounded-lg p-6">
                 <h3 className="text-center font-bold text-maineBlue mb-4">⚡ Faculty Management Actions</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <button className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                  <button 
+                    onClick={() => setShowAddFacultyModal(true)}
+                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                  >
                     <div className="text-2xl mb-2">👥</div>
                     <h4 className="font-medium text-blue-800">Add New Faculty</h4>
                     <p className="text-xs text-blue-600">Invite new instructors</p>
                   </button>
-                  <button className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                  <button 
+                    onClick={() => setShowManagePermissionsModal(true)}
+                    className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                  >
                     <div className="text-2xl mb-2">🔐</div>
                     <h4 className="font-medium text-green-800">Manage Permissions</h4>
                     <p className="text-xs text-green-600">Update access levels</p>
                   </button>
-                  <button className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200">
+                  <button 
+                    onClick={() => setShowFacultyReportsModal(true)}
+                    className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                  >
                     <div className="text-2xl mb-2">📊</div>
                     <h4 className="font-medium text-purple-800">Faculty Reports</h4>
                     <p className="text-xs text-purple-600">Performance analytics</p>
@@ -3530,6 +3542,296 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
                   Download Export
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add New Faculty Modal */}
+      {showAddFacultyModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-blue-600 font-retro">👥 Add New Faculty</h2>
+              <button
+                onClick={() => setShowAddFacultyModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Full Name:</label>
+                <input
+                  type="text"
+                  placeholder="Enter instructor's full name"
+                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Email Address:</label>
+                <input
+                  type="email"
+                  placeholder="instructor@example.com"
+                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50">
+                <h3 className="font-bold text-blue-800 mb-2">Role & Permissions:</h3>
+                <div className="space-y-2">
+                  <label className="flex items-center">
+                    <input type="radio" name="role" className="mr-2" defaultChecked />
+                    <span className="text-gray-700">Instructor - Can teach courses and grade assignments</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="radio" name="role" className="mr-2" />
+                    <span className="text-gray-700">Teaching Assistant - Limited grading access</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="radio" name="role" className="mr-2" />
+                    <span className="text-gray-700">Department Head - Full curriculum management</span>
+                  </label>
+                </div>
+              </div>
+              <div className="border-4 border-blue-400 rounded-lg p-4">
+                <h3 className="font-bold text-blue-800 mb-2">Course Assignments:</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-sm text-gray-700">Knife Skills</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-sm text-gray-700">Seafood Safety</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-sm text-gray-700">Baking Fundamentals</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input type="checkbox" className="mr-2" />
+                    <span className="text-sm text-gray-700">Sauce Making</span>
+                  </label>
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowAddFacultyModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    alert('Faculty member added successfully!');
+                    setShowAddFacultyModal(false);
+                  }}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Send Invitation
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Manage Permissions Modal */}
+      {showManagePermissionsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-green-600 font-retro">🔐 Manage Permissions</h2>
+              <button
+                onClick={() => setShowManagePermissionsModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50">
+                <h3 className="font-bold text-green-800 mb-3">Faculty Members:</h3>
+                <div className="space-y-3">
+                  <div className="bg-white border-2 border-green-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900">Chef Julia Martinez</p>
+                        <p className="text-xs text-gray-600">julia.martinez@culinary.edu</p>
+                      </div>
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Instructor</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" defaultChecked />
+                        <span className="text-gray-700">Grade Assignments</span>
+                      </label>
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" defaultChecked />
+                        <span className="text-gray-700">Manage Students</span>
+                      </label>
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" />
+                        <span className="text-gray-700">Edit Curriculum</span>
+                      </label>
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" defaultChecked />
+                        <span className="text-gray-700">View Reports</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="bg-white border-2 border-green-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900">Chef Marcus Chen</p>
+                        <p className="text-xs text-gray-600">marcus.chen@culinary.edu</p>
+                      </div>
+                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">Dept. Head</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 mt-2">
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" defaultChecked />
+                        <span className="text-gray-700">Grade Assignments</span>
+                      </label>
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" defaultChecked />
+                        <span className="text-gray-700">Manage Students</span>
+                      </label>
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" defaultChecked />
+                        <span className="text-gray-700">Edit Curriculum</span>
+                      </label>
+                      <label className="flex items-center text-sm">
+                        <input type="checkbox" className="mr-2" defaultChecked />
+                        <span className="text-gray-700">View Reports</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowManagePermissionsModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    alert('Permissions updated successfully!');
+                    setShowManagePermissionsModal(false);
+                  }}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Faculty Reports Modal */}
+      {showFacultyReportsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-purple-600 font-retro">📊 Faculty Reports</h2>
+              <button
+                onClick={() => setShowFacultyReportsModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50 text-center">
+                  <div className="text-3xl font-bold text-purple-600">5</div>
+                  <p className="text-sm text-purple-800 font-medium mt-1">Active Faculty</p>
+                </div>
+                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
+                  <div className="text-3xl font-bold text-blue-600">142</div>
+                  <p className="text-sm text-blue-800 font-medium mt-1">Students Taught</p>
+                </div>
+                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
+                  <div className="text-3xl font-bold text-green-600">4.7</div>
+                  <p className="text-sm text-green-800 font-medium mt-1">Avg. Rating</p>
+                </div>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4">
+                <h3 className="font-bold text-purple-800 mb-3">Faculty Performance:</h3>
+                <div className="space-y-3">
+                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="font-semibold text-gray-900">Chef Julia Martinez</p>
+                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Excellent</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-xs">
+                      <div>
+                        <p className="text-gray-600">Students: <strong>45</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Courses: <strong>3</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Rating: <strong>4.9/5</strong></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="font-semibold text-gray-900">Chef Marcus Chen</p>
+                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Excellent</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-xs">
+                      <div>
+                        <p className="text-gray-600">Students: <strong>52</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Courses: <strong>4</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Rating: <strong>4.8/5</strong></p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center mb-2">
+                      <p className="font-semibold text-gray-900">Chef Sarah Williams</p>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">Good</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-xs">
+                      <div>
+                        <p className="text-gray-600">Students: <strong>38</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Courses: <strong>2</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Rating: <strong>4.5/5</strong></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowFacultyReportsModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => {
+                    alert('Exporting faculty report...');
+                  }}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                >
+                  Export Report
                 </button>
               </div>
             </div>
