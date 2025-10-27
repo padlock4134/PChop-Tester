@@ -22,6 +22,7 @@ netlifyApiClient.interceptors.response.use(
     if (error.response && [401, 403].includes(error.response.status)) {
       console.log('Session expired or unauthorized, redirecting to login...');
       redirectToLogin('/.netlify/functions/auth-login');
+      window.location.href = '/.netlify/functions/auth-login'; // Force reload to login page
     }
     return Promise.reject(error);
   }
