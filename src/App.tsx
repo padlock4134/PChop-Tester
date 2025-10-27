@@ -24,6 +24,7 @@ import type { WristbandSessionMetadata } from './types/session-types';
 import { setSupabaseJwt } from './api/supabaseClient';
 import { useDeviceDetect, getResponsiveClasses } from './utils/responsiveUtils';
 import SwoopyArrow from './components/SwoopyArrow';
+import InactivityWarningModal from './components/InactivityWarningModal';
 import { useAutoLogout } from './hooks/useAutoLogout';
 
 // Admin toggle context
@@ -87,9 +88,10 @@ const AppRoutes = () => {
   // Get responsive classes based on device type
   const responsiveClasses = getResponsiveClasses(deviceType);
 
-  // Auto-logout after 30 minutes of inactivity
-  useAutoLogout({
+  // Auto-logout after 30 minutes of inactivity with 2-minute warning
+  const { showWarning, countdown, stayLoggedIn, logoutNow } = useAutoLogout({
     inactivityTimeout: 30 * 60 * 1000, // 30 minutes
+    warningTime: 2 * 60 * 1000, // 2 minutes warning
     enabled: !!user // Only enable when user is authenticated
   });
 
@@ -136,6 +138,12 @@ const AppRoutes = () => {
         </Routes>
       </main>
       <ChefFreddieWidget />
+      <InactivityWarningModal
+        isOpen={showWarning}
+        countdown={countdown}
+        onStayLoggedIn={stayLoggedIn}
+        onLogout={logoutNow}
+      />
     </div>
   );
 };
