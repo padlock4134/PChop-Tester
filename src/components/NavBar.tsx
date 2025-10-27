@@ -182,7 +182,7 @@ const NavBar: React.FC = () => {
   const location = useLocation();
   
   return (
-    <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md">
+    <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md sticky top-0 z-50">
       <div className="max-w-5xl mx-auto px-4">
         {/* Flex container for all items */}
         <div className="flex items-center justify-between w-full">
