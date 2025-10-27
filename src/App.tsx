@@ -51,11 +51,16 @@ const AdminToggleProvider: React.FC<{ children: React.ReactNode }> = ({ children
 const HomeRedirect = () => {
   const { authStatus } = useWristbandAuth();
   
+  // If authenticated, go to dashboard
   if (authStatus === AuthStatus.AUTHENTICATED) {
     return <Navigate to="/dashboard" replace />;
   }
   
-  window.location.href = '/.netlify/functions/auth-login';
+  // Otherwise, immediately redirect to login - don't wait
+  React.useEffect(() => {
+    window.location.href = '/.netlify/functions/auth-login';
+  }, []);
+  
   return null;
 };
 
