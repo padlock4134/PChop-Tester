@@ -53,6 +53,12 @@ const StudentProgressDashboard: React.FC = () => {
   const [newPost, setNewPost] = useState('');
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Progress card modal states
+  const [curriculumModalOpen, setCurriculumModalOpen] = useState(false);
+  const [skillsModalOpen, setSkillsModalOpen] = useState(false);
+  const [engagementModalOpen, setEngagementModalOpen] = useState(false);
+  const [achievementsModalOpen, setAchievementsModalOpen] = useState(false);
+
   // Mock community feed data
   const [posts, setPosts] = useState([
     {
@@ -343,7 +349,7 @@ const StudentProgressDashboard: React.FC = () => {
           bgColor="bg-blue-50"
           textColor="text-blue-800"
           borderColor="border-blue-400"
-          onClick={() => alert('Curriculum modal coming soon')}
+          onClick={() => setCurriculumModalOpen(true)}
         />
 
         <ProgressCard
@@ -354,7 +360,7 @@ const StudentProgressDashboard: React.FC = () => {
           bgColor="bg-green-50"
           textColor="text-green-800"
           borderColor="border-green-400"
-          onClick={() => alert('Skills modal coming soon')}
+          onClick={() => setSkillsModalOpen(true)}
         />
 
         <ProgressCard
@@ -365,7 +371,7 @@ const StudentProgressDashboard: React.FC = () => {
           bgColor="bg-orange-50"
           textColor="text-orange-800"
           borderColor="border-orange-400"
-          onClick={() => alert('Engagement modal coming soon')}
+          onClick={() => setEngagementModalOpen(true)}
         />
 
         <ProgressCard
@@ -376,10 +382,159 @@ const StudentProgressDashboard: React.FC = () => {
           bgColor="bg-purple-50"
           textColor="text-purple-800"
           borderColor="border-purple-400"
-          onClick={() => alert('Achievements modal coming soon')}
+          onClick={() => setAchievementsModalOpen(true)}
         />
       </div>
       </div>
+
+      {/* Curriculum Progress Modal */}
+      {curriculumModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-blue-600 font-retro">📚 Curriculum Progress</h2>
+              <button
+                onClick={() => setCurriculumModalOpen(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
+                <div className="text-4xl font-bold text-blue-600 text-center">
+                  {progressData.curriculum.completedLessons}/{progressData.curriculum.totalLessons}
+                </div>
+                <p className="text-center text-blue-800 font-medium mt-2">Lessons Completed</p>
+              </div>
+              <div className="border-4 border-blue-400 rounded-lg p-4">
+                <h3 className="font-bold text-blue-800 mb-2">Current Lesson:</h3>
+                <p className="text-gray-700">{progressData.curriculum.currentLesson}</p>
+              </div>
+              <div className="border-4 border-blue-400 rounded-lg p-4">
+                <h3 className="font-bold text-blue-800 mb-2">Time Spent Learning:</h3>
+                <p className="text-gray-700">{progressData.curriculum.timeSpent}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Skills Development Modal */}
+      {skillsModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-green-600 font-retro">⭐ Skill Development</h2>
+              <button
+                onClick={() => setSkillsModalOpen(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4">
+                <div className="text-4xl font-bold text-green-600 text-center">
+                  {progressData.skills.currentLevel}
+                </div>
+                <p className="text-center text-green-800 font-medium mt-2">Current Skill Level</p>
+              </div>
+              <div className="border-4 border-green-400 rounded-lg p-4">
+                <h3 className="font-bold text-green-800 mb-2">Recipes Completed:</h3>
+                <p className="text-gray-700">{progressData.skills.recipesCompleted} out of {progressData.skills.recipesAttempted} attempted</p>
+              </div>
+              <div className="border-4 border-green-400 rounded-lg p-4">
+                <h3 className="font-bold text-green-800 mb-2">Next Milestone:</h3>
+                <p className="text-gray-700">{progressData.skills.nextMilestone}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Engagement Modal */}
+      {engagementModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-orange-600 font-retro">🔥 My Engagement</h2>
+              <button
+                onClick={() => setEngagementModalOpen(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="border-4 border-orange-400 rounded-lg p-4">
+                <h3 className="font-bold text-orange-800 mb-2">App Usage:</h3>
+                <p className="text-gray-700">{progressData.engagement.appUsage}</p>
+              </div>
+              <div className="border-4 border-orange-400 rounded-lg p-4">
+                <h3 className="font-bold text-orange-800 mb-2">Live Sessions Attended:</h3>
+                <p className="text-gray-700">{progressData.engagement.liveSessionsAttended} sessions</p>
+              </div>
+              <div className="border-4 border-orange-400 rounded-lg p-4">
+                <h3 className="font-bold text-orange-800 mb-2">Community Posts:</h3>
+                <p className="text-gray-700">{progressData.engagement.communityPosts} posts shared</p>
+              </div>
+              <div className="border-4 border-orange-400 rounded-lg p-4">
+                <h3 className="font-bold text-orange-800 mb-2">Recipes Saved:</h3>
+                <p className="text-gray-700">{progressData.engagement.recipesSaved} recipes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Achievements Modal */}
+      {achievementsModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-purple-600 font-retro">🏆 Achievements</h2>
+              <button
+                onClick={() => setAchievementsModalOpen(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4">
+                <div className="text-4xl font-bold text-purple-600 text-center">
+                  {progressData.insights.achievements.length}
+                </div>
+                <p className="text-center text-purple-800 font-medium mt-2">Achievements Earned</p>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4">
+                <h3 className="font-bold text-purple-800 mb-2">Your Achievements:</h3>
+                <div className="space-y-2">
+                  {progressData.insights.achievements.map((achievement, index) => (
+                    <div key={index} className="bg-purple-50 rounded p-3 text-gray-700 flex items-center">
+                      <span className="text-2xl mr-3">🏅</span>
+                      <span>{achievement}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4">
+                <h3 className="font-bold text-purple-800 mb-2">Strongest Area:</h3>
+                <p className="text-gray-700">{progressData.insights.strongestArea}</p>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4">
+                <h3 className="font-bold text-purple-800 mb-2">Area for Improvement:</h3>
+                <p className="text-gray-700">{progressData.insights.improvementArea}</p>
+              </div>
+              <div className="border-4 border-purple-400 rounded-lg p-4">
+                <h3 className="font-bold text-purple-800 mb-2">Learning Velocity:</h3>
+                <p className="text-gray-700">{progressData.insights.learningVelocity}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Live Session Modal */}
       {liveSessionModalOpen && currentLiveSession && (
