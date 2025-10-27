@@ -80,13 +80,25 @@ const AppRoutes = () => {
     enabled: !!user // Only enable when user is authenticated
   });
 
+  // Safety timeout: if stuck loading for more than 5 seconds, force redirect to login
+  useEffect(() => {
+    if (isLoading) {
+      const timeout = setTimeout(() => {
+        console.log('[App] Loading timeout - forcing redirect to login');
+        window.location.href = '/.netlify/functions/auth-login';
+      }, 5000); // 5 seconds
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isLoading]);
 
   // We have this check here because the SupabaseProvider isLoading flag will never flip to false
   // in the event the initial Wristband auth session check fails. This status gets set to UNAUTHENTICATED
   // just once upfront right after the auth isLoading is set to false.
   useEffect(() => {
     if (authStatus === AuthStatus.UNAUTHENTICATED) {
-      navigate('/');
+      console.log('[App] User is unauthenticated, redirecting to login');
+      window.location.href = '/.netlify/functions/auth-login';
     }
   }, [authStatus, navigate]);
 
@@ -99,9 +111,10 @@ const AppRoutes = () => {
     );
   }
 
-  // If not authenticated, redirect immediately
+  // If not authenticated, redirect immediately to login
   if (!isLoading && !user) {
-    navigate('/');
+    console.log('[App] No user found after loading, redirecting to login');
+    window.location.href = '/.netlify/functions/auth-login';
     return null;
   }
 
