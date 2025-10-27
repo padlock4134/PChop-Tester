@@ -121,8 +121,8 @@ const StudentProgressDashboard: React.FC = () => {
   const ProgressCard: React.FC<ProgressCardProps> = ({ emoji, title, description, buttonText, bgColor, textColor, borderColor, onClick }) => (
     <div className={`${bgColor} border-4 ${borderColor} rounded-lg p-4 hover:scale-105 transition-transform duration-200 text-center`}>
       <div className="text-2xl mb-2">{emoji}</div>
-      <h4 className={`font-medium ${textColor} mb-2`}>{title}</h4>
-      <p className={`text-xs ${textColor} mb-3`}>{description}</p>
+      <h4 className="font-semibold text-gray-900 mb-2 font-retro">{title}</h4>
+      <p className="text-sm text-gray-600 mb-3 italic">{description}</p>
       <button 
         onClick={onClick}
         className="bg-maineBlue text-white px-4 py-1.5 rounded-md hover:bg-blue-700 font-retro text-sm"
@@ -338,7 +338,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="📚"
           title="Curriculum Progress"
-          description=""
+          description="Track lessons completed and time spent learning"
           buttonText="View Progress"
           bgColor="bg-blue-50"
           textColor="text-blue-800"
@@ -349,7 +349,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="⭐"
           title="Skill Development"
-          description=""
+          description="Monitor your skill level and recipe mastery"
           buttonText="View Development"
           bgColor="bg-green-50"
           textColor="text-green-800"
@@ -360,7 +360,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="🔥"
           title="My Engagement"
-          description=""
+          description="Review your activity and participation stats"
           buttonText="View Engagement"
           bgColor="bg-orange-50"
           textColor="text-orange-800"
@@ -371,7 +371,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="🏆"
           title="Achievements"
-          description=""
+          description="View badges, milestones, and accomplishments"
           buttonText="View Milestones"
           bgColor="bg-purple-50"
           textColor="text-purple-800"
