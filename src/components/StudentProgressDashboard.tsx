@@ -118,16 +118,17 @@ const StudentProgressDashboard: React.FC = () => {
   }
 
   const ProgressCard: React.FC<ProgressCardProps> = ({ emoji, title, description, bgColor, textColor, borderColor, onClick }) => (
-    <button onClick={onClick} className={`${bgColor} border-4 ${borderColor} rounded-lg p-4 hover:scale-105 transition-transform duration-200 text-center`}>
+    <div className={`${bgColor} border-4 ${borderColor} rounded-lg p-4 hover:scale-105 transition-transform duration-200 text-center`}>
       <div className="text-2xl mb-2">{emoji}</div>
       <h4 className={`font-medium ${textColor} mb-2`}>{title}</h4>
       <p className={`text-xs ${textColor} mb-3`}>{description}</p>
-      <div className="text-xs font-medium text-gray-700 mt-2">
-        <span className="inline-flex items-center">
-          👁️ View
-        </span>
-      </div>
-    </button>
+      <button 
+        onClick={onClick}
+        className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+      >
+        View
+      </button>
+    </div>
   );
 
   // Auto-scroll effect
