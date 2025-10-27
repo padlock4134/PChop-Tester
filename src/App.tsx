@@ -74,38 +74,11 @@ const AppRoutes = () => {
   // Get responsive classes based on device type
   const responsiveClasses = getResponsiveClasses(deviceType);
 
-  // Track if we've already redirected to prevent loops
-  const hasRedirectedRef = useRef(false);
-
   // Auto-logout after 30 minutes of inactivity
   useAutoLogout({
     inactivityTimeout: 30 * 60 * 1000, // 30 minutes
     enabled: !!user // Only enable when user is authenticated
   });
-
-  // Safety timeout: if stuck loading for more than 5 seconds, force redirect to login
-  useEffect(() => {
-    if (isLoading && !hasRedirectedRef.current) {
-      const timeout = setTimeout(() => {
-        console.log('[App] Loading timeout - forcing redirect to login');
-        hasRedirectedRef.current = true;
-        window.location.href = '/.netlify/functions/auth-login';
-      }, 5000); // 5 seconds
-
-      return () => clearTimeout(timeout);
-    }
-  }, [isLoading]);
-
-  // We have this check here because the SupabaseProvider isLoading flag will never flip to false
-  // in the event the initial Wristband auth session check fails. This status gets set to UNAUTHENTICATED
-  // just once upfront right after the auth isLoading is set to false.
-  useEffect(() => {
-    if (authStatus === AuthStatus.UNAUTHENTICATED && !hasRedirectedRef.current) {
-      console.log('[App] User is unauthenticated, redirecting to login');
-      hasRedirectedRef.current = true;
-      window.location.href = '/.netlify/functions/auth-login';
-    }
-  }, [authStatus]);
 
   // Show loading for authenticated routes
   if (isLoading) {
@@ -116,17 +89,9 @@ const AppRoutes = () => {
     );
   }
 
-  // If not authenticated, redirect immediately to login
-  if (!isLoading && !user && !hasRedirectedRef.current) {
-    console.log('[App] No user found after loading, redirecting to login');
-    hasRedirectedRef.current = true;
-    window.location.href = '/.netlify/functions/auth-login';
-    return null;
-  }
-
-  // If we have a user, reset the redirect flag so future logouts work
-  if (user && hasRedirectedRef.current) {
-    hasRedirectedRef.current = false;
+  // If not authenticated, redirect to home (which will trigger login)
+  if (!isLoading && !user) {
+    return <Navigate to="/" replace />;
   }
 
 
