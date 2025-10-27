@@ -338,7 +338,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="📚"
           title="Curriculum Progress"
-          description="Lessons & time spent"
+          description=""
           buttonText="View Progress"
           bgColor="bg-blue-50"
           textColor="text-blue-800"
@@ -349,7 +349,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="⭐"
           title="Skill Development"
-          description="Level & recipes completed"
+          description=""
           buttonText="View Development"
           bgColor="bg-green-50"
           textColor="text-green-800"
@@ -360,7 +360,7 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="🔥"
           title="My Engagement"
-          description="Activity & participation"
+          description=""
           buttonText="View Engagement"
           bgColor="bg-orange-50"
           textColor="text-orange-800"
@@ -371,8 +371,8 @@ const StudentProgressDashboard: React.FC = () => {
         <ProgressCard
           emoji="🏆"
           title="Achievements"
-          description="Badges & milestones earned"
-          buttonText="View Accomplishments"
+          description=""
+          buttonText="View Achievements"
           bgColor="bg-purple-50"
           textColor="text-purple-800"
           borderColor="border-purple-400"
