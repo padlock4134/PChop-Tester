@@ -124,6 +124,11 @@ const AppRoutes = () => {
     return null;
   }
 
+  // If we have a user, reset the redirect flag so future logouts work
+  if (user && hasRedirectedRef.current) {
+    hasRedirectedRef.current = false;
+  }
+
 
   // If admin mode is enabled and user is authenticated, show admin dashboard
   if (isAdminMode && user) {
