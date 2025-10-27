@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, useContext } from 'react';
+import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
 import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import {
   AuthStatus,
@@ -74,6 +74,9 @@ const AppRoutes = () => {
   // Get responsive classes based on device type
   const responsiveClasses = getResponsiveClasses(deviceType);
 
+  // Track if we've already redirected to prevent loops
+  const hasRedirectedRef = useRef(false);
+
   // Auto-logout after 30 minutes of inactivity
   useAutoLogout({
     inactivityTimeout: 30 * 60 * 1000, // 30 minutes
@@ -82,9 +85,10 @@ const AppRoutes = () => {
 
   // Safety timeout: if stuck loading for more than 5 seconds, force redirect to login
   useEffect(() => {
-    if (isLoading) {
+    if (isLoading && !hasRedirectedRef.current) {
       const timeout = setTimeout(() => {
         console.log('[App] Loading timeout - forcing redirect to login');
+        hasRedirectedRef.current = true;
         window.location.href = '/.netlify/functions/auth-login';
       }, 5000); // 5 seconds
 
@@ -96,11 +100,12 @@ const AppRoutes = () => {
   // in the event the initial Wristband auth session check fails. This status gets set to UNAUTHENTICATED
   // just once upfront right after the auth isLoading is set to false.
   useEffect(() => {
-    if (authStatus === AuthStatus.UNAUTHENTICATED) {
+    if (authStatus === AuthStatus.UNAUTHENTICATED && !hasRedirectedRef.current) {
       console.log('[App] User is unauthenticated, redirecting to login');
+      hasRedirectedRef.current = true;
       window.location.href = '/.netlify/functions/auth-login';
     }
-  }, [authStatus, navigate]);
+  }, [authStatus]);
 
   // Show loading for authenticated routes
   if (isLoading) {
@@ -112,8 +117,9 @@ const AppRoutes = () => {
   }
 
   // If not authenticated, redirect immediately to login
-  if (!isLoading && !user) {
+  if (!isLoading && !user && !hasRedirectedRef.current) {
     console.log('[App] No user found after loading, redirecting to login');
+    hasRedirectedRef.current = true;
     window.location.href = '/.netlify/functions/auth-login';
     return null;
   }
