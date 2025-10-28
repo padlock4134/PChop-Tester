@@ -1320,16 +1320,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         </div>
                         <div className="flex gap-2 mt-3">
                           <button
-                            onClick={() => setSelectedUser(user)}
+                            onClick={() => {
+                              setEditingStudent(user);
+                              setShowEditStudentModal(true);
+                            }}
                             className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-1 border border-maineBlue rounded text-sm transition-colors"
                           >
                             Edit
                           </button>
                           <button
-                            onClick={() => resetUserChatCount(user.id)}
-                            className="flex-1 text-yellow-600 hover:text-white hover:bg-yellow-600 px-3 py-1 border border-yellow-600 rounded text-sm transition-colors"
+                            onClick={() => {
+                              if (window.confirm(`Are you sure you want to remove ${user.username || user.email}?`)) {
+                                setUsers(prev => prev.filter(u => u.id !== user.id));
+                                alert('Student removed successfully!');
+                              }
+                            }}
+                            className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-1 border border-red-600 rounded text-sm transition-colors"
                           >
-                            Reset
+                            Remove
                           </button>
                         </div>
                       </div>
