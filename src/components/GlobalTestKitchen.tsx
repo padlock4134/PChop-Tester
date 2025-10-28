@@ -358,21 +358,24 @@ const GlobalTestKitchen: React.FC = () => {
   // Load user's scheduled sessions on component mount
   useEffect(() => {
     const loadScheduledSessions = async () => {
+      if (!user) return;
+      
       try {
         const { data, error } = await supabase
-          .from('users')
-          .select('scheduled_sessions')
-          .single();
+          .from('scheduled_sessions')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('scheduled_date', { ascending: true });
 
         if (error) {
           console.error('Error loading scheduled sessions:', error);
           return;
         }
 
-        const scheduledSessions = data?.scheduled_sessions || [];
+        if (!data) return;
         
         // Convert database format to component format
-        const sessions: UpcomingSession[] = scheduledSessions.map((session: any) => ({
+        const sessions: UpcomingSession[] = data.map((session: any) => ({
           id: session.id,
           hostName: 'You',
           dishName: session.dish_name,
@@ -380,7 +383,7 @@ const GlobalTestKitchen: React.FC = () => {
           scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
           description: session.description,
           sessionType: session.session_type,
-          teacherTag: session.teacher_tag || undefined
+          teacherTag: session.teacher || undefined
         }));
 
         setUpcomingSessions(sessions);
@@ -390,7 +393,7 @@ const GlobalTestKitchen: React.FC = () => {
     };
 
     loadScheduledSessions();
-  }, []);
+  }, [user]);
 
   // Simplified viewer count (no intervals to improve performance)
   useEffect(() => {
@@ -624,7 +627,9 @@ const GlobalTestKitchen: React.FC = () => {
 
   // Calendar functions
   const addToCalendar = (session: UpcomingSession) => {
-    const startDate = new Date(session.scheduledTime);
+    // Parse "YYYY-MM-DD at HH:MM" format
+    const [datePart, timePart] = session.scheduledTime.split(' at ');
+    const startDate = new Date(`${datePart}T${timePart}:00`);
     const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour later
     
     const formatDate = (date: Date) => {
@@ -665,7 +670,9 @@ END:VCALENDAR`;
   };
 
   const showCalendarOptions = (session: UpcomingSession) => {
-    const startDate = new Date(session.scheduledTime);
+    // Parse "YYYY-MM-DD at HH:MM" format
+    const [datePart, timePart] = session.scheduledTime.split(' at ');
+    const startDate = new Date(`${datePart}T${timePart}:00`);
     const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
     
     const formatDate = (date: Date) => {

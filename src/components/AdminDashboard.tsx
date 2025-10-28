@@ -103,6 +103,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [careerEventDescription, setCareerEventDescription] = useState('');
   const [schedulingCareerEvent, setSchedulingCareerEvent] = useState(false);
   const [exportingAlumni, setExportingAlumni] = useState(false);
+  const [updatingPermissions, setUpdatingPermissions] = useState(false);
+  const [exportingFaculty, setExportingFaculty] = useState(false);
+  const [newsletterTitle, setNewsletterTitle] = useState('');
+  const [newsletterContent, setNewsletterContent] = useState('');
+  const [sendingNewsletter, setSendingNewsletter] = useState(false);
   const [exportingData, setExportingData] = useState(false);
   const [showExportDataModal, setShowExportDataModal] = useState(false);
   const [showAddFacultyModal, setShowAddFacultyModal] = useState(false);
@@ -3856,13 +3861,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Cancel
                 </button>
                 <button
-                  onClick={() => {
-                    alert('Permissions updated successfully!');
-                    setShowManagePermissionsModal(false);
+                  onClick={async () => {
+                    setUpdatingPermissions(true);
+                    try {
+                      // In production, this would update specific faculty permissions
+                      // For now, just demonstrate it works by simulating the update
+                      await new Promise(resolve => setTimeout(resolve, 800));
+                      
+                      alert('Permissions updated successfully! (In production, this would update faculty roles in the database)');
+                      setShowManagePermissionsModal(false);
+                    } catch (error: any) {
+                      console.error('Error updating permissions:', error);
+                      alert('Failed to update permissions: ' + error.message);
+                    } finally {
+                      setUpdatingPermissions(false);
+                    }
                   }}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  disabled={updatingPermissions}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Save Changes
+                  {updatingPermissions ? 'Saving...' : 'Save Changes'}
                 </button>
               </div>
             </div>
@@ -3962,12 +3980,37 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Close
                 </button>
                 <button
-                  onClick={() => {
-                    alert('Exporting faculty report...');
+                  onClick={async () => {
+                    setExportingFaculty(true);
+                    try {
+                      const { data, error } = await supabase
+                        .from('faculty')
+                        .select('full_name, email, role, students_count, rating, created_at')
+                        .order('created_at', { ascending: false });
+                      
+                      if (error) throw error;
+                      
+                      if (!data || data.length === 0) {
+                        alert('No faculty data to export');
+                        return;
+                      }
+                      
+                      const csv = convertToCSV(data);
+                      const timestamp = new Date().toISOString().split('T')[0];
+                      downloadFile(csv, `faculty-report-${timestamp}.csv`);
+                      
+                      alert(`Successfully exported ${data.length} faculty records!`);
+                    } catch (error: any) {
+                      console.error('Error exporting faculty:', error);
+                      alert('Failed to export: ' + error.message);
+                    } finally {
+                      setExportingFaculty(false);
+                    }
                   }}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  disabled={exportingFaculty}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Export Report
+                  {exportingFaculty ? 'Exporting...' : 'Export Report'}
                 </button>
               </div>
             </div>
@@ -3993,6 +4036,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Newsletter Title:</label>
                 <input
                   type="text"
+                  value={newsletterTitle}
+                  onChange={(e) => setNewsletterTitle(e.target.value)}
                   placeholder="e.g., Monthly Alumni Update - January 2025"
                   className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -4001,6 +4046,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Content:</label>
                 <textarea
                   rows={8}
+                  value={newsletterContent}
+                  onChange={(e) => setNewsletterContent(e.target.value)}
                   placeholder="Share alumni success stories, upcoming events, job opportunities, and program updates..."
                   className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -4034,13 +4081,56 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Cancel
                 </button>
                 <button
-                  onClick={() => {
-                    alert('Newsletter sent to all alumni!');
-                    setShowAlumniNewsletterModal(false);
+                  onClick={async () => {
+                    if (!newsletterTitle.trim() || !newsletterContent.trim()) {
+                      alert('Please enter both title and content');
+                      return;
+                    }
+                    
+                    setSendingNewsletter(true);
+                    try {
+                      // Get all alumni user IDs
+                      const { data: alumniData, error: alumniError } = await supabase
+                        .from('alumni')
+                        .select('user_id');
+                      
+                      if (alumniError) throw alumniError;
+                      
+                      if (!alumniData || alumniData.length === 0) {
+                        alert('No alumni found to send newsletter to');
+                        return;
+                      }
+                      
+                      // Create notifications for all alumni
+                      const notifications = alumniData
+                        .filter(a => a.user_id)
+                        .map(alumni => ({
+                          user_id: alumni.user_id,
+                          message: `${newsletterTitle}: ${newsletterContent}`,
+                          read: false
+                        }));
+                      
+                      const { error } = await supabase
+                        .from('notifications')
+                        .insert(notifications);
+                      
+                      if (error) throw error;
+                      
+                      alert(`Newsletter sent to ${notifications.length} alumni!`);
+                      setNewsletterTitle('');
+                      setNewsletterContent('');
+                      setShowAlumniNewsletterModal(false);
+                    } catch (error: any) {
+                      console.error('Error sending newsletter:', error);
+                      alert('Failed to send newsletter: ' + error.message);
+                    } finally {
+                      setSendingNewsletter(false);
+                    }
                   }}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  disabled={sendingNewsletter}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Newsletter
+                  {sendingNewsletter ? 'Sending...' : 'Send Newsletter'}
                 </button>
               </div>
             </div>
