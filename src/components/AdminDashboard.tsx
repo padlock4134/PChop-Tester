@@ -177,6 +177,59 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newFacultyName, setNewFacultyName] = useState('');
   const [newFacultyEmail, setNewFacultyEmail] = useState('');
   const [newFacultyRole, setNewFacultyRole] = useState('Instructor');
+  const [alumniList, setAlumniList] = useState([
+    {
+      id: 'alumni-1',
+      name: 'Maria Santos',
+      email: 'maria.santos@example.com',
+      graduationYear: '2022',
+      position: 'Executive Chef at Michelin-starred restaurant',
+      employer: 'Le Bernardin, New York',
+      salary: '$85,000/year',
+      initials: 'MS',
+      color: 'bg-blue-500'
+    },
+    {
+      id: 'alumni-2',
+      name: 'James Chen',
+      email: 'james.chen@example.com',
+      graduationYear: '2021',
+      position: 'Restaurant Owner & Entrepreneur',
+      employer: "Chen's Kitchen (3 locations)",
+      salary: '$2.1M annually',
+      initials: 'JC',
+      color: 'bg-green-500'
+    },
+    {
+      id: 'alumni-3',
+      name: 'Ashley Rodriguez',
+      email: 'ashley.rodriguez@example.com',
+      graduationYear: '2023',
+      position: 'Food Network Personality',
+      employer: 'Host of "Pastry Perfection"',
+      salary: '$120,000/year + endorsements',
+      initials: 'AR',
+      color: 'bg-purple-500'
+    },
+    {
+      id: 'alumni-4',
+      name: 'David Miller',
+      email: 'david.miller@example.com',
+      graduationYear: '2020',
+      position: 'Corporate Food Service Director',
+      employer: 'Google Campus Dining',
+      salary: '$95,000/year + benefits',
+      initials: 'DM',
+      color: 'bg-orange-500'
+    }
+  ]);
+  const [showAddAlumniModal, setShowAddAlumniModal] = useState(false);
+  const [newAlumniName, setNewAlumniName] = useState('');
+  const [newAlumniEmail, setNewAlumniEmail] = useState('');
+  const [newAlumniGradYear, setNewAlumniGradYear] = useState('');
+  const [newAlumniPosition, setNewAlumniPosition] = useState('');
+  const [newAlumniEmployer, setNewAlumniEmployer] = useState('');
+  const [newAlumniSalary, setNewAlumniSalary] = useState('');
   const { user: currentUser } = useSupabase();
 
   // CSV Export Helper Functions
