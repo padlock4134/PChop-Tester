@@ -651,7 +651,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 activeTab === 'overview' 
                   ? 'border-seafoam bg-teal-50 scale-105 ring-4 ring-maineBlue' 
                   : 'border-seafoam bg-teal-50'
-              } text-black hover:scale-105 transition-transform duration-200 text-center`}
+              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
             >
               <div className="mb-3 text-4xl">🌡️</div>
               <h3 className="text-sm font-bold font-retro">Program Health</h3>
@@ -663,7 +663,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 activeTab === 'users' 
                   ? 'border-blue-400 bg-blue-50 scale-105 ring-4 ring-maineBlue' 
                   : 'border-blue-400 bg-blue-50'
-              } text-black hover:scale-105 transition-transform duration-200 text-center`}
+              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
             >
               <div className="mb-3 text-4xl">🎓</div>
               <h3 className="text-sm font-bold font-retro">People Management</h3>
@@ -675,7 +675,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 activeTab === 'content' 
                   ? 'border-red-400 bg-red-50 scale-105 ring-4 ring-maineBlue' 
                   : 'border-red-400 bg-red-50'
-              } text-black hover:scale-105 transition-transform duration-200 text-center`}
+              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
             >
               <div className="mb-3 text-4xl">📚</div>
               <h3 className="text-sm font-bold font-retro">Curriculum & Content</h3>
@@ -687,7 +687,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 activeTab === 'system' 
                   ? 'border-yellow-300 bg-yellow-50 scale-105 ring-4 ring-maineBlue' 
                   : 'border-yellow-300 bg-yellow-50'
-              } text-black hover:scale-105 transition-transform duration-200 text-center`}
+              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
             >
               <div className="mb-3 text-4xl">🏫</div>
               <h3 className="text-sm font-bold font-retro">School Settings</h3>
