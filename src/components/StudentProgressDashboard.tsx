@@ -240,7 +240,7 @@ const StudentProgressDashboard: React.FC = () => {
   return (
     <div className="mb-8 mx-auto">
       {/* Main Dashboard */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto min-h-[800px]">
         {/* Dashboard header - moved inside the module */}
         <div className="text-center mb-6">
           <h1 className="text-4xl font-retro text-maineBlue mb-2">Welcome to your Student Dashboard</h1>
