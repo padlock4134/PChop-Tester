@@ -1277,11 +1277,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Student Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-4 gap-2">
                   <h3 className="font-bold text-maineBlue">📋 Student Directory</h3>
                   <button
                     onClick={() => setShowAddStudentModal(true)}
-                    className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center gap-2"
+                    className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center gap-2 flex-shrink-0"
                   >
                     <span className="text-lg">+</span> Add Student
                   </button>
