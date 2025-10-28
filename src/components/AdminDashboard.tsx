@@ -146,6 +146,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newStudentEmail, setNewStudentEmail] = useState('');
   const [newStudentPhone, setNewStudentPhone] = useState('');
   const [newStudentProgram, setNewStudentProgram] = useState('Culinary Arts');
+  const [showEditStudentModal, setShowEditStudentModal] = useState(false);
+  const [editingStudent, setEditingStudent] = useState<User | null>(null);
   const { user: currentUser } = useSupabase();
 
   // CSV Export Helper Functions
@@ -3938,6 +3940,106 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
                 Add Student
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Student Modal */}
+      {showEditStudentModal && editingStudent && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-6 w-full max-w-md">
+            <div className="text-center mb-6 relative">
+              <h2 className="text-2xl font-bold text-blue-600 font-retro">✏️ Edit Student</h2>
+              <button
+                onClick={() => {
+                  setShowEditStudentModal(false);
+                  setEditingStudent(null);
+                }}
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Student Name</label>
+                <input
+                  type="text"
+                  value={editingStudent.username || ''}
+                  onChange={(e) => setEditingStudent({...editingStudent, username: e.target.value})}
+                  placeholder="Enter full name"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input
+                  type="email"
+                  value={editingStudent.email || ''}
+                  onChange={(e) => setEditingStudent({...editingStudent, email: e.target.value})}
+                  placeholder="student@email.com"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                <input
+                  type="tel"
+                  value="(555) 123-4567"
+                  placeholder="(555) 123-4567"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                <select
+                  value="Culinary Arts"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                >
+                  <option value="Culinary Arts">Culinary Arts</option>
+                  <option value="Pastry Arts">Pastry Arts</option>
+                  <option value="Baking & Pastry">Baking & Pastry</option>
+                  <option value="Restaurant Management">Restaurant Management</option>
+                  <option value="Hospitality Management">Hospitality Management</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => {
+                  setShowEditStudentModal(false);
+                  setEditingStudent(null);
+                }}
+                className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  if (!editingStudent.username?.trim() || !editingStudent.email?.trim()) {
+                    alert('Please enter student name and email');
+                    return;
+                  }
+                  
+                  // Update student in list
+                  setUsers(prev => prev.map(u => 
+                    u.id === editingStudent.id ? editingStudent : u
+                  ));
+                  
+                  setShowEditStudentModal(false);
+                  setEditingStudent(null);
+                  alert('Student updated successfully!');
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                Save Changes
               </button>
             </div>
           </div>
