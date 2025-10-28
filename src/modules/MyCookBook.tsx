@@ -82,6 +82,9 @@ const MyCookBook = () => {
   const [selectedVideoOption, setSelectedVideoOption] = useState('');
   const [submittedVideos, setSubmittedVideos] = useState<{[key: number]: string}>({});
   const [currentStudentIndex, setCurrentStudentIndex] = useState(0);
+  const [showVideoLibraryModal, setShowVideoLibraryModal] = useState(false);
+  const [savedVideos, setSavedVideos] = useState<Array<{name: string, url: string, created_at: string}>>([]);
+  const [loadingVideos, setLoadingVideos] = useState(false);
   
   // Assignment data
   const assignments = [
@@ -225,7 +228,7 @@ const MyCookBook = () => {
   };
 
   // Handle viewing a collection
-  const handleViewCollection = (collection) => {
+  const handleViewCollection = (collection: any) => {
     setSelectedCollection(collection);
     setShowViewCollectionModal(true);
   };
@@ -338,7 +341,7 @@ const MyCookBook = () => {
           }
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error sharing:', err);
       if (err.name !== 'AbortError') {
         alert('Failed to share. Please try again.');
@@ -980,6 +983,49 @@ const MyCookBook = () => {
                     >
                       📊 View Gradebook
                     </button>
+
+                    {/* View Videos Button */}
+                    <button
+                      onClick={async () => {
+                        setShowVideoLibraryModal(true);
+                        setLoadingVideos(true);
+                        try {
+                          const { data, error } = await supabase.storage
+                            .from('Test Kitchen Videos')
+                            .list(user?.id || '', {
+                              limit: 100,
+                              offset: 0,
+                              sortBy: { column: 'created_at', order: 'desc' }
+                            });
+                          
+                          if (error) throw error;
+                          
+                          if (data) {
+                            const videosWithUrls = await Promise.all(
+                              data.map(async (file) => {
+                                const { data: urlData } = supabase.storage
+                                  .from('Test Kitchen Videos')
+                                  .getPublicUrl(`${user?.id}/${file.name}`);
+                                return {
+                                  name: file.name,
+                                  url: urlData.publicUrl,
+                                  created_at: file.created_at
+                                };
+                              })
+                            );
+                            setSavedVideos(videosWithUrls);
+                          }
+                        } catch (error) {
+                          console.error('Error loading videos:', error);
+                          alert('Failed to load videos');
+                        } finally {
+                          setLoadingVideos(false);
+                        }
+                      }}
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
+                    >
+                      🎥 View Videos
+                    </button>
                   </div>
                 ) : (
                   <div className="text-center py-8">
@@ -1085,9 +1131,9 @@ const MyCookBook = () => {
                       {/* Total Score */}
                       <div className="mt-2 pt-2 border-t border-emerald-300 text-center py-2 lg:py-3">
                         <span className="text-base lg:text-xl font-bold text-red-600">
-                          <span className="block lg:inline">Total: {mockGrades[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100</span>
+                          <span className="block lg:inline">Total: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100</span>
                           <span className="hidden lg:inline"> | </span>
-                          <span className="block lg:inline">Grade: {mockGrades[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}</span>
+                          <span className="block lg:inline">Grade: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}</span>
                         </span>
                       </div>
                     </div>
@@ -1201,16 +1247,16 @@ const MyCookBook = () => {
                             <h4 className="font-serif font-semibold text-amber-800 text-sm">{students[currentStudentIndex].name} - Submission</h4>
                             <select 
                               className={`text-xs border border-amber-300 rounded px-2 py-1 font-serif ${
-                                students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id] ? 'bg-green-50 text-green-800 cursor-not-allowed' : 'bg-white'
+                                (students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id] ? 'bg-green-50 text-green-800 cursor-not-allowed' : 'bg-white'
                               }`}
                               onChange={(e) => {
-                                if (e.target.value && !students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id]) {
+                                if (e.target.value && !(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]) {
                                   setSelectedVideoOption(e.target.value);
                                   setShowVideoConfirmModal(true);
                                 }
                               }}
-                              value={students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id] || ""}
-                              disabled={!!students[currentStudentIndex].submittedVideos[assignments[currentAssignmentPage].id]}
+                              value={(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id] || ""}
+                              disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
                               <option value="">Select Video</option>
                               <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
