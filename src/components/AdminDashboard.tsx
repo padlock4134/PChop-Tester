@@ -1469,50 +1469,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                     </div>
                   </div>
-                  
-                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">Sarah Thompson</h4>
-                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs inline-block mb-2">
-                          Part-Time
-                        </span>
-                        <div className="text-sm text-gray-600 space-y-1">
-                          <p>📚 Courses: Restaurant Operations, Service Excellence</p>
-                          <p>👥 Students: 35 active</p>
-                          <p>📅 Last Login: Monday, 2:15 PM</p>
-                        </div>
-                      </div>
-                      <div className="w-px h-24 bg-gray-300"></div>
-                      <div className="w-20 h-20 bg-purple-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
-                        ST
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">Chef Antoine Laurent</h4>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
-                          Active
-                        </span>
-                        <div className="text-sm text-gray-600 space-y-1">
-                          <p>📚 Courses: Classical French, Wine Pairing</p>
-                          <p>👥 Students: 18 active</p>
-                          <p>📅 Last Login: Today, 11:45 AM</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-600 space-y-1">
-                      <p>📚 Courses: Classical French, Wine Pairing</p>
-                      <p>👥 Students: 18 active</p>
-                      <p>📅 Last Login: Today, 11:45 AM</p>
-                    </div>
-                  </div>
                 </div>
               </div>
 
