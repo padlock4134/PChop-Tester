@@ -230,6 +230,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newAlumniPosition, setNewAlumniPosition] = useState('');
   const [newAlumniEmployer, setNewAlumniEmployer] = useState('');
   const [newAlumniSalary, setNewAlumniSalary] = useState('');
+  const [selectedEventId, setSelectedEventId] = useState('');
+  const [showViewEventModal, setShowViewEventModal] = useState(false);
   const { user: currentUser } = useSupabase();
 
   // CSV Export Helper Functions
