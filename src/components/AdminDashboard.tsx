@@ -932,16 +932,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
               </div>
 
-              {/* Alumni Network */}
+              {/* Credentialing & Certifications */}
               <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🎓</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Alumni Network</h3>
-                <p className="text-sm text-gray-600 mb-4">Track alumni success stories and maintain graduate connections</p>
+                <div className="mb-3 text-4xl">🏅</div>
+                <h3 className="font-bold text-gray-900 mb-2 font-retro">Credentialing & Certifications</h3>
+                <p className="text-sm text-gray-600 mb-4">Track ServSafe, Food Handler permits, and culinary certifications</p>
                 <button 
-                  onClick={() => setShowAlumniDatabaseModal(true)}
+                  onClick={() => setShowCredentialingModal(true)}
                   className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full"
                 >
-                  Alumni Database
+                  Manage Credentials
                 </button>
               </div>
             </div>
