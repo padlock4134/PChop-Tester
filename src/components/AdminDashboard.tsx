@@ -1297,23 +1297,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     
                     return (
                       <div key={user.id} className="bg-gray-50 rounded-lg p-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center">
-                            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                              {initials}
-                            </div>
-                            <div>
-                              <h4 className="font-medium text-gray-900">{user.username || 'N/A'}</h4>
-                              <p className="text-sm text-gray-600">{user.email}</p>
-                            </div>
+                        <div className="flex flex-col items-center mb-3">
+                          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mb-2">
+                            {initials}
                           </div>
-                          <div className="text-right">
-                            <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
+                          <div className="text-center">
+                            <h4 className="font-medium text-gray-900">{user.username || 'N/A'}</h4>
+                            <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mt-1">
                               Level {user.level || 1}
                             </span>
                           </div>
                         </div>
-                        <div className="text-sm text-gray-600 space-y-1">
+                        <div className="text-sm text-gray-600 space-y-1 text-center">
                           <p>📚 Program: Culinary Arts</p>
                           <p>📧 Email: {user.email}</p>
                           <p>📞 Phone: (555) 123-4567</p>
