@@ -635,7 +635,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
         {/* Dashboard header - matching student dashboard */}
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-retro text-maineBlue mb-2">👑 School Admin Dashboard</h1>
+          <h1 className="text-4xl font-retro text-maineBlue mb-2">School Admin Dashboard</h1>
           <p className="text-gray-600 italic">Manage your school's curriculum delivery and student engagement!</p>
         </div>
         
@@ -766,7 +766,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                   <div className="mb-3 text-4xl">👥</div>
                   <h4 className="font-semibold text-gray-900 mb-2 font-retro">User Activity</h4>
-                  <p className="text-sm text-gray-600 mb-3 italic">Monitor student engagement, login patterns, and module usage across the platform</p>
+                  <p className="text-sm text-gray-600 mb-3 italic">Monitor student engagement, login patterns, and module usage</p>
                   <button 
                     onClick={() => setShowUserActivityModal(true)}
                     className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
@@ -777,7 +777,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                   <div className="mb-3 text-4xl">📊</div>
                   <h4 className="font-semibold text-gray-900 mb-2 font-retro">Program Performance</h4>
-                  <p className="text-sm text-gray-600 mb-3 italic">Track completion rates, job placement success, and overall program effectiveness</p>
+                  <p className="text-sm text-gray-600 mb-3 italic">Track completion rates, job placement success, and effectiveness</p>
                   <button 
                     onClick={() => setShowProgramPerformanceModal(true)}
                     className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
@@ -788,7 +788,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                   <div className="mb-3 text-4xl">📈</div>
                   <h4 className="font-semibold text-gray-900 mb-2 font-retro">Enrollment Health</h4>
-                  <p className="text-sm text-gray-600 mb-3 italic">Monitor enrollment trends, retention rates, and student satisfaction metrics</p>
+                  <p className="text-sm text-gray-600 mb-3 italic">Monitor enrollment trends, retention rates, and metrics</p>
                   <button 
                     onClick={() => setShowEnrollmentHealthModal(true)}
                     className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
