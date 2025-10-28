@@ -73,46 +73,90 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
             Select recipes from your cookbook to build your menu, then find local markets for ingredients.
           </p>
 
-          {/* Recipe List */}
-          {loading ? (
-            <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
-              <p className="text-gray-500 mt-2">Loading your cookbook...</p>
-            </div>
-          ) : recipes.length === 0 ? (
-            <div className="text-center py-8">
-              <p className="text-gray-500">No recipes in your cookbook yet.</p>
-              <p className="text-sm text-gray-400 mt-2">Add recipes to your cookbook first!</p>
-            </div>
-          ) : (
-            <div className="space-y-2 mb-6 max-h-96 overflow-y-auto">
-              {recipes.map((recipe) => (
-                <label
-                  key={recipe.id}
-                  className={`flex items-center p-3 rounded-lg border-2 cursor-pointer transition-colors ${
-                    selectedRecipeIds.has(recipe.id)
-                      ? 'border-maineBlue bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedRecipeIds.has(recipe.id)}
-                    onChange={() => toggleRecipe(recipe.id)}
-                    className="mr-3 h-5 w-5 text-maineBlue"
-                  />
-                  <div className="flex-1">
-                    <div className="font-medium text-gray-900">{recipe.title}</div>
-                    {recipe.ingredients && (
-                      <div className="text-xs text-gray-400 mt-1">
-                        {recipe.ingredients.length} ingredients
+          {/* Two Column Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {/* Left: Recipe Picklist */}
+            <div>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 Available Recipes</h3>
+              {loading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
+                  <p className="text-gray-500 mt-2">Loading...</p>
+                </div>
+              ) : recipes.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-500 text-sm">No recipes in your cookbook yet.</p>
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-96 overflow-y-auto pr-2">
+                  {recipes.map((recipe) => (
+                    <label
+                      key={recipe.id}
+                      className={`flex items-center p-2 rounded-lg border cursor-pointer transition-colors ${
+                        selectedRecipeIds.has(recipe.id)
+                          ? 'border-maineBlue bg-blue-50'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedRecipeIds.has(recipe.id)}
+                        onChange={() => toggleRecipe(recipe.id)}
+                        className="mr-2 h-4 w-4 text-maineBlue"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-sm text-gray-900 truncate">{recipe.title}</div>
+                        {recipe.ingredients && (
+                          <div className="text-xs text-gray-400">
+                            {recipe.ingredients.length} ingredients
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                </label>
-              ))}
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
+
+            {/* Right: Your Menu */}
+            <div>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">🍽️ Your Menu</h3>
+              {selectedRecipeIds.size === 0 ? (
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                  <p className="text-gray-400 text-sm">Select recipes to build your menu</p>
+                </div>
+              ) : (
+                <div className="space-y-2 max-h-96 overflow-y-auto pr-2">
+                  {recipes
+                    .filter(r => selectedRecipeIds.has(r.id))
+                    .map((recipe, idx) => (
+                      <div
+                        key={recipe.id}
+                        className="p-3 bg-sand rounded-lg border border-maineBlue"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="font-medium text-gray-900">{idx + 1}. {recipe.title}</div>
+                            {recipe.ingredients && (
+                              <div className="text-xs text-gray-500 mt-1">
+                                {recipe.ingredients.length} ingredients needed
+                              </div>
+                            )}
+                          </div>
+                          <button
+                            onClick={() => toggleRecipe(recipe.id)}
+                            className="text-red-500 hover:text-red-700 ml-2"
+                            title="Remove from menu"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          </div>
 
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t">
