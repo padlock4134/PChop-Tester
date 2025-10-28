@@ -290,7 +290,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                 className={`px-6 py-2 rounded font-bold transition-colors ${
                   selectedRecipeIds.size === 0
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue border border-maineBlue'
+                    : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
                 }`}
               >
                 🛒 Find Markets
