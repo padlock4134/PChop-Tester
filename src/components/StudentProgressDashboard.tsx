@@ -340,8 +340,9 @@ const StudentProgressDashboard: React.FC = () => {
       <hr className="border-t-2 border-maineBlue mb-6" />
 
       {/* Progress Cards Grid */}
-      <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="space-y-6">
+        <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <ProgressCard
           emoji="📚"
           title="Curriculum Progress"
@@ -374,6 +375,7 @@ const StudentProgressDashboard: React.FC = () => {
           borderColor="border-purple-400"
           onClick={() => setAchievementsModalOpen(true)}
         />
+          </div>
         </div>
       </div>
       </div>
