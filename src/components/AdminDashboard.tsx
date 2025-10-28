@@ -1428,83 +1428,87 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Faculty Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">📋 Faculty Directory</h3>
+                <div className="flex justify-center items-center mb-4 relative pl-6">
+                  <h3 className="font-bold text-maineBlue">👩‍🏫 Faculty Directory</h3>
+                  <button
+                    onClick={() => alert('Add Faculty functionality')}
+                    className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center gap-2 absolute right-0"
+                  >
+                    <span className="text-lg">+</span> Add Faculty
+                  </button>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                          JD
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-900">Chef Julia Davis</h4>
-                          <p className="text-sm text-gray-600">Head of Culinary Arts</p>
+                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900 mb-1">Chef Julia Davis</h4>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
+                          Active
+                        </span>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>📚 Courses: Advanced Techniques, Sauce Mastery</p>
+                          <p>👥 Students: 42 active</p>
+                          <p>📅 Last Login: Today, 9:15 AM</p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
+                      <div className="w-px h-24 bg-gray-300"></div>
+                      <div className="w-20 h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
+                        JD
                       </div>
-                    </div>
-                    <div className="text-sm text-gray-600 space-y-1">
-                      <p>📚 Courses: Advanced Techniques, Sauce Mastery</p>
-                      <p>👥 Students: 42 active</p>
-                      <p>📅 Last Login: Today, 9:15 AM</p>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                          MR
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-900">Chef Marco Rodriguez</h4>
-                          <p className="text-sm text-gray-600">Pastry Arts Instructor</p>
+                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900 mb-1">Chef Marco Rodriguez</h4>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
+                          Active
+                        </span>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>📚 Courses: Baking Fundamentals, Cake Decoration</p>
+                          <p>👥 Students: 28 active</p>
+                          <p>📅 Last Login: Yesterday, 4:30 PM</p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
+                      <div className="w-px h-24 bg-gray-300"></div>
+                      <div className="w-20 h-20 bg-green-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
+                        MR
                       </div>
-                    </div>
-                    <div className="text-sm text-gray-600 space-y-1">
-                      <p>📚 Courses: Baking Fundamentals, Cake Decoration</p>
-                      <p>👥 Students: 28 active</p>
-                      <p>📅 Last Login: Yesterday, 4:30 PM</p>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                          ST
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-900">Sarah Thompson</h4>
-                          <p className="text-sm text-gray-600">Hospitality Management</p>
+                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900 mb-1">Sarah Thompson</h4>
+                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs inline-block mb-2">
+                          Part-Time
+                        </span>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>📚 Courses: Restaurant Operations, Service Excellence</p>
+                          <p>👥 Students: 35 active</p>
+                          <p>📅 Last Login: Monday, 2:15 PM</p>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Part-Time</span>
+                      <div className="w-px h-24 bg-gray-300"></div>
+                      <div className="w-20 h-20 bg-purple-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
+                        ST
                       </div>
-                    </div>
-                    <div className="text-sm text-gray-600 space-y-1">
-                      <p>📚 Courses: Restaurant Operations, Service Excellence</p>
-                      <p>👥 Students: 35 active</p>
-                      <p>📅 Last Login: Monday, 2:15 PM</p>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                          AL
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-900">Chef Antoine Laurent</h4>
-                          <p className="text-sm text-gray-600">French Cuisine Specialist</p>
+                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900 mb-1">Chef Antoine Laurent</h4>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
+                          Active
+                        </span>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>📚 Courses: Classical French, Wine Pairing</p>
+                          <p>👥 Students: 18 active</p>
+                          <p>📅 Last Login: Today, 11:45 AM</p>
                         </div>
                       </div>
                       <div className="text-right">
