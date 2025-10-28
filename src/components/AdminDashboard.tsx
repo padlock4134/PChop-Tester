@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../api/supabaseClient';
 import { useSupabase } from './SupabaseProvider';
 import { askChefFreddie } from '../api/chefFreddie';
@@ -232,6 +232,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newAlumniSalary, setNewAlumniSalary] = useState('');
   const [selectedEventId, setSelectedEventId] = useState('');
   const [showViewEventModal, setShowViewEventModal] = useState(false);
+  const locationInputRef = useRef<HTMLInputElement>(null);
   const { user: currentUser } = useSupabase();
 
   // CSV Export Helper Functions
