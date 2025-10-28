@@ -1713,7 +1713,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="flex justify-center items-center mb-4 relative pl-6">
                   <h3 className="font-bold text-maineBlue">⭐ Success Stories</h3>
                   <button
-                    onClick={() => alert('Add Alumni functionality')}
+                    onClick={() => setShowAddAlumniModal(true)}
                     className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center gap-2 absolute right-0"
                   >
                     <span className="text-lg">+</span> Add Alumni
