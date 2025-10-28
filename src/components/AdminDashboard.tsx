@@ -4450,50 +4450,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
-              <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50">
-                <h3 className="font-bold text-green-800 mb-2">Event Type:</h3>
-                <div className="space-y-2">
-                  <label className="flex items-center">
-                    <input 
-                      type="radio" 
-                      name="eventType" 
-                      className="mr-2" 
-                      checked={eventType === 'networking'}
-                      onChange={() => setEventType('networking')}
-                    />
-                    <span className="text-gray-700">Networking Event</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input 
-                      type="radio" 
-                      name="eventType" 
-                      className="mr-2" 
-                      checked={eventType === 'reunion'}
-                      onChange={() => setEventType('reunion')}
-                    />
-                    <span className="text-gray-700">Reunion Dinner</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input 
-                      type="radio" 
-                      name="eventType" 
-                      className="mr-2" 
-                      checked={eventType === 'career_fair'}
-                      onChange={() => setEventType('career_fair')}
-                    />
-                    <span className="text-gray-700">Career Fair</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input 
-                      type="radio" 
-                      name="eventType" 
-                      className="mr-2" 
-                      checked={eventType === 'workshop'}
-                      onChange={() => setEventType('workshop')}
-                    />
-                    <span className="text-gray-700">Cooking Workshop</span>
-                  </label>
-                </div>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Event Type:</label>
+                <select
+                  value={eventType}
+                  onChange={(e) => setEventType(e.target.value as any)}
+                  className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                >
+                  <option value="networking">Networking Event</option>
+                  <option value="reunion">Reunion Dinner</option>
+                  <option value="career_fair">Career Fair</option>
+                  <option value="workshop">Cooking Workshop</option>
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Event Description:</label>
