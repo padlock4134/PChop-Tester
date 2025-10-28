@@ -80,6 +80,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [announcementSubject, setAnnouncementSubject] = useState('');
   const [announcementMessage, setAnnouncementMessage] = useState('');
   const [sendingAnnouncement, setSendingAnnouncement] = useState(false);
+  const [addingFaculty, setAddingFaculty] = useState(false);
+  const [partnerName, setPartnerName] = useState('');
+  const [partnerLocation, setPartnerLocation] = useState('');
+  const [partnerEmail, setPartnerEmail] = useState('');
+  const [partnerPhone, setPartnerPhone] = useState('');
+  const [addingPartner, setAddingPartner] = useState(false);
+  const [exportingEmployment, setExportingEmployment] = useState(false);
+  const [eventName, setEventName] = useState('');
+  const [eventDate, setEventDate] = useState('');
+  const [eventTime, setEventTime] = useState('');
+  const [eventLocation, setEventLocation] = useState('');
+  const [eventType, setEventType] = useState<'networking' | 'reunion' | 'career_fair' | 'workshop'>('networking');
+  const [eventDescription, setEventDescription] = useState('');
+  const [creatingEvent, setCreatingEvent] = useState(false);
   const [exportingData, setExportingData] = useState(false);
   const [showExportDataModal, setShowExportDataModal] = useState(false);
   const [showAddFacultyModal, setShowAddFacultyModal] = useState(false);
@@ -4043,6 +4057,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Event Name:</label>
                 <input
                   type="text"
+                  value={eventName}
+                  onChange={(e) => setEventName(e.target.value)}
                   placeholder="e.g., Annual Alumni Reunion 2025"
                   className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
@@ -4052,6 +4068,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <label className="block text-sm font-bold text-gray-700 mb-2">Date:</label>
                   <input
                     type="date"
+                    value={eventDate}
+                    onChange={(e) => setEventDate(e.target.value)}
                     className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
@@ -4059,6 +4077,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <label className="block text-sm font-bold text-gray-700 mb-2">Time:</label>
                   <input
                     type="time"
+                    value={eventTime}
+                    onChange={(e) => setEventTime(e.target.value)}
                     className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
@@ -4067,6 +4087,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Location:</label>
                 <input
                   type="text"
+                  value={eventLocation}
+                  onChange={(e) => setEventLocation(e.target.value)}
                   placeholder="Venue name and address"
                   className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
@@ -4075,19 +4097,43 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="font-bold text-green-800 mb-2">Event Type:</h3>
                 <div className="space-y-2">
                   <label className="flex items-center">
-                    <input type="radio" name="eventType" className="mr-2" defaultChecked />
+                    <input 
+                      type="radio" 
+                      name="eventType" 
+                      className="mr-2" 
+                      checked={eventType === 'networking'}
+                      onChange={() => setEventType('networking')}
+                    />
                     <span className="text-gray-700">Networking Event</span>
                   </label>
                   <label className="flex items-center">
-                    <input type="radio" name="eventType" className="mr-2" />
+                    <input 
+                      type="radio" 
+                      name="eventType" 
+                      className="mr-2" 
+                      checked={eventType === 'reunion'}
+                      onChange={() => setEventType('reunion')}
+                    />
                     <span className="text-gray-700">Reunion Dinner</span>
                   </label>
                   <label className="flex items-center">
-                    <input type="radio" name="eventType" className="mr-2" />
+                    <input 
+                      type="radio" 
+                      name="eventType" 
+                      className="mr-2" 
+                      checked={eventType === 'career_fair'}
+                      onChange={() => setEventType('career_fair')}
+                    />
                     <span className="text-gray-700">Career Fair</span>
                   </label>
                   <label className="flex items-center">
-                    <input type="radio" name="eventType" className="mr-2" />
+                    <input 
+                      type="radio" 
+                      name="eventType" 
+                      className="mr-2" 
+                      checked={eventType === 'workshop'}
+                      onChange={() => setEventType('workshop')}
+                    />
                     <span className="text-gray-700">Cooking Workshop</span>
                   </label>
                 </div>
@@ -4096,6 +4142,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Event Description:</label>
                 <textarea
                   rows={4}
+                  value={eventDescription}
+                  onChange={(e) => setEventDescription(e.target.value)}
                   placeholder="Describe the event, activities, and what alumni can expect..."
                   className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
@@ -4108,13 +4156,46 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Cancel
                 </button>
                 <button
-                  onClick={() => {
-                    alert('Event created and invitations sent!');
-                    setShowPlanEventModal(false);
+                  onClick={async () => {
+                    if (!eventName.trim() || !eventDate || !eventTime) {
+                      alert('Please enter event name, date, and time');
+                      return;
+                    }
+                    
+                    setCreatingEvent(true);
+                    try {
+                      const { error } = await supabase
+                        .from('alumni_events')
+                        .insert({
+                          name: eventName,
+                          event_type: eventType,
+                          event_date: eventDate,
+                          event_time: eventTime,
+                          location: eventLocation || null,
+                          description: eventDescription || null
+                        });
+                      
+                      if (error) throw error;
+                      
+                      alert(`Event "${eventName}" created successfully!`);
+                      setEventName('');
+                      setEventDate('');
+                      setEventTime('');
+                      setEventLocation('');
+                      setEventType('networking');
+                      setEventDescription('');
+                      setShowPlanEventModal(false);
+                    } catch (error: any) {
+                      console.error('Error creating event:', error);
+                      alert('Failed to create event: ' + error.message);
+                    } finally {
+                      setCreatingEvent(false);
+                    }
                   }}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  disabled={creatingEvent}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Create Event
+                  {creatingEvent ? 'Creating...' : 'Create Event'}
                 </button>
               </div>
             </div>
@@ -4282,10 +4363,60 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Close
                 </button>
                 <button
-                  onClick={() => alert('Exporting employment report...')}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  onClick={async () => {
+                    setExportingEmployment(true);
+                    try {
+                      const { data, error } = await supabase
+                        .from('employment_records')
+                        .select(`
+                          id,
+                          employer,
+                          position,
+                          start_date,
+                          salary,
+                          placement_date,
+                          created_at,
+                          profiles (username, email)
+                        `)
+                        .order('placement_date', { ascending: false });
+                      
+                      if (error) throw error;
+                      
+                      if (!data || data.length === 0) {
+                        alert('No employment data to export');
+                        return;
+                      }
+                      
+                      // Flatten data for CSV
+                      const flatData = data.map((record: any) => {
+                        const profile = Array.isArray(record.profiles) ? record.profiles[0] : record.profiles;
+                        return {
+                          student_name: profile?.username || 'N/A',
+                          student_email: profile?.email || 'N/A',
+                          employer: record.employer,
+                          position: record.position,
+                          start_date: record.start_date,
+                          salary: record.salary,
+                          placement_date: record.placement_date
+                        };
+                      });
+                      
+                      const csv = convertToCSV(flatData);
+                      const timestamp = new Date().toISOString().split('T')[0];
+                      downloadFile(csv, `employment-report-${timestamp}.csv`);
+                      
+                      alert(`Successfully exported ${data.length} employment records!`);
+                    } catch (error: any) {
+                      console.error('Error exporting employment data:', error);
+                      alert('Failed to export: ' + error.message);
+                    } finally {
+                      setExportingEmployment(false);
+                    }
+                  }}
+                  disabled={exportingEmployment}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Export Report
+                  {exportingEmployment ? 'Exporting...' : 'Export Report'}
                 </button>
               </div>
             </div>
@@ -4357,21 +4488,29 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="grid grid-cols-2 gap-3">
                   <input
                     type="text"
+                    value={partnerName}
+                    onChange={(e) => setPartnerName(e.target.value)}
                     placeholder="Restaurant/Company Name"
                     className="border-2 border-blue-300 rounded-lg p-2 text-sm"
                   />
                   <input
                     type="text"
+                    value={partnerLocation}
+                    onChange={(e) => setPartnerLocation(e.target.value)}
                     placeholder="Location"
                     className="border-2 border-blue-300 rounded-lg p-2 text-sm"
                   />
                   <input
                     type="email"
+                    value={partnerEmail}
+                    onChange={(e) => setPartnerEmail(e.target.value)}
                     placeholder="Contact Email"
                     className="border-2 border-blue-300 rounded-lg p-2 text-sm"
                   />
                   <input
                     type="tel"
+                    value={partnerPhone}
+                    onChange={(e) => setPartnerPhone(e.target.value)}
                     placeholder="Phone Number"
                     className="border-2 border-blue-300 rounded-lg p-2 text-sm"
                   />
@@ -4385,10 +4524,44 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Close
                 </button>
                 <button
-                  onClick={() => alert('Partner added successfully!')}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  onClick={async () => {
+                    if (!partnerName.trim() || !partnerLocation.trim()) {
+                      alert('Please enter at least partner name and location');
+                      return;
+                    }
+                    
+                    setAddingPartner(true);
+                    try {
+                      const { error } = await supabase
+                        .from('industry_partners')
+                        .insert({
+                          name: partnerName,
+                          location: partnerLocation,
+                          contact_email: partnerEmail || null,
+                          contact_phone: partnerPhone || null,
+                          students_hired: 0,
+                          open_positions: 0,
+                          partnership_since: new Date().getFullYear()
+                        });
+                      
+                      if (error) throw error;
+                      
+                      alert(`Partner ${partnerName} added successfully!`);
+                      setPartnerName('');
+                      setPartnerLocation('');
+                      setPartnerEmail('');
+                      setPartnerPhone('');
+                    } catch (error: any) {
+                      console.error('Error adding partner:', error);
+                      alert('Failed to add partner: ' + error.message);
+                    } finally {
+                      setAddingPartner(false);
+                    }
+                  }}
+                  disabled={addingPartner}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Add Partner
+                  {addingPartner ? 'Adding...' : 'Add Partner'}
                 </button>
               </div>
             </div>
