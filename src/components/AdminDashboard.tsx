@@ -1296,7 +1296,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       .slice(0, 2);
                     
                     return (
-                      <div key={user.id} className="bg-gray-50 rounded-lg p-4">
+                      <div key={user.id} className="bg-gray-50 rounded-lg p-4 border-4 border-yellow-400">
                         <div className="flex items-center gap-4 mb-3">
                           <div className="flex-1">
                             <h4 className="font-medium text-gray-900 mb-1">{user.username || 'N/A'}</h4>
@@ -1310,7 +1310,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             </div>
                           </div>
                           <div className="w-px h-24 bg-gray-300"></div>
-                          <div className="w-20 h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
+                          <div className="w-20 h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
                             {initials}
                           </div>
                         </div>
