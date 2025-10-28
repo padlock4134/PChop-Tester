@@ -1424,6 +1424,81 @@ const MyCookBook = () => {
           </div>
         </div>
       )}
+
+      {/* Video Library Modal */}
+      {showVideoLibraryModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowVideoLibraryModal(false)}>
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-purple-400 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+            {/* Header */}
+            <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 My Test Kitchen Videos</h2>
+                  <p className="text-purple-600 mt-1">Review your saved cooking sessions</p>
+                </div>
+                <button
+                  onClick={() => setShowVideoLibraryModal(false)}
+                  className="text-purple-600 hover:text-purple-800 text-3xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            {/* Video Grid */}
+            <div className="flex-1 overflow-y-auto p-6">
+              {loadingVideos ? (
+                <div className="text-center py-12">
+                  <div className="text-6xl mb-4">🎬</div>
+                  <p className="text-gray-600">Loading your videos...</p>
+                </div>
+              ) : savedVideos.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="text-6xl mb-4">🎥</div>
+                  <p className="text-gray-600 text-lg">No videos saved yet</p>
+                  <p className="text-gray-500 text-sm mt-2">Record a session in Global Test Kitchen to see it here!</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {savedVideos.map((video, index) => (
+                    <div key={index} className="border-4 border-purple-300 rounded-lg overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow">
+                      <div className="bg-purple-50 p-3 border-b-2 border-purple-300">
+                        <h3 className="font-bold text-purple-800 truncate">{video.name.replace('.webm', '')}</h3>
+                        <p className="text-xs text-purple-600 mt-1">
+                          {new Date(video.created_at).toLocaleDateString()} at {new Date(video.created_at).toLocaleTimeString()}
+                        </p>
+                      </div>
+                      <div className="p-4">
+                        <video
+                          src={video.url}
+                          controls
+                          className="w-full rounded border-2 border-purple-200"
+                          style={{ maxHeight: '300px' }}
+                        >
+                          Your browser does not support video playback.
+                        </video>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="bg-purple-50 border-t-4 border-purple-400 p-4 flex justify-between items-center">
+              <p className="text-purple-700 text-sm">
+                <strong>{savedVideos.length}</strong> video{savedVideos.length !== 1 ? 's' : ''} saved
+              </p>
+              <button
+                onClick={() => setShowVideoLibraryModal(false)}
+                className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors font-bold"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
