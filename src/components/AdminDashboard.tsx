@@ -604,7 +604,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">🎓</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">Student Management</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Manage student accesss, keep them notified, and track their progress</p>
+                <p className="text-sm text-gray-600 mb-3 italic">Track who attends, keep them notified, and track their progress</p>
                 <button 
                   onClick={() => setShowStudentManagementModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
