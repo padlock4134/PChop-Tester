@@ -5337,6 +5337,132 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
       )}
 
+      {/* View Event Details Modal */}
+      {showViewEventModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-green-600 font-retro">🎉 Event Details</h2>
+              <button
+                onClick={() => setShowViewEventModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              {/* Event Info */}
+              <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50">
+                <h3 className="font-bold text-green-800 mb-3 text-lg">
+                  {selectedEventId === 'event-1' && 'Class of 2020 Reunion'}
+                  {selectedEventId === 'event-2' && 'Spring Networking Event'}
+                  {selectedEventId === 'event-3' && 'Annual Gala 2025'}
+                </h3>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <p className="text-gray-600"><strong>Date:</strong> 
+                      {selectedEventId === 'event-1' && ' March 15, 2025'}
+                      {selectedEventId === 'event-2' && ' April 10, 2025'}
+                      {selectedEventId === 'event-3' && ' May 20, 2025'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600"><strong>Time:</strong> 6:00 PM - 9:00 PM</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600"><strong>Location:</strong> Grand Ballroom, Downtown</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600"><strong>Type:</strong> 
+                      {selectedEventId === 'event-1' && ' Reunion Dinner'}
+                      {selectedEventId === 'event-2' && ' Networking Event'}
+                      {selectedEventId === 'event-3' && ' Fundraising Gala'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* RSVP Stats */}
+              <div className="grid grid-cols-4 gap-3">
+                <div className="border-4 border-blue-400 rounded-lg p-3 bg-blue-50 text-center">
+                  <div className="text-2xl font-bold text-blue-600">342</div>
+                  <p className="text-xs text-blue-800 font-medium">Invited</p>
+                </div>
+                <div className="border-4 border-green-400 rounded-lg p-3 bg-green-50 text-center">
+                  <div className="text-2xl font-bold text-green-600">156</div>
+                  <p className="text-xs text-green-800 font-medium">Confirmed</p>
+                </div>
+                <div className="border-4 border-red-400 rounded-lg p-3 bg-red-50 text-center">
+                  <div className="text-2xl font-bold text-red-600">28</div>
+                  <p className="text-xs text-red-800 font-medium">Declined</p>
+                </div>
+                <div className="border-4 border-gray-400 rounded-lg p-3 bg-gray-50 text-center">
+                  <div className="text-2xl font-bold text-gray-600">158</div>
+                  <p className="text-xs text-gray-800 font-medium">No Response</p>
+                </div>
+              </div>
+
+              {/* RSVP List */}
+              <div className="border-4 border-green-400 rounded-lg p-4">
+                <h3 className="font-bold text-green-800 mb-3">RSVP Responses:</h3>
+                <div className="max-h-64 overflow-y-auto space-y-2">
+                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Maria Santos</p>
+                      <p className="text-xs text-gray-600">maria.santos@example.com</p>
+                    </div>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded font-medium">Confirmed</span>
+                  </div>
+                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">James Chen</p>
+                      <p className="text-xs text-gray-600">james.chen@example.com</p>
+                    </div>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded font-medium">Confirmed</span>
+                  </div>
+                  <div className="bg-red-50 border-2 border-red-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Ashley Rodriguez</p>
+                      <p className="text-xs text-gray-600">ashley.rodriguez@example.com</p>
+                    </div>
+                    <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded font-medium">Declined</span>
+                  </div>
+                  <div className="bg-gray-50 border-2 border-gray-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">David Miller</p>
+                      <p className="text-xs text-gray-600">david.miller@example.com</p>
+                    </div>
+                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded font-medium">No Response</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowViewEventModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => alert('Send reminder to No Response alumni')}
+                  className="bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro"
+                >
+                  Send Reminder
+                </button>
+                <button
+                  onClick={() => alert('Export attendee list')}
+                  className="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro"
+                >
+                  Export List
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
