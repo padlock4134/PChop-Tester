@@ -4416,7 +4416,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
               <div className="border-t-2 border-gray-200 pt-4">
-                <h3 className="text-center font-bold text-green-800 mb-4">-- OR CREATE NEW EVENT --</h3>
+                <h3 className="text-center font-bold text-green-800 mb-4"></h3>
               </div>
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Event Name:</label>
