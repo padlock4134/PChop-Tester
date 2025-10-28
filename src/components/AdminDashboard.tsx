@@ -49,7 +49,28 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     totalXP: 0,
     subscriptions: { active: 0, trial: 0, cancelled: 0 }
   });
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([
+    {
+      id: 'mock-1',
+      email: 'sarah.johnson@culinaryschool.edu',
+      username: 'Sarah Johnson',
+      xp: 1250,
+      level: 3,
+      chat_count: 15,
+      last_chat_date: new Date().toISOString(),
+      created_at: new Date().toISOString()
+    },
+    {
+      id: 'mock-2',
+      email: 'marcus.chen@culinaryschool.edu',
+      username: 'Marcus Chen',
+      xp: 2100,
+      level: 4,
+      chat_count: 28,
+      last_chat_date: new Date().toISOString(),
+      created_at: new Date().toISOString()
+    }
+  ]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showExportModal, setShowExportModal] = useState(false);
