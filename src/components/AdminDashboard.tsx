@@ -235,8 +235,54 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showCredentialingModal, setShowCredentialingModal] = useState(false);
   const [selectedCareerEventId, setSelectedCareerEventId] = useState('');
   const [showViewCareerEventModal, setShowViewCareerEventModal] = useState(false);
+  const [currentEventIndex, setCurrentEventIndex] = useState(0);
+  const [isEventsPaused, setIsEventsPaused] = useState(false);
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { user: currentUser } = useSupabase();
+
+  // Mock upcoming events data
+  const upcomingEvents = [
+    {
+      id: 'event-1',
+      name: 'Class of 2020 Reunion',
+      date: 'March 15, 2025',
+      time: '6:00 PM',
+      type: 'alumni',
+      emoji: '🎉',
+      registered: 156,
+      color: 'green'
+    },
+    {
+      id: 'career-1',
+      name: 'Spring Career Fair 2025',
+      date: 'March 15, 2025',
+      time: '10:00 AM',
+      type: 'career',
+      emoji: '💼',
+      registered: 89,
+      color: 'purple'
+    },
+    {
+      id: 'career-2',
+      name: 'Resume Workshop',
+      date: 'February 20, 2025',
+      time: '2:00 PM',
+      type: 'career',
+      emoji: '📝',
+      registered: 45,
+      color: 'purple'
+    },
+    {
+      id: 'event-2',
+      name: 'Spring Networking Event',
+      date: 'April 10, 2025',
+      time: '5:00 PM',
+      type: 'alumni',
+      emoji: '🤝',
+      registered: 78,
+      color: 'green'
+    }
+  ];
 
   // CSV Export Helper Functions
   const convertToCSV = (data: any[]) => {
@@ -329,6 +375,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       supabase.removeChannel(reportsSubscription);
     };
   }, []);
+
+  // Auto-scroll effect for upcoming events banner
+  useEffect(() => {
+    if (upcomingEvents.length > 1 && !isEventsPaused) {
+      const interval = setInterval(() => {
+        setCurrentEventIndex((prev) => (prev + 1) % upcomingEvents.length);
+      }, 3000); // 3 second intervals
+
+      return () => clearInterval(interval);
+    }
+  }, [upcomingEvents.length, isEventsPaused]);
 
   const fetchAdminData = async () => {
     setLoading(true);
@@ -640,6 +697,64 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         {/* Second separation line between nav and content */}
         <hr className="border-t-2 border-maineBlue my-6" />
+
+        {/* Upcoming Events Banner - Auto-scrolling like Live Now */}
+        {upcomingEvents.length > 0 && (
+          <div 
+            className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 mb-4 cursor-pointer"
+            onMouseEnter={() => setIsEventsPaused(true)}
+            onMouseLeave={() => setIsEventsPaused(false)}
+            onClick={() => {
+              const event = upcomingEvents[currentEventIndex];
+              if (event.type === 'alumni') {
+                setSelectedEventId(event.id);
+                setShowViewEventModal(true);
+              } else if (event.type === 'career') {
+                setSelectedCareerEventId(event.id);
+                setShowViewCareerEventModal(true);
+              }
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center mr-3">
+                <div className="w-3 h-3 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
+                <span className="font-bold text-blue-700 text-sm">📅 UPCOMING</span>
+              </div>
+              <div className="flex-1 text-center">
+                <div className="text-sm text-blue-800 transition-all duration-500">
+                  <span>
+                    <strong>{upcomingEvents[currentEventIndex].name}</strong> •{' '}
+                    {upcomingEvents[currentEventIndex].date} at {upcomingEvents[currentEventIndex].time} •{' '}
+                    {upcomingEvents[currentEventIndex].registered} registered
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{upcomingEvents[currentEventIndex].emoji}</span>
+                <div className={`bg-${upcomingEvents[currentEventIndex].color}-500 text-white text-xs px-4 py-2 rounded-full font-medium`}>
+                  View Details
+                </div>
+              </div>
+            </div>
+            
+            {/* Progress dots */}
+            {upcomingEvents.length > 1 && (
+              <div className="flex justify-center mt-3 gap-1">
+                {upcomingEvents.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentEventIndex ? 'bg-blue-500' : 'bg-blue-200'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Separation line */}
+        <hr className="border-t-2 border-maineBlue mb-6" />
         
         {/* Content Area */}
         <div className="px-2">
