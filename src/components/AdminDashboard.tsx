@@ -4398,14 +4398,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Scheduled Events:</label>
-                <select 
-                  className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
-                >
-                  <option value="">-- View Existing Event --</option>
-                  <option value="event-1">Class of 2020 Reunion - March 15, 2025</option>
-                  <option value="event-2">Spring Networking Event - April 10, 2025</option>
-                  <option value="event-3">Annual Gala 2025 - May 20, 2025</option>
-                </select>
+                <div className="flex gap-2">
+                  <select 
+                    className="flex-1 border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                  >
+                    <option value="">-- View Existing Event --</option>
+                    <option value="event-1">Class of 2020 Reunion - March 15, 2025</option>
+                    <option value="event-2">Spring Networking Event - April 10, 2025</option>
+                    <option value="event-3">Annual Gala 2025 - May 20, 2025</option>
+                  </select>
+                  <button
+                    onClick={() => alert('View event details and RSVPs')}
+                    className="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro whitespace-nowrap"
+                  >
+                    View
+                  </button>
+                </div>
               </div>
               <div className="border-t-2 border-gray-200 pt-4">
                 <h3 className="text-center font-bold text-green-800 mb-4">-- OR CREATE NEW EVENT --</h3>
