@@ -634,7 +634,20 @@ const GlobalTestKitchen: React.FC = () => {
   const addToCalendar = (session: UpcomingSession) => {
     // Parse "YYYY-MM-DD at HH:MM" format
     const [datePart, timePart] = session.scheduledTime.split(' at ');
+    
+    if (!datePart || !timePart) {
+      alert('Invalid date format. Please reschedule this session.');
+      return;
+    }
+    
     const startDate = new Date(`${datePart}T${timePart}:00`);
+    
+    // Validate date
+    if (isNaN(startDate.getTime())) {
+      alert('Invalid date. Please check the scheduled time and try again.');
+      return;
+    }
+    
     const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour later
     
     const formatDate = (date: Date) => {
@@ -677,7 +690,20 @@ END:VCALENDAR`;
   const showCalendarOptions = (session: UpcomingSession) => {
     // Parse "YYYY-MM-DD at HH:MM" format
     const [datePart, timePart] = session.scheduledTime.split(' at ');
+    
+    if (!datePart || !timePart) {
+      alert('Invalid date format. Please reschedule this session.');
+      return;
+    }
+    
     const startDate = new Date(`${datePart}T${timePart}:00`);
+    
+    // Validate date
+    if (isNaN(startDate.getTime())) {
+      alert('Invalid date. Please check the scheduled time and try again.');
+      return;
+    }
+    
     const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
     
     const formatDate = (date: Date) => {
