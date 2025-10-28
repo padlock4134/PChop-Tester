@@ -1428,15 +1428,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Faculty Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <div className="flex justify-center items-center mb-4 relative pl-6">
-                  <h3 className="font-bold text-maineBlue">👩‍🏫 Faculty Directory</h3>
-                  <button
-                    onClick={() => alert('Add Faculty functionality')}
-                    className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center gap-2 absolute right-0"
-                  >
-                    <span className="text-lg">+</span> Add Faculty
-                  </button>
-                </div>
+                <h3 className="font-bold text-maineBlue text-center mb-4">👩‍🏫 Faculty Directory</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
                     <div className="flex items-center gap-4 mb-3">
