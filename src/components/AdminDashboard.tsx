@@ -475,53 +475,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     </div>
   );
 
-  const UserEditModal = () => {
-    const [xpValue, setXpValue] = useState(selectedUser?.xp || 0);
-    
-    if (!selectedUser) return null;
-
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg p-6 w-96">
-          <h3 className="text-lg font-bold text-maineBlue mb-4">
-            Edit User: {selectedUser.email}
-          </h3>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                XP Points
-              </label>
-              <input
-                type="number"
-                value={xpValue}
-                onChange={(e) => setXpValue(parseInt(e.target.value) || 0)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
-              />
-            </div>
-            
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setSelectedUser(null)}
-                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  updateUserXP(selectedUser.id, xpValue);
-                  setSelectedUser(null);
-                }}
-                className="px-4 py-2 bg-maineBlue text-white rounded-md hover:bg-blue-700"
-              >
-                Save Changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   if (loading) {
     return (
@@ -5228,8 +5181,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
       )}
 
-      {/* User Edit Modal */}
-      <UserEditModal />
     </div>
   );
 };
