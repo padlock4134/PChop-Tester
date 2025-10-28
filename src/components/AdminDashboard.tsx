@@ -1657,77 +1657,93 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Success Stories */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">⭐ Success Stories</h3>
+                <div className="flex justify-center items-center mb-4 relative pl-6">
+                  <h3 className="font-bold text-maineBlue">⭐ Success Stories</h3>
+                  <button
+                    onClick={() => alert('Add Alumni functionality')}
+                    className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center gap-2 absolute right-0"
+                  >
+                    <span className="text-lg">+</span> Add Alumni
+                  </button>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4 border-2 border-blue-200">
-                    <div className="flex items-center mb-3">
-                      <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900 mb-1">Maria Santos</h4>
+                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs inline-block mb-2">
+                          Class of 2022
+                        </span>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>🏆 Executive Chef at Michelin-starred restaurant</p>
+                          <p>📍 Le Bernardin, New York</p>
+                          <p>💰 Salary: $85,000/year</p>
+                        </div>
+                      </div>
+                      <div className="w-px h-24 bg-gray-300"></div>
+                      <div className="w-20 h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
                         MS
                       </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900">Maria Santos</h4>
-                        <p className="text-sm text-gray-600">Class of 2022</p>
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-700 space-y-2">
-                      <p className="font-medium text-blue-800">🏆 Executive Chef at Michelin-starred restaurant</p>
-                      <p>📍 Currently: Le Bernardin, New York</p>
-                      <p>💰 Salary: $85,000/year</p>
-                      <p className="italic text-gray-600">"The program's focus on classical techniques gave me the foundation to excel in fine dining."</p>
                     </div>
                   </div>
                   
-                  <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 border-2 border-green-200">
-                    <div className="flex items-center mb-3">
-                      <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900 mb-1">James Chen</h4>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
+                          Class of 2021
+                        </span>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>🏢 Restaurant Owner & Entrepreneur</p>
+                          <p>📍 Chen's Kitchen (3 locations)</p>
+                          <p>💰 Revenue: $2.1M annually</p>
+                        </div>
+                      </div>
+                      <div className="w-px h-24 bg-gray-300"></div>
+                      <div className="w-20 h-20 bg-green-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
                         JC
                       </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900">James Chen</h4>
-                        <p className="text-sm text-gray-600">Class of 2021</p>
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-700 space-y-2">
-                      <p className="font-medium text-green-800">🏢 Restaurant Owner & Entrepreneur</p>
-                      <p>📍 Currently: Chen's Kitchen (3 locations)</p>
-                      <p>💰 Revenue: $2.1M annually</p>
-                      <p className="italic text-gray-600">"The business management courses were just as valuable as the culinary training."</p>
                     </div>
                   </div>
                   
-                  <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 border-2 border-purple-200">
-                    <div className="flex items-center mb-3">
-                      <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900 mb-1">Ashley Rodriguez</h4>
+                        <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs inline-block mb-2">
+                          Class of 2023
+                        </span>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>📺 Food Network Personality</p>
+                          <p>📍 Host of "Pastry Perfection"</p>
+                          <p>💰 $120,000/year + endorsements</p>
+                        </div>
+                      </div>
+                      <div className="w-px h-24 bg-gray-300"></div>
+                      <div className="w-20 h-20 bg-purple-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
                         AR
                       </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900">Ashley Rodriguez</h4>
-                        <p className="text-sm text-gray-600">Class of 2023</p>
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-700 space-y-2">
-                      <p className="font-medium text-purple-800">📺 Food Network Personality</p>
-                      <p>📍 Currently: Host of "Pastry Perfection"</p>
-                      <p>💰 Salary: $120,000/year + endorsements</p>
-                      <p className="italic text-gray-600">"The video production skills I learned here launched my media career."</p>
                     </div>
                   </div>
                   
-                  <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg p-4 border-2 border-orange-200">
-                    <div className="flex items-center mb-3">
-                      <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
+                    <div className="flex items-center gap-4 mb-3">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900 mb-1">David Miller</h4>
+                        <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs inline-block mb-2">
+                          Class of 2020
+                        </span>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>🍟 Corporate Food Service Director</p>
+                          <p>📍 Google Campus Dining</p>
+                          <p>💰 $95,000/year + benefits</p>
+                        </div>
+                      </div>
+                      <div className="w-px h-24 bg-gray-300"></div>
+                      <div className="w-20 h-20 bg-orange-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
                         DM
                       </div>
-                      <div>
-                        <h4 className="font-medium text-gray-900">David Miller</h4>
-                        <p className="text-sm text-gray-600">Class of 2020</p>
-                      </div>
-                    </div>
-                    <div className="text-sm text-gray-700 space-y-2">
-                      <p className="font-medium text-orange-800">🍟 Corporate Food Service Director</p>
-                      <p>📍 Currently: Google Campus Dining</p>
-                      <p>💰 Salary: $95,000/year + benefits</p>
-                      <p className="italic text-gray-600">"Managing large-scale operations was exactly what I wanted to do."</p>
                     </div>
                   </div>
                 </div>
