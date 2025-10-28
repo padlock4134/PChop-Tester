@@ -83,8 +83,10 @@ const MyCookBook = () => {
   const [submittedVideos, setSubmittedVideos] = useState<{[key: number]: string}>({});
   const [currentStudentIndex, setCurrentStudentIndex] = useState(0);
   const [showVideoLibraryModal, setShowVideoLibraryModal] = useState(false);
-  const [savedVideos, setSavedVideos] = useState<Array<{name: string, url: string, created_at: string}>>([]);
+  const [savedVideos, setSavedVideos] = useState<Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}>>([]);
   const [loadingVideos, setLoadingVideos] = useState(false);
+  const [videoFilter, setVideoFilter] = useState('all');
+  const [userFilter, setUserFilter] = useState('all');
   
   // Assignment data
   const assignments = [
@@ -990,31 +992,57 @@ const MyCookBook = () => {
                         setShowVideoLibraryModal(true);
                         setLoadingVideos(true);
                         try {
-                          const { data, error } = await supabase.storage
+                          // Get list of all user folders (to find all users with videos)
+                          const { data: folders, error: foldersError } = await supabase.storage
                             .from('Test Kitchen Videos')
-                            .list(user?.id || '', {
-                              limit: 100,
-                              offset: 0,
-                              sortBy: { column: 'created_at', order: 'desc' }
+                            .list('', {
+                              limit: 1000,
+                              offset: 0
                             });
                           
-                          if (error) throw error;
+                          if (foldersError) throw foldersError;
                           
-                          if (data) {
-                            const videosWithUrls = await Promise.all(
-                              data.map(async (file) => {
-                                const { data: urlData } = supabase.storage
-                                  .from('Test Kitchen Videos')
-                                  .getPublicUrl(`${user?.id}/${file.name}`);
-                                return {
-                                  name: file.name,
-                                  url: urlData.publicUrl,
-                                  created_at: file.created_at
-                                };
-                              })
-                            );
-                            setSavedVideos(videosWithUrls);
+                          // For each user folder, get their videos
+                          const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
+                          
+                          for (const folder of folders || []) {
+                            if (folder.name) {
+                              const { data: userVideos, error: videosError } = await supabase.storage
+                                .from('Test Kitchen Videos')
+                                .list(folder.name, {
+                                  limit: 100,
+                                  offset: 0,
+                                  sortBy: { column: 'created_at', order: 'desc' }
+                                });
+                              
+                              if (!videosError && userVideos) {
+                                for (const file of userVideos) {
+                                  // Get file metadata to check if public
+                                  const isPublic = file.metadata?.isPublic === 'true';
+                                  const isMyVideo = folder.name === user?.id;
+                                  
+                                  // Show if: public OR it's my video
+                                  if (isPublic || isMyVideo) {
+                                    const { data: urlData } = supabase.storage
+                                      .from('Test Kitchen Videos')
+                                      .getPublicUrl(`${folder.name}/${file.name}`);
+                                    
+                                    allVideos.push({
+                                      name: file.name,
+                                      url: urlData.publicUrl,
+                                      created_at: file.created_at,
+                                      userId: folder.name,
+                                      isPublic: isPublic
+                                    });
+                                  }
+                                }
+                              }
+                            }
                           }
+                          
+                          // Sort by date
+                          allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                          setSavedVideos(allVideos);
                         } catch (error) {
                           console.error('Error loading videos:', error);
                           alert('Failed to load videos');
@@ -1431,7 +1459,7 @@ const MyCookBook = () => {
           <div className="bg-white rounded-lg shadow-2xl border-4 border-purple-400 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center mb-4">
                 <div>
                   <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 My Test Kitchen Videos</h2>
                   <p className="text-purple-600 mt-1">Review your saved cooking sessions</p>
@@ -1442,6 +1470,36 @@ const MyCookBook = () => {
                 >
                   ×
                 </button>
+              </div>
+              
+              {/* Filter Dropdowns */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <label className="text-purple-700 font-bold text-sm">Category:</label>
+                  <select
+                    value={videoFilter}
+                    onChange={(e) => setVideoFilter(e.target.value)}
+                    className="border-2 border-purple-300 rounded-lg px-4 py-2 bg-white text-purple-800 font-bold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  >
+                    <option value="all">All Videos</option>
+                    <option value="practice">Practice Sessions</option>
+                    <option value="assignments">Assignment Submissions</option>
+                    <option value="demos">Demo Recordings</option>
+                  </select>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <label className="text-purple-700 font-bold text-sm">User:</label>
+                  <select
+                    value={userFilter}
+                    onChange={(e) => setUserFilter(e.target.value)}
+                    className="border-2 border-purple-300 rounded-lg px-4 py-2 bg-white text-purple-800 font-bold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  >
+                    <option value="all">All Users</option>
+                    <option value="me">My Videos Only</option>
+                    <option value="public">Public Videos Only</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -1460,13 +1518,36 @@ const MyCookBook = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {savedVideos.map((video, index) => (
+                  {savedVideos
+                    .filter(video => {
+                      // User filter
+                      if (userFilter === 'me' && video.userId !== user?.id) return false;
+                      if (userFilter === 'public' && !video.isPublic) return false;
+                      
+                      // Category filter - placeholder for future enhancement
+                      if (videoFilter === 'all') return true;
+                      // Can be enhanced with actual category metadata
+                      return true;
+                    })
+                    .map((video, index) => (
                     <div key={index} className="border-4 border-purple-300 rounded-lg overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow">
                       <div className="bg-purple-50 p-3 border-b-2 border-purple-300">
-                        <h3 className="font-bold text-purple-800 truncate">{video.name.replace('.webm', '')}</h3>
+                        <div className="flex justify-between items-start gap-2">
+                          <h3 className="font-bold text-purple-800 truncate flex-1">{video.name.replace('.webm', '')}</h3>
+                          {video.isPublic ? (
+                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">🌍 Public</span>
+                          ) : (
+                            <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-bold">🔒 Private</span>
+                          )}
+                        </div>
                         <p className="text-xs text-purple-600 mt-1">
                           {new Date(video.created_at).toLocaleDateString()} at {new Date(video.created_at).toLocaleTimeString()}
                         </p>
+                        {video.userId !== user?.id && (
+                          <p className="text-xs text-purple-500 mt-1">
+                            👤 User: {video.userId.substring(0, 8)}...
+                          </p>
+                        )}
                       </div>
                       <div className="p-4">
                         <video
@@ -1485,16 +1566,10 @@ const MyCookBook = () => {
             </div>
 
             {/* Footer */}
-            <div className="bg-purple-50 border-t-4 border-purple-400 p-4 flex justify-between items-center">
+            <div className="bg-purple-50 border-t-4 border-purple-400 p-4 text-center">
               <p className="text-purple-700 text-sm">
                 <strong>{savedVideos.length}</strong> video{savedVideos.length !== 1 ? 's' : ''} saved
               </p>
-              <button
-                onClick={() => setShowVideoLibraryModal(false)}
-                className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors font-bold"
-              >
-                Close
-              </button>
             </div>
           </div>
         </div>

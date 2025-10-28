@@ -88,6 +88,7 @@ const GlobalTestKitchen: React.FC = () => {
   const [videoTitle, setVideoTitle] = useState('');
   const [videoDescription, setVideoDescription] = useState('');
   const [videoCuisine, setVideoCuisine] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
   
   // Schedule form states
   const [scheduledDishName, setScheduledDishName] = useState('');
@@ -503,22 +504,25 @@ const GlobalTestKitchen: React.FC = () => {
     setIsSaving(true);
     
     try {
-      // Generate unique filename
+      // Generate unique filename with user folder
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `${videoTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${timestamp}.webm`;
+      const filename = `${user?.id}/${videoTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${timestamp}.webm`;
       
-      console.log('Attempting to upload:', filename, 'Size:', recordedBlob.size);
+      console.log('Attempting to upload:', filename, 'Size:', recordedBlob.size, 'Public:', isPublic);
       
-      // First, let's list available buckets to debug
-      const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
-      console.log('Available buckets:', buckets, 'Error:', bucketsError);
-      
-      // Upload to Supabase Storage
-      const { data, error } = await supabase.storage
-        .from('test-kitchen-videos')
+      // Upload to Supabase Storage with metadata
+      const { data, error} = await supabase.storage
+        .from('Test Kitchen Videos')
         .upload(filename, recordedBlob, {
           contentType: 'video/webm',
-          upsert: false
+          upsert: false,
+          metadata: {
+            title: videoTitle,
+            description: videoDescription,
+            cuisine: videoCuisine,
+            isPublic: isPublic.toString(),
+            userId: user?.id || ''
+          }
         });
 
       if (error) {
@@ -538,6 +542,7 @@ const GlobalTestKitchen: React.FC = () => {
       setVideoTitle('');
       setVideoDescription('');
       setVideoCuisine('');
+      setIsPublic(false);
       
     } catch (error) {
       console.error('Error saving video:', error);
@@ -1533,6 +1538,25 @@ END:VCALENDAR`;
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   />
+                </div>
+                
+                {/* Make Public Checkbox */}
+                <div className="border-2 border-maineBlue rounded-lg p-4 bg-blue-50">
+                  <label className="flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isPublic}
+                      onChange={(e) => setIsPublic(e.target.checked)}
+                      disabled={isSaving}
+                      className="w-5 h-5 text-maineBlue border-2 border-maineBlue rounded focus:ring-2 focus:ring-maineBlue cursor-pointer"
+                    />
+                    <div className="ml-3">
+                      <span className="text-sm font-bold text-maineBlue">🌍 Make this video public</span>
+                      <p className="text-xs text-gray-600 mt-1">
+                        Public videos can be viewed by all students in the Video Library. Private videos are only visible to you.
+                      </p>
+                    </div>
+                  </label>
                 </div>
               </div>
               
