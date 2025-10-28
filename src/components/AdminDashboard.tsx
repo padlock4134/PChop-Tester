@@ -1294,54 +1294,58 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              {/* Student List Management */}
+              {/* Student Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">📋 Student Records</h3>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">XP</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Level</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Activity</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Active</th>
-                        <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {users.slice(0, 10).map((user) => (
-                        <tr key={user.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-4 whitespace-nowrap">
-                            <div>
-                              <div className="text-sm font-medium text-gray-900">{user.username || 'N/A'}</div>
-                              <div className="text-sm text-gray-500">{user.email}</div>
+                <h3 className="text-center font-bold text-maineBlue mb-4">📋 Student Directory</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {users.slice(0, 10).map((user) => {
+                    const initials = (user.username || user.email || 'NA')
+                      .split(' ')
+                      .map(n => n[0])
+                      .join('')
+                      .toUpperCase()
+                      .slice(0, 2);
+                    
+                    return (
+                      <div key={user.id} className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center">
+                            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                              {initials}
                             </div>
-                          </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{user.xp || 0}</td>
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{user.level || 1}</td>
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{user.chat_count || 0} chats</td>
-                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {user.last_chat_date ? new Date(user.last_chat_date).toLocaleDateString() : 'Never'}
-                          </td>
-                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button
-                              onClick={() => setSelectedUser(user)}
-                              className="text-maineBlue hover:text-lobsterRed mr-2 px-3 py-1 border border-maineBlue rounded hover:bg-blue-50"
-                            >
-                              Edit
-                            </button>
-                            <button
-                              onClick={() => resetUserChatCount(user.id)}
-                              className="text-yellow-600 hover:text-yellow-800 px-3 py-1 border border-yellow-600 rounded hover:bg-yellow-50"
-                            >
-                              Reset
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                            <div>
+                              <h4 className="font-medium text-gray-900">{user.username || 'N/A'}</h4>
+                              <p className="text-sm text-gray-600">{user.email}</p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
+                              Level {user.level || 1}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-600 space-y-1">
+                          <p>⭐ XP: {user.xp || 0} points</p>
+                          <p>💬 Activity: {user.chat_count || 0} chats</p>
+                          <p>📅 Last Active: {user.last_chat_date ? new Date(user.last_chat_date).toLocaleDateString() : 'Never'}</p>
+                        </div>
+                        <div className="flex gap-2 mt-3">
+                          <button
+                            onClick={() => setSelectedUser(user)}
+                            className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-1 border border-maineBlue rounded text-sm transition-colors"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => resetUserChatCount(user.id)}
+                            className="flex-1 text-yellow-600 hover:text-white hover:bg-yellow-600 px-3 py-1 border border-yellow-600 rounded text-sm transition-colors"
+                          >
+                            Reset
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
                 {users.length > 10 && (
                   <div className="mt-4 text-center">
