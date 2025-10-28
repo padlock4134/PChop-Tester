@@ -148,6 +148,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newStudentProgram, setNewStudentProgram] = useState('Culinary Arts');
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState<User | null>(null);
+  const [facultyList, setFacultyList] = useState([
+    {
+      id: 'faculty-1',
+      name: 'Chef Julia Davis',
+      email: 'julia.davis@culinaryschool.edu',
+      role: 'Head of Culinary Arts',
+      status: 'Active',
+      courses: 'Advanced Techniques, Sauce Mastery',
+      students: 42,
+      lastLogin: 'Today, 9:15 AM',
+      initials: 'JD',
+      color: 'bg-blue-500'
+    },
+    {
+      id: 'faculty-2',
+      name: 'Chef Marco Rodriguez',
+      email: 'marco.rodriguez@culinaryschool.edu',
+      role: 'Pastry Arts Instructor',
+      status: 'Active',
+      courses: 'Baking Fundamentals, Cake Decoration',
+      students: 28,
+      lastLogin: 'Yesterday, 4:30 PM',
+      initials: 'MR',
+      color: 'bg-green-500'
+    }
+  ]);
+  const [newFacultyName, setNewFacultyName] = useState('');
+  const [newFacultyEmail, setNewFacultyEmail] = useState('');
+  const [newFacultyRole, setNewFacultyRole] = useState('Instructor');
   const { user: currentUser } = useSupabase();
 
   // CSV Export Helper Functions
@@ -3657,6 +3686,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Full Name:</label>
                 <input
                   type="text"
+                  value={newFacultyName}
+                  onChange={(e) => setNewFacultyName(e.target.value)}
                   placeholder="Enter instructor's full name"
                   className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -3665,6 +3696,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Email Address:</label>
                 <input
                   type="email"
+                  value={newFacultyEmail}
+                  onChange={(e) => setNewFacultyEmail(e.target.value)}
                   placeholder="instructor@example.com"
                   className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -3673,15 +3706,33 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="font-bold text-blue-800 mb-2">Role & Permissions:</h3>
                 <div className="space-y-2">
                   <label className="flex items-center">
-                    <input type="radio" name="role" className="mr-2" defaultChecked />
+                    <input 
+                      type="radio" 
+                      name="role" 
+                      className="mr-2" 
+                      checked={newFacultyRole === 'Instructor'}
+                      onChange={() => setNewFacultyRole('Instructor')}
+                    />
                     <span className="text-gray-700">Instructor - Can teach courses and grade assignments</span>
                   </label>
                   <label className="flex items-center">
-                    <input type="radio" name="role" className="mr-2" />
+                    <input 
+                      type="radio" 
+                      name="role" 
+                      className="mr-2" 
+                      checked={newFacultyRole === 'Teaching Assistant'}
+                      onChange={() => setNewFacultyRole('Teaching Assistant')}
+                    />
                     <span className="text-gray-700">Teaching Assistant - Limited grading access</span>
                   </label>
                   <label className="flex items-center">
-                    <input type="radio" name="role" className="mr-2" />
+                    <input 
+                      type="radio" 
+                      name="role" 
+                      className="mr-2" 
+                      checked={newFacultyRole === 'Department Head'}
+                      onChange={() => setNewFacultyRole('Department Head')}
+                    />
                     <span className="text-gray-700">Department Head - Full curriculum management</span>
                   </label>
                 </div>
@@ -3716,8 +3767,40 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
                 <button
                   onClick={() => {
-                    alert('Faculty member added successfully!');
+                    if (!newFacultyName.trim() || !newFacultyEmail.trim()) {
+                      alert('Please enter faculty name and email');
+                      return;
+                    }
+                    
+                    const initials = newFacultyName
+                      .split(' ')
+                      .map(n => n[0])
+                      .join('')
+                      .toUpperCase()
+                      .slice(0, 2);
+                    
+                    const colors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-pink-500', 'bg-indigo-500'];
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    const newFaculty = {
+                      id: `faculty-${Date.now()}`,
+                      name: newFacultyName,
+                      email: newFacultyEmail,
+                      role: newFacultyRole,
+                      status: 'Active',
+                      courses: 'New Courses',
+                      students: 0,
+                      lastLogin: 'Never',
+                      initials: initials,
+                      color: randomColor
+                    };
+                    
+                    setFacultyList(prev => [...prev, newFaculty]);
+                    setNewFacultyName('');
+                    setNewFacultyEmail('');
+                    setNewFacultyRole('Instructor');
                     setShowAddFacultyModal(false);
+                    alert('Faculty member added successfully!');
                   }}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
