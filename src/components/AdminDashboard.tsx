@@ -5402,6 +5402,85 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
 
+              {/* Certification Types */}
+              <div className="border-4 border-orange-400 rounded-lg p-4">
+                <h3 className="font-bold text-orange-800 mb-3">Certification Types Tracked:</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🍽️ ServSafe Manager</p>
+                        <p className="text-xs text-gray-600">Food safety certification</p>
+                      </div>
+                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">142 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">👋 Food Handler Permit</p>
+                        <p className="text-xs text-gray-600">State-required permit</p>
+                      </div>
+                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">158 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">⚠️ Allergen Training</p>
+                        <p className="text-xs text-gray-600">Allergen awareness</p>
+                      </div>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">89 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🍷 Alcohol Service (TIPS)</p>
+                        <p className="text-xs text-gray-600">Responsible alcohol service</p>
+                      </div>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">67 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🍸 Bartending Certification</p>
+                        <p className="text-xs text-gray-600">Professional bartending</p>
+                      </div>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">34 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🍺 Brewing Certification</p>
+                        <p className="text-xs text-gray-600">Craft brewing & beer knowledge</p>
+                      </div>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">18 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">❤️ CPR/First Aid</p>
+                        <p className="text-xs text-gray-600">Emergency response</p>
+                      </div>
+                      <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">45 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🎂 Specialized Culinary</p>
+                        <p className="text-xs text-gray-600">Pastry, Sommelier, etc.</p>
+                      </div>
+                      <span className="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">23 certified</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* RSVP List */}
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-3">RSVP Responses:</h3>
