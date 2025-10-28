@@ -4402,6 +4402,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Scheduled Events:</label>
                 <div className="flex gap-2">
                   <select 
+                    value={selectedEventId}
+                    onChange={(e) => setSelectedEventId(e.target.value)}
                     className="flex-1 border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                   >
                     <option value="">-- View Existing Event --</option>
@@ -4410,7 +4412,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <option value="event-3">Annual Gala 2025 - May 20, 2025</option>
                   </select>
                   <button
-                    onClick={() => alert('View event details and RSVPs')}
+                    onClick={() => {
+                      if (!selectedEventId) {
+                        alert('Please select an event first');
+                        return;
+                      }
+                      setShowViewEventModal(true);
+                    }}
                     className="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro whitespace-nowrap"
                   >
                     View
