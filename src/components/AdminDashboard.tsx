@@ -232,6 +232,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newAlumniSalary, setNewAlumniSalary] = useState('');
   const [selectedEventId, setSelectedEventId] = useState('');
   const [showViewEventModal, setShowViewEventModal] = useState(false);
+  const [showCredentialingModal, setShowCredentialingModal] = useState(false);
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { user: currentUser } = useSupabase();
 
@@ -5535,6 +5536,179 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   className="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro"
                 >
                   Export List
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Credentialing & Certifications Modal */}
+      {showCredentialingModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-orange-600 font-retro">🏅 Credentialing & Certifications</h2>
+              <button
+                onClick={() => setShowCredentialingModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              {/* Overview Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
+                  <div className="text-3xl font-bold text-green-600">87%</div>
+                  <p className="text-sm text-green-800 font-medium">ServSafe Certified</p>
+                </div>
+                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
+                  <div className="text-3xl font-bold text-blue-600">156</div>
+                  <p className="text-sm text-blue-800 font-medium">Active Certifications</p>
+                </div>
+                <div className="border-4 border-yellow-400 rounded-lg p-4 bg-yellow-50 text-center">
+                  <div className="text-3xl font-bold text-yellow-600">12</div>
+                  <p className="text-sm text-yellow-800 font-medium">Expiring Soon</p>
+                </div>
+                <div className="border-4 border-red-400 rounded-lg p-4 bg-red-50 text-center">
+                  <div className="text-3xl font-bold text-red-600">8</div>
+                  <p className="text-sm text-red-800 font-medium">Expired</p>
+                </div>
+              </div>
+
+              {/* Certification Types */}
+              <div className="border-4 border-orange-400 rounded-lg p-4">
+                <h3 className="font-bold text-orange-800 mb-3">Certification Types Tracked:</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🍽️ ServSafe Manager</p>
+                        <p className="text-xs text-gray-600">Food safety certification</p>
+                      </div>
+                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">142 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">👋 Food Handler Permit</p>
+                        <p className="text-xs text-gray-600">State-required permit</p>
+                      </div>
+                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">158 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">⚠️ Allergen Training</p>
+                        <p className="text-xs text-gray-600">Allergen awareness</p>
+                      </div>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">89 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🍷 Alcohol Service (TIPS)</p>
+                        <p className="text-xs text-gray-600">Responsible alcohol service</p>
+                      </div>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">67 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🍸 Bartending Certification</p>
+                        <p className="text-xs text-gray-600">Professional bartending</p>
+                      </div>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">34 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🍺 Brewing Certification</p>
+                        <p className="text-xs text-gray-600">Craft brewing & beer knowledge</p>
+                      </div>
+                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">18 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">❤️ CPR/First Aid</p>
+                        <p className="text-xs text-gray-600">Emergency response</p>
+                      </div>
+                      <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">45 certified</span>
+                    </div>
+                  </div>
+                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold text-gray-900">🎂 Specialized Culinary</p>
+                        <p className="text-xs text-gray-600">Pastry, Sommelier, etc.</p>
+                      </div>
+                      <span className="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">23 certified</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Students Needing Attention */}
+              <div className="border-4 border-red-400 rounded-lg p-4 bg-red-50">
+                <h3 className="font-bold text-red-800 mb-3">⚠️ Students Requiring Action:</h3>
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  <div className="bg-white border-2 border-red-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Sarah Johnson</p>
+                      <p className="text-xs text-gray-600">ServSafe expires in 15 days</p>
+                    </div>
+                    <button className="text-xs bg-yellow-100 text-yellow-800 px-3 py-1 rounded hover:bg-yellow-200">
+                      Send Reminder
+                    </button>
+                  </div>
+                  <div className="bg-white border-2 border-red-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Michael Chen</p>
+                      <p className="text-xs text-gray-600">Food Handler Permit expired 5 days ago</p>
+                    </div>
+                    <button className="text-xs bg-red-100 text-red-800 px-3 py-1 rounded hover:bg-red-200">
+                      Urgent Reminder
+                    </button>
+                  </div>
+                  <div className="bg-white border-2 border-red-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Emma Rodriguez</p>
+                      <p className="text-xs text-gray-600">No ServSafe certification on file</p>
+                    </div>
+                    <button className="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded hover:bg-blue-200">
+                      Request Upload
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowCredentialingModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => alert('Send renewal reminders to all expiring certifications')}
+                  className="bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro"
+                >
+                  Send Reminders
+                </button>
+                <button
+                  onClick={() => alert('Export certification report')}
+                  className="bg-orange-400 text-white px-6 py-2 rounded-md hover:bg-orange-500 font-retro"
+                >
+                  Export Report
                 </button>
               </div>
             </div>
