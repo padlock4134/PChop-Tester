@@ -1297,21 +1297,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     
                     return (
                       <div key={user.id} className="bg-gray-50 rounded-lg p-4">
-                        <div className="flex flex-col items-center mb-3">
-                          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mb-2">
-                            {initials}
-                          </div>
-                          <div className="text-center">
-                            <h4 className="font-medium text-gray-900">{user.username || 'N/A'}</h4>
-                            <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mt-1">
+                        <div className="flex items-center gap-4 mb-3">
+                          <div className="flex-1">
+                            <h4 className="font-medium text-gray-900 mb-1">{user.username || 'N/A'}</h4>
+                            <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
                               Level {user.level || 1}
                             </span>
+                            <div className="text-sm text-gray-600 space-y-1">
+                              <p>📚 Program: Culinary Arts</p>
+                              <p>📧 Email: {user.email}</p>
+                              <p>📞 Phone: (555) 123-4567</p>
+                            </div>
                           </div>
-                        </div>
-                        <div className="text-sm text-gray-600 space-y-1 text-center">
-                          <p>📚 Program: Culinary Arts</p>
-                          <p>📧 Email: {user.email}</p>
-                          <p>📞 Phone: (555) 123-4567</p>
+                          <div className="w-px h-24 bg-gray-300"></div>
+                          <div className="w-20 h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
+                            {initials}
+                          </div>
                         </div>
                         <div className="flex gap-2 mt-3">
                           <button
