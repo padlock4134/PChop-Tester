@@ -94,6 +94,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [eventType, setEventType] = useState<'networking' | 'reunion' | 'career_fair' | 'workshop'>('networking');
   const [eventDescription, setEventDescription] = useState('');
   const [creatingEvent, setCreatingEvent] = useState(false);
+  const [campaignName, setCampaignName] = useState('');
+  const [campaignGoal, setCampaignGoal] = useState('');
+  const [campaignDescription, setCampaignDescription] = useState('');
+  const [creatingCampaign, setCreatingCampaign] = useState(false);
+  const [careerEventType, setCareerEventType] = useState<'career_fair' | 'resume_workshop' | 'interview_prep' | 'networking'>('career_fair');
+  const [careerEventDate, setCareerEventDate] = useState('');
+  const [careerEventDescription, setCareerEventDescription] = useState('');
+  const [schedulingCareerEvent, setSchedulingCareerEvent] = useState(false);
+  const [exportingAlumni, setExportingAlumni] = useState(false);
   const [exportingData, setExportingData] = useState(false);
   const [showExportDataModal, setShowExportDataModal] = useState(false);
   const [showAddFacultyModal, setShowAddFacultyModal] = useState(false);
@@ -4261,16 +4270,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="space-y-3">
                   <input
                     type="text"
+                    value={campaignName}
+                    onChange={(e) => setCampaignName(e.target.value)}
                     placeholder="Campaign name"
                     className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
                   />
                   <input
                     type="number"
+                    value={campaignGoal}
+                    onChange={(e) => setCampaignGoal(e.target.value)}
                     placeholder="Fundraising goal ($)"
                     className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
                   />
                   <textarea
                     rows={3}
+                    value={campaignDescription}
+                    onChange={(e) => setCampaignDescription(e.target.value)}
                     placeholder="Campaign description..."
                     className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
                   />
@@ -4284,12 +4299,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Close
                 </button>
                 <button
-                  onClick={() => {
-                    alert('New campaign created!');
+                  onClick={async () => {
+                    if (!campaignName.trim() || !campaignGoal) {
+                      alert('Please enter campaign name and goal');
+                      return;
+                    }
+                    
+                    setCreatingCampaign(true);
+                    try {
+                      const { error } = await supabase
+                        .from('donation_campaigns')
+                        .insert({
+                          name: campaignName,
+                          goal_amount: parseFloat(campaignGoal),
+                          current_amount: 0,
+                          status: 'active',
+                          description: campaignDescription || null
+                        });
+                      
+                      if (error) throw error;
+                      
+                      alert(`Campaign "${campaignName}" launched successfully!`);
+                      setCampaignName('');
+                      setCampaignGoal('');
+                      setCampaignDescription('');
+                    } catch (error: any) {
+                      console.error('Error creating campaign:', error);
+                      alert('Failed to create campaign: ' + error.message);
+                    } finally {
+                      setCreatingCampaign(false);
+                    }
                   }}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  disabled={creatingCampaign}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Launch Campaign
+                  {creatingCampaign ? 'Creating...' : 'Launch Campaign'}
                 </button>
               </div>
             </div>
@@ -4623,19 +4667,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-purple-400 rounded-lg p-4">
                 <h3 className="font-bold text-purple-800 mb-2">Schedule New Service:</h3>
                 <div className="space-y-3">
-                  <select className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm">
-                    <option>Select Service Type</option>
-                    <option>Career Fair</option>
-                    <option>Resume Workshop</option>
-                    <option>Interview Prep</option>
-                    <option>Networking Event</option>
+                  <select 
+                    value={careerEventType}
+                    onChange={(e) => setCareerEventType(e.target.value as any)}
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                  >
+                    <option value="career_fair">Career Fair</option>
+                    <option value="resume_workshop">Resume Workshop</option>
+                    <option value="interview_prep">Interview Prep</option>
+                    <option value="networking">Networking Event</option>
                   </select>
                   <input
                     type="date"
+                    value={careerEventDate}
+                    onChange={(e) => setCareerEventDate(e.target.value)}
                     className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
                   />
                   <textarea
                     rows={3}
+                    value={careerEventDescription}
+                    onChange={(e) => setCareerEventDescription(e.target.value)}
                     placeholder="Event details..."
                     className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
                   />
@@ -4649,10 +4700,50 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Close
                 </button>
                 <button
-                  onClick={() => alert('Event scheduled successfully!')}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  onClick={async () => {
+                    if (!careerEventDate) {
+                      alert('Please select an event date');
+                      return;
+                    }
+                    
+                    setSchedulingCareerEvent(true);
+                    try {
+                      // Generate event name based on type
+                      const eventNames = {
+                        career_fair: 'Career Fair',
+                        resume_workshop: 'Resume Workshop',
+                        interview_prep: 'Interview Prep Session',
+                        networking: 'Networking Event'
+                      };
+                      
+                      const { error } = await supabase
+                        .from('career_events')
+                        .insert({
+                          name: eventNames[careerEventType],
+                          event_type: careerEventType,
+                          event_date: careerEventDate,
+                          event_time: null,
+                          description: careerEventDescription || null,
+                          status: 'upcoming'
+                        });
+                      
+                      if (error) throw error;
+                      
+                      alert(`${eventNames[careerEventType]} scheduled successfully!`);
+                      setCareerEventType('career_fair');
+                      setCareerEventDate('');
+                      setCareerEventDescription('');
+                    } catch (error: any) {
+                      console.error('Error scheduling event:', error);
+                      alert('Failed to schedule event: ' + error.message);
+                    } finally {
+                      setSchedulingCareerEvent(false);
+                    }
+                  }}
+                  disabled={schedulingCareerEvent}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Schedule Event
+                  {schedulingCareerEvent ? 'Scheduling...' : 'Schedule Event'}
                 </button>
               </div>
             </div>
@@ -4743,10 +4834,37 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Close
                 </button>
                 <button
-                  onClick={() => alert('Exporting alumni database...')}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  onClick={async () => {
+                    setExportingAlumni(true);
+                    try {
+                      const { data, error } = await supabase
+                        .from('alumni')
+                        .select('full_name, graduation_year, current_employer, current_position, is_featured, created_at')
+                        .order('graduation_year', { ascending: false });
+                      
+                      if (error) throw error;
+                      
+                      if (!data || data.length === 0) {
+                        alert('No alumni data to export');
+                        return;
+                      }
+                      
+                      const csv = convertToCSV(data);
+                      const timestamp = new Date().toISOString().split('T')[0];
+                      downloadFile(csv, `alumni-database-${timestamp}.csv`);
+                      
+                      alert(`Successfully exported ${data.length} alumni records!`);
+                    } catch (error: any) {
+                      console.error('Error exporting alumni:', error);
+                      alert('Failed to export: ' + error.message);
+                    } finally {
+                      setExportingAlumni(false);
+                    }
+                  }}
+                  disabled={exportingAlumni}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Export Database
+                  {exportingAlumni ? 'Exporting...' : 'Export Database'}
                 </button>
               </div>
             </div>
