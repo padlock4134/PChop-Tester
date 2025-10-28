@@ -233,6 +233,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [selectedEventId, setSelectedEventId] = useState('');
   const [showViewEventModal, setShowViewEventModal] = useState(false);
   const [showCredentialingModal, setShowCredentialingModal] = useState(false);
+  const [selectedCareerEventId, setSelectedCareerEventId] = useState('');
+  const [showViewCareerEventModal, setShowViewCareerEventModal] = useState(false);
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { user: currentUser } = useSupabase();
 
@@ -4978,26 +4980,30 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
               <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50">
-                <h3 className="font-bold text-purple-800 mb-3">Upcoming Events:</h3>
-                <div className="space-y-2">
-                  <div className="bg-white border-2 border-purple-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">Spring Career Fair 2025</p>
-                        <p className="text-xs text-gray-600">March 15, 2025 • 10:00 AM - 4:00 PM</p>
-                      </div>
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Upcoming</span>
-                    </div>
-                  </div>
-                  <div className="bg-white border-2 border-purple-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">Resume Workshop</p>
-                        <p className="text-xs text-gray-600">February 20, 2025 • 2:00 PM - 4:00 PM</p>
-                      </div>
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Open</span>
-                    </div>
-                  </div>
+                <h3 className="font-bold text-purple-800 mb-3">Scheduled Events:</h3>
+                <div className="flex gap-2">
+                  <select 
+                    value={selectedCareerEventId}
+                    onChange={(e) => setSelectedCareerEventId(e.target.value)}
+                    className="flex-1 border-4 border-purple-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
+                  >
+                    <option value="">-- View Existing Event --</option>
+                    <option value="career-1">Spring Career Fair 2025 - March 15, 2025</option>
+                    <option value="career-2">Resume Workshop - February 20, 2025</option>
+                    <option value="career-3">Interview Prep Session - April 5, 2025</option>
+                  </select>
+                  <button
+                    onClick={() => {
+                      if (!selectedCareerEventId) {
+                        alert('Please select an event first');
+                        return;
+                      }
+                      setShowViewCareerEventModal(true);
+                    }}
+                    className="bg-purple-400 text-white px-6 py-2 rounded-md hover:bg-purple-500 font-retro whitespace-nowrap"
+                  >
+                    View
+                  </button>
                 </div>
               </div>
               <div className="border-4 border-purple-400 rounded-lg p-4">
@@ -5534,6 +5540,125 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <button
                   onClick={() => alert('Export attendee list')}
                   className="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro"
+                >
+                  Export List
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Career Event Details Modal */}
+      {showViewCareerEventModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-purple-600 font-retro">💼 Career Event Details</h2>
+              <button
+                onClick={() => setShowViewCareerEventModal(false)}
+                className="text-gray-500 hover:text-gray-800 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+            <div className="space-y-4">
+              {/* Event Info */}
+              <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50">
+                <h3 className="font-bold text-purple-800 mb-3 text-lg">
+                  {selectedCareerEventId === 'career-1' && 'Spring Career Fair 2025'}
+                  {selectedCareerEventId === 'career-2' && 'Resume Workshop'}
+                  {selectedCareerEventId === 'career-3' && 'Interview Prep Session'}
+                </h3>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <p className="text-gray-600"><strong>Date:</strong> 
+                      {selectedCareerEventId === 'career-1' && ' March 15, 2025'}
+                      {selectedCareerEventId === 'career-2' && ' February 20, 2025'}
+                      {selectedCareerEventId === 'career-3' && ' April 5, 2025'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600"><strong>Time:</strong> 
+                      {selectedCareerEventId === 'career-1' && ' 10:00 AM - 4:00 PM'}
+                      {selectedCareerEventId === 'career-2' && ' 2:00 PM - 4:00 PM'}
+                      {selectedCareerEventId === 'career-3' && ' 1:00 PM - 3:00 PM'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600"><strong>Location:</strong> Main Campus Auditorium</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600"><strong>Type:</strong> 
+                      {selectedCareerEventId === 'career-1' && ' Career Fair'}
+                      {selectedCareerEventId === 'career-2' && ' Workshop'}
+                      {selectedCareerEventId === 'career-3' && ' Interview Prep'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Registration Stats */}
+              <div className="grid grid-cols-3 gap-3">
+                <div className="border-4 border-blue-400 rounded-lg p-3 bg-blue-50 text-center">
+                  <div className="text-2xl font-bold text-blue-600">89</div>
+                  <p className="text-xs text-blue-800 font-medium">Registered</p>
+                </div>
+                <div className="border-4 border-green-400 rounded-lg p-3 bg-green-50 text-center">
+                  <div className="text-2xl font-bold text-green-600">12</div>
+                  <p className="text-xs text-green-800 font-medium">Employers</p>
+                </div>
+                <div className="border-4 border-purple-400 rounded-lg p-3 bg-purple-50 text-center">
+                  <div className="text-2xl font-bold text-purple-600">45</div>
+                  <p className="text-xs text-purple-800 font-medium">Open Positions</p>
+                </div>
+              </div>
+
+              {/* Registered Students */}
+              <div className="border-4 border-purple-400 rounded-lg p-4">
+                <h3 className="font-bold text-purple-800 mb-3">Registered Students:</h3>
+                <div className="max-h-48 overflow-y-auto space-y-2">
+                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Sarah Johnson</p>
+                      <p className="text-xs text-gray-600">Culinary Arts - Class of 2025</p>
+                    </div>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Confirmed</span>
+                  </div>
+                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Michael Chen</p>
+                      <p className="text-xs text-gray-600">Pastry Arts - Class of 2025</p>
+                    </div>
+                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Confirmed</span>
+                  </div>
+                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3 flex justify-between items-center">
+                    <div>
+                      <p className="font-semibold text-gray-900">Emma Rodriguez</p>
+                      <p className="text-xs text-gray-600">Culinary Management - Class of 2026</p>
+                    </div>
+                    <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Pending</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowViewCareerEventModal(false)}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => alert('Send reminder to registered students')}
+                  className="bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro"
+                >
+                  Send Reminder
+                </button>
+                <button
+                  onClick={() => alert('Export attendee list')}
+                  className="bg-purple-400 text-white px-6 py-2 rounded-md hover:bg-purple-500 font-retro"
                 >
                   Export List
                 </button>
