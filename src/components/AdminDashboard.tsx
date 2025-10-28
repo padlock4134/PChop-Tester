@@ -77,6 +77,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [importProgress, setImportProgress] = useState(0);
   const [importStatus, setImportStatus] = useState<'idle' | 'parsing' | 'uploading' | 'complete' | 'error'>('idle');
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
+  const [announcementSubject, setAnnouncementSubject] = useState('');
+  const [announcementMessage, setAnnouncementMessage] = useState('');
+  const [sendingAnnouncement, setSendingAnnouncement] = useState(false);
+  const [exportingData, setExportingData] = useState(false);
   const [showExportDataModal, setShowExportDataModal] = useState(false);
   const [showAddFacultyModal, setShowAddFacultyModal] = useState(false);
   const [showManagePermissionsModal, setShowManagePermissionsModal] = useState(false);
@@ -89,6 +93,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showCareerServicesModal, setShowCareerServicesModal] = useState(false);
   const [showAlumniDatabaseModal, setShowAlumniDatabaseModal] = useState(false);
   const { user: currentUser } = useSupabase();
+
+  // CSV Export Helper Functions
+  const convertToCSV = (data: any[]) => {
+    if (!data || data.length === 0) return '';
+    const headers = Object.keys(data[0]);
+    const csv = [
+      headers.join(','),
+      ...data.map(row => headers.map(h => JSON.stringify(row[h] || '')).join(','))
+    ].join('\n');
+    return csv;
+  };
+
+  const downloadFile = (content: string, filename: string) => {
+    const blob = new Blob([content], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
 
   // Initialize Chef Freddie with welcome message
   useEffect(() => {
@@ -3432,6 +3457,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Subject:</label>
                 <input
                   type="text"
+                  value={announcementSubject}
+                  onChange={(e) => setAnnouncementSubject(e.target.value)}
                   placeholder="Enter announcement subject"
                   className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -3440,6 +3467,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <label className="block text-sm font-bold text-gray-700 mb-2">Message:</label>
                 <textarea
                   rows={6}
+                  value={announcementMessage}
+                  onChange={(e) => setAnnouncementMessage(e.target.value)}
                   placeholder="Enter your announcement message..."
                   className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -3469,13 +3498,42 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Cancel
                 </button>
                 <button
-                  onClick={() => {
-                    alert('Announcement sent to all recipients!');
-                    setShowAnnouncementModal(false);
+                  onClick={async () => {
+                    if (!announcementSubject.trim() || !announcementMessage.trim()) {
+                      alert('Please enter both subject and message');
+                      return;
+                    }
+                    
+                    setSendingAnnouncement(true);
+                    try {
+                      // Create notification for all users
+                      const notifications = users.map(user => ({
+                        user_id: user.id,
+                        message: `${announcementSubject}: ${announcementMessage}`,
+                        read: false
+                      }));
+                      
+                      const { error } = await supabase
+                        .from('notifications')
+                        .insert(notifications);
+                      
+                      if (error) throw error;
+                      
+                      alert(`Announcement sent to ${users.length} recipients!`);
+                      setAnnouncementSubject('');
+                      setAnnouncementMessage('');
+                      setShowAnnouncementModal(false);
+                    } catch (error: any) {
+                      console.error('Error sending announcement:', error);
+                      alert('Failed to send announcement: ' + error.message);
+                    } finally {
+                      setSendingAnnouncement(false);
+                    }
                   }}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  disabled={sendingAnnouncement}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Announcement
+                  {sendingAnnouncement ? 'Sending...' : 'Send Announcement'}
                 </button>
               </div>
             </div>
@@ -3563,13 +3621,40 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Cancel
                 </button>
                 <button
-                  onClick={() => {
-                    alert('Student data exported successfully!');
-                    setShowExportDataModal(false);
+                  onClick={async () => {
+                    setExportingData(true);
+                    try {
+                      // Query all student data
+                      const { data, error } = await supabase
+                        .from('profiles')
+                        .select('id, email, username, xp, level, created_at, last_login')
+                        .order('created_at', { ascending: false });
+                      
+                      if (error) throw error;
+                      
+                      if (!data || data.length === 0) {
+                        alert('No student data to export');
+                        return;
+                      }
+                      
+                      // Convert to CSV and download
+                      const csv = convertToCSV(data);
+                      const timestamp = new Date().toISOString().split('T')[0];
+                      downloadFile(csv, `student-data-${timestamp}.csv`);
+                      
+                      alert(`Successfully exported ${data.length} student records!`);
+                      setShowExportDataModal(false);
+                    } catch (error: any) {
+                      console.error('Error exporting data:', error);
+                      alert('Failed to export data: ' + error.message);
+                    } finally {
+                      setExportingData(false);
+                    }
                   }}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  disabled={exportingData}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Download Export
+                  {exportingData ? 'Exporting...' : 'Download Export'}
                 </button>
               </div>
             </div>
