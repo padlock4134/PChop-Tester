@@ -364,17 +364,6 @@ const StudentProgressDashboard: React.FC = () => {
         />
 
         <ProgressCard
-          emoji="🔥"
-          title="My Engagement"
-          description="Review your activity and participation stats"
-          buttonText="View Engagement"
-          bgColor="bg-orange-50"
-          textColor="text-orange-800"
-          borderColor="border-orange-400"
-          onClick={() => setEngagementModalOpen(true)}
-        />
-
-        <ProgressCard
           emoji="🏆"
           title="Achievements"
           description="View badges and accomplishments"
