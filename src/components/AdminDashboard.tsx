@@ -3821,9 +3821,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Add Student Modal */}
       {showAddStudentModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 w-full max-w-md">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-6 w-full max-w-md">
             <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">🎓 Add New Student</h2>
+              <h2 className="text-2xl font-bold text-blue-600 font-retro">🎓 Add New Student</h2>
               <button
                 onClick={() => setShowAddStudentModal(false)}
                 className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -3860,8 +3860,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <input
                   type="tel"
                   value={newStudentPhone}
-                  onChange={(e) => setNewStudentPhone(e.target.value)}
+                  onChange={(e) => {
+                    const input = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                    let formatted = '';
+                    
+                    if (input.length > 0) {
+                      formatted = '(' + input.substring(0, 3);
+                    }
+                    if (input.length >= 4) {
+                      formatted += ') ' + input.substring(3, 6);
+                    }
+                    if (input.length >= 7) {
+                      formatted += '-' + input.substring(6, 10);
+                    }
+                    
+                    setNewStudentPhone(formatted);
+                  }}
                   placeholder="(555) 123-4567"
+                  maxLength={14}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
