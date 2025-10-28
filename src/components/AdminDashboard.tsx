@@ -141,6 +141,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showManagePartnersModal, setShowManagePartnersModal] = useState(false);
   const [showCareerServicesModal, setShowCareerServicesModal] = useState(false);
   const [showAlumniDatabaseModal, setShowAlumniDatabaseModal] = useState(false);
+  const [showAddStudentModal, setShowAddStudentModal] = useState(false);
+  const [newStudentName, setNewStudentName] = useState('');
+  const [newStudentEmail, setNewStudentEmail] = useState('');
+  const [newStudentPhone, setNewStudentPhone] = useState('');
+  const [newStudentProgram, setNewStudentProgram] = useState('Culinary Arts');
   const { user: currentUser } = useSupabase();
 
   // CSV Export Helper Functions
@@ -1317,7 +1322,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Student Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">📋 Student Directory</h3>
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="font-bold text-maineBlue">📋 Student Directory</h3>
+                  <button
+                    onClick={() => setShowAddStudentModal(true)}
+                    className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center gap-2"
+                  >
+                    <span className="text-lg">+</span> Add Student
+                  </button>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {users.slice(0, 10).map((user) => {
                     const initials = (user.username || user.email || 'NA')
@@ -3800,6 +3813,116 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Send Invitation
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Student Modal */}
+      {showAddStudentModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 w-full max-w-md">
+            <div className="text-center mb-6 relative">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">🎓 Add New Student</h2>
+              <button
+                onClick={() => setShowAddStudentModal(false)}
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Student Name</label>
+                <input
+                  type="text"
+                  value={newStudentName}
+                  onChange={(e) => setNewStudentName(e.target.value)}
+                  placeholder="Enter full name"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input
+                  type="email"
+                  value={newStudentEmail}
+                  onChange={(e) => setNewStudentEmail(e.target.value)}
+                  placeholder="student@email.com"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                <input
+                  type="tel"
+                  value={newStudentPhone}
+                  onChange={(e) => setNewStudentPhone(e.target.value)}
+                  placeholder="(555) 123-4567"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                <select
+                  value={newStudentProgram}
+                  onChange={(e) => setNewStudentProgram(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                >
+                  <option value="Culinary Arts">Culinary Arts</option>
+                  <option value="Pastry Arts">Pastry Arts</option>
+                  <option value="Baking & Pastry">Baking & Pastry</option>
+                  <option value="Restaurant Management">Restaurant Management</option>
+                  <option value="Hospitality Management">Hospitality Management</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => setShowAddStudentModal(false)}
+                className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  if (!newStudentName.trim() || !newStudentEmail.trim()) {
+                    alert('Please enter student name and email');
+                    return;
+                  }
+                  
+                  // Add student to list
+                  const newStudent = {
+                    id: `student-${Date.now()}`,
+                    username: newStudentName,
+                    email: newStudentEmail,
+                    xp: 0,
+                    level: 1,
+                    chat_count: 0,
+                    last_chat_date: new Date().toISOString(),
+                    created_at: new Date().toISOString()
+                  };
+                  
+                  setUsers(prev => [...prev, newStudent]);
+                  
+                  // Reset form
+                  setNewStudentName('');
+                  setNewStudentEmail('');
+                  setNewStudentPhone('');
+                  setNewStudentProgram('Culinary Arts');
+                  setShowAddStudentModal(false);
+                  
+                  alert('Student added successfully!');
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                Add Student
+              </button>
             </div>
           </div>
         </div>
