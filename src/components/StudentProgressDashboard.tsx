@@ -125,7 +125,7 @@ const StudentProgressDashboard: React.FC = () => {
   }
 
   const ProgressCard: React.FC<ProgressCardProps> = ({ emoji, title, description, buttonText, bgColor, textColor, borderColor, onClick }) => (
-    <div className={`${bgColor} border-4 ${borderColor} rounded-lg p-4 hover:scale-105 transition-transform duration-200 text-center`}>
+    <div className={`${bgColor} border-4 ${borderColor} rounded-lg p-6 hover:scale-105 transition-transform duration-200 text-center`}>
       <div className="text-2xl mb-2">{emoji}</div>
       <h4 className="font-semibold text-gray-900 mb-2 font-retro">{title}</h4>
       <p className="text-sm text-gray-600 mb-3 italic">{description}</p>
