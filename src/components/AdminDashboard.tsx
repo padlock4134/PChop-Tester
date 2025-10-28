@@ -1325,9 +1325,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           </div>
                         </div>
                         <div className="text-sm text-gray-600 space-y-1">
-                          <p>⭐ XP: {user.xp || 0} points</p>
-                          <p>💬 Activity: {user.chat_count || 0} chats</p>
-                          <p>📅 Last Active: {user.last_chat_date ? new Date(user.last_chat_date).toLocaleDateString() : 'Never'}</p>
+                          <p>📚 Program: Culinary Arts</p>
+                          <p>📧 Email: {user.email}</p>
+                          <p>📞 Phone: (555) 123-4567</p>
                         </div>
                         <div className="flex gap-2 mt-3">
                           <button
