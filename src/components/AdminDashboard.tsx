@@ -777,7 +777,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                   <div className="mb-3 text-4xl">📊</div>
                   <h4 className="font-semibold text-gray-900 mb-2 font-retro">Program Performance</h4>
-                  <p className="text-sm text-gray-600 mb-3 italic">Track completion rates, job placement success, and effectiveness</p>
+                  <p className="text-sm text-gray-600 mb-3 italic">Track completion rates, job placement, and effectiveness</p>
                   <button 
                     onClick={() => setShowProgramPerformanceModal(true)}
                     className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
