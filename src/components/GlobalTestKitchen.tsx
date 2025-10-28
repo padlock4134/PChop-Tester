@@ -223,22 +223,56 @@ const GlobalTestKitchen: React.FC = () => {
     }
   };
 
-  const handlePost = () => {
-    if (newPost.trim()) {
-      const newPostObj = {
-        id: Date.now().toString(),
-        author: 'You',
-        avatar: '👨‍🍳',
-        timestamp: 'now',
-        content: newPost,
-        type: 'live' as const,
-        likes: 0,
-        comments: 0,
-        isLiked: false
-      };
+  const handlePost = async () => {
+    if (!newPost.trim() || !user) return;
+    
+    try {
+      // Insert post to Supabase
+      const { data, error } = await supabase
+        .from('community_posts')
+        .insert({
+          user_id: user.id,
+          content: newPost,
+          post_type: 'live',
+          session_id: currentLiveSession?.id || null
+        })
+        .select(`
+          id,
+          content,
+          post_type,
+          created_at,
+          likes_count,
+          comments_count,
+          profiles:user_id (
+            username,
+            email
+          )
+        `)
+        .single();
       
-      setPosts(prev => [newPostObj, ...prev]);
+      if (error) throw error;
+      
+      // Add to local state for immediate UI update
+      if (data) {
+        const newPostObj: TimelinePost = {
+          id: data.id,
+          author: (data.profiles as any)?.username || (data.profiles as any)?.email || 'Anonymous',
+          avatar: '👨‍🍳',
+          timestamp: 'now',
+          content: data.content,
+          type: data.post_type as any,
+          likes: data.likes_count || 0,
+          comments: data.comments_count || 0,
+          isLiked: false
+        };
+        setPosts(prev => [newPostObj, ...prev]);
+      }
+      
       setNewPost('');
+      logUserActivity('posted_to_community', { content_length: newPost.length });
+    } catch (error) {
+      console.error('Error posting:', error);
+      alert('Failed to post. Please try again.');
     }
   };
 
