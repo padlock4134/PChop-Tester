@@ -1195,8 +1195,15 @@ END:VCALENDAR`;
               )}
               {/* Live Video Area */}
               <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
-                {stream ? (
-                  // Show camera feed when streaming
+                {isViewer && currentLiveSession ? (
+                  // Viewer mode - watching someone else's stream
+                  <div className="text-white text-center">
+                    <div className="text-6xl mb-4">{currentLiveSession.thumbnail}</div>
+                    <p className="text-lg">Watching {currentLiveSession.hostName}'s live session</p>
+                    <p className="text-sm opacity-75">Live video stream would appear here</p>
+                  </div>
+                ) : stream ? (
+                  // Host mode - showing your camera feed
                   <video
                     ref={videoRef}
                     autoPlay
@@ -1209,7 +1216,7 @@ END:VCALENDAR`;
                     onError={(e) => console.error('Video error:', e)}
                   />
                 ) : (
-                  // Show placeholder when not streaming
+                  // No stream - show placeholder
                   <div className="text-white text-center">
                     <div className="text-4xl mb-2">👨‍🍳</div>
                     <p className="text-sm">Live Cooking Session</p>
@@ -1233,7 +1240,20 @@ END:VCALENDAR`;
 
               {/* Simple Controls */}
               <div className="flex justify-center space-x-2 mt-2 mb-12">
-                {!isRecording ? (
+                {isViewer ? (
+                  // Viewer controls
+                  <button 
+                    onClick={() => {
+                      setLiveSessionModalOpen(false);
+                      setIsViewer(false);
+                      setCurrentLiveSession(null);
+                    }}
+                    className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors"
+                  >
+                    👋 Leave Session
+                  </button>
+                ) : !isRecording ? (
+                  // Host controls - not recording
                   <button 
                     onClick={startRecording}
                     className="bg-lobsterRed text-weatheredWhite px-4 py-1 text-sm rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
@@ -1241,6 +1261,7 @@ END:VCALENDAR`;
                     🔴 Go Live
                   </button>
                 ) : (
+                  // Host controls - recording
                   <button 
                     onClick={stopRecording}
                     className="bg-red-500 text-white px-4 py-1 text-sm rounded-lg"
