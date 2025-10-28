@@ -57,5 +57,19 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
 
   const data = await response.json();
   // Claude API returns an array of content blocks
-  return data.content?.[0]?.text || 'Sorry, I could not generate a response.';
+  const responseText = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
+  
+  // Log conversation for admin analytics
+  try {
+    await supabase.from('chat_logs').insert({
+      user_id: userId,
+      prompt: prompt,
+      response: responseText
+    });
+  } catch (logError) {
+    console.error('Failed to log chat:', logError);
+    // Don't fail the request if logging fails
+  }
+  
+  return responseText;
 }
