@@ -97,6 +97,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [parsedStudents, setParsedStudents] = useState<Array<{email: string, name?: string, error?: string}>>([]);
   const [importProgress, setImportProgress] = useState(0);
   const [importStatus, setImportStatus] = useState<'idle' | 'parsing' | 'uploading' | 'complete' | 'error'>('idle');
+  const [uploadedFiles, setUploadedFiles] = useState<Array<{name: string, url: string, type: string, size: number}>>([]);
+  const [processingFiles, setProcessingFiles] = useState(false);
+  const [showMappingReviewModal, setShowMappingReviewModal] = useState(false);
+  const [currentMapping, setCurrentMapping] = useState<any>(null);
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
   const [announcementSubject, setAnnouncementSubject] = useState('');
   const [announcementMessage, setAnnouncementMessage] = useState('');
@@ -337,6 +341,95 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       }]);
     } finally {
       setFreddieLoading(false);
+    }
+  };
+
+  // Handle file upload and AI processing
+  const handleFileUpload = async (files: File[]) => {
+    if (!currentUser?.id) {
+      alert('You must be logged in to upload files');
+      return;
+    }
+
+    setProcessingFiles(true);
+
+    try {
+      for (const file of files) {
+        // Step 1: Upload file to Supabase Storage
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}_${file.name}`;
+        const filePath = `curriculum/${fileName}`;
+
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('admin_uploads')
+          .upload(filePath, file);
+
+        if (uploadError) {
+          console.error('Upload error:', uploadError);
+          alert(`Failed to upload ${file.name}: ${uploadError.message}`);
+          continue;
+        }
+
+        // Get public URL
+        const { data: urlData } = supabase.storage
+          .from('admin_uploads')
+          .getPublicUrl(filePath);
+
+        const fileUrl = urlData.publicUrl;
+
+        // Step 2: Call content processor function
+        const processorResponse = await fetch('/.netlify/functions/content-processor', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fileUrl: fileUrl,
+            fileName: file.name,
+            fileType: file.type
+          })
+        });
+
+        if (!processorResponse.ok) {
+          const errorText = await processorResponse.text();
+          console.error('Processor error:', errorText);
+          alert(`Failed to process ${file.name}`);
+          continue;
+        }
+
+        const processorData = await processorResponse.json();
+
+        // Step 3: Insert into content_staging table
+        const { error: stagingError } = await supabase
+          .from('content_staging')
+          .insert({
+            file_url: fileUrl,
+            file_name: file.name,
+            ai_suggestion: processorData.aiSuggestion,
+            status: 'pending',
+            uploaded_by: currentUser.id
+          });
+
+        if (stagingError) {
+          console.error('Staging error:', stagingError);
+          alert(`Failed to stage ${file.name}`);
+          continue;
+        }
+
+        // Step 4: Show mapping review modal
+        setCurrentMapping({
+          fileName: file.name,
+          fileUrl: fileUrl,
+          aiSuggestion: processorData.aiSuggestion
+        });
+        setShowMappingReviewModal(true);
+        setShowBrowseFilesModal(false);
+      }
+    } catch (error: any) {
+      console.error('File upload error:', error);
+      alert(`Upload failed: ${error.message}`);
+    } finally {
+      setProcessingFiles(false);
     }
   };
 
@@ -3077,8 +3170,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   id="file-upload"
                   onChange={(e) => {
                     const files = Array.from(e.target.files || []);
-                    console.log('Selected files:', files);
-                    // Handle file upload logic here
+                    if (files.length > 0) {
+                      handleFileUpload(files);
+                    }
                   }}
                 />
                 <label 
@@ -5951,6 +6045,284 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Export Report
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mapping Review Modal */}
+      {showMappingReviewModal && currentMapping && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="text-center mb-6 relative">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">📋 Review AI Mapping</h2>
+              <button
+                onClick={() => setShowMappingReviewModal(false)}
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* File Info */}
+            <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 mb-6">
+              <h3 className="text-center font-bold text-blue-900 mb-2">📄 {currentMapping.fileName}</h3>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="font-semibold">Content Type:</span> {currentMapping.aiSuggestion.contentType}
+                </div>
+                <div>
+                  <span className="font-semibold">Confidence:</span> {currentMapping.aiSuggestion.confidence}%
+                </div>
+              </div>
+            </div>
+
+            {/* Extracted Metadata */}
+            <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 mb-6">
+              <h3 className="text-center font-bold text-green-900 mb-3">📊 Extracted Data</h3>
+              <div className="space-y-2 text-sm">
+                <div><span className="font-semibold">Title:</span> {currentMapping.aiSuggestion.metadata.title}</div>
+                {currentMapping.aiSuggestion.metadata.weekNumber && (
+                  <div><span className="font-semibold">Week:</span> {currentMapping.aiSuggestion.metadata.weekNumber}</div>
+                )}
+                {currentMapping.aiSuggestion.metadata.topics.length > 0 && (
+                  <div><span className="font-semibold">Topics:</span> {currentMapping.aiSuggestion.metadata.topics.join(', ')}</div>
+                )}
+                {currentMapping.aiSuggestion.metadata.equipment.length > 0 && (
+                  <div><span className="font-semibold">Equipment:</span> {currentMapping.aiSuggestion.metadata.equipment.join(', ')}</div>
+                )}
+                <div><span className="font-semibold">Difficulty:</span> {currentMapping.aiSuggestion.metadata.difficulty}</div>
+              </div>
+            </div>
+
+            {/* Module Mapping */}
+            <div className="border-4 border-maineBlue rounded-lg p-4 mb-6">
+              <h3 className="text-center font-bold text-gray-900 mb-4">🎯 Module Distribution</h3>
+              <div className="space-y-3">
+                {/* MyKitchen */}
+                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules.MyKitchen.include ? 'border-blue-400 bg-blue-50' : 'border-gray-300 bg-gray-50'}`}>
+                  <label className="flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={currentMapping.aiSuggestion.modules.MyKitchen.include}
+                      onChange={(e) => {
+                        setCurrentMapping({
+                          ...currentMapping,
+                          aiSuggestion: {
+                            ...currentMapping.aiSuggestion,
+                            modules: {
+                              ...currentMapping.aiSuggestion.modules,
+                              MyKitchen: {
+                                ...currentMapping.aiSuggestion.modules.MyKitchen,
+                                include: e.target.checked
+                              }
+                            }
+                          }
+                        });
+                      }}
+                      className="mr-3 w-5 h-5"
+                    />
+                    <div className="flex-1">
+                      <div className="font-bold text-blue-800">🍳 MyKitchen</div>
+                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules.MyKitchen.reason}</div>
+                    </div>
+                  </label>
+                </div>
+
+                {/* MyCookBook */}
+                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules.MyCookBook.include ? 'border-green-400 bg-green-50' : 'border-gray-300 bg-gray-50'}`}>
+                  <label className="flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={currentMapping.aiSuggestion.modules.MyCookBook.include}
+                      onChange={(e) => {
+                        setCurrentMapping({
+                          ...currentMapping,
+                          aiSuggestion: {
+                            ...currentMapping.aiSuggestion,
+                            modules: {
+                              ...currentMapping.aiSuggestion.modules,
+                              MyCookBook: {
+                                ...currentMapping.aiSuggestion.modules.MyCookBook,
+                                include: e.target.checked
+                              }
+                            }
+                          }
+                        });
+                      }}
+                      className="mr-3 w-5 h-5"
+                    />
+                    <div className="flex-1">
+                      <div className="font-bold text-green-800">📚 MyCookBook</div>
+                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules.MyCookBook.reason}</div>
+                    </div>
+                  </label>
+                </div>
+
+                {/* CulinarySchool */}
+                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules.CulinarySchool.include ? 'border-purple-400 bg-purple-50' : 'border-gray-300 bg-gray-50'}`}>
+                  <label className="flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={currentMapping.aiSuggestion.modules.CulinarySchool.include}
+                      onChange={(e) => {
+                        setCurrentMapping({
+                          ...currentMapping,
+                          aiSuggestion: {
+                            ...currentMapping.aiSuggestion,
+                            modules: {
+                              ...currentMapping.aiSuggestion.modules,
+                              CulinarySchool: {
+                                ...currentMapping.aiSuggestion.modules.CulinarySchool,
+                                include: e.target.checked
+                              }
+                            }
+                          }
+                        });
+                      }}
+                      className="mr-3 w-5 h-5"
+                    />
+                    <div className="flex-1">
+                      <div className="font-bold text-purple-800">🎓 CulinarySchool</div>
+                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules.CulinarySchool.reason}</div>
+                    </div>
+                  </label>
+                </div>
+
+                {/* Chef's Corner */}
+                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules.ChefsCorner.include ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-gray-50'}`}>
+                  <label className="flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      checked={currentMapping.aiSuggestion.modules.ChefsCorner.include}
+                      onChange={(e) => {
+                        setCurrentMapping({
+                          ...currentMapping,
+                          aiSuggestion: {
+                            ...currentMapping.aiSuggestion,
+                            modules: {
+                              ...currentMapping.aiSuggestion.modules,
+                              ChefsCorner: {
+                                ...currentMapping.aiSuggestion.modules.ChefsCorner,
+                                include: e.target.checked
+                              }
+                            }
+                          }
+                        });
+                      }}
+                      className="mr-3 w-5 h-5"
+                    />
+                    <div className="flex-1">
+                      <div className="font-bold text-red-800">👨‍🍳 Chef's Corner</div>
+                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules.ChefsCorner.reason}</div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={() => setShowMappingReviewModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  if (!currentUser?.id) return;
+                  
+                  try {
+                    const { aiSuggestion, fileName } = currentMapping;
+                    const { modules, metadata, contentType } = aiSuggestion;
+
+                    // Distribute to MyKitchen (recipes)
+                    if (modules.MyKitchen.include && contentType === 'recipe') {
+                      const { error: recipeError } = await supabase
+                        .from('user_cookbook')
+                        .insert({
+                          user_id: currentUser.id,
+                          title: metadata.title,
+                          ingredients: metadata.topics, // Topics as ingredients placeholder
+                          instructions: `Imported from ${fileName}`,
+                          difficulty: metadata.difficulty,
+                          created_at: new Date().toISOString()
+                        });
+                      
+                      if (recipeError) {
+                        console.error('Recipe insert error:', recipeError);
+                      }
+                    }
+
+                    // Distribute to MyCookBook (assignments)
+                    if (modules.MyCookBook.include && (contentType === 'assignment' || contentType === 'lesson')) {
+                      const { error: assignmentError } = await supabase
+                        .from('assignments')
+                        .insert({
+                          title: metadata.title,
+                          description: `Week ${metadata.weekNumber || 'TBD'}: ${metadata.topics.join(', ')}`,
+                          rubric: {
+                            criteria: metadata.topics,
+                            equipment: metadata.equipment,
+                            difficulty: metadata.difficulty
+                          },
+                          created_at: new Date().toISOString()
+                        });
+                      
+                      if (assignmentError) {
+                        console.error('Assignment insert error:', assignmentError);
+                      }
+                    }
+
+                    // Distribute to CulinarySchool (curriculum content)
+                    if (modules.CulinarySchool.include) {
+                      const { error: curriculumError } = await supabase
+                        .from('curriculum_content')
+                        .insert({
+                          title: metadata.title,
+                          content_type: contentType,
+                          content_data: {
+                            topics: metadata.topics,
+                            equipment: metadata.equipment,
+                            difficulty: metadata.difficulty,
+                            weekNumber: metadata.weekNumber
+                          },
+                          week_number: metadata.weekNumber,
+                          created_at: new Date().toISOString()
+                        });
+                      
+                      if (curriculumError) {
+                        console.error('Curriculum insert error:', curriculumError);
+                      }
+                    }
+
+                    // Distribute to Chef's Corner (demo videos/insights)
+                    if (modules.ChefsCorner.include && contentType === 'video') {
+                      // For now, just log - would need specific table for Chef's Corner content
+                      console.log('Chef\'s Corner content:', metadata);
+                    }
+
+                    // Update content_staging status to 'distributed'
+                    await supabase
+                      .from('content_staging')
+                      .update({ status: 'distributed' })
+                      .eq('file_name', fileName)
+                      .eq('uploaded_by', currentUser.id);
+
+                    alert('Content successfully distributed to selected modules!');
+                    setShowMappingReviewModal(false);
+                    setCurrentMapping(null);
+                    
+                  } catch (error: any) {
+                    console.error('Distribution error:', error);
+                    alert(`Failed to distribute content: ${error.message}`);
+                  }
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                ✓ Confirm & Distribute
+              </button>
             </div>
           </div>
         </div>
