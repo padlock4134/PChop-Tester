@@ -101,6 +101,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [processingFiles, setProcessingFiles] = useState(false);
   const [showMappingReviewModal, setShowMappingReviewModal] = useState(false);
   const [currentMapping, setCurrentMapping] = useState<any>(null);
+  const [modulePermissions, setModulePermissions] = useState<{[key: string]: {[key: string]: string}}>({
+    student: {
+      MyCookBook: 'Full Access',
+      CulinarySchool: 'Full Access',
+      ChefsCorner: 'Read Only',
+      GlobalTestKitchen: 'Full Access',
+      AdminDashboard: 'No Access'
+    },
+    administrator: {
+      MyCookBook: 'Full Access',
+      CulinarySchool: 'Full Access',
+      ChefsCorner: 'Full Access',
+      GlobalTestKitchen: 'Full Access',
+      AdminDashboard: 'Full Access'
+    }
+  });
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
   const [announcementSubject, setAnnouncementSubject] = useState('');
   const [announcementMessage, setAnnouncementMessage] = useState('');
@@ -2979,73 +2995,143 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <tr className="border-b">
                         <td className="py-3 px-4 font-medium">Student</td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.student?.MyCookBook || 'Full Access'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              student: { ...modulePermissions.student, MyCookBook: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
                             <option>Read Only</option>
                             <option>No Access</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.student?.CulinarySchool || 'Full Access'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              student: { ...modulePermissions.student, CulinarySchool: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
                             <option>Read Only</option>
                             <option>No Access</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
-                            <option>Read Only</option>
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.student?.ChefsCorner || 'Read Only'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              student: { ...modulePermissions.student, ChefsCorner: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
+                            <option>Read Only</option>
                             <option>No Access</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.student?.GlobalTestKitchen || 'Full Access'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              student: { ...modulePermissions.student, GlobalTestKitchen: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
                             <option>Read Only</option>
                             <option>No Access</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
-                            <option>No Access</option>
-                            <option>Read Only</option>
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.student?.AdminDashboard || 'No Access'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              student: { ...modulePermissions.student, AdminDashboard: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
+                            <option>Read Only</option>
+                            <option>No Access</option>
                           </select>
                         </td>
                       </tr>
                       <tr>
                         <td className="py-3 px-4 font-medium">Administrator</td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.administrator?.MyCookBook || 'Full Access'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              administrator: { ...modulePermissions.administrator, MyCookBook: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
                             <option>Read Only</option>
                             <option>No Access</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.administrator?.CulinarySchool || 'Full Access'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              administrator: { ...modulePermissions.administrator, CulinarySchool: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
                             <option>Read Only</option>
                             <option>No Access</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.administrator?.ChefsCorner || 'Full Access'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              administrator: { ...modulePermissions.administrator, ChefsCorner: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
                             <option>Read Only</option>
                             <option>No Access</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.administrator?.GlobalTestKitchen || 'Full Access'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              administrator: { ...modulePermissions.administrator, GlobalTestKitchen: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
                             <option>Read Only</option>
                             <option>No Access</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
+                          <select 
+                            className="px-2 py-1 border rounded text-xs"
+                            value={modulePermissions.administrator?.AdminDashboard || 'Full Access'}
+                            onChange={(e) => setModulePermissions({
+                              ...modulePermissions,
+                              administrator: { ...modulePermissions.administrator, AdminDashboard: e.target.value }
+                            })}
+                          >
                             <option>Full Access</option>
                             <option>Read Only</option>
                             <option>No Access</option>
@@ -3183,10 +3269,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="flex justify-center gap-4 mt-6">
               <button
-                onClick={() => {
-                  alert('Configuration settings saved successfully!');
-                  setShowConfigurationModal(false);
-                }}
+                onClick={saveModulePermissions}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
                 Save Configuration
