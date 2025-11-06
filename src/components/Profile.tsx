@@ -426,6 +426,8 @@ const Profile = () => {
   const [selectedReport, setSelectedReport] = useState<{title: string, description: string} | null>(null);
   const [showClassScheduleModal, setShowClassScheduleModal] = useState(false);
   const [showClassRegistrationModal, setShowClassRegistrationModal] = useState(false);
+  const [showRequestsModal, setShowRequestsModal] = useState(false);
+  const [selectedRequestType, setSelectedRequestType] = useState('');
   
   // Report filtering states
   const [selectedClass, setSelectedClass] = useState<string>('all');
@@ -1553,6 +1555,12 @@ Automated calculations and formulas would be present`;
             className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
             Class Schedule
+          </button>
+          <button
+            onClick={() => setShowRequestsModal(true)}
+            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+          >
+            Requests
           </button>
           <button
             onClick={handleLogout}
