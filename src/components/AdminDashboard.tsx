@@ -4614,6 +4614,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <option value="Hospitality Management">Hospitality Management</option>
                 </select>
               </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Cohort</label>
+                <select
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                >
+                  <option value="">-- Select Cohort --</option>
+                  <option value="class_2025">Class of 2025</option>
+                  <option value="class_2026">Class of 2026</option>
+                  <option value="class_2027">Class of 2027</option>
+                  <option value="alumni">Alumni</option>
+                </select>
+              </div>
             </div>
             
             <div className="flex justify-end gap-3 mt-6">
