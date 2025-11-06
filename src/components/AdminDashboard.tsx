@@ -2061,6 +2061,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         JD
                       </div>
                     </div>
+                    <div className="flex gap-2 mt-3">
+                      <button
+                        onClick={() => {
+                          alert('Edit faculty member');
+                        }}
+                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-1 border border-maineBlue rounded text-sm transition-colors"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to remove Chef Julia Davis?')) {
+                            alert('Faculty member removed successfully!');
+                          }
+                        }}
+                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-1 border border-red-600 rounded text-sm transition-colors"
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                   
                   <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
@@ -2080,6 +2100,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="w-20 h-20 bg-green-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
                         MR
                       </div>
+                    </div>
+                    <div className="flex gap-2 mt-3">
+                      <button
+                        onClick={() => {
+                          alert('Edit faculty member');
+                        }}
+                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-1 border border-maineBlue rounded text-sm transition-colors"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to remove Chef Marco Rodriguez?')) {
+                            alert('Faculty member removed successfully!');
+                          }
+                        }}
+                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-1 border border-red-600 rounded text-sm transition-colors"
+                      >
+                        Remove
+                      </button>
                     </div>
                   </div>
                 </div>
