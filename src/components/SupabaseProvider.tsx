@@ -176,10 +176,10 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) 
 
       // Check if XP was already awarded today
       const { data: existingLog } = await supabase
-        .from('xp_logs')
+        .from('xp_activity_log')
         .select('created_at')
         .eq('user_id', userId)
-        .eq('action', 'daily_login')
+        .eq('activity', 'daily_login')
         .gte('created_at', `${today}T00:00:00`)
         .lte('created_at', `${today}T23:59:59`)
         .maybeSingle();

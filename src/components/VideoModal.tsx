@@ -48,10 +48,10 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
       
       // Check if XP was already awarded for this tutorial
       const { data: existingLog } = await supabase
-        .from('xp_logs')
+        .from('xp_activity_log')
         .select('id')
         .eq('user_id', user.id)
-        .eq('action', `tutorial_${tutorialId}`)
+        .eq('activity', `tutorial_${tutorialId}`)
         .maybeSingle();
       
       if (!existingLog) {
@@ -62,12 +62,11 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
         });
         
         // Log the XP award
-        await supabase.from('xp_logs').insert([
+        await supabase.from('xp_activity_log').insert([
           {
             user_id: user.id,
-            xp_amount: recipeId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.RECIPE_COMPLETE,
-            action: `tutorial_${tutorialId}`,
-            metadata: { recipe_id: recipeId, tutorial_title: title }
+            xp_awarded: recipeId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.RECIPE_COMPLETE,
+            activity: `tutorial_${tutorialId}`
           }
         ]);
         

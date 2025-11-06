@@ -40,12 +40,11 @@ const PostComposer = () => {
         
         if (!error) {
           // Log the XP award
-          await supabase.from('xp_logs').insert([
+          await supabase.from('xp_activity_log').insert([
             {
               user_id: user.id,
-              xp_amount: XP_REWARDS.RECIPE_SHARE,
-              action: 'recipe_share',
-              metadata: { post_preview: input.substring(0, 100) + '...' }
+              xp_awarded: XP_REWARDS.RECIPE_SHARE,
+              activity: 'recipe_share'
             }
           ]);
           

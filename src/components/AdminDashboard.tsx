@@ -354,7 +354,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
     const sessionsSubscription = supabase
       .channel('sessions_changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'scheduled_sessions' }, () => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'schedule_sessions' }, () => {
         console.log('Session data changed, refreshing admin stats...');
         fetchAdminData();
       })

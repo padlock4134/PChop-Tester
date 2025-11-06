@@ -87,3 +87,25 @@ Let's discuss how Cucina can work for your school.
 - Tag relevant culinary schools and educators in the comments
 - Include a link to learn more in your profile bio
 - Consider boosting Post 5 to reach school administrators
+
+---
+
+## Personal Repost Examples
+
+### Repost 1: Community-Powered Learning
+This one hits home for me. I’ve seen students who felt lost finally find their place because of the community we’ve built at PorkChop. Watching someone light up when they realize they belong—that’s why I do this work. If you care about your students’ hearts as much as their skills, you’ll get it.
+
+### Repost 2: Transform Your Kitchen
+I remember wanting Papa Fred to keep teaching me due to the hands on leadership style (plus we were so poor we had to learn). Now that our Global Test Kitchen feature has shipped (still being QA'd constantly), I am wicked pumped to see students showing off that personal pride that comes with putting your heart into something.
+
+Pretty sure he would of friggen loved that.
+
+
+### Repost 3: Measuring Success
+These numbers aren’t just stats—they represent real people whose confidence and joy in the kitchen have skyrocketed. Every time a student tells me they finally believe in themselves, it reminds me why this work matters so much. This is what impact looks like.
+
+### Repost 4: A Day with Cucina
+Some days I look at what we’ve built and get genuinely choked up. Instructors are less stressed, students are more engaged, and there’s this energy in the classroom that’s hard to describe. It feels like we’re finally giving culinary students the support they deserve.
+
+### Repost 5: Ready for Change?
+If you’ve ever wished you could do more for your students but felt stuck, I know exactly how that feels. That’s why I’m so passionate about Cucina. It’s more than a platform—it’s hope for a better experience for every student and teacher. If you want to talk about real change, my inbox is open.

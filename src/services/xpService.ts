@@ -54,10 +54,10 @@ export const awardXP = async (userId: string, xpAmount: number, action: string) 
 
     // Log the XP award (optional, won't break if table doesn't exist)
     try {
-      await supabase.from('xp_logs').insert({
+      await supabase.from('xp_activity_log').insert({
         user_id: userId,
-        xp_amount: xpAmount,
-        action: action,
+        xp_awarded: xpAmount,
+        activity: action,
         created_at: new Date().toISOString()
       });
     } catch (logError) {

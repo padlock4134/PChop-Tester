@@ -316,10 +316,10 @@ const MyCookBook = () => {
         if (sessionValid && user) {
           const today = new Date().toISOString().split('T')[0];
           const { data: existingLog } = await supabase
-            .from('xp_logs')
+            .from('xp_activity_log')
             .select('id')
             .eq('user_id', user.id)
-            .eq('action', 'cookbook_share')
+            .eq('activity', 'cookbook_share')
             .gte('created_at', `${today}T00:00:00`)
             .lte('created_at', `${today}T23:59:59`)
             .maybeSingle();
@@ -330,12 +330,11 @@ const MyCookBook = () => {
               xp_amount: XP_REWARDS.RECIPE_SHARE
             });
             
-            await supabase.from('xp_logs').insert([
+            await supabase.from('xp_activity_log').insert([
               {
                 user_id: user.id,
-                xp_amount: XP_REWARDS.RECIPE_SHARE,
-                action: 'cookbook_share',
-                metadata: { shared_url: shareData.url, platform }
+                xp_awarded: XP_REWARDS.RECIPE_SHARE,
+                activity: 'cookbook_share'
               }
             ]);
             

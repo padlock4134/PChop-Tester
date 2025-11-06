@@ -290,9 +290,9 @@ const GlobalTestKitchen: React.FC = () => {
 
     if (scheduledDishName.trim() && scheduledCuisine && scheduledDescription.trim() && scheduledDate && scheduledTime) {
       try {
-        // Save to proper scheduled_sessions table for admin dashboard reporting
+        // Save to proper schedule_sessions table for admin dashboard reporting
         const { data, error } = await supabase
-          .from('scheduled_sessions')
+          .from('schedule_sessions')
           .insert({
             user_id: user.id,
             dish_name: scheduledDishName,
@@ -397,7 +397,7 @@ const GlobalTestKitchen: React.FC = () => {
       
       try {
         const { data, error } = await supabase
-          .from('scheduled_sessions')
+          .from('schedule_sessions')
           .select('*')
           .eq('user_id', user.id)
           .order('scheduled_date', { ascending: true });
