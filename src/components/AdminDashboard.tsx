@@ -1916,6 +1916,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             Remove
                           </button>
                         </div>
+                        {/* Cohort Tag */}
+                        <div className="mt-2 flex gap-2">
+                          <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs font-medium">
+                            🎓 Class of 2025
+                          </span>
+                        </div>
                       </div>
                     );
                   })}
@@ -4616,16 +4622,105 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Cohort</label>
-                <select
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                >
-                  <option value="">-- Select Cohort --</option>
-                  <option value="class_2025">Class of 2025</option>
-                  <option value="class_2026">Class of 2026</option>
-                  <option value="class_2027">Class of 2027</option>
-                  <option value="alumni">Alumni</option>
-                </select>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Cohorts (Select Multiple)</label>
+                <div className="border border-gray-300 rounded-md p-3 space-y-2 max-h-40 overflow-y-auto">
+                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={(editingStudent as any).cohorts?.includes('class_2025')}
+                      onChange={(e) => {
+                        const cohorts = (editingStudent as any).cohorts || [];
+                        if (e.target.checked) {
+                          setEditingStudent({...editingStudent, cohorts: [...cohorts, 'class_2025']} as any);
+                        } else {
+                          setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'class_2025')} as any);
+                        }
+                      }}
+                    />
+                    <span className="text-sm">Class of 2025</span>
+                  </label>
+                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={(editingStudent as any).cohorts?.includes('class_2026')}
+                      onChange={(e) => {
+                        const cohorts = (editingStudent as any).cohorts || [];
+                        if (e.target.checked) {
+                          setEditingStudent({...editingStudent, cohorts: [...cohorts, 'class_2026']} as any);
+                        } else {
+                          setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'class_2026')} as any);
+                        }
+                      }}
+                    />
+                    <span className="text-sm">Class of 2026</span>
+                  </label>
+                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={(editingStudent as any).cohorts?.includes('class_2027')}
+                      onChange={(e) => {
+                        const cohorts = (editingStudent as any).cohorts || [];
+                        if (e.target.checked) {
+                          setEditingStudent({...editingStudent, cohorts: [...cohorts, 'class_2027']} as any);
+                        } else {
+                          setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'class_2027')} as any);
+                        }
+                      }}
+                    />
+                    <span className="text-sm">Class of 2027</span>
+                  </label>
+                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={(editingStudent as any).cohorts?.includes('culinary_arts')}
+                      onChange={(e) => {
+                        const cohorts = (editingStudent as any).cohorts || [];
+                        if (e.target.checked) {
+                          setEditingStudent({...editingStudent, cohorts: [...cohorts, 'culinary_arts']} as any);
+                        } else {
+                          setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'culinary_arts')} as any);
+                        }
+                      }}
+                    />
+                    <span className="text-sm">Culinary Arts Program</span>
+                  </label>
+                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={(editingStudent as any).cohorts?.includes('pastry_arts')}
+                      onChange={(e) => {
+                        const cohorts = (editingStudent as any).cohorts || [];
+                        if (e.target.checked) {
+                          setEditingStudent({...editingStudent, cohorts: [...cohorts, 'pastry_arts']} as any);
+                        } else {
+                          setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'pastry_arts')} as any);
+                        }
+                      }}
+                    />
+                    <span className="text-sm">Pastry Arts Program</span>
+                  </label>
+                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={(editingStudent as any).cohorts?.includes('alumni')}
+                      onChange={(e) => {
+                        const cohorts = (editingStudent as any).cohorts || [];
+                        if (e.target.checked) {
+                          setEditingStudent({...editingStudent, cohorts: [...cohorts, 'alumni']} as any);
+                        } else {
+                          setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'alumni')} as any);
+                        }
+                      }}
+                    />
+                    <span className="text-sm">Alumni</span>
+                  </label>
+                </div>
               </div>
             </div>
             
