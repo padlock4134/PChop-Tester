@@ -407,7 +407,7 @@ const Profile = () => {
   const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const [talentPoints, setTalentPoints] = useState(0);
   const [activeTab, setActiveTab] = useState('');
-  const [showTalents, setShowTalents] = useState(false);
+  const [showTalents, setShowTalents] = useState(true);
   const [selectedTalentTree, setSelectedTalentTree] = useState<string | null>(null);
   const [unlockedTalents, setUnlockedTalents] = useState<string[]>([]);
   const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
@@ -1477,6 +1477,13 @@ Automated calculations and formulas would be present`;
           <h1 className="text-2xl sm:text-3xl font-retro text-maineBlue mb-2">
             {userProfile.name}
           </h1>
+          {(userProfile as any)?.program && (
+            <div className="mt-2">
+              <span className="inline-block px-3 py-1 bg-seafoam text-maineBlue rounded-full text-xs font-bold border-2 border-maineBlue">
+                🎓 {(userProfile as any).program}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Column 3: Level Progress */}
