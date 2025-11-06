@@ -346,6 +346,124 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   );
 };
 
+const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  if (!open) return null;
+  
+  const [selectedType, setSelectedType] = React.useState('');
+  const [requestDetails, setRequestDetails] = React.useState('');
+  const [showSuccess, setShowSuccess] = React.useState(false);
+  
+  const requestTypes = [
+    { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
+    { id: 'uniform', name: 'Chef Uniform/Apron', icon: '👕', description: 'Request chef uniforms or aprons' },
+    { id: 'knife_kit', name: 'Knife Kit Loaner', icon: '🔪', description: 'Request a loaner knife kit or replacement' },
+    { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request thermometers, timers, or other equipment' },
+    { id: 'textbook', name: 'Textbook/Materials', icon: '📚', description: 'Request textbooks or course materials' },
+    { id: 'kitchen_access', name: 'Kitchen Access', icon: '🔑', description: 'Request after-hours kitchen/lab access' },
+    { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
+    { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' },
+    { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or dietary accommodations' },
+  ];
+  
+  const handleSubmit = () => {
+    if (!selectedType || !requestDetails.trim()) {
+      alert('Please select a request type and provide details');
+      return;
+    }
+    setShowSuccess(true);
+  };
+  
+  if (showSuccess) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg shadow-lg border-4 border-seafoam p-8 max-w-md w-full text-center">
+          <div className="text-6xl mb-4">✅</div>
+          <h2 className="text-2xl font-bold text-maineBlue mb-4 font-retro">Request Submitted!</h2>
+          <p className="text-gray-700 mb-2">Your request has been sent to administration.</p>
+          <p className="text-gray-600 mb-6">You'll receive an email update once your request is processed.</p>
+          <button
+            onClick={() => {
+              setShowSuccess(false);
+              setSelectedType('');
+              setRequestDetails('');
+              onClose();
+            }}
+            className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black"
+          >
+            Got it!
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-6">
+          <div></div>
+          <h2 className="text-2xl font-bold text-maineBlue font-retro">📨 Submit a Request</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+          >
+            ×
+          </button>
+        </div>
+        
+        <div className="mb-6">
+          <h3 className="text-lg font-bold text-gray-700 mb-4 text-center">Select Request Type</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {requestTypes.map((type) => (
+              <button
+                key={type.id}
+                onClick={() => setSelectedType(type.id)}
+                className={`p-4 border-2 rounded-lg text-left transition-all ${
+                  selectedType === type.id
+                    ? 'border-maineBlue bg-seafoam'
+                    : 'border-gray-300 hover:border-maineBlue'
+                }`}
+              >
+                <div className="text-3xl mb-2">{type.icon}</div>
+                <h4 className="font-bold text-gray-800 mb-1">{type.name}</h4>
+                <p className="text-xs text-gray-600">{type.description}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+        
+        {selectedType && (
+          <div className="mb-6">
+            <h3 className="text-lg font-bold text-gray-700 mb-2">Request Details</h3>
+            <textarea
+              value={requestDetails}
+              onChange={(e) => setRequestDetails(e.target.value)}
+              placeholder="Please provide details about your request..."
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[120px]"
+            />
+          </div>
+        )}
+        
+        <div className="flex justify-end gap-3">
+          <button
+            onClick={onClose}
+            className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSubmit}
+            disabled={!selectedType || !requestDetails.trim()}
+            className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Submit Request
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   if (!open) return null;
   
@@ -1671,6 +1789,11 @@ Automated calculations and formulas would be present`;
       <ClassRegistrationModal
         open={showClassRegistrationModal}
         onClose={() => setShowClassRegistrationModal(false)}
+      />
+      
+      <RequestsModal
+        open={showRequestsModal}
+        onClose={() => setShowRequestsModal(false)}
       />
       
       <TermsModal
