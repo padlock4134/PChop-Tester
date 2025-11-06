@@ -4623,7 +4623,90 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Cohorts (Select Multiple)</label>
-                <div className="border border-gray-300 rounded-md p-3 space-y-2 max-h-40 overflow-y-auto">
+                <div className="border border-gray-300 rounded-md">
+                  {/* Fixed top section - doesn't scroll */}
+                  <div className="p-3 space-y-2 border-b border-gray-300 bg-gray-50">
+                    {/* Add Cohort Input */}
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Add custom cohort..."
+                        className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            const input = e.currentTarget;
+                            const customCohort = input.value.trim();
+                            if (customCohort) {
+                              const cohorts = (editingStudent as any).cohorts || [];
+                              const cohortId = customCohort.toLowerCase().replace(/\s+/g, '_');
+                              if (!cohorts.includes(cohortId)) {
+                                setEditingStudent({...editingStudent, cohorts: [...cohorts, cohortId]} as any);
+                              }
+                              input.value = '';
+                            }
+                          }
+                        }}
+                      />
+                      <span className="text-xs text-gray-500 self-center">Press Enter</span>
+                    </div>
+                    
+                    {/* All Students */}
+                    <label className="flex items-center cursor-pointer hover:bg-white p-1 rounded">
+                      <input 
+                        type="checkbox" 
+                        className="mr-2"
+                        checked={(editingStudent as any).cohorts?.includes('all_students')}
+                        onChange={(e) => {
+                          const cohorts = (editingStudent as any).cohorts || [];
+                          if (e.target.checked) {
+                            setEditingStudent({...editingStudent, cohorts: [...cohorts, 'all_students']} as any);
+                          } else {
+                            setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'all_students')} as any);
+                          }
+                        }}
+                      />
+                      <span className="text-sm font-medium">All Students</span>
+                    </label>
+                    
+                    {/* All Faculty */}
+                    <label className="flex items-center cursor-pointer hover:bg-white p-1 rounded">
+                      <input 
+                        type="checkbox" 
+                        className="mr-2"
+                        checked={(editingStudent as any).cohorts?.includes('all_faculty')}
+                        onChange={(e) => {
+                          const cohorts = (editingStudent as any).cohorts || [];
+                          if (e.target.checked) {
+                            setEditingStudent({...editingStudent, cohorts: [...cohorts, 'all_faculty']} as any);
+                          } else {
+                            setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'all_faculty')} as any);
+                          }
+                        }}
+                      />
+                      <span className="text-sm font-medium">All Faculty</span>
+                    </label>
+                    
+                    {/* All Alumni */}
+                    <label className="flex items-center cursor-pointer hover:bg-white p-1 rounded">
+                      <input 
+                        type="checkbox" 
+                        className="mr-2"
+                        checked={(editingStudent as any).cohorts?.includes('alumni')}
+                        onChange={(e) => {
+                          const cohorts = (editingStudent as any).cohorts || [];
+                          if (e.target.checked) {
+                            setEditingStudent({...editingStudent, cohorts: [...cohorts, 'alumni']} as any);
+                          } else {
+                            setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'alumni')} as any);
+                          }
+                        }}
+                      />
+                      <span className="text-sm font-medium">All Alumni</span>
+                    </label>
+                  </div>
+                  
+                  {/* Scrollable cohort list */}
+                  <div className="p-3 space-y-2 max-h-40 overflow-y-auto">
                   <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
                     <input 
                       type="checkbox" 
@@ -4704,22 +4787,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     />
                     <span className="text-sm">Pastry Arts Program</span>
                   </label>
-                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
-                    <input 
-                      type="checkbox" 
-                      className="mr-2"
-                      checked={(editingStudent as any).cohorts?.includes('alumni')}
-                      onChange={(e) => {
-                        const cohorts = (editingStudent as any).cohorts || [];
-                        if (e.target.checked) {
-                          setEditingStudent({...editingStudent, cohorts: [...cohorts, 'alumni']} as any);
-                        } else {
-                          setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'alumni')} as any);
-                        }
-                      }}
-                    />
-                    <span className="text-sm">Alumni</span>
-                  </label>
+                  </div>
                 </div>
               </div>
             </div>
