@@ -67,7 +67,8 @@ const EditProfileModal = ({
     cuisinePreference: user?.cuisine?.[0] || 'Italian',
     dietPreference: user?.dietary?.[0] || 'None',
     kitchenSetup: user?.kitchenSetup || 'Apartment Kitchen',
-    experienceLevel: user?.experience || 'Beginner'
+    experienceLevel: user?.experience || 'Beginner',
+    program: (user as any)?.program || ''
   });
 
   if (!open) return null;
@@ -82,7 +83,8 @@ const EditProfileModal = ({
           cuisine: [formData.cuisinePreference],
           dietary: [formData.dietPreference],
           kitchen_setup: formData.kitchenSetup,
-          cooking_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]]
+          cooking_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]],
+          program: formData.program
         })
         .eq('id', user.id);
 
@@ -136,6 +138,29 @@ const EditProfileModal = ({
               placeholder="Enter your name"
             />
           </div>
+
+          {/* Academic Program */}
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Academic Program</label>
+            <select
+              value={formData.program}
+              onChange={(e) => setFormData({...formData, program: e.target.value})}
+              disabled={(user as any)?.program && (user as any).program !== ''}
+              className={`w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center ${
+                (user as any)?.program && (user as any).program !== '' ? 'bg-gray-100 cursor-not-allowed' : ''
+              }`}
+            >
+              <option value="">— Select Your Program —</option>
+              <option value="Bachelors of Arts in Culinary">🎓 Bachelors of Arts in Culinary</option>
+              <option value="Associates in Aquaculture">🎓 Associates in Aquaculture</option>
+            </select>
+            {(user as any)?.program && (user as any).program !== '' && (
+              <p className="text-xs text-gray-500 text-center mt-1">⚠️ Locked - Contact admin to change</p>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="border-t-2 border-gray-300"></div>
 
           {/* Cuisine Preference */}
           <div>
@@ -1452,12 +1477,6 @@ Automated calculations and formulas would be present`;
           <h1 className="text-2xl sm:text-3xl font-retro text-maineBlue mb-2">
             {userProfile.name}
           </h1>
-          <button
-            onClick={() => alert('Badge request feature coming soon!')}
-            className="mt-2 px-4 py-1 bg-maineBlue text-white text-xs font-retro rounded-md hover:bg-blue-700 transition-colors border-2 border-black"
-          >
-            🎫 Request School Badge
-          </button>
         </div>
 
         {/* Column 3: Level Progress */}
