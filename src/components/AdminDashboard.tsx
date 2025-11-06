@@ -1517,7 +1517,100 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <button className="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro">
                     Save as Draft
                   </button>
-                  <button className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro">
+                  <button 
+                    onClick={async () => {
+                      if (!currentUser?.id || !currentMapping) {
+                        alert('Please upload and map content first');
+                        return;
+                      }
+                      
+                      try {
+                        const { aiSuggestion, fileName } = currentMapping;
+                        const { modules, metadata, contentType } = aiSuggestion;
+
+                        // Distribute to MyKitchen (recipes)
+                        if (modules.MyKitchen.include && contentType === 'recipe') {
+                          const { error: recipeError } = await supabase
+                            .from('user_cookbook')
+                            .insert({
+                              user_id: currentUser.id,
+                              title: metadata.title,
+                              ingredients: metadata.topics,
+                              instructions: `Imported from ${fileName}`,
+                              difficulty: metadata.difficulty,
+                              created_at: new Date().toISOString()
+                            });
+                          
+                          if (recipeError) {
+                            console.error('Recipe insert error:', recipeError);
+                          }
+                        }
+
+                        // Distribute to MyCookBook (assignments)
+                        if (modules.MyCookBook.include && (contentType === 'assignment' || contentType === 'lesson')) {
+                          const { error: assignmentError } = await supabase
+                            .from('assignments')
+                            .insert({
+                              title: metadata.title,
+                              description: `Week ${metadata.weekNumber || 'TBD'}: ${metadata.topics.join(', ')}`,
+                              rubric: {
+                                criteria: metadata.topics,
+                                equipment: metadata.equipment,
+                                difficulty: metadata.difficulty
+                              },
+                              created_at: new Date().toISOString()
+                            });
+                          
+                          if (assignmentError) {
+                            console.error('Assignment insert error:', assignmentError);
+                          }
+                        }
+
+                        // Distribute to CulinarySchool (curriculum content)
+                        if (modules.CulinarySchool.include) {
+                          const { error: curriculumError } = await supabase
+                            .from('curriculum_content')
+                            .insert({
+                              title: metadata.title,
+                              content_type: contentType,
+                              content_data: {
+                                topics: metadata.topics,
+                                equipment: metadata.equipment,
+                                difficulty: metadata.difficulty,
+                                weekNumber: metadata.weekNumber
+                              },
+                              week_number: metadata.weekNumber,
+                              created_at: new Date().toISOString()
+                            });
+                          
+                          if (curriculumError) {
+                            console.error('Curriculum insert error:', curriculumError);
+                          }
+                        }
+
+                        // Distribute to Chef's Corner (demo videos/insights)
+                        if (modules.ChefsCorner.include && contentType === 'video') {
+                          console.log('Chef\'s Corner content:', metadata);
+                        }
+
+                        // Update content_staging status to 'distributed'
+                        await supabase
+                          .from('content_staging')
+                          .update({ status: 'distributed' })
+                          .eq('file_name', fileName)
+                          .eq('uploaded_by', currentUser.id);
+
+                        alert('Content successfully published to modules!');
+                        setShowModuleIntegrationModal(false);
+                        setCurrentMapping(null);
+                        
+                      } catch (error: any) {
+                        console.error('Distribution error:', error);
+                        alert(`Failed to publish content: ${error.message}`);
+                      }
+                    }}
+                    className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro"
+                  >
                     Publish to Modules
                   </button>
                 </div>
@@ -2918,44 +3011,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             <option>No Access</option>
                             <option>Read Only</option>
                             <option>Full Access</option>
-                          </select>
-                        </td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="py-3 px-4 font-medium">Instructor</td>
-                        <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
-                          </select>
-                        </td>
-                        <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
-                          </select>
-                        </td>
-                        <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
-                          </select>
-                        </td>
-                        <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
-                          </select>
-                        </td>
-                        <td className="text-center py-3 px-4">
-                          <select className="px-2 py-1 border rounded text-xs">
-                            <option>Read Only</option>
-                            <option>Full Access</option>
-                            <option>No Access</option>
                           </select>
                         </td>
                       </tr>
@@ -6230,98 +6285,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 Cancel
               </button>
               <button
-                onClick={async () => {
-                  if (!currentUser?.id) return;
-                  
-                  try {
-                    const { aiSuggestion, fileName } = currentMapping;
-                    const { modules, metadata, contentType } = aiSuggestion;
-
-                    // Distribute to MyKitchen (recipes)
-                    if (modules.MyKitchen.include && contentType === 'recipe') {
-                      const { error: recipeError } = await supabase
-                        .from('user_cookbook')
-                        .insert({
-                          user_id: currentUser.id,
-                          title: metadata.title,
-                          ingredients: metadata.topics, // Topics as ingredients placeholder
-                          instructions: `Imported from ${fileName}`,
-                          difficulty: metadata.difficulty,
-                          created_at: new Date().toISOString()
-                        });
-                      
-                      if (recipeError) {
-                        console.error('Recipe insert error:', recipeError);
-                      }
-                    }
-
-                    // Distribute to MyCookBook (assignments)
-                    if (modules.MyCookBook.include && (contentType === 'assignment' || contentType === 'lesson')) {
-                      const { error: assignmentError } = await supabase
-                        .from('assignments')
-                        .insert({
-                          title: metadata.title,
-                          description: `Week ${metadata.weekNumber || 'TBD'}: ${metadata.topics.join(', ')}`,
-                          rubric: {
-                            criteria: metadata.topics,
-                            equipment: metadata.equipment,
-                            difficulty: metadata.difficulty
-                          },
-                          created_at: new Date().toISOString()
-                        });
-                      
-                      if (assignmentError) {
-                        console.error('Assignment insert error:', assignmentError);
-                      }
-                    }
-
-                    // Distribute to CulinarySchool (curriculum content)
-                    if (modules.CulinarySchool.include) {
-                      const { error: curriculumError } = await supabase
-                        .from('curriculum_content')
-                        .insert({
-                          title: metadata.title,
-                          content_type: contentType,
-                          content_data: {
-                            topics: metadata.topics,
-                            equipment: metadata.equipment,
-                            difficulty: metadata.difficulty,
-                            weekNumber: metadata.weekNumber
-                          },
-                          week_number: metadata.weekNumber,
-                          created_at: new Date().toISOString()
-                        });
-                      
-                      if (curriculumError) {
-                        console.error('Curriculum insert error:', curriculumError);
-                      }
-                    }
-
-                    // Distribute to Chef's Corner (demo videos/insights)
-                    if (modules.ChefsCorner.include && contentType === 'video') {
-                      // For now, just log - would need specific table for Chef's Corner content
-                      console.log('Chef\'s Corner content:', metadata);
-                    }
-
-                    // Update content_staging status to 'distributed'
-                    await supabase
-                      .from('content_staging')
-                      .update({ status: 'distributed' })
-                      .eq('file_name', fileName)
-                      .eq('uploaded_by', currentUser.id);
-
-                    alert('Content successfully distributed to selected modules!');
-                    setShowMappingReviewModal(false);
-                    setCurrentMapping(null);
-                    
-                  } catch (error: any) {
-                    console.error('Distribution error:', error);
-                    alert(`Failed to distribute content: ${error.message}`);
-                  }
+                onClick={() => {
+                  // Close mapping review modal and keep the mapping data
+                  setShowMappingReviewModal(false);
+                  // Module Integration Modal is already open, checkboxes will show the mapping
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
-                ✓ Confirm & Distribute
+                ✓ Confirm Mapping
               </button>
             </div>
           </div>
