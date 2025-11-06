@@ -1894,6 +1894,39 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             {initials}
                           </div>
                         </div>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          {((user as any).cohorts || []).map((cohort: string) => {
+                            // Format cohort label: convert underscores to spaces and capitalize
+                            const formatLabel = (str: string) => {
+                              return str.split('_').map(word => 
+                                word.charAt(0).toUpperCase() + word.slice(1)
+                              ).join(' ');
+                            };
+                            
+                            return (
+                              <span 
+                                key={cohort}
+                                className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs font-medium flex items-center gap-1"
+                              >
+                                🎓 {formatLabel(cohort)}
+                                <button
+                                  onClick={() => {
+                                    const updatedCohorts = (user as any).cohorts.filter((c: string) => c !== cohort);
+                                    setUsers(prev => prev.map(u => 
+                                      u.id === user.id ? {...u, cohorts: updatedCohorts} as any : u
+                                    ));
+                                  }}
+                                  className="ml-1 text-purple-600 hover:text-purple-900 font-bold"
+                                >
+                                  ×
+                                </button>
+                              </span>
+                            );
+                          })}
+                          {((user as any).cohorts || []).length === 0 && (
+                            <span className="text-xs text-gray-400 italic">No cohorts assigned</span>
+                          )}
+                        </div>
                         <div className="flex gap-2 mt-3">
                           <button
                             onClick={() => {
@@ -1915,12 +1948,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           >
                             Remove
                           </button>
-                        </div>
-                        {/* Cohort Tag */}
-                        <div className="mt-2 flex gap-2">
-                          <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs font-medium">
-                            🎓 Class of 2025
-                          </span>
                         </div>
                       </div>
                     );
@@ -4610,14 +4637,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Program</label>
                 <select
-                  value="Culinary Arts"
+                  value="Bachelors of Arts in Culinary"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
-                  <option value="Culinary Arts">Culinary Arts</option>
-                  <option value="Pastry Arts">Pastry Arts</option>
-                  <option value="Baking & Pastry">Baking & Pastry</option>
-                  <option value="Restaurant Management">Restaurant Management</option>
-                  <option value="Hospitality Management">Hospitality Management</option>
+                  <option value="Bachelors of Arts in Culinary">Bachelors of Arts in Culinary</option>
+                  <option value="Associates in Aquaculture">Associates in Aquaculture</option>
                 </select>
               </div>
               
@@ -4754,38 +4778,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       }}
                     />
                     <span className="text-sm">Class of 2027</span>
-                  </label>
-                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
-                    <input 
-                      type="checkbox" 
-                      className="mr-2"
-                      checked={(editingStudent as any).cohorts?.includes('culinary_arts')}
-                      onChange={(e) => {
-                        const cohorts = (editingStudent as any).cohorts || [];
-                        if (e.target.checked) {
-                          setEditingStudent({...editingStudent, cohorts: [...cohorts, 'culinary_arts']} as any);
-                        } else {
-                          setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'culinary_arts')} as any);
-                        }
-                      }}
-                    />
-                    <span className="text-sm">Culinary Arts Program</span>
-                  </label>
-                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
-                    <input 
-                      type="checkbox" 
-                      className="mr-2"
-                      checked={(editingStudent as any).cohorts?.includes('pastry_arts')}
-                      onChange={(e) => {
-                        const cohorts = (editingStudent as any).cohorts || [];
-                        if (e.target.checked) {
-                          setEditingStudent({...editingStudent, cohorts: [...cohorts, 'pastry_arts']} as any);
-                        } else {
-                          setEditingStudent({...editingStudent, cohorts: cohorts.filter((c: string) => c !== 'pastry_arts')} as any);
-                        }
-                      }}
-                    />
-                    <span className="text-sm">Pastry Arts Program</span>
                   </label>
                   </div>
                 </div>
