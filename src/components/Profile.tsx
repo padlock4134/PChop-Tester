@@ -1452,6 +1452,12 @@ Automated calculations and formulas would be present`;
           <h1 className="text-2xl sm:text-3xl font-retro text-maineBlue mb-2">
             {userProfile.name}
           </h1>
+          <button
+            onClick={() => alert('Badge request feature coming soon!')}
+            className="mt-2 px-4 py-1 bg-maineBlue text-white text-xs font-retro rounded-md hover:bg-blue-700 transition-colors border-2 border-black"
+          >
+            🎫 Request School Badge
+          </button>
         </div>
 
         {/* Column 3: Level Progress */}
