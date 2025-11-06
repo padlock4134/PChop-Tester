@@ -117,6 +117,37 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       AdminDashboard: 'Full Access'
     }
   });
+  const [platformConfig, setPlatformConfig] = useState({
+    recipeApproval: 'auto-approve',
+    assignmentApproval: 'instructor-review',
+    aiContentFiltering: true,
+    flagInappropriate: true,
+    autoModerate: false,
+    requireImageApproval: true,
+    auditLogging: true,
+    encryptData: true,
+    allowDataExport: false,
+    require2FA: true,
+    emailNotifications: true,
+    smsNotifications: false,
+    pushNotifications: true,
+    inAppNotifications: true,
+    autoBackup: 'daily',
+    backupRetention: '90-days'
+  });
+  const [schoolBranding, setSchoolBranding] = useState({
+    logoUrl: '',
+    schoolName: '',
+    tagline: '',
+    description: '',
+    primaryColor: '#1e40af',
+    secondaryColor: '#059669',
+    accentColor: '#dc2626',
+    backgroundColor: '#f8fafc',
+    phone: '',
+    email: '',
+    address: ''
+  });
   const [showAnnouncementModal, setShowAnnouncementModal] = useState(false);
   const [announcementSubject, setAnnouncementSubject] = useState('');
   const [announcementMessage, setAnnouncementMessage] = useState('');
@@ -449,8 +480,123 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     }
   };
 
+  // Load module permissions from Supabase
+  const loadModulePermissions = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('module_permissions')
+        .select('*');
+
+      if (error) {
+        console.error('Error loading permissions:', error);
+        return;
+      }
+
+      if (data && data.length > 0) {
+        const permissions: {[key: string]: {[key: string]: string}} = {
+          student: {},
+          administrator: {}
+        };
+
+        data.forEach((perm: any) => {
+          if (!permissions[perm.role]) permissions[perm.role] = {};
+          permissions[perm.role][perm.module] = perm.access_level;
+        });
+
+        setModulePermissions(permissions);
+      }
+    } catch (error) {
+      console.error('Failed to load permissions:', error);
+    }
+  };
+
+  // Save module permissions to Supabase
+  const saveModulePermissions = async () => {
+    try {
+      // Delete existing permissions
+      await supabase.from('module_permissions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+
+      // Insert new permissions
+      const permissionsToInsert: any[] = [];
+      
+      Object.keys(modulePermissions).forEach(role => {
+        Object.keys(modulePermissions[role]).forEach(module => {
+          permissionsToInsert.push({
+            role: role,
+            module: module,
+            access_level: modulePermissions[role][module]
+          });
+        });
+      });
+
+      const { error } = await supabase
+        .from('module_permissions')
+        .insert(permissionsToInsert);
+
+      if (error) {
+        console.error('Error saving permissions:', error);
+        alert('Failed to save permissions');
+        return;
+      }
+
+      alert('Configuration settings saved successfully!');
+      setShowConfigurationModal(false);
+    } catch (error: any) {
+      console.error('Failed to save configuration:', error);
+      alert(`Failed to save: ${error.message}`);
+    }
+  };
+
+  // Save school branding to Supabase
+  const saveSchoolBranding = async () => {
+    try {
+      await supabase.from('school_branding').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      
+      const { error } = await supabase
+        .from('school_branding')
+        .insert([{
+          branding_data: schoolBranding,
+          updated_at: new Date().toISOString()
+        }]);
+
+      if (error) {
+        console.error('Error saving school branding:', error);
+        alert('Failed to save school branding');
+        return;
+      }
+
+      alert('Branding settings saved successfully!');
+      setShowBrandingModal(false);
+    } catch (error: any) {
+      console.error('Failed to save branding:', error);
+      alert(`Failed to save: ${error.message}`);
+    }
+  };
+
+  // Load school branding from Supabase
+  const loadSchoolBranding = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('school_branding')
+        .select('*')
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error) {
+        console.error('Error loading school branding:', error);
+      } else if (data && data.branding_data) {
+        setSchoolBranding(data.branding_data);
+      }
+    } catch (error) {
+      console.error('Failed to load school branding:', error);
+    }
+  };
+
   useEffect(() => {
     fetchAdminData();
+    loadModulePermissions();
+    loadSchoolBranding();
 
     // Set up real-time subscriptions for live admin dashboard updates
     const profilesSubscription = supabase
@@ -1230,6 +1376,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <input
                       type="text"
                       placeholder="Culinary Institute of Excellence"
+                      value={schoolBranding.schoolName}
+                      onChange={(e) => setSchoolBranding({...schoolBranding, schoolName: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     />
                   </div>
@@ -1238,6 +1386,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <input
                       type="text"
                       placeholder="Where Culinary Dreams Come True"
+                      value={schoolBranding.tagline}
+                      onChange={(e) => setSchoolBranding({...schoolBranding, tagline: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     />
                   </div>
@@ -1246,6 +1396,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <textarea
                       rows={3}
                       placeholder="Brief description of your culinary program..."
+                      value={schoolBranding.description}
+                      onChange={(e) => setSchoolBranding({...schoolBranding, description: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     />
                   </div>
@@ -1259,29 +1411,49 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div>
                     <label className="text-center block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
                     <div className="flex items-center space-x-2">
-                      <input type="color" value="#1e40af" className="w-8 h-8 rounded border" />
-                      <span className="text-sm text-gray-600">#1e40af</span>
+                      <input 
+                        type="color" 
+                        value={schoolBranding.primaryColor}
+                        onChange={(e) => setSchoolBranding({...schoolBranding, primaryColor: e.target.value})}
+                        className="w-8 h-8 rounded border" 
+                      />
+                      <span className="text-sm text-gray-600">{schoolBranding.primaryColor}</span>
                     </div>
                   </div>
                   <div>
                     <label className="text-center block text-sm font-medium text-gray-700 mb-1">Secondary Color</label>
                     <div className="flex items-center space-x-2">
-                      <input type="color" value="#059669" className="w-8 h-8 rounded border" />
-                      <span className="text-sm text-gray-600">#059669</span>
+                      <input 
+                        type="color" 
+                        value={schoolBranding.secondaryColor}
+                        onChange={(e) => setSchoolBranding({...schoolBranding, secondaryColor: e.target.value})}
+                        className="w-8 h-8 rounded border" 
+                      />
+                      <span className="text-sm text-gray-600">{schoolBranding.secondaryColor}</span>
                     </div>
                   </div>
                   <div>
                     <label className="text-center block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
                     <div className="flex items-center space-x-2">
-                      <input type="color" value="#dc2626" className="w-8 h-8 rounded border" />
-                      <span className="text-sm text-gray-600">#dc2626</span>
+                      <input 
+                        type="color" 
+                        value={schoolBranding.accentColor}
+                        onChange={(e) => setSchoolBranding({...schoolBranding, accentColor: e.target.value})}
+                        className="w-8 h-8 rounded border" 
+                      />
+                      <span className="text-sm text-gray-600">{schoolBranding.accentColor}</span>
                     </div>
                   </div>
                   <div>
                     <label className="text-center block text-sm font-medium text-gray-700 mb-1">Background</label>
                     <div className="flex items-center space-x-2">
-                      <input type="color" value="#f8fafc" className="w-8 h-8 rounded border" />
-                      <span className="text-sm text-gray-600">#f8fafc</span>
+                      <input 
+                        type="color" 
+                        value={schoolBranding.backgroundColor}
+                        onChange={(e) => setSchoolBranding({...schoolBranding, backgroundColor: e.target.value})}
+                        className="w-8 h-8 rounded border" 
+                      />
+                      <span className="text-sm text-gray-600">{schoolBranding.backgroundColor}</span>
                     </div>
                   </div>
                 </div>
@@ -1296,6 +1468,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <input
                       type="tel"
                       placeholder="(555) 123-4567"
+                      value={schoolBranding.phone}
+                      onChange={(e) => setSchoolBranding({...schoolBranding, phone: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     />
                   </div>
@@ -1304,6 +1478,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <input
                       type="email"
                       placeholder="info@culinaryschool.edu"
+                      value={schoolBranding.email}
+                      onChange={(e) => setSchoolBranding({...schoolBranding, email: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     />
                   </div>
@@ -1312,6 +1488,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <input
                       type="text"
                       placeholder="123 Culinary Way, Food City, FC 12345"
+                      value={schoolBranding.address}
+                      onChange={(e) => setSchoolBranding({...schoolBranding, address: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     />
                   </div>
@@ -1327,10 +1505,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 Cancel
               </button>
               <button
-                onClick={() => {
-                  alert('Branding settings saved successfully!');
-                  setShowBrandingModal(false);
-                }}
+                onClick={saveSchoolBranding}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
                 Save Branding
@@ -2934,19 +3109,43 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-gray-800 mb-3">Recipe Approval Process</h4>
                     <div className="space-y-3">
                       <label className="flex items-center">
-                        <input type="radio" name="recipe-approval" className="mr-2" checked />
+                        <input 
+                          type="radio" 
+                          name="recipe-approval" 
+                          className="mr-2" 
+                          checked={platformConfig.recipeApproval === 'auto-approve'}
+                          onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'auto-approve'})}
+                        />
                         <span className="text-sm">Auto-approve all recipes</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="radio" name="recipe-approval" className="mr-2" />
+                        <input 
+                          type="radio" 
+                          name="recipe-approval" 
+                          className="mr-2" 
+                          checked={platformConfig.recipeApproval === 'instructor-approval'}
+                          onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'instructor-approval'})}
+                        />
                         <span className="text-sm">Require instructor approval</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="radio" name="recipe-approval" className="mr-2" />
+                        <input 
+                          type="radio" 
+                          name="recipe-approval" 
+                          className="mr-2" 
+                          checked={platformConfig.recipeApproval === 'admin-approval'}
+                          onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'admin-approval'})}
+                        />
                         <span className="text-sm">Require admin approval</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="radio" name="recipe-approval" className="mr-2" />
+                        <input 
+                          type="radio" 
+                          name="recipe-approval" 
+                          className="mr-2" 
+                          checked={platformConfig.recipeApproval === 'multi-level'}
+                          onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'multi-level'})}
+                        />
                         <span className="text-sm">Multi-level approval (Instructor → Admin)</span>
                       </label>
                     </div>
@@ -2956,19 +3155,43 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-gray-800 mb-3">Assignment Submission Process</h4>
                     <div className="space-y-3">
                       <label className="flex items-center">
-                        <input type="radio" name="assignment-approval" className="mr-2" />
+                        <input 
+                          type="radio" 
+                          name="assignment-approval" 
+                          className="mr-2" 
+                          checked={platformConfig.assignmentApproval === 'auto-accept'}
+                          onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'auto-accept'})}
+                        />
                         <span className="text-sm">Auto-accept submissions</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="radio" name="assignment-approval" className="mr-2" checked />
+                        <input 
+                          type="radio" 
+                          name="assignment-approval" 
+                          className="mr-2" 
+                          checked={platformConfig.assignmentApproval === 'instructor-review'}
+                          onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'instructor-review'})}
+                        />
                         <span className="text-sm">Require instructor review</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="radio" name="assignment-approval" className="mr-2" />
+                        <input 
+                          type="radio" 
+                          name="assignment-approval" 
+                          className="mr-2" 
+                          checked={platformConfig.assignmentApproval === 'peer-review'}
+                          onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'peer-review'})}
+                        />
                         <span className="text-sm">Peer review + instructor approval</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="radio" name="assignment-approval" className="mr-2" />
+                        <input 
+                          type="radio" 
+                          name="assignment-approval" 
+                          className="mr-2" 
+                          checked={platformConfig.assignmentApproval === 'ai-screening'}
+                          onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'ai-screening'})}
+                        />
                         <span className="text-sm">AI pre-screening + instructor review</span>
                       </label>
                     </div>
@@ -3173,19 +3396,39 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-gray-800 mb-3">Data Privacy & Security</h4>
                     <div className="space-y-2">
                       <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={platformConfig.auditLogging}
+                          onChange={(e) => setPlatformConfig({...platformConfig, auditLogging: e.target.checked})}
+                        />
                         <span className="text-sm">Enable audit logging</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={platformConfig.encryptData}
+                          onChange={(e) => setPlatformConfig({...platformConfig, encryptData: e.target.checked})}
+                        />
                         <span className="text-sm">Encrypt sensitive data</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={platformConfig.allowDataExport}
+                          onChange={(e) => setPlatformConfig({...platformConfig, allowDataExport: e.target.checked})}
+                        />
                         <span className="text-sm">Allow data export requests</span>
                       </label>
                       <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={platformConfig.require2FA}
+                          onChange={(e) => setPlatformConfig({...platformConfig, require2FA: e.target.checked})}
+                        />
                         <span className="text-sm">Require 2FA for admins</span>
                       </label>
                     </div>
@@ -3219,19 +3462,39 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-gray-800 mb-2">Notification Settings</h4>
                     <div className="space-y-2">
                       <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" checked />
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={platformConfig.emailNotifications}
+                          onChange={(e) => setPlatformConfig({...platformConfig, emailNotifications: e.target.checked})}
+                        />
                         <span>Email notifications</span>
                       </label>
                       <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" />
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={platformConfig.smsNotifications}
+                          onChange={(e) => setPlatformConfig({...platformConfig, smsNotifications: e.target.checked})}
+                        />
                         <span>SMS notifications</span>
                       </label>
                       <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" checked />
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={platformConfig.pushNotifications}
+                          onChange={(e) => setPlatformConfig({...platformConfig, pushNotifications: e.target.checked})}
+                        />
                         <span>Push notifications</span>
                       </label>
                       <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" checked />
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={platformConfig.inAppNotifications}
+                          onChange={(e) => setPlatformConfig({...platformConfig, inAppNotifications: e.target.checked})}
+                        />
                         <span>In-app notifications</span>
                       </label>
                     </div>
@@ -3242,23 +3505,34 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between items-center">
                         <span>Auto Backup:</span>
-                        <select className="px-2 py-1 border rounded text-xs">
-                          <option>Daily</option>
-                          <option>Weekly</option>
-                          <option>Monthly</option>
-                          <option>Disabled</option>
+                        <select 
+                          className="px-2 py-1 border rounded text-xs"
+                          value={platformConfig.autoBackup}
+                          onChange={(e) => setPlatformConfig({...platformConfig, autoBackup: e.target.value})}
+                        >
+                          <option value="daily">Daily</option>
+                          <option value="weekly">Weekly</option>
+                          <option value="monthly">Monthly</option>
+                          <option value="disabled">Disabled</option>
                         </select>
                       </div>
                       <div className="flex justify-between items-center">
                         <span>Retention:</span>
-                        <select className="px-2 py-1 border rounded text-xs">
-                          <option>30 days</option>
-                          <option>90 days</option>
-                          <option>1 year</option>
-                          <option>Indefinite</option>
+                        <select 
+                          className="px-2 py-1 border rounded text-xs"
+                          value={platformConfig.backupRetention}
+                          onChange={(e) => setPlatformConfig({...platformConfig, backupRetention: e.target.value})}
+                        >
+                          <option value="30-days">30 days</option>
+                          <option value="90-days">90 days</option>
+                          <option value="1-year">1 year</option>
+                          <option value="indefinite">Indefinite</option>
                         </select>
                       </div>
-                      <button className="w-full px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-xs">
+                      <button 
+                        onClick={() => alert('Manual backup initiated')}
+                        className="w-full px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-xs"
+                      >
                         Manual Backup Now
                       </button>
                     </div>
@@ -5365,6 +5639,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <option value="resume_workshop">Resume Workshop</option>
                     <option value="interview_prep">Interview Prep</option>
                     <option value="networking">Networking Event</option>
+                  </select>
+                  <select 
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                  >
+                    <option value="">-- Select Cohort to Invite --</option>
+                    <option value="all_students">All Students</option>
+                    <option value="class_2025">Class of 2025</option>
+                    <option value="class_2026">Class of 2026</option>
+                    <option value="culinary_arts">Culinary Arts Program</option>
+                    <option value="pastry_arts">Pastry Arts Program</option>
+                    <option value="alumni">Alumni</option>
                   </select>
                   <input
                     type="date"
