@@ -199,6 +199,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newStudentProgram, setNewStudentProgram] = useState('Culinary Arts');
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState<User | null>(null);
+  const [showEditFacultyModal, setShowEditFacultyModal] = useState(false);
+  const [editingFaculty, setEditingFaculty] = useState<any | null>(null);
   const [facultyList, setFacultyList] = useState([
     {
       id: 'faculty-1',
@@ -2064,7 +2066,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="flex gap-2 mt-3">
                       <button
                         onClick={() => {
-                          alert('Edit faculty member');
+                          setEditingFaculty(facultyList[0]);
+                          setShowEditFacultyModal(true);
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-1 border border-maineBlue rounded text-sm transition-colors"
                       >
@@ -2073,6 +2076,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <button
                         onClick={() => {
                           if (window.confirm('Are you sure you want to remove Chef Julia Davis?')) {
+                            setFacultyList(prev => prev.filter(f => f.id !== facultyList[0].id));
                             alert('Faculty member removed successfully!');
                           }
                         }}
@@ -2104,7 +2108,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="flex gap-2 mt-3">
                       <button
                         onClick={() => {
-                          alert('Edit faculty member');
+                          setEditingFaculty(facultyList[1]);
+                          setShowEditFacultyModal(true);
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-1 border border-maineBlue rounded text-sm transition-colors"
                       >
@@ -2113,6 +2118,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <button
                         onClick={() => {
                           if (window.confirm('Are you sure you want to remove Chef Marco Rodriguez?')) {
+                            setFacultyList(prev => prev.filter(f => f.id !== facultyList[1].id));
                             alert('Faculty member removed successfully!');
                           }
                         }}
