@@ -401,7 +401,6 @@ const Profile = () => {
   const [selectedReport, setSelectedReport] = useState<{title: string, description: string} | null>(null);
   const [showClassScheduleModal, setShowClassScheduleModal] = useState(false);
   const [showClassRegistrationModal, setShowClassRegistrationModal] = useState(false);
-  const [selectedProgram, setSelectedProgram] = useState<string>(''); // Added state for selected program
   
   // Report filtering states
   const [selectedClass, setSelectedClass] = useState<string>('all');
@@ -1512,36 +1511,6 @@ Automated calculations and formulas would be present`;
       
       {/* Soft divider line */}
       <div className="w-full h-0.5 bg-gray-200 mb-6 rounded-full"></div>
-
-      {/* Program Selection */}
-      <div className="mb-6 bg-weatheredWhite border-4 border-maineBlue rounded-lg p-6">
-        <div className="text-center mb-4">
-          <h3 className="text-xl font-bold text-maineBlue font-retro">🎓 Academic Program</h3>
-          <p className="text-sm text-gray-600 mt-1">Select your program to access curriculum and courses</p>
-        </div>
-        <div className="max-w-md mx-auto">
-          <select
-            value={selectedProgram}
-            onChange={(e) => {
-              setSelectedProgram(e.target.value);
-              // TODO: Save to database
-              alert(`Program changed to: ${e.target.value}`);
-            }}
-            className="w-full px-4 py-3 border-2 border-maineBlue rounded-lg focus:outline-none focus:ring-2 focus:ring-seafoam text-center font-medium text-gray-800"
-          >
-            <option value="">— Select Your Program —</option>
-            <option value="Bachelors of Arts in Culinary">Bachelors of Arts in Culinary</option>
-            <option value="Associates in Aquaculture">Associates in Aquaculture</option>
-          </select>
-          {selectedProgram && (
-            <div className="mt-3 text-center">
-              <span className="inline-block px-4 py-2 bg-seafoam text-maineBlue rounded-full text-sm font-bold border-2 border-maineBlue">
-                ✅ Enrolled: {selectedProgram}
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
 
       {/* Action Buttons and Talent Trees - Responsive Layout */}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-6">
