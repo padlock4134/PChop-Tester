@@ -796,6 +796,300 @@ Improvements: _____
 
 ## 🚀 HOW TO MAKE YOUR FIRST BATCHES
 
+---
+
+## 🧪 TEST RUN: PORK TENDERLOIN PROSCIUTTO (Start Here!)
+
+**Before committing to 8-12 month spalla batches, do a 2-3 week test run!**
+
+### **Why Start with Pork Tenderloin:**
+- ✅ **Fast:** Ready in 2-3 weeks (vs 8-12 months)
+- ✅ **Cheap:** $10-15 investment (vs $100+ for spalla)
+- ✅ **Small:** 1-2 lbs (fits anywhere)
+- ✅ **Learn everything:** Same process, faster feedback
+- ✅ **Low risk:** If it fails, minimal loss
+
+---
+
+### **TEST BATCH: Pork Tenderloin "Lonzino"**
+
+#### **What You Need:**
+
+**Meat:**
+- 1 pork tenderloin (1-2 lbs) - $10-15 from any grocery store
+- Must trim ALL fat and silver skin
+
+**Cure (for 1000g / 2.2 lbs tenderloin):**
+- 30g sea salt (can use regular sea salt for test)
+- 2.5g Cure #2 (MUST ORDER - prevents botulism)
+- 10g brown sugar
+- 5g black pepper, cracked
+- 3g juniper berries, crushed (optional for test)
+- 2g bay leaf, crumbled
+- 2g dried rosemary
+- 1g dried thyme
+- 3 cloves garlic, minced
+- 50ml red wine (optional)
+
+**Equipment (Minimal for Test):**
+- Digital scale ($30 Amazon)
+- Cure #2 ($15 Amazon)
+- Ziplock bag (heavy duty)
+- Cheesecloth
+- Butcher's twine
+- Your regular fridge + cool basement/closet
+
+---
+
+### **THE PROCESS:**
+
+#### **Day 1: Apply Cure**
+1. **Trim tenderloin completely:**
+   - Remove ALL fat (even tiny bits)
+   - Remove silver skin with sharp knife
+   - Should be pure lean muscle
+
+2. **Weigh meat:**
+   - Use digital scale
+   - Record weight in grams
+   - Example: 1,000g = 2.2 lbs
+
+3. **Calculate cure amounts:**
+   - For 1,000g tenderloin, use amounts above
+   - If your tenderloin is 800g, multiply all by 0.8
+   - If 1,200g, multiply all by 1.2
+
+4. **Mix cure:**
+   - Combine all dry ingredients in bowl
+   - Add minced garlic
+   - Add red wine to make paste (or skip wine, use dry rub)
+   - Mix thoroughly
+
+5. **Apply cure:**
+   - Rub paste/mixture into ALL surfaces
+   - Really work it in
+   - Should be completely coated
+
+6. **Bag it:**
+   - Place in heavy-duty ziplock
+   - Remove as much air as possible
+   - Seal tightly
+
+7. **Label:**
+   - Write "Tenderloin Test - [DATE]" on bag
+
+8. **Refrigerate:**
+   - Place in regular fridge (36-40°F)
+   - Put on plate (will leak liquid - normal!)
+
+---
+
+#### **Days 2-7: Daily Maintenance**
+
+**Every 24 hours:**
+- [ ] Flip bag over
+- [ ] Massage cure into meat through bag
+- [ ] Drain any liquid that accumulates (normal!)
+- [ ] Check for leaks in bag
+
+**Total cure time:** 7 days (pork tenderloin is small and lean)
+
+---
+
+#### **Day 8: Rinse & Hang**
+
+1. **Remove from bag:**
+   - Open bag, remove tenderloin
+   - Will look darker, feel firmer
+
+2. **Rinse thoroughly:**
+   - Cold running water
+   - Scrub off ALL cure
+   - Should look clean
+
+3. **Pat dry:**
+   - Paper towels
+   - Get completely dry
+
+4. **Air dry:**
+   - Place uncovered in fridge overnight
+   - Or in front of fan for 2-3 hours
+   - Surface should be dry and tacky
+
+5. **Weigh:**
+   - Record weight (this is your "100% starting weight")
+   - Example: If it weighs 900g now, that's 100%
+   - Target final weight: 630-675g (70-75% of 900g)
+
+6. **Wrap:**
+   - Wrap in 2-3 layers of cheesecloth
+   - Not too tight, should breathe
+
+7. **Tie:**
+   - Tie butcher's twine around one end for hanging
+   - Make a loop to hang from
+
+8. **Hang:**
+   - **Option A:** Cool basement/closet (55-65°F)
+   - **Option B:** Wine fridge if you have one
+   - **Option C:** Regular fridge (will work, just slower)
+   - Needs air circulation (small fan on low)
+
+---
+
+#### **Weeks 2-3: Aging**
+
+**Check every 2-3 days:**
+
+1. **Weigh:**
+   - Record weight
+   - Calculate percentage
+   - Example: 850g = 94%, 800g = 89%, 750g = 83%, 700g = 78%
+
+2. **Look:**
+   - Should darken to deep red/burgundy
+   - White mold may appear (GOOD!)
+   - Green/black mold = wipe with vinegar
+
+3. **Smell:**
+   - Should smell like cured meat (pleasant)
+   - NOT ammonia or rotten
+
+4. **Feel:**
+   - Should get firmer over time
+   - Gently squeeze through cheesecloth
+
+**Target:** 30-35% weight loss (65-70% of starting weight)
+
+**Example Timeline:**
+```
+Day 8 (hang): 900g (100%)
+Day 11: 850g (94%)
+Day 14: 800g (89%)
+Day 17: 750g (83%)
+Day 20: 700g (78%)
+Day 23: 675g (75%) ← TEST NOW
+Day 26: 650g (72%) ← PROBABLY READY
+```
+
+---
+
+#### **Testing for Doneness:**
+
+**After 2-3 weeks, test:**
+
+1. **Feel test:**
+   - Should be firm throughout
+   - No soft/squishy spots
+   - Slight give when pressed (not rock hard)
+
+2. **Poke test:**
+   - Insert clean needle or skewer in thickest part
+   - Should go in with some resistance
+   - Pull out and smell - should smell like cured meat
+
+3. **Weight test:**
+   - Should have lost 30-35%
+   - Example: Started at 900g → now 630-675g
+
+**If firm throughout and smells good = READY!**
+
+---
+
+#### **Slicing & Tasting:**
+
+1. **Remove cheesecloth**
+
+2. **Wipe surface:**
+   - Damp cloth
+   - Remove any mold (white is fine, adds flavor)
+
+3. **Slice paper-thin:**
+   - Use sharpest knife you have
+   - Slice against the grain
+   - Should be almost translucent
+
+4. **Taste:**
+   - First slice plain (evaluate cure)
+   - Drizzle with olive oil + lemon
+   - Top with arugula + parmesan
+   - Serve on crackers
+
+5. **Evaluate:**
+   - Too salty? Cure less time next batch
+   - Too bland? Cure longer or add more spices
+   - Too dry/hard? Humidity too low or aged too long
+   - Perfect? YOU'RE READY FOR SPALLA!
+
+---
+
+### **What You Learn from This Test:**
+
+**If successful:**
+- ✅ Your cure ratios work
+- ✅ Your technique is solid
+- ✅ Your aging environment works
+- ✅ You can slice properly
+- ✅ **Confidence to start 8-12 month projects!**
+
+**If too salty:**
+- Reduce cure time (try 5-6 days instead of 7)
+- Or reduce salt by 10%
+
+**If too dry:**
+- Increase humidity (bowl of water nearby)
+- Or don't age as long
+
+**If soft in center:**
+- Age longer (up to 4 weeks)
+- Or temperature too low
+
+**If it fails completely:**
+- Only lost $15 and 3 weeks
+- Learn what went wrong
+- Try again before committing to spalla
+
+---
+
+### **Timeline for Test Run:**
+
+**Week 1:**
+- [ ] Buy pork tenderloin ($10-15)
+- [ ] Order Cure #2 online ($15)
+- [ ] Order digital scale ($30)
+- [ ] Buy spices at grocery store
+- [ ] Start cure when Cure #2 arrives
+
+**Week 2:**
+- [ ] Flip daily (Days 1-7)
+- [ ] Rinse and hang (Day 8)
+- [ ] Monitor aging
+
+**Week 3-4:**
+- [ ] Check every 2-3 days
+- [ ] Test for doneness
+- [ ] Slice and taste!
+
+**Total investment:** ~$60
+**Total time:** 2-3 weeks
+**Result:** Know if you're ready for the real thing!
+
+---
+
+### **After Successful Test:**
+
+**Then proceed to:**
+- Order 2 Boston butts for spalla
+- Order beef eye of round for bresaola
+- Set up proper curing chamber
+- Start 8-12 month batches with confidence!
+
+**The test run de-risks everything!**
+
+---
+
+## 🚀 FULL PRODUCTION BATCHES (After Test Run)
+
 ### **STEP 1: ORDER MEAT (This Week)**
 
 #### **What to Order:**
