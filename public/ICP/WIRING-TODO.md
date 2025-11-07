@@ -1,23 +1,27 @@
 # 🔧 PORKCHOP WIRING TODO
 
-**Last Updated:** October 28, 2025  
-**Status:** 85% Complete - Final admin wiring push TODAY! 🚀
+**Last Updated:** November 6, 2025  
+**Status:** 75% Complete - Critical backend wiring needed
 
-**Recent Wins:**
-- ✅ Build Menu feature complete (recipe selection, PDF export, market finder)
-- ✅ Ingredient mapping expanded (150+ ingredients with pricing)
-- ✅ Local markets modal with deduplication
-- ✅ Chef Freddie curriculum assistant in admin dashboard
+**Recent Wins (Today):**
+- ✅ Program selection system (locked dropdown, tag display, Supabase wired)
+- ✅ Requests system (9 request types, modal UI complete)
+- ✅ ChefFreddie chat logging (wired to `chat_logs` table)
+- ✅ Talent trees default to visible
+- ✅ Removed Request School Badge button
 
 ---
 
-## 📊 QUICK STATS
+## 📊 BRUTAL REALITY CHECK
 
-- ✅ **Core Features:** 100% complete (all 4 modules working)
-- ✅ **Build Menu Feature:** 100% complete (NEW!)
-- ⚠️ **Admin Dashboard:** 20% complete (3/20 functions working)
-- ⚠️ **Database Schema:** 70% complete (11 tables missing)
-- ✅ **API Integrations:** Working (Anthropic, Google Vision, Places)
+- ✅ **Core Features:** 95% complete (4 modules functional)
+- ⚠️ **Admin Dashboard:** 15% complete (81 alert() calls, mock data everywhere)
+- ⚠️ **Database Wiring:** 60% complete (10+ tables missing)
+- ⚠️ **Student Requests:** 0% wired (UI only)
+- ⚠️ **Class Registration:** 0% wired (hardcoded classes)
+- ⚠️ **Collections System:** 0% wired (local state only)
+- ⚠️ **Global Test Kitchen:** 25% wired (sessions not persistent)
+- ✅ **API Integrations:** 100% working (Anthropic, Google, Stripe, Wristband)
 
 ---
 
