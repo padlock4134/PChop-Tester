@@ -1603,7 +1603,7 @@ const MyCookBook = () => {
       {/* Library Video Playback Modal */}
       {showLibraryVideoModal && selectedLibraryVideo && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[60]" onClick={() => setShowLibraryVideoModal(false)}>
-          <div className="relative max-w-5xl w-[95%] mx-4" onClick={(e) => e.stopPropagation()}>
+          <div className="relative max-w-3xl w-[90%] mx-4" onClick={(e) => e.stopPropagation()}>
             <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-purple-400">
               <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4 relative">
                 <div className="text-center">
