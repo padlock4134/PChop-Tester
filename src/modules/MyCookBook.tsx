@@ -1295,7 +1295,6 @@ const MyCookBook = () => {
                           <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 h-[100px] lg:h-[120px] relative">
                             <div className="h-full bg-gray-800 flex items-center justify-center">
                               <div className="text-center text-white p-2">
-                                <div className="text-2xl lg:text-3xl mb-1">▶️</div>
                                 <div className="text-xs">{assignments[currentAssignmentPage].videoTitle}</div>
                                 <div className="text-xs text-gray-300 mt-1 hidden lg:block">Submitted via Global Test Kitchen</div>
                               </div>
