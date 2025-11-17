@@ -1269,8 +1269,8 @@ const MyCookBook = () => {
                         <hr className="border-t-2 border-amber-300 my-3" />
 
                         {/* Student Submission Video */}
-                        <div className="text-center mt-2 flex-shrink-0">
-                          <div className="flex flex-col lg:flex-row items-center justify-center gap-1 lg:gap-2 mb-2">
+                        <div className="text-center mt-2 flex-1 flex flex-col min-h-0">
+                          <div className="flex flex-col lg:flex-row items-center justify-center gap-1 lg:gap-2 mb-2 flex-shrink-0">
                             <h4 className="font-serif font-semibold text-amber-800 text-sm">{students[currentStudentIndex].name} - Submission</h4>
                             <select 
                               className={`text-xs border border-amber-300 rounded px-2 py-1 font-serif ${
@@ -1292,7 +1292,7 @@ const MyCookBook = () => {
                               <option value="plating-final">Final Plating.mp4</option>
                             </select>
                           </div>
-                          <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 h-[100px] lg:h-[120px] relative">
+                          <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 relative flex-1 min-h-[150px]">
                             <div className="h-full bg-gray-800 flex items-center justify-center">
                               <div className="text-center text-white p-2">
                                 <div className="text-xs">{assignments[currentAssignmentPage].videoTitle}</div>
