@@ -1085,7 +1085,7 @@ const MyCookBook = () => {
                   <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white border-b lg:border-b-0 lg:border-r-2 border-gray-300 rounded-t-lg lg:rounded-t-none lg:rounded-l-lg p-3 lg:p-4 overflow-y-auto flex flex-col">
                     
                     {/* Grading Rubric */}
-                    <div className="bg-white border-2 lg:border-4 border-green-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm">
+                    <div className="bg-white border-2 lg:border-4 border-green-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm flex-shrink-0">
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
                         <h4 className="font-serif font-bold text-emerald-800 text-sm lg:text-xs">📊 Rubric</h4>
                       <select 
@@ -1166,7 +1166,7 @@ const MyCookBook = () => {
                     </div>
 
                     {/* Instructor Feedback */}
-                    <div className="bg-white border-2 lg:border-4 border-yellow-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm">
+                    <div className="bg-white border-2 lg:border-4 border-yellow-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm flex-shrink-0">
                       <h4 className="font-serif font-bold text-amber-800 mb-1 lg:mb-2 text-sm">💬 Feedback</h4>
                       
                       <textarea 
@@ -1185,7 +1185,7 @@ const MyCookBook = () => {
                   </div>
 
                     {/* Saved Feedback Notepad */}
-                    <div className="bg-white border-2 lg:border-4 border-amber-700 rounded-lg p-2 lg:p-3 shadow-sm overflow-hidden flex flex-col max-h-[150px] lg:max-h-[200px]">
+                    <div className="bg-white border-2 lg:border-4 border-amber-700 rounded-lg p-2 lg:p-3 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0">
                       <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 Saved Feedback Notes</h4>
                     
                     <div className="bg-white/80 rounded border border-yellow-200 p-2 flex-1 overflow-y-auto">
@@ -1221,7 +1221,7 @@ const MyCookBook = () => {
                   {/* Right Page - Assignment Recipe Card */}
                   <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 flex flex-col">
                     {/* Assignment Recipe Card (matching CulinarySchool layout) */}
-                    <div className="flex flex-col bg-white w-full h-full overflow-hidden">
+                    <div className="flex flex-col bg-white w-full h-full overflow-hidden rounded-lg border-4 border-maineBlue">
                       {/* Assignment Image */}
                       <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b-2 border-amber-300 flex-shrink-0">
                         <div className="text-center">
