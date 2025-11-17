@@ -1604,7 +1604,7 @@ const MyCookBook = () => {
       {showLibraryVideoModal && selectedLibraryVideo && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[60]" onClick={() => setShowLibraryVideoModal(false)}>
           <div className="relative max-w-3xl w-[90%] mx-4" onClick={(e) => e.stopPropagation()}>
-            <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-purple-400">
+            <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-black">
               <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4 relative">
                 <div className="text-center">
                   <h3 className="text-xl font-bold">{selectedLibraryVideo.name.replace('.webm', '')}</h3>
@@ -1631,13 +1631,13 @@ const MyCookBook = () => {
                   src={selectedLibraryVideo.url}
                   controls
                   autoPlay
-                  className="w-full rounded-lg border-4 border-purple-300 shadow-lg"
+                  className="w-full rounded-lg border-4 border-black shadow-lg"
                   style={{ maxHeight: '70vh' }}
                 >
                   Your browser does not support video playback.
                 </video>
               </div>
-              <div className="p-4 bg-purple-50 border-t-4 border-purple-300">
+              <div className="p-4 bg-purple-50 border-t-4 border-black">
                 <div className="text-center text-purple-700 text-sm">
                   {selectedLibraryVideo.userId !== user?.id && (
                     <p>👤 Uploaded by: {selectedLibraryVideo.userId.substring(0, 8)}...</p>
