@@ -1515,7 +1515,7 @@ const MyCookBook = () => {
                   <p className="text-gray-500 text-sm mt-2">Record a session in Global Test Kitchen to see it here!</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
                       name: 'Knife Skills Practice Session.webm',
@@ -1550,34 +1550,39 @@ const MyCookBook = () => {
                       return true;
                     })
                     .map((video, index) => (
-                    <div key={index} className="border-4 border-purple-300 rounded-lg overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow">
-                      <div className="bg-purple-50 p-3 border-b-2 border-purple-300">
-                        <div className="flex justify-between items-start gap-2">
-                          <h3 className="font-bold text-purple-800 truncate flex-1">{video.name.replace('.webm', '')}</h3>
-                          {video.isPublic ? (
-                            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">🌍 Public</span>
-                          ) : (
-                            <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-bold">🔒 Private</span>
-                          )}
+                    <div 
+                      key={index} 
+                      onClick={() => {
+                        // Open video in modal
+                        const videoToShow = video;
+                        // You can add a state for selected video and show modal here
+                        window.open(video.url, '_blank');
+                      }}
+                      className="border-4 border-purple-300 rounded-lg bg-white shadow-lg hover:shadow-xl transition-all cursor-pointer hover:border-purple-500"
+                    >
+                      <div className="p-4 flex items-center justify-between">
+                        <div className="flex items-center gap-4 flex-1">
+                          <div className="text-4xl">�</div>
+                          <div className="flex-1">
+                            <h3 className="font-bold text-purple-800 text-lg">{video.name.replace('.webm', '')}</h3>
+                            <div className="flex items-center gap-3 mt-1">
+                              <p className="text-xs text-purple-600">
+                                {new Date(video.created_at).toLocaleDateString()} at {new Date(video.created_at).toLocaleTimeString()}
+                              </p>
+                              {video.isPublic ? (
+                                <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">🌍 Public</span>
+                              ) : (
+                                <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-bold">🔒 Private</span>
+                              )}
+                            </div>
+                            {video.userId !== user?.id && (
+                              <p className="text-xs text-purple-500 mt-1">
+                                👤 User: {video.userId.substring(0, 8)}...
+                              </p>
+                            )}
+                          </div>
                         </div>
-                        <p className="text-xs text-purple-600 mt-1">
-                          {new Date(video.created_at).toLocaleDateString()} at {new Date(video.created_at).toLocaleTimeString()}
-                        </p>
-                        {video.userId !== user?.id && (
-                          <p className="text-xs text-purple-500 mt-1">
-                            👤 User: {video.userId.substring(0, 8)}...
-                          </p>
-                        )}
-                      </div>
-                      <div className="p-4">
-                        <video
-                          src={video.url}
-                          controls
-                          className="w-full rounded border-2 border-purple-200"
-                          style={{ maxHeight: '300px' }}
-                        >
-                          Your browser does not support video playback.
-                        </video>
+                        <div className="text-purple-600 text-2xl">▶️</div>
                       </div>
                     </div>
                   ))}
