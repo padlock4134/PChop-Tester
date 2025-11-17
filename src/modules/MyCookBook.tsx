@@ -87,6 +87,8 @@ const MyCookBook = () => {
   const [loadingVideos, setLoadingVideos] = useState(false);
   const [videoFilter, setVideoFilter] = useState('all');
   const [userFilter, setUserFilter] = useState('all');
+  const [selectedLibraryVideo, setSelectedLibraryVideo] = useState<{name: string, url: string, created_at: string, userId: string, isPublic: boolean} | null>(null);
+  const [showLibraryVideoModal, setShowLibraryVideoModal] = useState(false);
   
   // Assignment data
   const assignments = [
@@ -1553,10 +1555,8 @@ const MyCookBook = () => {
                     <div 
                       key={index} 
                       onClick={() => {
-                        // Open video in modal
-                        const videoToShow = video;
-                        // You can add a state for selected video and show modal here
-                        window.open(video.url, '_blank');
+                        setSelectedLibraryVideo(video);
+                        setShowLibraryVideoModal(true);
                       }}
                       className="border-4 border-purple-300 rounded-lg bg-white shadow-lg hover:shadow-xl transition-all cursor-pointer hover:border-purple-500"
                     >
@@ -1595,6 +1595,56 @@ const MyCookBook = () => {
               <p className="text-purple-700 text-sm">
                 <strong>{savedVideos.length > 0 ? savedVideos.length : 3}</strong> video{(savedVideos.length > 0 ? savedVideos.length : 3) !== 1 ? 's' : ''} saved
               </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Library Video Playback Modal */}
+      {showLibraryVideoModal && selectedLibraryVideo && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[60]" onClick={() => setShowLibraryVideoModal(false)}>
+          <div className="relative max-w-5xl w-[95%] mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-purple-400">
+              <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4 relative">
+                <div className="text-center">
+                  <h3 className="text-xl font-bold">{selectedLibraryVideo.name.replace('.webm', '')}</h3>
+                  <div className="flex items-center justify-center gap-3 mt-2">
+                    <p className="text-sm opacity-90">
+                      {new Date(selectedLibraryVideo.created_at).toLocaleDateString()} at {new Date(selectedLibraryVideo.created_at).toLocaleTimeString()}
+                    </p>
+                    {selectedLibraryVideo.isPublic ? (
+                      <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">🌍 Public</span>
+                    ) : (
+                      <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-bold">🔒 Private</span>
+                    )}
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setShowLibraryVideoModal(false)}
+                  className="absolute top-4 right-4 text-white hover:text-gray-300 text-3xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <div className="p-6 bg-gray-100">
+                <video
+                  src={selectedLibraryVideo.url}
+                  controls
+                  autoPlay
+                  className="w-full rounded-lg border-4 border-purple-300 shadow-lg"
+                  style={{ maxHeight: '70vh' }}
+                >
+                  Your browser does not support video playback.
+                </video>
+              </div>
+              <div className="p-4 bg-purple-50 border-t-4 border-purple-300">
+                <div className="text-center text-purple-700 text-sm">
+                  {selectedLibraryVideo.userId !== user?.id && (
+                    <p>👤 Uploaded by: {selectedLibraryVideo.userId.substring(0, 8)}...</p>
+                  )}
+                  <p className="mt-1">🎥 Recorded in Global Test Kitchen</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
