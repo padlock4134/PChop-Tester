@@ -1219,11 +1219,11 @@ const MyCookBook = () => {
                   </div>
 
                   {/* Right Page - Assignment Recipe Card */}
-                  <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 overflow-y-auto flex flex-col">
+                  <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 flex flex-col">
                     {/* Assignment Recipe Card (matching CulinarySchool layout) */}
-                    <div className="flex flex-col bg-white rounded-2xl shadow-lg border-2 lg:border-4 border-maineBlue w-full max-h-full">
+                    <div className="flex flex-col bg-white w-full h-full overflow-hidden">
                       {/* Assignment Image */}
-                      <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b border-gray-200">
+                      <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b-2 border-amber-300 flex-shrink-0">
                         <div className="text-center">
                           <div className="text-2xl lg:text-3xl mb-1">{assignments[currentAssignmentPage].emoji}</div>
                           <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} Assignment</div>
@@ -1231,7 +1231,7 @@ const MyCookBook = () => {
                       </div>
 
                       {/* Assignment Details */}
-                      <div className="p-2 lg:p-3 bg-white text-center overflow-y-auto flex-1">
+                      <div className="p-2 lg:p-3 bg-white text-center flex-1 overflow-y-auto flex flex-col">
                         {/* Dividing Line */}
                         <hr className="border-t-2 border-amber-300 mb-3" />
                         
@@ -1242,7 +1242,7 @@ const MyCookBook = () => {
                           <span className="block lg:inline">{assignments[currentAssignmentPage].points} pts | {assignments[currentAssignmentPage].weight}</span>
                         </div>
                         
-                        <div className="space-y-1 lg:space-y-2">
+                        <div className="space-y-1 lg:space-y-2 flex-shrink-0">
                           <div>
                             <div className="font-semibold mb-1 text-sm text-amber-800">Required Techniques</div>
                             <div className="text-xs text-gray-700 leading-tight">
