@@ -509,6 +509,82 @@
 
 ---
 
+### **LONZINO: PORK TENDERLOIN (Wine Fridge Flagship Beginner Batch)**
+
+**Why Lonzino?**
+- Fast, low-risk, and perfect for learning your wine fridge setup.
+- Ready in 2-4 weeks; fits easily in small chambers.
+
+**Ingredients (for 1,000g pork tenderloin):**
+- 30g Maine sea salt
+- 2.5g Cure #2
+- 5g ground pine (foraged, food-safe, white pine needles)
+- 2g juniper berries, crushed
+
+*Note: This is a Maine terroir experiment—blending pine and juniper for a true forest-cured flavor.*
+
+**Stage 1: Salting/Curing**
+1. Trim ALL fat and silver skin from pork tenderloin.
+2. Weigh meat; scale cure ingredients as needed.
+3. Mix all cure ingredients in a bowl (add wine to make a paste if desired).
+4. Rub cure thoroughly over all surfaces.
+5. Place in a heavy-duty ziplock or vacuum bag. Remove air and seal.
+6. Label and refrigerate (36-40°F) in the wine fridge for 7 days, flipping and massaging daily. Drain excess liquid if needed.
+
+**Stage 2: Hanging/Drying (Wine Fridge Curing Chamber)**
+1. After 7 days, rinse meat under cold water and pat dry.
+2. Air dry in fridge or on rack for a few hours until surface is tacky.
+3. Weigh meat (record as 100%).
+4. Wrap in 2-3 layers of cheesecloth and tie with butcher’s twine.
+5. Hang in wine fridge set to 50–60°F (10–16°C) and 70–80% humidity. Add a tray of water or small humidifier to reach RH target.
+6. Ensure gentle airflow (small fan on low if needed).
+7. Check every 2–3 days for mold (white = good, green/black = wipe with vinegar). Weigh weekly.
+8. Target 30–35% weight loss (typically 2–4 weeks).
+
+**Tips:**
+- Digital thermometer/hygrometer inside the wine fridge is essential.
+- If humidity is too low, add more water; if too high, crack the door briefly.
+- Lonzino is ready when firm throughout and deep red. Slice paper-thin and enjoy!
+
+---
+
+### **TRADITIONAL LONZINO (Italy)**
+
+**A classic Italian recipe with time-honored flavors.**
+
+**Ingredients (for 1,000g pork tenderloin):**
+- 30g sea salt
+- 2.5g Cure #2
+- 5g black pepper, cracked
+- 2g bay leaf, crumbled
+- 2g dried rosemary
+- 2g juniper berries, crushed (optional)
+
+*Note: This is the traditional style found in central and northern Italy—herbal, aromatic, and balanced.*
+
+**Stage 1: Salting/Curing**
+1. Trim ALL fat and silver skin from pork tenderloin.
+2. Weigh meat; scale cure ingredients as needed.
+3. Mix all cure ingredients in a bowl (add a splash of red wine if desired).
+4. Rub cure thoroughly over all surfaces.
+5. Place in a heavy-duty ziplock or vacuum bag. Remove air and seal.
+6. Label and refrigerate (36-40°F) in the wine fridge for 7 days, flipping and massaging daily. Drain excess liquid if needed.
+
+**Stage 2: Hanging/Drying (Wine Fridge Curing Chamber)**
+1. After 7 days, rinse meat under cold water and pat dry.
+2. Air dry in fridge or on rack for a few hours until surface is tacky.
+3. Weigh meat (record as 100%).
+4. Wrap in 2-3 layers of cheesecloth and tie with butcher’s twine.
+5. Hang in wine fridge set to 50–60°F (10–16°C) and 70–80% humidity. Add a tray of water or small humidifier to reach RH target.
+6. Ensure gentle airflow (small fan on low if needed).
+7. Check every 2–3 days for mold (white = good, green/black = wipe with vinegar). Weigh weekly.
+8. Target 30–35% weight loss (typically 2–4 weeks).
+
+**Tips:**
+- Traditional lonzino is usually sliced paper-thin and served with olive oil, lemon, or alongside cheese and bread.
+
+---
+
 ## 📊 TRACKING SHEETS
 
 ### **Spalla Tracking Template:**
