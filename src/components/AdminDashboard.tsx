@@ -3698,14 +3698,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             
             <div className="flex justify-center gap-4 mt-6">
               <button
-                onClick={() => {
-                  alert('Files uploaded successfully! Content will be processed and distributed to selected modules.');
-                  setShowBrowseFilesModal(false);
-                }}
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                onClick={() => setShowBrowseFilesModal(false)}
+                className="bg-gray-400 text-white px-6 py-2 rounded-md hover:bg-gray-500 font-retro"
               >
-                Upload & Process
+                Close
               </button>
+              <p className="text-sm text-gray-500 mt-2 text-center">
+                Files are processed immediately after selection
+              </p>
             </div>
           </div>
         </div>
