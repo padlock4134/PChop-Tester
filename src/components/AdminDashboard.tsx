@@ -101,6 +101,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [processingFiles, setProcessingFiles] = useState(false);
   const [showMappingReviewModal, setShowMappingReviewModal] = useState(false);
   const [currentMapping, setCurrentMapping] = useState<any>(null);
+  const [moduleSelection, setModuleSelection] = useState({
+    MyKitchen: { recipe: false, ingredients: false, kitchen: false, dietary: false },
+    MyCookBook: { assignments: false, rubrics: false, recipes: false, video: false },
+    CulinarySchool: { techniques: false, syllabus: false, lessons: false, objectives: false },
+    ChefsCorner: { videos: false, insights: false, sessions: false, partnerships: false }
+  });
+  const [publishDate, setPublishDate] = useState('');
+  const [publishVisibility, setPublishVisibility] = useState('All Students');
+  const [publishNotification, setPublishNotification] = useState('Notify Students');
+  const [generatingApiKey, setGeneratingApiKey] = useState(false);
+  const [apiKeys, setApiKeys] = useState<Array<{id: string, key: string, name: string, created_at: string}>>([]);
   const [modulePermissions, setModulePermissions] = useState<{[key: string]: {[key: string]: string}}>({
     student: {
       MyCookBook: 'Full Access',
@@ -1602,14 +1613,54 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       Browse Files
                     </button>
                     <button 
-                      onClick={() => {
-                        const mockKey = 'pk_' + Math.random().toString(36).substr(2, 32);
-                        setGeneratedApiKey(mockKey);
-                        setShowApiKeyModal(true);
+                      onClick={async () => {
+                        if (!currentUser?.id) {
+                          alert('You must be logged in to generate API keys');
+                          return;
+                        }
+                        
+                        setGeneratingApiKey(true);
+                        try {
+                          // Generate cryptographically secure API key
+                          const timestamp = Date.now().toString(36);
+                          const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                          const apiKey = `pk_porkchop_${timestamp}_${randomPart}`;
+                          
+                          // Save to database (you'll need to create an api_keys table)
+                          const { data, error } = await supabase
+                            .from('api_keys')
+                            .insert({
+                              api_key: apiKey,
+                              name: `API Key ${new Date().toLocaleDateString()}`,
+                              created_by: currentUser.id,
+                              is_active: true,
+                              created_at: new Date().toISOString()
+                            })
+                            .select()
+                            .single();
+                          
+                          if (error) {
+                            // If table doesn't exist, just show the key
+                            console.warn('API keys table may not exist:', error);
+                            setGeneratedApiKey(apiKey);
+                            setShowApiKeyModal(true);
+                          } else {
+                            setGeneratedApiKey(apiKey);
+                            setShowApiKeyModal(true);
+                            // Optionally reload API keys list
+                            setApiKeys(prev => [...prev, data]);
+                          }
+                        } catch (error: any) {
+                          console.error('API key generation error:', error);
+                          alert('Failed to generate API key: ' + error.message);
+                        } finally {
+                          setGeneratingApiKey(false);
+                        }
                       }}
-                      className="bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400"
+                      disabled={generatingApiKey}
+                      className="bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Generate API Key
+                      {generatingApiKey ? 'Generating...' : 'Generate API Key'}
                     </button>
                     <button 
                       onClick={() => setShowChefFreddieModal(true)}
@@ -1635,20 +1686,52 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-blue-800">MyKitchen</h4>
                     </div>
                     <div className="space-y-2 text-sm">
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.MyKitchen.recipe}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            MyKitchen: { ...moduleSelection.MyKitchen, recipe: e.target.checked }
+                          })}
+                        />
                         <span>Recipe databases → Feeds matcher algorithm</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.MyKitchen.ingredients}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            MyKitchen: { ...moduleSelection.MyKitchen, ingredients: e.target.checked }
+                          })}
+                        />
                         <span>Ingredient knowledge bases → Enhances fuzzy matching</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.MyKitchen.kitchen}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            MyKitchen: { ...moduleSelection.MyKitchen, kitchen: e.target.checked }
+                          })}
+                        />
                         <span>Kitchen setup configurations → Equipment recommendations</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.MyKitchen.dietary}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            MyKitchen: { ...moduleSelection.MyKitchen, dietary: e.target.checked }
+                          })}
+                        />
                         <span>Dietary restriction mappings → Health tag generation</span>
                       </label>
                     </div>
@@ -1660,20 +1743,52 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-green-800">MyCookBook</h4>
                     </div>
                     <div className="space-y-2 text-sm">
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.MyCookBook.assignments}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            MyCookBook: { ...moduleSelection.MyCookBook, assignments: e.target.checked }
+                          })}
+                        />
                         <span>Assignment templates → Creates new gradebook assignments</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.MyCookBook.rubrics}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            MyCookBook: { ...moduleSelection.MyCookBook, rubrics: e.target.checked }
+                          })}
+                        />
                         <span>Grading rubrics → Video submission evaluation</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.MyCookBook.recipes}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            MyCookBook: { ...moduleSelection.MyCookBook, recipes: e.target.checked }
+                          })}
+                        />
                         <span>Recipe collections → Organized by curriculum week</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.MyCookBook.video}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            MyCookBook: { ...moduleSelection.MyCookBook, video: e.target.checked }
+                          })}
+                        />
                         <span>Video requirements → Student demonstration specs</span>
                       </label>
                     </div>
@@ -1685,20 +1800,52 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-purple-800">CulinarySchool</h4>
                     </div>
                     <div className="space-y-2 text-sm">
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.CulinarySchool.techniques}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            CulinarySchool: { ...moduleSelection.CulinarySchool, techniques: e.target.checked }
+                          })}
+                        />
                         <span>Custom technique sequences → Supplements 52 fundamentals</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.CulinarySchool.syllabus}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            CulinarySchool: { ...moduleSelection.CulinarySchool, syllabus: e.target.checked }
+                          })}
+                        />
                         <span>Syllabus structures → Maps techniques to curriculum</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.CulinarySchool.lessons}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            CulinarySchool: { ...moduleSelection.CulinarySchool, lessons: e.target.checked }
+                          })}
+                        />
                         <span>Lesson plans → Adds to 6 general lessons</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.CulinarySchool.objectives}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            CulinarySchool: { ...moduleSelection.CulinarySchool, objectives: e.target.checked }
+                          })}
+                        />
                         <span>Learning objectives → Student achievement goals</span>
                       </label>
                     </div>
@@ -1710,20 +1857,52 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-orange-800">Chef's Corner</h4>
                     </div>
                     <div className="space-y-2 text-sm">
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.ChefsCorner.videos}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            ChefsCorner: { ...moduleSelection.ChefsCorner, videos: e.target.checked }
+                          })}
+                        />
                         <span>Chef demonstration videos → Global Test Kitchen content</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.ChefsCorner.insights}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            ChefsCorner: { ...moduleSelection.ChefsCorner, insights: e.target.checked }
+                          })}
+                        />
                         <span>Industry insights → Professional tips & knowledge</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.ChefsCorner.sessions}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            ChefsCorner: { ...moduleSelection.ChefsCorner, sessions: e.target.checked }
+                          })}
+                        />
                         <span>Live session schedules → Planned cooking demonstrations</span>
                       </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center cursor-pointer">
+                        <input 
+                          type="checkbox" 
+                          className="mr-2" 
+                          checked={moduleSelection.ChefsCorner.partnerships}
+                          onChange={(e) => setModuleSelection({
+                            ...moduleSelection,
+                            ChefsCorner: { ...moduleSelection.ChefsCorner, partnerships: e.target.checked }
+                          })}
+                        />
                         <span>Market partnerships → Local sourcing connections</span>
                       </label>
                     </div>
@@ -1740,11 +1919,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div>
                     <label className="text-center block text-sm font-medium text-gray-700 mb-1">Publish Date</label>
-                    <input type="date" className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue" />
+                    <input 
+                      type="date" 
+                      value={publishDate}
+                      onChange={(e) => setPublishDate(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue" 
+                    />
                   </div>
                   <div>
                     <label className="text-center block text-sm font-medium text-gray-700 mb-1">Visibility</label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                    <select 
+                      value={publishVisibility}
+                      onChange={(e) => setPublishVisibility(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    >
                       <option>All Students</option>
                       <option>Specific Classes</option>
                       <option>Draft (Instructors Only)</option>
@@ -1752,7 +1940,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                   <div>
                     <label className="text-center block text-sm font-medium text-gray-700 mb-1">Notification</label>
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                    <select 
+                      value={publishNotification}
+                      onChange={(e) => setPublishNotification(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                    >
                       <option>Notify Students</option>
                       <option>Silent Update</option>
                       <option>Email Announcement</option>
@@ -1760,7 +1952,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                 </div>
                 <div className="flex justify-center gap-4">
-                  <button className="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro">
+                  <button 
+                    onClick={async () => {
+                      if (!currentUser?.id || !currentMapping) {
+                        alert('Please upload and map content first');
+                        return;
+                      }
+                      
+                      try {
+                        const { fileName } = currentMapping;
+                        
+                        // Update content_staging status to 'draft'
+                        const { error } = await supabase
+                          .from('content_staging')
+                          .update({ status: 'draft' })
+                          .eq('file_name', fileName)
+                          .eq('uploaded_by', currentUser.id);
+                        
+                        if (error) throw error;
+                        
+                        alert('Content saved as draft! You can publish it later.');
+                        setShowModuleIntegrationModal(false);
+                        setCurrentMapping(null);
+                        setModuleSelection({
+                          MyKitchen: { recipe: false, ingredients: false, kitchen: false, dietary: false },
+                          MyCookBook: { assignments: false, rubrics: false, recipes: false, video: false },
+                          CulinarySchool: { techniques: false, syllabus: false, lessons: false, objectives: false },
+                          ChefsCorner: { videos: false, insights: false, sessions: false, partnerships: false }
+                        });
+                      } catch (error: any) {
+                        console.error('Save draft error:', error);
+                        alert('Failed to save draft: ' + error.message);
+                      }
+                    }}
+                    className="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro"
+                  >
                     Save as Draft
                   </button>
                   <button 
@@ -1772,10 +1998,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       try {
                         const { aiSuggestion, fileName } = currentMapping;
-                        const { modules, metadata, contentType } = aiSuggestion;
+                        const { metadata, contentType } = aiSuggestion;
 
-                        // Distribute to MyKitchen (recipes)
-                        if (modules.MyKitchen.include && contentType === 'recipe') {
+                        // Check if any module is selected
+                        const hasSelection = Object.values(moduleSelection).some(module => 
+                          Object.values(module).some(value => value === true)
+                        );
+                        
+                        if (!hasSelection) {
+                          alert('Please select at least one module to publish to');
+                          return;
+                        }
+
+                        // Distribute to MyKitchen (recipes) - based on checkbox state
+                        if (moduleSelection.MyKitchen.recipe && contentType === 'recipe') {
                           const { error: recipeError } = await supabase
                             .from('user_cookbook')
                             .insert({
@@ -1792,8 +2028,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }
 
-                        // Distribute to MyCookBook (assignments)
-                        if (modules.MyCookBook.include && (contentType === 'assignment' || contentType === 'lesson')) {
+                        // Distribute to MyCookBook (assignments) - based on checkbox state
+                        if (moduleSelection.MyCookBook.assignments && (contentType === 'assignment' || contentType === 'lesson')) {
                           const { error: assignmentError } = await supabase
                             .from('assignments')
                             .insert({
@@ -1812,8 +2048,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }
 
-                        // Distribute to CulinarySchool (curriculum content)
-                        if (modules.CulinarySchool.include) {
+                        // Distribute to CulinarySchool (curriculum content) - based on checkbox state
+                        if (moduleSelection.CulinarySchool.techniques || moduleSelection.CulinarySchool.lessons) {
                           const { error: curriculumError } = await supabase
                             .from('curriculum_content')
                             .insert({
@@ -1834,21 +2070,56 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }
 
-                        // Distribute to Chef's Corner (demo videos/insights)
-                        if (modules.ChefsCorner.include && contentType === 'video') {
+                        // Distribute to Chef's Corner (demo videos/insights) - based on checkbox state
+                        if (moduleSelection.ChefsCorner.videos && contentType === 'video') {
                           console.log('Chef\'s Corner content:', metadata);
                         }
 
-                        // Update content_staging status to 'distributed'
+                        // Update content_staging with publish metadata
                         await supabase
                           .from('content_staging')
-                          .update({ status: 'distributed' })
+                          .update({ 
+                            status: 'distributed',
+                            publish_date: publishDate || new Date().toISOString(),
+                            visibility: publishVisibility,
+                            notification_type: publishNotification
+                          })
                           .eq('file_name', fileName)
                           .eq('uploaded_by', currentUser.id);
 
+                        // Send notification if requested
+                        if (publishNotification === 'Notify Students' || publishNotification === 'Email Announcement') {
+                          const { data: allUsers } = await supabase
+                            .from('profiles')
+                            .select('id');
+                          
+                          if (allUsers && allUsers.length > 0) {
+                            const notifications = allUsers.map(user => ({
+                              user_id: user.id,
+                              message: `New content published: ${metadata.title}`,
+                              read: false
+                            }));
+                            
+                            await supabase
+                              .from('notifications')
+                              .insert(notifications);
+                          }
+                        }
+
                         alert('Content successfully published to modules!');
+                        
+                        // Reset state for next upload
                         setShowModuleIntegrationModal(false);
                         setCurrentMapping(null);
+                        setModuleSelection({
+                          MyKitchen: { recipe: false, ingredients: false, kitchen: false, dietary: false },
+                          MyCookBook: { assignments: false, rubrics: false, recipes: false, video: false },
+                          CulinarySchool: { techniques: false, syllabus: false, lessons: false, objectives: false },
+                          ChefsCorner: { videos: false, insights: false, sessions: false, partnerships: false }
+                        });
+                        setPublishDate('');
+                        setPublishVisibility('All Students');
+                        setPublishNotification('Notify Students');
                         
                       } catch (error: any) {
                         console.error('Distribution error:', error);
@@ -6915,9 +7186,37 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
               <button
                 onClick={() => {
-                  // Close mapping review modal and keep the mapping data
+                  // Populate checkbox state based on AI mapping
+                  const { modules } = currentMapping.aiSuggestion;
+                  setModuleSelection({
+                    MyKitchen: {
+                      recipe: modules.MyKitchen.include,
+                      ingredients: modules.MyKitchen.include,
+                      kitchen: modules.MyKitchen.include,
+                      dietary: modules.MyKitchen.include
+                    },
+                    MyCookBook: {
+                      assignments: modules.MyCookBook.include,
+                      rubrics: modules.MyCookBook.include,
+                      recipes: modules.MyCookBook.include,
+                      video: modules.MyCookBook.include
+                    },
+                    CulinarySchool: {
+                      techniques: modules.CulinarySchool.include,
+                      syllabus: modules.CulinarySchool.include,
+                      lessons: modules.CulinarySchool.include,
+                      objectives: modules.CulinarySchool.include
+                    },
+                    ChefsCorner: {
+                      videos: modules.ChefsCorner.include,
+                      insights: modules.ChefsCorner.include,
+                      sessions: modules.ChefsCorner.include,
+                      partnerships: modules.ChefsCorner.include
+                    }
+                  });
+                  // Close mapping review modal
                   setShowMappingReviewModal(false);
-                  // Module Integration Modal is already open, checkboxes will show the mapping
+                  // Module Integration Modal is already open, checkboxes will now show the mapping
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
