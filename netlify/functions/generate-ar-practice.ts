@@ -59,6 +59,14 @@ Generate a detailed AR practice scene for this lesson:
 LESSON: ${lessonTitle}
 ${lessonContent ? `CONTENT: ${lessonContent}` : ''}
 
+SPECIAL INSTRUCTIONS FOR KNIFE SHARPENING:
+- Focus on the 20-degree angle (this is critical)
+- Include sensory details (feel of the stone, sound of the blade, visual of water)
+- Emphasize the sweeping motion (heel to tip)
+- Include the burr detection step
+- Make it old-school and traditional (water stone, no gadgets)
+- Use AR overlays for angle guides, motion paths, and stroke counters
+
 Create a JSON response with this structure:
 {
   "lesson": "lesson name",

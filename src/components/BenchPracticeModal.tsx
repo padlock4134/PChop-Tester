@@ -62,26 +62,20 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   };
 
   const startVirtualPractice = async () => {
-    if (!selectedLesson) {
-      alert('Please select a lesson first');
-      return;
-    }
-
     setIsGeneratingAR(true);
     setPracticeMode('virtual');
 
     try {
-      // Get lesson title from dropdown
-      const lessonSelect = document.querySelector('select') as HTMLSelectElement;
-      const lessonTitle = lessonSelect?.options[lessonSelect.selectedIndex]?.text || 'Practice Session';
-
+      // For demo: Use hardcoded "Knife Sharpening with Whetstone" lesson
+      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      
       // Call AI to generate AR scene
       const response = await fetch('/.netlify/functions/generate-ar-practice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          lessonTitle,
-          lessonContent: '', // Could pass more context here
+          lessonTitle: demoLesson,
+          lessonContent: 'Traditional Japanese water stone sharpening technique. Includes stone preparation, proper angle maintenance (20 degrees), stroke technique, and burr detection. Old-school method using only water and stone.',
         }),
       });
 
@@ -172,12 +166,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-lg font-bold mb-2 text-center text-amber-800">
-                {practiceMode === 'real' ? '🎥 REAL PRACTICE' : '📚 VIRTUAL PRACTICE'}: Knife Skills
+                {practiceMode === 'real' ? '🎥 REAL PRACTICE' : '📚 VIRTUAL PRACTICE'}: {arScene?.lesson || 'Knife Skills'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-2">
                 {practiceMode === 'real' 
-                  ? 'AI-Guided Practice Session • Brunoise Technique'
-                  : 'Interactive Walkthrough • Brunoise Technique'}
+                  ? 'AI-Guided Practice Session'
+                  : 'AR Demonstration • Old-School Technique'}
               </p>
             </>
           )}
