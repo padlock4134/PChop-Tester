@@ -277,6 +277,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     }
   ]);
   const [showAddAlumniModal, setShowAddAlumniModal] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
   const [newAlumniName, setNewAlumniName] = useState('');
   const [newAlumniEmail, setNewAlumniEmail] = useState('');
   const [newAlumniGradYear, setNewAlumniGradYear] = useState('');
@@ -1357,13 +1358,65 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
                 <h3 className="font-bold text-blue-900 mb-3">🏦 School Logo</h3>
                 <div className="flex items-center justify-center space-x-4">
-                  <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                    <span className=" text-gray-400 text-sm">Logo</span>
+                  <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
+                    {schoolBranding.logoUrl ? (
+                      <img src={schoolBranding.logoUrl} alt="School Logo" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-gray-400 text-sm">Logo</span>
+                    )}
                   </div>
                   <div className="flex-1">
-                    <button className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro">
-                      Upload Logo
-                    </button>
+                    <input
+                      type="file"
+                      id="logo-upload"
+                      accept="image/png,image/jpeg,image/jpg"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        
+                        if (!currentUser?.id) {
+                          alert('You must be logged in to upload a logo');
+                          return;
+                        }
+                        
+                        setUploadingLogo(true);
+                        try {
+                          // Upload to Supabase Storage
+                          const fileExt = file.name.split('.').pop();
+                          const fileName = `school-logo-${Date.now()}.${fileExt}`;
+                          const filePath = `branding/${fileName}`;
+                          
+                          const { data: uploadData, error: uploadError } = await supabase.storage
+                            .from('admin_uploads')
+                            .upload(filePath, file, {
+                              cacheControl: '3600',
+                              upsert: false
+                            });
+                          
+                          if (uploadError) throw uploadError;
+                          
+                          // Get public URL
+                          const { data: urlData } = supabase.storage
+                            .from('admin_uploads')
+                            .getPublicUrl(filePath);
+                          
+                          setSchoolBranding({...schoolBranding, logoUrl: urlData.publicUrl});
+                          alert('Logo uploaded successfully!');
+                        } catch (error: any) {
+                          console.error('Error uploading logo:', error);
+                          alert('Failed to upload logo: ' + error.message);
+                        } finally {
+                          setUploadingLogo(false);
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor="logo-upload"
+                      className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block"
+                    >
+                      {uploadingLogo ? 'Uploading...' : 'Upload Logo'}
+                    </label>
                     <p className="text-sm text-gray-500 mt-1">Recommended: 200x200px, PNG or JPG</p>
                   </div>
                 </div>
