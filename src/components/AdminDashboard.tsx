@@ -5924,6 +5924,40 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Close
                 </button>
                 <button
+                  onClick={() => {
+                    try {
+                      // Generate donor list data
+                      const donorData = [
+                        { name: 'John Smith', email: 'john.s@email.com', amount: 500, date: '2024-11-15', campaign: 'Scholarship Fund 2025' },
+                        { name: 'Mary Johnson', email: 'mary.j@email.com', amount: 250, date: '2024-11-18', campaign: 'Scholarship Fund 2025' },
+                        { name: 'Robert Davis', email: 'robert.d@email.com', amount: 1000, date: '2024-11-20', campaign: 'New Kitchen Equipment' },
+                        { name: 'Sarah Wilson', email: 'sarah.w@email.com', amount: 150, date: '2024-11-22', campaign: 'Scholarship Fund 2025' },
+                        { name: 'Michael Brown', email: 'michael.b@email.com', amount: 750, date: '2024-11-23', campaign: 'New Kitchen Equipment' }
+                      ];
+                      
+                      const csv = convertToCSV(donorData);
+                      const timestamp = new Date().toISOString().split('T')[0];
+                      const filename = `donor-list-${timestamp}.csv`;
+                      downloadFile(csv, filename);
+                      
+                      // Show branded success modal
+                      setDownloadedReportInfo({
+                        type: 'Donor List',
+                        count: donorData.length,
+                        filename: filename
+                      });
+                      setShowDownloadSuccessModal(true);
+                      setShowGiftingDonationsModal(false);
+                    } catch (error: any) {
+                      console.error('Error exporting donor list:', error);
+                      alert('Failed to export: ' + error.message);
+                    }
+                  }}
+                  className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 font-retro"
+                >
+                  📊 Export Donor List
+                </button>
+                <button
                   onClick={async () => {
                     if (!campaignName.trim() || !campaignGoal) {
                       alert('Please enter campaign name and goal');
@@ -5944,10 +5978,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       if (error) throw error;
                       
-                      alert(`Campaign "${campaignName}" launched successfully!`);
+                      // Show branded success modal
+                      setDownloadedReportInfo({
+                        type: 'Fundraising Campaign Created',
+                        count: 1,
+                        filename: `${campaignName} - Goal: $${campaignGoal}`
+                      });
+                      setShowDownloadSuccessModal(true);
+                      
                       setCampaignName('');
                       setCampaignGoal('');
                       setCampaignDescription('');
+                      setShowGiftingDonationsModal(false);
                     } catch (error: any) {
                       console.error('Error creating campaign:', error);
                       alert('Failed to create campaign: ' + error.message);

@@ -46,6 +46,12 @@ Career event registration and attendance
 - **Use Case:** Career services event management, student tracking, program analysis
 - **Sample Size:** 8 registrants
 
+### 8. **donor-list-example.csv**
+Fundraising and donation tracking
+- **Fields:** name, email, amount, date, campaign
+- **Use Case:** Donor management, fundraising analytics, campaign tracking
+- **Sample Size:** 8 donors
+
 ## 🎯 How to Use:
 
 1. **View Examples:** Download any example file to see the data structure
