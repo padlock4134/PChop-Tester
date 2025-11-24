@@ -4436,45 +4436,70 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Cancel
                 </button>
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     if (!newFacultyName.trim() || !newFacultyEmail.trim()) {
                       alert('Please enter faculty name and email');
                       return;
                     }
                     
-                    const initials = newFacultyName
-                      .split(' ')
-                      .map(n => n[0])
-                      .join('')
-                      .toUpperCase()
-                      .slice(0, 2);
-                    
-                    const colors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-pink-500', 'bg-indigo-500'];
-                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    
-                    const newFaculty = {
-                      id: `faculty-${Date.now()}`,
-                      name: newFacultyName,
-                      email: newFacultyEmail,
-                      role: newFacultyRole,
-                      status: 'Active',
-                      courses: 'New Courses',
-                      students: 0,
-                      lastLogin: 'Never',
-                      initials: initials,
-                      color: randomColor
-                    };
-                    
-                    setFacultyList(prev => [...prev, newFaculty]);
-                    setNewFacultyName('');
-                    setNewFacultyEmail('');
-                    setNewFacultyRole('Instructor');
-                    setShowAddFacultyModal(false);
-                    alert('Faculty member added successfully!');
+                    setAddingFaculty(true);
+                    try {
+                      // Insert into faculty table
+                      const { data, error } = await supabase
+                        .from('faculty')
+                        .insert({
+                          full_name: newFacultyName,
+                          email: newFacultyEmail,
+                          role: newFacultyRole,
+                          status: 'Active',
+                          students_count: 0
+                        })
+                        .select()
+                        .single();
+                      
+                      if (error) throw error;
+                      
+                      // Update local state for UI
+                      const initials = newFacultyName
+                        .split(' ')
+                        .map(n => n[0])
+                        .join('')
+                        .toUpperCase()
+                        .slice(0, 2);
+                      
+                      const colors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-pink-500', 'bg-indigo-500'];
+                      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                      
+                      const newFaculty = {
+                        id: data.id,
+                        name: newFacultyName,
+                        email: newFacultyEmail,
+                        role: newFacultyRole,
+                        status: 'Active',
+                        courses: '',
+                        students: 0,
+                        lastLogin: 'Never',
+                        initials: initials,
+                        color: randomColor
+                      };
+                      
+                      setFacultyList(prev => [...prev, newFaculty]);
+                      setNewFacultyName('');
+                      setNewFacultyEmail('');
+                      setNewFacultyRole('Instructor');
+                      setShowAddFacultyModal(false);
+                      alert('Faculty member added successfully!');
+                    } catch (error: any) {
+                      console.error('Error adding faculty:', error);
+                      alert('Failed to add faculty: ' + error.message);
+                    } finally {
+                      setAddingFaculty(false);
+                    }
                   }}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                  disabled={addingFaculty}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Invitation
+                  {addingFaculty ? 'Adding...' : 'Send Invitation'}
                 </button>
               </div>
             </div>
@@ -4570,34 +4595,55 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 Cancel
               </button>
               <button
-                onClick={() => {
+                onClick={async () => {
                   if (!newStudentName.trim() || !newStudentEmail.trim()) {
                     alert('Please enter student name and email');
                     return;
                   }
                   
-                  // Add student to list
-                  const newStudent = {
-                    id: `student-${Date.now()}`,
-                    username: newStudentName,
-                    email: newStudentEmail,
-                    xp: 0,
-                    level: 1,
-                    chat_count: 0,
-                    last_chat_date: new Date().toISOString(),
-                    created_at: new Date().toISOString()
-                  };
-                  
-                  setUsers(prev => [...prev, newStudent]);
-                  
-                  // Reset form
-                  setNewStudentName('');
-                  setNewStudentEmail('');
-                  setNewStudentPhone('');
-                  setNewStudentProgram('Culinary Arts');
-                  setShowAddStudentModal(false);
-                  
-                  alert('Student added successfully!');
+                  try {
+                    // Insert into profiles table
+                    const { data, error } = await supabase
+                      .from('profiles')
+                      .insert({
+                        email: newStudentEmail,
+                        username: newStudentName,
+                        xp: 0,
+                        level: 1,
+                        chat_count: 0,
+                        created_at: new Date().toISOString()
+                      })
+                      .select()
+                      .single();
+                    
+                    if (error) throw error;
+                    
+                    // Add to local state
+                    const newStudent = {
+                      id: data.id,
+                      username: newStudentName,
+                      email: newStudentEmail,
+                      xp: 0,
+                      level: 1,
+                      chat_count: 0,
+                      last_chat_date: new Date().toISOString(),
+                      created_at: new Date().toISOString()
+                    };
+                    
+                    setUsers(prev => [...prev, newStudent]);
+                    
+                    // Reset form
+                    setNewStudentName('');
+                    setNewStudentEmail('');
+                    setNewStudentPhone('');
+                    setNewStudentProgram('Culinary Arts');
+                    setShowAddStudentModal(false);
+                    
+                    alert('Student added successfully!');
+                  } catch (error: any) {
+                    console.error('Error adding student:', error);
+                    alert('Failed to add student: ' + error.message);
+                  }
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
