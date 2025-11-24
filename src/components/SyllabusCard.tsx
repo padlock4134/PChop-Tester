@@ -42,16 +42,14 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
       </div>
       
       {/* The Butcher Block Button */}
-      {onButcherBlockClick && (
-        <div className="px-4 pt-4">
-          <button
-            onClick={onButcherBlockClick}
-            className="w-full bg-lobsterRed text-white font-bold py-3 px-4 rounded-lg hover:bg-red-600 transition-colors border-2 border-black shadow-md"
-          >
-            🥩 The Butcher Block
-          </button>
-        </div>
-      )}
+      <div className="px-4 pt-4">
+        <button
+          onClick={onButcherBlockClick}
+          className="w-full bg-lobsterRed text-white font-bold py-3 px-4 rounded-lg hover:bg-red-600 transition-colors border-2 border-black shadow-md"
+        >
+          🥩 The Butcher Block
+        </button>
+      </div>
       
       <div className="p-4">
         {courses.map(course => (

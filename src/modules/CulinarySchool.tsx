@@ -467,6 +467,7 @@ const CulinarySchool = () => {
             title={mockSyllabusData.title}
             courses={mockSyllabusData.courses}
             onLessonClick={handleLessonClick}
+            onButcherBlockClick={() => {}}
           />
         </div>
       </div>
