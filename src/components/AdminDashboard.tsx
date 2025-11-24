@@ -6723,6 +6723,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       };
                       
                       setAlumniList(prev => [...prev, newAlumni]);
+                      
+                      // Show branded success modal
+                      setDownloadedReportInfo({
+                        type: 'Alumni Success Story Added',
+                        count: 1,
+                        filename: `${newAlumniName} - Class of ${newAlumniGradYear}`
+                      });
+                      setShowDownloadSuccessModal(true);
+                      
                       setNewAlumniName('');
                       setNewAlumniEmail('');
                       setNewAlumniGradYear('');
@@ -6730,7 +6739,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setNewAlumniEmployer('');
                       setNewAlumniSalary('');
                       setShowAddAlumniModal(false);
-                      alert('Alumni success story added!');
                     } catch (error: any) {
                       console.error('Error adding alumni:', error);
                       alert('Failed to add alumni: ' + error.message);
