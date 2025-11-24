@@ -9,6 +9,7 @@ import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionSe
 import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
 import CookingTimer from '../components/CookingTimer';
+import BenchPracticeModal from '../components/BenchPracticeModal';
 
 const generalLessons = [
   { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
@@ -138,6 +139,7 @@ const CulinarySchool = () => {
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
+  const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
 
   // Mock syllabus data
   const mockSyllabusData = {
@@ -467,10 +469,16 @@ const CulinarySchool = () => {
             title={mockSyllabusData.title}
             courses={mockSyllabusData.courses}
             onLessonClick={handleLessonClick}
-            onButcherBlockClick={() => {}}
+            onButcherBlockClick={() => setBenchPracticeOpen(true)}
           />
         </div>
       </div>
+
+      {/* Bench Practice Modal */}
+      <BenchPracticeModal 
+        open={benchPracticeOpen}
+        onClose={() => setBenchPracticeOpen(false)}
+      />
     </div>
   );
 };
