@@ -1,0 +1,9 @@
+id,email,username,xp,level,created_at,last_login
+550e8400-e29b-41d4-a716-446655440001,sarah.johnson@culinary.edu,Sarah Johnson,2450,12,2024-09-15T08:30:00Z,2024-11-23T14:22:00Z
+550e8400-e29b-41d4-a716-446655440002,michael.chen@culinary.edu,Michael Chen,3890,18,2024-09-12T10:15:00Z,2024-11-24T09:45:00Z
+550e8400-e29b-41d4-a716-446655440003,emily.rodriguez@culinary.edu,Emily Rodriguez,1820,9,2024-10-01T13:20:00Z,2024-11-22T16:30:00Z
+550e8400-e29b-41d4-a716-446655440004,james.williams@culinary.edu,James Williams,4250,21,2024-08-28T09:00:00Z,2024-11-24T11:15:00Z
+550e8400-e29b-41d4-a716-446655440005,olivia.martinez@culinary.edu,Olivia Martinez,2980,15,2024-09-20T11:45:00Z,2024-11-23T18:00:00Z
+550e8400-e29b-41d4-a716-446655440006,david.kim@culinary.edu,David Kim,1560,8,2024-10-10T14:30:00Z,2024-11-21T10:20:00Z
+550e8400-e29b-41d4-a716-446655440007,sophia.anderson@culinary.edu,Sophia Anderson,3420,17,2024-09-05T08:00:00Z,2024-11-24T07:30:00Z
+550e8400-e29b-41d4-a716-446655440008,ryan.thompson@culinary.edu,Ryan Thompson,2150,11,2024-09-25T12:00:00Z,2024-11-23T13:45:00Z

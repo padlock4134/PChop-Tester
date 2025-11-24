@@ -112,6 +112,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [publishNotification, setPublishNotification] = useState('Notify Students');
   const [generatingApiKey, setGeneratingApiKey] = useState(false);
   const [apiKeys, setApiKeys] = useState<Array<{id: string, key: string, name: string, created_at: string}>>([]);
+  const [showDownloadSuccessModal, setShowDownloadSuccessModal] = useState(false);
+  const [downloadedReportInfo, setDownloadedReportInfo] = useState({ type: '', count: 0, filename: '' });
   const [modulePermissions, setModulePermissions] = useState<{[key: string]: {[key: string]: string}}>({
     student: {
       MyCookBook: 'Full Access',
@@ -4587,9 +4589,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       // Convert to CSV and download
                       const csv = convertToCSV(data);
                       const timestamp = new Date().toISOString().split('T')[0];
-                      downloadFile(csv, `student-data-${timestamp}.csv`);
+                      const filename = `student-data-${timestamp}.csv`;
+                      downloadFile(csv, filename);
                       
-                      alert(`Successfully exported ${data.length} student records!`);
+                      // Show success modal
+                      setDownloadedReportInfo({
+                        type: 'Student Data',
+                        count: data.length,
+                        filename: filename
+                      });
+                      setShowDownloadSuccessModal(true);
                       setShowExportDataModal(false);
                     } catch (error: any) {
                       console.error('Error exporting data:', error);
@@ -5377,9 +5386,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       const csv = convertToCSV(data);
                       const timestamp = new Date().toISOString().split('T')[0];
-                      downloadFile(csv, `faculty-report-${timestamp}.csv`);
+                      const filename = `faculty-report-${timestamp}.csv`;
+                      downloadFile(csv, filename);
                       
-                      alert(`Successfully exported ${data.length} faculty records!`);
+                      // Show success modal
+                      setDownloadedReportInfo({
+                        type: 'Faculty Report',
+                        count: data.length,
+                        filename: filename
+                      });
+                      setShowDownloadSuccessModal(true);
                     } catch (error: any) {
                       console.error('Error exporting faculty:', error);
                       alert('Failed to export: ' + error.message);
@@ -5915,9 +5931,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       const csv = convertToCSV(flatData);
                       const timestamp = new Date().toISOString().split('T')[0];
-                      downloadFile(csv, `employment-report-${timestamp}.csv`);
+                      const filename = `employment-report-${timestamp}.csv`;
+                      downloadFile(csv, filename);
                       
-                      alert(`Successfully exported ${data.length} employment records!`);
+                      // Show success modal
+                      setDownloadedReportInfo({
+                        type: 'Employment Report',
+                        count: data.length,
+                        filename: filename
+                      });
+                      setShowDownloadSuccessModal(true);
                     } catch (error: any) {
                       console.error('Error exporting employment data:', error);
                       alert('Failed to export: ' + error.message);
@@ -6334,9 +6357,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       const csv = convertToCSV(data);
                       const timestamp = new Date().toISOString().split('T')[0];
-                      downloadFile(csv, `alumni-database-${timestamp}.csv`);
+                      const filename = `alumni-database-${timestamp}.csv`;
+                      downloadFile(csv, filename);
                       
-                      alert(`Successfully exported ${data.length} alumni records!`);
+                      // Show success modal
+                      setDownloadedReportInfo({
+                        type: 'Alumni Database',
+                        count: data.length,
+                        filename: filename
+                      });
+                      setShowDownloadSuccessModal(true);
                     } catch (error: any) {
                       console.error('Error exporting alumni:', error);
                       alert('Failed to export: ' + error.message);
@@ -7222,6 +7252,69 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               >
                 ✓ Confirm Mapping
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Download Success Modal */}
+      {showDownloadSuccessModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-green-500 p-8 max-w-md w-full animate-bounce-in">
+            <div className="text-center">
+              {/* Success Icon */}
+              <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-4">
+                <svg className="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              
+              {/* Title */}
+              <h2 className="text-3xl font-bold text-green-600 font-retro mb-2">
+                Download Complete!
+              </h2>
+              
+              {/* PorkChop Branding */}
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <img src="/logo.png" alt="PorkChop" className="w-8 h-8" />
+                <span className="text-lg font-bold text-maineBlue">PorkChop Ed Tech</span>
+              </div>
+              
+              {/* Report Details */}
+              <div className="bg-green-50 border-2 border-green-300 rounded-lg p-4 mb-6">
+                <p className="text-gray-700 mb-2">
+                  <span className="font-bold text-green-700">{downloadedReportInfo.type}</span>
+                </p>
+                <p className="text-sm text-gray-600 mb-1">
+                  📊 <span className="font-semibold">{downloadedReportInfo.count} records</span> exported
+                </p>
+                <p className="text-xs text-gray-500 break-all">
+                  📁 {downloadedReportInfo.filename}
+                </p>
+              </div>
+              
+              {/* Success Message */}
+              <p className="text-gray-600 mb-6">
+                Your report has been successfully downloaded to your computer. 
+                Check your Downloads folder!
+              </p>
+              
+              {/* Action Buttons */}
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={() => setShowDownloadSuccessModal(false)}
+                  className="bg-maineBlue text-white px-8 py-3 rounded-md hover:bg-blue-700 font-retro transition-all transform hover:scale-105"
+                >
+                  ✓ Done
+                </button>
+                <a
+                  href={`/example-reports/${downloadedReportInfo.type.toLowerCase().replace(/ /g, '-')}-example.csv`}
+                  download
+                  className="bg-green-100 text-green-700 px-8 py-3 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 transition-all transform hover:scale-105"
+                >
+                  📥 View Example
+                </a>
+              </div>
             </div>
           </div>
         </div>
