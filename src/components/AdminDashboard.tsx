@@ -188,6 +188,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [careerEventDate, setCareerEventDate] = useState('');
   const [careerEventDescription, setCareerEventDescription] = useState('');
   const [schedulingCareerEvent, setSchedulingCareerEvent] = useState(false);
+  const [selectedProgram, setSelectedProgram] = useState('all');
   const [exportingAlumni, setExportingAlumni] = useState(false);
   const [updatingPermissions, setUpdatingPermissions] = useState(false);
   const [exportingFaculty, setExportingFaculty] = useState(false);
@@ -2913,9 +2914,43 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Track program completion rates, student satisfaction, and overall curriculum effectiveness.</p>
+            <p className="text-center text-gray-600 mb-4">Track program completion rates, student satisfaction, and overall curriculum effectiveness.</p>
+            
+            {/* Program Selector */}
+            <div className="mb-6">
+              <label className="block text-center text-sm font-medium text-gray-700 mb-2">📚 Select Program:</label>
+              <select
+                value={selectedProgram}
+                onChange={(e) => setSelectedProgram(e.target.value)}
+                className="w-full max-w-md mx-auto block px-4 py-3 border-2 border-maineBlue rounded-lg focus:outline-none focus:ring-2 focus:ring-maineBlue font-retro text-center"
+              >
+                <option value="all">All Programs</option>
+                <option value="culinary_arts">Culinary Arts</option>
+                <option value="pastry_arts">Pastry Arts</option>
+                <option value="baking_pastry">Baking & Pastry</option>
+                <option value="restaurant_management">Restaurant Management</option>
+                <option value="food_service">Food Service Management</option>
+                <option value="hospitality">Hospitality Management</option>
+              </select>
+            </div>
             
             <div className="space-y-6">
+              {/* Selected Program Indicator */}
+              {selectedProgram !== 'all' && (
+                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-3 text-center">
+                  <p className="text-sm text-blue-800">
+                    Showing data for: <span className="font-bold text-maineBlue">
+                      {selectedProgram === 'culinary_arts' && 'Culinary Arts'}
+                      {selectedProgram === 'pastry_arts' && 'Pastry Arts'}
+                      {selectedProgram === 'baking_pastry' && 'Baking & Pastry'}
+                      {selectedProgram === 'restaurant_management' && 'Restaurant Management'}
+                      {selectedProgram === 'food_service' && 'Food Service Management'}
+                      {selectedProgram === 'hospitality' && 'Hospitality Management'}
+                    </span>
+                  </p>
+                </div>
+              )}
+              
               {/* Program Completion Rates */}
               <div className="border-4 border-maineBlue rounded-lg p-6">
                 <h3 className="text-center font-bold text-maineBlue mb-4">🎓 Program Completion Rates</h3>
