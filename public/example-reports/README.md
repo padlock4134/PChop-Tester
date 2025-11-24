@@ -28,6 +28,12 @@ Job placement and employment outcomes
 - **Use Case:** Career services reporting, placement rate tracking, salary benchmarking
 - **Sample Size:** 8 placements
 
+### 5. **content-analytics-example.csv**
+Content performance and engagement analytics
+- **Fields:** metric, value, change, completion
+- **Use Case:** Monitor content effectiveness, identify top/bottom performers, track engagement
+- **Sample Size:** 21 analytics metrics
+
 ## 🎯 How to Use:
 
 1. **View Examples:** Download any example file to see the data structure

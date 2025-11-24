@@ -3470,6 +3470,51 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
             </div>
+            
+            {/* Action Buttons */}
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setShowContentAnalyticsModal(false)}
+                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
+              >
+                Close
+              </button>
+              <button
+                onClick={async () => {
+                  try {
+                    // Generate analytics report data
+                    const analyticsData = [
+                      { metric: 'Total Recipe Views', value: 847, change: '+12%' },
+                      { metric: 'Completion Rate', value: '73%', change: '+5%' },
+                      { metric: 'Avg Engagement Score', value: 4.2, change: 'No change' },
+                      { metric: 'Active Recipes', value: 28, change: '+3 new' },
+                      { metric: 'Top Recipe', value: 'French Knife Skills', completion: '94%' },
+                      { metric: 'Needs Attention', value: 'Advanced Plating', completion: '34%' }
+                    ];
+                    
+                    const csv = convertToCSV(analyticsData);
+                    const timestamp = new Date().toISOString().split('T')[0];
+                    const filename = `content-analytics-${timestamp}.csv`;
+                    downloadFile(csv, filename);
+                    
+                    // Show branded success modal
+                    setDownloadedReportInfo({
+                      type: 'Content Analytics Report',
+                      count: analyticsData.length,
+                      filename: filename
+                    });
+                    setShowDownloadSuccessModal(true);
+                    setShowContentAnalyticsModal(false);
+                  } catch (error: any) {
+                    console.error('Error exporting analytics:', error);
+                    alert('Failed to export analytics: ' + error.message);
+                  }
+                }}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+              >
+                📊 Export Analytics Report
+              </button>
+            </div>
           </div>
         </div>
       )}
