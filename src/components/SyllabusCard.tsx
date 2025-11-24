@@ -19,9 +19,10 @@ interface SyllabusCardProps {
   title: string;
   courses: SyllabusCourse[];
   onLessonClick: (lessonId: string) => void;
+  onButcherBlockClick?: () => void;
 }
 
-const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonClick }) => {
+const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonClick, onButcherBlockClick }) => {
   const [expandedCourses, setExpandedCourses] = useState<Record<string, boolean>>(
     // Default to first course expanded
     courses.reduce((acc, course, index) => ({ ...acc, [course.id]: index === 0 }), {})
@@ -39,6 +40,18 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
       <div className="p-4 bg-yellow-400 text-maineBlue font-retro">
         <h3 className="text-xl">✏️ {title}</h3>
       </div>
+      
+      {/* The Butcher Block Button */}
+      {onButcherBlockClick && (
+        <div className="px-4 pt-4">
+          <button
+            onClick={onButcherBlockClick}
+            className="w-full bg-lobsterRed text-white font-bold py-3 px-4 rounded-lg hover:bg-red-600 transition-colors border-2 border-black shadow-md"
+          >
+            🥩 The Butcher Block
+          </button>
+        </div>
+      )}
       
       <div className="p-4">
         {courses.map(course => (

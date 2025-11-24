@@ -109,7 +109,7 @@ function getCurrentWeekTechnique() {
   return WEEKLY_TECHNIQUES[techniqueIndex];
 }
 
-function getTwoTutorials(recipe) {
+function getTwoTutorials(recipe: any) {
   if (!recipe) return [];
   
   const weeklyTechnique = getCurrentWeekTechnique();
@@ -236,7 +236,7 @@ const CulinarySchool = () => {
   }
 
   // Helper to call Chef Freddie backend for a smart search query
-  async function getVideoQueryFromFreddie(recipe, tut, idx) {
+  async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
     
     // Handle different tutorial types
@@ -361,16 +361,11 @@ const CulinarySchool = () => {
               {tutorials.map((tut, idx) => (
                 <li
                   key={idx}
-                  className={`bg-sand p-4 rounded shadow-inner border border-black relative ${tut.comingSoon ? 'cursor-default' : 'cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors'}`}
-                  onClick={() => !tut.comingSoon && setModalIdx(idx)}
+                  className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
+                  onClick={() => setModalIdx(idx)}
                 >
                   <div className="font-bold mb-1">Step {idx + 1}: {tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
-                  {tut.comingSoon && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded">
-                      <span className="text-white font-bold text-lg transform rotate-12">Coming Soon</span>
-                    </div>
-                  )}
                 </li>
               ))}
             </ol>
@@ -447,16 +442,11 @@ const CulinarySchool = () => {
               {tutorials.map((tut, idx) => (
                 <li
                   key={idx}
-                  className={`bg-sand p-4 rounded shadow-inner border border-black relative ${tut.comingSoon ? 'cursor-default' : 'cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors'}`}
-                  onClick={() => !tut.comingSoon && setModalIdx(idx)}
+                  className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
+                  onClick={() => setModalIdx(idx)}
                 >
                   <div className="font-bold mb-1">Step {idx + 1}: {tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
-                  {tut.comingSoon && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded">
-                      <span className="text-white font-bold text-lg transform rotate-12">Coming Soon</span>
-                    </div>
-                  )}
                 </li>
               ))}
             </ol>
