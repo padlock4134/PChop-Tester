@@ -8,6 +8,7 @@ interface BenchPracticeModalProps {
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
   const [isPracticing, setIsPracticing] = useState(false);
   const [practiceMode, setPracticeMode] = useState<'real' | 'virtual' | null>(null);
+  const [selectedLesson, setSelectedLesson] = useState<string>('');
 
   if (!open) return null;
 
@@ -139,6 +140,45 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           
           {/* Instructions Content */}
           <div className="flex-1 overflow-y-auto p-3 sm:p-4">
+          
+          {/* Lesson Selection Dropdown */}
+          <div className="mb-4">
+            <label className="block text-sm font-semibold text-amber-800 mb-2">
+              Select Lesson to Practice:
+            </label>
+            <select
+              value={selectedLesson}
+              onChange={(e) => setSelectedLesson(e.target.value)}
+              className="w-full px-3 py-2 border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+            >
+              <option value="">Choose a lesson...</option>
+              <optgroup label="Term 1: Culinary Foundations">
+                <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
+                <option value="lesson-1-2">Food Handling and Storage</option>
+                <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
+                <option value="lesson-1-4">Basic Cooking Terminology</option>
+                <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+              </optgroup>
+              <optgroup label="Term 1: Knife Skills">
+                <option value="lesson-2-1">Knife Safety and Maintenance</option>
+                <option value="lesson-2-2">Basic Knife Cuts</option>
+                <option value="lesson-2-3">Vegetable Fabrication</option>
+                <option value="lesson-2-4">Meat and Fish Fabrication</option>
+              </optgroup>
+              <optgroup label="Term 2: Breakfast & Garde Manger">
+                <option value="lesson-3-1">Egg Cookery</option>
+                <option value="lesson-3-2">Breakfast Preparations</option>
+                <option value="lesson-3-3">Cold Food Preparation</option>
+                <option value="lesson-3-4">Salads and Dressings</option>
+              </optgroup>
+              <optgroup label="Term 2: Baking & Pastry">
+                <option value="lesson-4-1">Basic Dough and Batters</option>
+                <option value="lesson-4-2">Quick Breads and Muffins</option>
+                <option value="lesson-4-3">Yeast Breads</option>
+                <option value="lesson-4-4">Basic Pastry and Desserts</option>
+              </optgroup>
+            </select>
+          </div>
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
