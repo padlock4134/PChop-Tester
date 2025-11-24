@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ARPracticeScene from './ARPracticeScene';
 
 interface BenchPracticeModalProps {
   open: boolean;
@@ -16,6 +17,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const [isSaving, setIsSaving] = useState(false);
   const [videoTitle, setVideoTitle] = useState('');
   const [videoDescription, setVideoDescription] = useState('');
+  const [isGeneratingAR, setIsGeneratingAR] = useState(false);
+  const [arScene, setArScene] = useState<any>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   if (!open) return null;
@@ -58,9 +61,45 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
     }
   };
 
-  const startVirtualPractice = () => {
+  const startVirtualPractice = async () => {
+    if (!selectedLesson) {
+      alert('Please select a lesson first');
+      return;
+    }
+
+    setIsGeneratingAR(true);
     setPracticeMode('virtual');
-    setIsPracticing(true);
+
+    try {
+      // Get lesson title from dropdown
+      const lessonSelect = document.querySelector('select') as HTMLSelectElement;
+      const lessonTitle = lessonSelect?.options[lessonSelect.selectedIndex]?.text || 'Practice Session';
+
+      // Call AI to generate AR scene
+      const response = await fetch('/.netlify/functions/generate-ar-practice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          lessonTitle,
+          lessonContent: '', // Could pass more context here
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success && data.scene) {
+        setArScene(data.scene);
+        setIsPracticing(true);
+      } else {
+        throw new Error('Failed to generate AR scene');
+      }
+    } catch (error) {
+      console.error('Error generating AR practice:', error);
+      alert('Could not generate AR practice. Please try again.');
+      setPracticeMode(null);
+    } finally {
+      setIsGeneratingAR(false);
+    }
   };
 
   const endPractice = () => {
@@ -145,7 +184,14 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           
           {/* Practice Video/Camera Area */}
           <div className="bg-amber-50 rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
-            {isPracticing && practiceMode === 'real' && stream ? (
+            {isGeneratingAR ? (
+              // Generating AR scene
+              <div className="text-amber-900 text-center">
+                <div className="text-6xl mb-4 animate-pulse">🧠</div>
+                <p className="text-lg font-bold">AI Generating Your Practice...</p>
+                <p className="text-sm opacity-75 mt-2">Creating virtual kitchen workspace</p>
+              </div>
+            ) : isPracticing && practiceMode === 'real' && stream ? (
               // Real practice mode - show camera feed
               <video
                 ref={videoRef}
@@ -154,13 +200,15 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 muted
                 className="w-full h-full object-cover"
               />
-            ) : isPracticing && practiceMode === 'virtual' ? (
-              // Virtual practice mode - show placeholder
-              <div className="text-amber-900 text-center">
-                <div className="text-6xl mb-4">📚</div>
-                <p className="text-lg font-bold">Virtual Practice</p>
-                <p className="text-sm opacity-75">Follow the instructions on the right</p>
-              </div>
+            ) : isPracticing && practiceMode === 'virtual' && arScene ? (
+              // Virtual practice mode - show AR scene
+              <ARPracticeScene 
+                scene={arScene}
+                onComplete={() => {
+                  alert('Practice complete! Great job!');
+                  cleanupPractice();
+                }}
+              />
             ) : (
               // Not practicing - show placeholder
               <div className="text-amber-900 text-center">
