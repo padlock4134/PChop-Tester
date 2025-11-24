@@ -5818,7 +5818,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       if (error) throw error;
                       
-                      alert(`Event "${eventName}" created successfully!`);
+                      // Show branded success modal
+                      setDownloadedReportInfo({
+                        type: 'Alumni Event Created',
+                        count: 1,
+                        filename: `${eventName} on ${eventDate}`
+                      });
+                      setShowDownloadSuccessModal(true);
+                      
                       setEventName('');
                       setEventDate('');
                       setEventTime('');
