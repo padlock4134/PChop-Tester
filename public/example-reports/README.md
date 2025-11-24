@@ -34,6 +34,18 @@ Content performance and engagement analytics
 - **Use Case:** Monitor content effectiveness, identify top/bottom performers, track engagement
 - **Sample Size:** 21 analytics metrics
 
+### 6. **event-attendee-list-example.csv**
+Alumni event attendee tracking
+- **Fields:** name, email, status, class
+- **Use Case:** Event management, RSVP tracking, alumni engagement
+- **Sample Size:** 8 attendees
+
+### 7. **career-event-attendee-list-example.csv**
+Career event registration and attendance
+- **Fields:** name, email, program, class, status
+- **Use Case:** Career services event management, student tracking, program analysis
+- **Sample Size:** 8 registrants
+
 ## 🎯 How to Use:
 
 1. **View Examples:** Download any example file to see the data structure
