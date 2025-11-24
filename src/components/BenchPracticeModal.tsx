@@ -7,28 +7,28 @@ interface BenchPracticeModalProps {
 
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
   const [isPracticing, setIsPracticing] = useState(false);
+  const [practiceMode, setPracticeMode] = useState<'real' | 'virtual' | null>(null);
 
   if (!open) return null;
 
-  const startPractice = () => {
+  const startRealPractice = () => {
+    setPracticeMode('real');
+    setIsPracticing(true);
+  };
+
+  const startVirtualPractice = () => {
+    setPracticeMode('virtual');
     setIsPracticing(true);
   };
 
   const endPractice = () => {
     setIsPracticing(false);
+    setPracticeMode(null);
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-amber-900 overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col">
-        {/* Banner Header */}
-        <div className="p-4 bg-amber-700 text-amber-50 font-retro text-center">
-          <h2 className="text-xl flex items-center justify-center">
-            <span className="text-2xl mr-2">🧀</span>
-            Your Charcuterie Board
-          </h2>
-        </div>
-
+      <div className="bg-white rounded-lg shadow-lg border-4 border-amber-900 overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-amber-100 hover:text-white text-2xl z-10"
@@ -37,17 +37,27 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           ×
         </button>
         
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-3 sm:p-4 flex flex-col lg:flex-row gap-2 sm:gap-4">
-          {/* Left Side - Practice Area */}
-          <div className="flex-1">
+        {/* Left Side - Practice Area with Banner */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Banner Header - Left Side Only */}
+          <div className="p-4 bg-amber-700 text-amber-50 font-retro text-center">
+            <h2 className="text-xl flex items-center justify-center">
+              <span className="text-2xl mr-2">🧀</span>
+              Your Charcuterie Board
+            </h2>
+          </div>
+          
+          {/* Practice Content */}
+          <div className="flex-1 overflow-y-auto p-3 sm:p-4">
           {isPracticing && (
             <>
               <h2 className="text-lg font-bold mb-2 text-center text-amber-800">
-                🔪 PRACTICING: Knife Skills
+                {practiceMode === 'real' ? '🎥 REAL PRACTICE' : '📚 VIRTUAL PRACTICE'}: Knife Skills
               </h2>
               <p className="text-center text-xs text-gray-600 mb-2">
-                AI-Guided Practice Session • Brunoise Technique
+                {practiceMode === 'real' 
+                  ? 'AI-Guided Practice Session • Brunoise Technique'
+                  : 'Interactive Walkthrough • Brunoise Technique'}
               </p>
             </>
           )}
@@ -87,12 +97,20 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Simple Controls */}
           <div className="flex justify-center space-x-2 mt-2 mb-12">
             {!isPracticing ? (
-              <button 
-                onClick={startPractice}
-                className="bg-amber-700 text-amber-50 px-4 py-1 text-sm rounded font-bold hover:bg-amber-800 transition-colors border border-amber-900"
-              >
-                🔪 Start Practice
-              </button>
+              <>
+                <button 
+                  onClick={startRealPractice}
+                  className="bg-amber-700 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-800 transition-colors border border-amber-900"
+                >
+                  🎥 Real Practice
+                </button>
+                <button 
+                  onClick={startVirtualPractice}
+                  className="bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
+                >
+                  📚 Virtual Practice
+                </button>
+              </>
             ) : (
               <button 
                 onClick={endPractice}
@@ -107,10 +125,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="text-center text-xs text-gray-600 mt-4">
             📹 Practice sessions can be saved for review
           </div>
+          </div>
         </div>
         
         {/* Right Side - Instructions/Feedback */}
-        <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-6 lg:pt-0 lg:pl-6">
+        <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-6 lg:pt-0 lg:pl-6 lg:pr-6 overflow-y-auto">
           <h3 className="text-lg font-bold mb-4 text-amber-800">
             📋 Practice Instructions
           </h3>
@@ -154,7 +173,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
     </div>
