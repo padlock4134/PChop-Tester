@@ -526,13 +526,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     }
   };
 
+  // Load platform configuration from Supabase
+  const loadPlatformConfig = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('platform_config')
+        .select('config_data')
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error) {
+        console.error('Error loading platform config:', error);
+        return;
+      }
+
+      if (data && data.config_data) {
+        setPlatformConfig(data.config_data);
+      }
+    } catch (error) {
+      console.error('Failed to load platform config:', error);
+    }
+  };
+
   // Save module permissions to Supabase
   const saveModulePermissions = async () => {
+    if (!currentUser?.id) {
+      alert('You must be logged in to save configuration');
+      return;
+    }
+
+    setUpdatingPermissions(true);
     try {
-      // Delete existing permissions
+      // Save module permissions
       await supabase.from('module_permissions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
 
-      // Insert new permissions
       const permissionsToInsert: any[] = [];
       
       Object.keys(modulePermissions).forEach(role => {
@@ -545,14 +573,29 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         });
       });
 
-      const { error } = await supabase
+      const { error: permError } = await supabase
         .from('module_permissions')
         .insert(permissionsToInsert);
 
-      if (error) {
-        console.error('Error saving permissions:', error);
-        alert('Failed to save permissions');
-        return;
+      if (permError) {
+        console.error('Error saving permissions:', permError);
+        throw new Error('Failed to save module permissions');
+      }
+
+      // Save platform configuration
+      await supabase.from('platform_config').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+
+      const { error: configError } = await supabase
+        .from('platform_config')
+        .insert({
+          config_data: platformConfig,
+          updated_by: currentUser.id,
+          updated_at: new Date().toISOString()
+        });
+
+      if (configError) {
+        console.error('Error saving platform config:', configError);
+        throw new Error('Failed to save platform configuration');
       }
 
       alert('Configuration settings saved successfully!');
@@ -560,6 +603,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     } catch (error: any) {
       console.error('Failed to save configuration:', error);
       alert(`Failed to save: ${error.message}`);
+    } finally {
+      setUpdatingPermissions(false);
     }
   };
 
@@ -612,6 +657,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   useEffect(() => {
     fetchAdminData();
     loadModulePermissions();
+    loadPlatformConfig();
     loadSchoolBranding();
 
     // Set up real-time subscriptions for live admin dashboard updates
@@ -3874,9 +3920,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="flex justify-center gap-4 mt-6">
               <button
                 onClick={saveModulePermissions}
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                disabled={updatingPermissions}
+                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Save Configuration
+                {updatingPermissions ? 'Saving...' : 'Save Configuration'}
               </button>
             </div>
           </div>
