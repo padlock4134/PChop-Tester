@@ -5653,7 +5653,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       if (error) throw error;
                       
-                      alert(`Newsletter sent to ${notifications.length} alumni!`);
+                      // Show branded success modal
+                      setDownloadedReportInfo({
+                        type: 'Alumni Newsletter Sent',
+                        count: notifications.length,
+                        filename: `${notifications.length} alumni notified`
+                      });
+                      setShowDownloadSuccessModal(true);
+                      
                       setNewsletterTitle('');
                       setNewsletterContent('');
                       setShowAlumniNewsletterModal(false);
