@@ -63,7 +63,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           )}
           
           {/* Practice Video/Camera Area */}
-          <div className="bg-amber-50 rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-amber-700">
+          <div className="bg-amber-50 rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
             {isPracticing ? (
               // Practice mode - camera would go here
               <div className="text-amber-900 text-center">
