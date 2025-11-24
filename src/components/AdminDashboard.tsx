@@ -6067,43 +6067,66 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Cancel
                 </button>
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     if (!newAlumniName.trim() || !newAlumniGradYear.trim()) {
                       alert('Please enter at least name and graduation year');
                       return;
                     }
                     
-                    const initials = newAlumniName
-                      .split(' ')
-                      .map(n => n[0])
-                      .join('')
-                      .toUpperCase()
-                      .slice(0, 2);
-                    
-                    const colors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-pink-500', 'bg-indigo-500'];
-                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    
-                    const newAlumni = {
-                      id: `alumni-${Date.now()}`,
-                      name: newAlumniName,
-                      email: newAlumniEmail,
-                      graduationYear: newAlumniGradYear,
-                      position: newAlumniPosition || 'Position not specified',
-                      employer: newAlumniEmployer || 'Employer not specified',
-                      salary: newAlumniSalary || 'Salary not specified',
-                      initials: initials,
-                      color: randomColor
-                    };
-                    
-                    setAlumniList(prev => [...prev, newAlumni]);
-                    setNewAlumniName('');
-                    setNewAlumniEmail('');
-                    setNewAlumniGradYear('');
-                    setNewAlumniPosition('');
-                    setNewAlumniEmployer('');
-                    setNewAlumniSalary('');
-                    setShowAddAlumniModal(false);
-                    alert('Alumni success story added!');
+                    try {
+                      // Insert into alumni table
+                      const { data, error } = await supabase
+                        .from('alumni')
+                        .insert({
+                          full_name: newAlumniName,
+                          email: newAlumniEmail || null,
+                          graduation_year: parseInt(newAlumniGradYear),
+                          current_position: newAlumniPosition || null,
+                          current_employer: newAlumniEmployer || null,
+                          salary: newAlumniSalary || null,
+                          is_featured: false
+                        })
+                        .select()
+                        .single();
+                      
+                      if (error) throw error;
+                      
+                      // Update local state for UI
+                      const initials = newAlumniName
+                        .split(' ')
+                        .map(n => n[0])
+                        .join('')
+                        .toUpperCase()
+                        .slice(0, 2);
+                      
+                      const colors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-orange-500', 'bg-pink-500', 'bg-indigo-500'];
+                      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                      
+                      const newAlumni = {
+                        id: data.id,
+                        name: newAlumniName,
+                        email: newAlumniEmail,
+                        graduationYear: newAlumniGradYear,
+                        position: newAlumniPosition || 'Position not specified',
+                        employer: newAlumniEmployer || 'Employer not specified',
+                        salary: newAlumniSalary || 'Salary not specified',
+                        initials: initials,
+                        color: randomColor
+                      };
+                      
+                      setAlumniList(prev => [...prev, newAlumni]);
+                      setNewAlumniName('');
+                      setNewAlumniEmail('');
+                      setNewAlumniGradYear('');
+                      setNewAlumniPosition('');
+                      setNewAlumniEmployer('');
+                      setNewAlumniSalary('');
+                      setShowAddAlumniModal(false);
+                      alert('Alumni success story added!');
+                    } catch (error: any) {
+                      console.error('Error adding alumni:', error);
+                      alert('Failed to add alumni: ' + error.message);
+                    }
                   }}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
