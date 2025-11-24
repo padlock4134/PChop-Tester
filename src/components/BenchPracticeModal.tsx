@@ -28,10 +28,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-amber-900 overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-amber-100 hover:text-white text-2xl z-10"
+          className="absolute top-2 right-2 text-amber-800 hover:text-amber-900 text-2xl z-10"
           aria-label="Close"
         >
           ×
@@ -40,7 +40,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         {/* Left Side - Practice Area with Banner */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Banner Header - Left Side Only */}
-          <div className="p-4 bg-amber-700 text-amber-50 font-retro text-center">
+          <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-xl flex items-center justify-center">
               <span className="text-2xl mr-2">🧀</span>
               Your Charcuterie Board
@@ -129,10 +129,16 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         </div>
         
         {/* Right Side - Instructions/Feedback */}
-        <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-6 lg:pt-0 lg:pl-6 lg:pr-6 overflow-y-auto">
-          <h3 className="text-lg font-bold mb-4 text-amber-800">
-            📋 Practice Instructions
-          </h3>
+        <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 flex flex-col overflow-hidden">
+          {/* Colored Header for Right Side */}
+          <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
+            <h3 className="text-lg font-bold">
+              📋 Practice Instructions
+            </h3>
+          </div>
+          
+          {/* Instructions Content */}
+          <div className="flex-1 overflow-y-auto p-3 sm:p-4">
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
@@ -172,6 +178,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
