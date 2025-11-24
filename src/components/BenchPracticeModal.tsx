@@ -41,13 +41,15 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         <div className="flex-1 overflow-y-auto p-3 sm:p-4 flex flex-col lg:flex-row gap-2 sm:gap-4">
           {/* Left Side - Practice Area */}
           <div className="flex-1">
-          <h2 className="text-lg font-bold mb-2 text-center text-amber-800">
-            {isPracticing ? '🥩 PRACTICING: Knife Skills' : '🥩 The Butcher Block'}
-          </h2>
           {isPracticing && (
-            <p className="text-center text-xs text-gray-600 mb-2">
-              AI-Guided Practice Session • Brunoise Technique
-            </p>
+            <>
+              <h2 className="text-lg font-bold mb-2 text-center text-amber-800">
+                🔪 PRACTICING: Knife Skills
+              </h2>
+              <p className="text-center text-xs text-gray-600 mb-2">
+                AI-Guided Practice Session • Brunoise Technique
+              </p>
+            </>
           )}
           
           {/* Practice Video/Camera Area */}
