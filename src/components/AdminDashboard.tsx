@@ -627,7 +627,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         return;
       }
 
-      alert('Branding settings saved successfully!');
+      // Show branded success modal
+      setDownloadedReportInfo({
+        type: 'School Branding Updated',
+        count: 1,
+        filename: `${schoolBranding.schoolName || 'Your School'} branding settings saved`
+      });
+      setShowDownloadSuccessModal(true);
       setShowBrandingModal(false);
     } catch (error: any) {
       console.error('Failed to save branding:', error);
@@ -1462,7 +1468,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             .getPublicUrl(filePath);
                           
                           setSchoolBranding({...schoolBranding, logoUrl: urlData.publicUrl});
-                          alert('Logo uploaded successfully!');
+                          
+                          // Show branded success modal
+                          setDownloadedReportInfo({
+                            type: 'School Logo Uploaded',
+                            count: 1,
+                            filename: `Logo saved successfully`
+                          });
+                          setShowDownloadSuccessModal(true);
                         } catch (error: any) {
                           console.error('Error uploading logo:', error);
                           alert('Failed to upload logo: ' + error.message);
