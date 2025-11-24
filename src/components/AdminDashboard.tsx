@@ -184,6 +184,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [campaignDescription, setCampaignDescription] = useState('');
   const [creatingCampaign, setCreatingCampaign] = useState(false);
   const [careerEventType, setCareerEventType] = useState<'career_fair' | 'resume_workshop' | 'interview_prep' | 'networking'>('career_fair');
+  const [careerEventCohort, setCareerEventCohort] = useState('all_students');
   const [careerEventDate, setCareerEventDate] = useState('');
   const [careerEventDescription, setCareerEventDescription] = useState('');
   const [schedulingCareerEvent, setSchedulingCareerEvent] = useState(false);
@@ -6220,9 +6221,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <option value="networking">Networking Event</option>
                   </select>
                   <select 
+                    value={careerEventCohort}
+                    onChange={(e) => setCareerEventCohort(e.target.value)}
                     className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
                   >
-                    <option value="">-- Select Cohort to Invite --</option>
                     <option value="all_students">All Students</option>
                     <option value="class_2025">Class of 2025</option>
                     <option value="class_2026">Class of 2026</option>
@@ -6277,15 +6279,25 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           event_date: careerEventDate,
                           event_time: null,
                           description: careerEventDescription || null,
+                          target_cohort: careerEventCohort,
                           status: 'upcoming'
                         });
                       
                       if (error) throw error;
                       
-                      alert(`${eventNames[careerEventType]} scheduled successfully!`);
+                      // Show branded success modal
+                      setDownloadedReportInfo({
+                        type: `${eventNames[careerEventType]} Scheduled`,
+                        count: 1,
+                        filename: `${eventNames[careerEventType]} on ${careerEventDate}`
+                      });
+                      setShowDownloadSuccessModal(true);
+                      
                       setCareerEventType('career_fair');
+                      setCareerEventCohort('all_students');
                       setCareerEventDate('');
                       setCareerEventDescription('');
+                      setShowCareerServicesModal(false);
                     } catch (error: any) {
                       console.error('Error scheduling event:', error);
                       alert('Failed to schedule event: ' + error.message);
@@ -7318,7 +7330,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               
               {/* Title */}
               <h2 className="text-3xl font-bold text-green-600 font-retro mb-2">
-                Download Complete!
+                {downloadedReportInfo.type.includes('Scheduled') || downloadedReportInfo.type.includes('Created') ? 'Success!' : 'Download Complete!'}
               </h2>
               
               {/* PorkChop Branding */}
@@ -7332,18 +7344,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <p className="text-gray-700 mb-2">
                   <span className="font-bold text-green-700">{downloadedReportInfo.type}</span>
                 </p>
-                <p className="text-sm text-gray-600 mb-1">
-                  📊 <span className="font-semibold">{downloadedReportInfo.count} records</span> exported
-                </p>
-                <p className="text-xs text-gray-500 break-all">
-                  📁 {downloadedReportInfo.filename}
-                </p>
+                {downloadedReportInfo.type.includes('Report') || downloadedReportInfo.type.includes('Data') || downloadedReportInfo.type.includes('Database') ? (
+                  <>
+                    <p className="text-sm text-gray-600 mb-1">
+                      📊 <span className="font-semibold">{downloadedReportInfo.count} records</span> exported
+                    </p>
+                    <p className="text-xs text-gray-500 break-all">
+                      📁 {downloadedReportInfo.filename}
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-sm text-gray-600">
+                    📅 {downloadedReportInfo.filename}
+                  </p>
+                )}
               </div>
               
               {/* Success Message */}
               <p className="text-gray-600 mb-6">
-                Your report has been successfully downloaded to your computer. 
-                Check your Downloads folder!
+                {downloadedReportInfo.type.includes('Report') || downloadedReportInfo.type.includes('Data') || downloadedReportInfo.type.includes('Database') 
+                  ? 'Your report has been successfully downloaded to your computer. Check your Downloads folder!' 
+                  : 'Your action has been completed successfully!'}
               </p>
               
               {/* Action Buttons */}
@@ -7354,13 +7375,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 >
                   ✓ Done
                 </button>
-                <a
-                  href={`/example-reports/${downloadedReportInfo.type.toLowerCase().replace(/ /g, '-')}-example.csv`}
-                  download
-                  className="bg-green-100 text-green-700 px-8 py-3 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 transition-all transform hover:scale-105"
-                >
-                  📥 View Example
-                </a>
+                {(downloadedReportInfo.type.includes('Report') || downloadedReportInfo.type.includes('Data') || downloadedReportInfo.type.includes('Database')) && (
+                  <a
+                    href={`/example-reports/${downloadedReportInfo.type.toLowerCase().replace(/ /g, '-')}-example.csv`}
+                    download
+                    className="bg-green-100 text-green-700 px-8 py-3 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 transition-all transform hover:scale-105"
+                  >
+                    📥 View Example
+                  </a>
+                )}
               </div>
             </div>
           </div>
