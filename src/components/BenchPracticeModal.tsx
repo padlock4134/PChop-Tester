@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface BenchPracticeModalProps {
   open: boolean;
@@ -9,12 +9,53 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const [isPracticing, setIsPracticing] = useState(false);
   const [practiceMode, setPracticeMode] = useState<'real' | 'virtual' | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
+  const [stream, setStream] = useState<MediaStream | null>(null);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
+  const [saveModalOpen, setSaveModalOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [videoTitle, setVideoTitle] = useState('');
+  const [videoDescription, setVideoDescription] = useState('');
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   if (!open) return null;
 
-  const startRealPractice = () => {
-    setPracticeMode('real');
-    setIsPracticing(true);
+  const startRealPractice = async () => {
+    try {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
+        video: true, 
+        audio: true 
+      });
+      setStream(mediaStream);
+      
+      if (videoRef.current) {
+        videoRef.current.srcObject = mediaStream;
+      }
+
+      // Start recording
+      const recorder = new MediaRecorder(mediaStream);
+      const chunks: Blob[] = [];
+      
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunks.push(e.data);
+        }
+      };
+      
+      recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        setRecordedBlob(blob);
+      };
+      
+      recorder.start();
+      setMediaRecorder(recorder);
+      
+      setPracticeMode('real');
+      setIsPracticing(true);
+    } catch (error) {
+      console.error('Error accessing camera:', error);
+      alert('Could not access camera. Please check permissions.');
+    }
   };
 
   const startVirtualPractice = () => {
@@ -23,11 +64,50 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   };
 
   const endPractice = () => {
+    if (practiceMode === 'real' && mediaRecorder) {
+      mediaRecorder.stop();
+      setSaveModalOpen(true);
+    } else {
+      cleanupPractice();
+    }
+  };
+
+  const cleanupPractice = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    }
     setIsPracticing(false);
     setPracticeMode(null);
+    setMediaRecorder(null);
+    setRecordedBlob(null);
+  };
+
+  const handleSaveVideo = async () => {
+    if (!recordedBlob || !videoTitle.trim()) return;
+    
+    setIsSaving(true);
+    try {
+      // TODO: Save to Supabase
+      console.log('Saving video:', videoTitle, videoDescription);
+      alert('Video saved successfully!');
+      setSaveModalOpen(false);
+      cleanupPractice();
+    } catch (error) {
+      console.error('Error saving video:', error);
+      alert('Failed to save video');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDontSave = () => {
+    setSaveModalOpen(false);
+    cleanupPractice();
   };
 
   return (
+    <>
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
       <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
         <button
@@ -65,12 +145,21 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           
           {/* Practice Video/Camera Area */}
           <div className="bg-amber-50 rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
-            {isPracticing ? (
-              // Practice mode - camera would go here
+            {isPracticing && practiceMode === 'real' && stream ? (
+              // Real practice mode - show camera feed
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                className="w-full h-full object-cover"
+              />
+            ) : isPracticing && practiceMode === 'virtual' ? (
+              // Virtual practice mode - show placeholder
               <div className="text-amber-900 text-center">
-                <div className="text-6xl mb-4">🔪</div>
-                <p className="text-lg font-bold">Practice Area</p>
-                <p className="text-sm opacity-75">Camera feed with AR overlays would appear here</p>
+                <div className="text-6xl mb-4">📚</div>
+                <p className="text-lg font-bold">Virtual Practice</p>
+                <p className="text-sm opacity-75">Follow the instructions on the right</p>
               </div>
             ) : (
               // Not practicing - show placeholder
@@ -223,6 +312,84 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         </div>
       </div>
     </div>
+
+    {/* Save Video Modal */}
+    {saveModalOpen && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg shadow-lg border-4 border-amber-900 p-6 max-w-lg w-full mx-4 relative max-h-[90vh] overflow-y-auto">
+          <div className="text-center">
+            <div className="text-4xl mb-4">🎥</div>
+            <h2 className="text-2xl font-bold mb-4 text-amber-800 font-retro">
+              Save Your Practice Session
+            </h2>
+            
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              Add details to save this video to your <span className="font-semibold text-amber-800">Practice Videos</span> collection:
+            </p>
+            
+            {/* Video Metadata Form */}
+            <div className="space-y-4 mb-6 text-left">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Video Title *
+                </label>
+                <input
+                  type="text"
+                  value={videoTitle}
+                  onChange={(e) => setVideoTitle(e.target.value)}
+                  placeholder="e.g., Brunoise Practice Session"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  disabled={isSaving}
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Notes
+                </label>
+                <textarea
+                  value={videoDescription}
+                  onChange={(e) => setVideoDescription(e.target.value)}
+                  placeholder="Any notes about your practice session..."
+                  rows={3}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  disabled={isSaving}
+                />
+              </div>
+            </div>
+            
+            <div className="flex gap-3">
+              <button
+                onClick={handleDontSave}
+                disabled={isSaving}
+                className="flex-1 bg-gray-500 text-white py-3 px-4 rounded-lg font-bold hover:bg-gray-600 transition-colors border-2 border-gray-600 disabled:opacity-50"
+              >
+                🚫 No, Don't Save
+              </button>
+              <button
+                onClick={handleSaveVideo}
+                disabled={isSaving || !videoTitle.trim()}
+                className="flex-1 bg-amber-700 text-amber-50 py-3 px-4 rounded-lg font-bold hover:bg-amber-800 transition-colors border-2 border-amber-900 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              >
+                {isSaving ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Saving...
+                  </>
+                ) : (
+                  '💾 Save Video'
+                )}
+              </button>
+            </div>
+            
+            <p className="text-xs text-gray-500 mt-4">
+              💡 * Required field. Saved videos can be reviewed later
+            </p>
+          </div>
+        </div>
+      </div>
+    )}
+    </>
   );
 };
 
