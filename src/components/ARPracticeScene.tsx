@@ -69,78 +69,32 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
       {/* AR Scene Container */}
       <div ref={sceneRef} className="w-full h-full bg-black">
         {isARReady ? (
-          <a-scene
-            embedded
-            arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
-            vr-mode-ui="enabled: false"
-          >
-            {/* Camera */}
-            <a-entity camera></a-entity>
-
-            {/* Virtual Workspace */}
-            <a-plane
-              position="0 0 -2"
-              rotation="-90 0 0"
-              width="2"
-              height="2"
-              color="#8B4513"
-              material="opacity: 0.8"
-            ></a-plane>
-
-            {/* Tools and Ingredients based on current step */}
-            {currentStepData.tools.map((tool, idx) => (
-              <a-box
-                key={`tool-${idx}`}
-                position={`${-0.5 + idx * 0.3} 0.1 -2`}
-                rotation="0 45 0"
-                color="#666666"
-                width="0.2"
-                height="0.05"
-                depth="0.1"
-              >
-                <a-text
-                  value={tool}
-                  align="center"
-                  position="0 0.1 0"
-                  scale="0.3 0.3 0.3"
-                  color="#FFFFFF"
-                ></a-text>
-              </a-box>
-            ))}
-
-            {/* AR Overlays */}
-            {currentStepData.overlays.map((overlay, idx) => {
-              if (overlay.type === 'line') {
-                return (
-                  <a-entity key={`overlay-${idx}`} position="0 0.2 -2">
-                    <a-cylinder
-                      radius="0.01"
-                      height="0.5"
-                      color={overlay.color || '#3B82F6'}
-                      rotation={`0 0 ${overlay.angle || 0}`}
-                    ></a-cylinder>
-                  </a-entity>
-                );
-              }
-              if (overlay.type === 'text') {
-                return (
-                  <a-text
-                    key={`overlay-${idx}`}
-                    value={overlay.label || ''}
-                    align="center"
-                    position="0 0.5 -2"
-                    scale="0.5 0.5 0.5"
-                    color={overlay.color || '#FFFFFF'}
-                  ></a-text>
-                );
-              }
-              return null;
-            })}
-
-            {/* Lighting */}
-            <a-light type="ambient" color="#BBB"></a-light>
-            <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
-          </a-scene>
+          <div dangerouslySetInnerHTML={{
+            __html: `
+              <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" vr-mode-ui="enabled: false">
+                <a-entity camera></a-entity>
+                <a-plane position="0 0 -2" rotation="-90 0 0" width="2" height="2" color="#8B4513" material="opacity: 0.8"></a-plane>
+                ${currentStepData.tools.map((tool, idx) => `
+                  <a-box position="${-0.5 + idx * 0.3} 0.1 -2" rotation="0 45 0" color="#666666" width="0.2" height="0.05" depth="0.1">
+                    <a-text value="${tool}" align="center" position="0 0.1 0" scale="0.3 0.3 0.3" color="#FFFFFF"></a-text>
+                  </a-box>
+                `).join('')}
+                ${currentStepData.overlays.map((overlay, idx) => {
+                  if (overlay.type === 'line') {
+                    return `<a-entity position="0 0.2 -2">
+                      <a-cylinder radius="0.01" height="0.5" color="${overlay.color || '#3B82F6'}" rotation="0 0 ${overlay.angle || 0}"></a-cylinder>
+                    </a-entity>`;
+                  }
+                  if (overlay.type === 'text') {
+                    return `<a-text value="${overlay.label || ''}" align="center" position="0 0.5 -2" scale="0.5 0.5 0.5" color="${overlay.color || '#FFFFFF'}"></a-text>`;
+                  }
+                  return '';
+                }).join('')}
+                <a-light type="ambient" color="#BBB"></a-light>
+                <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
+              </a-scene>
+            `
+          }} />
         ) : (
           <div className="flex items-center justify-center h-full text-white">
             <div className="text-center">
