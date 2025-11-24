@@ -113,7 +113,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [generatingApiKey, setGeneratingApiKey] = useState(false);
   const [apiKeys, setApiKeys] = useState<Array<{id: string, key: string, name: string, created_at: string}>>([]);
   const [showDownloadSuccessModal, setShowDownloadSuccessModal] = useState(false);
-  const [downloadedReportInfo, setDownloadedReportInfo] = useState({ type: '', count: 0, filename: '' });
+  const [downloadedReportInfo, setDownloadedReportInfo] = useState<{type: string, count: number, filename: string} | null>(null);
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [modulePermissions, setModulePermissions] = useState<{[key: string]: {[key: string]: string}}>({
     student: {
       MyCookBook: 'Full Access',
@@ -203,6 +207,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showAlumniNewsletterModal, setShowAlumniNewsletterModal] = useState(false);
   const [showPlanEventModal, setShowPlanEventModal] = useState(false);
   const [showGiftingDonationsModal, setShowGiftingDonationsModal] = useState(false);
+  const [selectedReports, setSelectedReports] = useState<{[key: string]: boolean}>({});
   const [showEmploymentDataModal, setShowEmploymentDataModal] = useState(false);
   const [showManagePartnersModal, setShowManagePartnersModal] = useState(false);
   const [showCareerServicesModal, setShowCareerServicesModal] = useState(false);
@@ -309,6 +314,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { user: currentUser } = useSupabase();
 
+  // Helper functions for branded modals
+  const showWarning = (message: string) => {
+    setWarningMessage(message);
+    setShowWarningModal(true);
+  };
+
+  const showError = (message: string) => {
+    setErrorMessage(message);
+    setShowErrorModal(true);
+  };
+
   // Mock upcoming events data
   const upcomingEvents = [
     {
@@ -412,7 +428,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   // Handle file upload and AI processing
   const handleFileUpload = async (files: File[]) => {
     if (!currentUser?.id) {
-      alert('You must be logged in to upload files');
+      showWarning('You must be logged in to upload files');
       return;
     }
 
@@ -431,7 +447,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         if (uploadError) {
           console.error('Upload error:', uploadError);
-          alert(`Failed to upload ${file.name}: ${uploadError.message}`);
+          showError(`Failed to upload ${file.name}: ${uploadError.message}`);
           continue;
         }
 
@@ -458,7 +474,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         if (!processorResponse.ok) {
           const errorText = await processorResponse.text();
           console.error('Processor error:', errorText);
-          alert(`Failed to process ${file.name}`);
+          showError(`Failed to process ${file.name}`);
           continue;
         }
 
@@ -477,7 +493,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         if (stagingError) {
           console.error('Staging error:', stagingError);
-          alert(`Failed to stage ${file.name}`);
+          showError(`Failed to stage ${file.name}`);
           continue;
         }
 
@@ -492,7 +508,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       }
     } catch (error: any) {
       console.error('File upload error:', error);
-      alert(`Upload failed: ${error.message}`);
+      showError(`Upload failed: ${error.message}`);
     } finally {
       setProcessingFiles(false);
     }
@@ -554,7 +570,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   // Save module permissions to Supabase
   const saveModulePermissions = async () => {
     if (!currentUser?.id) {
-      alert('You must be logged in to save configuration');
+      showWarning('You must be logged in to save configuration');
       return;
     }
 
@@ -600,11 +616,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         throw new Error('Failed to save platform configuration');
       }
 
-      alert('Configuration settings saved successfully!');
+      // Show branded success modal
+      setDownloadedReportInfo({
+        type: 'Configuration Saved',
+        count: 1,
+        filename: 'Platform settings updated successfully'
+      });
+      setShowDownloadSuccessModal(true);
       setShowConfigurationModal(false);
     } catch (error: any) {
       console.error('Failed to save configuration:', error);
-      alert(`Failed to save: ${error.message}`);
+      showError(`Failed to save: ${error.message}`);
     } finally {
       setUpdatingPermissions(false);
     }
@@ -624,7 +646,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       if (error) {
         console.error('Error saving school branding:', error);
-        alert('Failed to save school branding');
+        showError('Failed to save school branding');
         return;
       }
 
@@ -638,7 +660,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       setShowBrandingModal(false);
     } catch (error: any) {
       console.error('Failed to save branding:', error);
-      alert(`Failed to save: ${error.message}`);
+      showError(`Failed to save: ${error.message}`);
     }
   };
 
@@ -785,10 +807,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         user.id === userId ? { ...user, xp: newXP } : user
       ));
       
-      alert('XP updated successfully!');
+      // Show branded success modal
+      setDownloadedReportInfo({
+        type: 'XP Updated',
+        count: 1,
+        filename: `User XP set to ${newXP}`
+      });
+      setShowDownloadSuccessModal(true);
     } catch (error) {
       console.error('Error updating XP:', error);
-      alert('Failed to update XP');
+      showError('Failed to update XP');
     }
   };
 
@@ -805,10 +833,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         user.id === userId ? { ...user, chat_count: 0, last_chat_date: undefined } : user
       ));
       
-      alert('Chat count reset successfully!');
+      // Show branded success modal
+      setDownloadedReportInfo({
+        type: 'Chat Count Reset',
+        count: 1,
+        filename: 'User chat count reset to 0'
+      });
+      setShowDownloadSuccessModal(true);
     } catch (error) {
       console.error('Error resetting chat count:', error);
-      alert('Failed to reset chat count');
+      showError('Failed to reset chat count');
     }
   };
 
@@ -819,7 +853,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       setCsvFile(file);
       parseCsvFile(file);
     } else {
-      alert('Please upload a valid CSV file');
+      showWarning('Please upload a valid CSV file');
     }
   };
 
@@ -832,7 +866,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       const lines = text.split('\n').filter(line => line.trim());
       
       if (lines.length < 2) {
-        alert('CSV file must have at least a header row and one student row');
+        showWarning('CSV file must have at least a header row and one student row');
         setImportStatus('error');
         return;
       }
@@ -843,7 +877,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       const nameIndex = headers.findIndex(h => h.includes('name') || h.includes('full'));
       
       if (emailIndex === -1) {
-        alert('CSV must have an "email" column');
+        showWarning('CSV must have an "email" column');
         setImportStatus('error');
         return;
       }
@@ -868,7 +902,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     };
     
     reader.onerror = () => {
-      alert('Error reading CSV file');
+      showError('Error reading CSV file');
       setImportStatus('error');
     };
     
@@ -883,7 +917,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     const total = validStudents.length;
     
     if (total === 0) {
-      alert('No valid students to import');
+      showWarning('No valid students to import');
       setImportStatus('error');
       return;
     }
@@ -925,7 +959,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     } catch (error) {
       console.error('Error importing students:', error);
       setImportStatus('error');
-      alert('Failed to import students. Please try again.');
+      showError('Failed to import students. Please try again.');
     }
   };
 
@@ -1307,7 +1341,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="flex justify-center gap-4">
               <button
                 onClick={() => {
-                  alert('Generating selected reports... Downloads will begin shortly.');
+                  // Show branded success modal
+                  setDownloadedReportInfo({
+                    type: 'Reports Generated',
+                    count: Object.values(selectedReports).filter(Boolean).length,
+                    filename: 'Downloads will begin shortly'
+                  });
+                  setShowDownloadSuccessModal(true);
                   setShowExportModal(false);
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
@@ -1443,7 +1483,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         if (!file) return;
                         
                         if (!currentUser?.id) {
-                          alert('You must be logged in to upload a logo');
+                          showWarning('You must be logged in to upload a logo');
                           return;
                         }
                         
@@ -1479,7 +1519,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           setShowDownloadSuccessModal(true);
                         } catch (error: any) {
                           console.error('Error uploading logo:', error);
-                          alert('Failed to upload logo: ' + error.message);
+                          showError('Failed to upload logo: ' + error.message);
                         } finally {
                           setUploadingLogo(false);
                         }
@@ -1678,7 +1718,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <button 
                       onClick={async () => {
                         if (!currentUser?.id) {
-                          alert('You must be logged in to generate API keys');
+                          showWarning('You must be logged in to generate API keys');
                           return;
                         }
                         
@@ -1715,7 +1755,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         } catch (error: any) {
                           console.error('API key generation error:', error);
-                          alert('Failed to generate API key: ' + error.message);
+                          showError('Failed to generate API key: ' + error.message);
                         } finally {
                           setGeneratingApiKey(false);
                         }
@@ -2018,7 +2058,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <button 
                     onClick={async () => {
                       if (!currentUser?.id || !currentMapping) {
-                        alert('Please upload and map content first');
+                        showWarning('Please upload and map content first');
                         return;
                       }
                       
@@ -2034,7 +2074,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         
                         if (error) throw error;
                         
-                        alert('Content saved as draft! You can publish it later.');
+                        // Show branded success modal
+                        setDownloadedReportInfo({
+                          type: 'Draft Saved',
+                          count: 1,
+                          filename: 'Content saved as draft - publish later'
+                        });
+                        setShowDownloadSuccessModal(true);
                         setShowModuleIntegrationModal(false);
                         setCurrentMapping(null);
                         setModuleSelection({
@@ -2045,7 +2091,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         });
                       } catch (error: any) {
                         console.error('Save draft error:', error);
-                        alert('Failed to save draft: ' + error.message);
+                        showError('Failed to save draft: ' + error.message);
                       }
                     }}
                     className="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro"
@@ -2055,7 +2101,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <button 
                     onClick={async () => {
                       if (!currentUser?.id || !currentMapping) {
-                        alert('Please upload and map content first');
+                        showWarning('Please upload and map content first');
                         return;
                       }
                       
@@ -2069,7 +2115,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         );
                         
                         if (!hasSelection) {
-                          alert('Please select at least one module to publish to');
+                          showWarning('Please select at least one module to publish to');
                           return;
                         }
 
@@ -2169,7 +2215,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }
 
-                        alert('Content successfully published to modules!');
+                        // Show branded success modal
+                        setDownloadedReportInfo({
+                          type: 'Content Published',
+                          count: Object.values(moduleSelection).reduce((acc, mod) => 
+                            acc + Object.values(mod).filter(Boolean).length, 0),
+                          filename: 'Content distributed to selected modules'
+                        });
+                        setShowDownloadSuccessModal(true);
                         
                         // Reset state for next upload
                         setShowModuleIntegrationModal(false);
@@ -2186,7 +2239,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         
                       } catch (error: any) {
                         console.error('Distribution error:', error);
-                        alert(`Failed to publish content: ${error.message}`);
+                        showError(`Failed to publish content: ${error.message}`);
                       }
                     }}
                     className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro"
@@ -4590,7 +4643,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <button
                   onClick={async () => {
                     if (!announcementSubject.trim() || !announcementMessage.trim()) {
-                      alert('Please enter both subject and message');
+                      showWarning('Please enter both subject and message');
                       return;
                     }
                     
@@ -4859,7 +4912,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <button
                   onClick={async () => {
                     if (!newFacultyName.trim() || !newFacultyEmail.trim()) {
-                      alert('Please enter faculty name and email');
+                      showWarning('Please enter faculty name and email');
                       return;
                     }
                     
@@ -5018,7 +5071,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <button
                 onClick={async () => {
                   if (!newStudentName.trim() || !newStudentEmail.trim()) {
-                    alert('Please enter student name and email');
+                    showWarning('Please enter student name and email');
                     return;
                   }
                   
@@ -5288,7 +5341,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <button
                 onClick={() => {
                   if (!editingStudent.username?.trim() || !editingStudent.email?.trim()) {
-                    alert('Please enter student name and email');
+                    showWarning('Please enter student name and email');
                     return;
                   }
                   
@@ -5620,7 +5673,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <button
                   onClick={async () => {
                     if (!newsletterTitle.trim() || !newsletterContent.trim()) {
-                      alert('Please enter both title and content');
+                      showWarning('Please enter both title and content');
                       return;
                     }
                     
@@ -5712,7 +5765,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <button
                     onClick={() => {
                       if (!selectedEventId) {
-                        alert('Please select an event first');
+                        showWarning('Please select an event first');
                         return;
                       }
                       setShowViewEventModal(true);
@@ -5799,7 +5852,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <button
                   onClick={async () => {
                     if (!eventName.trim() || !eventDate || !eventTime) {
-                      alert('Please enter event name, date, and time');
+                      showWarning('Please enter event name, date, and time');
                       return;
                     }
                     
@@ -5974,7 +6027,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <button
                   onClick={async () => {
                     if (!campaignName.trim() || !campaignGoal) {
-                      alert('Please enter campaign name and goal');
+                      showWarning('Please enter campaign name and goal');
                       return;
                     }
                     
@@ -6258,7 +6311,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <button
                   onClick={async () => {
                     if (!partnerName.trim() || !partnerLocation.trim()) {
-                      alert('Please enter at least partner name and location');
+                      showWarning('Please enter at least partner name and location');
                       return;
                     }
                     
@@ -6278,11 +6331,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       if (error) throw error;
                       
-                      alert(`Partner ${partnerName} added successfully!`);
+                      // Show branded success modal
+                      setDownloadedReportInfo({
+                        type: 'Industry Partner Added',
+                        count: 1,
+                        filename: `${partnerName} - ${partnerLocation}`
+                      });
+                      setShowDownloadSuccessModal(true);
+                      
                       setPartnerName('');
                       setPartnerLocation('');
                       setPartnerEmail('');
                       setPartnerPhone('');
+                      setShowManagePartnersModal(false);
                     } catch (error: any) {
                       console.error('Error adding partner:', error);
                       alert('Failed to add partner: ' + error.message);
@@ -6345,7 +6406,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <button
                     onClick={() => {
                       if (!selectedCareerEventId) {
-                        alert('Please select an event first');
+                        showWarning('Please select an event first');
                         return;
                       }
                       setShowViewCareerEventModal(true);
@@ -6406,7 +6467,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <button
                   onClick={async () => {
                     if (!careerEventDate) {
-                      alert('Please select an event date');
+                      showWarning('Please select an event date');
                       return;
                     }
                     
@@ -6677,7 +6738,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <button
                   onClick={async () => {
                     if (!newAlumniName.trim() || !newAlumniGradYear.trim()) {
-                      alert('Please enter at least name and graduation year');
+                      showWarning('Please enter at least name and graduation year');
                       return;
                     }
                     
@@ -7598,14 +7659,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       )}
 
       {/* Download Success Modal */}
-      {showDownloadSuccessModal && (
+      {showDownloadSuccessModal && downloadedReportInfo && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-2xl border-4 border-green-500 p-8 max-w-md w-full animate-bounce-in">
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-green-400 p-8 max-w-md w-full animate-bounce-in">
             <div className="text-center">
               {/* Success Icon */}
-              <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-4">
-                <svg className="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                <svg className="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
               
@@ -7666,6 +7727,80 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </a>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Warning Modal */}
+      {showWarningModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-yellow-400 p-8 max-w-md w-full animate-bounce-in">
+            <div className="text-center">
+              {/* Warning Icon */}
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 mb-4">
+                <span className="text-4xl">⚠️</span>
+              </div>
+              
+              {/* Title */}
+              <h3 className="text-2xl font-bold text-yellow-600 mb-4 font-retro">
+                Attention Required
+              </h3>
+              
+              {/* PorkChop Branding */}
+              <p className="text-sm text-gray-500 mb-4">🐷 PorkChop Ed Tech</p>
+              
+              {/* Warning Message */}
+              <div className="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 mb-6">
+                <p className="text-gray-700 font-medium">
+                  {warningMessage}
+                </p>
+              </div>
+              
+              {/* Action Button */}
+              <button
+                onClick={() => setShowWarningModal(false)}
+                className="bg-yellow-500 text-white px-8 py-3 rounded-md hover:bg-yellow-600 font-retro transition-all transform hover:scale-105 w-full"
+              >
+                Got It
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {showErrorModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-red-400 p-8 max-w-md w-full animate-bounce-in">
+            <div className="text-center">
+              {/* Error Icon */}
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                <span className="text-4xl">❌</span>
+              </div>
+              
+              {/* Title */}
+              <h3 className="text-2xl font-bold text-red-600 mb-4 font-retro">
+                Operation Failed
+              </h3>
+              
+              {/* PorkChop Branding */}
+              <p className="text-sm text-gray-500 mb-4">🐷 PorkChop Ed Tech</p>
+              
+              {/* Error Message */}
+              <div className="bg-red-50 border-2 border-red-300 rounded-lg p-4 mb-6">
+                <p className="text-gray-700 font-medium">
+                  {errorMessage}
+                </p>
+              </div>
+              
+              {/* Action Button */}
+              <button
+                onClick={() => setShowErrorModal(false)}
+                className="bg-red-500 text-white px-8 py-3 rounded-md hover:bg-red-600 font-retro transition-all transform hover:scale-105 w-full"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
