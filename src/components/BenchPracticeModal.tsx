@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import ARPracticeScene from './ARPracticeScene';
 import { supabase } from '../api/supabaseClient';
 import { useSupabase } from './SupabaseProvider';
+import { defaultARScenes } from '../data/defaultARScenes';
 
 interface BenchPracticeModalProps {
   open: boolean;
@@ -65,14 +66,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   };
 
   const startVirtualPractice = async () => {
-    setIsGeneratingAR(true);
     setPracticeMode('virtual');
 
     try {
-      // For demo: Use hardcoded "Knife Sharpening with Whetstone" lesson
+      // For demo: Use pre-built whetstone AR scene (instant load)
       const demoLesson = 'Traditional Whetstone Knife Sharpening';
       
-      // Call AI to generate AR scene
+      // Check if we have a default scene
+      if (defaultARScenes[demoLesson]) {
+        console.log('Loading default AR scene for demo');
+        setArScene(defaultARScenes[demoLesson]);
+        setIsPracticing(true);
+        return;
+      }
+
+      // Fallback: AI generation if no default exists
+      setIsGeneratingAR(true);
+      
       const response = await fetch('/.netlify/functions/generate-ar-practice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
