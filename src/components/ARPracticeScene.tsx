@@ -65,12 +65,12 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full overflow-hidden">
       {/* Visual Practice Demo - No camera required */}
-      <div className="w-full h-full bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 flex items-center justify-center p-8">
+      <div className="w-full h-full bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 flex items-center justify-center p-4 sm:p-8">
         <div className="max-w-2xl w-full">
           {/* Visual Workspace */}
-          <div className="bg-amber-100 rounded-lg p-8 shadow-2xl border-4 border-amber-800 mb-6">
+          <div className="bg-amber-100 rounded-lg p-4 sm:p-8 shadow-2xl border-4 border-amber-800">
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-amber-900 mb-2">
                 🪨 Virtual Workspace
@@ -127,26 +127,40 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         </div>
       </div>
 
-      {/* Instruction Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-80 text-white p-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm opacity-75">
-              Step {currentStep + 1} of {scene.steps.length}
-            </span>
-            <span className="text-sm opacity-75">{currentStepData.duration}</span>
+      {/* Floating Instruction Tooltip - Draggable */}
+      <div 
+        className="absolute top-4 right-4 bg-gradient-to-br from-amber-900 to-amber-950 text-white rounded-xl shadow-2xl border-4 border-amber-600 max-w-md cursor-move"
+        style={{ maxHeight: '80vh', overflowY: 'auto' }}
+      >
+        {/* Tooltip Header */}
+        <div className="bg-amber-800 px-4 py-3 rounded-t-lg border-b-2 border-amber-600 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">📋</span>
+            <div>
+              <p className="font-bold text-sm">Step-by-Step Guide</p>
+              <p className="text-xs opacity-75">
+                Step {currentStep + 1} of {scene.steps.length} • {currentStepData.duration}
+              </p>
+            </div>
           </div>
+          <div className="text-xs opacity-75 cursor-move">⋮⋮</div>
+        </div>
 
-          <p className="text-lg font-bold mb-2">{currentStepData.instruction}</p>
+        {/* Tooltip Content */}
+        <div className="p-4">
+          <p className="text-base font-bold mb-3 leading-relaxed">{currentStepData.instruction}</p>
 
           {currentStepData.keyPoints.length > 0 && (
-            <div className="text-sm opacity-90 mb-3">
-              {currentStepData.keyPoints.map((point, idx) => (
-                <div key={idx} className="flex items-start mb-1">
-                  <span className="mr-2">•</span>
-                  <span>{point}</span>
-                </div>
-              ))}
+            <div className="bg-amber-950 bg-opacity-50 rounded-lg p-3 mb-3">
+              <p className="text-xs font-bold text-amber-300 mb-2">💡 Key Points:</p>
+              <div className="text-sm space-y-1">
+                {currentStepData.keyPoints.map((point, idx) => (
+                  <div key={idx} className="flex items-start">
+                    <span className="text-amber-400 mr-2">•</span>
+                    <span className="opacity-90">{point}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -154,17 +168,29 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
             <button
               onClick={prevStep}
               disabled={currentStep === 0}
-              className="flex-1 bg-gray-600 text-white py-2 px-4 rounded font-bold hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 bg-amber-700 text-white py-2 px-4 rounded-lg font-bold hover:bg-amber-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-sm"
             >
               ← Previous
             </button>
             <button
               onClick={nextStep}
-              className="flex-1 bg-amber-700 text-amber-50 py-2 px-4 rounded font-bold hover:bg-amber-800 transition-colors"
+              className="flex-1 bg-amber-700 text-white py-2 px-4 rounded-lg font-bold hover:bg-amber-600 transition-colors text-sm"
             >
               {currentStep === scene.steps.length - 1 ? 'Complete ✓' : 'Next →'}
             </button>
           </div>
+
+          {/* Tips Section */}
+          {scene.tips && scene.tips.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-amber-700">
+              <p className="text-xs font-bold text-amber-300 mb-2">💭 Pro Tips:</p>
+              <div className="text-xs opacity-75 space-y-1">
+                {scene.tips.slice(0, 2).map((tip, idx) => (
+                  <p key={idx}>• {tip}</p>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
