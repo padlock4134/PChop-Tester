@@ -115,64 +115,110 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
 
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Visual Practice Demo - Fits video box */}
-      <div className="w-full h-full bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 p-2">
-        {/* Visual Workspace - Compact to fit */}
-        <div className="w-full h-full bg-amber-100 rounded-lg p-3 shadow-2xl border-4 border-amber-800 overflow-y-auto">
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-amber-900 mb-2">
-                🪨 Virtual Workspace
-              </h3>
-              <p className="text-sm text-amber-700">
-                {scene.setup.workspace}
-              </p>
-            </div>
+      {/* Real AR Camera View */}
+      <div 
+        ref={sceneRef}
+        className="w-full h-full"
+        dangerouslySetInnerHTML={{
+          __html: `
+            <a-scene 
+              embedded 
+              arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+              vr-mode-ui="enabled: false"
+              style="width: 100%; height: 100%;"
+            >
+              <!-- Camera -->
+              <a-entity camera look-controls="enabled: false"></a-entity>
 
-            {/* Tools Display */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              {currentStepData.tools.map((tool, idx) => (
-                <div key={idx} className="bg-white rounded-lg p-4 border-2 border-amber-600 shadow-lg">
-                  <div className="text-4xl mb-2 text-center">
-                    {tool.includes('knife') || tool.includes('Knife') ? '🔪' : 
-                     tool.includes('stone') || tool.includes('Stone') ? '🪨' : 
-                     tool.includes('water') || tool.includes('Water') ? '💧' : 
-                     tool.includes('towel') || tool.includes('Towel') ? '🧻' : '🔧'}
-                  </div>
-                  <p className="text-center text-sm font-bold text-gray-800">{tool}</p>
-                </div>
-              ))}
-            </div>
+              <!-- Kitchen Counter (wooden surface) -->
+              <a-box 
+                position="0 -0.5 -1.5" 
+                width="2" 
+                height="0.1" 
+                depth="1"
+                color="#8B4513"
+                material="roughness: 0.8"
+              ></a-box>
 
-            {/* AR Overlays as Visual Guides */}
-            <div className="space-y-3">
-              {currentStepData.overlays.map((overlay, idx) => (
-                <div 
-                  key={idx} 
-                  className="bg-blue-50 border-l-4 p-3 rounded"
-                  style={{ borderColor: overlay.color || '#3B82F6' }}
-                >
-                  <p className="text-sm font-bold" style={{ color: overlay.color || '#3B82F6' }}>
-                    {overlay.type === 'line' && `📐 ${overlay.label || `${overlay.angle}° angle guide`}`}
-                    {overlay.type === 'text' && `💡 ${overlay.label}`}
-                    {overlay.type === 'arrow' && `➡️ ${overlay.label}`}
-                  </p>
-                </div>
-              ))}
-            </div>
+              <!-- Whetstone -->
+              <a-box 
+                position="0 -0.4 -1.5" 
+                width="0.6" 
+                height="0.05" 
+                depth="0.2"
+                color="#696969"
+                material="roughness: 0.9"
+              >
+                <a-text 
+                  value="Whetstone" 
+                  align="center" 
+                  position="0 0.1 0" 
+                  scale="0.3 0.3 0.3" 
+                  color="#FFFFFF"
+                ></a-text>
+              </a-box>
 
-            {/* Key Points */}
-            {currentStepData.keyPoints && currentStepData.keyPoints.length > 0 && (
-              <div className="mt-6 bg-green-50 rounded-lg p-4 border-2 border-green-600">
-                <h4 className="font-bold text-green-900 mb-2">✓ Key Points:</h4>
-                <ul className="space-y-1">
-                  {currentStepData.keyPoints.map((point, idx) => (
-                    <li key={idx} className="text-sm text-green-800">• {point}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-        </div>
-      </div>
+              <!-- Chef's Knife -->
+              <a-box 
+                position="0.4 -0.35 -1.5" 
+                width="0.5" 
+                height="0.02" 
+                depth="0.05"
+                color="#C0C0C0"
+                rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
+              >
+                <a-text 
+                  value="Knife" 
+                  align="center" 
+                  position="0 0.08 0" 
+                  scale="0.2 0.2 0.2" 
+                  color="#000000"
+                ></a-text>
+              </a-box>
+
+              <!-- Angle Guide Line (20 degrees) -->
+              ${currentStepData.overlays.filter(o => o.type === 'line').map((overlay, idx) => `
+                <a-cylinder 
+                  position="0.4 -0.35 -1.5"
+                  radius="0.005" 
+                  height="0.3" 
+                  color="${overlay.color || '#3B82F6'}"
+                  rotation="0 0 ${overlay.angle || 20}"
+                  material="opacity: 0.7"
+                ></a-cylinder>
+              `).join('')}
+
+              <!-- Motion Path Arrow -->
+              ${currentStepData.overlays.filter(o => o.type === 'arrow').map((overlay, idx) => `
+                <a-cone 
+                  position="0.6 -0.35 -1.5"
+                  radius-bottom="0.05" 
+                  radius-top="0" 
+                  height="0.1"
+                  color="${overlay.color || '#3B82F6'}"
+                  rotation="0 0 -90"
+                ></a-cone>
+              `).join('')}
+
+              <!-- Text Overlays -->
+              ${currentStepData.overlays.filter(o => o.type === 'text').map((overlay, idx) => `
+                <a-text 
+                  value="${overlay.label || ''}" 
+                  align="center" 
+                  position="0 0.2 -1.5" 
+                  scale="0.4 0.4 0.4" 
+                  color="${overlay.color || '#FFFFFF'}"
+                  material="shader: flat"
+                ></a-text>
+              `).join('')}
+
+              <!-- Lighting -->
+              <a-light type="ambient" color="#FFF" intensity="0.8"></a-light>
+              <a-light type="directional" color="#FFF" intensity="0.5" position="-1 1 0"></a-light>
+            </a-scene>
+          `
+        }}
+      />
 
       {/* Floating Instruction Tooltip - Draggable */}
       <div 
