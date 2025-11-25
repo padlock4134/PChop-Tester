@@ -66,44 +66,65 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
 
   return (
     <div className="relative w-full h-full">
-      {/* AR Scene Container */}
-      <div ref={sceneRef} className="w-full h-full bg-black">
-        {isARReady ? (
-          <div dangerouslySetInnerHTML={{
-            __html: `
-              <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;" vr-mode-ui="enabled: false">
-                <a-entity camera></a-entity>
-                <a-plane position="0 0 -2" rotation="-90 0 0" width="2" height="2" color="#8B4513" material="opacity: 0.8"></a-plane>
-                ${currentStepData.tools.map((tool, idx) => `
-                  <a-box position="${-0.5 + idx * 0.3} 0.1 -2" rotation="0 45 0" color="#666666" width="0.2" height="0.05" depth="0.1">
-                    <a-text value="${tool}" align="center" position="0 0.1 0" scale="0.3 0.3 0.3" color="#FFFFFF"></a-text>
-                  </a-box>
-                `).join('')}
-                ${currentStepData.overlays.map((overlay, idx) => {
-                  if (overlay.type === 'line') {
-                    return `<a-entity position="0 0.2 -2">
-                      <a-cylinder radius="0.01" height="0.5" color="${overlay.color || '#3B82F6'}" rotation="0 0 ${overlay.angle || 0}"></a-cylinder>
-                    </a-entity>`;
-                  }
-                  if (overlay.type === 'text') {
-                    return `<a-text value="${overlay.label || ''}" align="center" position="0 0.5 -2" scale="0.5 0.5 0.5" color="${overlay.color || '#FFFFFF'}"></a-text>`;
-                  }
-                  return '';
-                }).join('')}
-                <a-light type="ambient" color="#BBB"></a-light>
-                <a-light type="directional" color="#FFF" intensity="0.6" position="-0.5 1 1"></a-light>
-              </a-scene>
-            `
-          }} />
-        ) : (
-          <div className="flex items-center justify-center h-full text-white">
-            <div className="text-center">
-              <div className="text-4xl mb-4">📱</div>
-              <p className="text-lg">Initializing AR...</p>
-              <p className="text-sm opacity-75 mt-2">Please allow camera access</p>
+      {/* Visual Practice Demo - No camera required */}
+      <div className="w-full h-full bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 flex items-center justify-center p-8">
+        <div className="max-w-2xl w-full">
+          {/* Visual Workspace */}
+          <div className="bg-amber-100 rounded-lg p-8 shadow-2xl border-4 border-amber-800 mb-6">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-amber-900 mb-2">
+                🪨 Virtual Workspace
+              </h3>
+              <p className="text-sm text-amber-700">
+                {scene.setup.workspace}
+              </p>
             </div>
+
+            {/* Tools Display */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              {currentStepData.tools.map((tool, idx) => (
+                <div key={idx} className="bg-white rounded-lg p-4 border-2 border-amber-600 shadow-lg">
+                  <div className="text-4xl mb-2 text-center">
+                    {tool.includes('knife') || tool.includes('Knife') ? '🔪' : 
+                     tool.includes('stone') || tool.includes('Stone') ? '🪨' : 
+                     tool.includes('water') || tool.includes('Water') ? '💧' : 
+                     tool.includes('towel') || tool.includes('Towel') ? '🧻' : '🔧'}
+                  </div>
+                  <p className="text-center text-sm font-bold text-gray-800">{tool}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* AR Overlays as Visual Guides */}
+            <div className="space-y-3">
+              {currentStepData.overlays.map((overlay, idx) => (
+                <div 
+                  key={idx} 
+                  className="bg-blue-50 border-l-4 p-3 rounded"
+                  style={{ borderColor: overlay.color || '#3B82F6' }}
+                >
+                  <p className="text-sm font-bold" style={{ color: overlay.color || '#3B82F6' }}>
+                    {overlay.type === 'line' && `📐 ${overlay.label || `${overlay.angle}° angle guide`}`}
+                    {overlay.type === 'text' && `💡 ${overlay.label}`}
+                    {overlay.type === 'arrow' && `➡️ ${overlay.label}`}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Key Points */}
+            {currentStepData.keyPoints && currentStepData.keyPoints.length > 0 && (
+              <div className="mt-6 bg-green-50 rounded-lg p-4 border-2 border-green-600">
+                <h4 className="font-bold text-green-900 mb-2">✓ Key Points:</h4>
+                <ul className="space-y-1">
+                  {currentStepData.keyPoints.map((point, idx) => (
+                    <li key={idx} className="text-sm text-green-800">• {point}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
 
       {/* Instruction Overlay */}
