@@ -39,10 +39,13 @@ interface ARPracticeSceneProps {
 const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onComplete }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isARReady, setIsARReady] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const sceneRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Initialize AR scene
     if (sceneRef.current && typeof window !== 'undefined' && (window as any).AFRAME) {
       setIsARReady(true);
     }
@@ -64,13 +67,58 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     }
   };
 
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (tooltipRef.current) {
+      setIsDragging(true);
+      const rect = tooltipRef.current.getBoundingClientRect();
+      setDragOffset({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
+    }
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isDragging && tooltipRef.current) {
+      const container = tooltipRef.current.parentElement;
+      if (container) {
+        const containerRect = container.getBoundingClientRect();
+        const tooltipRect = tooltipRef.current.getBoundingClientRect();
+        
+        let newX = e.clientX - containerRect.left - dragOffset.x;
+        let newY = e.clientY - containerRect.top - dragOffset.y;
+        
+        // Keep within bounds
+        newX = Math.max(0, Math.min(newX, containerRect.width - tooltipRect.width));
+        newY = Math.max(0, Math.min(newY, containerRect.height - tooltipRect.height));
+        
+        setTooltipPosition({ x: newX, y: newY });
+      }
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove as any);
+      window.addEventListener('mouseup', handleMouseUp);
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove as any);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDragging]);
+
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Visual Practice Demo - No camera required */}
-      <div className="w-full h-full bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 flex items-center justify-center p-4 sm:p-8">
-        <div className="max-w-2xl w-full">
-          {/* Visual Workspace */}
-          <div className="bg-amber-100 rounded-lg p-4 sm:p-8 shadow-2xl border-4 border-amber-800">
+      {/* Visual Practice Demo - Fits video box */}
+      <div className="w-full h-full bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900 p-2">
+        {/* Visual Workspace - Compact to fit */}
+        <div className="w-full h-full bg-amber-100 rounded-lg p-3 shadow-2xl border-4 border-amber-800 overflow-y-auto">
             <div className="text-center mb-6">
               <h3 className="text-2xl font-bold text-amber-900 mb-2">
                 🪨 Virtual Workspace
@@ -123,14 +171,22 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 </ul>
               </div>
             )}
-          </div>
         </div>
       </div>
 
       {/* Floating Instruction Tooltip - Draggable */}
       <div 
-        className="absolute top-4 right-4 bg-gradient-to-br from-amber-900 to-amber-950 text-white rounded-xl shadow-2xl border-4 border-amber-600 max-w-md cursor-move"
-        style={{ maxHeight: '80vh', overflowY: 'auto' }}
+        ref={tooltipRef}
+        onMouseDown={handleMouseDown}
+        className="absolute bg-gradient-to-br from-amber-900 to-amber-950 text-white rounded-xl shadow-2xl border-4 border-amber-600 max-w-sm cursor-move select-none"
+        style={{ 
+          left: tooltipPosition.x ? `${tooltipPosition.x}px` : 'auto',
+          top: tooltipPosition.y ? `${tooltipPosition.y}px` : '1rem',
+          right: tooltipPosition.x ? 'auto' : '1rem',
+          maxHeight: '70vh', 
+          overflowY: 'auto' as const,
+          zIndex: 10
+        }}
       >
         {/* Tooltip Header */}
         <div className="bg-amber-800 px-4 py-3 rounded-t-lg border-b-2 border-amber-600 flex items-center justify-between">
