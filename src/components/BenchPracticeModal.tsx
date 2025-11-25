@@ -25,19 +25,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const [arScene, setArScene] = useState<any>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Set video source when stream changes
+  useEffect(() => {
+    if (videoRef.current && stream) {
+      videoRef.current.srcObject = stream;
+    }
+  }, [stream]);
+
   if (!open) return null;
 
   const startRealPractice = async () => {
     try {
       const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: true, 
+        video: { facingMode: 'user' },
         audio: true 
       });
       setStream(mediaStream);
-      
-      if (videoRef.current) {
-        videoRef.current.srcObject = mediaStream;
-      }
 
       // Start recording
       const recorder = new MediaRecorder(mediaStream);
