@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ARPracticeScene from './ARPracticeScene';
+import { supabase } from '../api/supabaseClient';
+import { useSupabase } from './SupabaseProvider';
 
 interface BenchPracticeModalProps {
   open: boolean;
@@ -7,6 +9,7 @@ interface BenchPracticeModalProps {
 }
 
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
+  const { user } = useSupabase();
   const [isPracticing, setIsPracticing] = useState(false);
   const [practiceMode, setPracticeMode] = useState<'real' | 'virtual' | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
@@ -117,20 +120,70 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   };
 
   const handleSaveVideo = async () => {
-    if (!recordedBlob || !videoTitle.trim()) return;
-    
-    setIsSaving(true);
-    try {
-      // TODO: Save to Supabase
-      console.log('Saving video:', videoTitle, videoDescription);
-      alert('Video saved successfully!');
+    console.log('Save video called. Blob:', recordedBlob);
+    if (!recordedBlob) {
+      alert('No recording found to save.');
       setSaveModalOpen(false);
       cleanupPractice();
+      return;
+    }
+    
+    if (recordedBlob.size === 0) {
+      alert('Recording is empty. Please try recording again.');
+      setSaveModalOpen(false);
+      cleanupPractice();
+      return;
+    }
+
+    if (!videoTitle.trim()) {
+      alert('Please enter a title for your video.');
+      return;
+    }
+
+    setIsSaving(true);
+    
+    try {
+      // Generate unique filename with user folder
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const filename = `${user?.id}/${videoTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${timestamp}.webm`;
+      
+      console.log('Attempting to upload:', filename, 'Size:', recordedBlob.size);
+      
+      // Upload to Supabase Storage - Practice Videos bucket
+      const { data, error } = await supabase.storage
+        .from('Practice Videos')
+        .upload(filename, recordedBlob, {
+          contentType: 'video/webm',
+          upsert: false,
+          metadata: {
+            title: videoTitle,
+            description: videoDescription,
+            lesson: arScene?.lesson || 'Practice Session',
+            userId: user?.id || ''
+          }
+        });
+
+      if (error) {
+        console.error('Upload error details:', error);
+        alert(`Failed to save video: ${error.message || 'Unknown error'}. Please try again.`);
+        setIsSaving(false);
+        return;
+      }
+
+      console.log('Video saved successfully:', data);
+      alert(`Practice video "${videoTitle}" saved successfully! 🎉`);
+      
+      // Clear form data
+      setVideoTitle('');
+      setVideoDescription('');
+      
     } catch (error) {
       console.error('Error saving video:', error);
-      alert('Failed to save video');
+      alert('Failed to save video. Please try again.');
     } finally {
       setIsSaving(false);
+      setSaveModalOpen(false);
+      cleanupPractice();
     }
   };
 
