@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 interface AROverlay {
   type: 'line' | 'circle' | 'grid' | 'text' | 'arrow' | 'hand' | 'tool';
@@ -80,20 +81,17 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
 
   const handleMouseMove = (e: MouseEvent) => {
     if (isDragging && tooltipRef.current) {
-      const container = tooltipRef.current.parentElement;
-      if (container) {
-        const containerRect = container.getBoundingClientRect();
-        const tooltipRect = tooltipRef.current.getBoundingClientRect();
-        
-        let newX = e.clientX - containerRect.left - dragOffset.x;
-        let newY = e.clientY - containerRect.top - dragOffset.y;
-        
-        // Keep within bounds
-        newX = Math.max(0, Math.min(newX, containerRect.width - tooltipRect.width));
-        newY = Math.max(0, Math.min(newY, containerRect.height - tooltipRect.height));
-        
-        setTooltipPosition({ x: newX, y: newY });
-      }
+      // Allow dragging anywhere on screen
+      const tooltipRect = tooltipRef.current.getBoundingClientRect();
+      
+      let newX = e.clientX - dragOffset.x;
+      let newY = e.clientY - dragOffset.y;
+      
+      // Keep within viewport bounds
+      newX = Math.max(0, Math.min(newX, window.innerWidth - tooltipRect.width));
+      newY = Math.max(0, Math.min(newY, window.innerHeight - tooltipRect.height));
+      
+      setTooltipPosition({ x: newX, y: newY });
     }
   };
 
@@ -113,14 +111,93 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDragging]);
 
+  // Render tooltip content
+  const tooltipContent = (
+    <div 
+      ref={tooltipRef}
+      onMouseDown={handleMouseDown}
+      className="fixed bg-gradient-to-br from-amber-900 to-amber-950 text-white rounded-xl shadow-2xl border-4 border-amber-600 max-w-sm cursor-move select-none"
+      style={{ 
+        left: tooltipPosition.x ? `${tooltipPosition.x}px` : 'auto',
+        top: tooltipPosition.y ? `${tooltipPosition.y}px` : '1rem',
+        right: tooltipPosition.x ? 'auto' : '1rem',
+        maxHeight: '70vh', 
+        overflowY: 'auto' as const,
+        zIndex: 9999
+      }}
+    >
+      {/* Tooltip Header */}
+      <div className="bg-amber-800 px-4 py-3 rounded-t-lg border-b-2 border-amber-600 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">📋</span>
+          <div>
+            <p className="font-bold text-sm">Step-by-Step Guide</p>
+            <p className="text-xs opacity-75">
+              Step {currentStep + 1} of {scene.steps.length} • {currentStepData.duration}
+            </p>
+          </div>
+        </div>
+        <div className="text-xs opacity-75 cursor-move">⋮⋮ Drag me</div>
+      </div>
+
+      {/* Tooltip Content */}
+      <div className="p-4">
+        <p className="text-base font-bold mb-3 leading-relaxed">{currentStepData.instruction}</p>
+
+        {currentStepData.keyPoints.length > 0 && (
+          <div className="bg-amber-950 bg-opacity-50 rounded-lg p-3 mb-3">
+            <p className="text-xs font-bold text-amber-300 mb-2">💡 Key Points:</p>
+            <div className="text-sm space-y-1">
+              {currentStepData.keyPoints.map((point, idx) => (
+                <div key={idx} className="flex items-start">
+                  <span className="text-amber-400 mr-2">•</span>
+                  <span className="opacity-90">{point}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="flex gap-2">
+          <button
+            onClick={prevStep}
+            disabled={currentStep === 0}
+            className="flex-1 bg-amber-700 text-white py-2 px-4 rounded-lg font-bold hover:bg-amber-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-sm"
+          >
+            ← Previous
+          </button>
+          <button
+            onClick={nextStep}
+            className="flex-1 bg-amber-700 text-white py-2 px-4 rounded-lg font-bold hover:bg-amber-600 transition-colors text-sm"
+          >
+            {currentStep === scene.steps.length - 1 ? 'Complete ✓' : 'Next →'}
+          </button>
+        </div>
+
+        {/* Tips Section */}
+        {scene.tips && scene.tips.length > 0 && (
+          <div className="mt-3 pt-3 border-t border-amber-700">
+            <p className="text-xs font-bold text-amber-300 mb-2">💭 Pro Tips:</p>
+            <div className="text-xs opacity-75 space-y-1">
+              {scene.tips.slice(0, 2).map((tip, idx) => (
+                <p key={idx}>• {tip}</p>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   return (
-    <div className="relative w-full h-full overflow-hidden">
-      {/* Real AR Camera View */}
-      <div 
-        ref={sceneRef}
-        className="w-full h-full"
-        dangerouslySetInnerHTML={{
-          __html: `
+    <>
+      <div className="relative w-full h-full overflow-hidden">
+        {/* Real AR Camera View */}
+        <div 
+          ref={sceneRef}
+          className="w-full h-full"
+          dangerouslySetInnerHTML={{
+            __html: `
             <a-scene 
               embedded 
               arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
@@ -217,85 +294,13 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               <a-light type="directional" color="#FFF" intensity="0.5" position="-1 1 0"></a-light>
             </a-scene>
           `
-        }}
-      />
-
-      {/* Floating Instruction Tooltip - Draggable */}
-      <div 
-        ref={tooltipRef}
-        onMouseDown={handleMouseDown}
-        className="absolute bg-gradient-to-br from-amber-900 to-amber-950 text-white rounded-xl shadow-2xl border-4 border-amber-600 max-w-sm cursor-move select-none"
-        style={{ 
-          left: tooltipPosition.x ? `${tooltipPosition.x}px` : 'auto',
-          top: tooltipPosition.y ? `${tooltipPosition.y}px` : '1rem',
-          right: tooltipPosition.x ? 'auto' : '1rem',
-          maxHeight: '70vh', 
-          overflowY: 'auto' as const,
-          zIndex: 10
-        }}
-      >
-        {/* Tooltip Header */}
-        <div className="bg-amber-800 px-4 py-3 rounded-t-lg border-b-2 border-amber-600 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">📋</span>
-            <div>
-              <p className="font-bold text-sm">Step-by-Step Guide</p>
-              <p className="text-xs opacity-75">
-                Step {currentStep + 1} of {scene.steps.length} • {currentStepData.duration}
-              </p>
-            </div>
-          </div>
-          <div className="text-xs opacity-75 cursor-move">⋮⋮</div>
-        </div>
-
-        {/* Tooltip Content */}
-        <div className="p-4">
-          <p className="text-base font-bold mb-3 leading-relaxed">{currentStepData.instruction}</p>
-
-          {currentStepData.keyPoints.length > 0 && (
-            <div className="bg-amber-950 bg-opacity-50 rounded-lg p-3 mb-3">
-              <p className="text-xs font-bold text-amber-300 mb-2">💡 Key Points:</p>
-              <div className="text-sm space-y-1">
-                {currentStepData.keyPoints.map((point, idx) => (
-                  <div key={idx} className="flex items-start">
-                    <span className="text-amber-400 mr-2">•</span>
-                    <span className="opacity-90">{point}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="flex gap-2">
-            <button
-              onClick={prevStep}
-              disabled={currentStep === 0}
-              className="flex-1 bg-amber-700 text-white py-2 px-4 rounded-lg font-bold hover:bg-amber-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed text-sm"
-            >
-              ← Previous
-            </button>
-            <button
-              onClick={nextStep}
-              className="flex-1 bg-amber-700 text-white py-2 px-4 rounded-lg font-bold hover:bg-amber-600 transition-colors text-sm"
-            >
-              {currentStep === scene.steps.length - 1 ? 'Complete ✓' : 'Next →'}
-            </button>
-          </div>
-
-          {/* Tips Section */}
-          {scene.tips && scene.tips.length > 0 && (
-            <div className="mt-3 pt-3 border-t border-amber-700">
-              <p className="text-xs font-bold text-amber-300 mb-2">💭 Pro Tips:</p>
-              <div className="text-xs opacity-75 space-y-1">
-                {scene.tips.slice(0, 2).map((tip, idx) => (
-                  <p key={idx}>• {tip}</p>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+          }}
+        />
       </div>
-    </div>
+
+      {/* Portal tooltip to document body so it can float anywhere */}
+      {typeof document !== 'undefined' && createPortal(tooltipContent, document.body)}
+    </>
   );
 };
 
