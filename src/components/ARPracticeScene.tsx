@@ -481,11 +481,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 ></a-text>
               </a-entity>` : ''}
 
-              <!-- LEFT HAND holding WHETSTONE - angled 7 to 2 o'clock -->
+              <!-- LEFT HAND holding WHETSTONE - angled 8 to 2 o'clock -->
               ${whetstoneSelected ? `
               <a-entity 
                 position="-0.15 -0.15 -0.55" 
-                rotation="-15 20 -40" 
+                rotation="-15 25 -55" 
                 scale="1.3 1.3 1.3"
               >
                 <!-- THE WHETSTONE you're holding -->
