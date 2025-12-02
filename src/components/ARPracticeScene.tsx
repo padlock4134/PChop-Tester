@@ -481,11 +481,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 ></a-text>
               </a-entity>` : ''}
 
-              <!-- LEFT HAND holding WHETSTONE - positioned for sharpening -->
+              <!-- LEFT HAND holding WHETSTONE - angled 7 to 2 o'clock -->
               ${whetstoneSelected ? `
               <a-entity 
-                position="-0.15 -0.25 -0.65" 
-                rotation="-20 15 0" 
+                position="-0.1 -0.2 -0.55" 
+                rotation="-15 20 -40" 
                 scale="1.3 1.3 1.3"
               >
                 <!-- THE WHETSTONE you're holding -->
@@ -518,13 +518,13 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0.05 -0.22 0.08" width="0.095" height="0.27" depth="0.085" color="#001a33" rotation="15 0 10" material="shader: flat; side: back"></a-box>
               </a-entity>` : ''}
 
-              <!-- RIGHT HAND holding KNIFE - angled onto whetstone -->
+              <!-- RIGHT HAND holding KNIFE - angled 4 to 10 o'clock, knife tip on stone -->
               ${knifeSelected ? `
               <a-entity 
-                position="${isSharpeningStroke ? '0.05 -0.15 -0.6' : '0.2 -0.15 -0.6'}" 
-                rotation="-25 -40 -70" 
+                position="${isSharpeningStroke ? '-0.05 -0.15 -0.55' : '0.1 -0.18 -0.55'}" 
+                rotation="-20 -30 50" 
                 scale="1.3 1.3 1.3"
-                animation="${isSharpeningStroke ? 'property: position; from: 0.2 -0.15 -0.6; to: 0.05 -0.15 -0.6; dur: 350; easing: easeInOutQuad' : ''}"
+                animation="${isSharpeningStroke ? 'property: position; from: 0.1 -0.18 -0.55; to: -0.05 -0.15 -0.55; dur: 350; easing: easeInOutQuad' : ''}"
               >
                 <!-- THE KNIFE you're holding -->
                 <!-- Handle -->

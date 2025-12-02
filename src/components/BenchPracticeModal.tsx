@@ -23,7 +23,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const [videoDescription, setVideoDescription] = useState('');
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
   const [arScene, setArScene] = useState<any>(null);
-  const [guideOpen, setGuideOpen] = useState(true);
+  const [guideOpen, setGuideOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Set video source when stream changes
@@ -387,8 +387,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             </select>
           </div>
           
-          {/* Open Guide Button - only show when practicing virtual and guide is closed */}
-          {isPracticing && practiceMode === 'virtual' && !guideOpen && (
+          {/* Open Guide Button - always show when guide is closed */}
+          {!guideOpen && (
             <button
               onClick={() => setGuideOpen(true)}
               className="w-full mb-4 bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow border-2 border-amber-600 px-4 py-2 cursor-pointer transition-all flex items-center justify-center gap-2"
