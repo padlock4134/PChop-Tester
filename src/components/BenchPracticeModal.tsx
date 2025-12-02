@@ -113,13 +113,19 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   };
 
   const endPractice = () => {
-    if (practiceMode === 'real' && mediaRecorder) {
-      mediaRecorder.stop();
-      // No save modal for Charcuterie Board practice - just cleanup
-      cleanupPractice();
-    } else {
-      cleanupPractice();
+    // Stop camera immediately
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
     }
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      mediaRecorder.stop();
+    }
+    // Reset all states
+    setStream(null);
+    setIsPracticing(false);
+    setPracticeMode(null);
+    setMediaRecorder(null);
+    setRecordedBlob(null);
   };
 
   const cleanupPractice = () => {

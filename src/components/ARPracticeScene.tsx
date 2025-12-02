@@ -175,10 +175,8 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     setTimeout(() => setIsAnimating(false), 3000);
   };
   
-  // Reset interaction state when step changes
+  // Reset stroke count when step changes (but keep items picked up)
   useEffect(() => {
-    setKnifeSelected(false);
-    setWhetstoneSelected(false);
     setStrokeCount(0);
     setShowSuccess(false);
   }, [currentStep]);
