@@ -48,6 +48,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   
   // Interactive AR states
   const [knifeSelected, setKnifeSelected] = useState(false);
+  const [whetstoneSelected, setWhetstoneSelected] = useState(false);
   const [strokeCount, setStrokeCount] = useState(0);
   const [lastSwipeTime, setLastSwipeTime] = useState(0);
   const [swipeStartX, setSwipeStartX] = useState(0);
@@ -109,10 +110,16 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     }
   };
   
-  // Handle tap on 3D scene
+  // Handle tap on 3D scene - Step 1: knife, Step 2: whetstone
   const handleSceneTap = (e: React.MouseEvent | React.TouchEvent) => {
     if (!knifeSelected) {
+      // Step 1: Pick up knife with right hand
       setKnifeSelected(true);
+      playSound('tap');
+      vibrate(50);
+    } else if (!whetstoneSelected) {
+      // Step 2: Pick up whetstone with left hand
+      setWhetstoneSelected(true);
       playSound('tap');
       vibrate(50);
     }
@@ -174,6 +181,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   // Reset interaction state when step changes
   useEffect(() => {
     setKnifeSelected(false);
+    setWhetstoneSelected(false);
     setStrokeCount(0);
     setShowSuccess(false);
   }, [currentStep]);
@@ -336,12 +344,20 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         {!knifeSelected && (
           <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <div className="bg-black bg-opacity-60 text-white px-6 py-4 rounded-xl text-center animate-pulse">
-              <p className="text-lg font-bold">👆 Tap to pick up knife</p>
+              <p className="text-lg font-bold">👆 Step 1: Tap to pick up knife</p>
             </div>
           </div>
         )}
         
-        {knifeSelected && strokeCount < 10 && (
+        {knifeSelected && !whetstoneSelected && (
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+            <div className="bg-black bg-opacity-60 text-white px-6 py-4 rounded-xl text-center animate-pulse">
+              <p className="text-lg font-bold">👆 Step 2: Tap to pick up whetstone</p>
+            </div>
+          </div>
+        )}
+        
+        {knifeSelected && whetstoneSelected && strokeCount < 10 && (
           <div className="absolute top-4 left-4 z-10 pointer-events-none">
             <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-lg">
               <p className="text-sm font-bold">↔️ Swipe to sharpen</p>
@@ -466,9 +482,12 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 ></a-text>
               </a-entity>` : ''}
 
-              <!-- Left hand holding whetstone - First Person POV -->
-              ${knifeSelected ? `
-              <a-entity position="-0.25 -0.55 -0.9" rotation="60 45 10" scale="1.8 1.8 1.8">
+              <!-- Left hand - above board, left side -->
+              <a-entity 
+                position="${whetstoneSelected ? '-0.35 -0.25 -1.5' : '-0.5 -0.15 -1.3'}" 
+                rotation="${whetstoneSelected ? '-30 20 0' : '-60 30 0'}" 
+                scale="1.5 1.5 1.5"
+              >
                 <!-- Chunky palm -->
                 <a-box 
                   position="0 0 0" 
@@ -503,28 +522,31 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   material="shader: flat"
                 ></a-box>
                 <a-box position="-0.12 0 0" width="0.13" height="0.085" depth="0.105" color="#001a33" material="shader: flat; side: back"></a-box>
-                <!-- Forearm extending down -->
+                <!-- Forearm extending up/left -->
                 <a-box 
-                  position="-0.25 -0.02 0.02" 
-                  width="0.2" 
+                  position="-0.2 0.05 0" 
+                  width="0.18" 
                   height="0.07" 
                   depth="0.09"
                   color="#003366"
-                  rotation="0 0 -15"
+                  rotation="0 0 30"
                   material="shader: flat"
                 ></a-box>
-              </a-entity>` : ''}
+              </a-entity>
 
               <!-- Chef's Knife with hand - stylized blade with lobster red handle -->
               <a-entity 
                 id="knife-assembly"
-                position="${knifeSelected ? (isSharpeningStroke ? '0.1 -0.45 -1.3' : '0.25 -0.45 -1.3') : '0.4 -0.33 -1.5'}" 
+                position="${knifeSelected ? (isSharpeningStroke ? '-0.05 -0.35 -1.5' : '0.1 -0.35 -1.5') : '0.5 -0.25 -1.4'}" 
                 rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
-                animation="${isAnimating ? 'property: position; to: -0.1 -0.45 -1.3; dur: 600; easing: easeInOutQuad; loop: 5; dir: alternate' : (isSharpeningStroke ? 'property: position; from: 0.25 -0.45 -1.3; to: 0.1 -0.45 -1.3; dur: 350; easing: easeInOutQuad' : '')}"
+                animation="${isAnimating ? 'property: position; to: -0.2 -0.35 -1.5; dur: 600; easing: easeInOutQuad; loop: 5; dir: alternate' : (isSharpeningStroke ? 'property: position; from: 0.1 -0.35 -1.5; to: -0.05 -0.35 -1.5; dur: 350; easing: easeInOutQuad' : '')}"
               >
-                <!-- Right hand holding knife - First Person POV -->
-                ${knifeSelected ? `
-                <a-entity position="-0.15 -0.12 0.1" rotation="30 -20 -25" scale="1.8 1.8 1.8">
+                <!-- Right hand - above board, right side -->
+                <a-entity 
+                  position="${knifeSelected ? '-0.12 0.05 0' : '0.15 0.2 0.2'}" 
+                  rotation="${knifeSelected ? '0 0 -15' : '-45 -30 0'}" 
+                  scale="1.5 1.5 1.5"
+                >
                   <!-- Chunky palm gripping handle -->
                   <a-box 
                     position="0 0 0" 
@@ -560,17 +582,17 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                     material="shader: flat"
                   ></a-box>
                   <a-box position="-0.12 0 0" width="0.15" height="0.095" depth="0.115" color="#CCCCCC" material="shader: flat; side: back"></a-box>
-                  <!-- Forearm extending to bottom right -->
+                  <!-- Forearm extending up/right -->
                   <a-box 
-                    position="-0.28 -0.03 0" 
-                    width="0.22" 
+                    position="0.2 0.05 0" 
+                    width="0.2" 
                     height="0.08" 
                     depth="0.1"
                     color="#FFFFFF"
-                    rotation="0 0 10"
+                    rotation="0 0 -30"
                     material="shader: flat"
                   ></a-box>
-                </a-entity>` : ''}
+                </a-entity>
                 
                 <!-- Blade -->
                 <a-box 
