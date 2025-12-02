@@ -55,6 +55,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   const [swipeStartY, setSwipeStartY] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(true);
   const [isSharpeningStroke, setIsSharpeningStroke] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -252,7 +253,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   }, [isDragging]);
 
   // Render tooltip content
-  const tooltipContent = (
+  const tooltipContent = guideOpen ? (
     <div 
       ref={tooltipRef}
       onMouseDown={handleMouseDown}
@@ -277,7 +278,12 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
             </p>
           </div>
         </div>
-        <div className="text-xs opacity-75 cursor-move">⋮⋮ Drag me</div>
+        <button 
+          onClick={(e) => { e.stopPropagation(); setGuideOpen(false); }}
+          className="text-white hover:text-amber-300 text-xl font-bold px-2"
+        >
+          ✕
+        </button>
       </div>
 
       {/* Tooltip Content */}
@@ -327,6 +333,18 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         )}
       </div>
     </div>
+  ) : (
+    <button
+      onClick={() => setGuideOpen(true)}
+      className="fixed bg-amber-800 hover:bg-amber-700 text-white rounded-full shadow-xl border-4 border-amber-600 p-3 cursor-pointer transition-all"
+      style={{ 
+        right: '1rem',
+        top: '1rem',
+        zIndex: 9999
+      }}
+    >
+      <span className="text-2xl">📋</span>
+    </button>
   );
 
   return (
