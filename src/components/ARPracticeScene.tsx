@@ -356,7 +356,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         )}
         
         {knifeSelected && whetstoneSelected && strokeCount < 10 && (
-          <div className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none">
+          <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none">
             <div className="bg-black bg-opacity-80 text-white px-6 py-3 rounded-xl text-center shadow-lg">
               <p className="text-sm font-bold">↔️ Swipe to sharpen</p>
               <p className="text-xs mt-1">Strokes: {strokeCount}/10</p>
