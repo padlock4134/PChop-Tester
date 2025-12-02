@@ -383,116 +383,193 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               <!-- Camera -->
               <a-entity camera look-controls="enabled: false"></a-entity>
 
-              <!-- Kitchen Counter (wooden surface) -->
+              <!-- Sky/Environment - stylized gradient -->
+              <a-sky color="#1a1a2e"></a-sky>
+              
+              <!-- Ambient particles - floating embers -->
+              <a-entity position="0 0 -1.5">
+                <a-sphere position="-0.3 0.2 0" radius="0.008" color="#A8D5BA" material="emissive: #A8D5BA; emissiveIntensity: 0.8" animation="property: position; to: -0.3 0.4 0; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0.2 0.15 0.1" radius="0.006" color="#A8D5BA" material="emissive: #A8D5BA; emissiveIntensity: 0.6" animation="property: position; to: 0.2 0.35 0.1; dur: 2500; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0.4 0.25 -0.1" radius="0.007" color="#C41E3A" material="emissive: #C41E3A; emissiveIntensity: 0.5" animation="property: position; to: 0.4 0.45 -0.1; dur: 2800; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+              </a-entity>
+
+              <!-- Kitchen Counter - rich wood with PorkChop sand tones -->
               <a-box 
                 position="0 -0.5 -1.5" 
-                width="2" 
-                height="0.1" 
-                depth="1"
-                color="#8B4513"
-                material="roughness: 0.8"
+                width="2.2" 
+                height="0.12" 
+                depth="1.1"
+                color="#8B5A2B"
+                material="metalness: 0.1; roughness: 0.7"
+              ></a-box>
+              <!-- Counter edge trim - Maine blue -->
+              <a-box 
+                position="0 -0.44 -1.0" 
+                width="2.25" 
+                height="0.02" 
+                depth="0.02"
+                color="#003366"
+                material="metalness: 0.6; roughness: 0.3; emissive: #003366; emissiveIntensity: 0.2"
               ></a-box>
 
-              <!-- Whetstone (with water effect) -->
+              <!-- Whetstone - stylized with seafoam glow -->
               <a-box 
                 position="0 -0.4 -1.5" 
-                width="0.6" 
-                height="0.05" 
-                depth="0.2"
-                color="${strokeCount > 0 ? '#505050' : '#696969'}"
-                material="roughness: 0.9"
+                width="0.65" 
+                height="0.06" 
+                depth="0.22"
+                color="${strokeCount > 0 ? '#4A5568' : '#2D3748'}"
+                material="metalness: 0.3; roughness: 0.6"
               >
+                <!-- Whetstone glow rim -->
+                <a-box 
+                  position="0 0 0" 
+                  width="0.67" 
+                  height="0.02" 
+                  depth="0.24"
+                  color="#A8D5BA"
+                  material="opacity: 0.4; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.5"
+                  animation="property: material.emissiveIntensity; to: 0.2; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate"
+                ></a-box>
+              </a-box>
+              <!-- Water puddle effect -->
+              <a-circle 
+                position="0.35 -0.44 -1.4" 
+                radius="0.08" 
+                rotation="-90 0 0"
+                color="#A8D5BA"
+                material="opacity: 0.3; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.3"
+              ></a-circle>
+              
+              <!-- Stroke counter display - stylized -->
+              ${strokeCount > 0 ? `
+              <a-entity position="0 0.35 -1.5">
                 <a-text 
-                  value="Whetstone" 
+                  value="${strokeCount}/10" 
                   align="center" 
-                  position="0 0.1 0" 
-                  scale="0.3 0.3 0.3" 
+                  position="0 0 0" 
+                  scale="0.5 0.5 0.5" 
+                  color="#A8D5BA"
+                  material="emissive: #A8D5BA; emissiveIntensity: 0.8"
+                ></a-text>
+                <a-text 
+                  value="STROKES" 
+                  align="center" 
+                  position="0 -0.08 0" 
+                  scale="0.2 0.2 0.2" 
                   color="#FFFFFF"
                 ></a-text>
-              </a-box>
-              
-              <!-- Stroke counter display -->
-              ${strokeCount > 0 ? `
-              <a-text 
-                value="${strokeCount}/10 strokes" 
-                align="center" 
-                position="0 0.3 -1.5" 
-                scale="0.3 0.3 0.3" 
-                color="#00FF00"
-              ></a-text>` : ''}
+              </a-entity>` : ''}
 
-              <!-- Chef's Knife (interactive) -->
-              <a-box 
+              <!-- Chef's Knife - stylized blade with lobster red handle -->
+              <a-entity 
                 id="knife"
-                position="${knifeSelected ? '0 -0.4 -1.5' : '0.4 -0.35 -1.5'}" 
-                width="0.5" 
-                height="0.02" 
-                depth="0.05"
-                color="${knifeSelected ? '#E8E8E8' : '#C0C0C0'}"
+                position="${knifeSelected ? '0 -0.38 -1.5' : '0.4 -0.33 -1.5'}" 
                 rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
-                animation="${isAnimating ? 'property: position; to: -0.3 -0.4 -1.5; dur: 500; easing: easeInOutSine; loop: 5; dir: alternate' : ''}"
-                class="clickable"
+                animation="${isAnimating ? 'property: position; to: -0.3 -0.38 -1.5; dur: 600; easing: easeInOutQuad; loop: 5; dir: alternate' : ''}"
               >
-                <a-text 
-                  value="${knifeSelected ? '🔪 Ready' : 'Tap Me'}" 
-                  align="center" 
-                  position="0 0.08 0" 
-                  scale="0.2 0.2 0.2" 
-                  color="${knifeSelected ? '#00AA00' : '#000000'}"
-                ></a-text>
-              </a-box>
+                <!-- Blade -->
+                <a-box 
+                  position="0.15 0 0" 
+                  width="0.4" 
+                  height="0.025" 
+                  depth="0.06"
+                  color="${knifeSelected ? '#E8E8E8' : '#B8B8B8'}"
+                  material="metalness: 0.9; roughness: 0.2; emissive: ${knifeSelected ? '#FFFFFF' : '#888888'}; emissiveIntensity: ${knifeSelected ? '0.3' : '0.1'}"
+                ></a-box>
+                <!-- Blade edge glow -->
+                <a-box 
+                  position="0.15 -0.015 0" 
+                  width="0.42" 
+                  height="0.005" 
+                  depth="0.062"
+                  color="#A8D5BA"
+                  material="opacity: ${knifeSelected ? '0.6' : '0.2'}; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.8"
+                  animation="${knifeSelected ? 'property: material.opacity; to: 0.3; dur: 800; easing: easeInOutSine; loop: true; dir: alternate' : ''}"
+                ></a-box>
+                <!-- Handle - Lobster Red -->
+                <a-box 
+                  position="-0.12 0 0" 
+                  width="0.15" 
+                  height="0.035" 
+                  depth="0.045"
+                  color="#C41E3A"
+                  material="metalness: 0.2; roughness: 0.5; emissive: #C41E3A; emissiveIntensity: 0.2"
+                ></a-box>
+                <!-- Handle accent -->
+                <a-box 
+                  position="-0.04 0 0" 
+                  width="0.02" 
+                  height="0.04" 
+                  depth="0.05"
+                  color="#003366"
+                  material="metalness: 0.7; roughness: 0.3"
+                ></a-box>
+              </a-entity>
               
-              <!-- Glow effect when selected -->
+              <!-- Knife selection aura -->
               ${knifeSelected ? `
-              <a-box 
-                position="0 -0.4 -1.5" 
-                width="0.55" 
-                height="0.03" 
-                depth="0.06"
-                color="#FFD700"
-                material="opacity: 0.3; transparent: true"
-                animation="property: material.opacity; to: 0.1; dur: 500; easing: easeInOutSine; loop: true; dir: alternate"
-              ></a-box>` : ''}
+              <a-ring 
+                position="0 -0.35 -1.5" 
+                radius-inner="0.28" 
+                radius-outer="0.32"
+                rotation="-90 0 0"
+                color="#A8D5BA"
+                material="opacity: 0.5; transparent: true; emissive: #A8D5BA; emissiveIntensity: 1; side: double"
+                animation="property: scale; to: 1.1 1.1 1.1; dur: 1000; easing: easeInOutSine; loop: true; dir: alternate"
+              ></a-ring>` : ''}
 
-              <!-- Angle Guide Line (20 degrees) -->
+              <!-- Angle Guide Line - glowing -->
               ${currentStepData.overlays.filter(o => o.type === 'line').map((overlay, idx) => `
                 <a-cylinder 
-                  position="0.4 -0.35 -1.5"
-                  radius="0.005" 
-                  height="0.3" 
-                  color="${overlay.color || '#3B82F6'}"
+                  position="${knifeSelected ? '0.15 -0.35 -1.5' : '0.55 -0.33 -1.5'}"
+                  radius="0.008" 
+                  height="0.35" 
+                  color="#C41E3A"
                   rotation="0 0 ${overlay.angle || 20}"
-                  material="opacity: 0.7"
+                  material="emissive: #C41E3A; emissiveIntensity: 0.6; opacity: 0.8; transparent: true"
+                  animation="property: material.emissiveIntensity; to: 0.3; dur: 1000; easing: easeInOutSine; loop: true; dir: alternate"
                 ></a-cylinder>
+                <a-text 
+                  value="${overlay.angle || 20}°" 
+                  position="${knifeSelected ? '0.35 -0.2 -1.5' : '0.75 -0.18 -1.5'}" 
+                  scale="0.15 0.15 0.15" 
+                  color="#C41E3A"
+                  material="emissive: #C41E3A; emissiveIntensity: 0.5"
+                ></a-text>
               `).join('')}
 
-              <!-- Motion Path Arrow -->
+              <!-- Motion Path Arrow - stylized -->
               ${currentStepData.overlays.filter(o => o.type === 'arrow').map((overlay, idx) => `
                 <a-cone 
-                  position="0.6 -0.35 -1.5"
-                  radius-bottom="0.05" 
+                  position="0.65 -0.33 -1.5"
+                  radius-bottom="0.06" 
                   radius-top="0" 
-                  height="0.1"
-                  color="${overlay.color || '#3B82F6'}"
+                  height="0.12"
+                  color="#003366"
                   rotation="0 0 -90"
+                  material="emissive: #003366; emissiveIntensity: 0.4"
+                  animation="property: position; to: 0.75 -0.33 -1.5; dur: 800; easing: easeInOutSine; loop: true; dir: alternate"
                 ></a-cone>
               `).join('')}
 
-              <!-- Text Overlays -->
+              <!-- Text Overlays - stylized with glow -->
               ${currentStepData.overlays.filter(o => o.type === 'text').map((overlay, idx) => `
                 <a-text 
                   value="${overlay.label || ''}" 
                   align="center" 
-                  position="0 0.2 -1.5" 
-                  scale="0.4 0.4 0.4" 
-                  color="${overlay.color || '#FFFFFF'}"
-                  material="shader: flat"
+                  position="0 0.25 -1.5" 
+                  scale="0.35 0.35 0.35" 
+                  color="#FFFFFF"
+                  material="emissive: #FFFFFF; emissiveIntensity: 0.3"
                 ></a-text>
               `).join('')}
 
-              <!-- Lighting -->
-              <a-light type="ambient" color="#FFF" intensity="0.8"></a-light>
-              <a-light type="directional" color="#FFF" intensity="0.5" position="-1 1 0"></a-light>
+              <!-- Lighting - dramatic WoW-style -->
+              <a-light type="ambient" color="#A8D5BA" intensity="0.4"></a-light>
+              <a-light type="directional" color="#FFFFFF" intensity="0.7" position="-1 2 1"></a-light>
+              <a-light type="point" color="#C41E3A" intensity="0.3" position="0.5 0.5 -1" distance="3"></a-light>
+              <a-light type="point" color="#003366" intensity="0.2" position="-0.5 0.3 -1.2" distance="2"></a-light>
             </a-scene>
           `
           }}
