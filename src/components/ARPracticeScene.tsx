@@ -45,6 +45,133 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const sceneRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  
+  // Interactive AR states
+  const [knifeSelected, setKnifeSelected] = useState(false);
+  const [strokeCount, setStrokeCount] = useState(0);
+  const [lastSwipeTime, setLastSwipeTime] = useState(0);
+  const [swipeStartX, setSwipeStartX] = useState(0);
+  const [swipeStartY, setSwipeStartY] = useState(0);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Audio feedback
+  const playSound = (type: 'tap' | 'swipe' | 'success' | 'complete') => {
+    try {
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      switch (type) {
+        case 'tap':
+          oscillator.frequency.value = 600;
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + 0.1);
+          break;
+        case 'swipe':
+          oscillator.frequency.value = 400 + (strokeCount * 50);
+          gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + 0.3);
+          break;
+        case 'success':
+          oscillator.frequency.value = 800;
+          gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+          oscillator.start();
+          setTimeout(() => { oscillator.frequency.value = 1000; }, 100);
+          setTimeout(() => { oscillator.frequency.value = 1200; }, 200);
+          oscillator.stop(audioContext.currentTime + 0.4);
+          break;
+        case 'complete':
+          oscillator.frequency.value = 523;
+          gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+          oscillator.start();
+          setTimeout(() => { oscillator.frequency.value = 659; }, 150);
+          setTimeout(() => { oscillator.frequency.value = 784; }, 300);
+          oscillator.stop(audioContext.currentTime + 0.5);
+          break;
+      }
+    } catch (e) {
+      console.log('Audio not supported');
+    }
+  };
+  
+  // Haptic feedback
+  const vibrate = (pattern: number | number[]) => {
+    if (navigator.vibrate) {
+      navigator.vibrate(pattern);
+    }
+  };
+  
+  // Handle tap on 3D scene
+  const handleSceneTap = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!knifeSelected) {
+      setKnifeSelected(true);
+      playSound('tap');
+      vibrate(50);
+    }
+  };
+  
+  // Handle swipe start
+  const handleSwipeStart = (e: React.TouchEvent | React.MouseEvent) => {
+    if (!knifeSelected) return;
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    setSwipeStartX(clientX);
+    setSwipeStartY(clientY);
+  };
+  
+  // Handle swipe end
+  const handleSwipeEnd = (e: React.TouchEvent | React.MouseEvent) => {
+    if (!knifeSelected || swipeStartX === 0) return;
+    
+    const clientX = 'changedTouches' in e ? e.changedTouches[0].clientX : e.clientX;
+    const clientY = 'changedTouches' in e ? e.changedTouches[0].clientY : e.clientY;
+    
+    const deltaX = clientX - swipeStartX;
+    const deltaY = clientY - swipeStartY;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    
+    // Valid swipe: horizontal, at least 50px
+    if (distance > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      const now = Date.now();
+      if (now - lastSwipeTime > 300) { // Debounce
+        setStrokeCount(prev => prev + 1);
+        setLastSwipeTime(now);
+        playSound('swipe');
+        vibrate(30);
+        
+        // Show success after 10 strokes
+        if (strokeCount + 1 >= 10) {
+          setShowSuccess(true);
+          playSound('success');
+          vibrate([50, 50, 50]);
+          setTimeout(() => setShowSuccess(false), 2000);
+        }
+      }
+    }
+    
+    setSwipeStartX(0);
+    setSwipeStartY(0);
+  };
+  
+  // Play demo animation
+  const playDemoAnimation = () => {
+    setIsAnimating(true);
+    setTimeout(() => setIsAnimating(false), 3000);
+  };
+  
+  // Reset interaction state when step changes
+  useEffect(() => {
+    setKnifeSelected(false);
+    setStrokeCount(0);
+    setShowSuccess(false);
+  }, [currentStep]);
 
   useEffect(() => {
     if (sceneRef.current && typeof window !== 'undefined' && (window as any).AFRAME) {
@@ -191,7 +318,56 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
 
   return (
     <>
-      <div className="relative w-full h-full overflow-hidden">
+      <div 
+        ref={containerRef}
+        className="relative w-full h-full overflow-hidden"
+        onClick={handleSceneTap}
+        onTouchStart={handleSwipeStart}
+        onTouchEnd={handleSwipeEnd}
+        onMouseDown={handleSwipeStart}
+        onMouseUp={handleSwipeEnd}
+      >
+        {/* Interaction Overlay */}
+        {!knifeSelected && (
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+            <div className="bg-black bg-opacity-60 text-white px-6 py-4 rounded-xl text-center animate-pulse">
+              <p className="text-lg font-bold">👆 Tap to pick up knife</p>
+            </div>
+          </div>
+        )}
+        
+        {knifeSelected && strokeCount < 10 && (
+          <div className="absolute top-4 left-4 z-10 pointer-events-none">
+            <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-lg">
+              <p className="text-sm font-bold">↔️ Swipe to sharpen</p>
+              <p className="text-xs mt-1">Strokes: {strokeCount}/10</p>
+              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
+                <div 
+                  className="bg-amber-500 h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${(strokeCount / 10) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {showSuccess && (
+          <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+            <div className="bg-green-500 text-white px-8 py-4 rounded-xl text-center animate-bounce">
+              <p className="text-2xl font-bold">✓ Great technique!</p>
+              <p className="text-sm">10 strokes complete</p>
+            </div>
+          </div>
+        )}
+        
+        {/* Demo Animation Button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); playDemoAnimation(); }}
+          className="absolute bottom-4 left-4 z-10 bg-amber-600 text-white px-3 py-2 rounded-lg text-sm font-bold hover:bg-amber-700 transition-colors"
+        >
+          ▶ Watch Demo
+        </button>
+        
         {/* Real AR Camera View */}
         <div 
           ref={sceneRef}
@@ -217,13 +393,13 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 material="roughness: 0.8"
               ></a-box>
 
-              <!-- Whetstone -->
+              <!-- Whetstone (with water effect) -->
               <a-box 
                 position="0 -0.4 -1.5" 
                 width="0.6" 
                 height="0.05" 
                 depth="0.2"
-                color="#696969"
+                color="${strokeCount > 0 ? '#505050' : '#696969'}"
                 material="roughness: 0.9"
               >
                 <a-text 
@@ -234,24 +410,49 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   color="#FFFFFF"
                 ></a-text>
               </a-box>
+              
+              <!-- Stroke counter display -->
+              ${strokeCount > 0 ? `
+              <a-text 
+                value="${strokeCount}/10 strokes" 
+                align="center" 
+                position="0 0.3 -1.5" 
+                scale="0.3 0.3 0.3" 
+                color="#00FF00"
+              ></a-text>` : ''}
 
-              <!-- Chef's Knife -->
+              <!-- Chef's Knife (interactive) -->
               <a-box 
-                position="0.4 -0.35 -1.5" 
+                id="knife"
+                position="${knifeSelected ? '0 -0.4 -1.5' : '0.4 -0.35 -1.5'}" 
                 width="0.5" 
                 height="0.02" 
                 depth="0.05"
-                color="#C0C0C0"
+                color="${knifeSelected ? '#E8E8E8' : '#C0C0C0'}"
                 rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
+                animation="${isAnimating ? 'property: position; to: -0.3 -0.4 -1.5; dur: 500; easing: easeInOutSine; loop: 5; dir: alternate' : ''}"
+                class="clickable"
               >
                 <a-text 
-                  value="Knife" 
+                  value="${knifeSelected ? '🔪 Ready' : 'Tap Me'}" 
                   align="center" 
                   position="0 0.08 0" 
                   scale="0.2 0.2 0.2" 
-                  color="#000000"
+                  color="${knifeSelected ? '#00AA00' : '#000000'}"
                 ></a-text>
               </a-box>
+              
+              <!-- Glow effect when selected -->
+              ${knifeSelected ? `
+              <a-box 
+                position="0 -0.4 -1.5" 
+                width="0.55" 
+                height="0.03" 
+                depth="0.06"
+                color="#FFD700"
+                material="opacity: 0.3; transparent: true"
+                animation="property: material.opacity; to: 0.1; dur: 500; easing: easeInOutSine; loop: true; dir: alternate"
+              ></a-box>` : ''}
 
               <!-- Angle Guide Line (20 degrees) -->
               ${currentStepData.overlays.filter(o => o.type === 'line').map((overlay, idx) => `
