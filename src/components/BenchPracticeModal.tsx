@@ -115,7 +115,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const endPractice = () => {
     if (practiceMode === 'real' && mediaRecorder) {
       mediaRecorder.stop();
-      setSaveModalOpen(true);
+      // No save modal for Charcuterie Board practice - just cleanup
+      cleanupPractice();
     } else {
       cleanupPractice();
     }
