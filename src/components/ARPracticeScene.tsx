@@ -35,9 +35,11 @@ interface ARPracticeScene {
 interface ARPracticeSceneProps {
   scene: ARPracticeScene;
   onComplete: () => void;
+  guideOpen?: boolean;
+  setGuideOpen?: (open: boolean) => void;
 }
 
-const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onComplete }) => {
+const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onComplete, guideOpen: externalGuideOpen, setGuideOpen: externalSetGuideOpen }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isARReady, setIsARReady] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -55,7 +57,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   const [swipeStartY, setSwipeStartY] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [guideOpen, setGuideOpen] = useState(true);
+  const [internalGuideOpen, setInternalGuideOpen] = useState(true);
+  
+  // Use external state if provided, otherwise use internal
+  const guideOpen = externalGuideOpen !== undefined ? externalGuideOpen : internalGuideOpen;
+  const setGuideOpen = externalSetGuideOpen || setInternalGuideOpen;
   const [isSharpeningStroke, setIsSharpeningStroke] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -327,20 +333,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         )}
       </div>
     </div>
-  ) : (
-    <button
-      onClick={() => setGuideOpen(true)}
-      className="fixed bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow-xl border-4 border-amber-600 px-4 py-2 cursor-pointer transition-all flex items-center gap-2"
-      style={{ 
-        left: '1rem',
-        top: '4rem',
-        zIndex: 9999
-      }}
-    >
-      <span className="text-xl">📋</span>
-      <span className="text-sm font-bold">Open Guide</span>
-    </button>
-  );
+  ) : null;
 
   return (
     <>
@@ -488,11 +481,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 ></a-text>
               </a-entity>` : ''}
 
-              <!-- LEFT HAND holding WHETSTONE - raised in front of face -->
+              <!-- LEFT HAND holding WHETSTONE - positioned for sharpening -->
               ${whetstoneSelected ? `
               <a-entity 
-                position="-0.35 -0.1 -0.7" 
-                rotation="0 25 0" 
+                position="-0.15 -0.25 -0.65" 
+                rotation="-20 15 0" 
                 scale="1.3 1.3 1.3"
               >
                 <!-- THE WHETSTONE you're holding -->
@@ -525,13 +518,13 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0.05 -0.22 0.08" width="0.095" height="0.27" depth="0.085" color="#001a33" rotation="15 0 10" material="shader: flat; side: back"></a-box>
               </a-entity>` : ''}
 
-              <!-- RIGHT HAND holding KNIFE - raised in front of face -->
+              <!-- RIGHT HAND holding KNIFE - angled onto whetstone -->
               ${knifeSelected ? `
               <a-entity 
-                position="${isSharpeningStroke ? '0.2 -0.1 -0.7' : '0.35 -0.1 -0.7'}" 
-                rotation="0 -25 -20" 
+                position="${isSharpeningStroke ? '0.05 -0.15 -0.6' : '0.2 -0.15 -0.6'}" 
+                rotation="-25 -40 -70" 
                 scale="1.3 1.3 1.3"
-                animation="${isSharpeningStroke ? 'property: position; from: 0.35 -0.1 -0.7; to: 0.2 -0.1 -0.7; dur: 350; easing: easeInOutQuad' : ''}"
+                animation="${isSharpeningStroke ? 'property: position; from: 0.2 -0.15 -0.6; to: 0.05 -0.15 -0.6; dur: 350; easing: easeInOutQuad' : ''}"
               >
                 <!-- THE KNIFE you're holding -->
                 <!-- Handle -->
