@@ -54,6 +54,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   const [swipeStartY, setSwipeStartY] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isSharpeningStroke, setIsSharpeningStroke] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   
   // Audio feedback
@@ -145,6 +146,10 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         setLastSwipeTime(now);
         playSound('swipe');
         vibrate(30);
+        
+        // Trigger sharpening stroke animation
+        setIsSharpeningStroke(true);
+        setTimeout(() => setIsSharpeningStroke(false), 400);
         
         // Show success after 10 strokes
         if (strokeCount + 1 >= 10) {
@@ -461,13 +466,86 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 ></a-text>
               </a-entity>` : ''}
 
-              <!-- Chef's Knife - stylized blade with lobster red handle -->
+              <!-- Hand holding whetstone (left hand) -->
+              ${knifeSelected ? `
+              <a-entity position="-0.35 -0.38 -1.35" rotation="0 20 0">
+                <!-- Palm -->
+                <a-box 
+                  position="0 0 0" 
+                  width="0.12" 
+                  height="0.03" 
+                  depth="0.08"
+                  color="#DEB887"
+                  material="roughness: 0.8"
+                ></a-box>
+                <!-- Thumb -->
+                <a-box 
+                  position="0.07 0.01 -0.02" 
+                  width="0.04" 
+                  height="0.025" 
+                  depth="0.025"
+                  color="#DEB887"
+                  rotation="0 0 -20"
+                  material="roughness: 0.8"
+                ></a-box>
+                <!-- Fingers curled -->
+                <a-box position="0.02 -0.02 0.045" width="0.08" height="0.02" depth="0.02" color="#DEB887" material="roughness: 0.8"></a-box>
+                <a-box position="0.02 -0.035 0.04" width="0.07" height="0.02" depth="0.02" color="#DEB887" material="roughness: 0.8"></a-box>
+                <!-- Wrist/forearm hint -->
+                <a-box 
+                  position="-0.1 0 0" 
+                  width="0.1" 
+                  height="0.04" 
+                  depth="0.06"
+                  color="#003366"
+                  material="roughness: 0.6"
+                ></a-box>
+              </a-entity>` : ''}
+
+              <!-- Chef's Knife with hand - stylized blade with lobster red handle -->
               <a-entity 
-                id="knife"
-                position="${knifeSelected ? '0 -0.38 -1.5' : '0.4 -0.33 -1.5'}" 
+                id="knife-assembly"
+                position="${knifeSelected ? (isSharpeningStroke ? '-0.15 -0.38 -1.5' : '0.15 -0.38 -1.5') : '0.4 -0.33 -1.5'}" 
                 rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
-                animation="${isAnimating ? 'property: position; to: -0.3 -0.38 -1.5; dur: 600; easing: easeInOutQuad; loop: 5; dir: alternate' : ''}"
+                animation="${isAnimating ? 'property: position; to: -0.3 -0.38 -1.5; dur: 600; easing: easeInOutQuad; loop: 5; dir: alternate' : (isSharpeningStroke ? 'property: position; from: 0.15 -0.38 -1.5; to: -0.15 -0.38 -1.5; dur: 350; easing: easeInOutQuad' : '')}"
               >
+                <!-- Hand holding knife (right hand) -->
+                ${knifeSelected ? `
+                <a-entity position="-0.18 0.02 0" rotation="0 0 -10">
+                  <!-- Palm gripping handle -->
+                  <a-box 
+                    position="0 0 0" 
+                    width="0.1" 
+                    height="0.045" 
+                    depth="0.06"
+                    color="#DEB887"
+                    material="roughness: 0.8"
+                  ></a-box>
+                  <!-- Thumb on top -->
+                  <a-box 
+                    position="0.03 0.03 0" 
+                    width="0.05" 
+                    height="0.02" 
+                    depth="0.025"
+                    color="#DEB887"
+                    rotation="0 0 10"
+                    material="roughness: 0.8"
+                  ></a-box>
+                  <!-- Fingers wrapped around -->
+                  <a-box position="0 -0.025 0.025" width="0.09" height="0.02" depth="0.02" color="#DEB887" material="roughness: 0.8"></a-box>
+                  <a-box position="0 -0.025 -0.025" width="0.09" height="0.02" depth="0.02" color="#DEB887" material="roughness: 0.8"></a-box>
+                  <a-box position="0 -0.04 0" width="0.08" height="0.015" depth="0.05" color="#DEB887" material="roughness: 0.8"></a-box>
+                  <!-- Wrist/sleeve -->
+                  <a-box 
+                    position="-0.1 0 0" 
+                    width="0.12" 
+                    height="0.05" 
+                    depth="0.07"
+                    color="#FFFFFF"
+                    material="roughness: 0.6"
+                  ></a-box>
+                </a-entity>` : ''}
+                
                 <!-- Blade -->
                 <a-box 
                   position="0.15 0 0" 
@@ -484,9 +562,15 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.005" 
                   depth="0.062"
                   color="#A8D5BA"
-                  material="opacity: ${knifeSelected ? '0.6' : '0.2'}; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.8"
-                  animation="${knifeSelected ? 'property: material.opacity; to: 0.3; dur: 800; easing: easeInOutSine; loop: true; dir: alternate' : ''}"
+                  material="opacity: ${knifeSelected ? '0.6' : '0.2'}; transparent: true; emissive: #A8D5BA; emissiveIntensity: ${isSharpeningStroke ? '1.0' : '0.8'}"
+                  animation="${knifeSelected && !isSharpeningStroke ? 'property: material.opacity; to: 0.3; dur: 800; easing: easeInOutSine; loop: true; dir: alternate' : ''}"
                 ></a-box>
+                <!-- Sparks on stroke -->
+                ${isSharpeningStroke ? `
+                <a-sphere position="0.2 -0.02 0.03" radius="0.008" color="#FFD700" material="emissive: #FFD700; emissiveIntensity: 1"></a-sphere>
+                <a-sphere position="0.25 -0.015 -0.02" radius="0.006" color="#FFA500" material="emissive: #FFA500; emissiveIntensity: 1"></a-sphere>
+                <a-sphere position="0.15 -0.02 0.01" radius="0.007" color="#FFD700" material="emissive: #FFD700; emissiveIntensity: 1"></a-sphere>
+                ` : ''}
                 <!-- Handle - Lobster Red -->
                 <a-box 
                   position="-0.12 0 0" 
