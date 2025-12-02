@@ -466,9 +466,9 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 ></a-text>
               </a-entity>` : ''}
 
-              <!-- Hand holding whetstone (left hand) - WoW style chunky -->
+              <!-- Left hand holding whetstone - First Person POV -->
               ${knifeSelected ? `
-              <a-entity position="-0.4 -0.32 -1.4" rotation="-10 30 0" scale="1.5 1.5 1.5">
+              <a-entity position="-0.25 -0.55 -0.9" rotation="60 45 10" scale="1.8 1.8 1.8">
                 <!-- Chunky palm -->
                 <a-box 
                   position="0 0 0" 
@@ -503,18 +503,28 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   material="shader: flat"
                 ></a-box>
                 <a-box position="-0.12 0 0" width="0.13" height="0.085" depth="0.105" color="#001a33" material="shader: flat; side: back"></a-box>
+                <!-- Forearm extending down -->
+                <a-box 
+                  position="-0.25 -0.02 0.02" 
+                  width="0.2" 
+                  height="0.07" 
+                  depth="0.09"
+                  color="#003366"
+                  rotation="0 0 -15"
+                  material="shader: flat"
+                ></a-box>
               </a-entity>` : ''}
 
               <!-- Chef's Knife with hand - stylized blade with lobster red handle -->
               <a-entity 
                 id="knife-assembly"
-                position="${knifeSelected ? (isSharpeningStroke ? '-0.15 -0.38 -1.5' : '0.15 -0.38 -1.5') : '0.4 -0.33 -1.5'}" 
+                position="${knifeSelected ? (isSharpeningStroke ? '0.1 -0.45 -1.3' : '0.25 -0.45 -1.3') : '0.4 -0.33 -1.5'}" 
                 rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
-                animation="${isAnimating ? 'property: position; to: -0.3 -0.38 -1.5; dur: 600; easing: easeInOutQuad; loop: 5; dir: alternate' : (isSharpeningStroke ? 'property: position; from: 0.15 -0.38 -1.5; to: -0.15 -0.38 -1.5; dur: 350; easing: easeInOutQuad' : '')}"
+                animation="${isAnimating ? 'property: position; to: -0.1 -0.45 -1.3; dur: 600; easing: easeInOutQuad; loop: 5; dir: alternate' : (isSharpeningStroke ? 'property: position; from: 0.25 -0.45 -1.3; to: 0.1 -0.45 -1.3; dur: 350; easing: easeInOutQuad' : '')}"
               >
-                <!-- Hand holding knife (right hand) - WoW style chunky -->
+                <!-- Right hand holding knife - First Person POV -->
                 ${knifeSelected ? `
-                <a-entity position="-0.22 0.03 0" rotation="0 0 -15" scale="1.5 1.5 1.5">
+                <a-entity position="-0.15 -0.12 0.1" rotation="30 -20 -25" scale="1.8 1.8 1.8">
                   <!-- Chunky palm gripping handle -->
                   <a-box 
                     position="0 0 0" 
@@ -550,6 +560,16 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                     material="shader: flat"
                   ></a-box>
                   <a-box position="-0.12 0 0" width="0.15" height="0.095" depth="0.115" color="#CCCCCC" material="shader: flat; side: back"></a-box>
+                  <!-- Forearm extending to bottom right -->
+                  <a-box 
+                    position="-0.28 -0.03 0" 
+                    width="0.22" 
+                    height="0.08" 
+                    depth="0.1"
+                    color="#FFFFFF"
+                    rotation="0 0 10"
+                    material="shader: flat"
+                  ></a-box>
                 </a-entity>` : ''}
                 
                 <!-- Blade -->
