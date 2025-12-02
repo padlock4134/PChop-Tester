@@ -253,9 +253,9 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
       onMouseDown={handleMouseDown}
       className="fixed bg-gradient-to-br from-amber-900 to-amber-950 text-white rounded-xl shadow-2xl border-4 border-amber-600 max-w-sm cursor-move select-none"
       style={{ 
-        left: tooltipPosition.x ? `${tooltipPosition.x}px` : 'auto',
-        top: tooltipPosition.y ? `${tooltipPosition.y}px` : '1rem',
-        right: tooltipPosition.x ? 'auto' : '1rem',
+        left: tooltipPosition.x ? `${tooltipPosition.x}px` : '50%',
+        top: tooltipPosition.y ? `${tooltipPosition.y}px` : '50%',
+        transform: tooltipPosition.x ? 'none' : 'translate(-50%, -50%)',
         maxHeight: '70vh', 
         overflowY: 'auto' as const,
         zIndex: 9999
@@ -330,14 +330,15 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   ) : (
     <button
       onClick={() => setGuideOpen(true)}
-      className="fixed bg-amber-800 hover:bg-amber-700 text-white rounded-full shadow-xl border-4 border-amber-600 p-3 cursor-pointer transition-all"
+      className="fixed bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow-xl border-4 border-amber-600 px-4 py-2 cursor-pointer transition-all flex items-center gap-2"
       style={{ 
-        right: '1rem',
-        top: '1rem',
+        left: '1rem',
+        top: '4rem',
         zIndex: 9999
       }}
     >
-      <span className="text-2xl">📋</span>
+      <span className="text-xl">📋</span>
+      <span className="text-sm font-bold">Open Guide</span>
     </button>
   );
 
