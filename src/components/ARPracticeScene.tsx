@@ -482,117 +482,64 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 ></a-text>
               </a-entity>` : ''}
 
-              <!-- Left hand - above board, left side -->
+              <!-- LEFT HAND - looking down at top of hand, forearm from bottom-left -->
               <a-entity 
-                position="${whetstoneSelected ? '-0.35 -0.25 -1.5' : '-0.5 -0.15 -1.3'}" 
-                rotation="${whetstoneSelected ? '-30 20 0' : '-60 30 0'}" 
-                scale="1.5 1.5 1.5"
+                position="${whetstoneSelected ? '-0.25 -0.35 -1.4' : '-0.35 -0.25 -1.2'}" 
+                rotation="${whetstoneSelected ? '-70 15 0' : '-45 25 0'}" 
+                scale="1.3 1.3 1.3"
               >
-                <!-- Chunky palm -->
-                <a-box 
-                  position="0 0 0" 
-                  width="0.15" 
-                  height="0.06" 
-                  depth="0.12"
-                  color="#F4A460"
-                  material="shader: flat"
-                ></a-box>
-                <!-- Dark outline -->
-                <a-box position="0 0 0" width="0.16" height="0.065" depth="0.125" color="#2D1810" material="shader: flat; side: back"></a-box>
-                <!-- Big chunky thumb -->
-                <a-box 
-                  position="0.09 0.02 -0.04" 
-                  width="0.06" 
-                  height="0.05" 
-                  depth="0.05"
-                  color="#F4A460"
-                  rotation="0 -15 -30"
-                  material="shader: flat"
-                ></a-box>
-                <!-- 4 chunky fingers -->
-                <a-box position="0.03 -0.04 0.07" width="0.1" height="0.04" depth="0.04" color="#F4A460" material="shader: flat"></a-box>
-                <a-box position="0.03 -0.06 0.06" width="0.09" height="0.035" depth="0.04" color="#E8945A" material="shader: flat"></a-box>
-                <!-- Wrist/sleeve - Maine blue -->
-                <a-box 
-                  position="-0.12 0 0" 
-                  width="0.12" 
-                  height="0.08" 
-                  depth="0.1"
-                  color="#003366"
-                  material="shader: flat"
-                ></a-box>
-                <a-box position="-0.12 0 0" width="0.13" height="0.085" depth="0.105" color="#001a33" material="shader: flat; side: back"></a-box>
-                <!-- Forearm extending up/left -->
-                <a-box 
-                  position="-0.2 0.05 0" 
-                  width="0.18" 
-                  height="0.07" 
-                  depth="0.09"
-                  color="#003366"
-                  rotation="0 0 30"
-                  material="shader: flat"
-                ></a-box>
+                <!-- Forearm coming from behind/below camera -->
+                <a-box position="0 0 0.2" width="0.1" height="0.08" depth="0.3" color="#003366" material="shader: flat"></a-box>
+                <a-box position="0 0 0.2" width="0.105" height="0.085" depth="0.32" color="#001a33" material="shader: flat; side: back"></a-box>
+                <!-- Wrist -->
+                <a-box position="0 0 0.02" width="0.09" height="0.07" depth="0.08" color="#F4A460" material="shader: flat"></a-box>
+                <!-- Back of hand (top view) -->
+                <a-box position="0 0.01 -0.08" width="0.11" height="0.04" depth="0.12" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="0 0.01 -0.08" width="0.115" height="0.045" depth="0.125" color="#2D1810" material="shader: flat; side: back"></a-box>
+                <!-- Knuckles -->
+                <a-box position="0 0.025 -0.14" width="0.1" height="0.03" depth="0.03" color="#E8945A" material="shader: flat"></a-box>
+                <!-- Fingers pointing forward -->
+                <a-box position="-0.035 0.01 -0.19" width="0.025" height="0.025" depth="0.08" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="-0.01 0.01 -0.2" width="0.025" height="0.025" depth="0.1" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="0.015 0.01 -0.2" width="0.025" height="0.025" depth="0.1" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="0.04 0.01 -0.18" width="0.02" height="0.02" depth="0.07" color="#E8945A" material="shader: flat"></a-box>
+                <!-- Thumb on side -->
+                <a-box position="0.07 0.01 -0.05" width="0.025" height="0.03" depth="0.06" color="#F4A460" rotation="0 -30 0" material="shader: flat"></a-box>
               </a-entity>
 
-              <!-- Chef's Knife with hand - stylized blade with lobster red handle -->
+              <!-- RIGHT HAND - looking down at top of hand, forearm from bottom-right -->
               <a-entity 
-                id="knife-assembly"
-                position="${knifeSelected ? (isSharpeningStroke ? '-0.05 -0.35 -1.5' : '0.1 -0.35 -1.5') : '0.5 -0.25 -1.4'}" 
-                rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
-                animation="${isAnimating ? 'property: position; to: -0.2 -0.35 -1.5; dur: 600; easing: easeInOutQuad; loop: 5; dir: alternate' : (isSharpeningStroke ? 'property: position; from: 0.1 -0.35 -1.5; to: -0.05 -0.35 -1.5; dur: 350; easing: easeInOutQuad' : '')}"
+                position="${knifeSelected ? '0.15 -0.35 -1.4' : '0.35 -0.25 -1.2'}" 
+                rotation="${knifeSelected ? '-70 -15 0' : '-45 -25 0'}" 
+                scale="1.3 1.3 1.3"
+                animation="${isSharpeningStroke ? 'property: position; from: 0.15 -0.35 -1.4; to: -0.05 -0.35 -1.4; dur: 350; easing: easeInOutQuad' : ''}"
               >
-                <!-- Right hand - above board, right side -->
-                <a-entity 
-                  position="${knifeSelected ? '-0.12 0.05 0' : '0.15 0.2 0.2'}" 
-                  rotation="${knifeSelected ? '0 0 -15' : '-45 -30 0'}" 
-                  scale="1.5 1.5 1.5"
-                >
-                  <!-- Chunky palm gripping handle -->
-                  <a-box 
-                    position="0 0 0" 
-                    width="0.14" 
-                    height="0.07" 
-                    depth="0.1"
-                    color="#F4A460"
-                    material="shader: flat"
-                  ></a-box>
-                  <!-- Dark outline -->
-                  <a-box position="0 0 0" width="0.15" height="0.075" depth="0.105" color="#2D1810" material="shader: flat; side: back"></a-box>
-                  <!-- Big thumb on spine -->
-                  <a-box 
-                    position="0.05 0.05 0" 
-                    width="0.07" 
-                    height="0.04" 
-                    depth="0.05"
-                    color="#F4A460"
-                    rotation="0 0 15"
-                    material="shader: flat"
-                  ></a-box>
-                  <!-- Fingers wrapped around handle -->
-                  <a-box position="0 -0.045 0.04" width="0.12" height="0.04" depth="0.04" color="#F4A460" material="shader: flat"></a-box>
-                  <a-box position="0 -0.045 -0.04" width="0.12" height="0.04" depth="0.04" color="#F4A460" material="shader: flat"></a-box>
-                  <a-box position="0 -0.07 0" width="0.1" height="0.03" depth="0.09" color="#E8945A" material="shader: flat"></a-box>
-                  <!-- Wrist/chef sleeve - white -->
-                  <a-box 
-                    position="-0.12 0 0" 
-                    width="0.14" 
-                    height="0.09" 
-                    depth="0.11"
-                    color="#FFFFFF"
-                    material="shader: flat"
-                  ></a-box>
-                  <a-box position="-0.12 0 0" width="0.15" height="0.095" depth="0.115" color="#CCCCCC" material="shader: flat; side: back"></a-box>
-                  <!-- Forearm extending up/right -->
-                  <a-box 
-                    position="0.2 0.05 0" 
-                    width="0.2" 
-                    height="0.08" 
-                    depth="0.1"
-                    color="#FFFFFF"
-                    rotation="0 0 -30"
-                    material="shader: flat"
-                  ></a-box>
-                </a-entity>
+                <!-- Forearm coming from behind/below camera -->
+                <a-box position="0 0 0.2" width="0.1" height="0.08" depth="0.3" color="#FFFFFF" material="shader: flat"></a-box>
+                <a-box position="0 0 0.2" width="0.105" height="0.085" depth="0.32" color="#CCCCCC" material="shader: flat; side: back"></a-box>
+                <!-- Wrist -->
+                <a-box position="0 0 0.02" width="0.09" height="0.07" depth="0.08" color="#F4A460" material="shader: flat"></a-box>
+                <!-- Back of hand (top view) -->
+                <a-box position="0 0.01 -0.08" width="0.11" height="0.04" depth="0.12" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="0 0.01 -0.08" width="0.115" height="0.045" depth="0.125" color="#2D1810" material="shader: flat; side: back"></a-box>
+                <!-- Knuckles -->
+                <a-box position="0 0.025 -0.14" width="0.1" height="0.03" depth="0.03" color="#E8945A" material="shader: flat"></a-box>
+                <!-- Fingers pointing forward -->
+                <a-box position="0.035 0.01 -0.19" width="0.025" height="0.025" depth="0.08" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="0.01 0.01 -0.2" width="0.025" height="0.025" depth="0.1" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="-0.015 0.01 -0.2" width="0.025" height="0.025" depth="0.1" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="-0.04 0.01 -0.18" width="0.02" height="0.02" depth="0.07" color="#E8945A" material="shader: flat"></a-box>
+                <!-- Thumb on side -->
+                <a-box position="-0.07 0.01 -0.05" width="0.025" height="0.03" depth="0.06" color="#F4A460" rotation="0 30 0" material="shader: flat"></a-box>
+              </a-entity>
+
+              <!-- KNIFE - separate object -->
+              <a-entity 
+                id="knife"
+                position="${knifeSelected ? (isSharpeningStroke ? '-0.05 -0.38 -1.5' : '0.1 -0.38 -1.5') : '0.3 -0.38 -1.5'}" 
+                rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
+                animation="${isAnimating ? 'property: position; to: -0.2 -0.38 -1.5; dur: 600; easing: easeInOutQuad; loop: 5; dir: alternate' : (isSharpeningStroke ? 'property: position; from: 0.1 -0.38 -1.5; to: -0.05 -0.38 -1.5; dur: 350; easing: easeInOutQuad' : '')}"
+              >
                 
                 <!-- Blade -->
                 <a-box 
