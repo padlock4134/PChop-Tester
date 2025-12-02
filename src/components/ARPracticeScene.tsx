@@ -358,8 +358,8 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         )}
         
         {knifeSelected && whetstoneSelected && strokeCount < 10 && (
-          <div className="absolute top-4 left-4 z-10 pointer-events-none">
-            <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-lg">
+          <div className="absolute bottom-1/3 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none">
+            <div className="bg-black bg-opacity-80 text-white px-6 py-3 rounded-xl text-center shadow-lg">
               <p className="text-sm font-bold">↔️ Swipe to sharpen</p>
               <p className="text-xs mt-1">Strokes: {strokeCount}/10</p>
               <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
@@ -433,7 +433,8 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 material="metalness: 0.6; roughness: 0.3; emissive: #003366; emissiveIntensity: 0.2"
               ></a-box>
 
-              <!-- Whetstone - stylized with seafoam glow -->
+              <!-- Whetstone on table - only visible when NOT picked up -->
+              ${!whetstoneSelected ? `
               <a-box 
                 position="0 -0.4 -1.5" 
                 width="0.65" 
@@ -452,7 +453,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   material="opacity: 0.4; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.5"
                   animation="property: material.emissiveIntensity; to: 0.2; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate"
                 ></a-box>
-              </a-box>
+              </a-box>` : ''}
               <!-- Water puddle effect -->
               <a-circle 
                 position="0.35 -0.44 -1.4" 
