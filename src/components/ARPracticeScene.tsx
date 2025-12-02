@@ -111,15 +111,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     }
   };
   
-  // Handle tap on 3D scene - Step 1: knife, Step 2: whetstone
+  // Handle tap on 3D scene - Pick up both knife and whetstone
   const handleSceneTap = (e: React.MouseEvent | React.TouchEvent) => {
     if (!knifeSelected) {
-      // Step 1: Pick up knife with right hand
+      // Pick up both items at once
       setKnifeSelected(true);
-      playSound('tap');
-      vibrate(50);
-    } else if (!whetstoneSelected) {
-      // Step 2: Pick up whetstone with left hand
       setWhetstoneSelected(true);
       playSound('tap');
       vibrate(50);
@@ -362,15 +358,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         {!knifeSelected && (
           <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <div className="bg-black bg-opacity-60 text-white px-6 py-4 rounded-xl text-center animate-pulse">
-              <p className="text-lg font-bold">👆 Step 1: Tap to pick up knife</p>
-            </div>
-          </div>
-        )}
-        
-        {knifeSelected && !whetstoneSelected && (
-          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-            <div className="bg-black bg-opacity-60 text-white px-6 py-4 rounded-xl text-center animate-pulse">
-              <p className="text-lg font-bold">👆 Step 2: Tap to pick up whetstone</p>
+              <p className="text-lg font-bold">👆 Tap to pick up knife & whetstone</p>
             </div>
           </div>
         )}
