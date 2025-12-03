@@ -461,25 +461,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 material="opacity: 0.3; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.3"
               ></a-circle>
               
-              <!-- Stroke counter display - stylized -->
-              ${strokeCount > 0 ? `
-              <a-entity position="0 0.35 -1.5">
-                <a-text 
-                  value="${strokeCount}/10" 
-                  align="center" 
-                  position="0 0 0" 
-                  scale="0.5 0.5 0.5" 
-                  color="#A8D5BA"
-                  material="emissive: #A8D5BA; emissiveIntensity: 0.8"
-                ></a-text>
-                <a-text 
-                  value="STROKES" 
-                  align="center" 
-                  position="0 -0.08 0" 
-                  scale="0.2 0.2 0.2" 
-                  color="#FFFFFF"
-                ></a-text>
-              </a-entity>` : ''}
+              <!-- Stroke counter removed from A-Frame to prevent re-renders - shown in React overlay instead -->
 
               <!-- LEFT HAND holding WHETSTONE - angled 8 to 2 o'clock -->
               ${whetstoneSelected ? `
