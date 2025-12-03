@@ -518,13 +518,13 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0.05 -0.22 0.08" width="0.095" height="0.27" depth="0.085" color="#001a33" rotation="15 0 10" material="shader: flat; side: back"></a-box>
               </a-entity>` : ''}
 
-              <!-- RIGHT HAND holding KNIFE - on top of whetstone, slides up/down -->
+              <!-- RIGHT HAND holding KNIFE - on top of whetstone, continuous sharpening motion -->
               ${knifeSelected ? `
               <a-entity 
-                position="${isSharpeningStroke ? '0.1 -0.05 -0.48' : '0.1 -0.08 -0.62'}" 
+                position="0.1 -0.08 -0.62" 
                 rotation="-25 -15 35" 
                 scale="1.3 1.3 1.3"
-                animation="${isSharpeningStroke ? 'property: position; from: 0.1 -0.08 -0.62; to: 0.1 -0.05 -0.48; dur: 350; easing: easeInOutQuad' : ''}"
+                animation="property: position; from: 0.1 -0.08 -0.62; to: 0.1 -0.05 -0.48; dur: 600; easing: easeInOutSine; loop: true; dir: alternate"
               >
                 <!-- THE KNIFE you're holding -->
                 <!-- Handle -->
