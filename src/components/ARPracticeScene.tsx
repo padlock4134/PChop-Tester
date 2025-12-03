@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
+import { usePoseTracking } from '../hooks/usePoseTracking';
 
 interface AROverlay {
   type: 'line' | 'circle' | 'grid' | 'text' | 'arrow' | 'hand' | 'tool';
@@ -65,6 +66,81 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   const [isSharpeningStroke, setIsSharpeningStroke] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   
+  // Camera-based pose tracking
+  const { 
+    rightWristX, 
+    isTracking, 
+    poseDetected, 
+    error: poseError, 
+    startTracking, 
+    stopTracking 
+  } = usePoseTracking();
+  
+  // Knife position controlled by wrist (0 = back of stone, 1 = front of stone)
+  const [knifeProgress, setKnifeProgress] = useState(0.5);
+  const [inputMode, setInputMode] = useState<'camera' | 'touch' | 'mouse' | null>(null);
+  
+  // Track wrist movement for stroke counting
+  const lastWristDirection = useRef<'left' | 'right' | null>(null);
+  const wristCenterCrossCount = useRef(0);
+  
+  // Update knife position based on wrist tracking
+  useEffect(() => {
+    if (isTracking && poseDetected && knifeSelected) {
+      setInputMode('camera');
+      setKnifeProgress(rightWristX);
+      
+      // Count strokes: each time wrist crosses center going right = 1 stroke
+      const isRight = rightWristX > 0.5;
+      const wasLeft = lastWristDirection.current === 'left';
+      
+      if (isRight && wasLeft) {
+        // Completed a stroke (went left, now going right)
+        setStrokeCount(prev => {
+          const newCount = prev + 1;
+          if (newCount <= 10) {
+            playSound('swipe');
+            vibrate(30);
+          }
+          if (newCount >= 10 && prev < 10) {
+            setShowSuccess(true);
+            playSound('success');
+            vibrate([50, 50, 50]);
+            setTimeout(() => setShowSuccess(false), 2000);
+          }
+          return newCount;
+        });
+      }
+      
+      lastWristDirection.current = isRight ? 'right' : 'left';
+    }
+  }, [rightWristX, isTracking, poseDetected, knifeSelected]);
+  
+  // Auto-start tracking when knife is picked up
+  useEffect(() => {
+    if (knifeSelected && !isTracking) {
+      startTracking();
+    }
+  }, [knifeSelected, isTracking, startTracking]);
+  
+  // Cleanup tracking on unmount
+  useEffect(() => {
+    return () => {
+      stopTracking();
+    };
+  }, [stopTracking]);
+  
+  // Update knife position directly via DOM (avoids React re-renders)
+  useEffect(() => {
+    const knifeEntity = document.getElementById('knife-hand-entity');
+    if (knifeEntity) {
+      // Calculate position based on knifeProgress (0-1)
+      const y = -0.08 + (knifeProgress * 0.03);
+      const z = -0.62 + (knifeProgress * 0.14);
+      knifeEntity.setAttribute('position', `0.1 ${y} ${z}`);
+    }
+  }, [knifeProgress]);
+  
   // Audio feedback
   const playSound = (type: 'tap' | 'swipe' | 'success' | 'complete') => {
     try {
@@ -128,49 +204,71 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     }
   };
   
-  // Handle swipe start
+  // Track if currently dragging (touch/mouse fallback)
+  const [isDraggingKnife, setIsDraggingKnife] = useState(false);
+  const dragStartX = useRef(0);
+  const dragLastDirection = useRef<'left' | 'right' | null>(null);
+  
+  // Handle drag start (touch/mouse fallback when camera not tracking)
   const handleSwipeStart = (e: React.TouchEvent | React.MouseEvent) => {
     if (!knifeSelected) return;
+    
+    // Only use touch/mouse if camera is not actively tracking
+    if (isTracking && poseDetected) return;
+    
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
     setSwipeStartX(clientX);
-    setSwipeStartY(clientY);
+    setSwipeStartY('touches' in e ? e.touches[0].clientY : e.clientY);
+    dragStartX.current = clientX;
+    setIsDraggingKnife(true);
+    setInputMode('touches' in e ? 'touch' : 'mouse');
   };
   
-  // Handle swipe end
-  const handleSwipeEnd = (e: React.TouchEvent | React.MouseEvent) => {
-    if (!knifeSelected || swipeStartX === 0) return;
+  // Handle drag move (real-time position update)
+  const handleDragMove = (e: React.TouchEvent | React.MouseEvent) => {
+    if (!isDraggingKnife || !knifeSelected) return;
+    if (isTracking && poseDetected) return;
     
-    const clientX = 'changedTouches' in e ? e.changedTouches[0].clientX : e.clientX;
-    const clientY = 'changedTouches' in e ? e.changedTouches[0].clientY : e.clientY;
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const containerWidth = containerRef.current?.clientWidth || window.innerWidth;
     
-    const deltaX = clientX - swipeStartX;
-    const deltaY = clientY - swipeStartY;
-    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    // Map drag position to knife progress (0-1)
+    const progress = Math.max(0, Math.min(1, (clientX - dragStartX.current + containerWidth / 2) / containerWidth));
+    setKnifeProgress(progress);
     
-    // Valid swipe: horizontal, at least 50px
-    if (distance > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
+    // Track direction for stroke counting
+    const isRight = clientX > swipeStartX;
+    const wasLeft = dragLastDirection.current === 'left';
+    
+    if (isRight && wasLeft) {
+      // Completed a stroke
       const now = Date.now();
-      if (now - lastSwipeTime > 300) { // Debounce
-        setStrokeCount(prev => prev + 1);
+      if (now - lastSwipeTime > 300) {
+        setStrokeCount(prev => {
+          const newCount = prev + 1;
+          if (newCount <= 10) {
+            playSound('swipe');
+            vibrate(30);
+          }
+          if (newCount >= 10 && prev < 10) {
+            setShowSuccess(true);
+            playSound('success');
+            vibrate([50, 50, 50]);
+            setTimeout(() => setShowSuccess(false), 2000);
+          }
+          return newCount;
+        });
         setLastSwipeTime(now);
-        playSound('swipe');
-        vibrate(30);
-        
-        // Trigger sharpening stroke animation
-        setIsSharpeningStroke(true);
-        setTimeout(() => setIsSharpeningStroke(false), 400);
-        
-        // Show success after 10 strokes
-        if (strokeCount + 1 >= 10) {
-          setShowSuccess(true);
-          playSound('success');
-          vibrate([50, 50, 50]);
-          setTimeout(() => setShowSuccess(false), 2000);
-        }
       }
     }
     
+    dragLastDirection.current = isRight ? 'right' : 'left';
+    setSwipeStartX(clientX);
+  };
+  
+  // Handle drag end
+  const handleSwipeEnd = (e: React.TouchEvent | React.MouseEvent) => {
+    setIsDraggingKnife(false);
     setSwipeStartX(0);
     setSwipeStartY(0);
   };
@@ -342,9 +440,12 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         className="relative w-full h-full overflow-hidden"
         onClick={handleSceneTap}
         onTouchStart={handleSwipeStart}
+        onTouchMove={handleDragMove}
         onTouchEnd={handleSwipeEnd}
         onMouseDown={handleSwipeStart}
+        onMouseMove={handleDragMove}
         onMouseUp={handleSwipeEnd}
+        onMouseLeave={handleSwipeEnd}
       >
         {/* Interaction Overlay */}
         {!knifeSelected && (
@@ -358,7 +459,15 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         {knifeSelected && whetstoneSelected && strokeCount < 10 && (
           <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none">
             <div className="bg-black bg-opacity-80 text-white px-6 py-3 rounded-xl text-center shadow-lg">
-              <p className="text-sm font-bold">↔️ Swipe to sharpen</p>
+              {/* Camera tracking status */}
+              {isTracking ? (
+                <div className="flex items-center justify-center gap-2 mb-1">
+                  <span className={`w-2 h-2 rounded-full ${poseDetected ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'}`}></span>
+                  <p className="text-xs">{poseDetected ? '📹 Tracking your motion' : '👋 Move your right hand'}</p>
+                </div>
+              ) : (
+                <p className="text-sm font-bold">↔️ Move your arm to sharpen</p>
+              )}
               <p className="text-xs mt-1">Strokes: {strokeCount}/10</p>
               <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
                 <div 
@@ -500,13 +609,13 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0.05 -0.22 0.08" width="0.095" height="0.27" depth="0.085" color="#001a33" rotation="15 0 10" material="shader: flat; side: back"></a-box>
               </a-entity>` : ''}
 
-              <!-- RIGHT HAND holding KNIFE - on top of whetstone, continuous sharpening motion -->
+              <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
               ${knifeSelected ? `
               <a-entity 
+                id="knife-hand-entity"
                 position="0.1 -0.08 -0.62" 
                 rotation="-25 -15 35" 
                 scale="1.3 1.3 1.3"
-                animation="property: position; from: 0.1 -0.08 -0.62; to: 0.1 -0.05 -0.48; dur: 600; easing: easeInOutSine; loop: true; dir: alternate"
               >
                 <!-- THE KNIFE you're holding -->
                 <!-- Handle -->
