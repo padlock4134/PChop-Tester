@@ -25,6 +25,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const [arScene, setArScene] = useState<any>(null);
   const [guideOpen, setGuideOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const stopTrackingRef = useRef<(() => void) | null>(null);
 
   // Set video source when stream changes
   useEffect(() => {
@@ -114,7 +115,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   };
 
   const endPractice = () => {
-    // Stop camera immediately
+    // Stop pose tracking camera (for virtual practice)
+    if (stopTrackingRef.current) {
+      stopTrackingRef.current();
+    }
+    // Stop camera immediately (for real practice)
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
     }
@@ -130,6 +135,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   };
 
   const cleanupPractice = () => {
+    // Stop pose tracking camera (for virtual practice)
+    if (stopTrackingRef.current) {
+      stopTrackingRef.current();
+    }
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
       setStream(null);
@@ -278,6 +287,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 }}
                 guideOpen={guideOpen}
                 setGuideOpen={setGuideOpen}
+                onStopTrackingRef={stopTrackingRef}
               />
             ) : (
               // Not practicing - show placeholder

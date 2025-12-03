@@ -38,9 +38,10 @@ interface ARPracticeSceneProps {
   onComplete: () => void;
   guideOpen?: boolean;
   setGuideOpen?: (open: boolean) => void;
+  onStopTrackingRef?: React.MutableRefObject<(() => void) | null>;
 }
 
-const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onComplete, guideOpen: externalGuideOpen, setGuideOpen: externalSetGuideOpen }) => {
+const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onComplete, guideOpen: externalGuideOpen, setGuideOpen: externalSetGuideOpen, onStopTrackingRef }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isARReady, setIsARReady] = useState(false);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
@@ -129,6 +130,18 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
       stopTracking();
     };
   }, [stopTracking]);
+  
+  // Expose stopTracking to parent via ref
+  useEffect(() => {
+    if (onStopTrackingRef) {
+      onStopTrackingRef.current = stopTracking;
+    }
+    return () => {
+      if (onStopTrackingRef) {
+        onStopTrackingRef.current = null;
+      }
+    };
+  }, [onStopTrackingRef, stopTracking]);
   
   // Update knife position directly via DOM (avoids React re-renders)
   useEffect(() => {
