@@ -593,15 +593,13 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.005" 
                   depth="0.062"
                   color="#A8D5BA"
-                  material="opacity: ${knifeSelected ? '0.6' : '0.2'}; transparent: true; emissive: #A8D5BA; emissiveIntensity: ${isSharpeningStroke ? '1.0' : '0.8'}"
-                  animation="${knifeSelected && !isSharpeningStroke ? 'property: material.opacity; to: 0.3; dur: 800; easing: easeInOutSine; loop: true; dir: alternate' : ''}"
+                  material="opacity: ${knifeSelected ? '0.6' : '0.2'}; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.9"
+                  animation="property: material.opacity; to: 0.3; dur: 800; easing: easeInOutSine; loop: true; dir: alternate"
                 ></a-box>
-                <!-- Sparks on stroke -->
-                ${isSharpeningStroke ? `
-                <a-sphere position="0.2 -0.02 0.03" radius="0.008" color="#FFD700" material="emissive: #FFD700; emissiveIntensity: 1"></a-sphere>
-                <a-sphere position="0.25 -0.015 -0.02" radius="0.006" color="#FFA500" material="emissive: #FFA500; emissiveIntensity: 1"></a-sphere>
-                <a-sphere position="0.15 -0.02 0.01" radius="0.007" color="#FFD700" material="emissive: #FFD700; emissiveIntensity: 1"></a-sphere>
-                ` : ''}
+                <!-- Sparks - always present with subtle glow -->
+                <a-sphere position="0.2 -0.02 0.03" radius="0.006" color="#FFD700" material="emissive: #FFD700; emissiveIntensity: 0.5" animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 400; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0.25 -0.015 -0.02" radius="0.004" color="#FFA500" material="emissive: #FFA500; emissiveIntensity: 0.4" animation="property: scale; from: 1 1 1; to: 1.5 1.5 1.5; dur: 500; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0.15 -0.02 0.01" radius="0.005" color="#FFD700" material="emissive: #FFD700; emissiveIntensity: 0.5" animation="property: scale; from: 1 1 1; to: 1.4 1.4 1.4; dur: 450; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
                 <!-- Handle - Lobster Red -->
                 <a-box 
                   position="-0.12 0 0" 
