@@ -672,7 +672,8 @@ const MyCookBook = () => {
       
       {/* Search and Filters */}
       <div className="mb-6">
-        <div className="flex gap-3 mb-4 items-center">
+        {/* Top Row: Category and Search - Mobile Stacked, Desktop Side-by-side */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-3">
           {/* Category Pick List */}
           <select
             value={activeCategory}
@@ -680,7 +681,7 @@ const MyCookBook = () => {
               setActiveCategory(e.target.value);
               setCurrentIndex(0); // Reset to first recipe on category change
             }}
-            className="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam bg-white text-sm min-w-[120px]"
+            className="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam bg-white text-sm w-full sm:w-auto sm:min-w-[120px]"
           >
             {categories.map(category => (
               <option key={category} value={category}>
@@ -694,7 +695,7 @@ const MyCookBook = () => {
             <input
               type="text"
               placeholder="Search recipes..."
-              className="pl-8 pr-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam w-full"
+              className="pl-8 pr-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam w-full text-sm"
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
@@ -703,24 +704,26 @@ const MyCookBook = () => {
             />
             <div className="absolute left-2 top-2.5 text-gray-400">🔍</div>
           </div>
-          
-          {/* Navigation Buttons */}
-          <div className="flex gap-2">
-            <button
-              onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
-              disabled={currentIndex === 0}
-              className={`px-3 py-2 rounded border border-black text-sm font-bold transition-colors ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
-            >
-              Previous
-            </button>
-            <button
-              onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
-              disabled={currentIndex === filteredRecipes.length - 1}
-              className={`px-3 py-2 rounded border border-black text-sm ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
-            >
-              Next
-            </button>
-          </div>
+        </div>
+        
+        {/* Bottom Row: Navigation Buttons */}
+        <div className="flex gap-2 justify-center sm:justify-start">
+          <button
+            onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+            disabled={currentIndex === 0}
+            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
+          >
+            <span className="hidden sm:inline">Previous</span>
+            <span className="sm:hidden">← Prev</span>
+          </button>
+          <button
+            onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
+            disabled={currentIndex === filteredRecipes.length - 1}
+            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+          >
+            <span className="hidden sm:inline">Next</span>
+            <span className="sm:hidden">Next →</span>
+          </button>
         </div>
       </div>
       {/* Recipe Count */}
