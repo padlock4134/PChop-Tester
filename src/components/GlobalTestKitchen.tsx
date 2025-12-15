@@ -45,7 +45,11 @@ interface TimelinePost {
   tags?: string[];
 }
 
-const GlobalTestKitchen: React.FC = () => {
+interface GlobalTestKitchenProps {
+  showcaseRecipe?: any;
+}
+
+const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) => {
   const { user } = useSupabase();
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'host'>('live');
 
@@ -67,6 +71,13 @@ const GlobalTestKitchen: React.FC = () => {
   };
   const [goLiveModalOpen, setGoLiveModalOpen] = useState(false);
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
+  
+  // Recipe Assistant state
+  const [recipeAssistantOpen, setRecipeAssistantOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [stepTimer, setStepTimer] = useState(0);
+  const [timerActive, setTimerActive] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [liveSessionModalOpen, setLiveSessionModalOpen] = useState(false);
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
   const [saveConfirmModalOpen, setSaveConfirmModalOpen] = useState(false);
@@ -1338,6 +1349,90 @@ END:VCALENDAR`;
                   </button>
                 </div>
               </div>
+              
+              {/* Recipe Assistant - Shows under posting line when recipe is showcased */}
+              {showcaseRecipe && (
+                <div className="mb-4 border-2 border-amber-400 rounded-lg bg-amber-50 overflow-hidden">
+                  {/* Header - Always visible */}
+                  <button
+                    onClick={() => setRecipeAssistantOpen(!recipeAssistantOpen)}
+                    className="w-full p-3 flex items-center justify-between hover:bg-amber-100 transition-colors"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg">📋</span>
+                      <div className="text-left">
+                        <div className="font-bold text-sm text-amber-900">{showcaseRecipe.title}</div>
+                        <div className="text-xs text-amber-700">Recipe Assistant</div>
+                      </div>
+                    </div>
+                    <span className="text-amber-700 text-sm">{recipeAssistantOpen ? '▼' : '▶'}</span>
+                  </button>
+                  
+                  {/* Expandable Content */}
+                  {recipeAssistantOpen && showcaseRecipe.instructions && (
+                    <div className="p-3 border-t border-amber-300 bg-white">
+                      {/* Step Display */}
+                      <div className="mb-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs font-semibold text-gray-600">
+                            Step {currentStep + 1} of {showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim()).length}
+                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-500">⏱️ {Math.floor(stepTimer / 60)}:{(stepTimer % 60).toString().padStart(2, '0')}</span>
+                            <button
+                              onClick={() => {
+                                if (timerActive) {
+                                  setTimerActive(false);
+                                  if (timerRef.current) clearInterval(timerRef.current);
+                                } else {
+                                  setTimerActive(true);
+                                  timerRef.current = setInterval(() => {
+                                    setStepTimer(prev => prev + 1);
+                                  }, 1000);
+                                }
+                              }}
+                              className="text-xs px-2 py-1 bg-amber-600 text-white rounded hover:bg-amber-700"
+                            >
+                              {timerActive ? '⏸' : '▶'}
+                            </button>
+                          </div>
+                        </div>
+                        
+                        <div className="bg-gray-50 p-3 rounded border border-gray-200">
+                          <p className="text-sm text-gray-800 leading-relaxed">
+                            {showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim())[currentStep] || 'No step available'}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* Navigation Controls */}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            setCurrentStep(Math.max(0, currentStep - 1));
+                            setStepTimer(0);
+                          }}
+                          disabled={currentStep === 0}
+                          className="flex-1 px-3 py-2 bg-gray-200 text-gray-700 rounded text-xs font-medium hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          ◀ Previous
+                        </button>
+                        <button
+                          onClick={() => {
+                            const steps = showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim());
+                            setCurrentStep(Math.min(steps.length - 1, currentStep + 1));
+                            setStepTimer(0);
+                          }}
+                          disabled={currentStep >= showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim()).length - 1}
+                          className="flex-1 px-3 py-2 bg-amber-600 text-white rounded text-xs font-medium hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          Next ▶
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
               
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {posts.slice(0, 5).map((post) => (

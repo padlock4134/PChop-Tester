@@ -371,12 +371,12 @@ const ChefsCorner = () => {
         <div className={`lg:hidden ${
           activeMobileTab === 'kitchen' ? 'block' : 'hidden'
         }`}>
-          <GlobalTestKitchen />
+          <GlobalTestKitchen showcaseRecipe={showcaseRecipe} />
         </div>
         
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
-          <GlobalTestKitchen />
+          <GlobalTestKitchen showcaseRecipe={showcaseRecipe} />
           <ChefFreddieWidget />
         </div>
       </div>
