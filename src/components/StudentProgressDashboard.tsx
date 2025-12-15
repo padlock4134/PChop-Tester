@@ -326,11 +326,10 @@ const StudentProgressDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Separation line */}
-        <hr className="border-t-2 border-maineBlue mb-6" />
+        </div>
 
         {/* Live Tab Content */}
-        <div className={activeMobileTab === 'live' ? 'block' : 'hidden lg:block'}>
+        <div className={`${activeMobileTab === 'live' ? 'block' : 'hidden'} lg:block`}>
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
@@ -382,52 +381,50 @@ const StudentProgressDashboard: React.FC = () => {
         </div>
 
         {/* Quick Actions Tab Content */}
-        <div className={activeMobileTab === 'actions' ? 'block' : 'hidden lg:block'}>
+        <div className={`${activeMobileTab === 'actions' ? 'block' : 'hidden'} lg:block`}>
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
           {/* Progress Cards Grid */}
           <div className="space-y-6">
-        <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <ProgressCard
-          emoji="📚"
-          title="Curriculum Progress"
-          description="Track lessons completed and time spent learning"
-          buttonText="View Progress"
-          bgColor="bg-blue-50"
-          textColor="text-blue-800"
-          borderColor="border-blue-400"
-          onClick={() => setCurriculumModalOpen(true)}
-        />
+            <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <ProgressCard
+                  emoji="📚"
+                  title="Curriculum Progress"
+                  description="Track lessons completed and time spent learning"
+                  buttonText="View Progress"
+                  bgColor="bg-blue-50"
+                  textColor="text-blue-800"
+                  borderColor="border-blue-400"
+                  onClick={() => setCurriculumModalOpen(true)}
+                />
 
-        <ProgressCard
-          emoji="⭐"
-          title="Skill Development"
-          description="Monitor your skill level and recipe mastery"
-          buttonText="View Development"
-          bgColor="bg-green-50"
-          textColor="text-green-800"
-          borderColor="border-green-400"
-          onClick={() => setSkillsModalOpen(true)}
-        />
+                <ProgressCard
+                  emoji="⭐"
+                  title="Skill Development"
+                  description="Monitor your skill level and recipe mastery"
+                  buttonText="View Development"
+                  bgColor="bg-green-50"
+                  textColor="text-green-800"
+                  borderColor="border-green-400"
+                  onClick={() => setSkillsModalOpen(true)}
+                />
 
-        <ProgressCard
-          emoji="🏆"
-          title="Achievements"
-          description="View badges and accomplishments"
-          buttonText="View Milestones"
-          bgColor="bg-purple-50"
-          textColor="text-purple-800"
-          borderColor="border-purple-400"
-          onClick={() => setAchievementsModalOpen(true)}
-        />
-          </div>
+                <ProgressCard
+                  emoji="🏆"
+                  title="Achievements"
+                  description="View badges and accomplishments"
+                  buttonText="View Milestones"
+                  bgColor="bg-purple-50"
+                  textColor="text-purple-800"
+                  borderColor="border-purple-400"
+                  onClick={() => setAchievementsModalOpen(true)}
+                />
+              </div>
+            </div>
           </div>
         </div>
-        </div>
-      </div>
-
       </div>
 
       {/* Curriculum Progress Modal */}
