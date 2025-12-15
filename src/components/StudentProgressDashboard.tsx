@@ -282,7 +282,7 @@ const StudentProgressDashboard: React.FC = () => {
         <div className={activeMobileTab === 'home' ? 'block' : 'hidden lg:block'}>
           {/* Dashboard header - moved inside the module */}
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-retro text-maineBlue mb-2">Welcome to your Student Dashboard</h1>
+            <h1 className="text-4xl font-retro text-maineBlue mb-2">Student Dashboard</h1>
             <p className="text-gray-600 italic">Click any module below to begin your culinary journey!</p>
           </div>
           
