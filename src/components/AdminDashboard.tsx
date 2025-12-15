@@ -1044,7 +1044,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="mb-4 p-3">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <button
-              onClick={() => setActiveTab('overview')}
+              onClick={() => {
+                setActiveTab('overview');
+                setActiveMobileTab('actions');
+              }}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'overview' 
                   ? 'border-seafoam bg-teal-50 scale-105 ring-4 ring-maineBlue' 
@@ -1056,7 +1059,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </button>
             
             <button
-              onClick={() => setActiveTab('users')}
+              onClick={() => {
+                setActiveTab('users');
+                setActiveMobileTab('actions');
+              }}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'users' 
                   ? 'border-blue-400 bg-blue-50 scale-105 ring-4 ring-maineBlue' 
@@ -1068,7 +1074,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </button>
             
             <button
-              onClick={() => setActiveTab('content')}
+              onClick={() => {
+                setActiveTab('content');
+                setActiveMobileTab('actions');
+              }}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'content' 
                   ? 'border-red-400 bg-red-50 scale-105 ring-4 ring-maineBlue' 
@@ -1080,7 +1089,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </button>
             
             <button
-              onClick={() => setActiveTab('system')}
+              onClick={() => {
+                setActiveTab('system');
+                setActiveMobileTab('actions');
+              }}
               className={`flex flex-col items-center p-6 rounded-lg border-4 ${
                 activeTab === 'system' 
                   ? 'border-yellow-300 bg-yellow-50 scale-105 ring-4 ring-maineBlue' 
