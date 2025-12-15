@@ -140,6 +140,7 @@ const CulinarySchool = () => {
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
+  const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
 
   // Mock syllabus data
   const mockSyllabusData = {
@@ -332,8 +333,34 @@ const CulinarySchool = () => {
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
+      {/* Mobile Tab Bar - Only visible on mobile */}
+      <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
+        <button
+          onClick={() => setActiveMobileTab('school')}
+          className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
+            activeMobileTab === 'school'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          🍳 Culinary School
+        </button>
+        <button
+          onClick={() => setActiveMobileTab('syllabus')}
+          className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
+            activeMobileTab === 'syllabus'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          📚 Syllabus
+        </button>
+      </div>
+      
       <div className="flex flex-col lg:flex-row gap-6">
-        <div className="lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue">
+        <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
+          activeMobileTab === 'school' ? 'block' : 'hidden lg:block'
+        }`}>
           {/* Culinary School header - moved back inside the module */}
           <div className="flex items-center justify-center mb-4">
             <span className="text-5xl mr-2">🍳</span>
@@ -464,7 +491,9 @@ const CulinarySchool = () => {
       </div>
         </div>
         
-        <div className="lg:w-1/3">
+        <div className={`lg:w-1/3 ${
+          activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
+        }`}>
           <SyllabusCard 
             title={mockSyllabusData.title}
             courses={mockSyllabusData.courses}
