@@ -350,12 +350,115 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
             onClick={() => setInstructionsOpen(!instructionsOpen)}
-            className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-3 text-sm font-bold border-t-4 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2 sticky bottom-0 z-20"
+            className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-3 text-sm font-bold border-t-4 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
             <span>{instructionsOpen ? 'Hide Instructions' : 'Show Instructions'}</span>
             <span className="text-xs">{instructionsOpen ? '▼' : '▲'}</span>
           </button>
+          
+          {/* Mobile Instructions Panel - Appears below toggle button */}
+          {instructionsOpen && (
+            <div className="lg:hidden border-t-4 border-amber-300 bg-white max-h-[40vh] overflow-y-auto">
+              {/* Instructions Header */}
+              <div className="p-3 bg-amber-100 text-amber-800 font-retro text-center border-b-2 border-amber-300">
+                <h3 className="text-base font-bold">
+                  📋 Practice Instructions
+                </h3>
+              </div>
+              
+              {/* Instructions Content */}
+              <div className="p-3">
+                {/* Lesson Selection Dropdown */}
+                <div className="mb-3">
+                  <label className="block text-xs font-semibold text-amber-800 mb-1">
+                    Select Lesson to Practice:
+                  </label>
+                  <select
+                    value={selectedLesson}
+                    onChange={(e) => setSelectedLesson(e.target.value)}
+                    className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  >
+                    <option value="">Choose a lesson...</option>
+                    <optgroup label="Term 1: Culinary Foundations">
+                      <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
+                      <option value="lesson-1-2">Food Handling and Storage</option>
+                      <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
+                      <option value="lesson-1-4">Basic Cooking Terminology</option>
+                      <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                    </optgroup>
+                    <optgroup label="Term 1: Knife Skills">
+                      <option value="lesson-2-1">Knife Safety and Maintenance</option>
+                      <option value="lesson-2-2">Basic Knife Cuts</option>
+                      <option value="lesson-2-3">Vegetable Fabrication</option>
+                      <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                    </optgroup>
+                    <optgroup label="Term 2: Breakfast & Garde Manger">
+                      <option value="lesson-3-1">Egg Cookery</option>
+                      <option value="lesson-3-2">Breakfast Preparations</option>
+                      <option value="lesson-3-3">Cold Food Preparation</option>
+                      <option value="lesson-3-4">Salads and Dressings</option>
+                    </optgroup>
+                    <optgroup label="Term 2: Baking & Pastry">
+                      <option value="lesson-4-1">Basic Dough and Batters</option>
+                      <option value="lesson-4-2">Quick Breads and Muffins</option>
+                      <option value="lesson-4-3">Yeast Breads</option>
+                      <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                    </optgroup>
+                  </select>
+                </div>
+                
+                {/* Guide Toggle Button */}
+                <button
+                  onClick={() => setGuideOpen(!guideOpen)}
+                  className="w-full mb-3 bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow border-2 border-amber-600 px-3 py-1.5 text-sm cursor-pointer transition-all flex items-center justify-center gap-2"
+                >
+                  <span className="text-base">📋</span>
+                  <span className="text-xs font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
+                </button>
+                
+                {/* Practice Steps */}
+                <div className="space-y-2">
+                  <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 1: Setup</div>
+                    <p className="text-xs text-gray-700">Position your cutting board and gather ingredients</p>
+                  </div>
+                  
+                  <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 2: Knife Grip</div>
+                    <p className="text-xs text-gray-700">Hold knife with proper pinch grip technique</p>
+                  </div>
+                  
+                  <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 3: First Cuts</div>
+                    <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
+                  </div>
+
+                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
+                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Step 4: Validation</div>
+                    <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
+                  </div>
+                </div>
+                
+                {/* AI Feedback */}
+                <div className="mt-3 pt-2 border-t border-gray-200">
+                  <div className="bg-blue-50 border border-blue-200 rounded p-2">
+                    <div className="flex items-start space-x-2">
+                      <span className="text-base">🤖</span>
+                      <div className="flex-1">
+                        <div className="font-semibold text-xs text-blue-900 mb-0.5">AI Feedback</div>
+                        <p className="text-xs text-blue-800">
+                          {isPracticing 
+                            ? "Great start! Keep your knife angle consistent..."
+                            : "Start practicing to receive real-time AI guidance"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           
           {/* Practice Notice */}
           <div className="hidden lg:block text-center text-xs text-gray-600 mt-4">
@@ -364,8 +467,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           </div>
         </div>
         
-        {/* Right Side - Instructions/Feedback */}
-        <div className={`w-full lg:w-80 border-t-4 lg:border-t-0 lg:border-l-4 border-amber-300 lg:border-gray-200 flex flex-col overflow-hidden transition-all max-h-[50vh] lg:max-h-full ${instructionsOpen ? 'flex' : 'hidden lg:flex'}`}>
+        {/* Right Side - Instructions/Feedback - Desktop Only */}
+        <div className="hidden lg:flex lg:w-80 border-l-4 border-gray-200 flex-col overflow-hidden">
           {/* Colored Header for Right Side */}
           <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h3 className="text-lg font-bold">
