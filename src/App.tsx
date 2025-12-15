@@ -23,7 +23,6 @@ import SupabaseProvider, { useSupabase } from './components/SupabaseProvider';
 import type { WristbandSessionMetadata } from './types/session-types';
 import { setSupabaseJwt } from './api/supabaseClient';
 import { useDeviceDetect, getResponsiveClasses } from './utils/responsiveUtils';
-import SwoopyArrow from './components/SwoopyArrow';
 import InactivityWarningModal from './components/InactivityWarningModal';
 import { useAutoLogout } from './hooks/useAutoLogout';
 
@@ -126,7 +125,6 @@ const AppRoutes = () => {
     <div className="min-h-screen bg-sand">
       <NavBar />
       <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
-        <SwoopyArrow />
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-kitchen" element={<MyKitchen />} />
