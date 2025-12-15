@@ -122,6 +122,7 @@ const ChefsCorner = () => {
   const [buildMenuModalOpen, setBuildMenuModalOpen] = useState(false);
   const [selectedMenuRecipes, setSelectedMenuRecipes] = useState<RecipeCard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeMobileTab, setActiveMobileTab] = useState<'corner' | 'kitchen'>('corner');
 
   useEffect(() => {
     updateContext({ page: 'ChefsCorner' });
@@ -214,9 +215,35 @@ const ChefsCorner = () => {
       />
       
       <div className="max-w-6xl mx-auto mt-8">
+        {/* Mobile Tab Bar - Only visible on mobile */}
+        <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
+          <button
+            onClick={() => setActiveMobileTab('corner')}
+            className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
+              activeMobileTab === 'corner'
+                ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            🦐 Chef's Corner
+          </button>
+          <button
+            onClick={() => setActiveMobileTab('kitchen')}
+            className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
+              activeMobileTab === 'kitchen'
+                ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            🧪 Global Test Kitchen
+          </button>
+        </div>
+        
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Main Content */}
-          <div className="lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue">
+          {/* Main Content - Chef's Corner Tab */}
+          <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
+            activeMobileTab === 'corner' ? 'block' : 'hidden lg:block'
+          }`}>
             {/* Chef's Corner header - moved back inside the module */}
             <div className="flex items-center justify-center mb-4">
               <span className="text-5xl mr-2">🦐</span>
@@ -329,10 +356,6 @@ const ChefsCorner = () => {
                 "{currentQuote.quote}" — {currentQuote.chef}
               </p>
 
-              {/* Global Test Kitchen - Mobile Only */}
-              <div className="lg:hidden mb-6">
-                <GlobalTestKitchen />
-              </div>
 
             </div>
           {/* Desktop Layout - Markets Directory */}
@@ -344,6 +367,13 @@ const ChefsCorner = () => {
 
         </div>
 
+        {/* Global Test Kitchen Tab - Mobile Only */}
+        <div className={`lg:hidden ${
+          activeMobileTab === 'kitchen' ? 'block' : 'hidden'
+        }`}>
+          <GlobalTestKitchen />
+        </div>
+        
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
           <GlobalTestKitchen />
