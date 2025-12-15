@@ -333,51 +333,87 @@ const StudentProgressDashboard: React.FC = () => {
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
-          {/* Live Session Notification Banner */}
-          {activeLiveSessions.length > 0 && (
-            <div 
-              className="bg-red-50 border-4 border-red-400 rounded-lg p-3 mb-4 cursor-pointer"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-              onClick={() => joinLiveSession(activeLiveSessions[currentSessionIndex])}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center mr-3">
-                  <div className="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></div>
-                  <VideoCameraIcon className="h-5 w-5 text-red-600 mr-2" />
-                  <span className="font-bold text-red-700 text-sm">LIVE NOW</span>
+          {/* Mobile: Vertical Stacked Live Sessions List */}
+          <div className="lg:hidden">
+            {activeLiveSessions.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  <span className="font-bold text-red-700 text-sm">LIVE NOW ({activeLiveSessions.length} Sessions)</span>
                 </div>
-                <div className="flex-1 text-center">
-                  <div className="text-sm text-red-800 transition-all duration-500">
-                    <span>
-                      <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> is cooking{' '}
-                      <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} watching
-                    </span>
+                
+                {activeLiveSessions.slice(0, 4).map((session, index) => (
+                  <div
+                    key={session.id}
+                    onClick={() => joinLiveSession(session)}
+                    className="bg-red-50 border-4 border-red-400 rounded-lg p-3 cursor-pointer hover:bg-red-100 transition-all"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3 flex-1">
+                        <span className="text-3xl">{session.thumbnail}</span>
+                        <div className="flex-1">
+                          <div className="font-bold text-red-900 text-sm">{session.hostName}</div>
+                          <div className="text-red-800 text-xs">{session.dishName}</div>
+                          <div className="text-red-600 text-xs mt-1">{session.viewers} watching</div>
+                        </div>
+                      </div>
+                      <div className="bg-red-500 text-white text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">
+                        🔴 Join
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">{activeLiveSessions[currentSessionIndex].thumbnail}</span>
-                  <div className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-medium">
-                    🔴 Join Live
-                  </div>
-                </div>
+                ))}
               </div>
-          
-          {/* Progress dots */}
-          {activeLiveSessions.length > 1 && (
-            <div className="flex justify-center mt-3 gap-1">
-              {activeLiveSessions.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentSessionIndex ? 'bg-red-500' : 'bg-red-200'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
+            )}
           </div>
-        )}
+
+          {/* Desktop: Horizontal Carousel */}
+          <div className="hidden lg:block">
+            {activeLiveSessions.length > 0 && (
+              <div 
+                className="bg-red-50 border-4 border-red-400 rounded-lg p-3 mb-4 cursor-pointer"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+                onClick={() => joinLiveSession(activeLiveSessions[currentSessionIndex])}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center mr-3">
+                    <div className="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></div>
+                    <VideoCameraIcon className="h-5 w-5 text-red-600 mr-2" />
+                    <span className="font-bold text-red-700 text-sm">LIVE NOW</span>
+                  </div>
+                  <div className="flex-1 text-center">
+                    <div className="text-sm text-red-800 transition-all duration-500">
+                      <span>
+                        <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> is cooking{' '}
+                        <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} watching
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">{activeLiveSessions[currentSessionIndex].thumbnail}</span>
+                    <div className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-medium">
+                      🔴 Join Live
+                    </div>
+                  </div>
+                </div>
+            
+                {/* Progress dots */}
+                {activeLiveSessions.length > 1 && (
+                  <div className="flex justify-center mt-3 gap-1">
+                    {activeLiveSessions.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          index === currentSessionIndex ? 'bg-red-500' : 'bg-red-200'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Quick Actions Tab Content */}
