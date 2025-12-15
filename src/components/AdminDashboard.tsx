@@ -1099,60 +1099,104 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
-          {/* Upcoming Events Banner - Auto-scrolling like Live Now */}
-          {upcomingEvents.length > 0 && (
-          <div 
-            className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 mb-4 cursor-pointer"
-            onMouseEnter={() => setIsEventsPaused(true)}
-            onMouseLeave={() => setIsEventsPaused(false)}
-            onClick={() => {
-              const event = upcomingEvents[currentEventIndex];
-              if (event.type === 'alumni') {
-                setSelectedEventId(event.id);
-                setShowViewEventModal(true);
-              } else if (event.type === 'career') {
-                setSelectedCareerEventId(event.id);
-                setShowViewCareerEventModal(true);
-              }
-            }}
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center mr-3">
-                <div className="w-3 h-3 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
-                <span className="font-bold text-blue-700 text-sm">📅 UPCOMING</span>
-              </div>
-              <div className="flex-1 text-center">
-                <div className="text-sm text-blue-800 transition-all duration-500">
-                  <span>
-                    <strong>{upcomingEvents[currentEventIndex].name}</strong> •{' '}
-                    {upcomingEvents[currentEventIndex].date} at {upcomingEvents[currentEventIndex].time} •{' '}
-                    {upcomingEvents[currentEventIndex].registered} registered
-                  </span>
+          {/* Mobile: Vertical Stacked Events List */}
+          <div className="lg:hidden">
+            {upcomingEvents.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                  <span className="font-bold text-blue-700 text-sm">📅 UPCOMING EVENTS ({upcomingEvents.length})</span>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">{upcomingEvents[currentEventIndex].emoji}</span>
-                <div className={`bg-${upcomingEvents[currentEventIndex].color}-500 text-white text-xs px-4 py-2 rounded-full font-medium`}>
-                  View Details
-                </div>
-              </div>
-            </div>
-            
-            {/* Progress dots */}
-            {upcomingEvents.length > 1 && (
-              <div className="flex justify-center mt-3 gap-1">
-                {upcomingEvents.map((_, index) => (
+                
+                {upcomingEvents.map((event, index) => (
                   <div
-                    key={index}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === currentEventIndex ? 'bg-blue-500' : 'bg-blue-200'
-                    }`}
-                  />
+                    key={event.id}
+                    onClick={() => {
+                      if (event.type === 'alumni') {
+                        setSelectedEventId(event.id);
+                        setShowViewEventModal(true);
+                      } else if (event.type === 'career') {
+                        setSelectedCareerEventId(event.id);
+                        setShowViewCareerEventModal(true);
+                      }
+                    }}
+                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 cursor-pointer hover:bg-blue-100 transition-all"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3 flex-1">
+                        <span className="text-3xl">{event.emoji}</span>
+                        <div className="flex-1">
+                          <div className="font-bold text-blue-900 text-sm">{event.name}</div>
+                          <div className="text-blue-800 text-xs">{event.date} at {event.time}</div>
+                          <div className="text-blue-600 text-xs mt-1">{event.registered} registered</div>
+                        </div>
+                      </div>
+                      <div className="bg-blue-500 text-white text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">
+                        View Details
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
           </div>
-        )}
+
+          {/* Desktop: Horizontal Carousel */}
+          <div className="hidden lg:block">
+            {upcomingEvents.length > 0 && (
+              <div 
+                className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 mb-4 cursor-pointer"
+                onMouseEnter={() => setIsEventsPaused(true)}
+                onMouseLeave={() => setIsEventsPaused(false)}
+                onClick={() => {
+                  const event = upcomingEvents[currentEventIndex];
+                  if (event.type === 'alumni') {
+                    setSelectedEventId(event.id);
+                    setShowViewEventModal(true);
+                  } else if (event.type === 'career') {
+                    setSelectedCareerEventId(event.id);
+                    setShowViewCareerEventModal(true);
+                  }
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center mr-3">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
+                    <span className="font-bold text-blue-700 text-sm">📅 UPCOMING</span>
+                  </div>
+                  <div className="flex-1 text-center">
+                    <div className="text-sm text-blue-800 transition-all duration-500">
+                      <span>
+                        <strong>{upcomingEvents[currentEventIndex].name}</strong> •{' '}
+                        {upcomingEvents[currentEventIndex].date} at {upcomingEvents[currentEventIndex].time} •{' '}
+                        {upcomingEvents[currentEventIndex].registered} registered
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">{upcomingEvents[currentEventIndex].emoji}</span>
+                    <div className={`bg-${upcomingEvents[currentEventIndex].color}-500 text-white text-xs px-4 py-2 rounded-full font-medium`}>
+                      View Details
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Progress dots */}
+                {upcomingEvents.length > 1 && (
+                  <div className="flex justify-center mt-3 gap-1">
+                    {upcomingEvents.map((_, index) => (
+                      <div
+                        key={index}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                          index === currentEventIndex ? 'bg-blue-500' : 'bg-blue-200'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Quick Actions Tab Content */}
