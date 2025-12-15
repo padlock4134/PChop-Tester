@@ -42,6 +42,9 @@ interface AdminDashboardProps {
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState('overview');
+  
+  // Mobile tab state - mimicking Student Dashboard
+  const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'events' | 'actions'>('home');
   const [stats, setStats] = useState<AdminStats>({
     totalUsers: 0,
     activeUsers: 0,
@@ -990,19 +993,55 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
   return (
     <div className="mb-8 mx-auto">
+      {/* Mobile Tab Bar - Only visible on mobile */}
+      <div className="lg:hidden mb-4 flex gap-1 border-b-2 border-maineBlue max-w-6xl mx-auto">
+        <button
+          onClick={() => setActiveMobileTab('home')}
+          className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
+            activeMobileTab === 'home'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          🏫 Home
+        </button>
+        <button
+          onClick={() => setActiveMobileTab('events')}
+          className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
+            activeMobileTab === 'events'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          📅 Events
+        </button>
+        <button
+          onClick={() => setActiveMobileTab('actions')}
+          className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
+            activeMobileTab === 'actions'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          ⚡ Quick Actions
+        </button>
+      </div>
+      
       {/* Main Admin Dashboard - matching student dashboard style */}
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
-        {/* Dashboard header - matching student dashboard */}
-        <div className="text-center mb-6">
-          <h1 className="text-4xl font-retro text-maineBlue mb-2">School Admin Dashboard</h1>
-          <p className="text-gray-600 italic">Manage your school's curriculum delivery and student engagement!</p>
-        </div>
-        
-        {/* Separation line */}
-        <hr className="border-t-2 border-maineBlue mb-6" />
-        
-        {/* Admin Module Navigation - matching student dashboard grid */}
-        <div className="mb-4 p-3">
+        {/* Home Tab Content */}
+        <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
+          {/* Dashboard header - matching student dashboard */}
+          <div className="text-center mb-6">
+            <h1 className="text-4xl font-retro text-maineBlue mb-2">School Admin Dashboard</h1>
+            <p className="text-gray-600 italic">Manage your school's curriculum delivery and student engagement!</p>
+          </div>
+          
+          {/* Separation line */}
+          <hr className="border-t-2 border-maineBlue mb-6" />
+          
+          {/* Admin Module Navigation - matching student dashboard grid */}
+          <div className="mb-4 p-3">
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <button
               onClick={() => setActiveTab('overview')}
@@ -1052,13 +1091,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <h3 className="text-sm font-bold font-retro">School Settings</h3>
             </button>
           </div>
+          </div>
         </div>
 
-        {/* Second separation line between nav and content */}
-        <hr className="border-t-2 border-maineBlue my-6" />
+        {/* Events Tab Content */}
+        <div className={`${activeMobileTab === 'events' ? 'block' : 'hidden'} lg:block`}>
+          {/* Separation line */}
+          <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
-        {/* Upcoming Events Banner - Auto-scrolling like Live Now */}
-        {upcomingEvents.length > 0 && (
+          {/* Upcoming Events Banner - Auto-scrolling like Live Now */}
+          {upcomingEvents.length > 0 && (
           <div 
             className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 mb-4 cursor-pointer"
             onMouseEnter={() => setIsEventsPaused(true)}
@@ -1111,12 +1153,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             )}
           </div>
         )}
+        </div>
 
-        {/* Separation line */}
-        <hr className="border-t-2 border-maineBlue mb-6" />
-        
-        {/* Content Area */}
-        <div className="px-2">
+        {/* Quick Actions Tab Content */}
+        <div className={`${activeMobileTab === 'actions' ? 'block' : 'hidden'} lg:block`}>
+          {/* Separation line */}
+          <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
+          
+          {/* Content Area */}
+          <div className="px-2">
         {activeTab === 'overview' && (
           <div className="space-y-6">
             {/* Program Health */}
@@ -1281,6 +1326,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </div>
           </div>
         )}
+          </div>
         </div>
       </div>
 
