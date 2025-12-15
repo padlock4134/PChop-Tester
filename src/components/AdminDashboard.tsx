@@ -1006,16 +1006,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           🏫 Home
         </button>
         <button
-          onClick={() => setActiveMobileTab('events')}
-          className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
-            activeMobileTab === 'events'
-              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          📅 Events
-        </button>
-        <button
           onClick={() => setActiveMobileTab('actions')}
           className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
             activeMobileTab === 'actions'
@@ -1024,6 +1014,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           }`}
         >
           ⚡ Quick Actions
+        </button>
+        <button
+          onClick={() => setActiveMobileTab('events')}
+          className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
+            activeMobileTab === 'events'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          📅 Events
         </button>
       </div>
       
