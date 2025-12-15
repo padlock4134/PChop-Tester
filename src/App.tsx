@@ -116,7 +116,6 @@ const AppRoutes = () => {
       <div className="min-h-screen bg-sand">
         <NavBar />
         <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
-          <SwoopyArrow />
           <AdminDashboard />
         </main>
       </div>

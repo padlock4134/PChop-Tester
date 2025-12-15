@@ -1033,7 +1033,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
           {/* Dashboard header - matching student dashboard */}
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-retro text-maineBlue mb-2">School Admin Dashboard</h1>
+            <h1 className="text-4xl font-retro text-maineBlue mb-2">Teacher View</h1>
             <p className="text-gray-600 italic">Manage your school's curriculum delivery and student engagement!</p>
           </div>
           
