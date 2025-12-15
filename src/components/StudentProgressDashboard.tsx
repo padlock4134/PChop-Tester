@@ -283,7 +283,7 @@ const StudentProgressDashboard: React.FC = () => {
           {/* Dashboard header - moved inside the module */}
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">Student View</h1>
-            <p className="text-gray-600 italic">Click any module below to begin your culinary journey!</p>
+            <p className="text-gray-600 italic">Click a module to begin your culinary journey!</p>
           </div>
           
           {/* Separation line */}
