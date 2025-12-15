@@ -461,7 +461,7 @@ const MyCookBook = () => {
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
           onClick={() => setActiveMobileTab('cookbook')}
-          className={`flex-1 py-3 px-4 font-bold text-sm transition-colors ${
+          className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
             activeMobileTab === 'cookbook'
               ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -471,7 +471,7 @@ const MyCookBook = () => {
         </button>
         <button
           onClick={() => setActiveMobileTab('collections')}
-          className={`flex-1 py-3 px-4 font-bold text-sm transition-colors ${
+          className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
             activeMobileTab === 'collections'
               ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
