@@ -58,6 +58,9 @@ const StudentProgressDashboard: React.FC = () => {
   const [skillsModalOpen, setSkillsModalOpen] = useState(false);
   const [engagementModalOpen, setEngagementModalOpen] = useState(false);
   const [achievementsModalOpen, setAchievementsModalOpen] = useState(false);
+  
+  // Mobile tab state
+  const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'live' | 'actions'>('home');
 
   // Mock community feed data
   const [posts, setPosts] = useState([
@@ -239,20 +242,56 @@ const StudentProgressDashboard: React.FC = () => {
 
   return (
     <div className="mb-8 mx-auto">
+      {/* Mobile Tab Bar - Only visible on mobile */}
+      <div className="lg:hidden mb-4 flex gap-1 border-b-2 border-maineBlue max-w-6xl mx-auto">
+        <button
+          onClick={() => setActiveMobileTab('home')}
+          className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
+            activeMobileTab === 'home'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          🏠 Home
+        </button>
+        <button
+          onClick={() => setActiveMobileTab('live')}
+          className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
+            activeMobileTab === 'live'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          🔴 Live
+        </button>
+        <button
+          onClick={() => setActiveMobileTab('actions')}
+          className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
+            activeMobileTab === 'actions'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          📊 Quick Actions
+        </button>
+      </div>
+      
       {/* Main Dashboard */}
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto min-h-[800px]">
-        {/* Dashboard header - moved inside the module */}
-        <div className="text-center mb-6">
-          <h1 className="text-4xl font-retro text-maineBlue mb-2">Welcome to your Student Dashboard</h1>
-          <p className="text-gray-600 italic">Click any module below to begin your culinary journey!</p>
-        </div>
-        
-        {/* Separation line */}
-        <hr className="border-t-2 border-maineBlue mb-6" />
-        
-        {/* Module Navigation */}
-        <div className="mb-4 p-3">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
+        {/* Home Tab Content */}
+        <div className={activeMobileTab === 'home' ? 'block' : 'hidden lg:block'}>
+          {/* Dashboard header - moved inside the module */}
+          <div className="text-center mb-6">
+            <h1 className="text-4xl font-retro text-maineBlue mb-2">Welcome to your Student Dashboard</h1>
+            <p className="text-gray-600 italic">Click any module below to begin your culinary journey!</p>
+          </div>
+          
+          {/* Separation line */}
+          <hr className="border-t-2 border-maineBlue mb-6" />
+          
+          {/* Module Navigation */}
+          <div className="mb-4 p-3">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <Link
               to="/my-kitchen"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
@@ -290,35 +329,40 @@ const StudentProgressDashboard: React.FC = () => {
         {/* Separation line */}
         <hr className="border-t-2 border-maineBlue mb-6" />
 
-      {/* Live Session Notification Banner */}
-      {activeLiveSessions.length > 0 && (
-        <div 
-          className="bg-red-50 border-4 border-red-400 rounded-lg p-3 mb-4 cursor-pointer"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onClick={() => joinLiveSession(activeLiveSessions[currentSessionIndex])}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center mr-3">
-              <div className="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></div>
-              <VideoCameraIcon className="h-5 w-5 text-red-600 mr-2" />
-              <span className="font-bold text-red-700 text-sm">LIVE NOW</span>
-            </div>
-            <div className="flex-1 text-center">
-              <div className="text-sm text-red-800 transition-all duration-500">
-                <span>
-                  <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> is cooking{' '}
-                  <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} watching
-                </span>
+        {/* Live Tab Content */}
+        <div className={activeMobileTab === 'live' ? 'block' : 'hidden lg:block'}>
+          {/* Separation line */}
+          <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
+
+          {/* Live Session Notification Banner */}
+          {activeLiveSessions.length > 0 && (
+            <div 
+              className="bg-red-50 border-4 border-red-400 rounded-lg p-3 mb-4 cursor-pointer"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              onClick={() => joinLiveSession(activeLiveSessions[currentSessionIndex])}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center mr-3">
+                  <div className="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></div>
+                  <VideoCameraIcon className="h-5 w-5 text-red-600 mr-2" />
+                  <span className="font-bold text-red-700 text-sm">LIVE NOW</span>
+                </div>
+                <div className="flex-1 text-center">
+                  <div className="text-sm text-red-800 transition-all duration-500">
+                    <span>
+                      <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> is cooking{' '}
+                      <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} watching
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">{activeLiveSessions[currentSessionIndex].thumbnail}</span>
+                  <div className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-medium">
+                    🔴 Join Live
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{activeLiveSessions[currentSessionIndex].thumbnail}</span>
-              <div className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-medium">
-                🔴 Join Live
-              </div>
-            </div>
-          </div>
           
           {/* Progress dots */}
           {activeLiveSessions.length > 1 && (
@@ -333,14 +377,17 @@ const StudentProgressDashboard: React.FC = () => {
               ))}
             </div>
           )}
+          </div>
+        )}
         </div>
-      )}
 
-      {/* Separation line */}
-      <hr className="border-t-2 border-maineBlue mb-6" />
+        {/* Quick Actions Tab Content */}
+        <div className={activeMobileTab === 'actions' ? 'block' : 'hidden lg:block'}>
+          {/* Separation line */}
+          <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
-      {/* Progress Cards Grid */}
-      <div className="space-y-6">
+          {/* Progress Cards Grid */}
+          <div className="space-y-6">
         <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <ProgressCard
@@ -376,8 +423,11 @@ const StudentProgressDashboard: React.FC = () => {
           onClick={() => setAchievementsModalOpen(true)}
         />
           </div>
+          </div>
+        </div>
         </div>
       </div>
+
       </div>
 
       {/* Curriculum Progress Modal */}
