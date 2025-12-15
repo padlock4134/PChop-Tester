@@ -350,7 +350,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
             onClick={() => setInstructionsOpen(!instructionsOpen)}
-            className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-3 text-sm font-bold border-t-4 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
+            className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-3 text-sm font-bold border-t-4 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2 sticky bottom-0 z-20"
           >
             <span className="text-lg">📋</span>
             <span>{instructionsOpen ? 'Hide Instructions' : 'Show Instructions'}</span>
@@ -365,7 +365,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         </div>
         
         {/* Right Side - Instructions/Feedback */}
-        <div className={`w-full lg:w-80 border-t-4 lg:border-t-0 lg:border-l-4 border-amber-300 lg:border-gray-200 flex flex-col overflow-hidden transition-all ${instructionsOpen ? 'flex' : 'hidden lg:flex'}`}>
+        <div className={`w-full lg:w-80 border-t-4 lg:border-t-0 lg:border-l-4 border-amber-300 lg:border-gray-200 flex flex-col overflow-hidden transition-all max-h-[50vh] lg:max-h-full ${instructionsOpen ? 'flex' : 'hidden lg:flex'}`}>
           {/* Colored Header for Right Side */}
           <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h3 className="text-lg font-bold">
