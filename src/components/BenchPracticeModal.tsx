@@ -417,6 +417,34 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <span className="text-xs font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
                 </button>
                 
+                {/* Guide Content - Appears below button when open */}
+                {guideOpen && (
+                  <div className="mb-3 border-4 border-amber-600 rounded-lg bg-amber-50 p-3 max-h-[30vh] overflow-y-auto">
+                    <h4 className="text-sm font-bold text-amber-900 mb-2 flex items-center gap-2">
+                      <span>📖</span>
+                      <span>Practice Guide</span>
+                    </h4>
+                    <div className="space-y-2 text-xs text-gray-800">
+                      <div className="bg-white p-2 rounded border border-amber-300">
+                        <p className="font-semibold text-amber-900 mb-1">🔪 Knife Technique</p>
+                        <p>Use a rocking motion with the tip of the knife staying on the cutting board. Keep your guide hand in a claw position to protect your fingertips.</p>
+                      </div>
+                      <div className="bg-white p-2 rounded border border-amber-300">
+                        <p className="font-semibold text-amber-900 mb-1">📏 Consistency</p>
+                        <p>Aim for uniform cuts. This ensures even cooking and professional presentation. Practice makes perfect!</p>
+                      </div>
+                      <div className="bg-white p-2 rounded border border-amber-300">
+                        <p className="font-semibold text-amber-900 mb-1">⚡ Safety First</p>
+                        <p>Always cut away from your body. Keep your workspace clean and dry. A sharp knife is safer than a dull one.</p>
+                      </div>
+                      <div className="bg-white p-2 rounded border border-amber-300">
+                        <p className="font-semibold text-amber-900 mb-1">🎯 Focus Points</p>
+                        <p>Watch your angles, maintain steady rhythm, and keep ingredients stable. The AI will provide real-time feedback on your technique.</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
                 {/* Practice Steps */}
                 <div className="space-y-2">
                   <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
