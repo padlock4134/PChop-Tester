@@ -89,6 +89,7 @@ const MyCookBook = () => {
   const [userFilter, setUserFilter] = useState('all');
   const [selectedLibraryVideo, setSelectedLibraryVideo] = useState<{name: string, url: string, created_at: string, userId: string, isPublic: boolean} | null>(null);
   const [showLibraryVideoModal, setShowLibraryVideoModal] = useState(false);
+  const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
   
   // Assignment data
   const assignments = [
@@ -456,8 +457,34 @@ const MyCookBook = () => {
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
+      {/* Mobile Tab Bar - Only visible on mobile */}
+      <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
+        <button
+          onClick={() => setActiveMobileTab('cookbook')}
+          className={`flex-1 py-3 px-4 font-bold text-sm transition-colors ${
+            activeMobileTab === 'cookbook'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          📖 My Cookbook
+        </button>
+        <button
+          onClick={() => setActiveMobileTab('collections')}
+          className={`flex-1 py-3 px-4 font-bold text-sm transition-colors ${
+            activeMobileTab === 'collections'
+              ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
+              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+          }`}
+        >
+          📚 Collections
+        </button>
+      </div>
+      
       <div className="flex flex-col lg:flex-row gap-6">
-        <div className="lg:w-2/3 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+        <div className={`lg:w-2/3 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue ${
+          activeMobileTab === 'cookbook' ? 'block' : 'hidden lg:block'
+        }`}>
           {/* My Cook Book header - moved back inside the module */}
           <div className="flex items-center justify-center mb-4">
             <span className="text-5xl mr-2">📖</span>
@@ -902,7 +929,9 @@ const MyCookBook = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className="lg:w-1/3">
+        <div className={`lg:w-1/3 ${
+          activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
+        }`}>
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
               <h3 className="text-xl">📚 Collections Library</h3>
