@@ -24,6 +24,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
   const [arScene, setArScene] = useState<any>(null);
   const [guideOpen, setGuideOpen] = useState(false);
+  const [instructionsOpen, setInstructionsOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const stopTrackingRef = useRef<(() => void) | null>(null);
 
@@ -225,7 +226,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   return (
     <>
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col-reverse lg:flex-row">
         <button
           onClick={() => {
             // Stop camera tracking before closing
@@ -320,7 +321,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           </div>
 
           {/* Simple Controls */}
-          <div className="flex justify-center space-x-2 mt-2 mb-12">
+          <div className="flex justify-center space-x-2 mt-2 mb-4 lg:mb-12">
             {!isPracticing ? (
               <>
                 <button 
@@ -346,15 +347,25 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             )}
           </div>
           
+          {/* Mobile Instructions Toggle - Only show on mobile */}
+          <button 
+            onClick={() => setInstructionsOpen(!instructionsOpen)}
+            className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-3 text-sm font-bold border-t-4 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
+          >
+            <span className="text-lg">📋</span>
+            <span>{instructionsOpen ? 'Hide Instructions' : 'Show Instructions'}</span>
+            <span className="text-xs">{instructionsOpen ? '▼' : '▲'}</span>
+          </button>
+          
           {/* Practice Notice */}
-          <div className="text-center text-xs text-gray-600 mt-4">
+          <div className="hidden lg:block text-center text-xs text-gray-600 mt-4">
             📹 Practice sessions can be saved for review
           </div>
           </div>
         </div>
         
         {/* Right Side - Instructions/Feedback */}
-        <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 flex flex-col overflow-hidden">
+        <div className={`w-full lg:w-80 border-t-4 lg:border-t-0 lg:border-l-4 border-amber-300 lg:border-gray-200 flex flex-col overflow-hidden transition-all ${instructionsOpen ? 'flex' : 'hidden lg:flex'}`}>
           {/* Colored Header for Right Side */}
           <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h3 className="text-lg font-bold">
