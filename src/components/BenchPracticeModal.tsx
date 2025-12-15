@@ -415,16 +415,14 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             </select>
           </div>
           
-          {/* Open Guide Button - always show when guide is closed */}
-          {!guideOpen && (
-            <button
-              onClick={() => setGuideOpen(true)}
-              className="w-full mb-4 bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow border-2 border-amber-600 px-4 py-2 cursor-pointer transition-all flex items-center justify-center gap-2"
-            >
-              <span className="text-lg">📋</span>
-              <span className="text-sm font-bold">Open Guide</span>
-            </button>
-          )}
+          {/* Guide Toggle Button - always visible */}
+          <button
+            onClick={() => setGuideOpen(!guideOpen)}
+            className="w-full mb-4 bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow border-2 border-amber-600 px-4 py-2 cursor-pointer transition-all flex items-center justify-center gap-2"
+          >
+            <span className="text-lg">📋</span>
+            <span className="text-sm font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
+          </button>
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
