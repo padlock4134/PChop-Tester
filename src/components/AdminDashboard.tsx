@@ -4983,59 +4983,65 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Send Announcement Modal */}
       {showAnnouncementModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-blue-600 font-retro">📧 Send Announcement</h2>
-              <button
-                onClick={() => setShowAnnouncementModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">📧 Send Announcement</h2>
+                <button
+                  onClick={() => setShowAnnouncementModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
             </div>
-            <div className="space-y-4">
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Subject:</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Subject:</label>
                 <input
                   type="text"
                   value={announcementSubject}
                   onChange={(e) => setAnnouncementSubject(e.target.value)}
                   placeholder="Enter announcement subject"
-                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border-4 border-blue-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Message:</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Message:</label>
                 <textarea
                   rows={6}
                   value={announcementMessage}
                   onChange={(e) => setAnnouncementMessage(e.target.value)}
                   placeholder="Enter your announcement message..."
-                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border-4 border-blue-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 />
               </div>
-              <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50">
-                <h3 className="font-bold text-blue-800 mb-2">Recipients:</h3>
+              <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50">
+                <h3 className="font-bold text-blue-800 mb-2 text-xs sm:text-base">Recipients:</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" defaultChecked />
-                    <span className="text-gray-700">All Students ({users.length})</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                    <span className="text-gray-700 text-xs sm:text-base">All Students ({users.length})</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-gray-700">Active Students Only</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-gray-700 text-xs sm:text-base">Active Students Only</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-gray-700">Faculty Members</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-gray-700 text-xs sm:text-base">Faculty Members</span>
                   </label>
                 </div>
               </div>
-              <div className="flex justify-end gap-3">
+              <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
                 <button
                   onClick={() => setShowAnnouncementModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                  className="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro text-sm sm:text-base min-h-[44px]"
                 >
                   Cancel
                 </button>
@@ -5073,10 +5079,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                   }}
                   disabled={sendingAnnouncement}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                 >
                   {sendingAnnouncement ? 'Sending...' : 'Send Announcement'}
                 </button>
+              </div>
               </div>
             </div>
           </div>
