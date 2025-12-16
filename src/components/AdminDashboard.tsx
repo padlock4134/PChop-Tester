@@ -5717,16 +5717,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
             </div>
             
-              <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
-                <button
-                  onClick={() => {
-                    setShowEditStudentModal(false);
-                    setEditingStudent(null);
-                  }}
-                  className="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro text-sm min-h-[44px]"
-                >
-                  Cancel
-                </button>
+              <div className="flex justify-end mt-4 sm:mt-6">
                 <button
                   onClick={() => {
                     if (!editingStudent.username?.trim() || !editingStudent.email?.trim()) {
