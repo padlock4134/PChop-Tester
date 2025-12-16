@@ -5205,101 +5205,101 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Add New Faculty Modal */}
       {showAddFacultyModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-blue-600 font-retro">👥 Add New Faculty</h2>
-              <button
-                onClick={() => setShowAddFacultyModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">👥 Add New Faculty</h2>
+                <button
+                  onClick={() => setShowAddFacultyModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
             </div>
-            <div className="space-y-4">
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Full Name:</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Full Name:</label>
                 <input
                   type="text"
                   value={newFacultyName}
                   onChange={(e) => setNewFacultyName(e.target.value)}
                   placeholder="Enter instructor's full name"
-                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border-4 border-blue-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Email Address:</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Email Address:</label>
                 <input
                   type="email"
                   value={newFacultyEmail}
                   onChange={(e) => setNewFacultyEmail(e.target.value)}
                   placeholder="instructor@example.com"
-                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border-4 border-blue-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
                 />
               </div>
-              <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50">
-                <h3 className="font-bold text-blue-800 mb-2">Role & Permissions:</h3>
+              <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50">
+                <h3 className="font-bold text-blue-800 mb-2 text-xs sm:text-base">Role & Permissions:</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center">
+                  <label className="flex items-center min-h-[44px]">
                     <input 
                       type="radio" 
                       name="role" 
-                      className="mr-2" 
+                      className="mr-2 w-5 h-5" 
                       checked={newFacultyRole === 'Instructor'}
                       onChange={() => setNewFacultyRole('Instructor')}
                     />
-                    <span className="text-gray-700">Instructor - Can teach courses and grade assignments</span>
+                    <span className="text-gray-700 text-xs sm:text-base">Instructor - Can teach courses and grade assignments</span>
                   </label>
-                  <label className="flex items-center">
+                  <label className="flex items-center min-h-[44px]">
                     <input 
                       type="radio" 
                       name="role" 
-                      className="mr-2" 
+                      className="mr-2 w-5 h-5" 
                       checked={newFacultyRole === 'Teaching Assistant'}
                       onChange={() => setNewFacultyRole('Teaching Assistant')}
                     />
-                    <span className="text-gray-700">Teaching Assistant - Limited grading access</span>
+                    <span className="text-gray-700 text-xs sm:text-base">Teaching Assistant - Limited grading access</span>
                   </label>
-                  <label className="flex items-center">
+                  <label className="flex items-center min-h-[44px]">
                     <input 
                       type="radio" 
                       name="role" 
-                      className="mr-2" 
+                      className="mr-2 w-5 h-5" 
                       checked={newFacultyRole === 'Department Head'}
                       onChange={() => setNewFacultyRole('Department Head')}
                     />
-                    <span className="text-gray-700">Department Head - Full curriculum management</span>
+                    <span className="text-gray-700 text-xs sm:text-base">Department Head - Full curriculum management</span>
                   </label>
                 </div>
               </div>
-              <div className="border-4 border-blue-400 rounded-lg p-4">
-                <h3 className="font-bold text-blue-800 mb-2">Course Assignments:</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-sm text-gray-700">Knife Skills</span>
+              <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-blue-800 mb-2 text-xs sm:text-base">Course Assignments:</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-xs sm:text-sm text-gray-700">Knife Skills</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-sm text-gray-700">Seafood Safety</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-xs sm:text-sm text-gray-700">Seafood Safety</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-sm text-gray-700">Baking Fundamentals</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-xs sm:text-sm text-gray-700">Baking Fundamentals</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-sm text-gray-700">Sauce Making</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-xs sm:text-sm text-gray-700">Sauce Making</span>
                   </label>
                 </div>
               </div>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowAddFacultyModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Cancel
-                </button>
+              <div className="flex justify-end">
                 <button
                   onClick={async () => {
                     if (!newFacultyName.trim() || !newFacultyEmail.trim()) {
@@ -5362,10 +5362,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                   }}
                   disabled={addingFaculty}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                 >
                   {addingFaculty ? 'Adding...' : 'Send Invitation'}
                 </button>
+              </div>
               </div>
             </div>
           </div>
