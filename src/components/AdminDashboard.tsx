@@ -3907,140 +3907,144 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Cross-Platform Configuration Modal */}
       {showConfigurationModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-5xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Cross-Platform Configuration</h2>
-              <button
-                onClick={() => setShowConfigurationModal(false)}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-5xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Cross-Platform Configuration</h2>
+                <button
+                  onClick={() => setShowConfigurationModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Configure content permissions, access levels, and approval workflows across all PorkChop modules.</p>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Configure content permissions, access levels, and approval workflows across all PorkChop modules.</p>
-            
-            <div className="space-y-6">
-              {/* Content Approval Workflows */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">✅ Content Approval Workflows</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-3">Recipe Approval Process</h4>
-                    <div className="space-y-3">
-                      <label className="flex items-center">
-                        <input 
-                          type="radio" 
-                          name="recipe-approval" 
-                          className="mr-2" 
-                          checked={platformConfig.recipeApproval === 'auto-approve'}
-                          onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'auto-approve'})}
-                        />
-                        <span className="text-sm">Auto-approve all recipes</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input 
-                          type="radio" 
-                          name="recipe-approval" 
-                          className="mr-2" 
-                          checked={platformConfig.recipeApproval === 'instructor-approval'}
-                          onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'instructor-approval'})}
-                        />
-                        <span className="text-sm">Require instructor approval</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input 
-                          type="radio" 
-                          name="recipe-approval" 
-                          className="mr-2" 
-                          checked={platformConfig.recipeApproval === 'admin-approval'}
-                          onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'admin-approval'})}
-                        />
-                        <span className="text-sm">Require admin approval</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input 
-                          type="radio" 
-                          name="recipe-approval" 
-                          className="mr-2" 
-                          checked={platformConfig.recipeApproval === 'multi-level'}
-                          onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'multi-level'})}
-                        />
-                        <span className="text-sm">Multi-level approval (Instructor → Admin)</span>
-                      </label>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-6">
+                {/* Content Approval Workflows */}
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">✅ Content Approval Workflows</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
+                    <div>
+                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Recipe Approval Process</h4>
+                      <div className="space-y-2 sm:space-y-3">
+                        <label className="flex items-center">
+                          <input 
+                            type="radio" 
+                            name="recipe-approval" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.recipeApproval === 'auto-approve'}
+                            onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'auto-approve'})}
+                          />
+                          <span className="text-xs sm:text-sm">Auto-approve all recipes</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input 
+                            type="radio" 
+                            name="recipe-approval" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.recipeApproval === 'instructor-approval'}
+                            onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'instructor-approval'})}
+                          />
+                          <span className="text-xs sm:text-sm">Require instructor approval</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input 
+                            type="radio" 
+                            name="recipe-approval" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.recipeApproval === 'admin-approval'}
+                            onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'admin-approval'})}
+                          />
+                          <span className="text-xs sm:text-sm">Require admin approval</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input 
+                            type="radio" 
+                            name="recipe-approval" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.recipeApproval === 'multi-level'}
+                            onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'multi-level'})}
+                          />
+                          <span className="text-xs sm:text-sm">Multi-level approval (Instructor → Admin)</span>
+                        </label>
                       </div>
                     </div>
                   
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-3">Assignment Submission Process</h4>
-                    <div className="space-y-3">
-                      <label className="flex items-center">
-                        <input 
-                          type="radio" 
-                          name="assignment-approval" 
-                          className="mr-2" 
-                          checked={platformConfig.assignmentApproval === 'auto-accept'}
-                          onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'auto-accept'})}
-                        />
-                        <span className="text-sm">Auto-accept submissions</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input 
-                          type="radio" 
-                          name="assignment-approval" 
-                          className="mr-2" 
-                          checked={platformConfig.assignmentApproval === 'instructor-review'}
-                          onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'instructor-review'})}
-                        />
-                        <span className="text-sm">Require instructor review</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input 
-                          type="radio" 
-                          name="assignment-approval" 
-                          className="mr-2" 
-                          checked={platformConfig.assignmentApproval === 'peer-review'}
-                          onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'peer-review'})}
-                        />
-                        <span className="text-sm">Peer review + instructor approval</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input 
-                          type="radio" 
-                          name="assignment-approval" 
-                          className="mr-2" 
-                          checked={platformConfig.assignmentApproval === 'ai-screening'}
-                          onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'ai-screening'})}
-                        />
-                        <span className="text-sm">AI pre-screening + instructor review</span>
-                      </label>
+                    <div>
+                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Assignment Submission Process</h4>
+                      <div className="space-y-2 sm:space-y-3">
+                        <label className="flex items-center">
+                          <input 
+                            type="radio" 
+                            name="assignment-approval" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.assignmentApproval === 'auto-accept'}
+                            onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'auto-accept'})}
+                          />
+                          <span className="text-xs sm:text-sm">Auto-accept submissions</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input 
+                            type="radio" 
+                            name="assignment-approval" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.assignmentApproval === 'instructor-review'}
+                            onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'instructor-review'})}
+                          />
+                          <span className="text-xs sm:text-sm">Require instructor review</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input 
+                            type="radio" 
+                            name="assignment-approval" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.assignmentApproval === 'peer-review'}
+                            onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'peer-review'})}
+                          />
+                          <span className="text-xs sm:text-sm">Peer review + instructor approval</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input 
+                            type="radio" 
+                            name="assignment-approval" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.assignmentApproval === 'ai-screening'}
+                            onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'ai-screening'})}
+                          />
+                          <span className="text-xs sm:text-sm">AI pre-screening + instructor review</span>
+                        </label>
                       </div>
                     </div>
                 </div>
               </div>
 
-              {/* Access Level Management */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">🔐 Access Level Management</h3>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full">
-                    <thead>
-                      <tr className="border-b">
-                        <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">User Role</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">MyCookBook</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">CulinarySchool</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Chef's Corner</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Global Test Kitchen</th>
-                        <th className="text-center py-3 px-4 text-sm font-medium text-gray-700">Admin Dashboard</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-sm">
-                      <tr className="border-b">
-                        <td className="py-3 px-4 font-medium">Student</td>
-                        <td className="text-center py-3 px-4">
-                          <select 
-                            className="px-2 py-1 border rounded text-xs"
+                {/* Access Level Management */}
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🔐 Access Level Management</h3>
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full">
+                      <thead>
+                        <tr className="border-b">
+                          <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">User Role</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">MyCookBook</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">CulinarySchool</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Chef's Corner</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Global Test Kitchen</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Admin Dashboard</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-xs sm:text-sm">
+                        <tr className="border-b">
+                          <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium">Student</td>
+                          <td className="text-center py-2 sm:py-3 px-2 sm:px-4">
+                            <select 
+                              className="px-2 py-1 border-4 border-blue-400 rounded text-xs bg-white min-h-[36px]"
                             value={modulePermissions.student?.MyCookBook || 'Full Access'}
                             onChange={(e) => setModulePermissions({
                               ...modulePermissions,
@@ -4108,9 +4112,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             <option>No Access</option>
                           </select>
                         </td>
-                      </tr>
-                      <tr>
-                        <td className="py-3 px-4 font-medium">Administrator</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium">Administrator</td>
                         <td className="text-center py-3 px-4">
                           <select 
                             className="px-2 py-1 border rounded text-xs"
@@ -4181,89 +4185,89 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             <option>No Access</option>
                           </select>
                         </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
 
-              {/* Platform-Wide Settings */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">⚙️ Platform-Wide Settings</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-3">Content Moderation</h4>
-                    <div className="space-y-2">
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
-                        <span className="text-sm">Enable AI content filtering</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
-                        <span className="text-sm">Flag inappropriate language</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" />
-                        <span className="text-sm">Auto-moderate chat messages</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input type="checkbox" className="mr-2" checked />
-                        <span className="text-sm">Require image approval</span>
-                      </label>
+                {/* Platform-Wide Settings */}
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">⚙️ Platform-Wide Settings</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
+                    <div>
+                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Content Moderation</h4>
+                      <div className="space-y-2">
+                        <label className="flex items-center">
+                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked />
+                          <span className="text-xs sm:text-sm">Enable AI content filtering</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked />
+                          <span className="text-xs sm:text-sm">Flag inappropriate language</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" />
+                          <span className="text-xs sm:text-sm">Auto-moderate chat messages</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked />
+                          <span className="text-xs sm:text-sm">Require image approval</span>
+                        </label>
                       </div>
                     </div>
                   
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-3">Data Privacy & Security</h4>
-                    <div className="space-y-2">
-                      <label className="flex items-center">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
-                          checked={platformConfig.auditLogging}
-                          onChange={(e) => setPlatformConfig({...platformConfig, auditLogging: e.target.checked})}
-                        />
-                        <span className="text-sm">Enable audit logging</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
-                          checked={platformConfig.encryptData}
-                          onChange={(e) => setPlatformConfig({...platformConfig, encryptData: e.target.checked})}
-                        />
-                        <span className="text-sm">Encrypt sensitive data</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
-                          checked={platformConfig.allowDataExport}
-                          onChange={(e) => setPlatformConfig({...platformConfig, allowDataExport: e.target.checked})}
-                        />
-                        <span className="text-sm">Allow data export requests</span>
-                      </label>
-                      <label className="flex items-center">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
-                          checked={platformConfig.require2FA}
-                          onChange={(e) => setPlatformConfig({...platformConfig, require2FA: e.target.checked})}
-                        />
-                        <span className="text-sm">Require 2FA for admins</span>
-                      </label>
+                    <div>
+                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Data Privacy & Security</h4>
+                      <div className="space-y-2">
+                        <label className="flex items-center">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.auditLogging}
+                            onChange={(e) => setPlatformConfig({...platformConfig, auditLogging: e.target.checked})}
+                          />
+                          <span className="text-xs sm:text-sm">Enable audit logging</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.encryptData}
+                            onChange={(e) => setPlatformConfig({...platformConfig, encryptData: e.target.checked})}
+                          />
+                          <span className="text-xs sm:text-sm">Encrypt sensitive data</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.allowDataExport}
+                            onChange={(e) => setPlatformConfig({...platformConfig, allowDataExport: e.target.checked})}
+                          />
+                          <span className="text-xs sm:text-sm">Allow data export requests</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.require2FA}
+                            onChange={(e) => setPlatformConfig({...platformConfig, require2FA: e.target.checked})}
+                          />
+                          <span className="text-xs sm:text-sm">Require 2FA for admins</span>
+                        </label>
                       </div>
                     </div>
                 </div>
               </div>
 
-              {/* Integration Settings */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">🔗 Integration Settings</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-2">External APIs</h4>
-                    <div className="space-y-2 text-sm">
+                {/* Integration Settings */}
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🔗 Integration Settings</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                    <div>
+                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">External APIs</h4>
+                      <div className="space-y-2 text-xs sm:text-sm">
                       <div className="flex justify-between items-center">
                         <span>Google Vision API:</span>
                         <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
@@ -4279,55 +4283,55 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                     </div>
                   
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Notification Settings</h4>
-                    <div className="space-y-2">
-                      <label className="flex items-center text-sm">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
-                          checked={platformConfig.emailNotifications}
-                          onChange={(e) => setPlatformConfig({...platformConfig, emailNotifications: e.target.checked})}
-                        />
-                        <span>Email notifications</span>
-                      </label>
-                      <label className="flex items-center text-sm">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
-                          checked={platformConfig.smsNotifications}
-                          onChange={(e) => setPlatformConfig({...platformConfig, smsNotifications: e.target.checked})}
-                        />
-                        <span>SMS notifications</span>
-                      </label>
-                      <label className="flex items-center text-sm">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
-                          checked={platformConfig.pushNotifications}
-                          onChange={(e) => setPlatformConfig({...platformConfig, pushNotifications: e.target.checked})}
-                        />
-                        <span>Push notifications</span>
-                      </label>
-                      <label className="flex items-center text-sm">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
-                          checked={platformConfig.inAppNotifications}
-                          onChange={(e) => setPlatformConfig({...platformConfig, inAppNotifications: e.target.checked})}
-                        />
-                        <span>In-app notifications</span>
-                      </label>
+                    <div>
+                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">Notification Settings</h4>
+                      <div className="space-y-2">
+                        <label className="flex items-center text-xs sm:text-sm">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.emailNotifications}
+                            onChange={(e) => setPlatformConfig({...platformConfig, emailNotifications: e.target.checked})}
+                          />
+                          <span>Email notifications</span>
+                        </label>
+                        <label className="flex items-center text-xs sm:text-sm">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.smsNotifications}
+                            onChange={(e) => setPlatformConfig({...platformConfig, smsNotifications: e.target.checked})}
+                          />
+                          <span>SMS notifications</span>
+                        </label>
+                        <label className="flex items-center text-xs sm:text-sm">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.pushNotifications}
+                            onChange={(e) => setPlatformConfig({...platformConfig, pushNotifications: e.target.checked})}
+                          />
+                          <span>Push notifications</span>
+                        </label>
+                        <label className="flex items-center text-xs sm:text-sm">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
+                            checked={platformConfig.inAppNotifications}
+                            onChange={(e) => setPlatformConfig({...platformConfig, inAppNotifications: e.target.checked})}
+                          />
+                          <span>In-app notifications</span>
+                        </label>
                       </div>
                     </div>
                   
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Backup & Recovery</h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between items-center">
-                        <span>Auto Backup:</span>
-                        <select 
-                          className="px-2 py-1 border rounded text-xs"
+                    <div>
+                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">Backup & Recovery</h4>
+                      <div className="space-y-2 text-xs sm:text-sm">
+                        <div className="flex justify-between items-center">
+                          <span>Auto Backup:</span>
+                          <select 
+                            className="px-2 py-1 border-4 border-blue-400 rounded text-xs bg-white min-h-[36px]"
                           value={platformConfig.autoBackup}
                           onChange={(e) => setPlatformConfig({...platformConfig, autoBackup: e.target.value})}
                         >
@@ -4337,39 +4341,39 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <option value="disabled">Disabled</option>
                         </select>
                       </div>
-                      <div className="flex justify-between items-center">
-                        <span>Retention:</span>
-                        <select 
-                          className="px-2 py-1 border rounded text-xs"
-                          value={platformConfig.backupRetention}
-                          onChange={(e) => setPlatformConfig({...platformConfig, backupRetention: e.target.value})}
+                        <div className="flex justify-between items-center">
+                          <span>Retention:</span>
+                          <select 
+                            className="px-2 py-1 border-4 border-blue-400 rounded text-xs bg-white min-h-[36px]"
+                            value={platformConfig.backupRetention}
+                            onChange={(e) => setPlatformConfig({...platformConfig, backupRetention: e.target.value})}
+                          >
+                            <option value="30-days">30 days</option>
+                            <option value="90-days">90 days</option>
+                            <option value="1-year">1 year</option>
+                            <option value="indefinite">Indefinite</option>
+                          </select>
+                        </div>
+                        <button 
+                          onClick={() => alert('Manual backup initiated')}
+                          className="w-full px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-xs min-h-[36px]"
                         >
-                          <option value="30-days">30 days</option>
-                          <option value="90-days">90 days</option>
-                          <option value="1-year">1 year</option>
-                          <option value="indefinite">Indefinite</option>
-                        </select>
-                      </div>
-                      <button 
-                        onClick={() => alert('Manual backup initiated')}
-                        className="w-full px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-xs"
-                      >
-                        Manual Backup Now
-                      </button>
+                          Manual Backup Now
+                        </button>
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  <button
+                    onClick={saveModulePermissions}
+                    disabled={updatingPermissions}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                  >
+                    {updatingPermissions ? 'Saving...' : 'Save Configuration'}
+                  </button>
                 </div>
               </div>
-            </div>
-            
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={saveModulePermissions}
-                disabled={updatingPermissions}
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {updatingPermissions ? 'Saving...' : 'Save Configuration'}
-              </button>
             </div>
           </div>
         </div>
