@@ -6460,10 +6460,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* View Employment Data Modal */}
       {showEmploymentDataModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-green-600 font-retro">📈 Employment Data</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-3 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-3 sm:mb-4">
+              <h2 className="text-lg sm:text-2xl font-bold text-green-600 font-retro">📈 Employment Data</h2>
               <button
                 onClick={() => setShowEmploymentDataModal(false)}
                 className="text-gray-500 hover:text-gray-800 text-2xl"
@@ -6471,58 +6471,52 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 ×
               </button>
             </div>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
-                  <div className="text-3xl font-bold text-green-600">87%</div>
-                  <p className="text-sm text-green-800 font-medium mt-1">Employment Rate</p>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                <div className="border-4 border-green-400 rounded-lg p-2 sm:p-4 bg-green-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-green-600">87%</div>
+                  <p className="text-xs sm:text-sm text-green-800 font-medium mt-1">Employment Rate</p>
                 </div>
-                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
-                  <div className="text-3xl font-bold text-blue-600">156</div>
-                  <p className="text-sm text-blue-800 font-medium mt-1">Graduates Placed</p>
+                <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-4 bg-blue-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-blue-600">156</div>
+                  <p className="text-xs sm:text-sm text-blue-800 font-medium mt-1">Graduates Placed</p>
                 </div>
-                <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50 text-center">
-                  <div className="text-3xl font-bold text-purple-600">$52k</div>
-                  <p className="text-sm text-purple-800 font-medium mt-1">Avg. Starting Salary</p>
+                <div className="border-4 border-purple-400 rounded-lg p-2 sm:p-4 bg-purple-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-purple-600">$52k</div>
+                  <p className="text-xs sm:text-sm text-purple-800 font-medium mt-1">Avg. Starting Salary</p>
                 </div>
-                <div className="border-4 border-orange-400 rounded-lg p-4 bg-orange-50 text-center">
-                  <div className="text-3xl font-bold text-orange-600">45</div>
-                  <p className="text-sm text-orange-800 font-medium mt-1">Days to Placement</p>
+                <div className="border-4 border-orange-400 rounded-lg p-2 sm:p-4 bg-orange-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-orange-600">45</div>
+                  <p className="text-xs sm:text-sm text-orange-800 font-medium mt-1">Days to Placement</p>
                 </div>
               </div>
-              <div className="border-4 border-green-400 rounded-lg p-4">
-                <h3 className="font-bold text-green-800 mb-3">Recent Placements:</h3>
+              <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-green-800 mb-2 sm:mb-3 text-sm sm:text-base">Recent Placements:</h3>
                 <div className="space-y-2">
-                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
+                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-2 sm:p-3 flex justify-between items-center">
                     <div>
-                      <p className="font-semibold text-gray-900">Sarah Johnson</p>
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">Sarah Johnson</p>
                       <p className="text-xs text-gray-600">Sous Chef at The French Laundry</p>
                     </div>
-                    <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Placed</span>
+                    <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Placed</span>
                   </div>
-                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
+                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-2 sm:p-3 flex justify-between items-center">
                     <div>
-                      <p className="font-semibold text-gray-900">Michael Chen</p>
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">Michael Chen</p>
                       <p className="text-xs text-gray-600">Pastry Chef at Eleven Madison Park</p>
                     </div>
-                    <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Placed</span>
+                    <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Placed</span>
                   </div>
-                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
+                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-2 sm:p-3 flex justify-between items-center">
                     <div>
-                      <p className="font-semibold text-gray-900">Emma Rodriguez</p>
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">Emma Rodriguez</p>
                       <p className="text-xs text-gray-600">Executive Chef at Nobu</p>
                     </div>
-                    <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Placed</span>
+                    <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Placed</span>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowEmploymentDataModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Close
-                </button>
+              <div className="flex justify-center">
                 <button
                   onClick={async () => {
                     setExportingEmployment(true);
@@ -6582,7 +6576,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                   }}
                   disabled={exportingEmployment}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
                 >
                   {exportingEmployment ? 'Exporting...' : 'Export Report'}
                 </button>
