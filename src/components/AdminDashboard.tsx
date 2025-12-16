@@ -2990,10 +2990,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* User Activity Modal */}
       {showUserActivityModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">User Activity Dashboard</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-3 sm:p-6 max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="text-center mb-4 sm:mb-6 relative">
+              <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">User Activity Dashboard</h2>
               <button
                 onClick={() => setShowUserActivityModal(false)}
                 className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -3002,157 +3002,157 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Monitor student engagement, login patterns, and platform usage across all modules.</p>
+            <p className="text-center text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Monitor student engagement, login patterns, and platform usage across all modules.</p>
             
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Login Patterns */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">📅 Login Patterns</h3>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-blue-600">342</div>
-                    <p className="text-sm text-blue-800 font-medium">Daily Logins</p>
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📅 Login Patterns</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">342</div>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Daily Logins</p>
                     <p className="text-xs text-blue-600">↑ 8% vs yesterday</p>
                   </div>
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-green-600">1,847</div>
-                    <p className="text-sm text-green-800 font-medium">Weekly Logins</p>
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">1,847</div>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">Weekly Logins</p>
                     <p className="text-xs text-green-600">↑ 15% vs last week</p>
                   </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-purple-600">23 min</div>
-                    <p className="text-sm text-purple-800 font-medium">Avg Session</p>
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">23 min</div>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">Avg Session</p>
                     <p className="text-xs text-purple-600">↑ 3 min vs last week</p>
                   </div>
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-orange-600">89%</div>
-                    <p className="text-sm text-orange-800 font-medium">Weekly Active</p>
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">89%</div>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">Weekly Active</p>
                     <p className="text-xs text-orange-600">↑ 4% vs last week</p>
                   </div>
                 </div>
               </div>
 
               {/* Module Usage Breakdown */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">📊 Module Usage Breakdown</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 Module Usage Breakdown</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
-                      <div className="text-2xl mr-2">🍳</div>
-                      <h4 className="font-medium text-blue-800">MyKitchen</h4>
+                      <div className="text-xl sm:text-2xl mr-2">🍳</div>
+                      <h4 className="font-medium text-blue-800 text-sm sm:text-base">MyKitchen</h4>
                     </div>
-                    <div className="text-center text-2xl font-bold text-blue-600 mb-1">67%</div>
+                    <div className="text-center text-xl sm:text-2xl font-bold text-blue-600 mb-1">67%</div>
                     <p className="text-center text-xs text-blue-600">2,340 sessions this week</p>
                   </div>
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4">
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
-                      <div className="text-2xl mr-2">📖</div>
-                      <h4 className="font-medium text-green-800">MyCookBook</h4>
+                      <div className="text-xl sm:text-2xl mr-2">📖</div>
+                      <h4 className="font-medium text-green-800 text-sm sm:text-base">MyCookBook</h4>
                     </div>
-                    <div className="text-center text-2xl font-bold text-green-600 mb-1">84%</div>
+                    <div className="text-center text-xl sm:text-2xl font-bold text-green-600 mb-1">84%</div>
                     <p className="text-center text-xs text-green-600">1,890 assignments viewed</p>
                   </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4">
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
-                      <div className="text-2xl mr-2">🏫</div>
-                      <h4 className="font-medium text-purple-800">CulinarySchool</h4>
+                      <div className="text-xl sm:text-2xl mr-2">🏫</div>
+                      <h4 className="font-medium text-purple-800 text-sm sm:text-base">CulinarySchool</h4>
                     </div>
-                    <div className="text-center text-2xl font-bold text-purple-600 mb-1">72%</div>
+                    <div className="text-center text-xl sm:text-2xl font-bold text-purple-600 mb-1">72%</div>
                     <p className="text-center text-xs text-purple-600">1,456 technique views</p>
                   </div>
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4">
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
-                      <div className="text-2xl mr-2">👨‍🍳</div>
-                      <h4 className="font-medium text-orange-800">Chef's Corner</h4>
+                      <div className="text-xl sm:text-2xl mr-2">👨‍🍳</div>
+                      <h4 className="font-medium text-orange-800 text-sm sm:text-base">Chef's Corner</h4>
                     </div>
-                    <div className="text-center text-2xl font-bold text-orange-600 mb-1">45%</div>
+                    <div className="text-center text-xl sm:text-2xl font-bold text-orange-600 mb-1">45%</div>
                     <p className="text-center text-xs text-orange-600">234 live sessions joined</p>
                   </div>
                 </div>
               </div>
 
               {/* Feature Adoption */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">🚀 Feature Adoption Rates</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🚀 Feature Adoption Rates</h3>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
-                      <span className="text-lg mr-3">🔍</span>
-                      <span className="font-medium">Recipe Matcher</span>
+                      <span className="text-base sm:text-lg mr-2 sm:mr-3">🔍</span>
+                      <span className="font-medium text-xs sm:text-base">Recipe Matcher</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
                         <div className="bg-blue-600 h-2 rounded-full" style={{width: '78%'}}></div>
                       </div>
-                      <span className="text-sm font-bold text-blue-600">78%</span>
+                      <span className="text-xs sm:text-sm font-bold text-blue-600">78%</span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
-                      <span className="text-lg mr-3">🎥</span>
-                      <span className="font-medium">Video Submissions</span>
+                      <span className="text-base sm:text-lg mr-2 sm:mr-3">🎥</span>
+                      <span className="font-medium text-xs sm:text-base">Video Submissions</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
                         <div className="bg-green-600 h-2 rounded-full" style={{width: '65%'}}></div>
                       </div>
-                      <span className="text-sm font-bold text-green-600">65%</span>
+                      <span className="text-xs sm:text-sm font-bold text-green-600">65%</span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
-                      <span className="text-lg mr-3">🔴</span>
-                      <span className="font-medium">Global Test Kitchen</span>
+                      <span className="text-base sm:text-lg mr-2 sm:mr-3">🔴</span>
+                      <span className="font-medium text-xs sm:text-base">Global Test Kitchen</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
                         <div className="bg-orange-600 h-2 rounded-full" style={{width: '42%'}}></div>
                       </div>
-                      <span className="text-sm font-bold text-orange-600">42%</span>
+                      <span className="text-xs sm:text-sm font-bold text-orange-600">42%</span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
-                      <span className="text-lg mr-3">📁</span>
-                      <span className="font-medium">Collections Library</span>
+                      <span className="text-base sm:text-lg mr-2 sm:mr-3">📁</span>
+                      <span className="font-medium text-xs sm:text-base">Collections Library</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
                         <div className="bg-purple-600 h-2 rounded-full" style={{width: '58%'}}></div>
                       </div>
-                      <span className="text-sm font-bold text-purple-600">58%</span>
+                      <span className="text-xs sm:text-sm font-bold text-purple-600">58%</span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
-                      <span className="text-lg mr-3">📊</span>
-                      <span className="font-medium">Gradebook</span>
+                      <span className="text-base sm:text-lg mr-2 sm:mr-3">📊</span>
+                      <span className="font-medium text-xs sm:text-base">Gradebook</span>
                     </div>
                     <div className="flex items-center">
-                      <div className="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
                         <div className="bg-green-600 h-2 rounded-full" style={{width: '73%'}}></div>
                       </div>
-                      <span className="text-sm font-bold text-green-600">73%</span>
+                      <span className="text-xs sm:text-sm font-bold text-green-600">73%</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Inactive Students Alert */}
-              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-6">
-                <h3 className="text-center font-bold text-red-900 mb-4">⚠️ Inactive Students Alert</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-white border border-red-200 rounded-lg p-3">
-                    <div className="text-center text-2xl font-bold text-red-600 mb-1">23</div>
-                    <p className="text-center text-sm text-red-800">No login in 7+ days</p>
+              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-red-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ Inactive Students Alert</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                  <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
+                    <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">23</div>
+                    <p className="text-center text-xs sm:text-sm text-red-800">No login in 7+ days</p>
                   </div>
-                  <div className="bg-white border border-red-200 rounded-lg p-3">
-                    <div className="text-center text-2xl font-bold text-red-600 mb-1">8</div>
-                    <p className="text-center text-sm text-red-800">No login in 14+ days</p>
+                  <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
+                    <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">8</div>
+                    <p className="text-center text-xs sm:text-sm text-red-800">No login in 14+ days</p>
                   </div>
-                  <div className="bg-white border border-red-200 rounded-lg p-3">
-                    <div className="text-center text-2xl font-bold text-red-600 mb-1">3</div>
-                    <p className="text-center text-sm text-red-800">No login in 30+ days</p>
+                  <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
+                    <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">3</div>
+                    <p className="text-center text-xs sm:text-sm text-red-800">No login in 30+ days</p>
                   </div>
                 </div>
               </div>
