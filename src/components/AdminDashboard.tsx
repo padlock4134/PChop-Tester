@@ -2818,136 +2818,116 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Alumni Management Modal */}
       {showAlumniManagementModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Alumni Management Dashboard</h2>
-              <button
-                onClick={() => setShowAlumniManagementModal(false)}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center mb-3 sm:mb-4 relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Alumni Management</h2>
+                <button
+                  onClick={() => setShowAlumniManagementModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 text-sm sm:text-base">Track graduate success stories, career outcomes, and maintain alumni network connections.</p>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Track graduate success stories, career outcomes, and maintain alumni network connections.</p>
-            
-            <div className="space-y-6">
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-4 sm:space-y-6">
               {/* Alumni Overview Stats */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">🎓 Alumni Overview</h3>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-blue-600">342</div>
-                    <p className="text-sm text-blue-800 font-medium">Total Alumni</p>
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 Alumni Overview</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">342</div>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Alumni</p>
                     <p className="text-xs text-blue-600">Program graduates</p>
                   </div>
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-green-600">89%</div>
-                    <p className="text-sm text-green-800 font-medium">Employment Rate</p>
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">89%</div>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">Employment Rate</p>
                     <p className="text-xs text-green-600">Within 6 months</p>
                   </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-purple-600">$52K</div>
-                    <p className="text-sm text-purple-800 font-medium">Avg Starting Salary</p>
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">$52K</div>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">Avg Starting Salary</p>
                     <p className="text-xs text-purple-600">First year post-grad</p>
                   </div>
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-orange-600">47</div>
-                    <p className="text-sm text-orange-800 font-medium">Business Owners</p>
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">47</div>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">Business Owners</p>
                     <p className="text-xs text-orange-600">Started own restaurants</p>
                   </div>
                 </div>
               </div>
 
               {/* Success Stories */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <div className="flex justify-center items-center mb-4 relative pl-6">
-                  <h3 className="font-bold text-maineBlue">⭐ Success Stories</h3>
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <div className="flex flex-col sm:flex-row justify-center items-center mb-3 sm:mb-4 gap-2 sm:gap-0 relative sm:pl-6">
+                  <h3 className="font-bold text-maineBlue text-sm sm:text-base">⭐ Success Stories</h3>
                   <button
                     onClick={() => setShowAddAlumniModal(true)}
-                    className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center gap-2 absolute right-0"
+                    className="w-full sm:w-auto bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-xs sm:text-sm flex items-center justify-center gap-2 sm:absolute sm:right-0 min-h-[44px]"
                   >
                     <span className="text-lg">+</span> Add Alumni
                   </button>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">Maria Santos</h4>
-                        <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs inline-block mb-2">
-                          Class of 2022
-                        </span>
-                        <div className="text-sm text-gray-600 space-y-1">
-                          <p>🏆 Executive Chef at Michelin-starred restaurant</p>
-                          <p>📍 Le Bernardin, New York</p>
-                          <p>💰 Salary: $85,000/year</p>
-                        </div>
-                      </div>
-                      <div className="w-px h-24 bg-gray-300"></div>
-                      <div className="w-20 h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
-                        MS
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
+                    <div className="mb-3">
+                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Maria Santos</h4>
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs inline-block mb-2">
+                        Class of 2022
+                      </span>
+                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                        <p>🏆 Executive Chef at Michelin-starred restaurant</p>
+                        <p>📍 Le Bernardin, New York</p>
+                        <p>💰 Salary: $85,000/year</p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">James Chen</h4>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
-                          Class of 2021
-                        </span>
-                        <div className="text-sm text-gray-600 space-y-1">
-                          <p>🏢 Restaurant Owner & Entrepreneur</p>
-                          <p>📍 Chen's Kitchen (3 locations)</p>
-                          <p>💰 Revenue: $2.1M annually</p>
-                        </div>
-                      </div>
-                      <div className="w-px h-24 bg-gray-300"></div>
-                      <div className="w-20 h-20 bg-green-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
-                        JC
+                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
+                    <div className="mb-3">
+                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">James Chen</h4>
+                      <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
+                        Class of 2021
+                      </span>
+                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                        <p>🏢 Restaurant Owner & Entrepreneur</p>
+                        <p>📍 Chen's Kitchen (3 locations)</p>
+                        <p>💰 Revenue: $2.1M annually</p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">Ashley Rodriguez</h4>
-                        <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs inline-block mb-2">
-                          Class of 2023
-                        </span>
-                        <div className="text-sm text-gray-600 space-y-1">
-                          <p>📺 Food Network Personality</p>
-                          <p>📍 Host of "Pastry Perfection"</p>
-                          <p>💰 $120,000/year + endorsements</p>
-                        </div>
-                      </div>
-                      <div className="w-px h-24 bg-gray-300"></div>
-                      <div className="w-20 h-20 bg-purple-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
-                        AR
+                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
+                    <div className="mb-3">
+                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Ashley Rodriguez</h4>
+                      <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs inline-block mb-2">
+                        Class of 2023
+                      </span>
+                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                        <p>📺 Food Network Personality</p>
+                        <p>📍 Host of "Pastry Perfection"</p>
+                        <p>💰 $120,000/year + endorsements</p>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">David Miller</h4>
-                        <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs inline-block mb-2">
-                          Class of 2020
-                        </span>
-                        <div className="text-sm text-gray-600 space-y-1">
-                          <p>🍟 Corporate Food Service Director</p>
-                          <p>📍 Google Campus Dining</p>
-                          <p>💰 $95,000/year + benefits</p>
-                        </div>
-                      </div>
-                      <div className="w-px h-24 bg-gray-300"></div>
-                      <div className="w-20 h-20 bg-orange-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
-                        DM
+                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
+                    <div className="mb-3">
+                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">David Miller</h4>
+                      <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs inline-block mb-2">
+                        Class of 2020
+                      </span>
+                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                        <p>🍟 Corporate Food Service Director</p>
+                        <p>📍 Google Campus Dining</p>
+                        <p>💰 $95,000/year + benefits</p>
                       </div>
                     </div>
                   </div>
@@ -2956,34 +2936,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
 
               {/* Alumni Network Actions */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">⚡ Alumni Network Management</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⚡ Alumni Network Management</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                   <button 
                     onClick={() => setShowAlumniNewsletterModal(true)}
-                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
-                    <div className="text-2xl mb-2">📧</div>
-                    <h4 className="font-medium text-blue-800">Alumni Newsletter</h4>
+                    <div className="text-xl sm:text-2xl mb-2">📧</div>
+                    <h4 className="font-medium text-blue-800 text-sm sm:text-base">Alumni Newsletter</h4>
                     <p className="text-xs text-blue-600">Send updates and opportunities</p>
                   </button>
                   <button 
                     onClick={() => setShowPlanEventModal(true)}
-                    className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                    className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
-                    <div className="text-2xl mb-2">🎉</div>
-                    <h4 className="font-medium text-green-800">Plan Alumni Event</h4>
+                    <div className="text-xl sm:text-2xl mb-2">🎉</div>
+                    <h4 className="font-medium text-green-800 text-sm sm:text-base">Plan Alumni Event</h4>
                     <p className="text-xs text-green-600">Networking and reunions</p>
                   </button>
                   <button 
                     onClick={() => setShowGiftingDonationsModal(true)}
-                    className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                    className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
-                    <div className="text-2xl mb-2">📄</div>
-                    <h4 className="font-medium text-purple-800">Gifting & Donations</h4>
+                    <div className="text-xl sm:text-2xl mb-2">📄</div>
+                    <h4 className="font-medium text-purple-800 text-sm sm:text-base">Gifting & Donations</h4>
                     <p className="text-xs text-purple-600">Fundraising Strategy</p>
                   </button>
                 </div>
+              </div>
               </div>
             </div>
           </div>
