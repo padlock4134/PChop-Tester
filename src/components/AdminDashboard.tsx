@@ -1683,15 +1683,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
                   {/* Left Side - Logo Upload */}
                   <div className="flex-1">
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden shadow-sm">
-                    {schoolBranding.logoUrl ? (
-                      <img src={schoolBranding.logoUrl} alt="School Logo" className="w-full h-full object-cover" />
-                    ) : (
-                      <span className="text-gray-400 text-sm">Logo</span>
-                    )}
-                  </div>
-                  <div className="flex-1 flex flex-col items-center sm:items-start max-w-xs">
+                    <div className="flex flex-col items-center justify-center gap-3">
+                      <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden shadow-sm">
+                        {schoolBranding.logoUrl ? (
+                          <img src={schoolBranding.logoUrl} alt="School Logo" className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-gray-400 text-sm">Logo</span>
+                        )}
+                      </div>
+                      <div className="flex flex-col items-center w-full max-w-xs">
                     <input
                       type="file"
                       id="logo-upload"
@@ -1744,14 +1744,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }
                       }}
                     />
-                    <label
-                      htmlFor="logo-upload"
-                      className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center shadow-sm whitespace-nowrap"
-                    >
-                      {uploadingLogo ? 'Uploading...' : 'Upload Logo'}
-                    </label>
-                    <p className="text-xs sm:text-sm text-gray-500 mt-2 text-center sm:text-left">Recommended: 200x200px, PNG or JPG</p>
-                  </div>
+                        <label
+                          htmlFor="logo-upload"
+                          className="w-full bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center shadow-sm whitespace-nowrap"
+                        >
+                          {uploadingLogo ? 'Uploading...' : 'Upload Logo'}
+                        </label>
+                        <p className="text-xs sm:text-sm text-gray-500 mt-2 text-center">Recommended: 200x200px, PNG or JPG</p>
+                      </div>
                     </div>
                   </div>
 
