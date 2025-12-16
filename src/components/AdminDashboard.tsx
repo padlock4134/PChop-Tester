@@ -2527,20 +2527,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     
                     return (
                       <div key={user.id} className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
-                        <div className="flex flex-row items-start gap-3 sm:gap-4 mb-3">
-                          <div className="flex-1">
-                            <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{user.username || 'N/A'}</h4>
-                            <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
-                              Level {user.level || 1}
-                            </span>
-                            <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                              <p>📚 Program: Culinary Arts</p>
-                              <p className="truncate">📧 {user.email}</p>
-                              <p>📞 (555) 123-4567</p>
-                            </div>
-                          </div>
-                          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-xl sm:text-2xl flex-shrink-0 border border-black">
-                            {initials}
+                        <div className="mb-3">
+                          <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{user.username || 'N/A'}</h4>
+                          <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
+                            Level {user.level || 1}
+                          </span>
+                          <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                            <p>📚 Program: Culinary Arts</p>
+                            <p className="truncate">📧 {user.email}</p>
+                            <p>📞 (555) 123-4567</p>
                           </div>
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2">
