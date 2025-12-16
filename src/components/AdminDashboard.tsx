@@ -2463,60 +2463,60 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Student Management Modal */}
       {showStudentManagementModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Student Management Dashboard</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-3 sm:p-6 max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="text-center mb-4 sm:mb-6 relative">
+              <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Student Management Dashboard</h2>
               <button
                 onClick={() => setShowStudentManagementModal(false)}
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
               >
                 ×
               </button>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Manage student progress, XP levels, academic performance, and individual student records.</p>
+            <p className="text-center text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Manage student progress, XP levels, academic performance, and individual student records.</p>
             
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Student Overview Stats */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">📊 Student Overview</h3>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-blue-600">{stats.totalUsers}</div>
-                    <p className="text-sm text-blue-800 font-medium">Total Students</p>
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 Student Overview</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">{stats.totalUsers}</div>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Students</p>
                     <p className="text-xs text-blue-600">Currently enrolled</p>
                   </div>
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-green-600">{stats.activeUsers}</div>
-                    <p className="text-sm text-green-800 font-medium">Active Students</p>
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">{stats.activeUsers}</div>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">Active Students</p>
                     <p className="text-xs text-green-600">Last 7 days</p>
                   </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-purple-600">{Math.round(stats.totalXP / Math.max(stats.totalUsers, 1))}</div>
-                    <p className="text-sm text-purple-800 font-medium">Avg XP per Student</p>
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">{Math.round(stats.totalXP / Math.max(stats.totalUsers, 1))}</div>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">Avg XP per Student</p>
                     <p className="text-xs text-purple-600">Experience points</p>
                   </div>
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-orange-600">{users.filter(u => (u.chat_count || 0) === 0).length}</div>
-                    <p className="text-sm text-orange-800 font-medium">Inactive Students</p>
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">{users.filter(u => (u.chat_count || 0) === 0).length}</div>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">Inactive Students</p>
                     <p className="text-xs text-orange-600">Need attention</p>
                   </div>
                 </div>
               </div>
 
               {/* Student Directory */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <div className="flex justify-center items-center mb-4 relative pl-6">
-                  <h3 className="font-bold text-maineBlue">📋 Student Directory</h3>
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <div className="flex flex-col sm:flex-row justify-center items-center mb-3 sm:mb-4 gap-2 sm:gap-0 sm:relative">
+                  <h3 className="font-bold text-maineBlue text-sm sm:text-base">📋 Student Directory</h3>
                   <button
                     onClick={() => setShowAddStudentModal(true)}
-                    className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center gap-2 absolute right-0"
+                    className="w-full sm:w-auto bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center justify-center gap-2 sm:absolute sm:right-0 min-h-[44px]"
                   >
                     <span className="text-lg">+</span> Add Student
                   </button>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   {users.slice(0, 10).map((user) => {
                     const initials = (user.username || user.email || 'NA')
                       .split(' ')
@@ -2526,22 +2526,21 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       .slice(0, 2);
                     
                     return (
-                      <div key={user.id} className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
-                        <div className="flex items-center gap-4 mb-3">
-                          <div className="flex-1">
-                            <h4 className="font-medium text-gray-900 mb-1">{user.username || 'N/A'}</h4>
+                      <div key={user.id} className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
+                        <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-3">
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-xl sm:text-2xl flex-shrink-0 border border-black order-first sm:order-last">
+                            {initials}
+                          </div>
+                          <div className="flex-1 text-center sm:text-left w-full">
+                            <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{user.username || 'N/A'}</h4>
                             <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
                               Level {user.level || 1}
                             </span>
-                            <div className="text-sm text-gray-600 space-y-1">
+                            <div className="text-xs sm:text-sm text-gray-600 space-y-1">
                               <p>📚 Program: Culinary Arts</p>
-                              <p>📧 Email: {user.email}</p>
-                              <p>📞 Phone: (555) 123-4567</p>
+                              <p className="truncate">📧 {user.email}</p>
+                              <p>📞 (555) 123-4567</p>
                             </div>
-                          </div>
-                          <div className="w-px h-24 bg-gray-300"></div>
-                          <div className="w-20 h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
-                            {initials}
                           </div>
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2">
@@ -2583,7 +2582,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               setEditingStudent(user);
                               setShowEditStudentModal(true);
                             }}
-                            className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-1 border border-maineBlue rounded text-sm transition-colors"
+                            className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                           >
                             Edit
                           </button>
@@ -2594,7 +2593,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                                 alert('Student removed successfully!');
                               }
                             }}
-                            className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-1 border border-red-600 rounded text-sm transition-colors"
+                            className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                           >
                             Remove
                           </button>
@@ -2611,31 +2610,31 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Quick Actions */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">⚡ Quick Actions</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⚡ Quick Actions</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                   <button 
                     onClick={() => setShowAnnouncementModal(true)}
-                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
-                    <div className="text-2xl mb-2">📧</div>
-                    <h4 className="font-medium text-blue-800">Send Announcement</h4>
+                    <div className="text-xl sm:text-2xl mb-2">📧</div>
+                    <h4 className="font-medium text-blue-800 text-sm sm:text-base">Send Announcement</h4>
                     <p className="text-xs text-blue-600">Notify all students</p>
                   </button>
                   <button 
                     onClick={() => setShowCsvImportModal(true)}
-                    className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                    className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
-                    <div className="text-2xl mb-2">📤</div>
-                    <h4 className="font-medium text-green-800">Import Students (CSV)</h4>
+                    <div className="text-xl sm:text-2xl mb-2">📤</div>
+                    <h4 className="font-medium text-green-800 text-sm sm:text-base">Import Students (CSV)</h4>
                     <p className="text-xs text-green-600">Bulk upload student list</p>
                   </button>
                   <button 
                     onClick={() => setShowExportDataModal(true)}
-                    className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                    className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
-                    <div className="text-2xl mb-2">📄</div>
-                    <h4 className="font-medium text-purple-800">Export Student Data</h4>
+                    <div className="text-xl sm:text-2xl mb-2">📄</div>
+                    <h4 className="font-medium text-purple-800 text-sm sm:text-base">Export Student Data</h4>
                     <p className="text-xs text-purple-600">Download student records</p>
                   </button>
                 </div>
