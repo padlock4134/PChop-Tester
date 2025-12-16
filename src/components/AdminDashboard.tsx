@@ -3603,130 +3603,134 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Content Analytics Modal */}
       {showContentAnalyticsModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-center text-2xl font-bold text-maineBlue font-retro">Content Analytics Dashboard</h2>
-              <button
-                onClick={() => setShowContentAnalyticsModal(false)}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Content Analytics Dashboard</h2>
+                <button
+                  onClick={() => setShowContentAnalyticsModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Monitor content performance, student engagement, and curriculum effectiveness across all modules.</p>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Monitor content performance, student engagement, and curriculum effectiveness across all modules.</p>
-            
-            <div className="space-y-6">
-              {/* Content Performance Overview */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">📊 Content Performance Overview</h3>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-blue-600">847</div>
-                    <p className="text-sm text-blue-800 font-medium">Total Recipe Views</p>
-                    <p className="text-xs text-blue-600">↑ 12% this week</p>
-                  </div>
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-blue-600">73%</div>
-                    <p className="text-sm text-blue-800 font-medium">Completion Rate</p>
-                    <p className="text-xs text-blue-600">↑ 5% this week</p>
-                  </div>
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-blue-600">4.2</div>
-                    <p className="text-sm text-blue-800 font-medium">Avg Engagement Score</p>
-                    <p className="text-xs text-blue-600">→ No change</p>
-                  </div>
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-blue-600">28</div>
-                    <p className="text-sm text-blue-800 font-medium">Active Recipes</p>
-                    <p className="text-xs text-blue-600">↑ 3 new this week</p>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-6">
+                {/* Content Performance Overview */}
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📊 Content Performance Overview</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
+                      <div className="text-2xl sm:text-3xl font-bold text-blue-600">847</div>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Recipe Views</p>
+                      <p className="text-xs text-blue-600">↑ 12% this week</p>
+                    </div>
+                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
+                      <div className="text-2xl sm:text-3xl font-bold text-blue-600">73%</div>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Completion Rate</p>
+                      <p className="text-xs text-blue-600">↑ 5% this week</p>
+                    </div>
+                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
+                      <div className="text-2xl sm:text-3xl font-bold text-blue-600">4.2</div>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Avg Engagement Score</p>
+                      <p className="text-xs text-blue-600">→ No change</p>
+                    </div>
+                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
+                      <div className="text-2xl sm:text-3xl font-bold text-blue-600">28</div>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Active Recipes</p>
+                      <p className="text-xs text-blue-600">↑ 3 new this week</p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Top Performing Content */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-3">🏆 Top Performing Recipes</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                      <div>
-                        <p className="font-medium text-gray-900">French Knife Skills</p>
-                        <p className="text-sm text-gray-600">MyCookBook</p>
+                {/* Top Performing Content */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6">
+                  <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏆 Top Performing Recipes</h3>
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
+                        <div>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">French Knife Skills</p>
+                          <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-base sm:text-lg font-bold text-blue-600">94%</p>
+                          <p className="text-xs text-gray-500">Completion</p>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">94%</p>
-                        <p className="text-xs text-gray-500">Completion</p>
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
+                        <div>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Mother Sauces Mastery</p>
+                          <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-base sm:text-lg font-bold text-blue-600">89%</p>
+                          <p className="text-xs text-gray-500">Completion</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
+                        <div>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Pasta Making Fundamentals</p>
+                          <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-base sm:text-lg font-bold text-blue-600">76%</p>
+                          <p className="text-xs text-gray-500">Completion</p>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                      <div>
-                        <p className="font-medium text-gray-900">Mother Sauces Mastery</p>
-                        <p className="text-sm text-gray-600">MyCookBook</p>
+                  </div>
+
+                  <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📉 Content Needing Attention</h3>
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
+                        <div>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Advanced Plating Techniques</p>
+                          <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-base sm:text-lg font-bold text-blue-600">34%</p>
+                          <p className="text-xs text-gray-500">Completion</p>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">89%</p>
-                        <p className="text-xs text-gray-500">Completion</p>
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
+                        <div>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Molecular Gastronomy Basics</p>
+                          <p className="text-xs sm:text-sm text-gray-600">Chef's Corner</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-base sm:text-lg font-bold text-blue-600">28%</p>
+                          <p className="text-xs text-gray-500">Completion</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
+                        <div>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Wine Pairing Fundamentals</p>
+                          <p className="text-xs sm:text-sm text-gray-600">CulinarySchool</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-base sm:text-lg font-bold text-blue-600">52%</p>
+                          <p className="text-xs text-gray-500">Completion</p>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                      <div>
-                        <p className="font-medium text-gray-900">Pasta Making Fundamentals</p>
-                        <p className="text-sm text-gray-600">MyCookBook</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">76%</p>
-                        <p className="text-xs text-gray-500">Completion</p>
-                      </div>
-                      </div>
-                    </div>
+                  </div>
                 </div>
 
-                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-3">📉 Content Needing Attention</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                      <div>
-                        <p className="font-medium text-gray-900">Advanced Plating Techniques</p>
-                        <p className="text-sm text-gray-600">MyCookBook</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">34%</p>
-                        <p className="text-xs text-gray-500">Completion</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                      <div>
-                        <p className="font-medium text-gray-900">Molecular Gastronomy Basics</p>
-                        <p className="text-sm text-gray-600">Chef's Corner</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">28%</p>
-                        <p className="text-xs text-gray-500">Completion</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                      <div>
-                        <p className="font-medium text-gray-900">Wine Pairing Fundamentals</p>
-                        <p className="text-sm text-gray-600">CulinarySchool</p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-lg font-bold text-blue-600">52%</p>
-                        <p className="text-xs text-gray-500">Completion</p>
-                      </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-              {/* Module-Specific Analytics */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">📈 Module-Specific Analytics</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-900 mb-2">📚 MyCookBook</h4>
-                    <div className="space-y-1 text-sm">
+                {/* Module-Specific Analytics */}
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📈 Module-Specific Analytics</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
+                      <h4 className="font-medium text-blue-900 mb-2 text-xs sm:text-base">📚 MyCookBook</h4>
+                      <div className="space-y-1 text-xs sm:text-sm">
                       <div className="flex justify-between">
                         <span>Active Recipes:</span>
                         <span className="font-medium">18</span>
@@ -3798,13 +3802,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              {/* Time-Based Analytics */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">🕰️ Time-Based Analytics</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Peak Usage Times</h4>
-                    <div className="space-y-2 text-sm">
+                {/* Time-Based Analytics */}
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🕰️ Time-Based Analytics</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+                    <div>
+                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">Peak Usage Times</h4>
+                      <div className="space-y-2 text-xs sm:text-sm">
                       <div className="flex justify-between">
                         <span>10:00 AM - 12:00 PM:</span>
                         <span className="font-medium text-green-600">High</span>
@@ -3838,71 +3842,64 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                     </div>
                   
-                  <div>
-                    <h4 className="text-center font-medium text-gray-800 mb-2">Content Filters</h4>
-                    <div className="space-y-2">
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue">
-                        <option>Last 7 days</option>
-                        <option>Last 30 days</option>
-                        <option>Last 3 months</option>
-                        <option>All time</option>
-                      </select>
-                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue">
-                        <option>All Modules</option>
-                        <option>MyCookBook</option>
-                        <option>CulinarySchool</option>
-                        <option>Chef's Corner</option>
-                        <option>Global Test Kitchen</option>
-                      </select>
+                    <div>
+                      <h4 className="text-center font-medium text-gray-800 mb-2 text-xs sm:text-base">Content Filters</h4>
+                      <div className="space-y-2">
+                        <select className="w-full px-2 sm:px-3 py-2 border-4 border-blue-400 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white min-h-[44px]">
+                          <option>Last 7 days</option>
+                          <option>Last 30 days</option>
+                          <option>Last 3 months</option>
+                          <option>All time</option>
+                        </select>
+                        <select className="w-full px-2 sm:px-3 py-2 border-4 border-blue-400 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white min-h-[44px]">
+                          <option>All Modules</option>
+                          <option>MyCookBook</option>
+                          <option>CulinarySchool</option>
+                          <option>Chef's Corner</option>
+                          <option>Global Test Kitchen</option>
+                        </select>
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div className="flex justify-center">
+                  <button
+                    onClick={async () => {
+                      try {
+                        // Generate analytics report data
+                        const analyticsData = [
+                          { metric: 'Total Recipe Views', value: 847, change: '+12%' },
+                          { metric: 'Completion Rate', value: '73%', change: '+5%' },
+                          { metric: 'Avg Engagement Score', value: 4.2, change: 'No change' },
+                          { metric: 'Active Recipes', value: 28, change: '+3 new' },
+                          { metric: 'Top Recipe', value: 'French Knife Skills', completion: '94%' },
+                          { metric: 'Needs Attention', value: 'Advanced Plating', completion: '34%' }
+                        ];
+                        
+                        const csv = convertToCSV(analyticsData);
+                        const timestamp = new Date().toISOString().split('T')[0];
+                        const filename = `content-analytics-${timestamp}.csv`;
+                        downloadFile(csv, filename);
+                        
+                        // Show branded success modal
+                        setDownloadedReportInfo({
+                          type: 'Content Analytics Report',
+                          count: analyticsData.length,
+                          filename: filename
+                        });
+                        setShowDownloadSuccessModal(true);
+                        setShowContentAnalyticsModal(false);
+                      } catch (error: any) {
+                        console.error('Error exporting analytics:', error);
+                        alert('Failed to export analytics: ' + error.message);
+                      }
+                    }}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    📊 Export Analytics Report
+                  </button>
                 </div>
               </div>
-            </div>
-            
-            {/* Action Buttons */}
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => setShowContentAnalyticsModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Close
-              </button>
-              <button
-                onClick={async () => {
-                  try {
-                    // Generate analytics report data
-                    const analyticsData = [
-                      { metric: 'Total Recipe Views', value: 847, change: '+12%' },
-                      { metric: 'Completion Rate', value: '73%', change: '+5%' },
-                      { metric: 'Avg Engagement Score', value: 4.2, change: 'No change' },
-                      { metric: 'Active Recipes', value: 28, change: '+3 new' },
-                      { metric: 'Top Recipe', value: 'French Knife Skills', completion: '94%' },
-                      { metric: 'Needs Attention', value: 'Advanced Plating', completion: '34%' }
-                    ];
-                    
-                    const csv = convertToCSV(analyticsData);
-                    const timestamp = new Date().toISOString().split('T')[0];
-                    const filename = `content-analytics-${timestamp}.csv`;
-                    downloadFile(csv, filename);
-                    
-                    // Show branded success modal
-                    setDownloadedReportInfo({
-                      type: 'Content Analytics Report',
-                      count: analyticsData.length,
-                      filename: filename
-                    });
-                    setShowDownloadSuccessModal(true);
-                    setShowContentAnalyticsModal(false);
-                  } catch (error: any) {
-                    console.error('Error exporting analytics:', error);
-                    alert('Failed to export analytics: ' + error.message);
-                  }
-                }}
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
-              >
-                📊 Export Analytics Report
-              </button>
             </div>
           </div>
         </div>
