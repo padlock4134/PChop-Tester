@@ -3334,7 +3334,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Enrollment Health Dashboard</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Enrollment Health</h2>
                 <button
                   onClick={() => setShowEnrollmentHealthModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
