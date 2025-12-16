@@ -3214,7 +3214,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </select>
             </div>
             
-            <div className="space-y-6">
               {/* Selected Program Indicator */}
               {selectedProgram !== 'all' && (
                 <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-3 text-center">
