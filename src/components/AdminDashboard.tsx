@@ -6563,169 +6563,170 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Gifting & Donations Modal */}
       {showGiftingDonationsModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-purple-600 font-retro">📄 Gifting & Donations</h2>
-              <button
-                onClick={() => setShowGiftingDonationsModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50 text-center">
-                  <div className="text-3xl font-bold text-purple-600">$45,000</div>
-                  <p className="text-sm text-purple-800 font-medium mt-1">Total Raised</p>
-                </div>
-                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
-                  <div className="text-3xl font-bold text-blue-600">127</div>
-                  <p className="text-sm text-blue-800 font-medium mt-1">Donors</p>
-                </div>
-                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
-                  <div className="text-3xl font-bold text-green-600">$354</div>
-                  <p className="text-sm text-green-800 font-medium mt-1">Avg. Donation</p>
-                </div>
-              </div>
-              <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50">
-                <h3 className="font-bold text-purple-800 mb-3">Active Campaigns:</h3>
-                <div className="space-y-3">
-                  <div className="bg-white border-2 border-purple-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="font-semibold text-gray-900">Scholarship Fund 2025</p>
-                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                      <div className="bg-purple-600 h-2 rounded-full" style={{width: '75%'}}></div>
-                    </div>
-                    <p className="text-xs text-gray-600">$22,500 of $30,000 goal</p>
-                  </div>
-                  <div className="bg-white border-2 border-purple-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="font-semibold text-gray-900">New Kitchen Equipment</p>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">In Progress</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                      <div className="bg-purple-600 h-2 rounded-full" style={{width: '45%'}}></div>
-                    </div>
-                    <p className="text-xs text-gray-600">$13,500 of $30,000 goal</p>
-                  </div>
-                </div>
-              </div>
-              <div className="border-4 border-purple-400 rounded-lg p-4">
-                <h3 className="font-bold text-purple-800 mb-2">Create New Campaign:</h3>
-                <div className="space-y-3">
-                  <input
-                    type="text"
-                    value={campaignName}
-                    onChange={(e) => setCampaignName(e.target.value)}
-                    placeholder="Campaign name"
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                  <input
-                    type="number"
-                    value={campaignGoal}
-                    onChange={(e) => setCampaignGoal(e.target.value)}
-                    placeholder="Fundraising goal ($)"
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                  <textarea
-                    rows={3}
-                    value={campaignDescription}
-                    onChange={(e) => setCampaignDescription(e.target.value)}
-                    placeholder="Campaign description..."
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end gap-3">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 w-full max-w-3xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-purple-600 font-retro">📄 Gifting & Donations</h2>
                 <button
                   onClick={() => setShowGiftingDonationsModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
                 >
-                  Close
+                  ×
                 </button>
-                <button
-                  onClick={() => {
-                    try {
-                      // Generate donor list data
-                      const donorData = [
-                        { name: 'John Smith', email: 'john.s@email.com', amount: 500, date: '2024-11-15', campaign: 'Scholarship Fund 2025' },
-                        { name: 'Mary Johnson', email: 'mary.j@email.com', amount: 250, date: '2024-11-18', campaign: 'Scholarship Fund 2025' },
-                        { name: 'Robert Davis', email: 'robert.d@email.com', amount: 1000, date: '2024-11-20', campaign: 'New Kitchen Equipment' },
-                        { name: 'Sarah Wilson', email: 'sarah.w@email.com', amount: 150, date: '2024-11-22', campaign: 'Scholarship Fund 2025' },
-                        { name: 'Michael Brown', email: 'michael.b@email.com', amount: 750, date: '2024-11-23', campaign: 'New Kitchen Equipment' }
-                      ];
-                      
-                      const csv = convertToCSV(donorData);
-                      const timestamp = new Date().toISOString().split('T')[0];
-                      const filename = `donor-list-${timestamp}.csv`;
-                      downloadFile(csv, filename);
-                      
-                      // Show branded success modal
-                      setDownloadedReportInfo({
-                        type: 'Donor List',
-                        count: donorData.length,
-                        filename: filename
-                      });
-                      setShowDownloadSuccessModal(true);
-                      setShowGiftingDonationsModal(false);
-                    } catch (error: any) {
-                      console.error('Error exporting donor list:', error);
-                      alert('Failed to export: ' + error.message);
-                    }
-                  }}
-                  className="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 font-retro"
-                >
-                  📊 Export Donor List
-                </button>
-                <button
-                  onClick={async () => {
-                    if (!campaignName.trim() || !campaignGoal) {
-                      showWarning('Please enter campaign name and goal');
-                      return;
-                    }
-                    
-                    setCreatingCampaign(true);
-                    try {
-                      const { error } = await supabase
-                        .from('donation_campaigns')
-                        .insert({
-                          name: campaignName,
-                          goal_amount: parseFloat(campaignGoal),
-                          current_amount: 0,
-                          status: 'active',
-                          description: campaignDescription || null
+              </div>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
+                  <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">$45,000</div>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium mt-1">Total Raised</p>
+                  </div>
+                  <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">127</div>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium mt-1">Donors</p>
+                  </div>
+                  <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4 bg-green-50 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">$354</div>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium mt-1">Avg. Donation</p>
+                  </div>
+                </div>
+                <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50">
+                  <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Campaigns:</h3>
+                  <div className="space-y-2 sm:space-y-3">
+                    <div className="bg-white border-2 border-purple-300 rounded-lg p-2 sm:p-3">
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="font-semibold text-gray-900 text-xs sm:text-base">Scholarship Fund 2025</p>
+                        <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                        <div className="bg-purple-600 h-2 rounded-full" style={{width: '75%'}}></div>
+                      </div>
+                      <p className="text-xs text-gray-600">$22,500 of $30,000 goal</p>
+                    </div>
+                    <div className="bg-white border-2 border-purple-300 rounded-lg p-2 sm:p-3">
+                      <div className="flex justify-between items-center mb-2">
+                        <p className="font-semibold text-gray-900 text-xs sm:text-base">New Kitchen Equipment</p>
+                        <span className="text-xs sm:text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">In Progress</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+                        <div className="bg-purple-600 h-2 rounded-full" style={{width: '45%'}}></div>
+                      </div>
+                      <p className="text-xs text-gray-600">$13,500 of $30,000 goal</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
+                  <h3 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Create New Campaign:</h3>
+                  <div className="space-y-2 sm:space-y-3">
+                    <input
+                      type="text"
+                      value={campaignName}
+                      onChange={(e) => setCampaignName(e.target.value)}
+                      placeholder="Campaign name"
+                      className="w-full border-4 border-purple-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base min-h-[44px]"
+                    />
+                    <input
+                      type="number"
+                      value={campaignGoal}
+                      onChange={(e) => setCampaignGoal(e.target.value)}
+                      placeholder="Fundraising goal ($)"
+                      className="w-full border-4 border-purple-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base min-h-[44px]"
+                    />
+                    <textarea
+                      rows={3}
+                      value={campaignDescription}
+                      onChange={(e) => setCampaignDescription(e.target.value)}
+                      placeholder="Campaign description..."
+                      className="w-full border-4 border-purple-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm sm:text-base"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
+                  <button
+                    onClick={() => {
+                      try {
+                        // Generate donor list data
+                        const donorData = [
+                          { name: 'John Smith', email: 'john.s@email.com', amount: 500, date: '2024-11-15', campaign: 'Scholarship Fund 2025' },
+                          { name: 'Mary Johnson', email: 'mary.j@email.com', amount: 250, date: '2024-11-18', campaign: 'Scholarship Fund 2025' },
+                          { name: 'Robert Davis', email: 'robert.d@email.com', amount: 1000, date: '2024-11-20', campaign: 'New Kitchen Equipment' },
+                          { name: 'Sarah Wilson', email: 'sarah.w@email.com', amount: 150, date: '2024-11-22', campaign: 'Scholarship Fund 2025' },
+                          { name: 'Michael Brown', email: 'michael.b@email.com', amount: 750, date: '2024-11-23', campaign: 'New Kitchen Equipment' }
+                        ];
+                        
+                        const csv = convertToCSV(donorData);
+                        const timestamp = new Date().toISOString().split('T')[0];
+                        const filename = `donor-list-${timestamp}.csv`;
+                        downloadFile(csv, filename);
+                        
+                        // Show branded success modal
+                        setDownloadedReportInfo({
+                          type: 'Donor List',
+                          count: donorData.length,
+                          filename: filename
                         });
+                        setShowDownloadSuccessModal(true);
+                        setShowGiftingDonationsModal(false);
+                      } catch (error: any) {
+                        console.error('Error exporting donor list:', error);
+                        alert('Failed to export: ' + error.message);
+                      }
+                    }}
+                    className="w-full sm:w-auto bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    📊 Export Donor List
+                  </button>
+                  <button
+                    onClick={async () => {
+                      if (!campaignName.trim() || !campaignGoal) {
+                        showWarning('Please enter campaign name and goal');
+                        return;
+                      }
                       
-                      if (error) throw error;
-                      
-                      // Show branded success modal
-                      setDownloadedReportInfo({
-                        type: 'Fundraising Campaign Created',
-                        count: 1,
-                        filename: `${campaignName} - Goal: $${campaignGoal}`
-                      });
-                      setShowDownloadSuccessModal(true);
-                      
-                      setCampaignName('');
-                      setCampaignGoal('');
-                      setCampaignDescription('');
-                      setShowGiftingDonationsModal(false);
-                    } catch (error: any) {
-                      console.error('Error creating campaign:', error);
-                      alert('Failed to create campaign: ' + error.message);
-                    } finally {
-                      setCreatingCampaign(false);
-                    }
-                  }}
-                  disabled={creatingCampaign}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {creatingCampaign ? 'Creating...' : 'Launch Campaign'}
-                </button>
+                      setCreatingCampaign(true);
+                      try {
+                        const { error } = await supabase
+                          .from('donation_campaigns')
+                          .insert({
+                            name: campaignName,
+                            goal_amount: parseFloat(campaignGoal),
+                            current_amount: 0,
+                            status: 'active',
+                            description: campaignDescription || null
+                          });
+                        
+                        if (error) throw error;
+                        
+                        // Show branded success modal
+                        setDownloadedReportInfo({
+                          type: 'Fundraising Campaign Created',
+                          count: 1,
+                          filename: `${campaignName} - Goal: $${campaignGoal}`
+                        });
+                        setShowDownloadSuccessModal(true);
+                        
+                        setCampaignName('');
+                        setCampaignGoal('');
+                        setCampaignDescription('');
+                        setShowGiftingDonationsModal(false);
+                      } catch (error: any) {
+                        console.error('Error creating campaign:', error);
+                        alert('Failed to create campaign: ' + error.message);
+                      } finally {
+                        setCreatingCampaign(false);
+                      }
+                    }}
+                    disabled={creatingCampaign}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                  >
+                    {creatingCampaign ? 'Creating...' : 'Launch Campaign'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
