@@ -233,6 +233,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [editingStudent, setEditingStudent] = useState<User | null>(null);
   const [showEditFacultyModal, setShowEditFacultyModal] = useState(false);
   const [editingFaculty, setEditingFaculty] = useState<any | null>(null);
+  const [showEditAlumniModal, setShowEditAlumniModal] = useState(false);
+  const [editingAlumni, setEditingAlumni] = useState<any | null>(null);
   const [facultyList, setFacultyList] = useState([
     {
       id: 'faculty-1',
@@ -2891,7 +2893,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="flex gap-2">
                       <button
                         onClick={() => {
-                          alert('Edit alumni feature coming soon!');
+                          setEditingAlumni(alumniList[0]);
+                          setShowEditAlumniModal(true);
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
@@ -2900,6 +2903,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <button
                         onClick={() => {
                           if (window.confirm('Are you sure you want to remove Maria Santos from alumni records?')) {
+                            setAlumniList(prev => prev.filter(a => a.id !== alumniList[0].id));
                             alert('Alumni member removed successfully!');
                           }
                         }}
@@ -2925,7 +2929,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="flex gap-2">
                       <button
                         onClick={() => {
-                          alert('Edit alumni feature coming soon!');
+                          setEditingAlumni(alumniList[1]);
+                          setShowEditAlumniModal(true);
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
@@ -2934,6 +2939,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <button
                         onClick={() => {
                           if (window.confirm('Are you sure you want to remove James Chen from alumni records?')) {
+                            setAlumniList(prev => prev.filter(a => a.id !== alumniList[1].id));
                             alert('Alumni member removed successfully!');
                           }
                         }}
@@ -2959,7 +2965,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="flex gap-2">
                       <button
                         onClick={() => {
-                          alert('Edit alumni feature coming soon!');
+                          setEditingAlumni(alumniList[2]);
+                          setShowEditAlumniModal(true);
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
@@ -2968,6 +2975,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <button
                         onClick={() => {
                           if (window.confirm('Are you sure you want to remove Ashley Rodriguez from alumni records?')) {
+                            setAlumniList(prev => prev.filter(a => a.id !== alumniList[2].id));
                             alert('Alumni member removed successfully!');
                           }
                         }}
@@ -2993,7 +3001,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="flex gap-2">
                       <button
                         onClick={() => {
-                          alert('Edit alumni feature coming soon!');
+                          setEditingAlumni(alumniList[3]);
+                          setShowEditAlumniModal(true);
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
@@ -3002,6 +3011,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <button
                         onClick={() => {
                           if (window.confirm('Are you sure you want to remove David Miller from alumni records?')) {
+                            setAlumniList(prev => prev.filter(a => a.id !== alumniList[3].id));
                             alert('Alumni member removed successfully!');
                           }
                         }}
@@ -6182,6 +6192,105 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   {sendingNewsletter ? 'Sending...' : 'Send Newsletter'}
                 </button>
               </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Alumni Modal */}
+      {showEditAlumniModal && editingAlumni && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-2xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">✏️ Edit Alumni</h2>
+                <button
+                  onClick={() => {
+                    setShowEditAlumniModal(false);
+                    setEditingAlumni(null);
+                  }}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Full Name:</label>
+                  <input
+                    type="text"
+                    value={editingAlumni.name}
+                    onChange={(e) => setEditingAlumni({...editingAlumni, name: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Email:</label>
+                  <input
+                    type="email"
+                    value={editingAlumni.email}
+                    onChange={(e) => setEditingAlumni({...editingAlumni, email: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Graduation Year:</label>
+                  <input
+                    type="text"
+                    value={editingAlumni.graduationYear}
+                    onChange={(e) => setEditingAlumni({...editingAlumni, graduationYear: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Current Position:</label>
+                  <input
+                    type="text"
+                    value={editingAlumni.position}
+                    onChange={(e) => setEditingAlumni({...editingAlumni, position: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Employer:</label>
+                  <input
+                    type="text"
+                    value={editingAlumni.employer}
+                    onChange={(e) => setEditingAlumni({...editingAlumni, employer: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Salary/Revenue:</label>
+                  <input
+                    type="text"
+                    value={editingAlumni.salary}
+                    onChange={(e) => setEditingAlumni({...editingAlumni, salary: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => {
+                      // Update the alumni in the list
+                      setAlumniList(prev => prev.map(a => 
+                        a.id === editingAlumni.id ? editingAlumni : a
+                      ));
+                      setShowEditAlumniModal(false);
+                      setEditingAlumni(null);
+                      alert('Alumni information updated successfully!');
+                    }}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    Save Changes
+                  </button>
+                </div>
               </div>
             </div>
           </div>
