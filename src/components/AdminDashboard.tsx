@@ -3349,80 +3349,80 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="flex-1 overflow-y-auto p-3 sm:p-6">
               <div className="space-y-4 sm:space-y-6">
               {/* Current Enrollment Status */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">📊 Current Enrollment Status</h3>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-blue-600">247</div>
-                    <p className="text-sm text-blue-800 font-medium">Total Enrolled</p>
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 Current Enrollment Status</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">247</div>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Enrolled</p>
                     <p className="text-xs text-blue-600">↑ 12 vs last month</p>
                   </div>
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-green-600">89%</div>
-                    <p className="text-sm text-green-800 font-medium">Active Students</p>
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">89%</div>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">Active Students</p>
                     <p className="text-xs text-green-600">↑ 3% vs last month</p>
                   </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-purple-600">300</div>
-                    <p className="text-sm text-purple-800 font-medium">License Capacity</p>
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">300</div>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">License Capacity</p>
                     <p className="text-xs text-purple-600">82% utilized</p>
                   </div>
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-orange-600">23</div>
-                    <p className="text-sm text-orange-800 font-medium">New This Month</p>
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">23</div>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">New This Month</p>
                     <p className="text-xs text-orange-600">↑ 5 vs last month</p>
                   </div>
                 </div>
               </div>
 
               {/* Retention & Completion Rates */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">🎓 Retention & Completion Rates</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="bg-emerald-50 border-4 border-emerald-400 rounded-lg p-4 text-center">
-                    <div className="text-4xl font-bold text-emerald-600">94%</div>
-                    <p className="text-sm text-emerald-800 font-medium">Semester Retention</p>
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 Retention & Completion Rates</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
+                  <div className="bg-emerald-50 border-4 border-emerald-400 rounded-lg p-3 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-emerald-600">94%</div>
+                    <p className="text-xs sm:text-sm text-emerald-800 font-medium">Semester Retention</p>
                     <p className="text-xs text-emerald-600">Students continuing program</p>
                   </div>
-                  <div className="bg-teal-50 border-4 border-teal-400 rounded-lg p-4 text-center">
-                    <div className="text-4xl font-bold text-teal-600">87%</div>
-                    <p className="text-sm text-teal-800 font-medium">Program Completion</p>
+                  <div className="bg-teal-50 border-4 border-teal-400 rounded-lg p-3 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-teal-600">87%</div>
+                    <p className="text-xs sm:text-sm text-teal-800 font-medium">Program Completion</p>
                     <p className="text-xs text-teal-600">Students finishing program</p>
                   </div>
-                  <div className="bg-indigo-50 border-4 border-indigo-400 rounded-lg p-4 text-center">
-                    <div className="text-4xl font-bold text-indigo-600">6%</div>
-                    <p className="text-sm text-indigo-800 font-medium">Dropout Rate</p>
+                  <div className="bg-indigo-50 border-4 border-indigo-400 rounded-lg p-3 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-indigo-600">6%</div>
+                    <p className="text-xs sm:text-sm text-indigo-800 font-medium">Dropout Rate</p>
                     <p className="text-xs text-indigo-600">Students leaving early</p>
                   </div>
                 </div>
               </div>
 
               {/* Enrollment Trends */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">📈 Enrollment Trends</h3>
-                <div className="space-y-4">
-                  <div className="bg-gray-50 rounded-lg p-4">
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📈 Enrollment Trends</h3>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium">Fall Semester Growth</span>
-                      <span className="text-sm font-bold text-green-600">+15% enrollment</span>
+                      <span className="font-medium text-xs sm:text-base">Fall Semester Growth</span>
+                      <span className="text-xs sm:text-sm font-bold text-green-600">+15% enrollment</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-green-600 h-3 rounded-full" style={{width: '78%'}}></div>
                     </div>
                   </div>
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium">Spring Semester Projections</span>
-                      <span className="text-sm font-bold text-blue-600">+8% projected growth</span>
+                      <span className="font-medium text-xs sm:text-base">Spring Semester Projections</span>
+                      <span className="text-xs sm:text-sm font-bold text-blue-600">+8% projected growth</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-blue-600 h-3 rounded-full" style={{width: '65%'}}></div>
                     </div>
                   </div>
-                  <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium">Summer Program Interest</span>
-                      <span className="text-sm font-bold text-purple-600">42 pre-registrations</span>
+                      <span className="font-medium text-xs sm:text-base">Summer Program Interest</span>
+                      <span className="text-xs sm:text-sm font-bold text-purple-600">42 pre-registrations</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-purple-600 h-3 rounded-full" style={{width: '42%'}}></div>
@@ -3432,74 +3432,74 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Class Cohort Performance */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">👥 Class Cohort Performance</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">👥 Class Cohort Performance</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
                   <div>
-                    <h4 className="text-center font-medium text-gray-800 mb-3">Current Cohorts</h4>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                    <h4 className="text-center font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Current Cohorts</h4>
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900">Culinary Arts - Fall 2024</p>
-                          <p className="text-sm text-gray-600">42 students</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Culinary Arts - Fall 2024</p>
+                          <p className="text-xs sm:text-sm text-gray-600">42 students</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-blue-600">95%</p>
+                          <p className="text-base sm:text-lg font-bold text-blue-600">95%</p>
                           <p className="text-xs text-gray-500">Retention</p>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-green-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900">Baking & Pastry - Fall 2024</p>
-                          <p className="text-sm text-gray-600">28 students</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Baking & Pastry - Fall 2024</p>
+                          <p className="text-xs sm:text-sm text-gray-600">28 students</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-green-600">92%</p>
+                          <p className="text-base sm:text-lg font-bold text-green-600">92%</p>
                           <p className="text-xs text-gray-500">Retention</p>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-purple-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900">Hospitality Management</p>
-                          <p className="text-sm text-gray-600">35 students</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Hospitality Management</p>
+                          <p className="text-xs sm:text-sm text-gray-600">35 students</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-purple-600">88%</p>
+                          <p className="text-base sm:text-lg font-bold text-purple-600">88%</p>
                           <p className="text-xs text-gray-500">Retention</p>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-center font-medium text-gray-800 mb-3">Graduation Pipeline</h4>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-3 bg-emerald-50 rounded-lg">
+                    <h4 className="text-center font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Graduation Pipeline</h4>
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-emerald-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900">Graduating Spring 2025</p>
-                          <p className="text-sm text-gray-600">38 students</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Graduating Spring 2025</p>
+                          <p className="text-xs sm:text-sm text-gray-600">38 students</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-emerald-600">On Track</p>
+                          <p className="text-base sm:text-lg font-bold text-emerald-600">On Track</p>
                           <p className="text-xs text-gray-500">Status</p>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-yellow-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900">At Risk Students</p>
-                          <p className="text-sm text-gray-600">7 students</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">At Risk Students</p>
+                          <p className="text-xs sm:text-sm text-gray-600">7 students</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-yellow-600">Support</p>
+                          <p className="text-base sm:text-lg font-bold text-yellow-600">Support</p>
                           <p className="text-xs text-gray-500">Needed</p>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between p-3 bg-teal-50 rounded-lg">
+                      <div className="flex items-center justify-between p-2 sm:p-3 bg-teal-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900">Alumni Network</p>
-                          <p className="text-sm text-gray-600">342 graduates</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Alumni Network</p>
+                          <p className="text-xs sm:text-sm text-gray-600">342 graduates</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-lg font-bold text-teal-600">Active</p>
+                          <p className="text-base sm:text-lg font-bold text-teal-600">Active</p>
                           <p className="text-xs text-gray-500">Network</p>
                         </div>
                       </div>
@@ -3509,20 +3509,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* License Utilization Alert */}
-              <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-6">
-                <h3 className="text-center font-bold text-yellow-900 mb-4">⚠️ License Utilization Status</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-white border border-yellow-200 rounded-lg p-3">
-                    <div className="text-center text-2xl font-bold text-yellow-600 mb-1">82%</div>
-                    <p className="text-center text-sm text-yellow-800">Current utilization</p>
+              <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-yellow-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ License Utilization Status</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
+                  <div className="bg-white border border-yellow-200 rounded-lg p-2 sm:p-3">
+                    <div className="text-center text-xl sm:text-2xl font-bold text-yellow-600 mb-1">82%</div>
+                    <p className="text-center text-xs sm:text-sm text-yellow-800">Current utilization</p>
                   </div>
-                  <div className="bg-white border border-yellow-200 rounded-lg p-3">
-                    <div className="text-center text-2xl font-bold text-yellow-600 mb-1">53</div>
-                    <p className="text-center text-sm text-yellow-800">Available licenses</p>
+                  <div className="bg-white border border-yellow-200 rounded-lg p-2 sm:p-3">
+                    <div className="text-center text-xl sm:text-2xl font-bold text-yellow-600 mb-1">53</div>
+                    <p className="text-center text-xs sm:text-sm text-yellow-800">Available licenses</p>
                   </div>
-                  <div className="bg-white border border-yellow-200 rounded-lg p-3">
-                    <div className="text-center text-2xl font-bold text-yellow-600 mb-1">Q2</div>
-                    <p className="text-center text-sm text-yellow-800">Projected capacity</p>
+                  <div className="bg-white border border-yellow-200 rounded-lg p-2 sm:p-3">
+                    <div className="text-center text-xl sm:text-2xl font-bold text-yellow-600 mb-1">Q2</div>
+                    <p className="text-center text-xs sm:text-sm text-yellow-800">Projected capacity</p>
                   </div>
                 </div>
               </div>
