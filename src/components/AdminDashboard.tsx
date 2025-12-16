@@ -1812,9 +1812,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              {/* School Information */}
+              {/* School Information & Contact */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📝 School Information</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📝 School Information & Contact</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-center text-xs sm:text-sm font-medium text-gray-700 mb-1">School Name</label>
@@ -1846,13 +1846,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm"
                     />
                   </div>
-                </div>
-              </div>
-
-              {/* Contact Information */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📞 Contact Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                     <input
