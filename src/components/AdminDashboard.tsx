@@ -92,9 +92,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
   const [showChefFreddieModal, setShowChefFreddieModal] = useState(false);
-  const [freddieMessages, setFreddieMessages] = useState<Array<{sender: 'freddie' | 'user', text: string}>>([]);
+  const [freddieMessages, setFreddieMessages] = useState<Array<{sender: 'freddie' | 'user', text: string, id?: string}>>([]);
   const [freddieInput, setFreddieInput] = useState('');
   const [freddieLoading, setFreddieLoading] = useState(false);
+  const [recentCurriculum, setRecentCurriculum] = useState<Array<{id: string, title: string, content: string, type: string, module: string | null, applied: boolean, created_at: string}>>([]);
+  const [savingCurriculum, setSavingCurriculum] = useState(false);
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [curriculumToSave, setCurriculumToSave] = useState<{content: string, messageId: string} | null>(null);
   const [showCsvImportModal, setShowCsvImportModal] = useState(false);
   const [csvFile, setCsvFile] = useState<File | null>(null);
   const [parsedStudents, setParsedStudents] = useState<Array<{email: string, name?: string, error?: string}>>([]);
@@ -328,6 +332,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     setShowErrorModal(true);
   };
 
+  const showSuccess = (message: string) => {
+    setDownloadedReportInfo({ type: 'success', count: 0, filename: message });
+    setShowDownloadSuccessModal(true);
+  };
+
   // Mock upcoming events data
   const upcomingEvents = [
     {
@@ -393,7 +402,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     window.URL.revokeObjectURL(url);
   };
 
-  // Initialize Chef Freddie with welcome message
+  // Initialize Chef Freddie with welcome message and load recent curriculum
   useEffect(() => {
     if (showChefFreddieModal && freddieMessages.length === 0) {
       setFreddieMessages([{
@@ -401,7 +410,106 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         text: "Hi! I'm Chef Freddie, your curriculum assistant. I can help you create assignments, lesson plans, rubrics, and apply curriculum to your modules. Try asking me something like: 'Create a Week 5 assignment for sauce making' or 'Design a rubric for knife skills assessment'"
       }]);
     }
+    if (showChefFreddieModal && currentUser?.id) {
+      loadRecentCurriculum();
+    }
   }, [showChefFreddieModal, freddieMessages.length]);
+
+  // Load recent curriculum from database
+  const loadRecentCurriculum = async () => {
+    if (!currentUser?.id) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('curriculum_items')
+        .select('*')
+        .eq('user_id', currentUser.id)
+        .order('created_at', { ascending: false })
+        .limit(5);
+      
+      if (error) throw error;
+      setRecentCurriculum(data || []);
+    } catch (error) {
+      console.error('Error loading curriculum:', error);
+    }
+  };
+
+  // Quick action handlers to pre-fill chat
+  const handleQuickAction = (prompt: string) => {
+    setFreddieInput(prompt);
+  };
+
+  // Save curriculum to database
+  const saveCurriculumItem = async (title: string, content: string, type: string, module: string) => {
+    if (!currentUser?.id) return;
+    
+    setSavingCurriculum(true);
+    try {
+      const { data, error } = await supabase
+        .from('curriculum_items')
+        .insert({
+          user_id: currentUser.id,
+          title,
+          content,
+          type,
+          module: module === 'none' ? null : module,
+          applied: false
+        })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      
+      showSuccess('Curriculum saved successfully!');
+      await loadRecentCurriculum();
+      setShowSaveModal(false);
+      setCurriculumToSave(null);
+    } catch (error: any) {
+      showError(`Failed to save curriculum: ${error.message}`);
+    } finally {
+      setSavingCurriculum(false);
+    }
+  };
+
+  // Apply curriculum to module
+  const applyCurriculumToModule = async (curriculumId: string, module: string) => {
+    if (!currentUser?.id) return;
+    
+    try {
+      const { error } = await supabase
+        .from('curriculum_items')
+        .update({ module, applied: true })
+        .eq('id', curriculumId)
+        .eq('user_id', currentUser.id);
+      
+      if (error) throw error;
+      
+      showSuccess(`Applied to ${module} successfully!`);
+      await loadRecentCurriculum();
+    } catch (error: any) {
+      showError(`Failed to apply curriculum: ${error.message}`);
+    }
+  };
+
+  // Delete curriculum item
+  const deleteCurriculumItem = async (curriculumId: string) => {
+    if (!currentUser?.id) return;
+    
+    try {
+      const { error } = await supabase
+        .from('curriculum_items')
+        .delete()
+        .eq('id', curriculumId)
+        .eq('user_id', currentUser.id);
+      
+      if (error) throw error;
+      
+      showSuccess('Curriculum deleted successfully!');
+      await loadRecentCurriculum();
+    } catch (error: any) {
+      showError(`Failed to delete curriculum: ${error.message}`);
+    }
+  };
 
   // Function to send message to Chef Freddie
   const sendFreddieMessage = async (message: string) => {
@@ -417,7 +525,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       const curriculumPrompt = `You are Chef Freddie, a curriculum assistant for culinary trade schools. Help create educational content, assignments, lesson plans, and rubrics for culinary education. Focus on practical cooking skills, food safety, kitchen management, and professional culinary techniques. Here's the request: ${message}`;
       
       const response = await askChefFreddie(currentUser.id, curriculumPrompt);
-      setFreddieMessages(prev => [...prev, { sender: 'freddie', text: response }]);
+      const messageId = `msg_${Date.now()}`;
+      setFreddieMessages(prev => [...prev, { sender: 'freddie', text: response, id: messageId }]);
     } catch (error: any) {
       setFreddieMessages(prev => [...prev, { 
         sender: 'freddie', 
@@ -4398,7 +4507,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="text-3xl mb-2">📝</div>
                   <h4 className="font-bold text-blue-800 mb-2">Create Assignment</h4>
                   <p className="text-sm text-blue-600 mb-3">Generate practical cooking assignments with rubrics</p>
-                  <button className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-200 font-retro text-sm">
+                  <button 
+                    onClick={() => handleQuickAction('Create a practical cooking assignment for Week 5 on sauce making. Include learning objectives, required equipment, step-by-step instructions, and a grading rubric.')}
+                    className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-200 font-retro text-sm"
+                  >
                     Start Creating
                   </button>
                 </div>
@@ -4407,7 +4519,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="text-3xl mb-2">📅</div>
                   <h4 className="font-bold text-green-800 mb-2">Build Lesson Plan</h4>
                   <p className="text-sm text-green-600 mb-3">Create structured weekly lesson plans</p>
-                  <button className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-sm">
+                  <button 
+                    onClick={() => handleQuickAction('Create a detailed lesson plan for teaching knife skills to culinary students. Include warm-up activities, demonstrations, hands-on practice, safety protocols, and assessment methods.')}
+                    className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-sm"
+                  >
                     Plan Lesson
                   </button>
                 </div>
@@ -4416,7 +4531,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="text-3xl mb-2">🏆</div>
                   <h4 className="font-bold text-purple-800 mb-2">Design Rubric</h4>
                   <p className="text-sm text-purple-600 mb-3">Create assessment rubrics for skills</p>
-                  <button className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200 font-retro text-sm">
+                  <button 
+                    onClick={() => handleQuickAction('Design a comprehensive grading rubric for evaluating student performance in protein cookery. Include criteria for technique, temperature control, presentation, and food safety.')}
+                    className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200 font-retro text-sm"
+                  >
                     Design Rubric
                   </button>
                 </div>
@@ -4425,7 +4543,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="text-3xl mb-2">🔄</div>
                   <h4 className="font-bold text-orange-800 mb-2">Apply to Modules</h4>
                   <p className="text-sm text-orange-600 mb-3">Distribute curriculum to MyKitchen, MyCookBook</p>
-                  <button className="bg-orange-100 text-orange-700 px-4 py-2 rounded-md hover:bg-orange-200 font-retro text-sm">
+                  <button 
+                    onClick={() => handleQuickAction('Help me understand how to apply my curriculum content to the different modules (MyKitchen, MyCookBook, CulinarySchool, ChefsCorner). What types of content work best for each module?')}
+                    className="bg-orange-100 text-orange-700 px-4 py-2 rounded-md hover:bg-orange-200 font-retro text-sm"
+                  >
                     Apply Now
                   </button>
                 </div>
@@ -4437,20 +4558,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="bg-gray-50 rounded-lg p-4 mb-4 min-h-[200px] max-h-[300px] overflow-y-auto">
                   <div className="space-y-3">
                     {freddieMessages.map((msg, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        {msg.sender === 'freddie' && <span className="text-2xl">👨‍🍳</span>}
-                        <div className={`rounded-lg p-3 flex-1 ${
-                          msg.sender === 'freddie' 
-                            ? 'bg-pink-100' 
-                            : 'bg-blue-100 ml-auto max-w-[80%]'
-                        }`}>
-                          <p className={`text-sm ${
-                            msg.sender === 'freddie' ? 'text-pink-800' : 'text-blue-800'
+                      <div key={index}>
+                        <div className="flex items-start gap-3">
+                          {msg.sender === 'freddie' && <span className="text-2xl">👨‍🍳</span>}
+                          <div className={`rounded-lg p-3 flex-1 ${
+                            msg.sender === 'freddie' 
+                              ? 'bg-pink-100' 
+                              : 'bg-blue-100 ml-auto max-w-[80%]'
                           }`}>
-                            {msg.text}
-                          </p>
+                            <p className={`text-sm ${
+                              msg.sender === 'freddie' ? 'text-pink-800' : 'text-blue-800'
+                            }`}>
+                              {msg.text}
+                            </p>
+                          </div>
+                          {msg.sender === 'user' && <span className="text-2xl">👤</span>}
                         </div>
-                        {msg.sender === 'user' && <span className="text-2xl">👤</span>}
+                        {msg.sender === 'freddie' && msg.id && index > 0 && (
+                          <div className="ml-11 mt-2">
+                            <button
+                              onClick={() => {
+                                setCurriculumToSave({ content: msg.text, messageId: msg.id! });
+                                setShowSaveModal(true);
+                              }}
+                              className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200 border border-green-300"
+                            >
+                              💾 Save as Curriculum
+                            </button>
+                          </div>
+                        )}
                       </div>
                     ))}
                     {freddieLoading && (
@@ -4493,29 +4629,169 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               {/* Recent Curriculum */}
               <div className="border-4 border-yellow-300 bg-yellow-50 rounded-lg p-4">
                 <h3 className="text-center font-bold text-yellow-800 mb-4">📁 Recently Created Curriculum</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-yellow-200">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl">🔪</span>
-                      <div>
-                        <p className="font-medium text-yellow-800">Week 3: French Knife Skills Assignment</p>
-                        <p className="text-sm text-yellow-600">Created 2 hours ago • Applied to CulinarySchool</p>
-                      </div>
-                    </div>
-                    <button className="text-yellow-700 hover:text-yellow-800 font-medium text-sm">View</button>
+                {recentCurriculum.length === 0 ? (
+                  <div className="text-center py-8 text-yellow-600">
+                    <p className="text-sm">No curriculum created yet. Start by asking Chef Freddie to create something!</p>
                   </div>
-                  
-                  <div className="flex items-center justify-between p-3 bg-white rounded-lg border border-yellow-200">
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl">🍲</span>
-                      <div>
-                        <p className="font-medium text-yellow-800">Sauce Making Rubric Template</p>
-                        <p className="text-sm text-yellow-600">Created yesterday • Ready to apply</p>
-                      </div>
-                    </div>
-                    <button className="text-yellow-700 hover:text-yellow-800 font-medium text-sm">Use</button>
+                ) : (
+                  <div className="space-y-2">
+                    {recentCurriculum.map((item) => {
+                      const typeEmoji = item.type === 'assignment' ? '📝' : item.type === 'lesson_plan' ? '📅' : item.type === 'rubric' ? '🏆' : '📄';
+                      const timeAgo = new Date(item.created_at).toLocaleDateString();
+                      const statusText = item.applied && item.module ? `Applied to ${item.module}` : 'Ready to apply';
+                      
+                      return (
+                        <div key={item.id} className="flex items-center justify-between p-3 bg-white rounded-lg border border-yellow-200">
+                          <div className="flex items-center gap-3 flex-1">
+                            <span className="text-xl">{typeEmoji}</span>
+                            <div className="flex-1">
+                              <p className="font-medium text-yellow-800">{item.title}</p>
+                              <p className="text-sm text-yellow-600">Created {timeAgo} • {statusText}</p>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <button 
+                              onClick={() => {
+                                alert(`Title: ${item.title}\n\nContent:\n${item.content}`);
+                              }}
+                              className="text-yellow-700 hover:text-yellow-800 font-medium text-sm px-2"
+                            >
+                              View
+                            </button>
+                            {!item.applied && (
+                              <select
+                                onChange={(e) => {
+                                  if (e.target.value) {
+                                    applyCurriculumToModule(item.id, e.target.value);
+                                  }
+                                }}
+                                className="text-xs border border-yellow-300 rounded px-2 py-1 bg-yellow-50"
+                                defaultValue=""
+                              >
+                                <option value="">Apply to...</option>
+                                <option value="MyKitchen">MyKitchen</option>
+                                <option value="MyCookBook">MyCookBook</option>
+                                <option value="CulinarySchool">CulinarySchool</option>
+                                <option value="ChefsCorner">ChefsCorner</option>
+                              </select>
+                            )}
+                            <button 
+                              onClick={() => {
+                                if (confirm('Delete this curriculum item?')) {
+                                  deleteCurriculumItem(item.id);
+                                }
+                              }}
+                              className="text-red-600 hover:text-red-700 font-medium text-sm px-2"
+                            >
+                              🗑️
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Save Curriculum Modal */}
+      {showSaveModal && curriculumToSave && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 max-w-2xl w-full">
+            <div className="text-center mb-6 relative">
+              <h2 className="text-2xl font-bold text-green-700 font-retro flex items-center justify-center gap-2">
+                <span className="text-3xl">💾</span>
+                Save Curriculum
+              </h2>
+              <button
+                onClick={() => {
+                  setShowSaveModal(false);
+                  setCurriculumToSave(null);
+                }}
+                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Title *</label>
+                <input
+                  type="text"
+                  id="curriculum-title"
+                  placeholder="e.g., Week 5: Sauce Making Assignment"
+                  className="w-full border-2 border-gray-300 rounded-md px-3 py-2 text-sm"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Type *</label>
+                <select
+                  id="curriculum-type"
+                  className="w-full border-2 border-gray-300 rounded-md px-3 py-2 text-sm"
+                  defaultValue="general"
+                >
+                  <option value="assignment">Assignment</option>
+                  <option value="lesson_plan">Lesson Plan</option>
+                  <option value="rubric">Rubric</option>
+                  <option value="general">General Content</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Apply to Module (Optional)</label>
+                <select
+                  id="curriculum-module"
+                  className="w-full border-2 border-gray-300 rounded-md px-3 py-2 text-sm"
+                  defaultValue="none"
+                >
+                  <option value="none">Don't apply yet</option>
+                  <option value="MyKitchen">MyKitchen</option>
+                  <option value="MyCookBook">MyCookBook</option>
+                  <option value="CulinarySchool">CulinarySchool</option>
+                  <option value="ChefsCorner">ChefsCorner</option>
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Content Preview</label>
+                <div className="bg-gray-50 border-2 border-gray-300 rounded-md p-3 max-h-[200px] overflow-y-auto">
+                  <p className="text-sm text-gray-700 whitespace-pre-wrap">{curriculumToSave.content}</p>
                 </div>
+              </div>
+              
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => {
+                    setShowSaveModal(false);
+                    setCurriculumToSave(null);
+                  }}
+                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-50 font-retro"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    const title = (document.getElementById('curriculum-title') as HTMLInputElement)?.value;
+                    const type = (document.getElementById('curriculum-type') as HTMLSelectElement)?.value;
+                    const module = (document.getElementById('curriculum-module') as HTMLSelectElement)?.value;
+                    
+                    if (!title || !title.trim()) {
+                      showError('Please enter a title');
+                      return;
+                    }
+                    
+                    saveCurriculumItem(title, curriculumToSave.content, type, module);
+                  }}
+                  disabled={savingCurriculum}
+                  className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {savingCurriculum ? 'Saving...' : 'Save Curriculum'}
+                </button>
               </div>
             </div>
           </div>
