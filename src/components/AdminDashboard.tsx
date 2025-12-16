@@ -1262,8 +1262,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="bg-blue-500 text-white text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">
                         View Details
                       </div>
+                      </div>
                     </div>
-                  </div>
                 ))}
               </div>
             )}
@@ -1299,14 +1299,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         {upcomingEvents[currentEventIndex].date} at {upcomingEvents[currentEventIndex].time} •{' '}
                         {upcomingEvents[currentEventIndex].registered} registered
                       </span>
+                      </div>
                     </div>
-                  </div>
                   <div className="flex items-center gap-2">
                     <span className="text-2xl">{upcomingEvents[currentEventIndex].emoji}</span>
                     <div className={`bg-${upcomingEvents[currentEventIndex].color}-500 text-white text-xs px-4 py-2 rounded-full font-medium`}>
                       View Details
+                      </div>
                     </div>
-                  </div>
                 </div>
                 
                 {/* Progress dots */}
@@ -1754,8 +1754,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         </label>
                         <p className="text-xs sm:text-sm text-gray-500 mt-2 text-center">Recommended: 200x200px, PNG or JPG</p>
                       </div>
+                      </div>
                     </div>
-                  </div>
 
                   {/* Right Side - Color Scheme */}
                   <div className="flex-1 lg:border-l-2 lg:border-blue-300 lg:pl-6">
@@ -1809,8 +1809,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.backgroundColor}</span>
                       </div>
                     </div>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -1896,113 +1896,117 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Module Integration Modal */}
       {showModuleIntegrationModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Content Upload & Distribution</h2>
-              <button
-                onClick={() => setShowModuleIntegrationModal(false)}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Content Upload & Distribution</h2>
+                <button
+                  onClick={() => setShowModuleIntegrationModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Upload your curriculum, syllabus, and course materials, then distribute content to the appropriate modules.</p>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Upload your curriculum, syllabus, and course materials, then distribute content to the appropriate modules.</p>
-            
-            <div className="space-y-6">
-              {/* Content Upload Area */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">📁 Upload Course Materials</h3>
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                  <div className="text-4xl mb-4">📄</div>
-                  <p className="text-lg font-medium text-gray-700 mb-2">Drag & drop your files here</p>
-                  <p className="text-sm text-gray-500 mb-4">Syllabus, curriculum, recipes, assignments, lesson plans</p>
-                  <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <button 
-                      onClick={() => setShowBrowseFilesModal(true)}
-                      className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
-                    >
-                      Browse Files
-                    </button>
-                    <button 
-                      onClick={async () => {
-                        if (!currentUser?.id) {
-                          showWarning('You must be logged in to generate API keys');
-                          return;
-                        }
-                        
-                        setGeneratingApiKey(true);
-                        try {
-                          // Generate cryptographically secure API key
-                          const timestamp = Date.now().toString(36);
-                          const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                          const apiKey = `pk_porkchop_${timestamp}_${randomPart}`;
-                          
-                          // Save to database (you'll need to create an api_keys table)
-                          const { data, error } = await supabase
-                            .from('api_keys')
-                            .insert({
-                              api_key: apiKey,
-                              name: `API Key ${new Date().toLocaleDateString()}`,
-                              created_by: currentUser.id,
-                              is_active: true,
-                              created_at: new Date().toISOString()
-                            })
-                            .select()
-                            .single();
-                          
-                          if (error) {
-                            // If table doesn't exist, just show the key
-                            console.warn('API keys table may not exist:', error);
-                            setGeneratedApiKey(apiKey);
-                            setShowApiKeyModal(true);
-                          } else {
-                            setGeneratedApiKey(apiKey);
-                            setShowApiKeyModal(true);
-                            // Optionally reload API keys list
-                            setApiKeys(prev => [...prev, data]);
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-6">
+                {/* Content Upload Area */}
+                <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                  <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📁 Upload Course Materials</h3>
+                  <div className="border-4 border-dashed border-gray-300 rounded-lg p-4 sm:p-8 text-center">
+                    <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">📄</div>
+                    <p className="text-base sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">Drag & drop your files here</p>
+                    <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">Syllabus, curriculum, recipes, assignments, lesson plans</p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
+                      <button 
+                        onClick={() => setShowBrowseFilesModal(true)}
+                        className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
+                      >
+                        Browse Files
+                      </button>
+                      <button 
+                        onClick={async () => {
+                          if (!currentUser?.id) {
+                            showWarning('You must be logged in to generate API keys');
+                            return;
                           }
-                        } catch (error: any) {
-                          console.error('API key generation error:', error);
-                          showError('Failed to generate API key: ' + error.message);
-                        } finally {
-                          setGeneratingApiKey(false);
-                        }
-                      }}
-                      disabled={generatingApiKey}
-                      className="bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {generatingApiKey ? 'Generating...' : 'Generate API Key'}
-                    </button>
-                    <button 
-                      onClick={() => setShowChefFreddieModal(true)}
-                      className="bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center gap-2 border-2 border-pink-400"
-                    >
-                      <img src="logo.png" className="w-5 h-5 border border-gray-400 rounded" />
-                      Ask Chef Freddie
-                    </button>
-                  </div>
-                  <p className="text-xs text-gray-400 mt-2">Supports: PDF, Word, Excel, PowerPoint, Images</p>
-                </div>
-              </div>
-
-              {/* Content Preview & Mapping */}
-              <div className="border-4 border-maineBlue rounded-lg p-4">
-                <h3 className="text-center font-bold text-gray-900 mb-3">📋 Content Distribution</h3>
-                <p className="text-center text-sm text-gray-600 mb-4">Choose which parts of your uploaded content go to each module:</p>
-                
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                    <div className="flex items-center mb-3">
-                      <div className="text-2xl mr-2">🍳</div>
-                      <h4 className="font-medium text-blue-800">MyKitchen</h4>
+                          
+                          setGeneratingApiKey(true);
+                          try {
+                            // Generate cryptographically secure API key
+                            const timestamp = Date.now().toString(36);
+                            const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+                            const apiKey = `pk_porkchop_${timestamp}_${randomPart}`;
+                            
+                            // Save to database (you'll need to create an api_keys table)
+                            const { data, error } = await supabase
+                              .from('api_keys')
+                              .insert({
+                                api_key: apiKey,
+                                name: `API Key ${new Date().toLocaleDateString()}`,
+                                created_by: currentUser.id,
+                                is_active: true,
+                                created_at: new Date().toISOString()
+                              })
+                              .select()
+                              .single();
+                            
+                            if (error) {
+                              // If table doesn't exist, just show the key
+                              console.warn('API keys table may not exist:', error);
+                              setGeneratedApiKey(apiKey);
+                              setShowApiKeyModal(true);
+                            } else {
+                              setGeneratedApiKey(apiKey);
+                              setShowApiKeyModal(true);
+                              // Optionally reload API keys list
+                              setApiKeys(prev => [...prev, data]);
+                            }
+                          } catch (error: any) {
+                            console.error('API key generation error:', error);
+                            showError('Failed to generate API key: ' + error.message);
+                          } finally {
+                            setGeneratingApiKey(false);
+                          }
+                        }}
+                        disabled={generatingApiKey}
+                        className="w-full sm:w-auto bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                      >
+                        {generatingApiKey ? 'Generating...' : 'Generate API Key'}
+                      </button>
+                      <button 
+                        onClick={() => setShowChefFreddieModal(true)}
+                        className="w-full sm:w-auto bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center justify-center gap-2 border-2 border-pink-400 text-sm sm:text-base min-h-[44px]"
+                      >
+                        <img src="logo.png" className="w-5 h-5 border border-gray-400 rounded" />
+                        Ask Chef Freddie
+                      </button>
                     </div>
-                    <div className="space-y-2 text-sm">
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                    <p className="text-xs text-gray-400 mt-2">Supports: PDF, Word, Excel, PowerPoint, Images</p>
+                  </div>
+                </div>
+
+                {/* Content Preview & Mapping */}
+                <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-gray-900 mb-2 sm:mb-3 text-sm sm:text-base">📋 Content Distribution</h3>
+                  <p className="text-center text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Choose which parts of your uploaded content go to each module:</p>
+                
+                  <div className="grid grid-cols-1 gap-3 sm:gap-4">
+                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
+                      <div className="flex items-center mb-2 sm:mb-3">
+                        <div className="text-xl sm:text-2xl mr-2">🍳</div>
+                        <h4 className="font-medium text-blue-800 text-sm sm:text-base">MyKitchen</h4>
+                      </div>
+                      <div className="space-y-2 text-xs sm:text-sm">
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.MyKitchen.recipe}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2011,10 +2015,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Recipe databases → Feeds matcher algorithm</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.MyKitchen.ingredients}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2023,10 +2027,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Ingredient knowledge bases → Enhances fuzzy matching</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.MyKitchen.kitchen}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2035,10 +2039,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Kitchen setup configurations → Equipment recommendations</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.MyKitchen.dietary}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2047,19 +2051,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Dietary restriction mappings → Health tag generation</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4">
-                    <div className="flex items-center mb-3">
-                      <div className="text-2xl mr-2">📖</div>
-                      <h4 className="font-medium text-green-800">MyCookBook</h4>
-                    </div>
-                    <div className="space-y-2 text-sm">
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                    <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4">
+                      <div className="flex items-center mb-2 sm:mb-3">
+                        <div className="text-xl sm:text-2xl mr-2">📖</div>
+                        <h4 className="font-medium text-green-800 text-sm sm:text-base">MyCookBook</h4>
+                      </div>
+                      <div className="space-y-2 text-xs sm:text-sm">
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.MyCookBook.assignments}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2068,10 +2072,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Assignment templates → Creates new gradebook assignments</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.MyCookBook.rubrics}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2080,10 +2084,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Grading rubrics → Video submission evaluation</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.MyCookBook.recipes}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2092,10 +2096,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Recipe collections → Organized by curriculum week</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.MyCookBook.video}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2104,19 +2108,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Video requirements → Student demonstration specs</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4">
-                    <div className="flex items-center mb-3">
-                      <div className="text-2xl mr-2">🏫</div>
-                      <h4 className="font-medium text-purple-800">CulinarySchool</h4>
-                    </div>
-                    <div className="space-y-2 text-sm">
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                    <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4">
+                      <div className="flex items-center mb-2 sm:mb-3">
+                        <div className="text-xl sm:text-2xl mr-2">🏫</div>
+                        <h4 className="font-medium text-purple-800 text-sm sm:text-base">CulinarySchool</h4>
+                      </div>
+                      <div className="space-y-2 text-xs sm:text-sm">
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.CulinarySchool.techniques}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2125,10 +2129,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Custom technique sequences → Supplements 52 fundamentals</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.CulinarySchool.syllabus}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2137,10 +2141,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Syllabus structures → Maps techniques to curriculum</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.CulinarySchool.lessons}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2149,10 +2153,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Lesson plans → Adds to 6 general lessons</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.CulinarySchool.objectives}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2161,19 +2165,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Learning objectives → Student achievement goals</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4">
-                    <div className="flex items-center mb-3">
-                      <div className="text-2xl mr-2">👨‍🍳</div>
-                      <h4 className="font-medium text-orange-800">Chef's Corner</h4>
-                    </div>
-                    <div className="space-y-2 text-sm">
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                    <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 sm:p-4">
+                      <div className="flex items-center mb-2 sm:mb-3">
+                        <div className="text-xl sm:text-2xl mr-2">👨‍🍳</div>
+                        <h4 className="font-medium text-orange-800 text-sm sm:text-base">Chef's Corner</h4>
+                      </div>
+                      <div className="space-y-2 text-xs sm:text-sm">
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.ChefsCorner.videos}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2182,10 +2186,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Chef demonstration videos → Global Test Kitchen content</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.ChefsCorner.insights}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2194,10 +2198,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Industry insights → Professional tips & knowledge</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.ChefsCorner.sessions}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2206,10 +2210,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Live session schedules → Planned cooking demonstrations</span>
                       </label>
-                      <label className="flex items-center cursor-pointer">
-                        <input 
-                          type="checkbox" 
-                          className="mr-2" 
+                        <label className="flex items-center cursor-pointer">
+                          <input 
+                            type="checkbox" 
+                            className="mr-2 min-w-[16px] min-h-[16px]" 
                           checked={moduleSelection.ChefsCorner.partnerships}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
@@ -2218,96 +2222,96 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>Market partnerships → Local sourcing connections</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
 
 
 
-              {/* Publishing Controls */}
-              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-green-900 mb-3">🚀 Publish Content</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                  <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Publish Date</label>
-                    <input 
-                      type="date" 
-                      value={publishDate}
-                      onChange={(e) => setPublishDate(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue" 
-                    />
+                {/* Publishing Controls */}
+                <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-green-900 mb-2 sm:mb-3 text-sm sm:text-base">🚀 Publish Content</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-3 sm:mb-4">
+                    <div>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Publish Date</label>
+                      <input 
+                        type="date" 
+                        value={publishDate}
+                        onChange={(e) => setPublishDate(e.target.value)}
+                        className="w-full px-2 sm:px-3 py-2 border-4 border-green-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm sm:text-base min-h-[44px]" 
+                      />
+                    </div>
+                    <div>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Visibility</label>
+                      <select 
+                        value={publishVisibility}
+                        onChange={(e) => setPublishVisibility(e.target.value)}
+                        className="w-full px-2 sm:px-3 py-2 border-4 border-green-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white text-sm sm:text-base min-h-[44px]"
+                      >
+                        <option>All Students</option>
+                        <option>Specific Classes</option>
+                        <option>Draft (Instructors Only)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Notification</label>
+                      <select 
+                        value={publishNotification}
+                        onChange={(e) => setPublishNotification(e.target.value)}
+                        className="w-full px-2 sm:px-3 py-2 border-4 border-green-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white text-sm sm:text-base min-h-[44px]"
+                      >
+                        <option>Notify Students</option>
+                        <option>Silent Update</option>
+                        <option>Email Announcement</option>
+                      </select>
+                    </div>
                   </div>
-                  <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Visibility</label>
-                    <select 
-                      value={publishVisibility}
-                      onChange={(e) => setPublishVisibility(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                  <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
+                    <button 
+                      onClick={async () => {
+                        if (!currentUser?.id || !currentMapping) {
+                          showWarning('Please upload and map content first');
+                          return;
+                        }
+                        
+                        try {
+                          const { fileName } = currentMapping;
+                          
+                          // Update content_staging status to 'draft'
+                          const { error } = await supabase
+                            .from('content_staging')
+                            .update({ status: 'draft' })
+                            .eq('file_name', fileName)
+                            .eq('uploaded_by', currentUser.id);
+                          
+                          if (error) throw error;
+                          
+                          // Show branded success modal
+                          setDownloadedReportInfo({
+                            type: 'Draft Saved',
+                            count: 1,
+                            filename: 'Content saved as draft - publish later'
+                          });
+                          setShowDownloadSuccessModal(true);
+                          setShowModuleIntegrationModal(false);
+                          setCurrentMapping(null);
+                          setModuleSelection({
+                            MyKitchen: { recipe: false, ingredients: false, kitchen: false, dietary: false },
+                            MyCookBook: { assignments: false, rubrics: false, recipes: false, video: false },
+                            CulinarySchool: { techniques: false, syllabus: false, lessons: false, objectives: false },
+                            ChefsCorner: { videos: false, insights: false, sessions: false, partnerships: false }
+                          });
+                        } catch (error: any) {
+                          console.error('Save draft error:', error);
+                          showError('Failed to save draft: ' + error.message);
+                        }
+                      }}
+                      className="w-full sm:w-auto bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro text-sm sm:text-base min-h-[44px]"
                     >
-                      <option>All Students</option>
-                      <option>Specific Classes</option>
-                      <option>Draft (Instructors Only)</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Notification</label>
-                    <select 
-                      value={publishNotification}
-                      onChange={(e) => setPublishNotification(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                    >
-                      <option>Notify Students</option>
-                      <option>Silent Update</option>
-                      <option>Email Announcement</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="flex justify-center gap-4">
-                  <button 
-                    onClick={async () => {
-                      if (!currentUser?.id || !currentMapping) {
-                        showWarning('Please upload and map content first');
-                        return;
-                      }
-                      
-                      try {
-                        const { fileName } = currentMapping;
-                        
-                        // Update content_staging status to 'draft'
-                        const { error } = await supabase
-                          .from('content_staging')
-                          .update({ status: 'draft' })
-                          .eq('file_name', fileName)
-                          .eq('uploaded_by', currentUser.id);
-                        
-                        if (error) throw error;
-                        
-                        // Show branded success modal
-                        setDownloadedReportInfo({
-                          type: 'Draft Saved',
-                          count: 1,
-                          filename: 'Content saved as draft - publish later'
-                        });
-                        setShowDownloadSuccessModal(true);
-                        setShowModuleIntegrationModal(false);
-                        setCurrentMapping(null);
-                        setModuleSelection({
-                          MyKitchen: { recipe: false, ingredients: false, kitchen: false, dietary: false },
-                          MyCookBook: { assignments: false, rubrics: false, recipes: false, video: false },
-                          CulinarySchool: { techniques: false, syllabus: false, lessons: false, objectives: false },
-                          ChefsCorner: { videos: false, insights: false, sessions: false, partnerships: false }
-                        });
-                      } catch (error: any) {
-                        console.error('Save draft error:', error);
-                        showError('Failed to save draft: ' + error.message);
-                      }
-                    }}
-                    className="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro"
-                  >
-                    Save as Draft
-                  </button>
+                      Save as Draft
+                    </button>
                   <button 
                     onClick={async () => {
                       if (!currentUser?.id || !currentMapping) {
@@ -2451,11 +2455,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         console.error('Distribution error:', error);
                         showError(`Failed to publish content: ${error.message}`);
                       }
-                    }}
-                    className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro"
-                  >
-                    Publish to Modules
-                  </button>
+                      }}
+                      className="w-full sm:w-auto bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro text-sm sm:text-base min-h-[44px]"
+                    >
+                      Publish to Modules
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2741,8 +2746,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       >
                         Remove
                       </button>
+                      </div>
                     </div>
-                  </div>
                   
                   <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
                     <div className="mb-3">
@@ -2777,8 +2782,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       >
                         Remove
                       </button>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -2911,8 +2916,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       >
                         Remove
                       </button>
+                      </div>
                     </div>
-                  </div>
                   
                   <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
                     <div className="mb-3">
@@ -2947,8 +2952,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       >
                         Remove
                       </button>
+                      </div>
                     </div>
-                  </div>
                   
                   <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
                     <div className="mb-3">
@@ -2983,8 +2988,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       >
                         Remove
                       </button>
+                      </div>
                     </div>
-                  </div>
                   
                   <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
                     <div className="mb-3">
@@ -3019,8 +3024,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       >
                         Remove
                       </button>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -3162,8 +3167,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <div className="bg-blue-600 h-2 rounded-full" style={{width: '78%'}}></div>
                       </div>
                       <span className="text-xs sm:text-sm font-bold text-blue-600">78%</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">🎥</span>
@@ -3174,8 +3179,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <div className="bg-green-600 h-2 rounded-full" style={{width: '65%'}}></div>
                       </div>
                       <span className="text-xs sm:text-sm font-bold text-green-600">65%</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">🔴</span>
@@ -3186,8 +3191,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <div className="bg-orange-600 h-2 rounded-full" style={{width: '42%'}}></div>
                       </div>
                       <span className="text-xs sm:text-sm font-bold text-orange-600">42%</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">📁</span>
@@ -3198,8 +3203,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <div className="bg-purple-600 h-2 rounded-full" style={{width: '58%'}}></div>
                       </div>
                       <span className="text-xs sm:text-sm font-bold text-purple-600">58%</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">📊</span>
@@ -3210,8 +3215,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <div className="bg-green-600 h-2 rounded-full" style={{width: '73%'}}></div>
                       </div>
                       <span className="text-xs sm:text-sm font-bold text-green-600">73%</span>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -3344,8 +3349,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-blue-600 h-3 rounded-full" style={{width: '73%'}}></div>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-medium text-xs sm:text-base">Assignment Grades</span>
@@ -3353,8 +3358,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-green-600 h-3 rounded-full" style={{width: '85%'}}></div>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-medium text-xs sm:text-base">Video Quality Scores</span>
@@ -3362,8 +3367,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-purple-600 h-3 rounded-full" style={{width: '82%'}}></div>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -3472,8 +3477,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-green-600 h-3 rounded-full" style={{width: '78%'}}></div>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-medium text-xs sm:text-base">Spring Semester Projections</span>
@@ -3481,8 +3486,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-blue-600 h-3 rounded-full" style={{width: '65%'}}></div>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
                       <span className="font-medium text-xs sm:text-base">Summer Program Interest</span>
@@ -3490,8 +3495,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-purple-600 h-3 rounded-full" style={{width: '42%'}}></div>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -3532,8 +3537,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <p className="text-xs text-gray-500">Retention</p>
                         </div>
                       </div>
+                      </div>
                     </div>
-                  </div>
                   <div>
                     <h4 className="text-center font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Graduation Pipeline</h4>
                     <div className="space-y-2 sm:space-y-3">
@@ -3567,8 +3572,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <p className="text-xs text-gray-500">Network</p>
                         </div>
                       </div>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -3674,8 +3679,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-lg font-bold text-blue-600">76%</p>
                         <p className="text-xs text-gray-500">Completion</p>
                       </div>
+                      </div>
                     </div>
-                  </div>
                 </div>
 
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
@@ -3710,8 +3715,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-lg font-bold text-blue-600">52%</p>
                         <p className="text-xs text-gray-500">Completion</p>
                       </div>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -3734,8 +3739,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span>Student Engagement:</span>
                         <span className="font-medium text-blue-600">High</span>
                       </div>
+                      </div>
                     </div>
-                  </div>
                   
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                     <h4 className="font-medium text-blue-900 mb-2">🏫 CulinarySchool</h4>
@@ -3752,8 +3757,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span>Student Engagement:</span>
                         <span className="font-medium text-blue-600">High</span>
                       </div>
+                      </div>
                     </div>
-                  </div>
                   
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                     <h4 className="font-medium text-blue-900 mb-2">👨‍🍳 Chef's Corner</h4>
@@ -3770,8 +3775,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span>Student Engagement:</span>
                         <span className="font-medium text-blue-600">Medium</span>
                       </div>
+                      </div>
                     </div>
-                  </div>
                   
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
                     <h4 className="font-medium text-blue-900 mb-2">🍳 Global Test Kitchen</h4>
@@ -3788,8 +3793,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span>Student Engagement:</span>
                         <span className="font-medium text-blue-600">Medium</span>
                       </div>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -3812,8 +3817,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span>6:00 PM - 8:00 PM:</span>
                         <span className="font-medium text-yellow-600">Medium</span>
                       </div>
+                      </div>
                     </div>
-                  </div>
                   
                   <div>
                     <h4 className="font-medium text-gray-800 mb-2">Weekly Trends</h4>
@@ -3830,8 +3835,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span>Weekend:</span>
                         <span className="font-medium text-red-600">Low</span>
                       </div>
+                      </div>
                     </div>
-                  </div>
                   
                   <div>
                     <h4 className="text-center font-medium text-gray-800 mb-2">Content Filters</h4>
@@ -3849,8 +3854,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <option>Chef's Corner</option>
                         <option>Global Test Kitchen</option>
                       </select>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -3967,8 +3972,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span className="text-sm">Multi-level approval (Instructor → Admin)</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
                   
                   <div>
                     <h4 className="font-medium text-gray-800 mb-3">Assignment Submission Process</h4>
@@ -4013,8 +4018,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span className="text-sm">AI pre-screening + instructor review</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -4208,8 +4213,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <input type="checkbox" className="mr-2" checked />
                         <span className="text-sm">Require image approval</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
                   
                   <div>
                     <h4 className="font-medium text-gray-800 mb-3">Data Privacy & Security</h4>
@@ -4250,8 +4255,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span className="text-sm">Require 2FA for admins</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -4274,8 +4279,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span>YouTube API:</span>
                         <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Limited</span>
                       </div>
+                      </div>
                     </div>
-                  </div>
                   
                   <div>
                     <h4 className="font-medium text-gray-800 mb-2">Notification Settings</h4>
@@ -4316,8 +4321,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span>In-app notifications</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
                   
                   <div>
                     <h4 className="font-medium text-gray-800 mb-2">Backup & Recovery</h4>
@@ -4354,8 +4359,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       >
                         Manual Backup Now
                       </button>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -5871,8 +5876,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
                         <span className="text-gray-700">View Reports</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-white border-2 border-green-300 rounded-lg p-2 sm:p-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
                       <div>
@@ -5898,8 +5903,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
                         <span className="text-gray-700">View Reports</span>
                       </label>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
               <div className="flex justify-end">
@@ -5984,8 +5989,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div>
                         <p className="text-gray-600">Rating: <strong>4.9/5</strong></p>
                       </div>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
                       <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Marcus Chen</p>
@@ -6001,8 +6006,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div>
                         <p className="text-gray-600">Rating: <strong>4.8/5</strong></p>
                       </div>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
                       <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Sarah Williams</p>
@@ -6018,8 +6023,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div>
                         <p className="text-gray-600">Rating: <strong>4.5/5</strong></p>
                       </div>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
               <div className="flex justify-end">
@@ -6617,8 +6622,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <div className="bg-purple-600 h-2 rounded-full" style={{width: '45%'}}></div>
                       </div>
                       <p className="text-xs text-gray-600">$13,500 of $30,000 goal</p>
+                      </div>
                     </div>
-                  </div>
                 </div>
                 <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
                   <h3 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Create New Campaign:</h3>
@@ -7720,8 +7725,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Food safety certification</p>
                       </div>
                       <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">142 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -7729,8 +7734,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">State-required permit</p>
                       </div>
                       <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">158 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -7738,8 +7743,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Allergen awareness</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">89 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -7747,8 +7752,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Responsible alcohol service</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">67 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -7756,8 +7761,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Professional bartending</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">34 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -7765,8 +7770,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Craft brewing & beer knowledge</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">18 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -7774,8 +7779,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Emergency response</p>
                       </div>
                       <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">45 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -7783,8 +7788,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Pastry, Sommelier, etc.</p>
                       </div>
                       <span className="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">23 certified</span>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
@@ -8137,8 +8142,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Food safety certification</p>
                       </div>
                       <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">142 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -8146,8 +8151,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">State-required permit</p>
                       </div>
                       <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">158 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -8155,8 +8160,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Allergen awareness</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">89 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -8164,8 +8169,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Responsible alcohol service</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">67 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -8173,8 +8178,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Professional bartending</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">34 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -8182,8 +8187,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Craft brewing & beer knowledge</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">18 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -8191,8 +8196,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Emergency response</p>
                       </div>
                       <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">45 certified</span>
+                      </div>
                     </div>
-                  </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -8200,8 +8205,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-xs text-gray-600">Pastry, Sommelier, etc.</p>
                       </div>
                       <span className="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">23 certified</span>
+                      </div>
                     </div>
-                  </div>
                 </div>
               </div>
 
