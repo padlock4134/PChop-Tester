@@ -1919,7 +1919,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="text-4xl mb-4">📄</div>
                   <p className="text-lg font-medium text-gray-700 mb-2">Drag & drop your files here</p>
                   <p className="text-sm text-gray-500 mb-4">Syllabus, curriculum, recipes, assignments, lesson plans</p>
-                  <div className="flex justify-center gap-4">
+                  <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <button 
                       onClick={() => setShowBrowseFilesModal(true)}
                       className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
