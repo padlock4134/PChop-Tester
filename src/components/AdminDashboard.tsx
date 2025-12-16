@@ -5515,21 +5515,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Edit Student Modal */}
       {showEditStudentModal && editingStudent && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-3 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <div className="text-center mb-4 sm:mb-6 relative">
-              <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">✏️ Edit Student</h2>
-              <button
-                onClick={() => {
-                  setShowEditStudentModal(false);
-                  setEditingStudent(null);
-                }}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-md max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center">
+                <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">✏️ Edit Student</h2>
+              </div>
             </div>
             
-            <div className="space-y-3 sm:space-y-4">
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Student Name</label>
                 <input
@@ -5712,36 +5708,37 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
-              <button
-                onClick={() => {
-                  setShowEditStudentModal(false);
-                  setEditingStudent(null);
-                }}
-                className="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro text-sm min-h-[44px]"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  if (!editingStudent.username?.trim() || !editingStudent.email?.trim()) {
-                    showWarning('Please enter student name and email');
-                    return;
-                  }
-                  
-                  // Update student in list
-                  setUsers(prev => prev.map(u => 
-                    u.id === editingStudent.id ? editingStudent : u
-                  ));
-                  
-                  setShowEditStudentModal(false);
-                  setEditingStudent(null);
-                  alert('Student updated successfully!');
-                }}
-                className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm min-h-[44px]"
-              >
-                Save Changes
-              </button>
+              <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
+                <button
+                  onClick={() => {
+                    setShowEditStudentModal(false);
+                    setEditingStudent(null);
+                  }}
+                  className="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro text-sm min-h-[44px]"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    if (!editingStudent.username?.trim() || !editingStudent.email?.trim()) {
+                      showWarning('Please enter student name and email');
+                      return;
+                    }
+                    
+                    // Update student in list
+                    setUsers(prev => prev.map(u => 
+                      u.id === editingStudent.id ? editingStudent : u
+                    ));
+                    
+                    setShowEditStudentModal(false);
+                    setEditingStudent(null);
+                    alert('Student updated successfully!');
+                  }}
+                  className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm min-h-[44px]"
+                >
+                  Save Changes
+                </button>
+              </div>
             </div>
           </div>
         </div>
