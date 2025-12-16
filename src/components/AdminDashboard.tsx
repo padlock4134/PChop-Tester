@@ -5982,66 +5982,66 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Alumni Newsletter Modal */}
       {showAlumniNewsletterModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-blue-600 font-retro">📧 Alumni Newsletter</h2>
-              <button
-                onClick={() => setShowAlumniNewsletterModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">📧 Alumni Newsletter</h2>
+                <button
+                  onClick={() => setShowAlumniNewsletterModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
             </div>
-            <div className="space-y-4">
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Newsletter Title:</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Newsletter Title:</label>
                 <input
                   type="text"
                   value={newsletterTitle}
                   onChange={(e) => setNewsletterTitle(e.target.value)}
                   placeholder="e.g., Monthly Alumni Update - January 2025"
-                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border-4 border-blue-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Content:</label>
+                <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Content:</label>
                 <textarea
                   rows={8}
                   value={newsletterContent}
                   onChange={(e) => setNewsletterContent(e.target.value)}
                   placeholder="Share alumni success stories, upcoming events, job opportunities, and program updates..."
-                  className="w-full border-4 border-blue-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border-4 border-blue-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 />
               </div>
-              <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50">
-                <h3 className="font-bold text-blue-800 mb-2">Include Sections:</h3>
+              <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50">
+                <h3 className="font-bold text-blue-800 mb-2 text-xs sm:text-base">Include Sections:</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" defaultChecked />
-                    <span className="text-gray-700">Alumni Spotlight</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                    <span className="text-gray-700 text-xs sm:text-base">Alumni Spotlight</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" defaultChecked />
-                    <span className="text-gray-700">Job Opportunities</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                    <span className="text-gray-700 text-xs sm:text-base">Job Opportunities</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-gray-700">Upcoming Events</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-gray-700 text-xs sm:text-base">Upcoming Events</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-gray-700">Program Updates</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-gray-700 text-xs sm:text-base">Program Updates</span>
                   </label>
                 </div>
               </div>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowAlumniNewsletterModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Cancel
-                </button>
+              <div className="flex justify-end">
                 <button
                   onClick={async () => {
                     if (!newsletterTitle.trim() || !newsletterContent.trim()) {
@@ -6097,10 +6097,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                   }}
                   disabled={sendingNewsletter}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                 >
                   {sendingNewsletter ? 'Sending...' : 'Send Newsletter'}
                 </button>
+              </div>
               </div>
             </div>
           </div>
