@@ -4380,100 +4380,97 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Browse Files Modal */}
       {showBrowseFilesModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">📁 Browse & Upload Files</h2>
-              <button
-                onClick={() => setShowBrowseFilesModal(false)}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">📁 Browse & Upload Files</h2>
+                <button
+                  onClick={() => setShowBrowseFilesModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
             </div>
             
-            <div className="space-y-6">
-              {/* File Upload Area */}
-              <div className="border-2 border-dashed border-maineBlue rounded-lg p-8 text-center bg-blue-50">
-                <div className="text-6xl mb-4">📁</div>
-                <h3 className="text-xl font-bold text-maineBlue mb-2">Select Files to Upload</h3>
-                <p className="text-gray-600 mb-4">Choose curriculum files, recipes, assignments, or lesson plans</p>
-                
-                <input 
-                  type="file" 
-                  multiple 
-                  accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.gif"
-                  className="hidden" 
-                  id="file-upload"
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files || []);
-                    if (files.length > 0) {
-                      handleFileUpload(files);
-                    }
-                  }}
-                />
-                <label 
-                  htmlFor="file-upload" 
-                  className="bg-maineBlue text-white px-8 py-3 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block"
-                >
-                  Choose Files
-                </label>
-                
-                <p className="text-xs text-gray-500 mt-4">
-                  Supported formats: PDF, Word, Excel, PowerPoint, Images (JPG, PNG, GIF)
-                </p>
-              </div>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-6">
+                {/* File Upload Area */}
+                <div className="border-4 border-dashed border-maineBlue rounded-lg p-4 sm:p-8 text-center bg-blue-50">
+                  <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">📁</div>
+                  <h3 className="text-base sm:text-xl font-bold text-maineBlue mb-2">Select Files to Upload</h3>
+                  <p className="text-xs sm:text-base text-gray-600 mb-3 sm:mb-4">Choose curriculum files, recipes, assignments, or lesson plans</p>
+                  
+                  <input 
+                    type="file" 
+                    multiple 
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.gif"
+                    className="hidden" 
+                    id="file-upload"
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files || []);
+                      if (files.length > 0) {
+                        handleFileUpload(files);
+                      }
+                    }}
+                  />
+                  <label 
+                    htmlFor="file-upload" 
+                    className="bg-maineBlue text-white px-6 sm:px-8 py-2 sm:py-3 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
+                  >
+                    Choose Files
+                  </label>
+                  
+                  <p className="text-xs text-gray-500 mt-3 sm:mt-4">
+                    Supported formats: PDF, Word, Excel, PowerPoint, Images (JPG, PNG, GIF)
+                  </p>
+                </div>
               
-              {/* Recent Files */}
-              <div className="border-4 border-maineBlue rounded-lg p-4">
-                <h3 className="text-center font-bold text-gray-900 mb-4">📋 Recent Uploads</h3>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
-                      <span className="text-2xl mr-3">📄</span>
-                      <div>
-                        <p className="font-medium">Culinary Fundamentals Syllabus.pdf</p>
-                        <p className="text-sm text-gray-500">2.4 MB • Uploaded 2 hours ago</p>
+                {/* Recent Files */}
+                <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">📋 Recent Uploads</h3>
+                  <div className="space-y-2">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg gap-2 sm:gap-0">
+                      <div className="flex items-center flex-1">
+                        <span className="text-xl sm:text-2xl mr-2 sm:mr-3">📄</span>
+                        <div className="min-w-0">
+                          <p className="font-medium text-xs sm:text-base truncate">Culinary Fundamentals Syllabus.pdf</p>
+                          <p className="text-xs sm:text-sm text-gray-500">2.4 MB • Uploaded 2 hours ago</p>
+                        </div>
                       </div>
+                      <button className="w-full sm:w-auto text-maineBlue hover:text-blue-700 font-medium text-sm sm:text-base min-h-[44px] px-4 border border-maineBlue rounded sm:border-0">Use</button>
                     </div>
-                    <button className="text-maineBlue hover:text-blue-700 font-medium">Use</button>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
-                      <span className="text-2xl mr-3">🍳</span>
-                      <div>
-                        <p className="font-medium">Week 3 - Knife Skills Recipes.docx</p>
-                        <p className="text-sm text-gray-500">1.8 MB • Uploaded yesterday</p>
+                    
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg gap-2 sm:gap-0">
+                      <div className="flex items-center flex-1">
+                        <span className="text-xl sm:text-2xl mr-2 sm:mr-3">🍳</span>
+                        <div className="min-w-0">
+                          <p className="font-medium text-xs sm:text-base truncate">Week 3 - Knife Skills Recipes.docx</p>
+                          <p className="text-xs sm:text-sm text-gray-500">1.8 MB • Uploaded yesterday</p>
+                        </div>
                       </div>
+                      <button className="w-full sm:w-auto text-maineBlue hover:text-blue-700 font-medium text-sm sm:text-base min-h-[44px] px-4 border border-maineBlue rounded sm:border-0">Use</button>
                     </div>
-                    <button className="text-maineBlue hover:text-blue-700 font-medium">Use</button>
-                  </div>
-                  
-                  <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
-                      <span className="text-2xl mr-3">📊</span>
-                      <div>
-                        <p className="font-medium">Assignment Rubric Template.xlsx</p>
-                        <p className="text-sm text-gray-500">456 KB • Uploaded 3 days ago</p>
+                    
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg gap-2 sm:gap-0">
+                      <div className="flex items-center flex-1">
+                        <span className="text-xl sm:text-2xl mr-2 sm:mr-3">📊</span>
+                        <div className="min-w-0">
+                          <p className="font-medium text-xs sm:text-base truncate">Assignment Rubric Template.xlsx</p>
+                          <p className="text-xs sm:text-sm text-gray-500">456 KB • Uploaded 3 days ago</p>
+                        </div>
                       </div>
+                      <button className="w-full sm:w-auto text-maineBlue hover:text-blue-700 font-medium text-sm sm:text-base min-h-[44px] px-4 border border-maineBlue rounded sm:border-0">Use</button>
                     </div>
-                    <button className="text-maineBlue hover:text-blue-700 font-medium">Use</button>
                   </div>
+                  <p className="text-xs sm:text-sm text-gray-500 mt-3 sm:mt-4 text-center">
+                    Files are processed immediately after selection
+                  </p>
                 </div>
               </div>
-            </div>
-            
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => setShowBrowseFilesModal(false)}
-                className="bg-gray-400 text-white px-6 py-2 rounded-md hover:bg-gray-500 font-retro"
-              >
-                Close
-              </button>
-              <p className="text-sm text-gray-500 mt-2 text-center">
-                Files are processed immediately after selection
-              </p>
             </div>
           </div>
         </div>
