@@ -4821,27 +4821,33 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* CSV Import Modal */}
       {showCsvImportModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Import Students from CSV</h2>
-              <button
-                onClick={() => {
-                  setShowCsvImportModal(false);
-                  setImportStatus('idle');
-                  setCsvFile(null);
-                  setParsedStudents([]);
-                }}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-4xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Import Students from CSV</h2>
+                <button
+                  onClick={() => {
+                    setShowCsvImportModal(false);
+                    setImportStatus('idle');
+                    setCsvFile(null);
+                    setParsedStudents([]);
+                  }}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
             </div>
-
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-4 sm:space-y-6">
             {/* Instructions */}
-            <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 mb-6">
-              <h3 className="font-bold text-blue-800 mb-2">📋 CSV Format Requirements:</h3>
-              <ul className="text-sm text-blue-700 space-y-1 list-disc list-inside">
+            <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
+              <h3 className="font-bold text-blue-800 mb-2 text-xs sm:text-base">📋 CSV Format Requirements:</h3>
+              <ul className="text-xs sm:text-sm text-blue-700 space-y-1 list-disc list-inside">
                 <li>Must include an <strong>"email"</strong> column (required)</li>
                 <li>Optional: <strong>"name"</strong> or <strong>"full name"</strong> column</li>
                 <li>First row must be headers</li>
@@ -4851,10 +4857,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
             {/* File Upload */}
             {importStatus === 'idle' && parsedStudents.length === 0 && (
-              <div className="border-4 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
-                <div className="text-6xl mb-4">📤</div>
-                <h3 className="text-lg font-medium text-gray-700 mb-2">Upload CSV File</h3>
-                <p className="text-sm text-gray-500 mb-4">Drag and drop or click to browse</p>
+              <div className="border-4 border-dashed border-gray-300 rounded-lg p-4 sm:p-8 text-center">
+                <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">📤</div>
+                <h3 className="text-base sm:text-lg font-medium text-gray-700 mb-2">Upload CSV File</h3>
+                <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">Drag and drop or click to browse</p>
                 <input
                   type="file"
                   accept=".csv"
@@ -4864,7 +4870,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 />
                 <label
                   htmlFor="csv-upload"
-                  className="bg-maineBlue text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 inline-block"
+                  className="bg-maineBlue text-white px-6 py-2 rounded-lg cursor-pointer hover:bg-blue-700 inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
                 >
                   Choose CSV File
                 </label>
@@ -4873,31 +4879,31 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
             {/* Parsing Status */}
             {importStatus === 'parsing' && (
-              <div className="text-center py-8">
-                <div className="text-4xl mb-4">⏳</div>
-                <p className="text-gray-600">Parsing CSV file...</p>
+              <div className="text-center py-4 sm:py-8">
+                <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">⏳</div>
+                <p className="text-gray-600 text-sm sm:text-base">Parsing CSV file...</p>
               </div>
             )}
 
             {/* Preview Parsed Students */}
             {parsedStudents.length > 0 && importStatus !== 'uploading' && importStatus !== 'complete' && (
-              <div className="mb-6">
-                <h3 className="font-bold text-maineBlue mb-3">📊 Preview ({parsedStudents.length} students)</h3>
-                <div className="border-4 border-maineBlue rounded-lg overflow-hidden max-h-64 overflow-y-auto">
+              <div>
+                <h3 className="font-bold text-maineBlue mb-2 sm:mb-3 text-sm sm:text-base">📊 Preview ({parsedStudents.length} students)</h3>
+                <div className="border-4 border-maineBlue rounded-lg overflow-hidden max-h-48 sm:max-h-64 overflow-y-auto">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50 sticky top-0">
                       <tr>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                        <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                        <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+                        <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                        <th className="px-2 sm:px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {parsedStudents.map((student, index) => (
                         <tr key={index} className={student.error ? 'bg-red-50' : ''}>
-                          <td className="px-4 py-2 text-sm text-gray-900">{student.email}</td>
-                          <td className="px-4 py-2 text-sm text-gray-500">{student.name || '-'}</td>
-                          <td className="px-4 py-2 text-sm">
+                          <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm text-gray-900">{student.email}</td>
+                          <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm text-gray-500">{student.name || '-'}</td>
+                          <td className="px-2 sm:px-4 py-2 text-xs sm:text-sm">
                             {student.error ? (
                               <span className="text-red-600">❌ {student.error}</span>
                             ) : (
@@ -4909,74 +4915,65 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </tbody>
                   </table>
                 </div>
-                <div className="mt-3 flex justify-between items-center">
-                  <p className="text-sm text-gray-600">
+                <div className="mt-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     {parsedStudents.filter(s => !s.error).length} valid students, {parsedStudents.filter(s => s.error).length} errors
                   </p>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        setCsvFile(null);
-                        setParsedStudents([]);
-                      }}
-                      className="bg-gray-400 text-white px-4 py-2 rounded-lg hover:bg-gray-500"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleBulkImport}
-                      disabled={parsedStudents.filter(s => !s.error).length === 0}
-                      className="bg-maineBlue text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
+                  <button
+                    onClick={handleBulkImport}
+                    disabled={parsedStudents.filter(s => !s.error).length === 0}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                  >
                       Import {parsedStudents.filter(s => !s.error).length} Students
-                    </button>
-                  </div>
+                  </button>
                 </div>
               </div>
             )}
 
             {/* Upload Progress */}
             {importStatus === 'uploading' && (
-              <div className="text-center py-8">
-                <div className="text-4xl mb-4">⬆️</div>
-                <p className="text-gray-600 mb-4">Importing students...</p>
+              <div className="text-center py-4 sm:py-8">
+                <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">⬆️</div>
+                <p className="text-gray-600 mb-3 sm:mb-4 text-sm sm:text-base">Importing students...</p>
                 <div className="w-full bg-gray-200 rounded-full h-4 mb-2">
                   <div
                     className="bg-maineBlue h-4 rounded-full transition-all duration-300"
                     style={{ width: `${importProgress}%` }}
                   ></div>
                 </div>
-                <p className="text-sm text-gray-500">{importProgress}% complete</p>
+                <p className="text-xs sm:text-sm text-gray-500">{importProgress}% complete</p>
               </div>
             )}
 
             {/* Success Message */}
             {importStatus === 'complete' && (
-              <div className="text-center py-8">
-                <div className="text-6xl mb-4">✅</div>
-                <h3 className="text-xl font-bold text-green-600 mb-2">Import Complete!</h3>
-                <p className="text-gray-600">Students have been successfully imported.</p>
+              <div className="text-center py-4 sm:py-8">
+                <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">✅</div>
+                <h3 className="text-lg sm:text-xl font-bold text-green-600 mb-2">Import Complete!</h3>
+                <p className="text-gray-600 text-sm sm:text-base">Students have been successfully imported.</p>
               </div>
             )}
 
             {/* Error Message */}
             {importStatus === 'error' && (
-              <div className="text-center py-8">
-                <div className="text-6xl mb-4">❌</div>
-                <h3 className="text-xl font-bold text-red-600 mb-2">Import Failed</h3>
-                <p className="text-gray-600">Please check your CSV file and try again.</p>
+              <div className="text-center py-4 sm:py-8">
+                <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">❌</div>
+                <h3 className="text-lg sm:text-xl font-bold text-red-600 mb-2">Import Failed</h3>
+                <p className="text-gray-600 text-sm sm:text-base">Please check your CSV file and try again.</p>
                 <button
                   onClick={() => {
                     setImportStatus('idle');
                     setCsvFile(null);
                     setParsedStudents([]);
                   }}
-                  className="mt-4 bg-maineBlue text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                  className="mt-3 sm:mt-4 bg-maineBlue text-white px-6 py-2 rounded-lg hover:bg-blue-700 text-sm sm:text-base min-h-[44px]"
                 >
                   Try Again
                 </button>
               </div>
             )}
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -5038,13 +5035,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </label>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
-                <button
-                  onClick={() => setShowAnnouncementModal(false)}
-                  className="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro text-sm sm:text-base min-h-[44px]"
-                >
-                  Cancel
-                </button>
+              <div className="flex justify-end">
                 <button
                   onClick={async () => {
                     if (!announcementSubject.trim() || !announcementMessage.trim()) {
