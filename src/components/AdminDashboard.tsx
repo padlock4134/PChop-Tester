@@ -7643,10 +7643,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Credentialing & Certifications Modal */}
       {showCredentialingModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-orange-600 font-retro">🏅 Credentialing & Certifications</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 p-3 sm:p-6 w-full max-w-5xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-3 sm:mb-4">
+              <h2 className="text-lg sm:text-2xl font-bold text-orange-600 font-retro">🏅 Credentialing & Certifications</h2>
               <button
                 onClick={() => setShowCredentialingModal(false)}
                 className="text-gray-500 hover:text-gray-800 text-2xl"
@@ -7654,31 +7654,31 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 ×
               </button>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {/* Overview Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
-                  <div className="text-3xl font-bold text-green-600">87%</div>
-                  <p className="text-sm text-green-800 font-medium">ServSafe Certified</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                <div className="border-4 border-green-400 rounded-lg p-2 sm:p-4 bg-green-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-green-600">87%</div>
+                  <p className="text-xs sm:text-sm text-green-800 font-medium">ServSafe Certified</p>
                 </div>
-                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
-                  <div className="text-3xl font-bold text-blue-600">156</div>
-                  <p className="text-sm text-blue-800 font-medium">Active Certifications</p>
+                <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-4 bg-blue-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-blue-600">156</div>
+                  <p className="text-xs sm:text-sm text-blue-800 font-medium">Active Certifications</p>
                 </div>
-                <div className="border-4 border-yellow-400 rounded-lg p-4 bg-yellow-50 text-center">
-                  <div className="text-3xl font-bold text-yellow-600">12</div>
-                  <p className="text-sm text-yellow-800 font-medium">Expiring Soon</p>
+                <div className="border-4 border-yellow-400 rounded-lg p-2 sm:p-4 bg-yellow-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-yellow-600">12</div>
+                  <p className="text-xs sm:text-sm text-yellow-800 font-medium">Expiring Soon</p>
                 </div>
-                <div className="border-4 border-red-400 rounded-lg p-4 bg-red-50 text-center">
-                  <div className="text-3xl font-bold text-red-600">8</div>
-                  <p className="text-sm text-red-800 font-medium">Expired</p>
+                <div className="border-4 border-red-400 rounded-lg p-2 sm:p-4 bg-red-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-red-600">8</div>
+                  <p className="text-xs sm:text-sm text-red-800 font-medium">Expired</p>
                 </div>
               </div>
 
               {/* Certification Types */}
-              <div className="border-4 border-orange-400 rounded-lg p-4">
-                <h3 className="font-bold text-orange-800 mb-3">Certification Types Tracked:</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="border-4 border-orange-400 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-orange-800 mb-2 sm:mb-3 text-sm sm:text-base">Certification Types Tracked:</h3>
+                <div className="grid grid-cols-1 gap-2 sm:gap-3">
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
@@ -7755,8 +7755,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Students Needing Attention */}
-              <div className="border-4 border-red-400 rounded-lg p-4 bg-red-50">
-                <h3 className="font-bold text-red-800 mb-3">⚠️ Students Requiring Action:</h3>
+              <div className="border-4 border-red-400 rounded-lg p-3 sm:p-4 bg-red-50">
+                <h3 className="font-bold text-red-800 mb-2 sm:mb-3 text-sm sm:text-base">⚠️ Students Requiring Action:</h3>
                 <div className="space-y-2 max-h-48 overflow-y-auto">
                   <div className="bg-white border-2 border-red-300 rounded-lg p-3 flex justify-between items-center">
                     <div>
@@ -7789,22 +7789,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowCredentialingModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Close
-                </button>
+              <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
                 <button
                   onClick={() => alert('Send renewal reminders to all expiring certifications')}
-                  className="bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro"
+                  className="bg-yellow-400 text-white px-4 sm:px-6 py-2 rounded-md hover:bg-yellow-500 font-retro text-sm sm:text-base min-h-[44px]"
                 >
                   Send Reminders
                 </button>
                 <button
                   onClick={() => alert('Export certification report')}
-                  className="bg-orange-400 text-white px-6 py-2 rounded-md hover:bg-orange-500 font-retro"
+                  className="bg-orange-400 text-white px-4 sm:px-6 py-2 rounded-md hover:bg-orange-500 font-retro text-sm sm:text-base min-h-[44px]"
                 >
                   Export Report
                 </button>
