@@ -6393,167 +6393,168 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Plan Alumni Event Modal */}
       {showPlanEventModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-green-600 font-retro">🎉 Plan Alumni Event</h2>
-              <button
-                onClick={() => setShowPlanEventModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Scheduled Events:</label>
-                <div className="flex gap-2">
-                  <select 
-                    value={selectedEventId}
-                    onChange={(e) => setSelectedEventId(e.target.value)}
-                    className="flex-1 border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
-                  >
-                    <option value="">-- View Existing Event --</option>
-                    <option value="event-1">Class of 2020 Reunion - March 15, 2025</option>
-                    <option value="event-2">Spring Networking Event - April 10, 2025</option>
-                    <option value="event-3">Annual Gala 2025 - May 20, 2025</option>
-                  </select>
-                  <button
-                    onClick={() => {
-                      if (!selectedEventId) {
-                        showWarning('Please select an event first');
-                        return;
-                      }
-                      setShowViewEventModal(true);
-                    }}
-                    className="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro whitespace-nowrap"
-                  >
-                    View
-                  </button>
-                </div>
-              </div>
-              <div className="border-t-2 border-gray-200 pt-4">
-                <h3 className="text-center font-bold text-green-800 mb-4"></h3>
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Event Name:</label>
-                <input
-                  type="text"
-                  value={eventName}
-                  onChange={(e) => setEventName(e.target.value)}
-                  placeholder="e.g., Annual Alumni Reunion 2025"
-                  className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Date:</label>
-                  <input
-                    type="date"
-                    value={eventDate}
-                    onChange={(e) => setEventDate(e.target.value)}
-                    className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-gray-700 mb-2">Time:</label>
-                  <input
-                    type="time"
-                    value={eventTime}
-                    onChange={(e) => setEventTime(e.target.value)}
-                    className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Location:</label>
-                <input
-                  type="text"
-                  value={eventLocation}
-                  onChange={(e) => setEventLocation(e.target.value)}
-                  placeholder="Venue name and address"
-                  className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Event Type:</label>
-                <select
-                  value={eventType}
-                  onChange={(e) => setEventType(e.target.value as any)}
-                  className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
-                >
-                  <option value="networking">Networking Event</option>
-                  <option value="reunion">Reunion Dinner</option>
-                  <option value="career_fair">Career Fair</option>
-                  <option value="workshop">Cooking Workshop</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Event Description:</label>
-                <textarea
-                  rows={4}
-                  value={eventDescription}
-                  onChange={(e) => setEventDescription(e.target.value)}
-                  placeholder="Describe the event, activities, and what alumni can expect..."
-                  className="w-full border-4 border-green-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </div>
-              <div className="flex justify-end gap-3">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-green-600 font-retro">🎉 Plan Alumni Event</h2>
                 <button
                   onClick={() => setShowPlanEventModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
                 >
-                  Cancel
+                  ×
                 </button>
-                <button
-                  onClick={async () => {
-                    if (!eventName.trim() || !eventDate || !eventTime) {
-                      showWarning('Please enter event name, date, and time');
-                      return;
-                    }
-                    
-                    setCreatingEvent(true);
-                    try {
-                      const { error } = await supabase
-                        .from('alumni_events')
-                        .insert({
-                          name: eventName,
-                          event_type: eventType,
-                          event_date: eventDate,
-                          event_time: eventTime,
-                          location: eventLocation || null,
-                          description: eventDescription || null
+              </div>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Scheduled Events:</label>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <select 
+                      value={selectedEventId}
+                      onChange={(e) => setSelectedEventId(e.target.value)}
+                      className="flex-1 border-4 border-green-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-sm sm:text-base min-h-[44px]"
+                    >
+                      <option value="">-- View Existing Event --</option>
+                      <option value="event-1">Class of 2020 Reunion - March 15, 2025</option>
+                      <option value="event-2">Spring Networking Event - April 10, 2025</option>
+                      <option value="event-3">Annual Gala 2025 - May 20, 2025</option>
+                    </select>
+                    <button
+                      onClick={() => {
+                        if (!selectedEventId) {
+                          showWarning('Please select an event first');
+                          return;
+                        }
+                        setShowViewEventModal(true);
+                      }}
+                      className="w-full sm:w-auto bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro whitespace-nowrap text-sm sm:text-base min-h-[44px]"
+                    >
+                      View
+                    </button>
+                  </div>
+                </div>
+                <div className="border-t-2 border-gray-200 pt-3 sm:pt-4">
+                  <h3 className="text-center font-bold text-green-800 mb-3 sm:mb-4 text-xs sm:text-base"></h3>
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Event Name:</label>
+                  <input
+                    type="text"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    placeholder="e.g., Annual Alumni Reunion 2025"
+                    className="w-full border-4 border-green-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <div>
+                    <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Date:</label>
+                    <input
+                      type="date"
+                      value={eventDate}
+                      onChange={(e) => setEventDate(e.target.value)}
+                      className="w-full border-4 border-green-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base min-h-[44px]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Time:</label>
+                    <input
+                      type="time"
+                      value={eventTime}
+                      onChange={(e) => setEventTime(e.target.value)}
+                      className="w-full border-4 border-green-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base min-h-[44px]"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Location:</label>
+                  <input
+                    type="text"
+                    value={eventLocation}
+                    onChange={(e) => setEventLocation(e.target.value)}
+                    placeholder="Venue name and address"
+                    className="w-full border-4 border-green-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Event Type:</label>
+                  <select
+                    value={eventType}
+                    onChange={(e) => setEventType(e.target.value as any)}
+                    className="w-full border-4 border-green-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-sm sm:text-base min-h-[44px]"
+                  >
+                    <option value="networking">Networking Event</option>
+                    <option value="reunion">Reunion Dinner</option>
+                    <option value="career_fair">Career Fair</option>
+                    <option value="workshop">Cooking Workshop</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Event Description:</label>
+                  <textarea
+                    rows={4}
+                    value={eventDescription}
+                    onChange={(e) => setEventDescription(e.target.value)}
+                    placeholder="Describe the event, activities, and what alumni can expect..."
+                    className="w-full border-4 border-green-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+                  />
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    onClick={async () => {
+                      if (!eventName.trim() || !eventDate || !eventTime) {
+                        showWarning('Please enter event name, date, and time');
+                        return;
+                      }
+                      
+                      setCreatingEvent(true);
+                      try {
+                        const { error } = await supabase
+                          .from('alumni_events')
+                          .insert({
+                            name: eventName,
+                            event_type: eventType,
+                            event_date: eventDate,
+                            event_time: eventTime,
+                            location: eventLocation || null,
+                            description: eventDescription || null
+                          });
+                        
+                        if (error) throw error;
+                        
+                        // Show branded success modal
+                        setDownloadedReportInfo({
+                          type: 'Alumni Event Created',
+                          count: 1,
+                          filename: `${eventName} on ${eventDate}`
                         });
-                      
-                      if (error) throw error;
-                      
-                      // Show branded success modal
-                      setDownloadedReportInfo({
-                        type: 'Alumni Event Created',
-                        count: 1,
-                        filename: `${eventName} on ${eventDate}`
-                      });
-                      setShowDownloadSuccessModal(true);
-                      
-                      setEventName('');
-                      setEventDate('');
-                      setEventTime('');
-                      setEventLocation('');
-                      setEventType('networking');
-                      setEventDescription('');
-                      setShowPlanEventModal(false);
-                    } catch (error: any) {
-                      console.error('Error creating event:', error);
-                      alert('Failed to create event: ' + error.message);
-                    } finally {
-                      setCreatingEvent(false);
-                    }
-                  }}
-                  disabled={creatingEvent}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {creatingEvent ? 'Creating...' : 'Create Event'}
-                </button>
+                        setShowDownloadSuccessModal(true);
+                        
+                        setEventName('');
+                        setEventDate('');
+                        setEventTime('');
+                        setEventLocation('');
+                        setEventType('networking');
+                        setEventDescription('');
+                        setShowPlanEventModal(false);
+                      } catch (error: any) {
+                        console.error('Error creating event:', error);
+                        alert('Failed to create event: ' + error.message);
+                      } finally {
+                        setCreatingEvent(false);
+                      }
+                    }}
+                    disabled={creatingEvent}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                  >
+                    {creatingEvent ? 'Creating...' : 'Create Event'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
