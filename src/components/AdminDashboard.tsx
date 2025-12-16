@@ -6607,7 +6607,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             </div>
             <div className="space-y-3 sm:space-y-4">
               <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50">
-                <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Partners ({3}):</h3>
+                <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Partners (4):</h3>
                 <div className="max-h-[400px] overflow-y-auto pr-2">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-3">
                   <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
@@ -6676,6 +6676,78 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setPartnerStudentsHired('8');
                         setPartnerOpenPositions('2');
                         setPartnershipYear('2019');
+                      }}
+                      className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
+                    >
+                      ✏️ Edit Partner
+                    </button>
+                  </div>
+                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900 text-base sm:text-lg">Alinea</p>
+                        <p className="text-xs sm:text-sm text-gray-600">Chicago, IL</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm mt-3">
+                      <div>
+                        <p className="text-gray-600">Students Hired: <strong>15</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Open Positions: <strong>5</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Partnership Since: <strong>2018</strong></p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setEditingPartnerId('partner-3');
+                        setIsEditMode(true);
+                        setPartnerName('Alinea');
+                        setPartnerLocation('Chicago, IL');
+                        setPartnerEmail('careers@alinearestaurant.com');
+                        setPartnerPhone('(312) 867-0110');
+                        setPartnerStudentsHired('15');
+                        setPartnerOpenPositions('5');
+                        setPartnershipYear('2018');
+                      }}
+                      className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
+                    >
+                      ✏️ Edit Partner
+                    </button>
+                  </div>
+                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900 text-base sm:text-lg">Le Bernardin</p>
+                        <p className="text-xs sm:text-sm text-gray-600">New York, NY</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm mt-3">
+                      <div>
+                        <p className="text-gray-600">Students Hired: <strong>10</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Open Positions: <strong>4</strong></p>
+                      </div>
+                      <div>
+                        <p className="text-gray-600">Partnership Since: <strong>2021</strong></p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setEditingPartnerId('partner-4');
+                        setIsEditMode(true);
+                        setPartnerName('Le Bernardin');
+                        setPartnerLocation('New York, NY');
+                        setPartnerEmail('info@le-bernardin.com');
+                        setPartnerPhone('(212) 554-1515');
+                        setPartnerStudentsHired('10');
+                        setPartnerOpenPositions('4');
+                        setPartnershipYear('2021');
                       }}
                       className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
                     >
