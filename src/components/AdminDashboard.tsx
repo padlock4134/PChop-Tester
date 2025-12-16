@@ -5863,39 +5863,45 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Faculty Reports Modal */}
       {showFacultyReportsModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-purple-600 font-retro">📊 Faculty Reports</h2>
-              <button
-                onClick={() => setShowFacultyReportsModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 w-full max-w-3xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-purple-600 font-retro">📊 Faculty Reports</h2>
+                <button
+                  onClick={() => setShowFacultyReportsModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
             </div>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50 text-center">
-                  <div className="text-3xl font-bold text-purple-600">5</div>
-                  <p className="text-sm text-purple-800 font-medium mt-1">Active Faculty</p>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
+                <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-purple-600">5</div>
+                  <p className="text-xs sm:text-sm text-purple-800 font-medium mt-1">Active Faculty</p>
                 </div>
-                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
-                  <div className="text-3xl font-bold text-blue-600">142</div>
-                  <p className="text-sm text-blue-800 font-medium mt-1">Students Taught</p>
+                <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-blue-600">142</div>
+                  <p className="text-xs sm:text-sm text-blue-800 font-medium mt-1">Students Taught</p>
                 </div>
-                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
-                  <div className="text-3xl font-bold text-green-600">4.7</div>
-                  <p className="text-sm text-green-800 font-medium mt-1">Avg. Rating</p>
+                <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4 bg-green-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-green-600">4.7</div>
+                  <p className="text-xs sm:text-sm text-green-800 font-medium mt-1">Avg. Rating</p>
                 </div>
               </div>
-              <div className="border-4 border-purple-400 rounded-lg p-4">
-                <h3 className="font-bold text-purple-800 mb-3">Faculty Performance:</h3>
-                <div className="space-y-3">
-                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="font-semibold text-gray-900">Chef Julia Martinez</p>
-                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Excellent</span>
+              <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-xs sm:text-base">Faculty Performance:</h3>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Julia Martinez</p>
+                      <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded inline-block w-fit">Excellent</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2 text-xs">
                       <div>
@@ -5909,10 +5915,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="font-semibold text-gray-900">Chef Marcus Chen</p>
-                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Excellent</span>
+                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Marcus Chen</p>
+                      <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded inline-block w-fit">Excellent</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2 text-xs">
                       <div>
@@ -5926,10 +5932,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <p className="font-semibold text-gray-900">Chef Sarah Williams</p>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">Good</span>
+                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Sarah Williams</p>
+                      <span className="text-xs sm:text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block w-fit">Good</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2 text-xs">
                       <div>
@@ -5945,13 +5951,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowFacultyReportsModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Close
-                </button>
+              <div className="flex justify-end">
                 <button
                   onClick={async () => {
                     setExportingFaculty(true);
@@ -5988,10 +5988,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                   }}
                   disabled={exportingFaculty}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                 >
                   {exportingFaculty ? 'Exporting...' : 'Export Report'}
                 </button>
+              </div>
               </div>
             </div>
           </div>
