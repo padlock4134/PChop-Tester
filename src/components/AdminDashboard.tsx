@@ -2888,6 +2888,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p>💰 Salary: $85,000/year</p>
                       </div>
                     </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          alert('Edit alumni feature coming soon!');
+                        }}
+                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to remove Maria Santos from alumni records?')) {
+                            alert('Alumni member removed successfully!');
+                          }
+                        }}
+                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                   
                   <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
@@ -2901,6 +2921,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p>📍 Chen's Kitchen (3 locations)</p>
                         <p>💰 Revenue: $2.1M annually</p>
                       </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          alert('Edit alumni feature coming soon!');
+                        }}
+                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to remove James Chen from alumni records?')) {
+                            alert('Alumni member removed successfully!');
+                          }
+                        }}
+                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                      >
+                        Remove
+                      </button>
                     </div>
                   </div>
                   
@@ -2916,6 +2956,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p>💰 $120,000/year + endorsements</p>
                       </div>
                     </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          alert('Edit alumni feature coming soon!');
+                        }}
+                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to remove Ashley Rodriguez from alumni records?')) {
+                            alert('Alumni member removed successfully!');
+                          }
+                        }}
+                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                   
                   <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
@@ -2929,6 +2989,26 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p>📍 Google Campus Dining</p>
                         <p>💰 $95,000/year + benefits</p>
                       </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          alert('Edit alumni feature coming soon!');
+                        }}
+                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (window.confirm('Are you sure you want to remove David Miller from alumni records?')) {
+                            alert('Alumni member removed successfully!');
+                          }
+                        }}
+                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                      >
+                        Remove
+                      </button>
                     </div>
                   </div>
                 </div>
