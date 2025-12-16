@@ -6608,7 +6608,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-3 sm:space-y-4">
               <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50">
                 <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Partners ({3}):</h3>
-                <div className="space-y-2 sm:space-y-3">
+                <div className="max-h-[400px] overflow-y-auto pr-2">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-3">
                   <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
@@ -6680,6 +6681,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     >
                       ✏️ Edit Partner
                     </button>
+                  </div>
                   </div>
                 </div>
               </div>
