@@ -2656,77 +2656,75 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Faculty Management Modal */}
       {showFacultyManagementModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-6xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Faculty Management Dashboard</h2>
-              <button
-                onClick={() => setShowFacultyManagementModal(false)}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center mb-3 sm:mb-4 relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Faculty Management</h2>
+                <button
+                  onClick={() => setShowFacultyManagementModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 text-sm sm:text-base">Manage instructor access, permissions, curriculum responsibilities, and faculty performance.</p>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Manage instructor access, permissions, curriculum responsibilities, and faculty performance.</p>
-            
-            <div className="space-y-6">
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-4 sm:space-y-6">
               {/* Faculty Overview Stats */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">👩‍🏫 Faculty Overview</h3>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-blue-600">12</div>
-                    <p className="text-sm text-blue-800 font-medium">Total Faculty</p>
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">👩‍🏫 Faculty Overview</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
+                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">12</div>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Faculty</p>
                     <p className="text-xs text-blue-600">Active instructors</p>
                   </div>
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-green-600">8</div>
-                    <p className="text-sm text-green-800 font-medium">Full-Time</p>
+                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">8</div>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">Full-Time</p>
                     <p className="text-xs text-green-600">Permanent staff</p>
                   </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-purple-600">4</div>
-                    <p className="text-sm text-purple-800 font-medium">Part-Time</p>
+                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">4</div>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">Part-Time</p>
                     <p className="text-xs text-purple-600">Adjunct instructors</p>
                   </div>
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-4 text-center">
-                    <div className="text-3xl font-bold text-orange-600">95%</div>
-                    <p className="text-sm text-orange-800 font-medium">Active This Week</p>
+                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">95%</div>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">Active This Week</p>
                     <p className="text-xs text-orange-600">Platform engagement</p>
                   </div>
                 </div>
               </div>
 
               {/* Faculty Directory */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="font-bold text-maineBlue text-center mb-4">👩‍🏫 Faculty Directory</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">Chef Julia Davis</h4>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
-                          Active
-                        </span>
-                        <div className="text-sm text-gray-600 space-y-1">
-                          <p>📚 Courses: Advanced Techniques, Sauce Mastery</p>
-                          <p>👥 Students: 42 active</p>
-                          <p>📅 Last Login: Today, 9:15 AM</p>
-                        </div>
-                      </div>
-                      <div className="w-px h-24 bg-gray-300"></div>
-                      <div className="w-20 h-20 bg-blue-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
-                        JD
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="font-bold text-maineBlue text-center mb-3 sm:mb-4 text-sm sm:text-base">👩‍🏫 Faculty Directory</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
+                    <div className="mb-3">
+                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Chef Julia Davis</h4>
+                      <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
+                        Active
+                      </span>
+                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                        <p>📚 Courses: Advanced Techniques, Sauce Mastery</p>
+                        <p>👥 Students: 42 active</p>
+                        <p>📅 Last Login: Today, 9:15 AM</p>
                       </div>
                     </div>
-                    <div className="flex gap-2 mt-3">
+                    <div className="flex gap-2">
                       <button
                         onClick={() => {
                           setEditingFaculty(facultyList[0]);
                           setShowEditFacultyModal(true);
                         }}
-                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-1 border border-maineBlue rounded text-sm transition-colors"
+                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
                         Edit
                       </button>
@@ -2737,38 +2735,32 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             alert('Faculty member removed successfully!');
                           }
                         }}
-                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-1 border border-red-600 rounded text-sm transition-colors"
+                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
                         Remove
                       </button>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 rounded-lg p-4 border-4 border-gray-400">
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">Chef Marco Rodriguez</h4>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
-                          Active
-                        </span>
-                        <div className="text-sm text-gray-600 space-y-1">
-                          <p>📚 Courses: Baking Fundamentals, Cake Decoration</p>
-                          <p>👥 Students: 28 active</p>
-                          <p>📅 Last Login: Yesterday, 4:30 PM</p>
-                        </div>
-                      </div>
-                      <div className="w-px h-24 bg-gray-300"></div>
-                      <div className="w-20 h-20 bg-green-500 rounded flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 border border-black">
-                        MR
+                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
+                    <div className="mb-3">
+                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Chef Marco Rodriguez</h4>
+                      <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
+                        Active
+                      </span>
+                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                        <p>📚 Courses: Baking Fundamentals, Cake Decoration</p>
+                        <p>👥 Students: 28 active</p>
+                        <p>📅 Last Login: Yesterday, 4:30 PM</p>
                       </div>
                     </div>
-                    <div className="flex gap-2 mt-3">
+                    <div className="flex gap-2">
                       <button
                         onClick={() => {
                           setEditingFaculty(facultyList[1]);
                           setShowEditFacultyModal(true);
                         }}
-                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-1 border border-maineBlue rounded text-sm transition-colors"
+                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
                         Edit
                       </button>
@@ -2779,7 +2771,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             alert('Faculty member removed successfully!');
                           }
                         }}
-                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-1 border border-red-600 rounded text-sm transition-colors"
+                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
                         Remove
                       </button>
@@ -2789,34 +2781,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Faculty Quick Actions */}
-              <div className="border-4 border-maineBlue rounded-lg p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-4">⚡ Faculty Management Actions</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⚡ Faculty Management Actions</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                   <button 
                     onClick={() => setShowAddFacultyModal(true)}
-                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                    className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
-                    <div className="text-2xl mb-2">👥</div>
-                    <h4 className="font-medium text-blue-800">Add New Faculty</h4>
+                    <div className="text-xl sm:text-2xl mb-2">👥</div>
+                    <h4 className="font-medium text-blue-800 text-sm sm:text-base">Add New Faculty</h4>
                     <p className="text-xs text-blue-600">Invite new instructors</p>
                   </button>
                   <button 
                     onClick={() => setShowManagePermissionsModal(true)}
-                    className="bg-green-50 border-4 border-green-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                    className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
-                    <div className="text-2xl mb-2">🔐</div>
-                    <h4 className="font-medium text-green-800">Manage Permissions</h4>
+                    <div className="text-xl sm:text-2xl mb-2">🔐</div>
+                    <h4 className="font-medium text-green-800 text-sm sm:text-base">Manage Permissions</h4>
                     <p className="text-xs text-green-600">Update access levels</p>
                   </button>
                   <button 
                     onClick={() => setShowFacultyReportsModal(true)}
-                    className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 hover:scale-105 transition-transform duration-200"
+                    className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
-                    <div className="text-2xl mb-2">📊</div>
-                    <h4 className="font-medium text-purple-800">Faculty Reports</h4>
+                    <div className="text-xl sm:text-2xl mb-2">📊</div>
+                    <h4 className="font-medium text-purple-800 text-sm sm:text-base">Faculty Reports</h4>
                     <p className="text-xs text-purple-600">Performance analytics</p>
                   </button>
                 </div>
+              </div>
               </div>
             </div>
           </div>
