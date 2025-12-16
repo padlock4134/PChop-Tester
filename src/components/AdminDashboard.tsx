@@ -2507,11 +2507,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Student Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <div className="flex flex-col sm:flex-row justify-center items-center mb-3 sm:mb-4 gap-2 sm:gap-0 sm:relative">
+                <div className="flex justify-center items-center mb-3 sm:mb-4 sm:relative">
                   <h3 className="font-bold text-maineBlue text-sm sm:text-base">📋 Student Directory</h3>
                   <button
                     onClick={() => setShowAddStudentModal(true)}
-                    className="w-full sm:w-auto bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center justify-center gap-2 sm:absolute sm:right-0 min-h-[44px]"
+                    className="hidden sm:flex bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm items-center justify-center gap-2 sm:absolute sm:right-0 min-h-[44px]"
                   >
                     <span className="text-lg">+</span> Add Student
                   </button>
@@ -2607,6 +2607,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <p className="text-sm text-gray-500">Showing first 10 students. Total: {users.length} students</p>
                   </div>
                 )}
+                
+                {/* Add Student Button - Mobile Only (Below Cards) */}
+                <div className="mt-4 sm:hidden">
+                  <button
+                    onClick={() => setShowAddStudentModal(true)}
+                    className="w-full bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center justify-center gap-2 min-h-[44px]"
+                  >
+                    <span className="text-lg">+</span> Add Student
+                  </button>
+                </div>
               </div>
 
               {/* Quick Actions */}
