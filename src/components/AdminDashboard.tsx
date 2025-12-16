@@ -6679,7 +6679,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   />
                 </div>
               </div>
-              <div className="flex justify-end gap-2 sm:gap-3">
+              <div className="flex flex-col gap-2 sm:gap-3">
+                <button
+                  onClick={() => {
+                    showWarning('Edit Partner functionality coming soon!');
+                  }}
+                  className="w-full bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro min-h-[44px]"
+                >
+                  Edit Partner
+                </button>
                 <button
                   onClick={async () => {
                     if (!partnerName.trim() || !partnerLocation.trim()) {
@@ -6724,7 +6732,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                   }}
                   disabled={addingPartner}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
                 >
                   {addingPartner ? 'Adding...' : 'Add Partner'}
                 </button>
