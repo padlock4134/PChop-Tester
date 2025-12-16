@@ -4569,220 +4569,226 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Chef Freddie Modal */}
       {showChefFreddieModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-red-400 p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-red-700 font-retro flex items-center justify-center gap-2">
-                <span className="text-3xl"></span>
-                Chef Freddie: Curriculum Assistant
-              </h2>
-              <button
-                onClick={() => setShowChefFreddieModal(false)}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-red-400 max-w-4xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-red-700 font-retro flex items-center justify-center gap-2">
+                  <span className="text-2xl sm:text-3xl"></span>
+                  Chef Freddie: Curriculum Assistant
+                </h2>
+                <button
+                  onClick={() => setShowChefFreddieModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
             </div>
             
-            <div className="space-y-6">
-              {/* Welcome Message */}
-              <div className="bg-red-50 border-4 border-red-400 rounded-lg p-4">
-                <h3 className="text-center font-bold text-red-800 mb-2">🎉 Welcome! I'm here to help with your culinary curriculum</h3>
-                <p className="text-center text-sm text-red-700 mb-2">
-                  What would you like to work on today?
-                </p>
-              </div>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-6">
+                {/* Welcome Message */}
+                <div className="bg-red-50 border-4 border-red-400 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-red-800 mb-2 text-sm sm:text-base">🎉 Welcome! I'm here to help with your culinary curriculum</h3>
+                  <p className="text-center text-xs sm:text-sm text-red-700">
+                    What would you like to work on today?
+                  </p>
+                </div>
+                
+                {/* Quick Actions */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                    <div className="text-2xl sm:text-3xl mb-2">📝</div>
+                    <h4 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">Create Assignment</h4>
+                    <p className="text-xs sm:text-sm text-blue-600 mb-2 sm:mb-3">Generate practical cooking assignments with rubrics</p>
+                    <button 
+                      onClick={() => handleQuickAction('Create a practical cooking assignment for Week 5 on sauce making. Include learning objectives, required equipment, step-by-step instructions, and a grading rubric.')}
+                      className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-200 font-retro text-xs sm:text-sm min-h-[44px]"
+                    >
+                      Start Creating
+                    </button>
+                  </div>
+                
+                  <div className="border-4 border-green-300 bg-green-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                    <div className="text-2xl sm:text-3xl mb-2">📅</div>
+                    <h4 className="font-bold text-green-800 mb-2 text-sm sm:text-base">Build Lesson Plan</h4>
+                    <p className="text-xs sm:text-sm text-green-600 mb-2 sm:mb-3">Create structured weekly lesson plans</p>
+                    <button 
+                      onClick={() => handleQuickAction('Create a detailed lesson plan for teaching knife skills to culinary students. Include warm-up activities, demonstrations, hands-on practice, safety protocols, and assessment methods.')}
+                      className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-xs sm:text-sm min-h-[44px]"
+                    >
+                      Plan Lesson
+                    </button>
+                  </div>
+                
+                  <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                    <div className="text-2xl sm:text-3xl mb-2">🏆</div>
+                    <h4 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Design Rubric</h4>
+                    <p className="text-xs sm:text-sm text-purple-600 mb-2 sm:mb-3">Create assessment rubrics for skills</p>
+                    <button 
+                      onClick={() => handleQuickAction('Design a comprehensive grading rubric for evaluating student performance in protein cookery. Include criteria for technique, temperature control, presentation, and food safety.')}
+                      className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200 font-retro text-xs sm:text-sm min-h-[44px]"
+                    >
+                      Design Rubric
+                    </button>
+                  </div>
+                
+                  <div className="border-4 border-orange-300 bg-orange-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                    <div className="text-2xl sm:text-3xl mb-2">🔄</div>
+                    <h4 className="font-bold text-orange-800 mb-2 text-sm sm:text-base">Apply to Modules</h4>
+                    <p className="text-xs sm:text-sm text-orange-600 mb-2 sm:mb-3">Distribute curriculum to MyKitchen, MyCookBook</p>
+                    <button 
+                      onClick={() => handleQuickAction('Help me understand how to apply my curriculum content to the different modules (MyKitchen, MyCookBook, CulinarySchool, ChefsCorner). What types of content work best for each module?')}
+                      className="bg-orange-100 text-orange-700 px-4 py-2 rounded-md hover:bg-orange-200 font-retro text-xs sm:text-sm min-h-[44px]"
+                    >
+                      Apply Now
+                    </button>
+                  </div>
+                </div>
               
-              {/* Quick Actions */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
-                  <div className="text-3xl mb-2">📝</div>
-                  <h4 className="font-bold text-blue-800 mb-2">Create Assignment</h4>
-                  <p className="text-sm text-blue-600 mb-3">Generate practical cooking assignments with rubrics</p>
-                  <button 
-                    onClick={() => handleQuickAction('Create a practical cooking assignment for Week 5 on sauce making. Include learning objectives, required equipment, step-by-step instructions, and a grading rubric.')}
-                    className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-200 font-retro text-sm"
-                  >
-                    Start Creating
-                  </button>
-                </div>
-                
-                <div className="border-4 border-green-300 bg-green-50 rounded-lg p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
-                  <div className="text-3xl mb-2">📅</div>
-                  <h4 className="font-bold text-green-800 mb-2">Build Lesson Plan</h4>
-                  <p className="text-sm text-green-600 mb-3">Create structured weekly lesson plans</p>
-                  <button 
-                    onClick={() => handleQuickAction('Create a detailed lesson plan for teaching knife skills to culinary students. Include warm-up activities, demonstrations, hands-on practice, safety protocols, and assessment methods.')}
-                    className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-sm"
-                  >
-                    Plan Lesson
-                  </button>
-                </div>
-                
-                <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
-                  <div className="text-3xl mb-2">🏆</div>
-                  <h4 className="font-bold text-purple-800 mb-2">Design Rubric</h4>
-                  <p className="text-sm text-purple-600 mb-3">Create assessment rubrics for skills</p>
-                  <button 
-                    onClick={() => handleQuickAction('Design a comprehensive grading rubric for evaluating student performance in protein cookery. Include criteria for technique, temperature control, presentation, and food safety.')}
-                    className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200 font-retro text-sm"
-                  >
-                    Design Rubric
-                  </button>
-                </div>
-                
-                <div className="border-4 border-orange-300 bg-orange-50 rounded-lg p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
-                  <div className="text-3xl mb-2">🔄</div>
-                  <h4 className="font-bold text-orange-800 mb-2">Apply to Modules</h4>
-                  <p className="text-sm text-orange-600 mb-3">Distribute curriculum to MyKitchen, MyCookBook</p>
-                  <button 
-                    onClick={() => handleQuickAction('Help me understand how to apply my curriculum content to the different modules (MyKitchen, MyCookBook, CulinarySchool, ChefsCorner). What types of content work best for each module?')}
-                    className="bg-orange-100 text-orange-700 px-4 py-2 rounded-md hover:bg-orange-200 font-retro text-sm"
-                  >
-                    Apply Now
-                  </button>
-                </div>
-              </div>
-              
-              {/* Chat Interface */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-4">💬 Ask Chef Freddie Anything</h3>
-                <div className="bg-gray-50 rounded-lg p-4 mb-4 min-h-[200px] max-h-[300px] overflow-y-auto">
-                  <div className="space-y-3">
-                    {freddieMessages.map((msg, index) => (
-                      <div key={index}>
-                        <div className="flex items-start gap-3">
-                          {msg.sender === 'freddie' && <span className="text-2xl">👨‍🍳</span>}
-                          <div className={`rounded-lg p-3 flex-1 ${
-                            msg.sender === 'freddie' 
-                              ? 'bg-pink-100' 
-                              : 'bg-blue-100 ml-auto max-w-[80%]'
-                          }`}>
-                            <p className={`text-sm ${
-                              msg.sender === 'freddie' ? 'text-pink-800' : 'text-blue-800'
+                {/* Chat Interface */}
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">💬 Ask Chef Freddie Anything</h3>
+                  <div className="bg-gray-50 rounded-lg p-2 sm:p-4 mb-3 sm:mb-4 min-h-[200px] max-h-[300px] overflow-y-auto">
+                    <div className="space-y-2 sm:space-y-3">
+                      {freddieMessages.map((msg, index) => (
+                        <div key={index}>
+                          <div className="flex items-start gap-2 sm:gap-3">
+                            {msg.sender === 'freddie' && <span className="text-xl sm:text-2xl">👨‍🍳</span>}
+                            <div className={`rounded-lg p-2 sm:p-3 flex-1 ${
+                              msg.sender === 'freddie' 
+                                ? 'bg-pink-100' 
+                                : 'bg-blue-100 ml-auto max-w-[80%]'
                             }`}>
-                              {msg.text}
+                              <p className={`text-xs sm:text-sm ${
+                                msg.sender === 'freddie' ? 'text-pink-800' : 'text-blue-800'
+                              }`}>
+                                {msg.text}
+                              </p>
+                            </div>
+                            {msg.sender === 'user' && <span className="text-xl sm:text-2xl">👤</span>}
+                          </div>
+                          {msg.sender === 'freddie' && msg.id && index > 0 && (
+                            <div className="ml-8 sm:ml-11 mt-2">
+                              <button
+                                onClick={() => {
+                                  setCurriculumToSave({ content: msg.text, messageId: msg.id! });
+                                  setShowSaveModal(true);
+                                }}
+                                className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200 border border-green-300 min-h-[36px]"
+                              >
+                                💾 Save as Curriculum
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      {freddieLoading && (
+                        <div className="flex items-start gap-2 sm:gap-3">
+                          <span className="text-xl sm:text-2xl">👨‍🍳</span>
+                          <div className="bg-pink-100 rounded-lg p-2 sm:p-3 flex-1">
+                            <p className="text-xs sm:text-sm text-pink-800">
+                              Chef Freddie is thinking... 🤔
                             </p>
                           </div>
-                          {msg.sender === 'user' && <span className="text-2xl">👤</span>}
                         </div>
-                        {msg.sender === 'freddie' && msg.id && index > 0 && (
-                          <div className="ml-11 mt-2">
-                            <button
-                              onClick={() => {
-                                setCurriculumToSave({ content: msg.text, messageId: msg.id! });
-                                setShowSaveModal(true);
-                              }}
-                              className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-md hover:bg-green-200 border border-green-300"
-                            >
-                              💾 Save as Curriculum
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                    {freddieLoading && (
-                      <div className="flex items-start gap-3">
-                        <span className="text-2xl">👨‍🍳</span>
-                        <div className="bg-pink-100 rounded-lg p-3 flex-1">
-                          <p className="text-sm text-pink-800">
-                            Chef Freddie is thinking... 🤔
-                          </p>
-                        </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
-                </div>
                 
-                <div className="flex gap-2">
-                  <input 
-                    type="text" 
-                    placeholder="Ask Chef Freddie to create curriculum..."
-                    value={freddieInput}
-                    onChange={(e) => setFreddieInput(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && !freddieLoading) {
-                        sendFreddieMessage(freddieInput);
-                      }
-                    }}
-                    disabled={freddieLoading}
-                    className="flex-1 border border-gray-300 rounded-md px-3 py-2 text-sm disabled:opacity-50"
-                  />
-                  <button 
-                    onClick={() => sendFreddieMessage(freddieInput)}
-                    disabled={freddieLoading || !freddieInput.trim()}
-                    className="bg-pink-400 text-white px-6 py-2 rounded-md hover:bg-pink-500 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {freddieLoading ? 'Thinking...' : 'Ask'}
-                  </button>
-                </div>
-              </div>
-              
-              {/* Recent Curriculum */}
-              <div className="border-4 border-yellow-300 bg-yellow-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-yellow-800 mb-4">📁 Recently Created Curriculum</h3>
-                {recentCurriculum.length === 0 ? (
-                  <div className="text-center py-8 text-yellow-600">
-                    <p className="text-sm">No curriculum created yet. Start by asking Chef Freddie to create something!</p>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="Ask Chef Freddie to create curriculum..."
+                      value={freddieInput}
+                      onChange={(e) => setFreddieInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !freddieLoading) {
+                          sendFreddieMessage(freddieInput);
+                        }
+                      }}
+                      disabled={freddieLoading}
+                      className="flex-1 border-4 border-blue-400 rounded-md px-2 sm:px-3 py-2 text-xs sm:text-sm disabled:opacity-50 min-h-[44px]"
+                    />
+                    <button 
+                      onClick={() => sendFreddieMessage(freddieInput)}
+                      disabled={freddieLoading || !freddieInput.trim()}
+                      className="w-full sm:w-auto bg-pink-400 text-white px-6 py-2 rounded-md hover:bg-pink-500 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                    >
+                      {freddieLoading ? 'Thinking...' : 'Ask'}
+                    </button>
                   </div>
-                ) : (
-                  <div className="space-y-2">
+                </div>
+              
+                {/* Recent Curriculum */}
+                <div className="border-4 border-yellow-300 bg-yellow-50 rounded-lg p-3 sm:p-4">
+                  <h3 className="text-center font-bold text-yellow-800 mb-3 sm:mb-4 text-sm sm:text-base">📁 Recently Created Curriculum</h3>
+                  {recentCurriculum.length === 0 ? (
+                    <div className="text-center py-6 sm:py-8 text-yellow-600">
+                      <p className="text-xs sm:text-sm">No curriculum created yet. Start by asking Chef Freddie to create something!</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
                     {recentCurriculum.map((item) => {
                       const typeEmoji = item.type === 'assignment' ? '📝' : item.type === 'lesson_plan' ? '📅' : item.type === 'rubric' ? '🏆' : '📄';
                       const timeAgo = new Date(item.created_at).toLocaleDateString();
                       const statusText = item.applied && item.module ? `Applied to ${item.module}` : 'Ready to apply';
                       
-                      return (
-                        <div key={item.id} className="flex items-center justify-between p-3 bg-white rounded-lg border border-yellow-200">
-                          <div className="flex items-center gap-3 flex-1">
-                            <span className="text-xl">{typeEmoji}</span>
-                            <div className="flex-1">
-                              <p className="font-medium text-yellow-800">{item.title}</p>
-                              <p className="text-sm text-yellow-600">Created {timeAgo} • {statusText}</p>
+                        return (
+                          <div key={item.id} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 sm:p-3 bg-white rounded-lg border border-yellow-200 gap-2 sm:gap-0">
+                            <div className="flex items-center gap-2 sm:gap-3 flex-1 w-full sm:w-auto">
+                              <span className="text-lg sm:text-xl">{typeEmoji}</span>
+                              <div className="flex-1 min-w-0">
+                                <p className="font-medium text-yellow-800 text-xs sm:text-base truncate">{item.title}</p>
+                                <p className="text-xs sm:text-sm text-yellow-600">Created {timeAgo} • {statusText}</p>
+                              </div>
                             </div>
-                          </div>
-                          <div className="flex gap-2">
-                            <button 
-                              onClick={() => {
-                                alert(`Title: ${item.title}\n\nContent:\n${item.content}`);
-                              }}
-                              className="text-yellow-700 hover:text-yellow-800 font-medium text-sm px-2"
-                            >
-                              View
-                            </button>
-                            {!item.applied && (
-                              <select
-                                onChange={(e) => {
-                                  if (e.target.value) {
-                                    applyCurriculumToModule(item.id, e.target.value);
+                            <div className="flex gap-2 w-full sm:w-auto">
+                              <button 
+                                onClick={() => {
+                                  alert(`Title: ${item.title}\n\nContent:\n${item.content}`);
+                                }}
+                                className="text-yellow-700 hover:text-yellow-800 font-medium text-xs sm:text-sm px-2 min-h-[36px]"
+                              >
+                                View
+                              </button>
+                              {!item.applied && (
+                                <select
+                                  onChange={(e) => {
+                                    if (e.target.value) {
+                                      applyCurriculumToModule(item.id, e.target.value);
+                                    }
+                                  }}
+                                  className="text-xs border-4 border-yellow-300 rounded px-2 py-1 bg-yellow-50 min-h-[36px]"
+                                  defaultValue=""
+                                >
+                                  <option value="">Apply to...</option>
+                                  <option value="MyKitchen">MyKitchen</option>
+                                  <option value="MyCookBook">MyCookBook</option>
+                                  <option value="CulinarySchool">CulinarySchool</option>
+                                  <option value="ChefsCorner">ChefsCorner</option>
+                                </select>
+                              )}
+                              <button 
+                                onClick={() => {
+                                  if (confirm('Delete this curriculum item?')) {
+                                    deleteCurriculumItem(item.id);
                                   }
                                 }}
-                                className="text-xs border border-yellow-300 rounded px-2 py-1 bg-yellow-50"
-                                defaultValue=""
+                                className="text-red-600 hover:text-red-700 font-medium text-sm px-2 min-h-[36px]"
                               >
-                                <option value="">Apply to...</option>
-                                <option value="MyKitchen">MyKitchen</option>
-                                <option value="MyCookBook">MyCookBook</option>
-                                <option value="CulinarySchool">CulinarySchool</option>
-                                <option value="ChefsCorner">ChefsCorner</option>
-                              </select>
-                            )}
-                            <button 
-                              onClick={() => {
-                                if (confirm('Delete this curriculum item?')) {
-                                  deleteCurriculumItem(item.id);
-                                }
-                              }}
-                              className="text-red-600 hover:text-red-700 font-medium text-sm px-2"
-                            >
-                              🗑️
-                            </button>
+                                🗑️
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
