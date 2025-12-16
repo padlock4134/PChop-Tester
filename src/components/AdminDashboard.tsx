@@ -181,6 +181,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [partnerLocation, setPartnerLocation] = useState('');
   const [partnerEmail, setPartnerEmail] = useState('');
   const [partnerPhone, setPartnerPhone] = useState('');
+  const [partnerStudentsHired, setPartnerStudentsHired] = useState('');
+  const [partnerOpenPositions, setPartnerOpenPositions] = useState('');
+  const [partnershipYear, setPartnershipYear] = useState('');
   const [addingPartner, setAddingPartner] = useState(false);
   const [editingPartnerId, setEditingPartnerId] = useState<string | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -6633,6 +6636,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setPartnerLocation('Yountville, CA');
                         setPartnerEmail('contact@frenchlaundry.com');
                         setPartnerPhone('(707) 944-2380');
+                        setPartnerStudentsHired('12');
+                        setPartnerOpenPositions('3');
+                        setPartnershipYear('2020');
                       }}
                       className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
                     >
@@ -6666,6 +6672,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setPartnerLocation('New York, NY');
                         setPartnerEmail('info@elevenmadisonpark.com');
                         setPartnerPhone('(212) 889-0905');
+                        setPartnerStudentsHired('8');
+                        setPartnerOpenPositions('2');
+                        setPartnershipYear('2019');
                       }}
                       className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
                     >
@@ -6705,6 +6714,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     placeholder="Phone Number"
                     className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
+                  <input
+                    type="number"
+                    value={partnerStudentsHired}
+                    onChange={(e) => setPartnerStudentsHired(e.target.value)}
+                    placeholder="Students Hired"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
+                  />
+                  <input
+                    type="number"
+                    value={partnerOpenPositions}
+                    onChange={(e) => setPartnerOpenPositions(e.target.value)}
+                    placeholder="Open Positions"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
+                  />
+                  <input
+                    type="number"
+                    value={partnershipYear}
+                    onChange={(e) => setPartnershipYear(e.target.value)}
+                    placeholder="Partnership Since (Year)"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
+                  />
                 </div>
               </div>
               <div className="flex flex-col gap-2 sm:gap-3">
@@ -6717,6 +6747,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setPartnerLocation('');
                       setPartnerEmail('');
                       setPartnerPhone('');
+                      setPartnerStudentsHired('');
+                      setPartnerOpenPositions('');
+                      setPartnershipYear('');
                     }}
                     className="w-full bg-gray-400 text-white px-6 py-2 rounded-md hover:bg-gray-500 font-retro min-h-[44px]"
                   >
@@ -6740,7 +6773,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             name: partnerName,
                             location: partnerLocation,
                             contact_email: partnerEmail || null,
-                            contact_phone: partnerPhone || null
+                            contact_phone: partnerPhone || null,
+                            students_hired: parseInt(partnerStudentsHired) || 0,
+                            open_positions: parseInt(partnerOpenPositions) || 0,
+                            partnership_since: parseInt(partnershipYear) || new Date().getFullYear()
                           })
                           .eq('id', editingPartnerId);
                         
@@ -6752,6 +6788,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setPartnerLocation('');
                         setPartnerEmail('');
                         setPartnerPhone('');
+                        setPartnerStudentsHired('');
+                        setPartnerOpenPositions('');
+                        setPartnershipYear('');
                         setIsEditMode(false);
                         setEditingPartnerId(null);
                         setShowManagePartnersModal(false);
@@ -6774,9 +6813,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           location: partnerLocation,
                           contact_email: partnerEmail || null,
                           contact_phone: partnerPhone || null,
-                          students_hired: 0,
-                          open_positions: 0,
-                          partnership_since: new Date().getFullYear()
+                          students_hired: parseInt(partnerStudentsHired) || 0,
+                          open_positions: parseInt(partnerOpenPositions) || 0,
+                          partnership_since: parseInt(partnershipYear) || new Date().getFullYear()
                         });
                       
                       if (error) throw error;
@@ -6793,6 +6832,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setPartnerLocation('');
                       setPartnerEmail('');
                       setPartnerPhone('');
+                      setPartnerStudentsHired('');
+                      setPartnerOpenPositions('');
+                      setPartnershipYear('');
                       setShowManagePartnersModal(false);
                     } catch (error: any) {
                       console.error('Error adding partner:', error);
