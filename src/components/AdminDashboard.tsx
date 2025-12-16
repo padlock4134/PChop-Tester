@@ -182,6 +182,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [partnerEmail, setPartnerEmail] = useState('');
   const [partnerPhone, setPartnerPhone] = useState('');
   const [addingPartner, setAddingPartner] = useState(false);
+  const [editingPartnerId, setEditingPartnerId] = useState<string | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [exportingEmployment, setExportingEmployment] = useState(false);
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
@@ -6623,6 +6625,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-gray-600">Partnership Since: <strong>2020</strong></p>
                       </div>
                     </div>
+                    <button
+                      onClick={() => {
+                        setEditingPartnerId('partner-1');
+                        setIsEditMode(true);
+                        setPartnerName('The French Laundry');
+                        setPartnerLocation('Yountville, CA');
+                        setPartnerEmail('contact@frenchlaundry.com');
+                        setPartnerPhone('(707) 944-2380');
+                      }}
+                      className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
+                    >
+                      ✏️ Edit Partner
+                    </button>
                   </div>
                   <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
                     <div className="flex justify-between items-start mb-2">
@@ -6643,11 +6658,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <p className="text-gray-600">Partnership Since: <strong>2019</strong></p>
                       </div>
                     </div>
+                    <button
+                      onClick={() => {
+                        setEditingPartnerId('partner-2');
+                        setIsEditMode(true);
+                        setPartnerName('Eleven Madison Park');
+                        setPartnerLocation('New York, NY');
+                        setPartnerEmail('info@elevenmadisonpark.com');
+                        setPartnerPhone('(212) 889-0905');
+                      }}
+                      className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
+                    >
+                      ✏️ Edit Partner
+                    </button>
                   </div>
                 </div>
               </div>
               <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4">
-                <h3 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">Add New Partner:</h3>
+                <h3 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">{isEditMode ? 'Edit Partner:' : 'Add New Partner:'}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                   <input
                     type="text"
@@ -6680,14 +6708,21 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
               <div className="flex flex-col gap-2 sm:gap-3">
-                <button
-                  onClick={() => {
-                    showWarning('Edit Partner functionality coming soon!');
-                  }}
-                  className="w-full bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro min-h-[44px]"
-                >
-                  Edit Partner
-                </button>
+                {isEditMode && (
+                  <button
+                    onClick={() => {
+                      setIsEditMode(false);
+                      setEditingPartnerId(null);
+                      setPartnerName('');
+                      setPartnerLocation('');
+                      setPartnerEmail('');
+                      setPartnerPhone('');
+                    }}
+                    className="w-full bg-gray-400 text-white px-6 py-2 rounded-md hover:bg-gray-500 font-retro min-h-[44px]"
+                  >
+                    Cancel Edit
+                  </button>
+                )}
                 <button
                   onClick={async () => {
                     if (!partnerName.trim() || !partnerLocation.trim()) {
@@ -6695,6 +6730,41 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       return;
                     }
                     
+                    if (isEditMode && editingPartnerId) {
+                      // Update existing partner
+                      setAddingPartner(true);
+                      try {
+                        const { error } = await supabase
+                          .from('industry_partners')
+                          .update({
+                            name: partnerName,
+                            location: partnerLocation,
+                            contact_email: partnerEmail || null,
+                            contact_phone: partnerPhone || null
+                          })
+                          .eq('id', editingPartnerId);
+                        
+                        if (error) throw error;
+                        
+                        showSuccess(`Partner "${partnerName}" updated successfully!`);
+                        
+                        setPartnerName('');
+                        setPartnerLocation('');
+                        setPartnerEmail('');
+                        setPartnerPhone('');
+                        setIsEditMode(false);
+                        setEditingPartnerId(null);
+                        setShowManagePartnersModal(false);
+                      } catch (error: any) {
+                        console.error('Error updating partner:', error);
+                        showError('Failed to update partner: ' + error.message);
+                      } finally {
+                        setAddingPartner(false);
+                      }
+                      return;
+                    }
+                    
+                    // Add new partner
                     setAddingPartner(true);
                     try {
                       const { error } = await supabase
@@ -6726,15 +6796,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowManagePartnersModal(false);
                     } catch (error: any) {
                       console.error('Error adding partner:', error);
-                      alert('Failed to add partner: ' + error.message);
+                      showError('Failed to add partner: ' + error.message);
                     } finally {
                       setAddingPartner(false);
                     }
                   }}
                   disabled={addingPartner}
-                  className="w-full bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                  className="w-full bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {addingPartner ? 'Adding...' : 'Add Partner'}
+                  {addingPartner ? (isEditMode ? 'Updating...' : 'Adding...') : (isEditMode ? 'Save Changes' : 'Add Partner')}
                 </button>
               </div>
             </div>
