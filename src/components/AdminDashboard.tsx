@@ -1679,7 +1679,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-4 sm:space-y-6">
               {/* School Logo */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                <h3 className="font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏦 School Logo</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏦 School Logo</h3>
                 <div className="flex items-center justify-center space-x-4">
                   <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
                     {schoolBranding.logoUrl ? (
@@ -1688,7 +1688,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <span className="text-gray-400 text-sm">Logo</span>
                     )}
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 flex flex-col items-center">
                     <input
                       type="file"
                       id="logo-upload"
@@ -1743,11 +1743,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     />
                     <label
                       htmlFor="logo-upload"
-                      className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
+                      className="w-1/2 bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
                     >
                       {uploadingLogo ? 'Uploading...' : 'Upload Logo'}
                     </label>
-                    <p className="text-xs sm:text-sm text-gray-500 mt-1">Recommended: 200x200px, PNG or JPG</p>
+                    <p className="text-xs sm:text-sm text-gray-500 mt-1 text-center">Recommended: 200x200px, PNG or JPG</p>
                   </div>
                 </div>
               </div>
