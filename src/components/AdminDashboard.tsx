@@ -2466,7 +2466,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-3 sm:p-6 max-w-6xl w-full max-h-[90vh] overflow-y-auto">
             <div className="text-center mb-4 sm:mb-6 relative">
-              <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Student Management Dashboard</h2>
+              <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Student Management</h2>
               <button
                 onClick={() => setShowStudentManagementModal(false)}
                 className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
