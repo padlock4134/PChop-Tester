@@ -6589,10 +6589,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Manage Partners Modal */}
       {showManagePartnersModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-blue-600 font-retro">🤝 Industry Partners</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-3 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-3 sm:mb-4">
+              <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">🤝 Industry Partners</h2>
               <button
                 onClick={() => setShowManagePartnersModal(false)}
                 className="text-gray-500 hover:text-gray-800 text-2xl"
@@ -6600,19 +6600,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 ×
               </button>
             </div>
-            <div className="space-y-4">
-              <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50">
-                <h3 className="font-bold text-blue-800 mb-3">Active Partners ({3}):</h3>
-                <div className="space-y-3">
-                  <div className="bg-white border-2 border-blue-300 rounded-lg p-4">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50">
+                <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Partners ({3}):</h3>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900 text-lg">The French Laundry</p>
-                        <p className="text-sm text-gray-600">Yountville, CA</p>
+                        <p className="font-semibold text-gray-900 text-base sm:text-lg">The French Laundry</p>
+                        <p className="text-xs sm:text-sm text-gray-600">Yountville, CA</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
                     </div>
-                    <div className="grid grid-cols-3 gap-2 text-sm mt-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm mt-3">
                       <div>
                         <p className="text-gray-600">Students Hired: <strong>12</strong></p>
                       </div>
@@ -6624,15 +6624,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-white border-2 border-blue-300 rounded-lg p-4">
+                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900 text-lg">Eleven Madison Park</p>
-                        <p className="text-sm text-gray-600">New York, NY</p>
+                        <p className="font-semibold text-gray-900 text-base sm:text-lg">Eleven Madison Park</p>
+                        <p className="text-xs sm:text-sm text-gray-600">New York, NY</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
                     </div>
-                    <div className="grid grid-cols-3 gap-2 text-sm mt-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm mt-3">
                       <div>
                         <p className="text-gray-600">Students Hired: <strong>8</strong></p>
                       </div>
@@ -6646,46 +6646,40 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                 </div>
               </div>
-              <div className="border-4 border-blue-400 rounded-lg p-4">
-                <h3 className="font-bold text-blue-800 mb-2">Add New Partner:</h3>
-                <div className="grid grid-cols-2 gap-3">
+              <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">Add New Partner:</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                   <input
                     type="text"
                     value={partnerName}
                     onChange={(e) => setPartnerName(e.target.value)}
                     placeholder="Restaurant/Company Name"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
                   <input
                     type="text"
                     value={partnerLocation}
                     onChange={(e) => setPartnerLocation(e.target.value)}
                     placeholder="Location"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
                   <input
                     type="email"
                     value={partnerEmail}
                     onChange={(e) => setPartnerEmail(e.target.value)}
                     placeholder="Contact Email"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
                   <input
                     type="tel"
                     value={partnerPhone}
                     onChange={(e) => setPartnerPhone(e.target.value)}
                     placeholder="Phone Number"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm"
+                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
                 </div>
               </div>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowManagePartnersModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Close
-                </button>
+              <div className="flex justify-end gap-2 sm:gap-3">
                 <button
                   onClick={async () => {
                     if (!partnerName.trim() || !partnerLocation.trim()) {
