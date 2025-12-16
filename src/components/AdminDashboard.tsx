@@ -1662,10 +1662,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* School Branding Modal */}
       {showBrandingModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">School Branding & Identity</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-3 sm:p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="text-center mb-4 sm:mb-6 relative">
+              <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">School Branding & Identity</h2>
               <button
                 onClick={() => setShowBrandingModal(false)}
                 className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -1674,12 +1674,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Customize PorkChop's appearance to match your school's brand and identity.</p>
+            <p className="text-center text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Customize PorkChop's appearance to match your school's brand and identity.</p>
             
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* School Logo */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="font-bold text-blue-900 mb-3">🏦 School Logo</h3>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏦 School Logo</h3>
                 <div className="flex items-center justify-center space-x-4">
                   <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
                     {schoolBranding.logoUrl ? (
@@ -1743,58 +1743,58 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     />
                     <label
                       htmlFor="logo-upload"
-                      className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block"
+                      className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
                     >
                       {uploadingLogo ? 'Uploading...' : 'Upload Logo'}
                     </label>
-                    <p className="text-sm text-gray-500 mt-1">Recommended: 200x200px, PNG or JPG</p>
+                    <p className="text-xs sm:text-sm text-gray-500 mt-1">Recommended: 200x200px, PNG or JPG</p>
                   </div>
                 </div>
               </div>
 
               {/* School Information */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">📝 School Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📝 School Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <label className="block text-center text-sm font-medium text-gray-700 mb-1">School Name</label>
+                    <label className="block text-center text-xs sm:text-sm font-medium text-gray-700 mb-1">School Name</label>
                     <input
                       type="text"
                       placeholder="Culinary Institute of Excellence"
                       value={schoolBranding.schoolName}
                       onChange={(e) => setSchoolBranding({...schoolBranding, schoolName: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                     />
                   </div>
                   <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Tagline</label>
                     <input
                       type="text"
                       placeholder="Where Culinary Dreams Come True"
                       value={schoolBranding.tagline}
                       onChange={(e) => setSchoolBranding({...schoolBranding, tagline: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">School Description</label>
+                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">School Description</label>
                     <textarea
                       rows={3}
                       placeholder="Brief description of your culinary program..."
                       value={schoolBranding.description}
                       onChange={(e) => setSchoolBranding({...schoolBranding, description: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm"
                     />
                   </div>
                 </div>
               </div>
 
               {/* Color Scheme */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">🎨 Color Scheme</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🎨 Color Scheme</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                   <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Primary Color</label>
+                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Primary Color</label>
                     <div className="flex items-center space-x-2">
                       <input 
                         type="color" 
@@ -1802,11 +1802,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         onChange={(e) => setSchoolBranding({...schoolBranding, primaryColor: e.target.value})}
                         className="w-8 h-8 rounded border" 
                       />
-                      <span className="text-sm text-gray-600">{schoolBranding.primaryColor}</span>
+                      <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.primaryColor}</span>
                     </div>
                   </div>
                   <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Secondary Color</label>
+                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Secondary Color</label>
                     <div className="flex items-center space-x-2">
                       <input 
                         type="color" 
@@ -1814,11 +1814,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         onChange={(e) => setSchoolBranding({...schoolBranding, secondaryColor: e.target.value})}
                         className="w-8 h-8 rounded border" 
                       />
-                      <span className="text-sm text-gray-600">{schoolBranding.secondaryColor}</span>
+                      <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.secondaryColor}</span>
                     </div>
                   </div>
                   <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Accent Color</label>
+                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Accent Color</label>
                     <div className="flex items-center space-x-2">
                       <input 
                         type="color" 
@@ -1826,11 +1826,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         onChange={(e) => setSchoolBranding({...schoolBranding, accentColor: e.target.value})}
                         className="w-8 h-8 rounded border" 
                       />
-                      <span className="text-sm text-gray-600">{schoolBranding.accentColor}</span>
+                      <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.accentColor}</span>
                     </div>
                   </div>
                   <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Background</label>
+                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Background</label>
                     <div className="flex items-center space-x-2">
                       <input 
                         type="color" 
@@ -1838,60 +1838,54 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         onChange={(e) => setSchoolBranding({...schoolBranding, backgroundColor: e.target.value})}
                         className="w-8 h-8 rounded border" 
                       />
-                      <span className="text-sm text-gray-600">{schoolBranding.backgroundColor}</span>
+                      <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.backgroundColor}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Contact Information */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3">📞 Contact Information</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📞 Contact Information</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                     <input
                       type="tel"
                       placeholder="(555) 123-4567"
                       value={schoolBranding.phone}
                       onChange={(e) => setSchoolBranding({...schoolBranding, phone: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                     />
                   </div>
                   <div>
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email Address</label>
                     <input
                       type="email"
                       placeholder="info@culinaryschool.edu"
                       value={schoolBranding.email}
                       onChange={(e) => setSchoolBranding({...schoolBranding, email: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                     />
                   </div>
                   <div className="md:col-span-2">
-                    <label className="text-center block text-sm font-medium text-gray-700 mb-1">Address</label>
+                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Address</label>
                     <input
                       type="text"
                       placeholder="123 Culinary Way, Food City, FC 12345"
                       value={schoolBranding.address}
                       onChange={(e) => setSchoolBranding({...schoolBranding, address: e.target.value})}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                     />
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="flex justify-center gap-4 mt-6">
-              <button
-                onClick={() => setShowBrandingModal(false)}
-                className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro"
-              >
-                Cancel
-              </button>
+            <div className="flex justify-center mt-4 sm:mt-6">
               <button
                 onClick={saveSchoolBranding}
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                className="w-full bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro min-h-[44px]"
               >
                 Save Branding
               </button>
