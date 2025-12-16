@@ -5754,84 +5754,84 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Manage Permissions Modal */}
       {showManagePermissionsModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-green-600 font-retro">🔐 Manage Permissions</h2>
-              <button
-                onClick={() => setShowManagePermissionsModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 w-full max-w-3xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-green-600 font-retro">🔐 Manage Permissions</h2>
+                <button
+                  onClick={() => setShowManagePermissionsModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
             </div>
-            <div className="space-y-4">
-              <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50">
-                <h3 className="font-bold text-green-800 mb-3">Faculty Members:</h3>
-                <div className="space-y-3">
-                  <div className="bg-white border-2 border-green-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center mb-2">
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+              <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4 bg-green-50">
+                <h3 className="font-bold text-green-800 mb-2 sm:mb-3 text-xs sm:text-base">Faculty Members:</h3>
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="bg-white border-2 border-green-300 rounded-lg p-2 sm:p-3">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
                       <div>
-                        <p className="font-semibold text-gray-900">Chef Julia Martinez</p>
+                        <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Julia Martinez</p>
                         <p className="text-xs text-gray-600">julia.martinez@culinary.edu</p>
                       </div>
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Instructor</span>
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block w-fit">Instructor</span>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 mt-2">
-                      <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" defaultChecked />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
                         <span className="text-gray-700">Grade Assignments</span>
                       </label>
-                      <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" defaultChecked />
+                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
                         <span className="text-gray-700">Manage Students</span>
                       </label>
-                      <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" />
+                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                        <input type="checkbox" className="mr-2 w-5 h-5" />
                         <span className="text-gray-700">Edit Curriculum</span>
                       </label>
-                      <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" defaultChecked />
+                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
                         <span className="text-gray-700">View Reports</span>
                       </label>
                     </div>
                   </div>
-                  <div className="bg-white border-2 border-green-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center mb-2">
+                  <div className="bg-white border-2 border-green-300 rounded-lg p-2 sm:p-3">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
                       <div>
-                        <p className="font-semibold text-gray-900">Chef Marcus Chen</p>
+                        <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Marcus Chen</p>
                         <p className="text-xs text-gray-600">marcus.chen@culinary.edu</p>
                       </div>
-                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">Dept. Head</span>
+                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded inline-block w-fit">Dept. Head</span>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 mt-2">
-                      <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" defaultChecked />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
                         <span className="text-gray-700">Grade Assignments</span>
                       </label>
-                      <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" defaultChecked />
+                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
                         <span className="text-gray-700">Manage Students</span>
                       </label>
-                      <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" defaultChecked />
+                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
                         <span className="text-gray-700">Edit Curriculum</span>
                       </label>
-                      <label className="flex items-center text-sm">
-                        <input type="checkbox" className="mr-2" defaultChecked />
+                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
                         <span className="text-gray-700">View Reports</span>
                       </label>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowManagePermissionsModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Cancel
-                </button>
+              <div className="flex justify-end">
                 <button
                   onClick={async () => {
                     setUpdatingPermissions(true);
@@ -5850,10 +5850,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                   }}
                   disabled={updatingPermissions}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                 >
                   {updatingPermissions ? 'Saving...' : 'Save Changes'}
                 </button>
+              </div>
               </div>
             </div>
           </div>
