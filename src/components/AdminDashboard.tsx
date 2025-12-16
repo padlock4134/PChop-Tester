@@ -5518,8 +5518,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-md max-h-[90vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
-              <div className="text-center">
+              <div className="text-center relative">
                 <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">✏️ Edit Student</h2>
+                <button
+                  onClick={() => {
+                    setShowEditStudentModal(false);
+                    setEditingStudent(null);
+                  }}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
               </div>
             </div>
             
