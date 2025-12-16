@@ -1679,7 +1679,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-4 sm:space-y-6">
               {/* School Logo & Branding */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">🏦 School Logo & Branding</h3>
+                <h3 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">🏦 School Branding</h3>
                 <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
                   {/* Left Side - Logo Upload */}
                   <div className="flex-1">
@@ -1757,7 +1757,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                   {/* Right Side - Color Scheme */}
                   <div className="flex-1 lg:border-l-2 lg:border-blue-300 lg:pl-6">
-                    <h4 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">🎨 Color Scheme</h4>
+                    <h4 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base"></h4>
                     <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Primary Color</label>
