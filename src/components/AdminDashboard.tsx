@@ -3321,6 +3321,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                 </div>
               </div>
+              </div>
             </div>
           </div>
         </div>
@@ -3520,7 +3521,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <p className="text-center text-sm text-yellow-800">Projected capacity</p>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </div>
