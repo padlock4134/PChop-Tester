@@ -1743,11 +1743,66 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     />
                     <label
                       htmlFor="logo-upload"
-                      className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center shadow-sm"
+                      className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center shadow-sm whitespace-nowrap"
                     >
                       {uploadingLogo ? 'Uploading...' : 'Upload Logo'}
                     </label>
                     <p className="text-xs sm:text-sm text-gray-500 mt-2 text-center sm:text-left">Recommended: 200x200px, PNG or JPG</p>
+                  </div>
+                </div>
+
+                {/* Color Scheme - Moved inside School Logo */}
+                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t-2 border-blue-300">
+                  <h4 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">🎨 Color Scheme</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                    <div>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Primary Color</label>
+                      <div className="flex items-center space-x-2">
+                        <input 
+                          type="color" 
+                          value={schoolBranding.primaryColor}
+                          onChange={(e) => setSchoolBranding({...schoolBranding, primaryColor: e.target.value})}
+                          className="w-8 h-8 rounded border" 
+                        />
+                        <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.primaryColor}</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Secondary Color</label>
+                      <div className="flex items-center space-x-2">
+                        <input 
+                          type="color" 
+                          value={schoolBranding.secondaryColor}
+                          onChange={(e) => setSchoolBranding({...schoolBranding, secondaryColor: e.target.value})}
+                          className="w-8 h-8 rounded border" 
+                        />
+                        <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.secondaryColor}</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Accent Color</label>
+                      <div className="flex items-center space-x-2">
+                        <input 
+                          type="color" 
+                          value={schoolBranding.accentColor}
+                          onChange={(e) => setSchoolBranding({...schoolBranding, accentColor: e.target.value})}
+                          className="w-8 h-8 rounded border" 
+                        />
+                        <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.accentColor}</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Background</label>
+                      <div className="flex items-center space-x-2">
+                        <input 
+                          type="color" 
+                          value={schoolBranding.backgroundColor}
+                          onChange={(e) => setSchoolBranding({...schoolBranding, backgroundColor: e.target.value})}
+                          className="w-8 h-8 rounded border" 
+                        />
+                        <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.backgroundColor}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1785,61 +1840,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       onChange={(e) => setSchoolBranding({...schoolBranding, description: e.target.value})}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm"
                     />
-                  </div>
-                </div>
-              </div>
-
-              {/* Color Scheme */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🎨 Color Scheme</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-                  <div>
-                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Primary Color</label>
-                    <div className="flex items-center space-x-2">
-                      <input 
-                        type="color" 
-                        value={schoolBranding.primaryColor}
-                        onChange={(e) => setSchoolBranding({...schoolBranding, primaryColor: e.target.value})}
-                        className="w-8 h-8 rounded border" 
-                      />
-                      <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.primaryColor}</span>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Secondary Color</label>
-                    <div className="flex items-center space-x-2">
-                      <input 
-                        type="color" 
-                        value={schoolBranding.secondaryColor}
-                        onChange={(e) => setSchoolBranding({...schoolBranding, secondaryColor: e.target.value})}
-                        className="w-8 h-8 rounded border" 
-                      />
-                      <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.secondaryColor}</span>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Accent Color</label>
-                    <div className="flex items-center space-x-2">
-                      <input 
-                        type="color" 
-                        value={schoolBranding.accentColor}
-                        onChange={(e) => setSchoolBranding({...schoolBranding, accentColor: e.target.value})}
-                        className="w-8 h-8 rounded border" 
-                      />
-                      <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.accentColor}</span>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Background</label>
-                    <div className="flex items-center space-x-2">
-                      <input 
-                        type="color" 
-                        value={schoolBranding.backgroundColor}
-                        onChange={(e) => setSchoolBranding({...schoolBranding, backgroundColor: e.target.value})}
-                        className="w-8 h-8 rounded border" 
-                      />
-                      <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.backgroundColor}</span>
-                    </div>
                   </div>
                 </div>
               </div>
