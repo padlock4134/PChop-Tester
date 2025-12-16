@@ -6343,21 +6343,21 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     value={campaignName}
                     onChange={(e) => setCampaignName(e.target.value)}
                     placeholder="Campaign name"
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
                   <input
                     type="number"
                     value={campaignGoal}
                     onChange={(e) => setCampaignGoal(e.target.value)}
                     placeholder="Fundraising goal ($)"
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
                   <textarea
                     rows={3}
                     value={campaignDescription}
                     onChange={(e) => setCampaignDescription(e.target.value)}
                     placeholder="Campaign description..."
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
                 </div>
               </div>
@@ -6742,10 +6742,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Career Services Modal */}
       {showCareerServicesModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-purple-600 font-retro">💼 Career Services</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-3 sm:p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-3 sm:mb-4">
+              <h2 className="text-lg sm:text-2xl font-bold text-purple-600 font-retro">💼 Career Services</h2>
               <button
                 onClick={() => setShowCareerServicesModal(false)}
                 className="text-gray-500 hover:text-gray-800 text-2xl"
@@ -6753,28 +6753,28 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 ×
               </button>
             </div>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50 text-center">
-                  <div className="text-3xl font-bold text-purple-600">24</div>
-                  <p className="text-sm text-purple-800 font-medium mt-1">Active Internships</p>
+            <div className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4">
+                <div className="border-4 border-purple-400 rounded-lg p-2 sm:p-4 bg-purple-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-purple-600">24</div>
+                  <p className="text-xs sm:text-sm text-purple-800 font-medium mt-1">Active Internships</p>
                 </div>
-                <div className="border-4 border-blue-400 rounded-lg p-4 bg-blue-50 text-center">
-                  <div className="text-3xl font-bold text-blue-600">8</div>
-                  <p className="text-sm text-blue-800 font-medium mt-1">Job Fairs Scheduled</p>
+                <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-4 bg-blue-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-blue-600">8</div>
+                  <p className="text-xs sm:text-sm text-blue-800 font-medium mt-1">Job Fairs Scheduled</p>
                 </div>
-                <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50 text-center">
-                  <div className="text-3xl font-bold text-green-600">156</div>
-                  <p className="text-sm text-green-800 font-medium mt-1">Students Counseled</p>
+                <div className="border-4 border-green-400 rounded-lg p-2 sm:p-4 bg-green-50 text-center">
+                  <div className="text-2xl sm:text-3xl font-bold text-green-600">156</div>
+                  <p className="text-xs sm:text-sm text-green-800 font-medium mt-1">Students Counseled</p>
                 </div>
               </div>
-              <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50">
-                <h3 className="font-bold text-purple-800 mb-3">Scheduled Events:</h3>
-                <div className="flex gap-2">
+              <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50">
+                <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-base">Scheduled Events:</h3>
+                <div className="flex flex-col sm:flex-row gap-2">
                   <select 
                     value={selectedCareerEventId}
                     onChange={(e) => setSelectedCareerEventId(e.target.value)}
-                    className="flex-1 border-4 border-purple-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
+                    className="flex-1 border-4 border-purple-400 rounded-lg p-2 sm:p-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white min-h-[44px]"
                   >
                     <option value="">-- View Existing Event --</option>
                     <option value="career-1">Spring Career Fair 2025 - March 15, 2025</option>
@@ -6789,19 +6789,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       }
                       setShowViewCareerEventModal(true);
                     }}
-                    className="bg-purple-400 text-white px-6 py-2 rounded-md hover:bg-purple-500 font-retro whitespace-nowrap"
+                    className="bg-purple-400 text-white px-4 sm:px-6 py-2 rounded-md hover:bg-purple-500 font-retro whitespace-nowrap text-sm sm:text-base min-h-[44px]"
                   >
                     View
                   </button>
                 </div>
               </div>
-              <div className="border-4 border-purple-400 rounded-lg p-4">
-                <h3 className="font-bold text-purple-800 mb-2">Schedule New Service:</h3>
-                <div className="space-y-3">
+              <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Schedule New Service:</h3>
+                <div className="space-y-2 sm:space-y-3">
                   <select 
                     value={careerEventType}
                     onChange={(e) => setCareerEventType(e.target.value as any)}
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
                   >
                     <option value="career_fair">Career Fair</option>
                     <option value="resume_workshop">Resume Workshop</option>
@@ -6811,7 +6811,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <select 
                     value={careerEventCohort}
                     onChange={(e) => setCareerEventCohort(e.target.value)}
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
                   >
                     <option value="all_students">All Students</option>
                     <option value="class_2025">Class of 2025</option>
@@ -6824,24 +6824,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     type="date"
                     value={careerEventDate}
                     onChange={(e) => setCareerEventDate(e.target.value)}
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
                   <textarea
                     rows={3}
                     value={careerEventDescription}
                     onChange={(e) => setCareerEventDescription(e.target.value)}
                     placeholder="Event details..."
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm"
+                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
                   />
                 </div>
               </div>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowCareerServicesModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Close
-                </button>
+              <div className="flex justify-end gap-2 sm:gap-3">
                 <button
                   onClick={async () => {
                     if (!careerEventDate) {
