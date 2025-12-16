@@ -5083,83 +5083,83 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Export Student Data Modal */}
       {showExportDataModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-purple-600 font-retro">📄 Export Student Data</h2>
-              <button
-                onClick={() => setShowExportDataModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-purple-600 font-retro">📄 Export Student Data</h2>
+                <button
+                  onClick={() => setShowExportDataModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
             </div>
-            <div className="space-y-4">
-              <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50">
-                <h3 className="font-bold text-purple-800 mb-2">Export Options:</h3>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+              <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50">
+                <h3 className="font-bold text-purple-800 mb-2 text-xs sm:text-base">Export Options:</h3>
                 <div className="space-y-2">
-                  <label className="flex items-center">
-                    <input type="radio" name="exportType" className="mr-2" defaultChecked />
-                    <span className="text-gray-700">All Student Records (CSV)</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="radio" name="exportType" className="mr-2 w-5 h-5" defaultChecked />
+                    <span className="text-gray-700 text-xs sm:text-base">All Student Records (CSV)</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="radio" name="exportType" className="mr-2" />
-                    <span className="text-gray-700">Active Students Only (CSV)</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="radio" name="exportType" className="mr-2 w-5 h-5" />
+                    <span className="text-gray-700 text-xs sm:text-base">Active Students Only (CSV)</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="radio" name="exportType" className="mr-2" />
-                    <span className="text-gray-700">Student Progress Report (PDF)</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="radio" name="exportType" className="mr-2 w-5 h-5" />
+                    <span className="text-gray-700 text-xs sm:text-base">Student Progress Report (PDF)</span>
                   </label>
-                  <label className="flex items-center">
-                    <input type="radio" name="exportType" className="mr-2" />
-                    <span className="text-gray-700">Complete Data Export (JSON)</span>
-                  </label>
-                </div>
-              </div>
-              <div className="border-4 border-purple-400 rounded-lg p-4">
-                <h3 className="font-bold text-purple-800 mb-2">Data Fields to Include:</h3>
-                <div className="grid grid-cols-2 gap-2">
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" defaultChecked />
-                    <span className="text-sm text-gray-700">Name & Email</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" defaultChecked />
-                    <span className="text-sm text-gray-700">XP & Level</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" defaultChecked />
-                    <span className="text-sm text-gray-700">Subscription Status</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-sm text-gray-700">Progress Data</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-sm text-gray-700">Last Login</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-sm text-gray-700">Achievements</span>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="radio" name="exportType" className="mr-2 w-5 h-5" />
+                    <span className="text-gray-700 text-xs sm:text-base">Complete Data Export (JSON)</span>
                   </label>
                 </div>
               </div>
-              <div className="bg-gray-50 border-4 border-gray-300 rounded-lg p-4">
-                <p className="text-sm text-gray-600">
+              <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-purple-800 mb-2 text-xs sm:text-base">Data Fields to Include:</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                    <span className="text-xs sm:text-sm text-gray-700">Name & Email</span>
+                  </label>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                    <span className="text-xs sm:text-sm text-gray-700">XP & Level</span>
+                  </label>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                    <span className="text-xs sm:text-sm text-gray-700">Subscription Status</span>
+                  </label>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-xs sm:text-sm text-gray-700">Progress Data</span>
+                  </label>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-xs sm:text-sm text-gray-700">Last Login</span>
+                  </label>
+                  <label className="flex items-center min-h-[44px]">
+                    <input type="checkbox" className="mr-2 w-5 h-5" />
+                    <span className="text-xs sm:text-sm text-gray-700">Achievements</span>
+                  </label>
+                </div>
+              </div>
+              <div className="bg-gray-50 border-4 border-gray-300 rounded-lg p-3 sm:p-4">
+                <p className="text-xs sm:text-sm text-gray-600">
                   <strong>Total Records:</strong> {users.length} students
                 </p>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-xs sm:text-sm text-gray-600 mt-1">
                   <strong>Export Format:</strong> CSV (Comma-Separated Values)
                 </p>
               </div>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowExportDataModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Cancel
-                </button>
+              <div className="flex justify-end">
                 <button
                   onClick={async () => {
                     setExportingData(true);
@@ -5199,10 +5199,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                   }}
                   disabled={exportingData}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                 >
                   {exportingData ? 'Exporting...' : 'Download Export'}
                 </button>
+              </div>
               </div>
             </div>
           </div>
