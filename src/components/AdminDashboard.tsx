@@ -6297,6 +6297,100 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
       )}
 
+      {/* Edit Faculty Modal */}
+      {showEditFacultyModal && editingFaculty && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-2xl max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">✏️ Edit Faculty</h2>
+                <button
+                  onClick={() => {
+                    setShowEditFacultyModal(false);
+                    setEditingFaculty(null);
+                  }}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Full Name:</label>
+                  <input
+                    type="text"
+                    value={editingFaculty.name}
+                    onChange={(e) => setEditingFaculty({...editingFaculty, name: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Email:</label>
+                  <input
+                    type="email"
+                    value={editingFaculty.email}
+                    onChange={(e) => setEditingFaculty({...editingFaculty, email: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Role:</label>
+                  <input
+                    type="text"
+                    value={editingFaculty.role}
+                    onChange={(e) => setEditingFaculty({...editingFaculty, role: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Courses:</label>
+                  <input
+                    type="text"
+                    value={editingFaculty.courses}
+                    onChange={(e) => setEditingFaculty({...editingFaculty, courses: e.target.value})}
+                    placeholder="e.g., Advanced Techniques, Sauce Mastery"
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-2">Status:</label>
+                  <select
+                    value={editingFaculty.status}
+                    onChange={(e) => setEditingFaculty({...editingFaculty, status: e.target.value})}
+                    className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="On Leave">On Leave</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    onClick={() => {
+                      // Update the faculty in the list
+                      setFacultyList(prev => prev.map(f => 
+                        f.id === editingFaculty.id ? editingFaculty : f
+                      ));
+                      setShowEditFacultyModal(false);
+                      setEditingFaculty(null);
+                      alert('Faculty information updated successfully!');
+                    }}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Plan Alumni Event Modal */}
       {showPlanEventModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
