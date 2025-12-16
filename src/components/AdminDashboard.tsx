@@ -6829,7 +6829,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   />
                 </div>
               </div>
-              <div className="flex justify-end gap-2 sm:gap-3">
+              <div className="flex justify-center">
                 <button
                   onClick={async () => {
                     if (!careerEventDate) {
@@ -6882,7 +6882,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                   }}
                   disabled={schedulingCareerEvent}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
                 >
                   {schedulingCareerEvent ? 'Scheduling...' : 'Schedule Event'}
                 </button>
