@@ -1679,16 +1679,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="space-y-4 sm:space-y-6">
               {/* School Logo */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏦 School Logo</h3>
-                <div className="flex items-center justify-center space-x-4">
-                  <div className="w-20 h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
+                <h3 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">🏦 School Logo</h3>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden shadow-sm">
                     {schoolBranding.logoUrl ? (
                       <img src={schoolBranding.logoUrl} alt="School Logo" className="w-full h-full object-cover" />
                     ) : (
                       <span className="text-gray-400 text-sm">Logo</span>
                     )}
                   </div>
-                  <div className="flex-1 flex flex-col items-center">
+                  <div className="flex-1 flex flex-col items-center sm:items-start max-w-xs">
                     <input
                       type="file"
                       id="logo-upload"
@@ -1743,11 +1743,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     />
                     <label
                       htmlFor="logo-upload"
-                      className="w-1/2 bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
+                      className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center shadow-sm"
                     >
                       {uploadingLogo ? 'Uploading...' : 'Upload Logo'}
                     </label>
-                    <p className="text-xs sm:text-sm text-gray-500 mt-1 text-center">Recommended: 200x200px, PNG or JPG</p>
+                    <p className="text-xs sm:text-sm text-gray-500 mt-2 text-center sm:text-left">Recommended: 200x200px, PNG or JPG</p>
                   </div>
                 </div>
               </div>
