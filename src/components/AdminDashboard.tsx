@@ -5509,10 +5509,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Edit Student Modal */}
       {showEditStudentModal && editingStudent && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-6 w-full max-w-md">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-blue-600 font-retro">✏️ Edit Student</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-3 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="text-center mb-4 sm:mb-6 relative">
+              <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">✏️ Edit Student</h2>
               <button
                 onClick={() => {
                   setShowEditStudentModal(false);
@@ -5524,44 +5524,44 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Student Name</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Student Name</label>
                 <input
                   type="text"
                   value={editingStudent.username || ''}
                   onChange={(e) => setEditingStudent({...editingStudent, username: e.target.value})}
                   placeholder="Enter full name"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email Address</label>
                 <input
                   type="email"
                   value={editingStudent.email || ''}
                   onChange={(e) => setEditingStudent({...editingStudent, email: e.target.value})}
                   placeholder="student@email.com"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                 <input
                   type="tel"
                   value="(555) 123-4567"
                   placeholder="(555) 123-4567"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Program</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Program</label>
                 <select
                   value="Bachelors of Arts in Culinary"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 >
                   <option value="Bachelors of Arts in Culinary">Bachelors of Arts in Culinary</option>
                   <option value="Associates in Aquaculture">Associates in Aquaculture</option>
@@ -5569,16 +5569,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Cohorts (Select Multiple)</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Cohorts (Select Multiple)</label>
                 <div className="border border-gray-300 rounded-md">
                   {/* Fixed top section - doesn't scroll */}
-                  <div className="p-3 space-y-2 border-b border-gray-300 bg-gray-50">
+                  <div className="p-2 sm:p-3 space-y-2 border-b border-gray-300 bg-gray-50">
                     {/* Add Cohort Input */}
                     <div className="flex gap-2">
                       <input
                         type="text"
                         placeholder="Add custom cohort..."
-                        className="flex-1 px-2 py-1 border border-gray-300 rounded text-sm"
+                        className="flex-1 px-2 py-2 border border-gray-300 rounded text-xs sm:text-sm min-h-[44px]"
                         onKeyPress={(e) => {
                           if (e.key === 'Enter') {
                             const input = e.currentTarget;
@@ -5594,14 +5594,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }}
                       />
-                      <span className="text-xs text-gray-500 self-center">Press Enter</span>
+                      <span className="text-xs text-gray-500 self-center hidden sm:inline">Press Enter</span>
                     </div>
                     
                     {/* All Students */}
-                    <label className="flex items-center cursor-pointer hover:bg-white p-1 rounded">
+                    <label className="flex items-center cursor-pointer hover:bg-white p-1 rounded min-h-[44px]">
                       <input 
                         type="checkbox" 
-                        className="mr-2"
+                        className="mr-2 w-4 h-4"
                         checked={(editingStudent as any).cohorts?.includes('all_students')}
                         onChange={(e) => {
                           const cohorts = (editingStudent as any).cohorts || [];
@@ -5612,14 +5612,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }}
                       />
-                      <span className="text-sm font-medium">All Students</span>
+                      <span className="text-xs sm:text-sm font-medium">All Students</span>
                     </label>
                     
                     {/* All Faculty */}
-                    <label className="flex items-center cursor-pointer hover:bg-white p-1 rounded">
+                    <label className="flex items-center cursor-pointer hover:bg-white p-1 rounded min-h-[44px]">
                       <input 
                         type="checkbox" 
-                        className="mr-2"
+                        className="mr-2 w-4 h-4"
                         checked={(editingStudent as any).cohorts?.includes('all_faculty')}
                         onChange={(e) => {
                           const cohorts = (editingStudent as any).cohorts || [];
@@ -5630,14 +5630,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }}
                       />
-                      <span className="text-sm font-medium">All Faculty</span>
+                      <span className="text-xs sm:text-sm font-medium">All Faculty</span>
                     </label>
                     
                     {/* All Alumni */}
-                    <label className="flex items-center cursor-pointer hover:bg-white p-1 rounded">
+                    <label className="flex items-center cursor-pointer hover:bg-white p-1 rounded min-h-[44px]">
                       <input 
                         type="checkbox" 
-                        className="mr-2"
+                        className="mr-2 w-4 h-4"
                         checked={(editingStudent as any).cohorts?.includes('alumni')}
                         onChange={(e) => {
                           const cohorts = (editingStudent as any).cohorts || [];
@@ -5648,16 +5648,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }}
                       />
-                      <span className="text-sm font-medium">All Alumni</span>
+                      <span className="text-xs sm:text-sm font-medium">All Alumni</span>
                     </label>
                   </div>
                   
                   {/* Scrollable cohort list */}
-                  <div className="p-3 space-y-2 max-h-40 overflow-y-auto">
-                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
+                  <div className="p-2 sm:p-3 space-y-2 max-h-40 overflow-y-auto">
+                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded min-h-[44px]">
                     <input 
                       type="checkbox" 
-                      className="mr-2"
+                      className="mr-2 w-4 h-4"
                       checked={(editingStudent as any).cohorts?.includes('class_2025')}
                       onChange={(e) => {
                         const cohorts = (editingStudent as any).cohorts || [];
@@ -5668,12 +5668,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }
                       }}
                     />
-                    <span className="text-sm">Class of 2025</span>
+                    <span className="text-xs sm:text-sm">Class of 2025</span>
                   </label>
-                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
+                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded min-h-[44px]">
                     <input 
                       type="checkbox" 
-                      className="mr-2"
+                      className="mr-2 w-4 h-4"
                       checked={(editingStudent as any).cohorts?.includes('class_2026')}
                       onChange={(e) => {
                         const cohorts = (editingStudent as any).cohorts || [];
@@ -5684,12 +5684,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }
                       }}
                     />
-                    <span className="text-sm">Class of 2026</span>
+                    <span className="text-xs sm:text-sm">Class of 2026</span>
                   </label>
-                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded">
+                  <label className="flex items-center cursor-pointer hover:bg-gray-50 p-1 rounded min-h-[44px]">
                     <input 
                       type="checkbox" 
-                      className="mr-2"
+                      className="mr-2 w-4 h-4"
                       checked={(editingStudent as any).cohorts?.includes('class_2027')}
                       onChange={(e) => {
                         const cohorts = (editingStudent as any).cohorts || [];
@@ -5700,20 +5700,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }
                       }}
                     />
-                    <span className="text-sm">Class of 2027</span>
+                    <span className="text-xs sm:text-sm">Class of 2027</span>
                   </label>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="flex justify-end gap-3 mt-6">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 mt-4 sm:mt-6">
               <button
                 onClick={() => {
                   setShowEditStudentModal(false);
                   setEditingStudent(null);
                 }}
-                className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                className="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro text-sm min-h-[44px]"
               >
                 Cancel
               </button>
@@ -5733,7 +5733,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   setEditingStudent(null);
                   alert('Student updated successfully!');
                 }}
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
+                className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm min-h-[44px]"
               >
                 Save Changes
               </button>
