@@ -1677,10 +1677,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <p className="text-center text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Customize PorkChop's appearance to match your school's brand and identity.</p>
             
             <div className="space-y-4 sm:space-y-6">
-              {/* School Logo */}
+              {/* School Logo & Branding */}
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                <h3 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">🏦 School Logo</h3>
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <h3 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">🏦 School Logo & Branding</h3>
+                <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
+                  {/* Left Side - Logo Upload */}
+                  <div className="flex-1">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                   <div className="w-24 h-24 sm:w-28 sm:h-28 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden shadow-sm">
                     {schoolBranding.logoUrl ? (
                       <img src={schoolBranding.logoUrl} alt="School Logo" className="w-full h-full object-cover" />
@@ -1749,12 +1752,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </label>
                     <p className="text-xs sm:text-sm text-gray-500 mt-2 text-center sm:text-left">Recommended: 200x200px, PNG or JPG</p>
                   </div>
-                </div>
+                    </div>
+                  </div>
 
-                {/* Color Scheme - Moved inside School Logo */}
-                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t-2 border-blue-300">
-                  <h4 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">🎨 Color Scheme</h4>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                  {/* Right Side - Color Scheme */}
+                  <div className="flex-1 lg:border-l-2 lg:border-blue-300 lg:pl-6">
+                    <h4 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">🎨 Color Scheme</h4>
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Primary Color</label>
                       <div className="flex items-center space-x-2">
@@ -1802,6 +1806,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         />
                         <span className="text-xs sm:text-sm text-gray-600">{schoolBranding.backgroundColor}</span>
                       </div>
+                    </div>
                     </div>
                   </div>
                 </div>
