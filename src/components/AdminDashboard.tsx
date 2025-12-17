@@ -7503,87 +7503,94 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Add Alumni Modal */}
       {showAddAlumniModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-orange-600 font-retro">⭐ Add Alumni Success Story</h2>
-              <button
-                onClick={() => setShowAddAlumniModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Full Name:</label>
-                <input
-                  type="text"
-                  value={newAlumniName}
-                  onChange={(e) => setNewAlumniName(e.target.value)}
-                  placeholder="Enter alumni's full name"
-                  className="w-full border-4 border-orange-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Email Address:</label>
-                <input
-                  type="email"
-                  value={newAlumniEmail}
-                  onChange={(e) => setNewAlumniEmail(e.target.value)}
-                  placeholder="alumni@example.com"
-                  className="w-full border-4 border-orange-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Graduation Year:</label>
-                <input
-                  type="text"
-                  value={newAlumniGradYear}
-                  onChange={(e) => setNewAlumniGradYear(e.target.value)}
-                  placeholder="e.g., 2023"
-                  className="w-full border-4 border-orange-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Current Position:</label>
-                <input
-                  type="text"
-                  value={newAlumniPosition}
-                  onChange={(e) => setNewAlumniPosition(e.target.value)}
-                  placeholder="e.g., Executive Chef, Restaurant Owner"
-                  className="w-full border-4 border-orange-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Current Employer/Location:</label>
-                <input
-                  type="text"
-                  value={newAlumniEmployer}
-                  onChange={(e) => setNewAlumniEmployer(e.target.value)}
-                  placeholder="e.g., Le Bernardin, New York"
-                  className="w-full border-4 border-orange-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">Salary/Revenue:</label>
-                <input
-                  type="text"
-                  value={newAlumniSalary}
-                  onChange={(e) => setNewAlumniSalary(e.target.value)}
-                  placeholder="e.g., $85,000/year"
-                  className="w-full border-4 border-orange-400 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-              </div>
-              <div className="flex justify-end gap-3">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 max-w-2xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-orange-600 font-retro">⭐ Add Alumni Success Story</h2>
                 <button
                   onClick={() => setShowAddAlumniModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
                 >
-                  Cancel
+                  ×
                 </button>
-                <button
-                  onClick={async () => {
+              </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Add a new alumni success story to showcase your program's impact.</p>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">Full Name:</label>
+                  <input
+                    type="text"
+                    value={newAlumniName}
+                    onChange={(e) => setNewAlumniName(e.target.value)}
+                    placeholder="Enter alumni's full name"
+                    className="w-full border-4 border-orange-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm min-h-[44px] bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">Email Address:</label>
+                  <input
+                    type="email"
+                    value={newAlumniEmail}
+                    onChange={(e) => setNewAlumniEmail(e.target.value)}
+                    placeholder="alumni@example.com"
+                    className="w-full border-4 border-orange-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm min-h-[44px] bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">Graduation Year:</label>
+                  <input
+                    type="text"
+                    value={newAlumniGradYear}
+                    onChange={(e) => setNewAlumniGradYear(e.target.value)}
+                    placeholder="e.g., 2023"
+                    className="w-full border-4 border-orange-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm min-h-[44px] bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">Current Position:</label>
+                  <input
+                    type="text"
+                    value={newAlumniPosition}
+                    onChange={(e) => setNewAlumniPosition(e.target.value)}
+                    placeholder="e.g., Executive Chef, Restaurant Owner"
+                    className="w-full border-4 border-orange-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm min-h-[44px] bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">Current Employer/Location:</label>
+                  <input
+                    type="text"
+                    value={newAlumniEmployer}
+                    onChange={(e) => setNewAlumniEmployer(e.target.value)}
+                    placeholder="e.g., Le Bernardin, New York"
+                    className="w-full border-4 border-orange-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm min-h-[44px] bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-bold text-gray-700 mb-1 sm:mb-2">Salary/Revenue:</label>
+                  <input
+                    type="text"
+                    value={newAlumniSalary}
+                    onChange={(e) => setNewAlumniSalary(e.target.value)}
+                    placeholder="e.g., $85,000/year"
+                    className="w-full border-4 border-orange-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm min-h-[44px] bg-white"
+                  />
+                </div>
+                <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
+                  <button
+                    onClick={() => setShowAddAlumniModal(false)}
+                    className="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={async () => {
                     if (!newAlumniName.trim() || !newAlumniGradYear.trim()) {
                       showWarning('Please enter at least name and graduation year');
                       return;
@@ -7651,11 +7658,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       console.error('Error adding alumni:', error);
                       alert('Failed to add alumni: ' + error.message);
                     }
-                  }}
-                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
-                >
-                  Add Alumni
-                </button>
+                    }}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    Add Alumni
+                  </button>
+                </div>
               </div>
             </div>
           </div>
