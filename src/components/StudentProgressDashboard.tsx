@@ -579,93 +579,99 @@ const StudentProgressDashboard: React.FC = () => {
 
       {/* Live Session Modal */}
       {liveSessionModalOpen && currentLiveSession && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-3 sm:p-6 w-full max-w-4xl h-full sm:h-auto max-h-[95vh] overflow-y-auto relative flex flex-col lg:flex-row gap-3 sm:gap-6">
-            <button
-              onClick={() => {
-                setLiveSessionModalOpen(false);
-                setIsViewer(false);
-                setCurrentLiveSession(null);
-              }}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
-              aria-label="Close"
-            >
-              ×
-            </button>
-            
-            {/* Left Side - Video */}
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-                🔴 LIVE: {currentLiveSession.dishName}
-              </h2>
-              <p className="text-center text-sm text-gray-600 mb-4">
-                Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
-              </p>
-              
-              {/* Main Video Area */}
-              <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
-                <div className="text-white text-center">
-                  <div className="text-6xl mb-4">{currentLiveSession.thumbnail}</div>
-                  <p className="text-lg">Watching {currentLiveSession.hostName}'s live session</p>
-                  <p className="text-sm opacity-75">Live video stream would appear here</p>
-                </div>
-                
-                {/* Live Indicator */}
-                <div className="absolute top-4 left-4 bg-red-500 text-white text-sm px-3 py-1 rounded-full flex items-center">
-                  <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
-                  LIVE
-                </div>
-                
-                {/* Viewer Count */}
-                <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full">
-                  👥 {viewerCount} viewers
-                </div>
-              </div>
-              
-              {/* Controls */}
-              <div className="flex justify-center space-x-4 mt-4">
-                <button 
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-4xl w-full max-h-[95vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">🔴 LIVE: {currentLiveSession.dishName}</h2>
+                <button
                   onClick={() => {
                     setLiveSessionModalOpen(false);
                     setIsViewer(false);
                     setCurrentLiveSession(null);
                   }}
-                  className="bg-gray-500 text-white px-6 py-2 rounded-lg"
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                  aria-label="Close"
                 >
-                  👋 Leave Session
+                  ×
                 </button>
               </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-sm">
+                Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+              </p>
             </div>
             
-            {/* Right Side - Community Feed */}
-            <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-6 lg:pt-0 lg:pl-6">
-              <h3 className="text-lg font-bold mb-4 text-maineBlue">
-                🌍 Community Feed
-              </h3>
-              
-              {/* Quick Post - Mobile Only (moved to top) */}
-              <div className="lg:hidden mb-4 pb-3 border-b border-gray-200">
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm">👨‍🍳</span>
-                  <input
-                    type="text"
-                    value={newPost}
-                    onChange={(e) => setNewPost(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Share what you're cooking..."
-                    className="flex-1 text-xs border border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-maineBlue focus:border-transparent"
-                  />
-                  <button 
-                    onClick={handlePost}
-                    disabled={!newPost.trim()}
-                    className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Post
-                  </button>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="flex flex-col lg:flex-row gap-3 sm:gap-6">
+                {/* Left Side - Video */}
+                <div className="flex-1">
+                  
+                  {/* Main Video Area */}
+                  <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
+                    <div className="text-white text-center">
+                      <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
+                      <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>
+                      <p className="text-xs sm:text-sm opacity-75">Live video stream would appear here</p>
+                    </div>
+                    
+                    {/* Live Indicator */}
+                    <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-red-500 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full flex items-center">
+                      <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
+                      LIVE
+                    </div>
+                    
+                    {/* Viewer Count */}
+                    <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black bg-opacity-50 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full">
+                      👥 {viewerCount} viewers
+                    </div>
+                  </div>
+                  
+                  {/* Controls */}
+                  <div className="flex justify-center mt-3 sm:mt-4">
+                    <button 
+                      onClick={() => {
+                        setLiveSessionModalOpen(false);
+                        setIsViewer(false);
+                        setCurrentLiveSession(null);
+                      }}
+                      className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-lg text-sm sm:text-base min-h-[44px] hover:bg-gray-600"
+                    >
+                      👋 Leave Session
+                    </button>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="space-y-3 max-h-96 overflow-y-auto">
+                
+                {/* Right Side - Community Feed */}
+                <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-3 sm:pt-6 lg:pt-0 lg:pl-6">
+                  <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-maineBlue">
+                    🌍 Community Feed
+                  </h3>
+                  
+                  {/* Quick Post - Mobile Only (moved to top) */}
+                  <div className="lg:hidden mb-3 sm:mb-4 pb-3 border-b border-gray-200">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm">👨‍🍳</span>
+                      <input
+                        type="text"
+                        value={newPost}
+                        onChange={(e) => setNewPost(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Share what you're cooking..."
+                        className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
+                      />
+                      <button 
+                        onClick={handlePost}
+                        disabled={!newPost.trim()}
+                        className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                      >
+                        Post
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
                 {posts.slice(0, 5).map((post) => (
                   <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
                     <div className="flex items-start space-x-2">
@@ -711,27 +717,29 @@ const StudentProgressDashboard: React.FC = () => {
                     </div>
                   </div>
                 ))}
-              </div>
-              
-              {/* Quick Post - Desktop Only (original position) */}
-              <div className="hidden lg:block pt-3 border-t border-gray-200 mt-4">
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm">👨‍🍳</span>
-                  <input
-                    type="text"
-                    value={newPost}
-                    onChange={(e) => setNewPost(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Share what you're cooking..."
-                    className="flex-1 text-xs border border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-maineBlue focus:border-transparent"
-                  />
-                  <button 
-                    onClick={handlePost}
-                    disabled={!newPost.trim()}
-                    className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Post
-                  </button>
+                  </div>
+                  
+                  {/* Quick Post - Desktop Only (original position) */}
+                  <div className="hidden lg:block pt-3 border-t border-gray-200 mt-4">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm">👨‍🍳</span>
+                      <input
+                        type="text"
+                        value={newPost}
+                        onChange={(e) => setNewPost(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Share what you're cooking..."
+                        className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
+                      />
+                      <button 
+                        onClick={handlePost}
+                        disabled={!newPost.trim()}
+                        className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                      >
+                        Post
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
