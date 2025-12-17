@@ -7935,107 +7935,108 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* View Career Event Details Modal */}
       {showViewCareerEventModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-purple-600 font-retro">💼 Career Event Details</h2>
-              <button
-                onClick={() => setShowViewCareerEventModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
-            </div>
-            <div className="space-y-4">
-              {/* Event Info */}
-              <div className="border-4 border-purple-400 rounded-lg p-4 bg-purple-50">
-                <h3 className="font-bold text-purple-800 mb-3 text-lg">
-                  {selectedCareerEventId === 'career-1' && 'Spring Career Fair 2025'}
-                  {selectedCareerEventId === 'career-2' && 'Resume Workshop'}
-                  {selectedCareerEventId === 'career-3' && 'Interview Prep Session'}
-                </h3>
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                    <div>
-                      <p className="text-gray-600"><strong>Date:</strong> 
-                      {selectedCareerEventId === 'career-1' && ' March 15, 2025'}
-                      {selectedCareerEventId === 'career-2' && ' February 20, 2025'}
-                      {selectedCareerEventId === 'career-3' && ' April 5, 2025'}
-                      </p>
-                    </div>
-                  <div>
-                    <p className="text-gray-600"><strong>Time:</strong> 
-                      {selectedCareerEventId === 'career-1' && ' 10:00 AM - 4:00 PM'}
-                      {selectedCareerEventId === 'career-2' && ' 2:00 PM - 4:00 PM'}
-                      {selectedCareerEventId === 'career-3' && ' 1:00 PM - 3:00 PM'}
-                      </p>
-                    </div>
-                  <div>
-                    <p className="text-gray-600"><strong>Location:</strong> Main Campus Auditorium</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600"><strong>Type:</strong> 
-                      {selectedCareerEventId === 'career-1' && ' Career Fair'}
-                      {selectedCareerEventId === 'career-2' && ' Workshop'}
-                      {selectedCareerEventId === 'career-3' && ' Interview Prep'}
-                      </p>
-                    </div>
-                </div>
-              </div>
-
-              {/* Registration Stats */}
-              <div className="grid grid-cols-3 gap-3">
-                <div className="border-4 border-blue-400 rounded-lg p-3 bg-blue-50 text-center">
-                  <div className="text-2xl font-bold text-blue-600">89</div>
-                  <p className="text-xs text-blue-800 font-medium">Registered</p>
-                </div>
-                <div className="border-4 border-green-400 rounded-lg p-3 bg-green-50 text-center">
-                  <div className="text-2xl font-bold text-green-600">12</div>
-                  <p className="text-xs text-green-800 font-medium">Employers</p>
-                </div>
-                <div className="border-4 border-purple-400 rounded-lg p-3 bg-purple-50 text-center">
-                  <div className="text-2xl font-bold text-purple-600">45</div>
-                  <p className="text-xs text-purple-800 font-medium">Open Positions</p>
-                </div>
-              </div>
-
-              {/* Registered Students */}
-              <div className="border-4 border-purple-400 rounded-lg p-4">
-                <h3 className="font-bold text-purple-800 mb-3">Registered Students:</h3>
-                <div className="max-h-48 overflow-y-auto space-y-2">
-                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3 flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-gray-900">Sarah Johnson</p>
-                      <p className="text-xs text-gray-600">Culinary Arts - Class of 2025</p>
-                    </div>
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Confirmed</span>
-                  </div>
-                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3 flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-gray-900">Michael Chen</p>
-                      <p className="text-xs text-gray-600">Pastry Arts - Class of 2025</p>
-                    </div>
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Confirmed</span>
-                  </div>
-                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-3 flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-gray-900">Emma Rodriguez</p>
-                      <p className="text-xs text-gray-600">Culinary Management - Class of 2026</p>
-                    </div>
-                    <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Pending</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex justify-end gap-3">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 max-w-3xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-purple-600 font-retro">💼 Career Event Details</h2>
                 <button
                   onClick={() => setShowViewCareerEventModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
                 >
-                  Close
+                  ×
                 </button>
-                <button
-                  onClick={async () => {
+              </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">View career event details, student registrations, and employer participation.</p>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                {/* Event Info */}
+                <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50">
+                  <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-lg">
+                    {selectedCareerEventId === 'career-1' && 'Spring Career Fair 2025'}
+                    {selectedCareerEventId === 'career-2' && 'Resume Workshop'}
+                    {selectedCareerEventId === 'career-3' && 'Interview Prep Session'}
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
+                    <div>
+                      <p className="text-gray-600"><strong>Date:</strong> 
+                        {selectedCareerEventId === 'career-1' && ' March 15, 2025'}
+                        {selectedCareerEventId === 'career-2' && ' February 20, 2025'}
+                        {selectedCareerEventId === 'career-3' && ' April 5, 2025'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600"><strong>Time:</strong> 
+                        {selectedCareerEventId === 'career-1' && ' 10:00 AM - 4:00 PM'}
+                        {selectedCareerEventId === 'career-2' && ' 2:00 PM - 4:00 PM'}
+                        {selectedCareerEventId === 'career-3' && ' 1:00 PM - 3:00 PM'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600"><strong>Location:</strong> Main Campus Auditorium</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600"><strong>Type:</strong> 
+                        {selectedCareerEventId === 'career-1' && ' Career Fair'}
+                        {selectedCareerEventId === 'career-2' && ' Workshop'}
+                        {selectedCareerEventId === 'career-3' && ' Interview Prep'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Registration Stats */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+                  <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-3 bg-blue-50 text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-blue-600">89</div>
+                    <p className="text-xs text-blue-800 font-medium">Registered</p>
+                  </div>
+                  <div className="border-4 border-green-400 rounded-lg p-2 sm:p-3 bg-green-50 text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-green-600">12</div>
+                    <p className="text-xs text-green-800 font-medium">Employers</p>
+                  </div>
+                  <div className="border-4 border-purple-400 rounded-lg p-2 sm:p-3 bg-purple-50 text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-purple-600">45</div>
+                    <p className="text-xs text-purple-800 font-medium">Open Positions</p>
+                  </div>
+                </div>
+
+                {/* Registered Students */}
+                <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
+                  <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-base">Registered Students:</h3>
+                  <div className="max-h-48 overflow-y-auto space-y-2">
+                    <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">Sarah Johnson</p>
+                        <p className="text-xs text-gray-600 truncate">Culinary Arts - Class of 2025</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Confirmed</span>
+                    </div>
+                    <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">Michael Chen</p>
+                        <p className="text-xs text-gray-600 truncate">Pastry Arts - Class of 2025</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Confirmed</span>
+                    </div>
+                    <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">Emma Rodriguez</p>
+                        <p className="text-xs text-gray-600 truncate">Culinary Management - Class of 2026</p>
+                      </div>
+                      <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded whitespace-nowrap">Pending</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
+                  <button
+                    onClick={async () => {
                     if (!currentUser?.id) {
                       alert('You must be logged in to send reminders');
                       return;
@@ -8067,13 +8068,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       console.error('Error sending reminders:', error);
                       alert('Failed to send reminders: ' + error.message);
                     }
-                  }}
-                  className="bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro"
-                >
-                  Send Reminder
-                </button>
-                <button
-                  onClick={() => {
+                    }}
+                    className="w-full sm:w-auto bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    Send Reminder
+                  </button>
+                  <button
+                    onClick={() => {
                     try {
                       // Generate career event attendee data
                       const attendeeData = [
@@ -8103,11 +8104,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       console.error('Error exporting attendee list:', error);
                       alert('Failed to export: ' + error.message);
                     }
-                  }}
-                  className="bg-purple-400 text-white px-6 py-2 rounded-md hover:bg-purple-500 font-retro"
-                >
-                  Export List
-                </button>
+                    }}
+                    className="w-full sm:w-auto bg-purple-400 text-white px-6 py-2 rounded-md hover:bg-purple-500 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    Export List
+                  </button>
+                </div>
               </div>
             </div>
           </div>
