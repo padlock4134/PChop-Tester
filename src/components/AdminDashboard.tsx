@@ -1579,84 +1579,91 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Job Placement Modal */}
       {showJobPlacementModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Job Placement & Career Services</h2>
-              <button
-                onClick={() => setShowJobPlacementModal(false)}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Job Placement & Career Services</h2>
+                <button
+                  onClick={() => setShowJobPlacementModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Track graduate employment outcomes, manage industry partnerships, and monitor career services effectiveness.</p>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Track graduate employment outcomes, manage industry partnerships, and monitor career services effectiveness.</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-              {/* Employment Tracking */}
-              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📈</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Employment Tracking</h3>
-                <p className="text-sm text-gray-600 mb-4">Monitor graduate employment rates and job placement statistics</p>
-                <button 
-                  onClick={() => setShowEmploymentDataModal(true)}
-                  className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-retro w-full"
-                >
-                  View Employment Data
-                </button>
-              </div>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
+                  {/* Employment Tracking */}
+                  <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-6 text-center hover:scale-105 transition-transform duration-200">
+                    <div className="mb-2 sm:mb-3 text-3xl sm:text-4xl">📈</div>
+                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">Employment Tracking</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Monitor graduate employment rates and job placement statistics</p>
+                    <button 
+                      onClick={() => setShowEmploymentDataModal(true)}
+                      className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-retro w-full text-xs sm:text-base min-h-[44px]"
+                    >
+                      View Employment Data
+                    </button>
+                  </div>
 
-              {/* Industry Partnerships */}
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🤝</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Industry Partnerships</h3>
-                <p className="text-sm text-gray-600 mb-4">Manage relationships with restaurants, hotels, and culinary employers</p>
-                <button 
-                  onClick={() => setShowManagePartnersModal(true)}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro w-full"
-                >
-                  Manage Partners
-                </button>
-              </div>
+                  {/* Industry Partnerships */}
+                  <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-6 text-center hover:scale-105 transition-transform duration-200">
+                    <div className="mb-2 sm:mb-3 text-3xl sm:text-4xl">🤝</div>
+                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">Industry Partnerships</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Manage relationships with restaurants, hotels, and culinary employers</p>
+                    <button 
+                      onClick={() => setShowManagePartnersModal(true)}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro w-full text-xs sm:text-base min-h-[44px]"
+                    >
+                      Manage Partners
+                    </button>
+                  </div>
 
-              {/* Career Services */}
-              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">💼</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Career Services</h3>
-                <p className="text-sm text-gray-600 mb-4">Coordinate job fairs, internships, and career counseling services</p>
-                <button 
-                  onClick={() => setShowCareerServicesModal(true)}
-                  className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 font-retro w-full"
-                >
-                  Manage Services
-                </button>
-              </div>
+                  {/* Career Services */}
+                  <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 sm:p-6 text-center hover:scale-105 transition-transform duration-200">
+                    <div className="mb-2 sm:mb-3 text-3xl sm:text-4xl">💼</div>
+                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">Career Services</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Coordinate job fairs, internships, and career counseling services</p>
+                    <button 
+                      onClick={() => setShowCareerServicesModal(true)}
+                      className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 font-retro w-full text-xs sm:text-base min-h-[44px]"
+                    >
+                      Manage Services
+                    </button>
+                  </div>
 
-              {/* Credentialing & Certifications */}
-              <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🏅</div>
-                <h3 className="font-bold text-gray-900 mb-2 font-retro">Credentialing & Certifications</h3>
-                <p className="text-sm text-gray-600 mb-4">Track ServSafe, Food Handler permits, and culinary certifications</p>
-                <button 
-                  onClick={() => setShowCredentialingModal(true)}
-                  className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full"
-                >
-                  Manage Credentials
-                </button>
+                  {/* Credentialing & Certifications */}
+                  <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-3 sm:p-6 text-center hover:scale-105 transition-transform duration-200">
+                    <div className="mb-2 sm:mb-3 text-3xl sm:text-4xl">🏅</div>
+                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">Credentialing & Certifications</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Track ServSafe, Food Handler permits, and culinary certifications</p>
+                    <button 
+                      onClick={() => setShowCredentialingModal(true)}
+                      className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full text-xs sm:text-base min-h-[44px]"
+                    >
+                      Manage Credentials
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4">
+                  <h4 className="text-center font-bold text-green-900 mb-2 text-sm sm:text-base">🎯 Key Placement Metrics:</h4>
+                  <ul className="text-center text-xs sm:text-sm text-green-800 space-y-1">
+                    <li>• Graduate employment rate within 6 months</li>
+                    <li>• Average starting salary by program</li>
+                    <li>• Industry sector placement distribution</li>
+                    <li>• Employer satisfaction ratings</li>
+                    <li>• Alumni career advancement tracking</li>
+                    <li>• Internship to full-time conversion rates</li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            
-            <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 mb-6">
-              <h4 className="text-center font-bold text-green-900 mb-2">🎯 Key Placement Metrics:</h4>
-              <ul className="text-center text-sm text-green-800 space-y-1">
-                <li>• Graduate employment rate within 6 months</li>
-                <li>• Average starting salary by program</li>
-                <li>• Industry sector placement distribution</li>
-                <li>• Employer satisfaction ratings</li>
-                <li>• Alumni career advancement tracking</li>
-                <li>• Internship to full-time conversion rates</li>
-              </ul>
             </div>
           </div>
         </div>
