@@ -6904,57 +6904,64 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Manage Partners Modal */}
       {showManagePartnersModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 p-3 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-3 sm:mb-4">
-              <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">🤝 Industry Partners</h2>
-              <button
-                onClick={() => setShowManagePartnersModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 max-w-4xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-blue-600 font-retro">🤝 Industry Partners</h2>
+                <button
+                  onClick={() => setShowManagePartnersModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Manage relationships with restaurants, hotels, and culinary employers.</p>
             </div>
-            <div className="space-y-3 sm:space-y-4">
-              <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50">
-                <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Partners (4):</h3>
-                <div className="max-h-[400px] overflow-y-auto pr-2">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-3">
-                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <p className="font-semibold text-gray-900 text-base sm:text-lg">The French Laundry</p>
-                        <p className="text-xs sm:text-sm text-gray-600">Yountville, CA</p>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50">
+                  <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Partners (4):</h3>
+                  <div className="max-h-[400px] overflow-y-auto pr-2">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-3">
+                      <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <p className="font-semibold text-gray-900 text-sm sm:text-base">The French Laundry</p>
+                            <p className="text-xs text-gray-600">Yountville, CA</p>
+                          </div>
+                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Active</span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs mt-2 sm:mt-3">
+                          <div>
+                            <p className="text-gray-600">Students Hired: <strong>12</strong></p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">Open Positions: <strong>3</strong></p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">Partnership Since: <strong>2020</strong></p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            setEditingPartnerId('partner-1');
+                            setIsEditMode(true);
+                            setPartnerName('The French Laundry');
+                            setPartnerLocation('Yountville, CA');
+                            setPartnerEmail('contact@frenchlaundry.com');
+                            setPartnerPhone('(707) 944-2380');
+                            setPartnerStudentsHired('12');
+                            setPartnerOpenPositions('3');
+                            setPartnershipYear('2020');
+                          }}
+                          className="mt-2 sm:mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-xs sm:text-sm border-2 border-yellow-400 min-h-[44px]"
+                        >
+                          ✏️ Edit Partner
+                        </button>
                       </div>
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm mt-3">
-                      <div>
-                        <p className="text-gray-600">Students Hired: <strong>12</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Open Positions: <strong>3</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Partnership Since: <strong>2020</strong></p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => {
-                        setEditingPartnerId('partner-1');
-                        setIsEditMode(true);
-                        setPartnerName('The French Laundry');
-                        setPartnerLocation('Yountville, CA');
-                        setPartnerEmail('contact@frenchlaundry.com');
-                        setPartnerPhone('(707) 944-2380');
-                        setPartnerStudentsHired('12');
-                        setPartnerOpenPositions('3');
-                        setPartnershipYear('2020');
-                      }}
-                      className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
-                    >
-                      ✏️ Edit Partner
-                    </button>
-                  </div>
                   <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
@@ -7063,83 +7070,83 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       ✏️ Edit Partner
                     </button>
                   </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4">
-                <h3 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">{isEditMode ? 'Edit Partner:' : 'Add New Partner:'}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                  <input
-                    type="text"
-                    value={partnerName}
-                    onChange={(e) => setPartnerName(e.target.value)}
-                    placeholder="Restaurant/Company Name"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                  <input
-                    type="text"
-                    value={partnerLocation}
-                    onChange={(e) => setPartnerLocation(e.target.value)}
-                    placeholder="Location"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                  <input
-                    type="email"
-                    value={partnerEmail}
-                    onChange={(e) => setPartnerEmail(e.target.value)}
-                    placeholder="Contact Email"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                  <input
-                    type="tel"
-                    value={partnerPhone}
-                    onChange={(e) => setPartnerPhone(e.target.value)}
-                    placeholder="Phone Number"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                  <input
-                    type="number"
-                    value={partnerStudentsHired}
-                    onChange={(e) => setPartnerStudentsHired(e.target.value)}
-                    placeholder="Students Hired"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                  <input
-                    type="number"
-                    value={partnerOpenPositions}
-                    onChange={(e) => setPartnerOpenPositions(e.target.value)}
-                    placeholder="Open Positions"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                  <input
-                    type="number"
-                    value={partnershipYear}
-                    onChange={(e) => setPartnershipYear(e.target.value)}
-                    placeholder="Partnership Since (Year)"
-                    className="border-2 border-blue-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
+                <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4">
+                  <h3 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">{isEditMode ? 'Edit Partner:' : 'Add New Partner:'}</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                    <input
+                      type="text"
+                      value={partnerName}
+                      onChange={(e) => setPartnerName(e.target.value)}
+                      placeholder="Restaurant/Company Name"
+                      className="border-4 border-blue-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
+                    />
+                    <input
+                      type="text"
+                      value={partnerLocation}
+                      onChange={(e) => setPartnerLocation(e.target.value)}
+                      placeholder="Location"
+                      className="border-4 border-blue-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
+                    />
+                    <input
+                      type="email"
+                      value={partnerEmail}
+                      onChange={(e) => setPartnerEmail(e.target.value)}
+                      placeholder="Contact Email"
+                      className="border-4 border-blue-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
+                    />
+                    <input
+                      type="tel"
+                      value={partnerPhone}
+                      onChange={(e) => setPartnerPhone(e.target.value)}
+                      placeholder="Phone Number"
+                      className="border-4 border-blue-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
+                    />
+                    <input
+                      type="number"
+                      value={partnerStudentsHired}
+                      onChange={(e) => setPartnerStudentsHired(e.target.value)}
+                      placeholder="Students Hired"
+                      className="border-4 border-blue-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
+                    />
+                    <input
+                      type="number"
+                      value={partnerOpenPositions}
+                      onChange={(e) => setPartnerOpenPositions(e.target.value)}
+                      placeholder="Open Positions"
+                      className="border-4 border-blue-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
+                    />
+                    <input
+                      type="number"
+                      value={partnershipYear}
+                      onChange={(e) => setPartnershipYear(e.target.value)}
+                      placeholder="Partnership Since (Year)"
+                      className="border-4 border-blue-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-col gap-2 sm:gap-3">
-                {isEditMode && (
+                <div className="flex flex-col gap-2 sm:gap-3">
+                  {isEditMode && (
+                    <button
+                      onClick={() => {
+                        setIsEditMode(false);
+                        setEditingPartnerId(null);
+                        setPartnerName('');
+                        setPartnerLocation('');
+                        setPartnerEmail('');
+                        setPartnerPhone('');
+                        setPartnerStudentsHired('');
+                        setPartnerOpenPositions('');
+                        setPartnershipYear('');
+                      }}
+                      className="w-full sm:w-auto bg-gray-400 text-white px-6 py-2 rounded-md hover:bg-gray-500 font-retro text-sm sm:text-base min-h-[44px]"
+                    >
+                      Cancel Edit
+                    </button>
+                  )}
                   <button
-                    onClick={() => {
-                      setIsEditMode(false);
-                      setEditingPartnerId(null);
-                      setPartnerName('');
-                      setPartnerLocation('');
-                      setPartnerEmail('');
-                      setPartnerPhone('');
-                      setPartnerStudentsHired('');
-                      setPartnerOpenPositions('');
-                      setPartnershipYear('');
-                    }}
-                    className="w-full bg-gray-400 text-white px-6 py-2 rounded-md hover:bg-gray-500 font-retro min-h-[44px]"
-                  >
-                    Cancel Edit
-                  </button>
-                )}
-                <button
                   onClick={async () => {
                     if (!partnerName.trim() || !partnerLocation.trim()) {
                       showWarning('Please enter at least partner name and location');
@@ -7225,12 +7232,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     } finally {
                       setAddingPartner(false);
                     }
-                  }}
-                  disabled={addingPartner}
-                  className="w-full bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {addingPartner ? (isEditMode ? 'Updating...' : 'Adding...') : (isEditMode ? 'Save Changes' : 'Add Partner')}
-                </button>
+                    }}
+                    disabled={addingPartner}
+                    className="w-full sm:w-auto bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro text-sm sm:text-base min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {addingPartner ? (isEditMode ? 'Updating...' : 'Adding...') : (isEditMode ? 'Save Changes' : 'Add Partner')}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
