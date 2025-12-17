@@ -1504,74 +1504,81 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* Export Modal */}
       {showExportModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="text-center mb-6 relative">
-              <h2 className="text-2xl font-bold text-maineBlue font-retro">Export School Reports</h2>
-              <button
-                onClick={() => setShowExportModal(false)}
-                className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Export School Reports</h2>
+                <button
+                  onClick={() => setShowExportModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Select the reports you want to generate and download:</p>
             </div>
             
-            <p className="text-center text-gray-600 mb-6">Select the reports you want to generate and download:</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-4 hover:bg-blue-100 cursor-pointer">
-                <input type="checkbox" id="student-progress" className="mr-3" />
-                <label htmlFor="student-progress" className="font-semibold cursor-pointer">📊 Student Progress</label>
-                <p className="text-sm text-gray-600 ml-6">Skill mastery tracking, learning analytics</p>
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4 hover:bg-blue-100 cursor-pointer">
+                    <input type="checkbox" id="student-progress" className="mr-2 sm:mr-3" />
+                    <label htmlFor="student-progress" className="font-semibold cursor-pointer text-xs sm:text-base">📊 Student Progress</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Skill mastery tracking, learning analytics</p>
+                  </div>
+                  
+                  <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4 hover:bg-green-100 cursor-pointer">
+                    <input type="checkbox" id="class-analytics" className="mr-2 sm:mr-3" />
+                    <label htmlFor="class-analytics" className="font-semibold cursor-pointer text-xs sm:text-base">👥 Class Analytics</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Performance & content metrics, live session data</p>
+                  </div>
+                  
+                  <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-3 sm:p-4 hover:bg-orange-100 cursor-pointer">
+                    <input type="checkbox" id="culinary-metrics" className="mr-2 sm:mr-3" />
+                    <label htmlFor="culinary-metrics" className="font-semibold cursor-pointer text-xs sm:text-base">🍳 Culinary Metrics</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Recipe performance, technique analysis</p>
+                  </div>
+                  
+                  <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 sm:p-4 hover:bg-purple-100 cursor-pointer">
+                    <input type="checkbox" id="operations" className="mr-2 sm:mr-3" />
+                    <label htmlFor="operations" className="font-semibold cursor-pointer text-xs sm:text-base">🏪 Operations</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Kitchen management, safety & compliance</p>
+                  </div>
+                  
+                  <div className="border-4 border-pink-400 bg-pink-50 rounded-lg p-3 sm:p-4 hover:bg-pink-100 cursor-pointer">
+                    <input type="checkbox" id="engagement" className="mr-2 sm:mr-3" />
+                    <label htmlFor="engagement" className="font-semibold cursor-pointer text-xs sm:text-base">📱 Engagement</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Platform usage, community participation</p>
+                  </div>
+                  
+                  <div className="border-4 border-red-400 bg-red-50 rounded-lg p-3 sm:p-4 hover:bg-red-100 cursor-pointer">
+                    <input type="checkbox" id="session-reports" className="mr-2 sm:mr-3" />
+                    <label htmlFor="session-reports" className="font-semibold cursor-pointer text-xs sm:text-base">🚨 Session Reports</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Flagged content, scheduled sessions</p>
+                  </div>
+                </div>
+                
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => {
+                      // Show branded success modal
+                      setDownloadedReportInfo({
+                        type: 'Reports Generated',
+                        count: Object.values(selectedReports).filter(Boolean).length,
+                        filename: 'Downloads will begin shortly'
+                      });
+                      setShowDownloadSuccessModal(true);
+                      setShowExportModal(false);
+                    }}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    Generate Reports
+                  </button>
+                </div>
               </div>
-              
-              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-4 hover:bg-green-100 cursor-pointer">
-                <input type="checkbox" id="class-analytics" className="mr-3" />
-                <label htmlFor="class-analytics" className="font-semibold cursor-pointer">👥 Class Analytics</label>
-                <p className="text-sm text-gray-600 ml-6">Performance & content metrics, live session data</p>
-              </div>
-              
-              <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-4 hover:bg-orange-100 cursor-pointer">
-                <input type="checkbox" id="culinary-metrics" className="mr-3" />
-                <label htmlFor="culinary-metrics" className="font-semibold cursor-pointer">🍳 Culinary Metrics</label>
-                <p className="text-sm text-gray-600 ml-6">Recipe performance, technique analysis</p>
-              </div>
-              
-              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-4 hover:bg-purple-100 cursor-pointer">
-                <input type="checkbox" id="operations" className="mr-3" />
-                <label htmlFor="operations" className="font-semibold cursor-pointer">🏪 Operations</label>
-                <p className="text-sm text-gray-600 ml-6">Kitchen management, safety & compliance</p>
-              </div>
-              
-              <div className="border-4 border-pink-400 bg-pink-50 rounded-lg p-4 hover:bg-pink-100 cursor-pointer">
-                <input type="checkbox" id="engagement" className="mr-3" />
-                <label htmlFor="engagement" className="font-semibold cursor-pointer">📱 Engagement</label>
-                <p className="text-sm text-gray-600 ml-6">Platform usage, community participation</p>
-              </div>
-              
-              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-4 hover:bg-red-100 cursor-pointer">
-                <input type="checkbox" id="session-reports" className="mr-3" />
-                <label htmlFor="session-reports" className="font-semibold cursor-pointer">🚨 Session Reports</label>
-                <p className="text-sm text-gray-600 ml-6">Flagged content, scheduled sessions</p>
-              </div>
-            </div>
-            
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={() => {
-                  // Show branded success modal
-                  setDownloadedReportInfo({
-                    type: 'Reports Generated',
-                    count: Object.values(selectedReports).filter(Boolean).length,
-                    filename: 'Downloads will begin shortly'
-                  });
-                  setShowDownloadSuccessModal(true);
-                  setShowExportModal(false);
-                }}
-                className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
-              >
-                Generate Reports
-              </button>
             </div>
           </div>
         </div>
