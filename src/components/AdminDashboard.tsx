@@ -7232,101 +7232,108 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Career Services Modal */}
       {showCareerServicesModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 p-3 sm:p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-3 sm:mb-4">
-              <h2 className="text-lg sm:text-2xl font-bold text-purple-600 font-retro">💼 Career Services</h2>
-              <button
-                onClick={() => setShowCareerServicesModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
-            </div>
-            <div className="space-y-3 sm:space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4">
-                <div className="border-4 border-purple-400 rounded-lg p-2 sm:p-4 bg-purple-50 text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-purple-600">24</div>
-                  <p className="text-xs sm:text-sm text-purple-800 font-medium mt-1">Active Internships</p>
-                </div>
-                <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-4 bg-blue-50 text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-blue-600">8</div>
-                  <p className="text-xs sm:text-sm text-blue-800 font-medium mt-1">Job Fairs Scheduled</p>
-                </div>
-                <div className="border-4 border-green-400 rounded-lg p-2 sm:p-4 bg-green-50 text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-green-600">156</div>
-                  <p className="text-xs sm:text-sm text-green-800 font-medium mt-1">Students Counseled</p>
-                </div>
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 max-w-3xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-purple-600 font-retro">💼 Career Services</h2>
+                <button
+                  onClick={() => setShowCareerServicesModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
               </div>
-              <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50">
-                <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-base">Scheduled Events:</h3>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <select 
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Coordinate job fairs, internships, and career counseling services.</p>
+            </div>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4">
+                  <div className="border-4 border-purple-400 rounded-lg p-2 sm:p-4 bg-purple-50 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">24</div>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium mt-1">Active Internships</p>
+                  </div>
+                  <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-4 bg-blue-50 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">8</div>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium mt-1">Job Fairs Scheduled</p>
+                  </div>
+                  <div className="border-4 border-green-400 rounded-lg p-2 sm:p-4 bg-green-50 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">156</div>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium mt-1">Students Counseled</p>
+                  </div>
+                </div>
+                <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50">
+                  <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-base">Scheduled Events:</h3>
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <select 
                     value={selectedCareerEventId}
                     onChange={(e) => setSelectedCareerEventId(e.target.value)}
-                    className="flex-1 border-4 border-purple-400 rounded-lg p-2 sm:p-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white min-h-[44px]"
-                  >
-                    <option value="">-- View Existing Event --</option>
-                    <option value="career-1">Spring Career Fair 2025 - March 15, 2025</option>
-                    <option value="career-2">Resume Workshop - February 20, 2025</option>
-                    <option value="career-3">Interview Prep Session - April 5, 2025</option>
-                  </select>
+                      className="flex-1 border-4 border-purple-400 rounded-lg p-2 sm:p-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white min-h-[44px]"
+                    >
+                      <option value="">-- View Existing Event --</option>
+                      <option value="career-1">Spring Career Fair 2025 - March 15, 2025</option>
+                      <option value="career-2">Resume Workshop - February 20, 2025</option>
+                      <option value="career-3">Interview Prep Session - April 5, 2025</option>
+                    </select>
+                    <button
+                      onClick={() => {
+                        if (!selectedCareerEventId) {
+                          showWarning('Please select an event first');
+                          return;
+                        }
+                        setShowViewCareerEventModal(true);
+                      }}
+                      className="bg-purple-400 text-white px-4 sm:px-6 py-2 rounded-md hover:bg-purple-500 font-retro whitespace-nowrap text-sm sm:text-base min-h-[44px]"
+                    >
+                      View
+                    </button>
+                  </div>
+                </div>
+                <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
+                  <h3 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Schedule New Service:</h3>
+                  <div className="space-y-2 sm:space-y-3">
+                    <select 
+                      value={careerEventType}
+                      onChange={(e) => setCareerEventType(e.target.value as any)}
+                      className="w-full border-4 border-purple-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-[44px]"
+                    >
+                      <option value="career_fair">Career Fair</option>
+                      <option value="resume_workshop">Resume Workshop</option>
+                      <option value="interview_prep">Interview Prep</option>
+                      <option value="networking">Networking Event</option>
+                    </select>
+                    <select 
+                      value={careerEventCohort}
+                      onChange={(e) => setCareerEventCohort(e.target.value)}
+                      className="w-full border-4 border-purple-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-[44px]"
+                    >
+                      <option value="all_students">All Students</option>
+                      <option value="class_2025">Class of 2025</option>
+                      <option value="class_2026">Class of 2026</option>
+                      <option value="culinary_arts">Culinary Arts Program</option>
+                      <option value="pastry_arts">Pastry Arts Program</option>
+                      <option value="alumni">Alumni</option>
+                    </select>
+                    <input
+                      type="date"
+                      value={careerEventDate}
+                      onChange={(e) => setCareerEventDate(e.target.value)}
+                      className="w-full border-4 border-purple-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-[44px]"
+                    />
+                    <textarea
+                      rows={3}
+                      value={careerEventDescription}
+                      onChange={(e) => setCareerEventDescription(e.target.value)}
+                      placeholder="Event details..."
+                      className="w-full border-4 border-purple-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 min-h-[44px]"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-center">
                   <button
-                    onClick={() => {
-                      if (!selectedCareerEventId) {
-                        showWarning('Please select an event first');
-                        return;
-                      }
-                      setShowViewCareerEventModal(true);
-                    }}
-                    className="bg-purple-400 text-white px-4 sm:px-6 py-2 rounded-md hover:bg-purple-500 font-retro whitespace-nowrap text-sm sm:text-base min-h-[44px]"
-                  >
-                    View
-                  </button>
-                </div>
-              </div>
-              <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
-                <h3 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Schedule New Service:</h3>
-                <div className="space-y-2 sm:space-y-3">
-                  <select 
-                    value={careerEventType}
-                    onChange={(e) => setCareerEventType(e.target.value as any)}
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  >
-                    <option value="career_fair">Career Fair</option>
-                    <option value="resume_workshop">Resume Workshop</option>
-                    <option value="interview_prep">Interview Prep</option>
-                    <option value="networking">Networking Event</option>
-                  </select>
-                  <select 
-                    value={careerEventCohort}
-                    onChange={(e) => setCareerEventCohort(e.target.value)}
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  >
-                    <option value="all_students">All Students</option>
-                    <option value="class_2025">Class of 2025</option>
-                    <option value="class_2026">Class of 2026</option>
-                    <option value="culinary_arts">Culinary Arts Program</option>
-                    <option value="pastry_arts">Pastry Arts Program</option>
-                    <option value="alumni">Alumni</option>
-                  </select>
-                  <input
-                    type="date"
-                    value={careerEventDate}
-                    onChange={(e) => setCareerEventDate(e.target.value)}
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                  <textarea
-                    rows={3}
-                    value={careerEventDescription}
-                    onChange={(e) => setCareerEventDescription(e.target.value)}
-                    placeholder="Event details..."
-                    className="w-full border-2 border-purple-300 rounded-lg p-2 text-sm min-h-[44px]"
-                  />
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <button
-                  onClick={async () => {
+                    onClick={async () => {
                     if (!careerEventDate) {
                       showWarning('Please select an event date');
                       return;
@@ -7375,12 +7382,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     } finally {
                       setSchedulingCareerEvent(false);
                     }
-                  }}
-                  disabled={schedulingCareerEvent}
-                  className="w-full bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
-                >
-                  {schedulingCareerEvent ? 'Scheduling...' : 'Schedule Event'}
-                </button>
+                    }}
+                    disabled={schedulingCareerEvent}
+                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                  >
+                    {schedulingCareerEvent ? 'Scheduling...' : 'Schedule Event'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
