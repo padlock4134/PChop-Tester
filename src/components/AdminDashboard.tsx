@@ -7582,13 +7582,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     className="w-full border-4 border-orange-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm min-h-[44px] bg-white"
                   />
                 </div>
-                <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3">
-                  <button
-                    onClick={() => setShowAddAlumniModal(false)}
-                    className="w-full sm:w-auto px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro text-sm sm:text-base min-h-[44px]"
-                  >
-                    Cancel
-                  </button>
+                <div className="flex justify-center">
                   <button
                     onClick={async () => {
                     if (!newAlumniName.trim() || !newAlumniGradYear.trim()) {
@@ -7672,80 +7666,87 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       {/* View Event Details Modal */}
       {showViewEventModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-green-600 font-retro">🎉 Event Details</h2>
-              <button
-                onClick={() => setShowViewEventModal(false)}
-                className="text-gray-500 hover:text-gray-800 text-2xl"
-              >
-                ×
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-3xl w-full max-h-[90vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-green-600 font-retro">🎉 Event Details</h2>
+                <button
+                  onClick={() => setShowViewEventModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">View event details, RSVP responses, and certification tracking.</p>
             </div>
-            <div className="space-y-4">
-              {/* Event Info */}
-              <div className="border-4 border-green-400 rounded-lg p-4 bg-green-50">
-                <h3 className="font-bold text-green-800 mb-3 text-lg">
-                  {selectedEventId === 'event-1' && 'Class of 2020 Reunion'}
-                  {selectedEventId === 'event-2' && 'Spring Networking Event'}
-                  {selectedEventId === 'event-3' && 'Annual Gala 2025'}
-                </h3>
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div>
-                    <p className="text-gray-600"><strong>Date:</strong> 
-                      {selectedEventId === 'event-1' && ' March 15, 2025'}
-                      {selectedEventId === 'event-2' && ' April 10, 2025'}
-                      {selectedEventId === 'event-3' && ' May 20, 2025'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600"><strong>Time:</strong> 6:00 PM - 9:00 PM</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600"><strong>Location:</strong> Grand Ballroom, Downtown</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600"><strong>Type:</strong> 
-                      {selectedEventId === 'event-1' && ' Reunion Dinner'}
-                      {selectedEventId === 'event-2' && ' Networking Event'}
-                      {selectedEventId === 'event-3' && ' Fundraising Gala'}
-                    </p>
+            
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                {/* Event Info */}
+                <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4 bg-green-50">
+                  <h3 className="font-bold text-green-800 mb-2 sm:mb-3 text-sm sm:text-lg">
+                    {selectedEventId === 'event-1' && 'Class of 2020 Reunion'}
+                    {selectedEventId === 'event-2' && 'Spring Networking Event'}
+                    {selectedEventId === 'event-3' && 'Annual Gala 2025'}
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
+                    <div>
+                      <p className="text-gray-600"><strong>Date:</strong> 
+                        {selectedEventId === 'event-1' && ' March 15, 2025'}
+                        {selectedEventId === 'event-2' && ' April 10, 2025'}
+                        {selectedEventId === 'event-3' && ' May 20, 2025'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600"><strong>Time:</strong> 6:00 PM - 9:00 PM</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600"><strong>Location:</strong> Grand Ballroom, Downtown</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600"><strong>Type:</strong> 
+                        {selectedEventId === 'event-1' && ' Reunion Dinner'}
+                        {selectedEventId === 'event-2' && ' Networking Event'}
+                        {selectedEventId === 'event-3' && ' Fundraising Gala'}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* RSVP Stats */}
-              <div className="grid grid-cols-4 gap-3">
-                <div className="border-4 border-blue-400 rounded-lg p-3 bg-blue-50 text-center">
-                  <div className="text-2xl font-bold text-blue-600">342</div>
-                  <p className="text-xs text-blue-800 font-medium">Invited</p>
+                {/* RSVP Stats */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                  <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-3 bg-blue-50 text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-blue-600">342</div>
+                    <p className="text-xs text-blue-800 font-medium">Invited</p>
+                  </div>
+                  <div className="border-4 border-green-400 rounded-lg p-2 sm:p-3 bg-green-50 text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-green-600">156</div>
+                    <p className="text-xs text-green-800 font-medium">Confirmed</p>
+                  </div>
+                  <div className="border-4 border-red-400 rounded-lg p-2 sm:p-3 bg-red-50 text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-red-600">28</div>
+                    <p className="text-xs text-red-800 font-medium">Declined</p>
+                  </div>
+                  <div className="border-4 border-gray-400 rounded-lg p-2 sm:p-3 bg-gray-50 text-center">
+                    <div className="text-xl sm:text-2xl font-bold text-gray-600">158</div>
+                    <p className="text-xs text-gray-800 font-medium">No Response</p>
+                  </div>
                 </div>
-                <div className="border-4 border-green-400 rounded-lg p-3 bg-green-50 text-center">
-                  <div className="text-2xl font-bold text-green-600">156</div>
-                  <p className="text-xs text-green-800 font-medium">Confirmed</p>
-                </div>
-                <div className="border-4 border-red-400 rounded-lg p-3 bg-red-50 text-center">
-                  <div className="text-2xl font-bold text-red-600">28</div>
-                  <p className="text-xs text-red-800 font-medium">Declined</p>
-                </div>
-                <div className="border-4 border-gray-400 rounded-lg p-3 bg-gray-50 text-center">
-                  <div className="text-2xl font-bold text-gray-600">158</div>
-                  <p className="text-xs text-gray-800 font-medium">No Response</p>
-                </div>
-              </div>
 
-              {/* Certification Types */}
-              <div className="border-4 border-orange-400 rounded-lg p-4">
-                <h3 className="font-bold text-orange-800 mb-3">Certification Types Tracked:</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">🍽️ ServSafe Manager</p>
-                        <p className="text-xs text-gray-600">Food safety certification</p>
-                      </div>
-                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">142 certified</span>
+                {/* Certification Types */}
+                <div className="border-4 border-orange-400 rounded-lg p-3 sm:p-4">
+                  <h3 className="font-bold text-orange-800 mb-2 sm:mb-3 text-sm sm:text-base">Certification Types Tracked:</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
+                    <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-2 sm:p-3">
+                      <div className="flex justify-between items-center gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-gray-900 text-xs sm:text-sm">🍽️ ServSafe Manager</p>
+                          <p className="text-xs text-gray-600">Food safety certification</p>
+                        </div>
+                        <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">142 certified</span>
                       </div>
                     </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
@@ -7814,51 +7815,45 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              {/* RSVP List */}
-              <div className="border-4 border-green-400 rounded-lg p-4">
-                <h3 className="font-bold text-green-800 mb-3">RSVP Responses:</h3>
-                <div className="max-h-64 overflow-y-auto space-y-2">
-                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-gray-900">Maria Santos</p>
-                      <p className="text-xs text-gray-600">maria.santos@example.com</p>
+                {/* RSVP List */}
+                <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4">
+                  <h3 className="font-bold text-green-800 mb-2 sm:mb-3 text-sm sm:text-base">RSVP Responses:</h3>
+                  <div className="max-h-64 overflow-y-auto space-y-2">
+                    <div className="bg-green-50 border-2 border-green-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">Maria Santos</p>
+                        <p className="text-xs text-gray-600 truncate">maria.santos@example.com</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded font-medium whitespace-nowrap">Confirmed</span>
                     </div>
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded font-medium">Confirmed</span>
-                  </div>
-                  <div className="bg-green-50 border-2 border-green-300 rounded-lg p-3 flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-gray-900">James Chen</p>
-                      <p className="text-xs text-gray-600">james.chen@example.com</p>
+                    <div className="bg-green-50 border-2 border-green-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">James Chen</p>
+                        <p className="text-xs text-gray-600 truncate">james.chen@example.com</p>
+                      </div>
+                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded font-medium whitespace-nowrap">Confirmed</span>
                     </div>
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded font-medium">Confirmed</span>
-                  </div>
-                  <div className="bg-red-50 border-2 border-red-300 rounded-lg p-3 flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-gray-900">Ashley Rodriguez</p>
-                      <p className="text-xs text-gray-600">ashley.rodriguez@example.com</p>
+                    <div className="bg-red-50 border-2 border-red-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">Ashley Rodriguez</p>
+                        <p className="text-xs text-gray-600 truncate">ashley.rodriguez@example.com</p>
+                      </div>
+                      <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded font-medium whitespace-nowrap">Declined</span>
                     </div>
-                    <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded font-medium">Declined</span>
-                  </div>
-                  <div className="bg-gray-50 border-2 border-gray-300 rounded-lg p-3 flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-gray-900">David Miller</p>
-                      <p className="text-xs text-gray-600">david.miller@example.com</p>
+                    <div className="bg-gray-50 border-2 border-gray-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">David Miller</p>
+                        <p className="text-xs text-gray-600 truncate">david.miller@example.com</p>
+                      </div>
+                      <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded font-medium whitespace-nowrap">No Response</span>
                     </div>
-                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded font-medium">No Response</span>
-                  </div>
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowViewEventModal(false)}
-                  className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={async () => {
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
+                  <button
+                    onClick={async () => {
                     if (!currentUser?.id) {
                       alert('You must be logged in to send reminders');
                       return;
@@ -7926,11 +7921,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       console.error('Error exporting attendee list:', error);
                       alert('Failed to export: ' + error.message);
                     }
-                  }}
-                  className="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro"
-                >
-                  Export List
-                </button>
+                    }}
+                    className="w-full sm:w-auto bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro text-sm sm:text-base min-h-[44px]"
+                  >
+                    Export List
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -7959,20 +7955,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   {selectedCareerEventId === 'career-3' && 'Interview Prep Session'}
                 </h3>
                 <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div>
-                    <p className="text-gray-600"><strong>Date:</strong> 
+                    <div>
+                      <p className="text-gray-600"><strong>Date:</strong> 
                       {selectedCareerEventId === 'career-1' && ' March 15, 2025'}
                       {selectedCareerEventId === 'career-2' && ' February 20, 2025'}
                       {selectedCareerEventId === 'career-3' && ' April 5, 2025'}
-                    </p>
-                  </div>
+                      </p>
+                    </div>
                   <div>
                     <p className="text-gray-600"><strong>Time:</strong> 
                       {selectedCareerEventId === 'career-1' && ' 10:00 AM - 4:00 PM'}
                       {selectedCareerEventId === 'career-2' && ' 2:00 PM - 4:00 PM'}
                       {selectedCareerEventId === 'career-3' && ' 1:00 PM - 3:00 PM'}
-                    </p>
-                  </div>
+                      </p>
+                    </div>
                   <div>
                     <p className="text-gray-600"><strong>Location:</strong> Main Campus Auditorium</p>
                   </div>
@@ -7981,8 +7977,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       {selectedCareerEventId === 'career-1' && ' Career Fair'}
                       {selectedCareerEventId === 'career-2' && ' Workshop'}
                       {selectedCareerEventId === 'career-3' && ' Interview Prep'}
-                    </p>
-                  </div>
+                      </p>
+                    </div>
                 </div>
               </div>
 
@@ -8156,13 +8152,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-orange-400 rounded-lg p-3 sm:p-4">
                 <h3 className="font-bold text-orange-800 mb-2 sm:mb-3 text-sm sm:text-base">Certification Types Tracked:</h3>
                 <div className="grid grid-cols-1 gap-2 sm:gap-3">
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">🍽️ ServSafe Manager</p>
-                        <p className="text-xs text-gray-600">Food safety certification</p>
-                      </div>
-                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">142 certified</span>
+                    <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-2 sm:p-3">
+                      <div className="flex justify-between items-center gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-gray-900 text-xs sm:text-sm">🍽️ ServSafe Manager</p>
+                          <p className="text-xs text-gray-600">Food safety certification</p>
+                        </div>
+                        <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">142 certified</span>
                       </div>
                     </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
