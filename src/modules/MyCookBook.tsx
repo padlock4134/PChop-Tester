@@ -1501,8 +1501,8 @@ const MyCookBook = () => {
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
-                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 My Test Kitchen Videos</h2>
-                  <p className="text-purple-600 mt-1">Review your saved cooking sessions</p>
+                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 {t('myCookbook.myTestKitchenVideos')}</h2>
+                  <p className="text-purple-600 mt-1">{t('myCookbook.reviewSavedVideos')}</p>
                 </div>
                 <button
                   onClick={() => setShowVideoLibraryModal(false)}
@@ -1515,21 +1515,21 @@ const MyCookBook = () => {
               {/* Filter Dropdowns */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                 <div className="flex items-center gap-2">
-                  <label className="text-purple-700 font-bold text-sm">Category:</label>
+                  <label className="text-purple-700 font-bold text-sm">{t('myCookbook.category')}:</label>
                   <select
                     value={videoFilter}
                     onChange={(e) => setVideoFilter(e.target.value)}
                     className="border-2 border-purple-300 rounded-lg px-4 py-2 bg-white text-purple-800 font-bold focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
-                    <option value="all">All Videos</option>
-                    <option value="practice">Practice Sessions</option>
-                    <option value="assignments">Assignment Submissions</option>
-                    <option value="demos">Demo Recordings</option>
+                    <option value="all">{t('myCookbook.allVideos')}</option>
+                    <option value="practice">{t('myCookbook.practiceSessions')}</option>
+                    <option value="assignments">{t('myCookbook.assignmentSubmissions')}</option>
+                    <option value="demos">{t('myCookbook.demoRecordings')}</option>
                   </select>
                 </div>
                 
                 <div className="flex items-center gap-2">
-                  <label className="text-purple-700 font-bold text-sm">User:</label>
+                  <label className="text-purple-700 font-bold text-sm">{t('myCookbook.user')}:</label>
                   <select
                     value={userFilter}
                     onChange={(e) => setUserFilter(e.target.value)}
@@ -1548,7 +1548,7 @@ const MyCookBook = () => {
               {loadingVideos ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎬</div>
-                  <p className="text-gray-600">Loading your videos...</p>
+                  <p className="text-gray-600">{t('myCookbook.loadingYourVideos')}</p>
                 </div>
               ) : (savedVideos.length === 0 && false) ? (
                 <div className="text-center py-12">
@@ -1610,9 +1610,9 @@ const MyCookBook = () => {
                                 {new Date(video.created_at).toLocaleDateString()} at {new Date(video.created_at).toLocaleTimeString()}
                               </p>
                               {video.isPublic ? (
-                                <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">🌍 Public</span>
+                                <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">🌍 {t('myCookbook.public')}</span>
                               ) : (
-                                <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-bold">🔒 Private</span>
+                                <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-bold">🔒 {t('myCookbook.private')}</span>
                               )}
                             </div>
                             {video.userId !== user?.id && (

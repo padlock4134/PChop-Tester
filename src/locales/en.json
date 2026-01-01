@@ -145,7 +145,16 @@
     "public": "Public",
     "private": "Private",
     "playVideo": "Play Video",
-    "deleteVideo": "Delete Video"
+    "deleteVideo": "Delete Video",
+    "myTestKitchenVideos": "My Test Kitchen Videos",
+    "reviewSavedVideos": "Review your saved cooking sessions",
+    "category": "Category",
+    "user": "User",
+    "allVideos": "All Videos",
+    "practiceSessions": "Practice Sessions",
+    "assignmentSubmissions": "Assignment Submissions",
+    "demoRecordings": "Demo Recordings",
+    "loadingYourVideos": "Loading your videos..."
   },
   "myCookBook": {
     "title": "My Cookbook"

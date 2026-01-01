@@ -145,7 +145,16 @@
     "public": "Público",
     "private": "Privado",
     "playVideo": "Reproducir Video",
-    "deleteVideo": "Eliminar Video"
+    "deleteVideo": "Eliminar Video",
+    "myTestKitchenVideos": "Mis Videos de Test Kitchen",
+    "reviewSavedVideos": "Revisa tus sesiones de cocina guardadas",
+    "category": "Categoría",
+    "user": "Usuario",
+    "allVideos": "Todos los Videos",
+    "practiceSessions": "Sesiones de Práctica",
+    "assignmentSubmissions": "Entregas de Tareas",
+    "demoRecordings": "Grabaciones de Demostración",
+    "loadingYourVideos": "Cargando tus videos..."
   },
   "myCookBook": {
     "title": "Mi Libro de Recetas"
