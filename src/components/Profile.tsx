@@ -1659,12 +1659,12 @@ Automated calculations and formulas would be present`;
                 ></span>
               </span>
             </label>
+            
+            {/* Soft divider line - sticky under talent toggle */}
+            <div className="sticky top-[48px] w-full h-0.5 bg-gray-200 mt-4 rounded-full z-10"></div>
           </div>
         </div>
       </div>
-      
-      {/* Soft divider line - now sticky */}
-      <div className="sticky top-[48px] w-full h-0.5 bg-gray-200 mb-6 rounded-full z-10 bg-weatheredWhite py-2"></div>
 
       {/* Action Buttons and Talent Trees - Responsive Layout */}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-6">
