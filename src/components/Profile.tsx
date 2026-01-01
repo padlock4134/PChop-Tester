@@ -533,7 +533,7 @@ const Profile = () => {
   const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const [talentPoints, setTalentPoints] = useState(0);
   const [activeTab, setActiveTab] = useState('');
-  const [showTalents, setShowTalents] = useState(true);
+  const [showTalents, setShowTalents] = useState(false);
   const [selectedTalentTree, setSelectedTalentTree] = useState<string | null>(null);
   const [unlockedTalents, setUnlockedTalents] = useState<string[]>([]);
   const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
