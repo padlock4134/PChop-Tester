@@ -309,8 +309,9 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-6">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-2xl w-full max-h-[80vh] flex flex-col">
+        {/* Fixed Header */}
+        <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
           <h2 className="text-2xl font-bold text-maineBlue">{t('profile.classSchedule')}</h2>
           <button
@@ -321,8 +322,10 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
           </button>
         </div>
         
-        {/* Classes Section */}
-        <div className="mb-8">
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto p-6 pt-4">
+          {/* Classes Section */}
+          <div className="mb-8">
           <div className="space-y-3">
             {currentClasses.map((classItem, index) => (
               <div key={index} className="bg-weatheredWhite border-2 border-gray-300 rounded-lg p-4 text-center">
@@ -336,21 +339,24 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
             ))}
           </div>
         </div>
+        </div>
         
-        {/* Sign Up and Close Buttons */}
-        <div className="flex justify-center gap-4 mb-6">
-          <button 
-            onClick={onOpenRegistration}
-            className="bg-lobsterRed text-weatheredWhite px-8 py-3 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
-          >
-            {t('profile.register')}
-          </button>
-          <button 
-            onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
-            className="bg-seafoam text-maineBlue px-8 py-3 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
-          >
-            {t('profile.contact')}
-          </button>
+        {/* Fixed Footer with Buttons */}
+        <div className="p-6 pt-4 border-t-2 border-gray-200">
+          <div className="flex justify-center gap-4">
+            <button 
+              onClick={onOpenRegistration}
+              className="bg-lobsterRed text-weatheredWhite px-8 py-3 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
+            >
+              {t('profile.register')}
+            </button>
+            <button 
+              onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
+              className="bg-seafoam text-maineBlue px-8 py-3 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
+            >
+              {t('profile.contact')}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -411,8 +417,9 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-6">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+        {/* Fixed Header */}
+        <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
           <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.submitARequest')}</h2>
           <button
@@ -423,7 +430,9 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
           </button>
         </div>
         
-        <div className="mb-6">
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto p-6 pt-4">
+          <div className="mb-6">
           <h3 className="text-lg font-bold text-gray-700 mb-4 text-center">{t('profile.selectRequestType')}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {requestTypes.map((type) => (
@@ -455,21 +464,25 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
             />
           </div>
         )}
+        </div>
         
-        <div className="flex justify-end gap-3">
-          <button
-            onClick={onClose}
-            className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
-          >
-            {t('profile.cancel')}
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={!selectedType || !requestDetails.trim()}
-            className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {t('profile.submitRequest')}
-          </button>
+        {/* Fixed Footer with Buttons */}
+        <div className="p-6 pt-4 border-t-2 border-gray-200">
+          <div className="flex justify-end gap-3">
+            <button
+              onClick={onClose}
+              className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
+            >
+              {t('profile.cancel')}
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={!selectedType || !requestDetails.trim()}
+              className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {t('profile.submitRequest')}
+            </button>
+          </div>
         </div>
       </div>
     </div>
