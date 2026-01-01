@@ -192,15 +192,15 @@ const AdminToggleButton: React.FC = () => {
   return (
     <button
       onClick={toggleAdminMode}
-      className={`p-1 rounded-full transition-colors flex items-center ${
+      className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
         isAdminMode 
-          ? 'bg-lobsterRed text-white hover:bg-red-700' 
-          : 'hover:bg-seafoam hover:text-maineBlue'
+          ? 'bg-lobsterRed hover:bg-red-700' 
+          : 'bg-white hover:bg-gray-100'
       }`}
       aria-label={isAdminMode ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
       title={isAdminMode ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
     >
-      <CogIcon className="h-5 w-5 sm:h-6 sm:w-6" />
+      <CogIcon className={`h-6 w-6 ${isAdminMode ? 'text-white' : 'text-black'}`} />
     </button>
   );
 };
