@@ -1553,7 +1553,7 @@ Automated calculations and formulas would be present`;
   } 
 
   return (
-    <div className="max-w-2xl mx-auto p-4 sm:p-6 bg-weatheredWhite rounded-lg shadow-lg border-4 border-maineBlue">
+    <div className="max-w-2xl mx-auto p-4 sm:p-6 bg-weatheredWhite rounded-lg shadow-lg border-4 border-maineBlue overflow-y-auto max-h-[calc(100vh-80px)]">
       {/* Header: Responsive grid layout */}
       <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 items-center mb-6">
         {/* Column 1: Avatar */}
