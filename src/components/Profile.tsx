@@ -353,11 +353,11 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
 
 const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   const { t } = useTranslation();
-  if (!open) return null;
-  
   const [selectedType, setSelectedType] = React.useState('');
   const [requestDetails, setRequestDetails] = React.useState('');
   const [showSuccess, setShowSuccess] = React.useState(false);
+  
+  if (!open) return null;
   
   const requestTypes = [
     { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
