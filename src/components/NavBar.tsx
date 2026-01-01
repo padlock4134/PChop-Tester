@@ -1,6 +1,7 @@
 import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { UserCircleIcon, Bars3Icon, CogIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, CogIcon } from '@heroicons/react/24/outline';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
 import { supabase } from '../api/supabaseClient';
@@ -215,6 +216,9 @@ const NavBar: React.FC = () => {
         {/* Flex container for all items */}
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-2">
+            {/* Language Toggle - positioned before weekly challenge */}
+            <LanguageToggleButton />
+            
             {/* Weekly Challenge */}
             <ChallengeOfTheWeek />
             
@@ -223,9 +227,6 @@ const NavBar: React.FC = () => {
               <img src={logo} alt="PorkChop" className="w-10 h-10 rounded-full border-2 border-black" />
               <span className="text-lg sm:text-2xl font-bold tracking-wider font-retro">PorkChop</span>
             </Link>
-            
-            {/* Language Toggle - moved to right of PorkChop text, styled as circle with black border */}
-            <LanguageToggleButton />
           </div>
 
           <div className="flex items-center space-x-2">
@@ -235,10 +236,10 @@ const NavBar: React.FC = () => {
             {/* Profile Avatar */}
             <Link
               to="/profile"
-              className="p-1 rounded-full hover:bg-seafoam hover:text-maineBlue transition-colors flex items-center"
+              className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white hover:bg-gray-100 shadow cursor-pointer transition-colors border-2 border-black"
               aria-label={t('nav.profile')}
             >
-              <UserCircleIcon className="h-6 w-6 sm:h-7 sm:w-7" />
+              <UserCircleIcon className="h-7 w-7 text-black" />
             </Link>
           </div>
         </div>
