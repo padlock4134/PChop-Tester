@@ -280,22 +280,22 @@ const StudentProgressDashboard: React.FC = () => {
       </div>
       
       {/* Main Dashboard */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-6xl mx-auto p-4 lg:p-6 h-[calc(100vh-120px)]">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-6xl mx-auto h-[calc(100vh-100px)] flex flex-col">
         {/* Home Tab Content */}
-        <div className={activeMobileTab === 'home' ? 'block' : 'hidden lg:block'}>
+        <div className={`${activeMobileTab === 'home' ? 'flex' : 'hidden lg:flex'} flex-col h-full`}>
           {/* Dashboard header */}
-          <div className="text-center mb-4">
+          <div className="text-center p-4 lg:p-6 pb-4 flex-shrink-0">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('dashboard.studentView')}</h1>
             <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
           </div>
           
           {/* Sticky Separation line */}
-          <div className="sticky top-0 bg-white z-10 -mx-4 lg:-mx-6 px-4 lg:px-6 pb-4">
+          <div className="sticky top-0 bg-white z-10 px-4 lg:px-6 pb-4 flex-shrink-0">
             <hr className="border-t-2 border-maineBlue" />
           </div>
           
           {/* Scrollable Module Navigation */}
-          <div className="overflow-y-auto max-h-[calc(100vh-350px)] pt-4">
+          <div className="overflow-y-auto flex-1 px-4 lg:px-6 pt-4">
           <div className="mb-4">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <Link
