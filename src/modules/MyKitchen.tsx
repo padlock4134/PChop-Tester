@@ -149,7 +149,7 @@ const MyKitchen = () => {
         );
         refreshXP();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving recipe:', error.message || error);
       console.error('Failed recipe:', {
         id: recipe.id,
@@ -340,7 +340,7 @@ const MyKitchen = () => {
       {/* Digital Cupboard Section */}
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
-          <span role="img" aria-label="anchor">⚓</span> Digital Cupboard
+          <span role="img" aria-label="anchor">⚓</span> {t('myKitchen.digitalCupboard')}
         </h3>
         {ingredients.length > 0 && (
           <button

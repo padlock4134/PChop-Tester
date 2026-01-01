@@ -35,6 +35,7 @@
     "addAnIngredient": "Agregar un ingrediente...",
     "add": "Agregar",
     "noMatchingIngredients": "¡No hay ingredientes coincidentes en tu despensa digital!",
+    "digitalCupboard": "Despensa Digital",
     "noNewIngredients": "No se detectaron ingredientes nuevos del escaneo.",
     "notSignedIn": "No has iniciado sesión. Por favor inicia sesión para guardar tu cocina.",
     "ingredientsSaved": "¡Ingredientes escaneados guardados en tu cocina!",

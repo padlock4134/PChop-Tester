@@ -35,6 +35,7 @@
     "addAnIngredient": "Add an ingredient...",
     "add": "Add",
     "noMatchingIngredients": "No matching ingredients in your digital cupboard!",
+    "digitalCupboard": "Digital Cupboard",
     "noNewIngredients": "No new ingredients detected from the scan.",
     "notSignedIn": "You are not signed in. Please sign in to save your kitchen.",
     "ingredientsSaved": "Scanned ingredients saved to your kitchen!",
