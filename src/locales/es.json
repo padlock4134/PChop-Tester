@@ -1,0 +1,18 @@
+{
+  "nav": {
+    "myKitchen": "Mi Cocina",
+    "culinarySchool": "Escuela Culinaria",
+    "myCookbook": "Mi Libro de Recetas",
+    "chefsCorner": "Rincón del Chef",
+    "profile": "Perfil",
+    "dashboard": "Tablero",
+    "switchToStudentView": "Cambiar a Vista de Estudiante",
+    "switchToAdminView": "Cambiar a Vista de Administrador"
+  },
+  "common": {
+    "loading": "Cargando..."
+  },
+  "badge": {
+    "completeWeeklyChallenges": "¡Completa desafíos semanales para ganar insignias!"
+  }
+}

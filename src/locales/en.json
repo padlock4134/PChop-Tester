@@ -1,0 +1,18 @@
+{
+  "nav": {
+    "myKitchen": "My Kitchen",
+    "culinarySchool": "Culinary School",
+    "myCookbook": "My Cookbook",
+    "chefsCorner": "Chefs Corner",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "switchToStudentView": "Switch to Student View",
+    "switchToAdminView": "Switch to Admin View"
+  },
+  "common": {
+    "loading": "Loading..."
+  },
+  "badge": {
+    "completeWeeklyChallenges": "Complete weekly challenges to earn badges!"
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { UserCircleIcon, Bars3Icon, CogIcon } from '@heroicons/react/24/outline';
+import { useTranslation } from 'react-i18next';
 import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
 import { supabase } from '../api/supabaseClient';
 import ChallengeOfTheWeek from './ChallengeOfTheWeek';
@@ -135,9 +136,11 @@ const LastBadge = () => {
   if (loading) return null;
   
   // Show placeholder if no badge is earned yet
+  const { t } = useTranslation();
+  
   if (!lastBadge) {
     return (
-      <div className="flex items-center ml-2" title="Complete weekly challenges to earn badges!">
+      <div className="flex items-center ml-2" title={t('badge.completeWeeklyChallenges')}>
         <span className="text-lg opacity-50">🏅</span>
       </div>
     );
@@ -157,9 +160,33 @@ const navItems = [
   { path: '/chefs-corner', label: 'Chefs Corner' },
 ];
 
+// Language Toggle Button Component
+const LanguageToggleButton: React.FC = () => {
+  const { i18n } = useTranslation();
+  const isSpanish = i18n.language === 'es';
+  
+  const toggleLanguage = () => {
+    const newLang = isSpanish ? 'en' : 'es';
+    i18n.changeLanguage(newLang);
+    localStorage.setItem('language', newLang);
+  };
+  
+  return (
+    <button
+      onClick={toggleLanguage}
+      className="p-1 rounded-full hover:bg-seafoam hover:text-maineBlue transition-colors flex items-center"
+      aria-label={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
+      title={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
+    >
+      <span className="text-xl sm:text-2xl">{isSpanish ? '🇪🇸' : '🇺🇸'}</span>
+    </button>
+  );
+};
+
 // Admin Toggle Button Component
 const AdminToggleButton: React.FC = () => {
   const { isAdminMode, toggleAdminMode } = useAdminToggle();
+  const { t } = useTranslation();
   
   return (
     <button
@@ -169,8 +196,8 @@ const AdminToggleButton: React.FC = () => {
           ? 'bg-lobsterRed text-white hover:bg-red-700' 
           : 'hover:bg-seafoam hover:text-maineBlue'
       }`}
-      aria-label={isAdminMode ? 'Switch to Student View' : 'Switch to Admin View'}
-      title={isAdminMode ? 'Switch to Student View' : 'Switch to Admin View'}
+      aria-label={isAdminMode ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
+      title={isAdminMode ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
     >
       <CogIcon className="h-5 w-5 sm:h-6 sm:w-6" />
     </button>
@@ -180,6 +207,7 @@ const AdminToggleButton: React.FC = () => {
 const NavBar: React.FC = () => {
   const { progress, refreshXP } = useLevelProgressContext();
   const location = useLocation();
+  const { t } = useTranslation();
   
   return (
     <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md sticky top-0 z-50">
@@ -187,6 +215,9 @@ const NavBar: React.FC = () => {
         {/* Flex container for all items */}
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-2">
+            {/* Language Toggle */}
+            <LanguageToggleButton />
+            
             {/* Weekly Challenge */}
             <ChallengeOfTheWeek />
             
@@ -205,7 +236,7 @@ const NavBar: React.FC = () => {
             <Link
               to="/profile"
               className="p-1 rounded-full hover:bg-seafoam hover:text-maineBlue transition-colors flex items-center"
-              aria-label="Profile"
+              aria-label={t('nav.profile')}
             >
               <UserCircleIcon className="h-6 w-6 sm:h-7 sm:w-7" />
             </Link>

@@ -7,6 +7,7 @@ import {
   useWristbandAuth,
   WristbandAuthProvider
 } from '@wristband/react-client-auth';
+import './i18n';
 
 import NavBar from './components/NavBar';
 import MyKitchen from './modules/MyKitchen';
