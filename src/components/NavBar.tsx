@@ -174,7 +174,7 @@ const LanguageToggleButton: React.FC = () => {
   return (
     <button
       onClick={toggleLanguage}
-      className="p-1 rounded-full hover:bg-seafoam hover:text-maineBlue transition-colors flex items-center"
+      className="p-1 rounded-full hover:bg-gray-100 transition-colors flex items-center"
       aria-label={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
       title={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
     >
@@ -215,9 +215,6 @@ const NavBar: React.FC = () => {
         {/* Flex container for all items */}
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-2">
-            {/* Language Toggle */}
-            <LanguageToggleButton />
-            
             {/* Weekly Challenge */}
             <ChallengeOfTheWeek />
             
@@ -226,6 +223,11 @@ const NavBar: React.FC = () => {
               <img src={logo} alt="PorkChop" className="h-7 w-7 sm:h-8 sm:w-8 rounded-full" />
               <span className="text-lg sm:text-2xl font-bold tracking-wider font-retro">PorkChop</span>
             </Link>
+            
+            {/* Language Toggle - moved to right of PorkChop text with white background */}
+            <div className="bg-white rounded-lg px-2 py-1">
+              <LanguageToggleButton />
+            </div>
           </div>
 
           <div className="flex items-center space-x-2">
