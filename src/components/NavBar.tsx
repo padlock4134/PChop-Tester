@@ -175,7 +175,11 @@ const LanguageToggleButton: React.FC = () => {
   return (
     <button
       onClick={toggleLanguage}
-      className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white hover:bg-gray-100 shadow text-2xl cursor-pointer transition-colors border-2 border-black"
+      className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow text-2xl cursor-pointer transition-colors border-2 border-black ${
+        isSpanish 
+          ? 'bg-orange-200 hover:bg-orange-300' 
+          : 'bg-white hover:bg-gray-100'
+      }`}
       aria-label={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
       title={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
     >
