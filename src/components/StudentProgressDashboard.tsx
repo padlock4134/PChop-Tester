@@ -295,7 +295,7 @@ const StudentProgressDashboard: React.FC = () => {
           </div>
           
           {/* Scrollable Module Navigation */}
-          <div className="overflow-y-auto max-h-[calc(100vh-200px)] pt-4">
+          <div className="overflow-y-auto max-h-[calc(100vh-350px)] pt-4">
           <div className="mb-4">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <Link
