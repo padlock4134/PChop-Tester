@@ -424,9 +424,8 @@ const StudentProgressDashboard: React.FC = () => {
         <div className={`${activeMobileTab === 'actions' ? 'block' : 'hidden'} lg:block`}>
 
           {/* Progress Cards Grid */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="p-4 lg:p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <ProgressCard
                   emoji="📚"
                   title={t('dashboard.learningProgress')}
@@ -461,8 +460,8 @@ const StudentProgressDashboard: React.FC = () => {
                 />
               </div>
             </div>
-          </div>
         </div>
+      </div>
       
       {/* Curriculum Progress Modal */}
       {curriculumModalOpen && (
@@ -747,7 +746,6 @@ const StudentProgressDashboard: React.FC = () => {
           </div>
         </div>
       )}
-      </div>
     </div>
   );
 };
