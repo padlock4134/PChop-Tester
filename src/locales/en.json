@@ -60,6 +60,7 @@
     "sessions": "Sessions",
     "watching": "watching",
     "join": "Join",
+    "isCooking": "is cooking",
     "learningProgress": "Learning Progress",
     "skillsDevelopment": "Skills Development",
     "engagementMetrics": "Engagement Metrics",
@@ -77,7 +78,17 @@
     "strongestArea": "Strongest Area",
     "improvementArea": "Improvement Area",
     "learningVelocity": "Learning Velocity",
-    "achievements": "Achievements"
+    "achievements": "Achievements",
+    "trackLessons": "Track lessons completed and time spent learning",
+    "monitorSkills": "Monitor your skill level and recipe mastery",
+    "viewBadges": "View badges and accomplishments",
+    "lessonsCompleted": "Lessons Completed",
+    "currentLesson": "Current Lesson:",
+    "timeSpentLearning": "Time Spent Learning:",
+    "currentSkillLevel": "Current Skill Level",
+    "outOf": "out of",
+    "attempted": "attempted",
+    "areaForImprovement": "Area for Improvement:"
   },
   "admin": {
     "adminDashboard": "Admin Dashboard",

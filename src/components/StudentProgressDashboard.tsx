@@ -388,7 +388,7 @@ const StudentProgressDashboard: React.FC = () => {
                   <div className="flex-1 text-center">
                     <div className="text-sm text-red-800 transition-all duration-500">
                       <span>
-                        <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> is cooking{' '}
+                        <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {t('dashboard.isCooking')}{' '}
                         <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
                       </span>
                     </div>
@@ -431,7 +431,7 @@ const StudentProgressDashboard: React.FC = () => {
                 <ProgressCard
                   emoji="📚"
                   title={t('dashboard.learningProgress')}
-                  description="Track lessons completed and time spent learning"
+                  description={t('dashboard.trackLessons')}
                   buttonText={t('dashboard.viewDetails')}
                   bgColor="bg-blue-50"
                   textColor="text-blue-800"
@@ -442,7 +442,7 @@ const StudentProgressDashboard: React.FC = () => {
                 <ProgressCard
                   emoji="⭐"
                   title={t('dashboard.skillsDevelopment')}
-                  description="Monitor your skill level and recipe mastery"
+                  description={t('dashboard.monitorSkills')}
                   buttonText={t('dashboard.viewDetails')}
                   bgColor="bg-green-50"
                   textColor="text-green-800"
@@ -453,7 +453,7 @@ const StudentProgressDashboard: React.FC = () => {
                 <ProgressCard
                   emoji="🏆"
                   title={t('dashboard.achievements')}
-                  description="View badges and accomplishments"
+                  description={t('dashboard.viewBadges')}
                   buttonText={t('dashboard.viewDetails')}
                   bgColor="bg-purple-50"
                   textColor="text-purple-800"
@@ -484,14 +484,14 @@ const StudentProgressDashboard: React.FC = () => {
                 <div className="text-4xl font-bold text-blue-600 text-center">
                   {progressData.curriculum.completedLessons}/{progressData.curriculum.totalLessons}
                 </div>
-                <p className="text-center text-blue-800 font-medium mt-2">Lessons Completed</p>
+                <p className="text-center text-blue-800 font-medium mt-2">{t('dashboard.lessonsCompleted')}</p>
               </div>
               <div className="border-4 border-blue-400 rounded-lg p-4">
-                <h3 className="font-bold text-blue-800 mb-2">Current Lesson:</h3>
+                <h3 className="font-bold text-blue-800 mb-2">{t('dashboard.currentLesson')}</h3>
                 <p className="text-gray-700">{progressData.curriculum.currentLesson}</p>
               </div>
               <div className="border-4 border-blue-400 rounded-lg p-4">
-                <h3 className="font-bold text-blue-800 mb-2">Time Spent Learning:</h3>
+                <h3 className="font-bold text-blue-800 mb-2">{t('dashboard.timeSpentLearning')}</h3>
                 <p className="text-gray-700">{progressData.curriculum.timeSpent}</p>
               </div>
             </div>
@@ -517,14 +517,14 @@ const StudentProgressDashboard: React.FC = () => {
                 <div className="text-4xl font-bold text-green-600 text-center">
                   {progressData.skills.currentLevel}
                 </div>
-                <p className="text-center text-green-800 font-medium mt-2">Current Skill Level</p>
+                <p className="text-center text-green-800 font-medium mt-2">{t('dashboard.currentSkillLevel')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
-                <h3 className="font-bold text-green-800 mb-2">Recipes Completed:</h3>
-                <p className="text-gray-700">{progressData.skills.recipesCompleted} out of {progressData.skills.recipesAttempted} attempted</p>
+                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.recipesCompleted')}</h3>
+                <p className="text-gray-700">{progressData.skills.recipesCompleted} {t('dashboard.outOf')} {progressData.skills.recipesAttempted} {t('dashboard.attempted')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
-                <h3 className="font-bold text-green-800 mb-2">Next Milestone:</h3>
+                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.nextMilestone')}</h3>
                 <p className="text-gray-700">{progressData.skills.nextMilestone}</p>
               </div>
             </div>
@@ -564,15 +564,15 @@ const StudentProgressDashboard: React.FC = () => {
                 </div>
               </div>
               <div className="border-4 border-purple-400 rounded-lg p-4">
-                <h3 className="font-bold text-purple-800 mb-2">Strongest Area:</h3>
+                <h3 className="font-bold text-purple-800 mb-2">{t('dashboard.strongestArea')}</h3>
                 <p className="text-gray-700">{progressData.insights.strongestArea}</p>
               </div>
               <div className="border-4 border-purple-400 rounded-lg p-4">
-                <h3 className="font-bold text-purple-800 mb-2">Area for Improvement:</h3>
+                <h3 className="font-bold text-purple-800 mb-2">{t('dashboard.areaForImprovement')}</h3>
                 <p className="text-gray-700">{progressData.insights.improvementArea}</p>
               </div>
               <div className="border-4 border-purple-400 rounded-lg p-4">
-                <h3 className="font-bold text-purple-800 mb-2">Learning Velocity:</h3>
+                <h3 className="font-bold text-purple-800 mb-2">{t('dashboard.learningVelocity')}</h3>
                 <p className="text-gray-700">{progressData.insights.learningVelocity}</p>
               </div>
             </div>
