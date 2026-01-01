@@ -257,21 +257,44 @@ const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => 
   if (!open) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white p-6 rounded-lg max-w-4xl w-full max-h-[80vh] overflow-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-bold">{t('profile.termsOfService')}</h3>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-xl">×</button>
-        </div>
-        <div className="prose max-w-none">
-          <ReactMarkdown>{content}</ReactMarkdown>
-        </div>
-        <div className="mt-6 text-center">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+        {/* Fixed Header */}
+        <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
+          <div></div>
+          <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.termsOfService')}</h2>
           <button 
-            onClick={onClose}
-            className="bg-maineBlue text-white px-4 py-2 rounded hover:bg-blue-700"
+            onClick={onClose} 
+            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
           >
-            {t('profile.close')}
+            ×
           </button>
+        </div>
+        
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto p-6 pt-4">
+          <div className="prose prose-sm max-w-none text-gray-700">
+            <ReactMarkdown 
+              components={{
+                span: ({node, ...props}) => <span {...props} />,
+                h1: ({node, ...props}) => <h1 className="text-3xl font-bold text-lobsterRed mb-4" {...props} />,
+                h2: ({node, ...props}) => <h2 className="text-2xl font-bold text-lobsterRed mt-6 mb-3" {...props} />,
+              }}
+            >
+              {content}
+            </ReactMarkdown>
+          </div>
+        </div>
+        
+        {/* Fixed Footer with Button */}
+        <div className="p-6 pt-4 border-t-2 border-gray-200">
+          <div className="flex justify-center">
+            <button 
+              onClick={onClose}
+              className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black"
+            >
+              {t('profile.close')}
+            </button>
+          </div>
         </div>
       </div>
     </div>
