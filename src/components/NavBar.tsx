@@ -216,12 +216,6 @@ const NavBar: React.FC = () => {
         {/* Flex container for all items */}
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-2">
-            {/* Language Toggle - positioned before weekly challenge */}
-            <LanguageToggleButton />
-            
-            {/* Weekly Challenge */}
-            <ChallengeOfTheWeek />
-            
             {/* PorkChop Text as Dashboard Link */}
             <Link to="/dashboard" className="flex items-center hover:opacity-80 transition-opacity">
               <span className="text-2xl sm:text-3xl font-bold tracking-wider font-retro">PorkChop</span>
@@ -229,8 +223,8 @@ const NavBar: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-2">
-            {/* Admin Toggle */}
-            <AdminToggleButton />
+            {/* Weekly Challenge */}
+            <ChallengeOfTheWeek />
             
             {/* Profile Avatar */}
             <Link
@@ -240,6 +234,12 @@ const NavBar: React.FC = () => {
             >
               <UserCircleIcon className="h-7 w-7 text-black" />
             </Link>
+            
+            {/* Language Toggle */}
+            <LanguageToggleButton />
+            
+            {/* Admin Toggle */}
+            <AdminToggleButton />
           </div>
         </div>
       </div>
