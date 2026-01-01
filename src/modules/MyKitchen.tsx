@@ -302,7 +302,7 @@ const MyKitchen = () => {
             }
           }}
         >
-          Recipe Matcher
+          {t('myKitchen.matchRecipes')}
         </button>
       </div>
 
