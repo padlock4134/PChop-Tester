@@ -170,15 +170,20 @@ const MyKitchen = () => {
 
   return (
     <>
-      <div className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue">
+      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
         {/* My Kitchen header - moved back inside the module */}
-        <div className="flex items-center justify-center mb-4">
+        <div className="flex items-center justify-center p-6 pb-4">
           <span className="text-5xl mr-2">🐟</span>
           <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myKitchen.title')}</h1>
         </div>
         
-        {/* Separation line */}
-        <hr className="border-t-2 border-maineBlue mb-6" />
+        {/* Sticky Separation line */}
+        <div className="sticky top-0 bg-white z-10 px-6">
+          <hr className="border-t-2 border-maineBlue" />
+        </div>
+        
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto p-6 pt-4">
       {/* Kitchen, Recipe Matcher, and Upload Photo Action Buttons */}
       <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
         {/* Scan status feedback */}
@@ -428,7 +433,8 @@ const MyKitchen = () => {
           </div>
         )}
       </div>
-    </div>
+        </div>
+      </div>
     </>
   );
 };
