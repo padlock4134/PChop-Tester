@@ -277,7 +277,7 @@ const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => 
         <div className="overflow-y-auto p-6 pt-4">
           <div className="prose prose-sm max-w-none text-gray-700">
             <div 
-              className="prose prose-sm max-w-none text-gray-700"
+              className="prose prose-sm max-w-none text-gray-700 [&_li]:block [&_li]:mb-4"
               dangerouslySetInnerHTML={{ __html: content }}
             />
           </div>
