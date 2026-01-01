@@ -1670,38 +1670,10 @@ Automated calculations and formulas would be present`;
 
       {/* SCROLLABLE CONTENT AREA */}
       <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4 sm:pb-6">
-        {/* Action Buttons and Talent Trees - Responsive Layout */}
+        {/* Talent Trees and Action Buttons - Responsive Layout */}
         <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-6">
-        {/* Left side - Action Buttons */}
-        <div className="flex flex-col gap-3 w-full lg:w-auto">
-          <button
-            onClick={() => setModalOpen(true)}
-            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
-          >
-            {t('profile.editProfile')}
-          </button>
-          <button
-            onClick={() => setShowClassScheduleModal(true)}
-            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
-          >
-            {t('profile.classScheduleButton')}
-          </button>
-          <button
-            onClick={() => setShowRequestsModal(true)}
-            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
-          >
-            {t('profile.submitRequestButton')}
-          </button>
-          <button
-            onClick={handleLogout}
-            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
-          >
-            {t('profile.signOut')}
-          </button>
-        </div>
-
-        {/* Right side - Talent Tree Boxes */}
-        {showTalents && (
+          {/* Left side - Talent Tree Boxes */}
+          {showTalents && (
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
             {/* Cast Iron Champion Box */}
             <button
@@ -1748,31 +1720,36 @@ Automated calculations and formulas would be present`;
               </div>
             </button>
           </div>
-        )}
-      </div>
-      
-      {/* Details Row */}
-      <div className="flex items-start mb-6">
-        <div className="flex-1">
-          {/* Active Talents - Responsive */}
-          <div className="mb-4">
-            <div className="flex flex-wrap justify-center gap-1.5 mb-1.5">
-              {selectedTalents.length > 0 &&
-                selectedTalents.slice(0, 3).map(talent => (
-                  <span
-                    key={talent}
-                    className="px-2 py-0.5 rounded-full border font-bold text-xs bg-maineBlue text-seafoam border-maineBlue"
-                  >
-                    {talent}
-                  </span>
-                ))}
-              {selectedTalents.length > 3 && (
-                <span className="px-2 py-0.5 rounded-full border font-bold text-xs text-gray-500">+{selectedTalents.length - 3} more</span>
-              )}
-            </div>
+          )}
+
+          {/* Right side - Action Buttons */}
+          <div className="flex flex-col gap-3 w-full lg:w-auto">
+            <button
+            onClick={() => setModalOpen(true)}
+            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+          >
+            {t('profile.editProfile')}
+          </button>
+          <button
+            onClick={() => setShowClassScheduleModal(true)}
+            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+          >
+            {t('profile.classScheduleButton')}
+          </button>
+          <button
+            onClick={() => setShowRequestsModal(true)}
+            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+          >
+            {t('profile.submitRequestButton')}
+          </button>
+          <button
+            onClick={handleLogout}
+            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+          >
+            {t('profile.signOut')}
+            </button>
           </div>
         </div>
-      </div>
       
       {/* Modals */}
       <EditProfileModal 
