@@ -280,7 +280,7 @@ const StudentProgressDashboard: React.FC = () => {
       </div>
       
       {/* Main Dashboard */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-6xl mx-auto h-[calc(100vh-50px)] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-6xl mx-auto h-[calc(100vh)] flex flex-col">
         {/* Home Tab Content */}
         <div className={`${activeMobileTab === 'home' ? 'flex' : 'hidden lg:flex'} flex-col h-full`}>
           {/* Dashboard header */}
@@ -336,8 +336,6 @@ const StudentProgressDashboard: React.FC = () => {
 
         {/* Live Tab Content */}
         <div className={`${activeMobileTab === 'live' ? 'block' : 'hidden'} lg:block`}>
-          {/* Separation line */}
-          <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
           {/* Mobile: Vertical Stacked Live Sessions List */}
           <div className="lg:hidden">
@@ -424,8 +422,6 @@ const StudentProgressDashboard: React.FC = () => {
 
         {/* Quick Actions Tab Content */}
         <div className={`${activeMobileTab === 'actions' ? 'block' : 'hidden'} lg:block`}>
-          {/* Separation line */}
-          <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
           {/* Progress Cards Grid */}
           <div className="space-y-6">
