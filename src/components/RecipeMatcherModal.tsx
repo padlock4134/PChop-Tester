@@ -100,15 +100,15 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   function generateTutorials(recipe: RecipeCard) {
   return [
     {
-      title: `Equipment: Using the right tools for ${recipe.title}`,
-      desc: `Learn how to use the main equipment needed for this dish.`
+      title: `${t('recipeMatcher.equipmentUsing')} ${recipe.title}`,
+      desc: t('recipeMatcher.learnEquipment')
     },
     {
-      title: `Protein Prep: Preparing the main ingredient`,
-      desc: `How to prep the main protein (e.g., fish, chicken, clams) for this recipe.`
+      title: t('recipeMatcher.proteinPrep'),
+      desc: t('recipeMatcher.howToPrepProtein')
     },
     {
-      title: `Recipe: ${recipe.title}`,
+      title: `${t('recipeMatcher.recipe')} ${recipe.title}`,
       desc: recipe.instructions
     }
   ];
@@ -126,15 +126,14 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   };
 
   const DIETARY_TAGS = [
-    'Heart Healthy',
-    'Anti Inflammatory',
-    'Low Glycemic',
-    'Low Cholesterol',
-    'Renal Friendly',
-    'DASH Diet',
-    'Low Sodium',
-    'High Fiber'
-
+    { key: 'Heart Healthy', label: t('recipeMatcher.heartHealthy') },
+    { key: 'Anti Inflammatory', label: t('recipeMatcher.antiInflammatory') },
+    { key: 'Low Glycemic', label: t('recipeMatcher.lowGlycemic') },
+    { key: 'Low Cholesterol', label: t('recipeMatcher.lowCholesterol') },
+    { key: 'Renal Friendly', label: t('recipeMatcher.renalFriendly') },
+    { key: 'DASH Diet', label: t('recipeMatcher.dashDiet') },
+    { key: 'Low Sodium', label: t('recipeMatcher.lowSodium') },
+    { key: 'High Fiber', label: t('recipeMatcher.highFiber') }
   ];
 
   return (
@@ -154,17 +153,17 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : 'Recipe Matcher')}
+           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('recipeMatcher.recipeMatcher'))}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">Finding recipes...</div>
+            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes')}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
         ) : recipes.length === 0 || currentIdx >= recipes.length ? (
-          <div className="text-center text-maineBlue font-bold py-10">No more suggestions.<br/>Try updating your cupboard!</div>
+          <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions')}<br/>{t('recipeMatcher.tryUpdatingCupboard')}</div>
         ) : (
           (() => {
             console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
@@ -174,22 +173,22 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                   <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
                     {DIETARY_TAGS.map(tag => {
-                      const isMatch = recipes[currentIdx].healthTags?.includes(tag);
+                      const isMatch = recipes[currentIdx].healthTags?.includes(tag.key);
                       return (
                         <span 
-                          key={tag}
+                          key={tag.key}
                           className={`px-2 py-1 rounded-full text-xs ${
                             isMatch ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'
                           }`}
                         >
-                          {tag}
+                          {tag.label}
                         </span>
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">Ingredients:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
                   {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">Equipment:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">
@@ -204,10 +203,10 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                     {isSaving ? '...' : '♥'}
                   </button>
                   <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    Cook Me
+                    {t('recipeMatcher.cookMe')}
                   </button>
                 </div>
-                <div className="text-xs mt-4 text-center text-gray-500">Swipe through AI-powered recipes based on your cupboard!</div>
+                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough')}</div>
               </div>
             );
           })()

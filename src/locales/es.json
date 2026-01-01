@@ -215,25 +215,6 @@
     "timeRemaining": "Tiempo Restante"
   },
   "recipeCard": {
-    "servings": "Porciones",
-    "prepTime": "Tiempo de Preparación",
-    "cookTime": "Tiempo de Cocción",
-    "totalTime": "Tiempo Total",
-    "difficulty": "Dificultad",
-    "ingredients": "Ingredientes",
-    "instructions": "Instrucciones",
-    "nutrition": "Nutrición",
-    "calories": "Calorías",
-    "protein": "Proteína",
-    "carbs": "Carbohidratos",
-    "fat": "Grasa",
-    "equipment": "Equipo"
-  },
-  "challenge": {
-    "weeklyChallenge": "Desafío Semanal",
-    "challengeOfTheWeek": "Desafío de la Semana",
-    "completeBy": "Completar antes de",
-    "startChallenge": "Comenzar Desafío",
     "viewDetails": "Ver Detalles",
     "completed": "Completado",
     "inProgress": "En Progreso",
