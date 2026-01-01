@@ -1129,7 +1129,7 @@ const MyCookBook = () => {
                     {/* Grading Rubric */}
                     <div className="bg-white border-2 lg:border-4 border-green-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm flex-shrink-0">
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
-                        <h4 className="font-serif font-bold text-emerald-800 text-sm lg:text-xs">📊 Rubric</h4>
+                        <h4 className="font-serif font-bold text-emerald-800 text-sm lg:text-xs">📊 {t('myCookbook.rubric')}</h4>
                       <select 
                         className="bg-white border border-emerald-300 rounded px-2 py-1 text-xs font-serif"
                         value={currentStudentIndex}
@@ -1146,9 +1146,9 @@ const MyCookBook = () => {
                       <div className="grid grid-cols-2 gap-1 lg:gap-1">
                         {/* Technique Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">Technique (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myCookbook.technique')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">Score</option>
+                          <option value="">{t('myCookbook.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1159,9 +1159,9 @@ const MyCookBook = () => {
 
                         {/* Safety Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">Safety (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myCookbook.safety')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">Score</option>
+                          <option value="">{t('myCookbook.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1172,9 +1172,9 @@ const MyCookBook = () => {
 
                         {/* Consistency Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">Consistency (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myCookbook.consistency')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">Score</option>
+                          <option value="">{t('myCookbook.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1185,9 +1185,9 @@ const MyCookBook = () => {
 
                         {/* Presentation Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">Presentation (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myCookbook.presentation')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">Score</option>
+                          <option value="">{t('myCookbook.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1200,35 +1200,35 @@ const MyCookBook = () => {
                       {/* Total Score */}
                       <div className="mt-2 pt-2 border-t border-emerald-300 text-center py-2 lg:py-3">
                         <span className="text-base lg:text-xl font-bold text-red-600">
-                          <span className="block lg:inline">Total: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100</span>
+                          <span className="block lg:inline">{t('myCookbook.total')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100</span>
                           <span className="hidden lg:inline"> | </span>
-                          <span className="block lg:inline">Grade: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}</span>
+                          <span className="block lg:inline">{t('myCookbook.grade')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}</span>
                         </span>
                       </div>
                     </div>
 
                     {/* Instructor Feedback */}
                     <div className="bg-white border-2 lg:border-4 border-yellow-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm flex-shrink-0">
-                      <h4 className="font-serif font-bold text-amber-800 mb-1 lg:mb-2 text-sm">💬 Feedback</h4>
+                      <h4 className="font-serif font-bold text-amber-800 mb-1 lg:mb-2 text-sm">💬 {t('myCookbook.feedback')}</h4>
                       
                       <textarea 
-                        placeholder="Feedback on technique and areas for improvement..."
+                        placeholder={t('myCookbook.feedbackPlaceholder')}
                         className="w-full h-16 lg:h-14 text-xs border border-amber-300 rounded p-2 bg-white/80 resize-none focus:border-amber-500 focus:outline-none"
                       />
 
                       <div className="mt-2 flex space-x-2">
                         <button className="flex-1 bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-1 lg:px-3 lg:py-2 rounded text-xs hover:bg-emerald-200 transition-all">
-                          💾 Save
+                          💾 {t('myCookbook.save')}
                         </button>
                         <button className="flex-1 bg-blue-100 text-blue-800 border border-blue-300 px-2 py-1 lg:px-3 lg:py-2 rounded text-xs hover:bg-blue-200 transition-all">
-                          📧 Send
+                          📧 {t('myCookbook.send')}
                         </button>
                     </div>
                   </div>
 
                     {/* Saved Feedback Notepad */}
                     <div className="bg-white border-2 lg:border-4 border-amber-700 rounded-lg p-2 lg:p-3 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0">
-                      <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 Saved Feedback Notes</h4>
+                      <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 {t('myCookbook.savedFeedbackNotes')}</h4>
                     
                     <div className="bg-white/80 rounded border border-yellow-200 p-2 flex-1 overflow-y-auto">
                       <div className="space-y-2 text-xs">
@@ -1268,7 +1268,7 @@ const MyCookBook = () => {
                       <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b-2 border-amber-300 flex-shrink-0">
                         <div className="text-center">
                           <div className="text-2xl lg:text-3xl mb-1">{assignments[currentAssignmentPage].emoji}</div>
-                          <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} Assignment</div>
+                          <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} {t('myCookbook.assignment')}</div>
                         </div>
                       </div>
 
@@ -1279,28 +1279,28 @@ const MyCookBook = () => {
                         
                         <h3 className="font-bold text-base lg:text-lg mb-2 text-maineBlue">{assignments[currentAssignmentPage].title}</h3>
                         <div className="text-xs text-gray-600 mb-2 lg:mb-4">
-                          <span className="block lg:inline">Due: {assignments[currentAssignmentPage].dueDate}</span>
+                          <span className="block lg:inline">{t('myCookbook.due')}: {assignments[currentAssignmentPage].dueDate}</span>
                           <span className="hidden lg:inline"> | </span>
                           <span className="block lg:inline">{assignments[currentAssignmentPage].points} pts | {assignments[currentAssignmentPage].weight}</span>
                         </div>
                         
                         <div className="space-y-1 lg:space-y-2 flex-shrink-0">
                           <div>
-                            <div className="font-semibold mb-1 text-sm text-amber-800">Required Techniques</div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('myCookbook.requiredTechniques')}</div>
                             <div className="text-xs text-gray-700 leading-tight">
                               {assignments[currentAssignmentPage].techniques.join(' • ')}
                             </div>
                           </div>
 
                           <div>
-                            <div className="font-semibold mb-1 text-sm text-amber-800">Submission</div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('myCookbook.submission')}</div>
                             <div className="text-xs text-gray-700 leading-tight">
                               {assignments[currentAssignmentPage].submission.join(' • ')}
                             </div>
                           </div>
 
                           <div>
-                            <div className="font-semibold mb-1 text-sm text-amber-800">Objectives</div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('myCookbook.objectives')}</div>
                             <div className="text-xs text-gray-700 leading-tight">
                               {assignments[currentAssignmentPage].objectives.join(' • ')}
                             </div>
@@ -1313,7 +1313,7 @@ const MyCookBook = () => {
                         {/* Student Submission Video */}
                         <div className="text-center mt-2 flex-1 flex flex-col min-h-0">
                           <div className="flex flex-col lg:flex-row items-center justify-center gap-1 lg:gap-2 mb-2 flex-shrink-0">
-                            <h4 className="font-serif font-semibold text-amber-800 text-sm">{students[currentStudentIndex].name} - Submission</h4>
+                            <h4 className="font-serif font-semibold text-amber-800 text-sm">{students[currentStudentIndex].name} - {t('myCookbook.submission')}</h4>
                             <select 
                               className={`text-xs border border-amber-300 rounded px-2 py-1 font-serif ${
                                 (students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id] ? 'bg-green-50 text-green-800 cursor-not-allowed' : 'bg-white'
@@ -1327,7 +1327,7 @@ const MyCookBook = () => {
                               value={(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id] || ""}
                               disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
-                              <option value="">Select Video</option>
+                              <option value="">{t('myCookbook.selectVideo')}</option>
                               <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
                               <option value="sauce-technique">Sauce Technique.mp4</option>
                               <option value="protein-cookery">Protein Cookery.mp4</option>
@@ -1338,7 +1338,7 @@ const MyCookBook = () => {
                             <div className="h-full bg-gray-800 flex items-center justify-center">
                               <div className="text-center text-white p-2">
                                 <div className="text-xs">{assignments[currentAssignmentPage].videoTitle}</div>
-                                <div className="text-xs text-gray-300 mt-1 hidden lg:block">Submitted via Global Test Kitchen</div>
+                                <div className="text-xs text-gray-300 mt-1 hidden lg:block">{t('myCookbook.submittedVia')}</div>
                               </div>
                             </div>
                             <button 
@@ -1419,8 +1419,8 @@ const MyCookBook = () => {
                   <div className="text-center text-white">
                     <div className="text-6xl mb-4">▶️</div>
                     <div className="text-xl mb-2">{assignments[currentAssignmentPage].videoTitle}</div>
-                    <div className="text-sm text-gray-300">Click to play video submission</div>
-                    <div className="text-xs text-gray-400 mt-2">Submitted via Global Test Kitchen</div>
+                    <div className="text-sm text-gray-300">{t('myCookbook.clickToPlay')}</div>
+                    <div className="text-xs text-gray-400 mt-2">{t('myCookbook.submittedVia')}</div>
                   </div>
                 </div>
               </div>
