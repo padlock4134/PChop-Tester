@@ -228,13 +228,9 @@ const NavBar: React.FC = () => {
             
             {/* Profile Avatar */}
             <Link
-              to="/profile"
-              className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
-                location.pathname === '/profile'
-                  ? 'bg-seafoam hover:bg-teal-400'
-                  : 'bg-white hover:bg-gray-100'
-              }`}
-              aria-label={t('nav.profile')}
+              to={location.pathname === '/profile' ? '/dashboard' : '/profile'}
+              className="relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-white hover:bg-gray-100"
+              aria-label={location.pathname === '/profile' ? t('nav.dashboard') : t('nav.profile')}
             >
               <UserCircleIcon className="h-7 w-7 text-black" />
             </Link>
