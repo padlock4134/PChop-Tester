@@ -220,7 +220,7 @@ const NavBar: React.FC = () => {
             
             {/* PorkChop Logo and Text as Dashboard Link */}
             <Link to="/dashboard" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-              <img src={logo} alt="PorkChop" className="h-7 w-7 sm:h-8 sm:w-8 rounded-full" />
+              <img src={logo} alt="PorkChop" className="w-10 h-10 rounded-full border-2 border-black" />
               <span className="text-lg sm:text-2xl font-bold tracking-wider font-retro">PorkChop</span>
             </Link>
             

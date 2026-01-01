@@ -376,17 +376,16 @@ const ChallengeOfTheWeek: React.FC = () => {
     <>
       {!alreadyClaimed ? (
         <button
-          className="relative flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100 hover:bg-yellow-200 shadow text-2xl cursor-pointer transition-colors"
+          className="relative flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100 hover:bg-yellow-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black"
           title={t('challenge.challengeOfTheWeek') + ": " + challenge.title}
           aria-label={t('challenge.challengeOfTheWeek') + ": " + challenge.title}
           onClick={() => setOpen(true)}
-          style={{ outline: 'none', border: 'none' }}
         >
           <span role="img" aria-label="Trophy">🏆</span>
         </button>
       ) : (
         <button
-          className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 cursor-not-allowed text-2xl"
+          className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 cursor-not-allowed text-2xl border-2 border-black"
           title={t('challenge.completed')}
           aria-label={t('challenge.completed')}
           disabled
