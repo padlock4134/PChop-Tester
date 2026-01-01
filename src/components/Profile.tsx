@@ -1553,9 +1553,9 @@ Automated calculations and formulas would be present`;
   } 
 
   return (
-    <div className="max-w-2xl mx-auto p-4 sm:p-6 bg-weatheredWhite rounded-lg shadow-lg border-4 border-maineBlue overflow-y-auto max-h-[calc(100vh-80px)]">
-      {/* Header: Responsive grid layout */}
-      <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 items-center mb-6">
+    <div className="max-w-2xl mx-auto bg-weatheredWhite rounded-lg shadow-lg border-4 border-maineBlue max-h-[calc(100vh-80px)] flex flex-col">
+      {/* Header: Responsive grid layout - FIXED */}
+      <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 items-center mb-6 p-4 sm:p-6 pb-0">
         {/* Column 1: Avatar */}
         <div className="flex justify-center" style={{ minWidth: '120px' }}>
           <div className="w-20 h-20 sm:w-24 sm:h-24 bg-maineBlue rounded-full flex items-center justify-center text-seafoam font-bold text-lg sm:text-xl overflow-hidden shrink-0 relative group border-2 border-black">
@@ -1663,13 +1663,15 @@ Automated calculations and formulas would be present`;
         </div>
       </div>
       
-      {/* Sticky divider line - positioned after header, before buttons */}
-      <div className="sticky top-[48px] w-full bg-weatheredWhite py-3 z-10 -mx-4 sm:-mx-6 px-4 sm:px-6">
+      {/* Divider line - FIXED */}
+      <div className="w-full px-4 sm:px-6 py-3">
         <div className="w-full h-0.5 bg-gray-200 rounded-full"></div>
       </div>
 
-      {/* Action Buttons and Talent Trees - Responsive Layout */}
-      <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-6">
+      {/* SCROLLABLE CONTENT AREA */}
+      <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4 sm:pb-6">
+        {/* Action Buttons and Talent Trees - Responsive Layout */}
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-6">
         {/* Left side - Action Buttons */}
         <div className="flex flex-col gap-3 w-full lg:w-auto">
           <button
@@ -2252,16 +2254,18 @@ Automated calculations and formulas would be present`;
         </div>
       )}
 
-      {/* Footer with Terms of Service link */}
-      <footer className="mt-8 text-center text-sm text-gray-500 py-4 border-t border-gray-200">
-        <p>&copy; {new Date().getFullYear()} Porkchop. All rights reserved.</p>
-        <button 
-          onClick={() => setTermsModalOpen(true)}
-          className="text-maineBlue hover:underline mt-1"
-        >
-          Terms of Service & Privacy Policy
-        </button>
-      </footer>
+        {/* Footer with Terms of Service link */}
+        <footer className="mt-8 text-center text-sm text-gray-500 py-4 border-t border-gray-200">
+          <p>&copy; {new Date().getFullYear()} Porkchop. All rights reserved.</p>
+          <button 
+            onClick={() => setTermsModalOpen(true)}
+            className="text-maineBlue hover:underline mt-1"
+          >
+            Terms of Service & Privacy Policy
+          </button>
+        </footer>
+      </div>
+      {/* END SCROLLABLE CONTENT AREA */}
       
       {/* Terms Modal */}
       <TermsModal 
