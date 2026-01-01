@@ -1141,7 +1141,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          📅 Events
+          📅 {t('admin.events')}
         </button>
       </div>
       
@@ -1152,7 +1152,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           {/* Dashboard header - matching student dashboard */}
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('admin.adminDashboard')}</h1>
-            <p className="text-gray-600 italic">Manage your school's curriculum delivery and student engagement!</p>
+            <p className="text-gray-600 italic">{t('admin.subtitle')}</p>
           </div>
           
           {/* Separation line */}
@@ -1203,7 +1203,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
             >
               <div className="mb-3 text-4xl">📚</div>
-              <h3 className="text-sm font-bold font-retro">Curriculum & Content</h3>
+              <h3 className="text-sm font-bold font-retro">{t('admin.curriculumContent')}</h3>
             </button>
             
             <button
@@ -1218,7 +1218,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
             >
               <div className="mb-3 text-4xl">🏫</div>
-              <h3 className="text-sm font-bold font-retro">School Settings</h3>
+              <h3 className="text-sm font-bold font-retro">{t('admin.schoolSettings')}</h3>
             </button>
           </div>
           </div>
@@ -1235,7 +1235,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
-                  <span className="font-bold text-blue-700 text-sm">📅 UPCOMING EVENTS ({upcomingEvents.length})</span>
+                  <span className="font-bold text-blue-700 text-sm">📅 {t('admin.upcomingEvents')} ({upcomingEvents.length})</span>
                 </div>
                 
                 {upcomingEvents.map((event, index) => (
@@ -1257,12 +1257,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <span className="text-3xl">{event.emoji}</span>
                         <div className="flex-1">
                           <div className="font-bold text-blue-900 text-sm">{event.name}</div>
-                          <div className="text-blue-800 text-xs">{event.date} at {event.time}</div>
-                          <div className="text-blue-600 text-xs mt-1">{event.registered} registered</div>
+                          <div className="text-blue-800 text-xs">{event.date} {t('admin.at')} {event.time}</div>
+                          <div className="text-blue-600 text-xs mt-1">{event.registered} {t('admin.registered')}</div>
                         </div>
                       </div>
                       <div className="bg-blue-500 text-white text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">
-                        View Details
+                        {t('admin.viewDetails')}
                       </div>
                       </div>
                     </div>
@@ -1292,21 +1292,21 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center mr-3">
                     <div className="w-3 h-3 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
-                    <span className="font-bold text-blue-700 text-sm">📅 UPCOMING</span>
+                    <span className="font-bold text-blue-700 text-sm">📅 {t('admin.upcoming')}</span>
                   </div>
                   <div className="flex-1 text-center">
                     <div className="text-sm text-blue-800 transition-all duration-500">
                       <span>
                         <strong>{upcomingEvents[currentEventIndex].name}</strong> •{' '}
-                        {upcomingEvents[currentEventIndex].date} at {upcomingEvents[currentEventIndex].time} •{' '}
-                        {upcomingEvents[currentEventIndex].registered} registered
+                        {upcomingEvents[currentEventIndex].date} {t('admin.at')} {upcomingEvents[currentEventIndex].time} •{' '}
+                        {upcomingEvents[currentEventIndex].registered} {t('admin.registered')}
                       </span>
                       </div>
                     </div>
                   <div className="flex items-center gap-2">
                     <span className="text-2xl">{upcomingEvents[currentEventIndex].emoji}</span>
                     <div className={`bg-${upcomingEvents[currentEventIndex].color}-500 text-white text-xs px-4 py-2 rounded-full font-medium`}>
-                      View Details
+                      {t('admin.viewDetails')}
                       </div>
                     </div>
                 </div>
@@ -1343,35 +1343,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                   <div className="mb-3 text-4xl">👥</div>
-                  <h4 className="font-semibold text-gray-900 mb-2 font-retro">User Activity</h4>
-                  <p className="text-sm text-gray-600 mb-3 italic">Monitor student engagement, login patterns, and module usage</p>
+                  <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.userActivity')}</h4>
+                  <p className="text-sm text-gray-600 mb-3 italic">{t('admin.monitorEngagement')}</p>
                   <button 
                     onClick={() => setShowUserActivityModal(true)}
                     className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                   >
-                    View Activity
+                    {t('admin.viewActivity')}
                   </button>
                 </div>
                 <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                   <div className="mb-3 text-4xl">📊</div>
-                  <h4 className="font-semibold text-gray-900 mb-2 font-retro">Program Performance</h4>
-                  <p className="text-sm text-gray-600 mb-3 italic">Track completion rates, job placement, and effectiveness</p>
+                  <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.programPerformance')}</h4>
+                  <p className="text-sm text-gray-600 mb-3 italic">{t('admin.trackCompletion')}</p>
                   <button 
                     onClick={() => setShowProgramPerformanceModal(true)}
                     className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                   >
-                    View Performance
+                    {t('admin.viewPerformance')}
                   </button>
                 </div>
                 <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                   <div className="mb-3 text-4xl">📈</div>
-                  <h4 className="font-semibold text-gray-900 mb-2 font-retro">Enrollment Health</h4>
-                  <p className="text-sm text-gray-600 mb-3 italic">Monitor enrollment trends, retention rates, and metrics</p>
+                  <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.enrollmentHealth')}</h4>
+                  <p className="text-sm text-gray-600 mb-3 italic">{t('admin.monitorEnrollment')}</p>
                   <button 
                     onClick={() => setShowEnrollmentHealthModal(true)}
                     className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                   >
-                    View Enrollment
+                    {t('admin.viewEnrollment')}
                   </button>
                 </div>
               </div>
@@ -1384,35 +1384,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">🎓</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Student Management</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Keep track of your student body, notify them of events, and track their progress</p>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.studentManagement')}</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">{t('admin.trackProgress')}</p>
                 <button 
                   onClick={() => setShowStudentManagementModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Manage Students
+                  {t('admin.manageStudents')}
                 </button>
               </div>
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">👩‍🏫</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Faculty Management</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Manage instructor access, permissions, and curriculum responsibilities</p>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.facultyManagement')}</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">{t('admin.instructorAccess')}</p>
                 <button 
                   onClick={() => setShowFacultyManagementModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Manage Faculty
+                  {t('admin.manageFaculty')}
                 </button>
               </div>
               <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">📜</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Alumni Management</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Track graduate success stories, career outcomes, and maintain alumni network connections</p>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.alumniManagement')}</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">{t('admin.trackAlumniSuccess')}</p>
                 <button 
                   onClick={() => setShowAlumniManagementModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Manage Alumni
+                  {t('admin.manageAlumni')}
                 </button>
               </div>
             </div>
@@ -1424,35 +1424,35 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">🤖</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Module Integration</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Connect MyCookBook recipes to CulinarySchool curriculum and assignments</p>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.moduleIntegrationTitle')}</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">{t('admin.connectModules')}</p>
                 <button 
                   onClick={() => setShowModuleIntegrationModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Manage Connections
+                  {t('admin.manageConnections')}
                 </button>
               </div>
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">🔍</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Content Analytics</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Monitor content usage, engagement, and curriculum completion across all modules</p>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.contentAnalyticsTitle')}</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">{t('admin.monitorContent')}</p>
                 <button 
                   onClick={() => setShowContentAnalyticsModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  View Analytics
+                  {t('admin.viewAnalytics')}
                 </button>
               </div>
               <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">⚙️</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Cross-Platform Configuration</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Configure content permissions, access levels, and approval workflows</p>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.crossPlatformConfig')}</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">{t('admin.configureContent')}</p>
                 <button 
                   onClick={() => setShowConfigurationModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Configure Settings
+                  {t('admin.configureSettings')}
                 </button>
               </div>
             </div>
@@ -1464,37 +1464,37 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">🎨</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">School Branding</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Customize platform with your school's identity</p>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.schoolBrandingTitle')}</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">{t('admin.customizePlatform')}</p>
                 <button 
                   onClick={() => setShowBrandingModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Customize Branding
+                  {t('admin.customizeBrandingBtn')}
                 </button>
               </div>
               
               <div className="border-4 border-green-300 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">🎯</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro"> Job Placement Services</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Track graduate employment rates and industry partnerships</p>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.jobPlacementServices')}</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">{t('admin.trackEmployment')}</p>
                 <button 
                   onClick={() => setShowJobPlacementModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Manage Placements
+                  {t('admin.managePlacements')}
                 </button>
               </div>
 
               <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
                 <div className="mb-3 text-4xl">📊</div>
-                <h4 className="font-semibold text-gray-900 mb-2 font-retro">Export Reports</h4>
-                <p className="text-sm text-gray-600 mb-3 italic">Generate reports for accreditation and outcomes</p>
+                <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.exportReports')}</h4>
+                <p className="text-sm text-gray-600 mb-3 italic">{t('admin.generateReports')}</p>
                 <button
                   onClick={() => setShowExportModal(true)}
                   className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
                 >
-                  Export Data
+                  {t('admin.exportData')}
                 </button>
               </div>
             </div>
@@ -1511,7 +1511,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Export School Reports</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.exportSchoolReports')}</h2>
                 <button
                   onClick={() => setShowExportModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -1519,7 +1519,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Select the reports you want to generate and download:</p>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">{t('admin.selectReportsToGenerate')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -1528,38 +1528,38 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4 hover:bg-blue-100 cursor-pointer">
                     <input type="checkbox" id="student-progress" className="mr-2 sm:mr-3" />
-                    <label htmlFor="student-progress" className="font-semibold cursor-pointer text-xs sm:text-base">📊 Student Progress</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Skill mastery tracking, learning analytics</p>
+                    <label htmlFor="student-progress" className="font-semibold cursor-pointer text-xs sm:text-base">📊 {t('admin.studentProgress')}</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{t('admin.skillMasteryTracking')}</p>
                   </div>
                   
                   <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4 hover:bg-green-100 cursor-pointer">
                     <input type="checkbox" id="class-analytics" className="mr-2 sm:mr-3" />
-                    <label htmlFor="class-analytics" className="font-semibold cursor-pointer text-xs sm:text-base">👥 Class Analytics</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Performance & content metrics, live session data</p>
+                    <label htmlFor="class-analytics" className="font-semibold cursor-pointer text-xs sm:text-base">👥 {t('admin.classAnalytics')}</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{t('admin.performanceMetrics')}</p>
                   </div>
                   
                   <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-3 sm:p-4 hover:bg-orange-100 cursor-pointer">
                     <input type="checkbox" id="culinary-metrics" className="mr-2 sm:mr-3" />
-                    <label htmlFor="culinary-metrics" className="font-semibold cursor-pointer text-xs sm:text-base">🍳 Culinary Metrics</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Recipe performance, technique analysis</p>
+                    <label htmlFor="culinary-metrics" className="font-semibold cursor-pointer text-xs sm:text-base">🍳 {t('admin.culinaryMetrics')}</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{t('admin.recipePerformance')}</p>
                   </div>
                   
                   <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 sm:p-4 hover:bg-purple-100 cursor-pointer">
                     <input type="checkbox" id="operations" className="mr-2 sm:mr-3" />
-                    <label htmlFor="operations" className="font-semibold cursor-pointer text-xs sm:text-base">🏪 Operations</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Kitchen management, safety & compliance</p>
+                    <label htmlFor="operations" className="font-semibold cursor-pointer text-xs sm:text-base">🏪 {t('admin.operations')}</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{t('admin.kitchenManagement')}</p>
                   </div>
                   
                   <div className="border-4 border-pink-400 bg-pink-50 rounded-lg p-3 sm:p-4 hover:bg-pink-100 cursor-pointer">
                     <input type="checkbox" id="engagement" className="mr-2 sm:mr-3" />
-                    <label htmlFor="engagement" className="font-semibold cursor-pointer text-xs sm:text-base">📱 Engagement</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Platform usage, community participation</p>
+                    <label htmlFor="engagement" className="font-semibold cursor-pointer text-xs sm:text-base">📱 {t('admin.engagement')}</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{t('admin.platformUsage')}</p>
                   </div>
                   
                   <div className="border-4 border-red-400 bg-red-50 rounded-lg p-3 sm:p-4 hover:bg-red-100 cursor-pointer">
                     <input type="checkbox" id="session-reports" className="mr-2 sm:mr-3" />
-                    <label htmlFor="session-reports" className="font-semibold cursor-pointer text-xs sm:text-base">🚨 Session Reports</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">Flagged content, scheduled sessions</p>
+                    <label htmlFor="session-reports" className="font-semibold cursor-pointer text-xs sm:text-base">🚨 {t('admin.sessionReports')}</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{t('admin.flaggedContent')}</p>
                   </div>
                 </div>
                 
@@ -1577,7 +1577,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                   >
-                    Generate Reports
+                    {t('admin.generateReportsBtn')}
                   </button>
                 </div>
               </div>
@@ -1593,7 +1593,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Job Placement & Career Services</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.jobPlacementCareerServices')}</h2>
                 <button
                   onClick={() => setShowJobPlacementModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -1601,7 +1601,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Track graduate employment outcomes, manage industry partnerships, and monitor career services effectiveness.</p>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">{t('admin.trackGraduateEmployment')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -1611,65 +1611,65 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   {/* Employment Tracking */}
                   <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-6 text-center hover:scale-105 transition-transform duration-200">
                     <div className="mb-2 sm:mb-3 text-3xl sm:text-4xl">📈</div>
-                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">Employment Tracking</h3>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Monitor graduate employment rates and job placement statistics</p>
+                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">{t('admin.employmentTracking')}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">{t('admin.monitorGraduateEmployment')}</p>
                     <button 
                       onClick={() => setShowEmploymentDataModal(true)}
                       className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-retro w-full text-xs sm:text-base min-h-[44px]"
                     >
-                      View Employment Data
+                      {t('admin.viewEmploymentData')}
                     </button>
                   </div>
 
                   {/* Industry Partnerships */}
                   <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-6 text-center hover:scale-105 transition-transform duration-200">
                     <div className="mb-2 sm:mb-3 text-3xl sm:text-4xl">🤝</div>
-                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">Industry Partnerships</h3>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Manage relationships with restaurants, hotels, and culinary employers</p>
+                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">{t('admin.industryPartnerships')}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">{t('admin.manageRelationships')}</p>
                     <button 
                       onClick={() => setShowManagePartnersModal(true)}
                       className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro w-full text-xs sm:text-base min-h-[44px]"
                     >
-                      Manage Partners
+                      {t('admin.managePartners')}
                     </button>
                   </div>
 
                   {/* Career Services */}
                   <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 sm:p-6 text-center hover:scale-105 transition-transform duration-200">
                     <div className="mb-2 sm:mb-3 text-3xl sm:text-4xl">💼</div>
-                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">Career Services</h3>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Coordinate job fairs, internships, and career counseling services</p>
+                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">{t('admin.careerServices')}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">{t('admin.coordinateJobFairs')}</p>
                     <button 
                       onClick={() => setShowCareerServicesModal(true)}
                       className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 font-retro w-full text-xs sm:text-base min-h-[44px]"
                     >
-                      Manage Services
+                      {t('admin.manageServices')}
                     </button>
                   </div>
 
                   {/* Credentialing & Certifications */}
                   <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-3 sm:p-6 text-center hover:scale-105 transition-transform duration-200">
                     <div className="mb-2 sm:mb-3 text-3xl sm:text-4xl">🏅</div>
-                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">Credentialing & Certifications</h3>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Track ServSafe, Food Handler permits, and culinary certifications</p>
+                    <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">{t('admin.credentialingCertifications')}</h3>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">{t('admin.trackServSafe')}</p>
                     <button 
                       onClick={() => setShowCredentialingModal(true)}
                       className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full text-xs sm:text-base min-h-[44px]"
                     >
-                      Manage Credentials
+                      {t('admin.manageCredentials')}
                     </button>
                   </div>
                 </div>
                 
                 <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4">
-                  <h4 className="text-center font-bold text-green-900 mb-2 text-sm sm:text-base">🎯 Key Placement Metrics:</h4>
+                  <h4 className="text-center font-bold text-green-900 mb-2 text-sm sm:text-base">🎯 {t('admin.keyPlacementMetrics')}</h4>
                   <ul className="text-center text-xs sm:text-sm text-green-800 space-y-1">
-                    <li>• Graduate employment rate within 6 months</li>
-                    <li>• Average starting salary by program</li>
-                    <li>• Industry sector placement distribution</li>
-                    <li>• Employer satisfaction ratings</li>
-                    <li>• Alumni career advancement tracking</li>
-                    <li>• Internship to full-time conversion rates</li>
+                    <li>• {t('admin.graduateEmploymentRate')}</li>
+                    <li>• {t('admin.averageStartingSalary')}</li>
+                    <li>• {t('admin.industrySectorPlacement')}</li>
+                    <li>• {t('admin.employerSatisfaction')}</li>
+                    <li>• {t('admin.alumniCareerAdvancement')}</li>
+                    <li>• {t('admin.internshipConversion')}</li>
                   </ul>
                 </div>
               </div>
@@ -1685,7 +1685,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">School Branding & Identity</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.schoolBrandingIdentity')}</h2>
                 <button
                   onClick={() => setShowBrandingModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -1693,7 +1693,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Customize PorkChop's appearance to match your school's brand and identity.</p>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">{t('admin.customizePorkChop')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -1701,7 +1701,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-6">
                 {/* School Logo & Branding */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏦 School Branding</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏦 {t('admin.schoolBrandingSection')}</h3>
                   <div className="flex flex-col lg:flex-row gap-3 sm:gap-6">
                     {/* Left Side - Logo Upload */}
                     <div className="flex-1">
@@ -1710,7 +1710,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           {schoolBranding.logoUrl ? (
                             <img src={schoolBranding.logoUrl} alt="School Logo" className="w-full h-full object-cover" />
                           ) : (
-                            <span className="text-gray-400 text-xs sm:text-sm">Logo</span>
+                            <span className="text-gray-400 text-xs sm:text-sm">{t('admin.logo')}</span>
                           )}
                         </div>
                         <div className="flex flex-col items-center w-full max-w-xs">
@@ -1770,19 +1770,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             htmlFor="logo-upload"
                             className="w-full bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center shadow-sm whitespace-nowrap"
                           >
-                            {uploadingLogo ? 'Uploading...' : 'Upload Logo'}
+                            {uploadingLogo ? t('admin.uploading') : t('admin.uploadLogo')}
                           </label>
-                          <p className="text-xs sm:text-sm text-gray-500 mt-2 text-center">Recommended: 200x200px, PNG or JPG</p>
+                          <p className="text-xs sm:text-sm text-gray-500 mt-2 text-center">{t('admin.recommendedSize')}</p>
                         </div>
                       </div>
                     </div>
 
                     {/* Right Side - Color Scheme */}
                     <div className="flex-1 lg:border-l-2 lg:border-blue-300 lg:pl-6">
-                      <h4 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">Color Scheme</h4>
+                      <h4 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">{t('admin.colorScheme')}</h4>
                       <div className="grid grid-cols-2 gap-2 sm:gap-3">
                         <div>
-                          <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Primary Color</label>
+                          <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.primaryColor')}</label>
                           <div className="flex items-center space-x-2">
                             <input 
                               type="color" 
@@ -1794,7 +1794,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           </div>
                         </div>
                         <div>
-                          <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Secondary Color</label>
+                          <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.secondaryColor')}</label>
                           <div className="flex items-center space-x-2">
                             <input 
                               type="color" 
@@ -1806,7 +1806,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           </div>
                         </div>
                         <div>
-                          <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Accent Color</label>
+                          <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.accentColor')}</label>
                           <div className="flex items-center space-x-2">
                             <input 
                               type="color" 
@@ -1818,7 +1818,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           </div>
                         </div>
                         <div>
-                          <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Background</label>
+                          <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.background')}</label>
                           <div className="flex items-center space-x-2">
                             <input 
                               type="color" 
@@ -1836,63 +1836,63 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                 {/* School Information & Contact */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📝 School Information & Contact</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📝 {t('admin.schoolInformationContact')}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
                     <div>
-                      <label className="block text-center text-xs sm:text-sm font-medium text-gray-700 mb-1">School Name</label>
+                      <label className="block text-center text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.schoolName')}</label>
                       <input
                         type="text"
-                        placeholder="Culinary Institute of Excellence"
+                        placeholder={t('admin.schoolNamePlaceholder')}
                         value={schoolBranding.schoolName}
                         onChange={(e) => setSchoolBranding({...schoolBranding, schoolName: e.target.value})}
                         className="w-full px-3 py-2 border-4 border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-xs sm:text-sm min-h-[44px] bg-white"
                       />
                     </div>
                     <div>
-                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Tagline</label>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.tagline')}</label>
                       <input
                         type="text"
-                        placeholder="Where Culinary Dreams Come True"
+                        placeholder={t('admin.taglinePlaceholder')}
                         value={schoolBranding.tagline}
                         onChange={(e) => setSchoolBranding({...schoolBranding, tagline: e.target.value})}
                         className="w-full px-3 py-2 border-4 border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-xs sm:text-sm min-h-[44px] bg-white"
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">School Description</label>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.schoolDescription')}</label>
                       <textarea
                         rows={3}
-                        placeholder="Brief description of your culinary program..."
+                        placeholder={t('admin.schoolDescriptionPlaceholder')}
                         value={schoolBranding.description}
                         onChange={(e) => setSchoolBranding({...schoolBranding, description: e.target.value})}
                         className="w-full px-3 py-2 border-4 border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-xs sm:text-sm bg-white"
                       />
                     </div>
                     <div>
-                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.phoneNumber')}</label>
                       <input
                         type="tel"
-                        placeholder="(555) 123-4567"
+                        placeholder={t('admin.phonePlaceholder')}
                         value={schoolBranding.phone}
                         onChange={(e) => setSchoolBranding({...schoolBranding, phone: e.target.value})}
                         className="w-full px-3 py-2 border-4 border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-xs sm:text-sm min-h-[44px] bg-white"
                       />
                     </div>
                     <div>
-                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.emailAddress')}</label>
                       <input
                         type="email"
-                        placeholder="info@culinaryschool.edu"
+                        placeholder={t('admin.emailPlaceholder')}
                         value={schoolBranding.email}
                         onChange={(e) => setSchoolBranding({...schoolBranding, email: e.target.value})}
                         className="w-full px-3 py-2 border-4 border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-xs sm:text-sm min-h-[44px] bg-white"
                       />
                     </div>
                     <div className="md:col-span-2">
-                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Address</label>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.address')}</label>
                       <input
                         type="text"
-                        placeholder="123 Culinary Way, Food City, FC 12345"
+                        placeholder={t('admin.addressPlaceholder')}
                         value={schoolBranding.address}
                         onChange={(e) => setSchoolBranding({...schoolBranding, address: e.target.value})}
                         className="w-full px-3 py-2 border-4 border-blue-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-xs sm:text-sm min-h-[44px] bg-white"
@@ -1905,7 +1905,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     onClick={saveSchoolBranding}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                   >
-                    Save Branding
+                    {t('admin.saveBranding')}
                   </button>
                 </div>
               </div>
@@ -1921,7 +1921,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Content Upload & Distribution</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.contentUploadDistribution')}</h2>
                 <button
                   onClick={() => setShowModuleIntegrationModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -1929,7 +1929,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Upload your curriculum, syllabus, and course materials, then distribute content to the appropriate modules.</p>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">{t('admin.uploadCurriculumSyllabus')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -1937,17 +1937,17 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-6">
                 {/* Content Upload Area */}
                 <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                  <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📁 Upload Course Materials</h3>
+                  <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📁 {t('admin.uploadCourseMaterials')}</h3>
                   <div className="border-4 border-dashed border-gray-300 rounded-lg p-4 sm:p-8 text-center">
                     <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">📄</div>
-                    <p className="text-base sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">Drag & drop your files here</p>
-                    <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">Syllabus, curriculum, recipes, assignments, lesson plans</p>
+                    <p className="text-base sm:text-lg font-medium text-gray-700 mb-1 sm:mb-2">{t('admin.dragDropFiles')}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">{t('admin.syllabusTypes')}</p>
                     <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
                       <button 
                         onClick={() => setShowBrowseFilesModal(true)}
                         className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                       >
-                        Browse Files
+                        {t('admin.browseFiles')}
                       </button>
                       <button 
                         onClick={async () => {
@@ -1997,24 +1997,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         disabled={generatingApiKey}
                         className="w-full sm:w-auto bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                       >
-                        {generatingApiKey ? 'Generating...' : 'Generate API Key'}
+                        {generatingApiKey ? t('admin.generating') : t('admin.generateAPIKey')}
                       </button>
                       <button 
                         onClick={() => setShowChefFreddieModal(true)}
                         className="w-full sm:w-auto bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center justify-center gap-2 border-2 border-pink-400 text-sm sm:text-base min-h-[44px]"
                       >
                         <img src="logo.png" className="w-5 h-5 border border-gray-400 rounded" />
-                        Ask Chef Freddie
+                        {t('admin.askChefFreddie')}
                       </button>
                     </div>
-                    <p className="text-xs text-gray-400 mt-2">Supports: PDF, Word, Excel, PowerPoint, Images</p>
+                    <p className="text-xs text-gray-400 mt-2">{t('admin.supportsFileTypes')}</p>
                   </div>
                 </div>
 
                 {/* Content Preview & Mapping */}
                 <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-gray-900 mb-2 sm:mb-3 text-sm sm:text-base">📋 Content Distribution</h3>
-                  <p className="text-center text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Choose which parts of your uploaded content go to each module:</p>
+                  <h3 className="text-center font-bold text-gray-900 mb-2 sm:mb-3 text-sm sm:text-base">📋 {t('admin.contentDistribution')}</h3>
+                  <p className="text-center text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">{t('admin.chooseContentDestination')}</p>
                 
                   <div className="grid grid-cols-1 gap-3 sm:gap-4">
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
@@ -2033,7 +2033,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             MyKitchen: { ...moduleSelection.MyKitchen, recipe: e.target.checked }
                           })}
                         />
-                        <span>Recipe databases → Feeds matcher algorithm</span>
+                        <span>{t('admin.recipeDatabases')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2045,7 +2045,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             MyKitchen: { ...moduleSelection.MyKitchen, ingredients: e.target.checked }
                           })}
                         />
-                        <span>Ingredient knowledge bases → Enhances fuzzy matching</span>
+                        <span>{t('admin.ingredientLists')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2057,7 +2057,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             MyKitchen: { ...moduleSelection.MyKitchen, kitchen: e.target.checked }
                           })}
                         />
-                        <span>Kitchen setup configurations → Equipment recommendations</span>
+                        <span>{t('admin.kitchenEquipment')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2069,7 +2069,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             MyKitchen: { ...moduleSelection.MyKitchen, dietary: e.target.checked }
                           })}
                         />
-                        <span>Dietary restriction mappings → Health tag generation</span>
+                        <span>{t('admin.dietaryRestrictions')}</span>
                       </label>
                       </div>
                     </div>
@@ -2090,7 +2090,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             MyCookBook: { ...moduleSelection.MyCookBook, assignments: e.target.checked }
                           })}
                         />
-                        <span>Assignment templates → Creates new gradebook assignments</span>
+                        <span>{t('admin.assignmentsRubrics')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2102,7 +2102,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             MyCookBook: { ...moduleSelection.MyCookBook, rubrics: e.target.checked }
                           })}
                         />
-                        <span>Grading rubrics → Video submission evaluation</span>
+                        <span>{t('admin.assignmentsRubrics')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2114,7 +2114,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             MyCookBook: { ...moduleSelection.MyCookBook, recipes: e.target.checked }
                           })}
                         />
-                        <span>Recipe collections → Organized by curriculum week</span>
+                        <span>{t('admin.recipeCollections')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2126,7 +2126,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             MyCookBook: { ...moduleSelection.MyCookBook, video: e.target.checked }
                           })}
                         />
-                        <span>Video requirements → Student demonstration specs</span>
+                        <span>{t('admin.videoTutorials')}</span>
                       </label>
                       </div>
                     </div>
@@ -2147,7 +2147,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             CulinarySchool: { ...moduleSelection.CulinarySchool, techniques: e.target.checked }
                           })}
                         />
-                        <span>Custom technique sequences → Supplements 52 fundamentals</span>
+                        <span>{t('admin.techniqueLessons')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2159,7 +2159,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             CulinarySchool: { ...moduleSelection.CulinarySchool, syllabus: e.target.checked }
                           })}
                         />
-                        <span>Syllabus structures → Maps techniques to curriculum</span>
+                        <span>{t('admin.courseSyllabus')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2171,7 +2171,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             CulinarySchool: { ...moduleSelection.CulinarySchool, lessons: e.target.checked }
                           })}
                         />
-                        <span>Lesson plans → Adds to 6 general lessons</span>
+                        <span>{t('admin.weeklyLessons')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2183,7 +2183,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             CulinarySchool: { ...moduleSelection.CulinarySchool, objectives: e.target.checked }
                           })}
                         />
-                        <span>Learning objectives → Student achievement goals</span>
+                        <span>{t('admin.learningObjectives')}</span>
                       </label>
                       </div>
                     </div>
@@ -2204,7 +2204,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             ChefsCorner: { ...moduleSelection.ChefsCorner, videos: e.target.checked }
                           })}
                         />
-                        <span>Chef demonstration videos → Global Test Kitchen content</span>
+                        <span>{t('admin.instructorVideos')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2216,7 +2216,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             ChefsCorner: { ...moduleSelection.ChefsCorner, insights: e.target.checked }
                           })}
                         />
-                        <span>Industry insights → Professional tips & knowledge</span>
+                        <span>{t('admin.industryInsights')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2228,7 +2228,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             ChefsCorner: { ...moduleSelection.ChefsCorner, sessions: e.target.checked }
                           })}
                         />
-                        <span>Live session schedules → Planned cooking demonstrations</span>
+                        <span>{t('admin.liveSessionSchedules')}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2240,7 +2240,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             ChefsCorner: { ...moduleSelection.ChefsCorner, partnerships: e.target.checked }
                           })}
                         />
-                        <span>Market partnerships → Local sourcing connections</span>
+                        <span>{t('admin.partnershipOpportunities')}</span>
                       </label>
                       </div>
                     </div>
@@ -2252,10 +2252,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                 {/* Publishing Controls */}
                 <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-green-900 mb-2 sm:mb-3 text-sm sm:text-base">🚀 Publish Content</h3>
+                  <h3 className="text-center font-bold text-green-900 mb-2 sm:mb-3 text-sm sm:text-base">🚀 {t('admin.publishSettings')}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mb-3 sm:mb-4">
                     <div>
-                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Publish Date</label>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.publishDate')}</label>
                       <input 
                         type="date" 
                         value={publishDate}
@@ -2264,27 +2264,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       />
                     </div>
                     <div>
-                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Visibility</label>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.visibility')}</label>
                       <select 
                         value={publishVisibility}
                         onChange={(e) => setPublishVisibility(e.target.value)}
                         className="w-full px-2 sm:px-3 py-2 border-4 border-green-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white text-sm sm:text-base min-h-[44px]"
                       >
-                        <option>All Students</option>
-                        <option>Specific Classes</option>
-                        <option>Draft (Instructors Only)</option>
+                        <option>{t('admin.allStudents')}</option>
+                        <option>{t('admin.specificCohorts')}</option>
+                        <option>{t('admin.facultyOnly')}</option>
                       </select>
                     </div>
                     <div>
-                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">Notification</label>
+                      <label className="text-center block text-xs sm:text-sm font-medium text-gray-700 mb-1">{t('admin.notification')}</label>
                       <select 
                         value={publishNotification}
                         onChange={(e) => setPublishNotification(e.target.value)}
                         className="w-full px-2 sm:px-3 py-2 border-4 border-green-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white text-sm sm:text-base min-h-[44px]"
                       >
-                        <option>Notify Students</option>
-                        <option>Silent Update</option>
-                        <option>Email Announcement</option>
+                        <option>{t('admin.notifyStudents')}</option>
+                        <option>{t('admin.silentPublish')}</option>
+                        <option>{t('admin.notifyStudents')}</option>
                       </select>
                     </div>
                   </div>
@@ -2330,7 +2330,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       }}
                       className="w-full sm:w-auto bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 font-retro text-sm sm:text-base min-h-[44px]"
                     >
-                      Save as Draft
+                      {t('admin.save')}
                     </button>
                   <button 
                     onClick={async () => {
@@ -2478,7 +2478,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       }}
                       className="w-full sm:w-auto bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro text-sm sm:text-base min-h-[44px]"
                     >
-                      Publish to Modules
+                      {t('admin.publishContent')}
                     </button>
                   </div>
                 </div>
@@ -2495,7 +2495,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Student Management</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.studentManagementTitle')}</h2>
                 <button
                   onClick={() => setShowStudentManagementModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -2503,7 +2503,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 text-sm sm:text-base">Manage student progress, XP levels, academic performance, and individual student records.</p>
+              <p className="text-center text-gray-600 text-sm sm:text-base">{t('admin.manageStudentProgress')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -2511,27 +2511,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-4 sm:space-y-6">
               {/* Student Overview Stats */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 Student Overview</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 {t('admin.studentOverview')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-blue-600">{Math.max(users.length, 2)}</div>
-                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Students</p>
-                    <p className="text-xs text-blue-600">Currently enrolled</p>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalStudents')}</p>
+                    <p className="text-xs text-blue-600">{t('admin.currentlyEnrolled')}</p>
                   </div>
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-green-600">{Math.max(users.length, 2)}</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">Active Students</p>
-                    <p className="text-xs text-green-600">Last 7 days</p>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.activeStudents')}</p>
+                    <p className="text-xs text-green-600">{t('admin.last7Days')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-purple-600">1,250</div>
-                    <p className="text-xs sm:text-sm text-purple-800 font-medium">Avg XP per Student</p>
-                    <p className="text-xs text-purple-600">Experience points</p>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.avgXPPerStudent')}</p>
+                    <p className="text-xs text-purple-600">{t('admin.experiencePoints')}</p>
                   </div>
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-orange-600">0</div>
-                    <p className="text-xs sm:text-sm text-orange-800 font-medium">Inactive Students</p>
-                    <p className="text-xs text-orange-600">Need attention</p>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.inactiveStudents')}</p>
+                    <p className="text-xs text-orange-600">{t('admin.needAttention')}</p>
                   </div>
                 </div>
               </div>
@@ -2539,12 +2539,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               {/* Student Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
                 <div className="flex justify-center items-center mb-3 sm:mb-4 sm:relative">
-                  <h3 className="font-bold text-maineBlue text-sm sm:text-base">📋 Student Directory</h3>
+                  <h3 className="font-bold text-maineBlue text-sm sm:text-base">📋 {t('admin.studentDirectory')}</h3>
                   <button
                     onClick={() => setShowAddStudentModal(true)}
                     className="hidden sm:flex bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm items-center justify-center gap-2 sm:absolute sm:right-0 min-h-[44px]"
                   >
-                    <span className="text-lg">+</span> Add Student
+                    <span className="text-lg">+</span> {t('admin.addStudent')}
                   </button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
@@ -2564,7 +2564,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             Level {user.level || 1}
                           </span>
                           <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                            <p>📚 Program: Culinary Arts</p>
+                            <p>📚 {t('admin.program')}: {t('admin.culinaryArts')}</p>
                             <p className="truncate">📧 {user.email}</p>
                             <p>📞 (555) 123-4567</p>
                           </div>
@@ -2599,7 +2599,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             );
                           })}
                           {((user as any).cohorts || []).length === 0 && (
-                            <span className="text-xs text-gray-400 italic">No cohorts assigned</span>
+                            <span className="text-xs text-gray-400 italic">{t('admin.noCohortsAssigned')}</span>
                           )}
                         </div>
                         <div className="flex gap-2 mt-3">
@@ -2610,7 +2610,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             }}
                             className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                           >
-                            Edit
+                            {t('admin.edit')}
                           </button>
                           <button
                             onClick={() => {
@@ -2621,7 +2621,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             }}
                             className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                           >
-                            Remove
+                            {t('admin.remove')}
                           </button>
                         </div>
                       </div>
@@ -2640,38 +2640,38 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     onClick={() => setShowAddStudentModal(true)}
                     className="w-full bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm flex items-center justify-center gap-2 min-h-[44px]"
                   >
-                    <span className="text-lg">+</span> Add Student
+                    <span className="text-lg">+</span> {t('admin.addStudent')}
                   </button>
                 </div>
               </div>
 
               {/* Quick Actions */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⚡ Quick Actions</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⚡ {t('admin.quickActions')}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                   <button 
                     onClick={() => setShowAnnouncementModal(true)}
                     className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
                     <div className="text-xl sm:text-2xl mb-2">📧</div>
-                    <h4 className="font-medium text-blue-800 text-sm sm:text-base">Send Announcement</h4>
-                    <p className="text-xs text-blue-600">Notify all students</p>
+                    <h4 className="font-medium text-blue-800 text-sm sm:text-base">{t('admin.sendAnnouncement')}</h4>
+                    <p className="text-xs text-blue-600">{t('admin.notifyAllStudents')}</p>
                   </button>
                   <button 
                     onClick={() => setShowCsvImportModal(true)}
                     className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
                     <div className="text-xl sm:text-2xl mb-2">📤</div>
-                    <h4 className="font-medium text-green-800 text-sm sm:text-base">Import Students (CSV)</h4>
-                    <p className="text-xs text-green-600">Bulk upload student list</p>
+                    <h4 className="font-medium text-green-800 text-sm sm:text-base">{t('admin.importStudentsCSV')}</h4>
+                    <p className="text-xs text-green-600">{t('admin.bulkUploadStudentList')}</p>
                   </button>
                   <button 
                     onClick={() => setShowExportDataModal(true)}
                     className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
                     <div className="text-xl sm:text-2xl mb-2">📄</div>
-                    <h4 className="font-medium text-purple-800 text-sm sm:text-base">Export Student Data</h4>
-                    <p className="text-xs text-purple-600">Download student records</p>
+                    <h4 className="font-medium text-purple-800 text-sm sm:text-base">{t('admin.exportStudentData')}</h4>
+                    <p className="text-xs text-purple-600">{t('admin.downloadStudentRecords')}</p>
                   </button>
                 </div>
               </div>
@@ -2688,7 +2688,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Faculty Management</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.facultyManagementTitle')}</h2>
                 <button
                   onClick={() => setShowFacultyManagementModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -2696,7 +2696,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 text-sm sm:text-base">Manage instructor access, permissions, curriculum responsibilities, and faculty performance.</p>
+              <p className="text-center text-gray-600 text-sm sm:text-base">{t('admin.manageFacultyAccess')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -2704,34 +2704,34 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-4 sm:space-y-6">
               {/* Faculty Overview Stats */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">👩‍🏫 Faculty Overview</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">👩‍🏫 {t('admin.facultyOverview')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-blue-600">12</div>
-                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Faculty</p>
-                    <p className="text-xs text-blue-600">Active instructors</p>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalFaculty')}</p>
+                    <p className="text-xs text-blue-600">{t('admin.activeInstructors')}</p>
                   </div>
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-green-600">8</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">Full-Time</p>
-                    <p className="text-xs text-green-600">Permanent staff</p>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.fullTime')}</p>
+                    <p className="text-xs text-green-600">{t('admin.permanentStaff')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-purple-600">4</div>
-                    <p className="text-xs sm:text-sm text-purple-800 font-medium">Part-Time</p>
-                    <p className="text-xs text-purple-600">Adjunct instructors</p>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.partTime')}</p>
+                    <p className="text-xs text-purple-600">{t('admin.adjunctInstructors')}</p>
                   </div>
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-orange-600">95%</div>
-                    <p className="text-xs sm:text-sm text-orange-800 font-medium">Active This Week</p>
-                    <p className="text-xs text-orange-600">Platform engagement</p>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.activeThisWeek')}</p>
+                    <p className="text-xs text-orange-600">{t('admin.platformEngagement')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Faculty Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="font-bold text-maineBlue text-center mb-3 sm:mb-4 text-sm sm:text-base">👩‍🏫 Faculty Directory</h3>
+                <h3 className="font-bold text-maineBlue text-center mb-3 sm:mb-4 text-sm sm:text-base">👩‍🏫 {t('admin.facultyDirectory')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
                     <div className="mb-3">
@@ -2773,7 +2773,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="mb-3">
                       <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Chef Marco Rodriguez</h4>
                       <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
-                        Active
+                        {t('admin.active')}
                       </span>
                       <div className="text-xs sm:text-sm text-gray-600 space-y-1">
                         <p>📚 Courses: Baking Fundamentals, Cake Decoration</p>
@@ -2809,31 +2809,31 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Faculty Quick Actions */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⚡ Faculty Management Actions</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⚡ {t('admin.facultyManagementActions')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                   <button 
                     onClick={() => setShowAddFacultyModal(true)}
                     className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
                     <div className="text-xl sm:text-2xl mb-2">👥</div>
-                    <h4 className="font-medium text-blue-800 text-sm sm:text-base">Add New Faculty</h4>
-                    <p className="text-xs text-blue-600">Invite new instructors</p>
+                    <h4 className="font-medium text-blue-800 text-sm sm:text-base">{t('admin.addNewFaculty')}</h4>
+                    <p className="text-xs text-blue-600">{t('admin.inviteNewInstructors')}</p>
                   </button>
                   <button 
                     onClick={() => setShowManagePermissionsModal(true)}
                     className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
                     <div className="text-xl sm:text-2xl mb-2">🔐</div>
-                    <h4 className="font-medium text-green-800 text-sm sm:text-base">Manage Permissions</h4>
-                    <p className="text-xs text-green-600">Update access levels</p>
+                    <h4 className="font-medium text-green-800 text-sm sm:text-base">{t('admin.managePermissions')}</h4>
+                    <p className="text-xs text-green-600">{t('admin.updateAccessLevels')}</p>
                   </button>
                   <button 
                     onClick={() => setShowFacultyReportsModal(true)}
                     className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
                     <div className="text-xl sm:text-2xl mb-2">📊</div>
-                    <h4 className="font-medium text-purple-800 text-sm sm:text-base">Faculty Reports</h4>
-                    <p className="text-xs text-purple-600">Performance analytics</p>
+                    <h4 className="font-medium text-purple-800 text-sm sm:text-base">{t('admin.facultyReports')}</h4>
+                    <p className="text-xs text-purple-600">{t('admin.performanceAnalytics')}</p>
                   </button>
                 </div>
               </div>
@@ -2850,7 +2850,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Alumni Management</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.alumniManagementTitle')}</h2>
                 <button
                   onClick={() => setShowAlumniManagementModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -2858,7 +2858,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 text-sm sm:text-base">Track graduate success stories, career outcomes, and maintain alumni network connections.</p>
+              <p className="text-center text-gray-600 text-sm sm:text-base">{t('admin.trackAlumniSuccessStories')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -2866,27 +2866,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-4 sm:space-y-6">
               {/* Alumni Overview Stats */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 Alumni Overview</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 {t('admin.alumniOverview')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-blue-600">342</div>
-                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Alumni</p>
-                    <p className="text-xs text-blue-600">Program graduates</p>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalAlumni')}</p>
+                    <p className="text-xs text-blue-600">{t('admin.programGraduates')}</p>
                   </div>
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-green-600">89%</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">Employment Rate</p>
-                    <p className="text-xs text-green-600">Within 6 months</p>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.employmentRate')}</p>
+                    <p className="text-xs text-green-600">{t('admin.within6Months')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-purple-600">$52K</div>
-                    <p className="text-xs sm:text-sm text-purple-800 font-medium">Avg Starting Salary</p>
-                    <p className="text-xs text-purple-600">First year post-grad</p>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.avgStartingSalary')}</p>
+                    <p className="text-xs text-purple-600">{t('admin.firstYearPostGrad')}</p>
                   </div>
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-orange-600">47</div>
-                    <p className="text-xs sm:text-sm text-orange-800 font-medium">Business Owners</p>
-                    <p className="text-xs text-orange-600">Started own restaurants</p>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.businessOwners')}</p>
+                    <p className="text-xs text-orange-600">{t('admin.startedOwnRestaurants')}</p>
                   </div>
                 </div>
               </div>
@@ -2894,12 +2894,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               {/* Success Stories */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
                 <div className="flex flex-col sm:flex-row justify-center items-center mb-3 sm:mb-4 gap-2 sm:gap-0 relative sm:pl-6">
-                  <h3 className="font-bold text-maineBlue text-sm sm:text-base">⭐ Success Stories</h3>
+                  <h3 className="font-bold text-maineBlue text-sm sm:text-base">⭐ {t('admin.successStories')}</h3>
                   <button
                     onClick={() => setShowAddAlumniModal(true)}
                     className="w-full sm:w-auto bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-xs sm:text-sm flex items-center justify-center gap-2 sm:absolute sm:right-0 min-h-[44px]"
                   >
-                    <span className="text-lg">+</span> Add Alumni
+                    <span className="text-lg">+</span> {t('admin.addAlumni')}
                   </button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
