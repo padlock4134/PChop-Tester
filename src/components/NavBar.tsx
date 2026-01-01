@@ -215,10 +215,10 @@ const NavBar: React.FC = () => {
       <div className="max-w-5xl mx-auto px-4">
         {/* Flex container for all items */}
         <div className="flex items-center justify-between w-full">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 ml-[5%]">
             {/* PorkChop Text as Dashboard Link */}
             <Link to="/dashboard" className="flex items-center hover:opacity-80 transition-opacity">
-              <span className="text-2xl sm:text-3xl font-bold tracking-wider font-retro">PorkChop</span>
+              <span className="text-3xl sm:text-4xl font-bold tracking-wider font-retro">PorkChop</span>
             </Link>
           </div>
 
