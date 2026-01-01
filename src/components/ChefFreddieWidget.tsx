@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from './FreddieContext';
@@ -10,23 +11,24 @@ interface Message {
   text: string;
 }
 
-const getProactiveMessage = (page: string) => {
+const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
     case 'MyKitchen':
-      return "Welcome to My Kitchen! Want tips on making the most of what you have in your pantry today?";
+      return t('chefFreddie.welcomeMyKitchen');
     case 'MyCookBook':
-      return "Looking to organize your favorite recipes or find something new to try? I’m here to help!";
+      return t('chefFreddie.welcomeMyCookbook');
     case 'ChefsCorner':
-      return "Ready to connect with fellow cooks or share your latest creation? Ask me anything!";
+      return t('chefFreddie.welcomeChefsCorner');
     case 'CulinarySchool':
-      return "Curious about learning new skills or earning badges? I can guide you through our Culinary School!";
+      return t('chefFreddie.welcomeCulinarySchool');
     default:
-      return "Need a hand with anything on PorkChop? I’m always here to help you cook up something great!";
+      return t('chefFreddie.welcomeDefault');
   }
 };
 
 
 const ChefFreddieWidget = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { context } = useFreddieContext();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -42,7 +44,7 @@ const ChefFreddieWidget = () => {
       const reply = await askChefFreddie(user?.id!, text);
       setMessages(msgs => [...msgs, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
-      setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || 'Error contacting Chef Freddie.' }]);
+      setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || t('chefFreddie.errorContacting') }]);
     }
   };
 
@@ -51,7 +53,7 @@ const ChefFreddieWidget = () => {
   // Only show a proactive message if the user navigates to a new page while the chat is open
   useEffect(() => {
     if (!open) return;
-    const proactive = getProactiveMessage(context.page);
+    const proactive = getProactiveMessage(context.page, t);
     // Only update if page changed while chat is open (not on first open)
     if (lastPage && context.page !== lastPage) {
       setMessages(msgs => {
@@ -73,7 +75,7 @@ const ChefFreddieWidget = () => {
 
   // Contextual proactive prompt state
   const [showProactive, setShowProactive] = useState(false);
-  const proactiveMessage = getProactiveMessage(context.page);
+  const proactiveMessage = getProactiveMessage(context.page, t);
 
   // Show proactive when page changes and chat is closed
   useEffect(() => {
@@ -88,7 +90,7 @@ const ChefFreddieWidget = () => {
   // Inject proactive message into chat when opened or page changes, but prevent duplicates
   useEffect(() => {
     if (open) {
-      const proactive = getProactiveMessage(context.page);
+      const proactive = getProactiveMessage(context.page, t);
       setMessages(msgs => {
         // Only add if the last message is NOT the same proactive message from Freddie
         if (

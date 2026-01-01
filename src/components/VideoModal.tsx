@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from './NavBar';
 import { supabase } from '../api/supabaseClient';
@@ -15,6 +16,7 @@ interface VideoModalProps {
 }
 
 const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl, tutorialId, recipeId }) => {
+  const { t } = useTranslation();
   const [hasAwardedXP, setHasAwardedXP] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const { refreshXP } = useLevelProgressContext();
@@ -85,7 +87,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-maineBlue text-2xl"
-          aria-label="Close"
+          aria-label={t('modals.close')}
         >
           ×
         </button>
@@ -103,7 +105,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
             />
           ) : (
             <div className="flex flex-col items-center justify-center w-full h-72 bg-gray-100 rounded border border-black text-gray-500 p-6">
-              <div className="text-lg font-semibold text-gray-700 mb-2">🎥 Video Tutorial</div>
+              <div className="text-lg font-semibold text-gray-700 mb-2">🎥 {t('common.loading')}</div>
               <div className="text-center text-gray-600 mb-4">
                 Video tutorials are temporarily unavailable to prevent API rate limits.
               </div>
@@ -113,12 +115,12 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
             </div>
           )}
         </div>
-        {/* Debug: show the raw videoUrl value and API key status */}
-        <div className="mt-2 text-xs text-gray-400 break-all">
-          <span className="font-semibold">Debug videoUrl:</span> {videoUrl ? videoUrl : '(empty)'}
-          <br />
-          <span className="font-semibold">API Keys Available:</span> {import.meta.env.VITE_YOUTUBE_API_KEY_1 ? 'Yes' : 'No'}
-        </div>
+        {/* Debug: show the raw videoUrl value */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mt-2 text-xs text-gray-400 break-all">
+            <span className="font-semibold">Debug videoUrl:</span> {videoUrl ? videoUrl : '(empty)'}
+          </div>
+        )}
       </div>
     </div>
   );

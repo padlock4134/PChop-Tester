@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface InactivityWarningModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ const InactivityWarningModal: React.FC<InactivityWarningModalProps> = ({
   onStayLoggedIn,
   onLogout
 }) => {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   const minutes = Math.floor(countdown / 60);
@@ -24,16 +26,16 @@ const InactivityWarningModal: React.FC<InactivityWarningModalProps> = ({
       <div className="bg-sand border-4 border-maineBlue rounded-lg p-6 max-w-md w-full mx-4 shadow-2xl">
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-maineBlue mb-2" style={{ fontFamily: 'Courier New, monospace' }}>
-            ⏰ Still There?
+            ⏰ {t('inactivityWarning.title')}
           </h2>
           <p className="text-gray-700 mb-4">
-            You've been inactive for a while. For your security, you'll be logged out in:
+            {t('inactivityWarning.message')}:
           </p>
           <div className="text-5xl font-bold text-lobsterRed mb-4" style={{ fontFamily: 'Courier New, monospace' }}>
             {timeDisplay}
           </div>
           <p className="text-sm text-gray-600">
-            Click "I'm Here" to stay logged in, or you'll be redirected to the login page.
+            {t('inactivityWarning.stayLoggedIn')}
           </p>
         </div>
 
@@ -43,14 +45,14 @@ const InactivityWarningModal: React.FC<InactivityWarningModalProps> = ({
             className="bg-maineBlue text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors"
             style={{ fontFamily: 'Courier New, monospace' }}
           >
-            ✅ I'm Here!
+            ✅ {t('inactivityWarning.stayLoggedIn')}
           </button>
           <button
             onClick={onLogout}
             className="bg-gray-400 text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-500 transition-colors"
             style={{ fontFamily: 'Courier New, monospace' }}
           >
-            🚪 Log Me Out
+            🚪 {t('inactivityWarning.logOut')}
           </button>
         </div>
       </div>

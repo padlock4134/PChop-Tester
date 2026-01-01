@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon, UserGroupIcon, HeartIcon, ChatBubbleOvalLeftIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 
 const StudentProgressDashboard: React.FC = () => {
+  const { t } = useTranslation();
+  
   // Mock student progress data
   // Mock live session data
   const activeLiveSessions = [
@@ -252,7 +255,7 @@ const StudentProgressDashboard: React.FC = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          🏠 Home
+          🏠 {t('dashboard.home')}
         </button>
         <button
           onClick={() => setActiveMobileTab('live')}
@@ -262,7 +265,7 @@ const StudentProgressDashboard: React.FC = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          🔴 Live
+          🔴 {t('dashboard.live')}
         </button>
         <button
           onClick={() => setActiveMobileTab('actions')}
@@ -272,7 +275,7 @@ const StudentProgressDashboard: React.FC = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          📊 Quick Actions
+          📊 {t('dashboard.quickActions')}
         </button>
       </div>
       
@@ -282,8 +285,8 @@ const StudentProgressDashboard: React.FC = () => {
         <div className={activeMobileTab === 'home' ? 'block' : 'hidden lg:block'}>
           {/* Dashboard header - moved inside the module */}
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-retro text-maineBlue mb-2">Student View</h1>
-            <p className="text-gray-600 italic">Click a module to begin your culinary journey!</p>
+            <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('dashboard.studentView')}</h1>
+            <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
           </div>
           
           {/* Separation line */}
@@ -339,7 +342,7 @@ const StudentProgressDashboard: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                  <span className="font-bold text-red-700 text-sm">LIVE NOW ({activeLiveSessions.length} Sessions)</span>
+                  <span className="font-bold text-red-700 text-sm">{t('dashboard.liveNow')} ({activeLiveSessions.length} {t('dashboard.sessions')})</span>
                 </div>
                 
                 {activeLiveSessions.slice(0, 4).map((session, index) => (
@@ -354,11 +357,11 @@ const StudentProgressDashboard: React.FC = () => {
                         <div className="flex-1">
                           <div className="font-bold text-red-900 text-sm">{session.hostName}</div>
                           <div className="text-red-800 text-xs">{session.dishName}</div>
-                          <div className="text-red-600 text-xs mt-1">{session.viewers} watching</div>
+                          <div className="text-red-600 text-xs mt-1">{session.viewers} {t('dashboard.watching')}</div>
                         </div>
                       </div>
                       <div className="bg-red-500 text-white text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">
-                        🔴 Join
+                        🔴 {t('dashboard.join')}
                       </div>
                     </div>
                   </div>
@@ -380,20 +383,20 @@ const StudentProgressDashboard: React.FC = () => {
                   <div className="flex items-center mr-3">
                     <div className="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></div>
                     <VideoCameraIcon className="h-5 w-5 text-red-600 mr-2" />
-                    <span className="font-bold text-red-700 text-sm">LIVE NOW</span>
+                    <span className="font-bold text-red-700 text-sm">{t('dashboard.liveNow')}</span>
                   </div>
                   <div className="flex-1 text-center">
                     <div className="text-sm text-red-800 transition-all duration-500">
                       <span>
                         <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> is cooking{' '}
-                        <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} watching
+                        <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-2xl">{activeLiveSessions[currentSessionIndex].thumbnail}</span>
                     <div className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-medium">
-                      🔴 Join Live
+                      🔴 {t('dashboard.join')}
                     </div>
                   </div>
                 </div>
@@ -427,9 +430,9 @@ const StudentProgressDashboard: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <ProgressCard
                   emoji="📚"
-                  title="Curriculum Progress"
+                  title={t('dashboard.learningProgress')}
                   description="Track lessons completed and time spent learning"
-                  buttonText="View Progress"
+                  buttonText={t('dashboard.viewDetails')}
                   bgColor="bg-blue-50"
                   textColor="text-blue-800"
                   borderColor="border-blue-400"
@@ -438,9 +441,9 @@ const StudentProgressDashboard: React.FC = () => {
 
                 <ProgressCard
                   emoji="⭐"
-                  title="Skill Development"
+                  title={t('dashboard.skillsDevelopment')}
                   description="Monitor your skill level and recipe mastery"
-                  buttonText="View Development"
+                  buttonText={t('dashboard.viewDetails')}
                   bgColor="bg-green-50"
                   textColor="text-green-800"
                   borderColor="border-green-400"
@@ -449,9 +452,9 @@ const StudentProgressDashboard: React.FC = () => {
 
                 <ProgressCard
                   emoji="🏆"
-                  title="Achievements"
+                  title={t('dashboard.achievements')}
                   description="View badges and accomplishments"
-                  buttonText="View Milestones"
+                  buttonText={t('dashboard.viewDetails')}
                   bgColor="bg-purple-50"
                   textColor="text-purple-800"
                   borderColor="border-purple-400"
@@ -468,7 +471,7 @@ const StudentProgressDashboard: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-blue-600 font-retro">📚 Curriculum Progress</h2>
+              <h2 className="text-2xl font-bold text-blue-600 font-retro">📚 {t('dashboard.learningProgress')}</h2>
               <button
                 onClick={() => setCurriculumModalOpen(false)}
                 className="text-gray-500 hover:text-gray-800 text-2xl"
@@ -501,7 +504,7 @@ const StudentProgressDashboard: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-green-600 font-retro">⭐ Skill Development</h2>
+              <h2 className="text-2xl font-bold text-green-600 font-retro">⭐ {t('dashboard.skillsDevelopment')}</h2>
               <button
                 onClick={() => setSkillsModalOpen(false)}
                 className="text-gray-500 hover:text-gray-800 text-2xl"
@@ -534,7 +537,7 @@ const StudentProgressDashboard: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-purple-600 font-retro">🏆 Achievements</h2>
+              <h2 className="text-2xl font-bold text-purple-600 font-retro">🏆 {t('dashboard.achievements')}</h2>
               <button
                 onClick={() => setAchievementsModalOpen(false)}
                 className="text-gray-500 hover:text-gray-800 text-2xl"

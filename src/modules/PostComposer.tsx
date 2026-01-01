@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../api/supabaseClient';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
@@ -6,6 +7,7 @@ import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 
 const PostComposer = () => {
+  const { t } = useTranslation();
   const [input, setInput] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -71,7 +73,7 @@ const PostComposer = () => {
     <form onSubmit={handleSubmit} className="chefs-corner-composer bg-weatheredWhite p-4 rounded shadow mb-6">
       <textarea
         className="w-full border rounded p-2 mb-2"
-        placeholder="Share a tip, story, or recipe..."
+        placeholder={t('social.share')}
         value={input}
         onChange={e => setInput(e.target.value)}
         disabled={isSubmitting}
@@ -99,7 +101,7 @@ const PostComposer = () => {
           }`}
           disabled={isSubmitting}
         >
-          {isSubmitting ? 'Posting...' : 'Post'}
+          {isSubmitting ? t('social.posting') : t('social.post')}
         </button>
       </div>
     </form>

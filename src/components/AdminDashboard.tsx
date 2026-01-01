@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { supabase } from '../api/supabaseClient';
 import { useSupabase } from './SupabaseProvider';
 import { askChefFreddie } from '../api/chefFreddie';
@@ -41,6 +42,7 @@ interface AdminDashboardProps {
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('overview');
   
   // Mobile tab state - mimicking Student Dashboard
@@ -1102,7 +1104,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-maineBlue text-xl">Loading admin dashboard...</div>
+        <div className="text-maineBlue text-xl">{t('common.loading')}</div>
       </div>
     );
   }
@@ -1119,7 +1121,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          🏫 Home
+          🏫 {t('dashboard.home')}
         </button>
         <button
           onClick={() => setActiveMobileTab('actions')}
@@ -1129,7 +1131,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          ⚡ Quick Actions
+          ⚡ {t('dashboard.quickActions')}
         </button>
         <button
           onClick={() => setActiveMobileTab('events')}
@@ -1149,7 +1151,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
           {/* Dashboard header - matching student dashboard */}
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-retro text-maineBlue mb-2">Teacher View</h1>
+            <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('admin.adminDashboard')}</h1>
             <p className="text-gray-600 italic">Manage your school's curriculum delivery and student engagement!</p>
           </div>
           
@@ -1171,7 +1173,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
             >
               <div className="mb-3 text-4xl">🌡️</div>
-              <h3 className="text-sm font-bold font-retro">Program Health</h3>
+              <h3 className="text-sm font-bold font-retro">{t('admin.overview')}</h3>
             </button>
             
             <button
@@ -1186,7 +1188,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
             >
               <div className="mb-3 text-4xl">🎓</div>
-              <h3 className="text-sm font-bold font-retro">People Management</h3>
+              <h3 className="text-sm font-bold font-retro">{t('admin.users')}</h3>
             </button>
             
             <button

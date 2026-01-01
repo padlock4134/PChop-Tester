@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/FreddieContext';
 import VideoModal from '../components/VideoModal';
 import { useRecipeContext } from '../components/RecipeContext';
@@ -132,6 +133,7 @@ function getTwoTutorials(recipe: any) {
 
 
 const CulinarySchool = () => {
+  const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
   console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
@@ -343,7 +345,7 @@ const CulinarySchool = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          🍳 Culinary School
+          🍳 {t('culinarySchool.title')}
         </button>
         <button
           onClick={() => setActiveMobileTab('syllabus')}
@@ -353,7 +355,7 @@ const CulinarySchool = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          📚 Syllabus
+          📚 {t('culinarySchool.syllabus')}
         </button>
       </div>
       
@@ -364,7 +366,7 @@ const CulinarySchool = () => {
           {/* Culinary School header - moved back inside the module */}
           <div className="flex items-center justify-center mb-4">
             <span className="text-5xl mr-2">🍳</span>
-            <h1 className="text-3xl font-retro text-maineBlue mb-0">Culinary School</h1>
+            <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('culinarySchool.title')}</h1>
           </div>
           
           {/* Separation line */}
@@ -403,7 +405,7 @@ const CulinarySchool = () => {
               <button
                 onClick={() => window.location.reload()}
                 className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
-                title="Close recipe"
+                title={t('culinarySchool.closeRecipe')}
               >
                 <span className="text-red-500 font-bold text-lg">✕</span>
               </button>
@@ -480,10 +482,10 @@ const CulinarySchool = () => {
               ))}
             </ol>
             <div className="mt-8 text-center">
-              <div className="text-gray-700 mb-4">Want to get started? Head to My Kitchen and click <b>'Cook Me'</b> on any recipe!</div>
+              <div className="text-gray-700 mb-4">{t('culinarySchool.getStarted')}</div>
               <div className="flex justify-center space-x-4">
-                <Link to="/my-kitchen" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">Go to My Kitchen</Link>
-                <Link to="/my-cookbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">Go to My Cookbook</Link>
+                <Link to="/my-kitchen" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('culinarySchool.goToMyKitchen')}</Link>
+                <Link to="/my-cookbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('culinarySchool.goToMyCookbook')}</Link>
               </div>
             </div>
           </>

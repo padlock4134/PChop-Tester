@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLevelProgressContext } from './NavBar';
 import WeeklyChallengeRecipeModal from './WeeklyChallengeRecipeModal';
 import type { RecipeCard } from './RecipeMatcherModal';
@@ -311,6 +312,7 @@ function getCurrentWeeklyChallenge() {
 }
 
 const ChallengeOfTheWeek: React.FC = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [recipeModalOpen, setRecipeModalOpen] = useState(false);
   const [modalRecipe, setModalRecipe] = useState<RecipeCard | null>(null);
@@ -375,8 +377,8 @@ const ChallengeOfTheWeek: React.FC = () => {
       {!alreadyClaimed ? (
         <button
           className="relative flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100 hover:bg-yellow-200 shadow text-2xl cursor-pointer transition-colors"
-          title={"Challenge of the Week: " + challenge.title}
-          aria-label={"Challenge of the Week: " + challenge.title}
+          title={t('challenge.challengeOfTheWeek') + ": " + challenge.title}
+          aria-label={t('challenge.challengeOfTheWeek') + ": " + challenge.title}
           onClick={() => setOpen(true)}
           style={{ outline: 'none', border: 'none' }}
         >
@@ -385,8 +387,8 @@ const ChallengeOfTheWeek: React.FC = () => {
       ) : (
         <button
           className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 cursor-not-allowed text-2xl"
-          title="You've already claimed this week's challenge!"
-          aria-label="Challenge already claimed"
+          title={t('challenge.completed')}
+          aria-label={t('challenge.completed')}
           disabled
           style={{ outline: 'none', border: 'none' }}
         >
@@ -405,19 +407,19 @@ const ChallengeOfTheWeek: React.FC = () => {
             <span className="text-3xl mb-2">🏆</span>
             <span className="font-bold text-xl text-yellow-800 mb-1">{challenge.title}</span>
             <span className="text-gray-800 mb-2 text-center">{challenge.description}</span>
-            <span className="text-sm text-gray-500">Reward: <b>{challenge.reward.xp} XP</b> and <b>{challenge.reward.badge}</b> badge</span>
+            <span className="text-sm text-gray-500">{t('challenge.viewDetails')}: <b>{challenge.reward.xp} XP</b> and <b>{challenge.reward.badge}</b> badge</span>
             <button
               className="mt-4 px-4 py-2 rounded bg-maineBlue hover:bg-seafoam text-seafoam hover:text-maineBlue font-bold shadow border border-black w-full"
               onClick={handleCookMe}
               disabled={loading}
             >
-              {loading ? 'Generating Recipe...' : 'Cook Me'}
+              {loading ? t('common.loading') : t('myKitchen.cookMe')}
             </button>
             {error && <div className="text-red-600 mt-2">{error}</div>}
             <button
               className="mt-2 px-4 py-1 rounded bg-yellow-200 hover:bg-yellow-300 text-yellow-900 font-semibold shadow border border-black w-full"
               onClick={() => setOpen(false)}
-            >Close</button>
+            >{t('modals.close')}</button>
           </div>
         </div>
       )}

@@ -4,6 +4,7 @@ import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
 import { Ingredient } from '../types/shared-types';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
+import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../api/vision';
 import RecipeMatcherModal, { RecipeCard } from '../components/RecipeMatcherModal';
@@ -45,6 +46,11 @@ function categorizeIngredient(name: string): string {
 }
 
 const MyKitchen = () => {
+  const { t } = useTranslation();
+  const { updateContext } = useFreddieContext();
+  const { refreshXP } = useLevelProgressContext();
+  const { user } = useSupabase();
+  
   // ...existing state
   const [scanLoading, setScanLoading] = useState(false);
   const [scanError, setScanError] = useState('');
@@ -73,16 +79,12 @@ const MyKitchen = () => {
 
   // MyCookBook state (for MVP, local only)
   const [cookbook, setCookbook] = useState<RecipeCard[]>([]);
-  const { refreshXP } = useLevelProgressContext();
-
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [kitchenError, setKitchenError] = useState<string | null>(null);
 
   const [input, setInput] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [filterText, setFilterText] = useState('');
-
-  const { user } = useSupabase();
 
   const addIngredient = () => {
     if (input.trim()) {
@@ -98,7 +100,6 @@ const MyKitchen = () => {
   }, [ingredients]);
 
   // Freddie context: set page on mount
-  const { updateContext } = useFreddieContext();
   useEffect(() => {
     updateContext({ page: 'MyKitchen' });
     // Load both kitchen and cookbook data
@@ -173,7 +174,7 @@ const MyKitchen = () => {
         {/* My Kitchen header - moved back inside the module */}
         <div className="flex items-center justify-center mb-4">
           <span className="text-5xl mr-2">🐟</span>
-          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Kitchen</h1>
+          <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myKitchen.title')}</h1>
         </div>
         
         {/* Separation line */}
@@ -184,7 +185,7 @@ const MyKitchen = () => {
         {scanStatus && (
           <div className="w-full text-center mb-2 text-maineBlue font-bold bg-seafoam bg-opacity-30 rounded p-2">
             {scanStatus}
-            <button className="ml-2 text-lobsterRed underline" onClick={() => setScanStatus(null)}>Clear</button>
+            <button className="ml-2 text-lobsterRed underline" onClick={() => setScanStatus(null)}>{t('common.clear')}</button>
           </div>
         )}
         <input

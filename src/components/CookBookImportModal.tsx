@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRecipeContext } from './RecipeContext';
 
 interface CookBookImportModalProps {
@@ -14,6 +15,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
   onImport,
   existingIngredients = []
 }) => {
+  const { t } = useTranslation();
   const { recipes } = useRecipeContext();
   const [selectedRecipe, setSelectedRecipe] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -76,16 +78,16 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
         className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-2xl max-h-[90vh] flex flex-col"
       >
         <div className="p-6 pb-0">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Select Recipe to Showcase</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('cookbook.selectRecipe')}</h2>
           <p className="text-gray-600 mb-4">
-            Choose a recipe from your cookbook to showcase in Chef's Corner.
+            {t('cookbook.chooseRecipe')}
           </p>
         </div>
         
         <div className="flex-1 overflow-y-auto p-6 pt-2">
           {recipes.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              No recipes found in your CookBook.
+              {t('cookbook.noRecipes')}
             </div>
           ) : (
             <div className="space-y-3">
@@ -103,8 +105,8 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900">{recipe.title}</h3>
                       <p className="text-sm text-gray-500 mt-1">
-                        {Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0} ingredients
-                        {recipe.instructions && ' • Instructions included'}
+                        {Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0} {t('cookbook.ingredients')}
+                        {recipe.instructions && ' • ' + t('cookbook.instructionsIncluded')}
                       </p>
                     </div>
                     {selectedRecipe?.id === recipe.id && (
@@ -136,7 +138,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
             }`}
             disabled={isLoading || !selectedRecipe}
           >
-            {isLoading ? 'Importing...' : 'Showcase Recipe'}
+            {isLoading ? t('cookbook.importing') : t('cookbook.showcaseRecipe')}
           </button>
         </div>
       </div>

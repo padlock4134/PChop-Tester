@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PlayIcon, PauseIcon, StopIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 interface Timer {
@@ -16,6 +17,7 @@ interface CookingTimerProps {
 }
 
 const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize }) => {
+  const { t } = useTranslation();
   const [timers, setTimers] = useState<Timer[]>([]);
   const [newTimerMinutes, setNewTimerMinutes] = useState(5);
   const [newTimerLabel, setNewTimerLabel] = useState('');
@@ -133,7 +135,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
       <div className="bg-sand p-4 rounded-lg border border-black">
         <div className="flex items-center justify-between mb-3">
           <label className="text-sm font-semibold text-gray-700">
-            Serving Size:
+            {t('cookingTimer.servings')}:
           </label>
           <div className="flex items-center space-x-2">
             <input
@@ -144,7 +146,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
               onChange={(e) => setServingSize(parseInt(e.target.value) || 1)}
               className="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold"
             />
-            <span className="text-sm text-gray-600">people</span>
+            <span className="text-sm text-gray-600">{t('cookingTimer.servings').toLowerCase()}</span>
           </div>
         </div>
         
@@ -190,7 +192,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
                 <div className="font-semibold text-maineBlue">{timer.label}</div>
                 <div className={`text-2xl font-mono ${timer.isFinished ? 'text-red-600' : 'text-gray-800'}`}>
                   {formatTime(timer.remainingSeconds)}
-                  {timer.isFinished && <span className="text-sm ml-2 text-red-600 font-bold">DONE!</span>}
+                  {timer.isFinished && <span className="text-sm ml-2 text-red-600 font-bold">{t('challenge.completed').toUpperCase()}!</span>}
                 </div>
               </div>
               <div className="flex space-x-2">
@@ -229,7 +231,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
 
       {timers.length === 0 && (
         <div className="bg-sand p-4 rounded-lg border border-black">
-          <h4 className="text-sm font-semibold mb-2 text-gray-700">Quick Timers:</h4>
+          <h4 className="text-sm font-semibold mb-2 text-gray-700">{t('cookingTimer.title')}:</h4>
           <div className="flex flex-wrap gap-2">
             {presetTimers.map((preset, index) => (
               <button

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { RecipeCard } from './RecipeMatcherModal';
 
 type Props = {
@@ -6,6 +7,7 @@ type Props = {
 };
 
 const RecipeCardComponent: React.FC<Props> = ({ recipe }) => {
+  const { t } = useTranslation();
   return (
     <div className="bg-sand rounded-xl shadow-lg border-4 border-maineBlue p-4 w-full max-w-md mb-4 relative">
       <img src={recipe.image} alt={recipe.title} className="w-full h-48 object-cover rounded mb-2" />
@@ -22,22 +24,22 @@ const RecipeCardComponent: React.FC<Props> = ({ recipe }) => {
       </div>
       <div className="grid grid-cols-3 gap-2 mb-2">
         <div className="text-xs text-gray-600">
-          <div className="font-bold">Ingredients</div>
+          <div className="font-bold">{t('recipeCard.ingredients')}</div>
           {recipe.ingredients.join(', ')}
         </div>
         <div className="text-xs text-gray-600">
-          <div className="font-bold">Equipment</div>
+          <div className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Equipment' })}</div>
           {recipe.equipment?.join(', ') || 'None'}
         </div>
         <div className="text-xs text-gray-600">
-          <div className="font-bold">Nutrition</div>
-          <div>Carbs: {recipe.nutrition?.carbs}g</div>
-          <div>Protein: {recipe.nutrition?.protein}g</div>
-          <div>Sat Fat: {recipe.nutrition?.saturatedFat}g</div>
+          <div className="font-bold">{t('recipeCard.nutrition')}</div>
+          <div>{t('recipeCard.carbs')}: {recipe.nutrition?.carbs}g</div>
+          <div>{t('recipeCard.protein')}: {recipe.nutrition?.protein}g</div>
+          <div>{t('recipeCard.fat')}: {recipe.nutrition?.saturatedFat}g</div>
         </div>
       </div>
       <div className="text-xs text-gray-600">
-        <span className="font-bold">Instructions:</span> {recipe.instructions}
+        <span className="font-bold">{t('recipeCard.instructions')}:</span> {recipe.instructions}
       </div>
     </div>
   );

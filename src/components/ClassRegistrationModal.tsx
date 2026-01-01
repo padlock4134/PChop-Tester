@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ClassRegistrationModalProps {
   open: boolean;
@@ -7,6 +8,7 @@ interface ClassRegistrationModalProps {
 }
 
 const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, onClose, onRegistrationComplete }) => {
+  const { t } = useTranslation();
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -51,7 +53,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
           ×
         </button>
         
-        <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">Class Registration - Spring 2025</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">{t('registration.classRegistration')} - {t('registration.spring2025')}</h2>
         
         {successMessage && (
           <div className="mb-4 p-3 bg-green-100 text-green-800 rounded border border-black">
@@ -80,8 +82,8 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-sm font-semibold text-green-600">15/20 seats</div>
-                <div className="text-xs text-gray-500">5 available</div>
+                <div className="text-sm font-semibold text-green-600">15/20 {t('registration.seatsAvailable')}</div>
+                <div className="text-xs text-gray-500">5 {t('registration.available')}</div>
               </div>
             </div>
             <div className="text-xs text-green-600 ml-7">✓ Prerequisites met</div>
@@ -108,7 +110,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
               </div>
               <div className="text-right">
                 <div className="text-sm font-semibold text-orange-600">18/18 seats</div>
-                <div className="text-xs text-orange-500">Waitlist available</div>
+                <div className="text-xs text-orange-500">{t('registration.waitlistAvailable')}</div>
               </div>
             </div>
             <div className="text-xs text-green-600 ml-7">✓ Prerequisites met • Will join waitlist</div>
@@ -164,7 +166,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 <div className="text-xs text-gray-500">4 available</div>
               </div>
             </div>
-            <div className="text-xs text-red-600 ml-7">✗ Requires CUL 201 (Basic Sauces)</div>
+            <div className="text-xs text-red-600 ml-7">✗ {t('registration.requires')} CUL 201 (Basic Sauces)</div>
           </div>
         </div>
 
@@ -188,13 +190,13 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
           >
             {isSubmitting 
               ? 'Submitting...' 
-              : `Register for ${selectedClasses.length} Class${selectedClasses.length !== 1 ? 'es' : ''}`
+              : `${t('registration.register')} for ${selectedClasses.length} Class${selectedClasses.length !== 1 ? 'es' : ''}`
             }
           </button>
         </div>
 
         <p className="mt-4 text-xs text-gray-500 text-center">
-          Registration requests are processed within 24 hours. You'll receive email confirmation once approved.
+          {t('registration.registrationRequestsAreProcessedWithin')} 24 hours. You'll receive email confirmation once approved.
         </p>
       </div>
     </div>

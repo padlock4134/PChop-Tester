@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useRecipeContext } from './RecipeContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
@@ -50,6 +51,7 @@ type Props = {
 };
 
 const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
+  const { t } = useTranslation();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
@@ -57,9 +59,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const navigate = useNavigate();
 
   const loadingMessages = [
-    "Chef Freddie Taking A Look...",
-    "Preparing Your Meals...",
-    "Almost Ready..."
+    t('common.loading'),
+    t('common.loading'),
+    t('common.loading')
   ];
 
   // Timer effect for loading steps

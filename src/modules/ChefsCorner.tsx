@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import ChefFreddieWidget from './ChefFreddieWidget';
-import { useEffect } from 'react';
 import { useFreddieContext } from '../components/FreddieContext';
 import { fetchKitchen } from './kitchenSupabase';
 import CookBookImportModal from '../components/CookBookImportModal';
@@ -16,6 +16,7 @@ import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionSe
 import { KeyNutrients } from '../types/nutrition';
 
 const ChefsCorner = () => {
+  const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { recipes, setRecipes } = useRecipeContext();
   const { user } = useSupabase();
@@ -225,7 +226,7 @@ const ChefsCorner = () => {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            🦐 Chef's Corner
+            🦐 {t('chefsCorner.title')}
           </button>
           <button
             onClick={() => setActiveMobileTab('kitchen')}
@@ -247,7 +248,7 @@ const ChefsCorner = () => {
             {/* Chef's Corner header - moved back inside the module */}
             <div className="flex items-center justify-center mb-4">
               <span className="text-5xl mr-2">🦐</span>
-              <h1 className="text-3xl font-retro text-maineBlue mb-0">Chefs Corner</h1>
+              <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('chefsCorner.title')}</h1>
             </div>
             
             {/* Separation line */}
@@ -258,21 +259,21 @@ const ChefsCorner = () => {
                 <div className="bg-sand p-4 rounded-lg border border-black">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-semibold text-gray-700">
-                      Showcase Recipe:
+                      {t('chefsCorner.showcaseRecipe')}
                     </label>
                     <div className="flex gap-2">
                       <button
                         onClick={() => setBuildMenuModalOpen(true)}
                         className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                       >
-                        🍽️ Build Menu
+                        🍽️ {t('chefsCorner.buildMenu')}
                       </button>
                       <button 
                         onClick={importFromCookBook} 
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
                         disabled={isLoading}
                       >
-                        {isLoading ? 'Loading...' : 'Import Recipe to Showcase'}
+                        {isLoading ? 'Loading...' : t('chefsCorner.importFromCookbook')}
                       </button>
                     </div>
                   </div>

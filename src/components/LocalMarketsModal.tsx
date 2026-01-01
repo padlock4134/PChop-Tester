@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
 
 // TypeScript declarations for Google Maps API (will be available at runtime)
@@ -41,6 +42,7 @@ interface CategoryCardProps {
 }
 
 const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket }) => {
+  const { t } = useTranslation();
   const [flipped, setFlipped] = useState(false);
 
   const getTypeIcon = (type: string) => {
@@ -75,7 +77,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
                     ? 'bg-green-100 text-green-800' 
                     : 'bg-red-100 text-red-800'
                 }`}>
-                  {market.isOpen ? 'Open' : 'Closed'}
+                  {market.isOpen ? t('markets.open') : t('markets.closed')}
                 </span>
               )}
             </div>
@@ -83,7 +85,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
             <p className="text-sm text-gray-600 mb-2 line-clamp-2">{market.address}</p>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700">{market.distance} mi</span>
+            <span className="text-sm font-medium text-gray-700">{market.distance} {t('markets.miles')}</span>
             {market.rating && (
               <span className="text-sm flex items-center gap-1">
                 ⭐ {market.rating}
@@ -125,12 +127,12 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-gray-500">📏</span>
-                <span className="text-gray-700">{market.distance} miles away</span>
+                <span className="text-gray-700">{market.distance} {t('markets.distance')}</span>
               </div>
               {market.rating && (
                 <div className="flex items-center gap-2">
                   <span className="text-gray-500">⭐</span>
-                  <span className="text-gray-700">{market.rating} rating</span>
+                  <span className="text-gray-700">{market.rating} {t('markets.rating')}</span>
                 </div>
               )}
               <div className="flex items-center gap-2">
@@ -148,7 +150,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
             }}
             className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full"
           >
-            Get Directions
+            {t('markets.getDirections')}
           </button>
         </div>
       </div>
@@ -180,12 +182,13 @@ const LoadingCard: React.FC = () => {
 };
 
 const EmptyCard: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div className="relative h-48 w-full">
       <div className="absolute inset-0 bg-gray-100 p-4 rounded-lg shadow-md border border-gray-300 flex flex-col justify-center items-center">
         <div className="text-4xl mb-2 text-gray-400">🏪</div>
         <div className="text-sm text-gray-500 text-center">
-          No markets found
+          {t('markets.noMarketsFound')}
         </div>
         <div className="text-xs text-gray-400 text-center mt-1">
           Try expanding your search area
@@ -196,6 +199,7 @@ const EmptyCard: React.FC = () => {
 };
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, description, markets, loading, ingredientsForCategory }) => {
+  const { t } = useTranslation();
   const [flipped, setFlipped] = useState(false);
 
   // Get category-specific colors
@@ -242,7 +246,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
           {loading ? (
             <div className="text-center">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-maineBlue mx-auto"></div>
-              <p className="text-sm text-gray-500 mt-2">Searching...</p>
+              <p className="text-sm text-gray-500 mt-2">{t('markets.searching')}</p>
             </div>
           ) : markets.length === 0 ? (
             <div className="text-center">
@@ -283,7 +287,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
                   >
                     🌐
                   </a>
-                  <div className="text-gray-500">{market.distance} mi</div>
+                  <div className="text-gray-500">{market.distance} {t('markets.miles')}</div>
                 </div>
               ))}
             </div>
@@ -295,6 +299,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
 };
 
 const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, selectedRecipes }) => {
+  const { t } = useTranslation();
   const [markets, setMarkets] = useState<Market[]>([]);
   const [loading, setLoading] = useState(false);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);

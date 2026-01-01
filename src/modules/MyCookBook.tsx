@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/FreddieContext';
 import { useRecipeContext } from '../components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
@@ -62,6 +63,7 @@ export interface Recipe {
 }
 
 const MyCookBook = () => {
+  const { t } = useTranslation();
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
   const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
@@ -467,7 +469,7 @@ const MyCookBook = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          📖 My Cookbook
+          📖 {t('myCookbook.title')}
         </button>
         <button
           onClick={() => setActiveMobileTab('collections')}
@@ -477,7 +479,7 @@ const MyCookBook = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          📚 Collections
+          📚 {t('myCookbook.collections')}
         </button>
       </div>
       
@@ -488,7 +490,7 @@ const MyCookBook = () => {
           {/* My Cook Book header - moved back inside the module */}
           <div className="flex items-center justify-center mb-4">
             <span className="text-5xl mr-2">📖</span>
-            <h1 className="text-3xl font-retro text-maineBlue mb-0">My Cook Book</h1>
+            <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myCookbook.title')}</h1>
           </div>
           
           {/* Separation line */}
