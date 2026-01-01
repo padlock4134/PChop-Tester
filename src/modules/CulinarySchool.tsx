@@ -395,7 +395,7 @@ const CulinarySchool = () => {
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">Step {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{t('culinarySchool.step')} {idx + 1}: {tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
                 </li>
               ))}
@@ -422,38 +422,38 @@ const CulinarySchool = () => {
                 <h3 className="font-bold text-xl mb-1 text-maineBlue">{selectedRecipe.title}</h3>
                 {/* No description on RecipeCard, but add if needed: */}
                 {/* <div className="text-gray-600 mb-2 text-base">{selectedRecipe.description}</div> */}
-                <div className="font-semibold mb-1 mt-2">Ingredients:</div>
+                <div className="font-semibold mb-1 mt-2">{t('culinarySchool.ingredients')}</div>
                 <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                   {selectedRecipe.ingredients?.length ? (
                     selectedRecipe.ingredients.map((ing, i) => <li key={i}>{ing}</li>)
                   ) : (
-                    <li className="italic text-gray-400">No ingredients listed.</li>
+                    <li className="italic text-gray-400">{t('culinarySchool.noIngredientsListed')}</li>
                   )}
                 </ul>
                 {recipeNutrition && (
                   <div className="mt-2">
-                    <div className="font-semibold mb-1">Nutrition (total for {servingSize} servings):</div>
+                    <div className="font-semibold mb-1">{t('culinarySchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
                     <div className="text-sm">
-                      <div>Carbs: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>Sugars: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>Fiber: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>Protein: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
+                      <div>{t('culinarySchool.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
+                      <div>{t('culinarySchool.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
+                      <div>{t('culinarySchool.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
+                      <div>{t('culinarySchool.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
                     </div>
                   </div>
                 )}
               </div>
               {/* Right Page */}
               <div className="flex-1 p-6 bg-white flex flex-col">
-                <h3 className="font-bold text-xl mb-2 text-maineBlue">Instructions</h3>
+                <h3 className="font-bold text-xl mb-2 text-maineBlue">{t('culinarySchool.instructions')}</h3>
                 <div className="text-gray-700 whitespace-pre-line text-[15px] leading-7 flex-1">
                   {selectedRecipe.instructions || (
-                    <span className="italic text-gray-400">No instructions provided.</span>
+                    <span className="italic text-gray-400">{t('culinarySchool.noInstructionsProvided')}</span>
                   )}
                 </div>
                 {/* Equipment Section */}
                 {selectedRecipe.equipment && selectedRecipe.equipment.length > 0 && (
                   <>
-                    <div className="font-semibold mt-4 mb-1">Equipment Needed:</div>
+                    <div className="font-semibold mt-4 mb-1">{t('culinarySchool.equipmentNeeded')}</div>
                     <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                       {selectedRecipe.equipment.map((eq, i) => (
                         <li key={i}>{eq}</li>
@@ -462,7 +462,7 @@ const CulinarySchool = () => {
                   </>
                 )}
                 {(!selectedRecipe.equipment || selectedRecipe.equipment.length === 0) && (
-                  <div className="italic text-gray-400 mt-2">No equipment listed.</div>
+                  <div className="italic text-gray-400 mt-2">{t('culinarySchool.noEquipmentListed')}</div>
                 )}
               </div>
             </div>
@@ -476,7 +476,7 @@ const CulinarySchool = () => {
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">Step {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{t('culinarySchool.step')} {idx + 1}: {tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
                 </li>
               ))}

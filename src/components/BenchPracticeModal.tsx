@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import ARPracticeScene from './ARPracticeScene';
 import { supabase } from '../api/supabaseClient';
 import { useSupabase } from './SupabaseProvider';
@@ -10,6 +11,7 @@ interface BenchPracticeModalProps {
 }
 
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
+  const { t } = useTranslation();
   const { user } = useSupabase();
   const [isPracticing, setIsPracticing] = useState(false);
   const [practiceMode, setPracticeMode] = useState<'real' | 'virtual' | null>(null);
@@ -67,7 +69,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       setIsPracticing(true);
     } catch (error) {
       console.error('Error accessing camera:', error);
-      alert('Could not access camera. Please check permissions.');
+      alert(t('culinarySchool.charcuterieBoard.couldNotAccessCamera'));
     }
   };
 
@@ -108,7 +110,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       }
     } catch (error) {
       console.error('Error generating AR practice:', error);
-      alert('Could not generate AR practice. Please try again.');
+      alert(t('culinarySchool.charcuterieBoard.couldNotGenerateAR'));
       setPracticeMode(null);
     } finally {
       setIsGeneratingAR(false);
@@ -153,21 +155,21 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const handleSaveVideo = async () => {
     console.log('Save video called. Blob:', recordedBlob);
     if (!recordedBlob) {
-      alert('No recording found to save.');
+      alert(t('culinarySchool.charcuterieBoard.noRecordingFound'));
       setSaveModalOpen(false);
       cleanupPractice();
       return;
     }
     
     if (recordedBlob.size === 0) {
-      alert('Recording is empty. Please try recording again.');
+      alert(t('culinarySchool.charcuterieBoard.recordingEmpty'));
       setSaveModalOpen(false);
       cleanupPractice();
       return;
     }
 
     if (!videoTitle.trim()) {
-      alert('Please enter a title for your video.');
+      alert(t('culinarySchool.charcuterieBoard.pleaseEnterTitle'));
       return;
     }
 
@@ -202,7 +204,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       }
 
       console.log('Video saved successfully:', data);
-      alert(`Practice video "${videoTitle}" saved successfully! 🎉`);
+      alert(t('culinarySchool.charcuterieBoard.videoSavedSuccess').replace('{title}', videoTitle));
       
       // Clear form data
       setVideoTitle('');
@@ -248,7 +250,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-xl flex items-center justify-center">
               <span className="text-2xl mr-2">🧀</span>
-              Your Charcuterie Board
+              {t('culinarySchool.charcuterieBoard.title')}
             </h2>
           </div>
           
@@ -257,12 +259,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-lg font-bold mb-2 text-center text-amber-800">
-                {practiceMode === 'real' ? '🎥 REAL PRACTICE' : '📚 VIRTUAL PRACTICE'}: {arScene?.lesson || 'Knife Skills'}
+                {practiceMode === 'real' ? `🎥 ${t('culinarySchool.charcuterieBoard.realPractice')}` : `📚 ${t('culinarySchool.charcuterieBoard.virtualPractice')}`}: {arScene?.lesson || 'Knife Skills'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-2">
                 {practiceMode === 'real' 
-                  ? 'AI-Guided Practice Session'
-                  : 'AR Demonstration • Old-School Technique'}
+                  ? t('culinarySchool.charcuterieBoard.aiGuidedPractice')
+                  : t('culinarySchool.charcuterieBoard.arDemonstration')}
               </p>
             </>
           )}
@@ -273,8 +275,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               // Generating AR scene
               <div className="text-amber-900 text-center">
                 <div className="text-6xl mb-4 animate-pulse">🧠</div>
-                <p className="text-lg font-bold">AI Generating Your Practice...</p>
-                <p className="text-sm opacity-75 mt-2">Creating virtual kitchen workspace</p>
+                <p className="text-lg font-bold">{t('culinarySchool.charcuterieBoard.aiGeneratingPractice')}</p>
+                <p className="text-sm opacity-75 mt-2">{t('culinarySchool.charcuterieBoard.creatingVirtualKitchen')}</p>
               </div>
             ) : isPracticing && practiceMode === 'real' && stream ? (
               // Real practice mode - show camera feed
@@ -290,7 +292,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <ARPracticeScene 
                 scene={arScene}
                 onComplete={() => {
-                  alert('Practice complete! Great job!');
+                  alert(t('culinarySchool.charcuterieBoard.practiceComplete'));
                   cleanupPractice();
                 }}
                 guideOpen={guideOpen}
@@ -301,8 +303,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               // Not practicing - show placeholder
               <div className="text-amber-900 text-center">
                 <div className="text-4xl mb-2">👨‍🍳</div>
-                <p className="text-sm font-bold">AI-Guided Practice</p>
-                <p className="text-xs opacity-75">Select a lesson and start practicing</p>
+                <p className="text-sm font-bold">{t('culinarySchool.charcuterieBoard.aiGuidedPracticeLabel')}</p>
+                <p className="text-xs opacity-75">{t('culinarySchool.charcuterieBoard.selectLessonStart')}</p>
               </div>
             )}
             
@@ -310,13 +312,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             {isPracticing && (
               <div className="absolute top-4 left-4 bg-amber-700 text-white text-sm px-3 py-1 rounded-full flex items-center">
                 <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
-                PRACTICING
+                {t('culinarySchool.charcuterieBoard.practicing')}
               </div>
             )}
             
             {/* Timer/Progress */}
             <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full">
-              ⏱️ {isPracticing ? '5:23' : 'Not started'}
+              ⏱️ {isPracticing ? '5:23' : t('culinarySchool.charcuterieBoard.notStarted')}
             </div>
           </div>
 
@@ -328,13 +330,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onClick={startRealPractice}
                   className="bg-amber-700 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-800 transition-colors border border-amber-900"
                 >
-                  🎥 Real Practice
+                  🎥 {t('culinarySchool.charcuterieBoard.realPracticeButton')}
                 </button>
                 <button 
                   onClick={startVirtualPractice}
                   className="bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
                 >
-                  📚 Virtual Practice
+                  📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
                 </button>
               </>
             ) : (
@@ -342,7 +344,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 onClick={endPractice}
                 className="bg-amber-800 text-white px-4 py-1 text-sm rounded-lg hover:bg-amber-900 transition-colors"
               >
-                ⏹️ End Practice
+                ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
               </button>
             )}
           </div>
@@ -353,7 +355,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-3 text-sm font-bold border-t-4 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
-            <span>{instructionsOpen ? 'Hide Instructions' : 'Show Instructions'}</span>
+            <span>{instructionsOpen ? t('culinarySchool.charcuterieBoard.hideInstructions') : t('culinarySchool.charcuterieBoard.showInstructions')}</span>
             <span className="text-xs">{instructionsOpen ? '▼' : '▲'}</span>
           </button>
           
@@ -363,7 +365,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               {/* Instructions Header */}
               <div className="p-3 bg-amber-100 text-amber-800 font-retro text-center border-b-2 border-amber-300">
                 <h3 className="text-base font-bold">
-                  📋 Practice Instructions
+                  📋 {t('culinarySchool.charcuterieBoard.practiceInstructions')}
                 </h3>
               </div>
               
@@ -372,34 +374,34 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Lesson Selection Dropdown */}
                 <div className="mb-3">
                   <label className="block text-xs font-semibold text-amber-800 mb-1">
-                    Select Lesson to Practice:
+                    {t('culinarySchool.charcuterieBoard.selectLessonToPractice')}
                   </label>
                   <select
                     value={selectedLesson}
                     onChange={(e) => setSelectedLesson(e.target.value)}
                     className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   >
-                    <option value="">Choose a lesson...</option>
-                    <optgroup label="Term 1: Culinary Foundations">
+                    <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
+                    <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
                       <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
                       <option value="lesson-1-2">Food Handling and Storage</option>
                       <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
                       <option value="lesson-1-4">Basic Cooking Terminology</option>
                       <option value="lesson-1-5">Weights, Measures, and Conversions</option>
                     </optgroup>
-                    <optgroup label="Term 1: Knife Skills">
+                    <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
                       <option value="lesson-2-1">Knife Safety and Maintenance</option>
                       <option value="lesson-2-2">Basic Knife Cuts</option>
                       <option value="lesson-2-3">Vegetable Fabrication</option>
                       <option value="lesson-2-4">Meat and Fish Fabrication</option>
                     </optgroup>
-                    <optgroup label="Term 2: Breakfast & Garde Manger">
+                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
                       <option value="lesson-3-1">Egg Cookery</option>
                       <option value="lesson-3-2">Breakfast Preparations</option>
                       <option value="lesson-3-3">Cold Food Preparation</option>
                       <option value="lesson-3-4">Salads and Dressings</option>
                     </optgroup>
-                    <optgroup label="Term 2: Baking & Pastry">
+                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
                       <option value="lesson-4-1">Basic Dough and Batters</option>
                       <option value="lesson-4-2">Quick Breads and Muffins</option>
                       <option value="lesson-4-3">Yeast Breads</option>
@@ -414,7 +416,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   className="w-full mb-3 bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow border-2 border-amber-600 px-3 py-1.5 text-sm cursor-pointer transition-all flex items-center justify-center gap-2"
                 >
                   <span className="text-base">📋</span>
-                  <span className="text-xs font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
+                  <span className="text-xs font-bold">{guideOpen ? t('culinarySchool.charcuterieBoard.closeGuide') : t('culinarySchool.charcuterieBoard.openGuide')}</span>
                 </button>
                 
                 {/* Guide Content - Appears below button when open */}
@@ -422,24 +424,24 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <div className="mb-3 border-4 border-amber-600 rounded-lg bg-amber-50 p-3 max-h-[30vh] overflow-y-auto">
                     <h4 className="text-sm font-bold text-amber-900 mb-2 flex items-center gap-2">
                       <span>📖</span>
-                      <span>Practice Guide</span>
+                      <span>{t('culinarySchool.charcuterieBoard.practiceGuide')}</span>
                     </h4>
                     <div className="space-y-2 text-xs text-gray-800">
                       <div className="bg-white p-2 rounded border border-amber-300">
-                        <p className="font-semibold text-amber-900 mb-1">🔪 Knife Technique</p>
-                        <p>Use a rocking motion with the tip of the knife staying on the cutting board. Keep your guide hand in a claw position to protect your fingertips.</p>
+                        <p className="font-semibold text-amber-900 mb-1">🔪 {t('culinarySchool.charcuterieBoard.knifeTechnique')}</p>
+                        <p>{t('culinarySchool.charcuterieBoard.knifeTechniqueDesc')}</p>
                       </div>
                       <div className="bg-white p-2 rounded border border-amber-300">
-                        <p className="font-semibold text-amber-900 mb-1">📏 Consistency</p>
-                        <p>Aim for uniform cuts. This ensures even cooking and professional presentation. Practice makes perfect!</p>
+                        <p className="font-semibold text-amber-900 mb-1">📏 {t('culinarySchool.charcuterieBoard.consistency')}</p>
+                        <p>{t('culinarySchool.charcuterieBoard.consistencyDesc')}</p>
                       </div>
                       <div className="bg-white p-2 rounded border border-amber-300">
-                        <p className="font-semibold text-amber-900 mb-1">⚡ Safety First</p>
-                        <p>Always cut away from your body. Keep your workspace clean and dry. A sharp knife is safer than a dull one.</p>
+                        <p className="font-semibold text-amber-900 mb-1">⚡ {t('culinarySchool.charcuterieBoard.safetyFirst')}</p>
+                        <p>{t('culinarySchool.charcuterieBoard.safetyFirstDesc')}</p>
                       </div>
                       <div className="bg-white p-2 rounded border border-amber-300">
-                        <p className="font-semibold text-amber-900 mb-1">🎯 Focus Points</p>
-                        <p>Watch your angles, maintain steady rhythm, and keep ingredients stable. The AI will provide real-time feedback on your technique.</p>
+                        <p className="font-semibold text-amber-900 mb-1">🎯 {t('culinarySchool.charcuterieBoard.focusPoints')}</p>
+                        <p>{t('culinarySchool.charcuterieBoard.focusPointsDesc')}</p>
                       </div>
                     </div>
                   </div>
@@ -448,23 +450,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Practice Steps */}
                 <div className="space-y-2">
                   <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 1: Setup</div>
-                    <p className="text-xs text-gray-700">Position your cutting board and gather ingredients</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step1Setup')}</div>
+                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step1Desc')}</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 2: Knife Grip</div>
-                    <p className="text-xs text-gray-700">Hold knife with proper pinch grip technique</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step2KnifeGrip')}</div>
+                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step2Desc')}</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 3: First Cuts</div>
-                    <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step3FirstCuts')}</div>
+                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step3Desc')}</p>
                   </div>
 
                   <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Step 4: Validation</div>
-                    <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
+                    <div className="font-semibold text-xs text-gray-600 mb-0.5">{t('culinarySchool.charcuterieBoard.step4Validation')}</div>
+                    <p className="text-xs text-gray-600">{t('culinarySchool.charcuterieBoard.step4Desc')}</p>
                   </div>
                 </div>
                 
@@ -474,11 +476,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                     <div className="flex items-start space-x-2">
                       <span className="text-base">🤖</span>
                       <div className="flex-1">
-                        <div className="font-semibold text-xs text-blue-900 mb-0.5">AI Feedback</div>
+                        <div className="font-semibold text-xs text-blue-900 mb-0.5">{t('culinarySchool.charcuterieBoard.aiFeedback')}</div>
                         <p className="text-xs text-blue-800">
                           {isPracticing 
-                            ? "Great start! Keep your knife angle consistent..."
-                            : "Start practicing to receive real-time AI guidance"}
+                            ? t('culinarySchool.charcuterieBoard.aiFeedbackActive')
+                            : t('culinarySchool.charcuterieBoard.aiFeedbackInactive')}
                         </p>
                       </div>
                     </div>
@@ -490,7 +492,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           
           {/* Practice Notice */}
           <div className="hidden lg:block text-center text-xs text-gray-600 mt-4">
-            📹 Practice sessions can be saved for review
+            📹 {t('culinarySchool.charcuterieBoard.practiceSessionsSaved')}
           </div>
           </div>
         </div>
@@ -606,18 +608,18 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="text-center">
             <div className="text-4xl mb-4">🎥</div>
             <h2 className="text-2xl font-bold mb-4 text-amber-800 font-retro">
-              Save Your Practice Session
+              {t('culinarySchool.charcuterieBoard.saveYourPracticeSession')}
             </h2>
             
             <p className="text-gray-700 mb-6 leading-relaxed">
-              Add details to save this video to your <span className="font-semibold text-amber-800">Practice Videos</span> collection:
+              {t('culinarySchool.charcuterieBoard.addDetailsToSave').replace('{collection}', `<span class="font-semibold text-amber-800">${t('culinarySchool.charcuterieBoard.practiceVideos')}</span>`)}
             </p>
             
             {/* Video Metadata Form */}
             <div className="space-y-4 mb-6 text-left">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Video Title *
+                  {t('culinarySchool.charcuterieBoard.videoTitleRequired')}
                 </label>
                 <input
                   type="text"
@@ -631,12 +633,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Notes
+                  {t('culinarySchool.charcuterieBoard.notes')}
                 </label>
                 <textarea
                   value={videoDescription}
                   onChange={(e) => setVideoDescription(e.target.value)}
-                  placeholder="Any notes about your practice session..."
+                  placeholder={t('culinarySchool.charcuterieBoard.notesPlaceholder')}
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
                   disabled={isSaving}
@@ -650,7 +652,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 disabled={isSaving}
                 className="flex-1 bg-gray-500 text-white py-3 px-4 rounded-lg font-bold hover:bg-gray-600 transition-colors border-2 border-gray-600 disabled:opacity-50"
               >
-                🚫 No, Don't Save
+                🚫 {t('culinarySchool.charcuterieBoard.noDoNotSave')}
               </button>
               <button
                 onClick={handleSaveVideo}
@@ -660,16 +662,16 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {isSaving ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Saving...
+                    {t('culinarySchool.charcuterieBoard.saving')}
                   </>
                 ) : (
-                  '💾 Save Video'
+                  `💾 ${t('culinarySchool.charcuterieBoard.saveVideo')}`
                 )}
               </button>
             </div>
             
             <p className="text-xs text-gray-500 mt-4">
-              💡 * Required field. Saved videos can be reviewed later
+              💡 {t('culinarySchool.charcuterieBoard.requiredField')}
             </p>
           </div>
         </div>
