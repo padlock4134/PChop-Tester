@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PlayIcon, VideoCameraIcon, UserGroupIcon, GlobeAltIcon, HeartIcon, ChatBubbleOvalLeftIcon, ShareIcon } from '@heroicons/react/24/outline';
 import { PlayIcon as PlaySolidIcon, HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { supabase } from '../api/supabaseClient';
@@ -50,6 +51,7 @@ interface GlobalTestKitchenProps {
 }
 
 const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) => {
+  const { t } = useTranslation();
   const { user } = useSupabase();
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'host'>('live');
 
@@ -197,13 +199,13 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {
     if (!user) {
-      alert('Please log in to report sessions.');
+      alert(t('chefsCorner.globalTestKitchen.pleaseLogInReport'));
       return;
     }
 
-    const reportReason = reason || prompt('Please describe the issue (optional):') || 'General report';
+    const reportReason = reason || prompt(t('chefsCorner.globalTestKitchen.describeIssue')) || 'General report';
     
-    if (confirm('Report this session to an administrator?')) {
+    if (confirm(t('chefsCorner.globalTestKitchen.reportSession'))) {
       try {
         // Log report to database for admin dashboard
         const { error } = await supabase
@@ -218,14 +220,14 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
         if (error) {
           console.error('Error logging report:', error);
-          alert('Failed to submit report. Please try again.');
+          alert(t('chefsCorner.globalTestKitchen.failedToReport'));
         } else {
           // Log the report activity for admin dashboard
           logUserActivity('session_reported', { 
             session_id: sessionId || currentLiveSession?.id, 
             reason: reportReason 
           });
-          alert('Thank you for your report. An administrator will review this session.');
+          alert(t('chefsCorner.globalTestKitchen.thankYouReport'));
         }
       } catch (error) {
         console.error('Error submitting report:', error);
@@ -295,7 +297,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
   const handleScheduleSession = async () => {
     if (!user) {
-      alert('Please log in to schedule sessions.');
+      alert(t('chefsCorner.globalTestKitchen.pleaseLogInSchedule'));
       return;
     }
 
@@ -319,7 +321,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
         if (error) {
           console.error('Error saving session:', error);
-          alert(`Failed to schedule session: ${error.message}. Please try again.`);
+          alert(t('chefsCorner.globalTestKitchen.failedToSchedule').replace('{error}', error.message));
           return;
         }
 
@@ -336,7 +338,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         // Add to local state for immediate UI update
         const newSession: UpcomingSession = {
           id: data.id,
-          hostName: 'You',
+          hostName: t('chefsCorner.globalTestKitchen.you'),
           dishName: scheduledDishName,
           culture: scheduledCuisine,
           scheduledTime: `${scheduledDate} at ${scheduledTime}`,
@@ -362,7 +364,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         
       } catch (error) {
         console.error('Error scheduling session:', error);
-        alert('Failed to schedule session. Please try again.');
+        alert(t('chefsCorner.globalTestKitchen.failedToScheduleGeneric'));
       }
     }
   };
@@ -423,7 +425,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         // Convert database format to component format
         const sessions: UpcomingSession[] = data.map((session: any) => ({
           id: session.id,
-          hostName: 'You',
+          hostName: t('chefsCorner.globalTestKitchen.you'),
           dishName: session.dish_name,
           culture: session.cuisine,
           scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
@@ -572,7 +574,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
       if (error) {
         console.error('Upload error details:', error);
-        alert(`Failed to save video: ${error.message || 'Unknown error'}. Please try again.`);
+        alert(t('chefsCorner.globalTestKitchen.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
         setIsSaving(false);
         return;
       }
@@ -591,7 +593,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert('Failed to save video. Please try again.');
+      alert(t('chefsCorner.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
       setSaveConfirmModalOpen(false);
@@ -657,7 +659,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
       if (error) {
         console.error('Upload error:', error);
-        alert('Failed to save video. Please try again.');
+        alert(t('chefsCorner.globalTestKitchen.failedToSaveVideoGeneric'));
         return;
       }
 
@@ -669,7 +671,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert('Failed to save video. Please try again.');
+      alert(t('chefsCorner.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
     }
@@ -902,13 +904,13 @@ END:VCALENDAR`;
       <div className="p-4 bg-red-500 text-white font-retro text-center">
         <h2 className="text-xl flex items-center justify-center">
           <span className="text-2xl mr-2">🌍</span>
-          Global Test Kitchen
+          {t('chefsCorner.globalTestKitchen.title')}
         </h2>
       </div>
       
       <div className="p-4">
         <p className="text-sm text-gray-600 text-center mb-4">
-          Share your heritage dishes and learn from fellow students worldwide
+          {t('chefsCorner.globalTestKitchen.subtitle')}
         </p>
 
         {/* Tab Navigation */}
@@ -921,7 +923,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🔴 Live
+            🔴 {t('chefsCorner.globalTestKitchen.live')}
           </button>
           <button
             onClick={() => setActiveTab('upcoming')}
@@ -931,7 +933,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            📅 Upcoming
+            📅 {t('chefsCorner.globalTestKitchen.upcoming')}
           </button>
           <button
             onClick={() => setActiveTab('host')}
@@ -941,7 +943,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🎥 Host
+            🎥 {t('chefsCorner.globalTestKitchen.host')}
           </button>
         </div>
 
@@ -951,8 +953,8 @@ END:VCALENDAR`;
           {liveSessions.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <VideoCameraIcon className="h-12 w-12 mx-auto mb-2 text-gray-300" />
-              <p>No live sessions right now</p>
-              <p className="text-sm">Check back later or host your own!</p>
+              <p>{t('chefsCorner.globalTestKitchen.noLiveSessions')}</p>
+              <p className="text-sm">{t('chefsCorner.globalTestKitchen.checkBackLater')}</p>
             </div>
           ) : (
             liveSessions.map((session) => (
@@ -962,14 +964,14 @@ END:VCALENDAR`;
                     <span className="text-2xl mr-2">{session.thumbnail}</span>
                     <div>
                       <h3 className="font-semibold text-sm text-gray-900">{session.dishName}</h3>
-                      <p className="text-xs text-gray-600">by {session.hostName}</p>
+                      <p className="text-xs text-gray-600">{t('chefsCorner.globalTestKitchen.by')} {session.hostName}</p>
                     </div>
                   </div>
                   <div className={`flex items-center text-xs ${session.isEnded ? 'text-gray-500' : 'text-red-600'}`}>
                     {session.isEnded ? (
                       <>
                         <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
-                        ENDED
+                        {t('chefsCorner.globalTestKitchen.ended')}
                       </>
                     ) : (
                       <>
@@ -985,7 +987,7 @@ END:VCALENDAR`;
                   <div className="flex items-center gap-2">
                     <div className="flex items-center text-xs text-gray-500">
                       <UserGroupIcon className="h-3 w-3 mr-1" />
-                      {session.viewers} watching
+                      {session.viewers} {t('chefsCorner.globalTestKitchen.watching')}
                     </div>
                     <button
                       onClick={() => !session.isEnded && joinLiveSession(session)}
@@ -998,7 +1000,7 @@ END:VCALENDAR`;
                       }`}
                       disabled={session.isEnded}
                     >
-                      {session.isEnded ? 'Ended' : 'Join'}
+                      {session.isEnded ? t('chefsCorner.globalTestKitchen.ended') : t('chefsCorner.globalTestKitchen.join')}
                     </button>
                   </div>
                 </div>
@@ -1016,7 +1018,7 @@ END:VCALENDAR`;
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <h3 className="font-semibold text-sm text-gray-900">{session.dishName}</h3>
-                  <p className="text-xs text-gray-600">by {session.hostName}</p>
+                  <p className="text-xs text-gray-600">{t('chefsCorner.globalTestKitchen.by')} {session.hostName}</p>
                 </div>
                 <span className="text-xs text-maineBlue font-medium">{session.scheduledTime}</span>
               </div>
@@ -1026,10 +1028,10 @@ END:VCALENDAR`;
                   <span className="text-xs text-gray-500">🌍 {session.culture}</span>
                   {session.sessionType && (
                     <span className="text-xs bg-maineBlue text-white px-2 py-0.5 rounded-full">
-                      {session.sessionType === 'practice' && '🎯 Practice'}
-                      {session.sessionType === 'assignment' && '📚 Assignment'}
-                      {session.sessionType === 'demo' && '👨‍🏫 Demo'}
-                      {session.sessionType === 'showcase' && '🏆 Showcase'}
+                      {session.sessionType === 'practice' && `🎯 ${t('chefsCorner.globalTestKitchen.practice')}`}
+                      {session.sessionType === 'assignment' && `📚 ${t('chefsCorner.globalTestKitchen.assignment')}`}
+                      {session.sessionType === 'demo' && `👨‍🏫 ${t('chefsCorner.globalTestKitchen.demo')}`}
+                      {session.sessionType === 'showcase' && `🏆 ${t('chefsCorner.globalTestKitchen.showcase')}`}
                     </span>
                   )}
                 </div>
@@ -1037,12 +1039,12 @@ END:VCALENDAR`;
                   onClick={() => addToCalendar(session)}
                   className="text-xs text-maineBlue hover:underline flex items-center"
                 >
-                  📅 Add to Calendar
+                  📅 {t('chefsCorner.globalTestKitchen.addToCalendar')}
                 </button>
               </div>
               {session.teacherTag && (
                 <div className="text-xs text-gray-600 mb-1">
-                  👨‍🏫 For: {session.teacherTag}
+                  👨‍🏫 {t('chefsCorner.globalTestKitchen.for')} {session.teacherTag}
                 </div>
               )}
             </div>
@@ -1069,13 +1071,13 @@ END:VCALENDAR`;
               }}
               className="w-full bg-maineBlue text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              🔴 Go Live Now
+              🔴 {t('chefsCorner.globalTestKitchen.goLiveNow')}
             </button>
             <button 
               onClick={() => setScheduleModalOpen(true)}
               className="w-full border border-maineBlue text-maineBlue py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
             >
-              📅 Schedule Session
+              📅 {t('chefsCorner.globalTestKitchen.scheduleSession')}
             </button>
           </div>
 
@@ -1106,7 +1108,7 @@ END:VCALENDAR`;
             </button>
             
             <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              🔴 Go Live Now
+              🔴 {t('chefsCorner.globalTestKitchen.goLiveNow')}
             </h2>
             
             <div className="space-y-4">
@@ -1154,7 +1156,7 @@ END:VCALENDAR`;
                   onClick={() => setGoLiveModalOpen(false)}
                   className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                 >
-                  Cancel
+                  {t('chefsCorner.globalTestKitchen.cancel')}
                 </button>
                 <button
                   onClick={() => {
@@ -1163,7 +1165,7 @@ END:VCALENDAR`;
                   }}
                   className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
                 >
-                  🔴 Start Live
+                  🔴 {t('chefsCorner.globalTestKitchen.startRecording')}
                 </button>
               </div>
             </div>
