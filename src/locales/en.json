@@ -26,7 +26,22 @@
     "cookMe": "Cook Me",
     "addIngredient": "Add Ingredient",
     "scanStatus": "Scanning...",
-    "ingredientsInKitchen": "Ingredients in Kitchen"
+    "ingredientsInKitchen": "Ingredients in Kitchen",
+    "matchRecipes": "Match Recipes",
+    "scanning": "Scanning...",
+    "scanningPhoto": "Scanning your photo...",
+    "clearAll": "Clear All",
+    "searchCupboard": "Search cupboard...",
+    "addAnIngredient": "Add an ingredient...",
+    "add": "Add",
+    "noMatchingIngredients": "No matching ingredients in your digital cupboard!",
+    "noNewIngredients": "No new ingredients detected from the scan.",
+    "notSignedIn": "You are not signed in. Please sign in to save your kitchen.",
+    "ingredientsSaved": "Scanned ingredients saved to your kitchen!",
+    "failedToSave": "Failed to save scanned ingredients:",
+    "failedToScan": "Failed to scan image.",
+    "couldNotVerify": "Could not verify user authentication.",
+    "close": "Close"
   },
   "culinarySchool": {
     "title": "Culinary School",

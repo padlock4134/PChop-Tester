@@ -219,23 +219,23 @@ const MyKitchen = () => {
                   
                   console.log('New ingredients to add:', newIngredients);
                   if (newIngredients.length === 0) {
-                    setScanStatus('No new ingredients detected from the scan.');
-                    alert('No new ingredients detected from the scan.');
+                    setScanStatus(t('myKitchen.noNewIngredients'));
+                    alert(t('myKitchen.noNewIngredients'));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       console.log('Current user:', user);
                       if (!sessionValid || !user) {
-                        setScanStatus('You are not signed in. Please sign in to save your kitchen.');
-                        alert('You are not signed in. Please sign in to save your kitchen.');
+                        setScanStatus(t('myKitchen.notSignedIn'));
+                        alert(t('myKitchen.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
-                      setScanStatus('Could not verify user authentication.');
-                      alert('Could not verify user authentication.');
+                      setScanStatus(t('myKitchen.couldNotVerify'));
+                      alert(t('myKitchen.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -247,24 +247,24 @@ const MyKitchen = () => {
                     try {
                       await saveKitchen(user?.id!, updatedIngredients);
                       setKitchenError(null);
-                      setScanStatus('Scanned ingredients saved to your kitchen!');
-                      alert('Scanned ingredients saved to your kitchen!');
+                      setScanStatus(t('myKitchen.ingredientsSaved'));
+                      alert(t('myKitchen.ingredientsSaved'));
                     } catch (err: any) {
-                      setKitchenError('Failed to save scanned ingredients: ' + (err.message || err.toString()));
-                      setScanStatus('Failed to save scanned ingredients: ' + (err.message || err.toString()));
-                      alert('Failed to save scanned ingredients: ' + (err.message || err.toString()));
+                      setKitchenError(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()));
+                      setScanStatus(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()));
+                      alert(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()));
                     }
                   }
                   setDetectedIngredients([]);
                 } catch (err: any) {
-                  setScanError(err.message || 'Failed to scan image.');
-                  alert('Failed to scan image: ' + (err.message || err.toString()));
+                  setScanError(err.message || t('myKitchen.failedToScan'));
+                  alert(t('myKitchen.failedToScan') + ': ' + (err.message || err.toString()));
                 }
                 setScanLoading(false);
               };
               reader.readAsDataURL(file);
             } catch (err) {
-              setScanError('Failed to scan image.');
+              setScanError(t('myKitchen.failedToScan'));
               setScanLoading(false);
             }
           }}
@@ -274,7 +274,7 @@ const MyKitchen = () => {
           onClick={() => document.getElementById('scan-kitchen-file')?.click()}
           disabled={scanLoading}
         >
-          {scanLoading ? 'Scanning...' : 'Scan Kitchen'}
+          {scanLoading ? t('myKitchen.scanning') : t('myKitchen.scanKitchen')}
         </button>
         <button
           className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black w-full sm:w-auto max-w-xs"
@@ -311,7 +311,7 @@ const MyKitchen = () => {
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-weatheredWhite p-8 rounded shadow-lg flex flex-col items-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">Scanning your photo...</div>
+            <div className="text-lg font-retro mb-2">{t('myKitchen.scanningPhoto')}</div>
           </div>
         </div>
       )}
@@ -319,7 +319,7 @@ const MyKitchen = () => {
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-weatheredWhite p-8 rounded shadow-lg flex flex-col items-center">
             <div className="text-lobsterRed font-bold mb-2">{scanError}</div>
-            <button className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold mt-2" onClick={() => setScanError('')}>Close</button>
+            <button className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold mt-2" onClick={() => setScanError('')}>{t('myKitchen.close')}</button>
           </div>
         </div>
       )}
@@ -347,7 +347,7 @@ const MyKitchen = () => {
             className="text-xs text-lobsterRed underline hover:text-maineBlue"
             onClick={() => setIngredients([])}
           >
-            Clear All
+            {t('myKitchen.clearAll')}
           </button>
         )}
       </div>
@@ -357,7 +357,7 @@ const MyKitchen = () => {
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
-          placeholder="Search cupboard..."
+          placeholder={t('myKitchen.searchCupboard')}
           value={filterText}
           onChange={e => setFilterText(e.target.value)}
           style={{ minWidth: 120 }}
@@ -366,7 +366,7 @@ const MyKitchen = () => {
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
-          placeholder="Add an ingredient..."
+          placeholder={t('myKitchen.addAnIngredient')}
           value={input}
           onChange={e => setInput(e.target.value)}
         />
@@ -383,7 +383,7 @@ const MyKitchen = () => {
           className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
           onClick={addIngredient}
         >
-          Add
+          {t('myKitchen.add')}
         </button>
       </div>
       <div className="bg-gradient-to-br from-yellow-100 to-sand border-4 border-yellow-900 rounded-2xl shadow-lg p-4 relative overflow-hidden">
@@ -394,7 +394,7 @@ const MyKitchen = () => {
           </svg>
         </div>
         {filteredIngredients.length === 0 ? (
-          <div className="text-gray-500 italic text-center py-8 relative z-10">No matching ingredients in your digital cupboard!</div>
+          <div className="text-gray-500 italic text-center py-8 relative z-10">{t('myKitchen.noMatchingIngredients')}</div>
         ) : (
           <div className="flex flex-col gap-4 relative z-10">
             {[0,1,2,3,4,5].map(shelfIdx => {

@@ -26,7 +26,22 @@
     "cookMe": "Cocinar",
     "addIngredient": "Agregar Ingrediente",
     "scanStatus": "Escaneando...",
-    "ingredientsInKitchen": "Ingredientes en la Cocina"
+    "ingredientsInKitchen": "Ingredientes en la Cocina",
+    "matchRecipes": "Buscar Recetas",
+    "scanning": "Escaneando...",
+    "scanningPhoto": "Escaneando tu foto...",
+    "clearAll": "Limpiar Todo",
+    "searchCupboard": "Buscar en despensa...",
+    "addAnIngredient": "Agregar un ingrediente...",
+    "add": "Agregar",
+    "noMatchingIngredients": "¡No hay ingredientes coincidentes en tu despensa digital!",
+    "noNewIngredients": "No se detectaron ingredientes nuevos del escaneo.",
+    "notSignedIn": "No has iniciado sesión. Por favor inicia sesión para guardar tu cocina.",
+    "ingredientsSaved": "¡Ingredientes escaneados guardados en tu cocina!",
+    "failedToSave": "Error al guardar ingredientes escaneados:",
+    "failedToScan": "Error al escanear imagen.",
+    "couldNotVerify": "No se pudo verificar la autenticación del usuario.",
+    "close": "Cerrar"
   },
   "culinarySchool": {
     "title": "Escuela Culinaria",
