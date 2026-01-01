@@ -261,7 +261,10 @@ const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => 
         {/* Fixed Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
-          <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.termsOfService')}</h2>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.termsOfService')}</h2>
+            <p className="text-sm text-gray-500 italic mt-1">Patent Pending</p>
+          </div>
           <button 
             onClick={onClose} 
             className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
