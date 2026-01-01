@@ -59,9 +59,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const navigate = useNavigate();
 
   const loadingMessages = [
-    t('common.loading'),
-    t('common.loading'),
-    t('common.loading')
+    t('recipeMatcher.loadingMessage1'),
+    t('recipeMatcher.loadingMessage2'),
+    t('recipeMatcher.loadingMessage3')
   ];
 
   // Timer effect for loading steps

@@ -199,6 +199,9 @@
   "recipeMatcher": {
     "recipeMatcher": "Recipe Matcher",
     "findingRecipes": "Finding recipes...",
+    "loadingMessage1": "Chef Freddie Taking A Look...",
+    "loadingMessage2": "Preparing Your Meals...",
+    "loadingMessage3": "Almost Ready...",
     "noMoreSuggestions": "No more suggestions.",
     "tryUpdatingCupboard": "Try updating your cupboard!",
     "cookMe": "Cook Me",
