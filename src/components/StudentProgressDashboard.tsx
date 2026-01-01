@@ -421,45 +421,42 @@ const StudentProgressDashboard: React.FC = () => {
         </div>
 
         {/* Quick Actions Tab Content */}
-        <div className={`${activeMobileTab === 'actions' ? 'block' : 'hidden'} lg:block`}>
-
+        <div className={`${activeMobileTab === 'actions' ? 'block' : 'hidden'} lg:block p-4 lg:p-6`}>
           {/* Progress Cards Grid */}
-          <div className="p-4 lg:p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <ProgressCard
-                  emoji="📚"
-                  title={t('dashboard.learningProgress')}
-                  description={t('dashboard.trackLessons')}
-                  buttonText={t('dashboard.viewDetails')}
-                  bgColor="bg-blue-50"
-                  textColor="text-blue-800"
-                  borderColor="border-blue-400"
-                  onClick={() => setCurriculumModalOpen(true)}
-                />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <ProgressCard
+              emoji="📚"
+              title={t('dashboard.learningProgress')}
+              description={t('dashboard.trackLessons')}
+              buttonText={t('dashboard.viewDetails')}
+              bgColor="bg-blue-50"
+              textColor="text-blue-800"
+              borderColor="border-blue-400"
+              onClick={() => setCurriculumModalOpen(true)}
+            />
 
-                <ProgressCard
-                  emoji="⭐"
-                  title={t('dashboard.skillsDevelopment')}
-                  description={t('dashboard.monitorSkills')}
-                  buttonText={t('dashboard.viewDetails')}
-                  bgColor="bg-green-50"
-                  textColor="text-green-800"
-                  borderColor="border-green-400"
-                  onClick={() => setSkillsModalOpen(true)}
-                />
+            <ProgressCard
+              emoji="⭐"
+              title={t('dashboard.skillsDevelopment')}
+              description={t('dashboard.monitorSkills')}
+              buttonText={t('dashboard.viewDetails')}
+              bgColor="bg-green-50"
+              textColor="text-green-800"
+              borderColor="border-green-400"
+              onClick={() => setSkillsModalOpen(true)}
+            />
 
-                <ProgressCard
-                  emoji="🏆"
-                  title={t('dashboard.achievements')}
-                  description={t('dashboard.viewBadges')}
-                  buttonText={t('dashboard.viewDetails')}
-                  bgColor="bg-purple-50"
-                  textColor="text-purple-800"
-                  borderColor="border-purple-400"
-                  onClick={() => setAchievementsModalOpen(true)}
-                />
-              </div>
-            </div>
+            <ProgressCard
+              emoji="🏆"
+              title={t('dashboard.achievements')}
+              description={t('dashboard.viewBadges')}
+              buttonText={t('dashboard.viewDetails')}
+              bgColor="bg-purple-50"
+              textColor="text-purple-800"
+              borderColor="border-purple-400"
+              onClick={() => setAchievementsModalOpen(true)}
+            />
+          </div>
         </div>
       </div>
       
