@@ -579,11 +579,20 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[60] p-4">
         <div className="bg-white rounded-lg shadow-lg border-4 border-amber-600 max-w-2xl w-full mx-4 relative max-h-[90vh] flex flex-col overflow-hidden">
           {/* Sticky Header */}
-          <div className="bg-white p-6 pb-4 border-b-2 border-amber-300 rounded-t-lg">
-            <h3 className="text-xl font-bold text-amber-900 flex items-center justify-center gap-2">
+          <div className="bg-white p-6 pb-4 border-b-2 border-amber-300 rounded-t-lg flex justify-between items-center">
+            <div className="flex-1"></div>
+            <h3 className="text-xl font-bold text-amber-900 flex items-center gap-2">
               <span>📖</span>
               <span>{t('culinarySchool.charcuterieBoard.practiceGuide')}</span>
             </h3>
+            <div className="flex-1 flex justify-end">
+              <button
+                onClick={() => setGuideOpen(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              >
+                ×
+              </button>
+            </div>
           </div>
           
           {/* Scrollable Content */}
@@ -621,16 +630,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.focusPointsDesc')}</p>
               </div>
             </div>
-          </div>
-          
-          {/* Sticky Footer */}
-          <div className="bg-white p-6 pt-4 border-t-2 border-amber-300 rounded-b-lg text-center">
-            <button
-              onClick={() => setGuideOpen(false)}
-              className="bg-amber-800 text-white px-6 py-2 rounded-lg hover:bg-amber-900 transition-colors font-bold"
-            >
-              {t('culinarySchool.charcuterieBoard.closeGuide')}
-            </button>
           </div>
         </div>
       </div>
