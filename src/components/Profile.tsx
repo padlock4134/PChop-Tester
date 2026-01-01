@@ -92,7 +92,7 @@ const EditProfileModal = ({
 
       if (error) {
         console.error('Error updating profile:', error);
-        alert('Failed to save profile changes. Please try again.');
+        alert(t('profile.failedToSaveProfile'));
         return;
       }
 
@@ -137,13 +137,13 @@ const EditProfileModal = ({
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
-              placeholder="Enter your name"
+              placeholder={t('profile.enterYourName')}
             />
           </div>
 
           {/* Academic Program */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Academic Program</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.academicProgram')}</label>
             <select
               value={formData.program}
               onChange={(e) => setFormData({...formData, program: e.target.value})}
@@ -152,12 +152,12 @@ const EditProfileModal = ({
                 (user as any)?.program && (user as any).program !== '' ? 'bg-gray-100 cursor-not-allowed' : ''
               }`}
             >
-              <option value="">— Select Your Program —</option>
-              <option value="Bachelors of Arts in Culinary">🎓 Bachelors of Arts in Culinary</option>
-              <option value="Associates in Aquaculture">🎓 Associates in Aquaculture</option>
+              <option value="">{t('profile.selectYourProgram')}</option>
+              <option value="Bachelors of Arts in Culinary">🎓 {t('profile.bachelorsCulinary')}</option>
+              <option value="Associates in Aquaculture">🎓 {t('profile.associatesAquaculture')}</option>
             </select>
             {(user as any)?.program && (user as any).program !== '' && (
-              <p className="text-xs text-gray-500 text-center mt-1">⚠️ Locked - Contact admin to change</p>
+              <p className="text-xs text-gray-500 text-center mt-1">{t('profile.lockedContactAdmin')}</p>
             )}
           </div>
 
@@ -166,7 +166,7 @@ const EditProfileModal = ({
 
           {/* Cuisine Preference */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Cuisine Preference</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.cuisinePreference')}</label>
             <select
               value={formData.cuisinePreference}
               onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
@@ -184,7 +184,7 @@ const EditProfileModal = ({
 
           {/* Diet Preference */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Diet Preference</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.dietPreference')}</label>
             <select
               value={formData.dietPreference}
               onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
@@ -202,7 +202,7 @@ const EditProfileModal = ({
 
           {/* Kitchen Setup */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Kitchen Setup</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.kitchenSetup')}</label>
             <select
               value={formData.kitchenSetup}
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
@@ -218,7 +218,7 @@ const EditProfileModal = ({
 
           {/* Experience Level */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Experience Level</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.experienceLevel')}</label>
             <select
               value={formData.experienceLevel}
               onChange={(e) => setFormData({...formData, experienceLevel: e.target.value})}
@@ -247,12 +247,13 @@ const EditProfileModal = ({
 };
 
 const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => void; content: string }) => {
+  const { t } = useTranslation();
   if (!open) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white p-6 rounded-lg max-w-4xl w-full max-h-[80vh] overflow-auto">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-bold">Terms of Service & Privacy Policy</h3>
+          <h3 className="text-lg font-bold">{t('profile.termsOfService')}</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-xl">×</button>
         </div>
         <div className="prose max-w-none">
@@ -263,7 +264,7 @@ const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => 
             onClick={onClose}
             className="bg-maineBlue text-white px-4 py-2 rounded hover:bg-blue-700"
           >
-            Close
+            {t('profile.close')}
           </button>
         </div>
       </div>
@@ -272,17 +273,18 @@ const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => 
 };
 
 const PaymentModal = ({ open, onClose, userId, plan }: { open: boolean; onClose: () => void; userId: string; plan: string }) => {
+  const { t } = useTranslation();
   if (!open) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white p-6 rounded-lg max-w-md w-full mx-4">
-        <h3 className="text-lg font-bold mb-4">Upgrade Plan</h3>
-        <p className="text-gray-600 mb-4">Payment functionality coming soon!</p>
+        <h3 className="text-lg font-bold mb-4">{t('profile.upgradePlan')}</h3>
+        <p className="text-gray-600 mb-4">{t('profile.paymentComingSoon')}</p>
         <button 
           onClick={onClose}
           className="bg-maineBlue text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          Close
+          {t('profile.close')}
         </button>
       </div>
     </div>
@@ -290,6 +292,7 @@ const PaymentModal = ({ open, onClose, userId, plan }: { open: boolean; onClose:
 };
 
 const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boolean; onClose: () => void; onOpenRegistration: () => void }) => {
+  const { t } = useTranslation();
   if (!open) return null;
   
   const currentClasses = [
@@ -303,7 +306,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
       <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <div></div>
-          <h2 className="text-2xl font-bold text-maineBlue">Class Schedule</h2>
+          <h2 className="text-2xl font-bold text-maineBlue">{t('profile.classSchedule')}</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -321,7 +324,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
                   <span className="text-4xl mr-3">{classItem.icon}</span>
                   <h4 className="font-bold text-gray-800 text-lg">{classItem.name}</h4>
                 </div>
-                <p className="text-gray-600">Instructor: {classItem.instructor}</p>
+                <p className="text-gray-600">{t('profile.instructor')}: {classItem.instructor}</p>
                 <p className="text-gray-600">{classItem.time}</p>
               </div>
             ))}
@@ -334,13 +337,13 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
             onClick={onOpenRegistration}
             className="bg-lobsterRed text-weatheredWhite px-8 py-3 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
           >
-            Register
+            {t('profile.register')}
           </button>
           <button 
             onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
             className="bg-seafoam text-maineBlue px-8 py-3 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
           >
-            Contact
+            {t('profile.contact')}
           </button>
         </div>
       </div>
@@ -349,6 +352,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
 };
 
 const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const { t } = useTranslation();
   if (!open) return null;
   
   const [selectedType, setSelectedType] = React.useState('');
@@ -369,7 +373,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   const handleSubmit = () => {
     if (!selectedType || !requestDetails.trim()) {
-      alert('Please select a request type and provide details');
+      alert(t('profile.pleaseSelectRequestType'));
       return;
     }
     setShowSuccess(true);
@@ -380,9 +384,9 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-lg shadow-lg border-4 border-seafoam p-8 max-w-md w-full text-center">
           <div className="text-6xl mb-4">✅</div>
-          <h2 className="text-2xl font-bold text-maineBlue mb-4 font-retro">Request Submitted!</h2>
-          <p className="text-gray-700 mb-2">Your request has been sent to administration.</p>
-          <p className="text-gray-600 mb-6">You'll receive an email update once your request is processed.</p>
+          <h2 className="text-2xl font-bold text-maineBlue mb-4 font-retro">{t('profile.requestSubmitted')}</h2>
+          <p className="text-gray-700 mb-2">{t('profile.requestSentToAdmin')}</p>
+          <p className="text-gray-600 mb-6">{t('profile.emailUpdateOnRequest')}</p>
           <button
             onClick={() => {
               setShowSuccess(false);
@@ -392,7 +396,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
             }}
             className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black"
           >
-            Got it!
+            {t('profile.gotIt')}
           </button>
         </div>
       </div>
@@ -404,7 +408,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <div></div>
-          <h2 className="text-2xl font-bold text-maineBlue font-retro">📨 Submit a Request</h2>
+          <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.submitARequest')}</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -414,7 +418,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
         </div>
         
         <div className="mb-6">
-          <h3 className="text-lg font-bold text-gray-700 mb-4 text-center">Select Request Type</h3>
+          <h3 className="text-lg font-bold text-gray-700 mb-4 text-center">{t('profile.selectRequestType')}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {requestTypes.map((type) => (
               <button
@@ -436,11 +440,11 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
         
         {selectedType && (
           <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-700 mb-2">Request Details</h3>
+            <h3 className="text-lg font-bold text-gray-700 mb-2">{t('profile.requestDetails')}</h3>
             <textarea
               value={requestDetails}
               onChange={(e) => setRequestDetails(e.target.value)}
-              placeholder="Please provide details about your request..."
+              placeholder={t('profile.provideRequestDetails')}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[120px]"
             />
           </div>
@@ -451,14 +455,14 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
             onClick={onClose}
             className="px-6 py-2 border-2 border-gray-300 rounded-md hover:bg-gray-100 font-retro"
           >
-            Cancel
+            {t('profile.cancel')}
           </button>
           <button
             onClick={handleSubmit}
             disabled={!selectedType || !requestDetails.trim()}
             className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Submit Request
+            {t('profile.submitRequest')}
           </button>
         </div>
       </div>
@@ -467,6 +471,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
 };
 
 const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+  const { t } = useTranslation();
   if (!open) return null;
   
   const availableClasses = [
@@ -482,7 +487,7 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
       <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <div></div>
-          <h2 className="text-2xl font-bold text-maineBlue">Register for Classes</h2>
+          <h2 className="text-2xl font-bold text-maineBlue">{t('profile.registerForClasses')}</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -498,10 +503,10 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
                 <h4 className="font-bold text-gray-800 text-lg mb-2">{classItem.name}</h4>
                 <p className="text-gray-600 text-sm">Instructor: {classItem.instructor}</p>
                 <p className="text-gray-600 text-sm">{classItem.time}</p>
-                <p className="text-sm text-green-600">{classItem.spots} spots available</p>
+                <p className="text-sm text-green-600">{t('profile.spotsAvailable').replace('{spots}', classItem.spots.toString())}</p>
               </div>
               <button className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black w-full">
-                Register
+                {t('profile.register')}
               </button>
             </div>
           ))}
@@ -520,6 +525,7 @@ Welcome to Porkchop. By using this app, you agree to be bound by the following t
 }
 
 const Profile = () => {
+  const { t } = useTranslation();
   const { user } = useSupabase();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -1844,7 +1850,7 @@ Automated calculations and formulas would be present`;
                 }}
                 className="px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold"
               >
-                Close Tutorial
+                {t('profile.close')} Tutorial
               </button>
             </div>
           </div>
@@ -1974,7 +1980,7 @@ Automated calculations and formulas would be present`;
                 onClick={() => setSelectedTalentTree(null)}
                 className="px-4 sm:px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold text-sm sm:text-base"
               >
-                Close
+                {t('profile.close')}
               </button>
             </div>
           </div>
@@ -2236,7 +2242,7 @@ Automated calculations and formulas would be present`;
                   onClick={() => setShowGenerateModal(false)}
                   className="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 transition-colors text-sm border border-black"
                 >
-                  Close
+                  {t('profile.close')}
                 </button>
               </div>
             </div>
