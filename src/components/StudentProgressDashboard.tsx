@@ -280,7 +280,7 @@ const StudentProgressDashboard: React.FC = () => {
       </div>
       
       {/* Main Dashboard */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-6xl mx-auto h-[calc(100vh-100px)] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-6xl mx-auto h-[calc(100vh-80px)] flex flex-col">
         {/* Home Tab Content */}
         <div className={`${activeMobileTab === 'home' ? 'flex' : 'hidden lg:flex'} flex-col h-full`}>
           {/* Dashboard header */}
