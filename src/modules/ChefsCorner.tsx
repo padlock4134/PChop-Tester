@@ -154,7 +154,7 @@ const ChefsCorner = () => {
   // Open modal for My CookBook import
   const importFromCookBook = () => {
     if (!user) {
-      alert('Please sign in to access your cookbook');
+      alert(t('chefsCorner.pleaseSignIn'));
       return;
     }
     setCookbookModalOpen(true);
@@ -166,7 +166,7 @@ const ChefsCorner = () => {
     
     if (!selectedRecipe) {
       console.error('No recipe selected');
-      alert('Error: No recipe selected');
+      alert(t('chefsCorner.errorNoRecipe'));
       return;
     }
 
@@ -187,11 +187,11 @@ const ChefsCorner = () => {
         setRecipeNutrition(null);
       }
       
-      alert(`Recipe "${selectedRecipe.title}" is now set to showcase!`);
+      alert(t('chefsCorner.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
       console.error('Error importing recipe:', error);
-      alert('Failed to import recipe. Please try again.');
+      alert(t('chefsCorner.failedToImport'));
     } finally {
       setCookbookModalOpen(false);
     }
@@ -236,7 +236,7 @@ const ChefsCorner = () => {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            🧪 Global Test Kitchen
+            🧪 {t('chefsCorner.globalTestKitchen')}
           </button>
         </div>
         
@@ -273,7 +273,7 @@ const ChefsCorner = () => {
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
                         disabled={isLoading}
                       >
-                        {isLoading ? 'Loading...' : t('chefsCorner.importFromCookbook')}
+                        {isLoading ? t('chefsCorner.loading') : t('chefsCorner.importFromCookbook')}
                       </button>
                     </div>
                   </div>
@@ -288,7 +288,7 @@ const ChefsCorner = () => {
                       <button
                         onClick={() => setShowcaseRecipe(null)}
                         className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
-                        title="Remove showcase recipe"
+                        title={t('chefsCorner.removeShowcaseRecipe')}
                       >
                         <span className="text-red-500 font-bold text-lg">✕</span>
                       </button>
@@ -303,38 +303,38 @@ const ChefsCorner = () => {
                           />
                         )}
                         <h3 className="font-bold text-xl mb-1 text-maineBlue">{showcaseRecipe.title}</h3>
-                        <div className="font-semibold mb-1 mt-2">Ingredients:</div>
+                        <div className="font-semibold mb-1 mt-2">{t('chefsCorner.ingredients')}</div>
                         <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                           {showcaseRecipe.ingredients?.length ? (
                             showcaseRecipe.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
                           ) : (
-                            <li className="italic text-gray-400">No ingredients listed.</li>
+                            <li className="italic text-gray-400">{t('chefsCorner.noIngredientsListed')}</li>
                           )}
                         </ul>
                         {recipeNutrition && (
                           <div className="mt-2">
-                            <div className="font-semibold mb-1">Nutrition (total for {servingSize} servings):</div>
+                            <div className="font-semibold mb-1">{t('chefsCorner.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
                             <div className="text-sm">
-                              <div>Carbs: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                              <div>Sugars: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                              <div>Fiber: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                              <div>Protein: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
+                              <div>{t('chefsCorner.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
+                              <div>{t('chefsCorner.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
+                              <div>{t('chefsCorner.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
+                              <div>{t('chefsCorner.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
                             </div>
                           </div>
                         )}
                       </div>
                       {/* Right Page */}
                       <div className="flex-1 p-6 bg-white flex flex-col">
-                        <h3 className="font-bold text-xl mb-2 text-maineBlue">Instructions</h3>
+                        <h3 className="font-bold text-xl mb-2 text-maineBlue">{t('chefsCorner.instructions')}</h3>
                         <div className="text-gray-700 whitespace-pre-line text-[15px] leading-7 flex-1">
                           {showcaseRecipe.instructions || (
-                            <span className="italic text-gray-400">No instructions provided.</span>
+                            <span className="italic text-gray-400">{t('chefsCorner.noInstructionsProvided')}</span>
                           )}
                         </div>
                         {/* Equipment Section */}
                         {showcaseRecipe.equipment && showcaseRecipe.equipment.length > 0 && (
                           <>
-                            <div className="font-semibold mt-4 mb-1">Equipment Needed:</div>
+                            <div className="font-semibold mt-4 mb-1">{t('chefsCorner.equipmentNeeded')}</div>
                             <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                               {showcaseRecipe.equipment.map((eq: string, i: number) => (
                                 <li key={i}>{eq}</li>
@@ -346,7 +346,7 @@ const ChefsCorner = () => {
                     </div>
                   ) : (
                     <div className="mt-4 text-gray-400 italic text-center">
-                      No recipe selected. Import a recipe to showcase!
+                      {t('chefsCorner.noRecipeSelected')}
                     </div>
                   )}
                 </div>
