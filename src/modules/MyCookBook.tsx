@@ -490,17 +490,22 @@ const MyCookBook = () => {
       </div>
       
       <div className="flex flex-col lg:flex-row gap-6">
-        <div className={`lg:w-2/3 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue ${
-          activeMobileTab === 'cookbook' ? 'block' : 'hidden lg:block'
+        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
+          activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
         }`}>
-          {/* My Cook Book header - moved back inside the module */}
-          <div className="flex items-center justify-center mb-4">
+          {/* My Cook Book header */}
+          <div className="flex items-center justify-center p-6 pb-4">
             <span className="text-5xl mr-2">📖</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myCookbook.title')}</h1>
           </div>
           
-          {/* Separation line */}
-          <hr className="border-t-2 border-maineBlue mb-6" />
+          {/* Sticky Separation line */}
+          <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
+            <hr className="border-t-2 border-maineBlue" />
+          </div>
+          
+          {/* Scrollable Content */}
+          <div className="overflow-y-auto p-6 pt-4">
       {showShareModal && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => {
         setShowShareModal(false);
@@ -934,6 +939,7 @@ const MyCookBook = () => {
           );
         })()}
       </div>
+        </div>
         </div>
         
         {/* Collections Library - Right Side */}
