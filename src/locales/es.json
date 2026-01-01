@@ -103,7 +103,17 @@
     "tapToFlip": "👆 Toca para ver instrucciones",
     "instructions": "Instrucciones:",
     "remove": "Eliminar",
-    "deleteRecipe": "Eliminar Receta"
+    "deleteRecipe": "Eliminar Receta",
+    "collectionsLibrary": "Biblioteca de Colecciones",
+    "myCollections": "Mis Colecciones",
+    "noCollectionsYet": "Aún no hay colecciones. ¡Crea tu primera colección abajo!",
+    "selectRecipesToAdd": "Selecciona recetas de tu libro de cocina para agregar a colecciones:",
+    "createCollectionSelected": "Crear Colección ({count} seleccionadas)",
+    "viewGradebook": "Ver Libro de Calificaciones",
+    "viewVideos": "Ver Videos",
+    "noRecipesYet": "Aún no hay recetas en tu libro de cocina.",
+    "addRecipesFirst": "¡Agrega algunas recetas primero para crear colecciones!",
+    "scrollToSeeMore": "Desplázate dentro de las cajas para ver más contenido"
   },
   "myCookBook": {
     "title": "Mi Libro de Recetas"

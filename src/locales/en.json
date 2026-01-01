@@ -103,7 +103,17 @@
     "tapToFlip": "👆 Tap to flip for instructions",
     "instructions": "Instructions:",
     "remove": "Remove",
-    "deleteRecipe": "Delete Recipe"
+    "deleteRecipe": "Delete Recipe",
+    "collectionsLibrary": "Collections Library",
+    "myCollections": "My Collections",
+    "noCollectionsYet": "No collections yet. Create your first one below!",
+    "selectRecipesToAdd": "Select recipes from your cookbook to add to collections:",
+    "createCollectionSelected": "Create Collection ({count} selected)",
+    "viewGradebook": "View Gradebook",
+    "viewVideos": "View Videos",
+    "noRecipesYet": "No recipes in your cookbook yet.",
+    "addRecipesFirst": "Add some recipes first to create collections!",
+    "scrollToSeeMore": "Scroll within boxes to see more content"
   },
   "myCookBook": {
     "title": "My Cookbook"

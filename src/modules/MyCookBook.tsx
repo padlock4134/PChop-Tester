@@ -919,7 +919,7 @@ const MyCookBook = () => {
         )}
       </div>
       <div className="mt-2 text-xs text-gray-500 text-center w-full italic">
-        Scroll within boxes to see more content
+        {t('myCookbook.scrollToSeeMore')}
       </div>
       
       {/* Chef of the Day Quote - simplified text only */}
@@ -942,13 +942,13 @@ const MyCookBook = () => {
         }`}>
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
-              <h3 className="text-xl">📚 Collections Library</h3>
+              <h3 className="text-xl">📚 {t('myCookbook.collectionsLibrary')}</h3>
             </div>
             
             <div className="p-4">
               {/* Existing Collections Section */}
               <div className="mb-6">
-                <h4 className="font-bold text-maineBlue mb-3">📋 My Collections</h4>
+                <h4 className="font-bold text-maineBlue mb-3">📋 {t('myCookbook.myCollections')}</h4>
                 
                 <div className="max-h-32 overflow-y-auto border border-gray-300 rounded p-2 bg-gray-50">
                   {collections.map(collection => (
@@ -968,7 +968,7 @@ const MyCookBook = () => {
                   ))}
                   {collections.length === 0 && (
                     <div className="py-4 text-center text-gray-500 text-sm italic">
-                      No collections yet. Create your first one below!
+                      {t('myCookbook.noCollectionsYet')}
                     </div>
                   )}
                 </div>
@@ -978,7 +978,7 @@ const MyCookBook = () => {
               <div className="mb-6">
                 {recipes.length > 0 ? (
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-600 mb-3">Select recipes from your cookbook to add to collections:</p>
+                    <p className="text-sm text-gray-600 mb-3">{t('myCookbook.selectRecipesToAdd')}</p>
                     
                     <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
                       {recipes.map((recipe) => (
@@ -1016,7 +1016,7 @@ const MyCookBook = () => {
                           : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
                       }`}
                     >
-                      Create Collection ({selectedRecipes.length} selected)
+                      {t('myCookbook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
                     </button>
 
                     {/* View Gradebook Button */}
@@ -1024,7 +1024,7 @@ const MyCookBook = () => {
                       onClick={handleOpenGradebook}
                       className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
                     >
-                      📊 View Gradebook
+                      📊 {t('myCookbook.viewGradebook')}
                     </button>
 
                     {/* View Videos Button */}
@@ -1093,14 +1093,14 @@ const MyCookBook = () => {
                       }}
                       className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
                     >
-                      🎥 View Videos
+                      🎥 {t('myCookbook.viewVideos')}
                     </button>
                   </div>
                 ) : (
                   <div className="text-center py-8">
                     <div className="text-4xl mb-2">📝</div>
-                    <p className="text-gray-500 text-sm">No recipes in your cookbook yet.</p>
-                    <p className="text-gray-500 text-sm">Add some recipes first to create collections!</p>
+                    <p className="text-gray-500 text-sm">{t('myCookbook.noRecipesYet')}</p>
+                    <p className="text-gray-500 text-sm">{t('myCookbook.addRecipesFirst')}</p>
                   </div>
                 )}
               </div>
