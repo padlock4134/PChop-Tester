@@ -637,37 +637,37 @@ const Profile = () => {
   // 9 talents per tree, unlock at 10, 14, 25, 30, 36, 42, 48, 55, 60
   const talentTrees = {
     'Cast Iron Champion': [
-      { name: 'Sear Savant', icon: FireIcon, unlockLevel: 10, description: 'Perfect searing technique for meats and veggies.' },
-      { name: 'Heat Control', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Master even heat for flawless results.' },
-      { name: 'Iron Will', icon: StarIcon, unlockLevel: 25, description: 'Reduces chance of burning food.' },
-      { name: 'Seasoned Veteran', icon: TrophyIcon, unlockLevel: 30, description: 'Enhances seasoning absorption.' },
-      { name: 'Rustproof', icon: ShieldCheckIcon, unlockLevel: 36, description: 'Prevents cast iron from rusting.' },
-      { name: 'Heavy Hitter', icon: FireIcon, unlockLevel: 42, description: 'Extra sear power for thick cuts.' },
-      { name: 'Surface Sage', icon: StarIcon, unlockLevel: 48, description: 'Non-stick mastery for delicate foods.' },
-      { name: 'Ironclad', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Cast iron lasts a lifetime.' },
-      { name: 'Iron Chef', icon: TrophyIcon, unlockLevel: 60, description: 'Ultimate cast iron mastery (Capstone).' },
+      { name: t('profile.talents.searSavant'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.searSavantDesc') },
+      { name: t('profile.talents.heatControl'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.heatControlDesc') },
+      { name: t('profile.talents.ironWill'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.ironWillDesc') },
+      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 30, description: t('profile.talents.seasonedVeteranDesc') },
+      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.rustproofDesc') },
+      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 42, description: t('profile.talents.heavyHitterDesc') },
+      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.surfaceSageDesc') },
+      { name: t('profile.talents.ironclad'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.ironcladDesc') },
+      { name: t('profile.talents.ironChef'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.ironChefDesc') },
     ],
     'Grilling Heavy Weight': [
-      { name: 'Flame Tamer', icon: FireIcon, unlockLevel: 10, description: 'Control over open flames.' },
-      { name: 'Smoke Master', icon: SparklesIcon, unlockLevel: 14, description: 'Perfect smoky flavors every time.' },
-      { name: 'Char Champion', icon: StarIcon, unlockLevel: 25, description: 'Expert in char marks and crust.' },
-      { name: 'Grill Marks', icon: StarIcon, unlockLevel: 30, description: 'Signature grill patterns.' },
-      { name: 'BBQ Buff', icon: ShieldCheckIcon, unlockLevel: 36, description: 'Increased BBQ efficiency.' },
-      { name: 'Pit Boss', icon: TrophyIcon, unlockLevel: 42, description: 'Command any grill with ease.' },
-      { name: 'Coal Whisperer', icon: FireIcon, unlockLevel: 48, description: 'Perfect coal management.' },
-      { name: 'Grill Guardian', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Grill never fails.' },
-      { name: 'BBQ God', icon: TrophyIcon, unlockLevel: 60, description: 'Legendary grilling skills (Capstone).' },
+      { name: t('profile.talents.flameTamer'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.flameTamerDesc') },
+      { name: t('profile.talents.smokeMaster'), icon: SparklesIcon, unlockLevel: 14, description: t('profile.talents.smokeMasterDesc') },
+      { name: t('profile.talents.charChampion'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.charChampionDesc') },
+      { name: t('profile.talents.grillMarks'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.grillMarksDesc') },
+      { name: t('profile.talents.bbqBuff'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.bbqBuffDesc') },
+      { name: t('profile.talents.pitBoss'), icon: TrophyIcon, unlockLevel: 42, description: t('profile.talents.pitBossDesc') },
+      { name: t('profile.talents.coalWhisperer'), icon: FireIcon, unlockLevel: 48, description: t('profile.talents.coalWhispererDesc') },
+      { name: t('profile.talents.grillGuardian'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.grillGuardianDesc') },
+      { name: t('profile.talents.bbqGod'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bbqGodDesc') },
     ],
     'Baking Warlock': [
-      { name: 'Dough Whisperer', icon: CakeIcon, unlockLevel: 10, description: 'Perfect dough consistency.' },
-      { name: 'Oven Oracle', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Precise baking timing.' },
-      { name: 'Proofing Pro', icon: StarIcon, unlockLevel: 25, description: 'Expert in proofing dough.' },
-      { name: 'Pastry Pro', icon: StarIcon, unlockLevel: 30, description: 'Expert in pastries.' },
-      { name: 'Crust Conjurer', icon: CakeIcon, unlockLevel: 36, description: 'Flawless crusts every time.' },
-      { name: 'Bake Sense', icon: SparklesIcon, unlockLevel: 42, description: 'Sense when baking is perfect.' },
-      { name: 'Filling Fiend', icon: CakeIcon, unlockLevel: 48, description: 'Master of sweet and savory fillings.' },
-      { name: 'Bread Buffoon', icon: AcademicCapIcon, unlockLevel: 55, description: 'Master of all baked goods.' },
-      { name: 'Baking Warlock', icon: TrophyIcon, unlockLevel: 60, description: 'Legendary baking magic (Capstone).' },
+      { name: t('profile.talents.doughWhisperer'), icon: CakeIcon, unlockLevel: 10, description: t('profile.talents.doughWhispererDesc') },
+      { name: t('profile.talents.ovenOracle'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.ovenOracleDesc') },
+      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.proofingProDesc') },
+      { name: t('profile.talents.pastryPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.pastryProDesc') },
+      { name: t('profile.talents.crustConjurer'), icon: CakeIcon, unlockLevel: 36, description: t('profile.talents.crustConjurerDesc') },
+      { name: t('profile.talents.bakeSense'), icon: SparklesIcon, unlockLevel: 42, description: t('profile.talents.bakeSenseDesc') },
+      { name: t('profile.talents.fillingFiend'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.fillingFiendDesc') },
+      { name: t('profile.talents.breadBuffoon'), icon: AcademicCapIcon, unlockLevel: 55, description: t('profile.talents.breadBuffoonDesc') },
+      { name: t('profile.talents.bakingWarlockTalent'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bakingWarlockTalentDesc') },
     ],
   };
 
@@ -1709,8 +1709,8 @@ Automated calculations and formulas would be present`;
               <div>Champion</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Cast Iron Champion</strong>
-                <div className="mt-1">Master the art of cast iron cooking with heat control, seasoning, and searing techniques.</div>
+                <strong>{t('profile.talents.castIronChampion')}</strong>
+                <div className="mt-1">{t('profile.talents.castIronChampionDesc')}</div>
               </div>
             </button>
 
@@ -1739,8 +1739,8 @@ Automated calculations and formulas would be present`;
               <div>Warlock</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Baking Warlock</strong>
-                <div className="mt-1">Unlock the secrets of baking with ingredient mastery, precision timing, and magical results.</div>
+                <strong>{t('profile.talents.bakingWarlock')}</strong>
+                <div className="mt-1">{t('profile.talents.bakingWarlockDesc')}</div>
               </div>
             </button>
           </div>
@@ -1868,8 +1868,8 @@ Automated calculations and formulas would be present`;
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
-                   selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock'}
+                  {selectedTalentTree === 'Equipment' ? t('profile.talents.castIronChampion') : 
+                   selectedTalentTree === 'Techniques' ? t('profile.talents.grillingHeavyWeight') : t('profile.talents.bakingWarlock')}
                 </h2>
               </div>
               <button
