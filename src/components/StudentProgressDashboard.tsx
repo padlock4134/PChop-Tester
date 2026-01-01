@@ -331,7 +331,7 @@ const StudentProgressDashboard: React.FC = () => {
             </Link>
           </div>
         </div>
-
+        </div>
         </div>
 
         {/* Live Tab Content */}
@@ -420,7 +420,6 @@ const StudentProgressDashboard: React.FC = () => {
               </div>
             )}
           </div>
-          </div>
         </div>
 
         {/* Quick Actions Tab Content */}
@@ -468,8 +467,7 @@ const StudentProgressDashboard: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
-
+      
       {/* Curriculum Progress Modal */}
       {curriculumModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -753,6 +751,7 @@ const StudentProgressDashboard: React.FC = () => {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };
