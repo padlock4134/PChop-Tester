@@ -280,23 +280,23 @@ const StudentProgressDashboard: React.FC = () => {
       </div>
       
       {/* Main Dashboard */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-6xl mx-auto flex flex-col max-h-[calc(100vh-100px)]">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-6xl mx-auto p-4 lg:p-6">
         {/* Home Tab Content */}
-        <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden lg:block'} flex flex-col h-full`}>
-          {/* Dashboard header - moved inside the module */}
-          <div className="text-center p-4 lg:p-6 pb-4">
+        <div className={activeMobileTab === 'home' ? 'block' : 'hidden lg:block'}>
+          {/* Dashboard header */}
+          <div className="text-center mb-4">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('dashboard.studentView')}</h1>
             <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
           </div>
           
           {/* Sticky Separation line */}
-          <div className="sticky top-0 bg-white z-10 px-4 lg:px-6">
+          <div className="sticky top-0 bg-white z-10 -mx-4 lg:-mx-6 px-4 lg:px-6 pb-4">
             <hr className="border-t-2 border-maineBlue" />
           </div>
           
           {/* Scrollable Module Navigation */}
-          <div className="overflow-y-auto p-4 lg:p-6 pt-6">
-          <div className="mb-4 p-3">
+          <div className="overflow-y-auto max-h-[calc(100vh-300px)] pt-4">
+          <div className="mb-4">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <Link
               to="/my-kitchen"
