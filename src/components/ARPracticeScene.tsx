@@ -502,12 +502,6 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         )}
         
         {/* Demo Animation Button */}
-        <button
-          onClick={(e) => { e.stopPropagation(); playDemoAnimation(); }}
-          className="absolute bottom-4 left-4 z-10 bg-amber-600 text-white px-3 py-2 rounded-lg text-sm font-bold hover:bg-amber-700 transition-colors"
-        >
-          ▶ Watch Demo
-        </button>
         
         {/* Real AR Camera View */}
         <div 
