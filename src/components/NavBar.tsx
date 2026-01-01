@@ -174,11 +174,11 @@ const LanguageToggleButton: React.FC = () => {
   return (
     <button
       onClick={toggleLanguage}
-      className="p-1 rounded-full hover:bg-gray-100 transition-colors flex items-center"
+      className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white hover:bg-gray-100 shadow text-2xl cursor-pointer transition-colors border-2 border-black"
       aria-label={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
       title={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
     >
-      <span className="text-xl sm:text-2xl">{isSpanish ? '🇪🇸' : '🇺🇸'}</span>
+      <span role="img" aria-label={isSpanish ? 'Spanish' : 'English'}>{isSpanish ? '🇪🇸' : '🇺🇸'}</span>
     </button>
   );
 };
@@ -224,10 +224,8 @@ const NavBar: React.FC = () => {
               <span className="text-lg sm:text-2xl font-bold tracking-wider font-retro">PorkChop</span>
             </Link>
             
-            {/* Language Toggle - moved to right of PorkChop text with white background */}
-            <div className="bg-white rounded-lg px-2 py-1">
-              <LanguageToggleButton />
-            </div>
+            {/* Language Toggle - moved to right of PorkChop text, styled as circle with black border */}
+            <LanguageToggleButton />
           </div>
 
           <div className="flex items-center space-x-2">
