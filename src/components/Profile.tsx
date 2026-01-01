@@ -1636,7 +1636,7 @@ Automated calculations and formulas would be present`;
           {/* Show Talents Toggle */}
           <div className="flex flex-col items-center gap-1 mt-3">
             <label className="flex items-center gap-2 cursor-pointer select-none">
-              <span className="font-semibold text-xs">Show Talents</span>
+              <span className="font-semibold text-xs">{t('profile.showTalents')}</span>
               <span className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                 <input
                   type="checkbox"
@@ -1674,25 +1674,25 @@ Automated calculations and formulas would be present`;
             onClick={() => setModalOpen(true)}
             className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
-            Edit Profile
+            {t('profile.editProfile')}
           </button>
           <button
             onClick={() => setShowClassScheduleModal(true)}
             className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
-            Class Schedule
+            {t('profile.classScheduleButton')}
           </button>
           <button
             onClick={() => setShowRequestsModal(true)}
             className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
-            Requests
+            {t('profile.submitRequestButton')}
           </button>
           <button
             onClick={handleLogout}
             className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
-            Sign Out
+            {t('profile.signOut')}
           </button>
         </div>
 

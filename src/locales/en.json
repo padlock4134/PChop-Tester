@@ -438,7 +438,8 @@
     "signOut": "Sign Out",
     "viewReports": "View Reports",
     "classScheduleButton": "Class Schedule",
-    "submitRequestButton": "Submit Request"
+    "submitRequestButton": "Submit Request",
+    "showTalents": "Show Talents"
   },
   "modals": {
     "close": "Close",

@@ -472,7 +472,8 @@
     "signOut": "Cerrar Sesión",
     "viewReports": "Ver Reportes",
     "classScheduleButton": "Horario de Clases",
-    "submitRequestButton": "Enviar Solicitud"
+    "submitRequestButton": "Enviar Solicitud",
+    "showTalents": "Mostrar Talentos"
   },
   "modals": {
     "close": "Cerrar",
