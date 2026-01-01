@@ -386,28 +386,6 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
           </div>
         )}
         
-        {knifeSelected && whetstoneSelected && strokeCount < 10 && (
-          <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10 pointer-events-none">
-            <div className="bg-black bg-opacity-80 text-white px-6 py-3 rounded-xl text-center shadow-lg">
-              {/* Camera tracking status */}
-              {isTracking ? (
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <span className={`w-2 h-2 rounded-full ${poseDetected ? 'bg-green-400 animate-pulse' : 'bg-yellow-400'}`}></span>
-                  <p className="text-xs">{poseDetected ? '📹 Tracking your motion' : '👋 Move your right hand'}</p>
-                </div>
-              ) : (
-                <p className="text-sm font-bold">↔️ Move your arm to sharpen</p>
-              )}
-              <p className="text-xs mt-1">Strokes: {strokeCount}/10</p>
-              <div className="w-full bg-gray-700 rounded-full h-2 mt-2">
-                <div 
-                  className="bg-amber-500 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${(strokeCount / 10) * 100}%` }}
-                ></div>
-              </div>
-            </div>
-          </div>
-        )}
         
         {showSuccess && (
           <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
