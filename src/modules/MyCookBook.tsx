@@ -207,7 +207,13 @@ const MyCookBook = () => {
   const { refreshXP } = useLevelProgressContext();
   
   // Categories for filtering
-  const categories = ['All', 'Seafood', 'Meat', 'Vegetarian', 'Dessert'];
+  const categories = [
+    { key: 'All', label: t('myCookbook.all') },
+    { key: 'Seafood', label: t('myCookbook.seafood') },
+    { key: 'Meat', label: t('myCookbook.meat') },
+    { key: 'Vegetarian', label: t('myCookbook.vegetarian') },
+    { key: 'Dessert', label: t('myCookbook.dessert') }
+  ];
 
   // Handle recipe selection for collections
   const handleRecipeSelect = (recipeId: string) => {
@@ -242,7 +248,7 @@ const MyCookBook = () => {
 
   // Handle deleting a collection
   const handleDeleteCollection = (collectionId: string) => {
-    if (window.confirm('Are you sure you want to delete this collection? This action cannot be undone.')) {
+    if (window.confirm(t('myCookbook.deleteConfirm'))) {
       setCollections(prev => prev.filter(collection => collection.id !== collectionId));
       setShowViewCollectionModal(false);
       setSelectedCollection(null);
@@ -296,7 +302,7 @@ const MyCookBook = () => {
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
           const instagramMessage = `Check out my cookbook! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
-          alert('Sharing instructions copied to clipboard! Open Instagram to share your cookbook.');
+          alert(t('myCookbook.sharingInstructions'));
           shared = true;
           break;
         case 'slack':
@@ -309,7 +315,7 @@ const MyCookBook = () => {
             shared = true;
           } else {
             await navigator.clipboard.writeText(shareData.url);
-            alert('Cookbook link copied to clipboard!');
+            alert(t('myCookbook.linkCopied'));
             shared = true;
           }
           break;
@@ -350,7 +356,7 @@ const MyCookBook = () => {
     } catch (err: any) {
       console.error('Error sharing:', err);
       if (err.name !== 'AbortError') {
-        alert('Failed to share. Please try again.');
+        alert(t('myCookbook.failedToShare'));
       }
     } finally {
       setShowShareModal(false);
@@ -387,7 +393,7 @@ const MyCookBook = () => {
   // Filter recipes based on search term and category
   const filteredRecipes = recipes.filter(recipe => {
     const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
-    if (activeCategory === 'All') return matchesSearch;
+    if (activeCategory === 'All' || activeCategory === t('myCookbook.all')) return matchesSearch;
     
     // Simple category detection based on ingredients
     const ingredients = recipe.ingredients || [];
@@ -502,48 +508,48 @@ const MyCookBook = () => {
       }}>
         <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
-            {recipeToShare ? `Share "${recipeToShare.name}" Recipe` : 'Share Your Cookbook'}
+            {recipeToShare ? `${t('myCookbook.shareRecipeTitle')} "${recipeToShare.name}"` : t('myCookbook.shareYourCookbook')}
           </h3>
           <div className="flex justify-around mb-4">
             <button 
               onClick={() => handleShare('facebook')}
               className="p-2 rounded-full hover:bg-blue-100"
-              title="Share on Facebook"
+              title={t('myCookbook.shareOnFacebook')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#1877F2"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.06C2 17.06 5.66 21.21 10.44 21.96V14.96H7.9V12.06H10.44V9.85C10.44 7.34 11.93 5.96 14.22 5.96C15.31 5.96 16.45 6.15 16.45 6.15V8.62H15.19C13.95 8.62 13.56 9.39 13.56 10.18V12.06H16.34L15.89 14.96H13.56V21.96C18.34 21.21 22 17.06 22 12.06C22 6.53 17.5 2.04 12 2.04Z"/></svg>
             </button>
             <button 
               onClick={() => handleShare('twitter')}
               className="p-2 rounded-full hover:bg-blue-100"
-              title="Share on Twitter"
+              title={t('myCookbook.shareOnTwitter')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#1DA1F2"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>
             </button>
             <button 
               onClick={() => handleShare('pinterest')}
               className="p-2 rounded-full hover:bg-red-100"
-              title="Share on Pinterest"
+              title={t('myCookbook.shareOnPinterest')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#E60023"><path d="M9.04 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.527 2.527 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
             </button>
             <button 
               onClick={() => handleShare('whatsapp')}
               className="p-2 rounded-full hover:bg-green-100"
-              title="Share on WhatsApp"
+              title={t('myCookbook.shareOnWhatsApp')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#25D366"><path d="M17.498 14.382c-.301-.15-1.767-.867-2.04-.966-.273-.101-.473-.15-.673.15-.197.295-.771.964-.944 1.162-.175.195-.349.21-.646.075-.3-.15-1.263-.465-2.403-1.485-.888-.795-1.484-1.77-1.66-2.07-.174-.3-.019-.465.13-.615.136-.135.301-.345.451-.523.146-.181.194-.301.297-.496.1-.21.049-.375-.025-.524-.075-.15-.672-1.62-.922-2.206-.24-.584-.487-.51-.672-.51-.172-.015-.371-.015-.571-.015-.2 0-.523.074-.797.359-.273.3-1.045 1.02-1.045 2.475s1.07 2.865 1.219 3.075c.149.195 2.105 3.195 5.1 4.485.714.3 1.27.48 1.704.629.714.227 1.365.195 1.88.121.574-.091 1.767-.721 2.016-1.426.255-.705.255-1.29.18-1.425-.074-.135-.27-.21-.57-.345m-5.446 7.443h-.016c-1.77 0-3.524-.48-5.055-1.38l-.36-.214-3.75.975 1.005-3.645-.239-.375c-.99-1.576-1.516-3.391-1.516-5.26 0-5.445 4.455-9.885 9.942-9.885 2.654 0 5.145 1.035 7.021 2.91 1.875 1.859 2.909 4.35 2.909 6.99-.004 5.444-4.46 9.885-9.935 9.885M20.52 3.449C18.24 1.245 15.24 0 12.045 0 5.463 0 .104 5.334.101 11.893c0 2.096.549 4.14 1.595 5.945L0 24l6.335-1.652c1.746.943 3.71 1.444 5.71 1.447h.006c6.585 0 11.946-5.336 11.949-11.896 0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </button>
             <button 
               onClick={() => handleShare('instagram')}
               className="p-2 rounded-full hover:bg-pink-100"
-              title="Share on Instagram"
+              title={t('myCookbook.shareOnInstagram')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </button>
             <button 
               onClick={() => handleShare('slack')}
               className="p-2 rounded-full hover:bg-purple-100"
-              title="Share on Slack"
+              title={t('myCookbook.shareOnSlack')}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#4A154B"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z"/></svg>
             </button>
@@ -553,7 +559,7 @@ const MyCookBook = () => {
               onClick={() => handleShare('native')}
               className="px-4 py-2 bg-seafoam text-maineBlue rounded hover:bg-maineBlue hover:text-seafoam transition-colors"
             >
-              Share via...
+              {t('myCookbook.shareVia')}
             </button>
             <button
               onClick={() => {
@@ -576,17 +582,17 @@ const MyCookBook = () => {
           setNewCollectionName('');
         }}>
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4 border-4 border-black" onClick={e => e.stopPropagation()}>
-            <h3 className="text-lg font-bold mb-4">Create New Collection</h3>
+            <h3 className="text-lg font-bold mb-4">{t('myCookbook.createNewCollection')}</h3>
             
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Collection Name
+                {t('myCookbook.collectionName')}
               </label>
               <input
                 type="text"
                 value={newCollectionName}
                 onChange={(e) => setNewCollectionName(e.target.value)}
-                placeholder="Enter collection name..."
+                placeholder={t('myCookbook.enterCollectionName')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 autoFocus
               />
@@ -594,7 +600,7 @@ const MyCookBook = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600">
-                Selected recipes: {selectedRecipes.length}
+                {t('myCookbook.selectedRecipes')} {selectedRecipes.length}
               </p>
             </div>
             
@@ -606,7 +612,7 @@ const MyCookBook = () => {
                 }}
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
               >
-                Cancel
+                {t('myCookbook.cancel')}
               </button>
               <button
                 onClick={handleCreateCollection}
@@ -617,7 +623,7 @@ const MyCookBook = () => {
                     : 'bg-gray-200 text-gray-500 cursor-not-allowed'
                 }`}
               >
-                Create Collection
+                {t('myCookbook.createCollection')}
               </button>
             </div>
           </div>
@@ -638,7 +644,7 @@ const MyCookBook = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600 mb-3">
-                Recipes in this collection ({selectedCollection.recipes.length}):
+                {t('myCookbook.recipesInCollection')} ({selectedCollection.recipes.length}):
               </p>
               
               <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
@@ -660,7 +666,7 @@ const MyCookBook = () => {
                 })}
                 {selectedCollection.recipes.length === 0 && (
                   <div className="py-4 text-center text-gray-500 text-sm italic">
-                    No recipes in this collection yet.
+                    {t('myCookbook.noRecipesInCollection')}
                   </div>
                 )}
               </div>
@@ -671,7 +677,7 @@ const MyCookBook = () => {
                 onClick={() => handleDeleteCollection(selectedCollection.id)}
                 className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
               >
-                Delete Collection
+                {t('myCookbook.deleteCollection')}
               </button>
               
               <div className="flex gap-3">
@@ -682,7 +688,7 @@ const MyCookBook = () => {
                   }}
                   className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
                 >
-                  Close
+                  {t('common.close')}
                 </button>
                 <button
                   onClick={() => {
@@ -691,7 +697,7 @@ const MyCookBook = () => {
                   }}
                   className="px-4 py-2 bg-seafoam text-maineBlue rounded hover:bg-maineBlue hover:text-seafoam transition-colors"
                 >
-                  Edit Collection
+                  {t('myCookbook.editCollection')}
                 </button>
               </div>
             </div>
@@ -713,8 +719,8 @@ const MyCookBook = () => {
             className="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam bg-white text-sm w-full sm:w-auto sm:min-w-[120px]"
           >
             {categories.map(category => (
-              <option key={category} value={category}>
-                {category}
+              <option key={category.key} value={category.key}>
+                {category.label}
               </option>
             ))}
           </select>
@@ -723,7 +729,7 @@ const MyCookBook = () => {
           <div className="relative flex-1">
             <input
               type="text"
-              placeholder="Search recipes..."
+              placeholder={t('myCookbook.searchRecipes')}
               className="pl-8 pr-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam w-full text-sm"
               value={searchTerm}
               onChange={(e) => {
@@ -742,24 +748,24 @@ const MyCookBook = () => {
             disabled={currentIndex === 0}
             className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
           >
-            <span className="hidden sm:inline">Previous</span>
-            <span className="sm:hidden">← Prev</span>
+            <span className="hidden sm:inline">{t('myCookbook.previous')}</span>
+            <span className="sm:hidden">{t('myCookbook.prev')}</span>
           </button>
           <button
             onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
             disabled={currentIndex === filteredRecipes.length - 1}
             className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
           >
-            <span className="hidden sm:inline">Next</span>
-            <span className="sm:hidden">Next →</span>
+            <span className="hidden sm:inline">{t('myCookbook.next')}</span>
+            <span className="sm:hidden">{t('myCookbook.next')} →</span>
           </button>
         </div>
       </div>
       {/* Recipe Count */}
       <div className="text-sm text-gray-500 mb-4">
         {filteredRecipes.length === 0 
-          ? 'No recipes found' 
-          : `Recipe ${currentIndex + 1} of ${filteredRecipes.length}`}
+          ? t('myCookbook.noRecipes') 
+          : `${t('myCookbook.recipe')} ${currentIndex + 1} ${t('myCookbook.of')} ${filteredRecipes.length}`}
       </div>
 
 
@@ -793,40 +799,40 @@ const MyCookBook = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
                     {/* Ingredients */}
                     <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 Ingredients</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 {t('myCookbook.ingredients')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                         {filteredRecipes[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
                           <li key={i} className="line-clamp-1">{ingredient}</li>
                         ))}
                         {(filteredRecipes[currentIndex].ingredients?.length || 0) > 6 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].ingredients?.length || 0) - 6} more...</li>
+                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].ingredients?.length || 0) - 6} {t('myCookbook.more')}</li>
                         )}
                       </ul>
                     </div>
                     
                     {/* Equipment */}
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 Equipment</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 {t('myCookbook.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                         {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
                         ))}
                         {(filteredRecipes[currentIndex].equipment?.length || 0) > 4 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].equipment?.length || 0) - 4} more...</li>
+                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].equipment?.length || 0) - 4} {t('myCookbook.more')}</li>
                         )}
                       </ul>
                     </div>
                     
                     {/* Health Tags */}
                     <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 Health Tags</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 {t('myCookbook.healthTags')}</h4>
                       <div className="flex flex-wrap gap-1.5 justify-center max-h-[80px] sm:max-h-[100px] overflow-y-auto">
                         {filteredRecipes[currentIndex].healthTags?.slice(0, 4).map(tag => (
                           <span key={tag} className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">
                             {tag}
                           </span>
                         )) || (
-                          <span className="text-xs text-gray-500">No health tags</span>
+                          <span className="text-xs text-gray-500">{t('myCookbook.noHealthTags')}</span>
                         )}
                         {(filteredRecipes[currentIndex].healthTags?.length || 0) > 4 && (
                           <span className="text-xs text-gray-600 font-semibold">+{(filteredRecipes[currentIndex].healthTags?.length || 0) - 4}</span>
@@ -836,7 +842,7 @@ const MyCookBook = () => {
                   </div>
                 </div>
                 <div className="mt-4 text-xs sm:text-sm text-gray-600 text-center font-semibold bg-gray-100 px-4 py-2 rounded-full border border-gray-300">
-                  👆 Tap to flip for instructions
+                  {t('myCookbook.tapToFlip')}
                 </div>
               </div>
               
@@ -844,7 +850,7 @@ const MyCookBook = () => {
               <div className="absolute inset-0 h-full w-full rounded-lg bg-white p-4 sm:p-6 shadow-lg border-4 border-lobsterRed [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredRecipes[currentIndex].name}</h3>
                 <div className="flex-grow overflow-y-auto mb-16 sm:mb-20 px-2">
-                  <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 Instructions:</h4>
+                  <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('myCookbook.instructions')}</h4>
                   <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredRecipes[currentIndex].instructions}</p>
                 </div>
                 <div className="flex justify-between items-center absolute bottom-4 left-4 right-4 gap-2">
@@ -861,9 +867,9 @@ const MyCookBook = () => {
                       }
                     }}
                     className="text-lobsterRed hover:text-maineBlue transition-colors"
-                    title="Delete Recipe"
+                    title={t('myCookbook.deleteRecipe')}
                   >
-                    🗑️ Remove
+                    🗑️ {t('myCookbook.remove')}
                   </button>
                   
                   <button
