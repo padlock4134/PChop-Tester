@@ -59,6 +59,9 @@
     "importRecipe": "Import Recipe",
     "shareRecipe": "Share Recipe"
   },
+  "myCookBook": {
+    "title": "My Cookbook"
+  },
   "chefsCorner": {
     "title": "Chefs Corner",
     "showcaseRecipe": "Showcase Recipe:",

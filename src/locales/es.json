@@ -59,6 +59,9 @@
     "importRecipe": "Importar Receta",
     "shareRecipe": "Compartir Receta"
   },
+  "myCookBook": {
+    "title": "Mi Libro de Recetas"
+  },
   "chefsCorner": {
     "title": "Rincón del Chef",
     "showcaseRecipe": "Receta Destacada:",
