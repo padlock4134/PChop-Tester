@@ -418,8 +418,9 @@ const StudentProgressDashboard: React.FC = () => {
 
         {/* Quick Actions Tab Content */}
         <div className={`${activeMobileTab === 'actions' ? 'block' : 'hidden'} lg:block`}>
-          {/* Progress Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Progress Cards Container with Blue Border */}
+          <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <ProgressCard
               emoji="📚"
               title={t('dashboard.learningProgress')}
@@ -452,6 +453,7 @@ const StudentProgressDashboard: React.FC = () => {
               borderColor="border-purple-400"
               onClick={() => setAchievementsModalOpen(true)}
             />
+            </div>
           </div>
         </div>
       </div>
