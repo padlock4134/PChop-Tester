@@ -2614,9 +2614,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           </button>
                           <button
                             onClick={() => {
-                              if (window.confirm(`Are you sure you want to remove ${user.username || user.email}?`)) {
+                              if (window.confirm(t('admin.confirmRemoveStudent', { name: user.username || user.email }))) {
                                 setUsers(prev => prev.filter(u => u.id !== user.id));
-                                alert('Student removed successfully!');
+                                alert(t('admin.studentRemovedSuccess'));
                               }
                             }}
                             className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
@@ -2753,18 +2753,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Edit
+                        {t('admin.edit')}
                       </button>
                       <button
                         onClick={() => {
-                          if (window.confirm('Are you sure you want to remove Chef Julia Davis?')) {
+                          if (window.confirm(t('admin.confirmRemoveFaculty', { name: 'Chef Julia Davis' }))) {
                             setFacultyList(prev => prev.filter(f => f.id !== facultyList[0].id));
-                            alert('Faculty member removed successfully!');
+                            alert(t('admin.facultyRemovedSuccess'));
                           }
                         }}
                         className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Remove
+                        {t('admin.remove')}
                       </button>
                       </div>
                     </div>
@@ -2789,18 +2789,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Edit
+                        {t('admin.edit')}
                       </button>
                       <button
                         onClick={() => {
-                          if (window.confirm('Are you sure you want to remove Chef Marco Rodriguez?')) {
+                          if (window.confirm(t('admin.confirmRemoveFaculty', { name: 'Chef Marco Rodriguez' }))) {
                             setFacultyList(prev => prev.filter(f => f.id !== facultyList[1].id));
-                            alert('Faculty member removed successfully!');
+                            alert(t('admin.facultyRemovedSuccess'));
                           }
                         }}
                         className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Remove
+                        {t('admin.remove')}
                       </button>
                       </div>
                     </div>
@@ -2923,18 +2923,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Edit
+                        {t('admin.edit')}
                       </button>
                       <button
                         onClick={() => {
-                          if (window.confirm('Are you sure you want to remove Maria Santos from alumni records?')) {
+                          if (window.confirm(t('admin.confirmRemoveAlumni', { name: 'Maria Santos' }))) {
                             setAlumniList(prev => prev.filter(a => a.id !== alumniList[0].id));
-                            alert('Alumni member removed successfully!');
+                            alert(t('admin.alumniRemovedSuccess'));
                           }
                         }}
                         className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Remove
+                        {t('admin.remove')}
                       </button>
                       </div>
                     </div>
@@ -2959,18 +2959,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Edit
+                        {t('admin.edit')}
                       </button>
                       <button
                         onClick={() => {
-                          if (window.confirm('Are you sure you want to remove James Chen from alumni records?')) {
+                          if (window.confirm(t('admin.confirmRemoveAlumni', { name: 'James Chen' }))) {
                             setAlumniList(prev => prev.filter(a => a.id !== alumniList[1].id));
-                            alert('Alumni member removed successfully!');
+                            alert(t('admin.alumniRemovedSuccess'));
                           }
                         }}
                         className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Remove
+                        {t('admin.remove')}
                       </button>
                       </div>
                     </div>
@@ -2995,18 +2995,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Edit
+                        {t('admin.edit')}
                       </button>
                       <button
                         onClick={() => {
-                          if (window.confirm('Are you sure you want to remove Ashley Rodriguez from alumni records?')) {
+                          if (window.confirm(t('admin.confirmRemoveAlumni', { name: 'Ashley Rodriguez' }))) {
                             setAlumniList(prev => prev.filter(a => a.id !== alumniList[2].id));
-                            alert('Alumni member removed successfully!');
+                            alert(t('admin.alumniRemovedSuccess'));
                           }
                         }}
                         className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Remove
+                        {t('admin.remove')}
                       </button>
                       </div>
                     </div>
@@ -3031,18 +3031,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }}
                         className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Edit
+                        {t('admin.edit')}
                       </button>
                       <button
                         onClick={() => {
-                          if (window.confirm('Are you sure you want to remove David Miller from alumni records?')) {
+                          if (window.confirm(t('admin.confirmRemoveAlumni', { name: 'David Miller' }))) {
                             setAlumniList(prev => prev.filter(a => a.id !== alumniList[3].id));
-                            alert('Alumni member removed successfully!');
+                            alert(t('admin.alumniRemovedSuccess'));
                           }
                         }}
                         className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
                       >
-                        Remove
+                        {t('admin.remove')}
                       </button>
                       </div>
                     </div>
@@ -3052,31 +3052,31 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Alumni Network Actions */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⚡ Alumni Network Management</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⚡ {t('admin.alumniNetworkManagement')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                   <button 
                     onClick={() => setShowAlumniNewsletterModal(true)}
                     className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
                     <div className="text-xl sm:text-2xl mb-2">📧</div>
-                    <h4 className="font-medium text-blue-800 text-sm sm:text-base">Alumni Newsletter</h4>
-                    <p className="text-xs text-blue-600">Send updates and opportunities</p>
+                    <h4 className="font-medium text-blue-800 text-sm sm:text-base">{t('admin.alumniNewsletter')}</h4>
+                    <p className="text-xs text-blue-600">{t('admin.sendUpdatesOpportunities')}</p>
                   </button>
                   <button 
                     onClick={() => setShowPlanEventModal(true)}
                     className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
                     <div className="text-xl sm:text-2xl mb-2">🎉</div>
-                    <h4 className="font-medium text-green-800 text-sm sm:text-base">Plan Alumni Event</h4>
-                    <p className="text-xs text-green-600">Networking and reunions</p>
+                    <h4 className="font-medium text-green-800 text-sm sm:text-base">{t('admin.planAlumniEvent')}</h4>
+                    <p className="text-xs text-green-600">{t('admin.networkingReunions')}</p>
                   </button>
                   <button 
                     onClick={() => setShowGiftingDonationsModal(true)}
                     className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform duration-200"
                   >
                     <div className="text-xl sm:text-2xl mb-2">📄</div>
-                    <h4 className="font-medium text-purple-800 text-sm sm:text-base">Gifting & Donations</h4>
-                    <p className="text-xs text-purple-600">Fundraising Strategy</p>
+                    <h4 className="font-medium text-purple-800 text-sm sm:text-base">{t('admin.giftingDonations')}</h4>
+                    <p className="text-xs text-purple-600">{t('admin.fundraisingStrategy')}</p>
                   </button>
                 </div>
               </div>
@@ -3093,7 +3093,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">User Activity</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.userActivity')}</h2>
                 <button
                   onClick={() => setShowUserActivityModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -3101,7 +3101,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 text-sm sm:text-base">Monitor student engagement, login patterns, and platform usage across all modules.</p>
+              <p className="text-center text-gray-600 text-sm sm:text-base">{t('admin.monitorStudentEngagement')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -3109,34 +3109,34 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-4 sm:space-y-6">
               {/* Login Patterns */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📅 Login Patterns</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📅 {t('admin.loginPatterns')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-blue-600">342</div>
-                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Daily Logins</p>
-                    <p className="text-xs text-blue-600">↑ 8% vs yesterday</p>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.dailyLogins')}</p>
+                    <p className="text-xs text-blue-600">↑ 8% {t('admin.vsYesterday')}</p>
                   </div>
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-green-600">1,847</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">Weekly Logins</p>
-                    <p className="text-xs text-green-600">↑ 15% vs last week</p>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.weeklyLogins')}</p>
+                    <p className="text-xs text-green-600">↑ 15% {t('admin.vsLastWeek')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-purple-600">23 min</div>
-                    <p className="text-xs sm:text-sm text-purple-800 font-medium">Avg Session</p>
-                    <p className="text-xs text-purple-600">↑ 3 min vs last week</p>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.avgSession')}</p>
+                    <p className="text-xs text-purple-600">↑ 3 {t('admin.min')} {t('admin.vsLastWeek')}</p>
                   </div>
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-orange-600">89%</div>
-                    <p className="text-xs sm:text-sm text-orange-800 font-medium">Weekly Active</p>
-                    <p className="text-xs text-orange-600">↑ 4% vs last week</p>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.weeklyActive')}</p>
+                    <p className="text-xs text-orange-600">↑ 4% {t('admin.vsLastWeek')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Module Usage Breakdown */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 Module Usage Breakdown</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 {t('admin.moduleUsageBreakdown')}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
@@ -3144,7 +3144,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-blue-800 text-sm sm:text-base">MyKitchen</h4>
                     </div>
                     <div className="text-center text-xl sm:text-2xl font-bold text-blue-600 mb-1">67%</div>
-                    <p className="text-center text-xs text-blue-600">2,340 sessions this week</p>
+                    <p className="text-center text-xs text-blue-600">2,340 {t('admin.sessionsThisWeek')}</p>
                   </div>
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
@@ -3152,7 +3152,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-green-800 text-sm sm:text-base">MyCookBook</h4>
                     </div>
                     <div className="text-center text-xl sm:text-2xl font-bold text-green-600 mb-1">84%</div>
-                    <p className="text-center text-xs text-green-600">1,890 assignments viewed</p>
+                    <p className="text-center text-xs text-green-600">1,890 {t('admin.assignmentsViewed')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
@@ -3160,7 +3160,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-purple-800 text-sm sm:text-base">CulinarySchool</h4>
                     </div>
                     <div className="text-center text-xl sm:text-2xl font-bold text-purple-600 mb-1">72%</div>
-                    <p className="text-center text-xs text-purple-600">1,456 technique views</p>
+                    <p className="text-center text-xs text-purple-600">1,456 {t('admin.techniqueViews')}</p>
                   </div>
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
@@ -3168,19 +3168,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-orange-800 text-sm sm:text-base">Chef's Corner</h4>
                     </div>
                     <div className="text-center text-xl sm:text-2xl font-bold text-orange-600 mb-1">45%</div>
-                    <p className="text-center text-xs text-orange-600">234 live sessions joined</p>
+                    <p className="text-center text-xs text-orange-600">234 {t('admin.liveSessionsJoined')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Feature Adoption */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🚀 Feature Adoption Rates</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🚀 {t('admin.featureAdoptionRates')}</h3>
                 <div className="space-y-2 sm:space-y-3">
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">🔍</span>
-                      <span className="font-medium text-xs sm:text-base">Recipe Matcher</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.recipeMatcher')}</span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
@@ -3192,7 +3192,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">🎥</span>
-                      <span className="font-medium text-xs sm:text-base">Video Submissions</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.videoSubmissions')}</span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
@@ -3204,7 +3204,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">🔴</span>
-                      <span className="font-medium text-xs sm:text-base">Global Test Kitchen</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.globalTestKitchen')}</span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
@@ -3216,7 +3216,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">📁</span>
-                      <span className="font-medium text-xs sm:text-base">Collections Library</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.collectionsLibrary')}</span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
@@ -3228,7 +3228,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">📊</span>
-                      <span className="font-medium text-xs sm:text-base">Gradebook</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.gradebook')}</span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
@@ -3242,19 +3242,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Inactive Students Alert */}
               <div className="border-4 border-red-400 bg-red-50 rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-red-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ Inactive Students Alert</h3>
+                <h3 className="text-center font-bold text-red-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ {t('admin.inactiveStudentsAlert')}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                   <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
                     <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">23</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">No login in 7+ days</p>
+                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.noLoginIn7Days')}</p>
                   </div>
                   <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
                     <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">8</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">No login in 14+ days</p>
+                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.noLoginIn14Days')}</p>
                   </div>
                   <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
                     <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">3</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">No login in 30+ days</p>
+                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.noLoginIn30Days')}</p>
                   </div>
                 </div>
               </div>
@@ -3271,7 +3271,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Program Performance</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.programPerformance')}</h2>
                 <button
                   onClick={() => setShowProgramPerformanceModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -3279,7 +3279,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 text-sm sm:text-base">Track program completion rates, student satisfaction, and overall curriculum effectiveness.</p>
+              <p className="text-center text-gray-600 text-sm sm:text-base">{t('admin.trackProgramCompletion')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -3287,19 +3287,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-4 sm:space-y-6">
             {/* Program Selector */}
             <div>
-              <label className="block text-center text-xs sm:text-sm font-medium text-gray-700 mb-2">📚 Select Program:</label>
+              <label className="block text-center text-xs sm:text-sm font-medium text-gray-700 mb-2">📚 {t('admin.selectProgram')}:</label>
               <select
                 value={selectedProgram}
                 onChange={(e) => setSelectedProgram(e.target.value)}
                 className="w-full max-w-md mx-auto block px-4 py-3 border-2 border-maineBlue rounded-lg focus:outline-none focus:ring-2 focus:ring-maineBlue font-retro text-center"
               >
-                <option value="all">All Programs</option>
-                <option value="culinary_arts">Culinary Arts</option>
-                <option value="pastry_arts">Pastry Arts</option>
-                <option value="baking_pastry">Baking & Pastry</option>
-                <option value="restaurant_management">Restaurant Management</option>
-                <option value="food_service">Food Service Management</option>
-                <option value="hospitality">Hospitality Management</option>
+                <option value="all">{t('admin.allPrograms')}</option>
+                <option value="culinary_arts">{t('admin.culinaryArts')}</option>
+                <option value="pastry_arts">{t('admin.pastryArts')}</option>
+                <option value="baking_pastry">{t('admin.bakingAndPastry')}</option>
+                <option value="restaurant_management">{t('admin.restaurantManagement')}</option>
+                <option value="food_service">{t('admin.foodServiceManagement')}</option>
+                <option value="hospitality">{t('admin.hospitalityManagementOption')}</option>
               </select>
             </div>
             
@@ -3307,13 +3307,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               {selectedProgram !== 'all' && (
                 <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-2 sm:p-3 text-center">
                   <p className="text-xs sm:text-sm text-blue-800">
-                    Showing data for: <span className="font-bold text-maineBlue">
-                      {selectedProgram === 'culinary_arts' && 'Culinary Arts'}
-                      {selectedProgram === 'pastry_arts' && 'Pastry Arts'}
-                      {selectedProgram === 'baking_pastry' && 'Baking & Pastry'}
-                      {selectedProgram === 'restaurant_management' && 'Restaurant Management'}
-                      {selectedProgram === 'food_service' && 'Food Service Management'}
-                      {selectedProgram === 'hospitality' && 'Hospitality Management'}
+                    {t('admin.showingDataFor')}: <span className="font-bold text-maineBlue">
+                      {selectedProgram === 'culinary_arts' && t('admin.culinaryArts')}
+                      {selectedProgram === 'pastry_arts' && t('admin.pastryArts')}
+                      {selectedProgram === 'baking_pastry' && t('admin.bakingAndPastry')}
+                      {selectedProgram === 'restaurant_management' && t('admin.restaurantManagement')}
+                      {selectedProgram === 'food_service' && t('admin.foodServiceManagement')}
+                      {selectedProgram === 'hospitality' && t('admin.hospitalityManagementOption')}
                     </span>
                   </p>
                 </div>
@@ -3321,51 +3321,51 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               
               {/* Program Completion Rates */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 Program Completion Rates</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 {t('admin.programCompletionRates')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-green-600">87%</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">Overall Completion</p>
-                    <p className="text-xs text-green-600">↑ 5% vs last semester</p>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.overallCompletion')}</p>
+                    <p className="text-xs text-green-600">↑ 5% {t('admin.vsLastSemester')}</p>
                   </div>
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-blue-600">92%</div>
-                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Assignment Completion</p>
-                    <p className="text-xs text-blue-600">↑ 3% vs last semester</p>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.assignmentCompletion')}</p>
+                    <p className="text-xs text-blue-600">↑ 3% {t('admin.vsLastSemester')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-purple-600">78%</div>
-                    <p className="text-xs sm:text-sm text-purple-800 font-medium">Video Submissions</p>
-                    <p className="text-xs text-purple-600">↑ 12% vs last semester</p>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.videoSubmissions')}</p>
+                    <p className="text-xs text-purple-600">↑ 12% {t('admin.vsLastSemester')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Student Satisfaction */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⭐ Student Satisfaction Metrics</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⭐ {t('admin.studentSatisfactionMetrics')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
                   <div className="bg-yellow-50 border-4 border-yellow-400 rounded-lg p-3 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-yellow-600">4.2/5</div>
-                    <p className="text-xs sm:text-sm text-yellow-800 font-medium">Overall Program Rating</p>
-                    <p className="text-xs text-yellow-600">Based on 234 student reviews</p>
+                    <p className="text-xs sm:text-sm text-yellow-800 font-medium">{t('admin.overallProgramRating')}</p>
+                    <p className="text-xs text-yellow-600">{t('admin.basedOnStudentReviews', { count: 234 })}</p>
                   </div>
                   <div className="bg-emerald-50 border-4 border-emerald-400 rounded-lg p-3 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-emerald-600">94%</div>
-                    <p className="text-xs sm:text-sm text-emerald-800 font-medium">Would Recommend</p>
-                    <p className="text-xs text-emerald-600">Students who'd recommend program</p>
+                    <p className="text-xs sm:text-sm text-emerald-800 font-medium">{t('admin.wouldRecommend')}</p>
+                    <p className="text-xs text-emerald-600">{t('admin.studentsWhoRecommend')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Skill Progression Tracking */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 Skill Progression Tracking</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 {t('admin.skillProgressionTracking')}</h3>
                 <div className="space-y-2 sm:space-y-3">
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">Knife Skills (52 Techniques)</span>
-                      <span className="text-xs sm:text-sm font-bold text-blue-600">Average: 38/52 completed</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.knifeSkillsTechniques', { count: 52 })}</span>
+                      <span className="text-xs sm:text-sm font-bold text-blue-600">{t('admin.averageCompleted', { completed: 38, total: 52 })}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-blue-600 h-3 rounded-full" style={{width: '73%'}}></div>
@@ -3373,8 +3373,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">Assignment Grades</span>
-                      <span className="text-xs sm:text-sm font-bold text-green-600">Average: 85.2%</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.assignmentGrades')}</span>
+                      <span className="text-xs sm:text-sm font-bold text-green-600">{t('admin.average')}: 85.2%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-green-600 h-3 rounded-full" style={{width: '85%'}}></div>
@@ -3382,8 +3382,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">Video Quality Scores</span>
-                      <span className="text-xs sm:text-sm font-bold text-purple-600">Average: 4.1/5</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.videoQualityScores')}</span>
+                      <span className="text-xs sm:text-sm font-bold text-purple-600">{t('admin.average')}: 4.1/5</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-purple-600 h-3 rounded-full" style={{width: '82%'}}></div>
@@ -3394,19 +3394,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Learning Outcomes Achievement */}
               <div className="border-4 border-red-400 bg-red-50 rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-red-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ Areas Needing Attention</h3>
+                <h3 className="text-center font-bold text-red-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ {t('admin.areasNeedingImprovement')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
                   <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
                     <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">23%</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">Students struggling with timing</p>
+                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.studentsStruggling')}</p>
                   </div>
                   <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
                     <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">15%</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">Late assignment submissions</p>
+                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.lateAssignmentSubmissions')}</p>
                   </div>
                   <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
                     <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">8%</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">Below 70% grade average</p>
+                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.below70GradeAverage')}</p>
                   </div>
                 </div>
               </div>
@@ -3423,7 +3423,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Enrollment Health</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.enrollmentHealth')}</h2>
                 <button
                   onClick={() => setShowEnrollmentHealthModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -3431,7 +3431,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 text-sm sm:text-base">Monitor enrollment trends, student retention rates, and license utilization across your culinary program.</p>
+              <p className="text-center text-gray-600 text-sm sm:text-base">{t('admin.monitorEnrollment')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -3439,61 +3439,61 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-4 sm:space-y-6">
               {/* Current Enrollment Status */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 Current Enrollment Status</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 {t('admin.currentEnrollmentStatus')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-blue-600">247</div>
-                    <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Enrolled</p>
-                    <p className="text-xs text-blue-600">↑ 12 vs last month</p>
+                    <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalEnrolled')}</p>
+                    <p className="text-xs text-blue-600">↑ 12 {t('admin.vsLastMonth')}</p>
                   </div>
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-green-600">89%</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">Active Students</p>
-                    <p className="text-xs text-green-600">↑ 3% vs last month</p>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.activeStudents')}</p>
+                    <p className="text-xs text-green-600">↑ 3% {t('admin.vsLastMonth')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-purple-600">300</div>
-                    <p className="text-xs sm:text-sm text-purple-800 font-medium">License Capacity</p>
-                    <p className="text-xs text-purple-600">82% utilized</p>
+                    <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.licenseCapacity')}</p>
+                    <p className="text-xs text-purple-600">82% {t('admin.utilized')}</p>
                   </div>
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-orange-600">23</div>
-                    <p className="text-xs sm:text-sm text-orange-800 font-medium">New This Month</p>
-                    <p className="text-xs text-orange-600">↑ 5 vs last month</p>
+                    <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.newThisMonth')}</p>
+                    <p className="text-xs text-orange-600">↑ 5 {t('admin.vsLastMonth')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Retention & Completion Rates */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 Retention & Completion Rates</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 {t('admin.retentionCompletionRates')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
                   <div className="bg-emerald-50 border-4 border-emerald-400 rounded-lg p-3 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-emerald-600">94%</div>
-                    <p className="text-xs sm:text-sm text-emerald-800 font-medium">Semester Retention</p>
-                    <p className="text-xs text-emerald-600">Students continuing program</p>
+                    <p className="text-xs sm:text-sm text-emerald-800 font-medium">{t('admin.semesterRetention')}</p>
+                    <p className="text-xs text-emerald-600">{t('admin.studentsContinuing')}</p>
                   </div>
                   <div className="bg-teal-50 border-4 border-teal-400 rounded-lg p-3 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-teal-600">87%</div>
-                    <p className="text-xs sm:text-sm text-teal-800 font-medium">Program Completion</p>
-                    <p className="text-xs text-teal-600">Students finishing program</p>
+                    <p className="text-xs sm:text-sm text-teal-800 font-medium">{t('admin.programCompletion')}</p>
+                    <p className="text-xs text-teal-600">{t('admin.studentsFinishing')}</p>
                   </div>
                   <div className="bg-indigo-50 border-4 border-indigo-400 rounded-lg p-3 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-indigo-600">6%</div>
-                    <p className="text-xs sm:text-sm text-indigo-800 font-medium">Dropout Rate</p>
-                    <p className="text-xs text-indigo-600">Students leaving early</p>
+                    <p className="text-xs sm:text-sm text-indigo-800 font-medium">{t('admin.dropoutRate')}</p>
+                    <p className="text-xs text-indigo-600">{t('admin.studentsLeavingEarly')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Enrollment Trends */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📈 Enrollment Trends</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📈 {t('admin.enrollmentTrends')}</h3>
                 <div className="space-y-2 sm:space-y-3">
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">Fall Semester Growth</span>
-                      <span className="text-xs sm:text-sm font-bold text-green-600">+15% enrollment</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.fallSemesterGrowth')}</span>
+                      <span className="text-xs sm:text-sm font-bold text-green-600">+15% {t('admin.enrollment')}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-green-600 h-3 rounded-full" style={{width: '78%'}}></div>
@@ -3501,8 +3501,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">Spring Semester Projections</span>
-                      <span className="text-xs sm:text-sm font-bold text-blue-600">+8% projected growth</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.springSemesterProjections')}</span>
+                      <span className="text-xs sm:text-sm font-bold text-blue-600">+8% {t('admin.projectedGrowth')}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-blue-600 h-3 rounded-full" style={{width: '65%'}}></div>
@@ -3510,8 +3510,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">Summer Program Interest</span>
-                      <span className="text-xs sm:text-sm font-bold text-purple-600">42 pre-registrations</span>
+                      <span className="font-medium text-xs sm:text-base">{t('admin.summerProgramInterest')}</span>
+                      <span className="text-xs sm:text-sm font-bold text-purple-600">42 {t('admin.preRegistrations')}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div className="bg-purple-600 h-3 rounded-full" style={{width: '42%'}}></div>
@@ -3522,74 +3522,74 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* Class Cohort Performance */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">👥 Class Cohort Performance</h3>
+                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">👥 {t('admin.classCohortPerformance')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
                   <div>
-                    <h4 className="text-center font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Current Cohorts</h4>
+                    <h4 className="text-center font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.currentCohorts')}</h4>
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Culinary Arts - Fall 2024</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.culinaryArtsFall2024')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">42 students</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">95%</p>
-                          <p className="text-xs text-gray-500">Retention</p>
+                          <p className="text-xs text-gray-500">{t('admin.retention')}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-green-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Baking & Pastry - Fall 2024</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.bakingPastryFall2024')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">28 students</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-green-600">92%</p>
-                          <p className="text-xs text-gray-500">Retention</p>
+                          <p className="text-xs text-gray-500">{t('admin.retention')}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-purple-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Hospitality Management</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.hospitalityManagement')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">35 students</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-purple-600">88%</p>
-                          <p className="text-xs text-gray-500">Retention</p>
+                          <p className="text-xs text-gray-500">{t('admin.retention')}</p>
                         </div>
                       </div>
                       </div>
                     </div>
                   <div>
-                    <h4 className="text-center font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Graduation Pipeline</h4>
+                    <h4 className="text-center font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.graduationPipeline')}</h4>
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-emerald-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Graduating Spring 2025</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.graduatingSpring2025')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">38 students</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-emerald-600">On Track</p>
-                          <p className="text-xs text-gray-500">Status</p>
+                          <p className="text-base sm:text-lg font-bold text-emerald-600">{t('admin.onTrack')}</p>
+                          <p className="text-xs text-gray-500">{t('admin.status')}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-yellow-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">At Risk Students</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.atRiskStudents')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">7 students</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-yellow-600">Support</p>
-                          <p className="text-xs text-gray-500">Needed</p>
+                          <p className="text-base sm:text-lg font-bold text-yellow-600">{t('admin.support')}</p>
+                          <p className="text-xs text-gray-500">{t('admin.needed')}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-teal-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Alumni Network</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.alumniNetwork')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">342 graduates</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-teal-600">Active</p>
-                          <p className="text-xs text-gray-500">Network</p>
+                          <p className="text-base sm:text-lg font-bold text-teal-600">{t('admin.active')}</p>
+                          <p className="text-xs text-gray-500">{t('admin.network')}</p>
                         </div>
                       </div>
                       </div>
@@ -3599,19 +3599,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               {/* License Utilization Alert */}
               <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-yellow-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ License Utilization Status</h3>
+                <h3 className="text-center font-bold text-yellow-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ {t('admin.licenseUtilizationStatus')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
                   <div className="bg-white border border-yellow-200 rounded-lg p-2 sm:p-3">
                     <div className="text-center text-xl sm:text-2xl font-bold text-yellow-600 mb-1">82%</div>
-                    <p className="text-center text-xs sm:text-sm text-yellow-800">Current utilization</p>
+                    <p className="text-center text-xs sm:text-sm text-yellow-800">{t('admin.currentUtilization')}</p>
                   </div>
                   <div className="bg-white border border-yellow-200 rounded-lg p-2 sm:p-3">
                     <div className="text-center text-xl sm:text-2xl font-bold text-yellow-600 mb-1">53</div>
-                    <p className="text-center text-xs sm:text-sm text-yellow-800">Available licenses</p>
+                    <p className="text-center text-xs sm:text-sm text-yellow-800">{t('admin.availableLicenses')}</p>
                   </div>
                   <div className="bg-white border border-yellow-200 rounded-lg p-2 sm:p-3">
                     <div className="text-center text-xl sm:text-2xl font-bold text-yellow-600 mb-1">Q2</div>
-                    <p className="text-center text-xs sm:text-sm text-yellow-800">Projected capacity</p>
+                    <p className="text-center text-xs sm:text-sm text-yellow-800">{t('admin.projectedCapacity')}</p>
                   </div>
                 </div>
               </div>
@@ -3628,7 +3628,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Content Analytics Dashboard</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.contentAnalyticsDashboard')}</h2>
                 <button
                   onClick={() => setShowContentAnalyticsModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -3636,7 +3636,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Monitor content performance, student engagement, and curriculum effectiveness across all modules.</p>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">{t('admin.monitorContentPerformance')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -3644,27 +3644,27 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-6">
                 {/* Content Performance Overview */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📊 Content Performance Overview</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📊 {t('admin.contentPerformanceOverview')}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
                       <div className="text-2xl sm:text-3xl font-bold text-blue-600">847</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Recipe Views</p>
-                      <p className="text-xs text-blue-600">↑ 12% this week</p>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalRecipeViews')}</p>
+                      <p className="text-xs text-blue-600">↑ 12% {t('admin.thisWeek')}</p>
                     </div>
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
                       <div className="text-2xl sm:text-3xl font-bold text-blue-600">73%</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Completion Rate</p>
-                      <p className="text-xs text-blue-600">↑ 5% this week</p>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.completionRate')}</p>
+                      <p className="text-xs text-blue-600">↑ 5% {t('admin.thisWeek')}</p>
                     </div>
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
                       <div className="text-2xl sm:text-3xl font-bold text-blue-600">4.2</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Avg Engagement Score</p>
-                      <p className="text-xs text-blue-600">→ No change</p>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.avgEngagementScore')}</p>
+                      <p className="text-xs text-blue-600">→ {t('admin.noChange')}</p>
                     </div>
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
                       <div className="text-2xl sm:text-3xl font-bold text-blue-600">28</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Active Recipes</p>
-                      <p className="text-xs text-blue-600">↑ 3 new this week</p>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.activeRecipes')}</p>
+                      <p className="text-xs text-blue-600">↑ 3 {t('admin.newThisWeek')}</p>
                     </div>
                   </div>
                 </div>
@@ -3672,72 +3672,72 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 {/* Top Performing Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6">
                   <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏆 Top Performing Recipes</h3>
+                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏆 {t('admin.topPerformingRecipes')}</h3>
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">French Knife Skills</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.frenchKnifeSkills')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">94%</p>
-                          <p className="text-xs text-gray-500">Completion</p>
+                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Mother Sauces Mastery</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.motherSaucesMastery')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">89%</p>
-                          <p className="text-xs text-gray-500">Completion</p>
+                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Pasta Making Fundamentals</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.pastaMakingFundamentals')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">76%</p>
-                          <p className="text-xs text-gray-500">Completion</p>
+                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📉 Content Needing Attention</h3>
+                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📉 {t('admin.contentNeedingAttention')}</h3>
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Advanced Plating Techniques</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.advancedPlatingTechniques')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">34%</p>
-                          <p className="text-xs text-gray-500">Completion</p>
+                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Molecular Gastronomy Basics</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.molecularGastronomyBasics')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">Chef's Corner</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">28%</p>
-                          <p className="text-xs text-gray-500">Completion</p>
+                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
                         </div>
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Wine Pairing Fundamentals</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.winePairingFundamentals')}</p>
                           <p className="text-xs sm:text-sm text-gray-600">CulinarySchool</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">52%</p>
-                          <p className="text-xs text-gray-500">Completion</p>
+                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
                         </div>
                       </div>
                     </div>
@@ -3746,22 +3746,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                 {/* Module-Specific Analytics */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📈 Module-Specific Analytics</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📈 {t('admin.moduleSpecificAnalytics')}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
                       <h4 className="font-medium text-blue-900 mb-2 text-xs sm:text-base">📚 MyCookBook</h4>
                       <div className="space-y-1 text-xs sm:text-sm">
                       <div className="flex justify-between">
-                        <span>Active Recipes:</span>
+                        <span>{t('admin.activeRecipes')}:</span>
                         <span className="font-medium">18</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Avg Completion:</span>
+                        <span>{t('admin.avgCompletion')}:</span>
                         <span className="font-medium text-blue-600">78%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Student Engagement:</span>
-                        <span className="font-medium text-blue-600">High</span>
+                        <span>{t('admin.studentEngagement')}:</span>
+                        <span className="font-medium text-blue-600">{t('admin.high')}</span>
                       </div>
                       </div>
                     </div>
@@ -3770,16 +3770,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-blue-900 mb-2">🏫 CulinarySchool</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
-                        <span>Active Lessons:</span>
+                        <span>{t('admin.activeLessons')}:</span>
                         <span className="font-medium">12</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Avg Completion:</span>
+                        <span>{t('admin.avgCompletion')}:</span>
                         <span className="font-medium text-blue-600">82%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Student Engagement:</span>
-                        <span className="font-medium text-blue-600">High</span>
+                        <span>{t('admin.studentEngagement')}:</span>
+                        <span className="font-medium text-blue-600">{t('admin.high')}</span>
                       </div>
                       </div>
                     </div>
@@ -3788,16 +3788,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-blue-900 mb-2">👨‍🍳 Chef's Corner</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
-                        <span>Active Content:</span>
+                        <span>{t('admin.activeContent')}:</span>
                         <span className="font-medium">8</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Avg Completion:</span>
+                        <span>{t('admin.avgCompletion')}:</span>
                         <span className="font-medium text-blue-600">65%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Student Engagement:</span>
-                        <span className="font-medium text-blue-600">Medium</span>
+                        <span>{t('admin.studentEngagement')}:</span>
+                        <span className="font-medium text-blue-600">{t('admin.medium')}</span>
                       </div>
                       </div>
                     </div>
@@ -3806,16 +3806,16 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-medium text-blue-900 mb-2">🍳 Global Test Kitchen</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
-                        <span>Active Sessions:</span>
+                        <span>{t('admin.activeSessions')}:</span>
                         <span className="font-medium">3</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Avg Participation:</span>
+                        <span>{t('admin.avgParticipation')}:</span>
                         <span className="font-medium text-blue-600">45%</span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Student Engagement:</span>
-                        <span className="font-medium text-blue-600">Medium</span>
+                        <span>{t('admin.studentEngagement')}:</span>
+                        <span className="font-medium text-blue-600">{t('admin.medium')}</span>
                       </div>
                       </div>
                     </div>
@@ -3824,59 +3824,59 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                 {/* Time-Based Analytics */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🕰️ Time-Based Analytics</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🕰️ {t('admin.timeBasedAnalytics')}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                     <div>
-                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">Peak Usage Times</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">{t('admin.peakUsageTimes')}</h4>
                       <div className="space-y-2 text-xs sm:text-sm">
                       <div className="flex justify-between">
                         <span>10:00 AM - 12:00 PM:</span>
-                        <span className="font-medium text-green-600">High</span>
+                        <span className="font-medium text-green-600">{t('admin.high')}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>2:00 PM - 4:00 PM:</span>
-                        <span className="font-medium text-green-600">High</span>
+                        <span className="font-medium text-green-600">{t('admin.high')}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>6:00 PM - 8:00 PM:</span>
-                        <span className="font-medium text-yellow-600">Medium</span>
+                        <span className="font-medium text-yellow-600">{t('admin.medium')}</span>
                       </div>
                       </div>
                     </div>
                   
                   <div>
-                    <h4 className="font-medium text-gray-800 mb-2">Weekly Trends</h4>
+                    <h4 className="font-medium text-gray-800 mb-2">{t('admin.weeklyTrends')}</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span>Monday - Wednesday:</span>
-                        <span className="font-medium text-green-600">Peak</span>
+                        <span className="font-medium text-green-600">{t('admin.peak')}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Thursday - Friday:</span>
-                        <span className="font-medium text-yellow-600">Moderate</span>
+                        <span className="font-medium text-yellow-600">{t('admin.moderate')}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Weekend:</span>
-                        <span className="font-medium text-red-600">Low</span>
+                        <span className="font-medium text-red-600">{t('admin.low')}</span>
                       </div>
                       </div>
                     </div>
                   
                     <div>
-                      <h4 className="text-center font-medium text-gray-800 mb-2 text-xs sm:text-base">Content Filters</h4>
+                      <h4 className="text-center font-medium text-gray-800 mb-2 text-xs sm:text-base">{t('admin.contentFilters')}</h4>
                       <div className="space-y-2">
                         <select className="w-full px-2 sm:px-3 py-2 border-4 border-blue-400 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white min-h-[44px]">
-                          <option>Last 7 days</option>
-                          <option>Last 30 days</option>
-                          <option>Last 3 months</option>
-                          <option>All time</option>
+                          <option>{t('admin.last7Days')}</option>
+                          <option>{t('admin.last30Days')}</option>
+                          <option>{t('admin.last3Months')}</option>
+                          <option>{t('admin.allTime')}</option>
                         </select>
                         <select className="w-full px-2 sm:px-3 py-2 border-4 border-blue-400 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white min-h-[44px]">
-                          <option>All Modules</option>
+                          <option>{t('admin.allModules')}</option>
                           <option>MyCookBook</option>
                           <option>CulinarySchool</option>
                           <option>Chef's Corner</option>
-                          <option>Global Test Kitchen</option>
+                          <option>{t('admin.globalTestKitchen')}</option>
                         </select>
                       </div>
                     </div>
@@ -3916,7 +3916,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                   >
-                    📊 Export Analytics Report
+                    📊 {t('admin.exportAnalyticsReport')}
                   </button>
                 </div>
               </div>
@@ -3932,7 +3932,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">Cross-Platform Configuration</h2>
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">{t('admin.crossPlatformConfiguration')}</h2>
                 <button
                   onClick={() => setShowConfigurationModal(false)}
                   className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -3940,7 +3940,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Configure content permissions, access levels, and approval workflows across all PorkChop modules.</p>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">{t('admin.configureContentPermissions')}</p>
             </div>
             
             {/* Scrollable Content */}
@@ -3948,10 +3948,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-6">
                 {/* Content Approval Workflows */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">✅ Content Approval Workflows</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">✅ {t('admin.contentApprovalWorkflows')}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
                     <div>
-                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Recipe Approval Process</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.recipeApprovalProcess')}</h4>
                       <div className="space-y-2 sm:space-y-3">
                         <label className="flex items-center">
                           <input 
@@ -3961,7 +3961,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.recipeApproval === 'auto-approve'}
                             onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'auto-approve'})}
                           />
-                          <span className="text-xs sm:text-sm">Auto-approve all recipes</span>
+                          <span className="text-xs sm:text-sm">{t('admin.autoApproveAll')}</span>
                         </label>
                         <label className="flex items-center">
                           <input 
@@ -3971,7 +3971,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.recipeApproval === 'instructor-approval'}
                             onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'instructor-approval'})}
                           />
-                          <span className="text-xs sm:text-sm">Require instructor approval</span>
+                          <span className="text-xs sm:text-sm">{t('admin.requireInstructorApproval')}</span>
                         </label>
                         <label className="flex items-center">
                           <input 
@@ -3981,7 +3981,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.recipeApproval === 'admin-approval'}
                             onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'admin-approval'})}
                           />
-                          <span className="text-xs sm:text-sm">Require admin approval</span>
+                          <span className="text-xs sm:text-sm">{t('admin.requireAdminApproval')}</span>
                         </label>
                         <label className="flex items-center">
                           <input 
@@ -3991,13 +3991,13 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.recipeApproval === 'multi-level'}
                             onChange={() => setPlatformConfig({...platformConfig, recipeApproval: 'multi-level'})}
                           />
-                          <span className="text-xs sm:text-sm">Multi-level approval (Instructor → Admin)</span>
+                          <span className="text-xs sm:text-sm">{t('admin.multiLevelApproval')}</span>
                         </label>
                       </div>
                     </div>
                   
                     <div>
-                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Assignment Submission Process</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.assignmentSubmissionProcess')}</h4>
                       <div className="space-y-2 sm:space-y-3">
                         <label className="flex items-center">
                           <input 
@@ -4007,7 +4007,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.assignmentApproval === 'auto-accept'}
                             onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'auto-accept'})}
                           />
-                          <span className="text-xs sm:text-sm">Auto-accept submissions</span>
+                          <span className="text-xs sm:text-sm">{t('admin.autoAcceptSubmissions')}</span>
                         </label>
                         <label className="flex items-center">
                           <input 
@@ -4017,7 +4017,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.assignmentApproval === 'instructor-review'}
                             onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'instructor-review'})}
                           />
-                          <span className="text-xs sm:text-sm">Require instructor review</span>
+                          <span className="text-xs sm:text-sm">{t('admin.requireInstructorReview')}</span>
                         </label>
                         <label className="flex items-center">
                           <input 
@@ -4027,7 +4027,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.assignmentApproval === 'peer-review'}
                             onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'peer-review'})}
                           />
-                          <span className="text-xs sm:text-sm">Peer review + instructor approval</span>
+                          <span className="text-xs sm:text-sm">{t('admin.peerReviewPlusInstructor')}</span>
                         </label>
                         <label className="flex items-center">
                           <input 
@@ -4037,7 +4037,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.assignmentApproval === 'ai-screening'}
                             onChange={() => setPlatformConfig({...platformConfig, assignmentApproval: 'ai-screening'})}
                           />
-                          <span className="text-xs sm:text-sm">AI pre-screening + instructor review</span>
+                          <span className="text-xs sm:text-sm">{t('admin.aiPreScreening')}</span>
                         </label>
                       </div>
                     </div>
@@ -4046,22 +4046,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                 {/* Access Level Management */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🔐 Access Level Management</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🔐 {t('admin.accessLevelManagement')}</h3>
                   <div className="overflow-x-auto">
                     <table className="min-w-full">
                       <thead>
                         <tr className="border-b">
-                          <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">User Role</th>
+                          <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">{t('admin.userRole')}</th>
                           <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">MyCookBook</th>
                           <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">CulinarySchool</th>
                           <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Chef's Corner</th>
                           <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Global Test Kitchen</th>
-                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Admin Dashboard</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">{t('admin.adminDashboardAccess')}</th>
                         </tr>
                       </thead>
                       <tbody className="text-xs sm:text-sm">
                         <tr className="border-b">
-                          <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium">Student</td>
+                          <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium">{t('admin.student')}</td>
                           <td className="text-center py-2 sm:py-3 px-2 sm:px-4">
                             <select 
                               className="px-2 py-1 border-4 border-blue-400 rounded text-xs bg-white min-h-[36px]"
@@ -4071,9 +4071,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               student: { ...modulePermissions.student, MyCookBook: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
@@ -4085,9 +4085,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               student: { ...modulePermissions.student, CulinarySchool: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
@@ -4099,9 +4099,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               student: { ...modulePermissions.student, ChefsCorner: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
@@ -4113,9 +4113,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               student: { ...modulePermissions.student, GlobalTestKitchen: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
@@ -4127,14 +4127,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               student: { ...modulePermissions.student, AdminDashboard: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         </tr>
                         <tr>
-                          <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium">Administrator</td>
+                          <td className="py-2 sm:py-3 px-2 sm:px-4 font-medium">{t('admin.administrator')}</td>
                         <td className="text-center py-3 px-4">
                           <select 
                             className="px-2 py-1 border rounded text-xs"
@@ -4144,9 +4144,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               administrator: { ...modulePermissions.administrator, MyCookBook: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
@@ -4158,9 +4158,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               administrator: { ...modulePermissions.administrator, CulinarySchool: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
@@ -4172,9 +4172,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               administrator: { ...modulePermissions.administrator, ChefsCorner: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
@@ -4186,9 +4186,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               administrator: { ...modulePermissions.administrator, GlobalTestKitchen: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         <td className="text-center py-3 px-4">
@@ -4200,9 +4200,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               administrator: { ...modulePermissions.administrator, AdminDashboard: e.target.value }
                             })}
                           >
-                            <option>Full Access</option>
-                            <option>Read Only</option>
-                            <option>No Access</option>
+                            <option>{t('admin.fullAccess')}</option>
+                            <option>{t('admin.readOnly')}</option>
+                            <option>{t('admin.noAccess')}</option>
                           </select>
                         </td>
                         </tr>
@@ -4213,32 +4213,32 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                 {/* Platform-Wide Settings */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">⚙️ Platform-Wide Settings</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">⚙️ {t('admin.platformWideSettings')}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
                     <div>
-                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Content Moderation</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.contentModerationSettings')}</h4>
                       <div className="space-y-2">
                         <label className="flex items-center">
                           <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked />
-                          <span className="text-xs sm:text-sm">Enable AI content filtering</span>
+                          <span className="text-xs sm:text-sm">{t('admin.enableAIFiltering')}</span>
                         </label>
                         <label className="flex items-center">
                           <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked />
-                          <span className="text-xs sm:text-sm">Flag inappropriate language</span>
+                          <span className="text-xs sm:text-sm">{t('admin.flagInappropriateContent')}</span>
                         </label>
                         <label className="flex items-center">
                           <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" />
-                          <span className="text-xs sm:text-sm">Auto-moderate chat messages</span>
+                          <span className="text-xs sm:text-sm">{t('admin.autoModeratePosts')}</span>
                         </label>
                         <label className="flex items-center">
                           <input type="checkbox" className="mr-2 min-w-[16px] min-h-[16px]" checked />
-                          <span className="text-xs sm:text-sm">Require image approval</span>
+                          <span className="text-xs sm:text-sm">{t('admin.requireImageApprovalSetting')}</span>
                         </label>
                       </div>
                     </div>
                   
                     <div>
-                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">Data Privacy & Security</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.securityPrivacySettings')}</h4>
                       <div className="space-y-2">
                         <label className="flex items-center">
                           <input 
@@ -4247,7 +4247,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.auditLogging}
                             onChange={(e) => setPlatformConfig({...platformConfig, auditLogging: e.target.checked})}
                           />
-                          <span className="text-xs sm:text-sm">Enable audit logging</span>
+                          <span className="text-xs sm:text-sm">{t('admin.enableAuditLogging')}</span>
                         </label>
                         <label className="flex items-center">
                           <input 
@@ -4256,7 +4256,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.encryptData}
                             onChange={(e) => setPlatformConfig({...platformConfig, encryptData: e.target.checked})}
                           />
-                          <span className="text-xs sm:text-sm">Encrypt sensitive data</span>
+                          <span className="text-xs sm:text-sm">{t('admin.encryptSensitiveData')}</span>
                         </label>
                         <label className="flex items-center">
                           <input 
@@ -4265,7 +4265,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.allowDataExport}
                             onChange={(e) => setPlatformConfig({...platformConfig, allowDataExport: e.target.checked})}
                           />
-                          <span className="text-xs sm:text-sm">Allow data export requests</span>
+                          <span className="text-xs sm:text-sm">{t('admin.allowStudentDataExport')}</span>
                         </label>
                         <label className="flex items-center">
                           <input 
@@ -4274,7 +4274,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.require2FA}
                             onChange={(e) => setPlatformConfig({...platformConfig, require2FA: e.target.checked})}
                           />
-                          <span className="text-xs sm:text-sm">Require 2FA for admins</span>
+                          <span className="text-xs sm:text-sm">{t('admin.require2FAAdmins')}</span>
                         </label>
                       </div>
                     </div>
@@ -4283,28 +4283,28 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                 {/* Integration Settings */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🔗 Integration Settings</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🔗 {t('admin.integrationSettings')}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
                     <div>
-                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">External APIs</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">{t('admin.externalAPIs')}</h4>
                       <div className="space-y-2 text-xs sm:text-sm">
                       <div className="flex justify-between items-center">
                         <span>Google Vision API:</span>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">{t('admin.active')}</span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span>Anthropic AI:</span>
-                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">Active</span>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">{t('admin.active')}</span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span>YouTube API:</span>
-                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Limited</span>
+                        <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">{t('admin.limited')}</span>
                       </div>
                       </div>
                     </div>
                   
                     <div>
-                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">Notification Settings</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">{t('admin.notificationSettings')}</h4>
                       <div className="space-y-2">
                         <label className="flex items-center text-xs sm:text-sm">
                           <input 
@@ -4313,7 +4313,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.emailNotifications}
                             onChange={(e) => setPlatformConfig({...platformConfig, emailNotifications: e.target.checked})}
                           />
-                          <span>Email notifications</span>
+                          <span>{t('admin.emailNotifications')}</span>
                         </label>
                         <label className="flex items-center text-xs sm:text-sm">
                           <input 
@@ -4322,7 +4322,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.smsNotifications}
                             onChange={(e) => setPlatformConfig({...platformConfig, smsNotifications: e.target.checked})}
                           />
-                          <span>SMS notifications</span>
+                          <span>{t('admin.smsNotifications')}</span>
                         </label>
                         <label className="flex items-center text-xs sm:text-sm">
                           <input 
@@ -4331,7 +4331,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.pushNotifications}
                             onChange={(e) => setPlatformConfig({...platformConfig, pushNotifications: e.target.checked})}
                           />
-                          <span>Push notifications</span>
+                          <span>{t('admin.pushNotifications')}</span>
                         </label>
                         <label className="flex items-center text-xs sm:text-sm">
                           <input 
@@ -4340,45 +4340,45 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             checked={platformConfig.inAppNotifications}
                             onChange={(e) => setPlatformConfig({...platformConfig, inAppNotifications: e.target.checked})}
                           />
-                          <span>In-app notifications</span>
+                          <span>{t('admin.inAppNotifications')}</span>
                         </label>
                       </div>
                     </div>
                   
                     <div>
-                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">Backup & Recovery</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">{t('admin.backupRecovery')}</h4>
                       <div className="space-y-2 text-xs sm:text-sm">
                         <div className="flex justify-between items-center">
-                          <span>Auto Backup:</span>
+                          <span>{t('admin.autoBackup')}:</span>
                           <select 
                             className="px-2 py-1 border-4 border-blue-400 rounded text-xs bg-white min-h-[36px]"
                           value={platformConfig.autoBackup}
                           onChange={(e) => setPlatformConfig({...platformConfig, autoBackup: e.target.value})}
                         >
-                          <option value="daily">Daily</option>
-                          <option value="weekly">Weekly</option>
-                          <option value="monthly">Monthly</option>
-                          <option value="disabled">Disabled</option>
+                          <option value="daily">{t('admin.daily')}</option>
+                          <option value="weekly">{t('admin.weekly')}</option>
+                          <option value="monthly">{t('admin.monthly')}</option>
+                          <option value="disabled">{t('admin.disabled')}</option>
                         </select>
                       </div>
                         <div className="flex justify-between items-center">
-                          <span>Retention:</span>
+                          <span>{t('admin.retentionLabel')}:</span>
                           <select 
                             className="px-2 py-1 border-4 border-blue-400 rounded text-xs bg-white min-h-[36px]"
                             value={platformConfig.backupRetention}
                             onChange={(e) => setPlatformConfig({...platformConfig, backupRetention: e.target.value})}
                           >
-                            <option value="30-days">30 days</option>
-                            <option value="90-days">90 days</option>
-                            <option value="1-year">1 year</option>
-                            <option value="indefinite">Indefinite</option>
+                            <option value="30-days">{t('admin.days30')}</option>
+                            <option value="90-days">{t('admin.days90')}</option>
+                            <option value="1-year">{t('admin.days365')}</option>
+                            <option value="indefinite">{t('admin.indefinite')}</option>
                           </select>
                         </div>
                         <button 
-                          onClick={() => alert('Manual backup initiated')}
+                          onClick={() => alert(t('admin.manualBackupInitiated'))}
                           className="w-full px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 text-xs min-h-[36px]"
                         >
-                          Manual Backup Now
+                          {t('admin.manualBackupNow')}
                         </button>
                       </div>
                     </div>
