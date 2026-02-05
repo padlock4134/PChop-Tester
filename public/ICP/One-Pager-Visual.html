@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PorkChop Ed Tech - Investment One-Pager</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.3;
+            color: #1a1a1a;
+            background: white;
+            padding: 0;
+        }
+        
+        .page {
+            width: 8.5in;
+            height: 11in;
+            margin: 0 auto;
+            padding: 0.5in 0.6in;
+            background: white;
+            page-break-after: always;
+            overflow: hidden;
+            border: 1px solid #000000;
+            border-radius: 12px;
+            box-sizing: border-box;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+        
+        .logo {
+            height: 45px;
+        }
+        
+        .tagline {
+            text-align: right;
+            color: #1e40af;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        h1 {
+            color: #1e40af;
+            font-size: 22px;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        
+        h2 {
+            color: #1e40af;
+            font-size: 20px;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-weight: 800;
+            border-bottom: 2px solid #ec4899;
+            padding-bottom: 4px;
+            text-align: center;
+        }
+        
+        h3 {
+            color: #374151;
+            font-size: 12px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        p {
+            margin-bottom: 8px;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        
+        ul, ol {
+            margin-left: 18px;
+            margin-bottom: 8px;
+        }
+        
+        li {
+            margin-bottom: 4px;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 10px 12px;
+            border-left: 3px solid #f59e0b;
+            margin: 10px 0;
+            font-size: 10px;
+        }
+        
+        .problem-box {
+            font-weight: 700;
+            font-size: 14px;
+            color: #dc2626;
+            margin-bottom: 10px;
+        }
+        
+        .chart-container {
+            width: 100%;
+            height: 200px;
+            margin: 12px 0;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 12px 0;
+        }
+        
+        .metric-box {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .metric-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e40af;
+        }
+        
+        .metric-label {
+            font-size: 9px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+        
+        .patent-box {
+            background: #dbeafe;
+            padding: 12px;
+            border-radius: 6px;
+            border: 2px solid #1e40af;
+            margin: 10px 0;
+        }
+        
+        .patent-title {
+            font-style: italic;
+            font-weight: 600;
+            color: #1e40af;
+            font-size: 10px;
+        }
+        
+        .contact-box {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+        
+        .contact-box p {
+            margin-bottom: 4px;
+            font-size: 10px;
+        }
+        
+        .contact-box h3 {
+            margin-bottom: 6px;
+        }
+        
+        .footer-quote {
+            text-align: center;
+            font-style: italic;
+            color: #6b7280;
+            margin-top: 15px;
+            font-size: 10px;
+            padding-top: 12px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .page {
+                margin: 0;
+                page-break-after: always;
+            }
+        }
+        
+        .differentiator {
+            background: #f9fafb;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid #1e40af;
+        }
+        
+        .differentiator h3 {
+            margin-top: 0;
+            margin-bottom: 4px;
+            color: #1e40af;
+        }
+        
+        .differentiator ul {
+            margin-bottom: 4px;
+        }
+        
+        .result {
+            font-weight: 600;
+            color: #059669;
+            margin-top: 4px;
+            font-size: 9px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1 -->
+    <div class="page">
+        <div class="header">
+            <img src="../logo.png" alt="PorkChop Logo" class="logo">
+            <div class="tagline">The first purpose-built learning platform for kitchens, garages and benches!</div>
+        </div>
+        
+        <div class="two-column">
+            <div>
+                <h2>The Problem</h2>
+                <p class="problem-box">Nursing students get vSim. Engineering students get CAD. Bench students get crosswords.</p>
+                
+                <p>Culinary programs lack discipline-specific learning platforms. While nursing programs invest $10K+ per student in simulation software, culinary students are stuck with:</p>
+                <ul>
+                    <li>Generic platforms (Blackboard, Canvas) that don't understand their domain</li>
+                    <li>Paper-based skill assessments with no video submission capability</li>
+                    <li>Zero tools for ingredient management or kitchen simulation</li>
+                    <li>No way to practice technique outside the physical classroom</li>
+                </ul>
+                
+                <p><strong>Market Reality:</strong> 500+ US institutions offer culinary/hospitality programs, with 1,000+ community colleges serving trade disciplines—all underserved by legacy platforms built for lecture halls, not kitchens or garages. (Source: IPEDS 2023, AACC 2024)</p>
+            </div>
+            
+            <div>
+                <h2>The Solution</h2>
+                <div class="highlight">
+                    <strong>PorkChop</strong> is a content-agnostic, AI-powered learning platform.<br>
+                    <strong>Starting with culinary, expanding to automotive, welding, HVAC, and cosmetology.</strong>
+                </div>
+                
+                <h3>How It Works:</h3>
+                <ol>
+                    <li><strong>School uploads their curriculum</strong> (PDFs, DOCX, syllabi)</li>
+                    <li><strong>AI analyzes and auto-maps content</strong> to platform modules with confidence scoring</li>
+                    <li><strong>Platform deploys</strong> with school's branding and structure in days, not months</li>
+                    <li><strong>No vendor curriculum lock-in</strong> — schools own their content, we provide the infrastructure</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>Platform Differentiators</h2>
+        <p><strong>What makes PorkChop different from legacy platforms like Blackboard/Canvas:</strong></p>
+        
+        <div class="two-column">
+            <div class="differentiator">
+                <h3>1. AI Content Processor (Patent-Protected)</h3>
+                <ul>
+                    <li>Schools upload curriculum files → AI extracts, analyzes, and auto-maps to modules</li>
+                    <li>Generates metadata (week numbers, topics, equipment, difficulty levels)</li>
+                    <li>Admin reviews AI suggestions with confidence scores before publishing</li>
+                </ul>
+                <p class="result">→ Deploy a fully-populated platform in days instead of months of manual course building</p>
+            </div>
+            
+            <div class="differentiator">
+                <h3>2. Video Submission with Rubric Grading</h3>
+                <ul>
+                    <li>Students record cooking technique videos directly in-app</li>
+                    <li>Instructors grade with customizable rubrics (knife skills, plating, safety, etc.)</li>
+                    <li>Assignment management with points, weights, due dates</li>
+                </ul>
+                <p class="result">→ Assess actual hands-on skills, not just written tests</p>
+            </div>
+        </div>
+        
+        <div class="two-column">
+            <div class="differentiator">
+                <h3>3. AI Ingredient Scanner + Recipe Matcher</h3>
+                <ul>
+                    <li>Computer vision scans pantry items, auto-categorizes into 10 kitchen categories</li>
+                    <li>Fuzzy matching algorithm scores recipes by available ingredients</li>
+                    <li>Adapts to student's kitchen setup (Dorm Life → Full Chef's Kitchen)</li>
+                </ul>
+                <p class="result">→ Students practice with what they actually have, reducing barriers to homework completion</p>
+            </div>
+            
+            <div class="differentiator">
+                <h3>4. Gamification Engine</h3>
+                <ul>
+                    <li>WoW Classic-inspired 60-level XP progression (Dishwasher → Toji Master)</li>
+                    <li>160+ badges across 7 categories</li>
+                    <li>Talent trees with equipment unlocks</li>
+                </ul>
+                <p class="result">→ Student engagement vs. compliance-focused legacy platforms</p>
+            </div>
+        </div>
+        
+        <div class="highlight">
+            <h3 style="text-align: center; margin-top: 0;">Additional Capabilities:</h3>
+            <ul style="text-align: center; list-style-position: inside; margin-bottom: 0;">
+                <li><strong>Global Test Kitchen</strong> — Live streaming with session recording</li>
+                <li><strong>Chef Freddie AI Assistant</strong> — Context-aware help, recipe generation</li>
+                <li><strong>AR Practice Mode</strong> — Camera-based hand tracking for technique practice</li>
+                <li><strong>White-Label Ready</strong> — Full branding customization per school</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- PAGE 2 -->
+    <div class="page">
+        <div class="header">
+            <img src="../logo.png" alt="PorkChop Logo" class="logo">
+            <div class="tagline">Investment Opportunity</div>
+        </div>
+        
+        <h2>The Patent Moat</h2>
+        <div class="patent-box">
+            <strong>Utility Patent Filed:</strong><br>
+            <span class="patent-title">"AI-Driven Content-Agnostic Curriculum Processing and Intelligent Multi-Module Distribution System for Vocational Education"</span>
+        </div>
+        
+        <p><strong>What this means:</strong> The school's uploaded curriculum defines the domain. Our AI pipeline routes and auto-populates modules. This creates:</p>
+        <ul>
+            <li><strong>No vendor dependence</strong> — Schools keep ownership of their content</li>
+            <li><strong>Multi-domain capability</strong> — Works for ANY trade discipline via the same process</li>
+            <li><strong>Competitive moat</strong> — Not "AI bolted onto legacy," but AI-native infrastructure for trade education</li>
+        </ul>
+        
+        <h2>Market Opportunity</h2>
+        <div class="two-column">
+            <div class="metric-box">
+                <div class="metric-number">500+</div>
+                <div class="metric-label">US Culinary/Hospitality Institutions (IPEDS 2023)</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-number">1,000+</div>
+                <div class="metric-label">Community Colleges w/ CTE Programs (AACC 2024)</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-number">1M+</div>
+                <div class="metric-label">Annual CTE Completions (NCES 2022)</div>
+            </div>
+            <div class="metric-box">
+                <div class="metric-number">Same Tech</div>
+                <div class="metric-label">Serves All Trade Disciplines</div>
+            </div>
+        </div>
+        
+        <div class="two-column">
+            <div>
+                <h2>Traction & Validation</h2>
+                <ul>
+                    <li>✓ <strong>Design Partnerships</strong> — Community colleges, college systems, and mid-market universities</li>
+                    <li>✓ <strong>Paying DTC Users</strong> — Direct-to-consumer revenue validation</li>
+                    <li>✓ <strong>PropTech Partnership</strong> — Active collaboration with property technology company</li>
+                    <li>✓ <strong>Grocery Integration</strong> — Working with Kroger on "Basket to Belly" integration</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h2>Why Now?</h2>
+                <ol>
+                    <li><strong>Gen Z is choosing trades</strong> — Record enrollment in trade programs as students question 4-year degree ROI</li>
+                    <li><strong>Post-COVID shift</strong> — Culinary programs need hybrid/remote capability they never had</li>
+                    <li><strong>AI maturity</strong> — Vision APIs and LLMs are now production-ready for education</li>
+                    <li><strong>Industry demand</strong> — Restaurant and hospitality sectors face critical skilled worker shortages</li>
+                    <li><strong>No incumbent</strong> — Blackboard/Canvas don't serve this vertical; opportunity is wide open</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2>The Ask</h2>
+        <div class="highlight" style="text-align: center;">
+            <strong>Seeking: $125K pre-seed investment (minimum $25K)</strong> to accelerate go-to-market with engaged design partners
+        </div>
+        
+        <p style="text-align: center;"><strong>Use of Funds:</strong> Pilot deployments, grant/gifting programs, infrastructure scaling, and content processor expansion.</p>
+        
+        <h2>Team</h2>
+        <p style="text-align: center;">Patrick Adukonis, Founder | Contact: chef@porkchop.app</p>
+        <p style="text-align: center;">Jim Verducci, Engineering Advisor | <a href="https://wristband.dev">Wristband.dev</a></p>
+        
+        <div class="footer-quote">
+            "The homework gap in culinary education isn't a feature request—it's a market failure. PorkChop fixes it."
+        </div>
+    </div>
+    
+    <script>
+        
+        
+    </script>
+</body>
+</html>
