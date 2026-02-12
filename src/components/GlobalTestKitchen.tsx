@@ -1333,7 +1333,7 @@ END:VCALENDAR`;
             
             {/* Right Side - Community Feed */}
             <div className="hidden lg:flex lg:w-80 border-l-4 border-gray-200 flex-col overflow-hidden">
-              <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-maineBlue">
+              <h3 className="text-base sm:text-lg font-bold text-center text-black bg-lobsterRed py-3 px-2">
                 🌍 Community Feed
               </h3>
               
