@@ -604,7 +604,7 @@ const StudentProgressDashboard: React.FC = () => {
                 <div className="flex-1">
                   
                   {/* Main Video Area */}
-                  <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
+                  <div className="bg-black rounded-lg w-full h-full flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
                     <div className="text-white text-center">
                       <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
                       <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>

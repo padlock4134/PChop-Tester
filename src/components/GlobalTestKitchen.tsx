@@ -1249,7 +1249,7 @@ END:VCALENDAR`;
                 {/* Left Side - Video */}
                 <div className="flex-1">
                   {/* Live Video Area */}
-                  <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
+                  <div className="bg-black rounded-lg w-full h-full flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
                     {isViewer && currentLiveSession ? (
                       // Viewer mode - watching someone else's stream
                       <div className="text-white text-center">
