@@ -1449,6 +1449,28 @@ END:VCALENDAR`;
                   </div>
                 ))}
               </div>
+
+              {/* Desktop Quick Post */}
+              <div className="hidden lg:block pt-3 border-t border-gray-200 mt-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm">👨‍🍳</span>
+                  <input
+                    type="text"
+                    value={newPost}
+                    onChange={(e) => setNewPost(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Share what you're cooking..."
+                    className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
+                  />
+                  <button 
+                    onClick={handlePost}
+                    disabled={!newPost.trim()}
+                    className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
