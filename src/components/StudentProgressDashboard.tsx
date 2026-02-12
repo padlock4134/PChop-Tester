@@ -575,8 +575,8 @@ const StudentProgressDashboard: React.FC = () => {
       {/* Live Session Modal */}
       {liveSessionModalOpen && currentLiveSession && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
-            {/* Header */}
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col">
+            {/* Full-width Header */}
             <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
               <div className="text-center relative">
                 <h2 className="text-xl sm:text-2xl font-bold">🔴 LIVE: {currentLiveSession.dishName}</h2>
@@ -596,7 +596,7 @@ const StudentProgressDashboard: React.FC = () => {
                 Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
               </p>
             </div>
-            
+
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto p-3 sm:p-6">
               <div className="flex flex-col lg:flex-row gap-3 sm:gap-6">
