@@ -1247,7 +1247,7 @@ END:VCALENDAR`;
               {/* Scrollable practice area */}
               <div className="flex-1 overflow-y-auto p-3 sm:p-4">
                 {/* Live Video Area */}
-                <div className="bg-black rounded-lg w-full h-full flex items-center justify-center relative overflow-hidden border-4 border-maineBlue mb-4">
+                <div className="bg-black rounded-lg flex-1 flex items-center justify-center relative overflow-hidden border-4 border-maineBlue mb-4">
                   {isViewer && currentLiveSession ? (
                     // Viewer mode - watching someone else's stream
                     <div className="text-white text-center">
