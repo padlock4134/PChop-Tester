@@ -1043,8 +1043,8 @@ END:VCALENDAR`;
             <div className="flex-1 flex flex-col overflow-hidden">
               {/* Title above black screen */}
               <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
-                  <div>
+                <div className="flex flex-col gap-3 lg:gap-4 items-center">
+                  <div className="flex flex-col items-center text-center">
                     <h2 className="text-xl sm:text-2xl font-bold">
                       {isViewer && currentLiveSession ? 
                         `🔴 LIVE: ${currentLiveSession.dishName}` : 
