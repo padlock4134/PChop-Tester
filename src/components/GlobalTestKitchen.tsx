@@ -1331,8 +1331,8 @@ END:VCALENDAR`;
               </div>
             </div>
             
-            {/* Right Side - Community Feed */}
-            <div className="hidden lg:flex lg:w-80 border-l-4 border-gray-200 flex-col overflow-hidden">
+            {/* Right Side - Community Feed (visible on mobile, stacks under video) */}
+            <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l-4 border-gray-200 flex flex-col overflow-hidden mt-4 lg:mt-0">
               <h3 className="text-base sm:text-lg font-bold text-center text-black bg-lobsterRed py-3 px-2">
                 🌍 Community Feed
               </h3>
