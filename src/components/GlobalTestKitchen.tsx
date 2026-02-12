@@ -1324,11 +1324,6 @@ END:VCALENDAR`;
                   )}
                 </div>
                 
-                {/* Recording Notice */}
-                <div className="text-center text-xs text-gray-600 mt-4">
-                  📹 This session is being recorded
-                </div>
-                
                 {/* Mobile Feed (below controls) */}
                 <div className="lg:hidden mt-6 border-t border-gray-200 pt-4">
                   <h3 className="text-base sm:text-lg font-bold text-center text-black bg-lobsterRed py-3 px-2">
