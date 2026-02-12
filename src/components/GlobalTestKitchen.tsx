@@ -1443,7 +1443,8 @@ END:VCALENDAR`;
               </div>
             )}
             
-              <div className="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
+              {/* Instructions Content */}
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4">
               {posts.slice(0, 5).map((post) => (
                 <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
                   <div className="flex items-start space-x-2">
