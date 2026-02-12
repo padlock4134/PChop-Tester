@@ -1073,7 +1073,7 @@ END:VCALENDAR`;
                     ) : !isRecording ? (
                       <button 
                         onClick={startRecording}
-                        className="bg-lobsterRed text-weatheredWhite px-4 py-2 text-sm rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
+                        className="bg-lobsterRed text-weatheredWhite px-8 py-1.5 text-sm rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
                       >
                         🔴 Go Live
                       </button>
