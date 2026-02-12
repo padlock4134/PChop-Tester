@@ -576,23 +576,23 @@ const StudentProgressDashboard: React.FC = () => {
       {liveSessionModalOpen && currentLiveSession && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
-            {/* Sticky Header */}
-            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+            {/* Header */}
+            <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
               <div className="text-center relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">🔴 LIVE: {currentLiveSession.dishName}</h2>
+                <h2 className="text-xl sm:text-2xl font-bold">🔴 LIVE: {currentLiveSession.dishName}</h2>
                 <button
                   onClick={() => {
                     setLiveSessionModalOpen(false);
                     setIsViewer(false);
                     setCurrentLiveSession(null);
                   }}
-                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                  className="absolute top-0 right-0 text-white hover:text-white/80 text-2xl font-bold drop-shadow"
                   aria-label="Close"
                 >
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-sm">
+              <p className="text-center text-black mt-2 sm:mt-3 text-xs sm:text-sm">
                 Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
               </p>
             </div>
@@ -604,7 +604,7 @@ const StudentProgressDashboard: React.FC = () => {
                 <div className="flex-1">
                   
                   {/* Main Video Area */}
-                  <div className="bg-black rounded-lg w-full h-full flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
+                  <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue w-full">
                     <div className="text-white text-center">
                       <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
                       <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>
