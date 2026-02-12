@@ -1244,87 +1244,90 @@ END:VCALENDAR`;
                 )}
               </div>
               
-              {/* Live Video Area */}
-              <div className="bg-black rounded-lg w-full h-full flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
-                {isViewer && currentLiveSession ? (
-                  // Viewer mode - watching someone else's stream
-                  <div className="text-white text-center">
-                    <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
-                    <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>
-                    <p className="text-xs sm:text-sm opacity-75">Live video stream would appear here</p>
+              {/* Scrollable practice area */}
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4">
+                {/* Live Video Area */}
+                <div className="bg-black rounded-lg w-full h-full flex items-center justify-center relative overflow-hidden border-4 border-maineBlue mb-4">
+                  {isViewer && currentLiveSession ? (
+                    // Viewer mode - watching someone else's stream
+                    <div className="text-white text-center">
+                      <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
+                      <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>
+                      <p className="text-xs sm:text-sm opacity-75">Live video stream would appear here</p>
+                    </div>
+                  ) : stream ? (
+                    // Host mode - showing your camera feed
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      className="w-full h-full object-cover"
+                      onLoadStart={() => console.log('Video load start')}
+                      onCanPlay={() => console.log('Video can play')}
+                      onPlay={() => console.log('Video playing')}
+                      onError={(e) => console.error('Video error:', e)}
+                    />
+                  ) : (
+                    // No stream - show placeholder
+                    <div className="text-white text-center">
+                      <div className="text-3xl sm:text-4xl mb-2">👨‍🍳</div>
+                      <p className="text-xs sm:text-sm">Live Cooking Session</p>
+                      <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
+                    </div>
+                  )}
+                  
+                  {/* Live Indicator */}
+                  {isRecording && (
+                    <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-red-500 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full flex items-center">
+                      <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
+                      LIVE
+                    </div>
+                  )}
+                  
+                  {/* Viewer Count */}
+                  <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black bg-opacity-50 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full">
+                    👥 {isRecording ? `${viewerCount} viewers` : 'Not live'}
                   </div>
-                ) : stream ? (
-                  // Host mode - showing your camera feed
-                  <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    muted
-                    className="w-full h-full object-cover"
-                    onLoadStart={() => console.log('Video load start')}
-                    onCanPlay={() => console.log('Video can play')}
-                    onPlay={() => console.log('Video playing')}
-                    onError={(e) => console.error('Video error:', e)}
-                  />
-                ) : (
-                  // No stream - show placeholder
-                  <div className="text-white text-center">
-                    <div className="text-3xl sm:text-4xl mb-2">👨‍🍳</div>
-                    <p className="text-xs sm:text-sm">Live Cooking Session</p>
-                    <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
-                  </div>
-                )}
-                
-                {/* Live Indicator */}
-                {isRecording && (
-                  <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-red-500 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full flex items-center">
-                    <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
-                    LIVE
-                  </div>
-                )}
-                
-                {/* Viewer Count */}
-                <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black bg-opacity-50 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full">
-                  👥 {isRecording ? `${viewerCount} viewers` : 'Not live'}
                 </div>
-              </div>
 
-              {/* Simple Controls */}
-              <div className="flex justify-center mt-3 sm:mt-4 mb-8 sm:mb-12">
-                {isViewer ? (
-                  // Viewer controls
-                  <button 
-                    onClick={() => {
-                      setLiveSessionModalOpen(false);
-                      setIsViewer(false);
-                      setCurrentLiveSession(null);
-                    }}
-                    className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-sm sm:text-base min-h-[44px]"
-                  >
-                    👋 Leave Session
-                  </button>
-                ) : !isRecording ? (
-                  // Host controls - not recording
-                  <button 
-                    onClick={startRecording}
-                    className="w-full sm:w-auto bg-lobsterRed text-weatheredWhite px-4 py-2 text-sm sm:text-base rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black min-h-[44px]"
-                  >
-                    🔴 Go Live
-                  </button>
-                ) : (
-                  // Host controls - recording
-                  <button 
-                    onClick={stopRecording}
-                    className="w-full sm:w-auto bg-red-500 text-white px-4 py-2 text-sm sm:text-base rounded-lg min-h-[44px]"
-                  >
-                    ⏹️ End Live
-                  </button>
-                )}
-              </div>
-              
-              {/* Recording Notice */}
-              <div className="text-center text-xs text-gray-600 mt-4">
-                📹 This session is being recorded
+                {/* Simple Controls */}
+                <div className="flex justify-center mt-3 sm:mt-4 mb-8 sm:mb-12">
+                  {isViewer ? (
+                    // Viewer controls
+                    <button 
+                      onClick={() => {
+                        setLiveSessionModalOpen(false);
+                        setIsViewer(false);
+                        setCurrentLiveSession(null);
+                      }}
+                      className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-sm sm:text-base min-h-[44px]"
+                    >
+                      👋 Leave Session
+                    </button>
+                  ) : !isRecording ? (
+                    // Host controls - not recording
+                    <button 
+                      onClick={startRecording}
+                      className="w-full sm:w-auto bg-lobsterRed text-weatheredWhite px-4 py-2 text-sm sm:text-base rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black min-h-[44px]"
+                    >
+                      🔴 Go Live
+                    </button>
+                  ) : (
+                    // Host controls - recording
+                    <button 
+                      onClick={stopRecording}
+                      className="w-full sm:w-auto bg-red-500 text-white px-4 py-2 text-sm sm:text-base rounded-lg min-h-[44px]"
+                    >
+                      ⏹️ End Live
+                    </button>
+                  )}
+                </div>
+                
+                {/* Recording Notice */}
+                <div className="text-center text-xs text-gray-600 mt-4">
+                  📹 This session is being recorded
+                </div>
               </div>
             </div>
             
