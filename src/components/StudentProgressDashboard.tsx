@@ -575,7 +575,7 @@ const StudentProgressDashboard: React.FC = () => {
       {/* Live Session Modal */}
       {liveSessionModalOpen && currentLiveSession && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-4xl w-full max-h-[95vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
