@@ -1329,7 +1329,7 @@ END:VCALENDAR`;
             </div>
             
             {/* Right Side - Community Feed */}
-            <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-3 sm:pt-6 lg:pt-0 lg:pl-6">
+            <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-3 sm:pt-6 lg:pt-0 lg:pl-6 flex flex-col overflow-hidden">
               <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-maineBlue">
                 🌍 Community Feed
               </h3>
