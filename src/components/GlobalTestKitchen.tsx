@@ -1043,17 +1043,50 @@ END:VCALENDAR`;
             <div className="flex-1 flex flex-col overflow-hidden">
               {/* Title above black screen */}
               <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
-                <h2 className="text-xl">
-                  {isViewer && currentLiveSession ? 
-                    `🔴 LIVE: ${currentLiveSession.dishName}` : 
-                    '🔴 LIVE: Cooking Session'
-                  }
-                </h2>
-                {isViewer && currentLiveSession && (
-                  <p className="text-sm mt-1">
-                    Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
-                  </p>
-                )}
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                  <div>
+                    <h2 className="text-xl">
+                      {isViewer && currentLiveSession ? 
+                        `🔴 LIVE: ${currentLiveSession.dishName}` : 
+                        '🔴 LIVE: Cooking Session'
+                      }
+                    </h2>
+                    {isViewer && currentLiveSession && (
+                      <p className="text-sm mt-1">
+                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {isViewer ? (
+                      <button 
+                        onClick={() => {
+                          setLiveSessionModalOpen(false);
+                          setIsViewer(false);
+                          setCurrentLiveSession(null);
+                        }}
+                        className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors text-sm font-semibold"
+                      >
+                        👋 Leave Session
+                      </button>
+                    ) : !isRecording ? (
+                      <button 
+                        onClick={startRecording}
+                        className="bg-lobsterRed text-weatheredWhite px-4 py-2 text-sm rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
+                      >
+                        🔴 Go Live
+                      </button>
+                    ) : (
+                      <button 
+                        onClick={stopRecording}
+                        className="bg-red-500 text-white px-4 py-2 text-sm rounded-lg hover:bg-red-600 transition-colors"
+                      >
+                        ⏹️ End Live
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
               
               {/* Scrollable practice area */}
@@ -1103,39 +1136,6 @@ END:VCALENDAR`;
                   </div>
                 </div>
 
-                {/* Simple Controls */}
-                <div className="flex justify-center mt-3 sm:mt-4 mb-8 sm:mb-12">
-                  {isViewer ? (
-                    // Viewer controls
-                    <button 
-                      onClick={() => {
-                        setLiveSessionModalOpen(false);
-                        setIsViewer(false);
-                        setCurrentLiveSession(null);
-                      }}
-                      className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-sm sm:text-base min-h-[44px]"
-                    >
-                      👋 Leave Session
-                    </button>
-                  ) : !isRecording ? (
-                    // Host controls - not recording
-                    <button 
-                      onClick={startRecording}
-                      className="w-full sm:w-auto bg-lobsterRed text-weatheredWhite px-4 py-2 text-sm sm:text-base rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black min-h-[44px]"
-                    >
-                      🔴 Go Live
-                    </button>
-                  ) : (
-                    // Host controls - recording
-                    <button 
-                      onClick={stopRecording}
-                      className="w-full sm:w-auto bg-red-500 text-white px-4 py-2 text-sm sm:text-base rounded-lg min-h-[44px]"
-                    >
-                      ⏹️ End Live
-                    </button>
-                  )}
-                </div>
-                
                 {/* Community feed removed */}
               </div>
             </div>
