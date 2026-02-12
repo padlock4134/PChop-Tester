@@ -601,8 +601,7 @@ const StudentProgressDashboard: React.FC = () => {
             <div className="flex-1 overflow-y-auto p-3 sm:p-6">
               <div className="flex flex-col lg:flex-row gap-3 sm:gap-6">
                 {/* Left Side - Video */}
-                <div className="flex-1">
-                  
+                <div className="flex-1 flex flex-col overflow-hidden">
                   {/* Main Video Area */}
                   <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue w-full">
                     <div className="text-white text-center">
@@ -624,116 +623,142 @@ const StudentProgressDashboard: React.FC = () => {
                   </div>
                   
                   {/* Controls */}
-                  <div className="flex justify-center mt-3 sm:mt-4">
+                  <div className="flex justify-center mt-3 sm:mt-4 mb-8 sm:mb-12">
                     <button 
                       onClick={() => {
                         setLiveSessionModalOpen(false);
                         setIsViewer(false);
                         setCurrentLiveSession(null);
                       }}
-                      className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-lg text-sm sm:text-base min-h-[44px] hover:bg-gray-600"
+                      className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-sm sm:text-base min-h-[44px]"
                     >
                       👋 Leave Session
                     </button>
                   </div>
                 </div>
                 
-                {/* Right Side - Community Feed */}
-                <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-3 sm:pt-6 lg:pt-0 lg:pl-6">
-                  <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-maineBlue">
+                {/* Right Side - Community Feed (sidebar on desktop, hidden on mobile) */}
+                <div className="hidden lg:flex lg:w-80 border-l-4 border-gray-200 flex-col overflow-hidden">
+                  <h3 className="text-base sm:text-lg font-bold text-center text-black bg-lobsterRed py-3 px-2">
                     🌍 Community Feed
                   </h3>
                   
-                  {/* Quick Post - Mobile Only (moved to top) */}
-                  <div className="lg:hidden mb-3 sm:mb-4 pb-3 border-b border-gray-200">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm">👨‍🍳</span>
-                      <input
-                        type="text"
-                        value={newPost}
-                        onChange={(e) => setNewPost(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Share what you're cooking..."
-                        className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
-                      />
-                      <button 
-                        onClick={handlePost}
-                        disabled={!newPost.trim()}
-                        className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
-                      >
-                        Post
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
-                {posts.slice(0, 5).map((post) => (
-                  <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
-                    <div className="flex items-start space-x-2">
-                      <div className="flex-shrink-0">
-                        <span className="text-sm">{post.avatar}</span>
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-1 mb-1">
-                          <span className="font-semibold text-xs text-gray-900">{post.author}</span>
-                          <span className="text-sm">{getPostIcon(post.type)}</span>
-                          <span className="text-xs text-gray-500">·</span>
-                          <span className="text-xs text-gray-500">{post.timestamp}</span>
-                        </div>
-                        
-                        <p className="text-xs text-gray-800 mb-2 leading-relaxed">{post.content}</p>
-                        
-                        {post.image && (
-                          <div className="mb-2">
-                            <span className="text-lg">{post.image}</span>
+                  <div className="flex-1 overflow-y-auto p-3 sm:p-4">
+                    {posts.slice(0, 5).map((post) => (
+                      <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
+                        <div className="flex items-start space-x-2">
+                          <div className="flex-shrink-0">
+                            <span className="text-sm">{post.avatar}</span>
                           </div>
-                        )}
-                        
-                        <div className="flex items-center space-x-3 mt-1">
-                          <button
-                            onClick={() => handleLike(post.id)}
-                            className="flex items-center space-x-1 text-xs text-gray-500 hover:text-red-500 transition-colors"
-                          >
-                            {post.isLiked ? (
-                              <HeartSolidIcon className="h-3 w-3 text-red-500" />
-                            ) : (
-                              <HeartIcon className="h-3 w-3" />
-                            )}
-                            <span>{post.likes}</span>
-                          </button>
                           
-                          <button className="flex items-center space-x-1 text-xs text-gray-500 hover:text-blue-500 transition-colors">
-                            <ChatBubbleOvalLeftIcon className="h-3 w-3" />
-                            <span>{post.comments}</span>
-                          </button>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center space-x-1 mb-1">
+                              <span className="font-semibold text-xs text-gray-900">{post.author}</span>
+                              <span className="text-sm">{getPostIcon(post.type)}</span>
+                              <span className="text-xs text-gray-500">·</span>
+                              <span className="text-xs text-gray-500">{post.timestamp}</span>
+                            </div>
+                            
+                            <p className="text-xs text-gray-800 mb-2 leading-relaxed">{post.content}</p>
+                            
+                            {post.image && (
+                              <div className="mb-2">
+                                <span className="text-lg">{post.image}</span>
+                              </div>
+                            )}
+                            
+                            <div className="flex items-center space-x-3 mt-1">
+                              <button
+                                onClick={() => handleLike(post.id)}
+                                className="flex items-center space-x-1 text-xs text-gray-500 hover:text-red-500 transition-colors"
+                              >
+                                {post.isLiked ? (
+                                  <HeartSolidIcon className="h-3 w-3 text-red-500" />
+                                ) : (
+                                  <HeartIcon className="h-3 w-3" />
+                                )}
+                                <span>{post.likes}</span>
+                              </button>
+                              
+                              <button className="flex items-center space-x-1 text-xs text-gray-500 hover:text-blue-500 transition-colors">
+                                <ChatBubbleOvalLeftIcon className="h-3 w-3" />
+                                <span>{post.comments}</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Feed below controls */}
+              <div className="lg:hidden mt-6 border-t border-gray-200 pt-4">
+                <h3 className="text-base sm:text-lg font-bold text-center text-black bg-lobsterRed py-3 px-2">
+                  🌍 Community Feed
+                </h3>
+                <div className="mt-3 space-y-3 max-h-72 overflow-y-auto pb-16">
+                  {posts.slice(0, 5).map((post) => (
+                    <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
+                      <div className="flex items-start space-x-2">
+                        <div className="flex-shrink-0">
+                          <span className="text-sm">{post.avatar}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center space-x-1 mb-1">
+                            <span className="font-semibold text-xs text-gray-900">{post.author}</span>
+                            <span className="text-sm">{getPostIcon(post.type)}</span>
+                            <span className="text-xs text-gray-500">·</span>
+                            <span className="text-xs text-gray-500">{post.timestamp}</span>
+                          </div>
+                          <p className="text-xs text-gray-800 mb-2 leading-relaxed">{post.content}</p>
+                          {post.image && (
+                            <div className="mb-2">
+                              <span className="text-lg">{post.image}</span>
+                            </div>
+                          )}
+                          <div className="flex items-center space-x-3 mt-1">
+                            <button
+                              onClick={() => handleLike(post.id)}
+                              className="flex items-center space-x-1 text-xs text-gray-500 hover:text-red-500 transition-colors"
+                            >
+                              {post.isLiked ? (
+                                <HeartSolidIcon className="h-3 w-3 text-red-500" />
+                              ) : (
+                                <HeartIcon className="h-3 w-3" />
+                              )}
+                              <span>{post.likes}</span>
+                            </button>
+                            <button className="flex items-center space-x-1 text-xs text-gray-500 hover:text-blue-500 transition-colors">
+                              <ChatBubbleOvalLeftIcon className="h-3 w-3" />
+                              <span>{post.comments}</span>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-                  </div>
-                  
-                  {/* Quick Post - Desktop Only (original position) */}
-                  <div className="hidden lg:block pt-3 border-t border-gray-200 mt-4">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm">👨‍🍳</span>
-                      <input
-                        type="text"
-                        value={newPost}
-                        onChange={(e) => setNewPost(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Share what you're cooking..."
-                        className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
-                      />
-                      <button 
-                        onClick={handlePost}
-                        disabled={!newPost.trim()}
-                        className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
-                      >
-                        Post
-                      </button>
-                    </div>
+                  ))}
+                </div>
+                {/* Mobile post input fixed within feed */}
+                <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 pt-3 pb-3 mt-2">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm">👨‍🍳</span>
+                    <input
+                      type="text"
+                      value={newPost}
+                      onChange={(e) => setNewPost(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      placeholder="Share what you're cooking..."
+                      className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
+                    />
+                    <button 
+                      onClick={handlePost}
+                      disabled={!newPost.trim()}
+                      className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                    >
+                      Post
+                    </button>
                   </div>
                 </div>
               </div>
