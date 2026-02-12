@@ -1097,76 +1097,93 @@ END:VCALENDAR`;
 
       {/* Go Live Modal */}
       {goLiveModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-md w-full mx-4 relative">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
             <button
               onClick={() => setGoLiveModalOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl font-bold z-10"
               aria-label="Close"
             >
               ×
             </button>
-            
-            <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              🔴 {t('chefsCorner.globalTestKitchen.goLiveNow')}
-            </h2>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  What are you cooking today?
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g., Grandma's Pasta Recipe"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                />
+
+            {/* Left Side */}
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <div className="p-4 bg-maineBlue text-white font-retro text-center">
+                <h2 className="text-xl">🔴 {t('chefsCorner.globalTestKitchen.goLiveNow')}</h2>
+                <p className="text-sm mt-1">{t('chefsCorner.globalTestKitchen.shareDishPrompt')}</p>
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cuisine Origin
-                </label>
-                <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
-                  <option>Select</option>
-                  <option>Italian</option>
-                  <option>Mexican</option>
-                  <option>Thai</option>
-                  <option>French</option>
-                  <option>Indian</option>
-                  <option>Japanese</option>
-                  <option>Chinese</option>
-                  <option>Other</option>
-                </select>
+
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    What are you cooking today?
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g., Grandma's Pasta Recipe"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Cuisine Origin
+                  </label>
+                  <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
+                    <option>Select</option>
+                    <option>Italian</option>
+                    <option>Mexican</option>
+                    <option>Thai</option>
+                    <option>French</option>
+                    <option>Indian</option>
+                    <option>Japanese</option>
+                    <option>Chinese</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Session Description
+                  </label>
+                  <textarea
+                    placeholder="Tell everyone what makes this dish special..."
+                    rows={4}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <button
+                    onClick={() => setGoLiveModalOpen(false)}
+                    className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
+                  >
+                    {t('chefsCorner.globalTestKitchen.cancel')}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setGoLiveModalOpen(false);
+                      setLiveSessionModalOpen(true);
+                    }}
+                    className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
+                  >
+                    🔴 {t('chefsCorner.globalTestKitchen.startRecording')}
+                  </button>
+                </div>
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Session Description
-                </label>
-                <textarea
-                  placeholder="Tell everyone what makes this dish special..."
-                  rows={3}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                />
+            </div>
+
+            {/* Right Side Tips */}
+            <div className="hidden lg:flex lg:w-80 border-l-4 border-gray-200 flex-col overflow-hidden">
+              <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
+                <h3 className="text-lg font-bold">💡 Tips for Success</h3>
               </div>
-              
-              <div className="flex gap-3 pt-4">
-                <button
-                  onClick={() => setGoLiveModalOpen(false)}
-                  className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
-                >
-                  {t('chefsCorner.globalTestKitchen.cancel')}
-                </button>
-                <button
-                  onClick={() => {
-                    setGoLiveModalOpen(false);
-                    setLiveSessionModalOpen(true);
-                  }}
-                  className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
-                >
-                  🔴 {t('chefsCorner.globalTestKitchen.startRecording')}
-                </button>
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4 text-sm text-gray-700 space-y-3">
+                <p>• Share the story behind your dish.</p>
+                <p>• Highlight unique ingredients and where to find them.</p>
+                <p>• Engage with viewers and answer questions live.</p>
+                <p>• Practice your recipe beforehand for timing.</p>
               </div>
             </div>
           </div>
