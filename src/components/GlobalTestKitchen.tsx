@@ -1328,190 +1328,110 @@ END:VCALENDAR`;
                 <div className="text-center text-xs text-gray-600 mt-4">
                   📹 This session is being recorded
                 </div>
+                
+                {/* Mobile Feed (below controls) */}
+                <div className="lg:hidden mt-6 border-t border-gray-200 pt-4">
+                  <h3 className="text-base sm:text-lg font-bold text-center text-black bg-lobsterRed py-3 px-2">
+                    🌍 Community Feed
+                  </h3>
+                  <div className="mt-3 space-y-3 max-h-72 overflow-y-auto">
+                    {posts.slice(0, 5).map((post) => (
+                      <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
+                        <div className="flex items-start space-x-2">
+                          <div className="flex-shrink-0">
+                            <span className="text-sm">{post.avatar}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center space-x-1 mb-1">
+                              <span className="font-semibold text-xs text-gray-900">{post.author}</span>
+                              <span className="text-sm">{getPostIcon(post.type)}</span>
+                              <span className="text-xs text-gray-500">·</span>
+                              <span className="text-xs text-gray-500">{post.timestamp}</span>
+                            </div>
+                            <p className="text-xs text-gray-800 mb-2 leading-relaxed">{post.content}</p>
+                            {post.image && (
+                              <div className="mb-2">
+                                <span className="text-lg">{post.image}</span>
+                              </div>
+                            )}
+                            <div className="flex items-center space-x-3 mt-1">
+                              <button
+                                onClick={() => handleLike(post.id)}
+                                className="flex items-center space-x-1 text-xs text-gray-500 hover:text-red-500 transition-colors"
+                              >
+                                {post.isLiked ? (
+                                  <HeartSolidIcon className="h-3 w-3 text-red-500" />
+                                ) : (
+                                  <HeartIcon className="h-3 w-3" />
+                                )}
+                                <span>{post.likes}</span>
+                              </button>
+                              <button className="flex items-center space-x-1 text-xs text-gray-500 hover:text-blue-500 transition-colors">
+                                <ChatBubbleOvalLeftIcon className="h-3 w-3" />
+                                <span>{post.comments}</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
             
-            {/* Right Side - Community Feed (visible on mobile, stacks under video) */}
-            <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l-4 border-gray-200 flex flex-col overflow-hidden mt-4 lg:mt-0">
+            {/* Right Side - Community Feed (desktop sidebar; hidden on mobile) */}
+            <div className="hidden lg:flex lg:w-80 border-l-4 border-gray-200 flex-col overflow-hidden">
               <h3 className="text-base sm:text-lg font-bold text-center text-black bg-lobsterRed py-3 px-2">
                 🌍 Community Feed
               </h3>
               
-              {/* Quick Post - Mobile Only (moved to top) */}
-              <div className="lg:hidden mb-3 sm:mb-4 pb-3 border-b border-gray-200">
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm">👨‍🍳</span>
-                  <input
-                    type="text"
-                    value={newPost}
-                    onChange={(e) => setNewPost(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Share what you're cooking..."
-                    className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
-                  />
-                  <button 
-                    onClick={handlePost}
-                    disabled={!newPost.trim()}
-                    className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
-                  >
-                    Post
-                  </button>
-                </div>
-              </div>
-            
-            {/* Recipe Assistant - Shows under posting line when recipe is showcased */}
-            {showcaseRecipe && (
-              <div className="mb-4 border-2 border-amber-400 rounded-lg bg-amber-50 overflow-hidden">
-                {/* Header - Always visible */}
-                <button
-                  onClick={() => setRecipeAssistantOpen(!recipeAssistantOpen)}
-                  className="w-full p-3 flex items-center justify-between hover:bg-amber-100 transition-colors"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">📋</span>
-                    <div className="text-left">
-                      <div className="font-bold text-sm text-amber-900">{showcaseRecipe.title}</div>
-                      <div className="text-xs text-amber-700">Recipe Assistant</div>
-                    </div>
-                  </div>
-                  <span className="text-amber-700 text-sm">{recipeAssistantOpen ? '▼' : '▶'}</span>
-                </button>
-                
-                {/* Expandable Content */}
-                {recipeAssistantOpen && showcaseRecipe.instructions && (
-                  <div className="p-3 border-t border-amber-300 bg-white">
-                    {/* Step Display */}
-                    <div className="mb-3">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-semibold text-gray-600">
-                          Step {currentStep + 1} of {showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim()).length}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-gray-500">⏱️ {Math.floor(stepTimer / 60)}:{(stepTimer % 60).toString().padStart(2, '0')}</span>
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4">
+                {posts.slice(0, 5).map((post) => (
+                  <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
+                    <div className="flex items-start space-x-2">
+                      <div className="flex-shrink-0">
+                        <span className="text-sm">{post.avatar}</span>
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center space-x-1 mb-1">
+                          <span className="font-semibold text-xs text-gray-900">{post.author}</span>
+                          <span className="text-sm">{getPostIcon(post.type)}</span>
+                          <span className="text-xs text-gray-500">·</span>
+                          <span className="text-xs text-gray-500">{post.timestamp}</span>
+                        </div>
+                        
+                        <p className="text-xs text-gray-800 mb-2 leading-relaxed">{post.content}</p>
+                        
+                        {post.image && (
+                          <div className="mb-2">
+                            <span className="text-lg">{post.image}</span>
+                          </div>
+                        )}
+                        
+                        <div className="flex items-center space-x-3 mt-1">
                           <button
-                            onClick={() => {
-                              if (timerActive) {
-                                setTimerActive(false);
-                                if (timerRef.current) clearInterval(timerRef.current);
-                              } else {
-                                setTimerActive(true);
-                                timerRef.current = setInterval(() => {
-                                  setStepTimer(prev => prev + 1);
-                                }, 1000);
-                              }
-                            }}
-                            className="text-xs px-2 py-1 bg-amber-600 text-white rounded hover:bg-amber-700"
+                            onClick={() => handleLike(post.id)}
+                            className="flex items-center space-x-1 text-xs text-gray-500 hover:text-red-500 transition-colors"
                           >
-                            {timerActive ? '⏸' : '▶'}
+                            {post.isLiked ? (
+                              <HeartSolidIcon className="h-3 w-3 text-red-500" />
+                            ) : (
+                              <HeartIcon className="h-3 w-3" />
+                            )}
+                            <span>{post.likes}</span>
+                          </button>
+                          
+                          <button className="flex items-center space-x-1 text-xs text-gray-500 hover:text-blue-500 transition-colors">
+                            <ChatBubbleOvalLeftIcon className="h-3 w-3" />
+                            <span>{post.comments}</span>
                           </button>
                         </div>
                       </div>
-                      
-                      <div className="bg-gray-50 p-3 rounded border border-gray-200">
-                        <p className="text-sm text-gray-800 leading-relaxed">
-                          {showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim())[currentStep] || 'No step available'}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    {/* Navigation Controls */}
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setCurrentStep(Math.max(0, currentStep - 1));
-                          setStepTimer(0);
-                        }}
-                        disabled={currentStep === 0}
-                        className="flex-1 px-3 py-2 bg-gray-200 text-gray-700 rounded text-xs font-medium hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        ◀ Previous
-                      </button>
-                      <button
-                        onClick={() => {
-                          const steps = showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim());
-                          setCurrentStep(Math.min(steps.length - 1, currentStep + 1));
-                          setStepTimer(0);
-                        }}
-                        disabled={currentStep >= showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim()).length - 1}
-                        className="flex-1 px-3 py-2 bg-amber-600 text-white rounded text-xs font-medium hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        Next ▶
-                      </button>
                     </div>
                   </div>
-                )}
-              </div>
-            )}
-            
-              {/* Instructions Content */}
-              <div className="flex-1 overflow-y-auto p-3 sm:p-4">
-              {posts.slice(0, 5).map((post) => (
-                <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
-                  <div className="flex items-start space-x-2">
-                    <div className="flex-shrink-0">
-                      <span className="text-sm">{post.avatar}</span>
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center space-x-1 mb-1">
-                        <span className="font-semibold text-xs text-gray-900">{post.author}</span>
-                        <span className="text-sm">{getPostIcon(post.type)}</span>
-                        <span className="text-xs text-gray-500">·</span>
-                        <span className="text-xs text-gray-500">{post.timestamp}</span>
-                      </div>
-                      
-                      <p className="text-xs text-gray-800 mb-2 leading-relaxed">{post.content}</p>
-                      
-                      {post.image && (
-                        <div className="mb-2">
-                          <span className="text-lg">{post.image}</span>
-                        </div>
-                      )}
-                      
-                      <div className="flex items-center space-x-3 mt-1">
-                        <button
-                          onClick={() => handleLike(post.id)}
-                          className="flex items-center space-x-1 text-xs text-gray-500 hover:text-red-500 transition-colors"
-                        >
-                          {post.isLiked ? (
-                            <HeartSolidIcon className="h-3 w-3 text-red-500" />
-                          ) : (
-                            <HeartIcon className="h-3 w-3" />
-                          )}
-                          <span>{post.likes}</span>
-                        </button>
-                        
-                        <button className="flex items-center space-x-1 text-xs text-gray-500 hover:text-blue-500 transition-colors">
-                          <ChatBubbleOvalLeftIcon className="h-3 w-3" />
-                          <span>{post.comments}</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              </div>
-              
-              {/* Quick Post - Desktop Only (original position) */}
-              <div className="hidden lg:block pt-3 border-t border-gray-200 mt-4">
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm">👨‍🍳</span>
-                  <input
-                    type="text"
-                    value={newPost}
-                    onChange={(e) => setNewPost(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Share what you're cooking..."
-                    className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
-                  />
-                  <button 
-                    onClick={handlePost}
-                    disabled={!newPost.trim()}
-                    className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
-                  >
-                    Post
-                  </button>
-                </div>
+                ))}
               </div>
             </div>
           </div>
