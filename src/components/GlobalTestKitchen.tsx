@@ -1219,300 +1219,294 @@ END:VCALENDAR`;
       {liveSessionModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
           <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
-            {/* Sticky Header */}
-            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
-              <div className="text-center relative">
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">
+            <button
+              onClick={() => setLiveSessionModalOpen(false)}
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl font-bold z-10"
+              aria-label="Close"
+            >
+              ×
+            </button>
+            
+            {/* Left Side - Video */}
+            <div className="flex-1 flex flex-col overflow-hidden">
+              {/* Title above black screen */}
+              <div className="p-4 bg-maineBlue text-white font-retro text-center">
+                <h2 className="text-xl">
                   {isViewer && currentLiveSession ? 
                     `🔴 LIVE: ${currentLiveSession.dishName}` : 
                     '🔴 LIVE: Cooking Session'
                   }
                 </h2>
-                <button
-                  onClick={() => setLiveSessionModalOpen(false)}
-                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
-                  aria-label="Close"
-                >
-                  ×
-                </button>
+                {isViewer && currentLiveSession && (
+                  <p className="text-sm mt-1">
+                    Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                  </p>
+                )}
               </div>
-              {isViewer && currentLiveSession && (
-                <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-sm">
-                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
-                </p>
-              )}
+              
+              {/* Live Video Area */}
+              <div className="bg-black rounded-lg w-full h-full flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
+                {isViewer && currentLiveSession ? (
+                  // Viewer mode - watching someone else's stream
+                  <div className="text-white text-center">
+                    <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
+                    <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>
+                    <p className="text-xs sm:text-sm opacity-75">Live video stream would appear here</p>
+                  </div>
+                ) : stream ? (
+                  // Host mode - showing your camera feed
+                  <video
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                    muted
+                    className="w-full h-full object-cover"
+                    onLoadStart={() => console.log('Video load start')}
+                    onCanPlay={() => console.log('Video can play')}
+                    onPlay={() => console.log('Video playing')}
+                    onError={(e) => console.error('Video error:', e)}
+                  />
+                ) : (
+                  // No stream - show placeholder
+                  <div className="text-white text-center">
+                    <div className="text-3xl sm:text-4xl mb-2">👨‍🍳</div>
+                    <p className="text-xs sm:text-sm">Live Cooking Session</p>
+                    <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
+                  </div>
+                )}
+                
+                {/* Live Indicator */}
+                {isRecording && (
+                  <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-red-500 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full flex items-center">
+                    <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
+                    LIVE
+                  </div>
+                )}
+                
+                {/* Viewer Count */}
+                <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black bg-opacity-50 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full">
+                  👥 {isRecording ? `${viewerCount} viewers` : 'Not live'}
+                </div>
+              </div>
+
+              {/* Simple Controls */}
+              <div className="flex justify-center mt-3 sm:mt-4 mb-8 sm:mb-12">
+                {isViewer ? (
+                  // Viewer controls
+                  <button 
+                    onClick={() => {
+                      setLiveSessionModalOpen(false);
+                      setIsViewer(false);
+                      setCurrentLiveSession(null);
+                    }}
+                    className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-sm sm:text-base min-h-[44px]"
+                  >
+                    👋 Leave Session
+                  </button>
+                ) : !isRecording ? (
+                  // Host controls - not recording
+                  <button 
+                    onClick={startRecording}
+                    className="w-full sm:w-auto bg-lobsterRed text-weatheredWhite px-4 py-2 text-sm sm:text-base rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black min-h-[44px]"
+                  >
+                    🔴 Go Live
+                  </button>
+                ) : (
+                  // Host controls - recording
+                  <button 
+                    onClick={stopRecording}
+                    className="w-full sm:w-auto bg-red-500 text-white px-4 py-2 text-sm sm:text-base rounded-lg min-h-[44px]"
+                  >
+                    ⏹️ End Live
+                  </button>
+                )}
+              </div>
+              
+              {/* Recording Notice */}
+              <div className="text-center text-xs text-gray-600 mt-4">
+                📹 This session is being recorded
+              </div>
             </div>
             
-            {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
-              <div className="flex flex-col lg:flex-row gap-3 sm:gap-6">
-                {/* Left Side - Video */}
-                <div className="flex-1">
-                  {/* Live Video Area */}
-                  <div className="bg-black rounded-lg w-full h-full flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
-                    {isViewer && currentLiveSession ? (
-                      // Viewer mode - watching someone else's stream
-                      <div className="text-white text-center">
-                        <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
-                        <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>
-                        <p className="text-xs sm:text-sm opacity-75">Live video stream would appear here</p>
-                      </div>
-                    ) : stream ? (
-                      // Host mode - showing your camera feed
-                      <video
-                        ref={videoRef}
-                        autoPlay
-                        playsInline
-                        muted
-                        className="w-full h-full object-cover"
-                        onLoadStart={() => console.log('Video load start')}
-                        onCanPlay={() => console.log('Video can play')}
-                        onPlay={() => console.log('Video playing')}
-                        onError={(e) => console.error('Video error:', e)}
-                      />
-                    ) : (
-                      // No stream - show placeholder
-                      <div className="text-white text-center">
-                        <div className="text-3xl sm:text-4xl mb-2">👨‍🍳</div>
-                        <p className="text-xs sm:text-sm">Live Cooking Session</p>
-                        <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
-                      </div>
-                    )}
-                    
-                    {/* Live Indicator */}
-                    {isRecording && (
-                      <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-red-500 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full flex items-center">
-                        <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
-                        LIVE
-                      </div>
-                    )}
-                    
-                    {/* Viewer Count */}
-                    <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black bg-opacity-50 text-white text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full">
-                      👥 {isRecording ? `${viewerCount} viewers` : 'Not live'}
-                    </div>
-                  </div>
-
-                  {/* Simple Controls */}
-                  <div className="flex justify-center mt-3 sm:mt-4 mb-8 sm:mb-12">
-                    {isViewer ? (
-                      // Viewer controls
-                      <button 
-                        onClick={() => {
-                          setLiveSessionModalOpen(false);
-                          setIsViewer(false);
-                          setCurrentLiveSession(null);
-                        }}
-                        className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-sm sm:text-base min-h-[44px]"
-                      >
-                        👋 Leave Session
-                      </button>
-                    ) : !isRecording ? (
-                      // Host controls - not recording
-                      <button 
-                        onClick={startRecording}
-                        className="w-full sm:w-auto bg-lobsterRed text-weatheredWhite px-4 py-2 text-sm sm:text-base rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black min-h-[44px]"
-                      >
-                        🔴 Go Live
-                      </button>
-                    ) : (
-                      // Host controls - recording
-                      <button 
-                        onClick={stopRecording}
-                        className="w-full sm:w-auto bg-red-500 text-white px-4 py-2 text-sm sm:text-base rounded-lg min-h-[44px]"
-                      >
-                        ⏹️ End Live
-                      </button>
-                    )}
-                  </div>
-                  
-                  {/* Recording Notice */}
-                  <div className="text-center text-xs text-gray-600 mt-4">
-                    📹 This session is being recorded
-                  </div>
-                </div>
-                
-                {/* Right Side - Community Feed */}
-                <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-3 sm:pt-6 lg:pt-0 lg:pl-6">
-                  <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-maineBlue">
-                    🌍 Community Feed
-                  </h3>
-                  
-                  {/* Quick Post - Mobile Only (moved to top) */}
-                  <div className="lg:hidden mb-3 sm:mb-4 pb-3 border-b border-gray-200">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm">👨‍🍳</span>
-                      <input
-                        type="text"
-                        value={newPost}
-                        onChange={(e) => setNewPost(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Share what you're cooking..."
-                        className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
-                      />
-                      <button 
-                        onClick={handlePost}
-                        disabled={!newPost.trim()}
-                        className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
-                      >
-                        Post
-                      </button>
-                    </div>
-                  </div>
+            {/* Right Side - Community Feed */}
+            <div className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-gray-200 pt-3 sm:pt-6 lg:pt-0 lg:pl-6">
+              <h3 className="text-base sm:text-lg font-bold mb-3 sm:mb-4 text-maineBlue">
+                🌍 Community Feed
+              </h3>
               
-              {/* Recipe Assistant - Shows under posting line when recipe is showcased */}
-              {showcaseRecipe && (
-                <div className="mb-4 border-2 border-amber-400 rounded-lg bg-amber-50 overflow-hidden">
-                  {/* Header - Always visible */}
-                  <button
-                    onClick={() => setRecipeAssistantOpen(!recipeAssistantOpen)}
-                    className="w-full p-3 flex items-center justify-between hover:bg-amber-100 transition-colors"
+              {/* Quick Post - Mobile Only (moved to top) */}
+              <div className="lg:hidden mb-3 sm:mb-4 pb-3 border-b border-gray-200">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm">👨‍🍳</span>
+                  <input
+                    type="text"
+                    value={newPost}
+                    onChange={(e) => setNewPost(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Share what you're cooking..."
+                    className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
+                  />
+                  <button 
+                    onClick={handlePost}
+                    disabled={!newPost.trim()}
+                    className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">📋</span>
-                      <div className="text-left">
-                        <div className="font-bold text-sm text-amber-900">{showcaseRecipe.title}</div>
-                        <div className="text-xs text-amber-700">Recipe Assistant</div>
-                      </div>
-                    </div>
-                    <span className="text-amber-700 text-sm">{recipeAssistantOpen ? '▼' : '▶'}</span>
+                    Post
                   </button>
-                  
-                  {/* Expandable Content */}
-                  {recipeAssistantOpen && showcaseRecipe.instructions && (
-                    <div className="p-3 border-t border-amber-300 bg-white">
-                      {/* Step Display */}
-                      <div className="mb-3">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-xs font-semibold text-gray-600">
-                            Step {currentStep + 1} of {showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim()).length}
-                          </span>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs text-gray-500">⏱️ {Math.floor(stepTimer / 60)}:{(stepTimer % 60).toString().padStart(2, '0')}</span>
-                            <button
-                              onClick={() => {
-                                if (timerActive) {
-                                  setTimerActive(false);
-                                  if (timerRef.current) clearInterval(timerRef.current);
-                                } else {
-                                  setTimerActive(true);
-                                  timerRef.current = setInterval(() => {
-                                    setStepTimer(prev => prev + 1);
-                                  }, 1000);
-                                }
-                              }}
-                              className="text-xs px-2 py-1 bg-amber-600 text-white rounded hover:bg-amber-700"
-                            >
-                              {timerActive ? '⏸' : '▶'}
-                            </button>
-                          </div>
-                        </div>
-                        
-                        <div className="bg-gray-50 p-3 rounded border border-gray-200">
-                          <p className="text-sm text-gray-800 leading-relaxed">
-                            {showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim())[currentStep] || 'No step available'}
-                          </p>
-                        </div>
-                      </div>
-                      
-                      {/* Navigation Controls */}
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => {
-                            setCurrentStep(Math.max(0, currentStep - 1));
-                            setStepTimer(0);
-                          }}
-                          disabled={currentStep === 0}
-                          className="flex-1 px-3 py-2 bg-gray-200 text-gray-700 rounded text-xs font-medium hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          ◀ Previous
-                        </button>
-                        <button
-                          onClick={() => {
-                            const steps = showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim());
-                            setCurrentStep(Math.min(steps.length - 1, currentStep + 1));
-                            setStepTimer(0);
-                          }}
-                          disabled={currentStep >= showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim()).length - 1}
-                          className="flex-1 px-3 py-2 bg-amber-600 text-white rounded text-xs font-medium hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          Next ▶
-                        </button>
-                      </div>
-                    </div>
-                  )}
                 </div>
-              )}
-              
-                  <div className="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
-                {posts.slice(0, 5).map((post) => (
-                  <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
-                    <div className="flex items-start space-x-2">
-                      <div className="flex-shrink-0">
-                        <span className="text-sm">{post.avatar}</span>
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-1 mb-1">
-                          <span className="font-semibold text-xs text-gray-900">{post.author}</span>
-                          <span className="text-sm">{getPostIcon(post.type)}</span>
-                          <span className="text-xs text-gray-500">·</span>
-                          <span className="text-xs text-gray-500">{post.timestamp}</span>
-                        </div>
-                        
-                        <p className="text-xs text-gray-800 mb-2 leading-relaxed">{post.content}</p>
-                        
-                        {post.image && (
-                          <div className="mb-2">
-                            <span className="text-lg">{post.image}</span>
-                          </div>
-                        )}
-                        
-                        <div className="flex items-center space-x-3 mt-1">
-                          <button
-                            onClick={() => handleLike(post.id)}
-                            className="flex items-center space-x-1 text-xs text-gray-500 hover:text-red-500 transition-colors"
-                          >
-                            {post.isLiked ? (
-                              <HeartSolidIcon className="h-3 w-3 text-red-500" />
-                            ) : (
-                              <HeartIcon className="h-3 w-3" />
-                            )}
-                            <span>{post.likes}</span>
-                          </button>
-                          
-                          <button className="flex items-center space-x-1 text-xs text-gray-500 hover:text-blue-500 transition-colors">
-                            <ChatBubbleOvalLeftIcon className="h-3 w-3" />
-                            <span>{post.comments}</span>
-                          </button>
-                        </div>
-                      </div>
+              </div>
+            
+            {/* Recipe Assistant - Shows under posting line when recipe is showcased */}
+            {showcaseRecipe && (
+              <div className="mb-4 border-2 border-amber-400 rounded-lg bg-amber-50 overflow-hidden">
+                {/* Header - Always visible */}
+                <button
+                  onClick={() => setRecipeAssistantOpen(!recipeAssistantOpen)}
+                  className="w-full p-3 flex items-center justify-between hover:bg-amber-100 transition-colors"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">📋</span>
+                    <div className="text-left">
+                      <div className="font-bold text-sm text-amber-900">{showcaseRecipe.title}</div>
+                      <div className="text-xs text-amber-700">Recipe Assistant</div>
                     </div>
                   </div>
-                ))}
-                  </div>
-                  
-                  {/* Quick Post - Desktop Only (original position) */}
-                  <div className="hidden lg:block pt-3 border-t border-gray-200 mt-4">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm">👨‍🍳</span>
-                      <input
-                        type="text"
-                        value={newPost}
-                        onChange={(e) => setNewPost(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Share what you're cooking..."
-                        className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
-                      />
-                      <button 
-                        onClick={handlePost}
-                        disabled={!newPost.trim()}
-                        className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                  <span className="text-amber-700 text-sm">{recipeAssistantOpen ? '▼' : '▶'}</span>
+                </button>
+                
+                {/* Expandable Content */}
+                {recipeAssistantOpen && showcaseRecipe.instructions && (
+                  <div className="p-3 border-t border-amber-300 bg-white">
+                    {/* Step Display */}
+                    <div className="mb-3">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-semibold text-gray-600">
+                          Step {currentStep + 1} of {showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim()).length}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-500">⏱️ {Math.floor(stepTimer / 60)}:{(stepTimer % 60).toString().padStart(2, '0')}</span>
+                          <button
+                            onClick={() => {
+                              if (timerActive) {
+                                setTimerActive(false);
+                                if (timerRef.current) clearInterval(timerRef.current);
+                              } else {
+                                setTimerActive(true);
+                                timerRef.current = setInterval(() => {
+                                  setStepTimer(prev => prev + 1);
+                                }, 1000);
+                              }
+                            }}
+                            className="text-xs px-2 py-1 bg-amber-600 text-white rounded hover:bg-amber-700"
+                          >
+                            {timerActive ? '⏸' : '▶'}
+                          </button>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-gray-50 p-3 rounded border border-gray-200">
+                        <p className="text-sm text-gray-800 leading-relaxed">
+                          {showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim())[currentStep] || 'No step available'}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Navigation Controls */}
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          setCurrentStep(Math.max(0, currentStep - 1));
+                          setStepTimer(0);
+                        }}
+                        disabled={currentStep === 0}
+                        className="flex-1 px-3 py-2 bg-gray-200 text-gray-700 rounded text-xs font-medium hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Post
+                        ◀ Previous
+                      </button>
+                      <button
+                        onClick={() => {
+                          const steps = showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim());
+                          setCurrentStep(Math.min(steps.length - 1, currentStep + 1));
+                          setStepTimer(0);
+                        }}
+                        disabled={currentStep >= showcaseRecipe.instructions.split('\n').filter((s: string) => s.trim()).length - 1}
+                        className="flex-1 px-3 py-2 bg-amber-600 text-white rounded text-xs font-medium hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        Next ▶
                       </button>
                     </div>
                   </div>
+                )}
+              </div>
+            )}
+            
+              <div className="space-y-2 sm:space-y-3 max-h-96 overflow-y-auto">
+              {posts.slice(0, 5).map((post) => (
+                <div key={post.id} className={`p-3 border-b border-gray-100 border-l-4 ${getPostBorderColor(post.type)} hover:bg-gray-50 transition-colors`}>
+                  <div className="flex items-start space-x-2">
+                    <div className="flex-shrink-0">
+                      <span className="text-sm">{post.avatar}</span>
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center space-x-1 mb-1">
+                        <span className="font-semibold text-xs text-gray-900">{post.author}</span>
+                        <span className="text-sm">{getPostIcon(post.type)}</span>
+                        <span className="text-xs text-gray-500">·</span>
+                        <span className="text-xs text-gray-500">{post.timestamp}</span>
+                      </div>
+                      
+                      <p className="text-xs text-gray-800 mb-2 leading-relaxed">{post.content}</p>
+                      
+                      {post.image && (
+                        <div className="mb-2">
+                          <span className="text-lg">{post.image}</span>
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center space-x-3 mt-1">
+                        <button
+                          onClick={() => handleLike(post.id)}
+                          className="flex items-center space-x-1 text-xs text-gray-500 hover:text-red-500 transition-colors"
+                        >
+                          {post.isLiked ? (
+                            <HeartSolidIcon className="h-3 w-3 text-red-500" />
+                          ) : (
+                            <HeartIcon className="h-3 w-3" />
+                          )}
+                          <span>{post.likes}</span>
+                        </button>
+                        
+                        <button className="flex items-center space-x-1 text-xs text-gray-500 hover:text-blue-500 transition-colors">
+                          <ChatBubbleOvalLeftIcon className="h-3 w-3" />
+                          <span>{post.comments}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              </div>
+              
+              {/* Quick Post - Desktop Only (original position) */}
+              <div className="hidden lg:block pt-3 border-t border-gray-200 mt-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm">👨‍🍳</span>
+                  <input
+                    type="text"
+                    value={newPost}
+                    onChange={(e) => setNewPost(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Share what you're cooking..."
+                    className="flex-1 text-xs border-4 border-gray-300 rounded-full px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent min-h-[44px]"
+                  />
+                  <button 
+                    onClick={handlePost}
+                    disabled={!newPost.trim()}
+                    className="bg-maineBlue text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                  >
+                    Post
+                  </button>
                 </div>
               </div>
             </div>
