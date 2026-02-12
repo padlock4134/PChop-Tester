@@ -530,8 +530,8 @@ const StudentProgressDashboard: React.FC = () => {
                 </p>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-3 sm:p-6">
-                <div className="bg-black rounded-lg aspect-video w-full max-h-[320px] flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
+              <div className="flex-1 overflow-y-auto p-3 sm:p-6 flex">
+                <div className="bg-black rounded-lg flex-1 w-full min-h-[400px] flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
                   <div className="text-white text-center">
                     <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
                     <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>
