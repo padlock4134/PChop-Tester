@@ -1030,7 +1030,7 @@ END:VCALENDAR`;
       {/* Live Session Modal */}
       {liveSessionModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-5/6 sm:h-auto sm:max-h-[95vh] lg:w-2/3 lg:max-h-[90vh] min-h-[680px] relative flex flex-col lg:flex-row">
             <button
               onClick={() => setLiveSessionModalOpen(false)}
               className="absolute top-2 right-2 text-white hover:text-white/80 text-2xl font-bold z-30 drop-shadow"
@@ -1090,9 +1090,9 @@ END:VCALENDAR`;
               </div>
               
               {/* Scrollable practice area */}
-              <div className="flex-1 overflow-y-auto p-3 sm:p-4">
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4 flex">
                 {/* Live Video Area */}
-                <div className="bg-black rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue mb-4 w-full">
+                <div className="bg-black rounded-lg flex-1 w-full min-h-[400px] flex items-center justify-center relative overflow-hidden border-4 border-maineBlue mb-4">
                   {isViewer && currentLiveSession ? (
                     // Viewer mode - watching someone else's stream
                     <div className="text-white text-center">
