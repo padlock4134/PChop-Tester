@@ -1045,14 +1045,14 @@ END:VCALENDAR`;
               <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
                   <div>
-                    <h2 className="text-xl">
+                    <h2 className="text-xl sm:text-2xl font-bold">
                       {isViewer && currentLiveSession ? 
                         `🔴 LIVE: ${currentLiveSession.dishName}` : 
                         '🔴 LIVE: Cooking Session'
                       }
                     </h2>
                     {isViewer && currentLiveSession && (
-                      <p className="text-sm mt-1">
+                      <p className="text-sm sm:text-base mt-1">
                         Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
                       </p>
                     )}
