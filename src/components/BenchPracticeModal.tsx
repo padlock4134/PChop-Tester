@@ -129,12 +129,20 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
     if (mediaRecorder && mediaRecorder.state !== 'inactive') {
       mediaRecorder.stop();
     }
-    // Reset all states
-    setStream(null);
+    
+    // Set practicing to false immediately
     setIsPracticing(false);
-    setPracticeMode(null);
-    setMediaRecorder(null);
-    setRecordedBlob(null);
+    
+    // Check if we have a recorded video to save (real practice)
+    if (practiceMode === 'real' && (recordedBlob || mediaRecorder)) {
+      // For real practice, show save modal after a brief delay to allow recording to finish
+      setTimeout(() => {
+        setSaveModalOpen(true);
+      }, 500);
+    } else {
+      // For virtual practice or if no recording, clean up immediately
+      cleanupPractice();
+    }
   };
 
   const cleanupPractice = () => {
