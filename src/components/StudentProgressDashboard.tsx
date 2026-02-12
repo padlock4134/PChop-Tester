@@ -508,7 +508,7 @@ const StudentProgressDashboard: React.FC = () => {
       {/* Live Session Modal */}
       {liveSessionModalOpen && currentLiveSession && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
             {/* Full-width Header */}
             <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
               <div className="text-center relative">
@@ -536,7 +536,7 @@ const StudentProgressDashboard: React.FC = () => {
                 {/* Left Side - Video */}
                 <div className="flex-1 flex flex-col overflow-hidden">
                   {/* Main Video Area */}
-                  <div className="bg-black rounded-lg w-full h-[220px] sm:h-[280px] lg:h-[320px] flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
+                  <div className="bg-black rounded-lg aspect-video w-full max-h-[320px] flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
                     <div className="text-white text-center">
                       <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
                       <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>
