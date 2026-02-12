@@ -1230,7 +1230,7 @@ END:VCALENDAR`;
             {/* Left Side - Video */}
             <div className="flex-1 flex flex-col overflow-hidden">
               {/* Title above black screen */}
-              <div className="p-4 bg-maineBlue text-white font-retro text-center">
+              <div className="p-4 bg-lobsterRed text-black font-retro text-center">
                 <h2 className="text-xl">
                   {isViewer && currentLiveSession ? 
                     `🔴 LIVE: ${currentLiveSession.dishName}` : 
