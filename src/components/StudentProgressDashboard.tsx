@@ -555,19 +555,7 @@ const StudentProgressDashboard: React.FC = () => {
                     </div>
                   </div>
                   
-                  {/* Controls */}
-                  <div className="flex justify-center mt-3 sm:mt-4 mb-8 sm:mb-12">
-                    <button 
-                      onClick={() => {
-                        setLiveSessionModalOpen(false);
-                        setIsViewer(false);
-                        setCurrentLiveSession(null);
-                      }}
-                      className="w-full sm:w-auto bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors text-sm sm:text-base min-h-[44px]"
-                    >
-                      👋 Leave Session
-                    </button>
-                  </div>
+                  {/* Controls removed per request */}
                 </div>
                 
                 {/* Community feed removed */}
