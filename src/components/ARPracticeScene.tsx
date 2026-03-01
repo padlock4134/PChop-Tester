@@ -519,10 +519,10 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-sphere position="0.01 0.088 -0.055" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- Knuckle ridge underneath -->
                 <a-sphere position="0 0.1 -0.02" radius="0.04" scale="1.3 0.5 0.6" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- THUMB on top of stone - big and obvious -->
-                <a-sphere position="0.05 0.22 0" radius="0.028" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <a-cylinder position="0.05 0.22 0.03" radius="0.022" height="0.1" color="#F4A460" rotation="90 15 0" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
-                <a-sphere position="0.055 0.22 0.08" radius="0.023" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- THUMB on top of stone - left side -->
+                <a-sphere position="-0.05 0.22 0" radius="0.028" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <a-cylinder position="-0.05 0.22 0.03" radius="0.022" height="0.1" color="#F4A460" rotation="90 -15 0" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
+                <a-sphere position="-0.055 0.22 0.08" radius="0.023" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
