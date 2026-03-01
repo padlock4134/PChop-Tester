@@ -413,6 +413,9 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               <!-- Camera -->
               <a-entity camera look-controls="enabled: false"></a-entity>
 
+              <!-- Scene content scaled up 2% -->
+              <a-entity scale="1.02 1.02 1.02">
+
               <!-- Sky/Environment - stylized gradient -->
               <a-sky color="#1a1a2e"></a-sky>
               
@@ -684,6 +687,8 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   material="emissive: #FFFFFF; emissiveIntensity: 0.3"
                 ></a-text>
               `).join('')}
+
+              </a-entity>
 
               <!-- Lighting - soft and natural -->
               <a-light type="ambient" color="#FFEEDD" intensity="0.5"></a-light>
