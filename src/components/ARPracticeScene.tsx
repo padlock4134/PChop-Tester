@@ -515,10 +515,10 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <!-- Thumb on side -->
                 <a-sphere position="0.08 0.035 0" radius="0.009" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <a-cylinder position="0.08 0.06 0" radius="0.015" height="0.05" color="#F4A460" rotation="0 0 -20" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Wrist -->
-                <a-cylinder position="0 -0.08 0" radius="0.04" height="0.07" rotation="0 0 90" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Forearm with blue sleeve going down/back -->
-                <a-cylinder position="0.05 -0.22 0.08" radius="0.045" height="0.25" color="#003366" rotation="15 0 10" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Wrist sphere joint -->
+                <a-sphere position="0 -0.07 0.01" radius="0.038" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <!-- Forearm with blue sleeve - extended up to overlap wrist -->
+                <a-cylinder position="0.02 -0.19 0.05" radius="0.045" height="0.3" color="#003366" rotation="15 0 10" material="shader: standard; roughness: 0.8"></a-cylinder>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
@@ -575,10 +575,10 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <!-- Thumb on spine -->
                 <a-sphere position="0.06 0.015 0" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <a-cylinder position="0.06 0.04 0" radius="0.0125" height="0.05" color="#F4A460" rotation="0 0 -25" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Wrist -->
-                <a-cylinder position="0 -0.1 0" radius="0.035" height="0.06" rotation="0 0 90" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Forearm with white sleeve going down/back -->
-                <a-cylinder position="-0.05 -0.24 0.08" radius="0.045" height="0.25" color="#FFFFFF" rotation="15 0 -10" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Wrist sphere joint -->
+                <a-sphere position="0 -0.085 0.01" radius="0.034" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <!-- Forearm with white sleeve - extended up to overlap wrist -->
+                <a-cylinder position="-0.02 -0.21 0.05" radius="0.045" height="0.3" color="#FFFFFF" rotation="15 0 -10" material="shader: standard; roughness: 0.8"></a-cylinder>
               </a-entity>` : ''}
 
               <!-- KNIFE on table - only visible when NOT picked up -->
