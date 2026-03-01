@@ -216,6 +216,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               </button>
             )}
           </div>
+
+          {/* Technique Feedback - below controls */}
+          <div className="pt-3 border-t border-gray-200 mt-2 mb-4 mx-4">
+            <div className="bg-blue-50 border border-blue-200 rounded p-3">
+              <div className="flex items-start space-x-2">
+                <span className="text-lg">🤖</span>
+                <div className="flex-1">
+                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
+                  <p className="text-xs text-blue-800">
+                    {isPracticing 
+                      ? "Great start! Keep your knife angle consistent..."
+                      : "Start practicing to receive real-time AI guidance"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
@@ -417,22 +434,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             </div>
           </div>
           
-          {/* AI Feedback Area */}
-          <div className="pt-3 border-t border-gray-200 mt-4">
-            <div className="bg-blue-50 border border-blue-200 rounded p-3">
-              <div className="flex items-start space-x-2">
-                <span className="text-lg">🤖</span>
-                <div className="flex-1">
-                  <div className="font-semibold text-xs text-blue-900 mb-1">AI Feedback</div>
-                  <p className="text-xs text-blue-800">
-                    {isPracticing 
-                      ? "Great start! Keep your knife angle consistent..."
-                      : "Start practicing to receive real-time AI guidance"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
           </div>
         </div>
       </div>
