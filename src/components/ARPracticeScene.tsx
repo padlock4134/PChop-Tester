@@ -493,16 +493,16 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0 0.12 0" width="0.26" height="0.065" depth="0.085" color="#3D5C3D" material="shader: standard; roughness: 0.8; side: back"></a-box>
                 
                 <!-- === LEFT HAND + ARM (connected anatomy) === -->
-                <!-- FOREARM (blue sleeve) - tapered cylinder -->
-                <a-cylinder position="0.01 -0.2 0.04" radius="0.035" height="0.28" color="#003366" rotation="12 0 8" material="shader: standard; roughness: 0.7" segments-radial="16"></a-cylinder>
+                <!-- FOREARM (blue sleeve) - moved up to overlap wrist -->
+                <a-cylinder position="0.008 -0.15 0.03" radius="0.035" height="0.28" color="#003366" rotation="10 0 6" material="shader: standard; roughness: 0.7" segments-radial="16"></a-cylinder>
                 <!-- Elbow-end cap -->
-                <a-sphere position="0.025 -0.34 0.07" radius="0.036" color="#003366" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- WRIST - slightly narrower, overlaps forearm and hand -->
-                <a-cylinder position="0 -0.06 0.02" radius="0.028" height="0.06" color="#F4A460" rotation="8 0 4" material="shader: standard; roughness: 0.8" segments-radial="16"></a-cylinder>
-                <!-- Wrist-to-sleeve overlap sphere -->
-                <a-sphere position="0.005 -0.08 0.03" radius="0.033" color="#003366" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.02 -0.29 0.06" radius="0.036" color="#003366" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- Sleeve cuff overlap - where sleeve meets skin -->
+                <a-sphere position="0.003 -0.02 0.015" radius="0.036" color="#003366" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- WRIST skin - bridges sleeve to hand -->
+                <a-cylinder position="0 -0.03 0.015" radius="0.03" height="0.07" color="#F4A460" rotation="6 0 3" material="shader: standard; roughness: 0.8" segments-radial="16"></a-cylinder>
                 <!-- Wrist-to-hand overlap sphere -->
-                <a-sphere position="0 -0.04 0.015" radius="0.03" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <a-sphere position="0 -0.005 0.01" radius="0.032" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
                 <!-- PALM - ellipsoid under the stone -->
                 <a-sphere position="0 0.06 0" radius="0.055" scale="1.4 0.7 0.8" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
                 <!-- KNUCKLE RIDGE - elongated sphere across top -->
