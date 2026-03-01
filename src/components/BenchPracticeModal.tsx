@@ -208,12 +208,21 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 </select>
               </>
             ) : (
-              <button 
-                onClick={endPractice}
-                className="bg-amber-800 text-white px-4 py-1 text-sm rounded-lg hover:bg-amber-900 transition-colors"
-              >
-                ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
-              </button>
+              <>
+                <button 
+                  onClick={endPractice}
+                  className="bg-amber-800 text-white px-4 py-2 text-sm rounded font-bold hover:bg-amber-900 transition-colors border border-amber-900"
+                >
+                  ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
+                </button>
+                <select
+                  className="px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  defaultValue=""
+                >
+                  <option value="" disabled>Lessons Practiced</option>
+                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                </select>
+              </>
             )}
           </div>
 
