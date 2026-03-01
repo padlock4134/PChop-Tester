@@ -519,10 +519,10 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-sphere position="0.01 0.088 -0.055" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- Knuckle ridge underneath -->
                 <a-sphere position="0 0.1 -0.02" radius="0.04" scale="1.3 0.5 0.6" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- THUMB - flush on near side of stone, laying horizontal -->
-                <a-cylinder position="0 0.12 0.05" radius="0.018" height="0.09" color="#F4A460" rotation="0 0 90" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
-                <a-sphere position="0.045 0.12 0.05" radius="0.018" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="-0.045 0.12 0.05" radius="0.02" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <!-- THUMB - extends from palm up along near face of stone -->
+                <a-sphere position="0.04 0.06 0.03" radius="0.02" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <a-cylinder position="0.04 0.09 0.045" radius="0.016" height="0.07" color="#F4A460" rotation="10 0 0" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
+                <a-sphere position="0.04 0.12 0.048" radius="0.016" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
@@ -680,17 +680,6 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 ></a-cone>
               `).join('')}
 
-              <!-- Text Overlays - stylized with glow -->
-              ${currentStepData.overlays.filter(o => o.type === 'text').map((overlay, idx) => `
-                <a-text 
-                  value="${overlay.label || ''}" 
-                  align="center" 
-                  position="0 0.25 -1.5" 
-                  scale="0.35 0.35 0.35" 
-                  color="#FFFFFF"
-                  material="emissive: #FFFFFF; emissiveIntensity: 0.3"
-                ></a-text>
-              `).join('')}
 
               </a-entity>
 
