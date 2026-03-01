@@ -98,11 +98,9 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         // Completed a stroke (went left, now going right)
         setStrokeCount(prev => {
           const newCount = prev + 1;
-          if (newCount <= 10) {
-            playSound('swipe');
-            vibrate(30);
-          }
-          if (newCount >= 10 && prev < 10) {
+          playSound('swipe');
+          vibrate(30);
+          if (newCount % 10 === 0) {
             setShowSuccess(true);
             playSound('success');
             vibrate([50, 50, 50]);
@@ -264,11 +262,9 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         if (now - lastSwipeTime > 100) {
           setStrokeCount(prev => {
             const newCount = prev + 1;
-            if (newCount <= 10) {
-              playSound('swipe');
-              vibrate(30);
-            }
-            if (newCount >= 10 && prev < 10) {
+            playSound('swipe');
+            vibrate(30);
+            if (newCount % 10 === 0) {
               setShowSuccess(true);
               playSound('success');
               vibrate([50, 50, 50]);
