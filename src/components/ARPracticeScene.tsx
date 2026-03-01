@@ -250,34 +250,39 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     const progress = Math.max(0, Math.min(1, 0.5 + delta));
     setKnifeProgress(progress);
     
-    // Track direction for stroke counting
-    const isRight = clientX > swipeStartX;
-    const wasLeft = dragLastDirection.current === 'left';
+    // Track direction changes for stroke counting
+    const moveDelta = clientX - swipeStartX;
+    const minMove = 30; // pixels needed to register direction
     
-    if (isRight && wasLeft) {
-      // Completed a stroke
-      const now = Date.now();
-      if (now - lastSwipeTime > 150) {
-        setStrokeCount(prev => {
-          const newCount = prev + 1;
-          if (newCount <= 10) {
-            playSound('swipe');
-            vibrate(30);
-          }
-          if (newCount >= 10 && prev < 10) {
-            setShowSuccess(true);
-            playSound('success');
-            vibrate([50, 50, 50]);
-            setTimeout(() => setShowSuccess(false), 2000);
-          }
-          return newCount;
-        });
-        setLastSwipeTime(now);
+    if (Math.abs(moveDelta) > minMove) {
+      const currentDir = moveDelta > 0 ? 'right' : 'left';
+      const prevDir = dragLastDirection.current;
+      
+      if (prevDir && currentDir !== prevDir) {
+        // Direction changed = completed a stroke
+        const now = Date.now();
+        if (now - lastSwipeTime > 100) {
+          setStrokeCount(prev => {
+            const newCount = prev + 1;
+            if (newCount <= 10) {
+              playSound('swipe');
+              vibrate(30);
+            }
+            if (newCount >= 10 && prev < 10) {
+              setShowSuccess(true);
+              playSound('success');
+              vibrate([50, 50, 50]);
+              setTimeout(() => setShowSuccess(false), 2000);
+            }
+            return newCount;
+          });
+          setLastSwipeTime(now);
+        }
       }
+      
+      dragLastDirection.current = currentDir;
+      setSwipeStartX(clientX);
     }
-    
-    dragLastDirection.current = isRight ? 'right' : 'left';
-    setSwipeStartX(clientX);
   };
   
   // Handle drag end
@@ -518,9 +523,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-sphere position="0.01 0.088 -0.055" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- Knuckle ridge underneath -->
                 <a-sphere position="0 0.1 -0.02" radius="0.04" scale="1.3 0.5 0.6" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- THUMB on top of stone - large and visible -->
-                <a-cylinder position="0 0.155 0.01" radius="0.018" height="0.08" color="#F4A460" rotation="85 0 0" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
-                <a-sphere position="0 0.155 0.05" radius="0.018" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- THUMB on top of stone - raised and visible -->
+                <a-cylinder position="0.03 0.18 0.015" radius="0.02" height="0.09" color="#F4A460" rotation="85 10 0" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
+                <a-sphere position="0.035 0.18 0.06" radius="0.02" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- Thumb base knuckle -->
+                <a-sphere position="0.025 0.18 -0.02" radius="0.022" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
