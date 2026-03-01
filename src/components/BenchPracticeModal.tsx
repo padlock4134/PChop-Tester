@@ -80,8 +80,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
   return (
     <>
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-0 sm:p-4">
+      <div className="bg-white rounded-none sm:rounded-lg shadow-lg border-0 sm:border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
         <button
           onClick={() => {
             // Stop camera tracking before closing
@@ -100,21 +100,21 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         {/* Left Side - Practice Area with Banner */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Banner Header - Left Side Only */}
-          <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
-            <h2 className="text-xl flex items-center justify-center">
-              <span className="text-2xl mr-2">🧀</span>
+          <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
+            <h2 className="text-base sm:text-xl flex items-center justify-center">
+              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🧀</span>
               {t('culinarySchool.charcuterieBoard.title')}
             </h2>
           </div>
           
           {/* Practice Content */}
-          <div className="flex-1 overflow-y-auto p-3 sm:p-4">
+          <div className="flex-1 overflow-y-auto p-2 sm:p-4">
           {isPracticing && (
             <>
-              <h2 className="text-lg font-bold mb-2 text-center text-amber-800">
+              <h2 className="text-sm sm:text-lg font-bold mb-1 text-center text-amber-800">
                 📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'Knife Skills'}
               </h2>
-              <p className="text-center text-xs text-gray-600 mb-2">
+              <p className="text-center text-xs text-gray-600 mb-1">
                 {t('culinarySchool.charcuterieBoard.arDemonstration')}
               </p>
             </>
@@ -165,19 +165,19 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           </div>
 
           {/* Simple Controls */}
-          <div className="flex items-center justify-center gap-3 mt-2 mb-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mt-1 mb-1 px-2 sm:px-0">
             {!isPracticing ? (
               <>
                 <button 
                   onClick={startVirtualPractice}
-                  className="bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
+                  className="w-full sm:w-auto bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
                 >
                   📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
                 </button>
                 <select
                   value={selectedLesson}
                   onChange={(e) => setSelectedLesson(e.target.value)}
-                  className="px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
                   <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
                   <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
@@ -211,12 +211,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <>
                 <button 
                   onClick={endPractice}
-                  className="bg-amber-800 text-white px-4 py-2 text-sm rounded font-bold hover:bg-amber-900 transition-colors border border-amber-900"
+                  className="w-full sm:w-auto bg-amber-800 text-white px-4 py-2 text-sm rounded font-bold hover:bg-amber-900 transition-colors border border-amber-900"
                 >
                   ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
                 </button>
                 <select
-                  className="px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
@@ -227,7 +227,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           </div>
 
           {/* Technique Feedback - below controls */}
-          <div className="mb-4 mx-4">
+          <div className="mb-2 mx-2 sm:mx-4">
             <div className="bg-blue-50 border border-blue-200 rounded p-3">
               <div className="flex items-start space-x-2">
                 <span className="text-lg">🤖</span>
@@ -246,7 +246,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
             onClick={() => setInstructionsOpen(!instructionsOpen)}
-            className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-3 text-sm font-bold border-t-4 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
+            className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-2 text-sm font-bold border-t-2 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
             <span>{instructionsOpen ? t('culinarySchool.charcuterieBoard.hideInstructions') : t('culinarySchool.charcuterieBoard.showInstructions')}</span>
