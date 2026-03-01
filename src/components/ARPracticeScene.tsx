@@ -147,9 +147,10 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     const knifeEntity = document.getElementById('knife-hand-entity');
     if (knifeEntity) {
       // Calculate position based on knifeProgress (0-1)
-      const y = -0.08 + (knifeProgress * 0.03);
-      const z = -0.62 + (knifeProgress * 0.14);
-      knifeEntity.setAttribute('position', `0.1 ${y} ${z}`);
+      // Knife sweeps across stone: z goes from near-stone to far-stone
+      const y = -0.12 + (knifeProgress * 0.04);
+      const z = -0.56 + (knifeProgress * 0.12);
+      knifeEntity.setAttribute('position', `0.05 ${y} ${z}`);
     }
   }, [knifeProgress]);
   
@@ -516,17 +517,17 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-sphere position="0.01 0.088 -0.055" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- Knuckle ridge underneath -->
                 <a-sphere position="0 0.1 -0.02" radius="0.04" scale="1.3 0.5 0.6" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- THUMB on top of stone -->
-                <a-cylinder position="0.02 0.15 0.01" radius="0.015" height="0.06" color="#F4A460" rotation="80 0 -10" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
-                <a-sphere position="0.02 0.155 0.04" radius="0.014" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- THUMB on top of stone - large and visible -->
+                <a-cylinder position="0 0.155 0.01" radius="0.018" height="0.08" color="#F4A460" rotation="85 0 0" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
+                <a-sphere position="0 0.155 0.05" radius="0.018" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
               ${knifeSelected ? `
               <a-entity 
                 id="knife-hand-entity"
-                position="0.1 -0.08 -0.62" 
-                rotation="-25 -15 35" 
+                position="0.05 -0.12 -0.56" 
+                rotation="-30 -10 40" 
                 scale="1.3 1.3 1.3"
               >
                 <!-- THE KNIFE you're holding -->
