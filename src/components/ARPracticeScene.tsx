@@ -555,10 +555,10 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0.012 0.22 0" width="0.003" height="0.25" depth="0.075" color="#A8D5BA" material="shader: standard; emissive: #A8D5BA; emissiveIntensity: 0.5"></a-box>
                 
                 <!-- === RIGHT HAND + ARM (connected anatomy) === -->
-                <!-- FOREARM (white sleeve) - tapered cylinder -->
-                <a-cylinder position="-0.01 -0.2 0.04" radius="0.035" height="0.28" color="#FFFFFF" rotation="12 0 -8" material="shader: standard; roughness: 0.7" segments-radial="16"></a-cylinder>
+                <!-- FOREARM (white sleeve) - shorter, pulled back -->
+                <a-cylinder position="-0.01 -0.16 0.04" radius="0.035" height="0.18" color="#FFFFFF" rotation="12 0 -8" material="shader: standard; roughness: 0.7" segments-radial="16"></a-cylinder>
                 <!-- Elbow-end cap -->
-                <a-sphere position="-0.025 -0.34 0.07" radius="0.036" color="#FFFFFF" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="-0.02 -0.25 0.06" radius="0.036" color="#FFFFFF" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- WRIST - slightly narrower, overlaps forearm and hand -->
                 <a-cylinder position="0 -0.06 0.02" radius="0.028" height="0.06" color="#F4A460" rotation="8 0 -4" material="shader: standard; roughness: 0.8" segments-radial="16"></a-cylinder>
                 <!-- Wrist-to-sleeve overlap sphere -->
