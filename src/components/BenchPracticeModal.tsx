@@ -218,7 +218,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           </div>
 
           {/* Technique Feedback - below controls */}
-          <div className="pt-3 border-t border-gray-200 mt-2 mb-4 mx-4">
+          <div className="mb-4 mx-4">
             <div className="bg-blue-50 border border-blue-200 rounded p-3">
               <div className="flex items-start space-x-2">
                 <span className="text-lg">🤖</span>
