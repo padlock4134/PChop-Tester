@@ -497,15 +497,24 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0 0 0" width="0.125" height="0.105" depth="0.055" color="#2D1810" material="shader: standard; roughness: 0.8; side: back"></a-box>
                 <!-- Knuckles -->
                 <a-box position="0 0.05 0.01" width="0.11" height="0.025" depth="0.025" color="#E8945A" material="shader: standard; roughness: 0.8"></a-box>
-                <!-- Fingers wrapped over stone -->
-                <a-box position="-0.04 0.08 0.03" width="0.025" height="0.05" depth="0.025" color="#F4A460" rotation="-30 0 0" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="-0.015 0.085 0.035" width="0.025" height="0.06" depth="0.025" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="0.015 0.085 0.035" width="0.025" height="0.06" depth="0.025" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="0.04 0.08 0.03" width="0.02" height="0.045" depth="0.02" color="#E8945A" rotation="-25 0 0" material="shader: standard; roughness: 0.8"></a-box>
+                <!-- Fingers wrapped over stone - cylinders with sphere joints -->
+                <!-- Finger 1 -->
+                <a-sphere position="-0.04 0.055 0.03" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="-0.04 0.08 0.03" radius="0.0125" height="0.05" color="#F4A460" rotation="-30 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Finger 2 -->
+                <a-sphere position="-0.015 0.055 0.035" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="-0.015 0.085 0.035" radius="0.0125" height="0.06" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Finger 3 -->
+                <a-sphere position="0.015 0.055 0.035" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="0.015 0.085 0.035" radius="0.0125" height="0.06" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Finger 4 (pinky) -->
+                <a-sphere position="0.04 0.055 0.03" radius="0.007" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="0.04 0.08 0.03" radius="0.01" height="0.045" color="#E8945A" rotation="-25 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
                 <!-- Thumb on side -->
-                <a-box position="0.08 0.06 0" width="0.03" height="0.05" depth="0.03" color="#F4A460" rotation="0 0 -20" material="shader: standard; roughness: 0.8"></a-box>
+                <a-sphere position="0.08 0.035 0" radius="0.009" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="0.08 0.06 0" radius="0.015" height="0.05" color="#F4A460" rotation="0 0 -20" material="shader: standard; roughness: 0.8"></a-cylinder>
                 <!-- Wrist -->
-                <a-box position="0 -0.08 0" width="0.08" height="0.07" depth="0.06" color="#F4A460" material="shader: standard; roughness: 0.8"></a-box>
+                <a-cylinder position="0 -0.08 0" radius="0.04" height="0.07" rotation="0 0 90" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
                 <!-- Forearm with blue sleeve going down/back -->
                 <a-box position="0.05 -0.22 0.08" width="0.09" height="0.25" depth="0.08" color="#003366" rotation="15 0 10" material="shader: standard; roughness: 0.8"></a-box>
                 <a-box position="0.05 -0.22 0.08" width="0.095" height="0.27" depth="0.085" color="#001a33" rotation="15 0 10" material="shader: standard; roughness: 0.8; side: back"></a-box>
@@ -547,15 +556,24 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0 -0.02 0" width="0.105" height="0.105" depth="0.055" color="#2D1810" material="shader: standard; roughness: 0.8; side: back"></a-box>
                 <!-- Knuckles -->
                 <a-box position="0 0.03 0.01" width="0.09" height="0.025" depth="0.025" color="#E8945A" material="shader: standard; roughness: 0.8"></a-box>
-                <!-- Fingers wrapped around handle -->
-                <a-box position="-0.03 0.02 0.025" width="0.02" height="0.05" depth="0.02" color="#F4A460" rotation="-30 0 0" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="-0.01 0.025 0.03" width="0.02" height="0.055" depth="0.02" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="0.01 0.025 0.03" width="0.02" height="0.055" depth="0.02" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="0.03 0.02 0.025" width="0.018" height="0.045" depth="0.018" color="#E8945A" rotation="-25 0 0" material="shader: standard; roughness: 0.8"></a-box>
+                <!-- Fingers wrapped around handle - cylinders with sphere joints -->
+                <!-- Finger 1 -->
+                <a-sphere position="-0.03 -0.005 0.025" radius="0.007" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="-0.03 0.02 0.025" radius="0.01" height="0.05" color="#F4A460" rotation="-30 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Finger 2 -->
+                <a-sphere position="-0.01 -0.003 0.03" radius="0.007" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="-0.01 0.025 0.03" radius="0.01" height="0.055" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Finger 3 -->
+                <a-sphere position="0.01 -0.003 0.03" radius="0.007" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="0.01 0.025 0.03" radius="0.01" height="0.055" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Finger 4 (pinky) -->
+                <a-sphere position="0.03 -0.003 0.025" radius="0.006" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="0.03 0.02 0.025" radius="0.009" height="0.045" color="#E8945A" rotation="-25 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
                 <!-- Thumb on spine -->
-                <a-box position="0.06 0.04 0" width="0.03" height="0.05" depth="0.025" color="#F4A460" rotation="0 0 -25" material="shader: standard; roughness: 0.8"></a-box>
+                <a-sphere position="0.06 0.015 0" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="0.06 0.04 0" radius="0.0125" height="0.05" color="#F4A460" rotation="0 0 -25" material="shader: standard; roughness: 0.8"></a-cylinder>
                 <!-- Wrist -->
-                <a-box position="0 -0.1 0" width="0.07" height="0.06" depth="0.05" color="#F4A460" material="shader: standard; roughness: 0.8"></a-box>
+                <a-cylinder position="0 -0.1 0" radius="0.035" height="0.06" rotation="0 0 90" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
                 <!-- Forearm with white sleeve going down/back -->
                 <a-box position="-0.05 -0.24 0.08" width="0.09" height="0.25" depth="0.08" color="#FFFFFF" rotation="15 0 -10" material="shader: standard; roughness: 0.8"></a-box>
                 <a-box position="-0.05 -0.24 0.08" width="0.095" height="0.27" depth="0.085" color="#CCCCCC" rotation="15 0 -10" material="shader: standard; roughness: 0.8; side: back"></a-box>
