@@ -508,17 +508,17 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-sphere position="0 -0.005 0.01" radius="0.032" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
                 <!-- PALM - ellipsoid under the stone -->
                 <a-sphere position="0 0.06 0" radius="0.055" scale="1.4 0.7 0.8" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- KNUCKLE RIDGE - elongated sphere across top -->
-                <a-sphere position="0 0.1 0.02" radius="0.04" scale="1.3 0.5 0.6" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- FINGERS curled over top of stone -->
-                <a-cylinder position="0 0.09 0.04" radius="0.022" height="0.1" color="#F4A460" rotation="-15 0 90" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
-                <!-- Fingertip bumps (front edge of stone) -->
-                <a-sphere position="-0.03 0.09 0.055" radius="0.013" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="-0.01 0.09 0.058" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="0.01 0.088 0.055" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- THUMB on opposite side of stone -->
-                <a-cylinder position="0.06 0.07 -0.01" radius="0.014" height="0.065" color="#F4A460" rotation="5 0 -20" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
-                <a-sphere position="0.065 0.1 -0.015" radius="0.014" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- FINGERS underneath stone, curling under from front -->
+                <a-cylinder position="0 0.09 -0.04" radius="0.022" height="0.1" color="#F4A460" rotation="15 0 90" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
+                <!-- Fingertip bumps (under front edge of stone) -->
+                <a-sphere position="-0.03 0.09 -0.055" radius="0.013" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="-0.01 0.09 -0.058" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.01 0.088 -0.055" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- Knuckle ridge underneath -->
+                <a-sphere position="0 0.1 -0.02" radius="0.04" scale="1.3 0.5 0.6" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- THUMB on top of stone -->
+                <a-cylinder position="0.02 0.15 0.01" radius="0.015" height="0.06" color="#F4A460" rotation="80 0 -10" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
+                <a-sphere position="0.02 0.155 0.04" radius="0.014" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
