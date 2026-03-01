@@ -165,14 +165,48 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           </div>
 
           {/* Simple Controls */}
-          <div className="flex justify-center space-x-2 mt-2 mb-4 lg:mb-12">
+          <div className="flex items-center justify-center gap-3 mt-2 mb-4 lg:mb-12">
             {!isPracticing ? (
-              <button 
-                onClick={startVirtualPractice}
-                className="bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
-              >
-                📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
-              </button>
+              <>
+                <button 
+                  onClick={startVirtualPractice}
+                  className="bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
+                >
+                  📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
+                </button>
+                <select
+                  value={selectedLesson}
+                  onChange={(e) => setSelectedLesson(e.target.value)}
+                  className="px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                >
+                  <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
+                  <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
+                    <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
+                    <option value="lesson-1-2">Food Handling and Storage</option>
+                    <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
+                    <option value="lesson-1-4">Basic Cooking Terminology</option>
+                    <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                  </optgroup>
+                  <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
+                    <option value="lesson-2-1">Knife Safety and Maintenance</option>
+                    <option value="lesson-2-2">Basic Knife Cuts</option>
+                    <option value="lesson-2-3">Vegetable Fabrication</option>
+                    <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                  </optgroup>
+                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
+                    <option value="lesson-3-1">Egg Cookery</option>
+                    <option value="lesson-3-2">Breakfast Preparations</option>
+                    <option value="lesson-3-3">Cold Food Preparation</option>
+                    <option value="lesson-3-4">Salads and Dressings</option>
+                  </optgroup>
+                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
+                    <option value="lesson-4-1">Basic Dough and Batters</option>
+                    <option value="lesson-4-2">Quick Breads and Muffins</option>
+                    <option value="lesson-4-3">Yeast Breads</option>
+                    <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                  </optgroup>
+                </select>
+              </>
             ) : (
               <button 
                 onClick={endPractice}
