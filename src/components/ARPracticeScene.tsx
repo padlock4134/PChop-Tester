@@ -492,33 +492,26 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 ></a-box>
                 <a-box position="0 0.12 0" width="0.26" height="0.065" depth="0.085" color="#3D5C3D" material="shader: standard; roughness: 0.8; side: back"></a-box>
                 
-                <!-- Back of LEFT HAND gripping stone -->
-                <a-cylinder position="0 0 0" radius="0.038" height="0.08" rotation="75 0 0" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Knuckle row -->
-                <a-sphere position="-0.04 0.05 0.01" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="-0.015 0.052 0.012" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="0.015 0.052 0.012" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="0.04 0.05 0.01" radius="0.01" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- Fingers wrapped over stone - cylinders with sphere joints -->
-                <!-- Finger 1 -->
-                <a-sphere position="-0.04 0.055 0.03" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="-0.04 0.08 0.03" radius="0.0125" height="0.05" color="#F4A460" rotation="-30 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Finger 2 -->
-                <a-sphere position="-0.015 0.055 0.035" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="-0.015 0.085 0.035" radius="0.0125" height="0.06" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Finger 3 -->
-                <a-sphere position="0.015 0.055 0.035" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="0.015 0.085 0.035" radius="0.0125" height="0.06" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Finger 4 (pinky) -->
-                <a-sphere position="0.04 0.055 0.03" radius="0.007" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="0.04 0.08 0.03" radius="0.01" height="0.045" color="#E8945A" rotation="-25 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Thumb on side -->
-                <a-sphere position="0.08 0.035 0" radius="0.009" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="0.08 0.06 0" radius="0.015" height="0.05" color="#F4A460" rotation="0 0 -20" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Wrist sphere joint -->
-                <a-sphere position="0 -0.07 0.01" radius="0.028" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- Forearm with blue sleeve - extended up to overlap wrist -->
-                <a-cylinder position="0.02 -0.19 0.05" radius="0.032" height="0.3" color="#003366" rotation="15 0 10" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- LEFT HAND - mitten/glove style grip around whetstone -->
+                <!-- Fingers on top of stone, curling over front edge -->
+                <a-cylinder position="0 0.08 0.045" radius="0.04" height="0.12" rotation="0 0 90" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Fingertips curling over front -->
+                <a-sphere position="0 0.1 0.06" radius="0.03" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- Palm underneath stone -->
+                <a-cylinder position="0 0.08 -0.045" radius="0.04" height="0.12" rotation="0 0 90" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Knuckle ridge on top -->
+                <a-sphere position="0 0.12 0" radius="0.042" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- Bottom of grip -->
+                <a-sphere position="0 0.04 0" radius="0.035" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <!-- Thumb on far side of stone -->
+                <a-cylinder position="0.08 0.08 0" radius="0.018" height="0.06" color="#F4A460" rotation="10 0 -20" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <a-sphere position="0.09 0.11 0" radius="0.016" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- Wrist - overlaps into palm and into forearm -->
+                <a-cylinder position="0 -0.02 0.01" radius="0.032" height="0.08" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <a-sphere position="0 -0.055 0.015" radius="0.032" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <!-- Forearm with blue sleeve - overlaps wrist -->
+                <a-cylinder position="0.01 -0.17 0.04" radius="0.032" height="0.26" color="#003366" rotation="12 0 8" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <a-sphere position="0.005 -0.045 0.02" radius="0.032" color="#003366" material="shader: standard; roughness: 0.8"></a-sphere>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
@@ -552,33 +545,26 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <!-- Blade edge glow -->
                 <a-box position="0.012 0.22 0" width="0.003" height="0.25" depth="0.075" color="#A8D5BA" material="shader: standard; emissive: #A8D5BA; emissiveIntensity: 0.5"></a-box>
                 
-                <!-- Palm flush against BACK of handle -->
-                <a-cylinder position="0 0.05 0.03" radius="0.038" height="0.08" rotation="75 0 0" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Knuckle row on TOP of handle -->
-                <a-sphere position="-0.03 0.1 0.015" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="-0.01 0.105 0.015" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="0.01 0.105 0.015" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="0.03 0.1 0.015" radius="0.01" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- Fingers curling DOWN and UNDER the handle -->
-                <!-- Index finger -->
-                <a-sphere position="-0.03 0.09 0.01" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="-0.03 0.065 -0.01" radius="0.011" height="0.055" color="#F4A460" rotation="-110 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Middle finger -->
-                <a-sphere position="-0.01 0.092 0.01" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="-0.01 0.068 -0.012" radius="0.011" height="0.06" color="#F4A460" rotation="-110 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Ring finger -->
-                <a-sphere position="0.01 0.092 0.01" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="0.01 0.068 -0.012" radius="0.011" height="0.06" color="#F4A460" rotation="-110 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Pinky -->
-                <a-sphere position="0.03 0.088 0.01" radius="0.007" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="0.03 0.063 -0.008" radius="0.009" height="0.05" color="#E8945A" rotation="-110 0 0" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Thumb pressed against side of handle -->
-                <a-sphere position="-0.065 0.06 0.01" radius="0.013" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-cylinder position="-0.065 0.04 0.015" radius="0.014" height="0.055" color="#F4A460" rotation="0 0 15" material="shader: standard; roughness: 0.8"></a-cylinder>
-                <!-- Wrist sphere joint -->
-                <a-sphere position="0 -0.085 0.01" radius="0.026" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- Forearm with white sleeve - extended up to overlap wrist -->
-                <a-cylinder position="-0.02 -0.21 0.05" radius="0.032" height="0.3" color="#FFFFFF" rotation="15 0 -10" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- RIGHT HAND - mitten/glove style grip around handle -->
+                <!-- Fingers wrapped around handle (front side, curling under) -->
+                <a-cylinder position="0 0.06 -0.025" radius="0.035" height="0.1" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Finger tips visible under handle -->
+                <a-sphere position="0 0.06 -0.04" radius="0.03" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- Palm behind handle -->
+                <a-cylinder position="0 0.06 0.028" radius="0.035" height="0.1" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Top of hand connecting front+back -->
+                <a-sphere position="0 0.1 0" radius="0.038" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- Bottom of grip -->
+                <a-sphere position="0 0.02 0" radius="0.032" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <!-- Thumb resting on side of handle -->
+                <a-cylinder position="-0.04 0.07 0.02" radius="0.015" height="0.06" color="#F4A460" rotation="10 0 20" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <a-sphere position="-0.05 0.1 0.02" radius="0.014" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- Wrist - overlaps into palm and into forearm -->
+                <a-cylinder position="0 -0.03 0.01" radius="0.03" height="0.08" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <a-sphere position="0 -0.065 0.015" radius="0.03" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <!-- Forearm with white sleeve - overlaps wrist -->
+                <a-cylinder position="-0.01 -0.18 0.04" radius="0.032" height="0.26" color="#FFFFFF" rotation="12 0 -8" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <a-sphere position="-0.005 -0.055 0.02" radius="0.032" color="#FFFFFF" material="shader: standard; roughness: 0.8"></a-sphere>
               </a-entity>` : ''}
 
               <!-- KNIFE on table - only visible when NOT picked up -->
