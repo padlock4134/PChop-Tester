@@ -1,8 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ARPracticeScene from './ARPracticeScene';
-import { supabase } from '../api/supabaseClient';
-import { useSupabase } from './SupabaseProvider';
 import { defaultARScenes } from '../data/defaultARScenes';
 
 interface BenchPracticeModalProps {
@@ -12,69 +10,17 @@ interface BenchPracticeModalProps {
 
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
-  const { user } = useSupabase();
   const [isPracticing, setIsPracticing] = useState(false);
-  const [practiceMode, setPracticeMode] = useState<'real' | 'virtual' | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
-  const [stream, setStream] = useState<MediaStream | null>(null);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-  const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
-  const [saveModalOpen, setSaveModalOpen] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [videoTitle, setVideoTitle] = useState('');
-  const [videoDescription, setVideoDescription] = useState('');
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
   const [arScene, setArScene] = useState<any>(null);
   const [guideOpen, setGuideOpen] = useState(false);
   const [instructionsOpen, setInstructionsOpen] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const stopTrackingRef = useRef<(() => void) | null>(null);
-
-  // Set video source when stream changes
-  useEffect(() => {
-    if (videoRef.current && stream) {
-      videoRef.current.srcObject = stream;
-    }
-  }, [stream]);
 
   if (!open) return null;
 
-  const startRealPractice = async () => {
-    try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'user' },
-        audio: true 
-      });
-      setStream(mediaStream);
-
-      // Start recording
-      const recorder = new MediaRecorder(mediaStream);
-      const chunks: Blob[] = [];
-      
-      recorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          chunks.push(e.data);
-        }
-      };
-      
-      recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'video/webm' });
-        setRecordedBlob(blob);
-      };
-      
-      recorder.start();
-      setMediaRecorder(recorder);
-      
-      setPracticeMode('real');
-      setIsPracticing(true);
-    } catch (error) {
-      console.error('Error accessing camera:', error);
-      alert(t('culinarySchool.charcuterieBoard.couldNotAccessCamera'));
-    }
-  };
-
   const startVirtualPractice = async () => {
-    setPracticeMode('virtual');
 
     try {
       // For demo: Use pre-built whetstone AR scene (instant load)
@@ -111,126 +57,25 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
     } catch (error) {
       console.error('Error generating AR practice:', error);
       alert(t('culinarySchool.charcuterieBoard.couldNotGenerateAR'));
-      setPracticeMode(null);
+      setIsPracticing(false);
     } finally {
       setIsGeneratingAR(false);
     }
   };
 
   const endPractice = () => {
-    // Stop pose tracking camera (for virtual practice)
+    // Stop pose tracking camera
     if (stopTrackingRef.current) {
       stopTrackingRef.current();
     }
-    // Stop camera immediately (for real practice)
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-    }
-    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-      mediaRecorder.stop();
-    }
-    
-    // Set practicing to false immediately
-    setIsPracticing(false);
-    
-    // Check if we have a recorded video to save (real practice)
-    if (practiceMode === 'real' && (recordedBlob || mediaRecorder)) {
-      // For real practice, show save modal after a brief delay to allow recording to finish
-      setTimeout(() => {
-        setSaveModalOpen(true);
-      }, 500);
-    } else {
-      // For virtual practice or if no recording, clean up immediately
-      cleanupPractice();
-    }
+    cleanupPractice();
   };
 
   const cleanupPractice = () => {
-    // Stop pose tracking camera (for virtual practice)
     if (stopTrackingRef.current) {
       stopTrackingRef.current();
     }
-    if (stream) {
-      stream.getTracks().forEach(track => track.stop());
-      setStream(null);
-    }
     setIsPracticing(false);
-    setPracticeMode(null);
-    setMediaRecorder(null);
-    setRecordedBlob(null);
-  };
-
-  const handleSaveVideo = async () => {
-    console.log('Save video called. Blob:', recordedBlob);
-    if (!recordedBlob) {
-      alert(t('culinarySchool.charcuterieBoard.noRecordingFound'));
-      setSaveModalOpen(false);
-      cleanupPractice();
-      return;
-    }
-    
-    if (recordedBlob.size === 0) {
-      alert(t('culinarySchool.charcuterieBoard.recordingEmpty'));
-      setSaveModalOpen(false);
-      cleanupPractice();
-      return;
-    }
-
-    if (!videoTitle.trim()) {
-      alert(t('culinarySchool.charcuterieBoard.pleaseEnterTitle'));
-      return;
-    }
-
-    setIsSaving(true);
-    
-    try {
-      // Generate unique filename with user folder
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `${user?.id}/${videoTitle.replace(/[^a-zA-Z0-9]/g, '-')}-${timestamp}.webm`;
-      
-      console.log('Attempting to upload:', filename, 'Size:', recordedBlob.size);
-      
-      // Upload to Supabase Storage - Practice Videos bucket
-      const { data, error } = await supabase.storage
-        .from('Practice Videos')
-        .upload(filename, recordedBlob, {
-          contentType: 'video/webm',
-          upsert: false,
-          metadata: {
-            title: videoTitle,
-            description: videoDescription,
-            lesson: arScene?.lesson || 'Practice Session',
-            userId: user?.id || ''
-          }
-        });
-
-      if (error) {
-        console.error('Upload error details:', error);
-        alert(`Failed to save video: ${error.message || 'Unknown error'}. Please try again.`);
-        setIsSaving(false);
-        return;
-      }
-
-      console.log('Video saved successfully:', data);
-      alert(t('culinarySchool.charcuterieBoard.videoSavedSuccess').replace('{title}', videoTitle));
-      
-      // Clear form data
-      setVideoTitle('');
-      setVideoDescription('');
-      
-    } catch (error) {
-      console.error('Error saving video:', error);
-      alert('Failed to save video. Please try again.');
-    } finally {
-      setIsSaving(false);
-      setSaveModalOpen(false);
-      cleanupPractice();
-    }
-  };
-
-  const handleDontSave = () => {
-    setSaveModalOpen(false);
-    cleanupPractice();
   };
 
   return (
@@ -267,12 +112,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-lg font-bold mb-2 text-center text-amber-800">
-                {practiceMode === 'real' ? `🎥 ${t('culinarySchool.charcuterieBoard.realPractice')}` : `📚 ${t('culinarySchool.charcuterieBoard.virtualPractice')}`}: {arScene?.lesson || 'Knife Skills'}
+                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'Knife Skills'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-2">
-                {practiceMode === 'real' 
-                  ? t('culinarySchool.charcuterieBoard.aiGuidedPractice')
-                  : t('culinarySchool.charcuterieBoard.arDemonstration')}
+                {t('culinarySchool.charcuterieBoard.arDemonstration')}
               </p>
             </>
           )}
@@ -286,16 +129,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 <p className="text-lg font-bold">{t('culinarySchool.charcuterieBoard.aiGeneratingPractice')}</p>
                 <p className="text-sm opacity-75 mt-2">{t('culinarySchool.charcuterieBoard.creatingVirtualKitchen')}</p>
               </div>
-            ) : isPracticing && practiceMode === 'real' && stream ? (
-              // Real practice mode - show camera feed
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                muted
-                className="w-full h-full object-cover"
-              />
-            ) : isPracticing && practiceMode === 'virtual' && arScene ? (
+            ) : isPracticing && arScene ? (
               // Virtual practice mode - show AR scene
               <ARPracticeScene 
                 scene={arScene}
@@ -333,20 +167,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Simple Controls */}
           <div className="flex justify-center space-x-2 mt-2 mb-4 lg:mb-12">
             {!isPracticing ? (
-              <>
-                <button 
-                  onClick={startRealPractice}
-                  className="bg-amber-700 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-800 transition-colors border border-amber-900"
-                >
-                  🎥 {t('culinarySchool.charcuterieBoard.realPracticeButton')}
-                </button>
-                <button 
-                  onClick={startVirtualPractice}
-                  className="bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
-                >
-                  📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
-                </button>
-              </>
+              <button 
+                onClick={startVirtualPractice}
+                className="bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
+              >
+                📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
+              </button>
             ) : (
               <button 
                 onClick={endPractice}
@@ -471,10 +297,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             </div>
           )}
           
-          {/* Practice Notice */}
-          <div className="hidden lg:block text-center text-xs text-gray-600 mt-4">
-            📹 {t('culinarySchool.charcuterieBoard.practiceSessionsSaved')}
-          </div>
           </div>
         </div>
         
@@ -643,82 +465,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       </div>
     )}
 
-    {/* Save Video Modal */}
-    {saveModalOpen && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg shadow-lg border-4 border-amber-900 p-6 max-w-lg w-full mx-4 relative max-h-[90vh] overflow-y-auto">
-          <div className="text-center">
-            <div className="text-4xl mb-4">🎥</div>
-            <h2 className="text-2xl font-bold mb-4 text-amber-800 font-retro">
-              {t('culinarySchool.charcuterieBoard.saveYourPracticeSession')}
-            </h2>
-            
-            <p className="text-gray-700 mb-6 leading-relaxed">
-              {t('culinarySchool.charcuterieBoard.addDetailsToSave').replace('{collection}', `<span class="font-semibold text-amber-800">${t('culinarySchool.charcuterieBoard.practiceVideos')}</span>`)}
-            </p>
-            
-            {/* Video Metadata Form */}
-            <div className="space-y-4 mb-6 text-left">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('culinarySchool.charcuterieBoard.videoTitleRequired')}
-                </label>
-                <input
-                  type="text"
-                  value={videoTitle}
-                  onChange={(e) => setVideoTitle(e.target.value)}
-                  placeholder="e.g., Brunoise Practice Session"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  disabled={isSaving}
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('culinarySchool.charcuterieBoard.notes')}
-                </label>
-                <textarea
-                  value={videoDescription}
-                  onChange={(e) => setVideoDescription(e.target.value)}
-                  placeholder={t('culinarySchool.charcuterieBoard.notesPlaceholder')}
-                  rows={3}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  disabled={isSaving}
-                />
-              </div>
-            </div>
-            
-            <div className="flex gap-3">
-              <button
-                onClick={handleDontSave}
-                disabled={isSaving}
-                className="flex-1 bg-gray-500 text-white py-3 px-4 rounded-lg font-bold hover:bg-gray-600 transition-colors border-2 border-gray-600 disabled:opacity-50"
-              >
-                🚫 {t('culinarySchool.charcuterieBoard.noDoNotSave')}
-              </button>
-              <button
-                onClick={handleSaveVideo}
-                disabled={isSaving || !videoTitle.trim()}
-                className="flex-1 bg-amber-700 text-amber-50 py-3 px-4 rounded-lg font-bold hover:bg-amber-800 transition-colors border-2 border-amber-900 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-              >
-                {isSaving ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    {t('culinarySchool.charcuterieBoard.saving')}
-                  </>
-                ) : (
-                  `💾 ${t('culinarySchool.charcuterieBoard.saveVideo')}`
-                )}
-              </button>
-            </div>
-            
-            <p className="text-xs text-gray-500 mt-4">
-              💡 {t('culinarySchool.charcuterieBoard.requiredField')}
-            </p>
-          </div>
-        </div>
-      </div>
-    )}
     </>
   );
 };
