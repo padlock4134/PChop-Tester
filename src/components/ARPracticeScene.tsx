@@ -493,10 +493,12 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0 0.12 0" width="0.26" height="0.065" depth="0.085" color="#3D5C3D" material="shader: standard; roughness: 0.8; side: back"></a-box>
                 
                 <!-- Back of LEFT HAND gripping stone -->
-                <a-box position="0 0 0" width="0.12" height="0.1" depth="0.05" color="#F4A460" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="0 0 0" width="0.125" height="0.105" depth="0.055" color="#2D1810" material="shader: standard; roughness: 0.8; side: back"></a-box>
-                <!-- Knuckles -->
-                <a-box position="0 0.05 0.01" width="0.11" height="0.025" depth="0.025" color="#E8945A" material="shader: standard; roughness: 0.8"></a-box>
+                <a-cylinder position="0 0 0" radius="0.06" height="0.05" rotation="90 0 0" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Knuckle row -->
+                <a-sphere position="-0.04 0.05 0.01" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="-0.015 0.052 0.012" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.015 0.052 0.012" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.04 0.05 0.01" radius="0.01" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- Fingers wrapped over stone - cylinders with sphere joints -->
                 <!-- Finger 1 -->
                 <a-sphere position="-0.04 0.055 0.03" radius="0.008" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
@@ -516,8 +518,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <!-- Wrist -->
                 <a-cylinder position="0 -0.08 0" radius="0.04" height="0.07" rotation="0 0 90" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
                 <!-- Forearm with blue sleeve going down/back -->
-                <a-box position="0.05 -0.22 0.08" width="0.09" height="0.25" depth="0.08" color="#003366" rotation="15 0 10" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="0.05 -0.22 0.08" width="0.095" height="0.27" depth="0.085" color="#001a33" rotation="15 0 10" material="shader: standard; roughness: 0.8; side: back"></a-box>
+                <a-cylinder position="0.05 -0.22 0.08" radius="0.045" height="0.25" color="#003366" rotation="15 0 10" material="shader: standard; roughness: 0.8"></a-cylinder>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
@@ -552,10 +553,12 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0.012 0.22 0" width="0.003" height="0.25" depth="0.075" color="#A8D5BA" material="shader: standard; emissive: #A8D5BA; emissiveIntensity: 0.5"></a-box>
                 
                 <!-- Back of RIGHT HAND gripping handle -->
-                <a-box position="0 -0.02 0" width="0.1" height="0.1" depth="0.05" color="#F4A460" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="0 -0.02 0" width="0.105" height="0.105" depth="0.055" color="#2D1810" material="shader: standard; roughness: 0.8; side: back"></a-box>
-                <!-- Knuckles -->
-                <a-box position="0 0.03 0.01" width="0.09" height="0.025" depth="0.025" color="#E8945A" material="shader: standard; roughness: 0.8"></a-box>
+                <a-cylinder position="0 -0.02 0" radius="0.055" height="0.05" rotation="90 0 0" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
+                <!-- Knuckle row -->
+                <a-sphere position="-0.03 0.028 0.01" radius="0.011" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="-0.01 0.03 0.012" radius="0.011" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.01 0.03 0.012" radius="0.011" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.03 0.028 0.01" radius="0.009" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- Fingers wrapped around handle - cylinders with sphere joints -->
                 <!-- Finger 1 -->
                 <a-sphere position="-0.03 -0.005 0.025" radius="0.007" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
@@ -575,8 +578,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <!-- Wrist -->
                 <a-cylinder position="0 -0.1 0" radius="0.035" height="0.06" rotation="0 0 90" color="#F4A460" material="shader: standard; roughness: 0.8"></a-cylinder>
                 <!-- Forearm with white sleeve going down/back -->
-                <a-box position="-0.05 -0.24 0.08" width="0.09" height="0.25" depth="0.08" color="#FFFFFF" rotation="15 0 -10" material="shader: standard; roughness: 0.8"></a-box>
-                <a-box position="-0.05 -0.24 0.08" width="0.095" height="0.27" depth="0.085" color="#CCCCCC" rotation="15 0 -10" material="shader: standard; roughness: 0.8; side: back"></a-box>
+                <a-cylinder position="-0.05 -0.24 0.08" radius="0.045" height="0.25" color="#FFFFFF" rotation="15 0 -10" material="shader: standard; roughness: 0.8"></a-cylinder>
               </a-entity>` : ''}
 
               <!-- KNIFE on table - only visible when NOT picked up -->
