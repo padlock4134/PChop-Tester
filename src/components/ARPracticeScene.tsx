@@ -488,27 +488,27 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.06" 
                   depth="0.08"
                   color="#6B8E6B"
-                  material="shader: flat"
+                  material="shader: standard; roughness: 0.8"
                 ></a-box>
-                <a-box position="0 0.12 0" width="0.26" height="0.065" depth="0.085" color="#3D5C3D" material="shader: flat; side: back"></a-box>
+                <a-box position="0 0.12 0" width="0.26" height="0.065" depth="0.085" color="#3D5C3D" material="shader: standard; roughness: 0.8; side: back"></a-box>
                 
                 <!-- Back of LEFT HAND gripping stone -->
-                <a-box position="0 0 0" width="0.12" height="0.1" depth="0.05" color="#F4A460" material="shader: flat"></a-box>
-                <a-box position="0 0 0" width="0.125" height="0.105" depth="0.055" color="#2D1810" material="shader: flat; side: back"></a-box>
+                <a-box position="0 0 0" width="0.12" height="0.1" depth="0.05" color="#F4A460" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="0 0 0" width="0.125" height="0.105" depth="0.055" color="#2D1810" material="shader: standard; roughness: 0.8; side: back"></a-box>
                 <!-- Knuckles -->
-                <a-box position="0 0.05 0.01" width="0.11" height="0.025" depth="0.025" color="#E8945A" material="shader: flat"></a-box>
+                <a-box position="0 0.05 0.01" width="0.11" height="0.025" depth="0.025" color="#E8945A" material="shader: standard; roughness: 0.8"></a-box>
                 <!-- Fingers wrapped over stone -->
-                <a-box position="-0.04 0.08 0.03" width="0.025" height="0.05" depth="0.025" color="#F4A460" rotation="-30 0 0" material="shader: flat"></a-box>
-                <a-box position="-0.015 0.085 0.035" width="0.025" height="0.06" depth="0.025" color="#F4A460" rotation="-35 0 0" material="shader: flat"></a-box>
-                <a-box position="0.015 0.085 0.035" width="0.025" height="0.06" depth="0.025" color="#F4A460" rotation="-35 0 0" material="shader: flat"></a-box>
-                <a-box position="0.04 0.08 0.03" width="0.02" height="0.045" depth="0.02" color="#E8945A" rotation="-25 0 0" material="shader: flat"></a-box>
+                <a-box position="-0.04 0.08 0.03" width="0.025" height="0.05" depth="0.025" color="#F4A460" rotation="-30 0 0" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="-0.015 0.085 0.035" width="0.025" height="0.06" depth="0.025" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="0.015 0.085 0.035" width="0.025" height="0.06" depth="0.025" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="0.04 0.08 0.03" width="0.02" height="0.045" depth="0.02" color="#E8945A" rotation="-25 0 0" material="shader: standard; roughness: 0.8"></a-box>
                 <!-- Thumb on side -->
-                <a-box position="0.08 0.06 0" width="0.03" height="0.05" depth="0.03" color="#F4A460" rotation="0 0 -20" material="shader: flat"></a-box>
+                <a-box position="0.08 0.06 0" width="0.03" height="0.05" depth="0.03" color="#F4A460" rotation="0 0 -20" material="shader: standard; roughness: 0.8"></a-box>
                 <!-- Wrist -->
-                <a-box position="0 -0.08 0" width="0.08" height="0.07" depth="0.06" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="0 -0.08 0" width="0.08" height="0.07" depth="0.06" color="#F4A460" material="shader: standard; roughness: 0.8"></a-box>
                 <!-- Forearm with blue sleeve going down/back -->
-                <a-box position="0.05 -0.22 0.08" width="0.09" height="0.25" depth="0.08" color="#003366" rotation="15 0 10" material="shader: flat"></a-box>
-                <a-box position="0.05 -0.22 0.08" width="0.095" height="0.27" depth="0.085" color="#001a33" rotation="15 0 10" material="shader: flat; side: back"></a-box>
+                <a-box position="0.05 -0.22 0.08" width="0.09" height="0.25" depth="0.08" color="#003366" rotation="15 0 10" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="0.05 -0.22 0.08" width="0.095" height="0.27" depth="0.085" color="#001a33" rotation="15 0 10" material="shader: standard; roughness: 0.8; side: back"></a-box>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
@@ -527,7 +527,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.12" 
                   depth="0.03"
                   color="#8B0000"
-                  material="shader: flat"
+                  material="shader: standard; roughness: 0.8"
                 ></a-box>
                 <!-- Blade -->
                 <a-box 
@@ -536,29 +536,29 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.25" 
                   depth="0.08"
                   color="#C0C0C0"
-                  material="shader: flat; metalness: 0.8"
+                  material="shader: standard; roughness: 0.3; metalness: 0.8"
                 ></a-box>
-                <a-box position="0 0.22 0" width="0.025" height="0.26" depth="0.085" color="#888888" material="shader: flat; side: back"></a-box>
+                <a-box position="0 0.22 0" width="0.025" height="0.26" depth="0.085" color="#888888" material="shader: standard; roughness: 0.3; metalness: 0.8; side: back"></a-box>
                 <!-- Blade edge glow -->
-                <a-box position="0.012 0.22 0" width="0.003" height="0.25" depth="0.075" color="#A8D5BA" material="shader: flat; emissive: #A8D5BA; emissiveIntensity: 0.5"></a-box>
+                <a-box position="0.012 0.22 0" width="0.003" height="0.25" depth="0.075" color="#A8D5BA" material="shader: standard; emissive: #A8D5BA; emissiveIntensity: 0.5"></a-box>
                 
                 <!-- Back of RIGHT HAND gripping handle -->
-                <a-box position="0 -0.02 0" width="0.1" height="0.1" depth="0.05" color="#F4A460" material="shader: flat"></a-box>
-                <a-box position="0 -0.02 0" width="0.105" height="0.105" depth="0.055" color="#2D1810" material="shader: flat; side: back"></a-box>
+                <a-box position="0 -0.02 0" width="0.1" height="0.1" depth="0.05" color="#F4A460" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="0 -0.02 0" width="0.105" height="0.105" depth="0.055" color="#2D1810" material="shader: standard; roughness: 0.8; side: back"></a-box>
                 <!-- Knuckles -->
-                <a-box position="0 0.03 0.01" width="0.09" height="0.025" depth="0.025" color="#E8945A" material="shader: flat"></a-box>
+                <a-box position="0 0.03 0.01" width="0.09" height="0.025" depth="0.025" color="#E8945A" material="shader: standard; roughness: 0.8"></a-box>
                 <!-- Fingers wrapped around handle -->
-                <a-box position="-0.03 0.02 0.025" width="0.02" height="0.05" depth="0.02" color="#F4A460" rotation="-30 0 0" material="shader: flat"></a-box>
-                <a-box position="-0.01 0.025 0.03" width="0.02" height="0.055" depth="0.02" color="#F4A460" rotation="-35 0 0" material="shader: flat"></a-box>
-                <a-box position="0.01 0.025 0.03" width="0.02" height="0.055" depth="0.02" color="#F4A460" rotation="-35 0 0" material="shader: flat"></a-box>
-                <a-box position="0.03 0.02 0.025" width="0.018" height="0.045" depth="0.018" color="#E8945A" rotation="-25 0 0" material="shader: flat"></a-box>
+                <a-box position="-0.03 0.02 0.025" width="0.02" height="0.05" depth="0.02" color="#F4A460" rotation="-30 0 0" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="-0.01 0.025 0.03" width="0.02" height="0.055" depth="0.02" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="0.01 0.025 0.03" width="0.02" height="0.055" depth="0.02" color="#F4A460" rotation="-35 0 0" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="0.03 0.02 0.025" width="0.018" height="0.045" depth="0.018" color="#E8945A" rotation="-25 0 0" material="shader: standard; roughness: 0.8"></a-box>
                 <!-- Thumb on spine -->
-                <a-box position="0.06 0.04 0" width="0.03" height="0.05" depth="0.025" color="#F4A460" rotation="0 0 -25" material="shader: flat"></a-box>
+                <a-box position="0.06 0.04 0" width="0.03" height="0.05" depth="0.025" color="#F4A460" rotation="0 0 -25" material="shader: standard; roughness: 0.8"></a-box>
                 <!-- Wrist -->
-                <a-box position="0 -0.1 0" width="0.07" height="0.06" depth="0.05" color="#F4A460" material="shader: flat"></a-box>
+                <a-box position="0 -0.1 0" width="0.07" height="0.06" depth="0.05" color="#F4A460" material="shader: standard; roughness: 0.8"></a-box>
                 <!-- Forearm with white sleeve going down/back -->
-                <a-box position="-0.05 -0.24 0.08" width="0.09" height="0.25" depth="0.08" color="#FFFFFF" rotation="15 0 -10" material="shader: flat"></a-box>
-                <a-box position="-0.05 -0.24 0.08" width="0.095" height="0.27" depth="0.085" color="#CCCCCC" rotation="15 0 -10" material="shader: flat; side: back"></a-box>
+                <a-box position="-0.05 -0.24 0.08" width="0.09" height="0.25" depth="0.08" color="#FFFFFF" rotation="15 0 -10" material="shader: standard; roughness: 0.8"></a-box>
+                <a-box position="-0.05 -0.24 0.08" width="0.095" height="0.27" depth="0.085" color="#CCCCCC" rotation="15 0 -10" material="shader: standard; roughness: 0.8; side: back"></a-box>
               </a-entity>` : ''}
 
               <!-- KNIFE on table - only visible when NOT picked up -->
