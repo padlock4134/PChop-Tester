@@ -165,7 +165,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           </div>
 
           {/* Simple Controls */}
-          <div className="flex items-center justify-center gap-3 mt-2 mb-4 lg:mb-12">
+          <div className="flex items-center justify-center gap-3 mt-2 mb-2">
             {!isPracticing ? (
               <>
                 <button 
