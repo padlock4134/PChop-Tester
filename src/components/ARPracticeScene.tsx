@@ -147,10 +147,10 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     const knifeEntity = document.getElementById('knife-hand-entity');
     if (knifeEntity) {
       // Calculate position based on knifeProgress (0-1)
-      // Knife slides along stone surface - never passes through
+      // Knife slides along stone surface - pulled back so blade tip touches
       const y = -0.08;
-      const z = -0.56 + (knifeProgress * 0.12);
-      knifeEntity.setAttribute('position', `0.05 ${y} ${z}`);
+      const z = -0.64 + (knifeProgress * 0.16);
+      knifeEntity.setAttribute('position', `0.08 ${y} ${z}`);
     }
   }, [knifeProgress]);
   
@@ -527,7 +527,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               ${knifeSelected ? `
               <a-entity 
                 id="knife-hand-entity"
-                position="0.05 -0.08 -0.56" 
+                position="0.08 -0.08 -0.64" 
                 rotation="-30 -10 40" 
                 scale="1.3 1.3 1.3"
               >
