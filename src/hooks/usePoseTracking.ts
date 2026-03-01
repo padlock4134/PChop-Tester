@@ -39,7 +39,7 @@ export const usePoseTracking = (): PoseTrackingResult => {
   
   // Smoothing for wrist position (prevents jitter)
   const smoothedWristX = useRef(0.5);
-  const SMOOTHING_FACTOR = 0.5; // Lower = smoother but slower response
+  const SMOOTHING_FACTOR = 0.7; // Higher = faster response, slightly more jitter
   
   const onPoseResults = useCallback((results: any) => {
     if (results.poseLandmarks) {
@@ -82,8 +82,8 @@ export const usePoseTracking = (): PoseTrackingResult => {
         modelComplexity: 0, // 0 = lite (fastest), 1 = full, 2 = heavy
         smoothLandmarks: true,
         enableSegmentation: false,
-        minDetectionConfidence: 0.3,
-        minTrackingConfidence: 0.3
+        minDetectionConfidence: 0.2,
+        minTrackingConfidence: 0.2
       });
       
       pose.onResults(onPoseResults);
@@ -93,8 +93,8 @@ export const usePoseTracking = (): PoseTrackingResult => {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { 
           facingMode: 'user',
-          width: { ideal: 640 },
-          height: { ideal: 480 }
+          width: { ideal: 320 },
+          height: { ideal: 240 }
         }
       });
       

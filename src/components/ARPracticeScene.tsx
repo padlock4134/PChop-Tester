@@ -245,8 +245,9 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const containerWidth = containerRef.current?.clientWidth || window.innerWidth;
     
-    // Map drag position to knife progress (0-1)
-    const progress = Math.max(0, Math.min(1, (clientX - dragStartX.current + containerWidth / 2) / containerWidth));
+    // Map drag delta to knife progress - amplified for easier movement
+    const delta = (clientX - dragStartX.current) / (containerWidth * 0.35);
+    const progress = Math.max(0, Math.min(1, 0.5 + delta));
     setKnifeProgress(progress);
     
     // Track direction for stroke counting
@@ -256,7 +257,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     if (isRight && wasLeft) {
       // Completed a stroke
       const now = Date.now();
-      if (now - lastSwipeTime > 300) {
+      if (now - lastSwipeTime > 150) {
         setStrokeCount(prev => {
           const newCount = prev + 1;
           if (newCount <= 10) {
