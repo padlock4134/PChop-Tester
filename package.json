@@ -17,7 +17,7 @@
     "i18next": "^25.7.3",
     "iron-webcrypto": "^1.2.1",
     "jsonwebtoken": "^9.0.2",
-    "jspdf": "^3.0.3",
+    "jspdf": "^4.2.0",
     "mammoth": "^1.6.0",
     "node-fetch": "^2.7.0",
     "nodemailer": "^7.0.3",
