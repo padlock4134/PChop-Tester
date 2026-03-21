@@ -236,7 +236,7 @@ const getDisciplineComponents = (discipline: string) => {
     },
     manufacturing: {
       NavBar: ManufacturingNavBar,
-      Kitchen: ManufacturingMyFloor,
+      Kitchen: "/manufacturing/my-floor",
       Cookbook: ManufacturingMyPlaybook,
       Corner: ManufacturingShopTalk,
       School: ManufacturingMfgAcademy,
