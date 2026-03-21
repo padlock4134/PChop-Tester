@@ -20,8 +20,8 @@ declare interface ImportMeta {
 
 // API Key rotation system
 class YouTubeAPIRotator {
-  private keys: string[] = [];
-  private currentIndex: number = 0;
+  public keys: string[] = [];
+  public currentIndex: number = 0;
   private keyUsage: Map<string, number> = new Map();
   private keyErrors: Map<string, number> = new Map();
   
@@ -151,12 +151,12 @@ export async function searchYouTube(query: string): Promise<TutorialVideoResult 
         thumbnail: video.snippet.thumbnails?.high?.url
       };
       
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(`[VideoSearch] Error with key index ${apiRotator.currentIndex}:`, error);
       apiRotator.markKeyAsErrored(apiKey);
       
       // Check if it's a quota error
-      if (error.message.includes('quotaExceeded') || error.message.includes('403')) {
+      if (error instanceof Error && (error.message.includes('quotaExceeded') || error.message.includes('403'))) {
         console.log('[VideoSearch] Quota exceeded, rotating to next key');
         apiRotator.rotateToNext();
       } else {

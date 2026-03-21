@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../components/FreddieContext';
-import { useRecipeContext } from '../components/RecipeContext';
+import { useFreddieContext } from '../components/FloorFreddieContext';
+import { useRecipeContext } from '../components/ProcessContext';
 import { useNavigate } from 'react-router-dom';
 import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
 import { supabase } from '../api/supabaseClient';
@@ -42,6 +42,13 @@ export function getChefQuoteOfTheDay() {
   const dayOfYear = Math.floor(diff / oneDay);
   const idx = dayOfYear % chefQuotes.length;
   return chefQuotes[idx];
+}
+
+export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
+  return [
+    `how to ${recipe.name} manufacturing tutorial`,
+    `${recipe.name} production guide`
+  ];
 }
 
 export interface Recipe {
