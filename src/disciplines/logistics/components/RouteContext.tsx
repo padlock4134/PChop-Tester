@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { RecipeCard } from './RecipeMatcherModal';
+import type { RecipeCard } from './RouteMatcherModal';
 
 type RecipeContextType = {
   selectedRecipe: RecipeCard | null;
@@ -24,7 +24,7 @@ export const RecipeProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       selectedRecipe, 
       setSelectedRecipe: (recipe) => {
         console.log('Setting recipe in context with nutrition:', recipe?.nutrition);
-        setSelectedRecipe(prev => recipe ? ({
+        setSelectedRecipe((prev: any) => recipe ? ({
           ...recipe,
           nutrition: recipe.nutrition
         }) : null);

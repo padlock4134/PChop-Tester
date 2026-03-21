@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import ARPracticeScene from './ARPracticeScene';
+import ARSiteScene from './ARSiteScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 
 interface BenchPracticeModalProps {
@@ -131,7 +131,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               </div>
             ) : isPracticing && arScene ? (
               // Virtual practice mode - show AR scene
-              <ARPracticeScene 
+              <ARSiteScene 
                 scene={arScene}
                 onComplete={() => {
                   alert(t('culinarySchool.charcuterieBoard.practiceComplete'));

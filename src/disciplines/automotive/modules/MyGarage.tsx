@@ -7,17 +7,22 @@ import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../api/vision';
-import RecipeMatcherModal, { RecipeCard } from '../components/RecipeMatcherModal';
-import { useFreddieContext } from '../components/FreddieContext';
+import RepairMatcherModal, { RecipeCard } from '../components/RepairMatcherModal';
+import { useFreddieContext } from '../components/GarageFreddieContext';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 import { supabase } from '../api/supabaseClient';
-import RecipeCardComponent from '../components/RecipeCard';
+import RepairCardComponent from '../components/RepairCard';
 
 const CATEGORIES = [
-  "Vegetable",
-  "Fruit",
-  "Protein",
+  "Tire",
+  "Brake",
+  "Suspension",
+  "Engine",
+  "Transmission",
+  "Electrical",
+  "Body",
+  "Interior",
   "Dairy",
   "Grain",
   "Spice",
@@ -330,7 +335,7 @@ const MyKitchen = () => {
       )}
 
       {/* Recipe Matcher Modal (always mounted for overlay) */}
-      <RecipeMatcherModal
+      <RepairMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
         cupboardIngredients={ingredients.map(i => i.name)}

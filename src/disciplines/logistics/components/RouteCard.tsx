@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { RecipeCard } from './RecipeMatcherModal';
+import { RecipeCard } from './RouteMatcherModal';
 
 type Props = {
   recipe: RecipeCard;
@@ -13,7 +13,7 @@ const RecipeCardComponent: React.FC<Props> = ({ recipe }) => {
       <img src={recipe.image} alt={recipe.title} className="w-full h-48 object-cover rounded mb-2" />
       <h3 className="font-retro text-xl mb-1 text-center">{recipe.title}</h3>
       <div className="flex flex-wrap gap-1 mb-2">
-        {recipe.healthTags?.map(tag => (
+        {recipe.healthTags?.map((tag: string) => (
           <span 
             key={tag}
             className="px-2 py-1 rounded-full text-xs bg-gray-200 text-gray-600"
