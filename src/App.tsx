@@ -236,7 +236,7 @@ const getDisciplineComponents = (discipline: string) => {
     },
     manufacturing: {
       NavBar: ManufacturingNavBar,
-      Kitchen: "/manufacturing/modules/MyFloor.tsx",
+      Kitchen: ManufacturingMyFloor,
       Cookbook: ManufacturingMyPlaybook,
       Corner: ManufacturingShopTalk,
       School: ManufacturingMfgAcademy,
