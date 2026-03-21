@@ -173,8 +173,8 @@ const MyKitchen = () => {
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
         {/* My Kitchen header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
-          <span className="text-5xl mr-2">🐟</span>
-          <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myKitchen.title')}</h1>
+          <span className="text-5xl mr-2">�</span>
+          <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myVan.title')}</h1>
         </div>
         
         {/* Sticky Separation line */}
@@ -224,23 +224,23 @@ const MyKitchen = () => {
                   
                   console.log('New ingredients to add:', newIngredients);
                   if (newIngredients.length === 0) {
-                    setScanStatus(t('myKitchen.noNewIngredients'));
-                    alert(t('myKitchen.noNewIngredients'));
+                    setScanStatus(t('myVan.noNewIngredients'));
+                    alert(t('myVan.noNewIngredients'));
                   } else {
                     // Check user before saving
                     try {
                       const sessionValid = await isSessionValid();
                       console.log('Current user:', user);
                       if (!sessionValid || !user) {
-                        setScanStatus(t('myKitchen.notSignedIn'));
-                        alert(t('myKitchen.notSignedIn'));
+                        setScanStatus(t('myVan.notSignedIn'));
+                        alert(t('myVan.notSignedIn'));
                         setScanLoading(false);
                         return;
                       }
                     } catch (userErr) {
                       console.error('Error fetching user:', userErr);
-                      setScanStatus(t('myKitchen.couldNotVerify'));
-                      alert(t('myKitchen.couldNotVerify'));
+                      setScanStatus(t('myVan.couldNotVerify'));
+                      alert(t('myVan.couldNotVerify'));
                       setScanLoading(false);
                       return;
                     }
@@ -252,24 +252,24 @@ const MyKitchen = () => {
                     try {
                       await saveKitchen(user?.id!, updatedIngredients);
                       setKitchenError(null);
-                      setScanStatus(t('myKitchen.ingredientsSaved'));
-                      alert(t('myKitchen.ingredientsSaved'));
+                      setScanStatus(t('myVan.ingredientsSaved'));
+                      alert(t('myVan.ingredientsSaved'));
                     } catch (err: any) {
-                      setKitchenError(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()));
-                      setScanStatus(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()));
-                      alert(t('myKitchen.failedToSave') + ' ' + (err.message || err.toString()));
+                      setKitchenError(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
+                      setScanStatus(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
+                      alert(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
                     }
                   }
                   setDetectedIngredients([]);
                 } catch (err: any) {
-                  setScanError(err.message || t('myKitchen.failedToScan'));
-                  alert(t('myKitchen.failedToScan') + ': ' + (err.message || err.toString()));
+                  setScanError(err.message || t('myVan.failedToScan'));
+                  alert(t('myVan.failedToScan') + ': ' + (err.message || err.toString()));
                 }
                 setScanLoading(false);
               };
               reader.readAsDataURL(file);
             } catch (err) {
-              setScanError(t('myKitchen.failedToScan'));
+              setScanError(t('myVan.failedToScan'));
               setScanLoading(false);
             }
           }}
@@ -279,7 +279,7 @@ const MyKitchen = () => {
           onClick={() => document.getElementById('scan-kitchen-file')?.click()}
           disabled={scanLoading}
         >
-          {scanLoading ? t('myKitchen.scanning') : t('myKitchen.scanKitchen')}
+          {scanLoading ? t('myVan.scanning') : t('myVan.scanKitchen')}
         </button>
         <button
           className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black w-full sm:w-auto max-w-xs"
@@ -307,7 +307,7 @@ const MyKitchen = () => {
             }
           }}
         >
-          {t('myKitchen.matchRecipes')}
+          {t('myVan.matchRecipes')}
         </button>
       </div>
 
@@ -316,7 +316,7 @@ const MyKitchen = () => {
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-weatheredWhite p-8 rounded shadow-lg flex flex-col items-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('myKitchen.scanningPhoto')}</div>
+            <div className="text-lg font-retro mb-2">{t('myVan.scanningPhoto')}</div>
           </div>
         </div>
       )}
@@ -324,7 +324,7 @@ const MyKitchen = () => {
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
           <div className="bg-weatheredWhite p-8 rounded shadow-lg flex flex-col items-center">
             <div className="text-lobsterRed font-bold mb-2">{scanError}</div>
-            <button className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold mt-2" onClick={() => setScanError('')}>{t('myKitchen.close')}</button>
+            <button className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold mt-2" onClick={() => setScanError('')}>{t('myVan.close')}</button>
           </div>
         </div>
       )}
@@ -345,14 +345,14 @@ const MyKitchen = () => {
       {/* Digital Cupboard Section */}
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
-          <span role="img" aria-label="anchor">⚓</span> {t('myKitchen.digitalCupboard')}
+          <span role="img" aria-label="wrench">🔧</span> {t('myVan.digitalCupboard')}
         </h3>
         {ingredients.length > 0 && (
           <button
             className="text-xs text-lobsterRed underline hover:text-maineBlue"
             onClick={() => setIngredients([])}
           >
-            {t('myKitchen.clearAll')}
+            {t('myVan.clearAll')}
           </button>
         )}
       </div>
@@ -362,7 +362,7 @@ const MyKitchen = () => {
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
-          placeholder={t('myKitchen.searchCupboard')}
+          placeholder={t('myVan.searchCupboard')}
           value={filterText}
           onChange={e => setFilterText(e.target.value)}
           style={{ minWidth: 120 }}
@@ -371,7 +371,7 @@ const MyKitchen = () => {
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
-          placeholder={t('myKitchen.addAnIngredient')}
+          placeholder={t('myVan.addAnIngredient')}
           value={input}
           onChange={e => setInput(e.target.value)}
         />
@@ -388,7 +388,7 @@ const MyKitchen = () => {
           className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
           onClick={addIngredient}
         >
-          {t('myKitchen.add')}
+          {t('myVan.add')}
         </button>
       </div>
       <div className="bg-gradient-to-br from-yellow-100 to-sand border-4 border-yellow-900 rounded-2xl shadow-lg p-4 relative overflow-hidden">
@@ -399,7 +399,7 @@ const MyKitchen = () => {
           </svg>
         </div>
         {filteredIngredients.length === 0 ? (
-          <div className="text-gray-500 italic text-center py-8 relative z-10">{t('myKitchen.noMatchingIngredients')}</div>
+          <div className="text-gray-500 italic text-center py-8 relative z-10">{t('myVan.noMatchingIngredients')}</div>
         ) : (
           <div className="flex flex-col gap-4 relative z-10">
             {[0,1,2,3,4,5].map(shelfIdx => {

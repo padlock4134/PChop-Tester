@@ -345,7 +345,7 @@ const CulinarySchool = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          🍳 {t('culinarySchool.title')}
+          � {t('mfgAcademy.title')}
         </button>
         <button
           onClick={() => setActiveMobileTab('syllabus')}
@@ -355,7 +355,7 @@ const CulinarySchool = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          📚 {t('culinarySchool.syllabus')}
+          📚 {t('mfgAcademy.syllabus')}
         </button>
       </div>
       
@@ -365,8 +365,8 @@ const CulinarySchool = () => {
         }`}>
           {/* Culinary School header - moved back inside the module */}
           <div className="flex items-center justify-center mb-4">
-            <span className="text-5xl mr-2">🍳</span>
-            <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('culinarySchool.title')}</h1>
+            <span className="text-5xl mr-2">�</span>
+            <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('mfgAcademy.title')}</h1>
           </div>
           
           {/* Separation line */}
@@ -395,7 +395,7 @@ const CulinarySchool = () => {
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">{t('culinarySchool.step')} {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{t('mfgAcademy.step')} {idx + 1}: {tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
                 </li>
               ))}
@@ -405,7 +405,7 @@ const CulinarySchool = () => {
               <button
                 onClick={() => window.location.reload()}
                 className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
-                title={t('culinarySchool.closeRecipe')}
+                title={t('mfgAcademy.closeRecipe')}
               >
                 <span className="text-red-500 font-bold text-lg">✕</span>
               </button>
@@ -422,38 +422,38 @@ const CulinarySchool = () => {
                 <h3 className="font-bold text-xl mb-1 text-maineBlue">{selectedRecipe.title}</h3>
                 {/* No description on RecipeCard, but add if needed: */}
                 {/* <div className="text-gray-600 mb-2 text-base">{selectedRecipe.description}</div> */}
-                <div className="font-semibold mb-1 mt-2">{t('culinarySchool.ingredients')}</div>
+                <div className="font-semibold mb-1 mt-2">{t('mfgAcademy.ingredients')}</div>
                 <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                   {selectedRecipe.ingredients?.length ? (
                     selectedRecipe.ingredients.map((ing, i) => <li key={i}>{ing}</li>)
                   ) : (
-                    <li className="italic text-gray-400">{t('culinarySchool.noIngredientsListed')}</li>
+                    <li className="italic text-gray-400">{t('mfgAcademy.noIngredientsListed')}</li>
                   )}
                 </ul>
                 {recipeNutrition && (
                   <div className="mt-2">
-                    <div className="font-semibold mb-1">{t('culinarySchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
+                    <div className="font-semibold mb-1">{t('mfgAcademy.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
                     <div className="text-sm">
-                      <div>{t('culinarySchool.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('culinarySchool.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('culinarySchool.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('culinarySchool.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
+                      <div>{t('mfgAcademy.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
+                      <div>{t('mfgAcademy.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
+                      <div>{t('mfgAcademy.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
+                      <div>{t('mfgAcademy.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
                     </div>
                   </div>
                 )}
               </div>
               {/* Right Page */}
               <div className="flex-1 p-6 bg-white flex flex-col">
-                <h3 className="font-bold text-xl mb-2 text-maineBlue">{t('culinarySchool.instructions')}</h3>
+                <h3 className="font-bold text-xl mb-2 text-maineBlue">{t('mfgAcademy.instructions')}</h3>
                 <div className="text-gray-700 whitespace-pre-line text-[15px] leading-7 flex-1">
                   {selectedRecipe.instructions || (
-                    <span className="italic text-gray-400">{t('culinarySchool.noInstructionsProvided')}</span>
+                    <span className="italic text-gray-400">{t('mfgAcademy.noInstructionsProvided')}</span>
                   )}
                 </div>
                 {/* Equipment Section */}
                 {selectedRecipe.equipment && selectedRecipe.equipment.length > 0 && (
                   <>
-                    <div className="font-semibold mt-4 mb-1">{t('culinarySchool.equipmentNeeded')}</div>
+                    <div className="font-semibold mt-4 mb-1">{t('mfgAcademy.equipmentNeeded')}</div>
                     <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                       {selectedRecipe.equipment.map((eq, i) => (
                         <li key={i}>{eq}</li>
@@ -462,7 +462,7 @@ const CulinarySchool = () => {
                   </>
                 )}
                 {(!selectedRecipe.equipment || selectedRecipe.equipment.length === 0) && (
-                  <div className="italic text-gray-400 mt-2">{t('culinarySchool.noEquipmentListed')}</div>
+                  <div className="italic text-gray-400 mt-2">{t('mfgAcademy.noEquipmentListed')}</div>
                 )}
               </div>
             </div>
@@ -476,16 +476,16 @@ const CulinarySchool = () => {
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">{t('culinarySchool.step')} {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{t('mfgAcademy.step')} {idx + 1}: {tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
                 </li>
               ))}
             </ol>
             <div className="mt-8 text-center">
-              <div className="text-gray-700 mb-4">{t('culinarySchool.getStarted')}</div>
+              <div className="text-gray-700 mb-4">{t('mfgAcademy.getStarted')}</div>
               <div className="flex justify-center space-x-4">
-                <Link to="/my-kitchen" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('culinarySchool.goToMyKitchen')}</Link>
-                <Link to="/my-cookbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('culinarySchool.goToMyCookbook')}</Link>
+                <Link to="/my-kitchen" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('mfgAcademy.goToMyKitchen')}</Link>
+                <Link to="/my-cookbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('mfgAcademy.goToMyCookbook')}</Link>
               </div>
             </div>
           </>

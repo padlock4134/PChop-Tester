@@ -154,7 +154,7 @@ const ChefsCorner = () => {
   // Open modal for My CookBook import
   const importFromCookBook = () => {
     if (!user) {
-      alert(t('chefsCorner.pleaseSignIn'));
+      alert(t('machinistCorner.pleaseSignIn'));
       return;
     }
     setCookbookModalOpen(true);
@@ -166,7 +166,7 @@ const ChefsCorner = () => {
     
     if (!selectedRecipe) {
       console.error('No recipe selected');
-      alert(t('chefsCorner.errorNoRecipe'));
+      alert(t('machinistCorner.errorNoRecipe'));
       return;
     }
 
@@ -187,11 +187,11 @@ const ChefsCorner = () => {
         setRecipeNutrition(null);
       }
       
-      alert(t('chefsCorner.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
+      alert(t('machinistCorner.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
       console.error('Error importing recipe:', error);
-      alert(t('chefsCorner.failedToImport'));
+      alert(t('machinistCorner.failedToImport'));
     } finally {
       setCookbookModalOpen(false);
     }
@@ -226,7 +226,7 @@ const ChefsCorner = () => {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            🦐 {t('chefsCorner.title')}
+            ⚙️ {t('machinistCorner.title')}
           </button>
           <button
             onClick={() => setActiveMobileTab('kitchen')}
@@ -236,7 +236,7 @@ const ChefsCorner = () => {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            🧪 {t('chefsCorner.globalTestKitchenTab')}
+            🧪 {t('machinistCorner.globalTestKitchenTab')}
           </button>
         </div>
         
@@ -247,8 +247,8 @@ const ChefsCorner = () => {
           }`}>
             {/* Chef's Corner header - moved back inside the module */}
             <div className="flex items-center justify-center mb-4">
-              <span className="text-5xl mr-2">🦐</span>
-              <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('chefsCorner.title')}</h1>
+              <span className="text-5xl mr-2">⚙️</span>
+              <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('machinistCorner.title')}</h1>
             </div>
             
             {/* Separation line */}
@@ -259,21 +259,21 @@ const ChefsCorner = () => {
                 <div className="bg-sand p-4 rounded-lg border border-black">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-semibold text-gray-700">
-                      {t('chefsCorner.showcaseRecipe')}
+                      {t('machinistCorner.showcaseRecipe')}
                     </label>
                     <div className="flex gap-2">
                       <button
                         onClick={() => setBuildMenuModalOpen(true)}
                         className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                       >
-                        🍽️ {t('chefsCorner.buildMenu')}
+                        📋 {t('machinistCorner.buildMenu')}
                       </button>
                       <button 
                         onClick={importFromCookBook} 
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
                         disabled={isLoading}
                       >
-                        {isLoading ? t('chefsCorner.loading') : t('chefsCorner.importFromCookbook')}
+                        {isLoading ? t('machinistCorner.loading') : t('machinistCorner.importFromCookbook')}
                       </button>
                     </div>
                   </div>
@@ -288,7 +288,7 @@ const ChefsCorner = () => {
                       <button
                         onClick={() => setShowcaseRecipe(null)}
                         className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
-                        title={t('chefsCorner.removeShowcaseRecipe')}
+                        title={t('machinistCorner.removeShowcaseRecipe')}
                       >
                         <span className="text-red-500 font-bold text-lg">✕</span>
                       </button>
@@ -303,38 +303,38 @@ const ChefsCorner = () => {
                           />
                         )}
                         <h3 className="font-bold text-xl mb-1 text-maineBlue">{showcaseRecipe.title}</h3>
-                        <div className="font-semibold mb-1 mt-2">{t('chefsCorner.ingredients')}</div>
+                        <div className="font-semibold mb-1 mt-2">{t('machinistCorner.ingredients')}</div>
                         <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                           {showcaseRecipe.ingredients?.length ? (
                             showcaseRecipe.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
                           ) : (
-                            <li className="italic text-gray-400">{t('chefsCorner.noIngredientsListed')}</li>
+                            <li className="italic text-gray-400">{t('machinistCorner.noIngredientsListed')}</li>
                           )}
                         </ul>
                         {recipeNutrition && (
                           <div className="mt-2">
-                            <div className="font-semibold mb-1">{t('chefsCorner.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
+                            <div className="font-semibold mb-1">{t('machinistCorner.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
                             <div className="text-sm">
-                              <div>{t('chefsCorner.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                              <div>{t('chefsCorner.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                              <div>{t('chefsCorner.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                              <div>{t('chefsCorner.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
+                              <div>{t('machinistCorner.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
+                              <div>{t('machinistCorner.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
+                              <div>{t('machinistCorner.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
+                              <div>{t('machinistCorner.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
                             </div>
                           </div>
                         )}
                       </div>
                       {/* Right Page */}
                       <div className="flex-1 p-6 bg-white flex flex-col">
-                        <h3 className="font-bold text-xl mb-2 text-maineBlue">{t('chefsCorner.instructions')}</h3>
+                        <h3 className="font-bold text-xl mb-2 text-maineBlue">{t('machinistCorner.instructions')}</h3>
                         <div className="text-gray-700 whitespace-pre-line text-[15px] leading-7 flex-1">
                           {showcaseRecipe.instructions || (
-                            <span className="italic text-gray-400">{t('chefsCorner.noInstructionsProvided')}</span>
+                            <span className="italic text-gray-400">{t('machinistCorner.noInstructionsProvided')}</span>
                           )}
                         </div>
                         {/* Equipment Section */}
                         {showcaseRecipe.equipment && showcaseRecipe.equipment.length > 0 && (
                           <>
-                            <div className="font-semibold mt-4 mb-1">{t('chefsCorner.equipmentNeeded')}</div>
+                            <div className="font-semibold mt-4 mb-1">{t('machinistCorner.equipmentNeeded')}</div>
                             <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                               {showcaseRecipe.equipment.map((eq: string, i: number) => (
                                 <li key={i}>{eq}</li>
@@ -346,7 +346,7 @@ const ChefsCorner = () => {
                     </div>
                   ) : (
                     <div className="mt-4 text-gray-400 italic text-center">
-                      {t('chefsCorner.noRecipeSelected')}
+                      {t('machinistCorner.noRecipeSelected')}
                     </div>
                   )}
                 </div>

@@ -14,20 +14,20 @@ interface Message {
 const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
     case 'MyKitchen':
-      return t('chefFreddie.welcomeMyKitchen');
+      return t('dockFreddie.welcomeMyKitchen');
     case 'MyCookBook':
-      return t('chefFreddie.welcomeMyCookbook');
+      return t('dockFreddie.welcomeMyCookbook');
     case 'ChefsCorner':
-      return t('chefFreddie.welcomeChefsCorner');
+      return t('dockFreddie.welcomeChefsCorner');
     case 'CulinarySchool':
-      return t('chefFreddie.welcomeCulinarySchool');
+      return t('dockFreddie.welcomeCulinarySchool');
     default:
-      return t('chefFreddie.welcomeDefault');
+      return t('dockFreddie.welcomeDefault');
   }
 };
 
 
-const ChefFreddieWidget = () => {
+const DockFreddieWidget = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { context } = useFreddieContext();
@@ -44,7 +44,7 @@ const ChefFreddieWidget = () => {
       const reply = await askChefFreddie(user?.id!, text);
       setMessages(msgs => [...msgs, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
-      setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || t('chefFreddie.errorContacting') }]);
+      setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || t('dockFreddie.errorContacting') }]);
     }
   };
 
@@ -110,11 +110,11 @@ const ChefFreddieWidget = () => {
       <button
         className="fixed bottom-6 right-6 bg-maineBlue text-seafoam rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:bg-seafoam hover:text-maineBlue transition-colors"
         onClick={() => setOpen(o => !o)}
-        aria-label="Open Chef Freddie AI Assistant"
+        aria-label="Open Dock Freddie AI Assistant"
       >
         <img
           src={chefFreddiePng}
-          alt="Chef Freddie"
+          alt="Dock Freddie"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />
       </button>
@@ -123,7 +123,7 @@ const ChefFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Chef Freddie</span>
+              <span className="font-bold text-maineBlue">Dock Freddie</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);
@@ -154,4 +154,4 @@ const ChefFreddieWidget = () => {
   );
 };
 
-export default ChefFreddieWidget;
+export default DockFreddieWidget;
