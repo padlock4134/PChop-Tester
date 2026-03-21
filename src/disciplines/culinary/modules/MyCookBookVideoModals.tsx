@@ -16,9 +16,13 @@ const MyCookBookVideoModals: React.FC<Props> = ({ recipe, open, onClose }) => {
   useEffect(() => {
     if (!open) return;
     setLoading(true);
-    const queries = getVideoQueriesForRecipe(recipe);
-    Promise.all(queries.map(q => getTutorialVideo(q)))
-      .then(results => setVideoUrls(results.map(r => r?.url || null)))
+    // Simple fallback implementation - create queries based on recipe name
+    const queries = [
+      `how to make ${recipe.name}`,
+      `how to prepare ${recipe.ingredients?.[0] || 'main ingredient'}`
+    ];
+    Promise.all(queries.map((q: string) => getTutorialVideo(q)))
+      .then((results: any[]) => setVideoUrls(results.map((r: any) => r?.url || null)))
       .finally(() => setLoading(false));
   }, [open, recipe]);
 
