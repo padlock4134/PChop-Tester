@@ -9,23 +9,24 @@ import {
 } from '@wristband/react-client-auth';
 import './i18n';
 
-import NavBar from './components/NavBar';
-import MyKitchen from './modules/MyKitchen';
-import MyCookBook from './modules/MyCookBook';
-import ChefsCorner from './modules/ChefsCorner';
-import CulinarySchool from './modules/CulinarySchool';
-import Profile from './components/Profile';
-import Dashboard from './components/Dashboard';
-import AdminDashboard from './components/AdminDashboard';
-import ChefFreddieWidget from './components/ChefFreddieWidget';
-import { FreddieProvider } from './components/FreddieContext';
-import { RecipeProvider } from './components/RecipeContext';
-import SupabaseProvider, { useSupabase } from './components/SupabaseProvider';
-import type { WristbandSessionMetadata } from './types/session-types';
-import { setSupabaseJwt } from './api/supabaseClient';
-import { useDeviceDetect, getResponsiveClasses } from './utils/responsiveUtils';
-import InactivityWarningModal from './components/InactivityWarningModal';
-import { useAutoLogout } from './hooks/useAutoLogout';
+import DisciplineSelector from './DisciplineSelector';
+import NavBar from './disciplines/culinary/components/NavBar';
+import MyKitchen from './disciplines/culinary/modules/MyKitchen';
+import MyCookBook from './disciplines/culinary/modules/MyCookBook';
+import ChefsCorner from './disciplines/culinary/modules/ChefsCorner';
+import CulinarySchool from './disciplines/culinary/modules/CulinarySchool';
+import Profile from './disciplines/culinary/components/Profile';
+import Dashboard from './disciplines/culinary/components/Dashboard';
+import AdminDashboard from './disciplines/culinary/components/AdminDashboard';
+import ChefFreddieWidget from './disciplines/culinary/components/ChefFreddieWidget';
+import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
+import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
+import SupabaseProvider, { useSupabase } from './disciplines/culinary/components/SupabaseProvider';
+import type { WristbandSessionMetadata } from './disciplines/culinary/types/session-types';
+import { setSupabaseJwt } from './disciplines/culinary/api/supabaseClient';
+import { useDeviceDetect, getResponsiveClasses } from './disciplines/culinary/utils/responsiveUtils';
+import InactivityWarningModal from './disciplines/culinary/components/InactivityWarningModal';
+import { useAutoLogout } from './disciplines/culinary/hooks/useAutoLogout';
 
 // Admin toggle context
 const AdminToggleContext = createContext<{ isAdminMode: boolean; toggleAdminMode: () => void }>({ 
@@ -59,7 +60,7 @@ const HomeRedirect = () => {
     
     // If authenticated and user is loaded, go to dashboard
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
-      navigate('/dashboard', { replace: true });
+      navigate('/select-discipline', { replace: true });
     } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
       // Not authenticated, redirect to login
       window.location.href = '/.netlify/functions/auth-login';
@@ -127,6 +128,8 @@ const AppRoutes = () => {
       <NavBar />
       <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
         <Routes>
+          <Route path="/select-discipline" element={<DisciplineSelector />} />
+          <Route path="/:discipline/dashboard" element={<Dashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/my-kitchen" element={<MyKitchen />} />
           <Route path="/my-cookbook" element={<MyCookBook />} />
