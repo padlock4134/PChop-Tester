@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from './RecipeContext';
+import { useRecipeContext } from './ProcessContext';
 
 interface CookBookImportModalProps {
   open: boolean;
@@ -91,7 +91,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
             </div>
           ) : (
             <div className="space-y-3">
-              {recipes.map((recipe) => (
+              {recipes.map((recipe: any) => (
                 <div 
                   key={recipe.id} 
                   className={`border rounded-lg overflow-hidden cursor-pointer transition-colors ${
