@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { RecipeCard } from './RecipeMatcherModal';
+import { RecipeCard } from './TaskMatcherModal';
 
 type Props = {
   recipe: RecipeCard;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSupabase } from './SupabaseProvider';
 import { fetchCookbook } from '../modules/cookbookSupabase';
-import { RecipeCard } from './RecipeMatcherModal';
+import { RecipeCard } from './ProcessMatcherModal';
 import jsPDF from 'jspdf';
 import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
 

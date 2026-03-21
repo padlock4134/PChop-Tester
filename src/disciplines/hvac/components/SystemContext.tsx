@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { RecipeCard } from './RecipeMatcherModal';
+import type { RecipeCard } from './SystemMatcherModal';
 
 type RecipeContextType = {
   selectedRecipe: RecipeCard | null;

@@ -147,7 +147,7 @@ function scoreRecipe(
   return score;
 }
 
-import { RecipeCard } from '../components/RecipeMatcherModal';
+import { RecipeCard } from '../components/PartMatcherModal';
 
 export interface RecipeMatchOptions {
   userId: string;
@@ -382,10 +382,10 @@ Return ONLY the JSON array, no other text.`;
     recipes = JSON.parse(jsonText);
     
     if (!Array.isArray(recipes)) throw new Error('Response not an array');
-  } catch (err) {
+  } catch (err: unknown) {
     console.error('Failed to parse recipes:', err);
     console.log('Raw content:', anthropicData.content[0].text);
-    console.log('Error at position:', err.message);
+    console.log('Error at position:', err instanceof Error ? err.message : String(err));
     return generateFallbackRecipes(userId, ingredients, numRecipes);
   }
 

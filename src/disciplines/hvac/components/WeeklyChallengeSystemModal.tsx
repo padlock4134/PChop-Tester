@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import type { RecipeCard } from './RecipeMatcherModal';
+import type { RecipeCard } from './SystemMatcherModal';
 import { useState, useRef } from 'react';
 import { supabase } from '../api/supabaseClient';
 import { claimWeeklyChallenge } from '../api/weeklyChallenge';

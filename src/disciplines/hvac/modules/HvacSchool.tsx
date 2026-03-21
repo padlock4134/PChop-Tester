@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../components/FreddieContext';
-import VideoModal from '../components/VideoModal';
-import { useRecipeContext } from '../components/RecipeContext';
+import { useFreddieContext } from '../components/ShopFreddieContext';
+import { useRecipeContext } from '../components/SystemContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
-import CookingTimer from '../components/CookingTimer';
-import BenchPracticeModal from '../components/BenchPracticeModal';
+import JobTimer from '../components/JobTimer';
+import ShopPracticeModal from '../components/ShopPracticeModal';
 
 const generalLessons = [
   { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
@@ -372,7 +371,7 @@ const CulinarySchool = () => {
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6" />
         <div className="w-full mx-auto">
-        <CookingTimer servingSize={servingSize} setServingSize={setServingSize} />
+        <JobTimer servingSize={servingSize} setServingSize={setServingSize} />
         {/* Always render a VideoModal for the currently displayed tutorial list */}
         {tutorials.map((tut, idx) => (
           <VideoModal
@@ -506,7 +505,7 @@ const CulinarySchool = () => {
       </div>
 
       {/* Bench Practice Modal */}
-      <BenchPracticeModal 
+      <ShopPracticeModal 
         open={benchPracticeOpen}
         onClose={() => setBenchPracticeOpen(false)}
       />

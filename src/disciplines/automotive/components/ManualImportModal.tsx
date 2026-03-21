@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from './RecipeContext';
+import { useRecipeContext } from './RepairContext';
+import { RecipeCard } from './RepairMatcherModal';
 
 interface CookBookImportModalProps {
   open: boolean;
   onClose: () => void;
-  onImport: (recipe: any) => void;
+  onImport: (recipe: RecipeCard) => void;
   existingIngredients?: string[];
 }
 
@@ -49,7 +50,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open, onClose]);
 
-  const handleSelectRecipe = (recipe: any) => {
+  const handleSelectRecipe = (recipe: RecipeCard) => {
     setSelectedRecipe(recipe);
   };
 
@@ -91,7 +92,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
             </div>
           ) : (
             <div className="space-y-3">
-              {recipes.map((recipe) => (
+              {recipes.map((recipe: RecipeCard) => (
                 <div 
                   key={recipe.id} 
                   className={`border rounded-lg overflow-hidden cursor-pointer transition-colors ${
