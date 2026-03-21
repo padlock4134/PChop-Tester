@@ -109,8 +109,8 @@ function scoreRecipe(
   let score = 0;
   
   // 1. Score based on matching ingredients (higher weight)
-  const matchingIngredients = recipe.ingredients.filter(recipeIng => 
-    cupboard.some(cupboardIng => fuzzyMatch(recipeIng, cupboardIng))
+  const matchingIngredients = recipe.ingredients.filter((recipeIng: string) => 
+    cupboard.some((cupboardIng: string) => fuzzyMatch(recipeIng, cupboardIng))
   ).length;
   
   score += matchingIngredients * 2;
@@ -120,7 +120,7 @@ function scoreRecipe(
     const availableEquipment = KITCHEN_EQUIPMENT[kitchenSetup as KitchenSetup];
     const requiredEquipment = recipe.equipment || [];
     
-    const missingEquipment = requiredEquipment.filter(eq => {
+    const missingEquipment = requiredEquipment.filter((eq: string) => {
       if (availableEquipment[0] === 'all equipment') return false;
       return !availableEquipment.some((available: string) => 
         eq.toLowerCase().includes(available.toLowerCase())
@@ -134,8 +134,8 @@ function scoreRecipe(
   // 3. Bonus for matching talent tree equipment (if talents are enabled and a tree is selected)
   if (talentsEnabled && talentTree && talentTree in TALENT_TREE_EQUIPMENT) {
     const preferredEquipment = TALENT_TREE_EQUIPMENT[talentTree as keyof typeof TALENT_TREE_EQUIPMENT];
-    const hasPreferredEquipment = (recipe.equipment || []).some(eq => 
-      preferredEquipment.some(pref => eq.toLowerCase().includes(pref))
+    const hasPreferredEquipment = (recipe.equipment || []).some((eq: string) => 
+      preferredEquipment.some((pref: string) => eq.toLowerCase().includes(pref))
     );
     
     if (hasPreferredEquipment) {
@@ -147,7 +147,7 @@ function scoreRecipe(
   return score;
 }
 
-import { RecipeCard } from '../components/RecipeMatcherModal';
+import { RecipeCard } from '../components/FitMatcherModal';
 
 export interface RecipeMatchOptions {
   userId: string;
@@ -382,10 +382,10 @@ Return ONLY the JSON array, no other text.`;
     recipes = JSON.parse(jsonText);
     
     if (!Array.isArray(recipes)) throw new Error('Response not an array');
-  } catch (err) {
+  } catch (err: unknown) {
     console.error('Failed to parse recipes:', err);
     console.log('Raw content:', anthropicData.content[0].text);
-    console.log('Error at position:', err.message);
+    console.log('Error at position:', err instanceof Error ? err.message : String(err));
     return generateFallbackRecipes(userId, ingredients, numRecipes);
   }
 

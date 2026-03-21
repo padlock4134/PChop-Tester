@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLevelProgressContext } from './NavBar';
-import WeeklyChallengeRecipeModal from './WeeklyChallengeRecipeModal';
-import type { RecipeCard } from './RecipeMatcherModal';
+import WeeklyChallengeFitModal from './WeeklyChallengeFitModal';
+import type { RecipeCard } from './FitMatcherModal';
 import { getWeeklyChallengeRecipe } from '../api/anthropicChallenge';
 import { getRecipeImage } from '../api/unsplash';
 import { supabase } from '../api/supabaseClient';
@@ -422,7 +422,7 @@ const ChallengeOfTheWeek: React.FC = () => {
           </div>
         </div>
       )}
-      <WeeklyChallengeRecipeModal
+      <WeeklyChallengeFitModal
         open={recipeModalOpen}
         onClose={() => setRecipeModalOpen(false)}
         recipe={modalRecipe}

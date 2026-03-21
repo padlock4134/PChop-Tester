@@ -7,12 +7,12 @@ import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../api/vision';
-import RecipeMatcherModal, { RecipeCard } from '../components/RecipeMatcherModal';
-import { useFreddieContext } from '../components/FreddieContext';
+import RecipeMatcherModal, { RecipeCard } from '../components/FitMatcherModal';
+import { useFreddieContext } from '../components/PipeFreddieContext';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 import { supabase } from '../api/supabaseClient';
-import RecipeCardComponent from '../components/RecipeCard';
+import FitCard from '../components/FitCard';
 
 const CATEGORIES = [
   "Vegetable",

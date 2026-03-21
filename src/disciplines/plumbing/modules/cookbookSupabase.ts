@@ -1,6 +1,6 @@
 import { supabase } from '../api/supabaseClient';
 import { isSessionValid } from '../api/userSession';
-import type { RecipeCard } from '../components/RecipeMatcherModal';
+import type { RecipeCard } from '../components/FitMatcherModal';
 
 export async function saveCookbook(userId: string, recipes: RecipeCard[]) {
   const sessionValid = await isSessionValid();
