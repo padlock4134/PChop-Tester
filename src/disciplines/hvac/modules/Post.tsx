@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Post = ({ user, content, image, timestamp, likes, comments }) => (
+const Post = ({ user, content, image, timestamp, likes, comments }: any) => (
   <div className="chefs-corner-post bg-sand p-4 rounded shadow-inner">
     <div className="flex items-center mb-2">
       <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full mr-3 border-2 border-maineBlue" />

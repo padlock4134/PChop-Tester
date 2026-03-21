@@ -44,8 +44,8 @@ export async function getWeeklyChallengeRecipe(prompt: string): Promise<{ title:
       console.warn('Unexpected Anthropic response structure in getWeeklyChallengeRecipe:', data);
       throw new Error('Unexpected response structure from AI.');
     }
-  } catch (e) {
+  } catch (e: unknown) {
     console.error('Failed to parse JSON recipe from Anthropic response in getWeeklyChallengeRecipe:', e, data.content?.[0]?.text);
-    throw new Error(`Failed to parse recipe from AI: ${e.message}`);
+    throw new Error(`Failed to parse recipe from AI: ${e instanceof Error ? e.message : String(e)}`);
   }
 }
