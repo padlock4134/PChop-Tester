@@ -1,10 +1,10 @@
 import React from 'react';
 import StudentProgressDashboard from './StudentProgressDashboard';
 
-const Dashboard = () => (
+const FloorDashboard = () => (
   <div className="max-w-4xl mx-auto mt-6">
     <StudentProgressDashboard />
   </div>
 );
 
-export default Dashboard;
+export default FloorDashboard;
