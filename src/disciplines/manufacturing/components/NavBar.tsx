@@ -156,10 +156,10 @@ const LastBadge = () => {
 };
 
 const navItems = [
-  { path: '/manufacturing/my-floor', label: 'My Floor' },
-  { path: '/manufacturing/mfg-academy', label: 'Mfg Academy' },
-  { path: '/manufacturing/my-playbook', label: 'My Playbook' },
-  { path: '/manufacturing/shop-talk', label: 'Shop Talk' },
+  { path: '/my-kitchen', label: 'My Kitchen' },
+  { path: '/culinary-school', label: 'Culinary School' },
+  { path: '/my-cookbook', label: 'My Cookbook' },
+  { path: '/chefs-corner', label: 'Chefs Corner' },
 ];
 
 // Language Toggle Button Component
@@ -226,21 +226,6 @@ const NavBar: React.FC = () => {
             <Link to="/select-discipline" className="flex items-center hover:opacity-80 transition-opacity">
               <span className="text-3xl sm:text-4xl font-bold tracking-wider font-retro">PorkChop</span>
             </Link>
-            
-            {/* Navigation Links */}
-            <div className="hidden md:flex items-center space-x-4 ml-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`text-sm font-medium transition-colors hover:text-seafoam ${
-                    location.pathname === item.path ? 'text-seafoam' : 'text-weatheredWhite'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
           </div>
 
           <div className="flex items-center space-x-2">
