@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getVideoQueriesForRecipe } from './MyCookBook';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 
 import type { Recipe } from './MyCookBook';

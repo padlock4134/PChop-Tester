@@ -4,7 +4,7 @@
 // Netlify/Node API handler for Chef Freddie prompt-to-query
 
 // Netlify Function for Chef Freddie prompt-to-query
-export async function handler(event, context) {
+export async function handler(event: any, context: any) {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,

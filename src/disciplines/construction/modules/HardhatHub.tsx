@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import ChefFreddieWidget from './ChefFreddieWidget';
-import { useFreddieContext } from '../components/FreddieContext';
-import { fetchKitchen } from './kitchenSupabase';
-import CookBookImportModal from '../components/CookBookImportModal';
-import MarketDirectory from '../components/MarketDirectory';
-import LocalMarketsModal from '../components/LocalMarketsModal';
-import BuildMenuModal from '../components/BuildMenuModal';
-import { useRecipeContext } from '../components/RecipeContext';
-import { RecipeCard } from '../components/RecipeMatcherModal';
+import SiteFreddieWidget from './SiteFreddieWidget';
+import { useFreddieContext } from '../components/SiteFreddieContext';
 import { fetchCookbook } from './cookbookSupabase';
+import BlueprintImportModal from '../components/BlueprintImportModal';
+import LocalYardsModal from '../components/LocalYardsModal';
+import BuildPlanModal from '../components/BuildPlanModal';
+import { useRecipeContext } from '../components/TaskContext';
+import { RecipeCard } from '../components/TaskMatcherModal';
 import { useSupabase } from '../components/SupabaseProvider';
-import GlobalTestKitchen from '../components/GlobalTestKitchen';
+import GlobalTestSite from '../components/GlobalTestSite';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
@@ -199,17 +197,17 @@ const ChefsCorner = () => {
 
   return (
     <>
-      <BuildMenuModal
+      <BuildPlanModal
         open={buildMenuModalOpen}
         onClose={() => setBuildMenuModalOpen(false)}
-        onFindMarkets={(recipes) => {
+        onFindMarkets={(recipes: RecipeCard[]) => {
           setSelectedMenuRecipes(recipes);
           setBuildMenuModalOpen(false);
           setLocalMarketsModalOpen(true);
         }}
       />
       
-      <LocalMarketsModal
+      <LocalYardsModal
         open={localMarketsModalOpen}
         onClose={() => setLocalMarketsModalOpen(false)}
         selectedRecipes={selectedMenuRecipes}
@@ -277,7 +275,7 @@ const ChefsCorner = () => {
                       </button>
                     </div>
                   </div>
-                  <CookBookImportModal
+                  <BlueprintImportModal
                     open={cookbookModalOpen}
                     onClose={() => setCookbookModalOpen(false)}
                     onImport={handleCookBookImport}
@@ -372,13 +370,13 @@ const ChefsCorner = () => {
         <div className={`lg:hidden ${
           activeMobileTab === 'kitchen' ? 'block' : 'hidden'
         }`}>
-          <GlobalTestKitchen showcaseRecipe={showcaseRecipe} />
+          <GlobalTestSite showcaseRecipe={showcaseRecipe} />
         </div>
         
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
-          <GlobalTestKitchen showcaseRecipe={showcaseRecipe} />
-          <ChefFreddieWidget />
+          <GlobalTestSite showcaseRecipe={showcaseRecipe} />
+          <SiteFreddieWidget />
         </div>
       </div>
     </div>
