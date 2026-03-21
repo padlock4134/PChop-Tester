@@ -98,9 +98,9 @@ const NearbyPlaces: React.FC = () => {
         }
         
         setPlaces(data.results);
-      } catch (err) {
+      } catch (err: unknown) {
         console.error('Places fetch error:', err);
-        setError(`Failed to fetch nearby places: ${err.message}`);
+        setError(`Failed to fetch nearby places: ${err instanceof Error ? err.message : String(err)}`);
       } finally {
         setLoading(false);
       }

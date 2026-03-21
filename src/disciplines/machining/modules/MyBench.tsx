@@ -7,12 +7,12 @@ import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../api/vision';
-import RecipeMatcherModal, { RecipeCard } from '../components/RecipeMatcherModal';
-import { useFreddieContext } from '../components/FreddieContext';
+import PartMatcherModal, { RecipeCard } from '../components/PartMatcherModal';
+import { useFreddieContext } from '../components/BenchFreddieContext';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 import { supabase } from '../api/supabaseClient';
-import RecipeCardComponent from '../components/RecipeCard';
+import PartCard from '../components/PartCard';
 
 const CATEGORIES = [
   "Vegetable",
@@ -330,7 +330,7 @@ const MyKitchen = () => {
       )}
 
       {/* Recipe Matcher Modal (always mounted for overlay) */}
-      <RecipeMatcherModal
+      <PartMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
         cupboardIngredients={ingredients.map(i => i.name)}

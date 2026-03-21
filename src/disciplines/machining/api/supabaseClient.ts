@@ -9,10 +9,10 @@ const env = import.meta.env as ImportMetaEnv;
 const supabaseUrl = env.VITE_SUPABASE_URL;
 const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY;
 
-let supabaseJwt = null;
+let supabaseJwt: string | null = null;
 
 // Function to store the Supabase token for all future requests
-export const setSupabaseJwt = (token) => {
+export const setSupabaseJwt = (token: string) => {
   supabaseJwt = token;
 };
 
