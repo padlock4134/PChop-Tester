@@ -11,7 +11,7 @@ import { getUserBadges, BADGES } from '../utils/badges';
 import logo from '../images/logo.png';
 import { useSupabase } from './SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
-import { useAdminToggle } from '../App';
+import { useAdminToggle } from '../../../App';
 
 interface LevelProgress {
   title: string;
