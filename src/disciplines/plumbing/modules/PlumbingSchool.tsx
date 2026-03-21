@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../components/FreddieContext';
+import { useFreddieContext } from '../components/PipeFreddieContext';
+import { useRecipeContext } from '../components/FitContext';
 import VideoModal from '../components/VideoModal';
-import { useRecipeContext } from '../components/RecipeContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
-import CookingTimer from '../components/CookingTimer';
-import BenchPracticeModal from '../components/BenchPracticeModal';
+import JobTimer from '../components/JobTimer';
+import FitPracticeModal from '../components/FitPracticeModal';
 
 const generalLessons = [
   { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
@@ -372,7 +372,7 @@ const CulinarySchool = () => {
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6" />
         <div className="w-full mx-auto">
-        <CookingTimer servingSize={servingSize} setServingSize={setServingSize} />
+        <JobTimer servingSize={servingSize} setServingSize={setServingSize} />
         {/* Always render a VideoModal for the currently displayed tutorial list */}
         {tutorials.map((tut, idx) => (
           <VideoModal
@@ -425,7 +425,7 @@ const CulinarySchool = () => {
                 <div className="font-semibold mb-1 mt-2">{t('plumbingSchool.ingredients')}</div>
                 <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                   {selectedRecipe.ingredients?.length ? (
-                    selectedRecipe.ingredients.map((ing, i) => <li key={i}>{ing}</li>)
+                    selectedRecipe.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
                   ) : (
                     <li className="italic text-gray-400">{t('plumbingSchool.noIngredientsListed')}</li>
                   )}
@@ -455,7 +455,7 @@ const CulinarySchool = () => {
                   <>
                     <div className="font-semibold mt-4 mb-1">{t('plumbingSchool.equipmentNeeded')}</div>
                     <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                      {selectedRecipe.equipment.map((eq, i) => (
+                      {selectedRecipe.equipment.map((eq: string, i: number) => (
                         <li key={i}>{eq}</li>
                       ))}
                     </ul>
@@ -506,7 +506,7 @@ const CulinarySchool = () => {
       </div>
 
       {/* Bench Practice Modal */}
-      <BenchPracticeModal 
+      <FitPracticeModal 
         open={benchPracticeOpen}
         onClose={() => setBenchPracticeOpen(false)}
       />
