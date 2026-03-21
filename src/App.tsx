@@ -8,17 +8,108 @@ import {
   WristbandAuthProvider
 } from '@wristband/react-client-auth';
 import './i18n';
+import { DisciplineProvider, useDiscipline } from './DisciplineContext';
+import { getDisciplineFromPath } from './disciplineConfig';
 
 import DisciplineSelector from './DisciplineSelector';
-import NavBar from './disciplines/culinary/components/NavBar';
-import MyKitchen from './disciplines/culinary/modules/MyKitchen';
-import MyCookBook from './disciplines/culinary/modules/MyCookBook';
-import ChefsCorner from './disciplines/culinary/modules/ChefsCorner';
-import CulinarySchool from './disciplines/culinary/modules/CulinarySchool';
-import Profile from './disciplines/culinary/components/Profile';
-import Dashboard from './disciplines/culinary/components/Dashboard';
-import AdminDashboard from './disciplines/culinary/components/AdminDashboard';
-import ChefFreddieWidget from './disciplines/culinary/components/ChefFreddieWidget';
+// Culinary imports
+import CulinaryNavBar from './disciplines/culinary/components/NavBar';
+import CulinaryMyKitchen from './disciplines/culinary/modules/MyKitchen';
+import CulinaryMyCookBook from './disciplines/culinary/modules/MyCookBook';
+import CulinaryChefsCorner from './disciplines/culinary/modules/ChefsCorner';
+import CulinaryCulinarySchool from './disciplines/culinary/modules/CulinarySchool';
+import CulinaryProfile from './disciplines/culinary/components/Profile';
+import CulinaryDashboard from './disciplines/culinary/components/Dashboard';
+import CulinaryAdminDashboard from './disciplines/culinary/components/AdminDashboard';
+import CulinaryChefFreddieWidget from './disciplines/culinary/components/ChefFreddieWidget';
+
+// Plumbing imports
+import PlumbingNavBar from './disciplines/plumbing/components/NavBar';
+import PlumbingMyVan from './disciplines/plumbing/modules/MyVan';
+import PlumbingMyPipeBook from './disciplines/plumbing/modules/MyPipeBook';
+import PlumbingPipeLounge from './disciplines/plumbing/modules/PipeLounge';
+import PlumbingPlumbingSchool from './disciplines/plumbing/modules/PlumbingSchool';
+import PlumbingProfile from './disciplines/plumbing/components/Profile';
+import PlumbingVanDashboard from './disciplines/plumbing/components/VanDashboard';
+import PlumbingVanAdminDashboard from './disciplines/plumbing/components/VanAdminDashboard';
+import PlumbingPipeFreddieWidget from './disciplines/plumbing/modules/PipeFreddieWidget';
+
+// Automotive imports
+import AutomotiveNavBar from './disciplines/automotive/components/NavBar';
+import AutomotiveMyGarage from './disciplines/automotive/modules/MyGarage';
+import AutomotiveMyManual from './disciplines/automotive/modules/MyManual';
+import AutomotiveGearheadLounge from './disciplines/automotive/modules/GearheadLounge';
+import AutomotiveAutoSchool from './disciplines/automotive/modules/AutoSchool';
+import AutomotiveProfile from './disciplines/automotive/components/Profile';
+import AutomotiveGarageDashboard from './disciplines/automotive/components/GarageDashboard';
+import AutomotiveGarageAdminDashboard from './disciplines/automotive/components/GarageAdminDashboard';
+import AutomotiveGarageFreddieWidget from './disciplines/automotive/modules/GarageFreddieWidget';
+
+// Construction imports
+import ConstructionNavBar from './disciplines/construction/components/NavBar';
+import ConstructionMySite from './disciplines/construction/modules/MySite';
+import ConstructionMyBlueprints from './disciplines/construction/modules/MyBlueprints';
+import ConstructionHardhatHub from './disciplines/construction/modules/HardhatHub';
+import ConstructionBuildSchool from './disciplines/construction/modules/BuildSchool';
+import ConstructionProfile from './disciplines/construction/components/Profile';
+import ConstructionSiteDashboard from './disciplines/construction/components/SiteDashboard';
+import ConstructionSiteAdminDashboard from './disciplines/construction/components/SiteAdminDashboard';
+import ConstructionSiteFreddieWidget from './disciplines/construction/modules/SiteFreddieWidget';
+
+// Electrical imports
+import ElectricalNavBar from './disciplines/electrical/components/NavBar';
+import ElectricalMyPanel from './disciplines/electrical/modules/MyPanel';
+import ElectricalMyCodeBook from './disciplines/electrical/modules/MyCodeBook';
+import ElectricalWireLounge from './disciplines/electrical/modules/WireLounge';
+import ElectricalElecSchool from './disciplines/electrical/modules/ElecSchool';
+import ElectricalProfile from './disciplines/electrical/components/Profile';
+import ElectricalPanelDashboard from './disciplines/electrical/components/PanelDashboard';
+import ElectricalPanelAdminDashboard from './disciplines/electrical/components/PanelAdminDashboard';
+import ElectricalSparkFreddieWidget from './disciplines/electrical/modules/SparkFreddieWidget';
+
+// HVAC imports
+import HvacNavBar from './disciplines/hvac/components/NavBar';
+import HvacMyShop from './disciplines/hvac/modules/MyShop';
+import HvacMySpecSheets from './disciplines/hvac/modules/MySpecSheets';
+import HvacTechTalk from './disciplines/hvac/modules/TechTalk';
+import HvacHvacSchool from './disciplines/hvac/modules/HvacSchool';
+import HvacProfile from './disciplines/hvac/components/Profile';
+import HvacShopDashboard from './disciplines/hvac/components/ShopDashboard';
+import HvacShopAdminDashboard from './disciplines/hvac/components/ShopAdminDashboard';
+import HvacShopFreddieWidget from './disciplines/hvac/modules/ShopFreddieWidget';
+
+// Manufacturing imports
+import ManufacturingNavBar from './disciplines/manufacturing/components/NavBar';
+import ManufacturingMyFloor from './disciplines/manufacturing/modules/MyFloor';
+import ManufacturingMyPlaybook from './disciplines/manufacturing/modules/MyPlaybook';
+import ManufacturingShopTalk from './disciplines/manufacturing/modules/ShopTalk';
+import ManufacturingMfgAcademy from './disciplines/manufacturing/modules/MfgAcademy';
+import ManufacturingProfile from './disciplines/manufacturing/components/Profile';
+import ManufacturingFloorDashboard from './disciplines/manufacturing/components/FloorDashboard';
+import ManufacturingFloorAdminDashboard from './disciplines/manufacturing/components/FloorAdminDashboard';
+import ManufacturingFloorFreddieWidget from './disciplines/manufacturing/modules/FloorFreddieWidget';
+
+// Logistics imports
+import LogisticsNavBar from './disciplines/logistics/components/NavBar';
+import LogisticsMyDock from './disciplines/logistics/modules/MyDock';
+import LogisticsMyRunbook from './disciplines/logistics/modules/MyRunbook';
+import LogisticsDispatchLounge from './disciplines/logistics/modules/DispatchLounge';
+import LogisticsLogisticsSchool from './disciplines/logistics/modules/LogisticsSchool';
+import LogisticsProfile from './disciplines/logistics/components/Profile';
+import LogisticsDockDashboard from './disciplines/logistics/components/DockDashboard';
+import LogisticsDockAdminDashboard from './disciplines/logistics/components/DockAdminDashboard';
+import LogisticsDockFreddieWidget from './disciplines/logistics/modules/DockFreddieWidget';
+
+// Machining imports
+import MachiningNavBar from './disciplines/machining/components/NavBar';
+import MachiningMyBench from './disciplines/machining/modules/MyBench';
+import MachiningMySpecBook from './disciplines/machining/modules/MySpecBook';
+import MachiningMachinistCorner from './disciplines/machining/modules/MachinistCorner';
+import MachiningMachiningSchool from './disciplines/machining/modules/MachiningSchool';
+import MachiningProfile from './disciplines/machining/components/Profile';
+import MachiningBenchDashboard from './disciplines/machining/components/BenchDashboard';
+import MachiningBenchAdminDashboard from './disciplines/machining/components/BenchAdminDashboard';
+import MachiningBenchFreddieWidget from './disciplines/machining/modules/BenchFreddieWidget';
 import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
 import SupabaseProvider, { useSupabase } from './disciplines/culinary/components/SupabaseProvider';
@@ -74,14 +165,128 @@ const HomeRedirect = () => {
   );
 };
 
+// Component mapping for dynamic routing
+const getDisciplineComponents = (discipline: string) => {
+  const componentMap: Record<string, any> = {
+    culinary: {
+      NavBar: CulinaryNavBar,
+      Kitchen: CulinaryMyKitchen,
+      Cookbook: CulinaryMyCookBook,
+      Corner: CulinaryChefsCorner,
+      School: CulinaryCulinarySchool,
+      Profile: CulinaryProfile,
+      Dashboard: CulinaryDashboard,
+      AdminDashboard: CulinaryAdminDashboard,
+      FreddieWidget: CulinaryChefFreddieWidget
+    },
+    plumbing: {
+      NavBar: PlumbingNavBar,
+      Kitchen: PlumbingMyVan,
+      Cookbook: PlumbingMyPipeBook,
+      Corner: PlumbingPipeLounge,
+      School: PlumbingPlumbingSchool,
+      Profile: PlumbingProfile,
+      Dashboard: PlumbingVanDashboard,
+      AdminDashboard: PlumbingVanAdminDashboard,
+      FreddieWidget: PlumbingPipeFreddieWidget
+    },
+    automotive: {
+      NavBar: AutomotiveNavBar,
+      Kitchen: AutomotiveMyGarage,
+      Cookbook: AutomotiveMyManual,
+      Corner: AutomotiveGearheadLounge,
+      School: AutomotiveAutoSchool,
+      Profile: AutomotiveProfile,
+      Dashboard: AutomotiveGarageDashboard,
+      AdminDashboard: AutomotiveGarageAdminDashboard,
+      FreddieWidget: AutomotiveGarageFreddieWidget
+    },
+    construction: {
+      NavBar: ConstructionNavBar,
+      Kitchen: ConstructionMySite,
+      Cookbook: ConstructionMyBlueprints,
+      Corner: ConstructionHardhatHub,
+      School: ConstructionBuildSchool,
+      Profile: ConstructionProfile,
+      Dashboard: ConstructionSiteDashboard,
+      AdminDashboard: ConstructionSiteAdminDashboard,
+      FreddieWidget: ConstructionSiteFreddieWidget
+    },
+    electrical: {
+      NavBar: ElectricalNavBar,
+      Kitchen: ElectricalMyPanel,
+      Cookbook: ElectricalMyCodeBook,
+      Corner: ElectricalWireLounge,
+      School: ElectricalElecSchool,
+      Profile: ElectricalProfile,
+      Dashboard: ElectricalPanelDashboard,
+      AdminDashboard: ElectricalPanelAdminDashboard,
+      FreddieWidget: ElectricalSparkFreddieWidget
+    },
+    hvac: {
+      NavBar: HvacNavBar,
+      Kitchen: HvacMyShop,
+      Cookbook: HvacMySpecSheets,
+      Corner: HvacTechTalk,
+      School: HvacHvacSchool,
+      Profile: HvacProfile,
+      Dashboard: HvacShopDashboard,
+      AdminDashboard: HvacShopAdminDashboard,
+      FreddieWidget: HvacShopFreddieWidget
+    },
+    manufacturing: {
+      NavBar: ManufacturingNavBar,
+      Kitchen: ManufacturingMyFloor,
+      Cookbook: ManufacturingMyPlaybook,
+      Corner: ManufacturingShopTalk,
+      School: ManufacturingMfgAcademy,
+      Profile: ManufacturingProfile,
+      Dashboard: ManufacturingFloorDashboard,
+      AdminDashboard: ManufacturingFloorAdminDashboard,
+      FreddieWidget: ManufacturingFloorFreddieWidget
+    },
+    logistics: {
+      NavBar: LogisticsNavBar,
+      Kitchen: LogisticsMyDock,
+      Cookbook: LogisticsMyRunbook,
+      Corner: LogisticsDispatchLounge,
+      School: LogisticsLogisticsSchool,
+      Profile: LogisticsProfile,
+      Dashboard: LogisticsDockDashboard,
+      AdminDashboard: LogisticsDockAdminDashboard,
+      FreddieWidget: LogisticsDockFreddieWidget
+    },
+    machining: {
+      NavBar: MachiningNavBar,
+      Kitchen: MachiningMyBench,
+      Cookbook: MachiningMySpecBook,
+      Corner: MachiningMachinistCorner,
+      School: MachiningMachiningSchool,
+      Profile: MachiningProfile,
+      Dashboard: MachiningBenchDashboard,
+      AdminDashboard: MachiningBenchAdminDashboard,
+      FreddieWidget: MachiningBenchFreddieWidget
+    }
+  };
+  return componentMap[discipline] || componentMap.culinary;
+};
+
 const AppRoutes = () => {
   const location = useLocation();
-
   const navigate = useNavigate();
 
   const { authStatus } = useWristbandAuth();
   const { user, isLoading, refreshAuthState } = useSupabase();
   const { isAdminMode } = useAdminToggle();
+  
+  // Get current discipline from path
+  const currentDiscipline = getDisciplineFromPath(location.pathname) || 'culinary';
+  const components = getDisciplineComponents(currentDiscipline);
+  
+  const NavBar = components.NavBar;
+  const Dashboard = components.Dashboard;
+  const AdminDashboard = components.AdminDashboard;
+  const FreddieWidget = components.FreddieWidget;
   
   // Use the device detection hook
   const { deviceType } = useDeviceDetect();
@@ -131,17 +336,83 @@ const AppRoutes = () => {
       <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
         <Routes>
           <Route path="/select-discipline" element={<DisciplineSelector />} />
-          <Route path="/:discipline/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/my-kitchen" element={<MyKitchen />} />
-          <Route path="/my-cookbook" element={<MyCookBook />} />
-          <Route path="/chefs-corner" element={<ChefsCorner />} />
-          <Route path="/culinary-school" element={<CulinarySchool />} />
-          <Route path="/profile" element={<Profile />} />
+          
+          {/* Culinary routes */}
+          <Route path="/culinary/dashboard" element={<CulinaryDashboard />} />
+          <Route path="/culinary/my-kitchen" element={<CulinaryMyKitchen />} />
+          <Route path="/culinary/my-cookbook" element={<CulinaryMyCookBook />} />
+          <Route path="/culinary/chefs-corner" element={<CulinaryChefsCorner />} />
+          <Route path="/culinary/culinary-school" element={<CulinaryCulinarySchool />} />
+          <Route path="/culinary/profile" element={<CulinaryProfile />} />
+          
+          {/* Plumbing routes */}
+          <Route path="/plumbing/dashboard" element={<PlumbingVanDashboard />} />
+          <Route path="/plumbing/my-van" element={<PlumbingMyVan />} />
+          <Route path="/plumbing/my-pipebook" element={<PlumbingMyPipeBook />} />
+          <Route path="/plumbing/pipe-lounge" element={<PlumbingPipeLounge />} />
+          <Route path="/plumbing/plumbing-school" element={<PlumbingPlumbingSchool />} />
+          <Route path="/plumbing/profile" element={<PlumbingProfile />} />
+          
+          {/* Automotive routes */}
+          <Route path="/automotive/dashboard" element={<AutomotiveGarageDashboard />} />
+          <Route path="/automotive/my-garage" element={<AutomotiveMyGarage />} />
+          <Route path="/automotive/my-manual" element={<AutomotiveMyManual />} />
+          <Route path="/automotive/gearhead-lounge" element={<AutomotiveGearheadLounge />} />
+          <Route path="/automotive/auto-school" element={<AutomotiveAutoSchool />} />
+          <Route path="/automotive/profile" element={<AutomotiveProfile />} />
+          
+          {/* Construction routes */}
+          <Route path="/construction/dashboard" element={<ConstructionSiteDashboard />} />
+          <Route path="/construction/my-site" element={<ConstructionMySite />} />
+          <Route path="/construction/my-blueprints" element={<ConstructionMyBlueprints />} />
+          <Route path="/construction/hardhat-hub" element={<ConstructionHardhatHub />} />
+          <Route path="/construction/build-school" element={<ConstructionBuildSchool />} />
+          <Route path="/construction/profile" element={<ConstructionProfile />} />
+          
+          {/* Electrical routes */}
+          <Route path="/electrical/dashboard" element={<ElectricalPanelDashboard />} />
+          <Route path="/electrical/my-panel" element={<ElectricalMyPanel />} />
+          <Route path="/electrical/my-codebook" element={<ElectricalMyCodeBook />} />
+          <Route path="/electrical/wire-lounge" element={<ElectricalWireLounge />} />
+          <Route path="/electrical/elec-school" element={<ElectricalElecSchool />} />
+          <Route path="/electrical/profile" element={<ElectricalProfile />} />
+          
+          {/* HVAC routes */}
+          <Route path="/hvac/dashboard" element={<HvacShopDashboard />} />
+          <Route path="/hvac/my-shop" element={<HvacMyShop />} />
+          <Route path="/hvac/my-specsheets" element={<HvacMySpecSheets />} />
+          <Route path="/hvac/tech-talk" element={<HvacTechTalk />} />
+          <Route path="/hvac/hvac-school" element={<HvacHvacSchool />} />
+          <Route path="/hvac/profile" element={<HvacProfile />} />
+          
+          {/* Manufacturing routes */}
+          <Route path="/manufacturing/dashboard" element={<ManufacturingFloorDashboard />} />
+          <Route path="/manufacturing/my-floor" element={<ManufacturingMyFloor />} />
+          <Route path="/manufacturing/my-playbook" element={<ManufacturingMyPlaybook />} />
+          <Route path="/manufacturing/shop-talk" element={<ManufacturingShopTalk />} />
+          <Route path="/manufacturing/mfg-academy" element={<ManufacturingMfgAcademy />} />
+          <Route path="/manufacturing/profile" element={<ManufacturingProfile />} />
+          
+          {/* Logistics routes */}
+          <Route path="/logistics/dashboard" element={<LogisticsDockDashboard />} />
+          <Route path="/logistics/my-dock" element={<LogisticsMyDock />} />
+          <Route path="/logistics/my-runbook" element={<LogisticsMyRunbook />} />
+          <Route path="/logistics/dispatch-lounge" element={<LogisticsDispatchLounge />} />
+          <Route path="/logistics/logistics-school" element={<LogisticsLogisticsSchool />} />
+          <Route path="/logistics/profile" element={<LogisticsProfile />} />
+          
+          {/* Machining routes */}
+          <Route path="/machining/dashboard" element={<MachiningBenchDashboard />} />
+          <Route path="/machining/my-bench" element={<MachiningMyBench />} />
+          <Route path="/machining/my-specbook" element={<MachiningMySpecBook />} />
+          <Route path="/machining/machinist-corner" element={<MachiningMachinistCorner />} />
+          <Route path="/machining/machining-school" element={<MachiningMachiningSchool />} />
+          <Route path="/machining/profile" element={<MachiningProfile />} />
+          
           <Route path="/" element={<HomeRedirect />} />
         </Routes>
       </main>
-      {!isDisciplineSelect && <ChefFreddieWidget />}
+      {!isDisciplineSelect && <FreddieWidget />}
       <InactivityWarningModal
         isOpen={showWarning}
         countdown={countdown}
@@ -187,7 +458,9 @@ const App = () => {
         <SupabaseProvider>
           <RecipeProvider>
             <FreddieProvider>
-              <AppRoutes />
+              <DisciplineProvider>
+                <AppRoutes />
+              </DisciplineProvider>
             </FreddieProvider>
           </RecipeProvider>
         </SupabaseProvider>

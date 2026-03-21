@@ -12,6 +12,7 @@ import logo from '../images/logo.png';
 import { useSupabase } from './SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 import { useAdminToggle } from '../../../App';
+import { useDiscipline } from '../../../DisciplineContext';
 
 interface LevelProgress {
   title: string;
@@ -213,6 +214,7 @@ const NavBar: React.FC = () => {
   const { progress, refreshXP } = useLevelProgressContext();
   const location = useLocation();
   const { t } = useTranslation();
+  const { disciplineConfig } = useDiscipline();
   
   return (
     <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md sticky top-0 z-50">
@@ -232,7 +234,7 @@ const NavBar: React.FC = () => {
             
             {/* Profile Avatar */}
             <Link
-              to={location.pathname === '/profile' ? '/dashboard' : '/profile'}
+              to={location.pathname.includes('/profile') ? disciplineConfig.routes.dashboard : disciplineConfig.routes.profile}
               className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
                 location.pathname === '/profile'
                   ? 'bg-seafoam hover:bg-teal-400'
