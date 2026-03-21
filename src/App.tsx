@@ -123,9 +123,11 @@ const AppRoutes = () => {
     );
   }
 
+  const isDisciplineSelect = location.pathname === '/select-discipline';
+
   return (
     <div className="min-h-screen bg-sand">
-      <NavBar />
+      {!isDisciplineSelect && <NavBar />}
       <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
         <Routes>
           <Route path="/select-discipline" element={<DisciplineSelector />} />
@@ -139,7 +141,7 @@ const AppRoutes = () => {
           <Route path="/" element={<HomeRedirect />} />
         </Routes>
       </main>
-      <ChefFreddieWidget />
+      {!isDisciplineSelect && <ChefFreddieWidget />}
       <InactivityWarningModal
         isOpen={showWarning}
         countdown={countdown}
