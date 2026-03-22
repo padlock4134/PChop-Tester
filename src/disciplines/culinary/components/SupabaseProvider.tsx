@@ -13,6 +13,7 @@ import { isAdminRole } from '../utils/auth';
 interface SupabaseContextType {
   user: User | null;
   isLoading: boolean;
+  isAdmin: boolean;
   refreshAuthState: () => Promise<void>;
 }
 
@@ -20,6 +21,7 @@ interface SupabaseContextType {
 const SupabaseContext = createContext<SupabaseContextType>({
   user: null,
   isLoading: true,
+  isAdmin: false,
   refreshAuthState: async () => {},
 });
 
@@ -44,6 +46,8 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) 
     metadata
   } = useWristbandSession<WristbandSessionMetadata>();
   const { email: wristbandEmail, role } = metadata;
+
+  const isAdmin = isAdminRole(role?.name || '');
 
   const refreshAuthState = async () => {
     if (!wristbandUserId || !wristbandTenantId) return;
@@ -194,7 +198,7 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) 
   };
 
   return (
-    <SupabaseContext.Provider value={{ user, isLoading, refreshAuthState }}>
+    <SupabaseContext.Provider value={{ user, isLoading, isAdmin, refreshAuthState }}>
       {children}
     </SupabaseContext.Provider>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Bars3Icon, CogIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
@@ -191,21 +191,33 @@ const LanguageToggleButton: React.FC = () => {
 
 // Admin Toggle Button Component
 const AdminToggleButton: React.FC = () => {
-  const { isAdminMode, toggleAdminMode } = useAdminToggle();
+  const { isAdmin } = useSupabase();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { t } = useTranslation();
+  
+  if (!isAdmin) return null;
+
+  const isOnAdmin = location.pathname === '/admin';
   
   return (
     <button
-      onClick={toggleAdminMode}
+      onClick={() => {
+        if (isOnAdmin) {
+          navigate('/select-discipline');
+        } else {
+          navigate('/admin');
+        }
+      }}
       className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
-        isAdminMode 
+        isOnAdmin 
           ? 'bg-lobsterRed hover:bg-red-700' 
           : 'bg-white hover:bg-gray-100'
       }`}
-      aria-label={isAdminMode ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
-      title={isAdminMode ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
+      aria-label={isOnAdmin ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
+      title={isOnAdmin ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
     >
-      <CogIcon className={`h-6 w-6 ${isAdminMode ? 'text-white' : 'text-black'}`} />
+      <CogIcon className={`h-6 w-6 ${isOnAdmin ? 'text-white' : 'text-black'}`} />
     </button>
   );
 };

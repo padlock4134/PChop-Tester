@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '../api/supabaseClient';
-import { useSupabase } from './SupabaseProvider';
-import { askChefFreddie } from '../api/chefFreddie';
+import { Link, useNavigate } from 'react-router-dom';
+import { supabase } from '../disciplines/culinary/api/supabaseClient';
+import { useSupabase } from '../disciplines/culinary/components/SupabaseProvider';
+import { askChefFreddie } from '../disciplines/culinary/api/chefFreddie';
+import { DISCIPLINE_CONFIG, DisciplineKey } from '../disciplineConfig';
+import { useAdminToggle } from '../App';
 import {
   UsersIcon,
   ChartBarIcon,
@@ -41,9 +44,21 @@ interface AdminDashboardProps {
   onClose?: () => void;
 }
 
-const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
+const disciplineOptions = [
+  { key: 'total' as const, label: 'TOTAL', icon: '📊' },
+  ...Object.values(DISCIPLINE_CONFIG).map(d => ({
+    key: d.key as DisciplineKey,
+    label: d.name,
+    icon: d.key === 'culinary' ? '🍳' : d.key === 'plumbing' ? '🔩' : d.key === 'automotive' ? '🔧' : d.key === 'construction' ? '🏗️' : d.key === 'electrical' ? '⚡' : d.key === 'hvac' ? '❄️' : d.key === 'manufacturing' ? '🏭' : d.key === 'logistics' ? '📦' : d.key === 'machining' ? '⚙️' : '📋'
+  }))
+];
+
+const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { toggleAdminMode } = useAdminToggle();
   const [activeTab, setActiveTab] = useState('overview');
+  const [selectedDiscipline, setSelectedDiscipline] = useState<'total' | DisciplineKey>('total');
   
   // Mobile tab state - mimicking Student Dashboard
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'events' | 'actions'>('home');
@@ -1153,6 +1168,22 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('admin.adminDashboard')}</h1>
             <p className="text-gray-600 italic">{t('admin.subtitle')}</p>
+            
+            {/* Discipline Filter Dropdown */}
+            <div className="mt-4 flex items-center justify-center gap-3">
+              <label className="font-retro text-sm text-maineBlue">Program:</label>
+              <select
+                value={selectedDiscipline}
+                onChange={(e) => setSelectedDiscipline(e.target.value as 'total' | DisciplineKey)}
+                className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer"
+              >
+                {disciplineOptions.map((opt) => (
+                  <option key={opt.key} value={opt.key}>
+                    {opt.icon} {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           
           {/* Separation line */}
@@ -8705,4 +8736,4 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   );
 };
 
-export default AdminDashboard;
+export default UnifiedAdminDashboard;

@@ -20,7 +20,6 @@ import CulinaryChefsCorner from './disciplines/culinary/modules/ChefsCorner';
 import CulinaryCulinarySchool from './disciplines/culinary/modules/CulinarySchool';
 import CulinaryProfile from './disciplines/culinary/components/Profile';
 import CulinaryDashboard from './disciplines/culinary/components/Dashboard';
-import CulinaryAdminDashboard from './disciplines/culinary/components/AdminDashboard';
 import CulinaryChefFreddieWidget from './disciplines/culinary/components/ChefFreddieWidget';
 
 // Plumbing imports
@@ -31,7 +30,6 @@ import PlumbingPipeLounge from './disciplines/plumbing/modules/PipeLounge';
 import PlumbingPlumbingSchool from './disciplines/plumbing/modules/PlumbingSchool';
 import PlumbingProfile from './disciplines/plumbing/components/Profile';
 import PlumbingVanDashboard from './disciplines/plumbing/components/VanDashboard';
-import PlumbingVanAdminDashboard from './disciplines/plumbing/components/VanAdminDashboard';
 import PlumbingPipeFreddieWidget from './disciplines/plumbing/modules/PipeFreddieWidget';
 
 // Automotive imports
@@ -42,7 +40,6 @@ import AutomotiveGearheadLounge from './disciplines/automotive/modules/GearheadL
 import AutomotiveAutoSchool from './disciplines/automotive/modules/AutoSchool';
 import AutomotiveProfile from './disciplines/automotive/components/Profile';
 import AutomotiveGarageDashboard from './disciplines/automotive/components/GarageDashboard';
-import AutomotiveGarageAdminDashboard from './disciplines/automotive/components/GarageAdminDashboard';
 import AutomotiveGarageFreddieWidget from './disciplines/automotive/modules/GarageFreddieWidget';
 
 // Construction imports
@@ -53,7 +50,6 @@ import ConstructionHardhatHub from './disciplines/construction/modules/HardhatHu
 import ConstructionBuildSchool from './disciplines/construction/modules/BuildSchool';
 import ConstructionProfile from './disciplines/construction/components/Profile';
 import ConstructionSiteDashboard from './disciplines/construction/components/SiteDashboard';
-import ConstructionSiteAdminDashboard from './disciplines/construction/components/SiteAdminDashboard';
 import ConstructionSiteFreddieWidget from './disciplines/construction/modules/SiteFreddieWidget';
 
 // Electrical imports
@@ -64,7 +60,6 @@ import ElectricalWireLounge from './disciplines/electrical/modules/WireLounge';
 import ElectricalElecSchool from './disciplines/electrical/modules/ElecSchool';
 import ElectricalProfile from './disciplines/electrical/components/Profile';
 import ElectricalPanelDashboard from './disciplines/electrical/components/PanelDashboard';
-import ElectricalPanelAdminDashboard from './disciplines/electrical/components/PanelAdminDashboard';
 import ElectricalSparkFreddieWidget from './disciplines/electrical/modules/SparkFreddieWidget';
 
 // HVAC imports
@@ -75,7 +70,6 @@ import HvacTechTalk from './disciplines/hvac/modules/TechTalk';
 import HvacHvacSchool from './disciplines/hvac/modules/HvacSchool';
 import HvacProfile from './disciplines/hvac/components/Profile';
 import HvacShopDashboard from './disciplines/hvac/components/ShopDashboard';
-import HvacShopAdminDashboard from './disciplines/hvac/components/ShopAdminDashboard';
 import HvacShopFreddieWidget from './disciplines/hvac/modules/ShopFreddieWidget';
 
 // Manufacturing imports
@@ -86,7 +80,6 @@ import ManufacturingShopTalk from './disciplines/manufacturing/modules/ShopTalk'
 import ManufacturingMfgAcademy from './disciplines/manufacturing/modules/MfgAcademy';
 import ManufacturingProfile from './disciplines/manufacturing/components/Profile';
 import ManufacturingFloorDashboard from './disciplines/manufacturing/components/FloorDashboard';
-import ManufacturingFloorAdminDashboard from './disciplines/manufacturing/components/FloorAdminDashboard';
 import ManufacturingFloorFreddieWidget from './disciplines/manufacturing/modules/FloorFreddieWidget';
 
 // Logistics imports
@@ -97,7 +90,6 @@ import LogisticsDispatchLounge from './disciplines/logistics/modules/DispatchLou
 import LogisticsLogisticsSchool from './disciplines/logistics/modules/LogisticsSchool';
 import LogisticsProfile from './disciplines/logistics/components/Profile';
 import LogisticsDockDashboard from './disciplines/logistics/components/DockDashboard';
-import LogisticsDockAdminDashboard from './disciplines/logistics/components/DockAdminDashboard';
 import LogisticsDockFreddieWidget from './disciplines/logistics/modules/DockFreddieWidget';
 
 // Machining imports
@@ -108,7 +100,6 @@ import MachiningMachinistCorner from './disciplines/machining/modules/MachinistC
 import MachiningMachiningSchool from './disciplines/machining/modules/MachiningSchool';
 import MachiningProfile from './disciplines/machining/components/Profile';
 import MachiningBenchDashboard from './disciplines/machining/components/BenchDashboard';
-import MachiningBenchAdminDashboard from './disciplines/machining/components/BenchAdminDashboard';
 import MachiningBenchFreddieWidget from './disciplines/machining/modules/BenchFreddieWidget';
 import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
@@ -118,6 +109,7 @@ import { setSupabaseJwt } from './disciplines/culinary/api/supabaseClient';
 import { useDeviceDetect, getResponsiveClasses } from './disciplines/culinary/utils/responsiveUtils';
 import InactivityWarningModal from './disciplines/culinary/components/InactivityWarningModal';
 import { useAutoLogout } from './disciplines/culinary/hooks/useAutoLogout';
+import UnifiedAdminDashboard from './components/UnifiedAdminDashboard';
 
 // Admin toggle context
 const AdminToggleContext = createContext<{ isAdminMode: boolean; toggleAdminMode: () => void }>({ 
@@ -144,14 +136,18 @@ const AdminToggleProvider: React.FC<{ children: React.ReactNode }> = ({ children
 const HomeRedirect = () => {
   const navigate = useNavigate();
   const { authStatus } = useWristbandAuth();
-  const { user, isLoading } = useSupabase();
+  const { user, isLoading, isAdmin } = useSupabase();
 
   useEffect(() => {
     if (isLoading) return;
     
-    // If authenticated and user is loaded, go to dashboard
+    // If authenticated and user is loaded, route based on role
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
-      navigate('/select-discipline', { replace: true });
+      if (isAdmin) {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/select-discipline', { replace: true });
+      }
     } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
       // Not authenticated, redirect to login
       window.location.href = '/.netlify/functions/auth-login';
@@ -176,7 +172,6 @@ const getDisciplineComponents = (discipline: string) => {
       School: CulinaryCulinarySchool,
       Profile: CulinaryProfile,
       Dashboard: CulinaryDashboard,
-      AdminDashboard: CulinaryAdminDashboard,
       FreddieWidget: CulinaryChefFreddieWidget
     },
     plumbing: {
@@ -187,7 +182,6 @@ const getDisciplineComponents = (discipline: string) => {
       School: PlumbingPlumbingSchool,
       Profile: PlumbingProfile,
       Dashboard: PlumbingVanDashboard,
-      AdminDashboard: PlumbingVanAdminDashboard,
       FreddieWidget: PlumbingPipeFreddieWidget
     },
     automotive: {
@@ -198,7 +192,6 @@ const getDisciplineComponents = (discipline: string) => {
       School: AutomotiveAutoSchool,
       Profile: AutomotiveProfile,
       Dashboard: AutomotiveGarageDashboard,
-      AdminDashboard: AutomotiveGarageAdminDashboard,
       FreddieWidget: AutomotiveGarageFreddieWidget
     },
     construction: {
@@ -209,7 +202,6 @@ const getDisciplineComponents = (discipline: string) => {
       School: ConstructionBuildSchool,
       Profile: ConstructionProfile,
       Dashboard: ConstructionSiteDashboard,
-      AdminDashboard: ConstructionSiteAdminDashboard,
       FreddieWidget: ConstructionSiteFreddieWidget
     },
     electrical: {
@@ -220,7 +212,6 @@ const getDisciplineComponents = (discipline: string) => {
       School: ElectricalElecSchool,
       Profile: ElectricalProfile,
       Dashboard: ElectricalPanelDashboard,
-      AdminDashboard: ElectricalPanelAdminDashboard,
       FreddieWidget: ElectricalSparkFreddieWidget
     },
     hvac: {
@@ -231,7 +222,6 @@ const getDisciplineComponents = (discipline: string) => {
       School: HvacHvacSchool,
       Profile: HvacProfile,
       Dashboard: HvacShopDashboard,
-      AdminDashboard: HvacShopAdminDashboard,
       FreddieWidget: HvacShopFreddieWidget
     },
     manufacturing: {
@@ -242,7 +232,6 @@ const getDisciplineComponents = (discipline: string) => {
       School: ManufacturingMfgAcademy,
       Profile: ManufacturingProfile,
       Dashboard: ManufacturingFloorDashboard,
-      AdminDashboard: ManufacturingFloorAdminDashboard,
       FreddieWidget: ManufacturingFloorFreddieWidget
     },
     logistics: {
@@ -253,7 +242,6 @@ const getDisciplineComponents = (discipline: string) => {
       School: LogisticsLogisticsSchool,
       Profile: LogisticsProfile,
       Dashboard: LogisticsDockDashboard,
-      AdminDashboard: LogisticsDockAdminDashboard,
       FreddieWidget: LogisticsDockFreddieWidget
     },
     machining: {
@@ -264,7 +252,6 @@ const getDisciplineComponents = (discipline: string) => {
       School: MachiningMachiningSchool,
       Profile: MachiningProfile,
       Dashboard: MachiningBenchDashboard,
-      AdminDashboard: MachiningBenchAdminDashboard,
       FreddieWidget: MachiningBenchFreddieWidget
     }
   };
@@ -285,7 +272,6 @@ const AppRoutes = () => {
   
   const NavBar = components.NavBar;
   const Dashboard = components.Dashboard;
-  const AdminDashboard = components.AdminDashboard;
   const FreddieWidget = components.FreddieWidget;
   
   // Use the device detection hook
@@ -316,26 +302,16 @@ const AppRoutes = () => {
   }
 
 
-  // If admin mode is enabled and user is authenticated, show admin dashboard
-  if (isAdminMode && user) {
-    return (
-      <div className="min-h-screen bg-sand">
-        <NavBar />
-        <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
-          <AdminDashboard />
-        </main>
-      </div>
-    );
-  }
-
   const isDisciplineSelect = location.pathname === '/select-discipline';
+  const isAdminRoute = location.pathname === '/admin';
 
   return (
     <div className="min-h-screen bg-sand">
-      {!isDisciplineSelect && <NavBar />}
+      {!isDisciplineSelect && !isAdminRoute && <NavBar />}
       <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
         <Routes>
           <Route path="/select-discipline" element={<DisciplineSelector />} />
+          <Route path="/admin" element={<UnifiedAdminDashboard />} />
           
           {/* Culinary routes */}
           <Route path="/culinary/dashboard" element={<CulinaryDashboard />} />
@@ -412,7 +388,7 @@ const AppRoutes = () => {
           <Route path="/" element={<HomeRedirect />} />
         </Routes>
       </main>
-      {!isDisciplineSelect && <FreddieWidget />}
+      {!isDisciplineSelect && !isAdminRoute && <FreddieWidget />}
       <InactivityWarningModal
         isOpen={showWarning}
         countdown={countdown}
