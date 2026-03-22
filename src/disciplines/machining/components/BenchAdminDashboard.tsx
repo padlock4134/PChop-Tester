@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '../api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient';
 import { useSupabase } from './SupabaseProvider';
-import { askChefFreddie } from '../api/chefFreddie';
+import { askChefFreddie } from '../../culinary/api/chefFreddie';
 import {
   UsersIcon,
   ChartBarIcon,
@@ -8706,3 +8706,4 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 };
 
 export default AdminDashboard;
+

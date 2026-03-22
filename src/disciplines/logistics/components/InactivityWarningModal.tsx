@@ -61,3 +61,4 @@ const InactivityWarningModal: React.FC<InactivityWarningModalProps> = ({
 };
 
 export default InactivityWarningModal;
+

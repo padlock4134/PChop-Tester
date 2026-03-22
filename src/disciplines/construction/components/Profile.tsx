@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FireIcon, ShieldCheckIcon, StarIcon, TrophyIcon, SparklesIcon, CakeIcon, AcademicCapIcon } from '@heroicons/react/24/solid';
 import { redirectToLogout } from '@wristband/react-client-auth';
 import { useSupabase } from '../components/SupabaseProvider';
-import { supabase } from '../api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient';
 // Removed external imports that don't exist
 import ReactMarkdown from 'react-markdown';
 import jsPDF from 'jspdf';
@@ -2289,3 +2289,4 @@ Automated calculations and formulas would be present`;
 };
 
 export default Profile;
+

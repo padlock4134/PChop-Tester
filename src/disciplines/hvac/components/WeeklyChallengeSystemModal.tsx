@@ -2,10 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RecipeCard } from './SystemMatcherModal';
 import { useState, useRef } from 'react';
-import { supabase } from '../api/supabaseClient';
-import { claimWeeklyChallenge } from '../api/weeklyChallenge';
-import { isSessionValid } from '../api/userSession';
-import { XP_REWARDS } from '../services/xpService';
+import { supabase } from '../../culinary/api/supabaseClient';
+import { claimWeeklyChallenge } from '../../culinary/api/weeklyChallenge';
+import { isSessionValid } from '../../culinary/api/userSession';
+import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from './NavBar';
 import { useSupabase } from './SupabaseProvider';
 
@@ -104,7 +104,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
         // Award XP for completing the challenge
         const sessionValid = await isSessionValid();
         if (sessionValid && user.id) {
-          await import('../services/xpService').then(m => 
+          await import('../../culinary/services/xpService').then(m => 
             m.awardXP(user.id, XP_REWARDS.CHALLENGE_COMPLETE, 'challenge_complete')
           );
           refreshXP();
@@ -195,3 +195,4 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
 };
 
 export default WeeklyChallengeRecipeModal;
+

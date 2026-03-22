@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { saveKitchen, fetchKitchen } from './kitchenSupabase';
 import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
-import { Ingredient } from '../types/shared-types';
-import { XP_REWARDS } from '../services/xpService';
+import { Ingredient } from '../../culinary/types/shared-types';
+import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
-import { scanImage } from '../api/vision';
+import { scanImage } from '../../culinary/api/vision';
 import CircuitMatcherModal, { RecipeCard } from '../components/CircuitMatcherModal';
 import { useFreddieContext } from '../components/SparkFreddieContext';
 import { useSupabase } from '../components/SupabaseProvider';
-import { isSessionValid } from '../api/userSession';
-import { supabase } from '../api/supabaseClient';
+import { isSessionValid } from '../../culinary/api/userSession';
+import { supabase } from '../../culinary/api/supabaseClient';
 
 const CATEGORIES = [
   "Vegetable",
@@ -44,7 +44,7 @@ function categorizeIngredient(name: string): string {
   return "Other";
 }
 
-const MyKitchen = () => {
+const MyPanel = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
@@ -143,7 +143,7 @@ const MyKitchen = () => {
       
       // Award XP for saving a recipe
       if (user) {
-        await import('../services/xpService').then(m => 
+        await import('../../culinary/services/xpService').then(m => 
           m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
         );
         refreshXP();
@@ -288,7 +288,7 @@ const MyKitchen = () => {
             setMatcherError('');
             try {
               const cupboardNames = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
+              const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
                 ingredients: cupboardNames,
@@ -438,4 +438,6 @@ const MyKitchen = () => {
   );
 };
 
-export default MyKitchen;
+export default MyPanel;
+
+

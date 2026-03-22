@@ -12,3 +12,4 @@ const SubscriptionBadge = ({ status }: SubscriptionBadgeProps) => {
   }
   return null;
 };
+

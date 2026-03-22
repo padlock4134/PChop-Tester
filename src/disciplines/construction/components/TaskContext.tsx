@@ -42,3 +42,4 @@ export const useRecipeContext = () => {
   if (!ctx) throw new Error('useRecipeContext must be used within a RecipeProvider');
   return ctx;
 };
+

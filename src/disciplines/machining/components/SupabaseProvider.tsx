@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { User } from '@supabase/supabase-js';
 import { useWristbandAuth, useWristbandSession } from '@wristband/react-client-auth';
 
-import { awardXP } from '../services/xpService';
-import { XP_REWARDS } from '../services/xpService';
-import { supabase } from '../api/supabaseClient';
+import { awardXP } from '../../culinary/services/xpService';
+import { XP_REWARDS } from '../../culinary/services/xpService';
+import { supabase } from '../../culinary/api/supabaseClient';
 import { WristbandSessionMetadata } from '../types/session-types';
 import { isAdminRole } from '../utils/auth';
 
@@ -201,3 +201,4 @@ export const SupabaseProvider: React.FC<SupabaseProviderProps> = ({ children }) 
 };
 
 export default SupabaseProvider;
+

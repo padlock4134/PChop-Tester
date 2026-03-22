@@ -217,3 +217,4 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
 };
 
 export default RecipeMatcherModal;
+

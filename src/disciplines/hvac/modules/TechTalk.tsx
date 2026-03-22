@@ -10,10 +10,10 @@ import { useRecipeContext } from '../components/SystemContext';
 import { RecipeCard } from '../components/SystemMatcherModal';
 import { useSupabase } from '../components/SupabaseProvider';
 import GlobalTestShop from '../components/GlobalTestShop';
-import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
+import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
-const ChefsCorner = () => {
+const TechTalk = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { recipes, setRecipes } = useRecipeContext();
@@ -384,4 +384,6 @@ const ChefsCorner = () => {
   );
 };
 
-export default ChefsCorner;
+export default TechTalk;
+
+

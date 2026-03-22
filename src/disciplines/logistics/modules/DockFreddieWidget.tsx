@@ -26,3 +26,4 @@ const DockFreddieWidget = () => {
 };
 
 export default DockFreddieWidget;
+

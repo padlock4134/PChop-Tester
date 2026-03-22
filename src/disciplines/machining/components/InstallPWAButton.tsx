@@ -48,3 +48,4 @@ const InstallPWAButton: React.FC = () => {
 };
 
 export default InstallPWAButton;
+

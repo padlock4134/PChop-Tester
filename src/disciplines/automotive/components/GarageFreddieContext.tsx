@@ -37,3 +37,4 @@ export const useFreddieContext = () => {
   if (!ctx) throw new Error('useFreddieContext must be used within a FreddieProvider');
   return ctx;
 };
+

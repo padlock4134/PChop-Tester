@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from './GarageFreddieContext';
-import { askChefFreddie } from '../api/chefFreddie';
+import { askChefFreddie } from '../../culinary/api/chefFreddie';
 import { useSupabase } from './SupabaseProvider';
 
 interface Message {
@@ -155,3 +155,4 @@ const GarageFreddieWidget = () => {
 };
 
 export default GarageFreddieWidget;
+

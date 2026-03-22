@@ -73,3 +73,4 @@ const TipOfTheDay = () => {
 };
 
 export default TipOfTheDay;
+

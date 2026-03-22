@@ -24,3 +24,4 @@ const SwoopyArrow = () => {
 };
 
 export default SwoopyArrow;
+

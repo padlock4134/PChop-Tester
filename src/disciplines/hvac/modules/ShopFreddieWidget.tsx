@@ -26,3 +26,4 @@ const ShopFreddieWidget = () => {
 };
 
 export default ShopFreddieWidget;
+

@@ -13,7 +13,7 @@ import { useSupabase } from '../components/SupabaseProvider';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
-const ChefsCorner = () => {
+const ShopTalk = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { recipes, setRecipes } = useRecipeContext();
@@ -384,4 +384,4 @@ const ChefsCorner = () => {
   );
 };
 
-export default ChefsCorner;
+export default ShopTalk;

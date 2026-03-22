@@ -26,3 +26,4 @@ const SparkFreddieWidget = () => {
 };
 
 export default SparkFreddieWidget;
+

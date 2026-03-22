@@ -26,3 +26,4 @@ const BenchFreddieWidget = () => {
 };
 
 export default BenchFreddieWidget;
+

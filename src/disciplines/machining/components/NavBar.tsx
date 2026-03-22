@@ -4,13 +4,13 @@ import { Bars3Icon, CogIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
-import { supabase } from '../api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient';
 import ChallengeOfTheWeek from './ChallengeOfTheWeek';
 import { getUserBadges, BADGES } from '../utils/badges';
 // @ts-ignore
 import logo from '../images/logo.png';
 import { useSupabase } from './SupabaseProvider';
-import { isSessionValid } from '../api/userSession';
+import { isSessionValid } from '../../culinary/api/userSession';
 import { useAdminToggle } from '../../../App';
 import { useDiscipline } from '../../../DisciplineContext';
 
@@ -268,3 +268,4 @@ const NavBarWithProvider: React.FC = (props) => {
 };
 
 export default NavBarWithProvider;
+

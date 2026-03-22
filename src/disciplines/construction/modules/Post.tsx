@@ -19,3 +19,4 @@ const Post = ({ user, content, image, timestamp, likes, comments }: any) => (
 );
 
 export default Post;
+

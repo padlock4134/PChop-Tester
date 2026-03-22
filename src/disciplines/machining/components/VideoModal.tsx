@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { XP_REWARDS } from '../services/xpService';
+import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from './NavBar';
-import { supabase } from '../api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient';
 import { useSupabase } from './SupabaseProvider';
-import { isSessionValid } from '../api/userSession';
+import { isSessionValid } from '../../culinary/api/userSession';
 
 interface VideoModalProps {
   open: boolean;
@@ -127,3 +127,4 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
 };
 
 export default VideoModal;
+

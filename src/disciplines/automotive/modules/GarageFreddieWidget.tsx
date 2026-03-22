@@ -26,3 +26,4 @@ const GarageFreddieWidget = () => {
 };
 
 export default GarageFreddieWidget;
+

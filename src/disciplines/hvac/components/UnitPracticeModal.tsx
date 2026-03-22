@@ -475,3 +475,4 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 };
 
 export default BenchPracticeModal;
+

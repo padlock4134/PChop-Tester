@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next';
 import { useLevelProgressContext } from './NavBar';
 import WeeklyChallengePartModal from './WeeklyChallengePartModal';
 import type { RecipeCard } from './PartMatcherModal';
-import { getWeeklyChallengeRecipe } from '../api/anthropicChallenge';
-import { getRecipeImage } from '../api/unsplash';
-import { supabase } from '../api/supabaseClient';
-import { isSessionValid } from '../api/userSession';
+import { getWeeklyChallengeRecipe } from '../../culinary/api/anthropicChallenge';
+import { getRecipeImage } from '../../culinary/api/unsplash';
+import { supabase } from '../../culinary/api/supabaseClient';
+import { isSessionValid } from '../../culinary/api/userSession';
 import { useSupabase } from './SupabaseProvider';
 
 // Pool of weekly challenges
@@ -438,3 +438,4 @@ const ChallengeOfTheWeek: React.FC = () => {
 };
 
 export default ChallengeOfTheWeek;
+

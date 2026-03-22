@@ -26,3 +26,4 @@ const PipeFreddieWidget = () => {
 };
 
 export default PipeFreddieWidget;
+

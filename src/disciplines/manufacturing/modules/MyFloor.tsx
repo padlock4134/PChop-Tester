@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { saveKitchen, fetchKitchen } from './kitchenSupabase';
 import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
-import { Ingredient } from '../types/shared-types';
-import { XP_REWARDS } from '../services/xpService';
-import { useLevelProgressContext } from '../components/NavBar';
+import { Ingredient } from '../../culinary/types/shared-types';
+import { XP_REWARDS } from '../../culinary/services/xpService';
+import { useLevelProgressContext } from '../../culinary/components/NavBar';
 import { useTranslation } from 'react-i18next';
 
-import { scanImage } from '../api/vision';
-import RecipeMatcherModal, { RecipeCard } from '../components/ProcessMatcherModal';
+import { scanImage } from '../../culinary/api/vision';
+import ProcessMatcherModal, { RecipeCard } from '../components/ProcessMatcherModal';
 import { useFreddieContext } from '../components/FloorFreddieContext';
-import { useSupabase } from '../components/SupabaseProvider';
-import { isSessionValid } from '../api/userSession';
-import { supabase } from '../api/supabaseClient';
-import ProcessCard from '../components/ProcessCard';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { isSessionValid } from '../../culinary/api/userSession';
+import { supabase } from '../../culinary/api/supabaseClient';
 
 const CATEGORIES = [
   "Vegetable",
@@ -45,7 +44,7 @@ function categorizeIngredient(name: string): string {
   return "Other";
 }
 
-const MyKitchen = () => {
+const MyFloor = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
@@ -75,10 +74,10 @@ const MyKitchen = () => {
   const [matcherOpen, setMatcherOpen] = useState(false);
   const [matcherLoading, setMatcherLoading] = useState(false);
   const [matcherError, setMatcherError] = useState('');
-  const [matcherRecipes, setMatcherRecipes] = useState<RecipeCard[]>([]);
+  const [matcherProcesses, setMatcherProcesses] = useState<RecipeCard[]>([]);
 
   // MyCookBook state (for MVP, local only)
-  const [cookbook, setCookbook] = useState<RecipeCard[]>([]);
+  const [processbook, setProcessbook] = useState<RecipeCard[]>([]);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [kitchenError, setKitchenError] = useState<string | null>(null);
 
@@ -101,7 +100,7 @@ const MyKitchen = () => {
 
   // Freddie context: set page on mount
   useEffect(() => {
-    updateContext({ page: 'MyKitchen' });
+    updateContext({ page: 'MyFloor' });
     // Load both kitchen and cookbook data
     const loadData = async () => {
       try {
@@ -110,7 +109,7 @@ const MyKitchen = () => {
           fetchCookbook(user?.id!)
         ]);
         setIngredients(kitchenIngredients);
-        setCookbook(cookbookRecipes);
+        setProcessbook(cookbookRecipes);
       } catch (error) {
         console.error('Error loading data:', error);
         setKitchenError('Failed to load your kitchen.');
@@ -144,7 +143,7 @@ const MyKitchen = () => {
       
       // Award XP for saving a recipe
       if (user) {
-        await import('../services/xpService').then(m => 
+        await import('../../culinary/services/xpService').then(m => 
           m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
         );
         refreshXP();
@@ -162,7 +161,7 @@ const MyKitchen = () => {
   const handleSaveRecipeToCookbook = async (recipe: RecipeCard) => {
     try {
       await addRecipeToCookbook(user?.id!, recipe);
-      setCookbook(prevCookbook => [...prevCookbook, recipe]);
+      setProcessbook(prevProcessbook => [...prevProcessbook, recipe]);
     } catch (error) {
       console.error('Error saving recipe to cookbook:', error);
     }
@@ -299,7 +298,7 @@ const MyKitchen = () => {
                 talentsEnabled: false,
                 talentTree: null
               });
-              setMatcherRecipes(recipes);
+              setMatcherProcesses(recipes);
             } catch (err: any) {
               setMatcherError('Failed to fetch recipes.');
             } finally {
@@ -330,13 +329,13 @@ const MyKitchen = () => {
       )}
 
       {/* Recipe Matcher Modal (always mounted for overlay) */}
-      <RecipeMatcherModal
+      <ProcessMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
         cupboardIngredients={ingredients.map(i => i.name)}
         onLike={handleLikeRecipe}
         saveRecipeToCookbook={handleSaveRecipeToCookbook}
-        recipes={matcherRecipes}
+        recipes={matcherProcesses}
         loading={matcherLoading}
         error={matcherError}
       />
@@ -439,4 +438,4 @@ const MyKitchen = () => {
   );
 };
 
-export default MyKitchen;
+export default MyFloor;

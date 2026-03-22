@@ -11,10 +11,10 @@ import { useRecipeContext } from '../components/RepairContext';
 import { RecipeCard } from '../components/RepairMatcherModal';
 import { useSupabase } from '../components/SupabaseProvider';
 import GlobalTestGarage from '../components/GlobalTestGarage';
-import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
+import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
-const ChefsCorner = () => {
+const GearheadLounge = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { recipes, setRecipes } = useRecipeContext();
@@ -385,4 +385,6 @@ const ChefsCorner = () => {
   );
 };
 
-export default ChefsCorner;
+export default GearheadLounge;
+
+

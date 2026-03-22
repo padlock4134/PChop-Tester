@@ -700,3 +700,4 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
 };
 
 export default ARPracticeSceneComponent;
+

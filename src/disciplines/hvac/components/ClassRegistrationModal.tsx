@@ -204,3 +204,4 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
 };
 
 export default ClassRegistrationModal;
+

@@ -6,7 +6,7 @@ import { useRecipeContext } from '../components/TaskContext';
 import VideoModal from '../components/VideoModal';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
-import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
+import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
 import JobTimer from '../components/JobTimer';
@@ -132,7 +132,7 @@ function getTwoTutorials(recipe: any) {
 }
 
 
-const CulinarySchool = () => {
+const BuildSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
@@ -514,4 +514,6 @@ const CulinarySchool = () => {
   );
 };
 
-export default CulinarySchool;
+export default BuildSchool;
+
+

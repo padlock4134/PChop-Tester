@@ -4,11 +4,11 @@ import { useFreddieContext } from '../components/DockFreddieContext';
 import { useRecipeContext } from '../components/RouteContext';
 import { useNavigate } from 'react-router-dom';
 import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
-import { supabase } from '../api/supabaseClient';
-import { XP_REWARDS } from '../services/xpService';
+import { supabase } from '../../culinary/api/supabaseClient';
+import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
 import { useSupabase } from '../components/SupabaseProvider';
-import { isSessionValid } from '../api/userSession';
+import { isSessionValid } from '../../culinary/api/userSession';
 
 // Chef quotes (production-ready)
 const chefQuotes = [
@@ -69,7 +69,7 @@ export interface Recipe {
   healthTags?: string[];
 }
 
-const MyCookBook = () => {
+const MyRunbook = () => {
   const { t } = useTranslation();
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
@@ -1706,4 +1706,6 @@ const MyCookBook = () => {
   );
 };
 
-export default MyCookBook;
+export default MyRunbook;
+
+

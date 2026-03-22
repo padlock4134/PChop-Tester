@@ -98,3 +98,4 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
 };
 
 export default SyllabusCard;
+

@@ -26,3 +26,4 @@ const SiteFreddieWidget = () => {
 };
 
 export default SiteFreddieWidget;
+

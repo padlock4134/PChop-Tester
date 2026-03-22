@@ -23,3 +23,4 @@ const TermsModal: React.FC<TermsModalProps> = ({ isOpen, onClose, termsContent }
 };
 
 export default TermsModal;
+
