@@ -7,7 +7,7 @@ import { getWeeklyChallengeRecipe } from '../../culinary/api/anthropicChallenge'
 import { getRecipeImage } from '../../culinary/api/unsplash';
 import { supabase } from '../../culinary/api/supabaseClient';
 import { isSessionValid } from '../../culinary/api/userSession';
-import { useSupabase } from './SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 // Pool of weekly challenges
 export const WEEKLY_CHALLENGES = [

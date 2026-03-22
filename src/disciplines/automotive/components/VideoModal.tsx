@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from './NavBar';
 import { supabase } from '../../culinary/api/supabaseClient';
-import { useSupabase } from './SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 
 interface VideoModalProps {

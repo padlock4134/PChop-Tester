@@ -7,7 +7,7 @@ import { claimWeeklyChallenge } from '../../culinary/api/weeklyChallenge';
 import { isSessionValid } from '../../culinary/api/userSession';
 import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from './NavBar';
-import { useSupabase } from './SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 interface WeeklyChallengeRecipeModalProps {
   open: boolean;
