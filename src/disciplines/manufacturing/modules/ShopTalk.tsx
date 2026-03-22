@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import FloorFreddieWidget from './FloorFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { fetchCookbook } from './cookbookSupabase';
+import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import PlaybookImportModal from '../components/PlaybookImportModal';
 import LocalSuppliersModal from '../components/LocalSuppliersModal';
 import BuildProcessModal from '../components/BuildProcessModal';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/ProcessMatcherModal';
-import GlobalTestFloor from '../components/GlobalTestFloor';
+import GlobalTestKitchen from '../../culinary/components/GlobalTestKitchen';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
@@ -370,12 +370,12 @@ const ShopTalk = () => {
         <div className={`lg:hidden ${
           activeMobileTab === 'kitchen' ? 'block' : 'hidden'
         }`}>
-          <GlobalTestFloor showcaseRecipe={showcaseRecipe} />
+          <GlobalTestKitchen showcaseRecipe={showcaseRecipe} />
         </div>
         
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
-          <GlobalTestFloor showcaseRecipe={showcaseRecipe} />
+          <GlobalTestKitchen showcaseRecipe={showcaseRecipe} />
           <FloorFreddieWidget />
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PipeFreddieWidget from './PipeFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { fetchCookbook } from './cookbookSupabase';
+import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import PipeBookImportModal from '../components/PipeBookImportModal';
 import LocalSupplyHouseModal from '../components/LocalSupplyHouseModal';
 import BuildLayoutModal from '../components/BuildLayoutModal';

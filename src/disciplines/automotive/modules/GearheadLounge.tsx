@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import GarageFreddieWidget from './GarageFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { fetchCookbook } from './cookbookSupabase';
+import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import ManualImportModal from '../components/ManualImportModal';
 import PartsDirectory from '../components/PartsDirectory';
 import LocalPartsModal from '../components/LocalPartsModal';
