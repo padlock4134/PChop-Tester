@@ -7,15 +7,14 @@ interface TestRunModalProps {
 
 const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const CATEGORIES = [
-    "Vegetable",
-    "Fruit",
-    "Protein",
-    "Dairy",
-    "Grain",
-    "Spice",
-    "Canned/Preserved",
-    "Condiment/Sauce",
-    "Frozen",
+    "Raw Materials",
+    "Components",
+    "Tools",
+    "Safety Equipment",
+    "Fasteners",
+    "Lubricants",
+    "Consumables",
+    "Finished Goods",
     "Other"
   ];
 
@@ -23,11 +22,11 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [filterText, setFilterText] = useState('');
   const [ingredients, setIngredients] = useState([
-    { name: 'Chicken Breast', category: 'Protein' },
-    { name: 'Broccoli', category: 'Vegetable' },
-    { name: 'Rice', category: 'Grain' },
-    { name: 'Garlic', category: 'Spice'},
-    { name: 'Cheese', category: 'Dairy'}
+    { name: 'Steel Plate', category: 'Raw Materials' },
+    { name: 'Bearing Assembly', category: 'Components' },
+    { name: 'Torque Wrench', category: 'Tools' },
+    { name: 'Safety Goggles', category: 'Safety Equipment'},
+    { name: 'Fastener Kit', category: 'Fasteners'}
   ]);
   const [scanLoading, setScanLoading] = useState(false);
   const [matcherOpen, setMatcherOpen] = useState(false);
@@ -45,240 +44,105 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const allRecipes = [
     {
       id: '1',
-      title: 'Avocado Toast',
+      title: 'Basic Assembly Process',
       image: '/Preview Images/Avacado Toast.png',
-      ingredients: ['Bread', 'Avocado', 'Salt', 'Pepper', 'Red Pepper Flakes', 'Olive Oil'],
-      instructions: 'Toast bread. Mash avocado with salt, pepper, and a drizzle of olive oil. Spread on toast and sprinkle with red pepper flakes.',
-      equipment: ['Toaster', 'Knife', 'Bowl'],
-      healthTags: ['Heart Healthy', 'High Fiber']
+      ingredients: ['Steel Plate', 'Fastener Kit', 'Torque Wrench', 'Safety Goggles'],
+      instructions: 'Verify all components. Position steel plate on work surface. Apply fasteners using torque wrench to specified torque values. Perform quality check.',
+      equipment: ['Torque Wrench', 'Work Bench', 'Measuring Tools'],
+      healthTags: ['Quality Certified', 'Safety Verified']
     },
     {
       id: '2',
-      title: 'Baked Salmon',
+      title: 'Quality Control Inspection',
       image: '/Preview Images/Baked Salmon.png',
-      ingredients: ['Salmon fillet', 'Lemon', 'Dill', 'Olive Oil', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Preheat oven to 375°F. Place salmon on baking sheet, drizzle with olive oil, and season with salt, pepper, dill, and garlic. Add lemon slices on top. Bake for 12-15 minutes.',
-      equipment: ['Baking Sheet', 'Oven'],
-      healthTags: ['Heart Healthy', 'High in Omega-3']
+      ingredients: ['Finished Goods', 'Measuring Tools', 'Inspection Checklist'],
+      instructions: 'Review inspection checklist. Measure critical dimensions using calipers. Document findings. Tag parts as pass/fail per specifications.',
+      equipment: ['Calipers', 'Micrometer', 'Inspection Station'],
+      healthTags: ['Quality Certified', 'ISO Compliant']
     },
     {
       id: '3',
-      title: 'Breakfast Burrito',
+      title: '5S Workspace Organization',
       image: '/Preview Images/Breakfast Burrito.png',
-      ingredients: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Bell Peppers', 'Onion', 'Salt', 'Pepper', 'Butter'],
-      instructions: 'Cook sausage, then sauté onions and bell peppers. Scramble eggs with salt and pepper. Warm tortilla and assemble with eggs, sausage, veggies, and cheese.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      ingredients: ['Tools', 'Cleaning Supplies', 'Storage Bins', 'Labels'],
+      instructions: 'Sort items into keep/discard. Set in order by frequency of use. Shine workspace thoroughly. Standardize locations. Sustain through regular audits.',
+      equipment: ['Cleaning Supplies', 'Label Maker', 'Storage Systems'],
+      healthTags: ['5S Compliant', 'High Efficiency']
     },
     {
       id: '4',
-      title: 'Breakfast Tacos',
+      title: 'Preventive Maintenance Procedure',
       image: '/Preview Images/Breakfast Tacos.png',
-      ingredients: ['Corn Tortillas', 'Eggs', 'Black Beans', 'Avocado', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Warm tortillas. Scramble eggs with salt and pepper. Heat black beans. Assemble tacos with eggs, beans, avocado, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Mixing Bowl'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      ingredients: ['Lubricants', 'Cleaning Supplies', 'Replacement Parts', 'Tools'],
+      instructions: 'Power down equipment. Clean all surfaces. Lubricate moving parts per schedule. Replace worn components. Test operation before returning to service.',
+      equipment: ['Grease Gun', 'Cleaning Tools', 'Hand Tools'],
+      healthTags: ['Safety Verified', 'High Efficiency']
     },
     {
       id: '5',
-      title: 'Chicken Fajitas',
+      title: 'Safety Equipment Check',
       image: '/Preview Images/Chicken Fajitas.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Tortilla', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Sauté chicken, bell peppers, and onions. Warm tortillas. Assemble fajitas with chicken, veggies, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      ingredients: ['Safety Goggles', 'Gloves', 'Hard Hat', 'Safety Vest'],
+      instructions: 'Inspect all PPE for damage. Verify expiration dates. Test functionality. Replace damaged items. Document inspection in safety log.',
+      equipment: ['Inspection Checklist', 'Replacement PPE'],
+      healthTags: ['Safety Verified', 'ISO Compliant']
     },
     {
       id: '6',
-      title: 'Chicken Quesadillas',
+      title: 'Material Handling SOP',
       image: '/Preview Images/Chicken Quesadillas.png',
-      ingredients: ['Chicken Breast', 'Tortilla', 'Cheese', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Shred chicken and mix with cheese. Place mixture on tortilla and top with another tortilla. Cook in skillet until cheese is melted and tortillas are crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      ingredients: ['Raw Materials', 'Forklift', 'Pallet Jack', 'Safety Equipment'],
+      instructions: 'Verify load weight and dimensions. Use proper lifting equipment. Follow designated pathways. Secure load before transport. Document material movement.',
+      equipment: ['Forklift', 'Pallet Jack', 'Load Straps'],
+      healthTags: ['Safety Verified', 'Lean Process']
     },
     {
       id: '7',
-      title: 'Chicken and Rice Bowls',
+      title: 'Lean Manufacturing Setup',
       image: '/Preview Images/Chicken and Rice Bowls.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Vegetable Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with vegetable oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      ingredients: ['Components', 'Tools', 'Workstation', 'Kanban Cards'],
+      instructions: 'Map value stream. Identify waste sources. Implement pull system. Organize tools for minimal motion. Create visual management boards.',
+      equipment: ['Kanban System', 'Visual Boards', 'Tool Organizers'],
+      healthTags: ['Lean Process', 'Low Waste', 'High Efficiency']
     },
     {
       id: '8',
-      title: 'Chicken and Vegetable Kabobs',
+      title: 'Six Sigma Quality Check',
       image: '/Preview Images/Chicken and Vegetable Kabobs.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Zucchini', 'Cherry Tomatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Alternate chicken and vegetables on skewers. Brush with olive oil and season with salt and pepper. Grill or bake until cooked through.',
-      equipment: ['Grill', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      ingredients: ['Finished Goods', 'Measuring Tools', 'Statistical Software', 'Control Charts'],
+      instructions: 'Collect measurement data. Calculate process capability. Plot control charts. Identify special cause variation. Implement corrective actions.',
+      equipment: ['Measurement Tools', 'Computer', 'Control Charts'],
+      healthTags: ['Six Sigma', 'Quality Certified', 'ISO Compliant']
     },
     {
       id: '9',
-      title: 'Chickpea and Avocado Salad',
+      title: 'Tool Calibration Process',
       image: '/Preview Images/Chickpea and Avocado Salad.png',
-      ingredients: ['Chickpeas', 'Avocado', 'Red Onion', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Mash avocado and mix with chickpeas, red onion, and cilantro. Squeeze lime on top and season with salt and pepper.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      ingredients: ['Torque Wrench', 'Calipers', 'Calibration Standards', 'Documentation'],
+      instructions: 'Compare tool readings to known standards. Adjust as needed to meet specifications. Apply calibration sticker with date. Update calibration log.',
+      equipment: ['Calibration Standards', 'Adjustment Tools', 'Documentation Forms'],
+      healthTags: ['Quality Certified', 'ISO Compliant']
     },
     {
       id: '10',
-      title: 'Classic Beef Burger',
+      title: 'ISO Compliance Audit',
       image: '/Preview Images/Classic Beef Burger.png',
-      ingredients: ['Ground Beef', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Ketchup', 'Mayonnaise', 'Mustard'],
-      instructions: 'Grill or pan-fry burger. Assemble with lettuce, tomato, cheese, ketchup, mayonnaise, and mustard.',
-      equipment: ['Grill', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '11',
-      title: 'Garlic Butter Chicken with Rice',
-      image: '/Preview Images/Garlic Butter Chicken with Rice.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Butter', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with butter and garlic. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '12',
-      title: 'Greek Salad',
-      image: '/Preview Images/Greek Salad.png',
-      ingredients: ['Lettuce', 'Tomato', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Olives', 'Greek Vinaigrette'],
-      instructions: 'Combine lettuce, tomato, cucumber, red onion, feta cheese, and olives in bowl. Drizzle with Greek vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '13',
-      title: 'Grilled Cheese',
-      image: '/Preview Images/Grilled Cheese.png',
-      ingredients: ['Bread', 'Cheese', 'Butter'],
-      instructions: 'Butter bread and place cheese in between. Grill in skillet until cheese is melted and bread is crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Calcium']
-    },
-    {
-      id: '14',
-      title: 'Lemon Garlic Chicken with Roasted Broccoli',
-      image: '/Preview Images/Lemon Garlic Chicken with Roasted Broccoli.png',
-      ingredients: ['Chicken Breast', 'Broccoli', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and broccoli in skillet with lemon, garlic, and olive oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '15',
-      title: 'Lemon Herb Roasted Chicken',
-      image: '/Preview Images/Lemon Herb Roasted Chicken.png',
-      ingredients: ['Chicken Breast', 'Lemon', 'Herbs', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Rub chicken with lemon, herbs, and olive oil. Season with salt and pepper. Roast in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '16',
-      title: 'Lentil Soup',
-      image: '/Preview Images/Lentil Soup.png',
-      ingredients: ['Lentils', 'Vegetable Broth', 'Onion', 'Carrot', 'Celery', 'Tomato', 'Cumin', 'Paprika'],
-      instructions: 'Saute onion, carrot, and celery in pot. Add lentils, vegetable broth, tomato, cumin, and paprika. Simmer until lentils are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '17',
-      title: 'Pasta Carbonara',
-      image: '/Preview Images/Pasta Carbonara.png',
-      ingredients: ['Pasta', 'Bacon', 'Eggs', 'Parmesan Cheese', 'Black Pepper'],
-      instructions: 'Cook pasta in pot. Whisk eggs, parmesan cheese, and black pepper in bowl. Add cooked bacon to bowl and mix. Combine with cooked pasta.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '18',
-      title: 'Quinoa Salad Bowl',
-      image: '/Preview Images/Quinoa Salad Bowl.png',
-      ingredients: ['Quinoa', 'Mixed Greens', 'Cherry Tomatoes', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Lemon Vinaigrette'],
-      instructions: 'Combine quinoa, mixed greens, cherry tomatoes, cucumber, red onion, and feta cheese in bowl. Drizzle with lemon vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '19',
-      title: 'Roasted Brussel Sprouts',
-      image: '/Preview Images/Roasted Brussel Sprouts.png',
-      ingredients: ['Brussel Sprouts', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss brussel sprouts with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '20',
-      title: 'Roasted Sweet Potatoes',
-      image: '/Preview Images/Roasted Sweet Potatoes.png',
-      ingredients: ['Sweet Potatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss sweet potatoes with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '21',
-      title: 'Spaghetti Squash with Meat Sauce',
-      image: '/Preview Images/Spaghetti Squash with Meat Sauce.png',
-      ingredients: ['Spaghetti Squash', 'Ground Beef', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook spaghetti squash in oven. Cook ground beef and tomato sauce in skillet. Combine with cooked spaghetti squash.',
-      equipment: ['Oven', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '22',
-      title: 'Spinach and Feta Stuffed Chicken',
-      image: '/Preview Images/Spinach and Feta Stuffed Chicken.png',
-      ingredients: ['Chicken Breast', 'Spinach', 'Feta Cheese', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Stuff chicken breast with spinach, feta cheese, and garlic. Drizzle with olive oil and season with salt and pepper. Bake in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '23',
-      title: 'Vegetable Curry',
-      image: '/Preview Images/Vegetable Curry.png',
-      ingredients: ['Mixed Vegetables', 'Coconut Milk', 'Curry Powder', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in pot. Add coconut milk, curry powder, and olive oil. Simmer until vegetables are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '24',
-      title: 'Vegetable Stir Fry',
-      image: '/Preview Images/Vegetable Stir Fry.png',
-      ingredients: ['Mixed Vegetables', 'Olive Oil', 'Soy Sauce', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in skillet with olive oil and soy sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '25',
-      title: 'Zucchini Noodles with Tomato Sauce',
-      image: '/Preview Images/Zucchini Noodles with Tomato Sauce.png',
-      ingredients: ['Zucchini', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute zucchini noodles in skillet with olive oil and tomato sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      ingredients: ['Documentation', 'Audit Checklist', 'Process Records', 'Quality Logs'],
+      instructions: 'Review all required documentation. Verify process adherence. Check calibration records. Interview personnel. Document findings and corrective actions.',
+      equipment: ['Audit Forms', 'Camera', 'Computer'],
+      healthTags: ['ISO Compliant', 'Quality Certified']
     }
   ];
 
   const DIETARY_TAGS = [
-    'Heart Healthy',
-    'Anti Inflammatory',
-    'Low Glycemic',
-    'Low Cholesterol',
-    'Renal Friendly',
-    'DASH Diet',
-    'Low Sodium',
-    'High Fiber'
+    'Quality Certified',
+    'ISO Compliant',
+    'Lean Process',
+    'Safety Verified',
+    'Low Waste',
+    'High Efficiency',
+    '5S Compliant',
+    'Six Sigma'
   ];
 
   const findMatchingRecipes = (userIngredients: string[]) => {
@@ -306,7 +170,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const handleRecipeMatcherOpen = () => {
     // Only show if user has added ingredients
     if (ingredients.length === 0) {
-      alert('Please add some ingredients to your cupboard first!');
+      alert('Please add some materials to your floor inventory first!');
       return;
     }
     
@@ -641,8 +505,8 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           &times;
         </button>
         <div className="flex items-center justify-center mb-2">
-          <span className="text-5xl mr-2">🐟</span>
-          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Kitchen</h1>
+          <span className="text-5xl mr-2">🏭</span>
+          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Floor</h1>
         </div>
 
         {/* Action Buttons */}
@@ -658,7 +522,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
             className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full sm:w-auto max-w-xs flex items-center justify-center gap-2"
             onClick={() => alert('Functionality available in app. Please try again later.')}
           >
-            Scan Kitchen
+            Scan Floor
           </button>
           
           <button
@@ -666,14 +530,14 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
             onClick={handleRecipeMatcherOpen}
             disabled={matcherLoading}
           >
-            {matcherLoading ? 'Loading...' : 'Recipe Matcher'}
+            {matcherLoading ? 'Loading...' : 'Process Matcher'}
           </button>
         </div>
 
         {/* Digital Cupboard Section */}
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
-            <span role="img" aria-label="anchor">⚓</span> Digital Cupboard
+            <span role="img" aria-label="anchor">⚓</span> Digital Floor Inventory
           </h3>
           {ingredients.length > 0 && (
             <button
@@ -691,7 +555,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           <input
             type="text"
             className="border px-3 py-2 rounded w-full sm:w-1/3"
-            placeholder="Search cupboard..."
+            placeholder="Search inventory..."
             value={filterText}
             onChange={e => setFilterText(e.target.value)}
             style={{ minWidth: 120 }}
@@ -700,7 +564,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           <input
             type="text"
             className="border px-3 py-2 rounded w-full sm:w-1/3"
-            placeholder="Add an ingredient..."
+            placeholder="Add a material..."
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && addIngredient()}

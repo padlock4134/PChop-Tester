@@ -59,9 +59,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const navigate = useNavigate();
 
   const loadingMessages = [
-    t('recipeMatcher.loadingMessage1'),
-    t('recipeMatcher.loadingMessage2'),
-    t('recipeMatcher.loadingMessage3')
+    'Analyzing your floor inventory...',
+    'Matching materials to processes...',
+    'Finding optimal SOPs...'
   ];
 
   // Timer effect for loading steps
@@ -100,15 +100,15 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   function generateTutorials(recipe: RecipeCard) {
   return [
     {
-      title: `${t('recipeMatcher.equipmentUsing')} ${recipe.title}`,
-      desc: t('recipeMatcher.learnEquipment')
+      title: `Equipment for ${recipe.title}`,
+      desc: 'Learn about the tools and equipment needed for this process'
     },
     {
-      title: t('recipeMatcher.proteinPrep'),
-      desc: t('recipeMatcher.howToPrepProtein')
+      title: 'Material Preparation',
+      desc: 'How to properly prepare and handle materials for this process'
     },
     {
-      title: `${t('recipeMatcher.recipe')} ${recipe.title}`,
+      title: `Process: ${recipe.title}`,
       desc: recipe.instructions
     }
   ];
@@ -122,18 +122,18 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         : generateTutorials(recipes[currentIdx])
     };
     setSelectedRecipe(fullRecipe);
-    navigate('/culinary-school');
+    navigate('/manufacturing/mfg-academy');
   };
 
   const DIETARY_TAGS = [
-    { key: 'Heart Healthy', label: t('recipeMatcher.heartHealthy') },
-    { key: 'Anti Inflammatory', label: t('recipeMatcher.antiInflammatory') },
-    { key: 'Low Glycemic', label: t('recipeMatcher.lowGlycemic') },
-    { key: 'Low Cholesterol', label: t('recipeMatcher.lowCholesterol') },
-    { key: 'Renal Friendly', label: t('recipeMatcher.renalFriendly') },
-    { key: 'DASH Diet', label: t('recipeMatcher.dashDiet') },
-    { key: 'Low Sodium', label: t('recipeMatcher.lowSodium') },
-    { key: 'High Fiber', label: t('recipeMatcher.highFiber') }
+    { key: 'Quality Certified', label: 'Quality Certified' },
+    { key: 'ISO Compliant', label: 'ISO Compliant' },
+    { key: 'Lean Process', label: 'Lean Process' },
+    { key: 'Safety Verified', label: 'Safety Verified' },
+    { key: 'Low Waste', label: 'Low Waste' },
+    { key: 'High Efficiency', label: 'High Efficiency' },
+    { key: '5S Compliant', label: '5S Compliant' },
+    { key: 'Six Sigma', label: 'Six Sigma' }
   ];
 
   return (
@@ -153,17 +153,17 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('recipeMatcher.recipeMatcher'))}
+           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : 'Process Matcher')}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes')}</div>
+            <div className="text-lg font-retro mb-2">Finding matching processes...</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
         ) : recipes.length === 0 || currentIdx >= recipes.length ? (
-          <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions')}<br/>{t('recipeMatcher.tryUpdatingCupboard')}</div>
+          <div className="text-center text-maineBlue font-bold py-10">No more process suggestions<br/>Try updating your floor inventory</div>
         ) : (
           (() => {
             console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
@@ -186,7 +186,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">Materials:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
                   {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
                     <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
                   )}
@@ -203,7 +203,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                     {isSaving ? '...' : '♥'}
                   </button>
                   <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {t('recipeMatcher.cookMe')}
+                    Build It
                   </button>
                 </div>
                 <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough')}</div>
