@@ -232,8 +232,8 @@ const StudentProgressDashboard: React.FC = () => {
               to="/manufacturing/my-floor"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
-              <div className="mb-3 text-4xl">🐟</div>
-              <h3 className="text-sm font-bold font-retro">{t('myKitchen.title')}</h3>
+              <div className="mb-3 text-4xl">🏭</div>
+              <h3 className="text-sm font-bold font-retro">{t('myFloor.title')}</h3>
             </Link>
             
             <Link
@@ -241,23 +241,23 @@ const StudentProgressDashboard: React.FC = () => {
               className="flex flex-col items-center p-6 rounded-lg border-4 border-blue-400 bg-blue-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">📖</div>
-              <h3 className="text-sm font-bold font-retro">{t('myCookBook.title')}</h3>
+              <h3 className="text-sm font-bold font-retro">{t('myPlaybook.title')}</h3>
             </Link>
             
             <Link
               to="/manufacturing/shop-talk"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-red-400 bg-red-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
-              <div className="mb-3 text-4xl">🦐</div>
-              <h3 className="text-sm font-bold font-retro">{t('chefsCorner.title')}</h3>
+              <div className="mb-3 text-4xl">🛠️</div>
+              <h3 className="text-sm font-bold font-retro">{t('shopTalk.title')}</h3>
             </Link>
             
             <Link
               to="/manufacturing/mfg-academy"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
-              <div className="mb-3 text-4xl">🍳</div>
-              <h3 className="text-sm font-bold font-retro">{t('culinarySchool.title')}</h3>
+              <div className="mb-3 text-4xl">�</div>
+              <h3 className="text-sm font-bold font-retro">{t('mfgAcademy.title')}</h3>
             </Link>
           </div>
           </div>
