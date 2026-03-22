@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
 
 const PipeFreddieWidget = () => {
   const [open, setOpen] = useState(false);

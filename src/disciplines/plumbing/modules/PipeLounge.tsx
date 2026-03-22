@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PipeFreddieWidget from './PipeFreddieWidget';
-import { useFreddieContext } from '../components/PipeFreddieContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from './cookbookSupabase';
 import PipeBookImportModal from '../components/PipeBookImportModal';
 import LocalSupplyHouseModal from '../components/LocalSupplyHouseModal';
 import BuildLayoutModal from '../components/BuildLayoutModal';
-import { useRecipeContext } from '../components/FitContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/FitMatcherModal';
 import GlobalTestVan from '../components/GlobalTestVan';
-import { useSupabase } from '../components/SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
+import { KeyNutrients } from '../../culinary/types/nutrition';
 
 const PipeLounge = () => {
   const { t } = useTranslation();

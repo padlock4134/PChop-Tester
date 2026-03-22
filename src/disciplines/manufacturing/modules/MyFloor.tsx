@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../../culinary/api/vision';
 import ProcessMatcherModal, { RecipeCard } from '../components/ProcessMatcherModal';
-import { useFreddieContext } from '../components/FloorFreddieContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 import { supabase } from '../../culinary/api/supabaseClient';

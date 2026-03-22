@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ShopFreddieWidget from './ShopFreddieWidget';
-import { useFreddieContext } from '../components/ShopFreddieContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from './cookbookSupabase';
 import SpecSheetImportModal from '../components/SpecSheetImportModal';
 import LocalDistributorsModal from '../components/LocalDistributorsModal';
 import BuildSystemModal from '../components/BuildSystemModal';
-import { useRecipeContext } from '../components/SystemContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/SystemMatcherModal';
-import { useSupabase } from '../components/SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import GlobalTestShop from '../components/GlobalTestShop';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
+import { KeyNutrients } from '../../culinary/types/nutrition';
 
 const TechTalk = () => {
   const { t } = useTranslation();

@@ -3,13 +3,13 @@ import { saveKitchen, fetchKitchen } from './kitchenSupabase';
 import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
 import { Ingredient } from '../../culinary/types/shared-types';
 import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../components/NavBar';
+import { useLevelProgressContext } from '../../culinary/components/NavBar';
 import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../../culinary/api/vision';
 import RecipeMatcherModal, { RecipeCard } from '../components/FitMatcherModal';
-import { useFreddieContext } from '../components/PipeFreddieContext';
-import { useSupabase } from '../components/SupabaseProvider';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 import { supabase } from '../../culinary/api/supabaseClient';
 import FitCard from '../components/FitCard';

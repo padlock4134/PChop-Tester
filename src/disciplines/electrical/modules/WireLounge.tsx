@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import SparkFreddieWidget from './SparkFreddieWidget';
-import { useFreddieContext } from '../components/SparkFreddieContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from './cookbookSupabase';
 import CodeBookImportModal from '../components/CodeBookImportModal';
 import LocalSupplyModal from '../components/LocalSupplyModal';
 import BuildCircuitModal from '../components/BuildCircuitModal';
-import { useRecipeContext } from '../components/CircuitContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/CircuitMatcherModal';
-import { useSupabase } from '../components/SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import GlobalTestPanel from '../components/GlobalTestPanel';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
+import { KeyNutrients } from '../../culinary/types/nutrition';
 
 const WireLounge = () => {
   const { t } = useTranslation();

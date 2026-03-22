@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../components/DockFreddieContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import VideoModal from '../components/VideoModal';
-import { useRecipeContext } from '../components/RouteContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
+import { KeyNutrients } from '../../culinary/types/nutrition';
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
 import ShipmentTimer from '../components/ShipmentTimer';
 import DockPracticeModal from '../components/DockPracticeModal';

@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import BenchFreddieWidget from './BenchFreddieWidget';
-import { useFreddieContext } from '../components/BenchFreddieContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from './cookbookSupabase';
 import SpecBookImportModal from '../components/SpecBookImportModal';
 import LocalToolingModal from '../components/LocalToolingModal';
 import BuildPartModal from '../components/BuildPartModal';
-import { useRecipeContext } from '../components/PartContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/PartMatcherModal';
-import { useSupabase } from '../components/SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import GlobalTestBench from '../components/GlobalTestBench';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../types/nutrition';
+import { KeyNutrients } from '../../culinary/types/nutrition';
 
 const MachinistCorner = () => {
   const { t } = useTranslation();
