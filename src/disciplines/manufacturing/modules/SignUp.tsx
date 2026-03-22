@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../images/logo.png';
 import { useNavigate, Link } from 'react-router-dom';
-import { supabase } from '../api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');

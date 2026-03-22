@@ -1,4 +1,4 @@
-import { supabase } from '../api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient';
 
 // Standard XP rewards
 export const XP_REWARDS = {

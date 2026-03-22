@@ -1,4 +1,4 @@
-import { supabase } from '../api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient';
 import { isSessionValid } from '../api/userSession';
 import type { RecipeCard } from '../components/ProcessMatcherModal';
 

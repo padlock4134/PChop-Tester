@@ -5,7 +5,7 @@ import WeeklyChallengeProcessModal from './WeeklyChallengeProcessModal';
 import type { RecipeCard } from './ProcessMatcherModal';
 import { getWeeklyChallengeRecipe } from '../api/anthropicChallenge';
 import { getRecipeImage } from '../api/unsplash';
-import { supabase } from '../api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient';
 import { isSessionValid } from '../api/userSession';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 

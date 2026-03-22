@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { RecipeCard } from './ProcessMatcherModal';
 import { useState, useRef } from 'react';
-import { supabase } from '../api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient';
 import { claimWeeklyChallenge } from '../api/weeklyChallenge';
 import { isSessionValid } from '../api/userSession';
 import { XP_REWARDS } from '../services/xpService';
