@@ -7,7 +7,7 @@ import { claimWeeklyChallenge } from '../api/weeklyChallenge';
 import { isSessionValid } from '../api/userSession';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from './NavBar';
-import { useSupabase } from './SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 interface WeeklyChallengeRecipeModalProps {
   open: boolean;
