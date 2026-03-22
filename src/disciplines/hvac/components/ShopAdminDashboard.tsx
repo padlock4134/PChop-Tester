@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../../culinary/api/supabaseClient';
-import { useSupabase } from './SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { askChefFreddie } from '../../culinary/api/chefFreddie';
 import {
   UsersIcon,

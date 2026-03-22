@@ -1,5 +1,5 @@
-import { supabase } from '../api/supabaseClient';
-import { isSessionValid } from '../api/userSession';
+import { supabase } from '../../culinary/api/supabaseClient';
+import { isSessionValid } from '../../culinary/api/userSession';
 import type { RecipeCard } from '../components/RouteMatcherModal';
 
 export async function saveCookbook(userId: string, recipes: RecipeCard[]) {
