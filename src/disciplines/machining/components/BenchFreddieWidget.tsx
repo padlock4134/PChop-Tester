@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
-import { useFreddieContext } from './BenchFreddieContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { askChefFreddie } from '../../culinary/api/chefFreddie';
-import { useSupabase } from './SupabaseProvider';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 interface Message {
   sender: 'freddie' | 'user';
