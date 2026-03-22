@@ -14,33 +14,68 @@ import { isSessionValid } from '../../culinary/api/userSession';
 import { supabase } from '../../culinary/api/supabaseClient';
 
 const CATEGORIES = [
-  "Vegetable",
-  "Fruit",
-  "Protein",
-  "Dairy",
-  "Grain",
-  "Spice",
-  "Canned/Preserved",
-  "Condiment/Sauce",
-  "Frozen",
+  "Raw Materials",
+  "Components",
+  "Tools",
+  "Safety Equipment",
+  "Fasteners",
+  "Lubricants",
+  "Consumables",
+  "Finished Goods",
   "Other"
 ];
 
-// Categorize ingredient names to best-fit category
+// Categorize material names to best-fit category
 function categorizeIngredient(name: string): string {
   const n = name.toLowerCase();
-  // Enhanced detection for loose produce and specific food items
-  if (/(green bean|string bean|snap bean|haricot vert|french bean)/.test(n)) return "Vegetable";
-  if (/(loose|raw|fresh|unpackaged|bulk) (vegetable|produce|bean|legume)/.test(n)) return "Vegetable";
-  if (/(lettuce|spinach|carrot|broccoli|onion|pepper|cabbage|kale|tomato|bean|pea|potato|corn|mushroom|zucchini|cucumber|asparagus|squash|celery|radish|beet|turnip|eggplant|avocado)/.test(n)) return "Vegetable";
-  if (/(apple|banana|orange|lemon|lime|berry|grape|melon|peach|pear|plum|kiwi|mango|pineapple|apricot|cherry|fig|date|papaya|guava|coconut)/.test(n)) return "Fruit";
-  if (/(chicken|beef|pork|lamb|turkey|fish|salmon|shrimp|egg|duck|bacon|ham|sausage|steak|tofu|tempeh|seitan|crab|lobster|clam|mussel|scallop|oyster)/.test(n)) return "Protein";
-  if (/(milk|cheese|yogurt|cream|butter|ghee|custard|paneer|ricotta|mozzarella|parmesan|brie|feta|goat cheese)/.test(n)) return "Dairy";
-  if (/(rice|bread|pasta|noodle|quinoa|barley|oat|wheat|cornmeal|tortilla|cracker|bun|roll|bagel|cereal)/.test(n)) return "Grain";
-  if (/(salt|pepper|cumin|coriander|turmeric|saffron|paprika|chili|cinnamon|nutmeg|clove|ginger|garlic|herb|basil|oregano|thyme|rosemary|sage|dill|parsley|mint|bay)/.test(n)) return "Spice";
-  if (/(can|canned|jar|preserve|pickle|jam|jelly|sardine|anchovy|soup|beans|olives|sauerkraut)/.test(n)) return "Canned/Preserved";
-  if (/(ketchup|mustard|mayo|mayonnaise|sauce|dressing|vinegar|soy sauce|hot sauce|bbq|aioli|salsa|chutney|relish|gravy|honey)/.test(n)) return "Condiment/Sauce";
-  if (/(frozen|ice cream|ice|peas|spinach|pizza|waffle|fries|nugget|berries|corn|broccoli|shrimp|fish stick)/.test(n)) return "Frozen";
+  // Raw Materials
+  if (/(steel|aluminum|aluminium|iron|metal|copper|brass|bronze|titanium|zinc)/.test(n)) return "Raw Materials";
+  if (/(plastic|polymer|resin|pvc|abs|nylon|polyethylene|polypropylene)/.test(n)) return "Raw Materials";
+  if (/(wood|lumber|plywood|mdf|timber|oak|pine|maple)/.test(n)) return "Raw Materials";
+  if (/(rubber|silicone|elastomer|latex)/.test(n)) return "Raw Materials";
+  if (/(glass|ceramic|composite|carbon fiber|fiberglass)/.test(n)) return "Raw Materials";
+  
+  // Components
+  if (/(bearing|motor|sensor|switch|valve|relay|actuator|solenoid)/.test(n)) return "Components";
+  if (/(gear|pulley|belt|chain|sprocket|shaft|axle)/.test(n)) return "Components";
+  if (/(circuit|board|pcb|chip|resistor|capacitor|diode|transistor)/.test(n)) return "Components";
+  if (/(pump|compressor|filter|regulator|gauge)/.test(n)) return "Components";
+  
+  // Tools
+  if (/(wrench|spanner|socket|ratchet|pliers|clamp)/.test(n)) return "Tools";
+  if (/(drill|saw|grinder|sander|lathe|mill)/.test(n)) return "Tools";
+  if (/(hammer|mallet|chisel|file|rasp)/.test(n)) return "Tools";
+  if (/(screwdriver|allen|hex|torque)/.test(n)) return "Tools";
+  if (/(caliper|micrometer|ruler|gauge|level|square)/.test(n)) return "Tools";
+  
+  // Safety Equipment
+  if (/(glove|gloves|safety glove)/.test(n)) return "Safety Equipment";
+  if (/(goggle|goggles|glasses|safety glasses|face shield)/.test(n)) return "Safety Equipment";
+  if (/(helmet|hard hat|bump cap)/.test(n)) return "Safety Equipment";
+  if (/(vest|hi-vis|high visibility|safety vest)/.test(n)) return "Safety Equipment";
+  if (/(boot|boots|safety boot|steel toe)/.test(n)) return "Safety Equipment";
+  if (/(ear plug|ear muff|hearing protection|respirator|mask)/.test(n)) return "Safety Equipment";
+  
+  // Fasteners
+  if (/(bolt|screw|nut|washer|locknut)/.test(n)) return "Fasteners";
+  if (/(rivet|pin|dowel|anchor|stud)/.test(n)) return "Fasteners";
+  if (/(clip|clamp|bracket|hinge)/.test(n)) return "Fasteners";
+  
+  // Lubricants
+  if (/(oil|lubricant|lube|grease|wd-?40)/.test(n)) return "Lubricants";
+  if (/(coolant|cutting fluid|hydraulic)/.test(n)) return "Lubricants";
+  
+  // Consumables
+  if (/(sandpaper|abrasive|grinding wheel|cutting disc)/.test(n)) return "Consumables";
+  if (/(tape|duct tape|masking tape|electrical tape)/.test(n)) return "Consumables";
+  if (/(adhesive|glue|epoxy|sealant|caulk)/.test(n)) return "Consumables";
+  if (/(solder|flux|wire|cable|rope)/.test(n)) return "Consumables";
+  if (/(paint|coating|primer|finish)/.test(n)) return "Consumables";
+  if (/(rag|wipe|cloth|towel|cleaner|degreaser)/.test(n)) return "Consumables";
+  
+  // Finished Goods
+  if (/(assembly|assembled|product|part|component|finished)/.test(n)) return "Finished Goods";
+  
   return "Other";
 }
 
@@ -56,16 +91,15 @@ const MyFloor = () => {
   const [scanStatus, setScanStatus] = useState<string | null>(null); // persistent feedback
   // Optionally, map category to emoji for pills
   const CATEGORY_ICONS: Record<string, string> = {
-    Vegetable: '🥦',
-    Fruit: '🍎',
-    Protein: '🍗',
-    Dairy: '🧀',
-    Grain: '🌾',
-    Spice: '🌶️',
-    'Canned/Preserved': '🥫',
-    'Condiment/Sauce': '🥄',
-    Frozen: '🧊',
-    Other: '🍽️',
+    'Raw Materials': '🔩',
+    'Components': '⚙️',
+    'Tools': '🔧',
+    'Safety Equipment': '🦺',
+    'Fasteners': '🔗',
+    'Lubricants': '🛢️',
+    'Consumables': '📦',
+    'Finished Goods': '✅',
+    'Other': '📋',
   };
 
   const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);
@@ -306,7 +340,7 @@ const MyFloor = () => {
             }
           }}
         >
-          {t('myFloor.matchRecipes')}
+          Match SOP
         </button>
       </div>
 
