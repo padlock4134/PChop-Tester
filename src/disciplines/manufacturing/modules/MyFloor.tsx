@@ -450,9 +450,17 @@ const MyFloor = () => {
                       </div>
                       <button
                         className="mt-1 text-xs text-lobsterRed hover:text-maineBlue font-bold"
-                        onClick={() => {
+                        onClick={async () => {
                           // Remove by name and category match to be robust
-                          setIngredients(ingredients.filter((item, i) => !(item.name === ing.name && item.category === ing.category && ingredients.indexOf(item) === ingredients.indexOf(filteredIngredients[shelfIdx*3+idx]))));
+                          const updatedIngredients = ingredients.filter((item, i) => !(item.name === ing.name && item.category === ing.category && ingredients.indexOf(item) === ingredients.indexOf(filteredIngredients[shelfIdx*3+idx])));
+                          setIngredients(updatedIngredients);
+                          // Persist deletion to database
+                          try {
+                            await saveKitchen(user?.id!, updatedIngredients);
+                          } catch (err) {
+                            console.error('Failed to save kitchen after deletion:', err);
+                            setKitchenError('Failed to save changes.');
+                          }
                         }}
                         title="Remove"
                       >
