@@ -12,34 +12,34 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Hand-pulled Ramen',
+      dishName: 'Lean Manufacturing Setup',
       culture: 'Japanese',
       viewers: 23,
-      thumbnail: '🍜'
+      thumbnail: '⚙️'
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'Lebanese Kibbeh',
+      dishName: 'ISO 9001 Compliance',
       culture: 'Lebanese',
       viewers: 35,
-      thumbnail: '🧆'
+      thumbnail: '✅'
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'French Croissants',
+      dishName: 'Six Sigma Quality Control',
       culture: 'French',
       viewers: 62,
-      thumbnail: '🥐'
+      thumbnail: '📊'
     },
     {
       id: '5',
       hostName: 'Maria Santos',
-      dishName: 'Authentic Paella',
+      dishName: '5S Workplace Organization',
       culture: 'Spanish',
       viewers: 28,
-      thumbnail: '🥘'
+      thumbnail: '🏭'
     }
   ];
 
@@ -67,14 +67,14 @@ const StudentProgressDashboard: React.FC = () => {
     curriculum: {
       completedLessons: 12,
       totalLessons: 24,
-      currentLesson: "Knife Skills: Julienne Technique",
+      currentLesson: "Quality Control: Statistical Process Control",
       timeSpent: "18.5 hours"
     },
     skills: {
       recipesAttempted: 8,
       recipesCompleted: 6,
       currentLevel: "Intermediate",
-      nextMilestone: "Advanced Sauces"
+      nextMilestone: "Advanced Assembly Techniques"
     },
     engagement: {
       appUsage: "5 days this week",
@@ -83,10 +83,10 @@ const StudentProgressDashboard: React.FC = () => {
       recipesSaved: 15
     },
     insights: {
-      strongestArea: "Knife Skills",
-      improvementArea: "Timing & Multitasking",
+      strongestArea: "Safety Procedures",
+      improvementArea: "Process Optimization",
       learningVelocity: "Above Average",
-      achievements: ["Safety Certified", "Recipe Creator", "Community Helper"]
+      achievements: ["Safety Certified", "5S Champion", "Quality Inspector"]
     }
   };
 
