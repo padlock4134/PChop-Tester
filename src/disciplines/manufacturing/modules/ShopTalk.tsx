@@ -25,82 +25,82 @@ const ShopTalk = () => {
   const [servingSize, setServingSize] = useState(2);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
-  // Chef quotes rotation (52 quotes for weekly rotation)
+  // Manufacturing pioneers quotes rotation (52 quotes for weekly rotation)
   const chefQuotes = [
-    // Julia Child (11 quotes)
-    "Cooking is not about convenience. It's about love, patience, and bringing people together around the table.",
-    "Never apologize for your cooking.",
-    "A party without cake is just a meeting.",
-    "The secret of cooking is to have a love of it.",
-    "Learn how to cook - try new recipes, learn from your mistakes, be fearless, and above all have fun!",
-    "You'll never know everything about anything, especially something you love.",
-    "The only time to eat diet food is while you're waiting for the steak to cook.",
-    "I was 32 when I started cooking; up until then, I just ate.",
-    "Cooking is one of the great pleasures of life.",
-    "Find something you're passionate about and keep tremendously interested in it.",
-    "Life itself is the proper binge.",
+    // Henry Ford (11 quotes)
+    "Quality means doing it right when no one is looking.",
+    "Coming together is a beginning, staying together is progress, and working together is success.",
+    "Failure is simply the opportunity to begin again, this time more intelligently.",
+    "Anyone who stops learning is old, whether at twenty or eighty.",
+    "Don't find fault, find a remedy.",
+    "The only real mistake is the one from which we learn nothing.",
+    "If everyone is moving forward together, then success takes care of itself.",
+    "Before everything else, getting ready is the secret of success.",
+    "Obstacles are those frightful things you see when you take your eyes off your goal.",
+    "You can't build a reputation on what you are going to do.",
+    "Thinking is the hardest work there is, which is probably the reason so few engage in it.",
     
-    // Anthony Bourdain (11 quotes)
-    "Your body is not a temple, it's an amusement park. Enjoy the ride.",
-    "Travel changes you. As you move through this life and this world you change things slightly.",
-    "Skills can be taught. Character you either have or you don't have.",
-    "Good food is very often, even most often, simple food.",
-    "Context and memory play powerful roles in all the truly great meals in one's life.",
-    "I'm not afraid to look like an idiot.",
-    "The way you make an omelet reveals your character.",
-    "Assume the worst. About everybody. But don't let this poisoned outlook affect your job performance.",
-    "Food is everything we are. It's an extension of nationalist feeling, ethnic feeling, your personal history.",
-    "I don't have to agree with you to like you or respect you.",
-    "Bad food is made without pride, by cooks who have no pride, and no love.",
+    // Taiichi Ohno (11 quotes)
+    "All we are doing is looking at the time line from the moment the customer gives us an order to the point when we collect the cash.",
+    "The more inventory a company has, the less likely they will have what they need.",
+    "Costs do not exist to be calculated. Costs exist to be reduced.",
+    "Where there is no standard, there can be no improvement.",
+    "Having no problems is the biggest problem of all.",
+    "The key to the Toyota Way is not to be afraid of admitting mistakes.",
+    "Something is wrong if workers do not look around each day, find things that are tedious or boring, and then rewrite the procedures.",
+    "Progress cannot be generated when we are satisfied with existing situations.",
+    "The slower but consistent tortoise causes less waste and is more desirable than the speedy hare that races ahead.",
+    "People who can't understand numbers are useless.",
+    "Make your workplace into showcase that can be understood by everyone at a glance.",
     
-    // David Chang (10 quotes)
-    "Cooking is an expression of the land where you are and the culture of that place.",
-    "The greatest dishes are very simple.",
-    "I'm grasping with how you do something on a large scale with multiple operations.",
-    "Food, to me, is always about cooking and eating with those you love and care for.",
-    "I constantly think about what it means to be Asian-American.",
-    "Rage or fear... It oscillates. Rage I can handle. Fear is the problem.",
-    "Contemporary ramen is totally different than what most Americans think ramen should be.",
-    "I love the masochistic aspect of eating seething, spicy food and being tortured by it.",
-    "We're hoping to succeed; we're okay with failure. We just don't want to land in between.",
-    "I think the basic thing that home cooks can learn how to do is just season properly.",
+    // W. Edwards Deming (10 quotes)
+    "Quality is everyone's responsibility.",
+    "It is not enough to do your best; you must know what to do, and then do your best.",
+    "Without data, you're just another person with an opinion.",
+    "In God we trust, all others must bring data.",
+    "Learning is not compulsory... neither is survival.",
+    "A bad system will beat a good person every time.",
+    "If you can't describe what you are doing as a process, you don't know what you're doing.",
+    "The aim of leadership should be to improve the performance of man and machine.",
+    "Innovation comes from the producer - not from the customer.",
+    "Profit in business comes from repeat customers.",
     
-    // Martha Stewart (10 quotes)
-    "Life is too complicated not to be orderly.",
-    "I find that when you have a real interest in life and a curious life, that sleep is not the most important thing.",
-    "I catnap now and then, but I think while I nap, so it's not a waste of time.",
-    "Getting over those times and overcoming those difficulties really makes you appreciate the good times.",
-    "I am always asking myself how I can improve the lives of my customers, my colleagues, my shareholders.",
-    "The ultimate goal is to be an interesting, useful, wholesome person.",
-    "I think baking cookies is equal to Queen Victoria running an empire.",
-    "Without an open-minded mind, you can never be a great success.",
-    "I love the challenge of starting at zero every day and seeing how much I can accomplish.",
-    "Never make a big decision without sleeping on it.",
+    // Elon Musk (10 quotes)
+    "The path to the CEO's office should not be through the CFO's office, and it should not be through the marketing department. It needs to be through engineering and design.",
+    "I think it's very important to have a feedback loop, where you're constantly thinking about what you've done and how you could be doing it better.",
+    "Failure is an option here. If things are not failing, you are not innovating enough.",
+    "When something is important enough, you do it even if the odds are not in your favor.",
+    "I could either watch it happen or be a part of it.",
+    "Persistence is very important. You should not give up unless you are forced to give up.",
+    "If you get up in the morning and think the future is going to be better, it is a bright day.",
+    "Really pay attention to negative feedback and solicit it, particularly from friends.",
+    "The first step is to establish that something is possible; then probability will occur.",
+    "Work like hell. I mean you just have to put in 80 to 100 hour weeks every week.",
     
-    // Emeril Lagasse (10 quotes)
-    "Cooking is so much more than recipes and techniques. It's about heart and soul.",
-    "My philosophy is: If you can't have fun, there's no sense in doing it.",
-    "The cool thing about being famous is traveling. I have always wanted to travel across seas.",
-    "I think you've got to keep it simple, keep it fresh. Stay away from all that processed stuff.",
-    "Spice is life. It depends upon what you like... have fun with it. Yes, food is serious, but you should have fun with it.",
-    "I wouldn't ask any of my employees to do anything I wouldn't do. And I work very hard.",
-    "You know, for 300 years it's been kind of the same. There are restaurants in New Orleans that the menu hasn't changed in 125 years.",
-    "I think preparing food and feeding people brings nourishment not only to our bodies but to our spirits.",
-    "We'll be going to the fish market and a farmer's market this afternoon to get what we need to make 13 fish dishes.",
-    "Everyone needs a mentor."
+    // Thomas Edison (10 quotes)
+    "There's a way to do it better - find it.",
+    "I have not failed. I've just found 10,000 ways that won't work.",
+    "Genius is one percent inspiration and ninety-nine percent perspiration.",
+    "Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.",
+    "Opportunity is missed by most people because it is dressed in overalls and looks like work.",
+    "The value of an idea lies in the using of it.",
+    "To invent, you need a good imagination and a pile of junk.",
+    "I never did a day's work in my life. It was all fun.",
+    "Hell, there are no rules here - we're trying to accomplish something.",
+    "Many of life's failures are people who did not realize how close they were to success when they gave up."
   ];
   
   const chefNames = [
-    // Julia Child (11)
-    "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child",
-    // Anthony Bourdain (11)
-    "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain",
-    // David Chang (10)
-    "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang",
-    // Martha Stewart (10)
-    "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart",
-    // Emeril Lagasse (10)
-    "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse"
+    // Henry Ford (11)
+    "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford",
+    // Taiichi Ohno (11)
+    "Taiichi Ohno", "Taiichi Ohno", "Taiichi Ohno", "Taiichi Ohno", "Taiichi Ohno", "Taiichi Ohno", "Taiichi Ohno", "Taiichi Ohno", "Taiichi Ohno", "Taiichi Ohno", "Taiichi Ohno",
+    // W. Edwards Deming (10)
+    "W. Edwards Deming", "W. Edwards Deming", "W. Edwards Deming", "W. Edwards Deming", "W. Edwards Deming", "W. Edwards Deming", "W. Edwards Deming", "W. Edwards Deming", "W. Edwards Deming", "W. Edwards Deming",
+    // Elon Musk (10)
+    "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk", "Elon Musk",
+    // Thomas Edison (10)
+    "Thomas Edison", "Thomas Edison", "Thomas Edison", "Thomas Edison", "Thomas Edison", "Thomas Edison", "Thomas Edison", "Thomas Edison", "Thomas Edison", "Thomas Edison"
   ];
   
   // Get current week of year (0-51) to rotate through 52 quotes
@@ -350,7 +350,7 @@ const ShopTalk = () => {
                 </div>
               </section>
 
-              {/* Chef Quote of the Week */}
+              {/* Industry Leader Quote of the Week */}
               <p className="text-center text-gray-600 italic mb-6">
                 "{currentQuote.quote}" — {currentQuote.chef}
               </p>
