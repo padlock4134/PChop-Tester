@@ -156,7 +156,7 @@ const EditProfileModal = ({
               }`}
             >
               <option value="">{t('profile.selectYourProgram')}</option>
-              <option value="Bachelors of Arts in Culinary">🎓 {t('profile.bachelorsCulinary')}</option>
+              <option value="Bachelors in Advanced Manufacturing">🎓 Bachelors in Advanced Manufacturing</option>
               <option value="Associates in Aquaculture">🎓 {t('profile.associatesAquaculture')}</option>
             </select>
             {(user as any)?.program && (user as any).program !== '' && (
