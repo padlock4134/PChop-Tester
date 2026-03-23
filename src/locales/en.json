@@ -232,7 +232,7 @@
     }
   },
   "dashboard": {
-    "studentView": "Fabricators Dashboard",
+    "studentView": "Student Dashboard",
     "clickModule": "Click a module to begin your journey!",
     "home": "Home",
     "live": "Live",
