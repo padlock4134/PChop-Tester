@@ -507,28 +507,41 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               
               <!-- Placement counter removed from A-Frame to prevent re-renders - shown in React overlay instead -->
 
-              <!-- LEFT HAND holding PCB board - angled for placement -->
+              <!-- LEFT HAND holding PACKAGING BOX - open top for component placement -->
               ${beltActive ? `
               <a-entity 
                 position="-0.15 -0.15 -0.55" 
                 rotation="-15 25 -55" 
                 scale="1.3 1.3 1.3"
               >
-                <!-- THE PCB BOARD you're holding -->
+                <!-- THE PACKAGING BOX you're holding (open-top) -->
+                <!-- Box bottom -->
                 <a-box 
-                  position="0 0.12 0" 
-                  width="0.2" 
-                  height="0.015" 
+                  position="0 0.10 0" 
+                  width="0.18" 
+                  height="0.01" 
                   depth="0.12"
-                  color="#065F46"
-                  material="shader: standard; roughness: 0.6; metalness: 0.2"
+                  color="#374151"
+                  material="shader: standard; roughness: 0.6; metalness: 0.4"
                 ></a-box>
-                <!-- PCB traces on held board -->
-                <a-box position="0.04 0.13 0.02" width="0.06" height="0.003" depth="0.002" color="#FBBF24" material="emissive: #FBBF24; emissiveIntensity: 0.4"></a-box>
-                <a-box position="-0.03 0.13 -0.02" width="0.05" height="0.003" depth="0.002" color="#FBBF24" material="emissive: #FBBF24; emissiveIntensity: 0.4"></a-box>
-                <!-- Solder pads -->
-                <a-box position="0.05 0.13 -0.03" width="0.015" height="0.004" depth="0.015" color="#C0C0C0" material="metalness: 0.9; roughness: 0.2"></a-box>
-                <a-box position="-0.05 0.13 0.03" width="0.015" height="0.004" depth="0.015" color="#C0C0C0" material="metalness: 0.9; roughness: 0.2"></a-box>
+                <!-- Box wall - front -->
+                <a-box position="0 0.135 -0.055" width="0.18" height="0.06" depth="0.01" color="#4B5563" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
+                <!-- Box wall - back -->
+                <a-box position="0 0.135 0.055" width="0.18" height="0.06" depth="0.01" color="#4B5563" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
+                <!-- Box wall - left -->
+                <a-box position="-0.085 0.135 0" width="0.01" height="0.06" depth="0.12" color="#4B5563" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
+                <!-- Box wall - right -->
+                <a-box position="0.085 0.135 0" width="0.01" height="0.06" depth="0.12" color="#4B5563" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
+                <!-- ESD foam insert inside box -->
+                <a-box position="0 0.11 0" width="0.16" height="0.015" depth="0.1" color="#1F2937" material="shader: standard; roughness: 0.9; metalness: 0.05"></a-box>
+                <!-- Component slots cut in foam (dark recesses) -->
+                <a-box position="-0.04 0.118 -0.02" width="0.03" height="0.005" depth="0.025" color="#111827" material="shader: standard; roughness: 0.95"></a-box>
+                <a-box position="0.02 0.118 0.02" width="0.03" height="0.005" depth="0.025" color="#111827" material="shader: standard; roughness: 0.95"></a-box>
+                <a-box position="0.04 0.118 -0.02" width="0.03" height="0.005" depth="0.025" color="#111827" material="shader: standard; roughness: 0.95"></a-box>
+                <!-- One component already placed in a slot -->
+                <a-box position="-0.04 0.12 -0.02" width="0.025" height="0.008" depth="0.02" color="#1E3A5F" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
+                <!-- Box rim glow -->
+                <a-box position="0 0.165 0" width="0.19" height="0.003" depth="0.13" color="#60A5FA" material="opacity: 0.3; transparent: true; emissive: #60A5FA; emissiveIntensity: 0.4"></a-box>
                 
                 <!-- === LEFT HAND + ARM (connected anatomy) === -->
                 <!-- FOREARM (blue ESD sleeve) -->
@@ -543,20 +556,20 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-cylinder position="0 -0.03 0.015" radius="0.03" height="0.07" color="#F4A460" rotation="6 0 3" material="shader: standard; roughness: 0.8" segments-radial="16"></a-cylinder>
                 <!-- Wrist-to-hand overlap sphere -->
                 <a-sphere position="0 -0.005 0.01" radius="0.032" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- PALM -->
-                <a-sphere position="0 0.06 0" radius="0.055" scale="1.4 0.7 0.8" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- FINGERS underneath board -->
-                <a-cylinder position="0 0.09 -0.04" radius="0.022" height="0.1" color="#F4A460" rotation="15 0 90" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
-                <!-- Fingertip bumps -->
-                <a-sphere position="-0.03 0.09 -0.055" radius="0.013" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="-0.01 0.09 -0.058" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="0.01 0.088 -0.055" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- PALM - cupping under box -->
+                <a-sphere position="0 0.06 0" radius="0.055" scale="1.4 0.7 0.9" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <!-- FINGERS curled around box sides -->
+                <a-cylinder position="0 0.09 -0.05" radius="0.022" height="0.1" color="#F4A460" rotation="5 0 90" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
+                <!-- Fingertip bumps (gripping box wall) -->
+                <a-sphere position="-0.03 0.10 -0.06" radius="0.013" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="-0.01 0.10 -0.062" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.01 0.098 -0.06" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- Knuckle ridge -->
-                <a-sphere position="0 0.1 -0.02" radius="0.04" scale="1.3 0.5 0.6" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- THUMB -->
+                <a-sphere position="0 0.1 -0.03" radius="0.04" scale="1.3 0.5 0.6" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- THUMB - pressed against near box wall -->
                 <a-sphere position="-0.05 0.04 0.02" radius="0.025" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <a-cylinder position="-0.06 0.08 0.04" radius="0.016" height="0.08" color="#F4A460" rotation="10 0 0" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
-                <a-sphere position="-0.06 0.12 0.048" radius="0.016" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-cylinder position="-0.06 0.09 0.045" radius="0.016" height="0.09" color="#F4A460" rotation="10 0 0" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
+                <a-sphere position="-0.06 0.135 0.052" radius="0.016" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
 
               <!-- RIGHT HAND holding TWEEZERS - controlled by camera/touch/mouse input -->
