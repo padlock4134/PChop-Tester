@@ -23,8 +23,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const startVirtualPractice = async () => {
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built micro-electronics AR scene (instant load)
+      const demoLesson = 'Micro-Electronics Conveyor Belt Packaging';
       
       // Check if we have a default scene
       if (defaultARScenes[demoLesson]) {
@@ -42,7 +42,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           lessonTitle: demoLesson,
-          lessonContent: 'Traditional Japanese water stone sharpening technique. Includes stone preparation, proper angle maintenance (20 degrees), stroke technique, and burr detection. Old-school method using only water and stone.',
+          lessonContent: 'Micro-electronics conveyor belt packaging technique. Includes ESD station setup, tweezers grip, component pick-and-place at 20-degree approach angle, alignment inspection, and final QC check.',
         }),
       });
 
@@ -220,7 +220,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="micro-electronics">Micro-Electronics Conveyor Belt Packaging</option>
                 </select>
               </>
             )}
@@ -235,7 +235,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
                   <p className="text-xs text-blue-800">
                     {isPracticing 
-                      ? "Great start! Keep your knife angle consistent..."
+                      ? "Great start! Keep your component alignment steady..."
                       : "Start practicing to receive real-time AI guidance"}
                   </p>
                 </div>

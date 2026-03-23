@@ -1,130 +1,130 @@
 // Default AR practice scenes for instant demo loading
 // AI can still generate custom scenes, but these load instantly
 
-export const whetstoneSharpening = {
-  lesson: "Traditional Whetstone Knife Sharpening",
+export const microElectronicsPackaging = {
+  lesson: "Micro-Electronics Conveyor Belt Packaging",
   setup: {
-    workspace: "Clean, stable surface with damp towel underneath whetstone",
-    requiredTools: ["8-inch chef's knife", "1000/6000 grit whetstone", "bowl of water", "damp towel"],
-    requiredIngredients: []
+    workspace: "ESD-safe workstation with anti-static mat, proper grounding, and conveyor belt access",
+    requiredTools: ["precision tweezers", "ESD wrist strap", "magnifying visor", "anti-static mat", "conveyor belt controller"],
+    requiredIngredients: ["SMD components", "PCB boards", "solder paste syringes", "component trays"]
   },
   steps: [
     {
       id: 1,
-      instruction: "Soak your whetstone in water for 10 minutes. The stone should feel heavy and fully saturated. Place a damp towel under the stone to prevent slipping.",
+      instruction: "Set up your ESD-safe workstation. Attach your wrist strap to the grounding point and lay the anti-static mat flat. Verify the conveyor belt is powered on and running at low speed.",
       duration: "30s",
-      tools: ["Whetstone", "Bowl of water", "Damp towel"],
+      tools: ["ESD wrist strap", "Anti-static mat", "Conveyor belt controller"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Stone fully saturated",
+          label: "ESD station ready",
           color: "#3B82F6",
           position: "center"
         }
       ],
       keyPoints: [
-        "Stone should be completely wet",
-        "Damp towel prevents sliding",
-        "Stable, comfortable workspace height"
+        "Wrist strap must contact bare skin",
+        "Anti-static mat properly grounded",
+        "Belt speed set to LOW for training"
       ]
     },
     {
       id: 2,
-      instruction: "Hold the knife with your dominant hand. Place the blade against the stone at a 20-degree angle. This is critical—visualize a matchbook under the spine of the blade.",
+      instruction: "Pick up the precision tweezers with your dominant hand. Grip them lightly—like holding a pencil. Position your hand over the component tray at a 20-degree approach angle.",
       duration: "45s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Precision tweezers", "Component tray"],
+      ingredients: ["SMD components"],
       overlays: [
         {
           type: "line",
-          label: "20° angle",
+          label: "20° approach",
           color: "#F59E0B",
           angle: 20
         },
         {
           type: "text",
-          label: "Matchbook thickness",
+          label: "Light pencil grip",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "20-degree angle is crucial",
-        "Consistent angle throughout",
-        "Firm but not white-knuckle grip"
+        "20-degree approach angle is optimal",
+        "Consistent grip pressure throughout",
+        "Light touch—don't crush the component"
       ]
     },
     {
       id: 3,
-      instruction: "Using light to moderate pressure, sweep the blade from heel to tip across the stone. Imagine you're trying to shave a thin layer off the stone. Keep the angle consistent.",
+      instruction: "Gently pick up an SMD component from the tray. Slide it smoothly toward the PCB landing zone on the conveyor belt. Keep a steady hand—precision beats speed.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Precision tweezers", "Conveyor belt"],
+      ingredients: ["SMD components", "PCB boards"],
       overlays: [
         {
           type: "arrow",
-          label: "Heel to tip motion",
+          label: "Tray to belt motion",
           color: "#3B82F6",
           direction: "forward"
         },
         {
           type: "line",
-          label: "Sweeping path",
+          label: "Placement path",
           color: "#3B82F6",
           angle: 0
         }
       ],
       keyPoints: [
         "Smooth, controlled motion",
-        "Let the stone do the work",
-        "Maintain 20° angle throughout stroke",
-        "Full blade contact—heel to tip"
+        "Let the tweezers guide the part",
+        "Maintain 20° angle during transfer",
+        "Full contact—seat the component flat"
       ]
     },
     {
       id: 4,
-      instruction: "Complete 10 strokes on this side. Count them out loud. Listen to the sound—it should be consistent, like a whisper across the stone.",
+      instruction: "Place 10 components in succession. Count each placement aloud. Listen for the soft click as each part seats on the solder pads—that means proper contact.",
       duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Precision tweezers", "Conveyor belt"],
+      ingredients: ["SMD components", "PCB boards"],
       overlays: [
         {
           type: "text",
-          label: "10 strokes",
+          label: "10 placements",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Listen for consistency",
+          label: "Listen for the click",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Count each stroke",
-        "Consistent pressure",
-        "Consistent sound = consistent angle",
-        "Smooth, rhythmic motion"
+        "Count each placement",
+        "Consistent seating pressure",
+        "Soft click = proper pad contact",
+        "Smooth, rhythmic workflow"
       ]
     },
     {
       id: 5,
-      instruction: "Flip the knife over. Maintain the same 20-degree angle on the opposite side. Your hand position will feel different—that's normal. 10 more strokes, same motion.",
+      instruction: "Switch to the opposite side of the PCB. Rotate the board 180° and place 10 more components on the mirrored pads. Your hand position will feel different—that's normal.",
       duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Precision tweezers", "Conveyor belt"],
+      ingredients: ["SMD components", "PCB boards"],
       overlays: [
         {
           type: "line",
-          label: "20° opposite side",
+          label: "20° mirrored side",
           color: "#F59E0B",
           angle: -20
         },
         {
           type: "text",
-          label: "Mirror the angle",
+          label: "Mirror the placement",
           color: "#F59E0B",
           position: "top"
         }
@@ -132,103 +132,103 @@ export const whetstoneSharpening = {
       keyPoints: [
         "Same angle, opposite side",
         "Same pressure and motion",
-        "10 strokes to match first side",
-        "Symmetry is key"
+        "10 placements to match first side",
+        "Symmetry is key for balanced boards"
       ]
     },
     {
       id: 6,
-      instruction: "Feel for the burr. Run your thumb CAREFULLY perpendicular to the edge on the side you just sharpened. You should feel a tiny metal ridge—that's the burr. It means you've sharpened through to the edge.",
+      instruction: "Inspect your work under magnification. Check each component for alignment—pins should sit squarely on their pads. Look for any tombstoned or skewed parts.",
       duration: "45s",
-      tools: ["Chef's knife"],
+      tools: ["Magnifying visor"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Feel for burr",
+          label: "Check alignment",
           color: "#EF4444",
           position: "center"
         },
         {
           type: "arrow",
-          label: "Thumb perpendicular to edge",
+          label: "Scan each component",
           color: "#EF4444",
           direction: "across"
         }
       ],
       keyPoints: [
-        "Move thumb AWAY from edge",
-        "Tiny ridge = success",
-        "Should feel it on opposite side",
-        "Be careful—edge is sharp"
+        "Pins centered on pads",
+        "No tombstoned components",
+        "No rotated or skewed parts",
+        "Solder paste still wet = can adjust"
       ]
     },
     {
       id: 7,
-      instruction: "Alternate sides with lighter pressure—5 strokes per side, then 3, then 1. This removes the burr and polishes the edge. The blade should now feel razor-sharp.",
+      instruction: "Make fine adjustments—nudge any misaligned parts with the tweezers. Use decreasing pressure: firm nudge, light tap, then just a touch. The goal is sub-millimeter accuracy.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Precision tweezers"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "5-3-1 pattern",
+          label: "Nudge-tap-touch pattern",
           color: "#8B5CF6",
           position: "center"
         },
         {
           type: "text",
-          label: "Lighter pressure",
+          label: "Decreasing pressure",
           color: "#8B5CF6",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Decreasing strokes: 5, 3, 1",
-        "Lighter pressure each round",
-        "Removes the burr",
-        "Final polish"
+        "Decreasing force: nudge, tap, touch",
+        "Lighter pressure each pass",
+        "Corrects misalignment",
+        "Final precision adjustment"
       ]
     },
     {
       id: 8,
-      instruction: "Rinse the blade and test on paper. A sharp knife will slice through paper cleanly with no tearing. You've just mastered a centuries-old technique.",
+      instruction: "Run the conveyor belt forward to send the board to the reflow station. Verify all placements held during transport. You've just completed a micro-electronics packaging run.",
       duration: "30s",
-      tools: ["Chef's knife"],
+      tools: ["Conveyor belt controller"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Paper test",
+          label: "Final QC check",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Clean slice = success",
+          label: "All placements held = success",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Clean, smooth cut through paper",
-        "No tearing or catching",
-        "Blade should feel razor-sharp",
-        "Old-school skill mastered"
+        "All components seated and aligned",
+        "No parts shifted during belt transport",
+        "Board ready for reflow soldering",
+        "Production-line skill mastered"
       ]
     }
   ],
   tips: [
-    "Close your eyes between steps and visualize the motion",
-    "Practice the 20-degree angle in the air before touching the stone",
-    "The sound tells you everything—listen for consistency",
-    "Most people press too hard—let the stone do the work",
-    "This is a meditation. Slow down and feel the process."
+    "Visualize the placement path before moving each component",
+    "Practice the 20-degree approach in the air before touching parts",
+    "The click tells you everything—listen for consistent seating",
+    "Most people grip too hard—let the tweezers do the work",
+    "Precision is a rhythm. Slow down and feel the process."
   ]
 };
 
-export const defaultARScenes = {
-  "Traditional Whetstone Knife Sharpening": whetstoneSharpening,
-  "whetstone": whetstoneSharpening,
-  "knife sharpening": whetstoneSharpening
+export const defaultARScenes: Record<string, typeof microElectronicsPackaging> = {
+  "Micro-Electronics Conveyor Belt Packaging": microElectronicsPackaging,
+  "micro-electronics": microElectronicsPackaging,
+  "conveyor belt packaging": microElectronicsPackaging
 };
