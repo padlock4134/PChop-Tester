@@ -920,18 +920,18 @@ END:VCALENDAR`;
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  What are you cooking today?
+                  What are you demonstrating today?
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., Grandma's Pasta Recipe"
+                  placeholder="e.g., 5S Workplace Organization"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cuisine Origin
+                  Industry Type
                 </label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
                   <option>Select</option>
@@ -951,7 +951,7 @@ END:VCALENDAR`;
                   Session Description
                 </label>
                 <textarea
-                  placeholder="Tell everyone what makes this dish special..."
+                  placeholder="Tell everyone what makes this process special..."
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
@@ -1150,26 +1150,26 @@ END:VCALENDAR`;
             </button>
             
             <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              📅 Schedule Live Session
+              📅 Schedule Production Session
             </h2>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Dish Name
+                  Process Name
                 </label>
                 <input
                   type="text"
                   value={scheduledProcessName}
                   onChange={(e) => setScheduledProcessName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                  placeholder="e.g., Grandma's Pasta Recipe"
+                  placeholder="e.g., 5S Workplace Organization"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cuisine Origin
+                  Industry Type
                 </label>
                 <select 
                   value={scheduledIndustry}
@@ -1177,20 +1177,21 @@ END:VCALENDAR`;
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
                   <option value="">Select</option>
-                  <option value="Italian">Italian</option>
-                  <option value="Mexican">Mexican</option>
-                  <option value="Thai">Thai</option>
-                  <option value="French">French</option>
-                  <option value="Indian">Indian</option>
-                  <option value="Japanese">Japanese</option>
-                  <option value="Chinese">Chinese</option>
+                  <option value="">Select</option>
+                  <option value="Lean Manufacturing">Lean Manufacturing</option>
+                  <option value="Quality Control">Quality Control</option>
+                  <option value="Assembly">Assembly</option>
+                  <option value="Safety">Safety</option>
+                  <option value="Maintenance">Maintenance</option>
+                  <option value="Automation">Automation</option>
+                  <option value="Logistics">Logistics</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description
+                  Process Description
                 </label>
                 <textarea
                   value={scheduledDescription}
