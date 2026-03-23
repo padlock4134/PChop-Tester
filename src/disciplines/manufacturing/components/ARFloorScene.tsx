@@ -422,9 +422,15 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               <!-- Scene content scaled up 2% -->
               <a-entity scale="1.02 1.02 1.02">
 
-              <!-- Sky/Environment - clean room dark -->
-              <a-sky color="#0d1117"></a-sky>
+              <!-- Sky/Environment - stylized gradient -->
+              <a-sky color="#1a1a2e"></a-sky>
               
+              <!-- Ambient particles - floating dust motes -->
+              <a-entity position="0 0 -1.5">
+                <a-sphere position="-0.3 0.2 0" radius="0.008" color="#A8D5BA" material="emissive: #A8D5BA; emissiveIntensity: 0.8" animation="property: position; to: -0.3 0.4 0; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0.2 0.15 0.1" radius="0.006" color="#A8D5BA" material="emissive: #A8D5BA; emissiveIntensity: 0.6" animation="property: position; to: 0.2 0.35 0.1; dur: 2500; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0.4 0.25 -0.1" radius="0.007" color="#FBBF24" material="emissive: #FBBF24; emissiveIntensity: 0.5" animation="property: position; to: 0.4 0.45 -0.1; dur: 2800; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+              </a-entity>
 
               <!-- Industrial Workbench - steel gray -->
               <a-box 
@@ -442,7 +448,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 height="0.02" 
                 depth="0.02"
                 color="#FBBF24"
-                material="metalness: 0.5; roughness: 0.3"
+                material="metalness: 0.5; roughness: 0.3; emissive: #FBBF24; emissiveIntensity: 0.2"
               ></a-box>
 
               <!-- Conveyor Belt - always visible with packaging box -->
@@ -734,10 +740,12 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
 
               </a-entity>
 
-              <!-- Lighting - cool industrial -->
-              <a-light type="ambient" color="#D1D5DB" intensity="0.4"></a-light>
-              <a-light type="directional" color="#D1D5DB" intensity="0.5" position="-1 2.5 1.5"></a-light>
-              <a-light type="directional" color="#9CA3AF" intensity="0.2" position="1 0.5 -0.5"></a-light>
+              <!-- Lighting - soft and natural -->
+              <a-light type="ambient" color="#FFEEDD" intensity="0.5"></a-light>
+              <a-light type="directional" color="#FFFFFF" intensity="0.6" position="-1 2.5 1.5"></a-light>
+              <a-light type="directional" color="#FFE4C4" intensity="0.25" position="1 0.5 -0.5"></a-light>
+              <a-light type="point" color="#FBBF24" intensity="0.15" position="0.5 0.5 -1" distance="3"></a-light>
+              <a-light type="point" color="#4B5563" intensity="0.1" position="-0.5 0.3 -1.2" distance="2"></a-light>
             </a-scene>
           `
           }}
