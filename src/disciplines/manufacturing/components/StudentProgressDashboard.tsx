@@ -12,32 +12,32 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Lean Manufacturing Setup',
-      culture: 'Japanese',
+      processName: 'Lean Manufacturing Setup',
+      industry: 'Japanese',
       viewers: 23,
       thumbnail: '⚙️'
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'ISO 9001 Compliance',
-      culture: 'Lebanese',
+      processName: 'ISO 9001 Compliance',
+      industry: 'Lebanese',
       viewers: 35,
       thumbnail: '✅'
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'Six Sigma Quality Control',
-      culture: 'French',
+      processName: 'Six Sigma Quality Control',
+      industry: 'French',
       viewers: 62,
       thumbnail: '📊'
     },
     {
       id: '5',
       hostName: 'Maria Santos',
-      dishName: '5S Workplace Organization',
-      culture: 'Spanish',
+      processName: '5S Workplace Organization',
+      industry: 'Spanish',
       viewers: 28,
       thumbnail: '🏭'
     }
@@ -71,8 +71,8 @@ const StudentProgressDashboard: React.FC = () => {
       timeSpent: "18.5 hours"
     },
     skills: {
-      recipesAttempted: 8,
-      recipesCompleted: 6,
+      processesAttempted: 8,
+      processesCompleted: 6,
       currentLevel: "Intermediate",
       nextMilestone: "Advanced Assembly Techniques"
     },
@@ -80,7 +80,7 @@ const StudentProgressDashboard: React.FC = () => {
       appUsage: "5 days this week",
       liveSessionsAttended: 3,
       communityPosts: 7,
-      recipesSaved: 15
+      processesSaved: 15
     },
     insights: {
       strongestArea: "Safety Procedures",
@@ -145,7 +145,7 @@ const StudentProgressDashboard: React.FC = () => {
   // Debug current session changes
   useEffect(() => {
     if (activeLiveSessions[currentSessionIndex]) {
-      console.log('Current session changed to:', currentSessionIndex, '-', activeLiveSessions[currentSessionIndex].hostName, activeLiveSessions[currentSessionIndex].dishName);
+      console.log('Current session changed to:', currentSessionIndex, '-', activeLiveSessions[currentSessionIndex].hostName, activeLiveSessions[currentSessionIndex].processName);
     }
   }, [currentSessionIndex]);
 
@@ -286,7 +286,7 @@ const StudentProgressDashboard: React.FC = () => {
                         <span className="text-3xl">{session.thumbnail}</span>
                         <div className="flex-1">
                           <div className="font-bold text-red-900 text-sm">{session.hostName}</div>
-                          <div className="text-red-800 text-xs">{session.dishName}</div>
+                          <div className="text-red-800 text-xs">{session.processName}</div>
                           <div className="text-red-600 text-xs mt-1">{session.viewers} {t('dashboard.watching')}</div>
                         </div>
                       </div>
@@ -319,7 +319,7 @@ const StudentProgressDashboard: React.FC = () => {
                     <div className="text-sm text-red-800 transition-all duration-500">
                       <span>
                         <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {t('dashboard.isCooking')}{' '}
-                        <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
+                        <strong>{activeLiveSessions[currentSessionIndex].processName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
                       </span>
                     </div>
                   </div>
@@ -446,7 +446,7 @@ const StudentProgressDashboard: React.FC = () => {
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.recipesCompleted')}</h3>
-                <p className="text-gray-700">{progressData.skills.recipesCompleted} {t('dashboard.outOf')} {progressData.skills.recipesAttempted} {t('dashboard.attempted')}</p>
+                <p className="text-gray-700">{progressData.skills.processesCompleted} {t('dashboard.outOf')} {progressData.skills.processesAttempted} {t('dashboard.attempted')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.nextMilestone')}</h3>
@@ -512,7 +512,7 @@ const StudentProgressDashboard: React.FC = () => {
             <div className="flex-1 flex flex-col overflow-hidden">
               <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
                 <div className="text-center relative">
-                  <h2 className="text-xl sm:text-2xl font-bold">🔴 LIVE: {currentLiveSession.dishName}</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold">🔴 LIVE: {currentLiveSession.processName}</h2>
                   <button
                     onClick={() => {
                       setLiveSessionModalOpen(false);
