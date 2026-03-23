@@ -1714,7 +1714,7 @@
     "noRecipeSelected": "No SOP selected. Import an SOP to showcase!",
     "globalTestKitchenTab": "Global MFG Lab",
     "globalTestKitchen": {
-      "title": "Global MFG Lab",
+      "title": "The Production Line",
       "subtitle": "Share your processes and learn from fellow students worldwide",
       "live": "Live", "upcoming": "Upcoming", "host": "Host",
       "noLiveSessions": "No live sessions right now",
