@@ -1328,6 +1328,7 @@
   },
   "mfgAcademy": {
     "title": "Production Academy",
+    "studentView": "Fabricators Dashboard",
     "syllabus": "Syllabus",
     "step": "Step",
     "closeRecipe": "Close SOP",
