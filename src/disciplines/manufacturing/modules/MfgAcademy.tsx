@@ -14,12 +14,12 @@ import ProductionTimer from '../components/ProductionTimer';
 import LinePracticeModal from '../components/LinePracticeModal';
 
 const generalLessons = [
-  { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
-  { title: 'Seafood Handling & Safety', desc: 'How to select, store, and prep fresh seafood safely.' },
-  { title: 'Essential Cooking Techniques', desc: 'Master sautéing, steaming, poaching, and more.' },
-  { title: 'Sanitation & Cross-Contamination', desc: 'Keep your kitchen safe and clean.' },
-  { title: 'Using a Thermometer', desc: 'How to check doneness for seafood, poultry, and meats.' },
-  { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
+  { title: 'Workplace Safety 101', desc: 'Learn essential PPE usage and safety protocols.' },
+  { title: 'Tool Handling & Safety', desc: 'How to select, store, and maintain manufacturing tools safely.' },
+  { title: 'Essential Manufacturing Techniques', desc: 'Master assembly, quality control, and process optimization.' },
+  { title: '5S Methodology', desc: 'Keep your workspace organized and efficient.' },
+  { title: 'Quality Control Tools', desc: 'How to use calipers, gauges, and measurement equipment.' },
+  { title: 'Equipment Maintenance', desc: 'Cleaning, storing, and maintaining your manufacturing equipment.' }
 ];
 
 // Generate default tutorials including the weekly technique
@@ -34,72 +34,72 @@ function getDefaultTutorials() {
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.'
+      title: 'Let\'s Build This Process!',
+      desc: 'How to execute the main technique for this process.'
     }
   ];
 }
 
-// 52 Fundamental Cooking Techniques (one for each week of the year)
+// 52 Fundamental Manufacturing Techniques (one for each week of the year)
 const WEEKLY_TECHNIQUES = [
-  // Knife & Prep Techniques (Weeks 1-13)
-  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
-  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
-  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
-  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
-  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
-  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
-  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
-  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
-  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
-  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
-  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
-  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
-  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
+  // Safety & PPE Techniques (Weeks 1-13)
+  { title: "Proper Tool Grip", desc: "How to hold tools safely and efficiently for better control" },
+  { title: "Machine Guarding", desc: "Protecting yourself while operating machinery" },
+  { title: "PPE Inspection Basics", desc: "Using inspection checklists to maintain safety equipment" },
+  { title: "Workstation Organization", desc: "Creating efficient and safe work areas" },
+  { title: "Safety Signage", desc: "Understanding and implementing safety warnings" },
+  { title: "Tool Selection", desc: "Choosing the right tool for the manufacturing task" },
+  { title: "Measuring Techniques", desc: "Precision measurement for quality outcomes" },
+  { title: "Workstation Setup", desc: "Setting up your workspace efficiently before production" },
+  { title: "Proper Equipment Use", desc: "Stability, safety, and efficiency basics" },
+  { title: "Material Handling", desc: "Safe and efficient material movement techniques" },
+  { title: "Quality Inspection", desc: "Proper inspection procedures and checkpoints" },
+  { title: "Documentation Basics", desc: "Accurate record-keeping for production tracking" },
+  { title: "Tool Storage", desc: "Keeping tools organized and in good condition" },
 
-  // Heat & Temperature (Weeks 14-26)
-  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
-  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
-  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
-  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
-  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
-  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
-  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
-  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
-  { title: "Steam Control", desc: "Managing moisture while cooking" },
-  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
-  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
-  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
+  // Process Control & Quality (Weeks 14-26)
+  { title: "Machine Calibration", desc: "Setting up equipment for optimal performance" },
+  { title: "Process Temperature Control", desc: "Managing temperature in manufacturing processes" },
+  { title: "Quality Sampling", desc: "Why and when to take quality samples" },
+  { title: "Process Stabilization", desc: "Understanding how processes stabilize over time" },
+  { title: "Equipment Warm-up", desc: "Getting machinery truly ready for production" },
+  { title: "Process Zones", desc: "Using different areas in your production line" },
+  { title: "Gentle Processing", desc: "Low and slow techniques for delicate materials" },
+  { title: "Rapid vs Controlled Processing", desc: "Understanding the difference for better results" },
+  { title: "Moisture Control", desc: "Managing humidity in manufacturing processes" },
+  { title: "Cold Process Starts", desc: "When NOT to preheat your equipment" },
+  { title: "Equipment Hot Spots", desc: "Monitoring for consistent processing" },
+  { title: "Sensor Placement", desc: "Where to place sensors for accurate readings" },
+  { title: "Proper Cooling", desc: "Safe product cooling techniques" },
 
-  // Flavor Building (Weeks 27-39)
-  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
-  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
-  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
-  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
-  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
-  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
-  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
-  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
-  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
-  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
-  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
-  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
-  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
+  // Process Optimization (Weeks 27-39)
+  { title: "Quality Timing", desc: "When to inspect for maximum quality impact" },
+  { title: "pH Balance", desc: "Managing chemical properties in manufacturing processes" },
+  { title: "Process Enhancement", desc: "Optimizing processes for better efficiency" },
+  { title: "Waste Reduction", desc: "Capturing and reducing waste in production" },
+  { title: "Process Layering", desc: "Adding processes in the right order" },
+  { title: "Testing as You Produce", desc: "Adjusting processes throughout production" },
+  { title: "Efficiency Enhancement", desc: "Using natural methods to boost productivity" },
+  { title: "Energy as Process Driver", desc: "Understanding how energy drives manufacturing processes" },
+  { title: "Automated vs Manual Timing", desc: "When to use automation vs manual processes" },
+  { title: "Optimization Techniques", desc: "Improving efficiency through process analysis" },
+  { title: "Final Quality Checks", desc: "Adding final quality assurance steps" },
+  { title: "Foundation Processes", desc: "Building a strong process foundation" },
+  { title: "Cost and Quality Balance", desc: "Finding the perfect production harmony" },
 
-  // Texture & Technique (Weeks 40-52)
-  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
-  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
-  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
-  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
-  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
-  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
-  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
-  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
-  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
-  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
-  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
+  // Advanced Manufacturing (Weeks 40-52)
+  { title: "Mixing Fundamentals", desc: "Creating consistent blends that won't separate" },
+  { title: "Proper Agitation", desc: "Incorporating air for consistent material properties" },
+  { title: "Layering Technique", desc: "Preserving material properties in composites" },
+  { title: "Basic Process Control", desc: "Foundation technique for stable, consistent processes" },
+  { title: "Material Flow Magic", desc: "Using material properties to perfect your process" },
+  { title: "Strategic Process Control", desc: "When and how to control processes for best results" },
+  { title: "Heat Treatment", desc: "Gradually combining hot and cold materials" },
+  { title: "Curing Time", desc: "How long is enough for material penetration" },
+  { title: "Proper Drying", desc: "Getting excess moisture out effectively" },
+  { title: "Quality Layers", desc: "Building quality throughout the manufacturing process" },
+  { title: "Timing Multiple Processes", desc: "Getting everything ready at the same time" },
+  { title: "Simple Packaging", desc: "Basic presentation techniques for better products" },
   { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
 ];
 
@@ -133,7 +133,7 @@ function getTwoTutorials(recipe: any) {
 }
 
 
-const CulinarySchool = () => {
+const MfgAcademy = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
@@ -147,47 +147,47 @@ const CulinarySchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Chef College Curriculum",
+    title: "Manufacturing Academy Curriculum",
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Culinary Foundations",
+        title: "Term 1: Manufacturing Foundations",
         lessons: [
-          { id: "lesson-1-1", title: "Kitchen Safety and Sanitation", completed: true, current: false },
-          { id: "lesson-1-2", title: "Food Handling and Storage", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to Kitchen Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Cooking Terminology", completed: false, current: true },
-          { id: "lesson-1-5", title: "Weights, Measures, and Conversions", completed: false, current: false },
+          { id: "lesson-1-1", title: "Workplace Safety and Procedures", completed: true, current: false },
+          { id: "lesson-1-2", title: "Material Handling and Storage", completed: true, current: false },
+          { id: "lesson-1-3", title: "Introduction to Manufacturing Equipment", completed: true, current: false },
+          { id: "lesson-1-4", title: "Basic Manufacturing Terminology", completed: false, current: true },
+          { id: "lesson-1-5", title: "Measurements, Tolerances, and Conversions", completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Knife Skills",
+        title: "Term 1: Tool Skills",
         lessons: [
-          { id: "lesson-2-1", title: "Knife Safety and Maintenance", completed: false, current: false },
-          { id: "lesson-2-2", title: "Basic Knife Cuts", completed: false, current: false },
-          { id: "lesson-2-3", title: "Vegetable Fabrication", completed: false, current: false },
-          { id: "lesson-2-4", title: "Meat and Fish Fabrication", completed: false, current: false },
+          { id: "lesson-2-1", title: "Tool Safety and Maintenance", completed: false, current: false },
+          { id: "lesson-2-2", title: "Basic Tool Operations", completed: false, current: false },
+          { id: "lesson-2-3", title: "Material Preparation", completed: false, current: false },
+          { id: "lesson-2-4", title: "Component Fabrication", completed: false, current: false },
         ]
       },
       {
         id: "course-3",
-        title: "Term 2: Breakfast & Garde Manger",
+        title: "Term 2: Assembly & Quality Control",
         lessons: [
-          { id: "lesson-3-1", title: "Egg Cookery", completed: false, current: false },
-          { id: "lesson-3-2", title: "Breakfast Preparations", completed: false, current: false },
-          { id: "lesson-3-3", title: "Cold Food Preparation", completed: false, current: false },
-          { id: "lesson-3-4", title: "Salads and Dressings", completed: false, current: false },
+          { id: "lesson-3-1", title: "Assembly Techniques", completed: false, current: false },
+          { id: "lesson-3-2", title: "Production Line Setup", completed: false, current: false },
+          { id: "lesson-3-3", title: "Quality Control Procedures", completed: false, current: false },
+          { id: "lesson-3-4", title: "Inspection and Testing", completed: false, current: false },
         ]
       },
       {
         id: "course-4",
-        title: "Term 2: Baking & Pastry",
+        title: "Term 2: Advanced Manufacturing",
         lessons: [
-          { id: "lesson-4-1", title: "Basic Dough and Batters", completed: false, current: false },
-          { id: "lesson-4-2", title: "Quick Breads and Muffins", completed: false, current: false },
-          { id: "lesson-4-3", title: "Yeast Breads", completed: false, current: false },
-          { id: "lesson-4-4", title: "Basic Pastry and Desserts", completed: false, current: false },
+          { id: "lesson-4-1", title: "Process Automation", completed: false, current: false },
+          { id: "lesson-4-2", title: "Lean Manufacturing", completed: false, current: false },
+          { id: "lesson-4-3", title: "Six Sigma Methods", completed: false, current: false },
+          { id: "lesson-4-4", title: "Advanced Quality Systems", completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
@@ -515,4 +515,4 @@ const CulinarySchool = () => {
   );
 };
 
-export default CulinarySchool;
+export default MfgAcademy;
