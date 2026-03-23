@@ -935,13 +935,13 @@ END:VCALENDAR`;
                 </label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
                   <option>Select</option>
-                  <option>Italian</option>
-                  <option>Mexican</option>
-                  <option>Thai</option>
-                  <option>French</option>
-                  <option>Indian</option>
-                  <option>Japanese</option>
-                  <option>Chinese</option>
+                  <option>Lean Manufacturing</option>
+                  <option>Quality Control</option>
+                  <option>Assembly</option>
+                  <option>Safety</option>
+                  <option>Maintenance</option>
+                  <option>Automation</option>
+                  <option>Logistics</option>
                   <option>Other</option>
                 </select>
               </div>
