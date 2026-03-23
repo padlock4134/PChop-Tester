@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from './disciplines/culinary/images/logo.png';
 
@@ -16,30 +16,62 @@ const disciplines = [
 
 const DisciplineSelector: React.FC = () => {
   const navigate = useNavigate();
+  const [selectedDiscipline, setSelectedDiscipline] = useState('');
 
-  const handleSelect = (discipline: string) => {
-    navigate(`/${discipline}/dashboard`);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedDiscipline) {
+      navigate(`/${selectedDiscipline}/dashboard`);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-sand flex flex-col items-center justify-center px-4 py-12">
-      <img src={logo} alt="PorkChop Logo" className="w-28 h-28 mb-6" />
-      <h1 className="font-retro text-3xl text-maineBlue mb-2 text-center">Welcome to PorkChop</h1>
-      <p className="text-navy text-lg mb-10 text-center">Select your discipline to get started.</p>
+    <div className="min-h-screen bg-sand flex items-center justify-center px-4">
+      <div className="w-full max-w-md">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <img src={logo} alt="PorkChop Logo" className="w-32 h-32 mx-auto mb-6" />
+          <h1 className="font-retro text-4xl text-maineBlue mb-3">Welcome to PorkChop</h1>
+          <p className="text-gray-600 text-lg">Select your discipline to continue</p>
+        </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 max-w-3xl">
-        {disciplines.map((d) => (
-          <button
-            key={d.key}
-            onClick={() => handleSelect(d.key)}
-            className="group w-full rounded-2xl border-2 border-maineBlue bg-weatheredWhite p-6 text-center shadow-md hover:shadow-xl hover:border-seafoam transition-all duration-200"
-          >
-            <span className="block text-4xl mb-3">{d.icon}</span>
-            <span className="block font-retro text-lg text-maineBlue group-hover:text-seafoam transition-colors">
-              {d.label}
-            </span>
-          </button>
-        ))}
+        {/* Discipline Selection Form */}
+        <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-8">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-6">
+              <label htmlFor="discipline" className="block text-sm font-bold text-gray-700 mb-3 text-center">
+                Choose Your Discipline
+              </label>
+              <select
+                id="discipline"
+                value={selectedDiscipline}
+                onChange={(e) => setSelectedDiscipline(e.target.value)}
+                className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 text-center focus:border-maineBlue focus:outline-none text-lg font-retro"
+                required
+              >
+                <option value="">-- Select Discipline --</option>
+                {disciplines.map((d) => (
+                  <option key={d.key} value={d.key}>
+                    {d.icon} {d.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              disabled={!selectedDiscipline}
+              className="w-full bg-maineBlue text-white font-bold py-3 px-6 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+            >
+              Continue
+            </button>
+          </form>
+        </div>
+
+        {/* Footer text */}
+        <p className="text-center text-gray-500 text-sm mt-6">
+          Patent Pending
+        </p>
       </div>
     </div>
   );
