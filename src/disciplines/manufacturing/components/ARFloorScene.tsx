@@ -422,12 +422,6 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               <!-- Sky/Environment - clean room dark -->
               <a-sky color="#0d1117"></a-sky>
               
-              <!-- Ambient particles - clean room dust motes (subtle) -->
-              <a-entity position="0 0 -1.5">
-                <a-sphere position="-0.3 0.2 0" radius="0.004" color="#F3F4F6" material="opacity: 0.3; transparent: true" animation="property: position; to: -0.3 0.4 0; dur: 4000; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.2 0.15 0.1" radius="0.003" color="#E5E7EB" material="opacity: 0.2; transparent: true" animation="property: position; to: 0.2 0.35 0.1; dur: 3500; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.4 0.25 -0.1" radius="0.003" color="#D1D5DB" material="opacity: 0.2; transparent: true" animation="property: position; to: 0.4 0.45 -0.1; dur: 3800; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-              </a-entity>
 
               <!-- Industrial Workbench - steel gray -->
               <a-box 
@@ -445,12 +439,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 height="0.02" 
                 depth="0.02"
                 color="#FBBF24"
-                material="metalness: 0.5; roughness: 0.3; emissive: #FBBF24; emissiveIntensity: 0.2"
+                material="metalness: 0.5; roughness: 0.3"
               ></a-box>
 
               <!-- Conveyor Belt - always visible with packaging box -->
-              <a-entity position="0 -0.4 -1.5" 
-                animation="property: scale; to: ${beltActive ? '1.05 1.05 1.05' : '1 1 1'}; dur: 1500; easing: easeInOutSine">
+              <a-entity position="0 -0.4 -1.5">
                 <!-- Belt base -->
                 <a-box 
                   position="0 0 0" 
@@ -458,8 +451,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.05" 
                   depth="0.22"
                   color="${beltActive ? '#4B5563' : '#374151'}"
-                  material="metalness: 0.5; roughness: 0.4; emissive: ${beltActive ? '#374151' : '#000000'}; emissiveIntensity: ${beltActive ? '0.2' : '0'}"
-                  animation="property: material.emissiveIntensity; to: ${beltActive ? '0.2' : '0'}; dur: 1000; easing: easeInOutSine"
+                  material="metalness: 0.5; roughness: 0.4"
                 ></a-box>
                 <!-- Belt surface (dark rubber) - animated when active -->
                 <a-box 
@@ -469,41 +461,27 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   depth="0.2"
                   color="#111827"
                   material="metalness: 0.1; roughness: 0.9"
-                  animation="${beltActive ? 'property: position; to: 0 0.035 0; dur: 800; loop: true; dir: alternate; easing: easeInOutSine' : ''}"
                 ></a-box>
                 <!-- Belt rollers (left & right) - spin when active -->
                 <a-cylinder position="-0.38 0 0" radius="0.03" height="0.22" color="#6B7280" rotation="90 0 0" material="metalness: 0.8; roughness: 0.3"
-                  animation="${beltActive ? 'property: rotation; to: 90 0 360; dur: 3000; loop: true; easing: linear' : ''}"></a-cylinder>
+></a-cylinder>
                 <a-cylinder position="0.38 0 0" radius="0.03" height="0.22" color="#6B7280" rotation="90 0 0" material="metalness: 0.8; roughness: 0.3"
-                  animation="${beltActive ? 'property: rotation; to: 90 0 360; dur: 3000; loop: true; easing: linear' : ''}"></a-cylinder>
+></a-cylinder>
                 
                 <!-- PACKAGING BOX on belt with open flaps (scales and glows when active) -->
                 <!-- Box bottom -->
-                <a-box position="0 0.06 0" width="0.18" height="0.01" depth="0.12" color="#8B5A2B" material="roughness: 0.6; metalness: 0.1"
-                  animation="${toolSelected ? 'property: scale; to: 1.1 1.1 1.1; dur: 1200; easing: easeInOutSine' : ''}"></a-box>
+                <a-box position="0 0.06 0" width="0.18" height="0.01" depth="0.12" color="#8B5A2B" material="roughness: 0.6; metalness: 0.1"></a-box>
                 <!-- Box walls (glow when crane is active) -->
-                <a-box position="0 0.085 -0.055" width="0.18" height="0.04" depth="0.01" color="#A0522D" 
-                  material="roughness: 0.5; emissive: ${toolSelected ? '#8B5A2B' : '#000000'}; emissiveIntensity: ${toolSelected ? '0.3' : '0'}"
-                  animation="${toolSelected ? 'property: material.emissiveIntensity; to: 0.3; dur: 1000; easing: easeInOutSine' : ''}"></a-box>
-                <a-box position="0 0.085 0.055" width="0.18" height="0.04" depth="0.01" color="#A0522D" 
-                  material="roughness: 0.5; emissive: ${toolSelected ? '#8B5A2B' : '#000000'}; emissiveIntensity: ${toolSelected ? '0.3' : '0'}"
-                  animation="${toolSelected ? 'property: material.emissiveIntensity; to: 0.3; dur: 1000; easing: easeInOutSine' : ''}"></a-box>
-                <a-box position="-0.085 0.085 0" width="0.01" height="0.04" depth="0.12" color="#A0522D" 
-                  material="roughness: 0.5; emissive: ${toolSelected ? '#8B5A2B' : '#000000'}; emissiveIntensity: ${toolSelected ? '0.3' : '0'}"
-                  animation="${toolSelected ? 'property: material.emissiveIntensity; to: 0.3; dur: 1000; easing: easeInOutSine' : ''}"></a-box>
-                <a-box position="0.085 0.085 0" width="0.01" height="0.04" depth="0.12" color="#A0522D" 
-                  material="roughness: 0.5; emissive: ${toolSelected ? '#8B5A2B' : '#000000'}; emissiveIntensity: ${toolSelected ? '0.3' : '0'}"
-                  animation="${toolSelected ? 'property: material.emissiveIntensity; to: 0.3; dur: 1000; easing: easeInOutSine' : ''}"></a-box>
+                <a-box position="0 0.085 -0.055" width="0.18" height="0.04" depth="0.01" color="#A0522D" material="roughness: 0.5"></a-box>
+                <a-box position="0 0.085 0.055" width="0.18" height="0.04" depth="0.01" color="#A0522D" material="roughness: 0.5"></a-box>
+                <a-box position="-0.085 0.085 0" width="0.01" height="0.04" depth="0.12" color="#A0522D" material="roughness: 0.5"></a-box>
+                <a-box position="0.085 0.085 0" width="0.01" height="0.04" depth="0.12" color="#A0522D" material="roughness: 0.5"></a-box>
                 
                 <!-- Open flaps (folded outward) - flutter when crane is active -->
-                <a-box position="0 0.065 -0.09" width="0.18" height="0.01" depth="0.07" color="#8B5A2B" rotation="-45 0 0" material="roughness: 0.6"
-                  animation="${toolSelected ? 'property: rotation; to: -50 0 0; dur: 1500; loop: true; dir: alternate; easing: easeInOutSine' : ''}"></a-box>
-                <a-box position="0 0.065 0.09" width="0.18" height="0.01" depth="0.07" color="#8B5A2B" rotation="45 0 0" material="roughness: 0.6"
-                  animation="${toolSelected ? 'property: rotation; to: 50 0 0; dur: 1500; loop: true; dir: alternate; easing: easeInOutSine' : ''}"></a-box>
-                <a-box position="-0.125 0.065 0" width="0.07" height="0.01" depth="0.12" color="#8B5A2B" rotation="0 0 -45" material="roughness: 0.6"
-                  animation="${toolSelected ? 'property: rotation; to: 0 0 -50; dur: 1500; loop: true; dir: alternate; easing: easeInOutSine' : ''}"></a-box>
-                <a-box position="0.125 0.065 0" width="0.07" height="0.01" depth="0.12" color="#8B5A2B" rotation="0 0 45" material="roughness: 0.6"
-                  animation="${toolSelected ? 'property: rotation; to: 0 0 50; dur: 1500; loop: true; dir: alternate; easing: easeInOutSine' : ''}"></a-box>
+                <a-box position="0 0.065 -0.09" width="0.18" height="0.01" depth="0.07" color="#8B5A2B" rotation="-45 0 0" material="roughness: 0.6"></a-box>
+                <a-box position="0 0.065 0.09" width="0.18" height="0.01" depth="0.07" color="#8B5A2B" rotation="45 0 0" material="roughness: 0.6"></a-box>
+                <a-box position="-0.125 0.065 0" width="0.07" height="0.01" depth="0.12" color="#8B5A2B" rotation="0 0 -45" material="roughness: 0.6"></a-box>
+                <a-box position="0.125 0.065 0" width="0.07" height="0.01" depth="0.12" color="#8B5A2B" rotation="0 0 45" material="roughness: 0.6"></a-box>
                 
                 <!-- ESD foam inside box -->
                 <a-box position="0 0.07 0" width="0.16" height="0.01" depth="0.1" color="#1F2937" material="roughness: 0.9"></a-box>
@@ -514,9 +492,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 
                 <!-- Component placed in box (appears when crane drops) -->
                 ${tweezersProgress > 0.9 ? `
-                <a-box position="0.02 0.08 0.02" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" 
-                  material="metalness: 0.4; roughness: 0.5"
-                  animation="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 800; easing: easeOutBounce"></a-box>
+                <a-box position="0.02 0.08 0.02" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5"></a-box>
                 ` : ''}
               </a-entity>
               
@@ -529,24 +505,17 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               
               <!-- Crane trolley (moves along rail) -->
               ${toolSelected ? `
-              <a-entity id="crane-trolley" position="0 0.25 -1.5" 
-                animation="property: position; to: ${tweezersProgress > 0.7 ? '0 0.25 -1.5' : '-0.2 0.25 -1.5'}; dur: 2000; easing: easeInOutQuad">
+              <a-entity id="crane-trolley" position="0 0.25 -1.5">
                 <!-- Trolley body -->
                 <a-box position="0 0 0" width="0.08" height="0.04" depth="0.06" color="#374151" material="metalness: 0.6; roughness: 0.4"></a-box>
                 <!-- Crane arm extending down (animated based on progress) -->
-                <a-cylinder position="0 -0.1 0" radius="0.008" height="${0.16 + (tweezersProgress * 0.1)}" color="#6B7280" material="metalness: 0.8; roughness: 0.2"
-                  animation="property: height; to: ${tweezersProgress > 0.5 ? '0.26' : '0.16'}; dur: 1500; easing: easeInOutSine"></a-cylinder>
+                <a-cylinder position="0 -0.1 0" radius="0.008" height="0.16" color="#6B7280" material="metalness: 0.8; roughness: 0.2"></a-cylinder>
                 <!-- Crane head/gripper -->
-                <a-box position="0 ${-0.18 - (tweezersProgress * 0.05)} 0" width="0.03" height="0.02" depth="0.03" color="#9CA3AF" material="metalness: 0.7; roughness: 0.3"
-                  animation="property: position; to: 0 ${tweezersProgress > 0.5 ? '-0.23' : '-0.18'} 0; dur: 1500; easing: easeInOutSine"></a-box>
+                <a-box position="0 -0.18 0" width="0.03" height="0.02" depth="0.03" color="#9CA3AF" material="metalness: 0.7; roughness: 0.3"></a-box>
                 <!-- Microchip held by crane (drops when progress high) -->
-                <a-box position="0 ${-0.2 - (tweezersProgress * 0.05)} 0" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5"
-                  animation="property: position; to: 0 ${tweezersProgress > 0.8 ? '-0.35' : '-0.25'} 0; dur: 1000; easing: easeInQuart"
-                  visible="${tweezersProgress < 0.9}"></a-box>
+                <a-box position="0 -0.2 0" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5"></a-box>
                 <!-- Crane status LED -->
-                <a-sphere position="0 0.025 0.035" radius="0.004" color="${tweezersProgress > 0.3 ? '#10B981' : '#EF4444'}" 
-                  material="emissive: ${tweezersProgress > 0.3 ? '#10B981' : '#EF4444'}; emissiveIntensity: 0.8"
-                  animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 600; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0 0.025 0.035" radius="0.004" color="#10B981" material="metalness: 0.3; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
               <!-- Anti-static mat -->
               <a-box 
@@ -583,7 +552,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <!-- Sleeve cuff overlap -->
                 <a-sphere position="0.003 -0.02 0.015" radius="0.036" color="#1E3A5F" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- ESD wrist strap -->
-                <a-cylinder position="0 -0.04 0.015" radius="0.032" height="0.02" color="#FBBF24" material="shader: standard; roughness: 0.5; emissive: #FBBF24; emissiveIntensity: 0.2" segments-radial="16"></a-cylinder>
+                <a-cylinder position="0 -0.04 0.015" radius="0.032" height="0.02" color="#FBBF24" material="shader: standard; roughness: 0.5" segments-radial="16"></a-cylinder>
                 <!-- WRIST skin -->
                 <a-cylinder position="0 -0.03 0.015" radius="0.03" height="0.07" color="#F4A460" rotation="6 0 3" material="shader: standard; roughness: 0.8" segments-radial="16"></a-cylinder>
                 <!-- Wrist-to-hand overlap sphere -->
@@ -608,10 +577,9 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               ${toolSelected ? `
               <a-entity 
                 id="lever-hand-entity"
-                position="${0.35 + (tweezersProgress * 0.1)} ${-0.15 + (tweezersProgress * 0.05)} -1.2" 
-                rotation="${-20 + (tweezersProgress * 15)} -25 30" 
-                scale="${1.3 + (tweezersProgress * 0.2)} ${1.3 + (tweezersProgress * 0.2)} ${1.3 + (tweezersProgress * 0.2)}"
-                animation="property: position; to: ${tweezersProgress > 0.5 ? '0.45 -0.1 -1.2' : '0.35 -0.15 -1.2'}; dur: 1200; easing: easeInOutSine"
+                position="0.35 -0.15 -1.2" 
+                rotation="-20 -25 30" 
+                scale="1.3 1.3 1.3"
               >
                 <!-- THE CONTROL LEVER you're holding -->
                 <!-- Lever base/mount -->
@@ -629,21 +597,17 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.18"
                   color="#6B7280"
                   material="shader: standard; roughness: 0.3; metalness: 0.8"
-                  rotation="0 0 ${tweezersProgress * 30}"
-                  animation="property: rotation; to: 0 0 ${tweezersProgress > 0.6 ? '30' : '0'}; dur: 1000; easing: easeInOutSine"
+                  rotation="0 0 0"
                 ></a-cylinder>
                 <!-- Lever handle/grip (moves with shaft) -->
                 <a-sphere 
-                  position="${tweezersProgress * 0.05} ${0.24 + (tweezersProgress * 0.02)} 0" 
+                  position="0 0.24 0" 
                   radius="0.025"
                   color="#DC2626"
-                  material="shader: standard; roughness: 0.6; emissive: #DC2626; emissiveIntensity: ${0.3 + (tweezersProgress * 0.4)}"
-                  animation="property: material.emissiveIntensity; to: ${tweezersProgress > 0.4 ? '0.7' : '0.3'}; dur: 800; easing: easeInOutSine"
+                  material="shader: standard; roughness: 0.6"
                 ></a-sphere>
                 <!-- Lever status indicator (changes color with progress) -->
-                <a-sphere position="0 0.1 0.05" radius="0.006" color="${tweezersProgress > 0.3 ? '#10B981' : '#FBBF24'}" 
-                  material="emissive: ${tweezersProgress > 0.3 ? '#10B981' : '#FBBF24'}; emissiveIntensity: 0.8" 
-                  animation="property: scale; from: 1 1 1; to: ${1.2 + (tweezersProgress * 0.3)} ${1.2 + (tweezersProgress * 0.3)} ${1.2 + (tweezersProgress * 0.3)}; dur: 800; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0 0.1 0.05" radius="0.006" color="#10B981" material="metalness: 0.3; roughness: 0.7"></a-sphere>
                 
                 <!-- === RIGHT HAND + ARM (connected anatomy) === -->
                 <!-- FOREARM (white ESD smock sleeve) -->
@@ -708,11 +672,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   position="0 0.13 0" 
                   radius="0.018"
                   color="#DC2626"
-                  material="roughness: 0.6; emissive: #DC2626; emissiveIntensity: 0.2"
+                  material="roughness: 0.6"
                 ></a-sphere>
                 <!-- Status indicators -->
-                <a-sphere position="-0.08 0.025 0.04" radius="0.004" color="#EF4444" material="emissive: #EF4444; emissiveIntensity: 0.6" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 800; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.08 0.025 0.04" radius="0.004" color="#10B981" material="emissive: #10B981; emissiveIntensity: 0.6"></a-sphere>
+                <a-sphere position="-0.08 0.025 0.04" radius="0.004" color="#EF4444" material="metalness: 0.3; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.08 0.025 0.04" radius="0.004" color="#10B981" material="metalness: 0.3; roughness: 0.7"></a-sphere>
                 <!-- Control labels -->
                 <a-text value="CRANE" position="-0.08 0.035 0.06" scale="0.08 0.08 0.08" color="#9CA3AF"></a-text>
                 <a-text value="READY" position="0.05 0.035 0.06" scale="0.08 0.08 0.08" color="#9CA3AF"></a-text>
@@ -728,8 +692,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 radius-outer="0.32"
                 rotation="-90 0 0"
                 color="#FBBF24"
-                material="opacity: 0.3; transparent: true; emissive: #FBBF24; emissiveIntensity: 0.4; side: double"
-                animation="property: scale; to: 1.05 1.05 1.05; dur: 2000; easing: easeInOutSine; loop: true; dir: alternate"
+                material="opacity: 0.3; transparent: true; side: double"
               ></a-ring>` : ''}
 
               <!-- Angle Guide Line - glowing -->
@@ -740,15 +703,14 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.35" 
                   color="#FBBF24"
                   rotation="0 0 ${overlay.angle || 20}"
-                  material="emissive: #FBBF24; emissiveIntensity: 0.6; opacity: 0.8; transparent: true"
-                  animation="property: material.emissiveIntensity; to: 0.3; dur: 1000; easing: easeInOutSine; loop: true; dir: alternate"
+                  material="opacity: 0.8; transparent: true"
                 ></a-cylinder>
                 <a-text 
                   value="${overlay.angle || 20}°" 
                   position="${toolSelected ? '0.35 -0.2 -1.5' : '0.75 -0.18 -1.5'}" 
                   scale="0.15 0.15 0.15" 
                   color="#FBBF24"
-                  material="emissive: #FBBF24; emissiveIntensity: 0.5"
+                  material="opacity: 0.8; transparent: true"
                 ></a-text>
               `).join('')}
 
@@ -761,8 +723,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.12"
                   color="#FBBF24"
                   rotation="0 0 -90"
-                  material="emissive: #FBBF24; emissiveIntensity: 0.3"
-                  animation="property: position; to: 0.75 -0.33 -1.5; dur: 1200; easing: easeInOutSine; loop: true; dir: alternate"
+                  material="opacity: 0.8; transparent: true"
                 ></a-cone>
               `).join('')}
 
