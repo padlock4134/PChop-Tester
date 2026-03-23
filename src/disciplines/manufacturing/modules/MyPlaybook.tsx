@@ -10,28 +10,13 @@ import { useLevelProgressContext } from '../../culinary/components/NavBar';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 
-// Chef quotes (production-ready)
+// Manufacturing pioneers quotes
 const chefQuotes = [
-  { chef: 'Julia Child', quote: 'People who love to eat are always the best people.' },
-  { chef: 'Gordon Ramsay', quote: 'Cooking is about passion, so it may look slightly temperamental in a way that it\'s too assertive to the naked eye.' },
-  { chef: 'Alice Waters', quote: 'Let things taste of what they are.' },
-  { chef: 'Anthony Bourdain', quote: 'Your body is not a temple, it\'s an amusement park. Enjoy the ride.' },
-  { chef: 'Massimo Bottura', quote: 'Cooking is an act of love, a gift, a way of sharing with others the little secrets — "piccoli segreti" — that are simmering on the burners.' },
-  { chef: 'Thomas Keller', quote: 'A recipe has no soul. You as the cook must bring soul to the recipe.' },
-  { chef: 'Ina Garten', quote: 'Food is not about impressing people. It\'s about making them feel comfortable.' },
-  { chef: 'Ferran Adrià', quote: 'The more you know, the more you can create. There\'s no end to imagination in the kitchen.' },
-  { chef: 'Emeril Lagasse', quote: 'Kick it up a notch!' },
-  { chef: 'Wolfgang Puck', quote: 'Cooking is like painting or writing a song.' },
-  { chef: 'Rene Redzepi', quote: 'Innovation, being avant-garde, is always polemic.' },
-  { chef: 'Heston Blumenthal', quote: 'Question everything. No idea is a bad idea.' },
-  { chef: 'Alain Ducasse', quote: 'Cooking is a way of giving.' },
-  { chef: 'Rachel Ray', quote: 'Good food and a warm kitchen are what make a house a home.' },
-  { chef: 'Pierre Gagnaire', quote: 'Cooking is not difficult. Everyone has taste, even if they don\'t realize it.' },
-  { chef: 'Paul Bocuse', quote: 'Cooking is not just eating energy. It\'s an experience.' },
-  { chef: 'Joël Robuchon', quote: 'The simpler the food, the more exceptional it can be.' },
-  { chef: 'Marco Pierre White', quote: 'Mother Nature is the true artist and our job as cooks is to allow her to shine.' },
-  { chef: 'Jamie Oliver', quote: 'Real food doesn\'t have ingredients, real food is ingredients.' },
-  { chef: 'Nigella Lawson', quote: 'I have always believed that what goes on in the kitchen should stay in the kitchen.' }
+  { chef: 'Elon Musk', quote: 'The path to the CEO\'s office should not be through the CFO\'s office, and it should not be through the marketing department. It needs to be through engineering and design.' },
+  { chef: 'Taiichi Ohno', quote: 'All we are doing is looking at the time line from the moment the customer gives us an order to the point when we collect the cash. And we are reducing that time line by removing the non-value-added wastes.' },
+  { chef: 'Henry Ford', quote: 'Quality means doing it right when no one is looking.' },
+  { chef: 'Thomas Edison', quote: 'There\'s a way to do it better - find it.' },
+  { chef: 'Phil Young', quote: 'Excellence in manufacturing is not an act, but a habit.' }
 ];
 
 export function getChefQuoteOfTheDay() {
@@ -215,11 +200,12 @@ const MyCookBook = () => {
   
   // Categories for filtering
   const categories = [
-    { key: 'All', label: t('myPlaybook.all') },
-    { key: 'Seafood', label: t('myPlaybook.seafood') },
-    { key: 'Meat', label: t('myPlaybook.meat') },
-    { key: 'Vegetarian', label: t('myPlaybook.vegetarian') },
-    { key: 'Dessert', label: t('myPlaybook.dessert') }
+    { key: 'All', label: 'All' },
+    { key: 'Assembly', label: 'Assembly' },
+    { key: 'Quality Control', label: 'Quality Control' },
+    { key: 'Safety', label: 'Safety' },
+    { key: 'Maintenance', label: 'Maintenance' },
+    { key: 'Lean/5S', label: 'Lean/5S' }
   ];
 
   // Handle recipe selection for collections
@@ -989,133 +975,137 @@ const MyCookBook = () => {
 
               {/* Create Collection Section */}
               <div className="mb-6">
-                {recipes.length > 0 ? (
-                  <div className="space-y-2">
-                    <p className="text-sm text-gray-600 mb-3">{t('myPlaybook.selectRecipesToAdd')}</p>
-                    
-                    <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                      {recipes.map((recipe) => (
-                        <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
-                          <div className="flex items-center">
-                            <input
-                              type="checkbox"
-                              id={`recipe-${recipe.id}`}
-                              checked={selectedRecipes.includes(recipe.id)}
-                              onChange={() => handleRecipeSelect(recipe.id)}
-                              className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
-                            />
-                            <label htmlFor={`recipe-${recipe.id}`} className="text-sm cursor-pointer">
-                              {recipe.name}
-                            </label>
+                <div className="space-y-2">
+                  {recipes.length > 0 && (
+                    <>
+                      <p className="text-sm text-gray-600 mb-3">{t('myPlaybook.selectRecipesToAdd')}</p>
+                      
+                      <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+                        {recipes.map((recipe) => (
+                          <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
+                            <div className="flex items-center">
+                              <input
+                                type="checkbox"
+                                id={`recipe-${recipe.id}`}
+                                checked={selectedRecipes.includes(recipe.id)}
+                                onChange={() => handleRecipeSelect(recipe.id)}
+                                className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
+                              />
+                              <label htmlFor={`recipe-${recipe.id}`} className="text-sm cursor-pointer">
+                                {recipe.name}
+                              </label>
+                            </div>
+                            <div className="flex gap-1">
+                              {recipe.healthTags && recipe.healthTags.length > 0 && (
+                                <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                                  🥗
+                                </span>
+                              )}
+                            </div>
                           </div>
-                          <div className="flex gap-1">
-                            {recipe.healthTags && recipe.healthTags.length > 0 && (
-                              <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                                🥗
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+                    </>
+                  )}
+                  
+                  {recipes.length === 0 && (
+                    <div className="text-center py-4 mb-3">
+                      <div className="text-4xl mb-2">📝</div>
+                      <p className="text-gray-500 text-sm">{t('myPlaybook.noRecipesYet')}</p>
+                      <p className="text-gray-500 text-sm">{t('myPlaybook.addRecipesFirst')}</p>
                     </div>
-                    
-                    {/* Create Collection Button */}
-                    <button
-                      onClick={() => setShowCreateCollectionModal(true)}
-                      disabled={selectedRecipes.length === 0}
-                      className={`w-full mt-3 px-4 py-2 rounded border transition-colors ${
-                        selectedRecipes.length === 0 
-                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
-                          : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
-                      }`}
-                    >
-                      {t('myPlaybook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
-                    </button>
+                  )}
+                  
+                  {/* Create Collection Button - Always visible */}
+                  <button
+                    onClick={() => setShowCreateCollectionModal(true)}
+                    disabled={selectedRecipes.length === 0}
+                    className={`w-full mt-3 px-4 py-2 rounded border transition-colors ${
+                      selectedRecipes.length === 0 
+                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
+                        : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
+                    }`}
+                  >
+                    {t('myPlaybook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
+                  </button>
 
-                    {/* View Gradebook Button */}
-                    <button
-                      onClick={handleOpenGradebook}
-                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
-                    >
-                      📊 {t('myPlaybook.viewGradebook')}
-                    </button>
+                  {/* View Gradebook Button - Always visible */}
+                  <button
+                    onClick={handleOpenGradebook}
+                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
+                  >
+                    📊 {t('myPlaybook.viewGradebook')}
+                  </button>
 
-                    {/* View Videos Button */}
-                    <button
-                      onClick={async () => {
-                        setShowVideoLibraryModal(true);
-                        setLoadingVideos(true);
-                        try {
-                          // Get list of all user folders (to find all users with videos)
-                          const { data: folders, error: foldersError } = await supabase.storage
-                            .from('Test Kitchen Videos')
-                            .list('', {
-                              limit: 1000,
-                              offset: 0
-                            });
-                          
-                          if (foldersError) throw foldersError;
-                          
-                          // For each user folder, get their videos
-                          const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
-                          
-                          for (const folder of folders || []) {
-                            if (folder.name) {
-                              const { data: userVideos, error: videosError } = await supabase.storage
-                                .from('Test Kitchen Videos')
-                                .list(folder.name, {
-                                  limit: 100,
-                                  offset: 0,
-                                  sortBy: { column: 'created_at', order: 'desc' }
-                                });
-                              
-                              if (!videosError && userVideos) {
-                                for (const file of userVideos) {
-                                  // Get file metadata to check if public
-                                  const isPublic = file.metadata?.isPublic === 'true';
-                                  const isMyVideo = folder.name === user?.id;
+                  {/* View Videos Button - Always visible */}
+                  <button
+                    onClick={async () => {
+                      setShowVideoLibraryModal(true);
+                      setLoadingVideos(true);
+                      try {
+                        // Get list of all user folders (to find all users with videos)
+                        const { data: folders, error: foldersError } = await supabase.storage
+                          .from('Test Kitchen Videos')
+                          .list('', {
+                            limit: 1000,
+                            offset: 0
+                          });
+                        
+                        if (foldersError) throw foldersError;
+                        
+                        // For each user folder, get their videos
+                        const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
+                        
+                        for (const folder of folders || []) {
+                          if (folder.name) {
+                            const { data: userVideos, error: videosError } = await supabase.storage
+                              .from('Test Kitchen Videos')
+                              .list(folder.name, {
+                                limit: 100,
+                                offset: 0,
+                                sortBy: { column: 'created_at', order: 'desc' }
+                              });
+                            
+                            if (!videosError && userVideos) {
+                              for (const file of userVideos) {
+                                // Get file metadata to check if public
+                                const isPublic = file.metadata?.isPublic === 'true';
+                                const isMyVideo = folder.name === user?.id;
+                                
+                                // Show if: public OR it's my video
+                                if (isPublic || isMyVideo) {
+                                  const { data: urlData } = supabase.storage
+                                    .from('Test Kitchen Videos')
+                                    .getPublicUrl(`${folder.name}/${file.name}`);
                                   
-                                  // Show if: public OR it's my video
-                                  if (isPublic || isMyVideo) {
-                                    const { data: urlData } = supabase.storage
-                                      .from('Test Kitchen Videos')
-                                      .getPublicUrl(`${folder.name}/${file.name}`);
-                                    
-                                    allVideos.push({
-                                      name: file.name,
-                                      url: urlData.publicUrl,
-                                      created_at: file.created_at,
-                                      userId: folder.name,
-                                      isPublic: isPublic
-                                    });
-                                  }
+                                  allVideos.push({
+                                    name: file.name,
+                                    url: urlData.publicUrl,
+                                    created_at: file.created_at,
+                                    userId: folder.name,
+                                    isPublic: isPublic
+                                  });
                                 }
                               }
                             }
                           }
-                          
-                          // Sort by date
-                          allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-                          setSavedVideos(allVideos);
-                        } catch (error) {
-                          console.error('Error loading videos:', error);
-                          alert('Failed to load videos');
-                        } finally {
-                          setLoadingVideos(false);
                         }
-                      }}
-                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
-                    >
-                      🎥 {t('myPlaybook.viewVideos')}
-                    </button>
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="text-4xl mb-2">📝</div>
-                    <p className="text-gray-500 text-sm">{t('myPlaybook.noRecipesYet')}</p>
-                    <p className="text-gray-500 text-sm">{t('myPlaybook.addRecipesFirst')}</p>
-                  </div>
-                )}
+                        
+                        // Sort by date
+                        allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                        setSavedVideos(allVideos);
+                      } catch (error) {
+                        console.error('Error loading videos:', error);
+                        alert('Failed to load videos');
+                      } finally {
+                        setLoadingVideos(false);
+                      }
+                    }}
+                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
+                  >
+                    🎥 {t('myPlaybook.viewVideos')}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
