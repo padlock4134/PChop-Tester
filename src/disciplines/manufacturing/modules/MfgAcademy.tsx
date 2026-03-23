@@ -346,7 +346,7 @@ const MfgAcademy = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          � {t('mfgAcademy.title')}
+          {t('mfgAcademy.title')}
         </button>
         <button
           onClick={() => setActiveMobileTab('syllabus')}
