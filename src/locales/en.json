@@ -841,12 +841,12 @@
     "alreadyClaimedMessage": "You already claimed this week's reward."
   },
   "cookbook": {
-    "selectRecipe": "Select Recipe to Showcase",
-    "chooseRecipe": "Choose a recipe from your cookbook to showcase in Chef's Corner.",
-    "noRecipes": "No recipes found in your CookBook.",
-    "ingredients": "ingredients",
-    "instructionsIncluded": "Instructions included",
-    "showcaseRecipe": "Showcase Recipe",
+    "selectRecipe": "Select SOP to Showcase",
+    "chooseRecipe": "Choose an SOP from your playbook to showcase in Shop Talk.",
+    "noRecipes": "No SOPs found in your PlayBook.",
+    "ingredients": "materials",
+    "instructionsIncluded": "Steps included",
+    "showcaseRecipe": "Showcase SOP",
     "importing": "Importing..."
   },
   "buildMenu": {
