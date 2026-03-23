@@ -622,7 +622,7 @@ if (!videoTitle.trim()) {
 
     const title = encodeURIComponent(`${session.processName} - Production Session`);
     const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Test Kitchen - Online');
+    const location = encodeURIComponent('Global MFG Lab - Online');
 
     // Detect device/platform
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -678,7 +678,7 @@ END:VCALENDAR`;
 
     const title = encodeURIComponent(`${session.processName} - Production Session`);
     const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Test Kitchen - Online');
+    const location = encodeURIComponent('Global MFG Lab - Online');
 
     const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatDate(startDate)}/${formatDate(endDate)}&details=${description}&location=${location}`;
     const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&startdt=${formatDate(startDate)}&enddt=${formatDate(endDate)}&body=${description}&location=${location}`;
