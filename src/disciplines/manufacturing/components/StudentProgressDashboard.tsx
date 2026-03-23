@@ -212,7 +212,11 @@ const StudentProgressDashboard: React.FC = () => {
         </button>
       </div>
       
-      {/* Dashboard header */}
+      {/* Main Dashboard */}
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
+        {/* Home Tab Content */}
+        <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
+          {/* Dashboard header */}
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('dashboard.studentView')}</h1>
             <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
@@ -579,6 +583,8 @@ const StudentProgressDashboard: React.FC = () => {
           </div>
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 };
