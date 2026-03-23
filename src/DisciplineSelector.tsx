@@ -28,15 +28,15 @@ const DisciplineSelector: React.FC = () => {
   return (
     <div className="min-h-screen bg-sand flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <img src={logo} alt="PorkChop Logo" className="w-32 h-32 mx-auto mb-6" />
-          <h1 className="font-retro text-4xl text-maineBlue mb-3">Welcome to PorkChop</h1>
-          <p className="text-gray-600 text-lg">Select your discipline to continue</p>
-        </div>
-
-        {/* Discipline Selection Form */}
+        {/* Discipline Selection Form - Everything in the box */}
         <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-8">
+          {/* Logo */}
+          <div className="text-center mb-8">
+            <img src={logo} alt="PorkChop Logo" className="w-32 h-32 mx-auto mb-6" />
+            <h1 className="font-retro text-4xl text-maineBlue mb-3">Welcome to PorkChop</h1>
+            <p className="text-gray-600 text-lg">Select your discipline to continue</p>
+          </div>
+
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="discipline" className="block text-sm font-bold text-gray-700 mb-3 text-center">
@@ -66,12 +66,12 @@ const DisciplineSelector: React.FC = () => {
               Continue
             </button>
           </form>
-        </div>
 
-        {/* Footer text */}
-        <p className="text-center text-gray-500 text-sm mt-6">
-          Patent Pending
-        </p>
+          {/* Footer text */}
+          <p className="text-center text-gray-500 text-sm mt-6">
+            Patent Pending
+          </p>
+        </div>
       </div>
     </div>
   );
