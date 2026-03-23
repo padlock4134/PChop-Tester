@@ -1504,7 +1504,7 @@ const MyCookBook = () => {
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
-                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 {t('myPlaybook.myTestKitchenVideos')}</h2>
+                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 My MFG Lab Videos</h2>
                   <p className="text-purple-600 mt-1">{t('myPlaybook.reviewSavedVideos')}</p>
                 </div>
                 <button
@@ -1524,10 +1524,10 @@ const MyCookBook = () => {
                     onChange={(e) => setVideoFilter(e.target.value)}
                     className="border-2 border-purple-300 rounded-lg px-4 py-2 bg-white text-purple-800 font-bold focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
-                    <option value="all">{t('myPlaybook.allVideos')}</option>
-                    <option value="practice">{t('myPlaybook.practiceSessions')}</option>
-                    <option value="assignments">{t('myPlaybook.assignmentSubmissions')}</option>
-                    <option value="demos">{t('myPlaybook.demoRecordings')}</option>
+                    <option value="all">All Videos</option>
+                    <option value="practice">Practice Sessions</option>
+                    <option value="assignments">Assignment Submissions</option>
+                    <option value="demos">Demo Recordings</option>
                   </select>
                 </div>
                 
@@ -1557,28 +1557,28 @@ const MyCookBook = () => {
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
                   <p className="text-gray-600 text-lg">No videos saved yet</p>
-                  <p className="text-gray-500 text-sm mt-2">Record a session in Global Test Kitchen to see it here!</p>
+                  <p className="text-gray-500 text-sm mt-2">Record a session in Global MFG Lab to see it here!</p>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Knife Skills Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Knife+Skills+Demo',
+                      name: '5S Workspace Organization.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=5S+Organization+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Mother Sauces Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Sauce+Making+Demo',
+                      name: 'Quality Control Inspection Assignment.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=QC+Inspection+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Protein Cookery Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Protein+Cookery',
+                      name: 'Assembly Process Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Assembly+Process',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
@@ -1685,7 +1685,7 @@ const MyCookBook = () => {
                   {selectedLibraryVideo.userId !== user?.id && (
                     <p>👤 Uploaded by: {selectedLibraryVideo.userId.substring(0, 8)}...</p>
                   )}
-                  <p className="mt-1">🎥 Recorded in Global Test Kitchen</p>
+                  <p className="mt-1">🎥 Recorded in Global MFG Lab</p>
                 </div>
               </div>
             </div>
