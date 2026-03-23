@@ -448,8 +448,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 material="metalness: 0.5; roughness: 0.3; emissive: #FBBF24; emissiveIntensity: 0.2"
               ></a-box>
 
-              <!-- Conveyor Belt on table - only visible when NOT activated -->
-              ${!beltActive ? `
+              <!-- Conveyor Belt - always visible with packaging box -->
               <a-entity position="0 -0.4 -1.5">
                 <!-- Belt base -->
                 <a-box 
@@ -457,7 +456,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   width="0.8" 
                   height="0.05" 
                   depth="0.22"
-                  color="${placementCount > 0 ? '#374151' : '#1F2937'}"
+                  color="#374151"
                   material="metalness: 0.5; roughness: 0.4"
                 ></a-box>
                 <!-- Belt surface (dark rubber) -->
@@ -472,21 +471,50 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <!-- Belt rollers (left & right) -->
                 <a-cylinder position="-0.38 0 0" radius="0.03" height="0.22" color="#6B7280" rotation="90 0 0" material="metalness: 0.8; roughness: 0.3"></a-cylinder>
                 <a-cylinder position="0.38 0 0" radius="0.03" height="0.22" color="#6B7280" rotation="90 0 0" material="metalness: 0.8; roughness: 0.3"></a-cylinder>
-                <!-- Belt glow rim -->
-                <a-box 
-                  position="0 0.04 0" 
-                  width="0.82" 
-                  height="0.01" 
-                  depth="0.24"
-                  color="#60A5FA"
-                  material="opacity: 0.4; transparent: true; emissive: #60A5FA; emissiveIntensity: 0.5"
-                  animation="property: material.emissiveIntensity; to: 0.2; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate"
-                ></a-box>
-                <!-- PCB board on belt -->
-                <a-box position="0 0.06 0" width="0.18" height="0.015" depth="0.12" color="#065F46" material="metalness: 0.2; roughness: 0.6"></a-box>
-                <!-- PCB traces -->
-                <a-box position="0.04 0.07 0" width="0.08" height="0.003" depth="0.002" color="#FBBF24" material="emissive: #FBBF24; emissiveIntensity: 0.3"></a-box>
-                <a-box position="-0.03 0.07 0.03" width="0.06" height="0.003" depth="0.002" color="#FBBF24" material="emissive: #FBBF24; emissiveIntensity: 0.3"></a-box>
+                
+                <!-- PACKAGING BOX on belt with open flaps -->
+                <!-- Box bottom -->
+                <a-box position="0 0.06 0" width="0.18" height="0.01" depth="0.12" color="#8B5A2B" material="roughness: 0.6; metalness: 0.1"></a-box>
+                <!-- Box walls -->
+                <a-box position="0 0.085 -0.055" width="0.18" height="0.04" depth="0.01" color="#A0522D" material="roughness: 0.5"></a-box>
+                <a-box position="0 0.085 0.055" width="0.18" height="0.04" depth="0.01" color="#A0522D" material="roughness: 0.5"></a-box>
+                <a-box position="-0.085 0.085 0" width="0.01" height="0.04" depth="0.12" color="#A0522D" material="roughness: 0.5"></a-box>
+                <a-box position="0.085 0.085 0" width="0.01" height="0.04" depth="0.12" color="#A0522D" material="roughness: 0.5"></a-box>
+                
+                <!-- Open flaps (folded outward) -->
+                <a-box position="0 0.065 -0.09" width="0.18" height="0.01" depth="0.07" color="#8B5A2B" rotation="-45 0 0" material="roughness: 0.6"></a-box>
+                <a-box position="0 0.065 0.09" width="0.18" height="0.01" depth="0.07" color="#8B5A2B" rotation="45 0 0" material="roughness: 0.6"></a-box>
+                <a-box position="-0.125 0.065 0" width="0.07" height="0.01" depth="0.12" color="#8B5A2B" rotation="0 0 -45" material="roughness: 0.6"></a-box>
+                <a-box position="0.125 0.065 0" width="0.07" height="0.01" depth="0.12" color="#8B5A2B" rotation="0 0 45" material="roughness: 0.6"></a-box>
+                
+                <!-- ESD foam inside box -->
+                <a-box position="0 0.07 0" width="0.16" height="0.01" depth="0.1" color="#1F2937" material="roughness: 0.9"></a-box>
+                <!-- Component slots -->
+                <a-box position="-0.04 0.075 -0.02" width="0.03" height="0.005" depth="0.025" color="#111827"></a-box>
+                <a-box position="0.02 0.075 0.02" width="0.03" height="0.005" depth="0.025" color="#111827"></a-box>
+                <a-box position="0.04 0.075 -0.02" width="0.03" height="0.005" depth="0.025" color="#111827"></a-box>
+              </a-entity>
+              
+              <!-- OVERHEAD CRANE SYSTEM -->
+              <!-- Crane rail/track above workstation -->
+              <a-box position="0 0.3 -1.5" width="1.2" height="0.02" depth="0.04" color="#6B7280" material="metalness: 0.8; roughness: 0.3"></a-box>
+              <!-- Crane support posts -->
+              <a-cylinder position="-0.6 0.1 -1.5" radius="0.015" height="0.4" color="#4B5563" material="metalness: 0.7; roughness: 0.4"></a-cylinder>
+              <a-cylinder position="0.6 0.1 -1.5" radius="0.015" height="0.4" color="#4B5563" material="metalness: 0.7; roughness: 0.4"></a-cylinder>
+              
+              <!-- Crane trolley (moves along rail) -->
+              ${toolSelected ? `
+              <a-entity id="crane-trolley" position="0 0.25 -1.5">
+                <!-- Trolley body -->
+                <a-box position="0 0 0" width="0.08" height="0.04" depth="0.06" color="#374151" material="metalness: 0.6; roughness: 0.4"></a-box>
+                <!-- Crane arm extending down -->
+                <a-cylinder position="0 -0.1 0" radius="0.008" height="0.16" color="#6B7280" material="metalness: 0.8; roughness: 0.2"></a-cylinder>
+                <!-- Crane head/gripper -->
+                <a-box position="0 -0.18 0" width="0.03" height="0.02" depth="0.03" color="#9CA3AF" material="metalness: 0.7; roughness: 0.3"></a-box>
+                <!-- Microchip held by crane -->
+                <a-box position="0 -0.2 0" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5"></a-box>
+                <!-- Crane status LED -->
+                <a-sphere position="0 0.025 0.035" radius="0.004" color="#10B981" material="emissive: #10B981; emissiveIntensity: 0.8"></a-sphere>
               </a-entity>` : ''}
               <!-- Anti-static mat glow effect -->
               <a-box 
@@ -507,41 +535,13 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               
               <!-- Placement counter removed from A-Frame to prevent re-renders - shown in React overlay instead -->
 
-              <!-- LEFT HAND holding PACKAGING BOX - open top for component placement -->
+              <!-- LEFT HAND guiding box down (stationary for demo) -->
               ${beltActive ? `
               <a-entity 
-                position="-0.15 -0.15 -0.55" 
-                rotation="-15 25 -55" 
+                position="-0.25 -0.25 -1.3" 
+                rotation="10 15 -20" 
                 scale="1.3 1.3 1.3"
               >
-                <!-- THE PACKAGING BOX you're holding (open-top) -->
-                <!-- Box bottom -->
-                <a-box 
-                  position="0 0.10 0" 
-                  width="0.18" 
-                  height="0.01" 
-                  depth="0.12"
-                  color="#374151"
-                  material="shader: standard; roughness: 0.6; metalness: 0.4"
-                ></a-box>
-                <!-- Box wall - front -->
-                <a-box position="0 0.135 -0.055" width="0.18" height="0.06" depth="0.01" color="#4B5563" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
-                <!-- Box wall - back -->
-                <a-box position="0 0.135 0.055" width="0.18" height="0.06" depth="0.01" color="#4B5563" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
-                <!-- Box wall - left -->
-                <a-box position="-0.085 0.135 0" width="0.01" height="0.06" depth="0.12" color="#4B5563" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
-                <!-- Box wall - right -->
-                <a-box position="0.085 0.135 0" width="0.01" height="0.06" depth="0.12" color="#4B5563" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
-                <!-- ESD foam insert inside box -->
-                <a-box position="0 0.11 0" width="0.16" height="0.015" depth="0.1" color="#1F2937" material="shader: standard; roughness: 0.9; metalness: 0.05"></a-box>
-                <!-- Component slots cut in foam (dark recesses) -->
-                <a-box position="-0.04 0.118 -0.02" width="0.03" height="0.005" depth="0.025" color="#111827" material="shader: standard; roughness: 0.95"></a-box>
-                <a-box position="0.02 0.118 0.02" width="0.03" height="0.005" depth="0.025" color="#111827" material="shader: standard; roughness: 0.95"></a-box>
-                <a-box position="0.04 0.118 -0.02" width="0.03" height="0.005" depth="0.025" color="#111827" material="shader: standard; roughness: 0.95"></a-box>
-                <!-- One component already placed in a slot -->
-                <a-box position="-0.04 0.12 -0.02" width="0.025" height="0.008" depth="0.02" color="#1E3A5F" material="shader: standard; roughness: 0.5; metalness: 0.3"></a-box>
-                <!-- Box rim glow -->
-                <a-box position="0 0.165 0" width="0.19" height="0.003" depth="0.13" color="#60A5FA" material="opacity: 0.3; transparent: true; emissive: #60A5FA; emissiveIntensity: 0.4"></a-box>
                 
                 <!-- === LEFT HAND + ARM (connected anatomy) === -->
                 <!-- FOREARM (blue ESD sleeve) -->
@@ -572,53 +572,40 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-sphere position="-0.06 0.135 0.052" radius="0.016" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
 
-              <!-- RIGHT HAND holding TWEEZERS - controlled by camera/touch/mouse input -->
+              <!-- RIGHT HAND holding CONTROL LEVER - controlled by camera/touch/mouse input -->
               ${toolSelected ? `
               <a-entity 
-                id="tweezers-hand-entity"
-                position="0.08 -0.08 -0.64" 
-                rotation="-30 -10 40" 
+                id="lever-hand-entity"
+                position="0.35 -0.15 -1.2" 
+                rotation="-20 -25 30" 
                 scale="1.3 1.3 1.3"
               >
-                <!-- THE TWEEZERS you're holding -->
-                <!-- Tweezers arm 1 -->
-                <a-box 
-                  position="-0.005 0.18 0" 
-                  width="0.008" 
-                  height="0.22" 
-                  depth="0.012"
-                  color="#C0C0C0"
-                  material="shader: standard; roughness: 0.2; metalness: 0.9"
-                ></a-box>
-                <!-- Tweezers arm 2 -->
-                <a-box 
-                  position="0.005 0.18 0" 
-                  width="0.008" 
-                  height="0.22" 
-                  depth="0.012"
-                  color="#C0C0C0"
-                  material="shader: standard; roughness: 0.2; metalness: 0.9"
-                ></a-box>
-                <!-- Tweezers grip bridge -->
-                <a-box 
-                  position="0 0.08 0" 
-                  width="0.025" 
-                  height="0.03" 
-                  depth="0.015"
-                  color="#A0A0A0"
+                <!-- THE CONTROL LEVER you're holding -->
+                <!-- Lever base/mount -->
+                <a-cylinder 
+                  position="0 0.05 0" 
+                  radius="0.04" 
+                  height="0.08"
+                  color="#4B5563"
+                  material="shader: standard; roughness: 0.4; metalness: 0.7"
+                ></a-cylinder>
+                <!-- Lever shaft -->
+                <a-cylinder 
+                  position="0 0.15 0" 
+                  radius="0.012" 
+                  height="0.18"
+                  color="#6B7280"
                   material="shader: standard; roughness: 0.3; metalness: 0.8"
-                ></a-box>
-                <!-- SMD component held at tweezers tip -->
-                <a-box 
-                  position="0 0.29 0" 
-                  width="0.02" 
-                  height="0.012" 
-                  depth="0.015"
-                  color="#1F2937"
-                  material="shader: standard; roughness: 0.5; metalness: 0.3"
-                ></a-box>
-                <!-- Component pin glow -->
-                <a-box position="0 0.295 0" width="0.022" height="0.003" depth="0.017" color="#60A5FA" material="shader: standard; emissive: #60A5FA; emissiveIntensity: 0.5"></a-box>
+                ></a-cylinder>
+                <!-- Lever handle/grip -->
+                <a-sphere 
+                  position="0 0.24 0" 
+                  radius="0.025"
+                  color="#DC2626"
+                  material="shader: standard; roughness: 0.6; emissive: #DC2626; emissiveIntensity: 0.3"
+                ></a-sphere>
+                <!-- Lever status indicator -->
+                <a-sphere position="0 0.1 0.05" radius="0.006" color="#10B981" material="emissive: #10B981; emissiveIntensity: 0.8" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 800; loop: true; dir: alternate"></a-sphere>
                 
                 <!-- === RIGHT HAND + ARM (connected anatomy) === -->
                 <!-- FOREARM (white ESD smock sleeve) -->
@@ -631,71 +618,68 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-sphere position="-0.005 -0.08 0.03" radius="0.033" color="#E5E7EB" material="shader: standard; roughness: 0.7"></a-sphere>
                 <!-- Wrist-to-hand overlap -->
                 <a-sphere position="0 -0.04 0.015" radius="0.03" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- PALM - pinch grip around tweezers -->
-                <a-sphere position="0 0.03 0" radius="0.045" scale="0.8 1.2 0.6" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
+                <!-- PALM - gripping lever handle -->
+                <a-sphere position="0 0.03 0" radius="0.045" scale="0.9 1.1 0.7" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
                 <!-- KNUCKLE RIDGE -->
-                <a-sphere position="0 0.09 0" radius="0.03" scale="1 0.5 0.8" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- FINGERS in pinch grip -->
-                <a-cylinder position="0 0.06 -0.015" radius="0.02" height="0.07" color="#F4A460" rotation="-15 0 0" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
-                <!-- Fingertip bumps -->
-                <a-sphere position="-0.012 0.06 -0.035" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="0.005 0.06 -0.037" radius="0.011" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <a-sphere position="0.018 0.055 -0.033" radius="0.011" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- THUMB - pencil grip along tweezers -->
-                <a-cylinder position="-0.03 0.06 0.012" radius="0.012" height="0.06" color="#F4A460" rotation="5 0 15" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
-                <a-sphere position="-0.035 0.09 0.015" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0 0.08 0" radius="0.03" scale="1 0.5 0.8" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- FINGERS wrapped around lever handle -->
+                <a-cylinder position="0 0.05 -0.02" radius="0.018" height="0.08" color="#F4A460" rotation="-10 0 0" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
+                <!-- Fingertip bumps (gripping lever) -->
+                <a-sphere position="-0.015 0.05 -0.04" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.005 0.05 -0.042" radius="0.011" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <a-sphere position="0.018 0.048 -0.038" radius="0.011" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
+                <!-- THUMB - wrapped around lever handle -->
+                <a-cylinder position="-0.025 0.05 0.015" radius="0.012" height="0.06" color="#F4A460" rotation="5 0 20" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
+                <a-sphere position="-0.03 0.08 0.02" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
 
-              <!-- Tweezers on table - only visible when NOT picked up -->
+              <!-- Control Panel on table - only visible when NOT activated -->
               ${!toolSelected ? `
               <a-entity 
-                id="tweezers-on-table"
-                position="0.3 -0.38 -1.5" 
-                rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
-              >` : `
-              <a-entity id="tweezers-placeholder" visible="false">`}
-                
-                <!-- Tweezers body -->
+                id="control-panel-on-table"
+                position="0.4 -0.38 -1.5" 
+                rotation="0 0 0"
+              >
+                <!-- Control panel base -->
                 <a-box 
-                  position="0.1 0 0" 
-                  width="0.3" 
-                  height="0.012" 
-                  depth="0.02"
-                  color="${toolSelected ? '#E8E8E8' : '#B8B8B8'}"
-                  material="metalness: 0.9; roughness: 0.2; emissive: ${toolSelected ? '#FFFFFF' : '#888888'}; emissiveIntensity: ${toolSelected ? '0.3' : '0.1'}"
+                  position="0 0 0" 
+                  width="0.25" 
+                  height="0.04" 
+                  depth="0.15"
+                  color="#374151"
+                  material="metalness: 0.6; roughness: 0.4"
                 ></a-box>
-                <!-- Tweezers tip glow -->
-                <a-box 
-                  position="0.25 0 0" 
-                  width="0.05" 
-                  height="0.005" 
-                  depth="0.022"
-                  color="#60A5FA"
-                  material="opacity: ${toolSelected ? '0.6' : '0.2'}; transparent: true; emissive: #60A5FA; emissiveIntensity: 0.9"
-                  animation="property: material.opacity; to: 0.3; dur: 800; easing: easeInOutSine; loop: true; dir: alternate"
-                ></a-box>
-                <!-- Status LEDs - small indicator lights -->
-                <a-sphere position="0.15 0.01 0.015" radius="0.005" color="#10B981" material="emissive: #10B981; emissiveIntensity: 0.6" animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 600; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.2 0.01 -0.015" radius="0.004" color="#3B82F6" material="emissive: #3B82F6; emissiveIntensity: 0.5" animation="property: scale; from: 1 1 1; to: 1.5 1.5 1.5; dur: 700; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.1 0.01 0.01" radius="0.004" color="#FBBF24" material="emissive: #FBBF24; emissiveIntensity: 0.5" animation="property: scale; from: 1 1 1; to: 1.4 1.4 1.4; dur: 550; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <!-- Tweezers grip -->
-                <a-box 
-                  position="-0.08 0 0" 
-                  width="0.1" 
-                  height="0.025" 
-                  depth="0.03"
+                <!-- Lever mount in center -->
+                <a-cylinder 
+                  position="0 0.03 0" 
+                  radius="0.03" 
+                  height="0.06"
+                  color="#4B5563"
+                  material="metalness: 0.7; roughness: 0.4"
+                ></a-cylinder>
+                <!-- Lever shaft (neutral position) -->
+                <a-cylinder 
+                  position="0 0.08 0" 
+                  radius="0.008" 
+                  height="0.1"
                   color="#6B7280"
-                  material="metalness: 0.6; roughness: 0.4; emissive: #6B7280; emissiveIntensity: 0.1"
-                ></a-box>
-                <!-- Grip accent -->
-                <a-box 
-                  position="-0.02 0 0" 
-                  width="0.015" 
-                  height="0.03" 
-                  depth="0.035"
-                  color="#FBBF24"
-                  material="metalness: 0.5; roughness: 0.3"
-                ></a-box>
+                  material="metalness: 0.8; roughness: 0.3"
+                ></a-cylinder>
+                <!-- Lever handle -->
+                <a-sphere 
+                  position="0 0.13 0" 
+                  radius="0.018"
+                  color="#DC2626"
+                  material="roughness: 0.6; emissive: #DC2626; emissiveIntensity: 0.2"
+                ></a-sphere>
+                <!-- Status indicators -->
+                <a-sphere position="-0.08 0.025 0.04" radius="0.004" color="#EF4444" material="emissive: #EF4444; emissiveIntensity: 0.6" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 800; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0.08 0.025 0.04" radius="0.004" color="#10B981" material="emissive: #10B981; emissiveIntensity: 0.6"></a-sphere>
+                <!-- Control labels -->
+                <a-text value="CRANE" position="-0.08 0.035 0.06" scale="0.08 0.08 0.08" color="#9CA3AF"></a-text>
+                <a-text value="READY" position="0.05 0.035 0.06" scale="0.08 0.08 0.08" color="#9CA3AF"></a-text>
+              </a-entity>` : `
+              <a-entity id="control-panel-placeholder" visible="false">`}
               </a-entity>
               
               <!-- Tool selection aura -->
