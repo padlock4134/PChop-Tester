@@ -25,11 +25,11 @@ const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSi
 
   // Preset timer options
   const presetTimers = [
-    { label: 'Pasta', minutes: 8 },
-    { label: 'Rice', minutes: 18 },
-    { label: 'Eggs (Soft)', minutes: 6 },
-    { label: 'Eggs (Hard)', minutes: 12 },
-    { label: 'Steak (Medium)', minutes: 4 },
+    { label: 'Assembly', minutes: 8 },
+    { label: 'Quality Check', minutes: 18 },
+    { label: 'Setup', minutes: 6 },
+    { label: 'Calibration', minutes: 12 },
+    { label: 'Inspection', minutes: 4 },
   ];
 
   useEffect(() => {
@@ -131,22 +131,22 @@ const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSi
 
   return (
     <div className="space-y-4">
-      {/* Serving Size Input */}
+      {/* Order Size Input */}
       <div className="bg-sand p-4 rounded-lg border border-black">
         <div className="flex items-center justify-between mb-3">
           <label className="text-sm font-semibold text-gray-700">
-            {t('cookingTimer.servings')}:
+            Order Size:
           </label>
           <div className="flex items-center space-x-2">
             <input
               type="number"
               min="1"
-              max="8"
+              max="1000"
               value={orderSize}
               onChange={(e) => setOrderSize(parseInt(e.target.value) || 1)}
-              className="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold"
+              className="w-20 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold"
             />
-            <span className="text-sm text-gray-600">{t('cookingTimer.servings').toLowerCase()}</span>
+            <span className="text-sm text-gray-600">units</span>
           </div>
         </div>
         
@@ -167,10 +167,10 @@ const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSi
         </div>
         
         <div className="text-xs text-gray-500">
-          *1 serving = ~400-600 calories or 1 cup portions
+          *1 unit = standard production batch size
         </div>
         <div className="text-xs text-gray-400 mt-1">
-          Recommended nutritional values and numbers provided by the USDA
+          Production times scale with order size for accurate scheduling
         </div>
       </div>
 
@@ -231,7 +231,7 @@ const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSi
 
       {timers.length === 0 && (
         <div className="bg-sand p-4 rounded-lg border border-black">
-          <h4 className="text-sm font-semibold mb-2 text-gray-700">{t('cookingTimer.title')}:</h4>
+          <h4 className="text-sm font-semibold mb-2 text-gray-700">Production Timers:</h4>
           <div className="flex flex-wrap gap-2">
             {presetTimers.map((preset, index) => (
               <button
