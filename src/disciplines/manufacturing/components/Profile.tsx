@@ -167,55 +167,55 @@ const EditProfileModal = ({
           {/* Divider */}
           <div className="border-t-2 border-gray-300"></div>
 
-          {/* Cuisine Preference */}
+          {/* Industry Focus */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.cuisinePreference')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Industry Focus</label>
             <select
               value={formData.cuisinePreference}
               onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="American">🍔 American</option>
-              <option value="Asian">🥢 Asian</option>
-              <option value="French">🥖 French</option>
-              <option value="Indian">🍛 Indian</option>
-              <option value="Italian">🍝 Italian</option>
-              <option value="Mediterranean">🫒 Mediterranean</option>
-              <option value="Mexican">🌮 Mexican</option>
+              <option value="Aerospace">✈️ Aerospace</option>
+              <option value="Automotive">🚗 Automotive</option>
+              <option value="Electronics">🔌 Electronics</option>
+              <option value="Medical Devices">🏥 Medical Devices</option>
+              <option value="Precision Machining">⚙️ Precision Machining</option>
+              <option value="Plastics">🧪 Plastics</option>
+              <option value="Metal Fabrication">🔧 Metal Fabrication</option>
             </select>
           </div>
 
-          {/* Diet Preference */}
+          {/* Certification */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.dietPreference')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Certifications</label>
             <select
               value={formData.dietPreference}
               onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Gluten-Free">🌾 Gluten-Free</option>
-              <option value="Keto">🥑 Keto</option>
-              <option value="None">🍽️ None</option>
-              <option value="Paleo">🥩 Paleo</option>
-              <option value="Pescatarian">🐟 Pescatarian</option>
-              <option value="Vegan">🌱 Vegan</option>
-              <option value="Vegetarian">🥗 Vegetarian</option>
+              <option value="None">📋 None</option>
+              <option value="OSHA-10">🦺 OSHA-10</option>
+              <option value="Six Sigma Green Belt">📊 Six Sigma Green Belt</option>
+              <option value="Lean Manufacturing">⚡ Lean Manufacturing</option>
+              <option value="ISO 9001">✅ ISO 9001</option>
+              <option value="CNC Programming">💻 CNC Programming</option>
+              <option value="Quality Inspector">🔍 Quality Inspector</option>
             </select>
           </div>
 
-          {/* Kitchen Setup */}
+          {/* Workshop Setup */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.kitchenSetup')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Workshop Access</label>
             <select
               value={formData.kitchenSetup}
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Kitchen">🏠 Apartment Kitchen</option>
-              <option value="Full Kitchen">🏡 Full Kitchen</option>
-              <option value="Minimal Setup">📦 Minimal Setup</option>
-              <option value="Outdoor Kitchen">🔥 Outdoor Kitchen</option>
-              <option value="Professional Kitchen">👨‍🍳 Professional Kitchen</option>
+              <option value="Home Workshop">🏠 Home Workshop</option>
+              <option value="School Lab">🏫 School Lab</option>
+              <option value="Shared Makerspace">🔧 Shared Makerspace</option>
+              <option value="Industrial Facility">🏭 Industrial Facility</option>
+              <option value="Full Machine Shop">⚙️ Full Machine Shop</option>
             </select>
           </div>
 
@@ -230,7 +230,7 @@ const EditProfileModal = ({
               <option value="Advanced">⭐ Advanced</option>
               <option value="Beginner">🌱 Beginner</option>
               <option value="Intermediate">📈 Intermediate</option>
-              <option value="Professional">👨‍🍳 Professional</option>
+              <option value="Professional">🏭 Professional</option>
             </select>
           </div>
         </div>
@@ -670,38 +670,38 @@ const Profile = () => {
 
   // 9 talents per tree, unlock at 10, 14, 25, 30, 36, 42, 48, 55, 60
   const talentTrees = {
-    'Cast Iron Champion': [
-      { name: t('profile.talents.searSavant'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.searSavantDesc') },
-      { name: t('profile.talents.heatControl'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.heatControlDesc') },
-      { name: t('profile.talents.ironWill'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.ironWillDesc') },
-      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 30, description: t('profile.talents.seasonedVeteranDesc') },
-      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.rustproofDesc') },
-      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 42, description: t('profile.talents.heavyHitterDesc') },
-      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.surfaceSageDesc') },
-      { name: t('profile.talents.ironclad'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.ironcladDesc') },
-      { name: t('profile.talents.ironChef'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.ironChefDesc') },
+    'Precision Machinist': [
+      { name: 'Tolerance Master', icon: FireIcon, unlockLevel: 10, description: 'Achieve ±0.001" precision on all measurements' },
+      { name: 'Tool Calibration', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Expert at calibrating micrometers and calipers' },
+      { name: 'Blueprint Reader', icon: StarIcon, unlockLevel: 25, description: 'Interpret complex technical drawings instantly' },
+      { name: 'CNC Operator', icon: TrophyIcon, unlockLevel: 30, description: 'Program and operate CNC machines efficiently' },
+      { name: 'Surface Finish Pro', icon: ShieldCheckIcon, unlockLevel: 36, description: 'Achieve mirror-finish surface quality' },
+      { name: 'Setup Specialist', icon: FireIcon, unlockLevel: 42, description: 'Reduce machine setup time by 50%' },
+      { name: 'Fixture Designer', icon: StarIcon, unlockLevel: 48, description: 'Create custom jigs and fixtures' },
+      { name: 'Process Optimizer', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Maximize throughput and minimize waste' },
+      { name: 'Master Machinist', icon: TrophyIcon, unlockLevel: 60, description: 'Peak precision manufacturing expertise' },
     ],
-    'Grilling Heavy Weight': [
-      { name: t('profile.talents.flameTamer'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.flameTamerDesc') },
-      { name: t('profile.talents.smokeMaster'), icon: SparklesIcon, unlockLevel: 14, description: t('profile.talents.smokeMasterDesc') },
-      { name: t('profile.talents.charChampion'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.charChampionDesc') },
-      { name: t('profile.talents.grillMarks'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.grillMarksDesc') },
-      { name: t('profile.talents.bbqBuff'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.bbqBuffDesc') },
-      { name: t('profile.talents.pitBoss'), icon: TrophyIcon, unlockLevel: 42, description: t('profile.talents.pitBossDesc') },
-      { name: t('profile.talents.coalWhisperer'), icon: FireIcon, unlockLevel: 48, description: t('profile.talents.coalWhispererDesc') },
-      { name: t('profile.talents.grillGuardian'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.grillGuardianDesc') },
-      { name: t('profile.talents.bbqGod'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bbqGodDesc') },
+    'Assembly Specialist': [
+      { name: 'Torque Control', icon: FireIcon, unlockLevel: 10, description: 'Perfect fastener torque every time' },
+      { name: 'Component Handler', icon: SparklesIcon, unlockLevel: 14, description: 'ESD-safe handling of sensitive parts' },
+      { name: 'Line Efficiency', icon: StarIcon, unlockLevel: 25, description: 'Increase assembly line throughput 25%' },
+      { name: 'Ergonomic Expert', icon: StarIcon, unlockLevel: 30, description: 'Optimize workstation for speed and safety' },
+      { name: 'Lean Practitioner', icon: ShieldCheckIcon, unlockLevel: 36, description: 'Eliminate waste in assembly process' },
+      { name: 'Team Coordinator', icon: TrophyIcon, unlockLevel: 42, description: 'Lead assembly teams to peak performance' },
+      { name: 'Quality Checker', icon: FireIcon, unlockLevel: 48, description: 'Catch defects before they reach QC' },
+      { name: 'Process Documenter', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Create clear standard work instructions' },
+      { name: 'Assembly Master', icon: TrophyIcon, unlockLevel: 60, description: 'Ultimate assembly line expertise' },
     ],
-    'Baking Warlock': [
-      { name: t('profile.talents.doughWhisperer'), icon: CakeIcon, unlockLevel: 10, description: t('profile.talents.doughWhispererDesc') },
-      { name: t('profile.talents.ovenOracle'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.ovenOracleDesc') },
-      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.proofingProDesc') },
-      { name: t('profile.talents.pastryPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.pastryProDesc') },
-      { name: t('profile.talents.crustConjurer'), icon: CakeIcon, unlockLevel: 36, description: t('profile.talents.crustConjurerDesc') },
-      { name: t('profile.talents.bakeSense'), icon: SparklesIcon, unlockLevel: 42, description: t('profile.talents.bakeSenseDesc') },
-      { name: t('profile.talents.fillingFiend'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.fillingFiendDesc') },
-      { name: t('profile.talents.breadBuffoon'), icon: AcademicCapIcon, unlockLevel: 55, description: t('profile.talents.breadBuffoonDesc') },
-      { name: t('profile.talents.bakingWarlockTalent'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bakingWarlockTalentDesc') },
+    'Quality Inspector': [
+      { name: 'Visual Inspection', icon: CakeIcon, unlockLevel: 10, description: 'Spot defects invisible to others' },
+      { name: 'Gauge Proficiency', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Master all measurement instruments' },
+      { name: 'Statistical Sampler', icon: StarIcon, unlockLevel: 25, description: 'Apply SPC and sampling techniques' },
+      { name: 'Root Cause Analyst', icon: StarIcon, unlockLevel: 30, description: 'Identify and eliminate defect sources' },
+      { name: 'Audit Specialist', icon: CakeIcon, unlockLevel: 36, description: 'Conduct thorough quality audits' },
+      { name: 'Documentation Pro', icon: SparklesIcon, unlockLevel: 42, description: 'Maintain perfect quality records' },
+      { name: 'Corrective Action', icon: CakeIcon, unlockLevel: 48, description: 'Implement effective CAPA systems' },
+      { name: 'ISO Certified', icon: AcademicCapIcon, unlockLevel: 55, description: 'Expert in quality management systems' },
+      { name: 'Quality Guardian', icon: TrophyIcon, unlockLevel: 60, description: 'Ultimate quality assurance mastery' },
     ],
   };
 
@@ -1709,48 +1709,48 @@ Automated calculations and formulas would be present`;
           {/* Left side - Talent Tree Boxes */}
           {showTalents && (
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-            {/* Cast Iron Champion Box */}
+            {/* Precision Machinist Box */}
             <button
               onClick={() => setSelectedTalentTree('Equipment')}
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Cast Iron</div>
-              <div>Champion</div>
+              <div>Precision</div>
+              <div>Machinist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.castIronChampion')}</strong>
-                <div className="mt-1">{t('profile.talents.castIronChampionDesc')}</div>
+                <strong>Precision Machinist</strong>
+                <div className="mt-1">Master precision manufacturing with tight tolerances and advanced machining techniques.</div>
               </div>
             </button>
 
-            {/* Grilling Heavyweight Box */}
+            {/* Assembly Specialist Box */}
             <button
               onClick={() => setSelectedTalentTree('Techniques')}
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Grilling</div>
-              <div>Heavyweight</div>
+              <div>Assembly</div>
+              <div>Specialist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Grilling Heavyweight</strong>
-                <div className="mt-1">Become a grilling master with advanced techniques, temperature control, and flavor enhancement.</div>
+                <strong>Assembly Specialist</strong>
+                <div className="mt-1">Excel at assembly line operations with lean manufacturing and quality control expertise.</div>
               </div>
             </button>
 
-            {/* Baking Warlock Box */}
+            {/* Quality Inspector Box */}
             <button
               onClick={() => setSelectedTalentTree('Ingredients')}
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Baking</div>
-              <div>Warlock</div>
+              <div>Quality</div>
+              <div>Inspector</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.bakingWarlock')}</strong>
-                <div className="mt-1">{t('profile.talents.bakingWarlockDesc')}</div>
+                <strong>Quality Inspector</strong>
+                <div className="mt-1">Become a quality assurance expert with inspection, auditing, and process improvement skills.</div>
               </div>
             </button>
           </div>
@@ -1896,8 +1896,8 @@ Automated calculations and formulas would be present`;
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {talentTrees[selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
-                           selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock']?.map(talent => {
+              {talentTrees[selectedTalentTree === 'Equipment' ? 'Precision Machinist' : 
+                           selectedTalentTree === 'Techniques' ? 'Assembly Specialist' : 'Quality Inspector']?.map((talent: any) => {
                 const xp = userProfile?.xp || 0;
                 // Use the corrected level calculation instead of the old one
                 const { level } = getCorrectXPProgress(xp);
