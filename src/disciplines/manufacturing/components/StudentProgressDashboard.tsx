@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 
-const StudentProgressDashboard: React.FC = () => {
+interface StudentProgressDashboardProps {
+  showHeader?: boolean;
+}
+
+const StudentProgressDashboard: React.FC<StudentProgressDashboardProps> = ({ showHeader = true }) => {
   const { t } = useTranslation();
   
   // Mock student progress data
@@ -212,20 +216,50 @@ const StudentProgressDashboard: React.FC = () => {
         </button>
       </div>
       
-      {/* Main Dashboard */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
-        {/* Home Tab Content */}
-        <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
-          {/* Dashboard header */}
-          <div className="text-center mb-6">
-            <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('mfgAcademy.studentView')}</h1>
-            <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
-          </div>
+      {showHeader && (
+        <div className="text-center mb-6">
+          <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('dashboard.studentView')}</h1>
+          <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
+        </div>
+      )}
+        
+        {/* Separation line */}
+        <hr className="border-t-2 border-maineBlue mb-6" />
+        
+        {/* Module Navigation */}
+        <div className="mb-4 p-3">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
+          <Link
+            to="/manufacturing/my-floor"
+            className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
+          >
+            <div className="mb-3 text-4xl">🏭</div>
+            <h3 className="text-sm font-bold font-retro">{t('myFloor.title')}</h3>
+          </Link>
           
-          {/* Separation line */}
-          <hr className="border-t-2 border-maineBlue mb-6" />
+          <Link
+            to="/manufacturing/my-playbook"
+            className="flex flex-col items-center p-6 rounded-lg border-4 border-blue-400 bg-blue-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
+          >
+            <div className="mb-3 text-4xl">📖</div>
+            <h3 className="text-sm font-bold font-retro">{t('myPlaybook.title')}</h3>
+          </Link>
           
-          {/* Module Navigation */}
+          <Link
+            to="/manufacturing/shop-talk"
+            className="flex flex-col items-center p-6 rounded-lg border-4 border-red-400 bg-red-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
+          >
+            <div className="mb-3 text-4xl">🛠️</div>
+            <h3 className="text-sm font-bold font-retro">{t('shopTalk.title')}</h3>
+          </Link>
+          
+          <Link
+            to="/manufacturing/mfg-academy"
+            className="flex flex-col items-center p-6 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
+          >
+            <div className="mb-3 text-4xl">🏭</div>
+            <h3 className="text-sm font-bold font-retro">{t('mfgAcademy.title')}</h3>
+          </Link>
           <div className="mb-4 p-3">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <Link
