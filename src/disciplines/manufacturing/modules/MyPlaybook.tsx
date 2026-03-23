@@ -188,8 +188,8 @@ const MyCookBook = () => {
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
     { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Cook', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '3', name: 'Healthy Options', emoji: '🥗', recipes: ['1', '2', '3', '4', '5'] }
+    { id: '2', name: 'Quick Setup', emoji: '⚡', recipes: ['1', '2'] },
+    { id: '3', name: 'Safety First', emoji: '�', recipes: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
