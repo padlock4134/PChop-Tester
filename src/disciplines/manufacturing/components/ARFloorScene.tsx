@@ -140,15 +140,18 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     };
   }, [onStopTrackingRef, stopTracking]);
   
-  // Update tweezers position directly via DOM (avoids React re-renders)
+  // Update lever hand position directly via DOM (avoids React re-renders)
   useEffect(() => {
-    const tweezersEntity = document.getElementById('tweezers-hand-entity');
-    if (tweezersEntity) {
+    const leverEntity = document.getElementById('lever-hand-entity');
+    if (leverEntity) {
       // Calculate position based on tweezersProgress (0-1)
-      // Tweezers slide along belt surface
-      const y = -0.08;
-      const z = -0.64 + (tweezersProgress * 0.16);
-      tweezersEntity.setAttribute('position', `0.08 ${y} ${z}`);
+      // Hand moves with lever pull
+      const x = 0.35;
+      const y = -0.15 + (tweezersProgress * 0.05);
+      const z = -1.2;
+      const rotation = `${-20 + (tweezersProgress * 15)} -25 30`;
+      leverEntity.setAttribute('position', `${x} ${y} ${z}`);
+      leverEntity.setAttribute('rotation', rotation);
     }
   }, [tweezersProgress]);
   
@@ -508,14 +511,15 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               <a-entity id="crane-trolley" position="0 0.25 -1.5">
                 <!-- Trolley body -->
                 <a-box position="0 0 0" width="0.08" height="0.04" depth="0.06" color="#374151" material="metalness: 0.6; roughness: 0.4"></a-box>
-                <!-- Crane arm extending down (animated based on progress) -->
-                <a-cylinder position="0 -0.1 0" radius="0.008" height="0.16" color="#6B7280" material="metalness: 0.8; roughness: 0.2"></a-cylinder>
-                <!-- Crane head/gripper -->
-                <a-box position="0 -0.18 0" width="0.03" height="0.02" depth="0.03" color="#9CA3AF" material="metalness: 0.7; roughness: 0.3"></a-box>
-                <!-- Microchip held by crane (drops when progress high) -->
-                <a-box position="0 -0.2 0" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5"></a-box>
+                <!-- Crane arm extending down - length driven by lever -->
+                <a-cylinder position="0 ${-0.08 - (tweezersProgress * 0.08)} 0" radius="0.008" height="${0.16 + (tweezersProgress * 0.16)}" color="#6B7280" material="metalness: 0.8; roughness: 0.2"></a-cylinder>
+                <!-- Crane head/gripper - lowers with arm -->
+                <a-box position="0 ${-0.16 - (tweezersProgress * 0.16)} 0" width="0.03" height="0.02" depth="0.03" color="#9CA3AF" material="metalness: 0.7; roughness: 0.3"></a-box>
+                <!-- Microchip held by crane -->
+                <a-box position="0 ${-0.18 - (tweezersProgress * 0.16)} 0" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5"
+                  visible="${tweezersProgress < 0.95}"></a-box>
                 <!-- Crane status LED -->
-                <a-sphere position="0 0.025 0.035" radius="0.004" color="#10B981" material="metalness: 0.3; roughness: 0.7"></a-sphere>
+                <a-sphere position="0 0.025 0.035" radius="0.004" color="${tweezersProgress > 0.3 ? '#10B981' : '#EF4444'}" material="metalness: 0.3; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
               <!-- Anti-static mat -->
               <a-box 
@@ -577,8 +581,8 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               ${toolSelected ? `
               <a-entity 
                 id="lever-hand-entity"
-                position="0.35 -0.15 -1.2" 
-                rotation="-20 -25 30" 
+                position="0.35 ${-0.15 + (tweezersProgress * 0.05)} -1.2" 
+                rotation="${-20 + (tweezersProgress * 15)} -25 30" 
                 scale="1.3 1.3 1.3"
               >
                 <!-- THE CONTROL LEVER you're holding -->
@@ -590,24 +594,24 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   color="#4B5563"
                   material="shader: standard; roughness: 0.4; metalness: 0.7"
                 ></a-cylinder>
-                <!-- Lever shaft (tilts based on progress) -->
+                <!-- Lever shaft - tilts with your hand movement -->
                 <a-cylinder 
                   position="0 0.15 0" 
                   radius="0.012" 
                   height="0.18"
                   color="#6B7280"
                   material="shader: standard; roughness: 0.3; metalness: 0.8"
-                  rotation="0 0 0"
+                  rotation="${tweezersProgress * 35} 0 0"
                 ></a-cylinder>
-                <!-- Lever handle/grip (moves with shaft) -->
+                <!-- Lever handle/grip - moves with shaft -->
                 <a-sphere 
-                  position="0 0.24 0" 
+                  position="${Math.sin(tweezersProgress * 0.6) * 0.04} ${0.24 - (tweezersProgress * 0.04)} ${tweezersProgress * 0.06}" 
                   radius="0.025"
                   color="#DC2626"
                   material="shader: standard; roughness: 0.6"
                 ></a-sphere>
-                <!-- Lever status indicator (changes color with progress) -->
-                <a-sphere position="0 0.1 0.05" radius="0.006" color="#10B981" material="metalness: 0.3; roughness: 0.7"></a-sphere>
+                <!-- Lever status indicator -->
+                <a-sphere position="0 0.1 0.05" radius="0.006" color="${tweezersProgress > 0.3 ? '#10B981' : '#EF4444'}" material="metalness: 0.3; roughness: 0.7"></a-sphere>
                 
                 <!-- === RIGHT HAND + ARM (connected anatomy) === -->
                 <!-- FOREARM (white ESD smock sleeve) -->
@@ -731,11 +735,9 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               </a-entity>
 
               <!-- Lighting - cool industrial -->
-              <a-light type="ambient" color="#D1D5DB" intensity="0.5"></a-light>
-              <a-light type="directional" color="#FFFFFF" intensity="0.7" position="-1 2.5 1.5"></a-light>
-              <a-light type="directional" color="#BFDBFE" intensity="0.3" position="1 0.5 -0.5"></a-light>
-              <a-light type="point" color="#FFFFFF" intensity="0.1" position="0.5 0.5 -1" distance="3"></a-light>
-              <a-light type="point" color="#FBBF24" intensity="0.1" position="-0.5 0.3 -1.2" distance="2"></a-light>
+              <a-light type="ambient" color="#D1D5DB" intensity="0.4"></a-light>
+              <a-light type="directional" color="#D1D5DB" intensity="0.5" position="-1 2.5 1.5"></a-light>
+              <a-light type="directional" color="#9CA3AF" intensity="0.2" position="1 0.5 -0.5"></a-light>
             </a-scene>
           `
           }}
