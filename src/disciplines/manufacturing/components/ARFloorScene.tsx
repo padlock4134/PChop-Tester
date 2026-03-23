@@ -422,11 +422,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               <!-- Sky/Environment - clean room dark -->
               <a-sky color="#0d1117"></a-sky>
               
-              <!-- Ambient particles - clean room dust motes (blue/white) -->
+              <!-- Ambient particles - clean room dust motes (subtle) -->
               <a-entity position="0 0 -1.5">
-                <a-sphere position="-0.3 0.2 0" radius="0.006" color="#60A5FA" material="emissive: #60A5FA; emissiveIntensity: 0.8" animation="property: position; to: -0.3 0.4 0; dur: 4000; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.2 0.15 0.1" radius="0.005" color="#93C5FD" material="emissive: #93C5FD; emissiveIntensity: 0.6" animation="property: position; to: 0.2 0.35 0.1; dur: 3500; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.4 0.25 -0.1" radius="0.005" color="#FBBF24" material="emissive: #FBBF24; emissiveIntensity: 0.5" animation="property: position; to: 0.4 0.45 -0.1; dur: 3800; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="-0.3 0.2 0" radius="0.004" color="#F3F4F6" material="opacity: 0.3; transparent: true" animation="property: position; to: -0.3 0.4 0; dur: 4000; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0.2 0.15 0.1" radius="0.003" color="#E5E7EB" material="opacity: 0.2; transparent: true" animation="property: position; to: 0.2 0.35 0.1; dur: 3500; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
+                <a-sphere position="0.4 0.25 -0.1" radius="0.003" color="#D1D5DB" material="opacity: 0.2; transparent: true" animation="property: position; to: 0.4 0.45 -0.1; dur: 3800; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
               </a-entity>
 
               <!-- Industrial Workbench - steel gray -->
@@ -505,21 +505,17 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0.125 0.065 0" width="0.07" height="0.01" depth="0.12" color="#8B5A2B" rotation="0 0 45" material="roughness: 0.6"
                   animation="${toolSelected ? 'property: rotation; to: 0 0 50; dur: 1500; loop: true; dir: alternate; easing: easeInOutSine' : ''}"></a-box>
                 
-                <!-- ESD foam inside box (glows when receiving component) -->
-                <a-box position="0 0.07 0" width="0.16" height="0.01" depth="0.1" color="#1F2937" 
-                  material="roughness: 0.9; emissive: ${tweezersProgress > 0.8 ? '#60A5FA' : '#000000'}; emissiveIntensity: ${tweezersProgress > 0.8 ? '0.4' : '0'}"
-                  animation="${tweezersProgress > 0.8 ? 'property: material.emissiveIntensity; to: 0.4; dur: 800; easing: easeInOutSine' : ''}"></a-box>
-                <!-- Component slots (highlight target slot) -->
+                <!-- ESD foam inside box -->
+                <a-box position="0 0.07 0" width="0.16" height="0.01" depth="0.1" color="#1F2937" material="roughness: 0.9"></a-box>
+                <!-- Component slots -->
                 <a-box position="-0.04 0.075 -0.02" width="0.03" height="0.005" depth="0.025" color="#111827"></a-box>
-                <a-box position="0.02 0.075 0.02" width="0.03" height="0.005" depth="0.025" color="${tweezersProgress > 0.7 ? '#60A5FA' : '#111827'}"
-                  material="emissive: ${tweezersProgress > 0.7 ? '#60A5FA' : '#000000'}; emissiveIntensity: ${tweezersProgress > 0.7 ? '0.6' : '0'}"
-                  animation="${tweezersProgress > 0.7 ? 'property: scale; to: 1.2 1.2 1.2; dur: 600; loop: true; dir: alternate; easing: easeInOutSine' : ''}"></a-box>
+                <a-box position="0.02 0.075 0.02" width="0.03" height="0.005" depth="0.025" color="#111827"></a-box>
                 <a-box position="0.04 0.075 -0.02" width="0.03" height="0.005" depth="0.025" color="#111827"></a-box>
                 
                 <!-- Component placed in box (appears when crane drops) -->
                 ${tweezersProgress > 0.9 ? `
                 <a-box position="0.02 0.08 0.02" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" 
-                  material="metalness: 0.4; roughness: 0.5; emissive: #60A5FA; emissiveIntensity: 0.3"
+                  material="metalness: 0.4; roughness: 0.5"
                   animation="property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 800; easing: easeOutBounce"></a-box>
                 ` : ''}
               </a-entity>
@@ -552,15 +548,15 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   material="emissive: ${tweezersProgress > 0.3 ? '#10B981' : '#EF4444'}; emissiveIntensity: 0.8"
                   animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 600; loop: true; dir: alternate"></a-sphere>
               </a-entity>` : ''}
-              <!-- Anti-static mat glow effect -->
+              <!-- Anti-static mat -->
               <a-box 
                 position="0.45 -0.44 -1.4" 
                 width="0.2"
                 height="0.005"
                 depth="0.15"
                 rotation="0 0 0"
-                color="#60A5FA"
-                material="opacity: 0.25; transparent: true; emissive: #60A5FA; emissiveIntensity: 0.3"
+                color="#374151"
+                material="opacity: 0.8; transparent: true; metalness: 0.3; roughness: 0.7"
               ></a-box>
               <!-- Component tray -->
               <a-box position="-0.55 -0.42 -1.5" width="0.2" height="0.03" depth="0.15" color="#374151" material="metalness: 0.6; roughness: 0.4"></a-box>
@@ -731,9 +727,9 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 radius-inner="0.28" 
                 radius-outer="0.32"
                 rotation="-90 0 0"
-                color="#60A5FA"
-                material="opacity: 0.5; transparent: true; emissive: #60A5FA; emissiveIntensity: 1; side: double"
-                animation="property: scale; to: 1.1 1.1 1.1; dur: 1000; easing: easeInOutSine; loop: true; dir: alternate"
+                color="#FBBF24"
+                material="opacity: 0.3; transparent: true; emissive: #FBBF24; emissiveIntensity: 0.4; side: double"
+                animation="property: scale; to: 1.05 1.05 1.05; dur: 2000; easing: easeInOutSine; loop: true; dir: alternate"
               ></a-ring>` : ''}
 
               <!-- Angle Guide Line - glowing -->
@@ -763,10 +759,10 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   radius-bottom="0.06" 
                   radius-top="0" 
                   height="0.12"
-                  color="#3B82F6"
+                  color="#FBBF24"
                   rotation="0 0 -90"
-                  material="emissive: #3B82F6; emissiveIntensity: 0.4"
-                  animation="property: position; to: 0.75 -0.33 -1.5; dur: 800; easing: easeInOutSine; loop: true; dir: alternate"
+                  material="emissive: #FBBF24; emissiveIntensity: 0.3"
+                  animation="property: position; to: 0.75 -0.33 -1.5; dur: 1200; easing: easeInOutSine; loop: true; dir: alternate"
                 ></a-cone>
               `).join('')}
 
@@ -777,7 +773,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               <a-light type="ambient" color="#D1D5DB" intensity="0.5"></a-light>
               <a-light type="directional" color="#FFFFFF" intensity="0.7" position="-1 2.5 1.5"></a-light>
               <a-light type="directional" color="#BFDBFE" intensity="0.3" position="1 0.5 -0.5"></a-light>
-              <a-light type="point" color="#3B82F6" intensity="0.15" position="0.5 0.5 -1" distance="3"></a-light>
+              <a-light type="point" color="#FFFFFF" intensity="0.1" position="0.5 0.5 -1" distance="3"></a-light>
               <a-light type="point" color="#FBBF24" intensity="0.1" position="-0.5 0.3 -1.2" distance="2"></a-light>
             </a-scene>
           `
