@@ -226,22 +226,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             )}
           </div>
 
-          {/* Technique Feedback - below controls */}
-          <div className="mb-2 mx-2 sm:mx-4">
-            <div className="bg-blue-50 border border-blue-200 rounded p-3">
-              <div className="flex items-start space-x-2">
-                <span className="text-lg">🤖</span>
-                <div className="flex-1">
-                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
-                  <p className="text-xs text-blue-800">
-                    {isPracticing 
-                      ? "Great start! Keep your component alignment steady..."
-                      : "Start practicing to receive real-time AI guidance"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
           
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
@@ -381,26 +365,43 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <span className="text-sm font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
           </button>
           
+          {/* Technique Feedback - underneath Open Guide */}
+          <div className="mb-4">
+            <div className="bg-blue-50 border border-blue-200 rounded p-3">
+              <div className="flex items-start space-x-2">
+                <span className="text-lg">🤖</span>
+                <div className="flex-1">
+                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
+                  <p className="text-xs text-blue-800">
+                    {isPracticing 
+                      ? "Great start! Keep your component alignment steady..."
+                      : "Start practicing to receive real-time AI guidance"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
-              <p className="text-xs text-gray-700">Position your cutting board and gather ingredients</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: ESD Station Setup</div>
+              <p className="text-xs text-gray-700">Position workbench, verify grounding, prepare component tray</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Knife Grip</div>
-              <p className="text-xs text-gray-700">Hold knife with proper pinch grip technique</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Lever Control</div>
+              <p className="text-xs text-gray-700">Grip control lever with proper hand position</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Cuts</div>
-              <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: Component Placement</div>
+              <p className="text-xs text-gray-700">Guide crane to pick component and place in packaging</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Validation</div>
-              <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
+              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Quality Check</div>
+              <p className="text-xs text-gray-600">AI will verify component placement accuracy</p>
             </div>
           </div>
           
@@ -435,34 +436,34 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="space-y-4">
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
-                  <span>🔪</span>
-                  <span>{t('culinarySchool.charcuterieBoard.knifeTechnique')}</span>
+                  <span>🏭</span>
+                  <span>Crane Control Technique</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.knifeTechniqueDesc')}</p>
+                <p className="text-sm text-gray-800">Use smooth, controlled lever movements. Pull to extend crane arm, push to retract. Maintain steady hand position for precise component placement.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>📏</span>
-                  <span>{t('culinarySchool.charcuterieBoard.consistency')}</span>
+                  <span>Placement Precision</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.consistencyDesc')}</p>
+                <p className="text-sm text-gray-800">Align components within tolerance zones. Verify orientation before release. Consistent placement ensures quality and reduces rework.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>⚡</span>
-                  <span>{t('culinarySchool.charcuterieBoard.safetyFirst')}</span>
+                  <span>ESD Safety First</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.safetyFirstDesc')}</p>
+                <p className="text-sm text-gray-800">Always wear grounding strap. Handle components by edges only. Keep work area clean and free of static-generating materials.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>🎯</span>
-                  <span>{t('culinarySchool.charcuterieBoard.focusPoints')}</span>
+                  <span>Quality Focus Points</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.focusPointsDesc')}</p>
+                <p className="text-sm text-gray-800">Monitor component orientation, verify secure placement, check for damage, maintain consistent cycle time, follow standard work procedures.</p>
               </div>
             </div>
           </div>
