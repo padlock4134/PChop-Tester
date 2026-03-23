@@ -11,12 +11,12 @@ interface Timer {
   isFinished: boolean;
 }
 
-interface CookingTimerProps {
-  servingSize: number;
-  setServingSize: (size: number) => void;
+interface ProductionTimerProps {
+  orderSize: number;
+  setOrderSize: (size: number) => void;
 }
 
-const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize }) => {
+const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSize }) => {
   const { t } = useTranslation();
   const [timers, setTimers] = useState<Timer[]>([]);
   const [newTimerMinutes, setNewTimerMinutes] = useState(5);
@@ -81,7 +81,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
 
   const calculateAdjustedTime = (baseMinutes: number) => {
     // Simple scaling: more servings = slightly more time
-    const scaleFactor = Math.sqrt(servingSize / 2); // Square root scaling for cooking
+    const scaleFactor = Math.sqrt(orderSize / 100); // Square root scaling for production
     return Math.round(baseMinutes * scaleFactor);
   };
 
@@ -89,7 +89,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
     const adjustedMinutes = calculateAdjustedTime(minutes);
     const newTimer: Timer = {
       id: Date.now().toString(),
-      label: `${label} (${servingSize} servings)`,
+      label: `${label} (${orderSize} units)`,
       totalSeconds: adjustedMinutes * 60,
       remainingSeconds: adjustedMinutes * 60,
       isRunning: false,
@@ -142,8 +142,8 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
               type="number"
               min="1"
               max="8"
-              value={servingSize}
-              onChange={(e) => setServingSize(parseInt(e.target.value) || 1)}
+              value={orderSize}
+              onChange={(e) => setOrderSize(parseInt(e.target.value) || 1)}
               className="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold"
             />
             <span className="text-sm text-gray-600">{t('cookingTimer.servings').toLowerCase()}</span>
@@ -156,7 +156,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
             <div
               key={i}
               className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
-                i < servingSize 
+                i < orderSize 
                   ? 'bg-maineBlue text-seafoam' 
                   : 'bg-gray-200 text-gray-400'
               }`}
@@ -249,4 +249,4 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
   );
 };
 
-export default CookingTimer;
+export default ProductionTimer;

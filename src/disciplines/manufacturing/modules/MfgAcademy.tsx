@@ -141,7 +141,7 @@ const MfgAcademy = () => {
   console.log('Culinary School - Full Recipe:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
-  const [servingSize, setServingSize] = useState(2);
+  const [orderSize, setOrderSize] = useState(100);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
 
@@ -373,7 +373,7 @@ const MfgAcademy = () => {
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6" />
         <div className="w-full mx-auto">
-        <ProductionTimer servingSize={servingSize} setServingSize={setServingSize} />
+        <ProductionTimer orderSize={orderSize} setOrderSize={setOrderSize} />
         {/* Always render a VideoModal for the currently displayed tutorial list */}
         {tutorials.map((tut, idx) => (
           <VideoModal
@@ -433,12 +433,12 @@ const MfgAcademy = () => {
                 </ul>
                 {recipeNutrition && (
                   <div className="mt-2">
-                    <div className="font-semibold mb-1">{t('mfgAcademy.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
+                    <div className="font-semibold mb-1">{t('mfgAcademy.nutritionTotal').replace('{servings}', orderSize.toString())}:</div>
                     <div className="text-sm">
-                      <div>{t('mfgAcademy.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('mfgAcademy.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('mfgAcademy.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('mfgAcademy.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
+                      <div>{t('mfgAcademy.carbs')}: {(recipeNutrition.carbs * orderSize / 100).toFixed(1)}g</div>
+                      <div>{t('mfgAcademy.sugars')}: {(recipeNutrition.sugars * orderSize / 100).toFixed(1)}g</div>
+                      <div>{t('mfgAcademy.fiber')}: {(recipeNutrition.fiber * orderSize / 100).toFixed(1)}g</div>
+                      <div>{t('mfgAcademy.protein')}: {(recipeNutrition.protein * orderSize / 100).toFixed(1)}g</div>
                     </div>
                   </div>
                 )}
