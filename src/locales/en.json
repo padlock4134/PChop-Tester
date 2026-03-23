@@ -273,7 +273,6 @@
   },
   "culinarySchool": {
     "title": "Culinary School",
-    "studentView": "Executive Chef Dashboard",
     "syllabus": "Syllabus",
     "step": "Step",
     "closeRecipe": "Close Recipe",
@@ -1329,7 +1328,6 @@
   },
   "mfgAcademy": {
     "title": "Production Academy",
-    "studentView": "Fabricators Dashboard",
     "syllabus": "Syllabus",
     "step": "Step",
     "closeRecipe": "Close SOP",
