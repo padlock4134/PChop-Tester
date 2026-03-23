@@ -40,7 +40,7 @@ const DisciplineSelector: React.FC = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="discipline" className="block text-sm font-bold text-gray-700 mb-3 text-center">
-                Choose Your Discipline
+                
               </label>
               <select
                 id="discipline"
