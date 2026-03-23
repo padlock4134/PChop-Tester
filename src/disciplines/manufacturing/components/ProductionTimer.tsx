@@ -26,7 +26,7 @@ const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSi
   // Preset timer options
   const presetTimers = [
     { label: 'Assembly', minutes: 8 },
-    { label: 'Quality Check', minutes: 18 },
+    { label: 'QC (13m)', minutes: 13 },
     { label: 'Setup', minutes: 6 },
     { label: 'Calibration', minutes: 12 },
     { label: 'Inspection', minutes: 4 },
