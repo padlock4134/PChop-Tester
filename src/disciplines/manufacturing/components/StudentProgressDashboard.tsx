@@ -259,39 +259,6 @@ const StudentProgressDashboard: React.FC = () => {
             <div className="mb-3 text-4xl">🏭</div>
             <h3 className="text-sm font-bold font-retro">{t('mfgAcademy.title')}</h3>
           </Link>
-          <div className="mb-4 p-3">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
-            <Link
-              to="/manufacturing/my-floor"
-              className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
-            >
-              <div className="mb-3 text-4xl">🏭</div>
-              <h3 className="text-sm font-bold font-retro">{t('myFloor.title')}</h3>
-            </Link>
-            
-            <Link
-              to="/manufacturing/my-playbook"
-              className="flex flex-col items-center p-6 rounded-lg border-4 border-blue-400 bg-blue-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
-            >
-              <div className="mb-3 text-4xl">📖</div>
-              <h3 className="text-sm font-bold font-retro">{t('myPlaybook.title')}</h3>
-            </Link>
-            
-            <Link
-              to="/manufacturing/shop-talk"
-              className="flex flex-col items-center p-6 rounded-lg border-4 border-red-400 bg-red-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
-            >
-              <div className="mb-3 text-4xl">🛠️</div>
-              <h3 className="text-sm font-bold font-retro">{t('shopTalk.title')}</h3>
-            </Link>
-            
-            <Link
-              to="/manufacturing/mfg-academy"
-              className="flex flex-col items-center p-6 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
-            >
-              <div className="mb-3 text-4xl">🏭</div>
-              <h3 className="text-sm font-bold font-retro">{t('mfgAcademy.title')}</h3>
-            </Link>
           </div>
           </div>
         </div>
@@ -583,8 +550,6 @@ const StudentProgressDashboard: React.FC = () => {
           </div>
         </div>
       )}
-        </div>
-      </div>
     </div>
   );
 };
