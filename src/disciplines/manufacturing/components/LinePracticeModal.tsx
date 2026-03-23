@@ -56,7 +56,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       }
     } catch (error) {
       console.error('Error generating AR practice:', error);
-      alert(t('culinarySchool.charcuterieBoard.couldNotGenerateAR'));
+      alert('Could not generate AR practice session');
       setIsPracticing(false);
     } finally {
       setIsGeneratingAR(false);
@@ -102,8 +102,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Banner Header - Left Side Only */}
           <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
-              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🧀</span>
-              {t('culinarySchool.charcuterieBoard.title')}
+              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🏭</span>
+              The Factory Floor
             </h2>
           </div>
           
@@ -112,10 +112,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-sm sm:text-lg font-bold mb-1 text-center text-amber-800">
-                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'Knife Skills'}
+                📚 Virtual Practice: {arScene?.lesson || 'Assembly Skills'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-1">
-                {t('culinarySchool.charcuterieBoard.arDemonstration')}
+                AR Demonstration
               </p>
             </>
           )}
@@ -126,15 +126,15 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               // Generating AR scene
               <div className="text-amber-900 text-center">
                 <div className="text-6xl mb-4 animate-pulse">🧠</div>
-                <p className="text-lg font-bold">{t('culinarySchool.charcuterieBoard.aiGeneratingPractice')}</p>
-                <p className="text-sm opacity-75 mt-2">{t('culinarySchool.charcuterieBoard.creatingVirtualKitchen')}</p>
+                <p className="text-lg font-bold">AI Generating Practice</p>
+                <p className="text-sm opacity-75 mt-2">Creating Virtual Production Line</p>
               </div>
             ) : isPracticing && arScene ? (
               // Virtual practice mode - show AR scene
               <ARFloorScene 
                 scene={arScene}
                 onComplete={() => {
-                  alert(t('culinarySchool.charcuterieBoard.practiceComplete'));
+                  alert('Practice Complete!');
                   cleanupPractice();
                 }}
                 guideOpen={guideOpen}
@@ -144,9 +144,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             ) : (
               // Not practicing - show placeholder
               <div className="text-amber-900 text-center">
-                <div className="text-4xl mb-2">👨‍🍳</div>
-                <p className="text-sm font-bold">{t('culinarySchool.charcuterieBoard.aiGuidedPracticeLabel')}</p>
-                <p className="text-xs opacity-75">{t('culinarySchool.charcuterieBoard.selectLessonStart')}</p>
+                <div className="text-4xl mb-2">�‍♂️</div>
+                <p className="text-sm font-bold">AI Guided Practice</p>
+                <p className="text-xs opacity-75">Select a process to begin practice</p>
               </div>
             )}
             
@@ -179,31 +179,31 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onChange={(e) => setSelectedLesson(e.target.value)}
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
-                  <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                    <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                    <option value="lesson-1-2">Food Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                    <option value="lesson-1-4">Basic Cooking Terminology</option>
-                    <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                  <option value="">Choose Process</option>
+                  <optgroup label="Term 1: Manufacturing Foundations">
+                    <option value="lesson-1-1">Workplace Safety and Procedures</option>
+                    <option value="lesson-1-2">Material Handling and Storage</option>
+                    <option value="lesson-1-3">Introduction to Manufacturing Equipment</option>
+                    <option value="lesson-1-4">Basic Manufacturing Terminology</option>
+                    <option value="lesson-1-5">Measurements, Tolerances, and Conversions</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                    <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                    <option value="lesson-2-2">Basic Knife Cuts</option>
-                    <option value="lesson-2-3">Vegetable Fabrication</option>
-                    <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                  <optgroup label="Term 1: Tool Skills">
+                    <option value="lesson-2-1">Tool Safety and Maintenance</option>
+                    <option value="lesson-2-2">Basic Tool Operations</option>
+                    <option value="lesson-2-3">Material Preparation</option>
+                    <option value="lesson-2-4">Component Fabrication</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                    <option value="lesson-3-1">Egg Cookery</option>
-                    <option value="lesson-3-2">Breakfast Preparations</option>
-                    <option value="lesson-3-3">Cold Food Preparation</option>
-                    <option value="lesson-3-4">Salads and Dressings</option>
+                  <optgroup label="Term 2: Assembly & Quality Control">
+                    <option value="lesson-3-1">Assembly Techniques</option>
+                    <option value="lesson-3-2">Production Line Setup</option>
+                    <option value="lesson-3-3">Quality Control Procedures</option>
+                    <option value="lesson-3-4">Inspection and Testing</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                    <option value="lesson-4-1">Basic Dough and Batters</option>
-                    <option value="lesson-4-2">Quick Breads and Muffins</option>
-                    <option value="lesson-4-3">Yeast Breads</option>
-                    <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                  <optgroup label="Term 2: Advanced Manufacturing">
+                    <option value="lesson-4-1">Process Automation</option>
+                    <option value="lesson-4-2">Lean Manufacturing</option>
+                    <option value="lesson-4-3">Six Sigma Methods</option>
+                    <option value="lesson-4-4">Advanced Quality Systems</option>
                   </optgroup>
                 </select>
               </>
