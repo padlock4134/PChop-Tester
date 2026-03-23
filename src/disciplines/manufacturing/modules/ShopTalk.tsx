@@ -366,7 +366,7 @@ const ShopTalk = () => {
 
         </div>
 
-        {/* Global Test Kitchen Tab - Mobile Only */}
+        {/* Production Line Tab - Mobile Only */}
         <div className={`lg:hidden ${
           activeMobileTab === 'kitchen' ? 'block' : 'hidden'
         }`}>

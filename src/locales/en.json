@@ -850,17 +850,17 @@
     "importing": "Importing..."
   },
   "buildMenu": {
-    "title": "Build Your Menu",
-    "selectRecipes": "Select recipes from your cookbook to build your menu, then find local markets for ingredients.",
-    "yourMenu": "Your Menu",
-    "selectToStart": "Select recipes to build your menu",
-    "recipesSelected": "recipe(s) selected",
-    "removeFromMenu": "Remove from menu",
-    "createMenuPDF": "Create Menu (PDF)",
-    "findMarkets": "Find Markets",
-    "myMenu": "MY MENU",
-    "selectedRecipes": "Selected Recipes:",
-    "shoppingList": "Shopping List by Market Type"
+    "title": "Build Your Work Order",
+    "selectRecipes": "Select processes from your playbook to build your work order, then find local suppliers for materials.",
+    "yourMenu": "Your Work Order",
+    "selectToStart": "Select processes to build your work order",
+    "recipesSelected": "process(es) selected",
+    "removeFromMenu": "Remove from work order",
+    "createMenuPDF": "Create Work Order (PDF)",
+    "findMarkets": "Find Suppliers",
+    "myMenu": "MY WORK ORDER",
+    "selectedRecipes": "Selected Processes:",
+    "shoppingList": "Materials List by Supplier Type"
   },
   "practice": {
     "benchPractice": "Your Charcuterie Board",
