@@ -140,19 +140,47 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     };
   }, [onStopTrackingRef, stopTracking]);
   
-  // Update lever hand position directly via DOM (avoids React re-renders)
+  // Update all dynamic elements via DOM (avoids React re-renders / blinking)
   useEffect(() => {
+    const p = tweezersProgress;
+    
+    // Lever hand entity
     const leverEntity = document.getElementById('lever-hand-entity');
     if (leverEntity) {
-      // Calculate position based on tweezersProgress (0-1)
-      // Hand moves with lever pull
-      const x = 0.35;
-      const y = -0.15 + (tweezersProgress * 0.05);
-      const z = -1.2;
-      const rotation = `${-20 + (tweezersProgress * 15)} -25 30`;
-      leverEntity.setAttribute('position', `${x} ${y} ${z}`);
-      leverEntity.setAttribute('rotation', rotation);
+      leverEntity.setAttribute('position', `0.35 ${-0.15 + (p * 0.05)} -1.2`);
+      leverEntity.setAttribute('rotation', `${-20 + (p * 15)} -25 30`);
     }
+    
+    // Lever shaft tilt
+    const shaft = document.getElementById('lever-shaft');
+    if (shaft) shaft.setAttribute('rotation', `${p * 35} 0 0`);
+    
+    // Lever handle follows shaft
+    const handle = document.getElementById('lever-handle');
+    if (handle) handle.setAttribute('position', `${Math.sin(p * 0.6) * 0.04} ${0.24 - (p * 0.04)} ${p * 0.06}`);
+    
+    // Crane arm extends
+    const arm = document.getElementById('crane-arm');
+    if (arm) {
+      arm.setAttribute('height', `${0.16 + (p * 0.16)}`);
+      arm.setAttribute('position', `0 ${-0.08 - (p * 0.08)} 0`);
+    }
+    
+    // Crane gripper lowers
+    const gripper = document.getElementById('crane-gripper');
+    if (gripper) gripper.setAttribute('position', `0 ${-0.16 - (p * 0.16)} 0`);
+    
+    // Microchip follows gripper, hides when dropped
+    const chip = document.getElementById('crane-chip');
+    if (chip) {
+      chip.setAttribute('position', `0 ${-0.18 - (p * 0.16)} 0`);
+      chip.setAttribute('visible', p < 0.95 ? 'true' : 'false');
+    }
+    
+    // Show placed component when crane drops it
+    const placed = document.getElementById('placed-component');
+    if (placed) placed.setAttribute('visible', p > 0.9 ? 'true' : 'false');
+    
   }, [tweezersProgress]);
   
   // Audio feedback
@@ -500,9 +528,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-box position="0.04 0.075 -0.02" width="0.03" height="0.005" depth="0.025" color="#111827"></a-box>
                 
                 <!-- Component placed in box (appears when crane drops) -->
-                ${tweezersProgress > 0.9 ? `
-                <a-box position="0.02 0.08 0.02" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5"></a-box>
-                ` : ''}
+                <a-box id="placed-component" position="0.02 0.08 0.02" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5" visible="false"></a-box>
               </a-entity>
               
               <!-- OVERHEAD CRANE SYSTEM -->
@@ -518,14 +544,13 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <!-- Trolley body -->
                 <a-box position="0 0 0" width="0.08" height="0.04" depth="0.06" color="#374151" material="metalness: 0.6; roughness: 0.4"></a-box>
                 <!-- Crane arm extending down - length driven by lever -->
-                <a-cylinder position="0 ${-0.08 - (tweezersProgress * 0.08)} 0" radius="0.008" height="${0.16 + (tweezersProgress * 0.16)}" color="#6B7280" material="metalness: 0.8; roughness: 0.2"></a-cylinder>
+                <a-cylinder id="crane-arm" position="0 -0.08 0" radius="0.008" height="0.16" color="#6B7280" material="metalness: 0.8; roughness: 0.2"></a-cylinder>
                 <!-- Crane head/gripper - lowers with arm -->
-                <a-box position="0 ${-0.16 - (tweezersProgress * 0.16)} 0" width="0.03" height="0.02" depth="0.03" color="#9CA3AF" material="metalness: 0.7; roughness: 0.3"></a-box>
+                <a-box id="crane-gripper" position="0 -0.16 0" width="0.03" height="0.02" depth="0.03" color="#9CA3AF" material="metalness: 0.7; roughness: 0.3"></a-box>
                 <!-- Microchip held by crane -->
-                <a-box position="0 ${-0.18 - (tweezersProgress * 0.16)} 0" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5"
-                  visible="${tweezersProgress < 0.95}"></a-box>
+                <a-box id="crane-chip" position="0 -0.18 0" width="0.015" height="0.008" depth="0.012" color="#1E3A5F" material="metalness: 0.4; roughness: 0.5"></a-box>
                 <!-- Crane status LED -->
-                <a-sphere position="0 0.025 0.035" radius="0.004" color="${tweezersProgress > 0.3 ? '#10B981' : '#EF4444'}" material="metalness: 0.3; roughness: 0.7"></a-sphere>
+                <a-sphere position="0 0.025 0.035" radius="0.004" color="#EF4444" material="metalness: 0.3; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
               <!-- Anti-static mat -->
               <a-box 
@@ -587,8 +612,8 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               ${toolSelected ? `
               <a-entity 
                 id="lever-hand-entity"
-                position="0.35 ${-0.15 + (tweezersProgress * 0.05)} -1.2" 
-                rotation="${-20 + (tweezersProgress * 15)} -25 30" 
+                position="0.35 -0.15 -1.2" 
+                rotation="-20 -25 30" 
                 scale="1.3 1.3 1.3"
               >
                 <!-- THE CONTROL LEVER you're holding -->
@@ -607,17 +632,19 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.18"
                   color="#6B7280"
                   material="shader: standard; roughness: 0.3; metalness: 0.8"
-                  rotation="${tweezersProgress * 35} 0 0"
+                  id="lever-shaft"
+                  rotation="0 0 0"
                 ></a-cylinder>
                 <!-- Lever handle/grip - moves with shaft -->
                 <a-sphere 
-                  position="${Math.sin(tweezersProgress * 0.6) * 0.04} ${0.24 - (tweezersProgress * 0.04)} ${tweezersProgress * 0.06}" 
+                  id="lever-handle"
+                  position="0 0.24 0" 
                   radius="0.025"
                   color="#DC2626"
                   material="shader: standard; roughness: 0.6"
                 ></a-sphere>
                 <!-- Lever status indicator -->
-                <a-sphere position="0 0.1 0.05" radius="0.006" color="${tweezersProgress > 0.3 ? '#10B981' : '#EF4444'}" material="metalness: 0.3; roughness: 0.7"></a-sphere>
+                <a-sphere id="lever-indicator" position="0 0.1 0.05" radius="0.006" color="#EF4444" material="metalness: 0.3; roughness: 0.7"></a-sphere>
                 
                 <!-- === RIGHT HAND + ARM (connected anatomy) === -->
                 <!-- FOREARM (white ESD smock sleeve) -->
