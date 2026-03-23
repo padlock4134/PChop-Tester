@@ -890,10 +890,10 @@ END:VCALENDAR`;
           <div className="bg-sand p-3 rounded-lg">
             <h4 className="font-semibold text-sm text-gray-900 mb-2">💡 Tips for Success:</h4>
             <ul className="text-xs text-gray-700 space-y-1">
-              <li>• Share the story behind your dish</li>
-              <li>• Highlight unique ingredients and where to find them</li>
-              <li>• Engage with viewers and answer questions</li>
-              <li>• Practice your recipe beforehand</li>
+              <li>• Share the process methodology and best practices</li>
+              <li>• Highlight unique tools and materials used</li>
+              <li>• Engage with viewers and answer technical questions</li>
+              <li>• Practice your process demonstration beforehand</li>
             </ul>
           </div>
         </div>
