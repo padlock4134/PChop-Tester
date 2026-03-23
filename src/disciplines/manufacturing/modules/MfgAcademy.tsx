@@ -147,7 +147,7 @@ const MfgAcademy = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Manufacturing Academy",
+    title: "Manufacturing Curriculum",
     courses: [
       {
         id: "course-1",
