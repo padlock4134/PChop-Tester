@@ -273,6 +273,7 @@
   },
   "culinarySchool": {
     "title": "Culinary School",
+    "studentView": "Executive Chef Dashboard",
     "syllabus": "Syllabus",
     "step": "Step",
     "closeRecipe": "Close Recipe",
