@@ -218,7 +218,7 @@ const StudentProgressDashboard: React.FC = () => {
         <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
           {/* Dashboard header */}
           <div className="text-center mb-6">
-            <p className="text-3xl font-retro text-green-600 mb-2">Manufacturing Discipline</p>
+            <p className="text-3xl font-retro text-black-600 mb-2">Manufacturing Discipline</p>
             <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
           </div>
         
