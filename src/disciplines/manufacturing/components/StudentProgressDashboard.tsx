@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 
-interface StudentProgressDashboardProps {
-  showHeader?: boolean;
-}
-
-const StudentProgressDashboard: React.FC<StudentProgressDashboardProps> = ({ showHeader = true }) => {
+const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
   
   // Mock student progress data
@@ -216,12 +212,11 @@ const StudentProgressDashboard: React.FC<StudentProgressDashboardProps> = ({ sho
         </button>
       </div>
       
-      {showHeader && (
-        <div className="text-center mb-6">
-          <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('dashboard.studentView')}</h1>
-          <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
-        </div>
-      )}
+      {/* Dashboard header */}
+          <div className="text-center mb-6">
+            <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('dashboard.studentView')}</h1>
+            <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
+          </div>
         
         {/* Separation line */}
         <hr className="border-t-2 border-maineBlue mb-6" />
