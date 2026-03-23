@@ -8,14 +8,14 @@ import { useSupabase } from '../../culinary/components/SupabaseProvider';
 interface LiveSession {
   id: string;
   hostName: string;
-  dishName: string;
-  culture: string;
+  processName: string;
+  industry: string;
   viewers: number;
   isLive: boolean;
   isEnded?: boolean;
   thumbnail: string;
   description: string;
-  ingredients: string[];
+  materials: string[];
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
   teacherTag?: string;
 }
@@ -23,19 +23,19 @@ interface LiveSession {
 interface UpcomingSession {
   id: string;
   hostName: string;
-  dishName: string;
-  culture: string;
+  processName: string;
+  industry: string;
   scheduledTime: string;
   description: string;
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
   teacherTag?: string;
 }
 
-interface GlobalTestKitchenProps {
+interface ProductionLineProps {
   showcaseRecipe?: any;
 }
 
-const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) => {
+const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
   const { t } = useTranslation();
   const { user } = useSupabase();
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'host'>('live');
@@ -48,7 +48,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       await supabase.from('user_activity').insert({
         user_id: user.id,
         action,
-        component: 'global_test_kitchen',
+        component: 'production_line',
         metadata: metadata || {},
         timestamp: new Date().toISOString()
       });
@@ -59,7 +59,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   const [goLiveModalOpen, setGoLiveModalOpen] = useState(false);
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   
-  // Recipe Assistant state
+  // Process Assistant state
   const [recipeAssistantOpen, setRecipeAssistantOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [stepTimer, setStepTimer] = useState(0);
@@ -84,12 +84,12 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   // Video metadata for saving
   const [videoTitle, setVideoTitle] = useState('');
   const [videoDescription, setVideoDescription] = useState('');
-  const [videoCuisine, setVideoCuisine] = useState('');
+  const [videoIndustry, setVideoIndustry] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   
   // Schedule form states
-  const [scheduledDishName, setScheduledDishName] = useState('');
-  const [scheduledCuisine, setScheduledCuisine] = useState('');
+  const [scheduledProcessName, setScheduledProcessName] = useState('');
+  const [scheduledIndustry, setScheduledIndustry] = useState('');
   const [scheduledDescription, setScheduledDescription] = useState('');
   const [scheduledDate, setScheduledDate] = useState('');
   const [scheduledTime, setScheduledTime] = useState('');
@@ -102,94 +102,94 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '1',
       hostName: 'Maria Santos',
-      dishName: 'Authentic Paella Valenciana',
-      culture: 'Spanish',
+      processName: '5S Workplace Organization',
+      industry: 'Lean Manufacturing',
       viewers: 47,
       isLive: false,
       isEnded: true,
-      thumbnail: '🥘',
-      description: 'Traditional paella from Valencia with saffron and bomba rice',
-      ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
+      thumbnail: '🏭',
+      description: 'Implementing 5S methodology on the floor',
+      materials: ['Labels', 'Storage Bins', 'Floor Tape']
     },
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Hand-pulled Ramen',
-      culture: 'Japanese',
+      processName: 'Quality Control Inspection',
+      industry: 'Quality Assurance',
       viewers: 23,
       isLive: true,
-      thumbnail: '🍜',
-      description: 'Making ramen noodles from scratch with tonkotsu broth',
-      ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
+      thumbnail: '✅',
+      description: 'Statistical process control techniques',
+      materials: ['Calipers', 'Micrometer', 'Control Charts']
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'Lebanese Kibbeh',
-      culture: 'Lebanese',
+      processName: 'Assembly Line Setup',
+      industry: 'Production',
       viewers: 35,
       isLive: true,
-      thumbnail: '🧆',
-      description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
-      ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
+      thumbnail: '⚙️',
+      description: 'Efficient assembly line configuration',
+      materials: ['Fasteners', 'Tools', 'Components']
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'French Croissants',
-      culture: 'French',
+      processName: 'Safety Protocol Training',
+      industry: 'Safety',
       viewers: 62,
       isLive: true,
-      thumbnail: '🥐',
-      description: 'Mastering the art of laminated dough and butter layers',
-      ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
+      thumbnail: '�',
+      description: 'Essential safety procedures and PPE',
+      materials: ['Safety Goggles', 'Gloves', 'Hard Hats']
     }
   ]);
   const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
     {
       id: '3',
       hostName: 'Priya Sharma',
-      dishName: 'Hyderabadi Biryani',
-      culture: 'Indian',
+      processName: 'Six Sigma Quality Check',
+      industry: 'Quality Management',
       scheduledTime: '2:00 PM EST',
-      description: 'Layered biryani with aromatic spices and basmati rice'
+      description: 'Advanced statistical process control and defect reduction'
     },
     {
       id: '4',
       hostName: 'Ahmed Hassan',
-      dishName: 'Moroccan Tagine',
-      culture: 'Moroccan',
+      processName: 'Preventive Maintenance',
+      industry: 'Maintenance',
       scheduledTime: '4:30 PM EST',
-      description: 'Slow-cooked tagine with preserved lemons and olives'
+      description: 'Scheduled equipment maintenance and lubrication procedures'
     },
     {
       id: '5',
       hostName: 'Elena Volkov',
-      dishName: 'Russian Borscht',
-      culture: 'Russian',
+      processName: 'Lean Manufacturing Setup',
+      industry: 'Process Improvement',
       scheduledTime: '6:00 PM EST',
-      description: 'Traditional beetroot soup with sour cream and fresh dill'
+      description: 'Implementing Kanban and pull systems for waste reduction'
     },
     {
       id: '6',
       hostName: 'Carlos Mendoza',
-      dishName: 'Peruvian Ceviche',
-      culture: 'Peruvian',
+      processName: 'Tool Calibration Process',
+      industry: 'Quality Control',
       scheduledTime: '7:30 PM EST',
-      description: 'Fresh fish cured in lime juice with red onions and aji peppers'
+      description: 'Precision tool calibration and measurement standards'
     }
   ]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {
     if (!user) {
-      alert(t('chefsCorner.globalTestKitchen.pleaseLogInReport'));
+      alert('Please log in to report a session');
       return;
     }
 
-    const reportReason = reason || prompt(t('chefsCorner.globalTestKitchen.describeIssue')) || 'General report';
+    const reportReason = reason || prompt('Please describe the issue') || 'General report';
     
-    if (confirm(t('chefsCorner.globalTestKitchen.reportSession'))) {
+    if (confirm('Report this session?')) {
       try {
         // Log report to database for admin dashboard
         const { error } = await supabase
@@ -204,14 +204,14 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
         if (error) {
           console.error('Error logging report:', error);
-          alert(t('chefsCorner.globalTestKitchen.failedToReport'));
+          alert('Failed to submit report');
         } else {
           // Log the report activity for admin dashboard
           logUserActivity('session_reported', { 
             session_id: sessionId || currentLiveSession?.id, 
             reason: reportReason 
           });
-          alert(t('chefsCorner.globalTestKitchen.thankYouReport'));
+          alert('Thank you for your report');
         }
       } catch (error) {
         console.error('Error submitting report:', error);
@@ -222,19 +222,19 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
   const handleScheduleSession = async () => {
     if (!user) {
-      alert(t('chefsCorner.globalTestKitchen.pleaseLogInSchedule'));
+      alert('Please log in to schedule a session');
       return;
     }
 
-    if (scheduledDishName.trim() && scheduledCuisine && scheduledDescription.trim() && scheduledDate && scheduledTime) {
+    if (scheduledProcessName.trim() && scheduledIndustry && scheduledDescription.trim() && scheduledDate && scheduledTime) {
       try {
         // Save to proper schedule_sessions table for admin dashboard reporting
         const { data, error } = await supabase
           .from('schedule_sessions')
           .insert({
             user_id: user.id,
-            dish_name: scheduledDishName,
-            cuisine: scheduledCuisine,
+            dish_name: scheduledProcessName,
+            cuisine: scheduledIndustry,
             description: scheduledDescription,
             scheduled_date: scheduledDate,
             scheduled_time: scheduledTime,
@@ -246,7 +246,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
         if (error) {
           console.error('Error saving session:', error);
-          alert(t('chefsCorner.globalTestKitchen.failedToSchedule').replace('{error}', error.message));
+          alert(`Failed to schedule session: ${error.message}`);
           return;
         }
 
@@ -254,8 +254,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         
         // Log the scheduling activity for admin dashboard
         logUserActivity('session_scheduled', {
-          dish_name: scheduledDishName,
-          cuisine: scheduledCuisine,
+          process_name: scheduledProcessName,
+          industry: scheduledIndustry,
           session_type: scheduledSessionType,
           scheduled_date: scheduledDate
         });
@@ -263,9 +263,9 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         // Add to local state for immediate UI update
         const newSession: UpcomingSession = {
           id: data.id,
-          hostName: t('chefsCorner.globalTestKitchen.you'),
-          dishName: scheduledDishName,
-          culture: scheduledCuisine,
+          hostName: 'You',
+          processName: scheduledProcessName,
+          industry: scheduledIndustry,
           scheduledTime: `${scheduledDate} at ${scheduledTime}`,
           description: scheduledDescription,
           sessionType: scheduledSessionType,
@@ -275,8 +275,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         setUpcomingSessions(prev => [newSession, ...prev]);
         
         // Clear form
-        setScheduledDishName('');
-        setScheduledCuisine('');
+        setScheduledProcessName('');
+        setScheduledIndustry('');
         setScheduledDescription('');
         setScheduledDate('');
         setScheduledTime('');
@@ -289,7 +289,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         
       } catch (error) {
         console.error('Error scheduling session:', error);
-        alert(t('chefsCorner.globalTestKitchen.failedToScheduleGeneric'));
+        alert('Failed to schedule session');
       }
     }
   };
@@ -350,9 +350,9 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         // Convert database format to component format
         const sessions: UpcomingSession[] = data.map((session: any) => ({
           id: session.id,
-          hostName: t('chefsCorner.globalTestKitchen.you'),
-          dishName: session.dish_name,
-          culture: session.cuisine,
+          hostName: 'You',
+          processName: session.dish_name,
+          industry: session.cuisine,
           scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
           description: session.description,
           sessionType: session.session_type,
@@ -491,7 +491,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
           metadata: {
             title: videoTitle,
             description: videoDescription,
-            cuisine: videoCuisine,
+            cuisine: videoIndustry,
             isPublic: isPublic.toString(),
             userId: user?.id || ''
           }
@@ -513,7 +513,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       // Clear form data
       setVideoTitle('');
       setVideoDescription('');
-      setVideoCuisine('');
+      setVideoIndustry('');
       setIsPublic(false);
       
     } catch (error) {
@@ -541,17 +541,11 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     setIsRecording(false);
     setViewerCount(0);
     setRecordedBlob(null);
-    setMediaRecorder(null);
-    
-    // Clear video metadata
-    setVideoTitle('');
-    setVideoDescription('');
-    setVideoCuisine('');
-  };
 
-  const handleEndSession = () => {
-    // Reset states
-    setIsHost(false);
+if (!videoTitle.trim()) {
+  alert('Please enter a title for your video.');
+  return;
+}
     setIsViewer(false);
     setCurrentLiveSession(null);
     setIsRecording(false);
@@ -592,7 +586,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       alert('Video saved successfully to Test Kitchen Videos!');
       
       // End the session after successful save
-      handleEndSession();
+      endRecordingSession();
       
     } catch (error) {
       console.error('Error saving video:', error);
@@ -626,7 +620,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
+    const title = encodeURIComponent(`${session.processName} - Production Session`);
     const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
     const location = encodeURIComponent('Global Test Kitchen - Online');
 
@@ -682,7 +676,7 @@ END:VCALENDAR`;
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
+    const title = encodeURIComponent(`${session.processName} - Production Session`);
     const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
     const location = encodeURIComponent('Global Test Kitchen - Online');
 
@@ -775,7 +769,7 @@ END:VCALENDAR`;
                   <div className="flex items-center">
                     <span className="text-2xl mr-2">{session.thumbnail}</span>
                     <div>
-                      <h3 className="font-semibold text-sm text-gray-900">{session.dishName}</h3>
+                      <h3 className="font-semibold text-sm text-gray-900">{session.processName}</h3>
                       <p className="text-xs text-gray-600">{t('chefsCorner.globalTestKitchen.by')} {session.hostName}</p>
                     </div>
                   </div>
@@ -795,7 +789,7 @@ END:VCALENDAR`;
                 </div>
                 <p className="text-xs text-gray-700 mb-2">{session.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">🌍 {session.culture}</span>
+                  <span className="text-xs text-gray-500">🌍 {session.industry}</span>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center text-xs text-gray-500">
                       <UserGroupIcon className="h-3 w-3 mr-1" />
@@ -829,7 +823,7 @@ END:VCALENDAR`;
             <div key={session.id} className="border border-gray-200 rounded-lg p-3">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-900">{session.dishName}</h3>
+                  <h3 className="font-semibold text-sm text-gray-900">{session.processName}</h3>
                   <p className="text-xs text-gray-600">{t('chefsCorner.globalTestKitchen.by')} {session.hostName}</p>
                 </div>
                 <span className="text-xs text-maineBlue font-medium">{session.scheduledTime}</span>
@@ -837,7 +831,7 @@ END:VCALENDAR`;
               <p className="text-xs text-gray-700 mb-2">{session.description}</p>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-500">🌍 {session.culture}</span>
+                  <span className="text-xs text-gray-500">🏭 {session.industry}</span>
                   {session.sessionType && (
                     <span className="text-xs bg-maineBlue text-white px-2 py-0.5 rounded-full">
                       {session.sessionType === 'practice' && `🎯 ${t('chefsCorner.globalTestKitchen.practice')}`}
@@ -869,9 +863,9 @@ END:VCALENDAR`;
         <div className="space-y-4">
           <div className="text-center py-4">
             <VideoCameraIcon className="h-12 w-12 mx-auto mb-3 text-maineBlue" />
-            <h3 className="font-semibold text-gray-900 mb-2">Share Your Heritage Dish</h3>
+            <h3 className="font-semibold text-gray-900 mb-2">Share Your Manufacturing Process</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Teach others a recipe from your culture and build your culinary leadership skills
+              Teach others a process from your industry and build your manufacturing leadership skills
             </p>
           </div>
           
@@ -1047,13 +1041,13 @@ END:VCALENDAR`;
                   <div className="flex flex-col items-center text-center">
                     <h2 className="text-xl sm:text-2xl font-bold">
                       {isViewer && currentLiveSession ? 
-                        `🔴 LIVE: ${currentLiveSession.dishName}` : 
-                        '🔴 LIVE: Cooking Session'
+                        `🔴 LIVE: ${currentLiveSession.processName}` : 
+                        '🔴 LIVE: Production Session'
                       }
                     </h2>
                     {isViewer && currentLiveSession && (
                       <p className="text-sm sm:text-base mt-1">
-                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.industry} Industry
                       </p>
                     )}
                   </div>
@@ -1166,8 +1160,8 @@ END:VCALENDAR`;
                 </label>
                 <input
                   type="text"
-                  value={scheduledDishName}
-                  onChange={(e) => setScheduledDishName(e.target.value)}
+                  value={scheduledProcessName}
+                  onChange={(e) => setScheduledProcessName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                   placeholder="e.g., Grandma's Pasta Recipe"
                 />
@@ -1178,8 +1172,8 @@ END:VCALENDAR`;
                   Cuisine Origin
                 </label>
                 <select 
-                  value={scheduledCuisine}
-                  onChange={(e) => setScheduledCuisine(e.target.value)}
+                  value={scheduledIndustry}
+                  onChange={(e) => setScheduledIndustry(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
                   <option value="">Select</option>
@@ -1274,7 +1268,7 @@ END:VCALENDAR`;
                 </button>
                 <button
                   onClick={handleScheduleSession}
-                  disabled={!scheduledDishName.trim() || !scheduledCuisine || !scheduledDescription.trim() || !scheduledDate || !scheduledTime}
+                  disabled={!scheduledProcessName.trim() || !scheduledIndustry || !scheduledDescription.trim() || !scheduledDate || !scheduledTime}
                   className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   📅 Schedule Session
@@ -1317,11 +1311,11 @@ END:VCALENDAR`;
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cuisine Type
+                    Industry Type
                   </label>
                   <select 
-                    value={videoCuisine}
-                    onChange={(e) => setVideoCuisine(e.target.value)}
+                    value={videoIndustry}
+                    onChange={(e) => setVideoIndustry(e.target.value)}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   >
@@ -1446,4 +1440,4 @@ END:VCALENDAR`;
   );
 };
 
-export default GlobalTestKitchen;
+export default ProductionLine;

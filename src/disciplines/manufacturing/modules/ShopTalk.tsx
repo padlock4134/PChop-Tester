@@ -8,7 +8,7 @@ import LocalSuppliersModal from '../components/LocalSuppliersModal';
 import BuildProcessModal from '../components/BuildProcessModal';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/ProcessMatcherModal';
-import GlobalTestKitchen from '../../culinary/components/GlobalTestKitchen';
+import ProductionLine from '../components/GlobalTestFloor';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
@@ -370,12 +370,12 @@ const ShopTalk = () => {
         <div className={`lg:hidden ${
           activeMobileTab === 'kitchen' ? 'block' : 'hidden'
         }`}>
-          <GlobalTestKitchen showcaseRecipe={showcaseRecipe} />
+          <ProductionLine showcaseRecipe={showcaseRecipe} />
         </div>
         
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
-          <GlobalTestKitchen showcaseRecipe={showcaseRecipe} />
+          <ProductionLine showcaseRecipe={showcaseRecipe} />
           <FloorFreddieWidget />
         </div>
       </div>
