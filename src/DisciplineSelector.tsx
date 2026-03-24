@@ -35,13 +35,13 @@ const DisciplineSelector: React.FC = () => {
           <div className="text-center mb-8">
             <img src={logo} alt="PorkChop Logo" className="w-32 h-32 mx-auto mb-6" />
             <h1 className="font-retro text-4xl text-maineBlue mb-3">Welcome to PorkChop</h1>
-            <p className="text-gray-600 text-lg">Select your discipline to continue</p>
+            <p className="text-gray-600 text-lg">What skills are you mastering?</p>
           </div>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
               <label htmlFor="discipline" className="block text-sm font-bold text-gray-700 mb-3 text-center">
-                Choose Your Discipline
+                
               </label>
               <select
                 id="discipline"
