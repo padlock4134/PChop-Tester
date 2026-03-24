@@ -484,8 +484,8 @@ const AutoSchool = () => {
             <div className="mt-8 text-center">
               <div className="text-gray-700 mb-4">{t('autoSchool.getStarted')}</div>
               <div className="flex justify-center space-x-4">
-                <Link to="/my-kitchen" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('autoSchool.goToMyKitchen')}</Link>
-                <Link to="/my-cookbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('autoSchool.goToMyCookbook')}</Link>
+                <Link to="/automotive/my-garage" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('autoSchool.goToMyKitchen')}</Link>
+                <Link to="/automotive/my-manual" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('autoSchool.goToMyCookbook')}</Link>
               </div>
             </div>
           </>
