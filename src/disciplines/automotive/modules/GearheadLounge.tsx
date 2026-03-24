@@ -113,16 +113,16 @@ const GearheadLounge = () => {
     const weekNumber = Math.floor(diff / oneWeek) % 52;
     return {
       quote: automotiveQuotes[weekNumber],
-      chef: automotiveNames[weekNumber]
+      expert: automotiveNames[weekNumber]
     };
   };
   
   const currentQuote = getCurrentWeekQuote();
-  const [localMarketsModalOpen, setLocalMarketsModalOpen] = useState(false);
+  const [localPartsModalOpen, setLocalPartsModalOpen] = useState(false);
   const [buildMenuModalOpen, setBuildMenuModalOpen] = useState(false);
-  const [selectedMenuRecipes, setSelectedMenuRecipes] = useState<RecipeCard[]>([]);
+  const [selectedServiceOrders, setSelectedServiceOrders] = useState<RecipeCard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeMobileTab, setActiveMobileTab] = useState<'corner' | 'kitchen'>('corner');
+  const [activeMobileTab, setActiveMobileTab] = useState<'corner' | 'garage'>('corner');
 
   useEffect(() => {
     updateContext({ page: 'GearheadLounge' });
@@ -202,16 +202,16 @@ const GearheadLounge = () => {
         open={buildMenuModalOpen}
         onClose={() => setBuildMenuModalOpen(false)}
         onFindMarkets={(recipes: RecipeCard[]) => {
-          setSelectedMenuRecipes(recipes);
+          setSelectedServiceOrders(recipes);
           setBuildMenuModalOpen(false);
-          setLocalMarketsModalOpen(true);
+          setLocalPartsModalOpen(true);
         }}
       />
       
       <LocalPartsModal
-        open={localMarketsModalOpen}
-        onClose={() => setLocalMarketsModalOpen(false)}
-        selectedRecipes={selectedMenuRecipes}
+        open={localPartsModalOpen}
+        onClose={() => setLocalPartsModalOpen(false)}
+        selectedRecipes={selectedServiceOrders}
       />
       
       <div className="max-w-6xl mx-auto mt-8">
@@ -228,9 +228,9 @@ const GearheadLounge = () => {
             🔧 {t('gearheadLounge.title')}
           </button>
           <button
-            onClick={() => setActiveMobileTab('kitchen')}
+            onClick={() => setActiveMobileTab('garage')}
             className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
-              activeMobileTab === 'kitchen'
+              activeMobileTab === 'garage'
                 ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
@@ -353,23 +353,23 @@ const GearheadLounge = () => {
 
               {/* Automotive Quote of the Week */}
               <p className="text-center text-gray-600 italic mb-6">
-                "{currentQuote.quote}" — {currentQuote.chef}
+                "{currentQuote.quote}" — {currentQuote.expert}
               </p>
 
 
             </div>
-          {/* Desktop Layout - Markets Directory */}
+          {/* Desktop Layout - Parts Directory */}
           <div className="hidden lg:block">
             <div className="mb-6 mt-8">
-              {/* Market content can be added here if needed */}
+              {/* Parts content can be added here if needed */}
             </div>
           </div>
 
         </div>
 
-        {/* Global Test Kitchen Tab - Mobile Only */}
+        {/* Global Test Garage Tab - Mobile Only */}
         <div className={`lg:hidden ${
-          activeMobileTab === 'kitchen' ? 'block' : 'hidden'
+          activeMobileTab === 'garage' ? 'block' : 'hidden'
         }`}>
           <GlobalTestGarage showcaseRecipe={showcaseRecipe} />
         </div>
