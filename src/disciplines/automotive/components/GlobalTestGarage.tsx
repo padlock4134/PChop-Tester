@@ -151,7 +151,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       hostName: 'Priya Sharma',
       serviceName: 'ECU Programming',
       vehicleType: 'Electrical Service',
-      scheduledTime: '2:00 PM EST',
+      scheduledTime: '2024-03-25 at 2:00 PM EST',
       description: 'Advanced ECU tuning and programming for performance optimization'
     },
     {
@@ -159,7 +159,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       hostName: 'Ahmed Hassan',
       serviceName: 'Exhaust System Installation',
       vehicleType: 'Engine Service',
-      scheduledTime: '4:30 PM EST',
+      scheduledTime: '2024-03-25 at 4:30 PM EST',
       description: 'Complete exhaust system installation with performance headers and muffler'
     },
     {
@@ -167,7 +167,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       hostName: 'Elena Volkov',
       serviceName: 'Diagnostics Training',
       vehicleType: 'Diagnostics',
-      scheduledTime: '6:00 PM EST',
+      scheduledTime: '2024-03-25 at 6:00 PM EST',
       description: 'Advanced diagnostic techniques using scan tools and multimeters'
     },
     {
@@ -175,7 +175,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       hostName: 'Carlos Mendoza',
       serviceName: 'Paint Protection Application',
       vehicleType: 'Other',
-      scheduledTime: '7:30 PM EST',
+      scheduledTime: '2024-03-25 at 7:30 PM EST',
       description: 'Professional paint protection film installation with ceramic coating'
     }
   ]);
@@ -897,7 +897,7 @@ END:VCALENDAR`;
             <h4 className="font-semibold text-sm text-gray-900 mb-2 text-center">💡 Tips for Success:</h4>
             <ul className="text-xs text-gray-700 space-y-1 text-center">
               <li>• Share the story behind your service</li>
-              <li>• Highlight unique parts and where to source them</li>
+              <li>• Highlight unique parts & where to source them</li>
               <li>• Engage with viewers and answer questions</li>
               <li>• Practice your service procedure beforehand</li>
             </ul>
