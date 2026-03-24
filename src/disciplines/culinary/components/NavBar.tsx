@@ -278,6 +278,7 @@ const NavBar: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const { disciplineConfig } = useDiscipline();
+  const { isAdminMode } = useAdminToggle();
   
   return (
     <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md sticky top-0 z-50">
@@ -285,8 +286,11 @@ const NavBar: React.FC = () => {
         {/* Flex container for all items */}
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center space-x-2 ml-[5%]">
-            {/* PorkChop Text as Dashboard Link */}
-            <Link to="/select-discipline" className="flex items-center hover:opacity-80 transition-opacity">
+            {/* PorkChop Text as Smart Dashboard Link */}
+            <Link 
+              to={isAdminMode ? "/admin" : disciplineConfig.routes.dashboard} 
+              className="flex items-center hover:opacity-80 transition-opacity"
+            >
               <span className="text-3xl sm:text-4xl font-bold tracking-wider font-retro">PorkChop</span>
             </Link>
           </div>
