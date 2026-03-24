@@ -267,7 +267,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <span className="text-xs font-bold">{guideOpen ? t('culinarySchool.charcuterieBoard.closeGuide') : t('culinarySchool.charcuterieBoard.openGuide')}</span>
                 </button>
                 
-                {/* Technique Feedback - between guide button and steps */}
+                {/* Technique Feedback - below guide button */}
                 <div className="mb-3">
                   <div className="bg-blue-50 border border-blue-200 rounded p-3">
                     <div className="flex items-start space-x-2">
