@@ -926,28 +926,27 @@ END:VCALENDAR`;
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  What are you cooking today?
+                  What are you working on today?
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., Grandma's Pasta Recipe"
+                  placeholder="e.g., Engine Rebuild Service"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cuisine Origin
+                  Vehicle Type
                 </label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
                   <option>Select</option>
-                  <option>Italian</option>
-                  <option>Mexican</option>
-                  <option>Thai</option>
-                  <option>French</option>
-                  <option>Indian</option>
+                  <option>European</option>
+                  <option>American</option>
+                  <option>Asian</option>
+                  <option>German</option>
                   <option>Japanese</option>
-                  <option>Chinese</option>
+                  <option>Italian</option>
                   <option>Other</option>
                 </select>
               </div>
@@ -957,7 +956,7 @@ END:VCALENDAR`;
                   Session Description
                 </label>
                 <textarea
-                  placeholder="Tell everyone what makes this dish special..."
+                  placeholder="Tell everyone what makes this service special..."
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
@@ -1162,20 +1161,20 @@ END:VCALENDAR`;
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Dish Name
+                  Service Name
                 </label>
                 <input
                   type="text"
                   value={scheduledDishName}
                   onChange={(e) => setScheduledDishName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                  placeholder="e.g., Grandma's Pasta Recipe"
+                  placeholder="e.g., Engine Rebuild Service"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cuisine Origin
+                  Vehicle Type
                 </label>
                 <select 
                   value={scheduledCuisine}
@@ -1183,13 +1182,12 @@ END:VCALENDAR`;
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
                   <option value="">Select</option>
-                  <option value="Italian">Italian</option>
-                  <option value="Mexican">Mexican</option>
-                  <option value="Thai">Thai</option>
-                  <option value="French">French</option>
-                  <option value="Indian">Indian</option>
+                  <option value="European">European</option>
+                  <option value="American">American</option>
+                  <option value="Asian">Asian</option>
+                  <option value="German">German</option>
                   <option value="Japanese">Japanese</option>
-                  <option value="Chinese">Chinese</option>
+                  <option value="Italian">Italian</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
@@ -1203,7 +1201,7 @@ END:VCALENDAR`;
                   onChange={(e) => setScheduledDescription(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                   rows={3}
-                  placeholder="Tell us about your dish and what makes it special..."
+                  placeholder="Tell us about your service and what makes it special..."
                 />
               </div>
               
@@ -1296,7 +1294,7 @@ END:VCALENDAR`;
               </h2>
               
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Add details to save this video to your <span className="font-semibold text-maineBlue">Test Kitchen Videos</span> collection:
+                Add details to save this video to your <span className="font-semibold text-maineBlue">Test Garage Videos</span> collection:
               </p>
               
               {/* Video Metadata Form */}
@@ -1309,7 +1307,7 @@ END:VCALENDAR`;
                     type="text"
                     value={videoTitle}
                     onChange={(e) => setVideoTitle(e.target.value)}
-                    placeholder="e.g., Perfect Pasta Technique Demo"
+                    placeholder="e.g., Engine Rebuild Technique Demo"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   />
@@ -1317,7 +1315,7 @@ END:VCALENDAR`;
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cuisine Type
+                    Vehicle Type
                   </label>
                   <select 
                     value={videoCuisine}
@@ -1325,14 +1323,13 @@ END:VCALENDAR`;
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   >
-                    <option value="">Select cuisine type</option>
-                    <option value="Italian">Italian</option>
-                    <option value="French">French</option>
-                    <option value="Mexican">Mexican</option>
-                    <option value="Asian">Asian</option>
+                    <option value="">Select vehicle type</option>
+                    <option value="European">European</option>
                     <option value="American">American</option>
-                    <option value="Mediterranean">Mediterranean</option>
-                    <option value="Indian">Indian</option>
+                    <option value="Asian">Asian</option>
+                    <option value="German">German</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Italian">Italian</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
@@ -1344,7 +1341,7 @@ END:VCALENDAR`;
                   <textarea
                     value={videoDescription}
                     onChange={(e) => setVideoDescription(e.target.value)}
-                    placeholder="Brief description of what you cooked and any key techniques..."
+                    placeholder="Brief description of what you worked on and any key techniques..."
                     rows={3}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
@@ -1418,7 +1415,7 @@ END:VCALENDAR`;
                   "🎥 {savedVideoTitle}"
                 </p>
                 <p className="text-green-700 text-sm">
-                  Your cooking session has been saved to <span className="font-bold">Test Kitchen Videos</span> and is ready to share with students!
+                  Your automotive service has been saved to <span className="font-bold">Test Garage Videos</span> and is ready to share with students!
                 </p>
               </div>
               
@@ -1434,7 +1431,7 @@ END:VCALENDAR`;
                 </button>
                 
                 <p className="text-xs text-gray-500">
-                  📚 Your video is now available in the Test Kitchen Videos collection
+                  📚 Your video is now available in the Test Garage Videos collection
                 </p>
               </div>
             </div>
