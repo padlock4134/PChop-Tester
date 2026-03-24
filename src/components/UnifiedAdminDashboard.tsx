@@ -85,6 +85,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           
           setDisciplineOptions([...baseDisciplineOptions, ...customOptions]);
         }
+        
+        // Read stored admin discipline and set it as selected
+        const storedDiscipline = localStorage.getItem('adminSelectedDiscipline');
+        if (storedDiscipline && storedDiscipline !== 'total') {
+          setSelectedDiscipline(storedDiscipline as DisciplineKey);
+        }
       } catch (error) {
         console.error('Error loading custom disciplines:', error);
       }
@@ -1207,7 +1213,14 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <label className="font-retro text-sm text-maineBlue">Program:</label>
               <select
                 value={selectedDiscipline}
-                onChange={(e) => setSelectedDiscipline(e.target.value as 'total' | DisciplineKey)}
+                onChange={(e) => {
+                  const newDiscipline = e.target.value as 'total' | DisciplineKey;
+                  setSelectedDiscipline(newDiscipline);
+                  // Store non-total selections for next time
+                  if (newDiscipline !== 'total') {
+                    localStorage.setItem('adminSelectedDiscipline', newDiscipline);
+                  }
+                }}
                 className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer"
               >
                 {disciplineOptions.map((opt) => (
