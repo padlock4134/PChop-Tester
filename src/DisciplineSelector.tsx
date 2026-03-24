@@ -93,15 +93,9 @@ const DisciplineSelector: React.FC = () => {
           storageArea: localStorage
         }));
         
-        // Check if there was an intended destination
-        const intendedDestination = localStorage.getItem('intendedDestination');
-        if (intendedDestination && intendedDestination !== '/admin') {
-          // Clear the intended destination and navigate there
-          localStorage.removeItem('intendedDestination');
-          navigate(intendedDestination);
-        } else {
-          navigate('/admin'); // This goes to UnifiedAdminDashboard
-        }
+        // ALWAYS go to unified admin dashboard, ignore intended destinations
+        localStorage.removeItem('intendedDestination');
+        navigate('/admin'); // This goes to UnifiedAdminDashboard
       } else {
         // Check if there was an intended destination
         const intendedDestination = localStorage.getItem('intendedDestination');

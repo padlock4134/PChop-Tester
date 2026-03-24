@@ -104,6 +104,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     fetchCustomDisciplines();
   }, []);
 
+  // Force discipline sync on mount - run immediately after custom disciplines load
+  useEffect(() => {
+    setTimeout(() => {
+      const storedDiscipline = localStorage.getItem('adminSelectedDiscipline');
+      console.log('Admin Dashboard - Mount check - Stored discipline:', storedDiscipline);
+      if (storedDiscipline && storedDiscipline !== 'total') {
+        console.log('Admin Dashboard - Force setting dropdown to:', storedDiscipline);
+        setSelectedDiscipline(storedDiscipline as DisciplineKey);
+      }
+    }, 100); // Small delay to ensure component is fully mounted
+  }, []);
+
   // Listen for discipline changes
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
@@ -121,6 +133,22 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
+
+  // Force dropdown to match stored discipline on mount and when it changes
+  useEffect(() => {
+    const storedDiscipline = localStorage.getItem('adminSelectedDiscipline');
+    if (storedDiscipline && storedDiscipline !== 'total') {
+      console.log('Admin Dashboard - Forcing dropdown to:', storedDiscipline);
+      setSelectedDiscipline(storedDiscipline as DisciplineKey);
+    }
+  }, []);
+
+  // Also update when selectedDiscipline changes to ensure consistency
+  useEffect(() => {
+    if (selectedDiscipline && selectedDiscipline !== 'total') {
+      localStorage.setItem('adminSelectedDiscipline', selectedDiscipline);
+    }
+  }, [selectedDiscipline]);
   
   // Mobile tab state - mimicking Student Dashboard
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'events' | 'actions'>('home');
