@@ -8,27 +8,27 @@ import { useSupabase } from '../../culinary/components/SupabaseProvider';
 interface LiveSession {
   id: string;
   hostName: string;
-  dishName: string;
-  culture: string;
+  serviceName: string;
+  vehicleType: string;
   viewers: number;
   isLive: boolean;
   isEnded?: boolean;
   thumbnail: string;
   description: string;
-  ingredients: string[];
+  parts: string[];
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
-  teacherTag?: string;
+  instructorTag?: string;
 }
 
 interface UpcomingSession {
   id: string;
   hostName: string;
-  dishName: string;
-  culture: string;
+  serviceName: string;
+  vehicleType: string;
   scheduledTime: string;
   description: string;
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
-  teacherTag?: string;
+  instructorTag?: string;
 }
 
 interface GlobalTestKitchenProps {
@@ -102,81 +102,81 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '1',
       hostName: 'Maria Santos',
-      dishName: 'Authentic Paella Valenciana',
-      culture: 'Spanish',
+      serviceName: 'Engine Rebuild Service',
+      vehicleType: 'European',
       viewers: 47,
       isLive: false,
       isEnded: true,
-      thumbnail: '🥘',
-      description: 'Traditional paella from Valencia with saffron and bomba rice',
-      ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
+      thumbnail: '🔧',
+      description: 'Complete engine rebuild with precision torque specifications',
+      parts: ['Engine block', 'Pistons', 'Rings', 'Bearings', 'Gaskets', 'Oil pump']
     },
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Hand-pulled Ramen',
-      culture: 'Japanese',
+      serviceName: 'Transmission Overhaul',
+      vehicleType: 'Japanese',
       viewers: 23,
       isLive: true,
-      thumbnail: '🍜',
-      description: 'Making ramen noodles from scratch with tonkotsu broth',
-      ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
+      thumbnail: '⚙️',
+      description: 'Complete transmission disassembly and reassembly with clutch replacement',
+      parts: ['Transmission', 'Clutch kit', 'Torque wrench', 'Seal kit', 'Fluid pump']
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'Lebanese Kibbeh',
-      culture: 'Lebanese',
+      serviceName: 'Brake System Upgrade',
+      vehicleType: 'Middle Eastern',
       viewers: 35,
       isLive: true,
-      thumbnail: '🧆',
-      description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
-      ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
+      thumbnail: '🛞',
+      description: 'Complete brake system upgrade with performance pads and rotors',
+      parts: ['Brake pads', 'Rotors', 'Calipers', 'Brake fluid', 'Bleeder kit']
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'French Croissants',
-      culture: 'French',
+      serviceName: 'Suspension Tuning',
+      vehicleType: 'European',
       viewers: 62,
       isLive: true,
-      thumbnail: '🥐',
-      description: 'Mastering the art of laminated dough and butter layers',
-      ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
+      thumbnail: '🎯',
+      description: 'Performance suspension tuning with coilover adjustment and alignment',
+      parts: ['Coilovers', 'Alignment tools', 'Torque wrench', 'Spring compressor', 'Camber gauge']
     }
   ]);
   const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
     {
       id: '3',
       hostName: 'Priya Sharma',
-      dishName: 'Hyderabadi Biryani',
-      culture: 'Indian',
+      serviceName: 'ECU Programming',
+      vehicleType: 'Asian',
       scheduledTime: '2:00 PM EST',
-      description: 'Layered biryani with aromatic spices and basmati rice'
+      description: 'Advanced ECU tuning and programming for performance optimization'
     },
     {
       id: '4',
       hostName: 'Ahmed Hassan',
-      dishName: 'Moroccan Tagine',
-      culture: 'Moroccan',
+      serviceName: 'Exhaust System Installation',
+      vehicleType: 'African',
       scheduledTime: '4:30 PM EST',
-      description: 'Slow-cooked tagine with preserved lemons and olives'
+      description: 'Complete exhaust system installation with performance headers and muffler'
     },
     {
       id: '5',
       hostName: 'Elena Volkov',
-      dishName: 'Russian Borscht',
-      culture: 'Russian',
+      serviceName: 'Diagnostics Training',
+      vehicleType: 'Eastern European',
       scheduledTime: '6:00 PM EST',
-      description: 'Traditional beetroot soup with sour cream and fresh dill'
+      description: 'Advanced diagnostic techniques using scan tools and multimeters'
     },
     {
       id: '6',
       hostName: 'Carlos Mendoza',
-      dishName: 'Peruvian Ceviche',
-      culture: 'Peruvian',
+      serviceName: 'Paint Protection Application',
+      vehicleType: 'South American',
       scheduledTime: '7:30 PM EST',
-      description: 'Fresh fish cured in lime juice with red onions and aji peppers'
+      description: 'Professional paint protection film installation with ceramic coating'
     }
   ]);
   
@@ -264,12 +264,12 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         const newSession: UpcomingSession = {
           id: data.id,
           hostName: t('chefsCorner.globalTestKitchen.you'),
-          dishName: scheduledDishName,
-          culture: scheduledCuisine,
+          serviceName: scheduledDishName,
+          vehicleType: scheduledCuisine,
           scheduledTime: `${scheduledDate} at ${scheduledTime}`,
           description: scheduledDescription,
           sessionType: scheduledSessionType,
-          teacherTag: scheduledTeacher || undefined
+          instructorTag: scheduledTeacher || undefined
         };
         
         setUpcomingSessions(prev => [newSession, ...prev]);
@@ -351,12 +351,12 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
         const sessions: UpcomingSession[] = data.map((session: any) => ({
           id: session.id,
           hostName: t('chefsCorner.globalTestKitchen.you'),
-          dishName: session.dish_name,
-          culture: session.cuisine,
+          serviceName: session.dish_name,
+          vehicleType: session.cuisine,
           scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
           description: session.description,
           sessionType: session.session_type,
-          teacherTag: session.teacher || undefined
+          instructorTag: session.teacher || undefined
         }));
 
         setUpcomingSessions(sessions);
@@ -626,9 +626,9 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
-    const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Test Kitchen - Online');
+    const title = encodeURIComponent(`${session.serviceName} - Automotive Service`);
+    const description = encodeURIComponent(`Join ${session.hostName} for a live automotive demonstration: ${session.description}`);
+    const location = encodeURIComponent('Global Garage Lab - Online');
 
     // Detect device/platform
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -682,9 +682,9 @@ END:VCALENDAR`;
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
-    const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Test Kitchen - Online');
+    const title = encodeURIComponent(`${session.serviceName} - Automotive Service`);
+    const description = encodeURIComponent(`Join ${session.hostName} for a live automotive demonstration: ${session.description}`);
+    const location = encodeURIComponent('Global Garage Lab - Online');
 
     const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatDate(startDate)}/${formatDate(endDate)}&details=${description}&location=${location}`;
     const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&startdt=${formatDate(startDate)}&enddt=${formatDate(endDate)}&body=${description}&location=${location}`;
@@ -775,7 +775,7 @@ END:VCALENDAR`;
                   <div className="flex items-center">
                     <span className="text-2xl mr-2">{session.thumbnail}</span>
                     <div>
-                      <h3 className="font-semibold text-sm text-gray-900">{session.dishName}</h3>
+                      <h3 className="font-semibold text-sm text-gray-900">{session.serviceName}</h3>
                       <p className="text-xs text-gray-600">{t('chefsCorner.globalTestKitchen.by')} {session.hostName}</p>
                     </div>
                   </div>
@@ -795,7 +795,7 @@ END:VCALENDAR`;
                 </div>
                 <p className="text-xs text-gray-700 mb-2">{session.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">🌍 {session.culture}</span>
+                  <span className="text-xs text-gray-500">🌍 {session.vehicleType}</span>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center text-xs text-gray-500">
                       <UserGroupIcon className="h-3 w-3 mr-1" />
@@ -829,7 +829,7 @@ END:VCALENDAR`;
             <div key={session.id} className="border border-gray-200 rounded-lg p-3">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-900">{session.dishName}</h3>
+                  <h3 className="font-semibold text-sm text-gray-900">{session.serviceName}</h3>
                   <p className="text-xs text-gray-600">{t('chefsCorner.globalTestKitchen.by')} {session.hostName}</p>
                 </div>
                 <span className="text-xs text-maineBlue font-medium">{session.scheduledTime}</span>
@@ -837,7 +837,7 @@ END:VCALENDAR`;
               <p className="text-xs text-gray-700 mb-2">{session.description}</p>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-500">🌍 {session.culture}</span>
+                  <span className="text-xs text-gray-500">🌍 {session.vehicleType}</span>
                   {session.sessionType && (
                     <span className="text-xs bg-maineBlue text-white px-2 py-0.5 rounded-full">
                       {session.sessionType === 'practice' && `🎯 ${t('chefsCorner.globalTestKitchen.practice')}`}
@@ -854,9 +854,9 @@ END:VCALENDAR`;
                   📅 {t('chefsCorner.globalTestKitchen.addToCalendar')}
                 </button>
               </div>
-              {session.teacherTag && (
+              {session.instructorTag && (
                 <div className="text-xs text-gray-600 mb-1">
-                  👨‍🏫 {t('chefsCorner.globalTestKitchen.for')} {session.teacherTag}
+                  👨‍🏫 {t('chefsCorner.globalTestKitchen.for')} {session.instructorTag}
                 </div>
               )}
             </div>
@@ -869,9 +869,9 @@ END:VCALENDAR`;
         <div className="space-y-4">
           <div className="text-center py-4">
             <VideoCameraIcon className="h-12 w-12 mx-auto mb-3 text-maineBlue" />
-            <h3 className="font-semibold text-gray-900 mb-2">Share Your Heritage Dish</h3>
+            <h3 className="font-semibold text-gray-900 mb-2">Share Your Automotive Expertise</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Teach others a recipe from your culture and build your culinary leadership skills
+              Teach others a service from your vehicleType and build your technical leadership skills
             </p>
           </div>
           
@@ -896,10 +896,10 @@ END:VCALENDAR`;
           <div className="bg-sand p-3 rounded-lg">
             <h4 className="font-semibold text-sm text-gray-900 mb-2">💡 Tips for Success:</h4>
             <ul className="text-xs text-gray-700 space-y-1">
-              <li>• Share the story behind your dish</li>
-              <li>• Highlight unique ingredients and where to find them</li>
+              <li>• Share the story behind your service</li>
+              <li>• Highlight unique parts and where to source them</li>
               <li>• Engage with viewers and answer questions</li>
-              <li>• Practice your recipe beforehand</li>
+              <li>• Practice your service procedure beforehand</li>
             </ul>
           </div>
         </div>
@@ -1047,13 +1047,13 @@ END:VCALENDAR`;
                   <div className="flex flex-col items-center text-center">
                     <h2 className="text-xl sm:text-2xl font-bold">
                       {isViewer && currentLiveSession ? 
-                        `🔴 LIVE: ${currentLiveSession.dishName}` : 
-                        '🔴 LIVE: Cooking Session'
+                        `🔴 LIVE: ${currentLiveSession.serviceName}` : 
+                        '🔴 LIVE: Automotive Service'
                       }
                     </h2>
                     {isViewer && currentLiveSession && (
                       <p className="text-sm sm:text-base mt-1">
-                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.vehicleType} Vehicle Type
                       </p>
                     )}
                   </div>
@@ -1117,7 +1117,7 @@ END:VCALENDAR`;
                     // No stream - show placeholder
                     <div className="text-white text-center">
                       <div className="text-3xl sm:text-4xl mb-2">👨‍🍳</div>
-                      <p className="text-xs sm:text-sm">Live Cooking Session</p>
+                      <p className="text-xs sm:text-sm">Live Automotive Service</p>
                       <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
                     </div>
                   )}
@@ -1292,7 +1292,7 @@ END:VCALENDAR`;
             <div className="text-center">
               <div className="text-4xl mb-4">🎥</div>
               <h2 className="text-2xl font-bold mb-4 text-maineBlue font-retro">
-                Save Your Cooking Session
+                Save Your Automotive Service
               </h2>
               
               <p className="text-gray-700 mb-6 leading-relaxed">
