@@ -1,5 +1,5 @@
 # PorkChop — Complete App Recap
-**The First Purpose-Built LMS for Culinary Education**
+**The First Purpose-Built LMS for Trade Education**
 
 *Last Updated: March 2026*
 
@@ -7,9 +7,9 @@
 
 ## Executive Summary
 
-PorkChop is a vertical SaaS Learning Management System built specifically for culinary education institutions. It replaces generic platforms (Canvas, Blackboard) that were designed for lecture halls — not kitchens. The platform combines AI-powered tools, hands-on skill assessment, gamification, and entrepreneurship training into a single product purpose-built for trade school workflows.
+PorkChop is a vertical SaaS Learning Management System built specifically for trade education institutions. It replaces generic platforms (Canvas, Blackboard) that were designed for lecture halls — not hands-on skill training. The platform combines AI-powered tools, practical skill assessment, gamification, and career readiness training into a single product purpose-built for trade school workflows.
 
-The platform is content-agnostic: schools upload their own curriculum, and PorkChop's AI auto-maps it to modules. PorkChop is starting with culinary as the wedge market, with the infrastructure designed to expand into other trade disciplines (nursing, automotive, cosmetology, welding, HVAC) as clients are ready.
+The platform is content-agnostic: schools upload their own curriculum, and PorkChop's AI auto-maps it to modules. **PorkChop now supports 9 trade disciplines out-of-the-box** (Culinary, Manufacturing, Automotive, Construction, Electrical, HVAC, Logistics, Machining, Plumbing) **with the ability for educators to instantly generate unlimited custom programs** (Welding, Cosmetology, Aviation, etc.) without developer involvement.
 
 PorkChop is a Maine based LLC with a utility patent pending.
 
