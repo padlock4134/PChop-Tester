@@ -195,6 +195,7 @@ const AdminToggleButton: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+  const { disciplineConfig } = useDiscipline();
   
   if (!isAdmin) return null;
 
@@ -204,8 +205,10 @@ const AdminToggleButton: React.FC = () => {
     <button
       onClick={() => {
         if (isOnAdmin) {
-          navigate('/select-discipline');
+          const lastPath = sessionStorage.getItem('lastDisciplinePath') || disciplineConfig.routes.dashboard;
+          navigate(lastPath);
         } else {
+          sessionStorage.setItem('lastDisciplinePath', disciplineConfig.routes.dashboard);
           navigate('/admin');
         }
       }}

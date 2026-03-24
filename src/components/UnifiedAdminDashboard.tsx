@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../disciplines/culinary/api/supabaseClient';
 import { useSupabase } from '../disciplines/culinary/components/SupabaseProvider';
 import { askChefFreddie } from '../disciplines/culinary/api/chefFreddie';
 import { DISCIPLINE_CONFIG, DisciplineKey } from '../disciplineConfig';
+import { getSkin } from '../disciplineSkinConfig';
 import { useAdminToggle } from '../App';
 import {
   UsersIcon,
@@ -59,6 +60,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const { toggleAdminMode } = useAdminToggle();
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedDiscipline, setSelectedDiscipline] = useState<'total' | DisciplineKey>('total');
+  const skin = useMemo(() => getSkin(selectedDiscipline), [selectedDiscipline]);
   
   // Mobile tab state - mimicking Student Dashboard
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'events' | 'actions'>('home');
@@ -72,7 +74,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [users, setUsers] = useState<User[]>([
     {
       id: 'mock-1',
-      email: 'sarah.johnson@culinaryschool.edu',
+      email: `sarah.johnson@${skin.people.emailDomain}`,
       username: 'Sarah Johnson',
       xp: 1250,
       level: 3,
@@ -82,7 +84,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     },
     {
       id: 'mock-2',
-      email: 'marcus.chen@culinaryschool.edu',
+      email: `marcus.chen@${skin.people.emailDomain}`,
       username: 'Marcus Chen',
       xp: 2100,
       level: 4,
@@ -126,10 +128,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showMappingReviewModal, setShowMappingReviewModal] = useState(false);
   const [currentMapping, setCurrentMapping] = useState<any>(null);
   const [moduleSelection, setModuleSelection] = useState({
-    MyKitchen: { recipe: false, ingredients: false, kitchen: false, dietary: false },
-    MyCookBook: { assignments: false, rubrics: false, recipes: false, video: false },
-    CulinarySchool: { techniques: false, syllabus: false, lessons: false, objectives: false },
-    ChefsCorner: { videos: false, insights: false, sessions: false, partnerships: false }
+    workspace: { item1: false, item2: false, item3: false, item4: false },
+    notebook: { assignments: false, rubrics: false, items: false, video: false },
+    school: { techniques: false, syllabus: false, lessons: false, objectives: false },
+    community: { videos: false, insights: false, sessions: false, partnerships: false }
   });
   const [publishDate, setPublishDate] = useState('');
   const [publishVisibility, setPublishVisibility] = useState('All Students');
@@ -144,17 +146,17 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [modulePermissions, setModulePermissions] = useState<{[key: string]: {[key: string]: string}}>({
     student: {
-      MyCookBook: 'Full Access',
-      CulinarySchool: 'Full Access',
-      ChefsCorner: 'Read Only',
-      GlobalTestKitchen: 'Full Access',
+      notebook: 'Full Access',
+      school: 'Full Access',
+      community: 'Read Only',
+      workspace: 'Full Access',
       AdminDashboard: 'No Access'
     },
     administrator: {
-      MyCookBook: 'Full Access',
-      CulinarySchool: 'Full Access',
-      ChefsCorner: 'Full Access',
-      GlobalTestKitchen: 'Full Access',
+      notebook: 'Full Access',
+      school: 'Full Access',
+      community: 'Full Access',
+      workspace: 'Full Access',
       AdminDashboard: 'Full Access'
     }
   });
@@ -245,7 +247,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [newStudentName, setNewStudentName] = useState('');
   const [newStudentEmail, setNewStudentEmail] = useState('');
   const [newStudentPhone, setNewStudentPhone] = useState('');
-  const [newStudentProgram, setNewStudentProgram] = useState('Culinary Arts');
+  const [newStudentProgram, setNewStudentProgram] = useState(skin.people.defaultProgram);
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState<User | null>(null);
   const [showEditFacultyModal, setShowEditFacultyModal] = useState(false);
@@ -255,26 +257,26 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [facultyList, setFacultyList] = useState([
     {
       id: 'faculty-1',
-      name: 'Chef Julia Davis',
-      email: 'julia.davis@culinaryschool.edu',
-      role: 'Head of Culinary Arts',
+      name: skin.people.mockFaculty[0].name,
+      email: `${skin.people.mockFaculty[0].name.split(' ').pop()?.toLowerCase()}.instructor@${skin.people.emailDomain}`,
+      role: skin.people.mockFaculty[0].role,
       status: 'Active',
-      courses: 'Advanced Techniques, Sauce Mastery',
+      courses: skin.people.mockFaculty[0].courses,
       students: 42,
       lastLogin: 'Today, 9:15 AM',
-      initials: 'JD',
+      initials: skin.people.mockFaculty[0].name.split(' ').filter((_:string, i:number, a:string[]) => i === 0 || i === a.length - 1).map((w:string) => w[0]).join(''),
       color: 'bg-blue-500'
     },
     {
       id: 'faculty-2',
-      name: 'Chef Marco Rodriguez',
-      email: 'marco.rodriguez@culinaryschool.edu',
-      role: 'Pastry Arts Instructor',
+      name: skin.people.mockFaculty[1].name,
+      email: `${skin.people.mockFaculty[1].name.split(' ').pop()?.toLowerCase()}.instructor@${skin.people.emailDomain}`,
+      role: skin.people.mockFaculty[1].role,
       status: 'Active',
-      courses: 'Baking Fundamentals, Cake Decoration',
+      courses: skin.people.mockFaculty[1].courses,
       students: 28,
       lastLogin: 'Yesterday, 4:30 PM',
-      initials: 'MR',
+      initials: skin.people.mockFaculty[1].name.split(' ').filter((_:string, i:number, a:string[]) => i === 0 || i === a.length - 1).map((w:string) => w[0]).join(''),
       color: 'bg-green-500'
     }
   ]);
@@ -287,8 +289,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       name: 'Maria Santos',
       email: 'maria.santos@example.com',
       graduationYear: '2022',
-      position: 'Executive Chef at Michelin-starred restaurant',
-      employer: 'Le Bernardin, New York',
+      position: skin.people.mockAlumniTitles[0],
+      employer: 'Top Industry Employer, New York',
       salary: '$85,000/year',
       initials: 'MS',
       color: 'bg-blue-500'
@@ -298,8 +300,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       name: 'James Chen',
       email: 'james.chen@example.com',
       graduationYear: '2021',
-      position: 'Restaurant Owner & Entrepreneur',
-      employer: "Chen's Kitchen (3 locations)",
+      position: skin.people.mockAlumniTitles[1],
+      employer: 'Independent Business Owner',
       salary: '$2.1M annually',
       initials: 'JC',
       color: 'bg-green-500'
@@ -309,8 +311,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       name: 'Ashley Rodriguez',
       email: 'ashley.rodriguez@example.com',
       graduationYear: '2023',
-      position: 'Food Network Personality',
-      employer: 'Host of "Pastry Perfection"',
+      position: skin.people.mockAlumniTitles[2],
+      employer: 'Industry Media & Consulting',
       salary: '$120,000/year + endorsements',
       initials: 'AR',
       color: 'bg-purple-500'
@@ -320,8 +322,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       name: 'David Miller',
       email: 'david.miller@example.com',
       graduationYear: '2020',
-      position: 'Corporate Food Service Director',
-      employer: 'Google Campus Dining',
+      position: skin.people.mockAlumniTitles[3],
+      employer: 'Corporate Services Division',
       salary: '$95,000/year + benefits',
       initials: 'DM',
       color: 'bg-orange-500'
@@ -431,7 +433,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     if (showChefFreddieModal && freddieMessages.length === 0) {
       setFreddieMessages([{
         sender: 'freddie',
-        text: "Hi! I'm Chef Freddie, your curriculum assistant. I can help you create assignments, lesson plans, rubrics, and apply curriculum to your modules. Try asking me something like: 'Create a Week 5 assignment for sauce making' or 'Design a rubric for knife skills assessment'"
+        text: skin.assistant.greeting
       }]);
     }
     if (showChefFreddieModal && currentUser?.id) {
@@ -546,7 +548,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     
     try {
       // Create curriculum-focused prompt
-      const curriculumPrompt = `You are Chef Freddie, a curriculum assistant for culinary trade schools. Help create educational content, assignments, lesson plans, and rubrics for culinary education. Focus on practical cooking skills, food safety, kitchen management, and professional culinary techniques. Here's the request: ${message}`;
+      const curriculumPrompt = `${skin.assistant.systemPrompt} Here's the request: ${message}`;
       
       const response = await askChefFreddie(currentUser.id, curriculumPrompt);
       const messageId = `msg_${Date.now()}`;
@@ -1570,15 +1572,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </div>
                   
                   <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-3 sm:p-4 hover:bg-orange-100 cursor-pointer">
-                    <input type="checkbox" id="culinary-metrics" className="mr-2 sm:mr-3" />
-                    <label htmlFor="culinary-metrics" className="font-semibold cursor-pointer text-xs sm:text-base">🍳 {t('admin.culinaryMetrics')}</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{t('admin.recipePerformance')}</p>
+                    <input type="checkbox" id="discipline-metrics" className="mr-2 sm:mr-3" />
+                    <label htmlFor="discipline-metrics" className="font-semibold cursor-pointer text-xs sm:text-base">{skin.icon} {skin.name} {t('admin.culinaryMetrics')}</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{skin.content.metricLabel} {t('admin.recipePerformance')}</p>
                   </div>
                   
                   <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 sm:p-4 hover:bg-purple-100 cursor-pointer">
                     <input type="checkbox" id="operations" className="mr-2 sm:mr-3" />
                     <label htmlFor="operations" className="font-semibold cursor-pointer text-xs sm:text-base">🏪 {t('admin.operations')}</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{t('admin.kitchenManagement')}</p>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{skin.modules.workspace} {t('admin.kitchenManagement')}</p>
                   </div>
                   
                   <div className="border-4 border-pink-400 bg-pink-50 rounded-lg p-3 sm:p-4 hover:bg-pink-100 cursor-pointer">
@@ -2050,18 +2052,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="grid grid-cols-1 gap-3 sm:gap-4">
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
                       <div className="flex items-center mb-2 sm:mb-3">
-                        <div className="text-xl sm:text-2xl mr-2">🍳</div>
-                        <h4 className="font-medium text-blue-800 text-sm sm:text-base">MyKitchen</h4>
+                        <div className="text-xl sm:text-2xl mr-2">{skin.icon}</div>
+                        <h4 className="font-medium text-blue-800 text-sm sm:text-base">{skin.modules.workspace}</h4>
                       </div>
                       <div className="space-y-2 text-xs sm:text-sm">
                         <label className="flex items-center cursor-pointer">
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.MyKitchen.recipe}
+                          checked={moduleSelection.workspace.item1}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            MyKitchen: { ...moduleSelection.MyKitchen, recipe: e.target.checked }
+                            workspace: { ...moduleSelection.workspace, item1: e.target.checked }
                           })}
                         />
                         <span>{t('admin.recipeDatabases')}</span>
@@ -2070,10 +2072,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.MyKitchen.ingredients}
+                          checked={moduleSelection.workspace.item2}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            MyKitchen: { ...moduleSelection.MyKitchen, ingredients: e.target.checked }
+                            workspace: { ...moduleSelection.workspace, item2: e.target.checked }
                           })}
                         />
                         <span>{t('admin.ingredientLists')}</span>
@@ -2082,10 +2084,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.MyKitchen.kitchen}
+                          checked={moduleSelection.workspace.item3}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            MyKitchen: { ...moduleSelection.MyKitchen, kitchen: e.target.checked }
+                            workspace: { ...moduleSelection.workspace, item3: e.target.checked }
                           })}
                         />
                         <span>{t('admin.kitchenEquipment')}</span>
@@ -2094,10 +2096,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.MyKitchen.dietary}
+                          checked={moduleSelection.workspace.item4}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            MyKitchen: { ...moduleSelection.MyKitchen, dietary: e.target.checked }
+                            workspace: { ...moduleSelection.workspace, item4: e.target.checked }
                           })}
                         />
                         <span>{t('admin.dietaryRestrictions')}</span>
@@ -2108,17 +2110,17 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4">
                       <div className="flex items-center mb-2 sm:mb-3">
                         <div className="text-xl sm:text-2xl mr-2">📖</div>
-                        <h4 className="font-medium text-green-800 text-sm sm:text-base">MyCookBook</h4>
+                        <h4 className="font-medium text-green-800 text-sm sm:text-base">{skin.modules.notebook}</h4>
                       </div>
                       <div className="space-y-2 text-xs sm:text-sm">
                         <label className="flex items-center cursor-pointer">
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.MyCookBook.assignments}
+                          checked={moduleSelection.notebook.assignments}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            MyCookBook: { ...moduleSelection.MyCookBook, assignments: e.target.checked }
+                            notebook: { ...moduleSelection.notebook, assignments: e.target.checked }
                           })}
                         />
                         <span>{t('admin.assignmentsRubrics')}</span>
@@ -2127,10 +2129,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.MyCookBook.rubrics}
+                          checked={moduleSelection.notebook.rubrics}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            MyCookBook: { ...moduleSelection.MyCookBook, rubrics: e.target.checked }
+                            notebook: { ...moduleSelection.notebook, rubrics: e.target.checked }
                           })}
                         />
                         <span>{t('admin.assignmentsRubrics')}</span>
@@ -2139,10 +2141,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.MyCookBook.recipes}
+                          checked={moduleSelection.notebook.items}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            MyCookBook: { ...moduleSelection.MyCookBook, recipes: e.target.checked }
+                            notebook: { ...moduleSelection.notebook, items: e.target.checked }
                           })}
                         />
                         <span>{t('admin.recipeCollections')}</span>
@@ -2151,10 +2153,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.MyCookBook.video}
+                          checked={moduleSelection.notebook.video}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            MyCookBook: { ...moduleSelection.MyCookBook, video: e.target.checked }
+                            notebook: { ...moduleSelection.notebook, video: e.target.checked }
                           })}
                         />
                         <span>{t('admin.videoTutorials')}</span>
@@ -2165,17 +2167,17 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4">
                       <div className="flex items-center mb-2 sm:mb-3">
                         <div className="text-xl sm:text-2xl mr-2">🏫</div>
-                        <h4 className="font-medium text-purple-800 text-sm sm:text-base">CulinarySchool</h4>
+                        <h4 className="font-medium text-purple-800 text-sm sm:text-base">{skin.modules.school}</h4>
                       </div>
                       <div className="space-y-2 text-xs sm:text-sm">
                         <label className="flex items-center cursor-pointer">
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.CulinarySchool.techniques}
+                          checked={moduleSelection.school.techniques}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            CulinarySchool: { ...moduleSelection.CulinarySchool, techniques: e.target.checked }
+                            school: { ...moduleSelection.school, techniques: e.target.checked }
                           })}
                         />
                         <span>{t('admin.techniqueLessons')}</span>
@@ -2184,10 +2186,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.CulinarySchool.syllabus}
+                          checked={moduleSelection.school.syllabus}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            CulinarySchool: { ...moduleSelection.CulinarySchool, syllabus: e.target.checked }
+                            school: { ...moduleSelection.school, syllabus: e.target.checked }
                           })}
                         />
                         <span>{t('admin.courseSyllabus')}</span>
@@ -2196,10 +2198,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.CulinarySchool.lessons}
+                          checked={moduleSelection.school.lessons}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            CulinarySchool: { ...moduleSelection.CulinarySchool, lessons: e.target.checked }
+                            school: { ...moduleSelection.school, lessons: e.target.checked }
                           })}
                         />
                         <span>{t('admin.weeklyLessons')}</span>
@@ -2208,10 +2210,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.CulinarySchool.objectives}
+                          checked={moduleSelection.school.objectives}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            CulinarySchool: { ...moduleSelection.CulinarySchool, objectives: e.target.checked }
+                            school: { ...moduleSelection.school, objectives: e.target.checked }
                           })}
                         />
                         <span>{t('admin.learningObjectives')}</span>
@@ -2221,18 +2223,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                     <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 sm:p-4">
                       <div className="flex items-center mb-2 sm:mb-3">
-                        <div className="text-xl sm:text-2xl mr-2">👨‍🍳</div>
-                        <h4 className="font-medium text-orange-800 text-sm sm:text-base">Chef's Corner</h4>
+                        <div className="text-xl sm:text-2xl mr-2">👥</div>
+                        <h4 className="font-medium text-orange-800 text-sm sm:text-base">{skin.modules.community}</h4>
                       </div>
                       <div className="space-y-2 text-xs sm:text-sm">
                         <label className="flex items-center cursor-pointer">
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.ChefsCorner.videos}
+                          checked={moduleSelection.community.videos}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            ChefsCorner: { ...moduleSelection.ChefsCorner, videos: e.target.checked }
+                            community: { ...moduleSelection.community, videos: e.target.checked }
                           })}
                         />
                         <span>{t('admin.instructorVideos')}</span>
@@ -2241,10 +2243,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.ChefsCorner.insights}
+                          checked={moduleSelection.community.insights}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            ChefsCorner: { ...moduleSelection.ChefsCorner, insights: e.target.checked }
+                            community: { ...moduleSelection.community, insights: e.target.checked }
                           })}
                         />
                         <span>{t('admin.industryInsights')}</span>
@@ -2253,10 +2255,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.ChefsCorner.sessions}
+                          checked={moduleSelection.community.sessions}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            ChefsCorner: { ...moduleSelection.ChefsCorner, sessions: e.target.checked }
+                            community: { ...moduleSelection.community, sessions: e.target.checked }
                           })}
                         />
                         <span>{t('admin.liveSessionSchedules')}</span>
@@ -2265,10 +2267,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <input 
                             type="checkbox" 
                             className="mr-2 min-w-[16px] min-h-[16px]" 
-                          checked={moduleSelection.ChefsCorner.partnerships}
+                          checked={moduleSelection.community.partnerships}
                           onChange={(e) => setModuleSelection({
                             ...moduleSelection,
-                            ChefsCorner: { ...moduleSelection.ChefsCorner, partnerships: e.target.checked }
+                            community: { ...moduleSelection.community, partnerships: e.target.checked }
                           })}
                         />
                         <span>{t('admin.partnershipOpportunities')}</span>
@@ -2349,10 +2351,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           setShowModuleIntegrationModal(false);
                           setCurrentMapping(null);
                           setModuleSelection({
-                            MyKitchen: { recipe: false, ingredients: false, kitchen: false, dietary: false },
-                            MyCookBook: { assignments: false, rubrics: false, recipes: false, video: false },
-                            CulinarySchool: { techniques: false, syllabus: false, lessons: false, objectives: false },
-                            ChefsCorner: { videos: false, insights: false, sessions: false, partnerships: false }
+                            workspace: { item1: false, item2: false, item3: false, item4: false },
+                            notebook: { assignments: false, rubrics: false, items: false, video: false },
+                            school: { techniques: false, syllabus: false, lessons: false, objectives: false },
+                            community: { videos: false, insights: false, sessions: false, partnerships: false }
                           });
                         } catch (error: any) {
                           console.error('Save draft error:', error);
@@ -2384,8 +2386,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           return;
                         }
 
-                        // Distribute to MyKitchen (recipes) - based on checkbox state
-                        if (moduleSelection.MyKitchen.recipe && contentType === 'recipe') {
+                        // Distribute to workspace (content items) - based on checkbox state
+                        if (moduleSelection.workspace.item1 && contentType === 'recipe') {
                           const { error: recipeError } = await supabase
                             .from('user_cookbook')
                             .insert({
@@ -2402,8 +2404,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }
 
-                        // Distribute to MyCookBook (assignments) - based on checkbox state
-                        if (moduleSelection.MyCookBook.assignments && (contentType === 'assignment' || contentType === 'lesson')) {
+                        // Distribute to notebook (assignments) - based on checkbox state
+                        if (moduleSelection.notebook.assignments && (contentType === 'assignment' || contentType === 'lesson')) {
                           const { error: assignmentError } = await supabase
                             .from('assignments')
                             .insert({
@@ -2422,8 +2424,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }
 
-                        // Distribute to CulinarySchool (curriculum content) - based on checkbox state
-                        if (moduleSelection.CulinarySchool.techniques || moduleSelection.CulinarySchool.lessons) {
+                        // Distribute to school (curriculum content) - based on checkbox state
+                        if (moduleSelection.school.techniques || moduleSelection.school.lessons) {
                           const { error: curriculumError } = await supabase
                             .from('curriculum_content')
                             .insert({
@@ -2444,9 +2446,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }
                         }
 
-                        // Distribute to Chef's Corner (demo videos/insights) - based on checkbox state
-                        if (moduleSelection.ChefsCorner.videos && contentType === 'video') {
-                          console.log('Chef\'s Corner content:', metadata);
+                        // Distribute to community (demo videos/insights) - based on checkbox state
+                        if (moduleSelection.community.videos && contentType === 'video') {
+                          console.log('Community content:', metadata);
                         }
 
                         // Update content_staging with publish metadata
@@ -2493,10 +2495,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setShowModuleIntegrationModal(false);
                         setCurrentMapping(null);
                         setModuleSelection({
-                          MyKitchen: { recipe: false, ingredients: false, kitchen: false, dietary: false },
-                          MyCookBook: { assignments: false, rubrics: false, recipes: false, video: false },
-                          CulinarySchool: { techniques: false, syllabus: false, lessons: false, objectives: false },
-                          ChefsCorner: { videos: false, insights: false, sessions: false, partnerships: false }
+                          workspace: { item1: false, item2: false, item3: false, item4: false },
+                          notebook: { assignments: false, rubrics: false, items: false, video: false },
+                          school: { techniques: false, syllabus: false, lessons: false, objectives: false },
+                          community: { videos: false, insights: false, sessions: false, partnerships: false }
                         });
                         setPublishDate('');
                         setPublishVisibility('All Students');
@@ -3171,8 +3173,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
-                      <div className="text-xl sm:text-2xl mr-2">🍳</div>
-                      <h4 className="font-medium text-blue-800 text-sm sm:text-base">MyKitchen</h4>
+                      <div className="text-xl sm:text-2xl mr-2">{skin.icon}</div>
+                      <h4 className="font-medium text-blue-800 text-sm sm:text-base">{skin.modules.workspace}</h4>
                     </div>
                     <div className="text-center text-xl sm:text-2xl font-bold text-blue-600 mb-1">67%</div>
                     <p className="text-center text-xs text-blue-600">2,340 {t('admin.sessionsThisWeek')}</p>
@@ -3180,7 +3182,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
                       <div className="text-xl sm:text-2xl mr-2">📖</div>
-                      <h4 className="font-medium text-green-800 text-sm sm:text-base">MyCookBook</h4>
+                      <h4 className="font-medium text-green-800 text-sm sm:text-base">{skin.modules.notebook}</h4>
                     </div>
                     <div className="text-center text-xl sm:text-2xl font-bold text-green-600 mb-1">84%</div>
                     <p className="text-center text-xs text-green-600">1,890 {t('admin.assignmentsViewed')}</p>
@@ -3188,15 +3190,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
                       <div className="text-xl sm:text-2xl mr-2">🏫</div>
-                      <h4 className="font-medium text-purple-800 text-sm sm:text-base">CulinarySchool</h4>
+                      <h4 className="font-medium text-purple-800 text-sm sm:text-base">{skin.modules.school}</h4>
                     </div>
                     <div className="text-center text-xl sm:text-2xl font-bold text-purple-600 mb-1">72%</div>
                     <p className="text-center text-xs text-purple-600">1,456 {t('admin.techniqueViews')}</p>
                   </div>
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 sm:p-4">
                     <div className="flex items-center mb-2">
-                      <div className="text-xl sm:text-2xl mr-2">👨‍🍳</div>
-                      <h4 className="font-medium text-orange-800 text-sm sm:text-base">Chef's Corner</h4>
+                      <div className="text-xl sm:text-2xl mr-2">👥</div>
+                      <h4 className="font-medium text-orange-800 text-sm sm:text-base">{skin.modules.community}</h4>
                     </div>
                     <div className="text-center text-xl sm:text-2xl font-bold text-orange-600 mb-1">45%</div>
                     <p className="text-center text-xs text-orange-600">234 {t('admin.liveSessionsJoined')}</p>
@@ -3694,7 +3696,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
                       <div className="text-2xl sm:text-3xl font-bold text-blue-600">28</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.activeRecipes')}</p>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.activeRecipes')} ({skin.content.metricLabel})</p>
                       <p className="text-xs text-blue-600">↑ 3 {t('admin.newThisWeek')}</p>
                     </div>
                   </div>
@@ -3703,12 +3705,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 {/* Top Performing Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6">
                   <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏆 {t('admin.topPerformingRecipes')}</h3>
+                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏆 {t('admin.topPerformingRecipes')} ({skin.content.metricLabel})</h3>
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
                           <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.frenchKnifeSkills')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
+                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook} • {skin.name}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">94%</p>
@@ -3718,7 +3720,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
                           <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.motherSaucesMastery')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
+                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">89%</p>
@@ -3728,7 +3730,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
                           <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.pastaMakingFundamentals')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
+                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">76%</p>
@@ -3744,7 +3746,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
                           <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.advancedPlatingTechniques')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">MyCookBook</p>
+                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">34%</p>
@@ -3754,7 +3756,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
                           <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.molecularGastronomyBasics')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">Chef's Corner</p>
+                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.community}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">28%</p>
@@ -3764,7 +3766,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
                           <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.winePairingFundamentals')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">CulinarySchool</p>
+                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.school}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-base sm:text-lg font-bold text-blue-600">52%</p>
@@ -3780,7 +3782,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📈 {t('admin.moduleSpecificAnalytics')}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
-                      <h4 className="font-medium text-blue-900 mb-2 text-xs sm:text-base">📚 MyCookBook</h4>
+                      <h4 className="font-medium text-blue-900 mb-2 text-xs sm:text-base">📚 {skin.modules.notebook}</h4>
                       <div className="space-y-1 text-xs sm:text-sm">
                       <div className="flex justify-between">
                         <span>{t('admin.activeRecipes')}:</span>
@@ -3798,7 +3800,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-900 mb-2">🏫 CulinarySchool</h4>
+                    <h4 className="font-medium text-blue-900 mb-2">🏫 {skin.modules.school}</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
                         <span>{t('admin.activeLessons')}:</span>
@@ -3816,7 +3818,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-900 mb-2">👨‍🍳 Chef's Corner</h4>
+                    <h4 className="font-medium text-blue-900 mb-2">👥 {skin.modules.community}</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
                         <span>{t('admin.activeContent')}:</span>
@@ -3834,7 +3836,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-900 mb-2">🍳 Global Test Kitchen</h4>
+                    <h4 className="font-medium text-blue-900 mb-2">{skin.icon} {skin.modules.workspace}</h4>
                     <div className="space-y-1 text-sm">
                       <div className="flex justify-between">
                         <span>{t('admin.activeSessions')}:</span>
@@ -3904,10 +3906,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         </select>
                         <select className="w-full px-2 sm:px-3 py-2 border-4 border-blue-400 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white min-h-[44px]">
                           <option>{t('admin.allModules')}</option>
-                          <option>MyCookBook</option>
-                          <option>CulinarySchool</option>
-                          <option>Chef's Corner</option>
-                          <option>{t('admin.globalTestKitchen')}</option>
+                          <option>{skin.modules.notebook}</option>
+                          <option>{skin.modules.school}</option>
+                          <option>{skin.modules.community}</option>
+                          <option>{skin.modules.workspace}</option>
                         </select>
                       </div>
                     </div>
@@ -4083,10 +4085,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <thead>
                         <tr className="border-b">
                           <th className="text-left py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">{t('admin.userRole')}</th>
-                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">MyCookBook</th>
-                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">CulinarySchool</th>
-                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Chef's Corner</th>
-                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">Global Test Kitchen</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">{skin.modules.notebook}</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">{skin.modules.school}</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">{skin.modules.community}</th>
+                          <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">{skin.modules.workspace}</th>
                           <th className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm font-medium text-gray-700">{t('admin.adminDashboardAccess')}</th>
                         </tr>
                       </thead>
@@ -4096,10 +4098,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <td className="text-center py-2 sm:py-3 px-2 sm:px-4">
                             <select 
                               className="px-2 py-1 border-4 border-blue-400 rounded text-xs bg-white min-h-[36px]"
-                            value={modulePermissions.student?.MyCookBook || 'Full Access'}
+                            value={modulePermissions.student?.notebook || 'Full Access'}
                             onChange={(e) => setModulePermissions({
                               ...modulePermissions,
-                              student: { ...modulePermissions.student, MyCookBook: e.target.value }
+                              student: { ...modulePermissions.student, notebook: e.target.value }
                             })}
                           >
                             <option>{t('admin.fullAccess')}</option>
@@ -4110,10 +4112,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <td className="text-center py-3 px-4">
                           <select 
                             className="px-2 py-1 border rounded text-xs"
-                            value={modulePermissions.student?.CulinarySchool || 'Full Access'}
+                            value={modulePermissions.student?.school || 'Full Access'}
                             onChange={(e) => setModulePermissions({
                               ...modulePermissions,
-                              student: { ...modulePermissions.student, CulinarySchool: e.target.value }
+                              student: { ...modulePermissions.student, school: e.target.value }
                             })}
                           >
                             <option>{t('admin.fullAccess')}</option>
@@ -4124,10 +4126,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <td className="text-center py-3 px-4">
                           <select 
                             className="px-2 py-1 border rounded text-xs"
-                            value={modulePermissions.student?.ChefsCorner || 'Read Only'}
+                            value={modulePermissions.student?.community || 'Read Only'}
                             onChange={(e) => setModulePermissions({
                               ...modulePermissions,
-                              student: { ...modulePermissions.student, ChefsCorner: e.target.value }
+                              student: { ...modulePermissions.student, community: e.target.value }
                             })}
                           >
                             <option>{t('admin.fullAccess')}</option>
@@ -4138,10 +4140,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <td className="text-center py-3 px-4">
                           <select 
                             className="px-2 py-1 border rounded text-xs"
-                            value={modulePermissions.student?.GlobalTestKitchen || 'Full Access'}
+                            value={modulePermissions.student?.workspace || 'Full Access'}
                             onChange={(e) => setModulePermissions({
                               ...modulePermissions,
-                              student: { ...modulePermissions.student, GlobalTestKitchen: e.target.value }
+                              student: { ...modulePermissions.student, workspace: e.target.value }
                             })}
                           >
                             <option>{t('admin.fullAccess')}</option>
@@ -4169,10 +4171,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <td className="text-center py-3 px-4">
                           <select 
                             className="px-2 py-1 border rounded text-xs"
-                            value={modulePermissions.administrator?.MyCookBook || 'Full Access'}
+                            value={modulePermissions.administrator?.notebook || 'Full Access'}
                             onChange={(e) => setModulePermissions({
                               ...modulePermissions,
-                              administrator: { ...modulePermissions.administrator, MyCookBook: e.target.value }
+                              administrator: { ...modulePermissions.administrator, notebook: e.target.value }
                             })}
                           >
                             <option>{t('admin.fullAccess')}</option>
@@ -4183,10 +4185,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <td className="text-center py-3 px-4">
                           <select 
                             className="px-2 py-1 border rounded text-xs"
-                            value={modulePermissions.administrator?.CulinarySchool || 'Full Access'}
+                            value={modulePermissions.administrator?.school || 'Full Access'}
                             onChange={(e) => setModulePermissions({
                               ...modulePermissions,
-                              administrator: { ...modulePermissions.administrator, CulinarySchool: e.target.value }
+                              administrator: { ...modulePermissions.administrator, school: e.target.value }
                             })}
                           >
                             <option>{t('admin.fullAccess')}</option>
@@ -4197,10 +4199,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <td className="text-center py-3 px-4">
                           <select 
                             className="px-2 py-1 border rounded text-xs"
-                            value={modulePermissions.administrator?.ChefsCorner || 'Full Access'}
+                            value={modulePermissions.administrator?.community || 'Full Access'}
                             onChange={(e) => setModulePermissions({
                               ...modulePermissions,
-                              administrator: { ...modulePermissions.administrator, ChefsCorner: e.target.value }
+                              administrator: { ...modulePermissions.administrator, community: e.target.value }
                             })}
                           >
                             <option>{t('admin.fullAccess')}</option>
@@ -4211,10 +4213,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <td className="text-center py-3 px-4">
                           <select 
                             className="px-2 py-1 border rounded text-xs"
-                            value={modulePermissions.administrator?.GlobalTestKitchen || 'Full Access'}
+                            value={modulePermissions.administrator?.workspace || 'Full Access'}
                             onChange={(e) => setModulePermissions({
                               ...modulePermissions,
-                              administrator: { ...modulePermissions.administrator, GlobalTestKitchen: e.target.value }
+                              administrator: { ...modulePermissions.administrator, workspace: e.target.value }
                             })}
                           >
                             <option>{t('admin.fullAccess')}</option>
@@ -4628,7 +4630,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="text-center relative">
                 <h2 className="text-lg sm:text-2xl font-bold text-red-700 font-retro flex items-center justify-center gap-2">
                   <span className="text-2xl sm:text-3xl"></span>
-                  Chef Freddie: Curriculum Assistant
+                  {skin.assistant.name}: Curriculum Assistant
                 </h2>
                 <button
                   onClick={() => setShowChefFreddieModal(false)}
@@ -4691,9 +4693,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="border-4 border-orange-300 bg-orange-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
                     <div className="text-2xl sm:text-3xl mb-2">🔄</div>
                     <h4 className="font-bold text-orange-800 mb-2 text-sm sm:text-base">Apply to Modules</h4>
-                    <p className="text-xs sm:text-sm text-orange-600 mb-2 sm:mb-3">Distribute curriculum to MyKitchen, MyCookBook</p>
+                    <p className="text-xs sm:text-sm text-orange-600 mb-2 sm:mb-3">Distribute curriculum to {skin.modules.workspace}, {skin.modules.notebook}</p>
                     <button 
-                      onClick={() => handleQuickAction('Help me understand how to apply my curriculum content to the different modules (MyKitchen, MyCookBook, CulinarySchool, ChefsCorner). What types of content work best for each module?')}
+                      onClick={() => handleQuickAction(`Help me understand how to apply my curriculum content to the different modules (${skin.modules.workspace}, ${skin.modules.notebook}, ${skin.modules.school}, ${skin.modules.community}). What types of content work best for each module?`)}
                       className="bg-orange-100 text-orange-700 px-4 py-2 rounded-md hover:bg-orange-200 font-retro text-xs sm:text-sm min-h-[44px]"
                     >
                       Apply Now
@@ -4703,7 +4705,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               
                 {/* Chat Interface */}
                 <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">💬 Ask Chef Freddie Anything</h3>
+                  <h3 className="text-center font-bold text-blue-900 mb-3 sm:mb-4 text-sm sm:text-base">💬 Ask {skin.assistant.name} Anything</h3>
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-4 mb-3 sm:mb-4 min-h-[200px] max-h-[300px] overflow-y-auto">
                     <div className="space-y-2 sm:space-y-3">
                       {freddieMessages.map((msg, index) => (
@@ -4743,7 +4745,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <span className="text-xl sm:text-2xl">👨‍🍳</span>
                           <div className="bg-pink-100 rounded-lg p-2 sm:p-3 flex-1">
                             <p className="text-xs sm:text-sm text-pink-800">
-                              Chef Freddie is thinking... 🤔
+                              {skin.assistant.name} is thinking... 🤔
                             </p>
                           </div>
                         </div>
@@ -4754,7 +4756,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="flex flex-col sm:flex-row gap-2">
                     <input 
                       type="text" 
-                      placeholder="Ask Chef Freddie to create curriculum..."
+                      placeholder={`Ask ${skin.assistant.name} to create curriculum...`}
                       value={freddieInput}
                       onChange={(e) => setFreddieInput(e.target.value)}
                       onKeyDown={(e) => {
@@ -4780,7 +4782,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <h3 className="text-center font-bold text-yellow-800 mb-3 sm:mb-4 text-sm sm:text-base">📁 Recently Created Curriculum</h3>
                   {recentCurriculum.length === 0 ? (
                     <div className="text-center py-6 sm:py-8 text-yellow-600">
-                      <p className="text-xs sm:text-sm">No curriculum created yet. Start by asking Chef Freddie to create something!</p>
+                      <p className="text-xs sm:text-sm">No curriculum created yet. Start by asking {skin.assistant.name} to create something!</p>
                     </div>
                   ) : (
                     <div className="space-y-2">
@@ -4818,10 +4820,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                                   defaultValue=""
                                 >
                                   <option value="">Apply to...</option>
-                                  <option value="MyKitchen">MyKitchen</option>
-                                  <option value="MyCookBook">MyCookBook</option>
-                                  <option value="CulinarySchool">CulinarySchool</option>
-                                  <option value="ChefsCorner">ChefsCorner</option>
+                                  <option value="workspace">{skin.modules.workspace}</option>
+                                  <option value="notebook">{skin.modules.notebook}</option>
+                                  <option value="school">{skin.modules.school}</option>
+                                  <option value="community">{skin.modules.community}</option>
                                 </select>
                               )}
                               <button 
@@ -4900,10 +4902,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   defaultValue="none"
                 >
                   <option value="none">Don't apply yet</option>
-                  <option value="MyKitchen">MyKitchen</option>
-                  <option value="MyCookBook">MyCookBook</option>
-                  <option value="CulinarySchool">CulinarySchool</option>
-                  <option value="ChefsCorner">ChefsCorner</option>
+                  <option value="workspace">{skin.modules.workspace}</option>
+                  <option value="notebook">{skin.modules.notebook}</option>
+                  <option value="school">{skin.modules.school}</option>
+                  <option value="community">{skin.modules.community}</option>
                 </select>
               </div>
               
@@ -8411,12 +8413,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="border-4 border-maineBlue rounded-lg p-4 mb-6">
               <h3 className="text-center font-bold text-gray-900 mb-4">🎯 Module Distribution</h3>
               <div className="space-y-3">
-                {/* MyKitchen */}
-                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules.MyKitchen.include ? 'border-blue-400 bg-blue-50' : 'border-gray-300 bg-gray-50'}`}>
+                {/* workspace */}
+                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules?.workspace?.include || currentMapping.aiSuggestion.modules?.MyKitchen?.include ? 'border-blue-400 bg-blue-50' : 'border-gray-300 bg-gray-50'}`}>
                   <label className="flex items-center cursor-pointer">
                     <input 
                       type="checkbox" 
-                      checked={currentMapping.aiSuggestion.modules.MyKitchen.include}
+                      checked={currentMapping.aiSuggestion.modules?.workspace?.include || currentMapping.aiSuggestion.modules?.MyKitchen?.include || false}
                       onChange={(e) => {
                         setCurrentMapping({
                           ...currentMapping,
@@ -8424,8 +8426,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             ...currentMapping.aiSuggestion,
                             modules: {
                               ...currentMapping.aiSuggestion.modules,
-                              MyKitchen: {
-                                ...currentMapping.aiSuggestion.modules.MyKitchen,
+                              workspace: {
+                                ...(currentMapping.aiSuggestion.modules?.workspace || currentMapping.aiSuggestion.modules?.MyKitchen || {}),
                                 include: e.target.checked
                               }
                             }
@@ -8435,18 +8437,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       className="mr-3 w-5 h-5"
                     />
                     <div className="flex-1">
-                      <div className="font-bold text-blue-800">🍳 MyKitchen</div>
-                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules.MyKitchen.reason}</div>
+                      <div className="font-bold text-blue-800">{skin.icon} {skin.modules.workspace}</div>
+                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules?.workspace?.reason || currentMapping.aiSuggestion.modules?.MyKitchen?.reason}</div>
                     </div>
                   </label>
                 </div>
 
-                {/* MyCookBook */}
-                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules.MyCookBook.include ? 'border-green-400 bg-green-50' : 'border-gray-300 bg-gray-50'}`}>
+                {/* notebook */}
+                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules?.notebook?.include || currentMapping.aiSuggestion.modules?.MyCookBook?.include ? 'border-green-400 bg-green-50' : 'border-gray-300 bg-gray-50'}`}>
                   <label className="flex items-center cursor-pointer">
                     <input 
                       type="checkbox" 
-                      checked={currentMapping.aiSuggestion.modules.MyCookBook.include}
+                      checked={currentMapping.aiSuggestion.modules?.notebook?.include || currentMapping.aiSuggestion.modules?.MyCookBook?.include || false}
                       onChange={(e) => {
                         setCurrentMapping({
                           ...currentMapping,
@@ -8454,8 +8456,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             ...currentMapping.aiSuggestion,
                             modules: {
                               ...currentMapping.aiSuggestion.modules,
-                              MyCookBook: {
-                                ...currentMapping.aiSuggestion.modules.MyCookBook,
+                              notebook: {
+                                ...(currentMapping.aiSuggestion.modules?.notebook || currentMapping.aiSuggestion.modules?.MyCookBook || {}),
                                 include: e.target.checked
                               }
                             }
@@ -8465,18 +8467,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       className="mr-3 w-5 h-5"
                     />
                     <div className="flex-1">
-                      <div className="font-bold text-green-800">📚 MyCookBook</div>
-                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules.MyCookBook.reason}</div>
+                      <div className="font-bold text-green-800">📚 {skin.modules.notebook}</div>
+                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules?.notebook?.reason || currentMapping.aiSuggestion.modules?.MyCookBook?.reason}</div>
                     </div>
                   </label>
                 </div>
 
-                {/* CulinarySchool */}
-                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules.CulinarySchool.include ? 'border-purple-400 bg-purple-50' : 'border-gray-300 bg-gray-50'}`}>
+                {/* school */}
+                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules?.school?.include || currentMapping.aiSuggestion.modules?.CulinarySchool?.include ? 'border-purple-400 bg-purple-50' : 'border-gray-300 bg-gray-50'}`}>
                   <label className="flex items-center cursor-pointer">
                     <input 
                       type="checkbox" 
-                      checked={currentMapping.aiSuggestion.modules.CulinarySchool.include}
+                      checked={currentMapping.aiSuggestion.modules?.school?.include || currentMapping.aiSuggestion.modules?.CulinarySchool?.include || false}
                       onChange={(e) => {
                         setCurrentMapping({
                           ...currentMapping,
@@ -8484,8 +8486,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             ...currentMapping.aiSuggestion,
                             modules: {
                               ...currentMapping.aiSuggestion.modules,
-                              CulinarySchool: {
-                                ...currentMapping.aiSuggestion.modules.CulinarySchool,
+                              school: {
+                                ...(currentMapping.aiSuggestion.modules?.school || currentMapping.aiSuggestion.modules?.CulinarySchool || {}),
                                 include: e.target.checked
                               }
                             }
@@ -8495,18 +8497,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       className="mr-3 w-5 h-5"
                     />
                     <div className="flex-1">
-                      <div className="font-bold text-purple-800">🎓 CulinarySchool</div>
-                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules.CulinarySchool.reason}</div>
+                      <div className="font-bold text-purple-800">🎓 {skin.modules.school}</div>
+                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules?.school?.reason || currentMapping.aiSuggestion.modules?.CulinarySchool?.reason}</div>
                     </div>
                   </label>
                 </div>
 
-                {/* Chef's Corner */}
-                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules.ChefsCorner.include ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-gray-50'}`}>
+                {/* community */}
+                <div className={`border-4 rounded-lg p-3 ${currentMapping.aiSuggestion.modules?.community?.include || currentMapping.aiSuggestion.modules?.ChefsCorner?.include ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-gray-50'}`}>
                   <label className="flex items-center cursor-pointer">
                     <input 
                       type="checkbox" 
-                      checked={currentMapping.aiSuggestion.modules.ChefsCorner.include}
+                      checked={currentMapping.aiSuggestion.modules?.community?.include || currentMapping.aiSuggestion.modules?.ChefsCorner?.include || false}
                       onChange={(e) => {
                         setCurrentMapping({
                           ...currentMapping,
@@ -8514,8 +8516,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             ...currentMapping.aiSuggestion,
                             modules: {
                               ...currentMapping.aiSuggestion.modules,
-                              ChefsCorner: {
-                                ...currentMapping.aiSuggestion.modules.ChefsCorner,
+                              community: {
+                                ...(currentMapping.aiSuggestion.modules?.community || currentMapping.aiSuggestion.modules?.ChefsCorner || {}),
                                 include: e.target.checked
                               }
                             }
@@ -8525,8 +8527,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       className="mr-3 w-5 h-5"
                     />
                     <div className="flex-1">
-                      <div className="font-bold text-red-800">👨‍🍳 Chef's Corner</div>
-                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules.ChefsCorner.reason}</div>
+                      <div className="font-bold text-red-800">👥 {skin.modules.community}</div>
+                      <div className="text-sm text-gray-600">{currentMapping.aiSuggestion.modules?.community?.reason || currentMapping.aiSuggestion.modules?.ChefsCorner?.reason}</div>
                     </div>
                   </label>
                 </div>
@@ -8546,29 +8548,29 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   // Populate checkbox state based on AI mapping
                   const { modules } = currentMapping.aiSuggestion;
                   setModuleSelection({
-                    MyKitchen: {
-                      recipe: modules.MyKitchen.include,
-                      ingredients: modules.MyKitchen.include,
-                      kitchen: modules.MyKitchen.include,
-                      dietary: modules.MyKitchen.include
+                    workspace: {
+                      item1: modules.workspace?.include ?? false,
+                      item2: modules.workspace?.include ?? false,
+                      item3: modules.workspace?.include ?? false,
+                      item4: modules.workspace?.include ?? false
                     },
-                    MyCookBook: {
-                      assignments: modules.MyCookBook.include,
-                      rubrics: modules.MyCookBook.include,
-                      recipes: modules.MyCookBook.include,
-                      video: modules.MyCookBook.include
+                    notebook: {
+                      assignments: modules.notebook?.include ?? false,
+                      rubrics: modules.notebook?.include ?? false,
+                      items: modules.notebook?.include ?? false,
+                      video: modules.notebook?.include ?? false
                     },
-                    CulinarySchool: {
-                      techniques: modules.CulinarySchool.include,
-                      syllabus: modules.CulinarySchool.include,
-                      lessons: modules.CulinarySchool.include,
-                      objectives: modules.CulinarySchool.include
+                    school: {
+                      techniques: modules.school?.include ?? false,
+                      syllabus: modules.school?.include ?? false,
+                      lessons: modules.school?.include ?? false,
+                      objectives: modules.school?.include ?? false
                     },
-                    ChefsCorner: {
-                      videos: modules.ChefsCorner.include,
-                      insights: modules.ChefsCorner.include,
-                      sessions: modules.ChefsCorner.include,
-                      partnerships: modules.ChefsCorner.include
+                    community: {
+                      videos: modules.community?.include ?? false,
+                      insights: modules.community?.include ?? false,
+                      sessions: modules.community?.include ?? false,
+                      partnerships: modules.community?.include ?? false
                     }
                   });
                   // Close mapping review modal
