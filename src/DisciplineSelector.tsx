@@ -32,7 +32,7 @@ const DisciplineSelector: React.FC = () => {
     <div className="min-h-screen bg-sand flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Discipline Selection Form - Everything in the box */}
-        <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-8">
+        <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-8 overflow-visible">
           {/* Logo */}
           <div className="text-center mb-8">
             <img src={logo} alt="PorkChop Logo" className="w-32 h-32 mx-auto mb-6" />
@@ -61,31 +61,29 @@ const DisciplineSelector: React.FC = () => {
               </select>
             </div>
 
-            {isAdminMode && (
-              <div className="relative mb-4">
-                {showTooltip && (
-                  <div className="absolute top-1/2 -right-4 transform translate-x-full -translate-y-1/2 bg-maineBlue text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold whitespace-nowrap z-10">
-                    🚀 Live Very Soon!
-                    <button
-                      onClick={() => setShowTooltip(false)}
-                      className="ml-2 text-white hover:text-seafoam"
-                    >
-                      ✕
-                    </button>
-                    <div className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2">
-                      <div className="border-8 border-transparent border-r-maineBlue"></div>
-                    </div>
+            <div className="relative mb-4">
+              {showTooltip && (
+                <div className="absolute top-1/2 -right-4 transform translate-x-full -translate-y-1/2 bg-maineBlue text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold whitespace-nowrap z-10">
+                  🚀 Live Very Soon!
+                  <button
+                    onClick={() => setShowTooltip(false)}
+                    className="ml-2 text-white hover:text-seafoam"
+                  >
+                    ✕
+                  </button>
+                  <div className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2">
+                    <div className="border-8 border-transparent border-r-maineBlue"></div>
                   </div>
-                )}
-                <button
-                  type="button"
-                  onClick={() => console.log('Add Discipline clicked')}
-                  className="w-full bg-seafoam text-maineBlue font-bold py-2 px-4 rounded-lg hover:bg-maineBlue hover:text-white transition-colors border-2 border-maineBlue text-sm"
-                >
-                  ➕ Add Discipline
-                </button>
-              </div>
-            )}
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => console.log('Add Discipline clicked')}
+                className="w-full bg-seafoam text-maineBlue font-bold py-2 px-4 rounded-lg hover:bg-maineBlue hover:text-white transition-colors border-2 border-maineBlue text-sm"
+              >
+                ➕ Add Discipline
+              </button>
+            </div>
 
             <button
               type="submit"
