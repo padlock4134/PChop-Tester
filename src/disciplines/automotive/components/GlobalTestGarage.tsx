@@ -103,7 +103,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '1',
       hostName: 'Maria Santos',
       serviceName: 'Engine Rebuild Service',
-      vehicleType: 'European',
+      vehicleType: 'Engine Service',
       viewers: 47,
       isLive: false,
       isEnded: true,
@@ -115,7 +115,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '2',
       hostName: 'Kenji Nakamura',
       serviceName: 'Transmission Overhaul',
-      vehicleType: 'Japanese',
+      vehicleType: 'Transmission Service',
       viewers: 23,
       isLive: true,
       thumbnail: '⚙️',
@@ -126,7 +126,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '3',
       hostName: 'Fatima Al-Zahra',
       serviceName: 'Brake System Upgrade',
-      vehicleType: 'Middle Eastern',
+      vehicleType: 'Brake Service',
       viewers: 35,
       isLive: true,
       thumbnail: '🛞',
@@ -137,7 +137,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '4',
       hostName: 'Jean-Luc Dubois',
       serviceName: 'Suspension Tuning',
-      vehicleType: 'European',
+      vehicleType: 'Suspension Service',
       viewers: 62,
       isLive: true,
       thumbnail: '🎯',
@@ -150,7 +150,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '3',
       hostName: 'Priya Sharma',
       serviceName: 'ECU Programming',
-      vehicleType: 'Asian',
+      vehicleType: 'Electrical Service',
       scheduledTime: '2:00 PM EST',
       description: 'Advanced ECU tuning and programming for performance optimization'
     },
@@ -158,7 +158,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '4',
       hostName: 'Ahmed Hassan',
       serviceName: 'Exhaust System Installation',
-      vehicleType: 'African',
+      vehicleType: 'Engine Service',
       scheduledTime: '4:30 PM EST',
       description: 'Complete exhaust system installation with performance headers and muffler'
     },
@@ -166,7 +166,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '5',
       hostName: 'Elena Volkov',
       serviceName: 'Diagnostics Training',
-      vehicleType: 'Eastern European',
+      vehicleType: 'Diagnostics',
       scheduledTime: '6:00 PM EST',
       description: 'Advanced diagnostic techniques using scan tools and multimeters'
     },
@@ -174,7 +174,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '6',
       hostName: 'Carlos Mendoza',
       serviceName: 'Paint Protection Application',
-      vehicleType: 'South American',
+      vehicleType: 'Other',
       scheduledTime: '7:30 PM EST',
       description: 'Professional paint protection film installation with ceramic coating'
     }
@@ -937,16 +937,16 @@ END:VCALENDAR`;
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Vehicle Type
+                  Service Type
                 </label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
                   <option>Select</option>
-                  <option>European</option>
-                  <option>American</option>
-                  <option>Asian</option>
-                  <option>German</option>
-                  <option>Japanese</option>
-                  <option>Italian</option>
+                  <option>Engine Service</option>
+                  <option>Transmission Service</option>
+                  <option>Brake Service</option>
+                  <option>Electrical Service</option>
+                  <option>Suspension Service</option>
+                  <option>Diagnostics</option>
                   <option>Other</option>
                 </select>
               </div>
@@ -1052,7 +1052,7 @@ END:VCALENDAR`;
                     </h2>
                     {isViewer && currentLiveSession && (
                       <p className="text-sm sm:text-base mt-1">
-                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.vehicleType} Vehicle Type
+                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.vehicleType}
                       </p>
                     )}
                   </div>
@@ -1174,7 +1174,7 @@ END:VCALENDAR`;
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Vehicle Type
+                  Service Type
                 </label>
                 <select 
                   value={scheduledCuisine}
@@ -1182,12 +1182,12 @@ END:VCALENDAR`;
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
                   <option value="">Select</option>
-                  <option value="European">European</option>
-                  <option value="American">American</option>
-                  <option value="Asian">Asian</option>
-                  <option value="German">German</option>
-                  <option value="Japanese">Japanese</option>
-                  <option value="Italian">Italian</option>
+                  <option value="Engine Service">Engine Service</option>
+                  <option value="Transmission Service">Transmission Service</option>
+                  <option value="Brake Service">Brake Service</option>
+                  <option value="Electrical Service">Electrical Service</option>
+                  <option value="Suspension Service">Suspension Service</option>
+                  <option value="Diagnostics">Diagnostics</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
@@ -1315,7 +1315,7 @@ END:VCALENDAR`;
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Vehicle Type
+                    Service Type
                   </label>
                   <select 
                     value={videoCuisine}
@@ -1323,13 +1323,13 @@ END:VCALENDAR`;
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   >
-                    <option value="">Select vehicle type</option>
-                    <option value="European">European</option>
-                    <option value="American">American</option>
-                    <option value="Asian">Asian</option>
-                    <option value="German">German</option>
-                    <option value="Japanese">Japanese</option>
-                    <option value="Italian">Italian</option>
+                    <option value="">Select service type</option>
+                    <option value="Engine Service">Engine Service</option>
+                    <option value="Transmission Service">Transmission Service</option>
+                    <option value="Brake Service">Brake Service</option>
+                    <option value="Electrical Service">Electrical Service</option>
+                    <option value="Suspension Service">Suspension Service</option>
+                    <option value="Diagnostics">Diagnostics</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
