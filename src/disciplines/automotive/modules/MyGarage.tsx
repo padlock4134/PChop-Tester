@@ -23,12 +23,6 @@ const CATEGORIES = [
   "Electrical",
   "Body",
   "Interior",
-  "Dairy",
-  "Grain",
-  "Spice",
-  "Canned/Preserved",
-  "Condiment/Sauce",
-  "Frozen",
   "Other"
 ];
 
