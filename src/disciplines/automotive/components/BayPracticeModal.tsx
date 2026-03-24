@@ -23,8 +23,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const startVirtualPractice = async () => {
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built engine AR scene (instant load)
+      const demoLesson = 'Engine Valve Adjustment';
       
       // Check if we have a default scene
       if (defaultARScenes[demoLesson]) {
@@ -42,7 +42,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           lessonTitle: demoLesson,
-          lessonContent: 'Traditional Japanese water stone sharpening technique. Includes stone preparation, proper angle maintenance (20 degrees), stroke technique, and burr detection. Old-school method using only water and stone.',
+          lessonContent: 'Valve lash adjustment using feeler gauges and proper torque. Includes engine preparation, proper angle measurement (0.008-0.010 inches), adjustment procedure, and verification techniques. Professional method using precision tools and torque wrench.',
         }),
       });
 
@@ -100,9 +100,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         {/* Left Side - Practice Area with Banner */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Banner Header - Left Side Only */}
-          <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
+          <div className="p-2 sm:p-4 bg-blue-100 text-blue-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
-              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🧀</span>
+              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🔧</span>
               {t('culinarySchool.charcuterieBoard.title')}
             </h2>
           </div>
@@ -152,7 +152,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             
             {/* Practice Indicator */}
             {isPracticing && (
-              <div className="absolute top-4 left-4 bg-amber-700 text-white text-sm px-3 py-1 rounded-full flex items-center">
+              <div className="absolute top-4 left-4 bg-blue-700 text-white text-sm px-3 py-1 rounded-full flex items-center">
                 <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
                 {t('culinarySchool.charcuterieBoard.practicing')}
               </div>
@@ -180,30 +180,30 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
                   <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                    <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                    <option value="lesson-1-2">Food Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                    <option value="lesson-1-4">Basic Cooking Terminology</option>
-                    <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                  <optgroup label="Term 1 - Automotive Foundations">
+                    <option value="lesson-1-1">Garage Safety and Procedures</option>
+                    <option value="lesson-1-2">Tool Handling and Storage</option>
+                    <option value="lesson-1-3">Introduction to Automotive Equipment</option>
+                    <option value="lesson-1-4">Basic Automotive Terminology</option>
+                    <option value="lesson-1-5">Torque Specifications and Conversions</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                    <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                    <option value="lesson-2-2">Basic Knife Cuts</option>
-                    <option value="lesson-2-3">Vegetable Fabrication</option>
-                    <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                  <optgroup label="Term 2 - Engine Systems">
+                    <option value="lesson-2-1">Engine Safety and Maintenance</option>
+                    <option value="lesson-2-2">Basic Engine Diagnostics</option>
+                    <option value="lesson-2-3">Engine Component Identification</option>
+                    <option value="lesson-2-4">Engine Repair Procedures</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                    <option value="lesson-3-1">Egg Cookery</option>
-                    <option value="lesson-3-2">Breakfast Preparations</option>
-                    <option value="lesson-3-3">Cold Food Preparation</option>
-                    <option value="lesson-3-4">Salads and Dressings</option>
+                  <optgroup label="Term 3 - Brake Systems">
+                    <option value="lesson-3-1">Brake Safety and Procedures</option>
+                    <option value="lesson-3-2">Brake System Diagnostics</option>
+                    <option value="lesson-3-3">Brake Repair Techniques</option>
+                    <option value="lesson-3-4">ABS System Fundamentals</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                    <option value="lesson-4-1">Basic Dough and Batters</option>
-                    <option value="lesson-4-2">Quick Breads and Muffins</option>
-                    <option value="lesson-4-3">Yeast Breads</option>
-                    <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                  <optgroup label="Term 4 - Electrical Systems">
+                    <option value="lesson-4-1">Electrical Safety and Procedures</option>
+                    <option value="lesson-4-2">Basic Electrical Diagnostics</option>
+                    <option value="lesson-4-3">Wiring Diagram Reading</option>
+                    <option value="lesson-4-4">Electrical Component Testing</option>
                   </optgroup>
                 </select>
               </>
@@ -235,7 +235,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
                   <p className="text-xs text-blue-800">
                     {isPracticing 
-                      ? "Great start! Keep your knife angle consistent..."
+                      ? "Great start! Keep your torque consistent..."
                       : "Start practicing to receive real-time AI guidance"}
                   </p>
                 </div>
@@ -246,7 +246,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
             onClick={() => setInstructionsOpen(!instructionsOpen)}
-            className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-2 text-sm font-bold border-t-2 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
+            className="lg:hidden w-full bg-blue-100 text-blue-800 px-4 py-2 text-sm font-bold border-t-2 border-blue-300 hover:bg-blue-200 transition-colors flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
             <span>{instructionsOpen ? t('culinarySchool.charcuterieBoard.hideInstructions') : t('culinarySchool.charcuterieBoard.showInstructions')}</span>
@@ -255,9 +255,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           
           {/* Mobile Instructions Panel - Appears below toggle button */}
           {instructionsOpen && (
-            <div className="lg:hidden border-t-4 border-amber-300 bg-white max-h-[40vh] overflow-y-auto">
+            <div className="lg:hidden border-t-4 border-blue-300 bg-white max-h-[40vh] overflow-y-auto">
               {/* Instructions Header */}
-              <div className="p-3 bg-amber-100 text-amber-800 font-retro text-center border-b-2 border-amber-300">
+              <div className="p-3 bg-blue-100 text-blue-800 font-retro text-center border-b-2 border-blue-300">
                 <h3 className="text-base font-bold">
                   📋 {t('culinarySchool.charcuterieBoard.practiceInstructions')}
                 </h3>
@@ -267,39 +267,39 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <div className="p-3">
                 {/* Lesson Selection Dropdown */}
                 <div className="mb-3">
-                  <label className="block text-xs font-semibold text-amber-800 mb-1">
+                  <label className="block text-xs font-semibold text-blue-800 mb-1">
                     {t('culinarySchool.charcuterieBoard.selectLessonToPractice')}
                   </label>
                   <select
                     value={selectedLesson}
                     onChange={(e) => setSelectedLesson(e.target.value)}
-                    className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                    className="w-full px-2 py-1.5 text-sm border-2 border-blue-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                      <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                      <option value="lesson-1-2">Food Handling and Storage</option>
-                      <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                      <option value="lesson-1-4">Basic Cooking Terminology</option>
-                      <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                    <optgroup label="Term 1 - Automotive Foundations">
+                      <option value="lesson-1-1">Garage Safety and Procedures</option>
+                      <option value="lesson-1-2">Tool Handling and Storage</option>
+                      <option value="lesson-1-3">Introduction to Automotive Equipment</option>
+                      <option value="lesson-1-4">Basic Automotive Terminology</option>
+                      <option value="lesson-1-5">Torque Specifications and Conversions</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                      <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                      <option value="lesson-2-2">Basic Knife Cuts</option>
-                      <option value="lesson-2-3">Vegetable Fabrication</option>
-                      <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                    <optgroup label="Term 2 - Engine Systems">
+                      <option value="lesson-2-1">Engine Safety and Maintenance</option>
+                      <option value="lesson-2-2">Basic Engine Diagnostics</option>
+                      <option value="lesson-2-3">Engine Component Identification</option>
+                      <option value="lesson-2-4">Engine Repair Procedures</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                      <option value="lesson-3-1">Egg Cookery</option>
-                      <option value="lesson-3-2">Breakfast Preparations</option>
-                      <option value="lesson-3-3">Cold Food Preparation</option>
-                      <option value="lesson-3-4">Salads and Dressings</option>
+                    <optgroup label="Term 3 - Brake Systems">
+                      <option value="lesson-3-1">Brake Safety and Procedures</option>
+                      <option value="lesson-3-2">Brake System Diagnostics</option>
+                      <option value="lesson-3-3">Brake Repair Techniques</option>
+                      <option value="lesson-3-4">ABS System Fundamentals</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                      <option value="lesson-4-1">Basic Dough and Batters</option>
-                      <option value="lesson-4-2">Quick Breads and Muffins</option>
-                      <option value="lesson-4-3">Yeast Breads</option>
-                      <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                    <optgroup label="Term 4 - Electrical Systems">
+                      <option value="lesson-4-1">Electrical Safety and Procedures</option>
+                      <option value="lesson-4-2">Basic Electrical Diagnostics</option>
+                      <option value="lesson-4-3">Wiring Diagram Reading</option>
+                      <option value="lesson-4-4">Electrical Component Testing</option>
                     </optgroup>
                   </select>
                 </div>
