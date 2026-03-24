@@ -1494,9 +1494,9 @@
     "noInstructionsProvided": "No steps provided.",
     "equipmentNeeded": "Tools Needed:",
     "noRecipeSelected": "No repair guide selected. Import a guide to showcase!",
-    "globalTestKitchenTab": "Global Garage Lab",
+    "globalTestKitchenTab": "The Car Lift",
     "globalTestKitchen": {
-      "title": "Global Garage Lab",
+      "title": "The Car Lift",
       "subtitle": "Share your builds and learn from fellow students worldwide",
       "live": "Live", "upcoming": "Upcoming", "host": "Host",
       "noLiveSessions": "No live sessions right now",

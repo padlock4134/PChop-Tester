@@ -10,7 +10,7 @@ import BuildDiagModal from '../components/BuildDiagModal';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/RepairMatcherModal';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import GlobalTestGarage from '../components/GlobalTestGarage';
+import TheCarLift from '../components/GlobalTestGarage';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
 
@@ -367,16 +367,16 @@ const GearheadLounge = () => {
 
         </div>
 
-        {/* Global Test Garage Tab - Mobile Only */}
+        {/* The Car Lift Tab - Mobile Only */}
         <div className={`lg:hidden ${
           activeMobileTab === 'garage' ? 'block' : 'hidden'
         }`}>
-          <GlobalTestGarage showcaseRecipe={showcaseRecipe} />
+          <TheCarLift showcaseRecipe={showcaseRecipe} />
         </div>
         
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
-          <GlobalTestGarage showcaseRecipe={showcaseRecipe} />
+          <TheCarLift showcaseRecipe={showcaseRecipe} />
           <GarageFreddieWidget />
         </div>
       </div>

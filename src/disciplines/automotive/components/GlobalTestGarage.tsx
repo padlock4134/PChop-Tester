@@ -31,11 +31,11 @@ interface UpcomingSession {
   instructorTag?: string;
 }
 
-interface GlobalTestKitchenProps {
+interface TheCarLiftProps {
   showcaseRecipe?: any;
 }
 
-const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) => {
+const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
   const { t } = useTranslation();
   const { user } = useSupabase();
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'host'>('live');
@@ -1443,5 +1443,5 @@ END:VCALENDAR`;
   );
 };
 
-export default GlobalTestKitchen;
+export default TheCarLift;
 
