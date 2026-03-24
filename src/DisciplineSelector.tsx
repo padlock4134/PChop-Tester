@@ -64,7 +64,7 @@ const DisciplineSelector: React.FC = () => {
             {isAdminMode && (
               <div className="relative mb-4">
                 {showTooltip && (
-                  <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-maineBlue text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold whitespace-nowrap z-10">
+                  <div className="absolute top-1/2 -right-4 transform translate-x-full -translate-y-1/2 bg-maineBlue text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold whitespace-nowrap z-10">
                     🚀 Live Very Soon!
                     <button
                       onClick={() => setShowTooltip(false)}
@@ -72,8 +72,8 @@ const DisciplineSelector: React.FC = () => {
                     >
                       ✕
                     </button>
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full">
-                      <div className="border-8 border-transparent border-t-maineBlue"></div>
+                    <div className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2">
+                      <div className="border-8 border-transparent border-r-maineBlue"></div>
                     </div>
                   </div>
                 )}
