@@ -12,6 +12,7 @@ const disciplines = [
   { key: 'logistics', label: 'Logistics', icon: '📦' },
   { key: 'machining', label: 'Machining', icon: '⚙️' },
   { key: 'plumbing', label: 'Plumbing', icon: '🔩' },
+  { key: 'add-discipline', label: 'Add Discipline', icon: '➕' },
 ];
 
 const DisciplineSelector: React.FC = () => {
