@@ -114,7 +114,7 @@ const MyManual = () => {
       submission: ["Video demo (3-5 min)", "Photos of cuts", "Self-reflection", "Upload to cookbook"],
       objectives: ["Safety protocols", "Uniform cuts", "Consistent speed", "Mise en place"],
       studentName: "Sarah Chen",
-      videoTitle: "Knife Skills Demo"
+      videoTitle: "Tool Skills Demo"
     },
     {
       id: 2,
@@ -1343,10 +1343,10 @@ const MyManual = () => {
                               disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
                               <option value="">{t('myManual.selectVideo')}</option>
-                              <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
-                              <option value="sauce-technique">Sauce Technique.mp4</option>
-                              <option value="protein-cookery">Protein Cookery.mp4</option>
-                              <option value="plating-final">Final Plating.mp4</option>
+                              <option value="knife-skills-demo">Tool Skills Demo.mp4</option>
+                              <option value="sauce-technique">Repair Technique.mp4</option>
+                              <option value="protein-cookery">Parts Assembly.mp4</option>
+                              <option value="plating-final">Final Inspection.mp4</option>
                             </select>
                           </div>
                           <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 relative flex-1 min-h-[150px]">
@@ -1466,10 +1466,10 @@ const MyManual = () => {
               <div className="text-4xl mb-4">📹</div>
               <p className="text-gray-700 mb-2">Are you sure you want to submit:</p>
               <p className="font-bold text-maineBlue mb-4">
-                {selectedVideoOption === 'knife-skills-demo' && 'Knife Skills Demo.mp4'}
-                {selectedVideoOption === 'sauce-technique' && 'Sauce Technique.mp4'}
-                {selectedVideoOption === 'protein-cookery' && 'Protein Cookery.mp4'}
-                {selectedVideoOption === 'plating-final' && 'Final Plating.mp4'}
+                {selectedVideoOption === 'knife-skills-demo' && 'Tool Skills Demo.mp4'}
+                {selectedVideoOption === 'sauce-technique' && 'Repair Technique.mp4'}
+                {selectedVideoOption === 'protein-cookery' && 'Parts Assembly.mp4'}
+                {selectedVideoOption === 'plating-final' && 'Final Inspection.mp4'}
               </p>
               <p className="text-sm text-gray-600 mb-6">
                 For: {assignments[currentAssignmentPage].week} - {assignments[currentAssignmentPage].title}
@@ -1575,25 +1575,25 @@ const MyManual = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Knife Skills Practice Session.webm',
+                      name: 'Tool Skills Practice Session.webm',
                       url: 'https://placehold.co/640x360/1e293b/white?text=Knife+Skills+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Mother Sauces Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Sauce+Making+Demo',
+                      name: 'Repair Technique Assignment.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Repair+Technique+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
-                      isPublic: false
+                      isPublic: true
                     },
                     {
-                      name: 'Protein Cookery Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Protein+Cookery',
+                      name: 'Parts Assembly Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Parts+Assembly+Demo',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
-                      isPublic: true
+                      isPublic: false
                     }
                   ])
                     .filter(video => {
