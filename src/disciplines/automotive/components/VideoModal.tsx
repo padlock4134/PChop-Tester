@@ -107,7 +107,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
             <div className="flex flex-col items-center justify-center w-full h-72 bg-gray-100 rounded border border-black text-gray-500 p-6">
               <div className="text-lg font-semibold text-gray-700 mb-2">🎥 {t('common.loading')}</div>
               <div className="text-center text-gray-600 mb-4">
-                Video tutorials are temporarily unavailable to prevent API rate limits.
+                Repair demonstrations are temporarily unavailable to prevent API rate limits.
               </div>
               <div className="text-sm text-gray-500 text-center">
                 This feature will be re-enabled with better caching soon!
