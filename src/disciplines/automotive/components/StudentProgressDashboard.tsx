@@ -67,26 +67,26 @@ const StudentProgressDashboard: React.FC = () => {
     curriculum: {
       completedLessons: 12,
       totalLessons: 24,
-      currentLesson: "Knife Skills: Julienne Technique",
+      currentLesson: "Engine Diagnostics: OBD-II Scanner Techniques",
       timeSpent: "18.5 hours"
     },
     skills: {
-      recipesAttempted: 8,
-      recipesCompleted: 6,
+      repairsAttempted: 8,
+      repairsCompleted: 6,
       currentLevel: "Intermediate",
-      nextMilestone: "Advanced Sauces"
+      nextMilestone: "Advanced Engine Performance"
     },
     engagement: {
       appUsage: "5 days this week",
       liveSessionsAttended: 3,
       communityPosts: 7,
-      recipesSaved: 15
+      repairsSaved: 15
     },
     insights: {
-      strongestArea: "Knife Skills",
+      strongestArea: "Engine Diagnostics",
       improvementArea: "Timing & Multitasking",
       learningVelocity: "Above Average",
-      achievements: ["Safety Certified", "Recipe Creator", "Community Helper"]
+      achievements: ["Safety Certified", "Repair Specialist", "Community Helper"]
     }
   };
 
@@ -446,7 +446,7 @@ const StudentProgressDashboard: React.FC = () => {
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.recipesCompleted')}</h3>
-                <p className="text-gray-700">{progressData.skills.recipesCompleted} {t('dashboard.outOf')} {progressData.skills.recipesAttempted} {t('dashboard.attempted')}</p>
+                <p className="text-gray-700">{progressData.skills.repairsCompleted} {t('dashboard.outOf')} {progressData.skills.repairsAttempted} {t('dashboard.attempted')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.nextMilestone')}</h3>
