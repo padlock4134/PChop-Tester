@@ -26,82 +26,82 @@ const GearheadLounge = () => {
   const [servingSize, setServingSize] = useState(2);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
-  // Chef quotes rotation (52 quotes for weekly rotation)
-  const chefQuotes = [
-    // Julia Child (11 quotes)
-    "Cooking is not about convenience. It's about love, patience, and bringing people together around the table.",
-    "Never apologize for your cooking.",
-    "A party without cake is just a meeting.",
-    "The secret of cooking is to have a love of it.",
-    "Learn how to cook - try new recipes, learn from your mistakes, be fearless, and above all have fun!",
-    "You'll never know everything about anything, especially something you love.",
-    "The only time to eat diet food is while you're waiting for the steak to cook.",
-    "I was 32 when I started cooking; up until then, I just ate.",
-    "Cooking is one of the great pleasures of life.",
-    "Find something you're passionate about and keep tremendously interested in it.",
-    "Life itself is the proper binge.",
+  // Automotive quotes rotation (52 quotes for weekly rotation)
+  const automotiveQuotes = [
+    // Henry Ford (11 quotes)
+    "Whether you think you can, or you think you can't – you're right.",
+    "Coming together is a beginning; keeping together is progress; working together is success.",
+    "Quality means doing it right when no one is looking.",
+    "The only real mistake is the one from which we learn nothing.",
+    "Everything can always be done better than it is being done.",
+    "A business that makes nothing but money is a poor business.",
+    "The object of living is work, experience, happiness.",
+    "There is no man living who isn't capable of doing more than he thinks he can do.",
+    "One of the greatest discoveries a man makes, one of his great surprises, is to find he can do what he was afraid he couldn't do.",
+    "Enthusiasm is the sparkle in your eyes, the swing in your gait, the grip of your hand.",
+    "Life is a series of experiences, each one of which makes us bigger.",
     
-    // Anthony Bourdain (11 quotes)
-    "Your body is not a temple, it's an amusement park. Enjoy the ride.",
-    "Travel changes you. As you move through this life and this world you change things slightly.",
-    "Skills can be taught. Character you either have or you don't have.",
-    "Good food is very often, even most often, simple food.",
-    "Context and memory play powerful roles in all the truly great meals in one's life.",
-    "I'm not afraid to look like an idiot.",
-    "The way you make an omelet reveals your character.",
-    "Assume the worst. About everybody. But don't let this poisoned outlook affect your job performance.",
-    "Food is everything we are. It's an extension of nationalist feeling, ethnic feeling, your personal history.",
-    "I don't have to agree with you to like you or respect you.",
-    "Bad food is made without pride, by cooks who have no pride, and no love.",
+    // Enzo Ferrari (11 quotes)
+    "Aerodynamics are for people who can't build engines.",
+    "I build engines, the rest is done by others.",
+    "If you can dream it, you can do it.",
+    "The client is not always right.",
+    "The most important victory is the one which has to be won against despair.",
+    "What we have is not enough, we want more.",
+    "I don't sell cars, I sell engines. The cars are just the packaging.",
+    "You have to have the passion to succeed.",
+    "The day I stop racing is the day I die.",
+    "I have never been a spectator in my life.",
+    "The best Ferrari is the one I haven't built yet.",
     
-    // David Chang (10 quotes)
-    "Cooking is an expression of the land where you are and the culture of that place.",
-    "The greatest dishes are very simple.",
-    "I'm grasping with how you do something on a large scale with multiple operations.",
-    "Food, to me, is always about cooking and eating with those you love and care for.",
-    "I constantly think about what it means to be Asian-American.",
-    "Rage or fear... It oscillates. Rage I can handle. Fear is the problem.",
-    "Contemporary ramen is totally different than what most Americans think ramen should be.",
-    "I love the masochistic aspect of eating seething, spicy food and being tortured by it.",
-    "We're hoping to succeed; we're okay with failure. We just don't want to land in between.",
-    "I think the basic thing that home cooks can learn how to do is just season properly.",
+    // Soichiro Honda (10 quotes)
+    "Success represents the 1% of your work which results from the 99% that is called failure.",
+    "We only have one future, and it will be made of our dreams.",
+    "If Honda does not race, there is no Honda.",
+    "The value of life should be measured by the joy we feel.",
+    "For me, the future is not in the past.",
+    "We have a responsibility to consider the environment.",
+    "The most important thing is to have a passion for your work.",
+    "Success is not guaranteed. It is earned.",
+    "We must look to the future with hope.",
+    "The art of engineering is making the impossible possible.",
     
-    // Martha Stewart (10 quotes)
-    "Life is too complicated not to be orderly.",
-    "I find that when you have a real interest in life and a curious life, that sleep is not the most important thing.",
-    "I catnap now and then, but I think while I nap, so it's not a waste of time.",
-    "Getting over those times and overcoming those difficulties really makes you appreciate the good times.",
-    "I am always asking myself how I can improve the lives of my customers, my colleagues, my shareholders.",
-    "The ultimate goal is to be an interesting, useful, wholesome person.",
-    "I think baking cookies is equal to Queen Victoria running an empire.",
-    "Without an open-minded mind, you can never be a great success.",
-    "I love the challenge of starting at zero every day and seeing how much I can accomplish.",
-    "Never make a big decision without sleeping on it.",
+    // Carroll Shelby (10 quotes)
+    "I'm an ex-wrecker driver, I'm a chicken farmer, and I'm a used car dealer. That's about it.",
+    "There's no substitute for cubic inches.",
+    "I'd rather have a car that handles well than one with a lot of horsepower.",
+    "The key to success is to never give up.",
+    "Speed costs money. How fast do you want to go?",
+    "I've always been a racer, and I always will be.",
+    "You can't make a race car out of a pig.",
+    "The best cars are the ones that make you feel alive.",
+    "Racing is life. Anything that happens before or after is just waiting.",
+    "I never met a car I didn't want to drive.",
     
-    // Emeril Lagasse (10 quotes)
-    "Cooking is so much more than recipes and techniques. It's about heart and soul.",
-    "My philosophy is: If you can't have fun, there's no sense in doing it.",
-    "The cool thing about being famous is traveling. I have always wanted to travel across seas.",
-    "I think you've got to keep it simple, keep it fresh. Stay away from all that processed stuff.",
-    "Spice is life. It depends upon what you like... have fun with it. Yes, food is serious, but you should have fun with it.",
-    "I wouldn't ask any of my employees to do anything I wouldn't do. And I work very hard.",
-    "You know, for 300 years it's been kind of the same. There are restaurants in New Orleans that the menu hasn't changed in 125 years.",
-    "I think preparing food and feeding people brings nourishment not only to our bodies but to our spirits.",
-    "We'll be going to the fish market and a farmer's market this afternoon to get what we need to make 13 fish dishes.",
-    "Everyone needs a mentor."
+    // Ferdinand Porsche (10 quotes)
+    "I couldn't find the sports car of my dreams, so I built it myself.",
+    "Design is not just what it looks like. Design is how it works.",
+    "The perfect racing car crosses the finish line first.",
+    "Innovation is not about saying yes to everything. It's about saying no to all but the most crucial features.",
+    "The future belongs to those who believe in the beauty of their dreams.",
+    "Engineering is the art of organizing and directing men.",
+    "The automobile engine will come, and then I will consider my life's work complete.",
+    "I have always been fascinated by the challenge of creating something new.",
+    "The most beautiful car is the one that performs best.",
+    "Excellence is never an accident. It is always the result of high intention."
   ];
   
-  const chefNames = [
-    // Julia Child (11)
-    "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child",
-    // Anthony Bourdain (11)
-    "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain",
-    // David Chang (10)
-    "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang",
-    // Martha Stewart (10)
-    "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart",
-    // Emeril Lagasse (10)
-    "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse"
+  const automotiveNames = [
+    // Henry Ford (11)
+    "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford",
+    // Enzo Ferrari (11)
+    "Enzo Ferrari", "Enzo Ferrari", "Enzo Ferrari", "Enzo Ferrari", "Enzo Ferrari", "Enzo Ferrari", "Enzo Ferrari", "Enzo Ferrari", "Enzo Ferrari", "Enzo Ferrari", "Enzo Ferrari",
+    // Soichiro Honda (10)
+    "Soichiro Honda", "Soichiro Honda", "Soichiro Honda", "Soichiro Honda", "Soichiro Honda", "Soichiro Honda", "Soichiro Honda", "Soichiro Honda", "Soichiro Honda", "Soichiro Honda",
+    // Carroll Shelby (10)
+    "Carroll Shelby", "Carroll Shelby", "Carroll Shelby", "Carroll Shelby", "Carroll Shelby", "Carroll Shelby", "Carroll Shelby", "Carroll Shelby", "Carroll Shelby", "Carroll Shelby",
+    // Ferdinand Porsche (10)
+    "Ferdinand Porsche", "Ferdinand Porsche", "Ferdinand Porsche", "Ferdinand Porsche", "Ferdinand Porsche", "Ferdinand Porsche", "Ferdinand Porsche", "Ferdinand Porsche", "Ferdinand Porsche", "Ferdinand Porsche"
   ];
   
   // Get current week of year (0-51) to rotate through 52 quotes
@@ -112,8 +112,8 @@ const GearheadLounge = () => {
     const oneWeek = 1000 * 60 * 60 * 24 * 7;
     const weekNumber = Math.floor(diff / oneWeek) % 52;
     return {
-      quote: chefQuotes[weekNumber],
-      chef: chefNames[weekNumber]
+      quote: automotiveQuotes[weekNumber],
+      chef: automotiveNames[weekNumber]
     };
   };
   
@@ -125,9 +125,9 @@ const GearheadLounge = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'corner' | 'kitchen'>('corner');
 
   useEffect(() => {
-    updateContext({ page: 'ChefsCorner' });
+    updateContext({ page: 'GearheadLounge' });
     
-    // Load recipes from cookbook when Chef's Corner loads
+    // Load recipes from manual when Gearhead Lounge loads
     const loadRecipes = async () => {
       if (!user?.id) {
         setIsLoading(false);
@@ -139,7 +139,7 @@ const GearheadLounge = () => {
         const savedRecipes = await fetchCookbook(user.id);
         setRecipes(savedRecipes || []);
       } catch (err) {
-        console.error('Error loading cookbook recipes:', err);
+        console.error('Error loading manual recipes:', err);
         // Initialize with empty array if there's an error
         setRecipes([]);
       } finally {
@@ -150,8 +150,8 @@ const GearheadLounge = () => {
     loadRecipes();
   }, [updateContext, setRecipes, user?.id]);
 
-  // Open modal for My CookBook import
-  const importFromCookBook = () => {
+  // Open modal for My Manual import
+  const importFromManual = () => {
     if (!user) {
       alert(t('gearheadLounge.pleaseSignIn'));
       return;
@@ -160,7 +160,7 @@ const GearheadLounge = () => {
   };
 
   // Handler for modal import - select a recipe to showcase
-  const handleCookBookImport = async (selectedRecipe: any) => {
+  const handleManualImport = async (selectedRecipe: any) => {
     console.log('Importing recipe:', selectedRecipe);
     
     if (!selectedRecipe) {
@@ -240,11 +240,11 @@ const GearheadLounge = () => {
         </div>
         
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Main Content - Chef's Corner Tab */}
+          {/* Main Content - Gearhead Lounge Tab */}
           <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
             activeMobileTab === 'corner' ? 'block' : 'hidden lg:block'
           }`}>
-            {/* Chef's Corner header - moved back inside the module */}
+            {/* Gearhead Lounge header - moved back inside the module */}
             <div className="flex items-center justify-center mb-4">
               <span className="text-5xl mr-2">🔧</span>
               <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('gearheadLounge.title')}</h1>
@@ -268,7 +268,7 @@ const GearheadLounge = () => {
                         📋 {t('gearheadLounge.buildMenu')}
                       </button>
                       <button 
-                        onClick={importFromCookBook} 
+                        onClick={importFromManual} 
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
                         disabled={isLoading}
                       >
@@ -279,7 +279,7 @@ const GearheadLounge = () => {
                   <ManualImportModal
                     open={cookbookModalOpen}
                     onClose={() => setCookbookModalOpen(false)}
-                    onImport={handleCookBookImport}
+                    onImport={handleManualImport}
                     existingIngredients={[]}
                   />
                   {showcaseRecipe ? (
@@ -351,7 +351,7 @@ const GearheadLounge = () => {
                 </div>
               </section>
 
-              {/* Chef Quote of the Week */}
+              {/* Automotive Quote of the Week */}
               <p className="text-center text-gray-600 italic mb-6">
                 "{currentQuote.quote}" — {currentQuote.chef}
               </p>

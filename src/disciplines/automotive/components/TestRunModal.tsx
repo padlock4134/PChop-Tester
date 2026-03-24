@@ -45,147 +45,147 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const allRecipes = [
     {
       id: '1',
-      title: 'Avocado Toast',
-      image: '/Preview Images/Avacado Toast.png',
-      ingredients: ['Bread', 'Avocado', 'Salt', 'Pepper', 'Red Pepper Flakes', 'Olive Oil'],
-      instructions: 'Toast bread. Mash avocado with salt, pepper, and a drizzle of olive oil. Spread on toast and sprinkle with red pepper flakes.',
-      equipment: ['Toaster', 'Knife', 'Bowl'],
-      healthTags: ['Heart Healthy', 'High Fiber']
+      title: 'Oil Change Service',
+      image: '/Preview Images/Oil Change.png',
+      ingredients: ['Engine Oil', 'Oil Filter', 'Drain Plug', 'Oil Pan', 'Rags', 'Funnel'],
+      instructions: 'Drain old oil and remove filter. Install new filter and drain plug. Add new oil to proper level. Check for leaks.',
+      equipment: ['Wrench Set', 'Oil Filter Wrench', 'Oil Pan'],
+      healthTags: ['Engine Health', 'Preventive Maintenance']
     },
     {
       id: '2',
-      title: 'Baked Salmon',
-      image: '/Preview Images/Baked Salmon.png',
-      ingredients: ['Salmon fillet', 'Lemon', 'Dill', 'Olive Oil', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Preheat oven to 375°F. Place salmon on baking sheet, drizzle with olive oil, and season with salt, pepper, dill, and garlic. Add lemon slices on top. Bake for 12-15 minutes.',
-      equipment: ['Baking Sheet', 'Oven'],
-      healthTags: ['Heart Healthy', 'High in Omega-3']
+      title: 'Brake Pad Replacement',
+      image: '/Preview Images/Brake Service.png',
+      ingredients: ['Brake Pads', 'Rotors', 'Caliper', 'Brake Fluid', 'C-Clamp', 'Wire Brush'],
+      instructions: 'Remove wheel and caliper. Compress caliper piston. Remove old pads and install new ones. Reassemble and bleed brakes if needed.',
+      equipment: ['Socket Set', 'Brake Tool', 'Bleeder Kit'],
+      healthTags: ['Safety Critical', 'Stopping Power']
     },
     {
       id: '3',
-      title: 'Breakfast Burrito',
-      image: '/Preview Images/Breakfast Burrito.png',
-      ingredients: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Bell Peppers', 'Onion', 'Salt', 'Pepper', 'Butter'],
-      instructions: 'Cook sausage, then sauté onions and bell peppers. Scramble eggs with salt and pepper. Warm tortilla and assemble with eggs, sausage, veggies, and cheese.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Engine Tune-Up',
+      image: '/Preview Images/Engine Service.png',
+      ingredients: ['Spark Plugs', 'Air Filter', 'Fuel Filter', 'Distributor Cap', 'Rotor', 'Wires'],
+      instructions: 'Replace spark plugs and wires. Install new air and fuel filters. Check distributor cap and rotor. Adjust timing if needed.',
+      equipment: ['Socket Set', 'Timing Light', 'Gap Tool'],
+      healthTags: ['Performance Boost', 'Fuel Efficiency']
     },
     {
       id: '4',
-      title: 'Breakfast Tacos',
-      image: '/Preview Images/Breakfast Tacos.png',
-      ingredients: ['Corn Tortillas', 'Eggs', 'Black Beans', 'Avocado', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Warm tortillas. Scramble eggs with salt and pepper. Heat black beans. Assemble tacos with eggs, beans, avocado, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Mixing Bowl'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Transmission Service',
+      image: '/Preview Images/Transmission Service.png',
+      ingredients: ['Transmission Fluid', 'Filter Kit', 'Gasket', 'Sealant', 'Drain Pan', 'Torque Wrench'],
+      instructions: 'Drain transmission fluid. Remove pan and replace filter. Install new gasket and pan. Refill with correct fluid amount and check for leaks.',
+      equipment: ['Socket Set', 'Torque Wrench', 'Fluid Pump'],
+      healthTags: ['Smooth Shifting', 'Longevity']
     },
     {
       id: '5',
-      title: 'Chicken Fajitas',
-      image: '/Preview Images/Chicken Fajitas.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Tortilla', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Sauté chicken, bell peppers, and onions. Warm tortillas. Assemble fajitas with chicken, veggies, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Suspension Service',
+      image: '/Preview Images/Suspension Service.png',
+      ingredients: ['Shock Absorbers', 'Struts', 'Springs', 'Bushings', 'Bolts', 'Torque Wrench'],
+      instructions: 'Remove old shocks and struts. Install new suspension components. Torque all bolts to specifications. Check alignment after installation.',
+      equipment: ['Socket Set', 'Spring Compressor', 'Torque Wrench'],
+      healthTags: ['Ride Comfort', 'Handling']
     },
     {
       id: '6',
-      title: 'Chicken Quesadillas',
-      image: '/Preview Images/Chicken Quesadillas.png',
-      ingredients: ['Chicken Breast', 'Tortilla', 'Cheese', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Shred chicken and mix with cheese. Place mixture on tortilla and top with another tortilla. Cook in skillet until cheese is melted and tortillas are crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Electrical System Service',
+      image: '/Preview Images/Electrical Service.png',
+      ingredients: ['Battery', 'Alternator', 'Starter', 'Fuses', 'Wiring', 'Multimeter'],
+      instructions: 'Test battery and charging system. Replace alternator or starter if needed. Check all fuses and wiring connections. Verify electrical system operation.',
+      equipment: ['Multimeter', 'Wiring Tools', 'Battery Tester'],
+      healthTags: ['Reliability', 'Power System']
     },
     {
       id: '7',
-      title: 'Chicken and Rice Bowls',
-      image: '/Preview Images/Chicken and Rice Bowls.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Vegetable Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with vegetable oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Cooling System Service',
+      image: '/Preview Images/Cooling Service.png',
+      ingredients: ['Coolant', 'Radiator', 'Water Pump', 'Thermostat', 'Hoses', 'Clamps'],
+      instructions: 'Drain old coolant and flush radiator. Replace water pump and thermostat if needed. Refill with proper coolant mixture and check for leaks.',
+      equipment: ['Radiator Tester', 'Hose Clamps', 'Funnel'],
+      healthTags: ['Engine Protection', 'Temperature Control']
     },
     {
       id: '8',
-      title: 'Chicken and Vegetable Kabobs',
-      image: '/Preview Images/Chicken and Vegetable Kabobs.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Zucchini', 'Cherry Tomatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Alternate chicken and vegetables on skewers. Brush with olive oil and season with salt and pepper. Grill or bake until cooked through.',
-      equipment: ['Grill', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Exhaust System Service',
+      image: '/Preview Images/Exhaust Service.png',
+      ingredients: ['Muffler', 'Catalytic Converter', 'Pipes', 'Gaskets', 'Hangers', 'Welder'],
+      instructions: 'Remove old exhaust components. Install new muffler and catalytic converter. Check for proper fit and no exhaust leaks. Test for proper operation.',
+      equipment: ['Welder', 'Socket Set', 'Exhaust Cutter'],
+      healthTags: ['Performance', 'Emissions Control']
     },
     {
       id: '9',
-      title: 'Chickpea and Avocado Salad',
-      image: '/Preview Images/Chickpea and Avocado Salad.png',
-      ingredients: ['Chickpeas', 'Avocado', 'Red Onion', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Mash avocado and mix with chickpeas, red onion, and cilantro. Squeeze lime on top and season with salt and pepper.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Tire Rotation Service',
+      image: '/Preview Images/Tire Service.png',
+      ingredients: ['Tire Iron', 'Jack Stands', 'Lug Nuts', 'Torque Wrench', 'Tire Gauge', 'Air Compressor'],
+      instructions: 'Jack up vehicle and remove wheels. Rotate tires according to proper pattern. Torque lug nuts to specifications and set proper tire pressure.',
+      equipment: ['Jack', 'Torque Wrench', 'Tire Pressure Gauge'],
+      healthTags: ['Safety', 'Even Wear', 'Fuel Efficiency']
     },
     {
       id: '10',
-      title: 'Classic Beef Burger',
-      image: '/Preview Images/Classic Beef Burger.png',
-      ingredients: ['Ground Beef', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Ketchup', 'Mayonnaise', 'Mustard'],
-      instructions: 'Grill or pan-fry burger. Assemble with lettuce, tomato, cheese, ketchup, mayonnaise, and mustard.',
-      equipment: ['Grill', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Battery Replacement Service',
+      image: '/Preview Images/Battery Service.png',
+      ingredients: ['Battery', 'Battery Terminals', 'Terminal Cleaner', 'Wrench', 'Memory Saver'],
+      instructions: 'Disconnect negative terminal first. Remove old battery and clean terminals. Install new battery and connect terminals. Apply anti-corrosion grease.',
+      equipment: ['Wrench Set', 'Battery Tester', 'Wire Brush'],
+      healthTags: ['Reliability', 'Starting Power']
     },
     {
       id: '11',
-      title: 'Garlic Butter Chicken with Rice',
-      image: '/Preview Images/Garlic Butter Chicken with Rice.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Butter', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with butter and garlic. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Wheel Alignment Service',
+      image: '/Preview Images/Alignment Service.png',
+      ingredients: ['Alignment Machine', 'Wheel Weights', 'Adjustment Tools', 'Tape Measure', 'Chalk'],
+      instructions: 'Place vehicle on alignment machine. Adjust toe, camber, and caster angles to specifications. Verify with test drive and final alignment check.',
+      equipment: ['Alignment Machine', 'Wrench Set', 'Tape Measure'],
+      healthTags: ['Tire Life', 'Handling', 'Safety']
     },
     {
       id: '12',
-      title: 'Greek Salad',
-      image: '/Preview Images/Greek Salad.png',
-      ingredients: ['Lettuce', 'Tomato', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Olives', 'Greek Vinaigrette'],
-      instructions: 'Combine lettuce, tomato, cucumber, red onion, feta cheese, and olives in bowl. Drizzle with Greek vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Detailing Service',
+      image: '/Preview Images/Detailing Service.png',
+      ingredients: ['Car Wax', 'Microfiber Towels', 'Applicator Pads', 'Interior Cleaner', 'Vacuum', 'Brushes'],
+      instructions: 'Wash and dry vehicle thoroughly. Apply car wax in sections using applicator pads. Clean interior surfaces and vacuum carpets. Buff to high shine.',
+      equipment: ['Buffer', 'Vacuum Cleaner', 'Detailing Brushes'],
+      healthTags: ['Appearance', 'Protection', 'Value']
     },
     {
       id: '13',
-      title: 'Grilled Cheese',
-      image: '/Preview Images/Grilled Cheese.png',
-      ingredients: ['Bread', 'Cheese', 'Butter'],
-      instructions: 'Butter bread and place cheese in between. Grill in skillet until cheese is melted and bread is crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Calcium']
+      title: 'Paint Protection Service',
+      image: '/Preview Images/Paint Service.png',
+      ingredients: ['Car Wax', 'Paint Sealant', 'Applicator Pads', 'Microfiber Towels', 'Clay Bar'],
+      instructions: 'Wash and clay vehicle surface to remove contaminants. Apply paint sealant for protection. Finish with car wax for high gloss shine.',
+      equipment: ['Clay Bar', 'Polisher', 'Microfiber Towels'],
+      healthTags: ['Paint Protection', 'Appearance', 'UV Protection']
     },
     {
       id: '14',
-      title: 'Lemon Garlic Chicken with Roasted Broccoli',
-      image: '/Preview Images/Lemon Garlic Chicken with Roasted Broccoli.png',
-      ingredients: ['Chicken Breast', 'Broccoli', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and broccoli in skillet with lemon, garlic, and olive oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Engine Diagnostic Service',
+      image: '/Preview Images/Diagnostic Service.png',
+      ingredients: ['Scan Tool', 'Code Reader', 'Multimeter', 'Test Leads', 'Software'],
+      instructions: 'Connect scan tool to OBD-II port. Read and diagnose trouble codes. Use multimeter to test electrical components. Provide detailed repair recommendations.',
+      equipment: ['Scan Tool', 'Multimeter', 'Test Leads'],
+      healthTags: ['Diagnostics', 'Performance', 'Emissions']
     },
     {
       id: '15',
-      title: 'Lemon Herb Roasted Chicken',
-      image: '/Preview Images/Lemon Herb Roasted Chicken.png',
-      ingredients: ['Chicken Breast', 'Lemon', 'Herbs', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Rub chicken with lemon, herbs, and olive oil. Season with salt and pepper. Roast in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Fuel System Service',
+      image: '/Preview Images/Fuel Service.png',
+      ingredients: ['Fuel Filter', 'Fuel Pump', 'Fuel Lines', 'Pressure Gauge', 'Hose Clamps'],
+      instructions: 'Relieve fuel system pressure. Replace fuel filter and fuel pump if needed. Check for leaks and proper fuel pressure. Test system operation.',
+      equipment: ['Fuel Pressure Tester', 'Wrench Set', 'Hose Clamps'],
+      healthTags: ['Fuel Efficiency', 'Engine Performance', 'Reliability']
     },
     {
       id: '16',
-      title: 'Lentil Soup',
-      image: '/Preview Images/Lentil Soup.png',
-      ingredients: ['Lentils', 'Vegetable Broth', 'Onion', 'Carrot', 'Celery', 'Tomato', 'Cumin', 'Paprika'],
-      instructions: 'Saute onion, carrot, and celery in pot. Add lentils, vegetable broth, tomato, cumin, and paprika. Simmer until lentils are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Air Conditioning Service',
+      image: '/Preview Images/AC Service.png',
+      ingredients: ['Refrigerant', 'AC Compressor', 'Condenser', 'Evaporator', 'O-Rings', 'Recovery Machine'],
+      instructions: 'Recover old refrigerant. Replace compressor, condenser, and evaporator as needed. Vacuum system and recharge with proper refrigerant. Test system operation.',
+      equipment: ['AC Machine', 'Vacuum Pump', 'Gauge Set'],
+      healthTags: ['Comfort', 'Air Quality', 'Efficiency']
     },
     {
       id: '17',
@@ -387,138 +387,138 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
     },
     {
       id: '2',
-      title: 'Baked Salmon',
-      image: '/Preview Images/Baked Salmon.png',
-      ingredients: ['Salmon fillet', 'Lemon', 'Dill', 'Olive Oil', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Preheat oven to 375°F. Place salmon on baking sheet, drizzle with olive oil, and season with salt, pepper, dill, and garlic. Add lemon slices on top. Bake for 12-15 minutes.',
-      equipment: ['Baking Sheet', 'Oven'],
-      healthTags: ['Heart Healthy', 'High in Omega-3']
+      title: 'Brake Pad Replacement',
+      image: '/Preview Images/Brake Service.png',
+      ingredients: ['Brake Pads', 'Rotors', 'Caliper', 'Brake Fluid', 'C-Clamp', 'Wire Brush'],
+      instructions: 'Remove wheel and caliper. Compress caliper piston. Remove old pads and install new ones. Reassemble and bleed brakes if needed.',
+      equipment: ['Socket Set', 'Brake Tool', 'Bleeder Kit'],
+      healthTags: ['Safety Critical', 'Stopping Power']
     },
     {
       id: '3',
-      title: 'Breakfast Burrito',
-      image: '/Preview Images/Breakfast Burrito.png',
-      ingredients: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Bell Peppers', 'Onion', 'Salt', 'Pepper', 'Butter'],
-      instructions: 'Cook sausage, then sauté onions and bell peppers. Scramble eggs with salt and pepper. Warm tortilla and assemble with eggs, sausage, veggies, and cheese.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Engine Tune-Up',
+      image: '/Preview Images/Engine Service.png',
+      ingredients: ['Spark Plugs', 'Air Filter', 'Fuel Filter', 'Distributor Cap', 'Rotor', 'Wires'],
+      instructions: 'Replace spark plugs and wires. Install new air and fuel filters. Check distributor cap and rotor. Adjust timing if needed.',
+      equipment: ['Socket Set', 'Timing Light', 'Gap Tool'],
+      healthTags: ['Performance Boost', 'Fuel Efficiency']
     },
     {
       id: '4',
-      title: 'Breakfast Tacos',
-      image: '/Preview Images/Breakfast Tacos.png',
-      ingredients: ['Corn Tortillas', 'Eggs', 'Black Beans', 'Avocado', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Warm tortillas. Scramble eggs with salt and pepper. Heat black beans. Assemble tacos with eggs, beans, avocado, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Mixing Bowl'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Transmission Service',
+      image: '/Preview Images/Transmission Service.png',
+      ingredients: ['Transmission Fluid', 'Filter Kit', 'Gasket', 'Sealant', 'Drain Pan', 'Torque Wrench'],
+      instructions: 'Drain transmission fluid. Remove pan and replace filter. Install new gasket and pan. Refill with correct fluid amount and check for leaks.',
+      equipment: ['Socket Set', 'Torque Wrench', 'Fluid Pump'],
+      healthTags: ['Smooth Shifting', 'Longevity']
     },
     {
       id: '5',
-      title: 'Chicken Fajitas',
-      image: '/Preview Images/Chicken Fajitas.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Tortilla', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Sauté chicken, bell peppers, and onions. Warm tortillas. Assemble fajitas with chicken, veggies, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Suspension Service',
+      image: '/Preview Images/Suspension Service.png',
+      ingredients: ['Shock Absorbers', 'Struts', 'Springs', 'Bushings', 'Bolts', 'Torque Wrench'],
+      instructions: 'Remove old shocks and struts. Install new suspension components. Torque all bolts to specifications. Check alignment after installation.',
+      equipment: ['Socket Set', 'Spring Compressor', 'Torque Wrench'],
+      healthTags: ['Ride Comfort', 'Handling']
     },
     {
       id: '6',
-      title: 'Chicken Quesadillas',
-      image: '/Preview Images/Chicken Quesadillas.png',
-      ingredients: ['Chicken Breast', 'Tortilla', 'Cheese', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Shred chicken and mix with cheese. Place mixture on tortilla and top with another tortilla. Cook in skillet until cheese is melted and tortillas are crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Electrical System Service',
+      image: '/Preview Images/Electrical Service.png',
+      ingredients: ['Battery', 'Alternator', 'Starter', 'Fuses', 'Wiring', 'Multimeter'],
+      instructions: 'Test battery and charging system. Replace alternator or starter if needed. Check all fuses and wiring connections. Verify electrical system operation.',
+      equipment: ['Multimeter', 'Wiring Tools', 'Battery Tester'],
+      healthTags: ['Reliability', 'Power System']
     },
     {
       id: '7',
-      title: 'Chicken and Rice Bowls',
-      image: '/Preview Images/Chicken and Rice Bowls.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Vegetable Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with vegetable oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Cooling System Service',
+      image: '/Preview Images/Cooling Service.png',
+      ingredients: ['Coolant', 'Radiator', 'Water Pump', 'Thermostat', 'Hoses', 'Clamps'],
+      instructions: 'Drain old coolant and flush radiator. Replace water pump and thermostat if needed. Refill with proper coolant mixture and check for leaks.',
+      equipment: ['Radiator Tester', 'Hose Clamps', 'Funnel'],
+      healthTags: ['Engine Protection', 'Temperature Control']
     },
     {
       id: '8',
-      title: 'Chicken and Vegetable Kabobs',
-      image: '/Preview Images/Chicken and Vegetable Kabobs.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Zucchini', 'Cherry Tomatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Alternate chicken and vegetables on skewers. Brush with olive oil and season with salt and pepper. Grill or bake until cooked through.',
-      equipment: ['Grill', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Exhaust System Service',
+      image: '/Preview Images/Exhaust Service.png',
+      ingredients: ['Muffler', 'Catalytic Converter', 'Pipes', 'Gaskets', 'Hangers', 'Welder'],
+      instructions: 'Remove old exhaust components. Install new muffler and catalytic converter. Check for proper fit and no exhaust leaks. Test for proper operation.',
+      equipment: ['Welder', 'Socket Set', 'Exhaust Cutter'],
+      healthTags: ['Performance', 'Emissions Control']
     },
     {
       id: '9',
-      title: 'Chickpea and Avocado Salad',
-      image: '/Preview Images/Chickpea and Avocado Salad.png',
-      ingredients: ['Chickpeas', 'Avocado', 'Red Onion', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Mash avocado and mix with chickpeas, red onion, and cilantro. Squeeze lime on top and season with salt and pepper.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Tire Rotation Service',
+      image: '/Preview Images/Tire Service.png',
+      ingredients: ['Tire Iron', 'Jack Stands', 'Lug Nuts', 'Torque Wrench', 'Tire Gauge', 'Air Compressor'],
+      instructions: 'Jack up vehicle and remove wheels. Rotate tires according to proper pattern. Torque lug nuts to specifications and set proper tire pressure.',
+      equipment: ['Jack', 'Torque Wrench', 'Tire Pressure Gauge'],
+      healthTags: ['Safety', 'Even Wear', 'Fuel Efficiency']
     },
     {
       id: '10',
-      title: 'Classic Beef Burger',
-      image: '/Preview Images/Classic Beef Burger.png',
-      ingredients: ['Ground Beef', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Ketchup', 'Mayonnaise', 'Mustard'],
-      instructions: 'Grill or pan-fry burger. Assemble with lettuce, tomato, cheese, ketchup, mayonnaise, and mustard.',
-      equipment: ['Grill', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Battery Replacement Service',
+      image: '/Preview Images/Battery Service.png',
+      ingredients: ['Battery', 'Battery Terminals', 'Terminal Cleaner', 'Wrench', 'Memory Saver'],
+      instructions: 'Disconnect negative terminal first. Remove old battery and clean terminals. Install new battery and connect terminals. Apply anti-corrosion grease.',
+      equipment: ['Wrench Set', 'Battery Tester', 'Wire Brush'],
+      healthTags: ['Reliability', 'Starting Power']
     },
     {
       id: '11',
-      title: 'Garlic Butter Chicken with Rice',
-      image: '/Preview Images/Garlic Butter Chicken with Rice.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Butter', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with butter and garlic. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Wheel Alignment Service',
+      image: '/Preview Images/Alignment Service.png',
+      ingredients: ['Alignment Machine', 'Wheel Weights', 'Adjustment Tools', 'Tape Measure', 'Chalk'],
+      instructions: 'Place vehicle on alignment machine. Adjust toe, camber, and caster angles to specifications. Verify with test drive and final alignment check.',
+      equipment: ['Alignment Machine', 'Wrench Set', 'Tape Measure'],
+      healthTags: ['Tire Life', 'Handling', 'Safety']
     },
     {
       id: '12',
-      title: 'Greek Salad',
-      image: '/Preview Images/Greek Salad.png',
-      ingredients: ['Lettuce', 'Tomato', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Olives', 'Greek Vinaigrette'],
-      instructions: 'Combine lettuce, tomato, cucumber, red onion, feta cheese, and olives in bowl. Drizzle with Greek vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Detailing Service',
+      image: '/Preview Images/Detailing Service.png',
+      ingredients: ['Car Wax', 'Microfiber Towels', 'Applicator Pads', 'Interior Cleaner', 'Vacuum', 'Brushes'],
+      instructions: 'Wash and dry vehicle thoroughly. Apply car wax in sections using applicator pads. Clean interior surfaces and vacuum carpets. Buff to high shine.',
+      equipment: ['Buffer', 'Vacuum Cleaner', 'Detailing Brushes'],
+      healthTags: ['Appearance', 'Protection', 'Value']
     },
     {
       id: '13',
-      title: 'Grilled Cheese',
-      image: '/Preview Images/Grilled Cheese.png',
-      ingredients: ['Bread', 'Cheese', 'Butter'],
-      instructions: 'Butter bread and place cheese in between. Grill in skillet until cheese is melted and bread is crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Calcium']
+      title: 'Paint Protection Service',
+      image: '/Preview Images/Paint Service.png',
+      ingredients: ['Car Wax', 'Paint Sealant', 'Applicator Pads', 'Microfiber Towels', 'Clay Bar'],
+      instructions: 'Wash and clay vehicle surface to remove contaminants. Apply paint sealant for protection. Finish with car wax for high gloss shine.',
+      equipment: ['Clay Bar', 'Polisher', 'Microfiber Towels'],
+      healthTags: ['Paint Protection', 'Appearance', 'UV Protection']
     },
     {
       id: '14',
-      title: 'Lemon Garlic Chicken with Roasted Broccoli',
-      image: '/Preview Images/Lemon Garlic Chicken with Roasted Broccoli.png',
-      ingredients: ['Chicken Breast', 'Broccoli', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and broccoli in skillet with lemon, garlic, and olive oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Engine Diagnostic Service',
+      image: '/Preview Images/Diagnostic Service.png',
+      ingredients: ['Scan Tool', 'Code Reader', 'Multimeter', 'Test Leads', 'Software'],
+      instructions: 'Connect scan tool to OBD-II port. Read and diagnose trouble codes. Use multimeter to test electrical components. Provide detailed repair recommendations.',
+      equipment: ['Scan Tool', 'Multimeter', 'Test Leads'],
+      healthTags: ['Diagnostics', 'Performance', 'Emissions']
     },
     {
       id: '15',
-      title: 'Lemon Herb Roasted Chicken',
-      image: '/Preview Images/Lemon Herb Roasted Chicken.png',
-      ingredients: ['Chicken Breast', 'Lemon', 'Herbs', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Rub chicken with lemon, herbs, and olive oil. Season with salt and pepper. Roast in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Fuel System Service',
+      image: '/Preview Images/Fuel Service.png',
+      ingredients: ['Fuel Filter', 'Fuel Pump', 'Fuel Lines', 'Pressure Gauge', 'Hose Clamps'],
+      instructions: 'Relieve fuel system pressure. Replace fuel filter and fuel pump if needed. Check for leaks and proper fuel pressure. Test system operation.',
+      equipment: ['Fuel Pressure Tester', 'Wrench Set', 'Hose Clamps'],
+      healthTags: ['Fuel Efficiency', 'Engine Performance', 'Reliability']
     },
     {
       id: '16',
-      title: 'Lentil Soup',
-      image: '/Preview Images/Lentil Soup.png',
-      ingredients: ['Lentils', 'Vegetable Broth', 'Onion', 'Carrot', 'Celery', 'Tomato', 'Cumin', 'Paprika'],
-      instructions: 'Saute onion, carrot, and celery in pot. Add lentils, vegetable broth, tomato, cumin, and paprika. Simmer until lentils are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Air Conditioning Service',
+      image: '/Preview Images/AC Service.png',
+      ingredients: ['Refrigerant', 'AC Compressor', 'Condenser', 'Evaporator', 'O-Rings', 'Recovery Machine'],
+      instructions: 'Recover old refrigerant. Replace compressor, condenser, and evaporator as needed. Vacuum system and recharge with proper refrigerant. Test system operation.',
+      equipment: ['AC Machine', 'Vacuum Pump', 'Gauge Set'],
+      healthTags: ['Comfort', 'Air Quality', 'Efficiency']
     },
     {
       id: '17',

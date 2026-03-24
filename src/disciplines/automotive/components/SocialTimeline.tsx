@@ -21,76 +21,76 @@ const SocialTimeline: React.FC = () => {
     {
       id: '1',
       author: 'Sofia Rodriguez',
-      avatar: '👩🏽‍🍳',
+      avatar: '👩🏽‍🔧',
       timestamp: '2m',
-      content: 'Just finished making my abuela\'s mole recipe! The secret is toasting the chiles until they\'re fragrant but not burnt. 🌶️✨',
-      image: '🍛',
+      content: 'Just finished rebuilding my first carburetor! The secret is calibrating the float level until it\'s perfect but not flooded. 🌶️✨',
+      image: '🔧',
       type: 'recipe',
       likes: 12,
       comments: 3,
       isLiked: false,
-      tags: ['Mexican', 'FamilyRecipe', 'Mole']
+      tags: ['Carburetor', 'FamilySkill', 'Calibration']
     },
     {
       id: '2',
       author: 'Marcus Chen',
-      avatar: '👨🏻‍🍳',
+      avatar: '👨🏻‍🔧',
       timestamp: '15m',
-      content: 'Found the most incredible black garlic at Portland Farmers Market! Perfect for my Korean-fusion experiments 🧄',
+      content: 'Found the most incredible synthetic oil at Portland Auto Parts! Perfect for my high-performance engine experiments �',
       type: 'ingredient',
       likes: 8,
       comments: 1,
       isLiked: true,
-      tags: ['BlackGarlic', 'Portland', 'Korean']
+      tags: ['SyntheticOil', 'Portland', 'HighPerformance']
     },
     {
       id: '3',
       author: 'Amara Okafor',
-      avatar: '👩🏿‍🍳',
+      avatar: '👩🏿‍🔧',
       timestamp: '32m',
-      content: 'Going LIVE in 30 minutes! Teaching how to make proper Nigerian jollof rice. Come through and let\'s settle this debate once and for all! 🍚🔥',
+      content: 'Going LIVE in 30 minutes! Teaching how to properly diagnose OBD-II codes. Come through and let\'s settle this debate once and for all! 🔧�',
       type: 'live',
       likes: 23,
       comments: 7,
       isLiked: false,
-      tags: ['Nigerian', 'JollofRice', 'GoingLive']
+      tags: ['Diagnostics', 'OBDII', 'GoingLive']
     },
     {
       id: '4',
       author: 'Giuseppe Rossi',
-      avatar: '👨🏻‍🍳',
+      avatar: '👨🏻‍🔧',
       timestamp: '1h',
-      content: 'My nonna always said "La pasta deve ballare" - the pasta must dance in the water. Finally understand what she meant after today\'s class! 💃🍝',
+      content: 'My mentor always said "L\'auto deve cantare" - the car must sing on the road. Finally understand what he meant after today\'s tuning session! 🎶�',
       type: 'story',
       likes: 15,
       comments: 4,
       isLiked: true,
-      tags: ['Italian', 'Pasta', 'Nonna']
+      tags: ['Italian', 'Tuning', 'Engine']
     },
     {
       id: '5',
       author: 'Priya Patel',
-      avatar: '👩🏽‍🍳',
+      avatar: '👩🏽‍🔧',
       timestamp: '2h',
-      content: 'SUCCESS! Finally nailed the perfect dosa after 47 attempts 😅 The batter fermentation was the key. Persistence pays off!',
-      image: '🥞',
+      content: 'SUCCESS! Finally rebuilt my first transmission after 47 attempts 😅 The torque sequence was the key. Persistence pays off!',
+      image: '⚙️',
       type: 'success',
       likes: 31,
-      comments: 9,
-      isLiked: false,
-      tags: ['Indian', 'Dosa', 'Success']
+      comments: 12,
+      isLiked: true,
+      tags: ['Transmission', 'Success', 'Torque']
     },
     {
       id: '6',
       author: 'Ahmed Hassan',
-      avatar: '👨🏽‍🍳',
+      avatar: '👨🏽‍🔧',
       timestamp: '3h',
-      content: 'PSA: Eastern Market has fresh za\'atar and sumac! Owner said they get shipments from Lebanon every Tuesday 🌿',
+      content: 'PSA: Eastern Auto has fresh brake pads and rotors! Owner said they get shipments from Brembo every Tuesday 🌿',
       type: 'market',
       likes: 19,
       comments: 5,
       isLiked: true,
-      tags: ['Zaatar', 'Sumac', 'EasternMarket']
+      tags: ['BrakePads', 'Rotors', 'EasternAuto']
     }
   ]);
 
@@ -135,7 +135,7 @@ const SocialTimeline: React.FC = () => {
           <span className="mr-2">🌊</span>
           Community Feed
         </h3>
-        <p className="text-sm text-gray-600">What's cooking in our community</p>
+        <p className="text-sm text-gray-600">What's building in our community</p>
       </div>
       
       <div className="max-h-96 overflow-y-auto">
@@ -203,10 +203,10 @@ const SocialTimeline: React.FC = () => {
       
       <div className="p-4 border-t border-gray-200">
         <div className="flex items-center space-x-3">
-          <span className="text-2xl">👨‍🍳</span>
+          <span className="text-2xl">👨‍🔧</span>
           <input
             type="text"
-            placeholder="Share what you're cooking..."
+            placeholder="Share what you're building..."
             className="flex-1 text-sm border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent"
           />
           <button className="bg-maineBlue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors">
