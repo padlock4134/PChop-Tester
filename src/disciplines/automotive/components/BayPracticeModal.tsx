@@ -22,8 +22,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const startVirtualPractice = async () => {
 
     try {
-      // For demo: Use pre-built engine AR scene (instant load)
-      const demoLesson = 'Engine Valve Adjustment';
+      // For demo: Use pre-built whetstone AR scene (instant load)
+      const demoLesson = 'Traditional Whetstone Knife Sharpening';
       
       // Check if we have a default scene
       if (defaultARScenes[demoLesson]) {
