@@ -182,7 +182,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 flex-1 overflow-hidden">
             {/* Left: Recipe Picklist */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 Available Recipes</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 Available Services</h3>
               {loading ? (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
