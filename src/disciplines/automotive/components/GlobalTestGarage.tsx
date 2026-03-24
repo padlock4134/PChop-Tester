@@ -894,8 +894,8 @@ END:VCALENDAR`;
           </div>
 
           <div className="bg-sand p-3 rounded-lg">
-            <h4 className="font-semibold text-sm text-gray-900 mb-2">💡 Tips for Success:</h4>
-            <ul className="text-xs text-gray-700 space-y-1">
+            <h4 className="font-semibold text-sm text-gray-900 mb-2 text-center">💡 Tips for Success:</h4>
+            <ul className="text-xs text-gray-700 space-y-1 text-center">
               <li>• Share the story behind your service</li>
               <li>• Highlight unique parts and where to source them</li>
               <li>• Engage with viewers and answer questions</li>
