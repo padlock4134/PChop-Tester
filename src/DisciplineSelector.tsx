@@ -19,6 +19,7 @@ const DisciplineSelector: React.FC = () => {
   const navigate = useNavigate();
   const { isAdminMode } = useAdminToggle();
   const [selectedDiscipline, setSelectedDiscipline] = useState('');
+  const [showTooltip, setShowTooltip] = useState(true);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,13 +62,29 @@ const DisciplineSelector: React.FC = () => {
             </div>
 
             {isAdminMode && (
-              <button
-                type="button"
-                onClick={() => console.log('Add Discipline clicked')}
-                className="w-full bg-seafoam text-maineBlue font-bold py-2 px-4 rounded-lg hover:bg-maineBlue hover:text-white transition-colors border-2 border-maineBlue mb-4 text-sm"
-              >
-                ➕ Add Discipline
-              </button>
+              <div className="relative mb-4">
+                {showTooltip && (
+                  <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 bg-maineBlue text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold whitespace-nowrap z-10">
+                    🚀 Live Very Soon!
+                    <button
+                      onClick={() => setShowTooltip(false)}
+                      className="ml-2 text-white hover:text-seafoam"
+                    >
+                      ✕
+                    </button>
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full">
+                      <div className="border-8 border-transparent border-t-maineBlue"></div>
+                    </div>
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={() => console.log('Add Discipline clicked')}
+                  className="w-full bg-seafoam text-maineBlue font-bold py-2 px-4 rounded-lg hover:bg-maineBlue hover:text-white transition-colors border-2 border-maineBlue text-sm"
+                >
+                  ➕ Add Discipline
+                </button>
+              </div>
             )}
 
             <button
