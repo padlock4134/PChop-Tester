@@ -135,20 +135,33 @@ const AdminToggleProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 const HomeRedirect = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { authStatus } = useWristbandAuth();
   const { user, isLoading, isAdmin } = useSupabase();
 
   useEffect(() => {
     if (isLoading) return;
     
-    // If authenticated and user is loaded, route based on role
+    // If authenticated and user is loaded, preserve current page or redirect appropriately
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
-      navigate('/select-discipline', { replace: true });
+      // If user is on the root path, redirect them to a sensible default
+      if (location.pathname === '/' || location.pathname === '') {
+        // Check if user has a preferred page stored
+        const lastPage = localStorage.getItem('lastPage');
+        if (lastPage && lastPage !== '/' && lastPage !== '') {
+          navigate(lastPage, { replace: true });
+        } else if (isAdmin) {
+          navigate('/admin', { replace: true });
+        } else {
+          navigate('/select-discipline', { replace: true });
+        }
+      }
+      // If user is already on a specific page, don't redirect - let them stay there
     } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
       // Not authenticated, redirect to login
       window.location.href = '/.netlify/functions/auth-login';
     }
-  }, [authStatus, user, isLoading, navigate]);
+  }, [authStatus, user, isLoading, navigate, location.pathname, isAdmin]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-sand">
@@ -267,6 +280,13 @@ const AppRoutes = () => {
   const { authStatus } = useWristbandAuth();
   const { user, isLoading, refreshAuthState } = useSupabase();
   const { isAdminMode } = useAdminToggle();
+  
+  // Save current page to localStorage for persistence on refresh
+  useEffect(() => {
+    if (user && location.pathname !== '/' && location.pathname !== '') {
+      localStorage.setItem('lastPage', location.pathname);
+    }
+  }, [location.pathname, user]);
   
   // Get current discipline from path
   const currentDiscipline = getDisciplineFromPath(location.pathname) || 'culinary';
