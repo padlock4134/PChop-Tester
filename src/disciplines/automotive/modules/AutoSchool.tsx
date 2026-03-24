@@ -126,7 +126,7 @@ function getTwoTutorials(recipe: any) {
     {
       title: `Let\'s Work This Repair!`,
       desc: `Step-by-step repair walkthrough for ${recipe.title}.`,
-      type: 'cooking_tutorial'
+      type: 'repair_tutorial'
     }
   ];
 }
@@ -140,7 +140,7 @@ const AutoSchool = () => {
   console.log('Auto School - Full Repair Order:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
-  const [servingSize, setServingSize] = useState(2);
+  const [teamSize, setTeamSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
 
@@ -363,7 +363,7 @@ const AutoSchool = () => {
         <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
           activeMobileTab === 'school' ? 'block' : 'hidden lg:block'
         }`}>
-          {/* Culinary School header - moved back inside the module */}
+          {/* Automotive School header - moved back inside the module */}
           <div className="flex items-center justify-center mb-4">
             <span className="text-5xl mr-2">⚙️</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('autoSchool.title')}</h1>
@@ -372,7 +372,7 @@ const AutoSchool = () => {
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6" />
         <div className="w-full mx-auto">
-        <JobTimer servingSize={servingSize} setServingSize={setServingSize} />
+        <JobTimer teamSize={teamSize} setTeamSize={setTeamSize} />
         {/* Always render a VideoModal for the currently displayed tutorial list */}
         {tutorials.map((tut, idx) => (
           <VideoModal
@@ -432,12 +432,12 @@ const AutoSchool = () => {
                 </ul>
                 {recipeNutrition && (
                   <div className="mt-2">
-                    <div className="font-semibold mb-1">{t('autoSchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
+                    <div className="font-semibold mb-1">{t('autoSchool.nutritionTotal').replace('{servings}', teamSize.toString())}:</div>
                     <div className="text-sm">
-                      <div>{t('autoSchool.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('autoSchool.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('autoSchool.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('autoSchool.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
+                      <div>{t('autoSchool.carbs')}: {(recipeNutrition.carbs * teamSize).toFixed(1)}g</div>
+                      <div>{t('autoSchool.sugars')}: {(recipeNutrition.sugars * teamSize).toFixed(1)}g</div>
+                      <div>{t('autoSchool.fiber')}: {(recipeNutrition.fiber * teamSize).toFixed(1)}g</div>
+                      <div>{t('autoSchool.protein')}: {(recipeNutrition.protein * teamSize).toFixed(1)}g</div>
                     </div>
                   </div>
                 )}

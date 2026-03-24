@@ -750,8 +750,8 @@
     "logOut": "Log Out"
   },
   "cookingTimer": {
-    "title": "Cooking Timer",
-    "servings": "Servings",
+    "title": "Service Timer",
+    "servings": "Techs",
     "startTimer": "Start Timer",
     "pauseTimer": "Pause Timer",
     "resetTimer": "Reset Timer",

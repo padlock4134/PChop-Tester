@@ -11,12 +11,12 @@ interface Timer {
   isFinished: boolean;
 }
 
-interface CookingTimerProps {
-  servingSize: number;
-  setServingSize: (size: number) => void;
+interface JobTimerProps {
+  teamSize: number;
+  setTeamSize: (size: number) => void;
 }
 
-const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize }) => {
+const CookingTimer: React.FC<JobTimerProps> = ({ teamSize, setTeamSize }) => {
   const { t } = useTranslation();
   const [timers, setTimers] = useState<Timer[]>([]);
   const [newTimerMinutes, setNewTimerMinutes] = useState(5);
@@ -25,11 +25,12 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
 
   // Preset timer options
   const presetTimers = [
-    { label: 'Pasta', minutes: 8 },
-    { label: 'Rice', minutes: 18 },
-    { label: 'Eggs (Soft)', minutes: 6 },
-    { label: 'Eggs (Hard)', minutes: 12 },
-    { label: 'Steak (Medium)', minutes: 4 },
+    { label: 'Oil Change', minutes: 30 },
+    { label: 'Brake Inspection', minutes: 45 },
+    { label: 'Tire Rotation', minutes: 20 },
+    { label: 'Battery Test', minutes: 15 },
+    { label: 'Diagnostic Scan', minutes: 60 },
+    { label: 'Fluid Check', minutes: 10 }
   ];
 
   useEffect(() => {
@@ -80,8 +81,8 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
   };
 
   const calculateAdjustedTime = (baseMinutes: number) => {
-    // Simple scaling: more servings = slightly more time
-    const scaleFactor = Math.sqrt(servingSize / 2); // Square root scaling for cooking
+    // Simple scaling: more techs = slightly more time
+    const scaleFactor = Math.sqrt(teamSize / 2); // Square root scaling for service time
     return Math.round(baseMinutes * scaleFactor);
   };
 
@@ -89,7 +90,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
     const adjustedMinutes = calculateAdjustedTime(minutes);
     const newTimer: Timer = {
       id: Date.now().toString(),
-      label: `${label} (${servingSize} servings)`,
+      label: `${label} (${teamSize} techs)`,
       totalSeconds: adjustedMinutes * 60,
       remainingSeconds: adjustedMinutes * 60,
       isRunning: false,
@@ -142,8 +143,8 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
               type="number"
               min="1"
               max="8"
-              value={servingSize}
-              onChange={(e) => setServingSize(parseInt(e.target.value) || 1)}
+              value={teamSize}
+              onChange={(e) => setTeamSize(parseInt(e.target.value) || 1)}
               className="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold"
             />
             <span className="text-sm text-gray-600">{t('cookingTimer.servings').toLowerCase()}</span>
@@ -156,7 +157,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
             <div
               key={i}
               className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${
-                i < servingSize 
+                i < teamSize 
                   ? 'bg-maineBlue text-seafoam' 
                   : 'bg-gray-200 text-gray-400'
               }`}
