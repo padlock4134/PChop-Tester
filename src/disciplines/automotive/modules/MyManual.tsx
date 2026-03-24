@@ -1031,7 +1031,7 @@ const MyManual = () => {
                     </button>
                   </div>
                 )
-              ) : (
+              : (
                   <div className="text-center py-8">
                     <div className="text-4xl mb-2">📝</div>
                     <p className="text-gray-500 text-sm">{t('myManual.noRecipesYet')}</p>
