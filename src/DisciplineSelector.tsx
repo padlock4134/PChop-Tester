@@ -23,7 +23,6 @@ const DisciplineSelector: React.FC = () => {
   const navigate = useNavigate();
   const { isAdmin, isLoading, user } = useSupabase();
   const [selectedDiscipline, setSelectedDiscipline] = useState('');
-  const [showTooltip, setShowTooltip] = useState(true);
   const [showAddDisciplineModal, setShowAddDisciplineModal] = useState(false);
   const [disciplineName, setDisciplineName] = useState('');
   const [additionalContext, setAdditionalContext] = useState('');
@@ -131,21 +130,7 @@ const DisciplineSelector: React.FC = () => {
             </div>
 
             {isAdmin && (
-              <div className="relative mb-4">
-                {showTooltip && (
-                  <div className="absolute top-1/2 -right-4 transform translate-x-full -translate-y-1/2 bg-maineBlue text-white px-4 py-2 rounded-lg shadow-lg text-sm font-bold whitespace-nowrap z-10">
-                    🚀 Live Very Soon!
-                    <button
-                      onClick={() => setShowTooltip(false)}
-                      className="ml-2 text-white hover:text-seafoam"
-                    >
-                      ✕
-                    </button>
-                    <div className="absolute left-0 top-1/2 transform -translate-x-full -translate-y-1/2">
-                      <div className="border-8 border-transparent border-r-maineBlue"></div>
-                    </div>
-                  </div>
-                )}
+              <div className="mb-4">
                 <button
                   type="button"
                   onClick={() => setShowAddDisciplineModal(true)}
