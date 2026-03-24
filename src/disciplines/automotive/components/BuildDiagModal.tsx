@@ -190,7 +190,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                 </div>
               ) : recipes.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-500 text-sm">No recipes in your cookbook yet.</p>
+                  <p className="text-gray-500 text-sm">No services in your manual yet.</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
