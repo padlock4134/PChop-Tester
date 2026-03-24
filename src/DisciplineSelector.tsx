@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from './disciplines/culinary/images/logo.png';
+import { useAdminToggle } from './App';
 
 const disciplines = [
   { key: 'culinary', label: 'Culinary', icon: '🍳' },
@@ -12,11 +13,11 @@ const disciplines = [
   { key: 'logistics', label: 'Logistics', icon: '📦' },
   { key: 'machining', label: 'Machining', icon: '⚙️' },
   { key: 'plumbing', label: 'Plumbing', icon: '🔩' },
-  { key: 'add-discipline', label: 'Add Discipline', icon: '➕' },
 ];
 
 const DisciplineSelector: React.FC = () => {
   const navigate = useNavigate();
+  const { isAdminMode } = useAdminToggle();
   const [selectedDiscipline, setSelectedDiscipline] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -51,17 +52,23 @@ const DisciplineSelector: React.FC = () => {
                 required
               >
                 <option value="">-- Select Discipline --</option>
-                {disciplines.slice(0, -1).map((d) => (
+                {disciplines.map((d) => (
                   <option key={d.key} value={d.key}>
                     {d.icon} {d.label}
                   </option>
                 ))}
-                <option disabled>──────────────</option>
-                <option key={disciplines[disciplines.length - 1].key} value={disciplines[disciplines.length - 1].key}>
-                  {disciplines[disciplines.length - 1].icon} {disciplines[disciplines.length - 1].label}
-                </option>
               </select>
             </div>
+
+            {isAdminMode && (
+              <button
+                type="button"
+                onClick={() => console.log('Add Discipline clicked')}
+                className="w-full bg-seafoam text-maineBlue font-bold py-2 px-4 rounded-lg hover:bg-maineBlue hover:text-white transition-colors border-2 border-maineBlue mb-4 text-sm"
+              >
+                ➕ Add Discipline
+              </button>
+            )}
 
             <button
               type="submit"
