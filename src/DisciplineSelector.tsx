@@ -78,12 +78,32 @@ const DisciplineSelector: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedDiscipline) {
+      // Store the selected discipline for the session
+      localStorage.setItem('selectedDiscipline', selectedDiscipline);
+      
       if (isAdmin) {
         console.log('DisciplineSelector - Storing discipline:', selectedDiscipline);
         localStorage.setItem('adminSelectedDiscipline', selectedDiscipline);
-        navigate('/admin');
+        
+        // Check if there was an intended destination
+        const intendedDestination = localStorage.getItem('intendedDestination');
+        if (intendedDestination && intendedDestination !== '/admin') {
+          // Clear the intended destination and navigate there
+          localStorage.removeItem('intendedDestination');
+          navigate(intendedDestination);
+        } else {
+          navigate('/admin');
+        }
       } else {
-        navigate(`/${selectedDiscipline}/dashboard`);
+        // Check if there was an intended destination
+        const intendedDestination = localStorage.getItem('intendedDestination');
+        if (intendedDestination && intendedDestination.startsWith(`/${selectedDiscipline}/`)) {
+          // Clear the intended destination and navigate there
+          localStorage.removeItem('intendedDestination');
+          navigate(intendedDestination);
+        } else {
+          navigate(`/${selectedDiscipline}/dashboard`);
+        }
       }
     }
   };
