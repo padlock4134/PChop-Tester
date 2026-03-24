@@ -146,7 +146,7 @@ const AutoSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Automotive Technology Curriculum",
+    title: "Auto Tech Curriculum",
     courses: [
       {
         id: "course-1",
@@ -395,7 +395,7 @@ const AutoSchool = () => {
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">{t('autoSchool.step')} {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
                 </li>
               ))}
@@ -476,7 +476,7 @@ const AutoSchool = () => {
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">{t('autoSchool.step')} {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
                 </li>
               ))}
