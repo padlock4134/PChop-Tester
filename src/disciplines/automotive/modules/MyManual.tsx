@@ -105,44 +105,44 @@ const MyManual = () => {
     {
       id: 1,
       week: "Week 3",
-      title: "French Knife Skills & Mother Sauces",
-      emoji: "🔪",
+      title: "Engine Diagnostics & Tool Skills",
+      emoji: "�",
       dueDate: "Oct 15, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Julienne cuts (2mm strips)", "Brunoise dice (2mm cubes)", "Chiffonade herbs", "Proper knife grip"],
-      submission: ["Video demo (3-5 min)", "Photos of cuts", "Self-reflection", "Upload to cookbook"],
-      objectives: ["Safety protocols", "Uniform cuts", "Consistent speed", "Mise en place"],
+      techniques: ["Socket wrench usage", "Torque application", "Diagnostic tool operation", "Proper tool grip"],
+      submission: ["Video demo (3-5 min)", "Photos of work", "Self-reflection", "Upload to manual"],
+      objectives: ["Safety protocols", "Precise measurements", "Consistent technique", "Workspace organization"],
       studentName: "Sarah Chen",
       videoTitle: "Tool Skills Demo"
     },
     {
       id: 2,
       week: "Week 5",
-      title: "Sauce Making & Emulsification",
-      emoji: "🥄",
+      title: "Transmission Repair & Fluid Systems",
+      emoji: "⚙️",
       dueDate: "Oct 29, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Hollandaise sauce", "Mayonnaise emulsion", "Beurre blanc", "Pan sauce reduction"],
-      submission: ["Video demonstration", "Sauce samples", "Temperature logs", "Technique notes"],
-      objectives: ["Temperature control", "Emulsion stability", "Flavor balance", "Professional presentation"],
+      techniques: ["Fluid level checks", "Filter replacement", "Seal installation", "Pressure testing"],
+      submission: ["Video demonstration", "Work photos", "Torque specs", "Repair notes"],
+      objectives: ["Fluid safety", "Proper sealing", "Pressure accuracy", "Professional documentation"],
       studentName: "Sarah Chen",
-      videoTitle: "Sauce Emulsification Demo"
+      videoTitle: "Transmission Repair Demo"
     },
     {
       id: 3,
       week: "Week 7",
-      title: "Protein Cookery & Temperature Control",
-      emoji: "🥩",
+      title: "Brake Service & Safety Systems",
+      emoji: "",
       dueDate: "Nov 12, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Searing techniques", "Internal temperatures", "Resting periods", "Carryover cooking"],
-      submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
-      objectives: ["Food safety", "Proper doneness", "Texture control", "Flavor development"],
+      techniques: ["Pad replacement", "Rotor resurfacing", "Bleeding procedures", "Safety testing"],
+      submission: ["Video demonstration", "Measurement logs", "Final photos", "Safety reflection"],
+      objectives: ["Brake accuracy", "Safety compliance", "Proper bleeding", "System testing"],
       studentName: "Sarah Chen",
-      videoTitle: "Protein Cookery Demo"
+      videoTitle: "Brake Service Demo"
     }
   ];
 
@@ -1144,7 +1144,7 @@ const MyManual = () => {
                     {/* Grading Rubric */}
                     <div className="bg-white border-2 lg:border-4 border-green-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm flex-shrink-0">
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
-                        <h4 className="font-serif font-bold text-emerald-800 text-sm lg:text-xs">📊 {t('myManual.rubric')}</h4>
+                        <h4 className="font-serif font-bold text-emerald-800 text-sm lg:text-xs">📊 {t('gradebook.rubric')}</h4>
                       <select 
                         className="bg-white border border-emerald-300 rounded px-2 py-1 text-xs font-serif"
                         value={currentStudentIndex}
@@ -1161,9 +1161,9 @@ const MyManual = () => {
                       <div className="grid grid-cols-2 gap-1 lg:gap-1">
                         {/* Technique Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myManual.technique')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('gradebook.technique')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">{t('myManual.score')}</option>
+                          <option value="">{t('gradebook.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1174,9 +1174,9 @@ const MyManual = () => {
 
                         {/* Safety Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myManual.safety')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('gradebook.safety')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">{t('myManual.score')}</option>
+                          <option value="">{t('gradebook.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1187,9 +1187,9 @@ const MyManual = () => {
 
                         {/* Consistency Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myManual.consistency')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('gradebook.consistency')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">{t('myManual.score')}</option>
+                          <option value="">{t('gradebook.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1200,9 +1200,9 @@ const MyManual = () => {
 
                         {/* Presentation Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myManual.presentation')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('gradebook.presentation')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">{t('myManual.score')}</option>
+                          <option value="">{t('gradebook.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1215,59 +1215,59 @@ const MyManual = () => {
                       {/* Total Score */}
                       <div className="mt-2 pt-2 border-t border-emerald-300 text-center py-2 lg:py-3">
                         <span className="text-base lg:text-xl font-bold text-red-600">
-                          <span className="block lg:inline">{t('myManual.total')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100</span>
+                          <span className="block lg:inline">{t('gradebook.total')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100</span>
                           <span className="hidden lg:inline"> | </span>
-                          <span className="block lg:inline">{t('myManual.grade')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}</span>
+                          <span className="block lg:inline">{t('gradebook.grade')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}</span>
                         </span>
                       </div>
                     </div>
 
                     {/* Instructor Feedback */}
                     <div className="bg-white border-2 lg:border-4 border-yellow-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm flex-shrink-0">
-                      <h4 className="font-serif font-bold text-amber-800 mb-1 lg:mb-2 text-sm">💬 {t('myManual.feedback')}</h4>
+                      <h4 className="font-serif font-bold text-amber-800 mb-1 lg:mb-2 text-sm">💬 {t('gradebook.feedback')}</h4>
                       
                       <textarea 
-                        placeholder={t('myManual.feedbackPlaceholder')}
+                        placeholder={t('gradebook.feedbackPlaceholder')}
                         className="w-full h-16 lg:h-14 text-xs border border-amber-300 rounded p-2 bg-white/80 resize-none focus:border-amber-500 focus:outline-none"
                       />
 
                       <div className="mt-2 flex space-x-2">
                         <button className="flex-1 bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-1 lg:px-3 lg:py-2 rounded text-xs hover:bg-emerald-200 transition-all">
-                          💾 {t('myManual.save')}
+                          💾 {t('gradebook.save')}
                         </button>
                         <button className="flex-1 bg-blue-100 text-blue-800 border border-blue-300 px-2 py-1 lg:px-3 lg:py-2 rounded text-xs hover:bg-blue-200 transition-all">
-                          📧 {t('myManual.send')}
+                          📧 {t('gradebook.send')}
                         </button>
                     </div>
                   </div>
 
                     {/* Saved Feedback Notepad */}
                     <div className="bg-white border-2 lg:border-4 border-amber-700 rounded-lg p-2 lg:p-3 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0">
-                      <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 {t('myManual.savedFeedbackNotes')}</h4>
+                      <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 {t('gradebook.savedFeedbackNotes')}</h4>
                     
                     <div className="bg-white/80 rounded border border-yellow-200 p-2 flex-1 overflow-y-auto">
                       <div className="space-y-2 text-xs">
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 28, 2024 - 2:15 PM</div>
                           <div className="text-gray-600">
-                            "Great improvement on knife grip! Your julienne cuts are much more consistent than last week. 
-                            Focus on maintaining steady rhythm for the brunoise. Overall excellent progress."
+                            "Great improvement on tool grip! Your cuts are much more consistent than last week. 
+                            Focus on maintaining steady rhythm for precision work. Overall excellent progress."
                           </div>
                         </div>
                         
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 21, 2024 - 1:45 PM</div>
                           <div className="text-gray-600">
-                            "Good safety awareness throughout the demo. Work on keeping fingers curled more consistently 
-                            during chopping. Your mise en place organization was excellent."
+                            "Good safety awareness throughout the demo. Work on keeping proper hand position more consistently 
+                            during work. Your workspace organization was excellent."
                           </div>
                         </div>
 
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 14, 2024 - 3:20 PM</div>
                           <div className="text-gray-600">
-                            "First knife skills assessment - showing natural talent! Remember to keep the knife tip on 
-                            the board for better control. Practice the rocking motion we discussed."
+                            "First tool skills assessment - showing natural talent! Remember to maintain proper tool control 
+                            for better precision. Practice the steady techniques we discussed."
                           </div>
                         </div>
                       </div>
@@ -1283,7 +1283,7 @@ const MyManual = () => {
                       <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b-2 border-amber-300 flex-shrink-0">
                         <div className="text-center">
                           <div className="text-2xl lg:text-3xl mb-1">{assignments[currentAssignmentPage].emoji}</div>
-                          <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} {t('myManual.assignment')}</div>
+                          <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} {t('gradebook.assignment')}</div>
                         </div>
                       </div>
 
@@ -1294,28 +1294,28 @@ const MyManual = () => {
                         
                         <h3 className="font-bold text-base lg:text-lg mb-2 text-maineBlue">{assignments[currentAssignmentPage].title}</h3>
                         <div className="text-xs text-gray-600 mb-2 lg:mb-4">
-                          <span className="block lg:inline">{t('myManual.due')}: {assignments[currentAssignmentPage].dueDate}</span>
+                          <span className="block lg:inline">{t('gradebook.due')}: {assignments[currentAssignmentPage].dueDate}</span>
                           <span className="hidden lg:inline"> | </span>
                           <span className="block lg:inline">{assignments[currentAssignmentPage].points} pts | {assignments[currentAssignmentPage].weight}</span>
                         </div>
                         
                         <div className="space-y-1 lg:space-y-2 flex-shrink-0">
                           <div>
-                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('myManual.requiredTechniques')}</div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('gradebook.requiredTechniques')}</div>
                             <div className="text-xs text-gray-700 leading-tight">
                               {assignments[currentAssignmentPage].techniques.join(' • ')}
                             </div>
                           </div>
 
                           <div>
-                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('myManual.submission')}</div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('gradebook.submission')}</div>
                             <div className="text-xs text-gray-700 leading-tight">
                               {assignments[currentAssignmentPage].submission.join(' • ')}
                             </div>
                           </div>
 
                           <div>
-                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('myManual.objectives')}</div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('gradebook.objectives')}</div>
                             <div className="text-xs text-gray-700 leading-tight">
                               {assignments[currentAssignmentPage].objectives.join(' • ')}
                             </div>
