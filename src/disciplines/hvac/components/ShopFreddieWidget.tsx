@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askChefFreddie } from '../../culinary/api/chefFreddie';
+import { askChefFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 interface Message {
@@ -13,16 +13,16 @@ interface Message {
 
 const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
-    case 'MyKitchen':
-      return t('shopFreddie.welcomeMyKitchen');
-    case 'MyCookBook':
-      return t('shopFreddie.welcomeMyCookbook');
-    case 'ChefsCorner':
-      return t('shopFreddie.welcomeChefsCorner');
-    case 'CulinarySchool':
-      return t('shopFreddie.welcomeCulinarySchool');
+    case 'MyShop':
+      return "Welcome to My Shop — I can help you look up equipment specs, check refrigerant requirements, and plan your service calls.";
+    case 'MySpecSheets':
+      return "Welcome to My Spec Sheets — need help documenting a service report or reviewing equipment specs?";
+    case 'TechTalk':
+      return "Welcome to Tech Talk — want tips on finding local HVAC suppliers or connecting with fellow technicians?";
+    case 'HvacSchool':
+      return "Welcome to HVAC School — I can help you prep for EPA 608 certification or find diagnostic technique videos.";
     default:
-      return t('shopFreddie.welcomeDefault');
+      return "Hey! I'm Cool Cal, your AI HVAC assistant. Ask me anything about refrigeration, heat pumps, or EPA compliance.";
   }
 };
 
@@ -110,11 +110,11 @@ const ShopFreddieWidget = () => {
       <button
         className="fixed bottom-6 right-6 bg-maineBlue text-seafoam rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:bg-seafoam hover:text-maineBlue transition-colors"
         onClick={() => setOpen(o => !o)}
-        aria-label="Open Shop Freddie AI Assistant"
+        aria-label="Open Cool Cal AI Assistant"
       >
         <img
           src={chefFreddiePng}
-          alt="Shop Freddie"
+          alt="Cool Cal"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />
       </button>
@@ -123,7 +123,7 @@ const ShopFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Shop Freddie</span>
+              <span className="font-bold text-maineBlue">Cool Cal</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);

@@ -13,12 +13,12 @@ import JobTimer from '../components/JobTimer';
 import FieldPracticeModal from '../components/FieldPracticeModal';
 
 const generalLessons = [
-  { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
-  { title: 'Seafood Handling & Safety', desc: 'How to select, store, and prep fresh seafood safely.' },
-  { title: 'Essential Cooking Techniques', desc: 'Master sautéing, steaming, poaching, and more.' },
-  { title: 'Sanitation & Cross-Contamination', desc: 'Keep your kitchen safe and clean.' },
-  { title: 'Using a Thermometer', desc: 'How to check doneness for seafood, poultry, and meats.' },
-  { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
+  { title: 'Blueprint Reading 101', desc: 'Learn how to read architectural and structural drawings like a pro.' },
+  { title: 'Site Safety & OSHA Compliance', desc: 'How to identify hazards and maintain a compliant job site.' },
+  { title: 'Framing Fundamentals', desc: 'Master wall framing, headers, and rough opening layouts.' },
+  { title: 'Concrete & Masonry Basics', desc: 'Mixing, pouring, finishing, and laying block properly.' },
+  { title: 'Measuring & Layout', desc: 'How to use a tape, square, and level for accurate layouts.' },
+  { title: 'Tool & Equipment Care', desc: 'Cleaning, inspecting, and maintaining your hand and power tools.' }
 ];
 
 // Generate default tutorials including the weekly technique
@@ -33,73 +33,73 @@ function getDefaultTutorials() {
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.'
+      title: 'Let\'s Build This Project!',
+      desc: 'How to approach the main task for this build project.'
     }
   ];
 }
 
-// 52 Fundamental Cooking Techniques (one for each week of the year)
+// 52 Fundamental Construction Techniques (one for each week of the year)
 const WEEKLY_TECHNIQUES = [
-  // Knife & Prep Techniques (Weeks 1-13)
-  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
-  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
-  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
-  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
-  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
-  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
-  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
-  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
-  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
-  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
-  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
-  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
-  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
+  // Blueprint & Layout (Weeks 1-13)
+  { title: "Reading Architectural Plans", desc: "Interpreting floor plans, elevations, and sections" },
+  { title: "Reading Structural Drawings", desc: "Understanding framing plans, beam schedules, and load paths" },
+  { title: "Site Layout with Batter Boards", desc: "Establishing accurate building corners and elevations" },
+  { title: "Using a Builder's Level", desc: "Setting elevation benchmarks across a job site" },
+  { title: "Squaring a Foundation", desc: "The 3-4-5 method and diagonal checks" },
+  { title: "Reading a Tape Measure", desc: "Fractions, decimals, and the 16-inch module" },
+  { title: "Chalk Line Technique", desc: "Snapping accurate layout lines on floors and walls" },
+  { title: "Using a Speed Square", desc: "Marking rafter cuts and checking square" },
+  { title: "Plumb Bob Use", desc: "Transferring points vertically with accuracy" },
+  { title: "Laser Level Setup", desc: "Leveling and aligning with rotary and line lasers" },
+  { title: "Material Estimation Basics", desc: "Calculating board feet, square feet, and waste factors" },
+  { title: "Reading a Spec Sheet", desc: "Extracting material and performance requirements" },
+  { title: "Working from a Schedule", desc: "Using door, window, and finish schedules on blueprints" },
 
-  // Heat & Temperature (Weeks 14-26)
-  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
-  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
-  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
-  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
-  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
-  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
-  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
-  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
-  { title: "Steam Control", desc: "Managing moisture while cooking" },
-  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
-  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
-  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
+  // Framing & Structure (Weeks 14-26)
+  { title: "Wall Plate Layout", desc: "Marking stud locations on top and bottom plates" },
+  { title: "Stud Wall Assembly", desc: "Building and standing a standard wood-framed wall" },
+  { title: "Rough Opening Framing", desc: "Headers, king studs, and trimmer sizing" },
+  { title: "Corner Framing Techniques", desc: "California corners vs. three-stud corners for insulation" },
+  { title: "Floor Joist Installation", desc: "Crown side up, hangers, and blocking requirements" },
+  { title: "Subfloor Installation", desc: "Gluing, nailing, and staggering subfloor panels" },
+  { title: "Roof Rafter Layout", desc: "Common rafter math, ridge board, and bird's mouth cuts" },
+  { title: "Engineered Lumber Basics", desc: "LVL, PSL, and I-joist installation requirements" },
+  { title: "Metal Connector Hardware", desc: "Joist hangers, hurricane ties, and post caps" },
+  { title: "Sheathing Installation", desc: "Wall and roof sheathing nailing patterns and gaps" },
+  { title: "Bearing Wall Identification", desc: "Determining load paths before removal" },
+  { title: "Temporary Bracing", desc: "Safe bracing of walls before permanent sheathing" },
+  { title: "Post and Beam Connections", desc: "Notching, bolting, and hardware for heavy timber" },
 
-  // Flavor Building (Weeks 27-39)
-  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
-  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
-  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
-  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
-  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
-  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
-  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
-  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
-  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
-  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
-  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
-  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
-  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
+  // Masonry, Concrete & Finishing (Weeks 27-39)
+  { title: "Concrete Mix Ratios", desc: "Water-to-cement ratio and slump testing basics" },
+  { title: "Form Building", desc: "Setting forms for footings, walls, and slabs" },
+  { title: "Rebar Placement", desc: "Cover requirements, spacing, and tying rebar" },
+  { title: "Concrete Finishing", desc: "Screeding, floating, troweling, and curing" },
+  { title: "Block Laying Technique", desc: "Mortar consistency, joint tooling, and course layout" },
+  { title: "Brick Patterns & Bonds", desc: "Running bond, common bond, and stack bond" },
+  { title: "Waterproofing Foundations", desc: "Dampproofing vs. waterproofing and drainage systems" },
+  { title: "Drywall Hanging", desc: "Panel orientation, screw spacing, and butt joints" },
+  { title: "Drywall Taping & Mudding", desc: "Tape embedding, three-coat finishing, and feathering" },
+  { title: "Exterior Trim Installation", desc: "Flashing, caulking, and proper nailing schedules" },
+  { title: "Door Hanging", desc: "Shimming, squaring, and securing a prehung door" },
+  { title: "Window Installation", desc: "Flashing, sealing, and shimming for weather resistance" },
+  { title: "Flooring Layout", desc: "Squaring the room, expansion gaps, and stagger patterns" },
 
-  // Texture & Technique (Weeks 40-52)
-  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
-  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
-  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
-  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
-  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
-  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
-  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
-  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
-  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
-  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
-  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
-  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
+  // Safety, Code & Professional Skills (Weeks 40-52)
+  { title: "Fall Protection Basics", desc: "Guardrail, personal fall arrest, and safety net requirements" },
+  { title: "Scaffold Erection Safety", desc: "Base plate, bracing, and access requirements" },
+  { title: "Power Tool Safety", desc: "Guards, blade changes, and two-hand operation rules" },
+  { title: "Reading the IBC", desc: "Navigating the International Building Code" },
+  { title: "Fire Blocking Requirements", desc: "Where and how to install fireblocking per code" },
+  { title: "Energy Code Basics", desc: "Insulation values, air barriers, and thermal bridging" },
+  { title: "ADA Accessibility Basics", desc: "Door widths, ramp slopes, and reach ranges" },
+  { title: "Excavation Safety", desc: "Trench protection systems and soil classification" },
+  { title: "Crane & Rigging Signals", desc: "Standard hand signals and rigging inspection" },
+  { title: "Daily Job Logs", desc: "Documenting weather, crew, and progress on site" },
+  { title: "Change Order Process", desc: "Documenting scope changes to protect payment" },
+  { title: "Subcontractor Coordination", desc: "Sequencing trades and avoiding delays" },
+  { title: "Career Pathways", desc: "Apprentice to journeyman to general contractor — the roadmap" }
 ];
 
 // Get the technique for current week (1-52)
@@ -124,8 +124,8 @@ function getTwoTutorials(recipe: any) {
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Cook This Meal!`,
-      desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
+      title: `Let\'s Build This Project!`,
+      desc: `Step-by-step project walkthrough for ${recipe.title}.`,
       type: 'cooking_tutorial'
     }
   ];
@@ -136,8 +136,8 @@ const BuildSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
-  console.log('Culinary School - Full Recipe:', selectedRecipe);
+  console.log('Build School - Project data:', selectedRecipe?.nutrition);
+  console.log('Build School - Full Project:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -146,47 +146,47 @@ const BuildSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Chef College Curriculum",
+    title: "Construction Technology Curriculum",
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Culinary Foundations",
+        title: "Term 1: Construction Fundamentals",
         lessons: [
-          { id: "lesson-1-1", title: "Kitchen Safety and Sanitation", completed: true, current: false },
-          { id: "lesson-1-2", title: "Food Handling and Storage", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to Kitchen Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Cooking Terminology", completed: false, current: true },
-          { id: "lesson-1-5", title: "Weights, Measures, and Conversions", completed: false, current: false },
+          { id: "lesson-1-1", title: "Site Safety, PPE, and OSHA Requirements", completed: true, current: false },
+          { id: "lesson-1-2", title: "Hand Tools, Power Tools, and Equipment", completed: true, current: false },
+          { id: "lesson-1-3", title: "Blueprint Reading and Site Plans", completed: true, current: false },
+          { id: "lesson-1-4", title: "Measurements, Layout, and Math", completed: false, current: true },
+          { id: "lesson-1-5", title: "Material Identification and Estimation", completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Knife Skills",
+        title: "Term 1: Framing & Structure",
         lessons: [
-          { id: "lesson-2-1", title: "Knife Safety and Maintenance", completed: false, current: false },
-          { id: "lesson-2-2", title: "Basic Knife Cuts", completed: false, current: false },
-          { id: "lesson-2-3", title: "Vegetable Fabrication", completed: false, current: false },
-          { id: "lesson-2-4", title: "Meat and Fish Fabrication", completed: false, current: false },
+          { id: "lesson-2-1", title: "Foundation Types and Footings", completed: false, current: false },
+          { id: "lesson-2-2", title: "Floor and Wall Framing", completed: false, current: false },
+          { id: "lesson-2-3", title: "Roof Framing and Sheathing", completed: false, current: false },
+          { id: "lesson-2-4", title: "Engineered Lumber and Metal Connectors", completed: false, current: false },
         ]
       },
       {
         id: "course-3",
-        title: "Term 2: Breakfast & Garde Manger",
+        title: "Term 2: Masonry, Concrete & Finishing",
         lessons: [
-          { id: "lesson-3-1", title: "Egg Cookery", completed: false, current: false },
-          { id: "lesson-3-2", title: "Breakfast Preparations", completed: false, current: false },
-          { id: "lesson-3-3", title: "Cold Food Preparation", completed: false, current: false },
-          { id: "lesson-3-4", title: "Salads and Dressings", completed: false, current: false },
+          { id: "lesson-3-1", title: "Concrete Forming and Placement", completed: false, current: false },
+          { id: "lesson-3-2", title: "Masonry and Block Work", completed: false, current: false },
+          { id: "lesson-3-3", title: "Drywall Hanging and Finishing", completed: false, current: false },
+          { id: "lesson-3-4", title: "Doors, Windows, and Trim", completed: false, current: false },
         ]
       },
       {
         id: "course-4",
-        title: "Term 2: Baking & Pastry",
+        title: "Term 2: Code, Safety & Professional Practice",
         lessons: [
-          { id: "lesson-4-1", title: "Basic Dough and Batters", completed: false, current: false },
-          { id: "lesson-4-2", title: "Quick Breads and Muffins", completed: false, current: false },
-          { id: "lesson-4-3", title: "Yeast Breads", completed: false, current: false },
-          { id: "lesson-4-4", title: "Basic Pastry and Desserts", completed: false, current: false },
+          { id: "lesson-4-1", title: "Building Codes and Permits", completed: false, current: false },
+          { id: "lesson-4-2", title: "Fall Protection and Scaffold Safety", completed: false, current: false },
+          { id: "lesson-4-3", title: "Project Documentation and Change Orders", completed: false, current: false },
+          { id: "lesson-4-4", title: "Career Pathways in Construction", completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
@@ -197,7 +197,7 @@ const BuildSchool = () => {
   };
 
   useEffect(() => {
-    updateContext({ page: 'CulinarySchool' });
+    updateContext({ page: 'BuildSchool' });
   }, [updateContext]);
 
   useEffect(() => {
@@ -298,9 +298,9 @@ const BuildSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[CulinarySchool] Fetching videos with API key rotation');
-      console.log('[CulinarySchool] Tutorials to fetch:', tutorials);
-      console.log('[CulinarySchool] Selected recipe:', selectedRecipe);
+      console.log('[BuildSchool] Fetching videos with API key rotation');
+      console.log('[BuildSchool] Tutorials to fetch:', tutorials);
+      console.log('[BuildSchool] Selected project:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -312,16 +312,16 @@ const BuildSchool = () => {
             idx
           );
           
-          console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
+          console.log(`[BuildSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
           
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
+          console.log(`[BuildSchool] Tutorial ${idx} result:`, result);
           
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
         } catch (error) {
-          console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
+          console.error(`[BuildSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
       

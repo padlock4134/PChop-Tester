@@ -17,21 +17,33 @@ PorkChop is a Maine based LLC with a utility patent pending.
 
 ## The Problem
 
-- **500+ US institutions** offer culinary/hospitality programs; **1,000+ community colleges** serve trade disciplines — all underserved by legacy LMS platforms.
-- Nursing students get vSim simulators. Engineering students get CAD software. **Culinary students get crossword puzzles.**
-- Generic LMS platforms have no concept of ingredient management, kitchen simulation, technique assessment, or practical skills grading.
-- Paper-based skill assessments, no video submission capability, and zero tools for practicing technique outside the physical classroom.
+- **1,000+ community colleges** and **500+ specialized trade institutions** serve 16M+ US trade students — all underserved by legacy LMS platforms.
+- Nursing students get vSim simulators. Engineering students get CAD software. **Trade students get crossword puzzles.**
+- Generic LMS platforms have no concept of hands-on skill assessment, technique practice, equipment management, or industry-specific workflows.
+- Paper-based skill assessments, no video submission capability, and zero tools for practicing techniques outside the physical classroom.
+- **Every new trade program requires months of custom development** — schools can't launch new programs without vendor involvement.
 
 ---
 
 ## The Solution
 
-Schools provide their own curriculum — PorkChop deploys it automatically.
+Schools provide their own curriculum — PorkChop deploys it automatically across any trade discipline.
 
 1. **School uploads curriculum** (PDFs, DOCX, syllabi)
 2. **AI analyzes and auto-maps content** to platform modules with confidence scoring
 3. **Platform deploys** with the school's branding and structure in days, not months
 4. **No vendor curriculum lock-in** — schools own their content, PorkChop provides infrastructure
+
+### Dynamic Discipline Generation (New)
+
+Educators can now **instantly create new trade programs** without developer involvement:
+
+1. **Admin enters program name** (e.g., "Welding", "Cosmetology", "Aviation Maintenance")
+2. **AI generates complete program configuration** — module names, terminology, assistant persona, assessment labels, and branding
+3. **New program goes live immediately** — fully functional with all platform features
+4. **Scales infinitely** — schools can launch unlimited custom programs as their offerings expand
+
+**Result:** What used to require weeks of custom development now takes seconds. Schools can respond to market demand and launch new programs instantly.
 
 ---
 
@@ -39,7 +51,8 @@ Schools provide their own curriculum — PorkChop deploys it automatically.
 
 - **Modern web application** — responsive across desktop, tablet, and mobile; installable as a progressive web app
 - **Enterprise-grade authentication** — multi-tenant architecture so each school operates in its own secure environment
-- **AI-powered core** — computer vision, natural language AI, and nutrition data woven throughout the experience
+- **Multi-discipline architecture** — 9 built-in trade programs + unlimited custom program generation
+- **AI-powered core** — computer vision, natural language AI, and discipline-specific intelligence woven throughout
 - **Multi-language support** — internationalized (English + Spanish, extensible to additional languages)
 - **Subscription billing** — built-in payment infrastructure for institutional licensing
 - **Secure by design** — all sensitive operations handled server-side; session management with auto-logout; cost controls on AI usage
@@ -48,7 +61,11 @@ Schools provide their own curriculum — PorkChop deploys it automatically.
 
 ## Core Modules
 
-### 1. My Kitchen — Ingredient Scanning & Recipe Matching
+*Note: Module names adapt to each discipline — "My Kitchen" for Culinary becomes "My Garage" for Automotive, "My Welding Bay" for Welding, etc. All functionality remains consistent across disciplines.*
+
+### 1. Workspace Module — Resource Management & Project Matching
+
+**Culinary Example: My Kitchen — Ingredient Scanning & Recipe Matching**
 
 Students photograph their fridge or pantry. Computer vision identifies ingredients. AI generates recipes matched to what they actually have.
 
@@ -60,7 +77,9 @@ Students photograph their fridge or pantry. Computer vision identifies ingredien
 - **Talent Trees** — specialty paths (e.g., Cast Iron, Grilling, Baking) that personalize the experience
 - **Health & Nutrition tags** — dietary classifications and real nutritional data for every recipe
 
-### 2. My CookBook — Recipe Collection & Academic Gradebook
+### 2. Notebook Module — Project Portfolio & Academic Gradebook
+
+**Culinary Example: My CookBook — Recipe Collection & Academic Gradebook**
 
 A digital recipe portfolio that doubles as a grading system for culinary programs.
 
@@ -72,7 +91,9 @@ A digital recipe portfolio that doubles as a grading system for culinary program
 - **Gradebook** — instructor grading with customizable rubrics (knife skills, plating, safety, etc.)
 - **Video library** — categorized video archive for practice review
 
-### 3. Culinary School — Curriculum & Practice
+### 3. School Module — Curriculum & Practice
+
+**Culinary Example: Culinary School — Curriculum & Practice**
 
 Structured learning with a full year of weekly techniques, tutorials, nutrition analysis, and hands-on practice.
 
@@ -83,7 +104,9 @@ Structured learning with a full year of weekly techniques, tutorials, nutrition 
 - **Syllabus integration** — structured course display tied to school curriculum
 - **Bench Practice (AR)** — interactive practice scenes with guided overlays, technique tracking, and step-by-step feedback
 
-### 4. Chef's Corner — Community & Entrepreneurship
+### 4. Community Module — Peer Learning & Career Development
+
+**Culinary Example: Chef's Corner — Community & Entrepreneurship**
 
 Social hub where students connect, showcase dishes, find local markets, and build menus — real-world business skills, not just cooking.
 
@@ -96,8 +119,8 @@ Social hub where students connect, showcase dishes, find local markets, and buil
 
 ## Cross-Cutting Features
 
-### Chef Freddie — AI Assistant
-A contextual AI chef assistant available on every page. Helps with recipe suggestions, cooking tips, equipment advice, and general culinary questions. Conversations are tracked for institutional analytics.
+### Discipline-Specific AI Assistant
+A contextual AI assistant available on every page, customized to each discipline. **Chef Freddie** for Culinary helps with recipes and techniques. **Sparky** for Welding advises on weld types and safety. **Gearhead Gary** for Automotive guides diagnostics and repairs. Each assistant is trained on discipline-specific knowledge and adapts its persona to the trade. Conversations are tracked for institutional analytics.
 
 ### Gamification System
 - **60-level progression** inspired by RPG leveling systems
@@ -111,7 +134,9 @@ A comprehensive administration panel for school administrators and instructors:
 
 - **User management** — student, faculty, and alumni directories
 - **Analytics** — activity tracking, program performance, enrollment health, content analytics
+- **Multi-discipline filtering** — view data across all programs or filter by specific discipline
 - **AI Curriculum Processor** — upload syllabi and course documents; AI extracts and maps content to platform modules with confidence scoring for admin review
+- **Dynamic Discipline Generator** — create new trade programs instantly via AI-powered configuration
 - **Branding & configuration** — school-specific customization and module toggling
 - **Job placement tracking** — post-graduation employment data
 - **Data export** — institutional reporting tools
@@ -143,14 +168,16 @@ A comprehensive administration panel for school administrators and instructors:
 
 | Capability | Legacy LMS (Blackboard/Canvas) | PorkChop |
 |-----------|-------------------------------|----------|
-| Discipline-specific tools | No | Purpose-built for kitchens |
-| AI ingredient scanning | No | Computer vision with auto-categorization |
-| AI recipe generation | No | Skill-adapted recipe matching |
+| Discipline-specific tools | No | Purpose-built for 9+ trade disciplines |
+| Multi-discipline support | Generic modules only | Native support across all trade programs |
+| Custom program creation | Requires vendor development | Instant AI-powered generation |
+| AI resource scanning | No | Computer vision with auto-categorization |
+| AI project generation | No | Skill-adapted project matching |
 | Video skill assessment | Basic file upload | In-app recording + rubric grading |
-| Nutrition analysis | No | Real USDA nutritional data |
+| Discipline-specific data | No | Real industry data (nutrition, specs, etc.) |
 | Gamification | Basic badges | 60-level progression + 120 badges |
-| AR/interactive practice | No | Guided technique practice scenes |
-| Local market discovery | No | Nearby market finder with ingredient mapping |
+| Interactive practice | No | Guided technique practice scenes |
+| Resource discovery | No | Nearby resource finder with mapping |
 | Curriculum auto-mapping | No | AI content processor (utility patent pending) |
 | Multi-tenant white-label | Limited | Full school branding + tenant isolation |
 
@@ -162,22 +189,24 @@ A comprehensive administration panel for school administrators and instructors:
 - **Ed-tech focused funds** — understanding of LMS market dynamics, institutional sales cycles, and the shift from horizontal to vertical SaaS in education
 - **Trade/vocational education advocates** — investors who see the underserved gap between white-collar ed-tech (Coursera, 2U) and the 16M+ US trade students with no purpose-built tools
 - **Vertical SaaS specialists** — funds that have backed industry-specific platforms (Veeva for pharma, Procore for construction, Toast for restaurants) and understand the playbook of starting narrow and expanding
-- **AI-forward investors** — those excited by applied AI (not foundational models) — PorkChop uses AI pragmatically across 6+ features, not as a gimmick
-- **Seed to Series A stage** — product is built and functional, multi-tenant architecture is in place, utility patent pending
+- **AI-forward investors** — those excited by applied AI (not foundational models) — PorkChop uses AI pragmatically across 8+ features, including dynamic program generation
+- **Seed to Series A stage** — product is built and functional, multi-tenant architecture is in place, multi-discipline support live, utility patent pending
 
 ### Why Now
 - Legacy LMS contracts are up for renewal across hundreds of institutions
 - AI capabilities (vision, language models) just crossed the quality threshold to make these features viable at low cost
-- Culinary is the wedge, but the platform generalizes — every trade school has the same problem
+- **Platform now supports 9 disciplines + unlimited custom programs** — schools can launch any trade program instantly
+- Trade education is expanding rapidly — schools need flexible platforms that can scale with new program offerings
 - 508 compliance audit completed — ready for institutional procurement
 
 ### What They'd Be Investing In
-- **Proven product** — not a prototype; fully functional multi-tenant platform with enterprise auth, 4 core modules, and comprehensive admin tooling
-- **Wedge + expand strategy** — starting with culinary, expanding into other trade programs as clients are ready
+- **Proven product** — not a prototype; fully functional multi-tenant platform with enterprise auth, 4 core modules, comprehensive admin tooling, and 9+ discipline support
+- **Infinite scalability** — dynamic discipline generation means schools can launch unlimited programs without vendor involvement
 - **Content-agnostic moat** — schools bring their own curriculum, so PorkChop isn't competing on content — it's competing on infrastructure
+- **Multi-discipline architecture** — built from day one to support any trade, not retrofitted from a single-discipline product
 - **IP protection** — utility patent pending
 - **GTM-ready** — one-pager, demo script, outreach playbook, and vendor submittals already prepared
 
 ---
 
-*PorkChop — Because culinary students deserve better than crossword puzzles.*
+*PorkChop — Because trade students deserve better than crossword puzzles.*

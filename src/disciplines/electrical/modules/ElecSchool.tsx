@@ -13,12 +13,12 @@ import JobTimer from '../components/JobTimer';
 import PanelPracticeModal from '../components/PanelPracticeModal';
 
 const generalLessons = [
-  { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
-  { title: 'Seafood Handling & Safety', desc: 'How to select, store, and prep fresh seafood safely.' },
-  { title: 'Essential Cooking Techniques', desc: 'Master sautéing, steaming, poaching, and more.' },
-  { title: 'Sanitation & Cross-Contamination', desc: 'Keep your kitchen safe and clean.' },
-  { title: 'Using a Thermometer', desc: 'How to check doneness for seafood, poultry, and meats.' },
-  { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
+  { title: 'Electrical Safety & OSHA 10', desc: 'Lock-out/tag-out, PPE, and OSHA electrical safety standards.' },
+  { title: 'Reading Wiring Diagrams', desc: 'How to trace circuits and understand schematic symbols.' },
+  { title: 'NEC Code Fundamentals', desc: 'Navigating Article 110, 210, 220, and 300 for residential work.' },
+  { title: 'Conduit Bending Basics', desc: 'Stub-ups, offsets, saddles, and back-to-back bends.' },
+  { title: 'Panel Installation & Wiring', desc: 'Service entrance, main breaker, and branch circuit layout.' },
+  { title: 'Tool & Meter Care', desc: 'Maintaining your multimeters, testers, and hand tools.' }
 ];
 
 // Generate default tutorials including the weekly technique
@@ -33,73 +33,73 @@ function getDefaultTutorials() {
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.'
+      title: 'Let\'s Wire This Circuit!',
+      desc: 'How to approach the main task for this electrical job.'
     }
   ];
 }
 
-// 52 Fundamental Cooking Techniques (one for each week of the year)
+// 52 Fundamental Electrical Techniques (one for each week of the year)
 const WEEKLY_TECHNIQUES = [
-  // Knife & Prep Techniques (Weeks 1-13)
-  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
-  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
-  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
-  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
-  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
-  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
-  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
-  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
-  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
-  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
-  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
-  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
-  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
+  // Safety & Fundamentals (Weeks 1-13)
+  { title: "Lock-Out / Tag-Out Procedure", desc: "De-energizing and verifying safe working conditions" },
+  { title: "Multimeter Basics", desc: "Measuring voltage, current, resistance, and continuity" },
+  { title: "Identifying Wire Colors", desc: "Hot, neutral, ground — standard color codes by system" },
+  { title: "Wire Stripping Technique", desc: "Stripping without nicking the conductor" },
+  { title: "Making Wire Splices", desc: "Proper twist, wire nut, and push-connector technique" },
+  { title: "Reading a Wiring Diagram", desc: "Tracing circuit paths through schematic symbols" },
+  { title: "Conduit Types & Selection", desc: "EMT, RMC, PVC, and flexible conduit applications" },
+  { title: "90° Conduit Bend", desc: "Measuring and bending an accurate 90-degree stub-up" },
+  { title: "Offset Conduit Bend", desc: "Calculating and bending a two-bend offset" },
+  { title: "Saddle Bend", desc: "Three-bend saddle around an obstruction" },
+  { title: "Wire Pulling Techniques", desc: "Fish tape, pull string, and lubrication methods" },
+  { title: "Box Fill Calculations", desc: "Counting conductors and selecting the right box size" },
+  { title: "NEC Article 110 Basics", desc: "Requirements for electrical installations" },
 
-  // Heat & Temperature (Weeks 14-26)
-  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
-  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
-  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
-  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
-  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
-  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
-  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
-  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
-  { title: "Steam Control", desc: "Managing moisture while cooking" },
-  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
-  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
-  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
+  // Wiring Methods & Devices (Weeks 14-26)
+  { title: "Receptacle Wiring", desc: "Back-wiring vs. terminal screws — code and best practice" },
+  { title: "Switch Wiring", desc: "Single-pole, 3-way, and 4-way switch wiring" },
+  { title: "GFCI & AFCI Devices", desc: "Where required and how to wire them correctly" },
+  { title: "Ceiling Fan Installation", desc: "Fan-rated box, switch leg, and remote wiring" },
+  { title: "Dimmer Switch Wiring", desc: "Load type compatibility and neutral requirements" },
+  { title: "240V Receptacle Wiring", desc: "Two-pole breaker, wire sizing, and NEMA configurations" },
+  { title: "Low-Voltage Wiring Basics", desc: "Cat6, speaker wire, and data cabling fundamentals" },
+  { title: "Meter Socket Installation", desc: "Service entrance, meter can, and utility requirements" },
+  { title: "Main Panel Layout", desc: "Main breaker, bus bars, neutral, and ground" },
+  { title: "Branch Circuit Design", desc: "Load calculations and breaker sizing" },
+  { title: "Sub-Panel Installation", desc: "Feeder sizing, grounding, and neutral isolation" },
+  { title: "Grounding & Bonding", desc: "Equipment grounding conductors and system bonding" },
+  { title: "NEC Article 210 & 220", desc: "Branch circuits and load calculation requirements" },
 
-  // Flavor Building (Weeks 27-39)
-  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
-  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
-  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
-  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
-  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
-  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
-  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
-  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
-  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
-  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
-  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
-  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
-  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
+  // Load Calculations & Code (Weeks 27-39)
+  { title: "Residential Load Calculation", desc: "Service size calculation using NEC Article 220" },
+  { title: "Commercial Load Calculation", desc: "Demand factors and optional calculation methods" },
+  { title: "Wire Sizing & Ampacity", desc: "NEC Table 310 and temperature correction factors" },
+  { title: "Voltage Drop Calculation", desc: "Formula and conductor upsizing to limit drop" },
+  { title: "Motor Circuit Sizing", desc: "FLA, branch circuit, and overload protection" },
+  { title: "NEC Article 300 Wiring Methods", desc: "Conductor bundling, supports, and protection" },
+  { title: "NEC Article 430 Motors", desc: "Motor feeder, branch circuit, and controller sizing" },
+  { title: "Emergency Lighting Systems", desc: "Battery backup and transfer switch wiring" },
+  { title: "Smoke & CO Detector Wiring", desc: "Interconnected circuits and code-required locations" },
+  { title: "Outdoor & Wet Location Wiring", desc: "Weatherproof devices and conduit sealing" },
+  { title: "Underground Conduit Installation", desc: "Burial depth, conduit fill, and waterproof splices" },
+  { title: "Transformer Basics", desc: "Step-up, step-down, and isolation transformer wiring" },
+  { title: "Power Factor Basics", desc: "Understanding reactive power and power factor correction" },
 
-  // Texture & Technique (Weeks 40-52)
-  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
-  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
-  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
-  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
-  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
-  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
-  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
-  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
-  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
-  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
-  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
-  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
+  // Inspections, Safety & Professional Skills (Weeks 40-52)
+  { title: "Rough-In Inspection Prep", desc: "What inspectors look for before drywall" },
+  { title: "Final Inspection Prep", desc: "Device covers, panel labels, and load test readiness" },
+  { title: "Arc Flash Awareness", desc: "Incident energy, PPE levels, and labeling requirements" },
+  { title: "Testing with a Megohmmeter", desc: "Insulation resistance testing for cables and motors" },
+  { title: "Circuit Tracing Techniques", desc: "Using a tone generator and probe to map circuits" },
+  { title: "Thermal Imaging Basics", desc: "Using an IR camera to find hot spots" },
+  { title: "Service Upgrade Procedures", desc: "Coordinating utility work and permit requirements" },
+  { title: "NEC Code Changes", desc: "Understanding updates between NEC editions" },
+  { title: "Bid Takeoff Basics", desc: "Counting materials and labor hours from blueprints" },
+  { title: "Customer Communication", desc: "Explaining electrical work without confusing the client" },
+  { title: "Journeyman Exam Prep", desc: "Study strategies and key NEC articles to master" },
+  { title: "Master License Requirements", desc: "Experience, exam, and continuing education requirements" },
+  { title: "Career Pathways", desc: "Apprentice to journeyman to master electrician — the roadmap" }
 ];
 
 // Get the technique for current week (1-52)
@@ -124,8 +124,8 @@ function getTwoTutorials(recipe: any) {
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Cook This Meal!`,
-      desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
+      title: `Let\'s Wire This Circuit!`,
+      desc: `Step-by-step electrical walkthrough for ${recipe.title}.`,
       type: 'cooking_tutorial'
     }
   ];
@@ -136,8 +136,8 @@ const ElecSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
-  console.log('Culinary School - Full Recipe:', selectedRecipe);
+  console.log('Elec School - Job data:', selectedRecipe?.nutrition);
+  console.log('Elec School - Full Job:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -146,47 +146,47 @@ const ElecSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Chef College Curriculum",
+    title: "Electrical Technology Curriculum",
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Culinary Foundations",
+        title: "Term 1: Electrical Fundamentals",
         lessons: [
-          { id: "lesson-1-1", title: "Kitchen Safety and Sanitation", completed: true, current: false },
-          { id: "lesson-1-2", title: "Food Handling and Storage", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to Kitchen Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Cooking Terminology", completed: false, current: true },
-          { id: "lesson-1-5", title: "Weights, Measures, and Conversions", completed: false, current: false },
+          { id: "lesson-1-1", title: "Electrical Safety, PPE, and LOTO", completed: true, current: false },
+          { id: "lesson-1-2", title: "Basic Electrical Theory and Ohm's Law", completed: true, current: false },
+          { id: "lesson-1-3", title: "Tools, Meters, and Test Equipment", completed: true, current: false },
+          { id: "lesson-1-4", title: "Wire Types, Sizes, and Color Codes", completed: false, current: true },
+          { id: "lesson-1-5", title: "NEC Code Introduction and Layout", completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Knife Skills",
+        title: "Term 1: Wiring Methods & Devices",
         lessons: [
-          { id: "lesson-2-1", title: "Knife Safety and Maintenance", completed: false, current: false },
-          { id: "lesson-2-2", title: "Basic Knife Cuts", completed: false, current: false },
-          { id: "lesson-2-3", title: "Vegetable Fabrication", completed: false, current: false },
-          { id: "lesson-2-4", title: "Meat and Fish Fabrication", completed: false, current: false },
+          { id: "lesson-2-1", title: "Conduit Bending and Installation", completed: false, current: false },
+          { id: "lesson-2-2", title: "Receptacles, Switches, and Fixtures", completed: false, current: false },
+          { id: "lesson-2-3", title: "GFCI, AFCI, and Special Devices", completed: false, current: false },
+          { id: "lesson-2-4", title: "Panel and Service Entrance Work", completed: false, current: false },
         ]
       },
       {
         id: "course-3",
-        title: "Term 2: Breakfast & Garde Manger",
+        title: "Term 2: Load Calculations & Code",
         lessons: [
-          { id: "lesson-3-1", title: "Egg Cookery", completed: false, current: false },
-          { id: "lesson-3-2", title: "Breakfast Preparations", completed: false, current: false },
-          { id: "lesson-3-3", title: "Cold Food Preparation", completed: false, current: false },
-          { id: "lesson-3-4", title: "Salads and Dressings", completed: false, current: false },
+          { id: "lesson-3-1", title: "Residential Load Calculations", completed: false, current: false },
+          { id: "lesson-3-2", title: "Commercial Wiring and Code", completed: false, current: false },
+          { id: "lesson-3-3", title: "Motor Circuits and Controls", completed: false, current: false },
+          { id: "lesson-3-4", title: "Low-Voltage and Data Systems", completed: false, current: false },
         ]
       },
       {
         id: "course-4",
-        title: "Term 2: Baking & Pastry",
+        title: "Term 2: Inspections & Professional Practice",
         lessons: [
-          { id: "lesson-4-1", title: "Basic Dough and Batters", completed: false, current: false },
-          { id: "lesson-4-2", title: "Quick Breads and Muffins", completed: false, current: false },
-          { id: "lesson-4-3", title: "Yeast Breads", completed: false, current: false },
-          { id: "lesson-4-4", title: "Basic Pastry and Desserts", completed: false, current: false },
+          { id: "lesson-4-1", title: "Rough-In and Final Inspection Prep", completed: false, current: false },
+          { id: "lesson-4-2", title: "Troubleshooting and Circuit Tracing", completed: false, current: false },
+          { id: "lesson-4-3", title: "Bid Takeoff and Job Costing", completed: false, current: false },
+          { id: "lesson-4-4", title: "Journeyman Exam Prep and Career Pathways", completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
@@ -197,7 +197,7 @@ const ElecSchool = () => {
   };
 
   useEffect(() => {
-    updateContext({ page: 'CulinarySchool' });
+    updateContext({ page: 'ElecSchool' });
   }, [updateContext]);
 
   useEffect(() => {
@@ -298,9 +298,9 @@ const ElecSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[CulinarySchool] Fetching videos with API key rotation');
-      console.log('[CulinarySchool] Tutorials to fetch:', tutorials);
-      console.log('[CulinarySchool] Selected recipe:', selectedRecipe);
+      console.log('[ElecSchool] Fetching videos with API key rotation');
+      console.log('[ElecSchool] Tutorials to fetch:', tutorials);
+      console.log('[ElecSchool] Selected job:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -312,16 +312,16 @@ const ElecSchool = () => {
             idx
           );
           
-          console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
+          console.log(`[ElecSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
           
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
+          console.log(`[ElecSchool] Tutorial ${idx} result:`, result);
           
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
         } catch (error) {
-          console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
+          console.error(`[ElecSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
       

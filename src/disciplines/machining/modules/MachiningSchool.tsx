@@ -13,12 +13,12 @@ import CycleTimer from '../components/CycleTimer';
 import SetupPracticeModal from '../components/SetupPracticeModal';
 
 const generalLessons = [
-  { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
-  { title: 'Seafood Handling & Safety', desc: 'How to select, store, and prep fresh seafood safely.' },
-  { title: 'Essential Cooking Techniques', desc: 'Master sautéing, steaming, poaching, and more.' },
-  { title: 'Sanitation & Cross-Contamination', desc: 'Keep your kitchen safe and clean.' },
-  { title: 'Using a Thermometer', desc: 'How to check doneness for seafood, poultry, and meats.' },
-  { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
+  { title: 'Blueprint & GD&T Reading', desc: 'How to read engineering drawings, tolerances, and geometric dimensioning.' },
+  { title: 'Manual Lathe Operation', desc: 'Turning, facing, boring, and threading on a manual lathe.' },
+  { title: 'Milling Machine Basics', desc: 'Face milling, slot milling, and workpiece setup on a knee mill.' },
+  { title: 'CNC Programming Fundamentals', desc: 'G-code and M-code basics — writing and running your first program.' },
+  { title: 'Metrology & Inspection', desc: 'Using calipers, micrometers, and CMMs to verify part dimensions.' },
+  { title: 'Cutting Tool & Machine Care', desc: 'Selecting, setting, and maintaining tooling and machine components.' }
 ];
 
 // Generate default tutorials including the weekly technique
@@ -33,73 +33,73 @@ function getDefaultTutorials() {
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.'
+      title: 'Let\'s Machine This Part!',
+      desc: 'How to approach the main task for this machining job.'
     }
   ];
 }
 
-// 52 Fundamental Cooking Techniques (one for each week of the year)
+// 52 Fundamental Machining Techniques (one for each week of the year)
 const WEEKLY_TECHNIQUES = [
-  // Knife & Prep Techniques (Weeks 1-13)
-  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
-  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
-  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
-  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
-  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
-  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
-  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
-  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
-  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
-  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
-  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
-  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
-  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
+  // Blueprint, Metrology & Safety (Weeks 1-13)
+  { title: "Blueprint Reading Basics", desc: "Orthographic views, title blocks, and revision levels" },
+  { title: "GD&T Symbols", desc: "Flatness, circularity, perpendicularity, and true position" },
+  { title: "Reading Tolerances", desc: "Plus/minus tolerances, fit classes, and tolerance stacks" },
+  { title: "Caliper Use", desc: "Inside, outside, depth, and step measurements with a vernier caliper" },
+  { title: "Micrometer Use", desc: "Outside mic technique, thimble reading, and anvil care" },
+  { title: "Dial Indicator Setup", desc: "Mounting, zeroing, and sweeping a part on a surface plate" },
+  { title: "Surface Plate & V-Block Use", desc: "Checking roundness and parallelism on a granite surface plate" },
+  { title: "Thread Gauge Use", desc: "Thread pitch gauge, go/no-go gauge, and thread measurement" },
+  { title: "Gage Block Fundamentals", desc: "Building stacks and using blocks for precision setup" },
+  { title: "Machine Safety Basics", desc: "Lockout/tagout, guarding, and proper work attire" },
+  { title: "Speeds & Feeds Overview", desc: "Surface footage, RPM, and feed rate relationships" },
+  { title: "Cutting Tool Materials", desc: "HSS vs. carbide vs. ceramic — applications and comparisons" },
+  { title: "Coolant Selection", desc: "Flood coolant, mist, and dry cutting — when to use each" },
 
-  // Heat & Temperature (Weeks 14-26)
-  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
-  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
-  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
-  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
-  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
-  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
-  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
-  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
-  { title: "Steam Control", desc: "Managing moisture while cooking" },
-  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
-  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
-  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
+  // Manual Lathe Operations (Weeks 14-26)
+  { title: "Lathe Component ID", desc: "Headstock, saddle, cross slide, tailstock, and compound" },
+  { title: "Workholding on the Lathe", desc: "3-jaw, 4-jaw, collet, and between-centers setups" },
+  { title: "Facing Operation", desc: "Squaring the end of stock to a flat, perpendicular surface" },
+  { title: "Straight Turning", desc: "Reducing diameter to size with controlled depth of cut" },
+  { title: "Taper Turning", desc: "Compound angle method and tailstock offset method" },
+  { title: "Boring on the Lathe", desc: "Using a boring bar to enlarge an existing hole" },
+  { title: "Drilling on the Lathe", desc: "Center drilling, drill selection, and tailstock feed" },
+  { title: "Threading on the Lathe", desc: "External thread cutting — chasing threads and compound angle" },
+  { title: "Knurling", desc: "Diamond and straight knurl setup and feed rates" },
+  { title: "Parting Off", desc: "Using a parting tool to cut stock to length" },
+  { title: "Grooving", desc: "Internal and external groove cutting for O-rings and snap rings" },
+  { title: "Lathe Maintenance", desc: "Way lubrication, chuck jaw maintenance, and alignment checks" },
+  { title: "Material Turning Properties", desc: "Chip control and insert selection for steel, aluminum, and titanium" },
 
-  // Flavor Building (Weeks 27-39)
-  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
-  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
-  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
-  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
-  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
-  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
-  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
-  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
-  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
-  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
-  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
-  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
-  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
+  // CNC & Milling Operations (Weeks 27-39)
+  { title: "Mill Component ID", desc: "Column, knee, table, spindle, and quill functions" },
+  { title: "Workholding on the Mill", desc: "Vise setup, parallels, edge finding, and clamping" },
+  { title: "Face Milling", desc: "Squaring a block and achieving a consistent surface finish" },
+  { title: "Slot and Pocket Milling", desc: "End mill selection, depth per pass, and corner compensation" },
+  { title: "Drilling on the Mill", desc: "Center drilling, spot drilling, and peck drilling cycles" },
+  { title: "Boring Head Use", desc: "Setting a boring head for tight tolerance hole making" },
+  { title: "CNC Machine Startup", desc: "Controller startup, home position, and tool offset loading" },
+  { title: "G-Code Basics (G00, G01, G02, G03)", desc: "Rapid travel, linear feed, and circular interpolation" },
+  { title: "M-Code Functions", desc: "Spindle, coolant, tool change, and program stop codes" },
+  { title: "Work Coordinate Systems", desc: "G54-G59 fixture offsets and probing for work zero" },
+  { title: "Tool Length Offsets", desc: "Setting H offsets and checking tool lengths" },
+  { title: "Canned Drilling Cycles", desc: "G81, G83 peck drill, G84 tapping, and G85 boring" },
+  { title: "CNC Program Verification", desc: "Dry run, single block, and air-cutting a new program" },
 
-  // Texture & Technique (Weeks 40-52)
-  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
-  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
-  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
-  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
-  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
-  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
-  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
-  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
-  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
-  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
-  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
-  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
+  // Advanced Techniques & Professional Skills (Weeks 40-52)
+  { title: "Grinding Basics", desc: "Surface grinding wheel selection, dressing, and depth of cut" },
+  { title: "EDM Fundamentals", desc: "Wire and sinker EDM — how electrical discharge removes material" },
+  { title: "5-Axis Machining Concepts", desc: "Trunnion vs. swivel head — applications and programming basics" },
+  { title: "Fixturing & Jig Design", desc: "Designing repeatable, accurate workholding for production" },
+  { title: "Statistical Process Control (SPC)", desc: "Cpk, control charts, and monitoring process capability" },
+  { title: "First Article Inspection", desc: "Completing a PPAP/FAIR report for a new part" },
+  { title: "Material Properties", desc: "Hardness, machinability ratings, and heat treatment effects" },
+  { title: "Toolpath Simulation (CAM)", desc: "Verifying a CAM toolpath before posting code" },
+  { title: "Scrap Reduction Strategies", desc: "Root cause analysis and corrective actions for out-of-tolerance parts" },
+  { title: "Job Setup Documentation", desc: "Writing a setup sheet for the next shift operator" },
+  { title: "Lean Manufacturing Basics", desc: "5S, waste identification, and value stream mapping" },
+  { title: "NIMS Certification Prep", desc: "Study strategies for NIMS machining credentials" },
+  { title: "Career Pathways", desc: "Apprentice to journeyman to master machinist — the roadmap" }
 ];
 
 // Get the technique for current week (1-52)
@@ -124,8 +124,8 @@ function getTwoTutorials(recipe: any) {
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Cook This Meal!`,
-      desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
+      title: `Let\'s Machine This Part!`,
+      desc: `Step-by-step machining walkthrough for ${recipe.title}.`,
       type: 'cooking_tutorial'
     }
   ];
@@ -136,8 +136,8 @@ const MachiningSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
-  console.log('Culinary School - Full Recipe:', selectedRecipe);
+  console.log('Machining School - Job data:', selectedRecipe?.nutrition);
+  console.log('Machining School - Full Job Ticket:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -146,47 +146,47 @@ const MachiningSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Chef College Curriculum",
+    title: "Precision Machining Technology Curriculum",
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Culinary Foundations",
+        title: "Term 1: Machining Fundamentals",
         lessons: [
-          { id: "lesson-1-1", title: "Kitchen Safety and Sanitation", completed: true, current: false },
-          { id: "lesson-1-2", title: "Food Handling and Storage", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to Kitchen Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Cooking Terminology", completed: false, current: true },
-          { id: "lesson-1-5", title: "Weights, Measures, and Conversions", completed: false, current: false },
+          { id: "lesson-1-1", title: "Machine Shop Safety and OSHA Basics", completed: true, current: false },
+          { id: "lesson-1-2", title: "Measuring Tools and Metrology", completed: true, current: false },
+          { id: "lesson-1-3", title: "Blueprint Reading and GD&T", completed: true, current: false },
+          { id: "lesson-1-4", title: "Cutting Tools, Materials, and Speeds & Feeds", completed: false, current: true },
+          { id: "lesson-1-5", title: "Workholding and Setup Procedures", completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Knife Skills",
+        title: "Term 1: Manual Lathe & Mill Operations",
         lessons: [
-          { id: "lesson-2-1", title: "Knife Safety and Maintenance", completed: false, current: false },
-          { id: "lesson-2-2", title: "Basic Knife Cuts", completed: false, current: false },
-          { id: "lesson-2-3", title: "Vegetable Fabrication", completed: false, current: false },
-          { id: "lesson-2-4", title: "Meat and Fish Fabrication", completed: false, current: false },
+          { id: "lesson-2-1", title: "Lathe Operations: Facing, Turning, and Boring", completed: false, current: false },
+          { id: "lesson-2-2", title: "Lathe Operations: Threading and Taper Turning", completed: false, current: false },
+          { id: "lesson-2-3", title: "Milling Operations: Face Milling and Slots", completed: false, current: false },
+          { id: "lesson-2-4", title: "Milling Operations: Drilling and Boring", completed: false, current: false },
         ]
       },
       {
         id: "course-3",
-        title: "Term 2: Breakfast & Garde Manger",
+        title: "Term 2: CNC Programming & Operations",
         lessons: [
-          { id: "lesson-3-1", title: "Egg Cookery", completed: false, current: false },
-          { id: "lesson-3-2", title: "Breakfast Preparations", completed: false, current: false },
-          { id: "lesson-3-3", title: "Cold Food Preparation", completed: false, current: false },
-          { id: "lesson-3-4", title: "Salads and Dressings", completed: false, current: false },
+          { id: "lesson-3-1", title: "CNC Machine Startup and G-Code Basics", completed: false, current: false },
+          { id: "lesson-3-2", title: "Work Coordinate Systems and Tool Offsets", completed: false, current: false },
+          { id: "lesson-3-3", title: "Canned Cycles and Program Verification", completed: false, current: false },
+          { id: "lesson-3-4", title: "CAM Software and Toolpath Simulation", completed: false, current: false },
         ]
       },
       {
         id: "course-4",
-        title: "Term 2: Baking & Pastry",
+        title: "Term 2: Quality, Inspection & Professional Practice",
         lessons: [
-          { id: "lesson-4-1", title: "Basic Dough and Batters", completed: false, current: false },
-          { id: "lesson-4-2", title: "Quick Breads and Muffins", completed: false, current: false },
-          { id: "lesson-4-3", title: "Yeast Breads", completed: false, current: false },
-          { id: "lesson-4-4", title: "Basic Pastry and Desserts", completed: false, current: false },
+          { id: "lesson-4-1", title: "SPC, Cpk, and First Article Inspection", completed: false, current: false },
+          { id: "lesson-4-2", title: "Grinding, EDM, and Advanced Processes", completed: false, current: false },
+          { id: "lesson-4-3", title: "Lean Manufacturing and 5S", completed: false, current: false },
+          { id: "lesson-4-4", title: "NIMS Certification and Career Pathways", completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
@@ -197,7 +197,7 @@ const MachiningSchool = () => {
   };
 
   useEffect(() => {
-    updateContext({ page: 'CulinarySchool' });
+    updateContext({ page: 'MachiningSchool' });
   }, [updateContext]);
 
   useEffect(() => {
@@ -298,9 +298,9 @@ const MachiningSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[CulinarySchool] Fetching videos with API key rotation');
-      console.log('[CulinarySchool] Tutorials to fetch:', tutorials);
-      console.log('[CulinarySchool] Selected recipe:', selectedRecipe);
+      console.log('[MachiningSchool] Fetching videos with API key rotation');
+      console.log('[MachiningSchool] Tutorials to fetch:', tutorials);
+      console.log('[MachiningSchool] Selected job ticket:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -312,16 +312,16 @@ const MachiningSchool = () => {
             idx
           );
           
-          console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
+          console.log(`[MachiningSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
           
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
+          console.log(`[MachiningSchool] Tutorial ${idx} result:`, result);
           
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
         } catch (error) {
-          console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
+          console.error(`[MachiningSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
       

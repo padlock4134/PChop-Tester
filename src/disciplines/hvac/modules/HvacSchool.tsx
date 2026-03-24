@@ -13,12 +13,12 @@ import ServiceTimer from '../components/ServiceTimer';
 import UnitPracticeModal from '../components/UnitPracticeModal';
 
 const generalLessons = [
-  { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
-  { title: 'Seafood Handling & Safety', desc: 'How to select, store, and prep fresh seafood safely.' },
-  { title: 'Essential Cooking Techniques', desc: 'Master sautéing, steaming, poaching, and more.' },
-  { title: 'Sanitation & Cross-Contamination', desc: 'Keep your kitchen safe and clean.' },
-  { title: 'Using a Thermometer', desc: 'How to check doneness for seafood, poultry, and meats.' },
-  { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
+  { title: 'EPA 608 Certification Prep', desc: 'Refrigerant handling, recovery, recycling, and reclaiming for EPA 608.' },
+  { title: 'Refrigeration Cycle Basics', desc: 'How compression, condensation, expansion, and evaporation work.' },
+  { title: 'Duct Design & Airflow', desc: 'Manual D basics, static pressure, and proper airflow balancing.' },
+  { title: 'Heat Load Calculations', desc: 'Manual J residential load calculations for proper equipment sizing.' },
+  { title: 'Electrical Troubleshooting', desc: 'Reading wiring diagrams and diagnosing HVAC electrical faults.' },
+  { title: 'Tool & Equipment Care', desc: 'Maintaining manifold gauges, vacuum pumps, and test equipment.' }
 ];
 
 // Generate default tutorials including the weekly technique
@@ -33,73 +33,73 @@ function getDefaultTutorials() {
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.'
+      title: 'Let\'s Service This System!',
+      desc: 'How to approach the main task for this HVAC service call.'
     }
   ];
 }
 
-// 52 Fundamental Cooking Techniques (one for each week of the year)
+// 52 Fundamental HVAC Techniques (one for each week of the year)
 const WEEKLY_TECHNIQUES = [
-  // Knife & Prep Techniques (Weeks 1-13)
-  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
-  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
-  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
-  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
-  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
-  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
-  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
-  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
-  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
-  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
-  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
-  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
-  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
+  // Refrigeration & Safety Fundamentals (Weeks 1-13)
+  { title: "Refrigerant Safety Handling", desc: "PPE, recovery cylinders, and safe refrigerant procedures" },
+  { title: "Refrigeration Cycle Walkthrough", desc: "Tracing the cycle from evaporator to compressor to condenser" },
+  { title: "Manifold Gauge Set Usage", desc: "Connecting, reading, and interpreting high and low side pressures" },
+  { title: "Superheat Measurement", desc: "Calculating and adjusting superheat at the evaporator" },
+  { title: "Subcooling Measurement", desc: "Calculating and adjusting subcooling at the condenser" },
+  { title: "Refrigerant Identification", desc: "R-22, R-410A, R-32, R-454B — properties and applications" },
+  { title: "Refrigerant Recovery Procedure", desc: "Push-pull recovery and connecting a recovery machine" },
+  { title: "System Evacuation", desc: "Deep vacuum procedure and micron gauge readings" },
+  { title: "Refrigerant Charging Methods", desc: "Charging by weight, superheat, and subcooling" },
+  { title: "Leak Detection Techniques", desc: "Electronic leak detectors, UV dye, and bubble solution" },
+  { title: "EPA 608 Core Concepts", desc: "Laws, regulations, and certification requirements" },
+  { title: "EPA 608 Type I (Small Appliance)", desc: "Recovery techniques for appliances under 5 lbs" },
+  { title: "EPA 608 Type II (High-Pressure)", desc: "Recovery and handling for R-410A systems" },
 
-  // Heat & Temperature (Weeks 14-26)
-  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
-  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
-  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
-  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
-  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
-  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
-  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
-  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
-  { title: "Steam Control", desc: "Managing moisture while cooking" },
-  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
-  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
-  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
+  // Equipment & Systems (Weeks 14-26)
+  { title: "Split System Components", desc: "Identifying and understanding every component" },
+  { title: "Heat Pump Operation", desc: "Cooling and heating mode — reversing valve function" },
+  { title: "Mini-Split Installation", desc: "Line set routing, flaring, and commissioning" },
+  { title: "Gas Furnace Components", desc: "Heat exchanger, inducer, ignitor, and pressure switches" },
+  { title: "Gas Furnace Sequence of Operation", desc: "Step-by-step from thermostat call to burner ignition" },
+  { title: "Furnace Heat Exchanger Inspection", desc: "Crack detection and CO safety testing" },
+  { title: "Combustion Analysis", desc: "Using a combustion analyzer for efficiency and safety" },
+  { title: "Package Unit vs. Split System", desc: "Comparing configurations and installation requirements" },
+  { title: "Geothermal Basics", desc: "Ground loops, water source heat pumps, and efficiency" },
+  { title: "Commercial Rooftop Unit Basics", desc: "RTU components and preventive maintenance" },
+  { title: "Chiller System Basics", desc: "Centrifugal vs. scroll chillers and building cooling" },
+  { title: "Boiler System Basics", desc: "Hydronic heating, expansion tanks, and zone valves" },
+  { title: "VRF/VRV System Basics", desc: "Variable refrigerant flow — components and zoning" },
 
-  // Flavor Building (Weeks 27-39)
-  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
-  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
-  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
-  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
-  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
-  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
-  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
-  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
-  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
-  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
-  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
-  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
-  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
+  // Ductwork, Airflow & Controls (Weeks 27-39)
+  { title: "Duct System Design Basics", desc: "Manual D, trunk-and-branch vs. radial systems" },
+  { title: "Static Pressure Measurement", desc: "Using a manometer to diagnose duct system issues" },
+  { title: "Airflow Balancing", desc: "Adjusting dampers and registers for balanced delivery" },
+  { title: "Sheet Metal Fabrication", desc: "Cutting, bending, and connecting rectangular duct" },
+  { title: "Flex Duct Installation", desc: "Proper stretch, support, and sealing of flexible duct" },
+  { title: "Duct Sealing & Insulation", desc: "Mastic, foil tape, and insulation wrap procedures" },
+  { title: "Thermostat Wiring", desc: "Reading wiring diagrams and connecting standard thermostats" },
+  { title: "Smart Thermostat Setup", desc: "Configuring Nest, Ecobee, and communicating stats" },
+  { title: "Zone Control Systems", desc: "Zone boards, bypass dampers, and pressure balancing" },
+  { title: "BAS/DDC Controls Basics", desc: "Direct digital controls and building automation fundamentals" },
+  { title: "IAQ Sensors & Ventilation", desc: "CO2 monitoring, ERV, and fresh air ventilation requirements" },
+  { title: "Air Handler Components", desc: "Blower motor, coil, filter rack, and drain pan" },
+  { title: "Condenser Coil Cleaning", desc: "Chemical coil cleaning and fin straightening" },
 
-  // Texture & Technique (Weeks 40-52)
-  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
-  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
-  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
-  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
-  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
-  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
-  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
-  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
-  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
-  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
-  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
-  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
+  // Diagnostics, Code & Professional Skills (Weeks 40-52)
+  { title: "No-Cool Diagnostic Procedure", desc: "Systematic approach to diagnosing a cooling failure" },
+  { title: "No-Heat Diagnostic Procedure", desc: "Systematic approach to diagnosing a heating failure" },
+  { title: "Electrical Motor Testing", desc: "Testing capacitors, contactors, and motor windings" },
+  { title: "Compressor Diagnostics", desc: "Amp draw, compression ratio, and failure modes" },
+  { title: "Metering Device Selection", desc: "TXV vs. fixed orifice — selection and adjustment" },
+  { title: "Preventive Maintenance Checklist", desc: "Complete seasonal PM procedure for residential systems" },
+  { title: "Refrigerant Regulations Update", desc: "AIM Act, A2L refrigerants, and phase-down timeline" },
+  { title: "NATE Certification Prep", desc: "Study strategies and key topic areas for NATE exams" },
+  { title: "Service Call Professionalism", desc: "Customer communication, documentation, and callbacks" },
+  { title: "Warranty and Flat-Rate Pricing", desc: "Using flat-rate books and explaining costs to customers" },
+  { title: "Business Development Basics", desc: "Service agreements, referrals, and reputation management" },
+  { title: "Safety Data Sheets", desc: "Reading SDS for refrigerants and chemicals" },
+  { title: "Career Pathways", desc: "Apprentice to journeyman to master HVAC technician — the roadmap" }
 ];
 
 // Get the technique for current week (1-52)
@@ -124,8 +124,8 @@ function getTwoTutorials(recipe: any) {
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Cook This Meal!`,
-      desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
+      title: `Let\'s Service This System!`,
+      desc: `Step-by-step service walkthrough for ${recipe.title}.`,
       type: 'cooking_tutorial'
     }
   ];
@@ -136,8 +136,8 @@ const HvacSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
-  console.log('Culinary School - Full Recipe:', selectedRecipe);
+  console.log('HVAC School - Service data:', selectedRecipe?.nutrition);
+  console.log('HVAC School - Full Service Call:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -146,47 +146,47 @@ const HvacSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Chef College Curriculum",
+    title: "HVAC/R Technology Curriculum",
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Culinary Foundations",
+        title: "Term 1: HVAC Fundamentals",
         lessons: [
-          { id: "lesson-1-1", title: "Kitchen Safety and Sanitation", completed: true, current: false },
-          { id: "lesson-1-2", title: "Food Handling and Storage", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to Kitchen Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Cooking Terminology", completed: false, current: true },
-          { id: "lesson-1-5", title: "Weights, Measures, and Conversions", completed: false, current: false },
+          { id: "lesson-1-1", title: "Safety, PPE, and Refrigerant Handling", completed: true, current: false },
+          { id: "lesson-1-2", title: "Basic Refrigeration Cycle and Theory", completed: true, current: false },
+          { id: "lesson-1-3", title: "Tools, Meters, and Test Equipment", completed: true, current: false },
+          { id: "lesson-1-4", title: "Manifold Gauges and System Pressures", completed: false, current: true },
+          { id: "lesson-1-5", title: "EPA 608 Certification Prep", completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Knife Skills",
+        title: "Term 1: Equipment & Systems",
         lessons: [
-          { id: "lesson-2-1", title: "Knife Safety and Maintenance", completed: false, current: false },
-          { id: "lesson-2-2", title: "Basic Knife Cuts", completed: false, current: false },
-          { id: "lesson-2-3", title: "Vegetable Fabrication", completed: false, current: false },
-          { id: "lesson-2-4", title: "Meat and Fish Fabrication", completed: false, current: false },
+          { id: "lesson-2-1", title: "Split Systems and Heat Pumps", completed: false, current: false },
+          { id: "lesson-2-2", title: "Gas Furnaces and Combustion", completed: false, current: false },
+          { id: "lesson-2-3", title: "Mini-Splits and Variable Refrigerant Flow", completed: false, current: false },
+          { id: "lesson-2-4", title: "Commercial and Rooftop Units", completed: false, current: false },
         ]
       },
       {
         id: "course-3",
-        title: "Term 2: Breakfast & Garde Manger",
+        title: "Term 2: Ductwork, Airflow & Controls",
         lessons: [
-          { id: "lesson-3-1", title: "Egg Cookery", completed: false, current: false },
-          { id: "lesson-3-2", title: "Breakfast Preparations", completed: false, current: false },
-          { id: "lesson-3-3", title: "Cold Food Preparation", completed: false, current: false },
-          { id: "lesson-3-4", title: "Salads and Dressings", completed: false, current: false },
+          { id: "lesson-3-1", title: "Duct Design and Static Pressure", completed: false, current: false },
+          { id: "lesson-3-2", title: "Airflow Balancing and Duct Sealing", completed: false, current: false },
+          { id: "lesson-3-3", title: "Thermostat Wiring and Controls", completed: false, current: false },
+          { id: "lesson-3-4", title: "Zone Control and IAQ Systems", completed: false, current: false },
         ]
       },
       {
         id: "course-4",
-        title: "Term 2: Baking & Pastry",
+        title: "Term 2: Diagnostics & Professional Practice",
         lessons: [
-          { id: "lesson-4-1", title: "Basic Dough and Batters", completed: false, current: false },
-          { id: "lesson-4-2", title: "Quick Breads and Muffins", completed: false, current: false },
-          { id: "lesson-4-3", title: "Yeast Breads", completed: false, current: false },
-          { id: "lesson-4-4", title: "Basic Pastry and Desserts", completed: false, current: false },
+          { id: "lesson-4-1", title: "No-Cool and No-Heat Diagnostics", completed: false, current: false },
+          { id: "lesson-4-2", title: "Electrical Component Testing", completed: false, current: false },
+          { id: "lesson-4-3", title: "Preventive Maintenance and Service Agreements", completed: false, current: false },
+          { id: "lesson-4-4", title: "NATE Certification and Career Pathways", completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
@@ -197,7 +197,7 @@ const HvacSchool = () => {
   };
 
   useEffect(() => {
-    updateContext({ page: 'CulinarySchool' });
+    updateContext({ page: 'HvacSchool' });
   }, [updateContext]);
 
   useEffect(() => {
@@ -298,9 +298,9 @@ const HvacSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[CulinarySchool] Fetching videos with API key rotation');
-      console.log('[CulinarySchool] Tutorials to fetch:', tutorials);
-      console.log('[CulinarySchool] Selected recipe:', selectedRecipe);
+      console.log('[HvacSchool] Fetching videos with API key rotation');
+      console.log('[HvacSchool] Tutorials to fetch:', tutorials);
+      console.log('[HvacSchool] Selected service call:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -312,16 +312,16 @@ const HvacSchool = () => {
             idx
           );
           
-          console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
+          console.log(`[HvacSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
           
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
+          console.log(`[HvacSchool] Tutorial ${idx} result:`, result);
           
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
         } catch (error) {
-          console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
+          console.error(`[HvacSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
       

@@ -18,7 +18,7 @@ const PAGES = [
           padding: '20px'
         }}>
           <h1 className="cover-title" style={{ fontSize: '3.3rem', margin: '1rem 0 0.5rem 0', color: '#fff', textAlign: 'center' }}>PORKCHOP</h1>
-          <h2 className="cover-subtitle" style={{ fontSize: '1.8rem', margin: '0 0 2rem 0', color: '#fff', textAlign: 'center' }}>The AI Cooking Companion</h2>
+          <h2 className="cover-subtitle" style={{ fontSize: '1.8rem', margin: '0 0 2rem 0', color: '#fff', textAlign: 'center' }}>Your AI Machining Training Companion</h2>
           <h3 className="cover-body" style={{ fontSize: '1.5rem', textAlign: 'center', margin: '0 auto 2rem', color: '#fff' }}>Open To Learn More</h3>
           <div 
             className="cookbook-logo"
@@ -61,11 +61,11 @@ const PAGES = [
       <div className="toc-content">
         <ul className="toc-list">
           <li>Inspiration (Page 2)</li>
-          <li>My Kitchen (Page 3)</li>
-          <li>My Cook Book (Page 4)</li>
-          <li>Culinary School (Page 5)</li>
-          <li>Chefs Corner (Page 6)</li>
-          <li>Chef Freddie (Page 7)</li>
+          <li>My Bench (Page 3)</li>
+          <li>My Specbook (Page 4)</li>
+          <li>Machining School (Page 5)</li>
+          <li>Machinist Corner (Page 6)</li>
+          <li>Max the Machinist (Page 7)</li>
           <li>Common Questions (Page 8)</li>
           <li>Pricing (Page 9)</li>
         </ul>
@@ -79,7 +79,7 @@ const PAGES = [
     content: (
       <>
         <div className="inspiration-logo-container">
-          <img src="/logo.png" alt="Chef Freddie" className="inspiration-logo" />
+          <img src="/logo.png" alt="PorkChop Logo" className="inspiration-logo" />
         </div>
         <p className="page-content-text">
           We created PorkChop because my grandfather Frederick would always know what to make when he's looking in his fridge. 
@@ -90,76 +90,76 @@ const PAGES = [
     ),
     pageNumber: 2
   },
-  // Page 3 - My Kitchen
+  // Page 3 - My Bench
   {
-    title: "My Kitchen",
+    title: "My Bench",
     content: (
       <>
         <p className="page-content-text">
-          Your digital pantry that tracks ingredients and suggests perfect recipes to reduce waste.
+          Your digital workbench tracker that manages your tooling and suggests the right setup for any machining job.
         </p>
         <div className="page-image-container page-3-image">
-          <img src="/my-kitchen-screenshot.png" alt="My Kitchen Screenshot" className="page-screenshot" />
+          <img src="/my-kitchen-screenshot.png" alt="My Bench Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
     pageNumber: 3
   },
-  // Page 4 - My Cook Book
+  // Page 4 - My Specbook
   {
-    title: "My Cook Book",
+    title: "My Specbook",
     content: (
       <>
         <p className="page-content-text">
-          Your personal recipe collection that grows with you, organized and searchable in one place.
+          Your personal job ticket portfolio — G-code programs, inspection records, and completed parts in one place.
         </p>
         <div className="page-image-container page-4-image">
-          <img src="/my-cookbook-screenshot.png" alt="My Cookbook Screenshot" className="page-screenshot" />
+          <img src="/my-cookbook-screenshot.png" alt="My Specbook Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
     pageNumber: 4
   },
-  // Page 5 - Culinary School
+  // Page 5 - Machining School
   {
-    title: "Culinary School",
+    title: "Machining School",
     content: (
       <>
         <p className="page-content-text">
-          Master techniques with step-by-step video lessons tailored to your skill level.
+          Master machining techniques with step-by-step video lessons — from lathe operation to CNC programming.
         </p>
         <div className="page-image-container page-5-image">
-          <img src="/culinary-school-screenshot.png" alt="Culinary School Screenshot" className="page-screenshot" />
+          <img src="/culinary-school-screenshot.png" alt="Machining School Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
     pageNumber: 5
   },
-  // Page 6 - Chefs Corner
+  // Page 6 - Machinist Corner
   {
-    title: "Chefs Corner",
+    title: "Machinist Corner",
     content: (
       <>
         <p className="page-content-text">
-          Find ingredients from your cookbook at local specialty shops like butchers, farms, fish markets, and regional grocery chains.
+          Connect with peers, find local tooling suppliers and cutting tool distributors, and share techniques with fellow machinists.
         </p>
         <div className="page-image-container page-6-image">
-          <img src="/chefs-corner-screenshot.png" alt="Chefs Corner Screenshot" className="page-screenshot" />
+          <img src="/chefs-corner-screenshot.png" alt="Machinist Corner Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
     pageNumber: 6
   },
-  // Page 7 - Chef Freddie
+  // Page 7 - Max the Machinist
   {
-    title: "Chef Freddie",
+    title: "Max the Machinist",
     content: (
       <>
         <p className="page-content-text">
-          Your AI cooking assistant, ready to help with meal planning, substitutions, and troubleshooting.
+          Your AI machining assistant, ready to help with G-code programming, tolerances, speeds and feeds, and troubleshooting.
         </p>
         <div className="page-image-container page-7-image">
-          <img src="/chef-freddie-screenshot.png" alt="Chef Freddie Screenshot" className="page-screenshot" />
+          <img src="/chef-freddie-screenshot.png" alt="Max the Machinist Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -173,13 +173,13 @@ const PAGES = [
         <div className="faq-content">
           <ul className="faq-list">
             <li><strong>Why not use ChatGPT?</strong><br />
-            PorkChop is a hyper personalize culinary companion that grows and learns with you.</li>
+            PorkChop is purpose-built for machining education — it understands G-code, GD&amp;T, and trade-specific workflows.</li>
             
-            <li><strong>Are you just a recipe app?</strong><br />
-            We combine it all - smart pantry technology, meal planning, ingredient sourcing and AI blended education.</li>
+            <li><strong>Is this just a video library?</strong><br />
+            We combine it all — job ticket tracking, CNC program management, tooling supplier locator, and AI-powered education.</li>
             
             <li><strong>How is this different?</strong><br />
-            It adapts to your ingredients, skill level, and tastes in real-time.</li>
+            It adapts to your skill level, the machines you operate, and the precision tolerances you work with in real-time.</li>
           </ul>
         </div>
       </>

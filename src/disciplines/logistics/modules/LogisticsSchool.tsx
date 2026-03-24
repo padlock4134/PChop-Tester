@@ -13,12 +13,12 @@ import ShipmentTimer from '../components/ShipmentTimer';
 import DockPracticeModal from '../components/DockPracticeModal';
 
 const generalLessons = [
-  { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
-  { title: 'Seafood Handling & Safety', desc: 'How to select, store, and prep fresh seafood safely.' },
-  { title: 'Essential Cooking Techniques', desc: 'Master sautéing, steaming, poaching, and more.' },
-  { title: 'Sanitation & Cross-Contamination', desc: 'Keep your kitchen safe and clean.' },
-  { title: 'Using a Thermometer', desc: 'How to check doneness for seafood, poultry, and meats.' },
-  { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
+  { title: 'DOT Regulations & HOS', desc: 'Hours of Service rules, logbooks, and DOT compliance basics.' },
+  { title: 'Freight Classification & NMFC', desc: 'How to classify freight and read the National Motor Freight Classification.' },
+  { title: 'Route Planning & Optimization', desc: 'How to plan efficient routes to reduce cost and delivery time.' },
+  { title: 'Warehouse Operations Basics', desc: 'Receiving, put-away, picking, packing, and shipping procedures.' },
+  { title: 'Supply Chain Fundamentals', desc: 'From procurement to last-mile delivery — the full chain explained.' },
+  { title: 'Equipment & Technology Care', desc: 'Maintaining scanners, forklifts, and warehouse management systems.' }
 ];
 
 // Generate default tutorials including the weekly technique
@@ -33,73 +33,73 @@ function getDefaultTutorials() {
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.'
+      title: 'Let\'s Move This Shipment!',
+      desc: 'How to approach the main task for this logistics operation.'
     }
   ];
 }
 
-// 52 Fundamental Cooking Techniques (one for each week of the year)
+// 52 Fundamental Logistics Techniques (one for each week of the year)
 const WEEKLY_TECHNIQUES = [
-  // Knife & Prep Techniques (Weeks 1-13)
-  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
-  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
-  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
-  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
-  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
-  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
-  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
-  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
-  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
-  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
-  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
-  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
-  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
+  // Freight & Documentation Fundamentals (Weeks 1-13)
+  { title: "Bill of Lading Basics", desc: "Reading, completing, and verifying a BOL for shipment" },
+  { title: "Freight Classification (NMFC)", desc: "Classifying freight by density, stowability, and value" },
+  { title: "Packing List & Commercial Invoice", desc: "Required documents for domestic and international freight" },
+  { title: "Proof of Delivery (POD)", desc: "Capturing and managing delivery confirmation" },
+  { title: "Carrier Selection Basics", desc: "LTL vs. FTL vs. parcel — choosing the right mode" },
+  { title: "Freight Rate Negotiation", desc: "Base rate, accessorial charges, and fuel surcharges" },
+  { title: "Dimensional Weight Calculation", desc: "Calculating dim weight and when it applies" },
+  { title: "Hazmat Shipping Basics", desc: "Placarding, labeling, and documentation for hazardous materials" },
+  { title: "Incoterms Explained", desc: "EXW, FOB, CIF, DDP — risk and responsibility at each point" },
+  { title: "Import/Export Customs Basics", desc: "Customs entry, tariff codes, and broker relationships" },
+  { title: "Chain of Custody Documentation", desc: "Tracking ownership and responsibility through the supply chain" },
+  { title: "Carrier Vetting & Compliance", desc: "FMCSA authority, insurance, and safety rating requirements" },
+  { title: "Load Planning Basics", desc: "Weight distribution, cube utilization, and sequence loading" },
 
-  // Heat & Temperature (Weeks 14-26)
-  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
-  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
-  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
-  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
-  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
-  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
-  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
-  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
-  { title: "Steam Control", desc: "Managing moisture while cooking" },
-  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
-  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
-  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
+  // Warehouse & Inventory Operations (Weeks 14-26)
+  { title: "Receiving Procedure", desc: "Unloading, inspection, counting, and discrepancy reporting" },
+  { title: "Put-Away Strategy", desc: "Fixed vs. floating locations, slotting, and storage zones" },
+  { title: "Pick, Pack & Ship Workflow", desc: "Order fulfillment sequence for accuracy and speed" },
+  { title: "Barcode & RFID Scanning", desc: "Using WMS scanners for receiving, picking, and shipping" },
+  { title: "Cycle Count Procedures", desc: "ABC cycle counting and inventory reconciliation" },
+  { title: "FIFO vs. FEFO", desc: "First In First Out vs. First Expired First Out for inventory" },
+  { title: "Pallet Building Technique", desc: "Weight limits, stability, stretch wrap, and labeling" },
+  { title: "Forklift Operation Basics", desc: "Pre-operation inspection, load capacity, and safe travel" },
+  { title: "Dock Safety & Procedures", desc: "Dock locks, wheel chocks, and trailer restraint systems" },
+  { title: "Cross-Docking Operations", desc: "Direct transfer from inbound to outbound without storage" },
+  { title: "Returns Management (Reverse Logistics)", desc: "RMA process, inspection, restocking, and disposal" },
+  { title: "Cold Chain Basics", desc: "Temperature-controlled shipping, monitoring, and compliance" },
+  { title: "WMS Navigation", desc: "Using a Warehouse Management System for daily operations" },
 
-  // Flavor Building (Weeks 27-39)
-  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
-  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
-  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
-  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
-  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
-  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
-  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
-  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
-  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
-  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
-  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
-  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
-  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
+  // Transportation & Route Management (Weeks 27-39)
+  { title: "Route Optimization Basics", desc: "Reducing miles and time with optimized delivery sequences" },
+  { title: "DOT Hours of Service Rules", desc: "11-hour driving limit, 14-hour window, and 30-minute break" },
+  { title: "ELD (Electronic Logging Device) Use", desc: "Logging duty status changes and HOS compliance" },
+  { title: "Pre-Trip Vehicle Inspection", desc: "DVIR checklist: brakes, tires, lights, and fluid levels" },
+  { title: "Load Securement Standards", desc: "FMCSA cargo securement rules for flatbed and enclosed" },
+  { title: "Transportation Modes Comparison", desc: "Truckload, rail, ocean, and air — cost and lead time tradeoffs" },
+  { title: "Last-Mile Delivery Strategies", desc: "Urban delivery challenges, BOPIS, and customer communication" },
+  { title: "Intermodal Freight Basics", desc: "Container shipping, drayage, and intermodal transfers" },
+  { title: "Fuel Management & Efficiency", desc: "Idle time, routing, and fuel card programs" },
+  { title: "Driver Communication & Dispatch", desc: "Radio, TMS messaging, and proactive status updates" },
+  { title: "Accessorial Charges Explained", desc: "Detention, liftgate, residential, and inside delivery fees" },
+  { title: "Freight Claims Process", desc: "Filing, documenting, and resolving damage and shortage claims" },
+  { title: "3PL vs. In-House Logistics", desc: "When to outsource and how to manage a 3PL relationship" },
 
-  // Texture & Technique (Weeks 40-52)
-  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
-  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
-  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
-  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
-  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
-  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
-  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
-  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
-  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
-  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
-  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
-  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
+  // Technology, Compliance & Professional Skills (Weeks 40-52)
+  { title: "TMS (Transportation Management System)", desc: "Booking, tracking, and reporting with a TMS" },
+  { title: "EDI Basics", desc: "Electronic Data Interchange — 850, 856, 810, and 214 transaction sets" },
+  { title: "KPI Measurement in Logistics", desc: "On-time delivery, fill rate, order accuracy, and cost per unit" },
+  { title: "OSHA Warehouse Safety", desc: "Forklift safety, racking standards, and PPE requirements" },
+  { title: "DOT Compliance Audits", desc: "What auditors look for and how to stay compliant" },
+  { title: "Carrier Performance Scorecards", desc: "Measuring and communicating carrier performance" },
+  { title: "Supply Chain Disruption Planning", desc: "Building resilience with alternate carriers and safety stock" },
+  { title: "Sustainable Logistics Practices", desc: "Carbon footprint, load consolidation, and green initiatives" },
+  { title: "Customer Service in Logistics", desc: "Proactive communication, issue resolution, and escalation" },
+  { title: "Negotiating Carrier Contracts", desc: "Volume commitments, rate caps, and service level agreements" },
+  { title: "Logistics Technology Trends", desc: "Automation, robotics, AI routing, and blockchain in supply chain" },
+  { title: "Estimating Freight Costs", desc: "Building accurate freight quotes and cost-per-unit analysis" },
+  { title: "Career Pathways", desc: "Dispatcher to logistics manager to supply chain director — the roadmap" }
 ];
 
 // Get the technique for current week (1-52)
@@ -124,8 +124,8 @@ function getTwoTutorials(recipe: any) {
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Cook This Meal!`,
-      desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
+      title: `Let\'s Move This Shipment!`,
+      desc: `Step-by-step logistics walkthrough for ${recipe.title}.`,
       type: 'cooking_tutorial'
     }
   ];
@@ -136,8 +136,8 @@ const LogisticsSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
-  console.log('Culinary School - Full Recipe:', selectedRecipe);
+  console.log('Logistics School - Shipment data:', selectedRecipe?.nutrition);
+  console.log('Logistics School - Full Operation:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -146,47 +146,47 @@ const LogisticsSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Chef College Curriculum",
+    title: "Logistics & Supply Chain Curriculum",
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Culinary Foundations",
+        title: "Term 1: Logistics Fundamentals",
         lessons: [
-          { id: "lesson-1-1", title: "Kitchen Safety and Sanitation", completed: true, current: false },
-          { id: "lesson-1-2", title: "Food Handling and Storage", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to Kitchen Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Cooking Terminology", completed: false, current: true },
-          { id: "lesson-1-5", title: "Weights, Measures, and Conversions", completed: false, current: false },
+          { id: "lesson-1-1", title: "Workplace Safety and OSHA Basics", completed: true, current: false },
+          { id: "lesson-1-2", title: "Supply Chain Overview and Key Players", completed: true, current: false },
+          { id: "lesson-1-3", title: "Freight Documentation and BOLs", completed: true, current: false },
+          { id: "lesson-1-4", title: "Freight Classification and Rates", completed: false, current: true },
+          { id: "lesson-1-5", title: "DOT Regulations and Compliance", completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Knife Skills",
+        title: "Term 1: Warehouse Operations",
         lessons: [
-          { id: "lesson-2-1", title: "Knife Safety and Maintenance", completed: false, current: false },
-          { id: "lesson-2-2", title: "Basic Knife Cuts", completed: false, current: false },
-          { id: "lesson-2-3", title: "Vegetable Fabrication", completed: false, current: false },
-          { id: "lesson-2-4", title: "Meat and Fish Fabrication", completed: false, current: false },
+          { id: "lesson-2-1", title: "Receiving, Put-Away, and Inventory Control", completed: false, current: false },
+          { id: "lesson-2-2", title: "Pick, Pack, and Ship Procedures", completed: false, current: false },
+          { id: "lesson-2-3", title: "Forklift Operation and Dock Safety", completed: false, current: false },
+          { id: "lesson-2-4", title: "WMS and Scanning Technology", completed: false, current: false },
         ]
       },
       {
         id: "course-3",
-        title: "Term 2: Breakfast & Garde Manger",
+        title: "Term 2: Transportation & Route Management",
         lessons: [
-          { id: "lesson-3-1", title: "Egg Cookery", completed: false, current: false },
-          { id: "lesson-3-2", title: "Breakfast Preparations", completed: false, current: false },
-          { id: "lesson-3-3", title: "Cold Food Preparation", completed: false, current: false },
-          { id: "lesson-3-4", title: "Salads and Dressings", completed: false, current: false },
+          { id: "lesson-3-1", title: "Carrier Selection and Mode Comparison", completed: false, current: false },
+          { id: "lesson-3-2", title: "Route Optimization and Dispatch", completed: false, current: false },
+          { id: "lesson-3-3", title: "HOS Rules and ELD Compliance", completed: false, current: false },
+          { id: "lesson-3-4", title: "Load Planning and Cargo Securement", completed: false, current: false },
         ]
       },
       {
         id: "course-4",
-        title: "Term 2: Baking & Pastry",
+        title: "Term 2: Technology & Professional Practice",
         lessons: [
-          { id: "lesson-4-1", title: "Basic Dough and Batters", completed: false, current: false },
-          { id: "lesson-4-2", title: "Quick Breads and Muffins", completed: false, current: false },
-          { id: "lesson-4-3", title: "Yeast Breads", completed: false, current: false },
-          { id: "lesson-4-4", title: "Basic Pastry and Desserts", completed: false, current: false },
+          { id: "lesson-4-1", title: "TMS and EDI Fundamentals", completed: false, current: false },
+          { id: "lesson-4-2", title: "KPIs, Scorecards, and Performance Metrics", completed: false, current: false },
+          { id: "lesson-4-3", title: "Customer Service and Freight Claims", completed: false, current: false },
+          { id: "lesson-4-4", title: "Career Pathways in Logistics", completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
@@ -197,7 +197,7 @@ const LogisticsSchool = () => {
   };
 
   useEffect(() => {
-    updateContext({ page: 'CulinarySchool' });
+    updateContext({ page: 'LogisticsSchool' });
   }, [updateContext]);
 
   useEffect(() => {
@@ -298,9 +298,9 @@ const LogisticsSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[CulinarySchool] Fetching videos with API key rotation');
-      console.log('[CulinarySchool] Tutorials to fetch:', tutorials);
-      console.log('[CulinarySchool] Selected recipe:', selectedRecipe);
+      console.log('[LogisticsSchool] Fetching videos with API key rotation');
+      console.log('[LogisticsSchool] Tutorials to fetch:', tutorials);
+      console.log('[LogisticsSchool] Selected operation:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -312,16 +312,16 @@ const LogisticsSchool = () => {
             idx
           );
           
-          console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
+          console.log(`[LogisticsSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
           
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
+          console.log(`[LogisticsSchool] Tutorial ${idx} result:`, result);
           
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
         } catch (error) {
-          console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
+          console.error(`[LogisticsSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
       

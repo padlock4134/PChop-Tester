@@ -13,12 +13,12 @@ import JobTimer from '../components/JobTimer';
 import BayPracticeModal from '../components/BayPracticeModal';
 
 const generalLessons = [
-  { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
-  { title: 'Seafood Handling & Safety', desc: 'How to select, store, and prep fresh seafood safely.' },
-  { title: 'Essential Cooking Techniques', desc: 'Master sautéing, steaming, poaching, and more.' },
-  { title: 'Sanitation & Cross-Contamination', desc: 'Keep your kitchen safe and clean.' },
-  { title: 'Using a Thermometer', desc: 'How to check doneness for seafood, poultry, and meats.' },
-  { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
+  { title: 'Engine Diagnostics 101', desc: 'Learn how to use a scan tool and interpret fault codes like a pro.' },
+  { title: 'Brake System Service', desc: 'How to inspect, measure, and replace brake pads and rotors safely.' },
+  { title: 'Electrical Systems Fundamentals', desc: 'Master wiring diagrams, multimeters, and circuit testing.' },
+  { title: 'Oil & Fluid Service', desc: 'Proper procedures for oil changes, flushes, and fluid top-offs.' },
+  { title: 'Tire & Wheel Service', desc: 'How to mount, balance, and perform a four-wheel alignment.' },
+  { title: 'Tool & Equipment Care', desc: 'Cleaning, calibrating, and maintaining your shop tools.' }
 ];
 
 // Generate default tutorials including the weekly technique
@@ -33,73 +33,73 @@ function getDefaultTutorials() {
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.'
+      title: 'Let\'s Work This Repair!',
+      desc: 'How to approach the main task for this repair order.'
     }
   ];
 }
 
-// 52 Fundamental Cooking Techniques (one for each week of the year)
+// 52 Fundamental Automotive Techniques (one for each week of the year)
 const WEEKLY_TECHNIQUES = [
-  // Knife & Prep Techniques (Weeks 1-13)
-  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
-  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
-  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
-  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
-  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
-  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
-  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
-  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
-  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
-  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
-  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
-  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
-  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
+  // Diagnostics & Scan Tool Fundamentals (Weeks 1-13)
+  { title: "OBD-II Scan Tool Basics", desc: "Connecting a scanner and reading live data and fault codes" },
+  { title: "Reading a Wiring Diagram", desc: "Tracing circuits from power source to ground" },
+  { title: "Multimeter Mastery", desc: "Measuring voltage, resistance, and current accurately" },
+  { title: "Compression Testing", desc: "Evaluating cylinder health with a compression gauge" },
+  { title: "Vacuum Leak Detection", desc: "Using smoke or propane to find intake leaks" },
+  { title: "Fuel Pressure Testing", desc: "Testing the fuel system for pressure and volume" },
+  { title: "Oscilloscope Basics", desc: "Reading sensor waveforms to find electrical faults" },
+  { title: "TSB & Service Data Research", desc: "Finding and applying technical service bulletins" },
+  { title: "Battery Load Testing", desc: "Verifying battery capacity under load conditions" },
+  { title: "Coolant System Pressure Test", desc: "Finding leaks in the cooling system" },
+  { title: "Fuel Injector Testing", desc: "Balance testing and flow-rate verification" },
+  { title: "MAP vs. MAF Sensors", desc: "Understanding and testing air measurement sensors" },
+  { title: "O2 Sensor Analysis", desc: "Reading oxygen sensor data to diagnose fuel trim issues" },
 
-  // Heat & Temperature (Weeks 14-26)
-  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
-  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
-  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
-  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
-  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
-  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
-  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
-  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
-  { title: "Steam Control", desc: "Managing moisture while cooking" },
-  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
-  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
-  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
+  // Engine & Drivetrain (Weeks 14-26)
+  { title: "Timing Belt Replacement", desc: "Proper timing marks and tensioner procedures" },
+  { title: "Valve Clearance Adjustment", desc: "Measuring and setting valve lash" },
+  { title: "Head Gasket Diagnosis", desc: "Combustion leak test and coolant analysis" },
+  { title: "Oil Consumption Diagnosis", desc: "Finding causes of excessive oil use" },
+  { title: "Clutch Replacement", desc: "Flywheel inspection and clutch pack installation" },
+  { title: "CV Axle Replacement", desc: "Half-shaft removal, inspection, and installation" },
+  { title: "Differential Service", desc: "Fluid change and backlash inspection" },
+  { title: "Transmission Fluid Service", desc: "Drain, fill, and filter replacement procedures" },
+  { title: "Engine Mount Inspection", desc: "Checking for worn or broken motor mounts" },
+  { title: "Serpentine Belt Service", desc: "Belt routing, tension, and pulley inspection" },
+  { title: "Water Pump Replacement", desc: "Sealing techniques and impeller inspection" },
+  { title: "Thermostat Replacement", desc: "Correct orientation and coolant system bleeding" },
+  { title: "Turbocharger Basics", desc: "Inspection, oil feed, and boost system fundamentals" },
 
-  // Flavor Building (Weeks 27-39)
-  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
-  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
-  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
-  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
-  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
-  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
-  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
-  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
-  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
-  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
-  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
-  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
-  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
+  // Brakes, Suspension & Steering (Weeks 27-39)
+  { title: "Brake Pad & Rotor Replacement", desc: "Measuring rotor thickness and proper bed-in procedure" },
+  { title: "Brake Caliper Service", desc: "Slide pin lubrication and piston retraction" },
+  { title: "Brake Fluid Flush", desc: "Bleeding procedures and DOT fluid specifications" },
+  { title: "ABS System Diagnosis", desc: "Wheel speed sensor testing and module codes" },
+  { title: "Wheel Bearing Replacement", desc: "Hub-style vs. press-in bearing procedures" },
+  { title: "Strut & Shock Replacement", desc: "Spring compressor safety and alignment needs" },
+  { title: "Ball Joint Inspection", desc: "Wear measurement and replacement procedures" },
+  { title: "Tie Rod Replacement", desc: "Inner and outer tie rod procedures and alignment" },
+  { title: "Power Steering Service", desc: "Fluid flush and rack inspection basics" },
+  { title: "Four-Wheel Alignment", desc: "Caster, camber, and toe adjustment fundamentals" },
+  { title: "Tire Rotation Patterns", desc: "Directional vs. non-directional rotation sequences" },
+  { title: "TPMS Service", desc: "Sensor programming and relearn procedures" },
+  { title: "Brake Drum Service", desc: "Measuring drums and adjusting self-adjusters" },
 
-  // Texture & Technique (Weeks 40-52)
-  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
-  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
-  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
-  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
-  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
-  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
-  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
-  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
-  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
-  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
-  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
-  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
+  // Electrical, HVAC & Professional Skills (Weeks 40-52)
+  { title: "Starter & Alternator Testing", desc: "Load testing charging and starting system components" },
+  { title: "A/C System Diagnosis", desc: "Refrigerant recovery, leak detection, and recharge" },
+  { title: "Cabin Air Filter Service", desc: "Locating and replacing HVAC cabin filters" },
+  { title: "Headlight Aim Adjustment", desc: "Proper aiming procedure using a wall pattern" },
+  { title: "Fuse & Relay Diagnosis", desc: "Testing fuses and relays with a multimeter" },
+  { title: "Key Programming Basics", desc: "Transponder key and key fob programming procedures" },
+  { title: "Hybrid Safety Protocols", desc: "High-voltage system shutdown and PPE requirements" },
+  { title: "Service Information Systems", desc: "Using AllData, Mitchell, and OEM portals effectively" },
+  { title: "Repair Order Writing", desc: "Documenting diagnosis, labor, and parts professionally" },
+  { title: "Customer Communication", desc: "Explaining repairs and estimates without jargon" },
+  { title: "Estimating Labor Time", desc: "Using flat-rate manuals and flagging hours" },
+  { title: "ASE Certification Prep", desc: "Test-taking strategies and study resources for ASE exams" },
+  { title: "Career Pathways", desc: "Lube tech to master technician — the ASE roadmap" }
 ];
 
 // Get the technique for current week (1-52)
@@ -124,8 +124,8 @@ function getTwoTutorials(recipe: any) {
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Cook This Meal!`,
-      desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
+      title: `Let\'s Work This Repair!`,
+      desc: `Step-by-step repair walkthrough for ${recipe.title}.`,
       type: 'cooking_tutorial'
     }
   ];
@@ -136,8 +136,8 @@ const AutoSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
-  console.log('Culinary School - Full Recipe:', selectedRecipe);
+  console.log('Auto School - Repair data:', selectedRecipe?.nutrition);
+  console.log('Auto School - Full Repair Order:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -146,47 +146,47 @@ const AutoSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Chef College Curriculum",
+    title: "Automotive Technology Curriculum",
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Culinary Foundations",
+        title: "Term 1: Automotive Fundamentals",
         lessons: [
-          { id: "lesson-1-1", title: "Kitchen Safety and Sanitation", completed: true, current: false },
-          { id: "lesson-1-2", title: "Food Handling and Storage", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to Kitchen Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Cooking Terminology", completed: false, current: true },
-          { id: "lesson-1-5", title: "Weights, Measures, and Conversions", completed: false, current: false },
+          { id: "lesson-1-1", title: "Shop Safety, PPE, and OSHA Basics", completed: true, current: false },
+          { id: "lesson-1-2", title: "Hand Tools, Power Tools, and Shop Equipment", completed: true, current: false },
+          { id: "lesson-1-3", title: "Vehicle Identification and Service Information", completed: true, current: false },
+          { id: "lesson-1-4", title: "Fasteners, Seals, and Gaskets", completed: false, current: true },
+          { id: "lesson-1-5", title: "Automotive Electrical Fundamentals", completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Knife Skills",
+        title: "Term 1: Engine & Drivetrain",
         lessons: [
-          { id: "lesson-2-1", title: "Knife Safety and Maintenance", completed: false, current: false },
-          { id: "lesson-2-2", title: "Basic Knife Cuts", completed: false, current: false },
-          { id: "lesson-2-3", title: "Vegetable Fabrication", completed: false, current: false },
-          { id: "lesson-2-4", title: "Meat and Fish Fabrication", completed: false, current: false },
+          { id: "lesson-2-1", title: "Engine Operation and Component ID", completed: false, current: false },
+          { id: "lesson-2-2", title: "Lubrication and Cooling Systems", completed: false, current: false },
+          { id: "lesson-2-3", title: "Fuel and Intake Systems", completed: false, current: false },
+          { id: "lesson-2-4", title: "Transmission and Driveline Basics", completed: false, current: false },
         ]
       },
       {
         id: "course-3",
-        title: "Term 2: Breakfast & Garde Manger",
+        title: "Term 2: Brakes, Suspension & Steering",
         lessons: [
-          { id: "lesson-3-1", title: "Egg Cookery", completed: false, current: false },
-          { id: "lesson-3-2", title: "Breakfast Preparations", completed: false, current: false },
-          { id: "lesson-3-3", title: "Cold Food Preparation", completed: false, current: false },
-          { id: "lesson-3-4", title: "Salads and Dressings", completed: false, current: false },
+          { id: "lesson-3-1", title: "Brake System Fundamentals", completed: false, current: false },
+          { id: "lesson-3-2", title: "Brake Service and Inspection", completed: false, current: false },
+          { id: "lesson-3-3", title: "Suspension and Steering Systems", completed: false, current: false },
+          { id: "lesson-3-4", title: "Wheel Alignment and Tire Service", completed: false, current: false },
         ]
       },
       {
         id: "course-4",
-        title: "Term 2: Baking & Pastry",
+        title: "Term 2: Diagnostics & Professional Practice",
         lessons: [
-          { id: "lesson-4-1", title: "Basic Dough and Batters", completed: false, current: false },
-          { id: "lesson-4-2", title: "Quick Breads and Muffins", completed: false, current: false },
-          { id: "lesson-4-3", title: "Yeast Breads", completed: false, current: false },
-          { id: "lesson-4-4", title: "Basic Pastry and Desserts", completed: false, current: false },
+          { id: "lesson-4-1", title: "OBD-II Diagnostics and Scan Tools", completed: false, current: false },
+          { id: "lesson-4-2", title: "Electrical Diagnostics and Wiring", completed: false, current: false },
+          { id: "lesson-4-3", title: "Repair Order Writing and Customer Service", completed: false, current: false },
+          { id: "lesson-4-4", title: "ASE Certification and Career Pathways", completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
@@ -197,7 +197,7 @@ const AutoSchool = () => {
   };
 
   useEffect(() => {
-    updateContext({ page: 'CulinarySchool' });
+    updateContext({ page: 'AutoSchool' });
   }, [updateContext]);
 
   useEffect(() => {
@@ -298,9 +298,9 @@ const AutoSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[CulinarySchool] Fetching videos with API key rotation');
-      console.log('[CulinarySchool] Tutorials to fetch:', tutorials);
-      console.log('[CulinarySchool] Selected recipe:', selectedRecipe);
+      console.log('[AutoSchool] Fetching videos with API key rotation');
+      console.log('[AutoSchool] Tutorials to fetch:', tutorials);
+      console.log('[AutoSchool] Selected repair order:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -312,16 +312,16 @@ const AutoSchool = () => {
             idx
           );
           
-          console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
+          console.log(`[AutoSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
           
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
+          console.log(`[AutoSchool] Tutorial ${idx} result:`, result);
           
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
         } catch (error) {
-          console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
+          console.error(`[AutoSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
       

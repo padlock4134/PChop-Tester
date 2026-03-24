@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askChefFreddie } from '../../culinary/api/chefFreddie';
+import { askChefFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 interface Message {
@@ -13,16 +13,16 @@ interface Message {
 
 const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
-    case 'MyKitchen':
-      return t('garageFreddie.welcomeMyKitchen');
-    case 'MyCookBook':
-      return t('garageFreddie.welcomeMyCookbook');
-    case 'ChefsCorner':
-      return t('garageFreddie.welcomeChefsCorner');
-    case 'CulinarySchool':
-      return t('garageFreddie.welcomeCulinarySchool');
+    case 'MyGarage':
+      return "Welcome to My Garage — I can help you look up repair procedures, check part numbers, and plan your workflow.";
+    case 'MyManual':
+      return "Welcome to My Manual — need help documenting a repair order or reviewing a service record?";
+    case 'GearheadLounge':
+      return "Welcome to the Gearhead Lounge — want tips on finding local parts suppliers or connecting with fellow techs?";
+    case 'AutoSchool':
+      return "Welcome to Auto School — I can help you prep for ASE exams or find diagnostic technique videos.";
     default:
-      return t('garageFreddie.welcomeDefault');
+      return "Hey! I'm Gus the Mechanic, your AI automotive assistant. Ask me anything about diagnostics, repair procedures, or OBD codes.";
   }
 };
 
@@ -123,7 +123,7 @@ const GarageFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Garage Freddie</span>
+              <span className="font-bold text-maineBlue">Gus the Mechanic</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);

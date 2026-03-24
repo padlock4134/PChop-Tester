@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askChefFreddie } from '../../culinary/api/chefFreddie';
+import { askChefFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 interface Message {
@@ -13,16 +13,16 @@ interface Message {
 
 const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
-    case 'MyKitchen':
-      return t('siteFreddie.welcomeMyKitchen');
-    case 'MyCookBook':
-      return t('siteFreddie.welcomeMyCookbook');
-    case 'ChefsCorner':
-      return t('siteFreddie.welcomeChefsCorner');
-    case 'CulinarySchool':
-      return t('siteFreddie.welcomeCulinarySchool');
+    case 'MySite':
+      return "Welcome to My Site — I can help you track materials, plan your workflow, and review safety requirements.";
+    case 'MyBlueprints':
+      return "Welcome to My Blueprints — need help reading a spec or writing up a work order?";
+    case 'HardhatHub':
+      return "Welcome to the Hardhat Hub — want tips on finding local suppliers or connecting with fellow builders?";
+    case 'BuildSchool':
+      return "Welcome to Build School — I can help you prep for code exams or find technique videos.";
     default:
-      return t('siteFreddie.welcomeDefault');
+      return "Hey! I'm Foreman Frank, your AI construction assistant. Ask me anything about building codes, project planning, or safety compliance.";
   }
 };
 
@@ -110,11 +110,11 @@ const SiteFreddieWidget = () => {
       <button
         className="fixed bottom-6 right-6 bg-maineBlue text-seafoam rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:bg-seafoam hover:text-maineBlue transition-colors"
         onClick={() => setOpen(o => !o)}
-        aria-label="Open Site Freddie AI Assistant"
+        aria-label="Open Foreman Frank AI Assistant"
       >
         <img
           src={chefFreddiePng}
-          alt="Site Freddie"
+          alt="Foreman Frank"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />
       </button>
@@ -123,7 +123,7 @@ const SiteFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Site Freddie</span>
+              <span className="font-bold text-maineBlue">Foreman Frank</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);

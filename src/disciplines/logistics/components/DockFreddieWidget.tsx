@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askChefFreddie } from '../../culinary/api/chefFreddie';
+import { askChefFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 interface Message {
@@ -13,16 +13,16 @@ interface Message {
 
 const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
-    case 'MyKitchen':
-      return t('dockFreddie.welcomeMyKitchen');
-    case 'MyCookBook':
-      return t('dockFreddie.welcomeMyCookbook');
-    case 'ChefsCorner':
-      return t('dockFreddie.welcomeChefsCorner');
-    case 'CulinarySchool':
-      return t('dockFreddie.welcomeCulinarySchool');
+    case 'MyDock':
+      return "Welcome to My Dock — I can help you look up routing options, check DOT requirements, and plan your operations.";
+    case 'MyRunbook':
+      return "Welcome to My Runbook — need help documenting a shipment or reviewing a freight record?";
+    case 'DispatchLounge':
+      return "Welcome to the Dispatch Lounge — want tips on finding logistics partners or connecting with fellow dispatchers?";
+    case 'LogisticsSchool':
+      return "Welcome to Logistics School — I can help you prep for DOT compliance exams or find supply chain technique videos.";
     default:
-      return t('dockFreddie.welcomeDefault');
+      return "Hey! I'm Lou the Dispatcher, your AI logistics assistant. Ask me anything about routing, freight classification, or DOT compliance.";
   }
 };
 
@@ -110,11 +110,11 @@ const DockFreddieWidget = () => {
       <button
         className="fixed bottom-6 right-6 bg-maineBlue text-seafoam rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:bg-seafoam hover:text-maineBlue transition-colors"
         onClick={() => setOpen(o => !o)}
-        aria-label="Open Dock Freddie AI Assistant"
+        aria-label="Open Lou the Dispatcher AI Assistant"
       >
         <img
           src={chefFreddiePng}
-          alt="Dock Freddie"
+          alt="Lou the Dispatcher"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />
       </button>
@@ -123,7 +123,7 @@ const DockFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Dock Freddie</span>
+              <span className="font-bold text-maineBlue">Lou the Dispatcher</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);

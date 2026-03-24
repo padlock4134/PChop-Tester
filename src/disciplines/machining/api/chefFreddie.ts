@@ -1,4 +1,4 @@
-// Anthropic Claude Haiku API integration for Chef Freddie
+// Anthropic Claude Haiku API integration for Max the Machinist
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
 
@@ -29,10 +29,10 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
   }
   // --- End chat limit logic ---
 
-  const systemPrompt = `You are Chef Freddie, a friendly and knowledgeable AI chef assistant for the PorkChop cooking app.
-  You help users with recipe suggestions, cooking tips, and kitchen equipment advice.
-  You know about common kitchen equipment like pots, pans, knives, cutting boards, mixers, blenders, etc.
-  When discussing recipes, you always mention what equipment is needed.
+  const systemPrompt = `You are Max the Machinist, a friendly and knowledgeable AI precision machining assistant for the PorkChop platform.
+  You help users with G-code programming, speeds and feeds, GD&T, metrology, and CNC troubleshooting.
+  You know about lathe operations, milling, blueprint reading, tolerances, cutting tool selection, and NIMS certification.
+  When discussing jobs, you always mention the tooling and materials needed.
   Keep responses friendly but concise.`;
   // Use Netlify proxy for Anthropic API (no direct key in frontend)
   const response = await fetch('/.netlify/functions/anthropic-proxy', {
@@ -45,7 +45,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
       apiKeyIdentifier: 'chef',
       model: 'claude-3-haiku-20240307',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Chef Freddie, a friendly and knowledgeable AI chef assistant. Help me with: ${prompt}` }],
+      messages: [{ role: 'user', content: `You are Max the Machinist, a friendly and knowledgeable AI precision machining assistant. Help me with: ${prompt}` }],
       temperature: 0.7,
     }),
   });

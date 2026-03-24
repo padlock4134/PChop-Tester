@@ -13,12 +13,12 @@ import JobTimer from '../components/JobTimer';
 import FitPracticeModal from '../components/FitPracticeModal';
 
 const generalLessons = [
-  { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
-  { title: 'Seafood Handling & Safety', desc: 'How to select, store, and prep fresh seafood safely.' },
-  { title: 'Essential Cooking Techniques', desc: 'Master sautéing, steaming, poaching, and more.' },
-  { title: 'Sanitation & Cross-Contamination', desc: 'Keep your kitchen safe and clean.' },
-  { title: 'Using a Thermometer', desc: 'How to check doneness for seafood, poultry, and meats.' },
-  { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
+  { title: 'Pipe Fitting Basics', desc: 'Learn how to measure, cut, and join pipe like a pro.' },
+  { title: 'Water Heater Installation', desc: 'How to install, connect, and test a water heater safely.' },
+  { title: 'Drain, Waste & Vent Systems', desc: 'Master DWV design, trap installation, and vent stacks.' },
+  { title: 'Code Compliance & Permits', desc: 'Navigate the IPC, pull permits, and pass inspections.' },
+  { title: 'Soldering Copper Pipe', desc: 'How to sweat copper joints without leaks every time.' },
+  { title: 'Troubleshooting Leaks', desc: 'Locating, diagnosing, and repairing plumbing leaks.' }
 ];
 
 // Generate default tutorials including the weekly technique
@@ -33,73 +33,73 @@ function getDefaultTutorials() {
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.'
+      title: 'Let\'s Work This Job!',
+      desc: 'How to approach the main task for this project.'
     }
   ];
 }
 
-// 52 Fundamental Cooking Techniques (one for each week of the year)
+// 52 Fundamental Plumbing Techniques (one for each week of the year)
 const WEEKLY_TECHNIQUES = [
-  // Knife & Prep Techniques (Weeks 1-13)
-  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
-  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
-  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
-  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
-  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
-  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
-  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
-  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
-  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
-  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
-  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
-  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
-  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
+  // Pipe & Fitting Fundamentals (Weeks 1-13)
+  { title: "Measuring & Cutting Pipe", desc: "Accurate measurements and clean cuts for leak-free joints" },
+  { title: "PVC Cement & Primer", desc: "Proper bonding technique for plastic pipe assemblies" },
+  { title: "Copper Soldering Basics", desc: "Sweating copper joints without leaks every time" },
+  { title: "Threading Steel Pipe", desc: "Using a die to create precise male threads" },
+  { title: "Press Fittings", desc: "No-solder press-connect installation technique" },
+  { title: "Push-Fit Connectors", desc: "SharkBite-style fittings for quick, reliable repairs" },
+  { title: "Flare Fittings", desc: "Creating a flared connection for gas and refrigerant lines" },
+  { title: "Compression Fittings", desc: "Proper ferrule and nut assembly for leak-free connections" },
+  { title: "Pipe Sizing Selection", desc: "Choosing correct diameter for required flow rates" },
+  { title: "Working with PEX", desc: "Expansion rings and crimp rings explained" },
+  { title: "Cast Iron Pipe Handling", desc: "Cutting and joining no-hub cast iron pipe" },
+  { title: "Reading Pipe Specs", desc: "Understanding schedule, pressure ratings, and material codes" },
+  { title: "Pipe Support Spacing", desc: "Correct hanger intervals per code requirements" },
 
-  // Heat & Temperature (Weeks 14-26)
-  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
-  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
-  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
-  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
-  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
-  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
-  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
-  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
-  { title: "Steam Control", desc: "Managing moisture while cooking" },
-  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
-  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
-  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
+  // Water Systems (Weeks 14-26)
+  { title: "Water Pressure Testing", desc: "Using a gauge to verify and troubleshoot system pressure" },
+  { title: "Shut-Off Valve Installation", desc: "Ball valves vs. gate valves — when to use each" },
+  { title: "Water Heater Connection", desc: "Supply and return lines, T&P valve, and safe venting" },
+  { title: "Backflow Preventer Install", desc: "Types, orientation, and code-required locations" },
+  { title: "Expansion Tank Sizing", desc: "Sizing and pre-charging a thermal expansion tank" },
+  { title: "Pressure Reducing Valve", desc: "Setting and adjusting a PRV for optimal pressure" },
+  { title: "Hot and Cold Water Routing", desc: "Code-compliant separation, insulation, and color coding" },
+  { title: "Fixture Rough-In Dimensions", desc: "Standard heights and distances from finished wall" },
+  { title: "Water Hammer Arrestors", desc: "Installing arrestors to eliminate water hammer noise" },
+  { title: "Anti-Scald Devices", desc: "Thermostatic mixing valves for residential safety" },
+  { title: "Water Softener Bypass", desc: "Installing and servicing bypass valves correctly" },
+  { title: "Supply Line Materials", desc: "Comparing brass, braided, and copper supply lines" },
+  { title: "Meter Connections", desc: "Working safely around the water meter" },
 
-  // Flavor Building (Weeks 27-39)
-  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
-  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
-  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
-  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
-  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
-  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
-  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
-  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
-  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
-  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
-  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
-  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
-  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
+  // Drain, Waste & Vent (Weeks 27-39)
+  { title: "Drain Slope Calculation", desc: "The 1/4\" per foot rule and code-approved deviations" },
+  { title: "P-Trap Installation", desc: "Correct sizing, depth, and positioning for every fixture" },
+  { title: "Vent Stack Basics", desc: "How venting prevents siphoning and odor infiltration" },
+  { title: "Air Admittance Valves", desc: "When and where AAVs are code-permitted" },
+  { title: "Wet Venting Explained", desc: "Combining drain and vent functions in one pipe" },
+  { title: "Stack Venting", desc: "Running vents safely through the roof structure" },
+  { title: "Cleanout Installation", desc: "Placement, access, and sizing requirements per code" },
+  { title: "Floor Drain Installation", desc: "Trap primer systems and proper slope to drain" },
+  { title: "Shower Pan Connections", desc: "Mortar bed vs. prefab pans — waterproofing and drainage" },
+  { title: "Toilet Rough-In", desc: "Flange height, wax ring selection, and closet bolt placement" },
+  { title: "Sink Drain Assembly", desc: "Pop-up assemblies, basket strainers, and P-trap alignment" },
+  { title: "Drain Camera Inspection", desc: "Using a scope camera to locate blockages and root intrusion" },
+  { title: "Grease Trap Basics", desc: "Sizing, installation, and maintenance for commercial kitchens" },
 
-  // Texture & Technique (Weeks 40-52)
-  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
-  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
-  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
-  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
-  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
-  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
-  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
-  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
-  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
-  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
-  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
-  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
+  // Code, Safety & Professional Skills (Weeks 40-52)
+  { title: "Reading the IPC", desc: "How to navigate the International Plumbing Code efficiently" },
+  { title: "Permit Process", desc: "When permits are required, how to pull them, and inspection prep" },
+  { title: "Pressure Test Procedures", desc: "Air test vs. water test — when each is required" },
+  { title: "Gas Line Basics", desc: "CSST and black iron piping for gas distribution" },
+  { title: "Solvent Welding Safety", desc: "Ventilation, PPE, and safe handling of cement and primer" },
+  { title: "Trenching Safety", desc: "Shoring requirements and call-before-you-dig compliance" },
+  { title: "Lead & Asbestos Awareness", desc: "Identification and safe work practices in older buildings" },
+  { title: "Water Quality Testing", desc: "Interpreting a basic water test report for customers" },
+  { title: "Backflow Testing Procedures", desc: "Annual test requirements, reporting, and certification" },
+  { title: "Winterizing a System", desc: "Draining and protecting pipes from freeze damage" },
+  { title: "Service Call Professionalism", desc: "Customer communication, job documentation, and callbacks" },
+  { title: "Estimating Materials", desc: "Calculating accurate quantities for a rough-in bid" },
+  { title: "Career Pathways", desc: "Apprentice to journeyman to master plumber — the roadmap" }
 ];
 
 // Get the technique for current week (1-52)
@@ -124,8 +124,8 @@ function getTwoTutorials(recipe: any) {
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Cook This Meal!`,
-      desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
+      title: `Let\'s Work This Job!`,
+      desc: `Step-by-step project walkthrough for ${recipe.title}.`,
       type: 'cooking_tutorial'
     }
   ];
@@ -136,8 +136,8 @@ const PlumbingSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Culinary School - Recipe nutrition:', selectedRecipe?.nutrition);
-  console.log('Culinary School - Full Recipe:', selectedRecipe);
+  console.log('Plumbing School - Project data:', selectedRecipe?.nutrition);
+  console.log('Plumbing School - Full Project:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
@@ -146,47 +146,47 @@ const PlumbingSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Chef College Curriculum",
+    title: "Plumbing Technology Curriculum",
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Culinary Foundations",
+        title: "Term 1: Plumbing Fundamentals",
         lessons: [
-          { id: "lesson-1-1", title: "Kitchen Safety and Sanitation", completed: true, current: false },
-          { id: "lesson-1-2", title: "Food Handling and Storage", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to Kitchen Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Cooking Terminology", completed: false, current: true },
-          { id: "lesson-1-5", title: "Weights, Measures, and Conversions", completed: false, current: false },
+          { id: "lesson-1-1", title: "Safety, PPE, and Job Site Procedures", completed: true, current: false },
+          { id: "lesson-1-2", title: "Tools, Materials, and Pipe Types", completed: true, current: false },
+          { id: "lesson-1-3", title: "Introduction to the Plumbing Code", completed: true, current: false },
+          { id: "lesson-1-4", title: "Basic Pipe Fitting and Joining", completed: false, current: true },
+          { id: "lesson-1-5", title: "Measurements, Math, and Conversions", completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Knife Skills",
+        title: "Term 1: Water Supply Systems",
         lessons: [
-          { id: "lesson-2-1", title: "Knife Safety and Maintenance", completed: false, current: false },
-          { id: "lesson-2-2", title: "Basic Knife Cuts", completed: false, current: false },
-          { id: "lesson-2-3", title: "Vegetable Fabrication", completed: false, current: false },
-          { id: "lesson-2-4", title: "Meat and Fish Fabrication", completed: false, current: false },
+          { id: "lesson-2-1", title: "Hot and Cold Water Distribution", completed: false, current: false },
+          { id: "lesson-2-2", title: "Shut-Off Valves and Pressure Control", completed: false, current: false },
+          { id: "lesson-2-3", title: "Water Heater Installation", completed: false, current: false },
+          { id: "lesson-2-4", title: "Backflow Prevention and Testing", completed: false, current: false },
         ]
       },
       {
         id: "course-3",
-        title: "Term 2: Breakfast & Garde Manger",
+        title: "Term 2: Drain, Waste & Vent",
         lessons: [
-          { id: "lesson-3-1", title: "Egg Cookery", completed: false, current: false },
-          { id: "lesson-3-2", title: "Breakfast Preparations", completed: false, current: false },
-          { id: "lesson-3-3", title: "Cold Food Preparation", completed: false, current: false },
-          { id: "lesson-3-4", title: "Salads and Dressings", completed: false, current: false },
+          { id: "lesson-3-1", title: "DWV System Design", completed: false, current: false },
+          { id: "lesson-3-2", title: "Trap and Vent Installation", completed: false, current: false },
+          { id: "lesson-3-3", title: "Code-Compliant Drainage", completed: false, current: false },
+          { id: "lesson-3-4", title: "Cleanouts and Drain Camera Basics", completed: false, current: false },
         ]
       },
       {
         id: "course-4",
-        title: "Term 2: Baking & Pastry",
+        title: "Term 2: Professional Practice",
         lessons: [
-          { id: "lesson-4-1", title: "Basic Dough and Batters", completed: false, current: false },
-          { id: "lesson-4-2", title: "Quick Breads and Muffins", completed: false, current: false },
-          { id: "lesson-4-3", title: "Yeast Breads", completed: false, current: false },
-          { id: "lesson-4-4", title: "Basic Pastry and Desserts", completed: false, current: false },
+          { id: "lesson-4-1", title: "Estimating and Bidding Jobs", completed: false, current: false },
+          { id: "lesson-4-2", title: "Permits, Inspections, and Licensing", completed: false, current: false },
+          { id: "lesson-4-3", title: "Customer Service and Job Documentation", completed: false, current: false },
+          { id: "lesson-4-4", title: "Career Pathways in Plumbing", completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
@@ -197,7 +197,7 @@ const PlumbingSchool = () => {
   };
 
   useEffect(() => {
-    updateContext({ page: 'CulinarySchool' });
+    updateContext({ page: 'PlumbingSchool' });
   }, [updateContext]);
 
   useEffect(() => {
@@ -247,17 +247,17 @@ const PlumbingSchool = () => {
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
-      query = `how to ${tut.techniqueData.title.toLowerCase()} cooking technique`;
+      query = `how to ${tut.techniqueData.title.toLowerCase()} plumbing technique`;
     } else if (tut.type === 'cooking_tutorial') {
-      // For cooking tutorials, focus on the recipe
-      const mainProtein = getMainProtein(recipe.ingredients || []);
-      const mainEquipment = getMainEquipment(recipe.equipment || []);
-      if (mainProtein && mainEquipment) {
-        query = `How to cook ${mainProtein} using ${mainEquipment}`;
-      } else if (mainProtein) {
-        query = `How to cook ${mainProtein}`;
+      // For job tutorials, focus on the plumbing project
+      const mainMaterial = getMainProtein(recipe.ingredients || []);
+      const mainTool = getMainEquipment(recipe.equipment || []);
+      if (mainMaterial && mainTool) {
+        query = `How to install ${mainMaterial} using ${mainTool} plumbing`;
+      } else if (mainMaterial) {
+        query = `How to work with ${mainMaterial} plumbing`;
       } else {
-        query = `how to make ${recipe.title}`;
+        query = `how to do ${recipe.title} plumbing`;
       }
     } else {
       // Legacy fallback for older tutorial formats
@@ -265,15 +265,15 @@ const PlumbingSchool = () => {
         return recipe.title;
       }
       
-      // Use Chef Freddie for complex queries
+      // Use Pete the Plumber for complex queries
       const prompt = `
-        Given the following recipe and tutorial step, generate a concise YouTube search query for a relevant cooking video.\n
-        - Only use the equipment and ingredients listed.\n
+        Given the following plumbing project and tutorial step, generate a concise YouTube search query for a relevant plumbing technique video.\n
+        - Only use the tools and materials listed.\n
         - Do NOT include unrelated tools or techniques.\n
-        - The query should be specific to the step and recipe.\n
-        Recipe: ${recipe.title}\n
-        Ingredients: ${recipe.ingredients?.join(', ')}\n
-        Equipment: ${recipe.equipment?.join(', ') || 'N/A'}\n
+        - The query should be specific to the step and project.\n
+        Project: ${recipe.title}\n
+        Materials: ${recipe.ingredients?.join(', ')}\n
+        Tools: ${recipe.equipment?.join(', ') || 'N/A'}\n
         Step Title: ${tut.title}\n
         Step Description: ${tut.desc}\n
         Query:
@@ -298,9 +298,9 @@ const PlumbingSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[CulinarySchool] Fetching videos with API key rotation');
-      console.log('[CulinarySchool] Tutorials to fetch:', tutorials);
-      console.log('[CulinarySchool] Selected recipe:', selectedRecipe);
+      console.log('[PlumbingSchool] Fetching videos with API key rotation');
+      console.log('[PlumbingSchool] Tutorials to fetch:', tutorials);
+      console.log('[PlumbingSchool] Selected project:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
@@ -312,16 +312,16 @@ const PlumbingSchool = () => {
             idx
           );
           
-          console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
+          console.log(`[PlumbingSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
           
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
+          console.log(`[PlumbingSchool] Tutorial ${idx} result:`, result);
           
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
         } catch (error) {
-          console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
+          console.error(`[PlumbingSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
       

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askChefFreddie } from '../../culinary/api/chefFreddie';
+import { askChefFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 interface Message {
@@ -13,16 +13,16 @@ interface Message {
 
 const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
-    case 'MyKitchen':
-      return t('chefFreddie.welcomeMyKitchen');
-    case 'MyCookBook':
-      return t('chefFreddie.welcomeMyCookbook');
-    case 'ChefsCorner':
-      return t('chefFreddie.welcomeChefsCorner');
-    case 'CulinarySchool':
-      return t('chefFreddie.welcomeCulinarySchool');
+    case 'MyVan':
+      return "Welcome to My Van — I can help you look up materials, check job requirements, and plan your inventory.";
+    case 'MyPipeBook':
+      return "Welcome to My Pipebook — need help writing up a job ticket or reviewing a project?";
+    case 'PipeLounge':
+      return "Welcome to the Pipe Lounge — want tips on finding local supply houses or connecting with fellow plumbers?";
+    case 'PlumbingSchool':
+      return "Welcome to Plumbing School — I can help you prep for code exams or find technique videos.";
     default:
-      return t('chefFreddie.welcomeDefault');
+      return "Hey! I'm Pete the Plumber, your AI plumbing assistant. Ask me anything about pipe fitting, code compliance, or job planning.";
   }
 };
 
@@ -110,11 +110,11 @@ const ChefFreddieWidget = () => {
       <button
         className="fixed bottom-6 right-6 bg-maineBlue text-seafoam rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:bg-seafoam hover:text-maineBlue transition-colors"
         onClick={() => setOpen(o => !o)}
-        aria-label="Open Chef Freddie AI Assistant"
+        aria-label="Open Pete the Plumber AI Assistant"
       >
         <img
           src={chefFreddiePng}
-          alt="Chef Freddie"
+          alt="Pete the Plumber"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />
       </button>
@@ -123,7 +123,7 @@ const ChefFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Chef Freddie</span>
+              <span className="font-bold text-maineBlue">Pete the Plumber</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);
