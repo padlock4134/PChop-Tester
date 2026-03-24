@@ -51,11 +51,15 @@ const DisciplineSelector: React.FC = () => {
                 required
               >
                 <option value="">-- Select Discipline --</option>
-                {disciplines.map((d) => (
+                {disciplines.slice(0, -1).map((d) => (
                   <option key={d.key} value={d.key}>
                     {d.icon} {d.label}
                   </option>
                 ))}
+                <option disabled>──────────────</option>
+                <option key={disciplines[disciplines.length - 1].key} value={disciplines[disciplines.length - 1].key}>
+                  {disciplines[disciplines.length - 1].icon} {disciplines[disciplines.length - 1].label}
+                </option>
               </select>
             </div>
 
