@@ -103,6 +103,24 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
     fetchCustomDisciplines();
   }, []);
+
+  // Listen for discipline changes
+  useEffect(() => {
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'adminSelectedDiscipline') {
+        const newDiscipline = e.newValue;
+        console.log('Admin Dashboard - Discipline changed to:', newDiscipline);
+        if (newDiscipline && newDiscipline !== 'total') {
+          setSelectedDiscipline(newDiscipline as DisciplineKey);
+        } else {
+          setSelectedDiscipline('total');
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
   
   // Mobile tab state - mimicking Student Dashboard
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'events' | 'actions'>('home');

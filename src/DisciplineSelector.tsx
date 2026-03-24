@@ -85,6 +85,14 @@ const DisciplineSelector: React.FC = () => {
         console.log('DisciplineSelector - Storing discipline:', selectedDiscipline);
         localStorage.setItem('adminSelectedDiscipline', selectedDiscipline);
         
+        // Trigger storage event to notify admin dashboard
+        window.dispatchEvent(new StorageEvent('storage', {
+          key: 'adminSelectedDiscipline',
+          newValue: selectedDiscipline,
+          oldValue: null,
+          storageArea: localStorage
+        }));
+        
         // Check if there was an intended destination
         const intendedDestination = localStorage.getItem('intendedDestination');
         if (intendedDestination && intendedDestination !== '/admin') {
@@ -92,7 +100,7 @@ const DisciplineSelector: React.FC = () => {
           localStorage.removeItem('intendedDestination');
           navigate(intendedDestination);
         } else {
-          navigate('/admin');
+          navigate('/admin'); // This goes to UnifiedAdminDashboard
         }
       } else {
         // Check if there was an intended destination
