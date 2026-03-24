@@ -10,38 +10,38 @@ import { useLevelProgressContext } from '../../culinary/components/NavBar';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 
-// Chef quotes (production-ready)
-const chefQuotes = [
-  { chef: 'Julia Child', quote: 'People who love to eat are always the best people.' },
-  { chef: 'Gordon Ramsay', quote: 'Cooking is about passion, so it may look slightly temperamental in a way that it\'s too assertive to the naked eye.' },
-  { chef: 'Alice Waters', quote: 'Let things taste of what they are.' },
-  { chef: 'Anthony Bourdain', quote: 'Your body is not a temple, it\'s an amusement park. Enjoy the ride.' },
-  { chef: 'Massimo Bottura', quote: 'Cooking is an act of love, a gift, a way of sharing with others the little secrets — "piccoli segreti" — that are simmering on the burners.' },
-  { chef: 'Thomas Keller', quote: 'A recipe has no soul. You as the cook must bring soul to the recipe.' },
-  { chef: 'Ina Garten', quote: 'Food is not about impressing people. It\'s about making them feel comfortable.' },
-  { chef: 'Ferran Adrià', quote: 'The more you know, the more you can create. There\'s no end to imagination in the kitchen.' },
-  { chef: 'Emeril Lagasse', quote: 'Kick it up a notch!' },
-  { chef: 'Wolfgang Puck', quote: 'Cooking is like painting or writing a song.' },
-  { chef: 'Rene Redzepi', quote: 'Innovation, being avant-garde, is always polemic.' },
-  { chef: 'Heston Blumenthal', quote: 'Question everything. No idea is a bad idea.' },
-  { chef: 'Alain Ducasse', quote: 'Cooking is a way of giving.' },
-  { chef: 'Rachel Ray', quote: 'Good food and a warm kitchen are what make a house a home.' },
-  { chef: 'Pierre Gagnaire', quote: 'Cooking is not difficult. Everyone has taste, even if they don\'t realize it.' },
-  { chef: 'Paul Bocuse', quote: 'Cooking is not just eating energy. It\'s an experience.' },
-  { chef: 'Joël Robuchon', quote: 'The simpler the food, the more exceptional it can be.' },
-  { chef: 'Marco Pierre White', quote: 'Mother Nature is the true artist and our job as cooks is to allow her to shine.' },
-  { chef: 'Jamie Oliver', quote: 'Real food doesn\'t have ingredients, real food is ingredients.' },
-  { chef: 'Nigella Lawson', quote: 'I have always believed that what goes on in the kitchen should stay in the kitchen.' }
+// Automotive quotes (production-ready)
+const automotiveQuotes = [
+  { chef: 'Henry Ford', quote: 'Whether you think you can, or you think you can\'t – you\'re right.' },
+  { chef: 'Enzo Ferrari', quote: 'Aerodynamics are for people who can\'t build engines.' },
+  { chef: 'Soichiro Honda', quote: 'Success represents the 1% of your work which results from the 99% that is called failure.' },
+  { chef: 'Ferdinand Porsche', quote: 'I couldn\'t find the sports car of my dreams, so I built it myself.' },
+  { chef: 'Carroll Shelby', quote: 'I\'m an ex-wrecker driver, I\'m a chicken farmer, and I\'m a used car dealer. That\'s about it.' },
+  { chef: 'Ayrton Senna', quote: 'If you no longer go for a gap that exists, you are no longer a racing driver.' },
+  { chef: 'Mario Andretti', quote: 'Desire is the starting point of all achievement.' },
+  { chef: 'Richard Petty', quote: 'You don\'t win races by looking in your rearview mirror.' },
+  { chef: 'Elon Musk', quote: 'When something is important enough, you do it even if the odds are not in your favor.' },
+  { chef: 'Mary Barra', quote: 'We\'re not just building cars; we\'re building the future of mobility.' },
+  { chef: 'Akio Toyoda', quote: 'Cars are made to move people, not just to move metal.' },
+  { chef: 'Carroll Smith', quote: 'Speed costs money. How fast do you want to go?' },
+  { chef: 'Colin Chapman', quote: 'Simplify, then add lightness.' },
+  { chef: 'Lee Iacocca', quote: 'Management is nothing more than motivating other people.' },
+  { chef: 'Kiichiro Toyoda', quote: 'The customer is the king. If you don\'t listen to him, you won\'t have any business.' },
+  { chef: 'Bruno Sacco', quote: 'A Mercedes must always look like a Mercedes.' },
+  { chef: 'Bob Lutz', quote: 'Cars are more than just transportation. They\'re about emotion and passion.' },
+  { chef: 'Harley Earl', quote: 'You can design a car that lasts forever, or you can design a car that people want to own forever.' },
+  { chef: 'John DeLorean', quote: 'I would rather have a free press and no government than a government and no press.' },
+  { chef: 'Nicolas-Joseph Cugnot', quote: 'The first step toward progress is the realization that something can be done.' }
 ];
 
-export function getChefQuoteOfTheDay() {
+export function getMechanicQuoteOfTheDay() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const diff = now.getTime() - start.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
   const dayOfYear = Math.floor(diff / oneDay);
-  const idx = dayOfYear % chefQuotes.length;
-  return chefQuotes[idx];
+  const idx = dayOfYear % automotiveQuotes.length;
+  return automotiveQuotes[idx];
 }
 
 export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
@@ -934,10 +934,10 @@ const MyManual = () => {
         {t('myManual.scrollToSeeMore')}
       </div>
       
-      {/* Chef of the Day Quote - simplified text only */}
+      {/* Automotive Thought Leader Quote - simplified text only */}
       <div className="mt-6 text-center">
         {(() => {
-          const quoteOfDay = getChefQuoteOfTheDay();
+          const quoteOfDay = getMechanicQuoteOfTheDay();
           return (
             <>
               <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
@@ -950,9 +950,7 @@ const MyManual = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className={`lg:w-1/3 ${
-          activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
-        }`}>
+        <div className="lg:w-1/3 block">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
               <h3 className="text-xl">📚 {t('myManual.collectionsLibrary')}</h3>
