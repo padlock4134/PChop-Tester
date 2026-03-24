@@ -227,42 +227,42 @@ const AdminToggleButton: React.FC = () => {
       {/* Discipline Selection Modal */}
       {showDisciplineModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue p-6 w-80 max-w-90vw">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold text-maineBlue">Select Student Dashboard</h3>
+          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue p-4 w-64 max-w-80vw">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-lg font-bold text-maineBlue">Select Dashboard</h3>
               <button 
                 onClick={() => setShowDisciplineModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
+                className="text-gray-500 hover:text-gray-700 text-xl"
               >
                 ✕
               </button>
             </div>
-            <div className="space-y-2">
-              <div onClick={() => { navigate('/culinary/dashboard'); setShowDisciplineModal(false); }} className="p-3 rounded hover:bg-gray-100 cursor-pointer border-2 border-gray-200">
+            <div className="max-h-60 overflow-y-auto space-y-1">
+              <div onClick={() => { navigate('/culinary/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
                 🍳 Culinary
               </div>
-              <div onClick={() => { navigate('/plumbing/dashboard'); setShowDisciplineModal(false); }} className="p-3 rounded hover:bg-gray-100 cursor-pointer border-2 border-gray-200">
+              <div onClick={() => { navigate('/plumbing/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
                 🔩 Plumbing
               </div>
-              <div onClick={() => { navigate('/automotive/dashboard'); setShowDisciplineModal(false); }} className="p-3 rounded hover:bg-gray-100 cursor-pointer border-2 border-gray-200">
+              <div onClick={() => { navigate('/automotive/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
                 🔧 Automotive
               </div>
-              <div onClick={() => { navigate('/construction/dashboard'); setShowDisciplineModal(false); }} className="p-3 rounded hover:bg-gray-100 cursor-pointer border-2 border-gray-200">
+              <div onClick={() => { navigate('/construction/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
                 🏗️ Construction
               </div>
-              <div onClick={() => { navigate('/electrical/dashboard'); setShowDisciplineModal(false); }} className="p-3 rounded hover:bg-gray-100 cursor-pointer border-2 border-gray-200">
+              <div onClick={() => { navigate('/electrical/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
                 ⚡ Electrical
               </div>
-              <div onClick={() => { navigate('/hvac/dashboard'); setShowDisciplineModal(false); }} className="p-3 rounded hover:bg-gray-100 cursor-pointer border-2 border-gray-200">
+              <div onClick={() => { navigate('/hvac/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
                 ❄️ HVAC
               </div>
-              <div onClick={() => { navigate('/logistics/dashboard'); setShowDisciplineModal(false); }} className="p-3 rounded hover:bg-gray-100 cursor-pointer border-2 border-gray-200">
+              <div onClick={() => { navigate('/logistics/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
                 📦 Logistics
               </div>
-              <div onClick={() => { navigate('/machining/dashboard'); setShowDisciplineModal(false); }} className="p-3 rounded hover:bg-gray-100 cursor-pointer border-2 border-gray-200">
+              <div onClick={() => { navigate('/machining/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
                 ⚙️ Machining
               </div>
-              <div onClick={() => { navigate('/manufacturing/dashboard'); setShowDisciplineModal(false); }} className="p-3 rounded hover:bg-gray-100 cursor-pointer border-2 border-gray-200">
+              <div onClick={() => { navigate('/manufacturing/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
                 🏭 Manufacturing
               </div>
             </div>
