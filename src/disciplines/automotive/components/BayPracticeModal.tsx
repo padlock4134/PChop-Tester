@@ -287,40 +287,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Practice Steps */}
                 <div className="space-y-2">
                   <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step1Setup')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step1Desc')}</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 1: Workspace Setup</div>
+                    <p className="text-xs text-gray-700">Position your work area and gather required tools and parts</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step2KnifeGrip')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step2Desc')}</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 2: Tool Handling</div>
+                    <p className="text-xs text-gray-700">Use proper grip and technique with automotive tools and equipment</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step3FirstCuts')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step3Desc')}</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 3: Diagnostic Procedure</div>
+                    <p className="text-xs text-gray-700">Follow systematic diagnostic steps and measurement protocols</p>
                   </div>
 
                   <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">{t('culinarySchool.charcuterieBoard.step4Validation')}</div>
-                    <p className="text-xs text-gray-600">{t('culinarySchool.charcuterieBoard.step4Desc')}</p>
-                  </div>
-                </div>
-                
-                {/* AI Feedback */}
-                <div className="mt-3 pt-2 border-t border-gray-200">
-                  <div className="bg-blue-50 border border-blue-200 rounded p-2">
-                    <div className="flex items-start space-x-2">
-                      <span className="text-base">🤖</span>
-                      <div className="flex-1">
-                        <div className="font-semibold text-xs text-blue-900 mb-0.5">{t('culinarySchool.charcuterieBoard.aiFeedback')}</div>
-                        <p className="text-xs text-blue-800">
-                          {isPracticing 
-                            ? t('culinarySchool.charcuterieBoard.aiFeedbackActive')
-                            : t('culinarySchool.charcuterieBoard.aiFeedbackInactive')}
-                        </p>
-                      </div>
-                    </div>
+                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Step 4: Quality Check</div>
+                    <p className="text-xs text-gray-600">AI will validate procedure accuracy and safety compliance</p>
                   </div>
                 </div>
               </div>
@@ -369,25 +352,25 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           </div>
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
-            {/* Placeholder instructions */}
+            {/* Automotive practice steps */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
-              <p className="text-xs text-gray-700">Position your cutting board and gather ingredients</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Workspace Setup</div>
+              <p className="text-xs text-gray-700">Position your work area and gather required tools and parts</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Knife Grip</div>
-              <p className="text-xs text-gray-700">Hold knife with proper pinch grip technique</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Tool Handling</div>
+              <p className="text-xs text-gray-700">Use proper grip and technique with automotive tools and equipment</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Cuts</div>
-              <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: Diagnostic Procedure</div>
+              <p className="text-xs text-gray-700">Follow systematic diagnostic steps and measurement protocols</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Validation</div>
-              <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
+              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Quality Check</div>
+              <p className="text-xs text-gray-600">AI will validate procedure accuracy and safety compliance</p>
             </div>
           </div>
           
