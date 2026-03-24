@@ -232,7 +232,7 @@ const StudentProgressDashboard: React.FC = () => {
               to="/automotive/my-garage"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
-              <div className="mb-3 text-4xl">�</div>
+              <div className="mb-3 text-4xl">🏎️</div>
               <h3 className="text-sm font-bold font-retro">{t('myGarage.title')}</h3>
             </Link>
             
@@ -248,7 +248,7 @@ const StudentProgressDashboard: React.FC = () => {
               to="/automotive/gearhead-lounge"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-red-400 bg-red-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
-              <div className="mb-3 text-4xl">⚙️</div>
+              <div className="mb-3 text-4xl">🔧</div>
               <h3 className="text-sm font-bold font-retro">{t('gearheadLounge.title')}</h3>
             </Link>
             
@@ -256,7 +256,7 @@ const StudentProgressDashboard: React.FC = () => {
               to="/automotive/auto-school"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
-              <div className="mb-3 text-4xl">�</div>
+              <div className="mb-3 text-4xl">⚙️</div>
               <h3 className="text-sm font-bold font-retro">{t('autoSchool.title')}</h3>
             </Link>
           </div>
