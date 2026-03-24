@@ -17,9 +17,17 @@ const disciplines = [
 
 const DisciplineSelector: React.FC = () => {
   const navigate = useNavigate();
-  const { isAdmin } = useSupabase();
+  const { isAdmin, isLoading } = useSupabase();
   const [selectedDiscipline, setSelectedDiscipline] = useState('');
   const [showTooltip, setShowTooltip] = useState(true);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-sand flex items-center justify-center">
+        <div className="text-maineBlue text-xl">Loading...</div>
+      </div>
+    );
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

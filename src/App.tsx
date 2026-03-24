@@ -143,11 +143,7 @@ const HomeRedirect = () => {
     
     // If authenticated and user is loaded, route based on role
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
-      if (isAdmin) {
-        navigate('/admin', { replace: true });
-      } else {
-        navigate('/select-discipline', { replace: true });
-      }
+      navigate('/select-discipline', { replace: true });
     } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
       // Not authenticated, redirect to login
       window.location.href = '/.netlify/functions/auth-login';
