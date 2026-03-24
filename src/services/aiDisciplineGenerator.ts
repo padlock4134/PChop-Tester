@@ -1,0 +1,207 @@
+import { DisciplineSkin } from '../disciplineSkinConfig';
+
+/**
+ * AI-powered discipline skin generator
+ * Takes discipline name and context, returns complete DisciplineSkin configuration
+ */
+
+interface GenerateDisciplineSkinParams {
+  disciplineName: string;
+  additionalContext?: string;
+}
+
+interface AIGeneratedSkin {
+  name: string;
+  icon: string;
+  modules: {
+    workspace: string;
+    notebook: string;
+    community: string;
+    school: string;
+  };
+  assistant: {
+    name: string;
+    greeting: string;
+    systemPrompt: string;
+    quickActions: string[];
+  };
+  content: {
+    metricLabel: string;
+    table: string;
+    approvalLabel: string;
+  };
+  people: {
+    facultyTitle: string;
+    defaultProgram: string;
+    mockFaculty: { name: string; role: string; courses: string }[];
+    mockAlumniTitles: string[];
+    emailDomain: string;
+  };
+}
+
+/**
+ * Generate a slug from discipline name
+ * e.g. "Welding Technology" -> "welding-technology"
+ */
+export function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/**
+ * Build the AI prompt for generating discipline skin
+ */
+function buildAIPrompt(disciplineName: string, additionalContext?: string): string {
+  return `You are a curriculum design assistant helping create a new trade education program.
+
+Generate a complete discipline configuration for: "${disciplineName}"
+${additionalContext ? `Additional context: ${additionalContext}` : ''}
+
+You must return ONLY valid JSON (no markdown, no explanations) with this exact structure:
+
+{
+  "name": "Display name of the discipline",
+  "icon": "Single emoji that represents this trade",
+  "modules": {
+    "workspace": "Name for hands-on practice area (like 'My Kitchen' for culinary)",
+    "notebook": "Name for personal learning journal (like 'My Cookbook' for culinary)",
+    "community": "Name for peer discussion area (like 'Chef's Corner' for culinary)",
+    "school": "Name for formal coursework area (like 'Culinary School' for culinary)"
+  },
+  "assistant": {
+    "name": "Friendly AI assistant name (like 'Chef Freddie' for culinary)",
+    "greeting": "Welcoming message introducing the assistant and what it can help with (2-3 sentences)",
+    "systemPrompt": "System prompt defining the AI's role as a curriculum assistant for this trade (2-3 sentences, focus on practical skills and industry standards)",
+    "quickActions": [
+      "Example prompt 1 for creating assignments",
+      "Example prompt 2 for lesson planning",
+      "Example prompt 3 for assessment rubrics",
+      "Example prompt 4 for curriculum mapping"
+    ]
+  },
+  "content": {
+    "metricLabel": "What students create (like 'Recipes' for culinary, 'Projects' for construction)",
+    "table": "Database table name in snake_case (like 'user_cookbook' for culinary)",
+    "approvalLabel": "Label for content approval (like 'Recipe Approval' for culinary)"
+  },
+  "people": {
+    "facultyTitle": "Title for instructors (like 'Chef' for culinary, 'Master Electrician' for electrical)",
+    "defaultProgram": "Full program name (like 'Culinary Arts' for culinary)",
+    "mockFaculty": [
+      {"name": "Realistic instructor name 1", "role": "Senior instructor title", "courses": "Example courses they teach"},
+      {"name": "Realistic instructor name 2", "role": "Junior instructor title", "courses": "Example courses they teach"}
+    ],
+    "mockAlumniTitles": [
+      "Realistic job title 1 for graduates",
+      "Realistic job title 2 for graduates",
+      "Realistic job title 3 for graduates",
+      "Realistic job title 4 for graduates"
+    ],
+    "emailDomain": "realistic-domain.edu (use discipline name in domain)"
+  }
+}
+
+Important guidelines:
+- Use industry-appropriate terminology
+- Make module names engaging and relevant to the trade
+- Assistant name should be memorable and trade-related
+- Quick actions should be specific to this discipline
+- Mock data should feel authentic to the industry
+- Keep all text professional but friendly
+- Return ONLY the JSON object, nothing else`;
+}
+
+/**
+ * Call AI API to generate discipline skin
+ * API key should be stored in environment variable or Supabase config
+ */
+export async function generateDisciplineSkin(
+  params: GenerateDisciplineSkinParams
+): Promise<AIGeneratedSkin> {
+  const { disciplineName, additionalContext } = params;
+
+  // TODO: Get API key from environment or Supabase platform_config table
+  const apiKey = process.env.REACT_APP_OPENAI_API_KEY || '';
+  
+  if (!apiKey) {
+    throw new Error('AI API key not configured. Please add REACT_APP_OPENAI_API_KEY to environment.');
+  }
+
+  const prompt = buildAIPrompt(disciplineName, additionalContext);
+
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini', // Fast and cost-effective
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a curriculum design expert. Return only valid JSON, no markdown formatting.',
+          },
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+        temperature: 0.7,
+        max_tokens: 2000,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`AI API error: ${errorData.error?.message || response.statusText}`);
+    }
+
+    const data = await response.json();
+    const aiResponse = data.choices[0]?.message?.content;
+
+    if (!aiResponse) {
+      throw new Error('No response from AI');
+    }
+
+    // Parse JSON response (remove markdown code blocks if present)
+    let jsonString = aiResponse.trim();
+    if (jsonString.startsWith('```json')) {
+      jsonString = jsonString.replace(/^```json\n/, '').replace(/\n```$/, '');
+    } else if (jsonString.startsWith('```')) {
+      jsonString = jsonString.replace(/^```\n/, '').replace(/\n```$/, '');
+    }
+
+    const generatedSkin: AIGeneratedSkin = JSON.parse(jsonString);
+
+    // Validate required fields
+    if (!generatedSkin.name || !generatedSkin.icon || !generatedSkin.modules) {
+      throw new Error('AI generated incomplete skin configuration');
+    }
+
+    return generatedSkin;
+  } catch (error) {
+    console.error('Error generating discipline skin:', error);
+    throw error;
+  }
+}
+
+/**
+ * Convert AI-generated skin to DisciplineSkin format
+ */
+export function convertToFullSkin(
+  slug: string,
+  aiSkin: AIGeneratedSkin
+): Omit<DisciplineSkin, 'key'> {
+  return {
+    name: aiSkin.name,
+    icon: aiSkin.icon,
+    modules: aiSkin.modules,
+    assistant: aiSkin.assistant,
+    content: aiSkin.content,
+    people: aiSkin.people,
+  };
+}

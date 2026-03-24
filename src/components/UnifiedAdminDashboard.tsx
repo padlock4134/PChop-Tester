@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../disciplines/culinary/api/supabaseClient';
 import { useSupabase } from '../disciplines/culinary/components/SupabaseProvider';
 import { askChefFreddie } from '../disciplines/culinary/api/chefFreddie';
-import { DISCIPLINE_CONFIG, DisciplineKey } from '../disciplineConfig';
-import { getSkin } from '../disciplineSkinConfig';
+import { DisciplineKey, DISCIPLINE_CONFIG, loadCustomDisciplines } from '../disciplineConfig';
+import { getSkin, loadCustomSkins } from '../disciplineSkinConfig';
 import { useAdminToggle } from '../App';
 import {
   UsersIcon,
@@ -45,7 +45,8 @@ interface AdminDashboardProps {
   onClose?: () => void;
 }
 
-const disciplineOptions = [
+// Base discipline options
+const baseDisciplineOptions = [
   { key: 'total' as const, label: 'TOTAL', icon: '📊' },
   ...Object.values(DISCIPLINE_CONFIG).map(d => ({
     key: d.key as DisciplineKey,
@@ -61,6 +62,36 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedDiscipline, setSelectedDiscipline] = useState<'total' | DisciplineKey>('total');
   const skin = useMemo(() => getSkin(selectedDiscipline), [selectedDiscipline]);
+  const [disciplineOptions, setDisciplineOptions] = useState(baseDisciplineOptions);
+  
+  // Load custom disciplines on mount
+  useEffect(() => {
+    async function fetchCustomDisciplines() {
+      try {
+        await Promise.all([loadCustomDisciplines(), loadCustomSkins()]);
+        
+        const { data } = await supabase
+          .from('custom_disciplines')
+          .select('slug, name, skin_config')
+          .eq('is_active', true)
+          .order('name');
+
+        if (data && data.length > 0) {
+          const customOptions = data.map((d) => ({
+            key: d.slug as DisciplineKey,
+            label: d.name,
+            icon: (d.skin_config as any)?.icon || '📚',
+          }));
+          
+          setDisciplineOptions([...baseDisciplineOptions, ...customOptions]);
+        }
+      } catch (error) {
+        console.error('Error loading custom disciplines:', error);
+      }
+    }
+
+    fetchCustomDisciplines();
+  }, []);
   
   // Mobile tab state - mimicking Student Dashboard
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'events' | 'actions'>('home');

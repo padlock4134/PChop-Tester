@@ -1,5 +1,7 @@
-// Discipline configuration mapping
-export const DISCIPLINE_CONFIG = {
+import { supabase } from './disciplines/culinary/api/supabaseClient';
+
+// Base discipline configuration mapping (hardcoded disciplines)
+export const BASE_DISCIPLINE_CONFIG = {
   culinary: {
     key: 'culinary',
     name: 'Culinary',
@@ -110,15 +112,105 @@ export const DISCIPLINE_CONFIG = {
   }
 } as const;
 
-export type DisciplineKey = keyof typeof DISCIPLINE_CONFIG;
+export type BaseDisciplineKey = keyof typeof BASE_DISCIPLINE_CONFIG;
+export type DisciplineKey = BaseDisciplineKey | string; // Allow custom discipline slugs
+
+// Custom discipline interface
+interface CustomDiscipline {
+  key: string;
+  name: string;
+  routes: {
+    kitchen: string;
+    cookbook: string;
+    corner: string;
+    school: string;
+    dashboard: string;
+    profile: string;
+  };
+}
+
+// Cache for custom disciplines
+let customDisciplinesCache: Record<string, CustomDiscipline> | null = null;
+
+/**
+ * Load custom disciplines from Supabase
+ */
+export async function loadCustomDisciplines(): Promise<Record<string, CustomDiscipline>> {
+  if (customDisciplinesCache) {
+    return customDisciplinesCache;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('custom_disciplines')
+      .select('slug, name')
+      .eq('is_active', true);
+
+    if (error) {
+      console.error('Error loading custom disciplines:', error);
+      return {};
+    }
+
+    const customDisciplines: Record<string, CustomDiscipline> = {};
+    
+    data?.forEach((discipline) => {
+      const slug = discipline.slug;
+      customDisciplines[slug] = {
+        key: slug,
+        name: discipline.name,
+        routes: {
+          kitchen: `/${slug}/my-workspace`,
+          cookbook: `/${slug}/my-notebook`,
+          corner: `/${slug}/community`,
+          school: `/${slug}/school`,
+          dashboard: `/${slug}/dashboard`,
+          profile: `/${slug}/profile`,
+        },
+      };
+    });
+
+    customDisciplinesCache = customDisciplines;
+    return customDisciplines;
+  } catch (error) {
+    console.error('Error loading custom disciplines:', error);
+    return {};
+  }
+}
+
+/**
+ * Get combined discipline config (base + custom)
+ */
+export async function getDisciplineConfig(): Promise<Record<string, CustomDiscipline | typeof BASE_DISCIPLINE_CONFIG[BaseDisciplineKey]>> {
+  const customDisciplines = await loadCustomDisciplines();
+  return { ...BASE_DISCIPLINE_CONFIG, ...customDisciplines };
+}
+
+/**
+ * Synchronous access to discipline config (uses cache)
+ */
+export const DISCIPLINE_CONFIG = BASE_DISCIPLINE_CONFIG;
 
 export const getDisciplineFromPath = (pathname: string): DisciplineKey | null => {
   const pathParts = pathname.split('/').filter(Boolean);
-  const disciplineFromPath = pathParts[0] as DisciplineKey;
+  const disciplineFromPath = pathParts[0];
   
-  if (DISCIPLINE_CONFIG[disciplineFromPath]) {
+  // Check base disciplines
+  if (BASE_DISCIPLINE_CONFIG[disciplineFromPath as BaseDisciplineKey]) {
+    return disciplineFromPath as BaseDisciplineKey;
+  }
+  
+  // Check custom disciplines cache
+  if (customDisciplinesCache && customDisciplinesCache[disciplineFromPath]) {
     return disciplineFromPath;
   }
   
   return null;
 };
+
+/**
+ * Check if a discipline key is a custom discipline
+ */
+export function isCustomDiscipline(key: string): boolean {
+  return !BASE_DISCIPLINE_CONFIG[key as BaseDisciplineKey] && 
+         customDisciplinesCache?.[key] !== undefined;
+}

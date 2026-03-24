@@ -1,4 +1,5 @@
-import { DisciplineKey } from './disciplineConfig';
+import { DisciplineKey, BaseDisciplineKey, BASE_DISCIPLINE_CONFIG } from './disciplineConfig';
+import { supabase } from './disciplines/culinary/api/supabaseClient';
 
 export interface DisciplineSkin {
   key: DisciplineKey;
@@ -30,7 +31,8 @@ export interface DisciplineSkin {
   };
 }
 
-export const DISCIPLINE_SKIN: Record<DisciplineKey, DisciplineSkin> = {
+// Base discipline skins (hardcoded)
+export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
   culinary: {
     key: 'culinary',
     name: 'Culinary',
@@ -383,7 +385,70 @@ export const DISCIPLINE_SKIN: Record<DisciplineKey, DisciplineSkin> = {
   },
 };
 
-export const getDefaultSkin = (): DisciplineSkin => DISCIPLINE_SKIN.culinary;
+// Cache for custom discipline skins
+let customSkinsCache: Record<string, DisciplineSkin> | null = null;
 
-export const getSkin = (discipline: DisciplineKey | 'total'): DisciplineSkin =>
-  discipline === 'total' ? getDefaultSkin() : DISCIPLINE_SKIN[discipline];
+/**
+ * Load custom discipline skins from Supabase
+ */
+export async function loadCustomSkins(): Promise<Record<string, DisciplineSkin>> {
+  if (customSkinsCache) {
+    return customSkinsCache;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('custom_disciplines')
+      .select('slug, name, skin_config')
+      .eq('is_active', true);
+
+    if (error) {
+      console.error('Error loading custom skins:', error);
+      return {};
+    }
+
+    const customSkins: Record<string, DisciplineSkin> = {};
+    
+    data?.forEach((discipline) => {
+      const slug = discipline.slug;
+      const skinConfig = discipline.skin_config as Omit<DisciplineSkin, 'key'>;
+      
+      customSkins[slug] = {
+        key: slug,
+        ...skinConfig,
+      };
+    });
+
+    customSkinsCache = customSkins;
+    return customSkins;
+  } catch (error) {
+    console.error('Error loading custom skins:', error);
+    return {};
+  }
+}
+
+/**
+ * Get skin for a discipline (supports base and custom disciplines)
+ */
+export function getSkin(disciplineKey: DisciplineKey | 'total'): DisciplineSkin {
+  if (disciplineKey === 'total') {
+    return BASE_DISCIPLINE_SKIN.culinary;
+  }
+  
+  // Check base disciplines first
+  if (BASE_DISCIPLINE_SKIN[disciplineKey as BaseDisciplineKey]) {
+    return BASE_DISCIPLINE_SKIN[disciplineKey as BaseDisciplineKey];
+  }
+  
+  // Check custom disciplines cache
+  if (customSkinsCache && customSkinsCache[disciplineKey]) {
+    return customSkinsCache[disciplineKey];
+  }
+  
+  return BASE_DISCIPLINE_SKIN.culinary;
+}
+
+/**
+ * Backwards compatibility export
+ */
+export const DISCIPLINE_SKIN = BASE_DISCIPLINE_SKIN;

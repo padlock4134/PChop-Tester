@@ -9,7 +9,7 @@ import {
 } from '@wristband/react-client-auth';
 import './i18n';
 import { DisciplineProvider, useDiscipline } from './DisciplineContext';
-import { getDisciplineFromPath } from './disciplineConfig';
+import { getDisciplineFromPath, isCustomDiscipline } from './disciplineConfig';
 
 import DisciplineSelector from './DisciplineSelector';
 // Culinary imports
@@ -251,6 +251,12 @@ const getDisciplineComponents = (discipline: string) => {
       FreddieWidget: MachiningBenchFreddieWidget
     }
   };
+  
+  // Custom disciplines use culinary components
+  if (isCustomDiscipline(discipline)) {
+    return componentMap.culinary;
+  }
+  
   return componentMap[discipline] || componentMap.culinary;
 };
 
