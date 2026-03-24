@@ -7,39 +7,39 @@ const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
   
   // Mock student progress data
-  // Mock live session data
+  // Mock live session data from TheCarLift
   const activeLiveSessions = [
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Hand-pulled Ramen',
-      culture: 'Japanese',
+      serviceName: 'Transmission Overhaul',
+      vehicleType: 'Transmission Service',
       viewers: 23,
-      thumbnail: '🍜'
+      thumbnail: '⚙️'
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'Lebanese Kibbeh',
-      culture: 'Lebanese',
+      serviceName: 'Brake System Upgrade',
+      vehicleType: 'Brake Service',
       viewers: 35,
-      thumbnail: '🧆'
+      thumbnail: '🛞'
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'French Croissants',
-      culture: 'French',
+      serviceName: 'Suspension Tuning',
+      vehicleType: 'Suspension Service',
       viewers: 62,
-      thumbnail: '🥐'
+      thumbnail: '🎯'
     },
     {
-      id: '5',
+      id: '1',
       hostName: 'Maria Santos',
-      dishName: 'Authentic Paella',
-      culture: 'Spanish',
-      viewers: 28,
-      thumbnail: '🥘'
+      serviceName: 'Engine Rebuild Service',
+      vehicleType: 'Engine Service',
+      viewers: 47,
+      thumbnail: '🔧'
     }
   ];
 
@@ -145,7 +145,7 @@ const StudentProgressDashboard: React.FC = () => {
   // Debug current session changes
   useEffect(() => {
     if (activeLiveSessions[currentSessionIndex]) {
-      console.log('Current session changed to:', currentSessionIndex, '-', activeLiveSessions[currentSessionIndex].hostName, activeLiveSessions[currentSessionIndex].dishName);
+      console.log('Current session changed to:', currentSessionIndex, '-', activeLiveSessions[currentSessionIndex].hostName, activeLiveSessions[currentSessionIndex].serviceName);
     }
   }, [currentSessionIndex]);
 
@@ -286,7 +286,7 @@ const StudentProgressDashboard: React.FC = () => {
                         <span className="text-3xl">{session.thumbnail}</span>
                         <div className="flex-1">
                           <div className="font-bold text-red-900 text-sm">{session.hostName}</div>
-                          <div className="text-red-800 text-xs">{session.dishName}</div>
+                          <div className="text-red-800 text-xs">{session.serviceName}</div>
                           <div className="text-red-600 text-xs mt-1">{session.viewers} {t('dashboard.watching')}</div>
                         </div>
                       </div>
@@ -319,7 +319,7 @@ const StudentProgressDashboard: React.FC = () => {
                     <div className="text-sm text-red-800 transition-all duration-500">
                       <span>
                         <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {t('dashboard.isCooking')}{' '}
-                        <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
+                        <strong>{activeLiveSessions[currentSessionIndex].serviceName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
                       </span>
                     </div>
                   </div>
@@ -512,7 +512,7 @@ const StudentProgressDashboard: React.FC = () => {
             <div className="flex-1 flex flex-col overflow-hidden">
               <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
                 <div className="text-center relative">
-                  <h2 className="text-xl sm:text-2xl font-bold">🔴 LIVE: {currentLiveSession.dishName}</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold">🔴 LIVE: {currentLiveSession.serviceName}</h2>
                   <button
                     onClick={() => {
                       setLiveSessionModalOpen(false);
@@ -526,7 +526,7 @@ const StudentProgressDashboard: React.FC = () => {
                   </button>
                 </div>
                 <p className="text-center text-black mt-2 sm:mt-3 text-xs sm:text-sm">
-                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.vehicleType}
                 </p>
               </div>
 
