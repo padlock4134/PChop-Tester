@@ -100,7 +100,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         {/* Left Side - Practice Area with Banner */}
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Banner Header - Left Side Only */}
-          <div className="p-2 sm:p-4 bg-blue-100 text-blue-800 font-retro text-center">
+          <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
               <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🔧</span>
               {t('culinarySchool.charcuterieBoard.title')}
@@ -152,7 +152,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             
             {/* Practice Indicator */}
             {isPracticing && (
-              <div className="absolute top-4 left-4 bg-blue-700 text-white text-sm px-3 py-1 rounded-full flex items-center">
+              <div className="absolute top-4 left-4 bg-amber-700 text-white text-sm px-3 py-1 rounded-full flex items-center">
                 <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
                 {t('culinarySchool.charcuterieBoard.practicing')}
               </div>
@@ -246,7 +246,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
             onClick={() => setInstructionsOpen(!instructionsOpen)}
-            className="lg:hidden w-full bg-blue-100 text-blue-800 px-4 py-2 text-sm font-bold border-t-2 border-blue-300 hover:bg-blue-200 transition-colors flex items-center justify-center gap-2"
+            className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-2 text-sm font-bold border-t-2 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
             <span>{instructionsOpen ? t('culinarySchool.charcuterieBoard.hideInstructions') : t('culinarySchool.charcuterieBoard.showInstructions')}</span>
@@ -255,9 +255,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           
           {/* Mobile Instructions Panel - Appears below toggle button */}
           {instructionsOpen && (
-            <div className="lg:hidden border-t-4 border-blue-300 bg-white max-h-[40vh] overflow-y-auto">
+            <div className="lg:hidden border-t-4 border-amber-300 bg-white max-h-[40vh] overflow-y-auto">
               {/* Instructions Header */}
-              <div className="p-3 bg-blue-100 text-blue-800 font-retro text-center border-b-2 border-blue-300">
+              <div className="p-3 bg-amber-100 text-amber-800 font-retro text-center border-b-2 border-amber-300">
                 <h3 className="text-base font-bold">
                   📋 {t('culinarySchool.charcuterieBoard.practiceInstructions')}
                 </h3>
@@ -267,13 +267,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <div className="p-3">
                 {/* Lesson Selection Dropdown */}
                 <div className="mb-3">
-                  <label className="block text-xs font-semibold text-blue-800 mb-1">
+                  <label className="block text-xs font-semibold text-amber-800 mb-1">
                     {t('culinarySchool.charcuterieBoard.selectLessonToPractice')}
                   </label>
                   <select
                     value={selectedLesson}
                     onChange={(e) => setSelectedLesson(e.target.value)}
-                    className="w-full px-2 py-1.5 text-sm border-2 border-blue-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   >
                     <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
                     <optgroup label="Term 1 - Automotive Foundations">
