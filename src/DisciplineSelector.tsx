@@ -79,6 +79,8 @@ const DisciplineSelector: React.FC = () => {
     e.preventDefault();
     if (selectedDiscipline) {
       if (isAdmin) {
+        console.log('DisciplineSelector - Storing discipline:', selectedDiscipline);
+        localStorage.setItem('adminSelectedDiscipline', selectedDiscipline);
         navigate('/admin');
       } else {
         navigate(`/${selectedDiscipline}/dashboard`);
