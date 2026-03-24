@@ -125,7 +125,7 @@ function getTwoTutorials(recipe: any) {
     },
     {
       title: `Let\'s Work This Repair!`,
-      desc: `Step-by-step repair walkthrough for ${recipe.title}.`,
+      desc: `Repair walkthrough for ${recipe.title}.`,
       type: 'repair_tutorial'
     }
   ];
@@ -267,15 +267,15 @@ const AutoSchool = () => {
       
       // Use Chef Freddie for complex queries
       const prompt = `
-        Given the following recipe and tutorial step, generate a concise YouTube search query for a relevant cooking video.\n
-        - Only use the equipment and ingredients listed.\n
+        Given the following repair and tutorial, generate a concise YouTube search query for a relevant automotive video.\n
+        - Only use the equipment and parts listed.\n
         - Do NOT include unrelated tools or techniques.\n
-        - The query should be specific to the step and recipe.\n
-        Recipe: ${recipe.title}\n
-        Ingredients: ${recipe.ingredients?.join(', ')}\n
+        - The query should be specific to the tutorial and repair.\n
+        Repair: ${recipe.title}\n
+        Parts: ${recipe.ingredients?.join(', ')}\n
         Equipment: ${recipe.equipment?.join(', ') || 'N/A'}\n
-        Step Title: ${tut.title}\n
-        Step Description: ${tut.desc}\n
+        Tutorial Title: ${tut.title}\n
+        Tutorial Description: ${tut.desc}\n
         Query:
       `;
       try {
