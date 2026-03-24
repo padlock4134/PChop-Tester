@@ -12,8 +12,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const { t } = useTranslation();
   const [isPracticing, setIsPracticing] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
-  const [isGeneratingAR, setIsGeneratingAR] = useState(false);
-  const [arScene, setArScene] = useState<any>(null);
+    const [arScene, setArScene] = useState<any>(null);
   const [guideOpen, setGuideOpen] = useState(false);
   const [instructionsOpen, setInstructionsOpen] = useState(false);
   const stopTrackingRef = useRef<(() => void) | null>(null);
@@ -34,32 +33,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         return;
       }
 
-      // Fallback: AI generation if no default exists
-      setIsGeneratingAR(true);
-      
-      const response = await fetch('/.netlify/functions/generate-ar-practice', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          lessonTitle: demoLesson,
-          lessonContent: 'Valve lash adjustment using feeler gauges and proper torque. Includes engine preparation, proper angle measurement (0.008-0.010 inches), adjustment procedure, and verification techniques. Professional method using precision tools and torque wrench.',
-        }),
-      });
-
-      const data = await response.json();
-      
-      if (data.success && data.scene) {
-        setArScene(data.scene);
-        setIsPracticing(true);
-      } else {
-        throw new Error('Failed to generate AR scene');
-      }
+      // Fallback: Show placeholder if no default scene exists
+      alert('AR scene not available for this lesson yet. Please select a different lesson.');
     } catch (error) {
-      console.error('Error generating AR practice:', error);
-      alert(t('culinarySchool.charcuterieBoard.couldNotGenerateAR'));
-      setIsPracticing(false);
-    } finally {
-      setIsGeneratingAR(false);
+      console.error('Error starting virtual practice:', error);
     }
   };
 
@@ -122,14 +99,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           
           {/* Practice Video/Camera Area */}
           <div className="bg-amber-50 rounded-lg aspect-video flex items-center justify-center relative overflow-hidden border-4 border-maineBlue">
-            {isGeneratingAR ? (
-              // Generating AR scene
-              <div className="text-amber-900 text-center">
-                <div className="text-6xl mb-4 animate-pulse">🧠</div>
-                <p className="text-lg font-bold">{t('culinarySchool.charcuterieBoard.aiGeneratingPractice')}</p>
-                <p className="text-sm opacity-75 mt-2">{t('culinarySchool.charcuterieBoard.creatingVirtualKitchen')}</p>
-              </div>
-            ) : isPracticing && arScene ? (
+            {isPracticing && arScene ? (
               // Virtual practice mode - show AR scene
               <ARGarageScene 
                 scene={arScene}
