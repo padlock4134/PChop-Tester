@@ -382,7 +382,6 @@ const AutoSchool = () => {
             title={tut.title}
             videoUrl={videoUrls[idx] || ''}
             tutorialId={`${selectedRecipe?.id || 'general'}_${idx}`}
-            recipeId={selectedRecipe?.id}
           />
         ))}
         {isRecipeSelected && selectedRecipe ? (
