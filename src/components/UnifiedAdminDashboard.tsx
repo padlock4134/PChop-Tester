@@ -60,7 +60,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const { toggleAdminMode } = useAdminToggle();
   const [activeTab, setActiveTab] = useState('overview');
-  const [selectedDiscipline, setSelectedDiscipline] = useState<'total' | DisciplineKey>('total');
+  const [selectedDiscipline, setSelectedDiscipline] = useState<'total' | DisciplineKey>(() => {
+    const stored = localStorage.getItem('adminSelectedDiscipline');
+    return (stored && stored !== 'total') ? stored as DisciplineKey : 'total';
+  });
   const skin = useMemo(() => getSkin(selectedDiscipline), [selectedDiscipline]);
   const [disciplineOptions, setDisciplineOptions] = useState(baseDisciplineOptions);
   
@@ -88,7 +91,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         
         // Read stored admin discipline and set it as selected
         const storedDiscipline = localStorage.getItem('adminSelectedDiscipline');
+        console.log('Admin Dashboard - Stored discipline from localStorage:', storedDiscipline);
         if (storedDiscipline && storedDiscipline !== 'total') {
+          console.log('Admin Dashboard - Setting selected discipline to:', storedDiscipline);
           setSelectedDiscipline(storedDiscipline as DisciplineKey);
         }
       } catch (error) {
