@@ -238,31 +238,31 @@ const AdminToggleButton: React.FC = () => {
               </button>
             </div>
             <div className="max-h-60 overflow-y-auto space-y-1">
-              <div onClick={() => { navigate('/culinary/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
+              <div onClick={() => { navigate('/culinary/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
                 🍳 Culinary
               </div>
-              <div onClick={() => { navigate('/plumbing/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
+              <div onClick={() => { navigate('/plumbing/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
                 🔩 Plumbing
               </div>
-              <div onClick={() => { navigate('/automotive/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
+              <div onClick={() => { navigate('/automotive/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
                 🔧 Automotive
               </div>
-              <div onClick={() => { navigate('/construction/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
+              <div onClick={() => { navigate('/construction/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
                 🏗️ Construction
               </div>
-              <div onClick={() => { navigate('/electrical/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
+              <div onClick={() => { navigate('/electrical/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
                 ⚡ Electrical
               </div>
-              <div onClick={() => { navigate('/hvac/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
+              <div onClick={() => { navigate('/hvac/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
                 ❄️ HVAC
               </div>
-              <div onClick={() => { navigate('/logistics/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
+              <div onClick={() => { navigate('/logistics/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
                 📦 Logistics
               </div>
-              <div onClick={() => { navigate('/machining/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
+              <div onClick={() => { navigate('/machining/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
                 ⚙️ Machining
               </div>
-              <div onClick={() => { navigate('/manufacturing/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm">
+              <div onClick={() => { navigate('/manufacturing/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
                 🏭 Manufacturing
               </div>
             </div>
