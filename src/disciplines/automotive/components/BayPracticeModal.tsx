@@ -226,23 +226,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             )}
           </div>
 
-          {/* Technique Feedback - below controls */}
-          <div className="mb-2 mx-2 sm:mx-4">
-            <div className="bg-blue-50 border border-blue-200 rounded p-3">
-              <div className="flex items-start space-x-2">
-                <span className="text-lg">🤖</span>
-                <div className="flex-1">
-                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
-                  <p className="text-xs text-blue-800">
-                    {isPracticing 
-                      ? "Great start! Keep your torque consistent..."
-                      : "Start practicing to receive real-time AI guidance"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
+                    
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
             onClick={() => setInstructionsOpen(!instructionsOpen)}
@@ -313,6 +297,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <span className="text-xs font-bold">{guideOpen ? t('culinarySchool.charcuterieBoard.closeGuide') : t('culinarySchool.charcuterieBoard.openGuide')}</span>
                 </button>
                 
+                {/* Technique Feedback - between guide button and steps */}
+                <div className="mb-3">
+                  <div className="bg-blue-50 border border-blue-200 rounded p-3">
+                    <div className="flex items-start space-x-2">
+                      <span className="text-lg">🤖</span>
+                      <div className="flex-1">
+                        <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
+                        <p className="text-xs text-blue-800">
+                          {isPracticing 
+                            ? "Great start! Keep your torque consistent..."
+                            : "Start practicing to receive real-time AI guidance"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 
                 {/* Practice Steps */}
                 <div className="space-y-2">
