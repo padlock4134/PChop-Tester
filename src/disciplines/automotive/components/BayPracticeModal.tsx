@@ -287,22 +287,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Practice Steps */}
                 <div className="space-y-2">
                   <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 1: Workspace Setup</div>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Workspace Setup</div>
                     <p className="text-xs text-gray-700">Position your work area and gather required tools and parts</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 2: Tool Handling</div>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Tool Handling</div>
                     <p className="text-xs text-gray-700">Use proper grip and technique with automotive tools and equipment</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 3: Diagnostic Procedure</div>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Diagnostic Procedure</div>
                     <p className="text-xs text-gray-700">Follow systematic diagnostic steps and measurement protocols</p>
                   </div>
 
                   <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Step 4: Quality Check</div>
+                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Quality Check</div>
                     <p className="text-xs text-gray-600">AI will validate procedure accuracy and safety compliance</p>
                   </div>
                 </div>
@@ -354,22 +354,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Automotive practice steps */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Workspace Setup</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Workspace Setup</div>
               <p className="text-xs text-gray-700">Position your work area and gather required tools and parts</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Tool Handling</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Tool Handling</div>
               <p className="text-xs text-gray-700">Use proper grip and technique with automotive tools and equipment</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: Diagnostic Procedure</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Diagnostic Procedure</div>
               <p className="text-xs text-gray-700">Follow systematic diagnostic steps and measurement protocols</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Quality Check</div>
+              <div className="font-semibold text-sm text-gray-600 mb-1">Quality Check</div>
               <p className="text-xs text-gray-600">AI will validate procedure accuracy and safety compliance</p>
             </div>
           </div>
