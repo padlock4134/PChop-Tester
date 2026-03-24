@@ -184,7 +184,7 @@ const LanguageToggleButton: React.FC = () => {
       aria-label={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
       title={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
     >
-      <span className="font-bold text-sm" aria-label={isSpanish ? 'Spanish' : 'English'}>{isSpanish ? 'ES' : 'EN'}</span>
+      <span className="font-bold text-sm text-black" aria-label={isSpanish ? 'Spanish' : 'English'}>{isSpanish ? 'ES' : 'EN'}</span>
     </button>
   );
 };
