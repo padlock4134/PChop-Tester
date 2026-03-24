@@ -134,17 +134,17 @@ const MyGarage = () => {
             user_id: user?.id, 
             recipe: {
               ...recipe,
-              nutrition: recipe.nutrition // Include nutrition data
+              nutrition: recipe.nutrition // Include automotive specifications (using existing field)
             }
           }
         ]);
       
       if (error) throw error;
       
-      // Award XP for saving a recipe
+      // Award XP for saving a repair guide
       if (user) {
         await import('../../culinary/services/xpService').then(m => 
-          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
+          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'repair_guide_save')
         );
         refreshXP();
       }
@@ -158,12 +158,12 @@ const MyGarage = () => {
     }
   };
 
-  const handleSaveRecipeToCookbook = async (recipe: RecipeCard) => {
+  const handleSaveRepairGuideToManual = async (recipe: RecipeCard) => {
     try {
       await addRecipeToCookbook(user?.id!, recipe);
       setCookbook(prevCookbook => [...prevCookbook, recipe]);
     } catch (error) {
-      console.error('Error saving recipe to cookbook:', error);
+      console.error('Error saving repair guide to manual:', error);
     }
   };
 
@@ -334,7 +334,7 @@ const MyGarage = () => {
         onClose={() => setMatcherOpen(false)}
         cupboardIngredients={ingredients.map(i => i.name)}
         onLike={handleLikeRecipe}
-        saveRecipeToCookbook={handleSaveRecipeToCookbook}
+        saveRecipeToCookbook={handleSaveRepairGuideToManual}
         recipes={matcherRecipes}
         loading={matcherLoading}
         error={matcherError}
