@@ -1623,26 +1623,6 @@ Automated calculations and formulas would be present`;
           cuisine: profile.cuisine || []
         });
 
-        // Also update level progress with correct calculation
-        const { level, current, required } = getCorrectXPProgress(xp);
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
-        const progressPercent = (current / required) * 100;
-        
-        setLevelProgress({
-          title,
-          level,
-          icon,
-          current,
-          required,
-          progressPercent,
-        });
-
-        // Auto-enable talents at level 10
-        if (level >= 10) {
-          setShowTalents(true);
-        }
-
         // Update talent points
         setTalentPoints(Math.floor(xp / 100));
       }
