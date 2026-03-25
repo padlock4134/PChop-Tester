@@ -123,7 +123,7 @@ const MyVan = () => {
   });
 
   const handleLikeRecipe = async (recipe: RecipeCard) => {
-    console.log('Saving recipe with nutrition data:', recipe.nutrition);
+    console.log('Saving recipe with specs data:', recipe.specs);
     
     try {
       const { data, error } = await supabase
@@ -133,7 +133,7 @@ const MyVan = () => {
             user_id: user?.id, 
             recipe: {
               ...recipe,
-              nutrition: recipe.nutrition // Include nutrition data
+              specs: recipe.specs // Include specs data
             }
           }
         ]);
@@ -142,8 +142,8 @@ const MyVan = () => {
       
       // Award XP for saving a recipe
       if (user) {
-        await import('../../culinary/services/xpService').then(m => 
-          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
+        await import('../services/xpService').then(m => 
+          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'procedure_save')
         );
         refreshXP();
       }
@@ -286,11 +286,11 @@ const MyVan = () => {
             setMatcherLoading(true);
             setMatcherError('');
             try {
-              const cupboardNames = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
+              const vanPartsNames = ingredients.map(i => i.name);
+              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
-                ingredients: cupboardNames,
+                ingredients: vanPartsNames,
                 numRecipes: 5,
                 // These will be undefined by default, which is fine - the function has defaults
                 kitchenSetup: undefined,
@@ -299,7 +299,7 @@ const MyVan = () => {
               });
               setMatcherRecipes(recipes);
             } catch (err: any) {
-              setMatcherError('Failed to fetch recipes.');
+              setMatcherError('Failed to fetch procedures.');
             } finally {
               setMatcherLoading(false);
             }
@@ -331,7 +331,7 @@ const MyVan = () => {
       <RecipeMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
-        cupboardIngredients={ingredients.map(i => i.name)}
+        vanIngredients={ingredients.map(i => i.name)}
         onLike={handleLikeRecipe}
         saveRecipeToCookbook={handleSaveRecipeToCookbook}
         recipes={matcherRecipes}

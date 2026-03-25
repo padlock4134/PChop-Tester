@@ -38,7 +38,7 @@ export type RecipeCard = {
 type Props = {
   open: boolean;
   onClose: () => void;
-  cupboardIngredients: string[];
+  vanIngredients: string[];
   onLike: (recipe: RecipeCard) => void;
   saveRecipeToCookbook: (recipe: RecipeCard) => void;
   recipes: RecipeCard[];
@@ -46,7 +46,7 @@ type Props = {
   error: string;
 };
 
-const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
+const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
   const { t } = useTranslation();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
