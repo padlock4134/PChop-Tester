@@ -1595,10 +1595,17 @@ Automated calculations and formulas would be present`;
       };
     }
     
-    const current = totalXP - currentLevelXP;
+    const current = Math.max(0, totalXP - currentLevelXP);
     const required = nextLevelXP - currentLevelXP;
     
-    return { level, current, required };
+    // Show positive progress instead of negative delta
+    const displayCurrent = Math.max(0, current);
+    const displayRequired = required;
+    
+    // FORCE THIS LOG TO SHOW
+    console.error('XP CALC DEBUG:', totalXP, currentLevelXP, nextLevelXP, 'CURRENT:', current, 'DISPLAY:', displayCurrent, 'REQUIRED:', required);
+    
+    return { level, current: displayCurrent, required: displayRequired };
   };
 
   // Add a refresh function to reload profile data
