@@ -694,7 +694,7 @@ const Profile = () => {
   const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const [talentPoints, setTalentPoints] = useState(0);
   const [activeTab, setActiveTab] = useState('');
-  const [showTalents, setShowTalents] = useState(false);
+  const [showTalents, setShowTalents] = useState(true);
   const [selectedTalentTree, setSelectedTalentTree] = useState<string | null>(null);
   const [unlockedTalents, setUnlockedTalents] = useState<string[]>([]);
   const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
@@ -1797,16 +1797,22 @@ Automated calculations and formulas would be present`;
               <span className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                 <input
                   type="checkbox"
-                  checked={true}
-                  onChange={() => {}}
+                  checked={showTalents}
+                  onChange={() => setShowTalents(val => !val)}
                   className="sr-only peer"
                   id="talent-toggle"
                 />
                 <span
-                  className={`block w-8 h-5 rounded-full shadow-inner transition-colors duration-200 bg-maineBlue`}
+                  className={`block w-8 h-5 rounded-full shadow-inner transition-colors duration-200 ${
+                    showTalents 
+                      ? 'bg-maineBlue' 
+                      : 'bg-gray-300'
+                  }`}
                 ></span>
                 <span
-                  className={`dot absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-200 shadow translate-x-3`}
+                  className={`dot absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-200 shadow ${
+                    showTalents ? 'translate-x-3' : ''
+                  }`}
                 ></span>
               </span>
             </label>
