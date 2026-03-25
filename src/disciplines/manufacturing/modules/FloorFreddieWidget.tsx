@@ -10,7 +10,7 @@ const FloorFreddieWidget = () => {
         onClick={() => setOpen(o => !o)}
         aria-label="Open Floor Freddie AI Assistant"
       >
-        <span className="text-3xl">�</span>
+        <span className="text-3xl">🔥</span>
       </button>
       {open && (
         <div className="fixed bottom-24 right-6 bg-white border border-maineBlue rounded shadow-lg p-4 w-80 z-50">
