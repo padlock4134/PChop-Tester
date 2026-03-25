@@ -442,6 +442,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showViewCareerEventModal, setShowViewCareerEventModal] = useState(false);
   const [currentEventIndex, setCurrentEventIndex] = useState(0);
   const [isEventsPaused, setIsEventsPaused] = useState(false);
+  const [currentAlertIndex, setCurrentAlertIndex] = useState(0);
+  const [isAlertsPaused, setIsAlertsPaused] = useState(false);
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { user: currentUser } = useSupabase();
 
@@ -1028,6 +1030,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     }
   }, [upcomingEvents.length, isEventsPaused]);
 
+  // Auto-scroll effect for integrity alerts ticker
+  useEffect(() => {
+    const unreviewedAlerts = integrityAlerts.filter(a => !a.reviewed);
+    if (unreviewedAlerts.length > 1 && !isAlertsPaused) {
+      const interval = setInterval(() => {
+        setCurrentAlertIndex((prev) => (prev + 1) % unreviewedAlerts.length);
+      }, 4000); // 4 second intervals
+
+      return () => clearInterval(interval);
+    }
+  }, [integrityAlerts, isAlertsPaused]);
+
   const fetchAdminData = async () => {
     setLoading(true);
     try {
@@ -1459,6 +1473,140 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
+          {/* Integrity Alerts Ticker */}
+          {integrityAlerts.filter(a => !a.reviewed).length > 0 && (
+            <>
+              {/* Mobile: Vertical Stacked Alerts */}
+              <div className="lg:hidden mb-6">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="w-3 h-3 bg-orange-500 rounded-full animate-pulse"></div>
+                    <span className="font-bold text-orange-700 text-sm">🛡️ Integrity Alerts ({integrityAlerts.filter(a => !a.reviewed).length})</span>
+                  </div>
+                  
+                  {integrityAlerts.filter(a => !a.reviewed).map((alert, index) => (
+                    <div
+                      key={alert.id}
+                      onClick={() => {
+                        setSelectedAlert(alert);
+                        setActiveTab('integrity');
+                      }}
+                      className={`border-4 rounded-lg p-3 cursor-pointer hover:opacity-80 transition-all ${
+                        alert.severity === 'high'
+                          ? 'bg-red-50 border-red-400'
+                          : alert.severity === 'medium'
+                          ? 'bg-orange-50 border-orange-400'
+                          : 'bg-yellow-50 border-yellow-400'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3 flex-1">
+                          <span className="text-3xl">
+                            {alert.alert_type === 'fast_completion' ? '⚡' : 
+                             alert.alert_type === 'plagiarism' ? '📝' : '🚨'}
+                          </span>
+                          <div className="flex-1">
+                            <div className="font-bold text-gray-900 text-sm uppercase">{alert.alert_type.replace('_', ' ')}</div>
+                            <div className="text-gray-800 text-xs">{alert.description}</div>
+                            <div className="text-gray-600 text-xs mt-1">{alert.discipline || 'System'}</div>
+                          </div>
+                        </div>
+                        <div className={`text-white text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap ${
+                          alert.severity === 'high' ? 'bg-red-600' :
+                          alert.severity === 'medium' ? 'bg-orange-600' : 'bg-yellow-600'
+                        }`}>
+                          {alert.severity.toUpperCase()}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Desktop: Horizontal Carousel */}
+              <div className="hidden lg:block mb-4">
+                {(() => {
+                  const unreviewedAlerts = integrityAlerts.filter(a => !a.reviewed);
+                  const currentAlert = unreviewedAlerts[currentAlertIndex];
+                  if (!currentAlert) return null;
+                  
+                  return (
+                    <div 
+                      className={`border-4 rounded-lg p-3 cursor-pointer transition-all ${
+                        currentAlert.severity === 'high'
+                          ? 'bg-red-50 border-red-400'
+                          : currentAlert.severity === 'medium'
+                          ? 'bg-orange-50 border-orange-400'
+                          : 'bg-yellow-50 border-yellow-400'
+                      }`}
+                      onMouseEnter={() => setIsAlertsPaused(true)}
+                      onMouseLeave={() => setIsAlertsPaused(false)}
+                      onClick={() => {
+                        setSelectedAlert(currentAlert);
+                        setActiveTab('integrity');
+                      }}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center mr-3">
+                          <div className={`w-3 h-3 rounded-full mr-2 animate-pulse ${
+                            currentAlert.severity === 'high' ? 'bg-red-500' :
+                            currentAlert.severity === 'medium' ? 'bg-orange-500' : 'bg-yellow-500'
+                          }`}></div>
+                          <span className={`font-bold text-sm ${
+                            currentAlert.severity === 'high' ? 'text-red-700' :
+                            currentAlert.severity === 'medium' ? 'text-orange-700' : 'text-yellow-700'
+                          }`}>🛡️ Integrity Alert</span>
+                        </div>
+                        <div className="flex-1 text-center">
+                          <div className={`text-sm transition-all duration-500 ${
+                            currentAlert.severity === 'high' ? 'text-red-800' :
+                            currentAlert.severity === 'medium' ? 'text-orange-800' : 'text-yellow-800'
+                          }`}>
+                            <span>
+                              <strong>{currentAlert.alert_type.replace('_', ' ').toUpperCase()}</strong> •{' '}
+                              {currentAlert.description} •{' '}
+                              {currentAlert.discipline || 'System'}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-2xl">
+                            {currentAlert.alert_type === 'fast_completion' ? '⚡' : 
+                             currentAlert.alert_type === 'plagiarism' ? '📝' : '🚨'}
+                          </span>
+                          <div className={`text-white text-xs px-4 py-2 rounded-full font-medium ${
+                            currentAlert.severity === 'high' ? 'bg-red-600' :
+                            currentAlert.severity === 'medium' ? 'bg-orange-600' : 'bg-yellow-600'
+                          }`}>
+                            {currentAlert.severity.toUpperCase()}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Progress dots */}
+                      {unreviewedAlerts.length > 1 && (
+                        <div className="flex justify-center mt-3 gap-1">
+                          {unreviewedAlerts.map((_, index) => (
+                            <div
+                              key={index}
+                              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                index === currentAlertIndex 
+                                  ? (currentAlert.severity === 'high' ? 'bg-red-500' :
+                                     currentAlert.severity === 'medium' ? 'bg-orange-500' : 'bg-yellow-500')
+                                  : (currentAlert.severity === 'high' ? 'bg-red-200' :
+                                     currentAlert.severity === 'medium' ? 'bg-orange-200' : 'bg-yellow-200')
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+              </div>
+            </>
+          )}
+
           {/* Mobile: Vertical Stacked Events List */}
           <div className="lg:hidden">
             {upcomingEvents.length > 0 && (
@@ -1846,52 +1994,52 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 ))}
               </div>
             )}
+          </div>
+        )}
 
-            {/* Review Alert Modal */}
-            {selectedAlert && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full p-6">
-                  <h3 className="text-xl font-bold text-maineBlue mb-4">Review Alert</h3>
-                  <div className="mb-4">
-                    <p className="text-sm text-gray-700 mb-2">
-                      <strong>Type:</strong> {selectedAlert.alert_type.replace('_', ' ')}
-                    </p>
-                    <p className="text-sm text-gray-700 mb-2">
-                      <strong>Description:</strong> {selectedAlert.description}
-                    </p>
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Review Notes:
-                    </label>
-                    <textarea
-                      value={reviewNotes}
-                      onChange={(e) => setReviewNotes(e.target.value)}
-                      className="w-full border-2 border-gray-300 rounded-lg p-2 text-sm"
-                      rows={4}
-                      placeholder="Add notes about your review..."
-                    />
-                  </div>
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={() => {
-                        setSelectedAlert(null);
-                        setReviewNotes('');
-                      }}
-                      className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => handleReviewAlert(selectedAlert.id)}
-                      className="px-4 py-2 bg-maineBlue text-white rounded hover:bg-blue-700"
-                    >
-                      Mark as Reviewed
-                    </button>
-                  </div>
-                </div>
+        {/* Review Alert Modal - Global, not tied to specific tab */}
+        {selectedAlert && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full p-6">
+              <h3 className="text-xl font-bold text-maineBlue mb-4">Review Alert</h3>
+              <div className="mb-4">
+                <p className="text-sm text-gray-700 mb-2">
+                  <strong>Type:</strong> {selectedAlert.alert_type.replace('_', ' ')}
+                </p>
+                <p className="text-sm text-gray-700 mb-2">
+                  <strong>Description:</strong> {selectedAlert.description}
+                </p>
               </div>
-            )}
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Review Notes:
+                </label>
+                <textarea
+                  value={reviewNotes}
+                  onChange={(e) => setReviewNotes(e.target.value)}
+                  className="w-full border-2 border-gray-300 rounded-lg p-2 text-sm"
+                  rows={4}
+                  placeholder="Add notes about your review..."
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={() => {
+                    setSelectedAlert(null);
+                    setReviewNotes('');
+                  }}
+                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleReviewAlert(selectedAlert.id)}
+                  className="px-4 py-2 bg-maineBlue text-white rounded hover:bg-blue-700"
+                >
+                  Mark as Reviewed
+                </button>
+              </div>
+            </div>
           </div>
         )}
           </div>
