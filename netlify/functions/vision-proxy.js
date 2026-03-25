@@ -88,10 +88,9 @@ exports.handler = async (event) => {
     // Combine text, labels, and objects
     const allRawResults = [...textLines, ...labels, ...objects];
     
-    // Filter out generic terms and non-food items
-    const genericTerms = ['food', 'dish', 'cuisine', 'meal', 'delicacy', 'art', 'product', 'buffet', 'close up', 'photography', 'table', 'plate', 'box', 'container', 'bento', 'wicker', 'basket', 'fruit', 'ingredient', 'produce', 'natural foods', 
-                          'carton', 'glass', 'bottle', 'jar', 'can', 'tin', 'package', 'packaging', 'wrapper', 'bag', 'tub', 'tube',
-                          'culinary arts', 'garnish', 'dessert', 'tableware', 'bowl', 'cup', 'plate', 'garnish', 'desert', ];
+    // Filter out generic terms and non-manufacturing items
+    const genericTerms = ['product', 'item', 'object', 'device', 'equipment', 'tool', 'machine', 'part', 'component', 'material', 'substance', 'element', 'close up', 'photography', 'table', 'workbench', 'container', 'box', 'carton', 'glass', 'bottle', 'jar', 'can', 'tin', 'package', 'packaging', 'wrapper', 'bag', 'tub', 'tube',
+                          'manufacturing', 'industry', 'production', 'assembly', 'fabrication', 'processing', 'workshop', 'factory', 'plant', 'facility'];
     const specificResults = allRawResults.filter(item => {
       const text = item.toLowerCase();
       // Only filter if the term is exactly generic or part of a longer phrase
@@ -104,27 +103,27 @@ exports.handler = async (event) => {
     // Start with basic results
     let results = Array.from(new Set(specificResults));
     
-    // Enhanced food detection - only add if base detection worked
+    // Enhanced manufacturing detection - only add if base detection worked
     if (results.length > 0) {
       try {
-        const foodTerms = ['vegetable', 'produce', 'bean', 'legume', 'green', 'fresh'];
-        const looseProduceItems = [];
+        const manufacturingTerms = ['metal', 'steel', 'aluminum', 'iron', 'copper', 'plastic', 'rubber', 'wood', 'glass', 'component', 'part', 'fastener', 'tool'];
+        const manufacturingItems = [];
         
-        // Add loose produce if food terms detected
+        // Add manufacturing items if manufacturing terms detected
         results.forEach(item => {
           const lowerItem = item.toLowerCase();
-          if (foodTerms.some(term => lowerItem.includes(term))) {
-            looseProduceItems.push(...[
-              'loose produce', 
-              'fresh vegetables',
+          if (manufacturingTerms.some(term => lowerItem.includes(term))) {
+            manufacturingItems.push(...[
+              'manufacturing material', 
+              'industrial component',
               item
             ]);
           }
         });
         
         // Add to results if we found any
-        if (looseProduceItems.length > 0) {
-          results = Array.from(new Set([...results, ...looseProduceItems]));
+        if (manufacturingItems.length > 0) {
+          results = Array.from(new Set([...results, ...manufacturingItems]));
         }
       } catch (enhanceError) {
         console.error('Enhanced detection failed:', enhanceError);
