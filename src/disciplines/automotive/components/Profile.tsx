@@ -225,7 +225,7 @@ const EditProfileModal = ({
               <option value="Advanced">⭐ Advanced</option>
               <option value="Beginner">🌱 Beginner</option>
               <option value="Intermediate">📈 Intermediate</option>
-              <option value="Professional">👨‍🍳 Professional</option>
+              <option value="Professional">🏭️ Professional</option>
             </select>
           </div>
         </div>
@@ -665,38 +665,38 @@ const Profile = () => {
 
   // 9 talents per tree, unlock at 10, 14, 25, 30, 36, 42, 48, 55, 60
   const talentTrees = {
-    'Cast Iron Champion': [
-      { name: t('profile.talents.searSavant'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.searSavantDesc') },
-      { name: t('profile.talents.heatControl'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.heatControlDesc') },
-      { name: t('profile.talents.ironWill'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.ironWillDesc') },
-      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 30, description: t('profile.talents.seasonedVeteranDesc') },
-      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.rustproofDesc') },
-      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 42, description: t('profile.talents.heavyHitterDesc') },
-      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.surfaceSageDesc') },
-      { name: t('profile.talents.ironclad'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.ironcladDesc') },
-      { name: t('profile.talents.ironChef'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.ironChefDesc') },
+    'Engine Master': [
+      { name: t('profile.talents.engineSavant'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.engineSavantDesc') },
+      { name: t('profile.talents.diagnosticsExpert'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.diagnosticsExpertDesc') },
+      { name: t('profile.talents.mechanicalWill'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.mechanicalWillDesc') },
+      { name: t('profile.talents.precisionPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.precisionProDesc') },
+      { name: t('profile.talents.toolMaster'), icon: SparklesIcon, unlockLevel: 36, description: t('profile.talents.toolMasterDesc') },
+      { name: t('profile.talents.systemSpecialist'), icon: CakeIcon, unlockLevel: 42, description: t('profile.talents.systemSpecialistDesc') },
+      { name: t('profile.talents.automotiveGuru'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.automotiveGuruDesc') },
+      { name: t('profile.talents.steelShield'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.steelShieldDesc') },
+      { name: t('profile.talents.engineMaster'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.engineMasterDesc') },
     ],
-    'Grilling Heavy Weight': [
-      { name: t('profile.talents.flameTamer'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.flameTamerDesc') },
-      { name: t('profile.talents.smokeMaster'), icon: SparklesIcon, unlockLevel: 14, description: t('profile.talents.smokeMasterDesc') },
-      { name: t('profile.talents.charChampion'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.charChampionDesc') },
-      { name: t('profile.talents.grillMarks'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.grillMarksDesc') },
-      { name: t('profile.talents.bbqBuff'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.bbqBuffDesc') },
-      { name: t('profile.talents.pitBoss'), icon: TrophyIcon, unlockLevel: 42, description: t('profile.talents.pitBossDesc') },
-      { name: t('profile.talents.coalWhisperer'), icon: FireIcon, unlockLevel: 48, description: t('profile.talents.coalWhispererDesc') },
-      { name: t('profile.talents.grillGuardian'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.grillGuardianDesc') },
-      { name: t('profile.talents.bbqGod'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bbqGodDesc') },
+    'Electronics Expert': [
+      { name: t('profile.talents.circuitTamer'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.circuitTamerDesc') },
+      { name: t('profile.talents.wireMaster'), icon: SparklesIcon, unlockLevel: 14, description: t('profile.talents.wireMasterDesc') },
+      { name: t('profile.talents.voltageChampion'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.voltageChampionDesc') },
+      { name: t('profile.talents.sensorSpecialist'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.sensorSpecialistDesc') },
+      { name: t('profile.talents.diagnosticDynamo'), icon: SparklesIcon, unlockLevel: 36, description: t('profile.talents.diagnosticDynamoDesc') },
+      { name: t('profile.talents.ecoExpert'), icon: CakeIcon, unlockLevel: 42, description: t('profile.talents.ecoExpertDesc') },
+      { name: t('profile.talents.powerPro'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.powerProDesc') },
+      { name: t('profile.talents.circuitGuardian'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.circuitGuardianDesc') },
+      { name: t('profile.talents.electronicsGod'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.electronicsGodDesc') },
     ],
-    'Baking Warlock': [
-      { name: t('profile.talents.doughWhisperer'), icon: CakeIcon, unlockLevel: 10, description: t('profile.talents.doughWhispererDesc') },
-      { name: t('profile.talents.ovenOracle'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.ovenOracleDesc') },
-      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.proofingProDesc') },
-      { name: t('profile.talents.pastryPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.pastryProDesc') },
-      { name: t('profile.talents.crustConjurer'), icon: CakeIcon, unlockLevel: 36, description: t('profile.talents.crustConjurerDesc') },
-      { name: t('profile.talents.bakeSense'), icon: SparklesIcon, unlockLevel: 42, description: t('profile.talents.bakeSenseDesc') },
-      { name: t('profile.talents.fillingFiend'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.fillingFiendDesc') },
-      { name: t('profile.talents.breadBuffoon'), icon: AcademicCapIcon, unlockLevel: 55, description: t('profile.talents.breadBuffoonDesc') },
-      { name: t('profile.talents.bakingWarlockTalent'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bakingWarlockTalentDesc') },
+    'Transmission Specialist': [
+      { name: t('profile.talents.gearWhisperer'), icon: CakeIcon, unlockLevel: 10, description: t('profile.talents.gearWhispererDesc') },
+      { name: t('profile.talents.shiftOracle'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.shiftOracleDesc') },
+      { name: t('profile.talents.clutchControl'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.clutchControlDesc') },
+      { name: t('profile.talents.transmissionPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.transmissionProDesc') },
+      { name: t('profile.talents.drivetrainDynamo'), icon: CakeIcon, unlockLevel: 36, description: t('profile.talents.drivetrainDynamoDesc') },
+      { name: t('profile.talents.fluidFinesse'), icon: SparklesIcon, unlockLevel: 42, description: t('profile.talents.fluidFinesseDesc') },
+      { name: t('profile.talents.gearGenius'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.gearGeniusDesc') },
+      { name: t('profile.talents.transmissionTitan'), icon: AcademicCapIcon, unlockLevel: 55, description: t('profile.talents.transmissionTitanDesc') },
+      { name: t('profile.talents.transmissionMaster'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.transmissionMasterDesc') },
     ],
   };
 
@@ -1704,63 +1704,259 @@ Automated calculations and formulas would be present`;
           {/* Left side - Talent Tree Boxes */}
           {showTalents && (
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-            {/* Cast Iron Champion Box */}
+            {/* Engine Master Box */}
             <button
-              onClick={() => setSelectedTalentTree('Equipment')}
+              onClick={() => setSelectedTalentTree('Engine Master')}
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Cast Iron</div>
-              <div>Champion</div>
+              <div>Engine</div>
+              <div>Master</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.castIronChampion')}</strong>
-                <div className="mt-1">{t('profile.talents.castIronChampionDesc')}</div>
+                <strong>Engine Master</strong>
+                <div className="mt-1">Master engine repair and diagnostics</div>
               </div>
             </button>
-
-            {/* Grilling Heavyweight Box */}
+            {/* Electronics Expert Box */}
             <button
-              onClick={() => setSelectedTalentTree('Techniques')}
+              onClick={() => setSelectedTalentTree('Electronics Expert')}
+              className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
+            >
+              <SparklesIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
+              <div>Electronics</div>
+              <div>Expert</div>
+              {/* Mobile-friendly tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
+                <strong>Electronics Expert</strong>
+                <div className="mt-1">Specialize in vehicle electronics</div>
+              </div>
+            </button>
+            {/* Transmission Specialist Box */}
+            <button
+              onClick={() => setSelectedTalentTree('Transmission Specialist')}
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Grilling</div>
-              <div>Heavyweight</div>
+              <div>Transmission</div>
+              <div>Specialist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Grilling Heavyweight</strong>
-                <div className="mt-1">Become a grilling master with advanced techniques, temperature control, and flavor enhancement.</div>
-              </div>
-            </button>
 
-            {/* Baking Warlock Box */}
-            <button
-              onClick={() => setSelectedTalentTree('Ingredients')}
-              className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
-            >
-              <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Baking</div>
-              <div>Warlock</div>
-              {/* Mobile-friendly tooltip */}
-              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.bakingWarlock')}</strong>
-                <div className="mt-1">{t('profile.talents.bakingWarlockDesc')}</div>
-              </div>
-            </button>
-          </div>
-          )}
+</div>
+)}
 
-          {/* Right side - Action Buttons */}
-          <div className="flex flex-col gap-3 w-full lg:w-auto">
-            <button
-            onClick={() => setModalOpen(true)}
-            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
-          >
-            {t('profile.editProfile')}
-          </button>
-          <button
-            onClick={() => setShowClassScheduleModal(true)}
+{/* Right side - Action Buttons */}
+<div className="flex flex-col gap-3 w-full lg:w-auto">
+<button
+onClick={() => setModalOpen(true)}
+className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+>
+{t('profile.editProfile')}
+</button>
+<button
+onClick={() => setShowClassScheduleModal(true)}
+className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+>
+{t('profile.classScheduleButton')}
+</button>
+<button
+onClick={() => setShowRequestsModal(true)}
+className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+>
+{t('profile.submitRequestButton')}
+</button>
+<button
+onClick={handleLogout}
+className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+>
+{t('profile.signOut')}
+</button>
+</div>
+</div>
+  
+{/* Modals */}
+<EditProfileModal 
+open={modalOpen} 
+onClose={() => setModalOpen(false)} 
+user={userProfile}
+onProfileUpdated={(updatedUser) => {
+setUserProfile(updatedUser);
+setModalOpen(false);
+}}
+/>
+  
+<PaymentModal
+open={showUpgradeModal}
+onClose={() => setShowUpgradeModal(false)}
+userId={user?.id || ''}
+plan="monthly"
+/>
+  
+<ClassScheduleModal
+open={showClassScheduleModal}
+onClose={() => setShowClassScheduleModal(false)}
+onOpenRegistration={() => setShowClassRegistrationModal(true)}
+/>
+  
+<ClassRegistrationModal
+open={showClassRegistrationModal}
+onClose={() => setShowClassRegistrationModal(false)}
+/>
+  
+<RequestsModal
+open={showRequestsModal}
+onClose={() => setShowRequestsModal(false)}
+/>
+  
+<TermsModal
+open={termsModalOpen}
+onClose={() => setTermsModalOpen(false)}
+content={termsContent}
+/>
+
+{/* Talent Tutorial Modal */}
+{tutorialModalOpen && currentTutorial && (
+<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
+<div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+<button
+onClick={() => {
+setTutorialModalOpen(false);
+setCurrentTutorial(null);
+}}
+className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
+aria-label="Close"
+>
+×
+</button>
+  
+<h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
+{currentTutorial.name} Tutorial
+</h2>
+  
+<div className="aspect-video mb-4">
+<iframe
+src={currentTutorial.videoUrl}
+title={`${currentTutorial.name} Tutorial`}
+className="w-full h-full rounded-lg border border-gray-300"
+allowFullScreen
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+/>
+</div>
+  
+<div className="text-center">
+<p className="text-gray-600 mb-4">
+Master the techniques shown in this tutorial to unlock your full culinary potential!
+</p>
+<button
+onClick={() => {
+setTutorialModalOpen(false);
+setCurrentTutorial(null);
+}}
+className="px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold"
+>
+{t('profile.close')} Tutorial
+</button>
+</div>
+</div>
+</div>
+)}
+  
+{/* Talent Tree Modal - Responsive */}
+{selectedTalentTree && (
+<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+<div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+<div className="flex justify-between items-center mb-4 sm:mb-6">
+<div className="flex-1"></div>
+<div className="flex items-center gap-2 sm:gap-3">
+{selectedTalentTree === 'Engine Master' && <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+{selectedTalentTree === 'Electronics Expert' && <SparklesIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+{selectedTalentTree === 'Transmission Specialist' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+<h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
+{selectedTalentTree}
+</h2>
+</div>
+<button
+onClick={() => setSelectedTalentTree(null)}
+className="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl font-bold flex-1 text-right"
+>
+×
+</button>
+</div>
+  
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+{talentTrees[selectedTalentTree]?.map(talent => {
+const xp = userProfile?.xp || 0;
+// Use the corrected level calculation instead of the old one
+const { level } = getCorrectXPProgress(xp);
+const unlocked = level >= talent.unlockLevel;
+const selected = selectedTalents.includes(talent.name);
+const Icon = talent.icon;
+  
+return (
+<button
+key={talent.name}
+onClick={(e) => handleSelectTalent(talent.name, e.button === 2)}
+onContextMenu={(e) => {
+e.preventDefault();
+handleSelectTalent(talent.name, true);
+}}
+disabled={!unlocked}
+className={`relative group p-3 sm:p-4 rounded-lg transition-all border border-black min-h-[100px] sm:min-h-[120px] flex flex-col items-center justify-center text-center ${
+unlocked
+? selected
+? 'bg-maineBlue text-seafoam shadow-md'
+: 'bg-gray-50 hover:bg-seafoam hover:text-maineBlue'
+: 'bg-gray-100 text-gray-400 cursor-not-allowed'
+}`}
+>
+<Icon className={`w-6 h-6 sm:w-8 sm:h-8 mb-2 ${
+!unlocked 
+? 'opacity-40 grayscale' 
+: selected
+? 'text-seafoam'
+: selectedTalentTree === 'Engine Master'
+? 'text-orange-500'
+: selectedTalentTree === 'Electronics Expert'
+? 'text-blue-500'
+: 'text-green-500'
+}`} />
+<div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
+<div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
+{!unlocked && (
+<div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
+)}
+{selected && (
+<div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
+)}
+{selected && (
+<div className="flex gap-1">
+<button
+onClick={(e) => {
+e.stopPropagation();
+// Add talent to unlocked list
+if (!unlockedTalents.includes(talent.name)) {
+setUnlockedTalents([...unlockedTalents, talent.name]);
+console.log(`Unlocked ${talent.name}`);
+}
+}}
+className={`text-xs px-2 py-1 rounded transition-colors font-medium ${
+unlockedTalents.includes(talent.name)
+? 'bg-green-500 text-white hover:bg-green-600'
+: 'bg-yellow-500 text-white hover:bg-yellow-600'
+}`}
+>
+{unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
+</button>
+</div>
+)}
+</button>
+);
+})}
+</div>
+</div>
+</div>
+)}
             className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
           >
             {t('profile.classScheduleButton')}
