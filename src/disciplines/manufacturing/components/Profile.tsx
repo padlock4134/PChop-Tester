@@ -1461,21 +1461,6 @@ Automated calculations and formulas would be present`;
     if (userProfile) {
       const points = Math.floor(userProfile.xp / 100);
       setTalentPoints(points);
-      
-      // Update level progress when userProfile changes - USE CORRECTED CALCULATION
-      const { level, current, required } = getCorrectXPProgress(userProfile.xp);
-      const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-      const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
-      const progressPercent = (current / required) * 100;
-      
-      setLevelProgress({
-        title,
-        level,
-        icon,
-        current,
-        required,
-        progressPercent,
-      });
     }
   }, [userProfile]);
 
