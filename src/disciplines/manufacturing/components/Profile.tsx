@@ -1640,21 +1640,11 @@ Automated calculations and formulas would be present`;
           cuisine: profile.cuisine || []
         });
 
-        // Use corrected level calculation
+        // Also update level progress with correct calculation
         const { level, current, required } = getCorrectXPProgress(xp);
         const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
         const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
         const progressPercent = (current / required) * 100;
-        
-        console.log('🎯 Corrected Level Debug:', { 
-          xp, 
-          level, 
-          current, 
-          required, 
-          title, 
-          progressPercent,
-          expectedLevel10: xp >= 6500 ? 'Should be Level 10+' : 'Below Level 10'
-        });
         
         setLevelProgress({
           title,
@@ -1663,6 +1653,15 @@ Automated calculations and formulas would be present`;
           current,
           required,
           progressPercent,
+        });
+
+        console.log('🎯 Refresh Debug:', { 
+          xp, 
+          level, 
+          current, 
+          required, 
+          progressPercent,
+          calculation: `${current} / ${required} * 100 = ${progressPercent}%`
         });
 
         // Auto-enable talents at level 10
