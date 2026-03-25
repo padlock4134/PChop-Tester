@@ -259,7 +259,7 @@ const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => 
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
         {/* Fixed Header */}
-        <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
+        <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200 bg-gray-50">
           <div></div>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.termsOfService')}</h2>
@@ -267,28 +267,30 @@ const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => 
           </div>
           <button 
             onClick={onClose} 
-            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+            className="text-gray-500 hover:text-gray-700 text-2xl font-bold bg-white rounded-full w-8 h-8 flex items-center justify-center border border-gray-300 hover:bg-gray-100 transition-colors"
           >
             ×
           </button>
         </div>
         
         {/* Scrollable Content */}
-        <div className="overflow-y-auto p-6 pt-4">
-          <div className="prose prose-sm max-w-none text-gray-700">
-            <div 
-              className="prose prose-sm max-w-none text-gray-700 [&_h1]:mb-4 [&_h2]:mb-4 [&_h3]:mb-4"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
+        <div className="overflow-y-auto p-8 pt-6 bg-white">
+          <div className="max-w-3xl mx-auto">
+            <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+              <div 
+                className="prose prose-lg max-w-none text-gray-700 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-maineBlue [&_h1]:mb-6 [&_h1]:border-b [&_h1]:border-gray-200 [&_h1]:pb-3 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-gray-800 [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-medium [&_h3]:text-gray-700 [&_h3]:mt-6 [&_h3]:mb-3 [&_p]:mb-4 [&_p]:leading-relaxed [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4 [&_li]:mb-2 [&_a]:text-maineBlue [&_a]:hover:text-blue-700 [&_a]:underline [&_strong]:font-semibold [&_strong]:text-gray-800"
+                dangerouslySetInnerHTML={{ __html: content }}
+              />
+            </div>
           </div>
         </div>
         
         {/* Fixed Footer with Button */}
-        <div className="p-6 pt-4 border-t-2 border-gray-200">
+        <div className="p-6 pt-4 border-t-2 border-gray-200 bg-gray-50">
           <div className="flex justify-center">
             <button 
               onClick={onClose}
-              className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black"
+              className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black shadow-md hover:shadow-lg transform hover:scale-105 transition-transform"
             >
               {t('profile.close')}
             </button>
@@ -568,7 +570,7 @@ const Profile = () => {
   const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const [talentPoints, setTalentPoints] = useState(0);
   const [activeTab, setActiveTab] = useState('');
-  const [showTalents, setShowTalents] = useState(false);
+  const [showTalents, setShowTalents] = useState(true);
   const [selectedTalentTree, setSelectedTalentTree] = useState<string | null>(null);
   const [unlockedTalents, setUnlockedTalents] = useState<string[]>([]);
   const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
@@ -658,7 +660,49 @@ const Profile = () => {
           throw new Error('Failed to load terms and conditions');
         }
         const text = await response.text();
-        setTermsContent(text);
+        
+        // Convert markdown to basic HTML structure
+        const htmlContent = text
+          // Convert headers
+          .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+          .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+          .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+          // Convert bold text
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+          // Convert italic text
+          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+          // Convert links
+          .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+          // Convert paragraphs (split by double newlines and wrap in p tags)
+          .split('\n\n')
+          .map(paragraph => {
+            const trimmed = paragraph.trim();
+            if (!trimmed) return '';
+            // Skip if it's already a header
+            if (trimmed.startsWith('<h')) return trimmed;
+            // Convert list items
+            if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+              return '<ul>' + trimmed.split('\n').map(item => 
+                item.trim().startsWith('- ') || item.trim().startsWith('* ') 
+                  ? '<li>' + item.trim().substring(2) + '</li>'
+                  : item
+              ).join('') + '</ul>';
+            }
+            // Convert numbered lists
+            if (/^\d+\./.test(trimmed)) {
+              return '<ol>' + trimmed.split('\n').map(item => 
+                /^\d+\./.test(item.trim())
+                  ? '<li>' + item.trim().replace(/^\d+\.\s*/, '') + '</li>'
+                  : item
+              ).join('') + '</ol>';
+            }
+            // Regular paragraph
+            return '<p>' + trimmed + '</p>';
+          })
+          .filter(Boolean)
+          .join('\n');
+        
+        setTermsContent(htmlContent);
       } catch (error) {
         console.error('Error loading terms:', error);
         setTermsContent('Failed to load terms and conditions. Please try again later.');
@@ -1644,7 +1688,14 @@ Automated calculations and formulas would be present`;
           {(userProfile as any)?.program && (
             <div className="mt-2">
               <span className="inline-block px-3 py-1 bg-seafoam text-maineBlue rounded-full text-xs font-bold border-2 border-maineBlue">
-                🎓 {(userProfile as any).program}
+                🎓 {(() => {
+                  const program = (userProfile as any).program;
+                  // Map old culinary programs to manufacturing equivalents
+                  if (program === 'Bachelors of Arts In Culinary') {
+                    return 'Bachelors in Advanced Manufacturing';
+                  }
+                  return program;
+                })()}
               </span>
             </div>
           )}
@@ -1656,10 +1707,7 @@ Automated calculations and formulas would be present`;
           <div className="flex flex-col items-center">
             <div className="flex items-center space-x-2 mb-2">
               <span className="text-lg sm:text-xl">{levelProgress.icon}</span>
-              <span className="font-bold text-xs sm:text-sm">{levelProgress.title}</span>
-            </div>
-            <div className="flex items-center space-x-2 mb-2">
-              <span className="font-bold text-xs sm:text-sm">Lv {levelProgress.level}</span>
+              <span className="font-bold text-xs sm:text-sm">{levelProgress.title} ({levelProgress.level})</span>
             </div>
             <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
