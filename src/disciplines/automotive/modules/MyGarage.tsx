@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../api/vision';
 import RepairMatcherModal, { RecipeCard } from '../components/RepairMatcherModal';
-import { useFreddieContext } from '../components/GarageFreddieContext';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 import { supabase } from '../api/supabaseClient';
@@ -43,7 +42,6 @@ function categorizeIngredient(name: string): string {
 
 const MyGarage = () => {
   const { t } = useTranslation();
-  const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
   const { user } = useSupabase();
   
@@ -96,7 +94,6 @@ const MyGarage = () => {
 
   // Freddie context: set page on mount
   useEffect(() => {
-    updateContext({ page: 'MyKitchen' });
     // Load both kitchen and cookbook data
     const loadData = async () => {
       try {
@@ -112,7 +109,7 @@ const MyGarage = () => {
       }
     };
     loadData();
-  }, [updateContext]);
+  }, []);
 
   // Filtering logic (only by search text)
   const filteredIngredients = ingredients.filter(ing => {
