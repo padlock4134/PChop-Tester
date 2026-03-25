@@ -1604,14 +1604,10 @@ Automated calculations and formulas would be present`;
       };
     }
     
-    const current = totalXP - currentLevelXP;
+    const current = Math.max(0, totalXP - currentLevelXP);
     const required = nextLevelXP - currentLevelXP;
     
-    // Show progress toward next level
-    const displayCurrent = Math.min(current, required);
-    const displayRequired = required;
-    
-    return { level, current: displayCurrent, required: displayRequired };
+    return { level, current, required };
   };
 
   // Add a refresh function to reload profile data
