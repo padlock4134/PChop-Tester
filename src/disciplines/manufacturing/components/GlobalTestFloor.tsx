@@ -484,7 +484,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
       
       // Upload to Supabase Storage with metadata
       const { data, error} = await supabase.storage
-        .from('Test Kitchen Videos')
+        .from('Production Floor Videos')
         .upload(filename, recordedBlob, {
           contentType: 'video/webm',
           upsert: false,
@@ -566,11 +566,11 @@ if (!videoTitle.trim()) {
     try {
       // Generate unique filename
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `test-kitchen-session-${timestamp}.webm`;
+      const filename = `production-floor-session-${timestamp}.webm`;
       
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
-        .from('Test Kitchen Videos')
+        .from('Production Floor Videos')
         .upload(filename, recordedBlob, {
           contentType: 'video/webm',
           upsert: false
@@ -583,7 +583,7 @@ if (!videoTitle.trim()) {
       }
 
       console.log('Video saved successfully:', data);
-      alert('Video saved successfully to Test Kitchen Videos!');
+      alert('Video saved successfully to Production Floor Videos!');
       
       // End the session after successful save
       endRecordingSession();

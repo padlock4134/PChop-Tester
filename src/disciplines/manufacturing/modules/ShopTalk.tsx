@@ -26,7 +26,7 @@ const ShopTalk = () => {
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
   // Manufacturing pioneers quotes rotation (52 quotes for weekly rotation)
-  const chefQuotes = [
+  const pioneerQuotes = [
     // Henry Ford (11 quotes)
     "Quality means doing it right when no one is looking.",
     "Coming together is a beginning, staying together is progress, and working together is success.",
@@ -90,7 +90,7 @@ const ShopTalk = () => {
     "Many of life's failures are people who did not realize how close they were to success when they gave up."
   ];
   
-  const chefNames = [
+  const pioneerNames = [
     // Henry Ford (11)
     "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford", "Henry Ford",
     // Taiichi Ohno (11)
@@ -111,8 +111,8 @@ const ShopTalk = () => {
     const oneWeek = 1000 * 60 * 60 * 24 * 7;
     const weekNumber = Math.floor(diff / oneWeek) % 52;
     return {
-      quote: chefQuotes[weekNumber],
-      chef: chefNames[weekNumber]
+      quote: pioneerQuotes[weekNumber],
+      pioneer: pioneerNames[weekNumber]
     };
   };
   
@@ -234,7 +234,7 @@ const ShopTalk = () => {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            🧪 {t('shopTalk.globalTestKitchenTab')}
+            🧪 {t('shopTalk.globalTestFloorTab')}
           </button>
         </div>
         
@@ -352,7 +352,7 @@ const ShopTalk = () => {
 
               {/* Industry Leader Quote of the Week */}
               <p className="text-center text-gray-600 italic mb-6">
-                "{currentQuote.quote}" — {currentQuote.chef}
+                "{currentQuote.quote}" — {currentQuote.pioneer}
               </p>
 
 
