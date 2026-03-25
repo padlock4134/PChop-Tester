@@ -564,24 +564,28 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
         {/* Scrollable Content */}
         <div className="overflow-y-auto p-6 pt-4">
           <div className="mb-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {requestTypes.map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setSelectedType(type.id)}
-                className={`p-4 border-2 rounded-lg text-left transition-all ${
-                  selectedType === type.id
-                    ? 'border-maineBlue bg-seafoam'
-                    : 'border-gray-300 hover:border-maineBlue'
-                }`}
+            {/* Request Type Dropdown */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">Request Type</label>
+              <select
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none"
               >
-                <div className="text-3xl mb-2">{type.icon}</div>
-                <h4 className="font-bold text-gray-800 mb-1">{type.name}</h4>
-                <p className="text-xs text-gray-600">{type.description}</p>
-              </button>
-            ))}
+                <option value="">Select a request type...</option>
+                {requestTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.icon} {type.name}
+                  </option>
+                ))}
+              </select>
+              {selectedType && (
+                <p className="text-xs text-gray-600 mt-2">
+                  {requestTypes.find(t => t.id === selectedType)?.description}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
         
         {selectedType && (
           <div className="mb-6 space-y-4">
