@@ -79,16 +79,16 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
         className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-2xl max-h-[90vh] flex flex-col"
       >
         <div className="p-6 pb-0">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('cookbook.selectRecipe')}</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Select Service to Showcase</h2>
           <p className="text-gray-600 mb-4">
-            {t('cookbook.chooseRecipe')}
+            Choose a service from your manual to showcase in Gearhead Lounge.
           </p>
         </div>
         
         <div className="flex-1 overflow-y-auto p-6 pt-2">
           {recipes.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              {t('cookbook.noRecipes')}
+              No services found in your Manual.
             </div>
           ) : (
             <div className="space-y-3">
@@ -106,8 +106,8 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900">{recipe.title}</h3>
                       <p className="text-sm text-gray-500 mt-1">
-                        {Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0} {t('cookbook.ingredients')}
-                        {recipe.instructions && ' • ' + t('cookbook.instructionsIncluded')}
+                        {Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0} parts
+                        {recipe.instructions && ' • Steps included'}
                       </p>
                     </div>
                     {selectedRecipe?.id === recipe.id && (
@@ -139,7 +139,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
             }`}
             disabled={isLoading || !selectedRecipe}
           >
-            {isLoading ? t('cookbook.importing') : t('cookbook.showcaseRecipe')}
+            {isLoading ? 'Importing...' : 'Showcase Service'}
           </button>
         </div>
       </div>
