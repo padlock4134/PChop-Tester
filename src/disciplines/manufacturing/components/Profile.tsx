@@ -1646,27 +1646,13 @@ Automated calculations and formulas would be present`;
           progressPercent,
         });
 
-        console.log('🎯 Refresh Debug:', { 
-          xp, 
-          level, 
-          current, 
-          required, 
-          progressPercent,
-          calculation: `${current} / ${required} * 100 = ${progressPercent}%`
-        });
-
         // Auto-enable talents at level 10
         if (level >= 10) {
-          console.log(' Level 10+ reached! Enabling talents...');
           setShowTalents(true);
-        } else {
-          console.log('⏳ Not level 10 yet. Current level:', level);
         }
 
         // Update talent points
         setTalentPoints(Math.floor(xp / 100));
-
-        console.log('Profile refreshed - New XP:', xp, 'Level:', level);
       }
     } catch (error) {
       console.error('Error refreshing profile:', error);
