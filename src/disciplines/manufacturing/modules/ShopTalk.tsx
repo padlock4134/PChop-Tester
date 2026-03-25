@@ -257,21 +257,21 @@ const ShopTalk = () => {
                 <div className="bg-sand p-4 rounded-lg border border-black">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-semibold text-gray-700">
-                      {t('shopTalk.showcaseRecipe')}
+                      Showcase Process:
                     </label>
                     <div className="flex gap-2">
                       <button
                         onClick={() => setBuildMenuModalOpen(true)}
                         className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                       >
-                        📋 {t('shopTalk.buildMenu')}
+                        📋 Build Production Plan
                       </button>
                       <button 
                         onClick={importFromCookBook} 
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
                         disabled={isLoading}
                       >
-                        {isLoading ? t('shopTalk.loading') : t('shopTalk.importFromCookbook')}
+                        {isLoading ? 'Loading...' : 'Import from Playbook'}
                       </button>
                     </div>
                   </div>
@@ -344,7 +344,7 @@ const ShopTalk = () => {
                     </div>
                   ) : (
                     <div className="mt-4 text-gray-400 italic text-center">
-                      {t('shopTalk.noRecipeSelected')}
+                      No process selected. Import a process to showcase!
                     </div>
                   )}
                 </div>
