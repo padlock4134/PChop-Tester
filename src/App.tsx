@@ -142,19 +142,12 @@ const HomeRedirect = () => {
   useEffect(() => {
     if (isLoading) return;
     
-    // If authenticated and user is loaded, preserve current page or redirect appropriately
+    // If authenticated and user is loaded, always redirect to discipline selector first
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
-      // If user is on the root path, check for saved page and redirect appropriately
+      // If user is on the root path, always go to discipline selector
       if (location.pathname === '/' || location.pathname === '') {
-        // Check both localStorage and sessionStorage for saved page
-        const lastPage = localStorage.getItem('lastPage') || sessionStorage.getItem('lastPath');
-        if (lastPage && lastPage !== '/' && lastPage !== '' && lastPage !== '/select-discipline') {
-          // If we have a saved page, navigate directly to it
-          navigate(lastPage, { replace: true });
-        } else {
-          // No saved page, go to discipline selector
-          navigate('/select-discipline', { replace: true });
-        }
+        // Always redirect to discipline selector after login
+        navigate('/select-discipline', { replace: true });
       }
       // If user is already on a specific page, don't redirect - let them stay there
     } else if (authStatus === AuthStatus.UNAUTHENTICATED) {

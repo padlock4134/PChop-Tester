@@ -509,7 +509,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
           <CategoryCard 
             category="grocery" 
             title="Hardware Stores" 
-            icon="�" 
+            icon="🔧" 
             description="Local hardware and tool suppliers"
             markets={markets.filter(m => m.type === 'grocery')}
             loading={loading}
@@ -527,7 +527,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
           <CategoryCard 
             category="seafood" 
             title="Electronics" 
-            icon="�" 
+            icon="🔌" 
             description="Electronic components and parts suppliers"
             markets={markets.filter(m => m.type === 'seafood')}
             loading={loading}
@@ -536,7 +536,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
           <CategoryCard 
             category="produce" 
             title="Plastics & Polymers" 
-            icon="�" 
+            icon="🧪" 
             description="Plastic materials and polymer suppliers"
             markets={markets.filter(m => m.type === 'produce')}
             loading={loading}
@@ -554,7 +554,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
           <CategoryCard 
             category="specialty" 
             title="Specialty Parts" 
-            icon="�" 
+            icon="🎯" 
             description="Custom fabrication and specialty components"
             markets={markets.filter(m => ['deli', 'dairy', 'bakery'].includes(m.type))}
             loading={loading}
