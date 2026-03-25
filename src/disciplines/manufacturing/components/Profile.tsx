@@ -17,17 +17,17 @@ type UserProfile = {
   experience: string;
   dietary: string[];
   cuisine: string[];
-  kitchenSetup: string;
+  workshopSetup: string;
   xp: number;
 };
 
 // Level titles and icons
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Novice Cook", icon: "🥄", level: 1 },
-  { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
-  { title: "Home Chef", icon: "🍳", level: 3 },
-  { title: "Culinary Expert", icon: "👨‍🍳", level: 4 },
-  { title: "Master Chef", icon: "🏆", level: 5 }
+  { title: "Novice Technician", icon: "🔧", level: 1 },
+  { title: "Shop Assistant", icon: "⚙️", level: 2 },
+  { title: "Manufacturing Technician", icon: "🏭", level: 3 },
+  { title: "Manufacturing Expert", icon: "👨‍🏭", level: 4 },
+  { title: "Master Engineer", icon: "🏆", level: 5 }
 ];
 
 // WoW Classic XP table
@@ -38,17 +38,17 @@ const WOW_CLASSIC_XP_TABLE = [
 
 // Experience level mapping between UI labels and backend values
 const EXPERIENCE_LEVEL_MAPPING = {
-  'Beginner': 'new_to_cooking',
-  'Intermediate': 'home_cook', 
-  'Advanced': 'kitchen_confident',
-  'Professional': 'kitchen_confident' // Both Advanced and Professional map to kitchen_confident
+  'Beginner': 'new_to_manufacturing',
+  'Intermediate': 'experienced_technician', 
+  'Advanced': 'manufacturing_expert',
+  'Professional': 'manufacturing_expert' // Both Advanced and Professional map to manufacturing_expert
 } as const;
 
 // Reverse mapping for displaying in UI
 const EXPERIENCE_LEVEL_DISPLAY = {
-  'new_to_cooking': 'Beginner',
-  'home_cook': 'Intermediate',
-  'kitchen_confident': 'Advanced'
+  'new_to_manufacturing': 'Beginner',
+  'experienced_technician': 'Intermediate',
+  'manufacturing_expert': 'Advanced'
 } as const;
 
 // Modal components
@@ -66,9 +66,9 @@ const EditProfileModal = ({
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: user?.name || '',
-    cuisinePreference: user?.cuisine?.[0] || 'Italian',
+    cuisinePreference: user?.cuisine?.[0] || 'Industrial',
     dietPreference: user?.dietary?.[0] || 'None',
-    kitchenSetup: user?.kitchenSetup || 'Apartment Kitchen',
+    workshopSetup: user?.workshopSetup || 'Basic Workshop',
     experienceLevel: user?.experience || 'Beginner',
     program: (user as any)?.program || ''
   });
@@ -84,8 +84,8 @@ const EditProfileModal = ({
           name: formData.name,
           cuisine: [formData.cuisinePreference],
           dietary: [formData.dietPreference],
-          kitchen_setup: formData.kitchenSetup,
-          cooking_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]],
+          workshop_setup: formData.workshopSetup,
+          manufacturing_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]],
           program: formData.program
         })
         .eq('id', user.id);
@@ -102,7 +102,7 @@ const EditProfileModal = ({
         name: formData.name,
         cuisine_preference: formData.cuisinePreference,
         diet_preference: formData.dietPreference,
-        kitchen_setup: formData.kitchenSetup,
+        workshop_setup: formData.workshopSetup,
         experience: formData.experienceLevel
       };
 
@@ -207,8 +207,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Workshop Access</label>
             <select
-              value={formData.kitchenSetup}
-              onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
+              value={formData.workshopSetup}
+              onChange={(e) => setFormData({...formData, workshopSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="Home Workshop">🏠 Home Workshop</option>
@@ -575,7 +575,7 @@ const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [kitchenSetup, setKitchenSetup] = useState<string>('Apartment Kitchen');
+  const [workshopSetup, setWorkshopSetup] = useState<string>('Basic Workshop');
   const [termsContent, setTermsContent] = useState<string>('Loading terms and conditions...');
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -1284,15 +1284,15 @@ Automated calculations and formulas would be present`;
           ...profile,
           name: profile.name || 'User',
           xp,
-          // Map backend cooking_experience to UI display value
-          experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
+          // Map backend manufacturing_experience to UI display value
+          experience: EXPERIENCE_LEVEL_DISPLAY[profile.manufacturing_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
+          workshopSetup: profile.workshop_setup || 'Basic Workshop',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
 
-        // Also update the local kitchenSetup state
-        setKitchenSetup(profile.kitchen_setup || 'Apartment Kitchen');
+        // Also update the local workshopSetup state
+        setWorkshopSetup(profile.workshop_setup || 'Basic Workshop');
 
         // Load selected talents from database (optional - field might not exist yet)
         if (profile.selected_talents && Array.isArray(profile.selected_talents)) {
@@ -1361,8 +1361,8 @@ Automated calculations and formulas would be present`;
   }, [userProfile]);
 
   useEffect(() => {
-    if (userProfile && userProfile.kitchenSetup) {
-      setKitchenSetup(userProfile.kitchenSetup);
+    if (userProfile && userProfile.workshopSetup) {
+      setWorkshopSetup(userProfile.workshopSetup);
     }
   }, [userProfile]);
 
@@ -1514,8 +1514,8 @@ Automated calculations and formulas would be present`;
           ...profile,
           name: profile.name || 'User',
           xp,
-          experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
+          experience: EXPERIENCE_LEVEL_DISPLAY[profile.manufacturing_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
+          workshopSetup: profile.workshop_setup || 'Basic Workshop',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
