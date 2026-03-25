@@ -23,19 +23,15 @@ export type RecipeCard = {
     price: string;
     image: string;
   }>;
-  healthTags?: string[];
-  nutrition?: {
-    carbs: number;
-    sugars: number;
-    fiber: number;
-    protein: number;
-    saturatedFat?: number;
-    sodium?: number;
-    omega3?: number;
-    antioxidants?: number;
-    cholesterol?: number;
-    potassium?: number;
-    phosphorus?: number;
+  complianceTags?: string[];
+  specs?: {
+    pressure: number;
+    flow: number;
+    material: string;
+    size: string;
+    temperature: number;
+    warranty?: string;
+    rating?: string;
   };
 };
 
@@ -122,18 +118,18 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         : generateTutorials(recipes[currentIdx])
     };
     setSelectedRecipe(fullRecipe);
-    navigate('/culinary-school');
+    navigate('/plumbing/plumbing-school');
   };
 
-  const DIETARY_TAGS = [
-    { key: 'Heart Healthy', label: t('recipeMatcher.heartHealthy') },
-    { key: 'Anti Inflammatory', label: t('recipeMatcher.antiInflammatory') },
-    { key: 'Low Glycemic', label: t('recipeMatcher.lowGlycemic') },
-    { key: 'Low Cholesterol', label: t('recipeMatcher.lowCholesterol') },
-    { key: 'Renal Friendly', label: t('recipeMatcher.renalFriendly') },
-    { key: 'DASH Diet', label: t('recipeMatcher.dashDiet') },
-    { key: 'Low Sodium', label: t('recipeMatcher.lowSodium') },
-    { key: 'High Fiber', label: t('recipeMatcher.highFiber') }
+  const COMPLIANCE_TAGS = [
+    { key: 'Safety Certified', label: t('repairMatcher.safetyCertified') },
+    { key: 'Warranty Approved', label: t('repairMatcher.warrantyApproved') },
+    { key: 'Fuel Efficient', label: t('repairMatcher.fuelEfficient') },
+    { key: 'Emission Compliant', label: t('repairMatcher.emissionCompliant') },
+    { key: 'Low Maintenance', label: t('repairMatcher.lowMaintenance') },
+    { key: 'Performance Tuned', label: t('repairMatcher.performanceTuned') },
+    { key: 'Environmentally Friendly', label: t('repairMatcher.environmentallyFriendly') },
+    { key: 'Heavy Duty', label: t('repairMatcher.heavyDuty') }
   ];
 
   return (
@@ -166,14 +162,14 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
           <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions')}<br/>{t('recipeMatcher.tryUpdatingCupboard')}</div>
         ) : (
           (() => {
-            console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
+            console.log('Procedure complianceTags:', recipes[currentIdx].complianceTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
                   <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
-                    {DIETARY_TAGS.map(tag => {
-                      const isMatch = recipes[currentIdx].healthTags?.includes(tag.key);
+                    {COMPLIANCE_TAGS.map((tag: any) => {
+                      const isMatch = recipes[currentIdx].complianceTags?.includes(tag.key);
                       return (
                         <span 
                           key={tag.key}
