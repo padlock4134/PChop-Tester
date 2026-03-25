@@ -21,68 +21,68 @@ type UserProfile = {
   xp: number;
 };
 
-// Level titles and icons (60 levels matching automotive discipline)
+// Level titles and icons (60 levels for automotive progression)
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Dishwasher", icon: "🧽", level: 1 },
-  { title: "Dishwasher II", icon: "🧽", level: 2 },
-  { title: "Dishwasher III", icon: "🧽", level: 3 },
-  { title: "Dishwasher IV", icon: "🧽", level: 4 },
-  { title: "Prep Cook", icon: "🥄", level: 5 },
-  { title: "Prep Cook II", icon: "🥄", level: 6 },
-  { title: "Prep Cook III", icon: "🥄", level: 7 },
-  { title: "Prep Cook IV", icon: "🥄", level: 8 },
-  { title: "Line Cook", icon: "🍳", level: 9 },
-  { title: "Line Cook II", icon: "🍳", level: 10 },
-  { title: "Line Cook III", icon: "🍳", level: 11 },
-  { title: "Line Cook IV", icon: "🍳", level: 12 },
-  { title: "Commis Chef", icon: "🔪", level: 13 },
-  { title: "Commis Chef II", icon: "�", level: 14 },
-  { title: "Commis Chef III", icon: "🔪", level: 15 },
-  { title: "Sous Chef", icon: "🧑‍🍳", level: 16 },
-  { title: "Sous Chef II", icon: "🧑‍🍳", level: 17 },
-  { title: "Sous Chef III", icon: "🧑‍🍳", level: 18 },
-  { title: "Chef de Partie", icon: "🍽️", level: 19 },
-  { title: "Chef de Partie II", icon: "🍽️", level: 20 },
-  { title: "Chef de Partie III", icon: "🍽️", level: 21 },
-  { title: "Pastry Chef", icon: "🧁", level: 22 },
-  { title: "Pastry Chef II", icon: "🧁", level: 23 },
-  { title: "Pastry Chef III", icon: "🧁", level: 24 },
-  { title: "Saucier", icon: "🥣", level: 25 },
-  { title: "Saucier II", icon: "🥣", level: 26 },
-  { title: "Saucier III", icon: "🥣", level: 27 },
-  { title: "Sommelier", icon: "🍷", level: 28 },
-  { title: "Sommelier II", icon: "🍷", level: 29 },
-  { title: "Sommelier III", icon: "🍷", level: 30 },
-  { title: "Grillardin", icon: "🍖", level: 31 },
-  { title: "Grillardin II", icon: "🍖", level: 32 },
-  { title: "Grillardin III", icon: "🍖", level: 33 },
-  { title: "Garde Manger", icon: "🥗", level: 34 },
-  { title: "Garde Manger II", icon: "🥗", level: 35 },
-  { title: "Garde Manger III", icon: "🥗", level: 36 },
-  { title: "Executive Chef", icon: "👨‍🍳", level: 37 },
-  { title: "Executive Chef II", icon: "👨‍🍳", level: 38 },
-  { title: "Executive Chef III", icon: "�‍🍳", level: 39 },
-  { title: "Head Chef", icon: "🎓", level: 40 },
-  { title: "Head Chef II", icon: "🎓", level: 41 },
-  { title: "Head Chef III", icon: "🎓", level: 42 },
-  { title: "Master Chef", icon: "🏅", level: 43 },
-  { title: "Master Chef II", icon: "🏅", level: 44 },
-  { title: "Master Chef III", icon: "🏅", level: 45 },
-  { title: "Culinary Director", icon: "👨‍💼", level: 46 },
-  { title: "Culinary Director II", icon: "👨‍💼", level: 47 },
-  { title: "Culinary Director III", icon: "👨‍💼", level: 48 },
-  { title: "Celebrity Chef", icon: "⭐", level: 49 },
-  { title: "Celebrity Chef II", icon: "⭐", level: 50 },
-  { title: "Celebrity Chef III", icon: "⭐", level: 51 },
-  { title: "Iron Chef", icon: "🦾", level: 52 },
-  { title: "Iron Chef II", icon: "🦾", level: 53 },
-  { title: "Iron Chef III", icon: "🦾", level: 54 },
-  { title: "Legendary Chef", icon: "🐉", level: 55 },
-  { title: "Legendary Chef II", icon: "🐉", level: 56 },
-  { title: "Legendary Chef III", icon: "🐉", level: 57 },
-  { title: "Legendary Chef IV", icon: "🐉", level: 58 },
-  { title: "Legendary Chef V", icon: "🐉", level: 59 },
-  { title: "Toji Master", icon: "�", level: 60 }
+  { title: "Novice Mechanic", icon: "🔧", level: 1 },
+  { title: "Novice Mechanic II", icon: "🔧", level: 2 },
+  { title: "Novice Mechanic III", icon: "🔧", level: 3 },
+  { title: "Novice Mechanic IV", icon: "🔧", level: 4 },
+  { title: "Apprentice Technician", icon: "🛠️", level: 5 },
+  { title: "Apprentice Technician II", icon: "🛠️", level: 6 },
+  { title: "Apprentice Technician III", icon: "🛠️", level: 7 },
+  { title: "Apprentice Technician IV", icon: "🛠️", level: 8 },
+  { title: "Junior Technician", icon: "🔩", level: 9 },
+  { title: "Junior Technician II", icon: "🔩", level: 10 },
+  { title: "Junior Technician III", icon: "🔩", level: 11 },
+  { title: "Junior Technician IV", icon: "🔩", level: 12 },
+  { title: "Certified Technician", icon: "�", level: 13 },
+  { title: "Certified Technician II", icon: "🚗", level: 14 },
+  { title: "Certified Technician III", icon: "�", level: 15 },
+  { title: "Senior Technician", icon: "⚙️", level: 16 },
+  { title: "Senior Technician II", icon: "⚙️", level: 17 },
+  { title: "Senior Technician III", icon: "⚙️", level: 18 },
+  { title: "Master Technician", icon: "�", level: 19 },
+  { title: "Master Technician II", icon: "�", level: 20 },
+  { title: "Master Technician III", icon: "�", level: 21 },
+  { title: "Shop Foreman", icon: "👷", level: 22 },
+  { title: "Shop Foreman II", icon: "👷", level: 23 },
+  { title: "Shop Foreman III", icon: "👷", level: 24 },
+  { title: "Service Manager", icon: "📋", level: 25 },
+  { title: "Service Manager II", icon: "📋", level: 26 },
+  { title: "Service Manager III", icon: "📋", level: 27 },
+  { title: "Diagnostic Specialist", icon: "🔍", level: 28 },
+  { title: "Diagnostic Specialist II", icon: "🔍", level: 29 },
+  { title: "Diagnostic Specialist III", icon: "🔍", level: 30 },
+  { title: "Engine Specialist", icon: "⛽", level: 31 },
+  { title: "Engine Specialist II", icon: "⛽", level: 32 },
+  { title: "Engine Specialist III", icon: "⛽", level: 33 },
+  { title: "Transmission Expert", icon: "⚙️", level: 34 },
+  { title: "Transmission Expert II", icon: "⚙️", level: 35 },
+  { title: "Transmission Expert III", icon: "⚙️", level: 36 },
+  { title: "Electrical Systems Pro", icon: "⚡", level: 37 },
+  { title: "Electrical Systems Pro II", icon: "⚡", level: 38 },
+  { title: "Electrical Systems Pro III", icon: "⚡", level: 39 },
+  { title: "Shop Director", icon: "�", level: 40 },
+  { title: "Shop Director II", icon: "�", level: 41 },
+  { title: "Shop Director III", icon: "�", level: 42 },
+  { title: "Regional Manager", icon: "🗺️", level: 43 },
+  { title: "Regional Manager II", icon: "🗺️", level: 44 },
+  { title: "Regional Manager III", icon: "🗺️", level: 45 },
+  { title: "Technical Director", icon: "🎯", level: 46 },
+  { title: "Technical Director II", icon: "🎯", level: 47 },
+  { title: "Technical Director III", icon: "🎯", level: 48 },
+  { title: "Automotive Engineer", icon: "🔬", level: 49 },
+  { title: "Automotive Engineer II", icon: "🔬", level: 50 },
+  { title: "Automotive Engineer III", icon: "🔬", level: 51 },
+  { title: "Master Engineer", icon: "🏭", level: 52 },
+  { title: "Master Engineer II", icon: "🏭", level: 53 },
+  { title: "Master Engineer III", icon: "🏭", level: 54 },
+  { title: "Automotive Legend", icon: "🌟", level: 55 },
+  { title: "Automotive Legend II", icon: "🌟", level: 56 },
+  { title: "Automotive Legend III", icon: "🌟", level: 57 },
+  { title: "Automotive Legend IV", icon: "🌟", level: 58 },
+  { title: "Automotive Legend V", icon: "🌟", level: 59 },
+  { title: "Garage Master", icon: "🏆", level: 60 }
 ];
 
 // WoW Classic XP table
@@ -1553,18 +1553,14 @@ Automated calculations and formulas would be present`;
     }
   };
 
-  // Corrected level calculation function - 6500 XP should be Level 10
+  // Corrected level calculation function for 60-level system
   const getCorrectLevel = (totalXP: number) => {
-    // For 6500 XP to be Level 10, we need to check if XP >= the requirement for that level
-    if (totalXP >= 6500) return 10;
-    if (totalXP >= 5400) return 9;
-    if (totalXP >= 4500) return 8;
-    if (totalXP >= 3600) return 7;
-    if (totalXP >= 2800) return 6;
-    if (totalXP >= 2100) return 5;
-    if (totalXP >= 1400) return 4;
-    if (totalXP >= 900) return 3;
-    if (totalXP >= 400) return 2;
+    // Find the highest level where totalXP >= required XP
+    for (let level = 60; level >= 1; level--) {
+      if (totalXP >= WOW_CLASSIC_XP_TABLE[level - 1]) {
+        return level;
+      }
+    }
     return 1;
   };
 
@@ -1576,19 +1572,19 @@ Automated calculations and formulas would be present`;
     console.log('🔧 XP Progress Debug:', {
       totalXP,
       level,
-      currentLevelXP: WOW_CLASSIC_XP_TABLE[level],
-      nextLevelXP: WOW_CLASSIC_XP_TABLE[level + 1]
+      currentLevelXP: WOW_CLASSIC_XP_TABLE[level - 1],
+      nextLevelXP: WOW_CLASSIC_XP_TABLE[level]
     });
     
-    const currentLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
-    const nextLevelXP = WOW_CLASSIC_XP_TABLE[level + 1] || 0;
+    const currentLevelXP = WOW_CLASSIC_XP_TABLE[level - 1] || 0;
+    const nextLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
     
-    // For level 10 (6500 XP), we should show 0 progress toward level 11
-    if (level === 10 && totalXP === 6500) {
+    // For max level (60), show full progress
+    if (level === 60) {
       return { 
-        level: 10, 
-        current: 0,  // At exactly level 10, no progress toward level 11
-        required: 1100  // Need 1100 XP to reach level 11
+        level: 60, 
+        current: WOW_CLASSIC_XP_TABLE[59] - WOW_CLASSIC_XP_TABLE[58],  // Show progress within level 60
+        required: WOW_CLASSIC_XP_TABLE[59] - WOW_CLASSIC_XP_TABLE[58]
       };
     }
     
