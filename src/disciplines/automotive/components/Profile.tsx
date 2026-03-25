@@ -21,19 +21,132 @@ type UserProfile = {
   xp: number;
 };
 
-// Level titles and icons
+// Level titles and icons (60 levels matching automotive discipline)
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Novice Mechanic", icon: "🔧", level: 1 },
-  { title: "Apprentice Technician", icon: "🛠️", level: 2 },
-  { title: "Certified Technician", icon: "🚗", level: 3 },
-  { title: "Master Technician", icon: "⚙️", level: 4 },
-  { title: "Shop Foreman", icon: "🏆", level: 5 }
+  { title: "Dishwasher", icon: "🧽", level: 1 },
+  { title: "Dishwasher II", icon: "🧽", level: 2 },
+  { title: "Dishwasher III", icon: "🧽", level: 3 },
+  { title: "Dishwasher IV", icon: "🧽", level: 4 },
+  { title: "Prep Cook", icon: "🥄", level: 5 },
+  { title: "Prep Cook II", icon: "🥄", level: 6 },
+  { title: "Prep Cook III", icon: "🥄", level: 7 },
+  { title: "Prep Cook IV", icon: "🥄", level: 8 },
+  { title: "Line Cook", icon: "🍳", level: 9 },
+  { title: "Line Cook II", icon: "🍳", level: 10 },
+  { title: "Line Cook III", icon: "🍳", level: 11 },
+  { title: "Line Cook IV", icon: "🍳", level: 12 },
+  { title: "Commis Chef", icon: "🔪", level: 13 },
+  { title: "Commis Chef II", icon: "�", level: 14 },
+  { title: "Commis Chef III", icon: "🔪", level: 15 },
+  { title: "Sous Chef", icon: "🧑‍🍳", level: 16 },
+  { title: "Sous Chef II", icon: "🧑‍🍳", level: 17 },
+  { title: "Sous Chef III", icon: "🧑‍🍳", level: 18 },
+  { title: "Chef de Partie", icon: "🍽️", level: 19 },
+  { title: "Chef de Partie II", icon: "🍽️", level: 20 },
+  { title: "Chef de Partie III", icon: "🍽️", level: 21 },
+  { title: "Pastry Chef", icon: "🧁", level: 22 },
+  { title: "Pastry Chef II", icon: "🧁", level: 23 },
+  { title: "Pastry Chef III", icon: "🧁", level: 24 },
+  { title: "Saucier", icon: "🥣", level: 25 },
+  { title: "Saucier II", icon: "🥣", level: 26 },
+  { title: "Saucier III", icon: "🥣", level: 27 },
+  { title: "Sommelier", icon: "🍷", level: 28 },
+  { title: "Sommelier II", icon: "🍷", level: 29 },
+  { title: "Sommelier III", icon: "🍷", level: 30 },
+  { title: "Grillardin", icon: "🍖", level: 31 },
+  { title: "Grillardin II", icon: "🍖", level: 32 },
+  { title: "Grillardin III", icon: "🍖", level: 33 },
+  { title: "Garde Manger", icon: "🥗", level: 34 },
+  { title: "Garde Manger II", icon: "🥗", level: 35 },
+  { title: "Garde Manger III", icon: "🥗", level: 36 },
+  { title: "Executive Chef", icon: "👨‍🍳", level: 37 },
+  { title: "Executive Chef II", icon: "👨‍🍳", level: 38 },
+  { title: "Executive Chef III", icon: "�‍🍳", level: 39 },
+  { title: "Head Chef", icon: "🎓", level: 40 },
+  { title: "Head Chef II", icon: "🎓", level: 41 },
+  { title: "Head Chef III", icon: "🎓", level: 42 },
+  { title: "Master Chef", icon: "🏅", level: 43 },
+  { title: "Master Chef II", icon: "🏅", level: 44 },
+  { title: "Master Chef III", icon: "🏅", level: 45 },
+  { title: "Culinary Director", icon: "👨‍💼", level: 46 },
+  { title: "Culinary Director II", icon: "👨‍💼", level: 47 },
+  { title: "Culinary Director III", icon: "👨‍💼", level: 48 },
+  { title: "Celebrity Chef", icon: "⭐", level: 49 },
+  { title: "Celebrity Chef II", icon: "⭐", level: 50 },
+  { title: "Celebrity Chef III", icon: "⭐", level: 51 },
+  { title: "Iron Chef", icon: "🦾", level: 52 },
+  { title: "Iron Chef II", icon: "🦾", level: 53 },
+  { title: "Iron Chef III", icon: "🦾", level: 54 },
+  { title: "Legendary Chef", icon: "🐉", level: 55 },
+  { title: "Legendary Chef II", icon: "🐉", level: 56 },
+  { title: "Legendary Chef III", icon: "🐉", level: 57 },
+  { title: "Legendary Chef IV", icon: "🐉", level: 58 },
+  { title: "Legendary Chef V", icon: "🐉", level: 59 },
+  { title: "Toji Master", icon: "�", level: 60 }
 ];
 
 // WoW Classic XP table
 const WOW_CLASSIC_XP_TABLE = [
-  0, 400, 900, 1400, 2100, 2800, 3600, 4500, 5400, 6500,
-  7600, 8700, 9800, 11000, 12300, 13600, 15000, 16500, 18000, 19600
+  0,      // Level 1 (start)
+  400,    // Level 2
+  900,    // Level 3
+  1400,   // Level 4
+  2100,   // Level 5
+  2800,   // Level 6
+  3600,   // Level 7
+  4500,   // Level 8
+  5400,   // Level 9
+  6500,   // Level 10
+  7600,   // Level 11
+  8800,   // Level 12
+  10100,  // Level 13
+  11400,  // Level 14
+  12900,  // Level 15
+  14400,  // Level 16
+  15900,  // Level 17
+  17500,  // Level 18
+  19200,  // Level 19
+  20900,  // Level 20
+  22700,  // Level 21
+  24600,  // Level 22
+  26600,  // Level 23
+  28700,  // Level 24
+  30900,  // Level 25
+  33200,  // Level 26
+  35600,  // Level 27
+  38100,  // Level 28
+  40700,  // Level 29
+  43400,  // Level 30
+  46200,  // Level 31
+  49100,  // Level 32
+  52100,  // Level 33
+  55200,  // Level 34
+  58400,  // Level 35
+  61700,  // Level 36
+  65100,  // Level 37
+  68600,  // Level 38
+  72200,  // Level 39
+  75900,  // Level 40
+  79700,  // Level 41
+  83600, // Level 42
+  87600,  // Level 43
+  91700,  // Level 44
+  95900,  // Level 45
+  100200, // Level 46
+  104600, // Level 47
+  109100, // Level 48
+  113700, // Level 49
+  118400, // Level 50
+  123200, // Level 51
+  128100, // Level 52
+  133100, // Level 53
+  138200, // Level 54
+  143400, // Level 55
+  148700, // Level 56
+  154100, // Level 57
+  159600, // Level 58
+  165200, // Level 59
+  170900  // Level 60
 ];
 
 // Experience level mapping between UI labels and backend values
@@ -1665,7 +1778,7 @@ Automated calculations and formulas would be present`;
           {/* Show Talents Toggle */}
           <div className="flex flex-col items-center gap-1 mt-3">
             <label className="flex items-center gap-2 cursor-pointer select-none">
-              <span className="font-semibold text-xs">{t('profile.showTalents')}</span>
+              <span className="font-semibold text-xs">{showTalents ? 'Stay On' : 'Stay Off'}</span>
               <span className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                 <input
                   type="checkbox"
