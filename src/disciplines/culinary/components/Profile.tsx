@@ -567,25 +567,23 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
         {/* Scrollable Content */}
         <div className="overflow-y-auto p-6 pt-4">
           <div className="mb-6">
-          <h3 className="text-lg font-bold text-gray-700 mb-4 text-center">{t('profile.selectRequestType')}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {requestTypes.map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setSelectedType(type.id)}
-                className={`p-4 border-2 rounded-lg text-left transition-all ${
-                  selectedType === type.id
-                    ? 'border-maineBlue bg-seafoam'
-                    : 'border-gray-300 hover:border-maineBlue'
-                }`}
+            {/* Request Type Dropdown */}
+            <div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">Request Type</label>
+              <select
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none"
               >
-                <div className="text-3xl mb-2">{type.icon}</div>
-                <h4 className="font-bold text-gray-800 mb-1">{type.name}</h4>
-                <p className="text-xs text-gray-600">{type.description}</p>
-              </button>
-            ))}
+                <option value="">Select a request type...</option>
+                {requestTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.icon} {type.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
         
         {selectedType && (
           <div className="mb-6">
@@ -785,12 +783,12 @@ const Profile = () => {
   const talentTrees = {
     'Knife Skills': [
       { name: t('profile.talents.castIronChampion'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.castIronChampionDesc') },
-      { name: t('profile.talents.heatControl'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.heatControlDesc') },
-      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 25, description: t('profile.talents.seasonedVeteranDesc') },
-      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 30, description: t('profile.talents.rustproofDesc') },
-      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 36, description: t('profile.talents.heavyHitterDesc') },
-      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 42, description: t('profile.talents.surfaceSageDesc') },
-      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.proofingProDesc') },
+      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 14, description: t('profile.talents.seasonedVeteranDesc') },
+      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 25, description: t('profile.talents.rustproofDesc') },
+      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 30, description: t('profile.talents.heavyHitterDesc') },
+      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 36, description: t('profile.talents.surfaceSageDesc') },
+      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 42, description: t('profile.talents.proofingProDesc') },
+      { name: t('profile.talents.pastryPro'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.pastryProDesc') },
       { name: t('profile.talents.ironChef'), icon: TrophyIcon, unlockLevel: 55, description: t('profile.talents.ironChefDesc') },
       { name: t('profile.talents.bakingWarlockTalent'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bakingWarlockTalentDesc') },
     ],
@@ -1817,13 +1815,58 @@ Automated calculations and formulas would be present`;
 
       {/* SCROLLABLE CONTENT AREA */}
       <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4 sm:pb-6">
-        <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-        <div>Pastry</div>
-        <div>Arts</div>
-        {/* Mobile-friendly tooltip */}
-        <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-          <strong>Pastry Arts</strong>
-          <div className="mt-1">Master baking techniques with precision, timing, and creative pastry skills.</div>
+        {/* Talent Trees and Action Buttons - Responsive Layout */}
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-6 mb-6">
+          {/* Left side - Talent Tree Boxes */}
+          {showTalents && (
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+            {/* Knife Skills Box */}
+            <button
+              onClick={() => setSelectedTalentTree('Knife Skills')}
+              className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
+            >
+              <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
+              <div>Knife</div>
+              <div>Skills</div>
+              {/* Mobile-friendly tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
+                <strong>Knife Skills</strong>
+                <div className="mt-1">Master knife techniques with precision cutting, proper grip, and professional knife skills.</div>
+              </div>
+            </button>
+
+            {/* Heat Control Box */}
+            <button
+              onClick={() => setSelectedTalentTree('Heat Control')}
+              className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
+            >
+              <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
+              <div>Heat</div>
+              <div>Control</div>
+              {/* Mobile-friendly tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
+                <strong>Heat Control</strong>
+                <div className="mt-1">Master temperature control for cooking, searing, and perfect heat management.</div>
+              </div>
+            </button>
+
+            {/* Pastry Arts Box */}
+            <button
+              onClick={() => setSelectedTalentTree('Pastry Arts')}
+              className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
+            >
+              <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
+              <div>Pastry</div>
+              <div>Arts</div>
+              {/* Mobile-friendly tooltip */}
+              <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
+                <strong>Pastry Arts</strong>
+                <div className="mt-1">Master baking techniques with precision, timing, and creative pastry skills.</div>
+              </div>
+            </button>
+          </div>
+          )}
+
           {/* Right side - Action Buttons */}
           <div className="flex flex-col gap-3 w-full lg:w-auto">
             <button
@@ -1947,12 +1990,11 @@ Automated calculations and formulas would be present`;
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <div className="flex-1"></div>
               <div className="flex items-center gap-2 sm:gap-3">
-                {selectedTalentTree === 'Equipment' && <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-                {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-                {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                {selectedTalentTree === 'Knife Skills' && <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                {selectedTalentTree === 'Heat Control' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                {selectedTalentTree === 'Pastry Arts' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? t('profile.talents.castIronChampion') : 
-                   selectedTalentTree === 'Techniques' ? t('profile.talents.grillingHeavyWeight') : t('profile.talents.bakingWarlock')}
+                  {selectedTalentTree}
                 </h2>
               </div>
               <button
@@ -1995,9 +2037,9 @@ Automated calculations and formulas would be present`;
                         ? 'opacity-40 grayscale' 
                         : selected
                           ? 'text-seafoam'
-                          : selectedTalentTree === 'Equipment'
+                          : selectedTalentTree === 'Knife Skills'
                             ? 'text-orange-500'
-                            : selectedTalentTree === 'Techniques'
+                            : selectedTalentTree === 'Heat Control'
                               ? 'text-red-500'
                               : 'text-purple-500'
                     }`} />
