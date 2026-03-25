@@ -470,18 +470,18 @@ const MfgAcademy = () => {
           </div>
         ) : (
           <>
-            <ol className="space-y-4 list-decimal list-inside mt-8">
+            <div className="space-y-4 mt-8">
               {tutorials.map((tut, idx) => (
-                <li
+                <div
                   key={idx}
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
                   <div className="font-bold mb-1">{tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
-                </li>
+                </div>
               ))}
-            </ol>
+            </div>
             <div className="mt-8 text-center">
               <div className="text-gray-700 mb-4">{t('mfgAcademy.getStarted')}</div>
               <div className="flex justify-center space-x-4">
