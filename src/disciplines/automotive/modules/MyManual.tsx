@@ -1043,7 +1043,7 @@ const MyManual = () => {
                 {/* Create Collection Button - Always visible */}
                 <button
                   onClick={() => setShowCreateCollectionModal(true)}
-                  className="w-full mt-3 px-4 py-2 rounded border bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam transition-colors"
+                  className="w-full mt-3 px-4 py-2 rounded border bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 hover:text-blue-800 transition-colors"
                 >
                   {t('myManual.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
                 </button>
