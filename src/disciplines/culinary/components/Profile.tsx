@@ -1580,18 +1580,14 @@ Automated calculations and formulas would be present`;
     }
   };
 
-  // Corrected level calculation function - 6500 XP should be Level 10
+  // Corrected level calculation function for 60-level system
   const getCorrectLevel = (totalXP: number) => {
-    // For 6500 XP to be Level 10, we need to check if XP >= the requirement for that level
-    if (totalXP >= 6500) return 10;
-    if (totalXP >= 5400) return 9;
-    if (totalXP >= 4500) return 8;
-    if (totalXP >= 3600) return 7;
-    if (totalXP >= 2800) return 6;
-    if (totalXP >= 2100) return 5;
-    if (totalXP >= 1400) return 4;
-    if (totalXP >= 900) return 3;
-    if (totalXP >= 400) return 2;
+    // Find the highest level where totalXP >= required XP
+    for (let level = 60; level >= 1; level--) {
+      if (totalXP >= WOW_CLASSIC_XP_TABLE[level - 1]) {
+        return level;
+      }
+    }
     return 1;
   };
 
@@ -1603,19 +1599,19 @@ Automated calculations and formulas would be present`;
     console.log('🔧 XP Progress Debug:', {
       totalXP,
       level,
-      currentLevelXP: WOW_CLASSIC_XP_TABLE[level],
-      nextLevelXP: WOW_CLASSIC_XP_TABLE[level + 1]
+      currentLevelXP: WOW_CLASSIC_XP_TABLE[level - 1],
+      nextLevelXP: WOW_CLASSIC_XP_TABLE[level]
     });
     
-    const currentLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
-    const nextLevelXP = WOW_CLASSIC_XP_TABLE[level + 1] || 0;
+    const currentLevelXP = WOW_CLASSIC_XP_TABLE[level - 1] || 0;
+    const nextLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
     
-    // For level 10 (6500 XP), we should show 0 progress toward level 11
-    if (level === 10 && totalXP === 6500) {
+    // For max level (60), show full progress
+    if (level === 60) {
       return { 
-        level: 10, 
-        current: 0,  // At exactly level 10, no progress toward level 11
-        required: 1100  // Need 1100 XP to reach level 11
+        level: 60, 
+        current: WOW_CLASSIC_XP_TABLE[59] - WOW_CLASSIC_XP_TABLE[58],  // Show progress within level 60
+        required: WOW_CLASSIC_XP_TABLE[59] - WOW_CLASSIC_XP_TABLE[58]
       };
     }
     
