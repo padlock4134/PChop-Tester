@@ -1762,7 +1762,7 @@ Automated calculations and formulas would be present`;
             </div>
             <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-seafoam transition-all duration-500"
+                className="h-full bg-purple-500 transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.max(0, levelProgress.progressPercent))}%` }}
               ></div>
             </div>
@@ -1774,26 +1774,20 @@ Automated calculations and formulas would be present`;
           {/* Show Talents Toggle */}
           <div className="flex flex-col items-center gap-1 mt-3">
             <label className="flex items-center gap-2 cursor-pointer select-none">
-              <span className="font-semibold text-xs">{showTalents ? 'Stay On' : 'Stay Off'}</span>
+              <span className="font-semibold text-xs">Show Talents</span>
               <span className="relative inline-block w-8 align-middle select-none transition duration-200 ease-in">
                 <input
                   type="checkbox"
-                  checked={showTalents}
-                  onChange={() => setShowTalents(val => !val)}
+                  checked={true}
+                  onChange={() => {}}
                   className="sr-only peer"
                   id="talent-toggle"
                 />
                 <span
-                  className={`block w-8 h-5 rounded-full shadow-inner transition-colors duration-200 ${
-                    showTalents 
-                      ? 'bg-maineBlue' 
-                      : 'bg-gray-300'
-                  }`}
+                  className={`block w-8 h-5 rounded-full shadow-inner transition-colors duration-200 bg-maineBlue`}
                 ></span>
                 <span
-                  className={`dot absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-200 shadow ${
-                    showTalents ? 'translate-x-3' : ''
-                  }`}
+                  className={`dot absolute left-0.5 top-0.5 bg-white w-4 h-4 rounded-full transition-transform duration-200 shadow translate-x-3`}
                 ></span>
               </span>
             </label>
