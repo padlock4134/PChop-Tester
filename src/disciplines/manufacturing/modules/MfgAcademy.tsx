@@ -125,9 +125,9 @@ function getTwoTutorials(recipe: any) {
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Cook This Meal!`,
-      desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
-      type: 'cooking_tutorial'
+      title: `Let\'s Build This Process!`,
+      desc: `Manufacturing tutorial for ${recipe.title}.`,
+      type: 'manufacturing_tutorial'
     }
   ];
 }
@@ -389,18 +389,18 @@ const MfgAcademy = () => {
         {isRecipeSelected && selectedRecipe ? (
           <div className="mb-6 mt-8">
             {/* Tutorials Section */}
-            <ol className="space-y-4 list-decimal list-inside">
+            <div className="space-y-4">
               {tutorials.map((tut, idx) => (
-                <li
+                <div
                   key={idx}
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">{t('mfgAcademy.step')} {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
-                </li>
+                </div>
               ))}
-            </ol>
+            </div>
             {/* Recipe Card Display at Bottom (matching MyCookBook RecipeCard layout) */}
             <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
               <button
@@ -477,7 +477,7 @@ const MfgAcademy = () => {
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">{t('mfgAcademy.step')} {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
                 </li>
               ))}
