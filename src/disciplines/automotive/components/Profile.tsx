@@ -1846,294 +1846,120 @@ Automated calculations and formulas would be present`;
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 />
               </div>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Reports Modal */}
-      {showReportsModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
-            <div className="flex justify-between items-center mb-4">
-              <div></div>
-              <h2 className="text-2xl font-bold text-maineBlue text-center">Culinary Education Reports</h2>
-              <button
-                onClick={() => setShowReportsModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
-            </div>
-            
-            {/* Navigation Header */}
-            <div className="flex items-center justify-between mb-4">
-              <button
-                onClick={prevReport}
-                className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm"
-              >
-                <span className="text-lg mr-1">←</span>
-                Prev
-              </button>
-              
               <div className="text-center">
-                <h3 className="text-lg font-bold text-gray-800">{reportCategories[currentReportIndex].title}</h3>
-                <p className="text-sm text-gray-500">
-                  {currentReportIndex + 1} of {reportCategories.length}
+                <p className="text-gray-600 mb-4">
+                  Master the techniques shown in this tutorial to unlock your full automotive potential!
                 </p>
-              </div>
-              
-              <button
-                onClick={nextReport}
-                className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm"
-              >
-                Next
-                <span className="text-lg ml-1">→</span>
-              </button>
-            </div>
-            
-            {/* Two Reports Content */}
-            <div className="flex-1 overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                {reportCategories[currentReportIndex].reports.map((report, index) => (
-                  <ReportCard
-                    key={index}
-                    title={report.title}
-                    description={report.description}
-                    metrics={report.metrics}
-                    color={report.color}
-                  />
-                ))}
-              </div>
-            </div>
-            
-            {/* Progress Dots */}
-            <div className="flex justify-center mt-3 space-x-2">
-              {reportCategories.map((_, index) => (
                 <button
-                  key={index}
-                  onClick={() => setCurrentReportIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentReportIndex ? 'bg-maineBlue' : 'bg-gray-300 hover:bg-gray-400'
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Generate Report Modal */}
-      {showGenerateModal && selectedReport && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-3xl w-full overflow-hidden flex flex-col">
-            <div className="flex justify-between items-center p-4 pb-3">
-              <div></div>
-              <h2 className="text-2xl font-bold text-maineBlue">Generate Report</h2>
-              <button
-                onClick={() => setShowGenerateModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
-              >
-                ×
-              </button>
-            </div>
-            
-            {/* Report Info */}
-            <div className="px-4 pb-3 text-center">
-              <h3 className="text-xl font-bold text-gray-800 mb-2">{selectedReport.title}</h3>
-              <p className="text-gray-600">{selectedReport.description}</p>
-            </div>
-            
-            {/* Main Content - Side by Side Layout */}
-            <div className="px-4 pb-4">
-              <div className="flex gap-4 items-start">
-                {/* Left Side - Filters */}
-                <div className="w-56 bg-white border-4 border-blue-400 rounded-lg p-3 h-full">
-                  <h4 className="font-bold text-gray-800 mb-3 text-sm text-center">🎯 Report Filters</h4>
-                  <div className="space-y-3 flex-1">
-                    {/* User Role Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        👤 User Role
-                      </label>
-                      <select 
-                        value={selectedUserRole}
-                        onChange={(e) => setSelectedUserRole(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                      >
-                        {filterOptions.userRoles.map(role => (
-                          <option key={role.value} value={role.value}>
-                            {role.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Class Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        📚 Class/Course
-                      </label>
-                      <select 
-                        value={selectedClass}
-                        onChange={(e) => setSelectedClass(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                      >
-                        {filterOptions.classes.map(cls => (
-                          <option key={cls.value} value={cls.value}>
-                            {cls.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Time Range Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        📅 Time Range
-                      </label>
-                      <select 
-                        value={selectedTimeRange}
-                        onChange={(e) => setSelectedTimeRange(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                      >
-                        {filterOptions.timeRanges.map(range => (
-                          <option key={range.value} value={range.value}>
-                            {range.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Student Segment Filter */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        👥 Student Segment
-                      </label>
-                      <select 
-                        value={selectedStudentSegment}
-                        onChange={(e) => setSelectedStudentSegment(e.target.value)}
-                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                      >
-                        {filterOptions.studentSegments.map(segment => (
-                          <option key={segment.value} value={segment.value}>
-                            {segment.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Quick Presets */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        ⚡ Quick Presets
-                      </label>
-                      <div className="space-y-2">
-                        <button 
-                          onClick={() => {
-                            setSelectedUserRole('administrator');
-                            setSelectedClass('all');
-                            setSelectedTimeRange('semester');
-                            setSelectedStudentSegment('all');
-                          }}
-                          className="w-full text-left px-3 py-2 text-xs bg-blue-100 hover:bg-blue-200 rounded transition-colors border border-blue-300"
-                        >
-                          📊 Executive Overview
-                        </button>
-                        <button 
-                          onClick={() => {
-                            setSelectedUserRole('instructor');
-                            setSelectedClass('fundamentals');
-                            setSelectedTimeRange('30days');
-                            setSelectedStudentSegment('struggling');
-                          }}
-                          className="w-full text-left px-3 py-2 text-xs bg-orange-100 hover:bg-orange-200 rounded transition-colors border border-orange-300"
-                        >
-                          🎯 At-Risk Students
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Side - Download Options */}
-                <div className="flex-1">
-                  <div className="space-y-3">
-                    {/* CSV Download */}
-                    <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 text-center">
-                      <div className="text-2xl mb-2">📊</div>
-                      <h4 className="font-bold text-green-800 mb-1 text-sm">CSV Format</h4>
-                      <p className="text-xs text-gray-600 mb-3">Raw data for analysis</p>
-                      <button 
-                        onClick={() => handleDownload('csv')}
-                        className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition-colors text-xs w-full border border-black"
-                      >
-                        Download CSV
-                      </button>
-                    </div>
-                    
-                    {/* PDF Download */}
-                    <div className="bg-red-50 border-4 border-red-400 rounded-lg p-3 text-center">
-                      <div className="text-2xl mb-2">📄</div>
-                      <h4 className="font-bold text-red-800 mb-1 text-sm">PDF Report</h4>
-                      <p className="text-xs text-gray-600 mb-3">Formatted report</p>
-                      <button 
-                        onClick={() => handleDownload('pdf')}
-                        className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition-colors text-xs w-full border border-black"
-                      >
-                        Download PDF
-                      </button>
-                    </div>
-                    
-                    {/* Excel Download */}
-                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 text-center">
-                      <div className="text-2xl mb-2">📈</div>
-                      <h4 className="font-bold text-blue-800 mb-1 text-sm">Excel Format</h4>
-                      <p className="text-xs text-gray-600 mb-3">Spreadsheet data</p>
-                      <button 
-                        onClick={() => handleDownload('xlsx')}
-                        className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition-colors text-xs w-full border border-black"
-                      >
-                        Download Excel
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Close Button */}
-              <div className="flex justify-end mt-4">
-                <button 
-                  onClick={() => setShowGenerateModal(false)}
-                  className="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700 transition-colors text-sm border border-black"
+                  onClick={() => {
+                    setTutorialModalOpen(false);
+                    setCurrentTutorial(null);
+                  }}
+                  className="px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold"
                 >
-                  {t('profile.close')}
+                  {t('profile.close')} Tutorial
                 </button>
               </div>
             </div>
           </div>
-        </div>
-      )}
-
-        {/* Footer with Terms of Service link */}
-        <footer className="mt-8 text-center text-sm text-gray-500 py-4 border-t border-gray-200">
-          <p>&copy; {new Date().getFullYear()} Porkchop. All rights reserved.</p>
-          <button 
-            onClick={() => setTermsModalOpen(true)}
-            className="text-maineBlue hover:underline mt-1"
-          >
-            Terms of Service & Privacy Policy
-          </button>
-        </footer>
+        )}
+        
+        {/* Talent Tree Modal - Responsive */}
+        {selectedTalentTree && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4 sm:mb-6">
+                <div className="flex-1"></div>
+                <div className="flex items-center gap-2 sm:gap-3">
+                  {selectedTalentTree === 'Engine Master' && <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                  {selectedTalentTree === 'Electronics Expert' && <SparklesIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                  {selectedTalentTree === 'Transmission Specialist' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                  <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
+                    {selectedTalentTree}
+                  </h2>
+                </div>
+                <button
+                  onClick={() => setSelectedTalentTree(null)}
+                  className="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl font-bold flex-1 text-right"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                {talentTrees[selectedTalentTree as keyof typeof talentTrees]?.map(talent => {
+                  const xp = userProfile?.xp || 0;
+                  // Use the corrected level calculation instead of the old one
+                  const { level } = getCorrectXPProgress(xp);
+                  const unlocked = level >= talent.unlockLevel;
+                  const selected = selectedTalents.includes(talent.name);
+                  const Icon = talent.icon;
+                  
+                  return (
+                    <button
+                      key={talent.name}
+                      onClick={(e) => handleSelectTalent(talent.name, e.button === 2)}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        handleSelectTalent(talent.name, true);
+                      }}
+                      disabled={!unlocked}
+                      className={`relative group p-3 sm:p-4 rounded-lg transition-all border border-black min-h-[100px] sm:min-h-[120px] flex flex-col items-center justify-center text-center ${
+                        unlocked
+                          ? selected
+                            ? 'bg-maineBlue text-seafoam shadow-md'
+                            : 'bg-gray-50 hover:bg-seafoam hover:text-maineBlue'
+                          : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      }`}
+                    >
+                      <Icon className={`w-6 h-6 sm:w-8 sm:h-8 mb-2 ${
+                        !unlocked 
+                          ? 'opacity-40 grayscale' 
+                          : selected
+                            ? 'text-seafoam'
+                            : selectedTalentTree === 'Engine Master'
+                              ? 'text-orange-500'
+                              : selectedTalentTree === 'Electronics Expert'
+                                ? 'text-blue-500'
+                                : 'text-green-500'
+                      }`} />
+                      <div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
+                      <div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
+                      {!unlocked && (
+                        <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
+                      )}
+                      {selected && (
+                        <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
+                      )}
+                      {selected && (
+                        <div className="flex gap-1">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              // Add talent to unlocked list
+                              if (!unlockedTalents.includes(talent.name)) {
+                                setUnlockedTalents([...unlockedTalents, talent.name]);
+                                console.log(`Unlocked ${talent.name}`);
+                              }
+                            }}
+                            className={`text-xs px-2 py-1 rounded transition-colors font-medium ${
+                              unlockedTalents.includes(talent.name)
+                                ? 'bg-green-500 text-white hover:bg-green-600'
+                                : 'bg-yellow-500 text-white hover:bg-yellow-600'
+                            }`}
+                          >
+                            {unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
+                          </button>
+                        </div>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-      {/* END SCROLLABLE CONTENT AREA */}
-      
-      {/* Terms Modal */}
-      <TermsModal 
-        open={termsModalOpen} 
-        onClose={() => setTermsModalOpen(false)} 
-        content={termsContent} 
-      />
     </div>
   );
 };
