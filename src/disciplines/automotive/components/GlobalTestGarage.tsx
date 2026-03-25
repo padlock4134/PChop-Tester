@@ -183,13 +183,13 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {
     if (!user) {
-      alert(t('chefsCorner.globalTestKitchen.pleaseLogInReport'));
+      alert(t('gearheadLounge.globalTestKitchen.pleaseLogInReport'));
       return;
     }
 
-    const reportReason = reason || prompt(t('chefsCorner.globalTestKitchen.describeIssue')) || 'General report';
+    const reportReason = reason || prompt(t('gearheadLounge.globalTestKitchen.describeIssue')) || 'General report';
     
-    if (confirm(t('chefsCorner.globalTestKitchen.reportSession'))) {
+    if (confirm(t('gearheadLounge.globalTestKitchen.reportSession'))) {
       try {
         // Log report to database for admin dashboard
         const { error } = await supabase
@@ -204,14 +204,14 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
 
         if (error) {
           console.error('Error logging report:', error);
-          alert(t('chefsCorner.globalTestKitchen.failedToReport'));
+          alert(t('gearheadLounge.globalTestKitchen.failedToReport'));
         } else {
           // Log the report activity for admin dashboard
           logUserActivity('session_reported', { 
             session_id: sessionId || currentLiveSession?.id, 
             reason: reportReason 
           });
-          alert(t('chefsCorner.globalTestKitchen.thankYouReport'));
+          alert(t('gearheadLounge.globalTestKitchen.thankYouReport'));
         }
       } catch (error) {
         console.error('Error submitting report:', error);
@@ -222,7 +222,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
 
   const handleScheduleSession = async () => {
     if (!user) {
-      alert(t('chefsCorner.globalTestKitchen.pleaseLogInSchedule'));
+      alert(t('gearheadLounge.globalTestKitchen.pleaseLogInSchedule'));
       return;
     }
 
@@ -246,7 +246,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
 
         if (error) {
           console.error('Error saving session:', error);
-          alert(t('chefsCorner.globalTestKitchen.failedToSchedule').replace('{error}', error.message));
+          alert(t('gearheadLounge.globalTestKitchen.failedToSchedule').replace('{error}', error.message));
           return;
         }
 
@@ -263,7 +263,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
         // Add to local state for immediate UI update
         const newSession: UpcomingSession = {
           id: data.id,
-          hostName: t('chefsCorner.globalTestKitchen.you'),
+          hostName: t('gearheadLounge.globalTestKitchen.you'),
           serviceName: scheduledDishName,
           vehicleType: scheduledCuisine,
           scheduledTime: `${scheduledDate} at ${scheduledTime}`,
@@ -289,7 +289,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
         
       } catch (error) {
         console.error('Error scheduling session:', error);
-        alert(t('chefsCorner.globalTestKitchen.failedToScheduleGeneric'));
+        alert(t('gearheadLounge.globalTestKitchen.failedToScheduleGeneric'));
       }
     }
   };
@@ -350,7 +350,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
         // Convert database format to component format
         const sessions: UpcomingSession[] = data.map((session: any) => ({
           id: session.id,
-          hostName: t('chefsCorner.globalTestKitchen.you'),
+          hostName: t('gearheadLounge.globalTestKitchen.you'),
           serviceName: session.dish_name,
           vehicleType: session.cuisine,
           scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
@@ -499,7 +499,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
 
       if (error) {
         console.error('Upload error details:', error);
-        alert(t('chefsCorner.globalTestKitchen.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
+        alert(t('gearheadLounge.globalTestKitchen.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
         setIsSaving(false);
         return;
       }
@@ -518,7 +518,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('chefsCorner.globalTestKitchen.failedToSaveVideoGeneric'));
+      alert(t('gearheadLounge.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
       setSaveConfirmModalOpen(false);
@@ -584,7 +584,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
 
       if (error) {
         console.error('Upload error:', error);
-        alert(t('chefsCorner.globalTestKitchen.failedToSaveVideoGeneric'));
+        alert(t('gearheadLounge.globalTestKitchen.failedToSaveVideoGeneric'));
         return;
       }
 
@@ -596,7 +596,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('chefsCorner.globalTestKitchen.failedToSaveVideoGeneric'));
+      alert(t('gearheadLounge.globalTestKitchen.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
     }
@@ -716,13 +716,13 @@ END:VCALENDAR`;
       <div className="p-4 bg-red-500 text-white font-retro text-center">
         <h2 className="text-xl flex items-center justify-center">
           <span className="text-2xl mr-2">🌍</span>
-          {t('chefsCorner.globalTestKitchen.title')}
+          {t('gearheadLounge.globalTestKitchen.title')}
         </h2>
       </div>
       
       <div className="p-4">
         <p className="text-sm text-gray-600 text-center mb-4">
-          {t('chefsCorner.globalTestKitchen.subtitle')}
+          {t('gearheadLounge.globalTestKitchen.subtitle')}
         </p>
 
         {/* Tab Navigation */}
@@ -735,7 +735,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🔴 {t('chefsCorner.globalTestKitchen.live')}
+            🔴 {t('gearheadLounge.globalTestKitchen.live')}
           </button>
           <button
             onClick={() => setActiveTab('upcoming')}
@@ -745,7 +745,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            📅 {t('chefsCorner.globalTestKitchen.upcoming')}
+            📅 {t('gearheadLounge.globalTestKitchen.upcoming')}
           </button>
           <button
             onClick={() => setActiveTab('host')}
@@ -755,7 +755,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🎥 {t('chefsCorner.globalTestKitchen.host')}
+            🎥 {t('gearheadLounge.globalTestKitchen.host')}
           </button>
         </div>
 
@@ -765,8 +765,8 @@ END:VCALENDAR`;
           {liveSessions.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <VideoCameraIcon className="h-12 w-12 mx-auto mb-2 text-gray-300" />
-              <p>{t('chefsCorner.globalTestKitchen.noLiveSessions')}</p>
-              <p className="text-sm">{t('chefsCorner.globalTestKitchen.checkBackLater')}</p>
+              <p>{t('gearheadLounge.globalTestKitchen.noLiveSessions')}</p>
+              <p className="text-sm">{t('gearheadLounge.globalTestKitchen.checkBackLater')}</p>
             </div>
           ) : (
             liveSessions.map((session) => (
@@ -776,14 +776,14 @@ END:VCALENDAR`;
                     <span className="text-2xl mr-2">{session.thumbnail}</span>
                     <div>
                       <h3 className="font-semibold text-sm text-gray-900">{session.serviceName}</h3>
-                      <p className="text-xs text-gray-600">{t('chefsCorner.globalTestKitchen.by')} {session.hostName}</p>
+                      <p className="text-xs text-gray-600">{t('gearheadLounge.globalTestKitchen.by')} {session.hostName}</p>
                     </div>
                   </div>
                   <div className={`flex items-center text-xs ${session.isEnded ? 'text-gray-500' : 'text-red-600'}`}>
                     {session.isEnded ? (
                       <>
                         <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
-                        {t('chefsCorner.globalTestKitchen.ended')}
+                        {t('gearheadLounge.globalTestKitchen.ended')}
                       </>
                     ) : (
                       <>
@@ -799,7 +799,7 @@ END:VCALENDAR`;
                   <div className="flex items-center gap-2">
                     <div className="flex items-center text-xs text-gray-500">
                       <UserGroupIcon className="h-3 w-3 mr-1" />
-                      {session.viewers} {t('chefsCorner.globalTestKitchen.watching')}
+                      {session.viewers} {t('gearheadLounge.globalTestKitchen.watching')}
                     </div>
                     <button
                       onClick={() => !session.isEnded && joinLiveSession(session)}
@@ -812,7 +812,7 @@ END:VCALENDAR`;
                       }`}
                       disabled={session.isEnded}
                     >
-                      {session.isEnded ? t('chefsCorner.globalTestKitchen.ended') : t('chefsCorner.globalTestKitchen.join')}
+                      {session.isEnded ? t('gearheadLounge.globalTestKitchen.ended') : t('gearheadLounge.globalTestKitchen.join')}
                     </button>
                   </div>
                 </div>
@@ -830,7 +830,7 @@ END:VCALENDAR`;
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <h3 className="font-semibold text-sm text-gray-900">{session.serviceName}</h3>
-                  <p className="text-xs text-gray-600">{t('chefsCorner.globalTestKitchen.by')} {session.hostName}</p>
+                  <p className="text-xs text-gray-600">{t('gearheadLounge.globalTestKitchen.by')} {session.hostName}</p>
                 </div>
                 <span className="text-xs text-maineBlue font-medium">{session.scheduledTime}</span>
               </div>
@@ -840,10 +840,10 @@ END:VCALENDAR`;
                   <span className="text-xs text-gray-500">🌍 {session.vehicleType}</span>
                   {session.sessionType && (
                     <span className="text-xs bg-maineBlue text-white px-2 py-0.5 rounded-full">
-                      {session.sessionType === 'practice' && `🎯 ${t('chefsCorner.globalTestKitchen.practice')}`}
-                      {session.sessionType === 'assignment' && `📚 ${t('chefsCorner.globalTestKitchen.assignment')}`}
-                      {session.sessionType === 'demo' && `👨‍🏫 ${t('chefsCorner.globalTestKitchen.demo')}`}
-                      {session.sessionType === 'showcase' && `🏆 ${t('chefsCorner.globalTestKitchen.showcase')}`}
+                      {session.sessionType === 'practice' && `🎯 ${t('gearheadLounge.globalTestKitchen.practice')}`}
+                      {session.sessionType === 'assignment' && `📚 ${t('gearheadLounge.globalTestKitchen.assignment')}`}
+                      {session.sessionType === 'demo' && `👨‍🏫 ${t('gearheadLounge.globalTestKitchen.demo')}`}
+                      {session.sessionType === 'showcase' && `🏆 ${t('gearheadLounge.globalTestKitchen.showcase')}`}
                     </span>
                   )}
                 </div>
@@ -851,12 +851,12 @@ END:VCALENDAR`;
                   onClick={() => addToCalendar(session)}
                   className="text-xs text-maineBlue hover:underline flex items-center"
                 >
-                  📅 {t('chefsCorner.globalTestKitchen.addToCalendar')}
+                  📅 {t('gearheadLounge.globalTestKitchen.addToCalendar')}
                 </button>
               </div>
               {session.instructorTag && (
                 <div className="text-xs text-gray-600 mb-1">
-                  👨‍🏫 {t('chefsCorner.globalTestKitchen.for')} {session.instructorTag}
+                  👨‍🏫 {t('gearheadLounge.globalTestKitchen.for')} {session.instructorTag}
                 </div>
               )}
             </div>
@@ -883,13 +883,13 @@ END:VCALENDAR`;
               }}
               className="w-full bg-maineBlue text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              🔴 {t('chefsCorner.globalTestKitchen.goLiveNow')}
+              🔴 {t('gearheadLounge.globalTestKitchen.goLiveNow')}
             </button>
             <button 
               onClick={() => setScheduleModalOpen(true)}
               className="w-full border border-maineBlue text-maineBlue py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
             >
-              📅 {t('chefsCorner.globalTestKitchen.scheduleSession')}
+              📅 {t('gearheadLounge.globalTestKitchen.scheduleSession')}
             </button>
           </div>
 
@@ -920,7 +920,7 @@ END:VCALENDAR`;
             </button>
             
             <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              🔴 {t('chefsCorner.globalTestKitchen.goLiveNow')}
+              🔴 {t('gearheadLounge.globalTestKitchen.goLiveNow')}
             </h2>
             
             <div className="space-y-4">
@@ -967,7 +967,7 @@ END:VCALENDAR`;
                   onClick={() => setGoLiveModalOpen(false)}
                   className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                 >
-                  {t('chefsCorner.globalTestKitchen.cancel')}
+                  {t('gearheadLounge.globalTestKitchen.cancel')}
                 </button>
                 <button
                   onClick={() => {
@@ -976,7 +976,7 @@ END:VCALENDAR`;
                   }}
                   className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
                 >
-                  🔴 {t('chefsCorner.globalTestKitchen.startRecording')}
+                  🔴 {t('gearheadLounge.globalTestKitchen.startRecording')}
                 </button>
               </div>
             </div>
