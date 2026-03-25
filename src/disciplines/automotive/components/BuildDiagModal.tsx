@@ -164,7 +164,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
         <div className="p-6 flex-1 overflow-hidden flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-maineBlue font-retro">🍽️ {t('buildMenu.title')}</h2>
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">🔧 {t('buildMenu.title')}</h2>
             <button 
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -213,7 +213,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                         <div className="font-medium text-sm text-gray-900 truncate">{recipe.title}</div>
                         {recipe.ingredients && (
                           <div className="text-xs text-gray-400">
-                            {recipe.ingredients.length} ingredients
+                            {recipe.ingredients.length} parts
                           </div>
                         )}
                       </div>
@@ -225,7 +225,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
             {/* Right: Your Menu */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">🍽️ {t('buildMenu.yourMenu')}</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">🔧 {t('buildMenu.yourMenu')}</h3>
               {selectedRecipeIds.size === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <p className="text-gray-400 text-sm">{t('buildMenu.selectToStart')}</p>
@@ -244,7 +244,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                             <div className="font-medium text-gray-900">{idx + 1}. {recipe.title}</div>
                             {recipe.ingredients && (
                               <div className="text-xs text-gray-500 mt-1">
-                                {recipe.ingredients.length} ingredients needed
+                                {recipe.ingredients.length} parts needed
                               </div>
                             )}
                           </div>
