@@ -318,7 +318,7 @@ const StudentProgressDashboard: React.FC = () => {
                   <div className="flex-1 text-center">
                     <div className="text-sm text-red-800 transition-all duration-500">
                       <span>
-                        <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {t('dashboard.isCooking')}{' '}
+                        <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {t('dashboard.isRepairing')}{' '}
                         <strong>{activeLiveSessions[currentSessionIndex].serviceName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
                       </span>
                     </div>
