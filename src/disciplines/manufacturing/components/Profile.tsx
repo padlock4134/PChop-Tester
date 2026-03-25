@@ -25,8 +25,8 @@ type UserProfile = {
 const LEVEL_TITLES_AND_ICONS = [
   { title: "Novice Technician", icon: "🔧", level: 1 },
   { title: "Shop Assistant", icon: "⚙️", level: 2 },
-  { title: "Manufacturing Technician", icon: "🏭", level: 3 },
-  { title: "Manufacturing Expert", icon: "👨‍🏭", level: 4 },
+  { title: "Technician", icon: "🏭", level: 3 },
+  { title: "Expert", icon: "👨‍🏭", level: 4 },
   { title: "Master Engineer", icon: "🏆", level: 5 }
 ];
 
@@ -156,7 +156,7 @@ const EditProfileModal = ({
               }`}
             >
               <option value="">{t('profile.selectYourProgram')}</option>
-              <option value="Bachelors in Advanced Manufacturing">🎓 Bachelors in Advanced Manufacturing</option>
+              <option value="Bachelors in Advanced Engineering">🎓 Bachelors in Advanced Engineering</option>
               <option value="Associates in Aquaculture">🎓 {t('profile.associatesAquaculture')}</option>
             </select>
             {(user as any)?.program && (user as any).program !== '' && (
@@ -396,7 +396,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
     { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
     { id: 'uniform', name: 'Safety Gear/Workwear', icon: '👕', description: 'Request safety vests, hard hats, or work uniforms' },
     { id: 'tool_kit', name: 'Tool Kit Loaner', icon: '🔧', description: 'Request a loaner tool kit or replacement tools' },
-    { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request calipers, gauges, or other manufacturing equipment' },
+    { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request calipers, gauges, or other equipment' },
     { id: 'textbook', name: 'Manual/Materials', icon: '📚', description: 'Request technical manuals or course materials' },
     { id: 'workshop_access', name: 'Workshop Access', icon: '🔑', description: 'Request after-hours workshop/lab access' },
     { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
@@ -624,8 +624,8 @@ const Profile = () => {
     ],
     classes: [
       { value: 'all', label: 'All Classes' },
-      { value: 'fundamentals', label: 'Fundamentals of Manufacturing' },
-      { value: 'advanced_techniques', label: 'Advanced Manufacturing Techniques' },
+      { value: 'fundamentals', label: 'Fundamentals of Engineering' },
+      { value: 'advanced_techniques', label: 'Advanced Engineering Techniques' },
       { value: 'safety_compliance', label: 'Safety & Compliance' },
       { value: 'process_optimization', label: 'Process Optimization' },
       { value: 'cnc_programming', label: 'CNC Programming' },
@@ -681,7 +681,7 @@ const Profile = () => {
       { name: 'Setup Specialist', icon: FireIcon, unlockLevel: 42, description: 'Reduce machine setup time by 50%' },
       { name: 'Fixture Designer', icon: StarIcon, unlockLevel: 48, description: 'Create custom jigs and fixtures' },
       { name: 'Process Optimizer', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Maximize throughput and minimize waste' },
-      { name: 'Master Machinist', icon: TrophyIcon, unlockLevel: 60, description: 'Peak precision manufacturing expertise' },
+      { name: 'Master Machinist', icon: TrophyIcon, unlockLevel: 60, description: 'Peak precision expertise' },
     ],
     'Assembly Specialist': [
       { name: 'Torque Control', icon: FireIcon, unlockLevel: 10, description: 'Perfect fastener torque every time' },
@@ -716,7 +716,7 @@ const Profile = () => {
     {
       title: 'Student Progress',
       reports: [
-        { title: '📊 Skill Mastery Tracking', description: 'Monitor student progress in manufacturing skills and certifications', metrics: ['Tool handling progression', 'Manufacturing techniques proficiency', 'Safety certification', 'SOP completion rates'], color: 'blue' },
+        { title: '📊 Skill Mastery Tracking', description: 'Monitor student progress in skills and certifications', metrics: ['Tool handling progression', 'Techniques proficiency', 'Safety certification', 'SOP completion rates'], color: 'blue' },
         { title: '📈 Learning Analytics', description: 'Analyze engagement, quiz scores, and knowledge retention', metrics: ['Module time tracking', 'Quiz/test scores', 'Video engagement metrics', 'Knowledge retention rates'], color: 'indigo' }
       ]
     },
@@ -728,10 +728,10 @@ const Profile = () => {
       ]
     },
     {
-      title: 'Manufacturing Metrics',
+      title: 'Metrics',
       reports: [
-        { title: '⚙️ Process Performance', description: 'Analyze SOP success rates and manufacturing outcomes', metrics: ['SOP success rates', 'Common modifications', 'Material substitutions', 'Difficulty ratings'], color: 'orange' },
-        { title: '🔧 Technique Analysis', description: 'Track progress on specific manufacturing techniques and skills', metrics: ['Most challenging techniques', 'Common mistakes by technique', 'Time-to-proficiency metrics', 'Video replay frequency'], color: 'amber' }
+        { title: '⚙️ Process Performance', description: 'Analyze SOP success rates and outcomes', metrics: ['SOP success rates', 'Common modifications', 'Material substitutions', 'Difficulty ratings'], color: 'orange' },
+        { title: '🔧 Technique Analysis', description: 'Track progress on specific techniques and skills', metrics: ['Most challenging techniques', 'Common mistakes by technique', 'Time-to-proficiency metrics', 'Video replay frequency'], color: 'amber' }
       ]
     },
     {
@@ -861,8 +861,8 @@ const Profile = () => {
     doc.setFont('helvetica', 'normal'); // Reset to normal
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    const platformWidth = doc.getTextWidth(cleanText('Manufacturing Education Analytics Platform'));
-    doc.text(cleanText('Manufacturing Education Analytics Platform'), 105 - platformWidth/2, 48);
+    const platformWidth = doc.getTextWidth(cleanText('Education Analytics Platform'));
+    doc.text(cleanText('Education Analytics Platform'), 105 - platformWidth/2, 48);
     
     doc.setFontSize(7);
     doc.setTextColor(100, 100, 100);
@@ -1722,7 +1722,7 @@ Automated calculations and formulas would be present`;
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
                 <strong>Precision Machinist</strong>
-                <div className="mt-1">Master precision manufacturing with tight tolerances and advanced machining techniques.</div>
+                <div className="mt-1">Master precision with tight tolerances and advanced machining techniques.</div>
               </div>
             </button>
 
