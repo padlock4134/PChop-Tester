@@ -55,9 +55,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
   const navigate = useNavigate();
 
   const loadingMessages = [
-    t('recipeMatcher.loadingMessage1'),
-    t('recipeMatcher.loadingMessage2'),
-    t('recipeMatcher.loadingMessage3')
+    t('repairMatcher.loadingMessage1'),
+    t('repairMatcher.loadingMessage2'),
+    t('repairMatcher.loadingMessage3')
   ];
 
   // Timer effect for loading steps
@@ -96,15 +96,15 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
   function generateTutorials(recipe: RecipeCard) {
   return [
     {
-      title: `${t('recipeMatcher.equipmentUsing')} ${recipe.title}`,
-      desc: t('recipeMatcher.learnEquipment')
+      title: `${t('repairMatcher.equipmentUsing')} ${recipe.title}`,
+      desc: t('repairMatcher.learnEquipment')
     },
     {
-      title: t('recipeMatcher.proteinPrep'),
-      desc: t('recipeMatcher.howToPrepProtein')
+      title: t('repairMatcher.partsPrep'),
+      desc: t('repairMatcher.howToPrepParts')
     },
     {
-      title: `${t('recipeMatcher.recipe')} ${recipe.title}`,
+      title: `${t('repairMatcher.procedure')} ${recipe.title}`,
       desc: recipe.instructions
     }
   ];
@@ -149,17 +149,17 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('recipeMatcher.recipeMatcher'))}
+           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('repairMatcher.repairMatcher'))}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes')}</div>
+            <div className="text-lg font-retro mb-2">{t('repairMatcher.findingRecipes')}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
         ) : recipes.length === 0 || currentIdx >= recipes.length ? (
-          <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions')}<br/>{t('recipeMatcher.tryUpdatingCupboard')}</div>
+          <div className="text-center text-maineBlue font-bold py-10">{t('repairMatcher.noMoreSuggestions')}<br/>{t('repairMatcher.tryUpdatingVan')}</div>
         ) : (
           (() => {
             console.log('Procedure complianceTags:', recipes[currentIdx].complianceTags);
@@ -182,9 +182,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
                   {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">
@@ -199,10 +199,10 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
                     {isSaving ? '...' : '♥'}
                   </button>
                   <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {t('recipeMatcher.cookMe')}
+                    {t('repairMatcher.fixIt')}
                   </button>
                 </div>
-                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough')}</div>
+                <div className="text-xs mt-4 text-center text-gray-500">{t('repairMatcher.swipeThrough')}</div>
               </div>
             );
           })()
