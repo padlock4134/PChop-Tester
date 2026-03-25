@@ -323,9 +323,9 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   if (!open) return null;
   
   const currentClasses = [
-    { icon: '🔪', name: 'Knife Skills Fundamentals', instructor: 'Chef Martinez', time: 'Mon/Wed 9:00 AM' },
-    { icon: '🍲', name: 'Sauce Making Techniques', instructor: 'Chef Johnson', time: 'Tue/Thu 11:00 AM' },
-    { icon: '🧁', name: 'Baking & Pastry Arts', instructor: 'Chef Williams', time: 'Fri 1:00 PM' }
+    { icon: '🔧', name: 'Precision Machining Fundamentals', instructor: 'Mr. Martinez', time: 'Mon/Wed 9:00 AM' },
+    { icon: '⚙️', name: 'Assembly Line Techniques', instructor: 'Mr. Johnson', time: 'Tue/Thu 11:00 AM' },
+    { icon: '🏭', name: 'Quality Control Processes', instructor: 'Mr. Williams', time: 'Fri 1:00 PM' }
   ];
   
   return (
@@ -372,7 +372,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
               {t('profile.register')}
             </button>
             <button 
-              onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
+              onClick={() => window.open('mailto:instructors@manufacturinginstitute.edu?subject=Class Schedule Inquiry', '_blank')}
               className="bg-seafoam text-maineBlue px-8 py-3 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
             >
               {t('profile.contact')}
@@ -394,14 +394,15 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   const requestTypes = [
     { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
-    { id: 'uniform', name: 'Chef Uniform/Apron', icon: '👕', description: 'Request chef uniforms or aprons' },
-    { id: 'knife_kit', name: 'Knife Kit Loaner', icon: '🔪', description: 'Request a loaner knife kit or replacement' },
-    { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request thermometers, timers, or other equipment' },
-    { id: 'textbook', name: 'Textbook/Materials', icon: '📚', description: 'Request textbooks or course materials' },
-    { id: 'kitchen_access', name: 'Kitchen Access', icon: '🔑', description: 'Request after-hours kitchen/lab access' },
+    { id: 'uniform', name: 'Safety Gear/Workwear', icon: '👕', description: 'Request safety vests, hard hats, or work uniforms' },
+    { id: 'tool_kit', name: 'Tool Kit Loaner', icon: '🔧', description: 'Request a loaner tool kit or replacement tools' },
+    { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request calipers, gauges, or other manufacturing equipment' },
+    { id: 'textbook', name: 'Manual/Materials', icon: '📚', description: 'Request technical manuals or course materials' },
+    { id: 'workshop_access', name: 'Workshop Access', icon: '🔑', description: 'Request after-hours workshop/lab access' },
     { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
     { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' },
-    { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or dietary accommodations' },
+    { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or accessibility accommodations' },
+    { id: 'other', name: 'Other Request', icon: '📝', description: 'Other requests or inquiries' }
   ];
   
   const handleSubmit = () => {
@@ -509,11 +510,11 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
   if (!open) return null;
   
   const availableClasses = [
-    { name: 'Advanced Knife Skills', instructor: 'Chef Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
-    { name: 'International Cuisine', instructor: 'Chef Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
-    { name: 'Pastry Fundamentals', instructor: 'Chef Anderson', time: 'Fri 3:00 PM', spots: 6 },
-    { name: 'Food Safety Certification', instructor: 'Chef Thompson', time: 'Sat 9:00 AM', spots: 15 },
-    { name: 'Restaurant Management', instructor: 'Chef Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
+    { name: 'Advanced CNC Programming', instructor: 'Mr. Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
+    { name: 'Industrial Automation', instructor: 'Mr. Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
+    { name: 'Welding Fundamentals', instructor: 'Mr. Anderson', time: 'Fri 3:00 PM', spots: 6 },
+    { name: 'OSHA Safety Certification', instructor: 'Mr. Thompson', time: 'Sat 9:00 AM', spots: 15 },
+    { name: 'Production Management', instructor: 'Mr. Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
   ];
   
   return (
@@ -615,19 +616,20 @@ const Profile = () => {
     ],
     departments: [
       { value: 'all', label: 'All Departments' },
-      { value: 'culinary_arts', label: 'Culinary Arts' },
-      { value: 'baking_pastry', label: 'Baking & Pastry' },
-      { value: 'business', label: 'Culinary Business' },
-      { value: 'nutrition', label: 'Nutrition & Dietetics' }
+      { value: 'precision_machining', label: 'Precision Machining' },
+      { value: 'assembly_production', label: 'Assembly & Production' },
+      { value: 'quality_control', label: 'Quality Control' },
+      { value: 'industrial_automation', label: 'Industrial Automation' },
+      { value: 'welding_fabrication', label: 'Welding & Fabrication' }
     ],
     classes: [
       { value: 'all', label: 'All Classes' },
-      { value: 'fundamentals', label: 'Fundamentals of Cooking' },
-      { value: 'advanced_techniques', label: 'Advanced Culinary Techniques' },
-      { value: 'food_safety', label: 'Food Safety & Sanitation' },
-      { value: 'menu_planning', label: 'Menu Planning & Costing' },
-      { value: 'baking_basics', label: 'Baking Fundamentals' },
-      { value: 'pastry_arts', label: 'Advanced Pastry Arts' }
+      { value: 'fundamentals', label: 'Fundamentals of Manufacturing' },
+      { value: 'advanced_techniques', label: 'Advanced Manufacturing Techniques' },
+      { value: 'safety_compliance', label: 'Safety & Compliance' },
+      { value: 'process_optimization', label: 'Process Optimization' },
+      { value: 'cnc_programming', label: 'CNC Programming' },
+      { value: 'quality_assurance', label: 'Quality Assurance' }
     ],
     timeRanges: [
       { value: '7days', label: 'Last 7 Days' },
@@ -714,7 +716,7 @@ const Profile = () => {
     {
       title: 'Student Progress',
       reports: [
-        { title: '📊 Skill Mastery Tracking', description: 'Monitor student progress in culinary skills and certifications', metrics: ['Knife skills progression', 'Cooking techniques proficiency', 'Food safety certification', 'Recipe completion rates'], color: 'blue' },
+        { title: '📊 Skill Mastery Tracking', description: 'Monitor student progress in manufacturing skills and certifications', metrics: ['Tool handling progression', 'Manufacturing techniques proficiency', 'Safety certification', 'SOP completion rates'], color: 'blue' },
         { title: '📈 Learning Analytics', description: 'Analyze engagement, quiz scores, and knowledge retention', metrics: ['Module time tracking', 'Quiz/test scores', 'Video engagement metrics', 'Knowledge retention rates'], color: 'indigo' }
       ]
     },
@@ -722,21 +724,21 @@ const Profile = () => {
       title: 'Class Analytics',
       reports: [
         { title: '👥 Class Performance', description: 'View class scores, completion rates, and knowledge gaps', metrics: ['Average scores by module', 'Completion rates by demographic', 'Common knowledge gaps', 'Assignment submission timeliness'], color: 'green' },
-        { title: '🎤 Live Session Metrics', description: 'Track attendance and engagement in live cooking sessions', metrics: ['Attendance rates', 'Participation levels', 'Q&A engagement', 'Session feedback scores'], color: 'teal' }
+        { title: '🎤 Live Session Metrics', description: 'Track attendance and engagement in live workshop sessions', metrics: ['Attendance rates', 'Participation levels', 'Q&A engagement', 'Session feedback scores'], color: 'teal' }
       ]
     },
     {
-      title: 'Culinary Metrics',
+      title: 'Manufacturing Metrics',
       reports: [
-        { title: '🍳 Recipe Performance', description: 'Analyze recipe success rates and cooking outcomes', metrics: ['Recipe success rates', 'Common modifications', 'Ingredient substitutions', 'Difficulty ratings'], color: 'orange' },
-        { title: '🔪 Technique Analysis', description: 'Track progress on specific culinary techniques and skills', metrics: ['Most challenging techniques', 'Common mistakes by technique', 'Time-to-proficiency metrics', 'Video replay frequency'], color: 'amber' }
+        { title: '⚙️ Process Performance', description: 'Analyze SOP success rates and manufacturing outcomes', metrics: ['SOP success rates', 'Common modifications', 'Material substitutions', 'Difficulty ratings'], color: 'orange' },
+        { title: '🔧 Technique Analysis', description: 'Track progress on specific manufacturing techniques and skills', metrics: ['Most challenging techniques', 'Common mistakes by technique', 'Time-to-proficiency metrics', 'Video replay frequency'], color: 'amber' }
       ]
     },
     {
       title: 'Operations',
       reports: [
-        { title: '🏪 Kitchen Management', description: 'Monitor equipment usage and operational efficiency', metrics: ['Equipment usage statistics', 'Ingredient waste tracking', 'Inventory management', 'Equipment maintenance'], color: 'purple' },
-        { title: '🛡️ Safety & Compliance', description: 'Track food safety violations and compliance metrics', metrics: ['Food safety violations', 'Sanitation check completion', 'Incident reports', 'Allergy compliance tracking'], color: 'red' }
+        { title: '🏭 Workshop Management', description: 'Monitor equipment usage and operational efficiency', metrics: ['Equipment usage statistics', 'Material waste tracking', 'Inventory management', 'Equipment maintenance'], color: 'purple' },
+        { title: '🛡️ Safety & Compliance', description: 'Track safety violations and compliance metrics', metrics: ['Safety violations', 'Inspection check completion', 'Incident reports', 'Compliance tracking'], color: 'red' }
       ]
     },
     {
@@ -768,9 +770,9 @@ const Profile = () => {
       '📈 Learning Analytics': 'learning-analytics',
       '👥 Class Performance': 'class-performance',
       '🎤 Live Session Metrics': 'live-session-metrics',
-      '🍳 Recipe Performance': 'recipe-performance',
-      '🔪 Technique Analysis': 'technique-analysis',
-      '🏪 Kitchen Management': 'kitchen-management',
+      '⚙️ Process Performance': 'process-performance',
+      '🔧 Technique Analysis': 'technique-analysis',
+      '🏭 Workshop Management': 'workshop-management',
       '🛡️ Safety & Compliance': 'safety-compliance',
       '📱 Platform Usage': 'platform-usage',
       '👥 Community Engagement': 'community-engagement'
@@ -859,8 +861,8 @@ const Profile = () => {
     doc.setFont('helvetica', 'normal'); // Reset to normal
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    const platformWidth = doc.getTextWidth(cleanText('Culinary Education Analytics Platform'));
-    doc.text(cleanText('Culinary Education Analytics Platform'), 105 - platformWidth/2, 48);
+    const platformWidth = doc.getTextWidth(cleanText('Manufacturing Education Analytics Platform'));
+    doc.text(cleanText('Manufacturing Education Analytics Platform'), 105 - platformWidth/2, 48);
     
     doc.setFontSize(7);
     doc.setTextColor(100, 100, 100);
