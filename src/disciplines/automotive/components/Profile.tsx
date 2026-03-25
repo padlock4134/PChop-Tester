@@ -564,7 +564,6 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
         {/* Scrollable Content */}
         <div className="overflow-y-auto p-6 pt-4">
           <div className="mb-6">
-          <h3 className="text-lg font-bold text-gray-700 mb-4 text-center">{t('profile.selectRequestType')}</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {requestTypes.map((type) => (
               <button
