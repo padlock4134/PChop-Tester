@@ -1742,451 +1742,110 @@ Automated calculations and formulas would be present`;
               <div>Specialist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
+                <strong>Transmission Specialist</strong>
+                <div className="mt-1">Expert in transmission systems</div>
+              </div>
+            </button>
+          </div>
+          )}
 
-</div>
-)}
-
-{/* Right side - Action Buttons */}
-<div className="flex flex-col gap-3 w-full lg:w-auto">
-<button
-onClick={() => setModalOpen(true)}
-className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
->
-{t('profile.editProfile')}
-</button>
-<button
-onClick={() => setShowClassScheduleModal(true)}
-className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
->
-{t('profile.classScheduleButton')}
-</button>
-<button
-onClick={() => setShowRequestsModal(true)}
-className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
->
-{t('profile.submitRequestButton')}
-</button>
-<button
-onClick={handleLogout}
-className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
->
-{t('profile.signOut')}
-</button>
-</div>
-</div>
-  
-{/* Modals */}
-<EditProfileModal 
-open={modalOpen} 
-onClose={() => setModalOpen(false)} 
-user={userProfile}
-onProfileUpdated={(updatedUser) => {
-setUserProfile(updatedUser);
-setModalOpen(false);
-}}
-/>
-  
-<PaymentModal
-open={showUpgradeModal}
-onClose={() => setShowUpgradeModal(false)}
-userId={user?.id || ''}
-plan="monthly"
-/>
-  
-<ClassScheduleModal
-open={showClassScheduleModal}
-onClose={() => setShowClassScheduleModal(false)}
-onOpenRegistration={() => setShowClassRegistrationModal(true)}
-/>
-  
-<ClassRegistrationModal
-open={showClassRegistrationModal}
-onClose={() => setShowClassRegistrationModal(false)}
-/>
-  
-<RequestsModal
-open={showRequestsModal}
-onClose={() => setShowRequestsModal(false)}
-/>
-  
-<TermsModal
-open={termsModalOpen}
-onClose={() => setTermsModalOpen(false)}
-content={termsContent}
-/>
-
-{/* Talent Tutorial Modal */}
-{tutorialModalOpen && currentTutorial && (
-<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
-<div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
-<button
-onClick={() => {
-setTutorialModalOpen(false);
-setCurrentTutorial(null);
-}}
-className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
-aria-label="Close"
->
-×
-</button>
-  
-<h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-{currentTutorial.name} Tutorial
-</h2>
-  
-<div className="aspect-video mb-4">
-<iframe
-src={currentTutorial.videoUrl}
-title={`${currentTutorial.name} Tutorial`}
-className="w-full h-full rounded-lg border border-gray-300"
-allowFullScreen
-allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-/>
-</div>
-  
-<div className="text-center">
-<p className="text-gray-600 mb-4">
-Master the techniques shown in this tutorial to unlock your full culinary potential!
-</p>
-<button
-onClick={() => {
-setTutorialModalOpen(false);
-setCurrentTutorial(null);
-}}
-className="px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold"
->
-{t('profile.close')} Tutorial
-</button>
-</div>
-</div>
-</div>
-)}
-  
-{/* Talent Tree Modal - Responsive */}
-{selectedTalentTree && (
-<div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-<div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-<div className="flex justify-between items-center mb-4 sm:mb-6">
-<div className="flex-1"></div>
-<div className="flex items-center gap-2 sm:gap-3">
-{selectedTalentTree === 'Engine Master' && <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-{selectedTalentTree === 'Electronics Expert' && <SparklesIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-{selectedTalentTree === 'Transmission Specialist' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-<h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-{selectedTalentTree}
-</h2>
-</div>
-<button
-onClick={() => setSelectedTalentTree(null)}
-className="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl font-bold flex-1 text-right"
->
-×
-</button>
-</div>
-  
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-{talentTrees[selectedTalentTree]?.map(talent => {
-const xp = userProfile?.xp || 0;
-// Use the corrected level calculation instead of the old one
-const { level } = getCorrectXPProgress(xp);
-const unlocked = level >= talent.unlockLevel;
-const selected = selectedTalents.includes(talent.name);
-const Icon = talent.icon;
-  
-return (
-<button
-key={talent.name}
-onClick={(e) => handleSelectTalent(talent.name, e.button === 2)}
-onContextMenu={(e) => {
-e.preventDefault();
-handleSelectTalent(talent.name, true);
-}}
-disabled={!unlocked}
-className={`relative group p-3 sm:p-4 rounded-lg transition-all border border-black min-h-[100px] sm:min-h-[120px] flex flex-col items-center justify-center text-center ${
-unlocked
-? selected
-? 'bg-maineBlue text-seafoam shadow-md'
-: 'bg-gray-50 hover:bg-seafoam hover:text-maineBlue'
-: 'bg-gray-100 text-gray-400 cursor-not-allowed'
-}`}
->
-<Icon className={`w-6 h-6 sm:w-8 sm:h-8 mb-2 ${
-!unlocked 
-? 'opacity-40 grayscale' 
-: selected
-? 'text-seafoam'
-: selectedTalentTree === 'Engine Master'
-? 'text-orange-500'
-: selectedTalentTree === 'Electronics Expert'
-? 'text-blue-500'
-: 'text-green-500'
-}`} />
-<div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
-<div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
-{!unlocked && (
-<div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
-)}
-{selected && (
-<div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
-)}
-{selected && (
-<div className="flex gap-1">
-<button
-onClick={(e) => {
-e.stopPropagation();
-// Add talent to unlocked list
-if (!unlockedTalents.includes(talent.name)) {
-setUnlockedTalents([...unlockedTalents, talent.name]);
-console.log(`Unlocked ${talent.name}`);
-}
-}}
-className={`text-xs px-2 py-1 rounded transition-colors font-medium ${
-unlockedTalents.includes(talent.name)
-? 'bg-green-500 text-white hover:bg-green-600'
-: 'bg-yellow-500 text-white hover:bg-yellow-600'
-}`}
->
-{unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
-</button>
-</div>
-)}
-</button>
-);
-})}
-</div>
-</div>
-</div>
-)}
-            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
-          >
-            {t('profile.classScheduleButton')}
-          </button>
-          <button
-            onClick={() => setShowRequestsModal(true)}
-            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
-          >
-            {t('profile.submitRequestButton')}
-          </button>
-          <button
-            onClick={handleLogout}
-            className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
-          >
-            {t('profile.signOut')}
+          {/* Right side - Action Buttons */}
+          <div className="flex flex-col gap-3 w-full lg:w-auto">
+            <button
+              onClick={() => setModalOpen(true)}
+              className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+            >
+              {t('profile.editProfile')}
+            </button>
+            <button
+              onClick={() => setShowClassScheduleModal(true)}
+              className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+            >
+              {t('profile.classScheduleButton')}
+            </button>
+            <button
+              onClick={() => setShowRequestsModal(true)}
+              className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+            >
+              {t('profile.submitRequestButton')}
+            </button>
+            <button
+              onClick={handleLogout}
+              className="w-full lg:w-auto inline-block bg-sand text-gray-800 px-4 sm:px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors border border-gray-600 text-sm sm:text-base"
+            >
+              {t('profile.signOut')}
             </button>
           </div>
         </div>
-      
-      {/* Modals */}
-      <EditProfileModal 
-        open={modalOpen} 
-        onClose={() => setModalOpen(false)} 
-        user={userProfile}
-        onProfileUpdated={(updatedUser) => {
-          setUserProfile(updatedUser);
-          setModalOpen(false);
-        }}
-      />
-      
-      <PaymentModal
-        open={showUpgradeModal}
-        onClose={() => setShowUpgradeModal(false)}
-        userId={user?.id || ''}
-        plan="monthly"
-      />
-      
-      <ClassScheduleModal
-        open={showClassScheduleModal}
-        onClose={() => setShowClassScheduleModal(false)}
-        onOpenRegistration={() => setShowClassRegistrationModal(true)}
-      />
-      
-      <ClassRegistrationModal
-        open={showClassRegistrationModal}
-        onClose={() => setShowClassRegistrationModal(false)}
-      />
-      
-      <RequestsModal
-        open={showRequestsModal}
-        onClose={() => setShowRequestsModal(false)}
-      />
-      
-      <TermsModal
-        open={termsModalOpen}
-        onClose={() => setTermsModalOpen(false)}
-        content={termsContent}
-      />
 
-      {/* Talent Tutorial Modal */}
-      {tutorialModalOpen && currentTutorial && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
-            <button
-              onClick={() => {
-                setTutorialModalOpen(false);
-                setCurrentTutorial(null);
-              }}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
-              aria-label="Close"
-            >
-              ×
-            </button>
-            
-            <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              {currentTutorial.name} Tutorial
-            </h2>
-            
-            <div className="aspect-video mb-4">
-              <iframe
-                src={currentTutorial.videoUrl}
-                title={`${currentTutorial.name} Tutorial`}
-                className="w-full h-full rounded-lg border border-gray-300"
-                allowFullScreen
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              />
-            </div>
-            
-            <div className="text-center">
-              <p className="text-gray-600 mb-4">
-                Master the techniques shown in this tutorial to unlock your full culinary potential!
-              </p>
+        {/* Modals */}
+        <EditProfileModal 
+          open={modalOpen} 
+          onClose={() => setModalOpen(false)} 
+          user={userProfile}
+          onProfileUpdated={(updatedUser) => {
+            setUserProfile(updatedUser);
+            setModalOpen(false);
+          }}
+        />
+        
+        <PaymentModal
+          open={showUpgradeModal}
+          onClose={() => setShowUpgradeModal(false)}
+          userId={user?.id || ''}
+          plan="monthly"
+        />
+        
+        <ClassScheduleModal
+          open={showClassScheduleModal}
+          onClose={() => setShowClassScheduleModal(false)}
+          onOpenRegistration={() => setShowClassRegistrationModal(true)}
+        />
+        
+        <ClassRegistrationModal
+          open={showClassRegistrationModal}
+          onClose={() => setShowClassRegistrationModal(false)}
+        />
+        
+        <RequestsModal
+          open={showRequestsModal}
+          onClose={() => setShowRequestsModal(false)}
+        />
+        
+        <TermsModal
+          open={termsModalOpen}
+          onClose={() => setTermsModalOpen(false)}
+          content={termsContent}
+        />
+
+        {/* Talent Tutorial Modal */}
+        {tutorialModalOpen && currentTutorial && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
+            <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
               <button
                 onClick={() => {
                   setTutorialModalOpen(false);
                   setCurrentTutorial(null);
                 }}
-                className="px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold"
-              >
-                {t('profile.close')} Tutorial
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      {/* Talent Tree Modal - Responsive */}
-      {selectedTalentTree && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4 sm:mb-6">
-              <div className="flex-1"></div>
-              <div className="flex items-center gap-2 sm:gap-3">
-                {selectedTalentTree === 'Equipment' && <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-                {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-                {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? t('profile.talents.castIronChampion') : 
-                   selectedTalentTree === 'Techniques' ? t('profile.talents.grillingHeavyWeight') : t('profile.talents.bakingWarlock')}
-                </h2>
-              </div>
-              <button
-                onClick={() => setSelectedTalentTree(null)}
-                className="text-gray-500 hover:text-gray-700 text-xl sm:text-2xl font-bold flex-1 text-right"
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
+                aria-label="Close"
               >
                 ×
               </button>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {talentTrees[selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
-                           selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock']?.map(talent => {
-                const xp = userProfile?.xp || 0;
-                // Use the corrected level calculation instead of the old one
-                const { level } = getCorrectXPProgress(xp);
-                const unlocked = level >= talent.unlockLevel;
-                const selected = selectedTalents.includes(talent.name);
-                const Icon = talent.icon;
-                
-                return (
-                  <button
-                    key={talent.name}
-                    onClick={(e) => handleSelectTalent(talent.name, e.button === 2)}
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                      handleSelectTalent(talent.name, true);
-                    }}
-                    disabled={!unlocked}
-                    className={`relative group p-3 sm:p-4 rounded-lg transition-all border border-black min-h-[100px] sm:min-h-[120px] flex flex-col items-center justify-center text-center ${
-                      unlocked
-                        ? selected
-                          ? 'bg-maineBlue text-seafoam shadow-md'
-                          : 'bg-gray-50 hover:bg-seafoam hover:text-maineBlue'
-                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                    }`}
-                  >
-                    <Icon className={`w-6 h-6 sm:w-8 sm:h-8 mb-2 ${
-                      !unlocked 
-                        ? 'opacity-40 grayscale' 
-                        : selected
-                          ? 'text-seafoam'
-                          : selectedTalentTree === 'Equipment'
-                            ? 'text-orange-500'
-                            : selectedTalentTree === 'Techniques'
-                              ? 'text-red-500'
-                              : 'text-purple-500'
-                    }`} />
-                    <div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
-                    <div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
-                    {!unlocked && (
-                      <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
-                    )}
-                    {selected && (
-                      <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
-                    )}
-                    {selected && (
-                      <div className="flex gap-1">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // Add talent to unlocked list
-                            if (!unlockedTalents.includes(talent.name)) {
-                              setUnlockedTalents([...unlockedTalents, talent.name]);
-                              console.log(`Unlocked ${talent.name}`);
-                            }
-                          }}
-                          className={`text-xs px-2 py-1 rounded transition-colors font-medium ${
-                            unlockedTalents.includes(talent.name)
-                              ? 'bg-green-500 text-white hover:bg-green-600'
-                              : 'bg-yellow-500 text-white hover:bg-yellow-600'
-                          }`}
-                        >
-                          {unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // Open tutorial modal if unlocked
-                            if (unlockedTalents.includes(talent.name)) {
-                              setCurrentTutorial({
-                                name: talent.name,
-                                videoUrl: `https://www.youtube.com/embed/dQw4w9WgXcQ` // Placeholder video
-                              });
-                              setTutorialModalOpen(true);
-                            } else {
-                              console.log(`${talent.name} not unlocked yet!`);
-                            }
-                          }}
-                          disabled={!unlockedTalents.includes(talent.name)}
-                          className={`text-xs px-2 py-1 rounded transition-colors font-medium ${
-                            unlockedTalents.includes(talent.name)
-                              ? 'bg-red-500 text-white hover:bg-red-600'
-                              : 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                          }`}
-                        >
-                          📹 Tutorial
-                        </button>
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-            
-            <div className="mt-4 sm:mt-6 text-center">
-              <button
-                onClick={() => setSelectedTalentTree(null)}
-                className="px-4 sm:px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold text-sm sm:text-base"
-              >
-                {t('profile.close')}
+              
+              <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
+                {currentTutorial.name} Tutorial
+              </h2>
+              
+              <div className="aspect-video mb-4">
+                <iframe
+                  src={currentTutorial.videoUrl}
+                  title={`${currentTutorial.name} Tutorial`}
+                  className="w-full h-full rounded-lg border border-gray-300"
+                  allowFullScreen
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                />
+              </div>
               </button>
             </div>
           </div>
