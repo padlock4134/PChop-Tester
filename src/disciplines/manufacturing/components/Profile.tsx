@@ -1595,7 +1595,7 @@ Automated calculations and formulas would be present`;
       };
     }
     
-    const current = Math.max(0, totalXP - currentLevelXP);
+    const current = totalXP - currentLevelXP;
     const required = nextLevelXP - currentLevelXP;
     
     return { level, current, required };
