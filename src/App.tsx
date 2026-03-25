@@ -144,15 +144,15 @@ const HomeRedirect = () => {
     
     // If authenticated and user is loaded, preserve current page or redirect appropriately
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
-      // If user is on the root path, ALWAYS redirect to discipline selector first
+      // If user is on the root path, check for saved page and redirect appropriately
       if (location.pathname === '/' || location.pathname === '') {
-        // Check if user has a preferred page stored (but discipline selector takes priority)
-        const lastPage = localStorage.getItem('lastPage');
+        // Check both localStorage and sessionStorage for saved page
+        const lastPage = localStorage.getItem('lastPage') || sessionStorage.getItem('lastPath');
         if (lastPage && lastPage !== '/' && lastPage !== '' && lastPage !== '/select-discipline') {
           // Save the intended destination for after discipline selection
           localStorage.setItem('intendedDestination', lastPage);
         }
-        // ALWAYS go to discipline selector first, regardless of admin status
+        // Go to discipline selector first
         navigate('/select-discipline', { replace: true });
       }
       // If user is already on a specific page, don't redirect - let them stay there
@@ -284,6 +284,9 @@ const AppRoutes = () => {
   useEffect(() => {
     if (user && location.pathname !== '/' && location.pathname !== '') {
       localStorage.setItem('lastPage', location.pathname);
+      
+      // Also save to sessionStorage for more immediate persistence
+      sessionStorage.setItem('lastPath', location.pathname);
       
       // Clear any intended destination if user navigates directly to a discipline page
       if (location.pathname !== '/select-discipline' && location.pathname !== '/admin') {
