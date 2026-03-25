@@ -384,22 +384,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Setup</div>
               <p className="text-xs text-gray-700">Position your cutting board and gather ingredients</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Knife Grip</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Knife Grip</div>
               <p className="text-xs text-gray-700">Hold knife with proper pinch grip technique</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Cuts</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">First Cuts</div>
               <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Validation</div>
+              <div className="font-semibold text-sm text-gray-600 mb-1">Validation</div>
               <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
             </div>
           </div>

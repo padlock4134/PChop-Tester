@@ -34,7 +34,8 @@ function getDefaultTutorials() {
     },
     {
       title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.'
+      desc: 'How to prepare the main ingredient for this dish.',
+      type: 'cooking_tutorial'
     }
   ];
 }
@@ -250,14 +251,19 @@ const CulinarySchool = () => {
       query = `how to ${tut.techniqueData.title.toLowerCase()} cooking technique`;
     } else if (tut.type === 'cooking_tutorial') {
       // For cooking tutorials, focus on the recipe
-      const mainProtein = getMainProtein(recipe.ingredients || []);
-      const mainEquipment = getMainEquipment(recipe.equipment || []);
-      if (mainProtein && mainEquipment) {
-        query = `How to cook ${mainProtein} using ${mainEquipment}`;
-      } else if (mainProtein) {
-        query = `How to cook ${mainProtein}`;
+      if (recipe && recipe.title) {
+        const mainProtein = getMainProtein(recipe.ingredients || []);
+        const mainEquipment = getMainEquipment(recipe.equipment || []);
+        if (mainProtein && mainEquipment) {
+          query = `How to cook ${mainProtein} using ${mainEquipment}`;
+        } else if (mainProtein) {
+          query = `How to cook ${mainProtein}`;
+        } else {
+          query = `how to make ${recipe.title}`;
+        }
       } else {
-        query = `how to make ${recipe.title}`;
+        // Default cooking tutorial when no recipe selected
+        query = `basic cooking techniques tutorial`;
       }
     } else {
       // Legacy fallback for older tutorial formats
