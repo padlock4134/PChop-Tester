@@ -1599,7 +1599,7 @@ Automated calculations and formulas would be present`;
     const required = nextLevelXP - currentLevelXP;
     
     // Show positive progress instead of negative delta
-    const displayCurrent = Math.max(0, required + current); // current is negative, so required + current = earned amount
+    const displayCurrent = Math.max(0, current); // current should already be the earned amount
     const displayRequired = required;
     
     // FORCE THIS LOG TO SHOW
