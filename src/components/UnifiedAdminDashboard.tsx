@@ -1305,9 +1305,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               
               {/* Admin Toggle Button */}
               <button
-                onClick={toggleAdminMode}
+                onClick={() => {
+                  // Navigate to the selected discipline's dashboard
+                  const targetDiscipline = selectedDiscipline === 'total' 
+                    ? localStorage.getItem('adminSelectedDiscipline') || 'culinary'
+                    : selectedDiscipline;
+                  navigate(`/${targetDiscipline}/dashboard`);
+                }}
                 className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow"
-                title="Exit Admin Mode"
+                title="Exit Admin Mode - Go to Student Dashboard"
               >
                 Exit Admin Mode
               </button>
