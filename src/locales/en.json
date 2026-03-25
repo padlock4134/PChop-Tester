@@ -751,7 +751,7 @@
   },
   "cookingTimer": {
     "title": "Service Timer",
-    "servings": "Techs",
+    "servings": "Servings",
     "startTimer": "Start Timer",
     "pauseTimer": "Pause Timer",
     "resetTimer": "Reset Timer",
