@@ -3,45 +3,42 @@ import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
+import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
 import { supabase } from '../../culinary/api/supabaseClient';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
+import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 
-// Chef quotes (production-ready)
-const chefQuotes = [
-  { chef: 'Julia Child', quote: 'People who love to eat are always the best people.' },
-  { chef: 'Gordon Ramsay', quote: 'Cooking is about passion, so it may look slightly temperamental in a way that it\'s too assertive to the naked eye.' },
-  { chef: 'Alice Waters', quote: 'Let things taste of what they are.' },
-  { chef: 'Anthony Bourdain', quote: 'Your body is not a temple, it\'s an amusement park. Enjoy the ride.' },
-  { chef: 'Massimo Bottura', quote: 'Cooking is an act of love, a gift, a way of sharing with others the little secrets — "piccoli segreti" — that are simmering on the burners.' },
-  { chef: 'Thomas Keller', quote: 'A recipe has no soul. You as the cook must bring soul to the recipe.' },
-  { chef: 'Ina Garten', quote: 'Food is not about impressing people. It\'s about making them feel comfortable.' },
-  { chef: 'Ferran Adrià', quote: 'The more you know, the more you can create. There\'s no end to imagination in the kitchen.' },
-  { chef: 'Emeril Lagasse', quote: 'Kick it up a notch!' },
-  { chef: 'Wolfgang Puck', quote: 'Cooking is like painting or writing a song.' },
-  { chef: 'Rene Redzepi', quote: 'Innovation, being avant-garde, is always polemic.' },
-  { chef: 'Heston Blumenthal', quote: 'Question everything. No idea is a bad idea.' },
-  { chef: 'Alain Ducasse', quote: 'Cooking is a way of giving.' },
-  { chef: 'Rachel Ray', quote: 'Good food and a warm kitchen are what make a house a home.' },
-  { chef: 'Pierre Gagnaire', quote: 'Cooking is not difficult. Everyone has taste, even if they don\'t realize it.' },
-  { chef: 'Paul Bocuse', quote: 'Cooking is not just eating energy. It\'s an experience.' },
-  { chef: 'Joël Robuchon', quote: 'The simpler the food, the more exceptional it can be.' },
-  { chef: 'Marco Pierre White', quote: 'Mother Nature is the true artist and our job as cooks is to allow her to shine.' },
-  { chef: 'Jamie Oliver', quote: 'Real food doesn\'t have ingredients, real food is ingredients.' },
-  { chef: 'Nigella Lawson', quote: 'I have always believed that what goes on in the kitchen should stay in the kitchen.' }
+// Plumbing professional quotes (production-ready)
+const plumberQuotes = [
+  { professional: 'Mike Diamond', quote: 'The best time to fix a leak is before it starts.' },
+  { professional: 'Richard Trethewey', quote: 'Plumbing is not just about pipes, it\'s about people\'s lives.' },
+  { professional: 'Roger Wakefield', quote: 'A good plumber knows that the most important tool is the one between your ears.' },
+  { professional: 'Ed Del Grande', quote: 'Every job is a self-portrait of the person who did it.' },
+  { professional: 'Matt Muenster', quote: 'The difference between a good plumber and a great plumber is attention to detail.' },
+  { professional: 'Steve Berry', quote: 'Plumbing is the circulatory system of the home.' },
+  { professional: 'Roger Wakefield', quote: 'If you don\'t have time to do it right, when will you have time to do it over?' },
+  { professional: 'Mike Diamond', quote: 'In plumbing, you learn something new every day.' },
+  { professional: 'Richard Trethewey', quote: 'The customer doesn\'t care how much you know until they know how much you care.' },
+  { professional: 'Ed Del Grande', quote: 'Quality is remembered long after the price is forgotten.' },
+  { professional: 'Matt Muenster', quote: 'Measure twice, cut once. That\'s the plumber\'s motto.' },
+  { professional: 'Steve Berry', quote: 'There\'s no substitute for experience in this trade.' },
+  { professional: 'Roger Wakefield', quote: 'The problem isn\'t the problem. The problem is your attitude about the problem.' },
+  { professional: 'Mike Diamond', quote: 'Success is the sum of small efforts repeated day in and day out.' },
+  { professional: 'Richard Trethewey', quote: 'Excellence is not a skill. It is an attitude.' },
+  { professional: 'Ed Del Grande', quote: 'The only way to do great work is to love what you do.' },
+  { professional: 'Matt Muenster', quote: 'Plumbing isn\'t a job, it\'s a craft.' }
 ];
 
-export function getChefQuoteOfTheDay() {
+export function getPlumberQuoteOfTheDay() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const diff = now.getTime() - start.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
   const dayOfYear = Math.floor(diff / oneDay);
-  const idx = dayOfYear % chefQuotes.length;
-  return chefQuotes[idx];
+  const idx = dayOfYear % plumberQuotes.length;
+  return plumberQuotes[idx];
 }
 
 export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
@@ -59,14 +56,16 @@ export interface Recipe {
   ingredients?: string[];
   instructions?: string;
   equipment?: string[];
-  nutrition?: {
-    carbs: number;
-    sugars: number;
-    fiber: number;
-    protein: number;
-    saturatedFat?: number;
+  specs?: {
+    pressure: number;
+    flow: number;
+    material: string;
+    size: string;
+    temperature: number;
+    warranty?: string;
+    rating?: string;
   };
-  healthTags?: string[];
+  complianceTags?: string[];
 }
 
 const MyPipeBook = () => {
@@ -203,8 +202,8 @@ const MyPipeBook = () => {
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
     { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Cook', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '3', name: 'Healthy Options', emoji: '🥗', recipes: ['1', '2', '3', '4', '5'] }
+    { id: '3', name: 'Quick Repairs', emoji: '⚡', recipes: ['1', '2'] },
+    { id: '4', name: 'Safety First', emoji: '🔧', recipes: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
@@ -383,8 +382,8 @@ const MyPipeBook = () => {
           ingredients: r.ingredients,
           instructions: r.instructions,
           equipment: r.equipment,
-          nutrition: r.nutrition,
-          healthTags: r.healthTags
+          specs: r.specs,
+          complianceTags: r.complianceTags
         }));
         setLocalRecipes(converted);
       } catch (err) {
@@ -665,12 +664,12 @@ const MyPipeBook = () => {
                   return (
                     <div key={recipeId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
                       <div className="flex items-center">
-                        <span className="mr-2">🍽️</span>
-                        <span className="text-sm">{recipe ? recipe.name : `Recipe ${index + 1}`}</span>
+                        <span className="mr-2">🔧</span>
+                        <span className="text-sm">{recipe ? recipe.name : `Procedure ${index + 1}`}</span>
                       </div>
-                      {recipe && recipe.healthTags && recipe.healthTags.length > 0 && (
+                      {recipe && recipe.complianceTags && recipe.complianceTags.length > 0 && (
                         <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                          🥗
+                          🔧
                         </span>
                       )}
                     </div>
@@ -811,7 +810,7 @@ const MyPipeBook = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
                     {/* Ingredients */}
                     <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 {t('myPipeBook.ingredients')}</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🔧 {t('myPipeBook.ingredients')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                         {filteredRecipes[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
                           <li key={i} className="line-clamp-1">{ingredient}</li>
@@ -824,7 +823,7 @@ const MyPipeBook = () => {
                     
                     {/* Equipment */}
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 {t('myPipeBook.equipment')}</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">�️ {t('myPipeBook.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                         {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
@@ -835,19 +834,19 @@ const MyPipeBook = () => {
                       </ul>
                     </div>
                     
-                    {/* Health Tags */}
+                    {/* Compliance Tags */}
                     <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 {t('myPipeBook.healthTags')}</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🔧 {t('myPipeBook.healthTags')}</h4>
                       <div className="flex flex-wrap gap-1.5 justify-center max-h-[80px] sm:max-h-[100px] overflow-y-auto">
-                        {filteredRecipes[currentIndex].healthTags?.slice(0, 4).map(tag => (
+                        {filteredRecipes[currentIndex].complianceTags?.slice(0, 4).map((tag: any) => (
                           <span key={tag} className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">
                             {tag}
                           </span>
                         )) || (
                           <span className="text-xs text-gray-500">{t('myPipeBook.noHealthTags')}</span>
                         )}
-                        {(filteredRecipes[currentIndex].healthTags?.length || 0) > 4 && (
-                          <span className="text-xs text-gray-600 font-semibold">+{(filteredRecipes[currentIndex].healthTags?.length || 0) - 4}</span>
+                        {(filteredRecipes[currentIndex].complianceTags?.length || 0) > 4 && (
+                          <span className="text-xs text-gray-600 font-semibold">+{(filteredRecipes[currentIndex].complianceTags?.length || 0) - 4}</span>
                         )}
                       </div>
                     </div>
@@ -909,11 +908,11 @@ const MyPipeBook = () => {
                         ]
                       };
                       setSelectedRecipe(fullRecipe);
-                      navigate('/culinary-school');
+                      navigate('/plumbing/plumbing-school');
                     }}
                     className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
-                    Cook This
+                    Fix It
                   </button>
                   <button
                     onClick={() => {
@@ -934,14 +933,14 @@ const MyPipeBook = () => {
         {t('myPipeBook.scrollToSeeMore')}
       </div>
       
-      {/* Chef of the Day Quote - simplified text only */}
+      {/* Plumber of the Day Quote - simplified text only */}
       <div className="mt-6 text-center">
         {(() => {
-          const quoteOfDay = getChefQuoteOfTheDay();
+          const quoteOfDay = getPlumberQuoteOfTheDay();
           return (
             <>
               <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
-              <div className="text-gray-600">— {quoteOfDay.chef}</div>
+              <div className="text-sm text-gray-600">- {quoteOfDay.professional}</div>
             </>
           );
         })()}
@@ -1009,9 +1008,9 @@ const MyPipeBook = () => {
                             </label>
                           </div>
                           <div className="flex gap-1">
-                            {recipe.healthTags && recipe.healthTags.length > 0 && (
+                            {recipe.complianceTags && recipe.complianceTags.length > 0 && (
                               <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                                🥗
+                                🔧
                               </span>
                             )}
                           </div>
