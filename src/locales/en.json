@@ -242,6 +242,7 @@
     "watching": "watching",
     "join": "Join",
     "isCooking": "is cooking",
+    "isManufacturing": "is demonstrating",
     "learningProgress": "Learning Progress",
     "skillsDevelopment": "Skills Development",
     "engagementMetrics": "Engagement Metrics",
