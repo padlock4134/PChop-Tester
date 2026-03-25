@@ -1397,9 +1397,8 @@ Automated calculations and formulas would be present`;
 
         // Ensure XP is a number and has a default value of 0
         const xp = typeof profile.xp === 'number' ? profile.xp : 0;
-        console.log('Profile XP:', profile.xp, 'Parsed XP:', xp);
         
-        // Map the database fields to the component's state
+        // Update user profile with new database fields to the component's state
         setUserProfile({
           ...profile,
           name: profile.name || 'User',
@@ -1583,14 +1582,6 @@ Automated calculations and formulas would be present`;
   // Corrected XP progress calculation
   const getCorrectXPProgress = (totalXP: number) => {
     const level = getCorrectLevel(totalXP);
-    
-    // Debug the calculation
-    console.log('🔧 XP Progress Debug:', {
-      totalXP,
-      level,
-      currentLevelXP: WOW_CLASSIC_XP_TABLE[level],
-      nextLevelXP: WOW_CLASSIC_XP_TABLE[level + 1]
-    });
     
     const currentLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
     const nextLevelXP = WOW_CLASSIC_XP_TABLE[level + 1] || 0;
