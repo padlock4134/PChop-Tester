@@ -1604,7 +1604,7 @@ Automated calculations and formulas would be present`;
       };
     }
     
-    const current = totalXP - currentLevelXP;
+    const current = Math.max(0, totalXP - currentLevelXP);
     const required = nextLevelXP - currentLevelXP;
     
     return { level, current, required };
@@ -2115,15 +2115,6 @@ Automated calculations and formulas would be present`;
                   </button>
                 );
               })}
-            </div>
-            
-            <div className="mt-4 sm:mt-6 text-center">
-              <button
-                onClick={() => setSelectedTalentTree(null)}
-                className="px-4 sm:px-6 py-2 bg-maineBlue text-white rounded-lg hover:bg-blue-700 transition-colors font-bold text-sm sm:text-base"
-              >
-                {t('profile.close')}
-              </button>
             </div>
           </div>
         </div>
