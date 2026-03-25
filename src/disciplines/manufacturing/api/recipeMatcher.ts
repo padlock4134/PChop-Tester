@@ -5,59 +5,59 @@ import { isSessionValid } from './userSession';
 import { fetchNutritionData, getKeyNutrients } from './nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
-// Define equipment available for each kitchen setup
-const KITCHEN_EQUIPMENT = {
-  'Dorm Life': ['microwave', 'kettle', 'toaster', 'mini-fridge'],
-  'Minimalist': ['pot', 'pan', 'knife', 'cutting board', 'stove'],
-  'Apartment Kitchen': ['oven', 'stove', 'basic utensils', 'baking sheets'],
-  'Outdoor Grilling': ['grill', 'tongs', 'grill brush', 'meat thermometer'],
-  'Home Chef': ['blender', 'food processor', 'mixer', 'knives', 'oven', 'stove'],
-  'Full Chef\'s Kitchen': ['all equipment']
+// Define equipment available for each workshop setup
+const WORKSHOP_EQUIPMENT = {
+  'Basic Workshop': ['hand tools', 'workbench', 'vise', 'measuring tools'],
+  'Assembly Line': ['conveyor belt', 'assembly tools', 'quality control station', 'packaging equipment'],
+  'Machine Shop': ['lathe', 'mill', 'drill press', 'grinder', 'CNC machines'],
+  'Quality Lab': ['calipers', 'gauges', 'testing equipment', 'inspection tools'],
+  'Production Floor': ['manufacturing equipment', 'safety gear', 'production tools', 'material handling'],
+  'Full Manufacturing Plant': ['all equipment']
 } as const;
 
-// Define equipment associated with each talent tree
-const TALENT_TREE_EQUIPMENT = {
-  'Cast Iron Champion': ['cast iron', 'dutch oven', 'skillet'],
-  'Grilling Heavy Weight': ['grill', 'smoker', 'charcoal', 'gas grill'],
-  'Baking Warlock': ['stand mixer', 'baking sheet', 'pastry brush', 'rolling pin']
+// Define equipment associated with each specialization
+const SPECIALIZATION_EQUIPMENT = {
+  'Precision Machining': ['CNC machines', 'precision tools', 'measuring equipment', 'quality control'],
+  'Assembly Specialist': ['assembly tools', 'fasteners', 'torque wrenches', 'alignment tools'],
+  'Quality Control': ['inspection tools', 'gauges', 'testing equipment', 'documentation tools']
 } as const;
 
-type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
+type WorkshopSetup = keyof typeof WORKSHOP_EQUIPMENT;
 
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
-const RECIPE_PROMPTS = {
-  new_to_cooking: (numRecipes: number, ingredients: string[]) => 
-    `You are a patient cooking teacher. Create ${numRecipes} super simple recipes for a beginner cook using ingredients from: ${ingredients.join(", ")}. 
+const SOP_PROMPTS = {
+  new_to_manufacturing: (numSOPs: number, materials: string[]) => 
+    `You are a patient manufacturing instructor. Create ${numSOPs} super simple Standard Operating Procedures for a beginner technician using materials from: ${materials.join(", ")}. 
     RULES:
-    1. Use only 2-3 ingredients per recipe
-    2. Only basic cooking methods (pan fry, boil, mix)
+    1. Use only 2-3 materials per SOP
+    2. Only basic manufacturing methods (assembly, fastening, quality check)
     3. Very detailed step-by-step instructions
-    4. Keep cook time under 20 minutes
-    5. Include necessary equipment for each recipe
-    6. Add dietary tags from: Heart Healthy, Anti Inflammatory, Low Glycemic, Low Cholesterol, Renal Friendly, DASH Diet`,
+    4. Keep process time under 20 minutes
+    5. Include necessary equipment for each SOP
+    6. Add quality tags from: Safety First, Quality Control, Efficiency, Precision, Documentation`,
 
-  home_cook: (numRecipes: number, ingredients: string[]) => 
-    `You are a helpful home cooking expert. Create ${numRecipes} recipes for someone comfortable with basic cooking using ingredients from: ${ingredients.join(", ")}.
+  experienced_technician: (numSOPs: number, materials: string[]) => 
+    `You are a helpful manufacturing expert. Create ${numSOPs} Standard Operating Procedures for someone comfortable with basic manufacturing using materials from: ${materials.join(", ")}.
     RULES:
-    1. Use 3-4 ingredients per recipe
-    2. Standard cooking methods
+    1. Use 3-4 materials per SOP
+    2. Standard manufacturing methods
     3. Clear instructions
-    4. Keep cook time under 30 minutes
-    5. Include necessary equipment for each recipe
-    6. Add dietary tags from: Heart Healthy, Anti Inflammatory, Low Glycemic, Low Cholesterol, Renal Friendly, DASH Diet`,
+    4. Keep process time under 30 minutes
+    5. Include necessary equipment for each SOP
+    6. Add quality tags from: Safety First, Quality Control, Efficiency, Precision, Documentation`,
 
-  kitchen_confident: (numRecipes: number, ingredients: string[]) => 
-    `You are a professional chef. Create ${numRecipes} interesting recipes for an experienced home cook using ingredients from: ${ingredients.join(", ")}.
+  manufacturing_expert: (numSOPs: number, materials: string[]) => 
+    `You are a professional manufacturing engineer. Create ${numSOPs} advanced Standard Operating Procedures for an experienced technician using materials from: ${materials.join(", ")}.
     RULES:
-    1. Use 4+ ingredients per recipe
-    2. Can include advanced techniques
+    1. Use 4+ materials per SOP
+    2. Can include advanced manufacturing techniques
     3. Professional-style instructions
-    4. Focus on flavor and technique
-    5. Include necessary equipment for each recipe
-    6. Add dietary tags from: Heart Healthy, Anti Inflammatory, Low Glycemic, Low Cholesterol, Renal Friendly, DASH Diet`
+    4. Focus on precision and efficiency
+    5. Include necessary equipment for each SOP
+    6. Add quality tags from: Safety First, Quality Control, Efficiency, Precision, Documentation`
 };
 
 async function getUserProfile(userId: string) {
@@ -66,7 +66,7 @@ async function getUserProfile(userId: string) {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('dietary, cuisine, kitchen_setup')
+    .select('dietary, cuisine, workshop_setup')
     .eq('id', userId)
     .single();
 
@@ -78,18 +78,18 @@ async function getUserProfile(userId: string) {
   return data as {
     dietary: string[];
     cuisine: string[];
-    kitchen_setup?: string;
+    workshop_setup: string;
   };
 }
 
-// Helper function for fuzzy matching ingredients
-function fuzzyMatch(ingredient1: string, ingredient2: string): boolean {
+// Helper function for fuzzy matching materials
+function fuzzyMatch(material1: string, material2: string): boolean {
   const normalize = (str: string) => str.toLowerCase().trim()
     .replace(/[^\w\s]/g, '') // Remove special characters
     .replace(/\s+/g, ' ');    // Normalize whitespace
     
-  const norm1 = normalize(ingredient1);
-  const norm2 = normalize(ingredient2);
+  const norm1 = normalize(material1);
+  const norm2 = normalize(material2);
   
   // Check for direct inclusion or common variations
   return norm1.includes(norm2) || 
@@ -116,8 +116,8 @@ function scoreRecipe(
   score += matchingIngredients * 2;
   
   // 2. Penalize based on missing equipment
-  if (kitchenSetup && kitchenSetup in KITCHEN_EQUIPMENT) {
-    const availableEquipment = KITCHEN_EQUIPMENT[kitchenSetup as KitchenSetup];
+  if (kitchenSetup && kitchenSetup in WORKSHOP_EQUIPMENT) {
+    const availableEquipment = WORKSHOP_EQUIPMENT[kitchenSetup as WorkshopSetup];
     const requiredEquipment = recipe.equipment || [];
     
     const missingEquipment = requiredEquipment.filter(eq => {
@@ -131,11 +131,11 @@ function scoreRecipe(
     score -= missingEquipment.length * 1.5;
   }
   
-  // 3. Bonus for matching talent tree equipment (if talents are enabled and a tree is selected)
-  if (talentsEnabled && talentTree && talentTree in TALENT_TREE_EQUIPMENT) {
-    const preferredEquipment = TALENT_TREE_EQUIPMENT[talentTree as keyof typeof TALENT_TREE_EQUIPMENT];
+  // 3. Bonus for matching specialization equipment (if talents are enabled and a specialization is selected)
+  if (talentsEnabled && talentTree && talentTree in SPECIALIZATION_EQUIPMENT) {
+    const preferredEquipment = SPECIALIZATION_EQUIPMENT[talentTree as keyof typeof SPECIALIZATION_EQUIPMENT];
     const hasPreferredEquipment = (recipe.equipment || []).some(eq => 
-      preferredEquipment.some(pref => eq.toLowerCase().includes(pref))
+      preferredEquipment.some((pref: string) => eq.toLowerCase().includes(pref.toLowerCase()))
     );
     
     if (hasPreferredEquipment) {
@@ -299,7 +299,7 @@ export async function fetchRecipesWithImages({
     getUserProfile(userId)
   ]);
 
-  const promptTemplate = RECIPE_PROMPTS[experienceLevel] || RECIPE_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
+  const promptTemplate = SOP_PROMPTS[experienceLevel] || SOP_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
   
   // 2. Build the Anthropic prompt with enhanced instructions
   const basePrompt = promptTemplate(numRecipes, ingredients);
@@ -307,32 +307,32 @@ export async function fetchRecipesWithImages({
   // Get preferences
   const dietaryPrefs = profile?.dietary || [];
   const cuisinePrefs = profile?.cuisine || [];
-  const kitchenSetup = profile?.kitchen_setup || '';
+  const kitchenSetup = profile?.workshop_setup || '';
   
-  // Add talent tree equipment preference to prompt
+  // Add specialization equipment preference to prompt
   let talentTreePrompt = '';
-  if (talentsEnabled && talentTree && talentTree in TALENT_TREE_EQUIPMENT) {
-    const preferredEquipment = TALENT_TREE_EQUIPMENT[talentTree as keyof typeof TALENT_TREE_EQUIPMENT];
-    talentTreePrompt = `IMPORTANT: User has selected "${talentTree}" talent tree. Prioritize recipes that use these cooking methods/equipment: ${preferredEquipment.join(', ')}. Generate recipes that showcase these tools and techniques.`;
+  if (talentsEnabled && talentTree && talentTree in SPECIALIZATION_EQUIPMENT) {
+    const preferredEquipment = SPECIALIZATION_EQUIPMENT[talentTree as keyof typeof SPECIALIZATION_EQUIPMENT];
+    talentTreePrompt = `IMPORTANT: User has selected "${talentTree}" specialization. Prioritize SOPs that use these manufacturing methods/equipment: ${preferredEquipment.join(', ')}. Generate SOPs that showcase these tools and techniques.`;
   }
 
   const prompt = `${basePrompt}
 
-${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
-${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
-${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
+${dietaryPrefs.length > 0 ? `Quality requirements: ${dietaryPrefs.join(', ')}` : ''}
+${cuisinePrefs.length > 0 ? `Process preferences: ${cuisinePrefs.join(', ')}` : ''}
+${userKitchenSetup ? `Workshop setup: ${userKitchenSetup}` : ''}
 ${talentTreePrompt}
 
-Return the recipes as a JSON array with the following structure for each recipe:
+Return the SOPs as a JSON array with the following structure for each SOP:
 {
-  "title": "Recipe Name",
-  "ingredients": ["ingredient 1", "ingredient 2"],
+  "title": "SOP Name",
+  "ingredients": ["material 1", "material 2"],
   "instructions": ["Step 1", "Step 2"],
   "equipment": ["equipment 1", "equipment 2"],
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary kitchen tools and appliances needed to prepare the recipe (e.g., "frying pan", "mixing bowl", "oven", "blender").
+For equipment, list all necessary manufacturing tools and equipment needed to complete the SOP (e.g., "wrench", "drill", "CNC machine", "calipers").
 Return ONLY the JSON array, no other text.`;
 
   // 3. Call Anthropic API
@@ -458,7 +458,7 @@ Return ONLY the JSON array, no other text.`;
 
 export async function generateFallbackRecipes(userId: string, ingredients: string[], count: number): Promise<any[]> {
   const { experienceLevel } = await getUserPreferences(userId);
-  const promptTemplate = RECIPE_PROMPTS[experienceLevel] || RECIPE_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
+  const promptTemplate = SOP_PROMPTS[experienceLevel] || SOP_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
   
   const prompt = `${promptTemplate(count, ingredients)}
 
