@@ -501,61 +501,61 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
       <div className="bg-white p-6 rounded-lg shadow-xl border-4 border-black max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-4">
           <div></div>
-          <h3 className="text-xl font-bold text-maineBlue text-center">Find Local Markets</h3>
+          <h3 className="text-xl font-bold text-maineBlue text-center">Find Local Suppliers</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <CategoryCard 
             category="grocery" 
-            title="Grocery" 
-            icon="🛒" 
-            description="Regional grocery stores and supermarkets"
+            title="Hardware Stores" 
+            icon="�" 
+            description="Local hardware and tool suppliers"
             markets={markets.filter(m => m.type === 'grocery')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['grocery']}
           />
           <CategoryCard 
             category="butcher" 
-            title="Butcher" 
-            icon="🥩" 
-            description="Local butcher shops and meat markets"
+            title="Metal Suppliers" 
+            icon="⚙️" 
+            description="Steel, aluminum, and metal fabrication suppliers"
             markets={markets.filter(m => m.type === 'butcher')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['butcher']}
           />
           <CategoryCard 
             category="seafood" 
-            title="Seafood" 
-            icon="🐟" 
-            description="Fresh seafood markets and fishmongers"
+            title="Electronics" 
+            icon="�" 
+            description="Electronic components and parts suppliers"
             markets={markets.filter(m => m.type === 'seafood')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['seafood']}
           />
           <CategoryCard 
             category="produce" 
-            title="Produce" 
-            icon="🥦" 
-            description="Fresh produce markets and farm stands"
+            title="Plastics & Polymers" 
+            icon="�" 
+            description="Plastic materials and polymer suppliers"
             markets={markets.filter(m => m.type === 'produce')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['produce']}
           />
           <CategoryCard 
             category="farms" 
-            title="Farms" 
-            icon="🚜" 
-            description="Local farms and farmers markets"
+            title="Industrial Supply" 
+            icon="🏭" 
+            description="Industrial equipment and bulk materials"
             markets={markets.filter(m => m.type === 'farms')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['farms']}
           />
           <CategoryCard 
             category="specialty" 
-            title="Specialty" 
-            icon="🏦" 
-            description="Delis, bakeries, and specialty food stores"
+            title="Specialty Parts" 
+            icon="�" 
+            description="Custom fabrication and specialty components"
             markets={markets.filter(m => ['deli', 'dairy', 'bakery'].includes(m.type))}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['deli'] || ingredientsByMarketType['dairy']}

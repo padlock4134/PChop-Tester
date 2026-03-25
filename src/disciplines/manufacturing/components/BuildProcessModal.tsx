@@ -288,12 +288,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
               </button>
               <button
                 onClick={handleFindMarkets}
-                disabled={selectedRecipeIds.size === 0}
-                className={`px-6 py-2 rounded font-bold transition-colors ${
-                  selectedRecipeIds.size === 0
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
-                }`}
+                className="px-6 py-2 rounded font-bold transition-colors bg-red-600 text-white hover:bg-red-700 border border-red-600"
               >
                 🏭 Find Suppliers
               </button>
