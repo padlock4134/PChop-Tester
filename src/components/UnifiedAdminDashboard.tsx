@@ -1281,7 +1281,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('admin.adminDashboard')}</h1>
             <p className="text-gray-600 italic">{t('admin.subtitle')}</p>
             
-            {/* Discipline Filter Dropdown with Admin Toggle */}
+            {/* Discipline Filter Dropdown with Exit Admin Dropdown */}
             <div className="mt-4 flex items-center justify-center gap-3">
               <label className="font-retro text-sm text-maineBlue">Program:</label>
               <select
@@ -1303,20 +1303,24 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 ))}
               </select>
               
-              {/* Admin Toggle Button */}
-              <button
-                onClick={() => {
-                  // Navigate to the selected discipline's dashboard
-                  const targetDiscipline = selectedDiscipline === 'total' 
-                    ? localStorage.getItem('adminSelectedDiscipline') || 'culinary'
-                    : selectedDiscipline;
-                  navigate(`/${targetDiscipline}/dashboard`);
+              {/* Exit Admin Mode Dropdown */}
+              <select
+                onChange={(e) => {
+                  if (e.target.value) {
+                    localStorage.setItem('adminSelectedDiscipline', e.target.value);
+                    navigate(`/${e.target.value}/dashboard`);
+                  }
                 }}
-                className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow"
-                title="Exit Admin Mode - Go to Student Dashboard"
+                defaultValue=""
+                className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer"
               >
-                Exit Admin Mode
-              </button>
+                <option value="" disabled>Exit Admin Mode</option>
+                {disciplineOptions.filter(opt => opt.key !== 'total').map((opt) => (
+                  <option key={opt.key} value={opt.key} className="bg-white text-black">
+                    {opt.icon} {opt.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           
