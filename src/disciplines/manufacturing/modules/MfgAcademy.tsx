@@ -83,7 +83,7 @@ const WEEKLY_TECHNIQUES = [
   { title: "Energy as Process Driver", desc: "Understanding how energy drives manufacturing processes" },
   { title: "Automated vs Manual Timing", desc: "When to use automation vs manual processes" },
   { title: "Optimization Techniques", desc: "Improving efficiency through process analysis" },
-  { title: "Final Quality Checks", desc: "Adding final quality assurance steps" },
+  { title: "Final Quality Checks", desc: "Adding final quality assurance procedures" },
   { title: "Foundation Processes", desc: "Building a strong process foundation" },
   { title: "Cost and Quality Balance", desc: "Finding the perfect production harmony" },
 
@@ -266,17 +266,17 @@ const MfgAcademy = () => {
         return recipe.title;
       }
       
-      // Use Chef Freddie for complex queries
+      // Use Floor Freddie for complex queries
       const prompt = `
-        Given the following recipe and tutorial step, generate a concise YouTube search query for a relevant cooking video.\n
-        - Only use the equipment and ingredients listed.\n
+        Given the following process and tutorial, generate a concise YouTube search query for a relevant manufacturing video.\n
+        - Only use the equipment and materials listed.\n
         - Do NOT include unrelated tools or techniques.\n
-        - The query should be specific to the step and recipe.\n
-        Recipe: ${recipe.title}\n
-        Ingredients: ${recipe.ingredients?.join(', ')}\n
+        - The query should be specific to the tutorial and process.\n
+        Process: ${recipe.title}\n
+        Materials: ${recipe.ingredients?.join(', ')}\n
         Equipment: ${recipe.equipment?.join(', ') || 'N/A'}\n
-        Step Title: ${tut.title}\n
-        Step Description: ${tut.desc}\n
+        Tutorial Title: ${tut.title}\n
+        Tutorial Description: ${tut.desc}\n
         Query:
       `;
       try {
