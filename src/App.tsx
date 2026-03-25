@@ -149,11 +149,12 @@ const HomeRedirect = () => {
         // Check both localStorage and sessionStorage for saved page
         const lastPage = localStorage.getItem('lastPage') || sessionStorage.getItem('lastPath');
         if (lastPage && lastPage !== '/' && lastPage !== '' && lastPage !== '/select-discipline') {
-          // Save the intended destination for after discipline selection
-          localStorage.setItem('intendedDestination', lastPage);
+          // If we have a saved page, navigate directly to it
+          navigate(lastPage, { replace: true });
+        } else {
+          // No saved page, go to discipline selector
+          navigate('/select-discipline', { replace: true });
         }
-        // Go to discipline selector first
-        navigate('/select-discipline', { replace: true });
       }
       // If user is already on a specific page, don't redirect - let them stay there
     } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
@@ -329,6 +330,17 @@ const AppRoutes = () => {
   if (!isLoading && !user) {
     return <Navigate to="/" replace />;
   }
+
+  // Refresh persistence - if user is authenticated and on a valid page, stay there
+  useEffect(() => {
+    if (user && !isLoading) {
+      // Save current path
+      if (location.pathname !== '/' && location.pathname !== '/select-discipline' && location.pathname !== '/admin') {
+        localStorage.setItem('lastPage', location.pathname);
+        sessionStorage.setItem('lastPath', location.pathname);
+      }
+    }
+  }, [location.pathname, user, isLoading]);
 
 
   const isDisciplineSelect = location.pathname === '/select-discipline';
