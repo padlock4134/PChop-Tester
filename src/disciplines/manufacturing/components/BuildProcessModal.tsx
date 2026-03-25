@@ -164,7 +164,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
         <div className="p-6 flex-1 overflow-hidden flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-maineBlue font-retro">🍽️ {t('buildMenu.title')}</h2>
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">📋 Build Production Plan</h2>
             <button 
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -175,7 +175,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
           {/* Instructions */}
           <p className="text-sm text-gray-600 mb-4">
-            {t('buildMenu.selectRecipes')}
+            Select processes from your playbook to build your production plan, then find local suppliers for materials.
           </p>
 
           {/* Two Column Layout */}
@@ -223,12 +223,12 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
               )}
             </div>
 
-            {/* Right: Your Menu */}
+            {/* Right: Your Production Plan */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">🍽️ {t('buildMenu.yourMenu')}</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 Your Production Plan</h3>
               {selectedRecipeIds.size === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                  <p className="text-gray-400 text-sm">{t('buildMenu.selectToStart')}</p>
+                  <p className="text-gray-400 text-sm">Select processes to build your production plan</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
@@ -251,7 +251,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                           <button
                             onClick={() => toggleRecipe(recipe.id)}
                             className="text-red-500 hover:text-red-700 ml-2"
-                            title={t('buildMenu.removeFromMenu')}
+                            title="Remove from plan"
                           >
                             ✕
                           </button>
@@ -266,7 +266,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t flex-shrink-0">
             <div className="text-sm text-gray-600">
-              {selectedRecipeIds.size} {t('buildMenu.recipesSelected')}
+              {selectedRecipeIds.size} process(es) selected
             </div>
             <div className="flex gap-2">
               <button
@@ -284,7 +284,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                     : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam border border-maineBlue'
                 }`}
               >
-                📄 {t('buildMenu.createMenuPDF')}
+                📄 Create Plan (PDF)
               </button>
               <button
                 onClick={handleFindMarkets}
@@ -295,7 +295,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                     : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
                 }`}
               >
-                🛒 {t('buildMenu.findMarkets')}
+                🏭 Find Suppliers
               </button>
             </div>
           </div>
