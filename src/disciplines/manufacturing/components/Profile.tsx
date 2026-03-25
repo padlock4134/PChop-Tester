@@ -156,7 +156,7 @@ const EditProfileModal = ({
               }`}
             >
               <option value="">{t('profile.selectYourProgram')}</option>
-              <option value="Bachelors in Advanced Engineering">🎓 Bachelors in Advanced Engineering</option>
+              <option value="Bachelors in Advanced Manufacturing">🎓 Bachelors in Advanced Manufacturing</option>
               <option value="Associates in Aquaculture">🎓 {t('profile.associatesAquaculture')}</option>
             </select>
             {(user as any)?.program && (user as any).program !== '' && (
@@ -1656,7 +1656,10 @@ Automated calculations and formulas would be present`;
           <div className="flex flex-col items-center">
             <div className="flex items-center space-x-2 mb-2">
               <span className="text-lg sm:text-xl">{levelProgress.icon}</span>
-              <span className="font-bold text-xs sm:text-sm">{levelProgress.title} (Lv {levelProgress.level})</span>
+              <span className="font-bold text-xs sm:text-sm">{levelProgress.title}</span>
+            </div>
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="font-bold text-xs sm:text-sm">Lv {levelProgress.level}</span>
             </div>
             <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
