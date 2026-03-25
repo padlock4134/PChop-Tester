@@ -1568,28 +1568,16 @@ Automated calculations and formulas would be present`;
   const getCorrectXPProgress = (totalXP: number) => {
     const level = getCorrectLevel(totalXP);
     
-    const currentLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
-    const nextLevelXP = WOW_CLASSIC_XP_TABLE[level + 1] || 0;
-    
-    // For level 10 (6500 XP), we should show 0 progress toward level 11
-    if (level === 10 && totalXP === 6500) {
-      return { 
-        level: 10, 
-        current: 0,  // At exactly level 10, no progress toward level 11
-        required: 1100  // Need 1100 XP to reach level 11
-      };
-    }
+    // Get the XP requirement for the current level (not the next level)
+    const currentLevelXP = WOW_CLASSIC_XP_TABLE[level - 1] || 0;
+    const nextLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
     
     const current = totalXP - currentLevelXP;
     const required = nextLevelXP - currentLevelXP;
     
     // Show positive progress from start of current level
-    const displayCurrent = Math.max(0, totalXP - currentLevelXP);
-    const displayRequired = nextLevelXP - currentLevelXP;
-    
-    // FORCE THIS LOG TO SHOW - VERY OBVIOUS
-    alert(`DEBUG: XP=${totalXP}, LEVEL=${level}, CURRENT=${current}, REQUIRED=${required}`);
-    console.error('XP CALC DEBUG:', totalXP, 'LEVEL:', level, currentLevelXP, nextLevelXP, 'CURRENT:', current, 'DISPLAY:', displayCurrent, 'REQUIRED:', required);
+    const displayCurrent = Math.max(0, current);
+    const displayRequired = required;
     
     return { level, current: displayCurrent, required: displayRequired };
   };
