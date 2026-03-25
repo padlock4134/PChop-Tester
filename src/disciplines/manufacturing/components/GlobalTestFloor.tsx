@@ -499,7 +499,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
 
       if (error) {
         console.error('Upload error details:', error);
-        alert(t('shopTalk.globalTestKitchen.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
+        alert(t('shopTalk.globalTestFloor.failedToSaveVideo').replace('{error}', error.message || 'Unknown error'));
         setIsSaving(false);
         return;
       }
@@ -518,7 +518,7 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('shopTalk.globalTestKitchen.failedToSaveVideoGeneric'));
+      alert(t('shopTalk.globalTestFloor.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
       setSaveConfirmModalOpen(false);
@@ -578,7 +578,7 @@ if (!videoTitle.trim()) {
 
       if (error) {
         console.error('Upload error:', error);
-        alert(t('shopTalk.globalTestKitchen.failedToSaveVideoGeneric'));
+        alert(t('shopTalk.globalTestFloor.failedToSaveVideoGeneric'));
         return;
       }
 
@@ -590,7 +590,7 @@ if (!videoTitle.trim()) {
       
     } catch (error) {
       console.error('Error saving video:', error);
-      alert(t('shopTalk.globalTestKitchen.failedToSaveVideoGeneric'));
+      alert(t('shopTalk.globalTestFloor.failedToSaveVideoGeneric'));
     } finally {
       setIsSaving(false);
     }
@@ -710,13 +710,13 @@ END:VCALENDAR`;
       <div className="p-4 bg-red-500 text-white font-retro text-center">
         <h2 className="text-xl flex items-center justify-center">
           <span className="text-2xl mr-2">🌍</span>
-          {t('shopTalk.globalTestKitchen.title')}
+          {t('shopTalk.globalTestFloor.title')}
         </h2>
       </div>
       
       <div className="p-4">
         <p className="text-sm text-gray-600 text-center mb-4">
-          {t('shopTalk.globalTestKitchen.subtitle')}
+          {t('shopTalk.globalTestFloor.subtitle')}
         </p>
 
         {/* Tab Navigation */}
@@ -729,7 +729,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🔴 {t('shopTalk.globalTestKitchen.live')}
+            🔴 {t('shopTalk.globalTestFloor.live')}
           </button>
           <button
             onClick={() => setActiveTab('upcoming')}
@@ -739,7 +739,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            📅 {t('shopTalk.globalTestKitchen.upcoming')}
+            📅 {t('shopTalk.globalTestFloor.upcoming')}
           </button>
           <button
             onClick={() => setActiveTab('host')}
@@ -749,7 +749,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🎥 {t('shopTalk.globalTestKitchen.host')}
+            🎥 {t('shopTalk.globalTestFloor.host')}
           </button>
         </div>
 
@@ -759,8 +759,8 @@ END:VCALENDAR`;
           {liveSessions.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <VideoCameraIcon className="h-12 w-12 mx-auto mb-2 text-gray-300" />
-              <p>{t('shopTalk.globalTestKitchen.noLiveSessions')}</p>
-              <p className="text-sm">{t('shopTalk.globalTestKitchen.checkBackLater')}</p>
+              <p>{t('shopTalk.globalTestFloor.noLiveSessions')}</p>
+              <p className="text-sm">{t('shopTalk.globalTestFloor.checkBackLater')}</p>
             </div>
           ) : (
             liveSessions.map((session) => (
@@ -770,14 +770,14 @@ END:VCALENDAR`;
                     <span className="text-2xl mr-2">{session.thumbnail}</span>
                     <div>
                       <h3 className="font-semibold text-sm text-gray-900">{session.processName}</h3>
-                      <p className="text-xs text-gray-600">{t('shopTalk.globalTestKitchen.by')} {session.hostName}</p>
+                      <p className="text-xs text-gray-600">{t('shopTalk.globalTestFloor.by')} {session.hostName}</p>
                     </div>
                   </div>
                   <div className={`flex items-center text-xs ${session.isEnded ? 'text-gray-500' : 'text-red-600'}`}>
                     {session.isEnded ? (
                       <>
                         <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
-                        {t('shopTalk.globalTestKitchen.ended')}
+                        {t('shopTalk.globalTestFloor.ended')}
                       </>
                     ) : (
                       <>
@@ -793,7 +793,7 @@ END:VCALENDAR`;
                   <div className="flex items-center gap-2">
                     <div className="flex items-center text-xs text-gray-500">
                       <UserGroupIcon className="h-3 w-3 mr-1" />
-                      {session.viewers} {t('shopTalk.globalTestKitchen.watching')}
+                      {session.viewers} {t('shopTalk.globalTestFloor.watching')}
                     </div>
                     <button
                       onClick={() => !session.isEnded && joinLiveSession(session)}
@@ -806,7 +806,7 @@ END:VCALENDAR`;
                       }`}
                       disabled={session.isEnded}
                     >
-                      {session.isEnded ? t('shopTalk.globalTestKitchen.ended') : t('shopTalk.globalTestKitchen.join')}
+                      {session.isEnded ? t('shopTalk.globalTestFloor.ended') : t('shopTalk.globalTestFloor.join')}
                     </button>
                   </div>
                 </div>
@@ -824,7 +824,7 @@ END:VCALENDAR`;
               <div className="flex items-start justify-between mb-2">
                 <div>
                   <h3 className="font-semibold text-sm text-gray-900">{session.processName}</h3>
-                  <p className="text-xs text-gray-600">{t('shopTalk.globalTestKitchen.by')} {session.hostName}</p>
+                  <p className="text-xs text-gray-600">{t('shopTalk.globalTestFloor.by')} {session.hostName}</p>
                 </div>
                 <span className="text-xs text-maineBlue font-medium">{session.scheduledTime}</span>
               </div>
@@ -834,10 +834,10 @@ END:VCALENDAR`;
                   <span className="text-xs text-gray-500">🏭 {session.industry}</span>
                   {session.sessionType && (
                     <span className="text-xs bg-maineBlue text-white px-2 py-0.5 rounded-full">
-                      {session.sessionType === 'practice' && `🎯 ${t('shopTalk.globalTestKitchen.practice')}`}
-                      {session.sessionType === 'assignment' && `📚 ${t('shopTalk.globalTestKitchen.assignment')}`}
-                      {session.sessionType === 'demo' && `👨‍🏫 ${t('shopTalk.globalTestKitchen.demo')}`}
-                      {session.sessionType === 'showcase' && `🏆 ${t('shopTalk.globalTestKitchen.showcase')}`}
+                      {session.sessionType === 'practice' && `🎯 ${t('shopTalk.globalTestFloor.practice')}`}
+                      {session.sessionType === 'assignment' && `📚 ${t('shopTalk.globalTestFloor.assignment')}`}
+                      {session.sessionType === 'demo' && `👨‍🏫 ${t('shopTalk.globalTestFloor.demo')}`}
+                      {session.sessionType === 'showcase' && `🏆 ${t('shopTalk.globalTestFloor.showcase')}`}
                     </span>
                   )}
                 </div>
@@ -845,12 +845,12 @@ END:VCALENDAR`;
                   onClick={() => addToCalendar(session)}
                   className="text-xs text-maineBlue hover:underline flex items-center"
                 >
-                  📅 {t('shopTalk.globalTestKitchen.addToCalendar')}
+                  📅 {t('shopTalk.globalTestFloor.addToCalendar')}
                 </button>
               </div>
               {session.teacherTag && (
                 <div className="text-xs text-gray-600 mb-1">
-                  👨‍🏫 {t('shopTalk.globalTestKitchen.for')} {session.teacherTag}
+                  👨‍🏫 {t('shopTalk.globalTestFloor.for')} {session.teacherTag}
                 </div>
               )}
             </div>
@@ -877,13 +877,13 @@ END:VCALENDAR`;
               }}
               className="w-full bg-maineBlue text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              🔴 {t('shopTalk.globalTestKitchen.goLiveNow')}
+              🔴 {t('shopTalk.globalTestFloor.goLiveNow')}
             </button>
             <button 
               onClick={() => setScheduleModalOpen(true)}
               className="w-full border border-maineBlue text-maineBlue py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
             >
-              📅 {t('shopTalk.globalTestKitchen.scheduleSession')}
+              📅 {t('shopTalk.globalTestFloor.scheduleSession')}
             </button>
           </div>
 
@@ -914,7 +914,7 @@ END:VCALENDAR`;
             </button>
             
             <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              🔴 {t('shopTalk.globalTestKitchen.goLiveNow')}
+              🔴 {t('shopTalk.globalTestFloor.goLiveNow')}
             </h2>
             
             <div className="space-y-4">
@@ -962,7 +962,7 @@ END:VCALENDAR`;
                   onClick={() => setGoLiveModalOpen(false)}
                   className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                 >
-                  {t('shopTalk.globalTestKitchen.cancel')}
+                  {t('shopTalk.globalTestFloor.cancel')}
                 </button>
                 <button
                   onClick={() => {
@@ -971,7 +971,7 @@ END:VCALENDAR`;
                   }}
                   className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
                 >
-                  🔴 {t('shopTalk.globalTestKitchen.startRecording')}
+                  🔴 {t('shopTalk.globalTestFloor.startRecording')}
                 </button>
               </div>
             </div>
