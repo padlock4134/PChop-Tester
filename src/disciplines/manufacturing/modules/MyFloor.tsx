@@ -92,7 +92,7 @@ const MyFloor = () => {
   // Optionally, map category to emoji for pills
   const CATEGORY_ICONS: Record<string, string> = {
     'Raw Materials': '🔩',
-    'Components': '⚙️',
+    'Components': '🏮',
     'Tools': '🔧',
     'Safety Equipment': '🦺',
     'Fasteners': '🔗',
