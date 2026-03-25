@@ -330,7 +330,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-2xl w-full max-h-[80vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-md w-full max-h-[80vh] flex flex-col">
         {/* Fixed Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
@@ -438,7 +438,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-md w-full max-h-[90vh] flex flex-col">
         {/* Fixed Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
@@ -567,7 +567,7 @@ const Profile = () => {
   const [selectedTalents, setSelectedTalents] = useState<string[]>([]);
   const [talentPoints, setTalentPoints] = useState(0);
   const [activeTab, setActiveTab] = useState('');
-  const [showTalents, setShowTalents] = useState(false);
+  const [showTalents, setShowTalents] = useState(true);
   const [selectedTalentTree, setSelectedTalentTree] = useState<string | null>(null);
   const [unlockedTalents, setUnlockedTalents] = useState<string[]>([]);
   const [tutorialModalOpen, setTutorialModalOpen] = useState(false);
