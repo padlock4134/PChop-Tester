@@ -1561,7 +1561,7 @@ const MyCookBook = () => {
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
                   <p className="text-gray-600 text-lg">No videos saved yet</p>
-                  <p className="text-gray-500 text-sm mt-2">Record a session in Global Test Kitchen to see it here!</p>
+                  <p className="text-gray-500 text-sm mt-2">Record a session in Test Kitchen to see it here!</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -1689,7 +1689,7 @@ const MyCookBook = () => {
                   {selectedLibraryVideo.userId !== user?.id && (
                     <p>👤 Uploaded by: {selectedLibraryVideo.userId.substring(0, 8)}...</p>
                   )}
-                  <p className="mt-1">🎥 Recorded in Global Test Kitchen</p>
+                  <p className="mt-1">🎥 Recorded in Test Kitchen</p>
                 </div>
               </div>
             </div>
