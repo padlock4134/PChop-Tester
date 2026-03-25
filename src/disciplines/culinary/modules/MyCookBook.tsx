@@ -1011,6 +1011,7 @@ const MyCookBook = () => {
                         </div>
                       ))}
                     </div>
+                  </div>
                 ) : (
                   <div className="text-center py-8">
                     <div className="text-4xl mb-2">📝</div>
@@ -1020,8 +1021,6 @@ const MyCookBook = () => {
                 )}
               </div>
             </div>
-            
-            {/* Always Visible Action Buttons */}
             <div className="p-4 border-t border-gray-200">
               {/* Create Collection Button */}
               <button
