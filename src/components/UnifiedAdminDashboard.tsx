@@ -1449,21 +1449,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="mb-3 text-4xl">🏫</div>
               <h3 className="text-sm font-bold font-retro">{t('admin.schoolSettings')}</h3>
             </button>
-            
-            <button
-              onClick={() => {
-                setActiveTab('integrity');
-                setActiveMobileTab('actions');
-              }}
-              className={`flex flex-col items-center p-6 rounded-lg border-4 ${
-                activeTab === 'integrity' 
-                  ? 'border-orange-400 bg-orange-50 scale-105 ring-4 ring-maineBlue' 
-                  : 'border-orange-400 bg-orange-50'
-              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
-            >
-              <div className="mb-3 text-4xl">🛡️</div>
-              <h3 className="text-sm font-bold font-retro">Integrity Monitoring</h3>
-            </button>
           </div>
           </div>
         </div>
@@ -1473,7 +1458,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
-          {/* Integrity Alerts Ticker */}
+          {/* Integrity Alerts Ticker - Same design as Events */}
           {integrityAlerts.filter(a => !a.reviewed).length > 0 && (
             <>
               {/* Mobile: Vertical Stacked Alerts */}
@@ -1484,20 +1469,11 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <span className="font-bold text-orange-700 text-sm">🛡️ Integrity Alerts ({integrityAlerts.filter(a => !a.reviewed).length})</span>
                   </div>
                   
-                  {integrityAlerts.filter(a => !a.reviewed).map((alert, index) => (
+                  {integrityAlerts.filter(a => !a.reviewed).map((alert) => (
                     <div
                       key={alert.id}
-                      onClick={() => {
-                        setSelectedAlert(alert);
-                        setActiveTab('integrity');
-                      }}
-                      className={`border-4 rounded-lg p-3 cursor-pointer hover:opacity-80 transition-all ${
-                        alert.severity === 'high'
-                          ? 'bg-red-50 border-red-400'
-                          : alert.severity === 'medium'
-                          ? 'bg-orange-50 border-orange-400'
-                          : 'bg-yellow-50 border-yellow-400'
-                      }`}
+                      onClick={() => setSelectedAlert(alert)}
+                      className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 cursor-pointer hover:bg-orange-100 transition-all"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3 flex-1">
@@ -1506,16 +1482,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                              alert.alert_type === 'plagiarism' ? '📝' : '🚨'}
                           </span>
                           <div className="flex-1">
-                            <div className="font-bold text-gray-900 text-sm uppercase">{alert.alert_type.replace('_', ' ')}</div>
-                            <div className="text-gray-800 text-xs">{alert.description}</div>
-                            <div className="text-gray-600 text-xs mt-1">{alert.discipline || 'System'}</div>
+                            <div className="font-bold text-orange-900 text-sm">{alert.alert_type.replace('_', ' ').toUpperCase()}</div>
+                            <div className="text-orange-800 text-xs">{alert.description}</div>
+                            <div className="text-orange-600 text-xs mt-1">{alert.discipline || 'System'}</div>
                           </div>
                         </div>
-                        <div className={`text-white text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap ${
-                          alert.severity === 'high' ? 'bg-red-600' :
-                          alert.severity === 'medium' ? 'bg-orange-600' : 'bg-yellow-600'
-                        }`}>
-                          {alert.severity.toUpperCase()}
+                        <div className="bg-orange-500 text-white text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap">
+                          Review
                         </div>
                       </div>
                     </div>
@@ -1524,44 +1497,26 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               {/* Desktop: Horizontal Carousel */}
-              <div className="hidden lg:block mb-4">
+              <div className="hidden lg:block">
                 {(() => {
                   const unreviewedAlerts = integrityAlerts.filter(a => !a.reviewed);
+                  if (unreviewedAlerts.length === 0) return null;
                   const currentAlert = unreviewedAlerts[currentAlertIndex];
-                  if (!currentAlert) return null;
                   
                   return (
                     <div 
-                      className={`border-4 rounded-lg p-3 cursor-pointer transition-all ${
-                        currentAlert.severity === 'high'
-                          ? 'bg-red-50 border-red-400'
-                          : currentAlert.severity === 'medium'
-                          ? 'bg-orange-50 border-orange-400'
-                          : 'bg-yellow-50 border-yellow-400'
-                      }`}
+                      className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 mb-4 cursor-pointer"
                       onMouseEnter={() => setIsAlertsPaused(true)}
                       onMouseLeave={() => setIsAlertsPaused(false)}
-                      onClick={() => {
-                        setSelectedAlert(currentAlert);
-                        setActiveTab('integrity');
-                      }}
+                      onClick={() => setSelectedAlert(currentAlert)}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center mr-3">
-                          <div className={`w-3 h-3 rounded-full mr-2 animate-pulse ${
-                            currentAlert.severity === 'high' ? 'bg-red-500' :
-                            currentAlert.severity === 'medium' ? 'bg-orange-500' : 'bg-yellow-500'
-                          }`}></div>
-                          <span className={`font-bold text-sm ${
-                            currentAlert.severity === 'high' ? 'text-red-700' :
-                            currentAlert.severity === 'medium' ? 'text-orange-700' : 'text-yellow-700'
-                          }`}>🛡️ Integrity Alert</span>
+                          <div className="w-3 h-3 bg-orange-500 rounded-full mr-2 animate-pulse"></div>
+                          <span className="font-bold text-orange-700 text-sm">🛡️ Integrity Alert</span>
                         </div>
                         <div className="flex-1 text-center">
-                          <div className={`text-sm transition-all duration-500 ${
-                            currentAlert.severity === 'high' ? 'text-red-800' :
-                            currentAlert.severity === 'medium' ? 'text-orange-800' : 'text-yellow-800'
-                          }`}>
+                          <div className="text-sm text-orange-800 transition-all duration-500">
                             <span>
                               <strong>{currentAlert.alert_type.replace('_', ' ').toUpperCase()}</strong> •{' '}
                               {currentAlert.description} •{' '}
@@ -1574,11 +1529,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             {currentAlert.alert_type === 'fast_completion' ? '⚡' : 
                              currentAlert.alert_type === 'plagiarism' ? '📝' : '🚨'}
                           </span>
-                          <div className={`text-white text-xs px-4 py-2 rounded-full font-medium ${
-                            currentAlert.severity === 'high' ? 'bg-red-600' :
-                            currentAlert.severity === 'medium' ? 'bg-orange-600' : 'bg-yellow-600'
-                          }`}>
-                            {currentAlert.severity.toUpperCase()}
+                          <div className="bg-orange-500 text-white text-xs px-4 py-2 rounded-full font-medium">
+                            Review
                           </div>
                         </div>
                       </div>
@@ -1590,11 +1542,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             <div
                               key={index}
                               className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                index === currentAlertIndex 
-                                  ? (currentAlert.severity === 'high' ? 'bg-red-500' :
-                                     currentAlert.severity === 'medium' ? 'bg-orange-500' : 'bg-yellow-500')
-                                  : (currentAlert.severity === 'high' ? 'bg-red-200' :
-                                     currentAlert.severity === 'medium' ? 'bg-orange-200' : 'bg-yellow-200')
+                                index === currentAlertIndex ? 'bg-orange-500' : 'bg-orange-200'
                               }`}
                             />
                           ))}
