@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { saveKitchen, fetchKitchen } from '../../culinary/modules/kitchenSupabase';
-import { fetchCookbook, addRecipeToCookbook } from '../../culinary/modules/cookbookSupabase';
-import { Ingredient } from '../../culinary/types/shared-types';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
+import { saveKitchen, fetchKitchen } from './kitchenSupabase';
+import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
+import { Ingredient } from '../types/shared-types';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
-import { scanImage } from '../../culinary/api/vision';
+import { scanImage } from '../api/vision';
 import RepairMatcherModal, { RecipeCard } from '../components/RepairMatcherModal';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { supabase } from '../../culinary/api/supabaseClient';
+import { useFreddieContext } from '../components/GarageFreddieContext';
+import { useSupabase } from '../components/SupabaseProvider';
+import { isSessionValid } from '../api/userSession';
+import { supabase } from '../api/supabaseClient';
 import RepairCardComponent from '../components/RepairCard';
 
 const CATEGORIES = [
@@ -26,21 +26,18 @@ const CATEGORIES = [
   "Other"
 ];
 
-// Categorize ingredient names to best-fit category
+// Categorize part names to best-fit category
 function categorizeIngredient(name: string): string {
   const n = name.toLowerCase();
-  // Enhanced detection for loose produce and specific food items
-  if (/(green bean|string bean|snap bean|haricot vert|french bean)/.test(n)) return "Vegetable";
-  if (/(loose|raw|fresh|unpackaged|bulk) (vegetable|produce|bean|legume)/.test(n)) return "Vegetable";
-  if (/(lettuce|spinach|carrot|broccoli|onion|pepper|cabbage|kale|tomato|bean|pea|potato|corn|mushroom|zucchini|cucumber|asparagus|squash|celery|radish|beet|turnip|eggplant|avocado)/.test(n)) return "Vegetable";
-  if (/(apple|banana|orange|lemon|lime|berry|grape|melon|peach|pear|plum|kiwi|mango|pineapple|apricot|cherry|fig|date|papaya|guava|coconut)/.test(n)) return "Fruit";
-  if (/(chicken|beef|pork|lamb|turkey|fish|salmon|shrimp|egg|duck|bacon|ham|sausage|steak|tofu|tempeh|seitan|crab|lobster|clam|mussel|scallop|oyster)/.test(n)) return "Protein";
-  if (/(milk|cheese|yogurt|cream|butter|ghee|custard|paneer|ricotta|mozzarella|parmesan|brie|feta|goat cheese)/.test(n)) return "Dairy";
-  if (/(rice|bread|pasta|noodle|quinoa|barley|oat|wheat|cornmeal|tortilla|cracker|bun|roll|bagel|cereal)/.test(n)) return "Grain";
-  if (/(salt|pepper|cumin|coriander|turmeric|saffron|paprika|chili|cinnamon|nutmeg|clove|ginger|garlic|herb|basil|oregano|thyme|rosemary|sage|dill|parsley|mint|bay)/.test(n)) return "Spice";
-  if (/(can|canned|jar|preserve|pickle|jam|jelly|sardine|anchovy|soup|beans|olives|sauerkraut)/.test(n)) return "Canned/Preserved";
-  if (/(ketchup|mustard|mayo|mayonnaise|sauce|dressing|vinegar|soy sauce|hot sauce|bbq|aioli|salsa|chutney|relish|gravy|honey)/.test(n)) return "Condiment/Sauce";
-  if (/(frozen|ice cream|ice|peas|spinach|pizza|waffle|fries|nugget|berries|corn|broccoli|shrimp|fish stick)/.test(n)) return "Frozen";
+  // Automotive parts categorization
+  if (/(tire|wheel|rim|rubber|tread|puncture|flat)/.test(n)) return "Tire";
+  if (/(brake|pad|rotor|caliper|disc|drum|abs|braking)/.test(n)) return "Brake";
+  if (/(shock|strut|spring|suspension|control arm|bushing|ball joint|tie rod)/.test(n)) return "Suspension";
+  if (/(engine|motor|piston|cylinder|valve|gasket|oil|filter|spark|timing|camshaft|crankshaft)/.test(n)) return "Engine";
+  if (/(transmission|gearbox|clutch|flywheel|driveshaft|differential|axle|cv joint)/.test(n)) return "Transmission";
+  if (/(battery|alternator|starter|wiring|fuse|relay|sensor|ecu|electrical|diagnostic)/.test(n)) return "Electrical";
+  if (/(bumper|fender|door|hood|trunk|roof|mirror|glass|panel|paint)/.test(n)) return "Body";
+  if (/(seat|dashboard|console|carpet|upholstery|trim|interior|steering|radio|speaker)/.test(n)) return "Interior";
   return "Other";
 }
 
@@ -56,16 +53,15 @@ const MyGarage = () => {
   const [scanStatus, setScanStatus] = useState<string | null>(null); // persistent feedback
   // Optionally, map category to emoji for pills
   const CATEGORY_ICONS: Record<string, string> = {
-    Vegetable: '🥦',
-    Fruit: '🍎',
-    Protein: '🍗',
-    Dairy: '🧀',
-    Grain: '🌾',
-    Spice: '🌶️',
-    'Canned/Preserved': '🥫',
-    'Condiment/Sauce': '🥄',
-    Frozen: '🧊',
-    Other: '🍽️',
+    Tire: '🛞',
+    Brake: '🛑',
+    Suspension: '🔧',
+    Engine: '⚙️',
+    Transmission: '⚙️',
+    Electrical: '⚡',
+    Body: '🚗',
+    Interior: '�',
+    Other: '🔧',
   };
 
   const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);
@@ -287,11 +283,11 @@ const MyGarage = () => {
             setMatcherLoading(true);
             setMatcherError('');
             try {
-              const cupboardNames = ingredients.map(i => i.name);
+              const garageParts = ingredients.map(i => i.name);
               const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
-                ingredients: cupboardNames,
+                ingredients: garageParts,
                 numRecipes: 5,
                 // These will be undefined by default, which is fine - the function has defaults
                 kitchenSetup: undefined,
@@ -300,13 +296,13 @@ const MyGarage = () => {
               });
               setMatcherRecipes(recipes);
             } catch (err: any) {
-              setMatcherError('Failed to fetch recipes.');
+              setMatcherError('Failed to fetch repair guides.');
             } finally {
               setMatcherLoading(false);
             }
           }}
         >
-          {t('myGarage.matchRecipes')}
+          Match Repair Guides
         </button>
       </div>
 
