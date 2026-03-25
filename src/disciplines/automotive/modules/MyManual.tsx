@@ -233,13 +233,15 @@ const MyManual = () => {
 
   // Handle creating a new collection
   const handleCreateCollection = () => {
-    if (newCollectionName.trim() && selectedRecipes.length > 0) {
+    if (newCollectionName.trim()) {
       const newCollection = {
         id: Date.now().toString(),
         name: newCollectionName.trim(),
-        emoji: '📁',
-        recipes: [...selectedRecipes]
+        recipes: selectedRecipes,
+        emoji: '�',
+        createdAt: new Date().toISOString()
       };
+      
       setCollections(prev => [...prev, newCollection]);
       setNewCollectionName('');
       setSelectedRecipes([]);
@@ -1020,12 +1022,7 @@ const MyManual = () => {
                     {/* Create Collection Button */}
                     <button
                       onClick={() => setShowCreateCollectionModal(true)}
-                      disabled={selectedRecipes.length === 0}
-                      className={`w-full mt-3 px-4 py-2 rounded border transition-colors ${
-                        selectedRecipes.length === 0 
-                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
-                          : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
-                      }`}
+                      className="w-full mt-3 px-4 py-2 rounded border bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam transition-colors"
                     >
                       {t('myManual.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
                     </button>
