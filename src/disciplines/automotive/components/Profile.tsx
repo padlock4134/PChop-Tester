@@ -169,7 +169,7 @@ const EditProfileModal = ({
 
           {/* Vehicle Type */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.vehicleType')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Vehicle Type</label>
             <select
               value={formData.vehicleType}
               onChange={(e) => setFormData({...formData, vehicleType: e.target.value})}
@@ -185,7 +185,7 @@ const EditProfileModal = ({
 
           {/* Certifications */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certifications')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Certifications</label>
             <select
               value={formData.certifications}
               onChange={(e) => setFormData({...formData, certifications: e.target.value})}
@@ -200,7 +200,7 @@ const EditProfileModal = ({
 
           {/* Garage Setup */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.garageSetup')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Garage Setup</label>
             <select
               value={formData.garageSetup}
               onChange={(e) => setFormData({...formData, garageSetup: e.target.value})}
@@ -216,7 +216,7 @@ const EditProfileModal = ({
 
           {/* Experience Level */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.experienceLevel')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">Experience Level</label>
             <select
               value={formData.experienceLevel}
               onChange={(e) => setFormData({...formData, experienceLevel: e.target.value})}
