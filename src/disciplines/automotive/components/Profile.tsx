@@ -548,11 +548,11 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-md w-full max-h-[90vh] flex flex-col">
         {/* Fixed Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
-          <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.submitARequest')}</h2>
+          <h2 className="text-2xl font-bold text-maineBlue font-retro">Submit a Request</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
