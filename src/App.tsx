@@ -331,17 +331,7 @@ const AppRoutes = () => {
     return <Navigate to="/" replace />;
   }
 
-  // Refresh persistence - if user is authenticated and on a valid page, stay there
-  useEffect(() => {
-    if (user && !isLoading) {
-      // Save current path
-      if (location.pathname !== '/' && location.pathname !== '/select-discipline' && location.pathname !== '/admin') {
-        localStorage.setItem('lastPage', location.pathname);
-        sessionStorage.setItem('lastPath', location.pathname);
-      }
-    }
-  }, [location.pathname, user, isLoading]);
-
+  
 
   const isDisciplineSelect = location.pathname === '/select-discipline';
   const isAdminRoute = location.pathname === '/admin';
