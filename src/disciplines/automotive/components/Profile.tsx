@@ -15,19 +15,19 @@ type UserProfile = {
   email: string;
   avatar: string | null;
   experience: string;
-  dietary: string[];
-  cuisine: string[];
-  kitchenSetup: string;
+  certifications: string[];
+  vehicleType: string[];
+  garageSetup: string;
   xp: number;
 };
 
 // Level titles and icons
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Novice Cook", icon: "🥄", level: 1 },
-  { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
-  { title: "Home Chef", icon: "🍳", level: 3 },
-  { title: "Culinary Expert", icon: "👨‍🍳", level: 4 },
-  { title: "Master Chef", icon: "🏆", level: 5 }
+  { title: "Novice Mechanic", icon: "🔧", level: 1 },
+  { title: "Apprentice Technician", icon: "🛠️", level: 2 },
+  { title: "Certified Technician", icon: "🚗", level: 3 },
+  { title: "Master Technician", icon: "⚙️", level: 4 },
+  { title: "Shop Foreman", icon: "🏆", level: 5 }
 ];
 
 // WoW Classic XP table
@@ -38,17 +38,17 @@ const WOW_CLASSIC_XP_TABLE = [
 
 // Experience level mapping between UI labels and backend values
 const EXPERIENCE_LEVEL_MAPPING = {
-  'Beginner': 'new_to_cooking',
-  'Intermediate': 'home_cook', 
-  'Advanced': 'kitchen_confident',
-  'Professional': 'kitchen_confident' // Both Advanced and Professional map to kitchen_confident
+  'Beginner': 'new_to_automotive',
+  'Intermediate': 'apprentice_technician', 
+  'Advanced': 'certified_technician',
+  'Professional': 'master_technician' // Both Advanced and Professional map to certified_technician
 } as const;
 
 // Reverse mapping for displaying in UI
 const EXPERIENCE_LEVEL_DISPLAY = {
-  'new_to_cooking': 'Beginner',
-  'home_cook': 'Intermediate',
-  'kitchen_confident': 'Advanced'
+  'new_to_automotive': 'Beginner',
+  'apprentice_technician': 'Intermediate',
+  'certified_technician': 'Advanced'
 } as const;
 
 // Modal components
@@ -66,9 +66,9 @@ const EditProfileModal = ({
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: user?.name || '',
-    cuisinePreference: user?.cuisine?.[0] || 'Italian',
-    dietPreference: user?.dietary?.[0] || 'None',
-    kitchenSetup: user?.kitchenSetup || 'Apartment Kitchen',
+    vehicleType: user?.vehicleType?.[0] || 'Cars',
+    certifications: user?.certifications?.[0] || 'None',
+    garageSetup: user?.garageSetup || 'Home Garage',
     experienceLevel: user?.experience || 'Beginner',
     program: (user as any)?.program || ''
   });
@@ -82,10 +82,10 @@ const EditProfileModal = ({
         .from('profiles')
         .update({
           name: formData.name,
-          cuisine: [formData.cuisinePreference],
-          dietary: [formData.dietPreference],
-          kitchen_setup: formData.kitchenSetup,
-          cooking_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]],
+          vehicle_type: [formData.vehicleType],
+          certifications: [formData.certifications],
+          garage_setup: formData.garageSetup,
+          automotive_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]],
           program: formData.program
         })
         .eq('id', user.id);
@@ -100,9 +100,9 @@ const EditProfileModal = ({
       const updatedUser = {
         ...user,
         name: formData.name,
-        cuisine_preference: formData.cuisinePreference,
-        diet_preference: formData.dietPreference,
-        kitchen_setup: formData.kitchenSetup,
+        vehicle_type: [formData.vehicleType],
+        certifications: [formData.certifications],
+        garage_setup: formData.garageSetup,
         experience: formData.experienceLevel
       };
 
@@ -156,8 +156,8 @@ const EditProfileModal = ({
               }`}
             >
               <option value="">{t('profile.selectYourProgram')}</option>
-              <option value="Bachelors of Arts in Culinary">🎓 {t('profile.bachelorsCulinary')}</option>
-              <option value="Associates in Aquaculture">🎓 {t('profile.associatesAquaculture')}</option>
+              <option value="Bachelors in Automotive Technology">🎓 Bachelors in Automotive Technology</option>
+              <option value="Associates in Diesel Mechanics">🎓 Associates in Diesel Mechanics</option>
             </select>
             {(user as any)?.program && (user as any).program !== '' && (
               <p className="text-xs text-gray-500 text-center mt-1">{t('profile.lockedContactAdmin')}</p>
@@ -167,55 +167,50 @@ const EditProfileModal = ({
           {/* Divider */}
           <div className="border-t-2 border-gray-300"></div>
 
-          {/* Cuisine Preference */}
+          {/* Vehicle Type */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.cuisinePreference')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.vehicleType')}</label>
             <select
-              value={formData.cuisinePreference}
-              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
+              value={formData.vehicleType}
+              onChange={(e) => setFormData({...formData, vehicleType: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="American">🍔 American</option>
-              <option value="Asian">🥢 Asian</option>
-              <option value="French">🥖 French</option>
-              <option value="Indian">🍛 Indian</option>
-              <option value="Italian">🍝 Italian</option>
-              <option value="Mediterranean">🫒 Mediterranean</option>
-              <option value="Mexican">🌮 Mexican</option>
+              <option value="Cars">🚗 Cars</option>
+              <option value="Trucks">🚚 Trucks</option>
+              <option value="Motorcycles">🏍️ Motorcycles</option>
+              <option value="Hybrids">🔋 Hybrids</option>
+              <option value="Electric">⚡ Electric</option>
             </select>
           </div>
 
-          {/* Diet Preference */}
+          {/* Certifications */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.dietPreference')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certifications')}</label>
             <select
-              value={formData.dietPreference}
-              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
+              value={formData.certifications}
+              onChange={(e) => setFormData({...formData, certifications: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Gluten-Free">🌾 Gluten-Free</option>
-              <option value="Keto">🥑 Keto</option>
+              <option value="ASE Certified">🔧 ASE Certified</option>
+              <option value="EPA 609">🛡️ EPA 609</option>
+              <option value="Manufacturer Training">🏭️ Manufacturer Training</option>
               <option value="None">🍽️ None</option>
-              <option value="Paleo">🥩 Paleo</option>
-              <option value="Pescatarian">🐟 Pescatarian</option>
-              <option value="Vegan">🌱 Vegan</option>
-              <option value="Vegetarian">🥗 Vegetarian</option>
             </select>
           </div>
 
-          {/* Kitchen Setup */}
+          {/* Garage Setup */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.kitchenSetup')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.garageSetup')}</label>
             <select
-              value={formData.kitchenSetup}
-              onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
+              value={formData.garageSetup}
+              onChange={(e) => setFormData({...formData, garageSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Kitchen">🏠 Apartment Kitchen</option>
-              <option value="Full Kitchen">🏡 Full Kitchen</option>
+              <option value="Home Garage">🏠 Home Garage</option>
+              <option value="Professional Shop">🏭️ Professional Shop</option>
+              <option value="Mobile Service">🚐 Mobile Service</option>
+              <option value="School Lab">🏫 School Lab</option>
               <option value="Minimal Setup">📦 Minimal Setup</option>
-              <option value="Outdoor Kitchen">🔥 Outdoor Kitchen</option>
-              <option value="Professional Kitchen">👨‍🍳 Professional Kitchen</option>
             </select>
           </div>
 
@@ -323,9 +318,9 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   if (!open) return null;
   
   const currentClasses = [
-    { icon: '🔪', name: 'Knife Skills Fundamentals', instructor: 'Chef Martinez', time: 'Mon/Wed 9:00 AM' },
-    { icon: '🍲', name: 'Sauce Making Techniques', instructor: 'Chef Johnson', time: 'Tue/Thu 11:00 AM' },
-    { icon: '🧁', name: 'Baking & Pastry Arts', instructor: 'Chef Williams', time: 'Fri 1:00 PM' }
+    { icon: '🔧', name: 'Engine Diagnostics Fundamentals', instructor: 'Mr. Martinez', time: 'Mon/Wed 9:00 AM' },
+    { icon: '⚙️', name: 'Brake System Techniques', instructor: 'Mr. Johnson', time: 'Tue/Thu 11:00 AM' },
+    { icon: '🚗', name: 'Transmission Repair Basics', instructor: 'Mr. Williams', time: 'Fri 1:00 PM' }
   ];
   
   return (
@@ -372,7 +367,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
               {t('profile.register')}
             </button>
             <button 
-              onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
+              onClick={() => window.open('mailto:instructors@automotiveinstitute.edu?subject=Class Schedule Inquiry', '_blank')}
               className="bg-seafoam text-maineBlue px-8 py-3 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
             >
               {t('profile.contact')}
@@ -394,14 +389,14 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   const requestTypes = [
     { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
-    { id: 'uniform', name: 'Chef Uniform/Apron', icon: '👕', description: 'Request chef uniforms or aprons' },
-    { id: 'knife_kit', name: 'Knife Kit Loaner', icon: '🔪', description: 'Request a loaner knife kit or replacement' },
-    { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request thermometers, timers, or other equipment' },
-    { id: 'textbook', name: 'Textbook/Materials', icon: '📚', description: 'Request textbooks or course materials' },
-    { id: 'kitchen_access', name: 'Kitchen Access', icon: '🔑', description: 'Request after-hours kitchen/lab access' },
+    { id: 'uniform', name: 'Mechanic Uniform/Tools', icon: '👕', description: 'Request mechanic uniforms or tool kits' },
+    { id: 'tool_kit', name: 'Tool Kit Loaner', icon: '🔧', description: 'Request a loaner tool kit or replacement' },
+    { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request diagnostic scanners, lifts, or other equipment' },
+    { id: 'manuals', name: 'Manuals/Materials', icon: '📚', description: 'Request repair manuals or course materials' },
+    { id: 'garage_access', name: 'Garage Access', icon: '🔑', description: 'Request after-hours garage/lab access' },
     { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
     { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' },
-    { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or dietary accommodations' },
+    { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or physical accommodations' },
   ];
   
   const handleSubmit = () => {
@@ -509,11 +504,11 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
   if (!open) return null;
   
   const availableClasses = [
-    { name: 'Advanced Knife Skills', instructor: 'Chef Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
-    { name: 'International Cuisine', instructor: 'Chef Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
-    { name: 'Pastry Fundamentals', instructor: 'Chef Anderson', time: 'Fri 3:00 PM', spots: 6 },
-    { name: 'Food Safety Certification', instructor: 'Chef Thompson', time: 'Sat 9:00 AM', spots: 15 },
-    { name: 'Restaurant Management', instructor: 'Chef Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
+    { name: 'Advanced Engine Repair', instructor: 'Mr. Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
+    { name: 'Electrical Systems Diagnostics', instructor: 'Mr. Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
+    { name: 'Hybrid Vehicle Technology', instructor: 'Mr. Anderson', time: 'Fri 3:00 PM', spots: 6 },
+    { name: 'ASE Certification Prep', instructor: 'Mr. Thompson', time: 'Sat 9:00 AM', spots: 15 },
+    { name: 'Shop Management', instructor: 'Mr. Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
   ];
   
   return (
@@ -575,7 +570,7 @@ const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [kitchenSetup, setKitchenSetup] = useState<string>('Apartment Kitchen');
+  const [garageSetup, setGarageSetup] = useState<string>('Home Garage');
   const [termsContent, setTermsContent] = useState<string>('Loading terms and conditions...');
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -1284,15 +1279,15 @@ Automated calculations and formulas would be present`;
           ...profile,
           name: profile.name || 'User',
           xp,
-          // Map backend cooking_experience to UI display value
-          experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
-          dietary: profile.dietary || [],
-          cuisine: profile.cuisine || []
+          // Map backend automotive_experience to UI display value
+          experience: EXPERIENCE_LEVEL_DISPLAY[profile.automotive_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
+          garageSetup: profile.garage_setup || 'Home Garage',
+          certifications: profile.certifications || [],
+          vehicleType: profile.vehicle_type || []
         });
 
-        // Also update the local kitchenSetup state
-        setKitchenSetup(profile.kitchen_setup || 'Apartment Kitchen');
+        // Also update the local garageSetup state
+        setGarageSetup(profile.garage_setup || 'Home Garage');
 
         // Load selected talents from database (optional - field might not exist yet)
         if (profile.selected_talents && Array.isArray(profile.selected_talents)) {
@@ -1361,8 +1356,8 @@ Automated calculations and formulas would be present`;
   }, [userProfile]);
 
   useEffect(() => {
-    if (userProfile && userProfile.kitchenSetup) {
-      setKitchenSetup(userProfile.kitchenSetup);
+    if (userProfile && userProfile.garageSetup) {
+      setGarageSetup(userProfile.garageSetup);
     }
   }, [userProfile]);
 
@@ -1514,10 +1509,10 @@ Automated calculations and formulas would be present`;
           ...profile,
           name: profile.name || 'User',
           xp,
-          experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
-          dietary: profile.dietary || [],
-          cuisine: profile.cuisine || []
+          experience: EXPERIENCE_LEVEL_DISPLAY[profile.automotive_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
+          garageSetup: profile.garage_setup || 'Home Garage',
+          certifications: profile.certifications || [],
+          vehicleType: profile.vehicle_type || []
         });
 
         // Use corrected level calculation
