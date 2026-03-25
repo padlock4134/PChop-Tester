@@ -4,7 +4,7 @@ import { FireIcon, ShieldCheckIcon, StarIcon, TrophyIcon, SparklesIcon, CakeIcon
 import { redirectToLogout } from '@wristband/react-client-auth';
 import { useSupabase } from '../components/SupabaseProvider';
 import { supabase } from '../api/supabaseClient';
-import { useFreddieContext } from '../components/GarageFreddieContext';
+import { useFreddieContext, FreddieProvider } from '../components/GarageFreddieContext';
 // Removed external imports that don't exist
 import ReactMarkdown from 'react-markdown';
 import jsPDF from 'jspdf';
@@ -20,6 +20,15 @@ type UserProfile = {
   vehicleType: string[];
   garageSetup: string;
   xp: number;
+};
+
+// Wrap Profile with FreddieProvider
+const ProfileWithProvider = () => {
+  return (
+    <FreddieProvider>
+      <Profile />
+    </FreddieProvider>
+  );
 };
 
 // Level titles and icons (60 levels for automotive progression)
@@ -2095,5 +2104,5 @@ Automated calculations and formulas would be present`;
   );
 };
 
-export default Profile;
+export default ProfileWithProvider;
 
