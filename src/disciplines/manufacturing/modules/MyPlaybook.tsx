@@ -90,44 +90,44 @@ const MyCookBook = () => {
     {
       id: 1,
       week: "Week 3",
-      title: "French Knife Skills & Mother Sauces",
-      emoji: "🔪",
+      title: "CNC Programming & Setup",
+      emoji: "⚙️",
       dueDate: "Oct 15, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Julienne cuts (2mm strips)", "Brunoise dice (2mm cubes)", "Chiffonade herbs", "Proper knife grip"],
-      submission: ["Video demo (3-5 min)", "Photos of cuts", "Self-reflection", "Upload to cookbook"],
-      objectives: ["Safety protocols", "Uniform cuts", "Consistent speed", "Mise en place"],
+      techniques: ["G-code programming", "Tool setup", "Workpiece fixturing", "Safety protocols"],
+      submission: ["Video demo (3-5 min)", "Program files", "Setup photos", "Quality measurements"],
+      objectives: ["Precision machining", "Code accuracy", "Setup efficiency", "Safety compliance"],
       studentName: "Sarah Chen",
-      videoTitle: "Knife Skills Demo"
+      videoTitle: "CNC Setup Demo"
     },
     {
       id: 2,
       week: "Week 5",
-      title: "Sauce Making & Emulsification",
-      emoji: "🥄",
+      title: "Quality Control & Inspection",
+      emoji: "🔍",
       dueDate: "Oct 29, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Hollandaise sauce", "Mayonnaise emulsion", "Beurre blanc", "Pan sauce reduction"],
-      submission: ["Video demonstration", "Sauce samples", "Temperature logs", "Technique notes"],
-      objectives: ["Temperature control", "Emulsion stability", "Flavor balance", "Professional presentation"],
+      techniques: ["Caliper usage", "Surface measurement", "Tolerance verification", "Statistical analysis"],
+      submission: ["Video demonstration", "Measurement logs", "Inspection reports", "Quality charts"],
+      objectives: ["Measurement accuracy", "Tolerance compliance", "Documentation standards", "Process control"],
       studentName: "Sarah Chen",
-      videoTitle: "Sauce Emulsification Demo"
+      videoTitle: "Quality Inspection Demo"
     },
     {
       id: 3,
       week: "Week 7",
-      title: "Protein Cookery & Temperature Control",
-      emoji: "🥩",
+      title: "Lean Manufacturing & Workflow",
+      emoji: "📊",
       dueDate: "Nov 12, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Searing techniques", "Internal temperatures", "Resting periods", "Carryover cooking"],
-      submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
-      objectives: ["Food safety", "Proper doneness", "Texture control", "Flavor development"],
+      techniques: ["5S implementation", "Value stream mapping", "Waste reduction", "Workflow optimization"],
+      submission: ["Process video", "Workflow diagrams", "Efficiency metrics", "Improvement report"],
+      objectives: ["Lean principles", "Waste elimination", "Process efficiency", "Continuous improvement"],
       studentName: "Sarah Chen",
-      videoTitle: "Protein Cookery Demo"
+      videoTitle: "Lean Process Demo"
     }
   ];
 
@@ -136,26 +136,26 @@ const MyCookBook = () => {
     {
       id: 1,
       name: "Sarah Chen",
-      email: "sarah.chen@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique"}
+      email: "sarah.chen@manufacturinginstitute.edu",
+      submittedVideos: {1: "cnc-setup-demo", 2: "quality-inspection"}
     },
     {
       id: 2,
       name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@culinaryschool.edu", 
-      submittedVideos: {1: "knife-skills-demo", 3: "protein-cookery"}
+      email: "marcus.rodriguez@manufacturinginstitute.edu", 
+      submittedVideos: {1: "cnc-setup-demo", 3: "lean-process"}
     },
     {
       id: 3,
       name: "Emma Thompson",
-      email: "emma.thompson@culinaryschool.edu",
-      submittedVideos: {2: "sauce-technique"}
+      email: "emma.thompson@manufacturinginstitute.edu",
+      submittedVideos: {2: "quality-inspection"}
     },
     {
       id: 4,
       name: "David Kim",
-      email: "david.kim@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique", 3: "protein-cookery"}
+      email: "david.kim@manufacturinginstitute.edu",
+      submittedVideos: {1: "cnc-setup-demo", 2: "quality-inspection", 3: "lean-process"}
     }
   ];
 
@@ -1147,9 +1147,9 @@ const MyCookBook = () => {
                     </div>
                     
                       <div className="grid grid-cols-2 gap-1 lg:gap-1">
-                        {/* Technique Score */}
+                        {/* Technical Skills Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myPlaybook.technique')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">Technical Skills (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
                           <option value="">{t('myPlaybook.score')}</option>
                           <option value="25">A (23-25)</option>
@@ -1173,9 +1173,9 @@ const MyCookBook = () => {
                         </select>
                       </div>
 
-                        {/* Consistency Score */}
+                        {/* Quality Control Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myPlaybook.consistency')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">Quality Control (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
                           <option value="">{t('myPlaybook.score')}</option>
                           <option value="25">A (23-25)</option>
@@ -1186,9 +1186,9 @@ const MyCookBook = () => {
                         </select>
                       </div>
 
-                        {/* Presentation Score */}
+                        {/* Process Standards Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myPlaybook.presentation')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">Process Standards (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
                           <option value="">{t('myPlaybook.score')}</option>
                           <option value="25">A (23-25)</option>
@@ -1238,24 +1238,24 @@ const MyCookBook = () => {
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 28, 2024 - 2:15 PM</div>
                           <div className="text-gray-600">
-                            "Great improvement on knife grip! Your julienne cuts are much more consistent than last week. 
-                            Focus on maintaining steady rhythm for the brunoise. Overall excellent progress."
+                            "Great improvement on CNC setup! Your G-code programming is much more precise than last week. 
+                            Focus on maintaining steady workflow for quality control. Overall excellent progress."
                           </div>
                         </div>
                         
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 21, 2024 - 1:45 PM</div>
                           <div className="text-gray-600">
-                            "Good safety awareness throughout the demo. Work on keeping fingers curled more consistently 
-                            during chopping. Your mise en place organization was excellent."
+                            "Good safety awareness throughout the demo. Work on maintaining proper tool positioning more consistently 
+                            during machining. Your workspace organization was excellent."
                           </div>
                         </div>
 
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 14, 2024 - 3:20 PM</div>
                           <div className="text-gray-600">
-                            "First knife skills assessment - showing natural talent! Remember to keep the knife tip on 
-                            the board for better control. Practice the rocking motion we discussed."
+                            "First CNC setup assessment - showing natural talent! Remember to maintain proper tool alignment 
+                            for better precision. Practice the safety protocols we discussed."
                           </div>
                         </div>
                       </div>
@@ -1331,10 +1331,10 @@ const MyCookBook = () => {
                               disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
                               <option value="">{t('myPlaybook.selectVideo')}</option>
-                              <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
-                              <option value="sauce-technique">Sauce Technique.mp4</option>
-                              <option value="protein-cookery">Protein Cookery.mp4</option>
-                              <option value="plating-final">Final Plating.mp4</option>
+                              <option value="cnc-setup-demo">CNC Setup Demo.mp4</option>
+                              <option value="quality-inspection">Quality Inspection Demo.mp4</option>
+                              <option value="lean-process">Lean Process Demo.mp4</option>
+                              <option value="final-documentation">Final Documentation.mp4</option>
                             </select>
                           </div>
                           <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 relative flex-1 min-h-[150px]">
@@ -1454,10 +1454,10 @@ const MyCookBook = () => {
               <div className="text-4xl mb-4">📹</div>
               <p className="text-gray-700 mb-2">Are you sure you want to submit:</p>
               <p className="font-bold text-maineBlue mb-4">
-                {selectedVideoOption === 'knife-skills-demo' && 'Knife Skills Demo.mp4'}
-                {selectedVideoOption === 'sauce-technique' && 'Sauce Technique.mp4'}
-                {selectedVideoOption === 'protein-cookery' && 'Protein Cookery.mp4'}
-                {selectedVideoOption === 'plating-final' && 'Final Plating.mp4'}
+                {selectedVideoOption === 'cnc-setup-demo' && 'CNC Setup Demo.mp4'}
+                {selectedVideoOption === 'quality-inspection' && 'Quality Inspection Demo.mp4'}
+                {selectedVideoOption === 'lean-process' && 'Lean Process Demo.mp4'}
+                {selectedVideoOption === 'final-documentation' && 'Final Documentation.mp4'}
               </p>
               <p className="text-sm text-gray-600 mb-6">
                 For: {assignments[currentAssignmentPage].week} - {assignments[currentAssignmentPage].title}
