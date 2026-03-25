@@ -1583,8 +1583,8 @@ Automated calculations and formulas would be present`;
     const current = totalXP - currentLevelXP;
     const required = nextLevelXP - currentLevelXP;
     
-    // Show the actual calculation, no caps
-    const displayCurrent = current;
+    // Show positive delta from start of current level
+    const displayCurrent = Math.max(0, totalXP - currentLevelXP);
     const displayRequired = required;
     
     // FORCE THIS LOG TO SHOW - VERY OBVIOUS
