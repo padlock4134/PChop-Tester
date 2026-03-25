@@ -501,6 +501,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   const { t } = useTranslation();
   const [selectedType, setSelectedType] = React.useState('');
   const [requestDetails, setRequestDetails] = React.useState('');
+  const [quantity, setQuantity] = React.useState(1);
   const [showSuccess, setShowSuccess] = React.useState(false);
   
   if (!open) return null;
@@ -518,8 +519,8 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   ];
   
   const handleSubmit = () => {
-    if (!selectedType || !requestDetails.trim()) {
-      alert(t('profile.pleaseSelectRequestType'));
+    if (!selectedType) {
+      alert('Please select a request type');
       return;
     }
     setShowSuccess(true);
@@ -538,6 +539,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
               setShowSuccess(false);
               setSelectedType('');
               setRequestDetails('');
+              setQuantity(1);
               onClose();
             }}
             className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black"
@@ -555,7 +557,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
         {/* Fixed Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
-          <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.submitARequest')}</h2>
+          <h2 className="text-2xl font-bold text-maineBlue font-retro">Submit a Request</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -582,18 +584,40 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
                   </option>
                 ))}
               </select>
+              {selectedType && (
+                <p className="text-xs text-gray-600 mt-2">
+                  {requestTypes.find(t => t.id === selectedType)?.description}
+                </p>
+              )}
             </div>
           </div>
         
         {selectedType && (
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-700 mb-2">{t('profile.requestDetails')}</h3>
-            <textarea
-              value={requestDetails}
-              onChange={(e) => setRequestDetails(e.target.value)}
-              placeholder={t('profile.provideRequestDetails')}
-              className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[120px]"
-            />
+          <div className="mb-6 space-y-4">
+            {/* Quantity Field */}
+            <div>
+              <h3 className="text-lg font-bold text-gray-700 mb-2">Quantity</h3>
+              <input
+                type="number"
+                min="1"
+                max="99"
+                value={quantity}
+                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none"
+                placeholder="Enter quantity"
+              />
+            </div>
+            
+            {/* Request Details */}
+            <div>
+              <h3 className="text-lg font-bold text-gray-700 mb-2">Request Details (Optional)</h3>
+              <textarea
+                value={requestDetails}
+                onChange={(e) => setRequestDetails(e.target.value)}
+                placeholder="Provide additional details about your request..."
+                className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[120px]"
+              />
+            </div>
           </div>
         )}
         </div>
@@ -603,10 +627,10 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
           <div className="flex justify-end">
             <button
               onClick={handleSubmit}
-              disabled={!selectedType || !requestDetails.trim()}
+              disabled={!selectedType}
               className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {t('profile.submitRequest')}
+              Submit Request
             </button>
           </div>
         </div>
