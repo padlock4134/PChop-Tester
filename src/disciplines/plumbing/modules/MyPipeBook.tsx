@@ -369,11 +369,15 @@ const MyPipeBook = () => {
     }
   };
   useEffect(() => {
-    updateContext({ page: 'MyCookBook' });
+    updateContext({ page: 'MyPipeBook' });
     const loadRecipes = async () => {
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        if (!user?.id) {
+          setError('Please sign in to view your pipebook');
+          return;
+        }
+        const savedRecipes = await fetchCookbook(user.id);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
