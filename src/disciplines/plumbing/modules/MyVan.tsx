@@ -1,47 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { saveKitchen, fetchKitchen } from '../../culinary/modules/kitchenSupabase';
-import { fetchCookbook, addRecipeToCookbook } from '../../culinary/modules/cookbookSupabase';
+import { saveKitchen, fetchKitchen } from './kitchenSupabase';
+import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
 import { Ingredient } from '../../culinary/types/shared-types';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../../culinary/api/vision';
 import RecipeMatcherModal, { RecipeCard } from '../components/FitMatcherModal';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 import { supabase } from '../../culinary/api/supabaseClient';
 import FitCard from '../components/FitCard';
 
 const CATEGORIES = [
-  "Vegetable",
-  "Fruit",
-  "Protein",
-  "Dairy",
-  "Grain",
-  "Spice",
-  "Canned/Preserved",
-  "Condiment/Sauce",
-  "Frozen",
+  "Pipes",
+  "Fittings", 
+  "Tools",
+  "Valves",
+  "Seals",
+  "Adhesives",
+  "Fasteners",
+  "Chemicals",
+  "Equipment",
   "Other"
 ];
 
-// Categorize ingredient names to best-fit category
+// Categorize part names to best-fit category
 function categorizeIngredient(name: string): string {
   const n = name.toLowerCase();
-  // Enhanced detection for loose produce and specific food items
-  if (/(green bean|string bean|snap bean|haricot vert|french bean)/.test(n)) return "Vegetable";
-  if (/(loose|raw|fresh|unpackaged|bulk) (vegetable|produce|bean|legume)/.test(n)) return "Vegetable";
-  if (/(lettuce|spinach|carrot|broccoli|onion|pepper|cabbage|kale|tomato|bean|pea|potato|corn|mushroom|zucchini|cucumber|asparagus|squash|celery|radish|beet|turnip|eggplant|avocado)/.test(n)) return "Vegetable";
-  if (/(apple|banana|orange|lemon|lime|berry|grape|melon|peach|pear|plum|kiwi|mango|pineapple|apricot|cherry|fig|date|papaya|guava|coconut)/.test(n)) return "Fruit";
-  if (/(chicken|beef|pork|lamb|turkey|fish|salmon|shrimp|egg|duck|bacon|ham|sausage|steak|tofu|tempeh|seitan|crab|lobster|clam|mussel|scallop|oyster)/.test(n)) return "Protein";
-  if (/(milk|cheese|yogurt|cream|butter|ghee|custard|paneer|ricotta|mozzarella|parmesan|brie|feta|goat cheese)/.test(n)) return "Dairy";
-  if (/(rice|bread|pasta|noodle|quinoa|barley|oat|wheat|cornmeal|tortilla|cracker|bun|roll|bagel|cereal)/.test(n)) return "Grain";
-  if (/(salt|pepper|cumin|coriander|turmeric|saffron|paprika|chili|cinnamon|nutmeg|clove|ginger|garlic|herb|basil|oregano|thyme|rosemary|sage|dill|parsley|mint|bay)/.test(n)) return "Spice";
-  if (/(can|canned|jar|preserve|pickle|jam|jelly|sardine|anchovy|soup|beans|olives|sauerkraut)/.test(n)) return "Canned/Preserved";
-  if (/(ketchup|mustard|mayo|mayonnaise|sauce|dressing|vinegar|soy sauce|hot sauce|bbq|aioli|salsa|chutney|relish|gravy|honey)/.test(n)) return "Condiment/Sauce";
-  if (/(frozen|ice cream|ice|peas|spinach|pizza|waffle|fries|nugget|berries|corn|broccoli|shrimp|fish stick)/.test(n)) return "Frozen";
+  // Enhanced detection for plumbing parts and materials
+  if (/(pipe|tube|conduit|pvc|copper|pe|pex|galvanized|steel|brass)/.test(n)) return "Pipes";
+  if (/(fitting|coupling|elbow|tee|union|adapter|reducer|nipple|bushing)/.test(n)) return "Fittings";
+  if (/(wrench|pliers|pipe wrench|tube cutter|threader|reamer|torch|hammer|screwdriver)/.test(n)) return "Tools";
+  if (/(valve|faucet|tap|ball|gate|globe|check|relief|solenoid|thermostatic)/.test(n)) return "Valves";
+  if (/(seal|gasket|o-ring|tape|putty|caulk|silicone|epoxy|thread seal)/.test(n)) return "Seals";
+  if (/(glue|cement|solvent|adhesive|bond|primer|cleaner)/.test(n)) return "Adhesives";
+  if (/(bolt|nut|screw|clip|clamp|hanger|bracket|strap)/.test(n)) return "Fasteners";
+  if (/(chemical|cleaner|solvent|acid|flux|compound|treatment)/.test(n)) return "Chemicals";
+  if (/(pump|heater|tank|meter|filter|expansion|backflow|pressure)/.test(n)) return "Equipment";
   return "Other";
 }
 
@@ -57,16 +55,16 @@ const MyVan = () => {
   const [scanStatus, setScanStatus] = useState<string | null>(null); // persistent feedback
   // Optionally, map category to emoji for pills
   const CATEGORY_ICONS: Record<string, string> = {
-    Vegetable: '🥦',
-    Fruit: '🍎',
-    Protein: '🍗',
-    Dairy: '🧀',
-    Grain: '🌾',
-    Spice: '🌶️',
-    'Canned/Preserved': '🥫',
-    'Condiment/Sauce': '🥄',
-    Frozen: '🧊',
-    Other: '🍽️',
+    Pipes: '🔧',
+    Fittings: '🔩',
+    Tools: '🛠️',
+    Valves: '🚰',
+    Seals: '📦',
+    Adhesives: '🧪',
+    Fasteners: '⚙️',
+    Chemicals: '�',
+    Equipment: '🔌',
+    Other: '🔧',
   };
 
   const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);
@@ -86,34 +84,34 @@ const MyVan = () => {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [filterText, setFilterText] = useState('');
 
-  const addIngredient = () => {
+  const addPart = () => {
     if (input.trim()) {
       setIngredients(prev => [...prev, { name: input.trim(), category }]);
       setInput('');
     }
   };
 
-  // Save kitchen to Supabase whenever ingredients change
+  // Save van to Supabase whenever parts change
   useEffect(() => {
     if (ingredients.length === 0) return;
-    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your kitchen.'));
+    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your van.'));
   }, [ingredients]);
 
   // Freddie context: set page on mount
   useEffect(() => {
-    updateContext({ page: 'MyKitchen' });
-    // Load both kitchen and cookbook data
+    updateContext({ page: 'MyVan' });
+    // Load both van and pipebook data
     const loadData = async () => {
       try {
-        const [kitchenIngredients, cookbookRecipes] = await Promise.all([
+        const [vanParts, pipebookRecipes] = await Promise.all([
           fetchKitchen(user?.id!),
           fetchCookbook(user?.id!)
         ]);
-        setIngredients(kitchenIngredients);
-        setCookbook(cookbookRecipes);
+        setIngredients(vanParts);
+        setCookbook(pipebookRecipes);
       } catch (error) {
         console.error('Error loading data:', error);
-        setKitchenError('Failed to load your kitchen.');
+        setKitchenError('Failed to load your van.');
       }
     };
     loadData();
@@ -171,9 +169,9 @@ const MyVan = () => {
   return (
     <>
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
-        {/* My Kitchen header - moved back inside the module */}
+        {/* My Van header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
-          <span className="text-5xl mr-2">�</span>
+          <span className="text-5xl mr-2">🚐</span>
           <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myVan.title')}</h1>
         </div>
         
@@ -184,7 +182,7 @@ const MyVan = () => {
         
         {/* Scrollable Content */}
         <div className="overflow-y-auto p-6 pt-4">
-      {/* Kitchen, Recipe Matcher, and Upload Photo Action Buttons */}
+      {/* Van, Procedure Matcher, and Upload Photo Action Buttons */}
       <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
         {/* Scan status feedback */}
         {scanStatus && (
@@ -386,7 +384,7 @@ const MyVan = () => {
         </select>
         <button
           className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
-          onClick={addIngredient}
+          onClick={addPart}
         >
           {t('myVan.add')}
         </button>
