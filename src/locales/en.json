@@ -149,10 +149,10 @@
     "loadingYourVideos": "Loading your videos..."
   },
   "myCookBook": {
-    "title": "My Pipe Book"
+    "title": "My Cookbook"
   },
   "chefsCorner": {
-    "title": "Machine Shop",
+    "title": "Chef's Corner",
     "showcaseRecipe": "Featured Method:",
     "buildMenu": "Build Work Order",
     "importFromCookbook": "Import from Machining Guide",
@@ -1230,9 +1230,9 @@
     "noInstructionsProvided": "No steps provided.",
     "equipmentNeeded": "Tools Needed:",
     "noEquipmentListed": "No tools listed.",
-    "getStarted": "Get started by selecting a procedure from My Van or My Pipe Book!",
+    "getStarted": "Get started by selecting a procedure from My Van or My Cookbook!",
     "goToMyKitchen": "Go to My Van",
-    "goToMyCookbook": "Go to My Pipe Book",
+    "goToMyCookbook": "Go to My Cookbook",
     "techniqueOfTheWeek": "Technique of the Week:",
     "letsCookThisMeal": "Let's Do This!"
   },
@@ -1854,7 +1854,7 @@
   },
 
   "myPipeBook": {
-    "title": "My Pipe Book",
+    "title": "My Cookbook",
     "collections": "Collections",
     "addRecipe": "Add Procedure",
     "importRecipe": "Import Procedure",
