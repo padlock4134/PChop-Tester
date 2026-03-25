@@ -219,7 +219,7 @@ const MyCookBook = () => {
 
   // Handle creating a new collection
   const handleCreateCollection = () => {
-    if (newCollectionName.trim() && selectedRecipes.length > 0) {
+    if (newCollectionName.trim()) {
       const newCollection = {
         id: Date.now().toString(),
         name: newCollectionName.trim(),
@@ -1019,12 +1019,7 @@ const MyCookBook = () => {
                   {/* Create Collection Button - Always visible */}
                   <button
                     onClick={() => setShowCreateCollectionModal(true)}
-                    disabled={selectedRecipes.length === 0}
-                    className={`w-full mt-3 px-4 py-2 rounded border transition-colors ${
-                      selectedRecipes.length === 0 
-                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
-                        : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
-                    }`}
+                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 hover:text-blue-800"
                   >
                     {t('myPlaybook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
                   </button>
