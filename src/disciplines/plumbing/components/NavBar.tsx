@@ -205,10 +205,10 @@ const AdminToggleButton: React.FC = () => {
     <button
       onClick={() => {
         if (isOnAdmin) {
-          const lastPath = sessionStorage.getItem('lastDisciplinePath') || disciplineConfig.routes.dashboard;
-          navigate(lastPath);
+          // Exit admin mode - go back to current discipline dashboard
+          navigate(disciplineConfig.routes.dashboard);
         } else {
-          sessionStorage.setItem('lastDisciplinePath', disciplineConfig.routes.dashboard);
+          // Enter admin mode - go directly to admin dashboard
           navigate('/admin');
         }
       }}

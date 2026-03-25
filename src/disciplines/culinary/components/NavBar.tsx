@@ -196,23 +196,22 @@ const AdminToggleButton: React.FC = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const { disciplineConfig } = useDiscipline();
-  const [showDisciplineModal, setShowDisciplineModal] = useState(false);
   
   if (!isAdmin) return null;
 
   const isOnAdmin = location.pathname === '/admin';
   
   return (
-    <>
-      <button
-        onClick={() => {
-          if (isOnAdmin) {
-            setShowDisciplineModal(true);
-          } else {
-            sessionStorage.setItem('lastDisciplinePath', disciplineConfig.routes.dashboard);
-            navigate('/admin');
-          }
-        }}
+    <button
+      onClick={() => {
+        if (isOnAdmin) {
+          // Exit admin mode - go back to current discipline dashboard
+          navigate(disciplineConfig.routes.dashboard);
+        } else {
+          // Enter admin mode - go directly to admin dashboard
+          navigate('/admin');
+        }
+      }}
       className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
         isOnAdmin 
           ? 'bg-lobsterRed hover:bg-red-700' 
@@ -223,53 +222,6 @@ const AdminToggleButton: React.FC = () => {
     >
       <CogIcon className={`h-6 w-6 ${isOnAdmin ? 'text-white' : 'text-black'}`} />
     </button>
-
-      {/* Discipline Selection Modal */}
-      {showDisciplineModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue p-4 w-64 max-w-80vw">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-bold text-maineBlue">Select Dashboard</h3>
-              <button 
-                onClick={() => setShowDisciplineModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-xl"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="max-h-60 overflow-y-auto space-y-1">
-              <div onClick={() => { navigate('/culinary/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
-                🍳 Culinary
-              </div>
-              <div onClick={() => { navigate('/plumbing/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
-                🔩 Plumbing
-              </div>
-              <div onClick={() => { navigate('/automotive/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
-                🔧 Automotive
-              </div>
-              <div onClick={() => { navigate('/construction/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
-                🏗️ Construction
-              </div>
-              <div onClick={() => { navigate('/electrical/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
-                ⚡ Electrical
-              </div>
-              <div onClick={() => { navigate('/hvac/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
-                ❄️ HVAC
-              </div>
-              <div onClick={() => { navigate('/logistics/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
-                📦 Logistics
-              </div>
-              <div onClick={() => { navigate('/machining/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
-                ⚙️ Machining
-              </div>
-              <div onClick={() => { navigate('/manufacturing/dashboard'); setShowDisciplineModal(false); }} className="p-2 rounded hover:bg-gray-100 cursor-pointer border border-gray-200 text-sm text-gray-800">
-                🏭 Manufacturing
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
   );
 };
 
