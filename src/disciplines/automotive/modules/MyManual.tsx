@@ -1014,12 +1014,17 @@ const MyManual = () => {
                                 🥗
                               </span>
                             )}
+                            {recipe.photo && (
+                              <span className="text-xs bg-blue-100 text-blue-800 px-1 py-0.5 rounded">
+                                📷
+                              </span>
+                            )}
                           </div>
                         </div>
                       ))}
                     </div>
                     
-                    {/* Create Collection Button */}
+                    {/* Create Collection Button - Always visible */}
                     <button
                       onClick={() => setShowCreateCollectionModal(true)}
                       className="w-full mt-3 px-4 py-2 rounded border bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam transition-colors"
@@ -1027,14 +1032,21 @@ const MyManual = () => {
                       {t('myManual.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
                     </button>
                   </div>
-                )
-              : (
+                ) : (
                   <div className="text-center py-8">
                     <div className="text-4xl mb-2">📝</div>
                     <p className="text-gray-500 text-sm">{t('myManual.noRecipesYet')}</p>
                     <p className="text-gray-500 text-sm">{t('myManual.addRecipesFirst')}</p>
                   </div>
                 )}
+                
+                {/* Create Collection Button - Always visible */}
+                <button
+                  onClick={() => setShowCreateCollectionModal(true)}
+                  className="w-full mt-3 px-4 py-2 rounded border bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam transition-colors"
+                >
+                  {t('myManual.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
+                </button>
                 
                 {/* Always Visible Bottom Buttons */}
                 <div className="mt-6 space-y-3">
