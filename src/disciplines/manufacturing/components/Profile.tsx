@@ -1595,11 +1595,11 @@ Automated calculations and formulas would be present`;
       };
     }
     
-    const current = Math.max(0, totalXP - currentLevelXP);
+    const current = totalXP - currentLevelXP;
     const required = nextLevelXP - currentLevelXP;
     
-    // Show positive progress instead of negative delta
-    const displayCurrent = Math.max(0, current); // current should already be the earned amount
+    // Show the actual calculation, no caps
+    const displayCurrent = current;
     const displayRequired = required;
     
     // FORCE THIS LOG TO SHOW
