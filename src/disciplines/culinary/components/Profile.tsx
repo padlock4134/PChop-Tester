@@ -21,19 +21,132 @@ type UserProfile = {
   xp: number;
 };
 
-// Level titles and icons
+// Level titles and icons (60 levels for culinary progression)
 const LEVEL_TITLES_AND_ICONS = [
   { title: "Novice Cook", icon: "🥄", level: 1 },
-  { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
-  { title: "Home Chef", icon: "🍳", level: 3 },
-  { title: "Culinary Expert", icon: "👨‍🍳", level: 4 },
-  { title: "Master Chef", icon: "🏆", level: 5 }
+  { title: "Novice Cook II", icon: "🥄", level: 2 },
+  { title: "Novice Cook III", icon: "🥄", level: 3 },
+  { title: "Novice Cook IV", icon: "🥄", level: 4 },
+  { title: "Kitchen Helper", icon: "👨‍🍳", level: 5 },
+  { title: "Kitchen Helper II", icon: "👨‍🍳", level: 6 },
+  { title: "Kitchen Helper III", icon: "👨‍🍳", level: 7 },
+  { title: "Kitchen Helper IV", icon: "👨‍🍳", level: 8 },
+  { title: "Home Chef", icon: "🍳", level: 9 },
+  { title: "Home Chef II", icon: "🍳", level: 10 },
+  { title: "Home Chef III", icon: "🍳", level: 11 },
+  { title: "Home Chef IV", icon: "🍳", level: 12 },
+  { title: "Culinary Artist", icon: "🎨", level: 13 },
+  { title: "Culinary Artist II", icon: "🎨", level: 14 },
+  { title: "Culinary Artist III", icon: "🎨", level: 15 },
+  { title: "Line Cook", icon: "👨‍🍳", level: 16 },
+  { title: "Line Cook II", icon: "👨‍🍳", level: 17 },
+  { title: "Line Cook III", icon: "👨‍🍳", level: 18 },
+  { title: "Sous Chef", icon: "👨‍🍳", level: 19 },
+  { title: "Sous Chef II", icon: "👨‍🍳", level: 20 },
+  { title: "Sous Chef III", icon: "👨‍🍳", level: 21 },
+  { title: "Executive Chef", icon: "👨‍🍳", level: 22 },
+  { title: "Executive Chef II", icon: "👨‍🍳", level: 23 },
+  { title: "Executive Chef III", icon: "👨‍🍳", level: 24 },
+  { title: "Head Chef", icon: "👨‍🍳", level: 25 },
+  { title: "Head Chef II", icon: "👨‍🍳", level: 26 },
+  { title: "Head Chef III", icon: "👨‍🍳", level: 27 },
+  { title: "Chef de Cuisine", icon: "👨‍🍳", level: 28 },
+  { title: "Chef de Cuisine II", icon: "👨‍🍳", level: 29 },
+  { title: "Chef de Cuisine III", icon: "👨‍🍳", level: 30 },
+  { title: "Pastry Chef", icon: "🧁", level: 31 },
+  { title: "Pastry Chef II", icon: "🧁", level: 32 },
+  { title: "Pastry Chef III", icon: "🧁", level: 33 },
+  { title: "Saucier", icon: "🍲", level: 34 },
+  { title: "Saucier II", icon: "🍲", level: 35 },
+  { title: "Saucier III", icon: "🍲", level: 36 },
+  { title: "Restaurant Owner", icon: "🏪", level: 37 },
+  { title: "Restaurant Owner II", icon: "🏪", level: 38 },
+  { title: "Restaurant Owner III", icon: "🏪", level: 39 },
+  { title: "Food Critic", icon: "📝", level: 40 },
+  { title: "Food Critic II", icon: "📝", level: 41 },
+  { title: "Food Critic III", icon: "📝", level: 42 },
+  { title: "Culinary Instructor", icon: "👨‍🏫", level: 43 },
+  { title: "Culinary Instructor II", icon: "👨‍🏫", level: 44 },
+  { title: "Culinary Instructor III", icon: "👨‍🏫", level: 45 },
+  { title: "TV Chef", icon: "📺", level: 46 },
+  { title: "TV Chef II", icon: "📺", level: 47 },
+  { title: "TV Chef III", icon: "📺", level: 48 },
+  { title: "Culinary Innovator", icon: "💡", level: 49 },
+  { title: "Culinary Innovator II", icon: "💡", level: 50 },
+  { title: "Culinary Innovator III", icon: "💡", level: 51 },
+  { title: "Master Chef", icon: "🏆", level: 52 },
+  { title: "Master Chef II", icon: "🏆", level: 53 },
+  { title: "Master Chef III", icon: "🏆", level: 54 },
+  { title: "Culinary Legend", icon: "🌟", level: 55 },
+  { title: "Culinary Legend II", icon: "🌟", level: 56 },
+  { title: "Culinary Legend III", icon: "🌟", level: 57 },
+  { title: "Culinary Legend IV", icon: "🌟", level: 58 },
+  { title: "Culinary Legend V", icon: "🌟", level: 59 },
+  { title: "Kitchen Master", icon: "🏆", level: 60 }
 ];
 
 // WoW Classic XP table
 const WOW_CLASSIC_XP_TABLE = [
-  0, 400, 900, 1400, 2100, 2800, 3600, 4500, 5400, 6500,
-  7600, 8700, 9800, 11000, 12300, 13600, 15000, 16500, 18000, 19600
+  0,      // Level 1 (start)
+  400,    // Level 2
+  900,    // Level 3
+  1400,   // Level 4
+  2100,   // Level 5
+  2800,   // Level 6
+  3600,   // Level 7
+  4500,   // Level 8
+  5400,   // Level 9
+  6500,   // Level 10
+  7600,   // Level 11
+  8800,   // Level 12
+  10100,  // Level 13
+  11400,  // Level 14
+  12900,  // Level 15
+  14400,  // Level 16
+  15900,  // Level 17
+  17500,  // Level 18
+  19200,  // Level 19
+  20900,  // Level 20
+  22700,  // Level 21
+  24600,  // Level 22
+  26600,  // Level 23
+  28700,  // Level 24
+  30900,  // Level 25
+  33200,  // Level 26
+  35600,  // Level 27
+  38100,  // Level 28
+  40700,  // Level 29
+  43400,  // Level 30
+  46200,  // Level 31
+  49100,  // Level 32
+  52100,  // Level 33
+  55200,  // Level 34
+  58400,  // Level 35
+  61700,  // Level 36
+  65100,  // Level 37
+  68600,  // Level 38
+  72200,  // Level 39
+  75900,  // Level 40
+  79700,  // Level 41
+  83600, // Level 42
+  87600, // Level 43
+  91700, // Level 44
+  95900, // Level 45
+  100200, // Level 46
+  104600, // Level 47
+  109100, // Level 48
+  113700, // Level 49
+  118400, // Level 50
+  123200, // Level 51
+  128100, // Level 52
+  133100, // Level 53
+  138200, // Level 54
+  143400, // Level 55
+  148700, // Level 56
+  154100, // Level 57
+  159600, // Level 58
+  165200, // Level 59
+  170900  // Level 60
 ];
 
 // Experience level mapping between UI labels and backend values
@@ -1658,7 +1771,7 @@ Automated calculations and formulas would be present`;
             </div>
             <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
-                className="h-full bg-seafoam transition-all duration-500"
+                className="h-full bg-purple-500 transition-all duration-500"
                 style={{ width: `${Math.min(100, Math.max(0, levelProgress.progressPercent))}%` }}
               ></div>
             </div>
