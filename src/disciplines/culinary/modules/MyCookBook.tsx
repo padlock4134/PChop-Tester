@@ -1508,7 +1508,7 @@ const MyCookBook = () => {
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
-                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 {t('myCookbook.myTestKitchenVideos')}</h2>
+                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 My Test Kitchen Videos</h2>
                   <p className="text-purple-600 mt-1">{t('myCookbook.reviewSavedVideos')}</p>
                 </div>
                 <button
