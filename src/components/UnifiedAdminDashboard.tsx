@@ -16,7 +16,10 @@ import {
   XCircleIcon,
   PencilIcon,
   ArrowUpIcon,
+  ShieldCheckIcon,
+  ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
+import { getIntegrityAlerts, reviewIntegrityAlert, IntegrityAlert } from '../services/integrityMonitoring';
 
 interface AdminStats {
   totalUsers: number;
@@ -198,6 +201,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
+  
+  // Integrity monitoring state
+  const [integrityAlerts, setIntegrityAlerts] = useState<IntegrityAlert[]>([]);
+  const [loadingAlerts, setLoadingAlerts] = useState(false);
+  const [showReviewedAlerts, setShowReviewedAlerts] = useState(false);
+  const [selectedAlert, setSelectedAlert] = useState<IntegrityAlert | null>(null);
+  const [reviewNotes, setReviewNotes] = useState('');
   const [showChefFreddieModal, setShowChefFreddieModal] = useState(false);
   const [freddieMessages, setFreddieMessages] = useState<Array<{sender: 'freddie' | 'user', text: string, id?: string}>>([]);
   const [freddieInput, setFreddieInput] = useState('');
@@ -552,6 +562,42 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       setRecentCurriculum(data || []);
     } catch (error) {
       console.error('Error loading curriculum:', error);
+    }
+  };
+
+  // Load integrity alerts
+  useEffect(() => {
+    if (activeTab === 'integrity') {
+      loadIntegrityAlerts();
+    }
+  }, [activeTab, selectedDiscipline, showReviewedAlerts]);
+
+  const loadIntegrityAlerts = async () => {
+    setLoadingAlerts(true);
+    try {
+      const alerts = await getIntegrityAlerts(
+        selectedDiscipline === 'total' ? undefined : selectedDiscipline,
+        showReviewedAlerts ? undefined : false
+      );
+      setIntegrityAlerts(alerts);
+    } catch (error) {
+      console.error('Error loading integrity alerts:', error);
+    } finally {
+      setLoadingAlerts(false);
+    }
+  };
+
+  const handleReviewAlert = async (alertId: string) => {
+    if (!currentUser?.id) return;
+    
+    try {
+      await reviewIntegrityAlert(alertId, currentUser.id, reviewNotes);
+      setSelectedAlert(null);
+      setReviewNotes('');
+      await loadIntegrityAlerts();
+      showSuccess('Alert reviewed successfully');
+    } catch (error) {
+      showError('Failed to review alert');
     }
   };
 
@@ -1389,6 +1435,21 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="mb-3 text-4xl">🏫</div>
               <h3 className="text-sm font-bold font-retro">{t('admin.schoolSettings')}</h3>
             </button>
+            
+            <button
+              onClick={() => {
+                setActiveTab('integrity');
+                setActiveMobileTab('actions');
+              }}
+              className={`flex flex-col items-center p-6 rounded-lg border-4 ${
+                activeTab === 'integrity' 
+                  ? 'border-orange-400 bg-orange-50 scale-105 ring-4 ring-maineBlue' 
+                  : 'border-orange-400 bg-orange-50'
+              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
+            >
+              <div className="mb-3 text-4xl">🛡️</div>
+              <h3 className="text-sm font-bold font-retro">Integrity Monitoring</h3>
+            </button>
           </div>
           </div>
         </div>
@@ -1667,6 +1728,170 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === 'integrity' && (
+          <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-maineBlue font-retro">🛡️ Integrity Monitoring</h2>
+              <div className="flex items-center gap-3">
+                <label className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={showReviewedAlerts}
+                    onChange={(e) => setShowReviewedAlerts(e.target.checked)}
+                    className="rounded"
+                  />
+                  Show Reviewed
+                </label>
+                <button
+                  onClick={loadIntegrityAlerts}
+                  className="bg-maineBlue text-white px-4 py-2 rounded-md hover:bg-blue-700 font-retro text-sm"
+                >
+                  Refresh
+                </button>
+              </div>
+            </div>
+
+            {loadingAlerts ? (
+              <div className="text-center py-8 text-gray-600">Loading alerts...</div>
+            ) : integrityAlerts.length === 0 ? (
+              <div className="text-center py-8 text-gray-600">
+                <ShieldCheckIcon className="h-16 w-16 mx-auto mb-4 text-green-500" />
+                <p className="text-lg font-semibold">No integrity alerts</p>
+                <p className="text-sm">All systems running smoothly!</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {integrityAlerts.map((alert) => (
+                  <div
+                    key={alert.id}
+                    className={`border-4 rounded-lg p-4 ${
+                      alert.severity === 'high'
+                        ? 'border-red-400 bg-red-50'
+                        : alert.severity === 'medium'
+                        ? 'border-orange-400 bg-orange-50'
+                        : 'border-yellow-400 bg-yellow-50'
+                    } ${alert.reviewed ? 'opacity-60' : ''}`}
+                  >
+                    <div className="flex justify-between items-start mb-2">
+                      <div className="flex items-center gap-2">
+                        <ExclamationTriangleIcon
+                          className={`h-6 w-6 ${
+                            alert.severity === 'high'
+                              ? 'text-red-600'
+                              : alert.severity === 'medium'
+                              ? 'text-orange-600'
+                              : 'text-yellow-600'
+                          }`}
+                        />
+                        <span className="font-bold text-sm uppercase">
+                          {alert.alert_type.replace('_', ' ')}
+                        </span>
+                        <span
+                          className={`px-2 py-1 rounded text-xs font-bold ${
+                            alert.severity === 'high'
+                              ? 'bg-red-600 text-white'
+                              : alert.severity === 'medium'
+                              ? 'bg-orange-600 text-white'
+                              : 'bg-yellow-600 text-white'
+                          }`}
+                        >
+                          {alert.severity}
+                        </span>
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        {new Date(alert.created_at).toLocaleString()}
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-gray-800 mb-2">{alert.description}</p>
+
+                    <div className="text-xs text-gray-600 mb-2">
+                      <strong>Discipline:</strong> {alert.discipline || 'N/A'} |{' '}
+                      <strong>User ID:</strong> {alert.user_id.substring(0, 8)}...
+                    </div>
+
+                    {alert.metadata && (
+                      <details className="text-xs text-gray-600 mb-2">
+                        <summary className="cursor-pointer font-semibold">View Details</summary>
+                        <pre className="mt-2 p-2 bg-gray-100 rounded overflow-auto">
+                          {JSON.stringify(alert.metadata, null, 2)}
+                        </pre>
+                      </details>
+                    )}
+
+                    {alert.reviewed ? (
+                      <div className="text-xs text-green-700 bg-green-100 p-2 rounded">
+                        <strong>Reviewed by:</strong> {alert.reviewed_by?.substring(0, 8)}... on{' '}
+                        {alert.reviewed_at ? new Date(alert.reviewed_at).toLocaleString() : 'N/A'}
+                        {alert.review_notes && (
+                          <div className="mt-1">
+                            <strong>Notes:</strong> {alert.review_notes}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="flex gap-2 mt-2">
+                        <button
+                          onClick={() => setSelectedAlert(alert)}
+                          className="bg-maineBlue text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
+                        >
+                          Review
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Review Alert Modal */}
+            {selectedAlert && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full p-6">
+                  <h3 className="text-xl font-bold text-maineBlue mb-4">Review Alert</h3>
+                  <div className="mb-4">
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Type:</strong> {selectedAlert.alert_type.replace('_', ' ')}
+                    </p>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Description:</strong> {selectedAlert.description}
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Review Notes:
+                    </label>
+                    <textarea
+                      value={reviewNotes}
+                      onChange={(e) => setReviewNotes(e.target.value)}
+                      className="w-full border-2 border-gray-300 rounded-lg p-2 text-sm"
+                      rows={4}
+                      placeholder="Add notes about your review..."
+                    />
+                  </div>
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={() => {
+                        setSelectedAlert(null);
+                        setReviewNotes('');
+                      }}
+                      className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => handleReviewAlert(selectedAlert.id)}
+                      className="px-4 py-2 bg-maineBlue text-white rounded hover:bg-blue-700"
+                    >
+                      Mark as Reviewed
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
           </div>
