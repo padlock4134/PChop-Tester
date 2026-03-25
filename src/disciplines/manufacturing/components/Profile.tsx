@@ -1551,7 +1551,7 @@ Automated calculations and formulas would be present`;
 
   // Corrected level calculation function - 6500 XP should be Level 10
   const getCorrectLevel = (totalXP: number) => {
-    // For 6500 XP to be Level 10, we need to check if XP >= the requirement for that level
+    // WoW Classic XP: Level 1 starts at 0 XP, Level 2 at 400 XP, etc.
     if (totalXP >= 6500) return 10;
     if (totalXP >= 5400) return 9;
     if (totalXP >= 4500) return 8;
@@ -1588,7 +1588,7 @@ Automated calculations and formulas would be present`;
     const displayRequired = required;
     
     // FORCE THIS LOG TO SHOW
-    console.error('XP CALC DEBUG:', totalXP, currentLevelXP, nextLevelXP, 'CURRENT:', current, 'DISPLAY:', displayCurrent, 'REQUIRED:', required);
+    console.error('XP CALC DEBUG:', totalXP, 'LEVEL:', level, currentLevelXP, nextLevelXP, 'CURRENT:', current, 'DISPLAY:', displayCurrent, 'REQUIRED:', required);
     
     return { level, current: displayCurrent, required: displayRequired };
   };
