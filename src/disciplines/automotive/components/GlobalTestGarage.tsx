@@ -627,8 +627,8 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
     };
 
     const title = encodeURIComponent(`${session.serviceName} - Automotive Service`);
-    const description = encodeURIComponent(`Join ${session.hostName} for a live automotive demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Garage Lab - Online');
+    const description = encodeURIComponent(`Join ${session.hostName} for a live automotive service session: ${session.description}`);
+    const location = encodeURIComponent('The Car Lift - Online');
 
     // Detect device/platform
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -683,8 +683,8 @@ END:VCALENDAR`;
     };
 
     const title = encodeURIComponent(`${session.serviceName} - Automotive Service`);
-    const description = encodeURIComponent(`Join ${session.hostName} for a live automotive demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Garage Lab - Online');
+    const description = encodeURIComponent(`Join ${session.hostName} for a live automotive service session: ${session.description}`);
+    const location = encodeURIComponent('The Car Lift - Online');
 
     const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatDate(startDate)}/${formatDate(endDate)}&details=${description}&location=${location}`;
     const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&startdt=${formatDate(startDate)}&enddt=${formatDate(endDate)}&body=${description}&location=${location}`;
