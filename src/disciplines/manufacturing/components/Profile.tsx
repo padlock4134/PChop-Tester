@@ -1607,7 +1607,11 @@ Automated calculations and formulas would be present`;
     const current = Math.max(0, totalXP - currentLevelXP);
     const required = nextLevelXP - currentLevelXP;
     
-    return { level, current, required };
+    // Show remaining XP needed instead of deficit
+    const displayCurrent = Math.max(0, required - (totalXP - currentLevelXP));
+    const displayRequired = required;
+    
+    return { level, current: displayCurrent, required: displayRequired };
   };
 
   // Add a refresh function to reload profile data
