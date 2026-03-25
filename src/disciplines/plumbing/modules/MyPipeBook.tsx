@@ -374,9 +374,12 @@ const MyPipeBook = () => {
       try {
         setLoading(true);
         if (!user?.id) {
-          setError('Please sign in to view your pipebook');
+          setLoading(false);
+          setError(null);
+          setLocalRecipes([]);
           return;
         }
+        setError(null);
         const savedRecipes = await fetchCookbook(user.id);
         const converted = savedRecipes.map(r => ({
           id: r.id,
@@ -398,7 +401,7 @@ const MyPipeBook = () => {
       }
     };
     loadRecipes();
-  }, [updateContext]);
+  }, [updateContext, user?.id]);
 
   // Filter recipes based on search term and category
   const filteredRecipes = recipes.filter(recipe => {
