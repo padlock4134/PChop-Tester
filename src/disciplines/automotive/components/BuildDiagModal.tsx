@@ -65,12 +65,12 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     // Title
     pdf.setFontSize(20);
     pdf.setFont('helvetica', 'bold');
-    pdf.text(t('buildMenu.myMenu'), 105, yPos, { align: 'center' });
+    pdf.text('My Work Order', 105, yPos, { align: 'center' });
     yPos += 15;
 
-    // Menu Items
+    // Work Order Items
     pdf.setFontSize(14);
-    pdf.text(t('buildMenu.selectedRecipes'), 20, yPos);
+    pdf.text('Selected Services', 20, yPos);
     yPos += 8;
     pdf.setFontSize(11);
     pdf.setFont('helvetica', 'normal');
@@ -92,20 +92,20 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     ).map(ing => allIngredients.find(original => original.toLowerCase() === ing) || ing);
     const ingredientsByType = groupIngredientsByMarketType(uniqueIngredients);
 
-    // Shopping List by Market Type
+    // Parts List by Supplier Type
     pdf.setFontSize(14);
     pdf.setFont('helvetica', 'bold');
-    pdf.text('SHOPPING LIST', 20, yPos);
+    pdf.text('PARTS LIST', 20, yPos);
     yPos += 8;
 
     const marketTypeLabels: Record<string, string> = {
-      seafood: '🐟 Seafood Markets',
-      butcher: '🥩 Butcher',
-      produce: '🥦 Produce',
-      dairy: '🥛 Dairy',
-      grocery: '🛒 Grocery',
-      deli: '🥪 Deli/Bakery',
-      farms: '🚜 Farms'
+      seafood: '� Auto Parts Store',
+      butcher: '⚙️ Performance Shop',
+      produce: '🔩 Hardware Store',
+      dairy: '🛢️ Fluids & Chemicals',
+      grocery: '🛒 General Auto Supply',
+      deli: '🚗 Dealership Parts',
+      farms: '♻️ Salvage Yard'
     };
 
     Object.entries(ingredientsByType).forEach(([type, ingredients]) => {
@@ -153,7 +153,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     pdf.text('Prices are estimates only', 105, yPos + 5, { align: 'center' });
 
     // Download
-    pdf.save('my-menu.pdf');
+    pdf.save('my-work-order.pdf');
   };
 
   if (!open) return null;
@@ -164,7 +164,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
         <div className="p-6 flex-1 overflow-hidden flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-maineBlue font-retro">🔧 {t('buildMenu.title')}</h2>
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">🔧 Build Work Order</h2>
             <button 
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -175,7 +175,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
           {/* Instructions */}
           <p className="text-sm text-gray-600 mb-4">
-            {t('buildMenu.selectRecipes')}
+            Select services from your manual to build your work order, then find local parts suppliers.
           </p>
 
           {/* Two Column Layout */}
@@ -223,12 +223,12 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
               )}
             </div>
 
-            {/* Right: Your Menu */}
+            {/* Right: Your Work Order */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">🔧 {t('buildMenu.yourMenu')}</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">🔧 Your Work Order</h3>
               {selectedRecipeIds.size === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                  <p className="text-gray-400 text-sm">{t('buildMenu.selectToStart')}</p>
+                  <p className="text-gray-400 text-sm">Select services to build your work order</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
@@ -266,7 +266,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t flex-shrink-0">
             <div className="text-sm text-gray-600">
-              {selectedRecipeIds.size} {t('buildMenu.recipesSelected')}
+              {selectedRecipeIds.size} service(s) selected
             </div>
             <div className="flex gap-2">
               <button
@@ -284,18 +284,18 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                     : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam border border-maineBlue'
                 }`}
               >
-                📄 {t('buildMenu.createMenuPDF')}
+                📄 Create Work Order (PDF)
               </button>
               <button
                 onClick={handleFindMarkets}
                 disabled={selectedRecipeIds.size === 0}
-                className={`px-6 py-2 rounded font-bold transition-colors ${
+                className={`px-4 py-2 rounded font-bold transition-colors ${
                   selectedRecipeIds.size === 0
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
+                    : 'bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue border border-maineBlue'
                 }`}
               >
-                🛒 {t('buildMenu.findMarkets')}
+                � Find Parts Suppliers
               </button>
             </div>
           </div>
