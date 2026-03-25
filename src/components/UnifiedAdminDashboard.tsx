@@ -1259,7 +1259,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('admin.adminDashboard')}</h1>
             <p className="text-gray-600 italic">{t('admin.subtitle')}</p>
             
-            {/* Discipline Filter Dropdown */}
+            {/* Discipline Filter Dropdown with Admin Toggle */}
             <div className="mt-4 flex items-center justify-center gap-3">
               <label className="font-retro text-sm text-maineBlue">Program:</label>
               <select
@@ -1280,6 +1280,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </option>
                 ))}
               </select>
+              
+              {/* Admin Toggle Button */}
+              <button
+                onClick={toggleAdminMode}
+                className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow"
+                title="Exit Admin Mode"
+              >
+                Exit Admin Mode
+              </button>
             </div>
           </div>
           
