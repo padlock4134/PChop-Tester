@@ -1587,7 +1587,8 @@ Automated calculations and formulas would be present`;
     const displayCurrent = current;
     const displayRequired = required;
     
-    // FORCE THIS LOG TO SHOW
+    // FORCE THIS LOG TO SHOW - VERY OBVIOUS
+    alert(`DEBUG: XP=${totalXP}, LEVEL=${level}, CURRENT=${current}, REQUIRED=${required}`);
     console.error('XP CALC DEBUG:', totalXP, 'LEVEL:', level, currentLevelXP, nextLevelXP, 'CURRENT:', current, 'DISPLAY:', displayCurrent, 'REQUIRED:', required);
     
     return { level, current: displayCurrent, required: displayRequired };
