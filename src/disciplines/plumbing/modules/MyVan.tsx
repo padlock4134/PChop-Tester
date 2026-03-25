@@ -210,7 +210,7 @@ const MyVan = () => {
                   const detectedItems = await scanImage(base64);
                   console.log('Detected items:', detectedItems);
                   
-                  const newIngredients = Array.from(new Set(detectedItems))
+                  const newParts = Array.from(new Set(detectedItems))
                     .filter(d => {
                       const normalizedDetected = d.toLowerCase().trim();
                       return !ingredients.some(i => 
@@ -220,8 +220,8 @@ const MyVan = () => {
                       );
                     });
                   
-                  console.log('New ingredients to add:', newIngredients);
-                  if (newIngredients.length === 0) {
+                  console.log('New parts to add:', newParts);
+                  if (newParts.length === 0) {
                     setScanStatus(t('myVan.noNewIngredients'));
                     alert(t('myVan.noNewIngredients'));
                   } else {
@@ -244,7 +244,7 @@ const MyVan = () => {
                     }
                     const updatedIngredients = [
                       ...ingredients,
-                      ...newIngredients.map(name => ({ name, category: categorizeIngredient(name) }))
+                      ...newParts.map((name: string) => ({ name, category: categorizeIngredient(name) }))
                     ];
                     setIngredients(updatedIngredients);
                     try {
