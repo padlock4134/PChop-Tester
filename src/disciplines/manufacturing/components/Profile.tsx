@@ -1785,7 +1785,7 @@ Automated calculations and formulas would be present`;
             <div className="w-full max-w-xs h-2 bg-gray-200 rounded-full overflow-hidden">
               <div
                 className="h-full bg-purple-600 transition-all duration-500"
-                style={{ width: `${Math.min(100, Math.max(0, (levelProgress.current / levelProgress.required) * 100))}%` }}
+                style={{ width: `${Math.min(100, Math.max(0, levelProgress.progressPercent))}%` }}
               ></div>
             </div>
             <div className="text-xs text-gray-500 mt-1">
