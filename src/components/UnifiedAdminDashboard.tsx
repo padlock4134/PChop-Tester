@@ -527,17 +527,24 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     if (showChefFreddieModal && currentUser?.id) {
       loadRecentCurriculum();
     }
-  }, [showChefFreddieModal, freddieMessages.length]);
+  }, [showChefFreddieModal, freddieMessages.length, selectedDiscipline]);
 
   // Load recent curriculum from database
   const loadRecentCurriculum = async () => {
     if (!currentUser?.id) return;
     
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('curriculum_items')
         .select('*')
-        .eq('user_id', currentUser.id)
+        .eq('user_id', currentUser.id);
+      
+      // Filter by discipline if not viewing 'total'
+      if (selectedDiscipline !== 'total') {
+        query = query.eq('discipline', selectedDiscipline);
+      }
+      
+      const { data, error } = await query
         .order('created_at', { ascending: false })
         .limit(5);
       
@@ -567,14 +574,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           content,
           type,
           module: module === 'none' ? null : module,
-          applied: false
+          applied: false,
+          discipline: selectedDiscipline === 'total' ? null : selectedDiscipline
         })
         .select()
         .single();
       
       if (error) throw error;
       
-      showSuccess('Curriculum saved successfully!');
+      showSuccess(`Curriculum saved successfully to ${selectedDiscipline}!`);
       await loadRecentCurriculum();
       setShowSaveModal(false);
       setCurriculumToSave(null);
@@ -590,11 +598,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     if (!currentUser?.id) return;
     
     try {
-      const { error } = await supabase
+      let query = supabase
         .from('curriculum_items')
         .update({ module, applied: true })
         .eq('id', curriculumId)
         .eq('user_id', currentUser.id);
+      
+      // Ensure we only update within the current discipline
+      if (selectedDiscipline !== 'total') {
+        query = query.eq('discipline', selectedDiscipline);
+      }
+      
+      const { error } = await query;
       
       if (error) throw error;
       
@@ -610,11 +625,18 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     if (!currentUser?.id) return;
     
     try {
-      const { error } = await supabase
+      let query = supabase
         .from('curriculum_items')
         .delete()
         .eq('id', curriculumId)
         .eq('user_id', currentUser.id);
+      
+      // Ensure we only delete within the current discipline
+      if (selectedDiscipline !== 'total') {
+        query = query.eq('discipline', selectedDiscipline);
+      }
+      
+      const { error } = await query;
       
       if (error) throw error;
       
