@@ -121,7 +121,7 @@ const HardhatHub = () => {
   const [buildMenuModalOpen, setBuildMenuModalOpen] = useState(false);
   const [selectedMenuRecipes, setSelectedMenuRecipes] = useState<RecipeCard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeMobileTab, setActiveMobileTab] = useState<'corner' | 'kitchen'>('corner');
+  const [activeMobileTab, setActiveMobileTab] = useState<'corner' | 'lab'>('corner');
 
   useEffect(() => {
     updateContext({ page: 'ChefsCorner' });
@@ -224,12 +224,12 @@ const HardhatHub = () => {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            � {t('hardhatHub.title')}
+            ⛑️ {t('hardhatHub.title')}
           </button>
           <button
-            onClick={() => setActiveMobileTab('kitchen')}
+            onClick={() => setActiveMobileTab('lab')}
             className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
-              activeMobileTab === 'kitchen'
+              activeMobileTab === 'lab'
                 ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
@@ -245,7 +245,7 @@ const HardhatHub = () => {
           }`}>
             {/* Chef's Corner header - moved back inside the module */}
             <div className="flex items-center justify-center mb-4">
-              <span className="text-5xl mr-2">�</span>
+              <span className="text-5xl mr-2">⛑️</span>
               <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('hardhatHub.title')}</h1>
             </div>
             
@@ -366,9 +366,9 @@ const HardhatHub = () => {
 
         </div>
 
-        {/* Global Test Kitchen Tab - Mobile Only */}
+        {/* Global Test Lab Tab - Mobile Only */}
         <div className={`lg:hidden ${
-          activeMobileTab === 'kitchen' ? 'block' : 'hidden'
+          activeMobileTab === 'lab' ? 'block' : 'hidden'
         }`}>
           <GlobalTestSite showcaseRecipe={showcaseRecipe} />
         </div>
@@ -385,5 +385,4 @@ const HardhatHub = () => {
 };
 
 export default HardhatHub;
-
 

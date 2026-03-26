@@ -62,7 +62,7 @@ const MyVan = () => {
     Seals: '📦',
     Adhesives: '🧪',
     Fasteners: '⚙️',
-    Chemicals: '�',
+    Chemicals: '🔧',
     Equipment: '🔌',
     Other: '🔧',
   };
