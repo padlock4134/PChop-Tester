@@ -26,7 +26,7 @@ const LEVEL_TITLES_AND_ICONS = [
   { title: "Novice Cook", icon: "🥄", level: 1 },
   { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
   { title: "Home Chef", icon: "🍳", level: 3 },
-  { title: "Culinary Expert", icon: "👨‍🍳", level: 4 },
+  { title: "Trade Expert", icon: "🧠", level: 4 },
   { title: "Master Chef", icon: "🏆", level: 5 }
 ];
 
@@ -63,12 +63,12 @@ const EditProfileModal = ({
   user: UserProfile; 
   onProfileUpdated: (updatedUser: UserProfile) => void; 
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState({
     name: user?.name || '',
     cuisinePreference: user?.cuisine?.[0] || 'Italian',
     dietPreference: user?.dietary?.[0] || 'None',
-    kitchenSetup: user?.kitchenSetup || 'Apartment Kitchen',
+    kitchenSetup: user?.kitchenSetup || 'Professional',
     experienceLevel: user?.experience || 'Beginner',
     program: (user as any)?.program || ''
   });
@@ -156,7 +156,7 @@ const EditProfileModal = ({
               }`}
             >
               <option value="">{t('profile.selectYourProgram')}</option>
-              <option value="Bachelors of Arts in Culinary">🎓 {t('profile.bachelorsCulinary')}</option>
+              <option value="Bachelor of Applied Technology">🎓 {t('profile.bachelorsAppliedTechnology', { defaultValue: 'Bachelor of Applied Technology' })}</option>
               <option value="Associates in Aquaculture">🎓 {t('profile.associatesAquaculture')}</option>
             </select>
             {(user as any)?.program && (user as any).program !== '' && (
@@ -175,13 +175,13 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="American">🍔 American</option>
-              <option value="Asian">🥢 Asian</option>
-              <option value="French">🥖 French</option>
-              <option value="Indian">🍛 Indian</option>
-              <option value="Italian">🍝 Italian</option>
-              <option value="Mediterranean">🫒 Mediterranean</option>
-              <option value="Mexican">🌮 Mexican</option>
+              <option value="American">🍔 {t('profile.cuisineOptions.american', { defaultValue: 'American' })}</option>
+              <option value="Asian">🥢 {t('profile.cuisineOptions.asian', { defaultValue: 'Asian' })}</option>
+              <option value="French">🥖 {t('profile.cuisineOptions.french', { defaultValue: 'French' })}</option>
+              <option value="Indian">🍛 {t('profile.cuisineOptions.indian', { defaultValue: 'Indian' })}</option>
+              <option value="Italian">🍝 {t('profile.cuisineOptions.italian', { defaultValue: 'Italian' })}</option>
+              <option value="Mediterranean">🫒 {t('profile.cuisineOptions.mediterranean', { defaultValue: 'Mediterranean' })}</option>
+              <option value="Mexican">🌮 {t('profile.cuisineOptions.mexican', { defaultValue: 'Mexican' })}</option>
             </select>
           </div>
 
@@ -193,29 +193,29 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Gluten-Free">🌾 Gluten-Free</option>
-              <option value="Keto">🥑 Keto</option>
-              <option value="None">🍽️ None</option>
-              <option value="Paleo">🥩 Paleo</option>
-              <option value="Pescatarian">🐟 Pescatarian</option>
-              <option value="Vegan">🌱 Vegan</option>
-              <option value="Vegetarian">🥗 Vegetarian</option>
+              <option value="Gluten-Free">🌾 {t('profile.dietOptions.glutenFree', { defaultValue: 'Gluten-Free' })}</option>
+              <option value="Keto">🥑 {t('profile.dietOptions.keto', { defaultValue: 'Keto' })}</option>
+              <option value="None">🍽️ {t('profile.dietOptions.none', { defaultValue: 'None' })}</option>
+              <option value="Paleo">🥩 {t('profile.dietOptions.paleo', { defaultValue: 'Paleo' })}</option>
+              <option value="Pescatarian">🐟 {t('profile.dietOptions.pescatarian', { defaultValue: 'Pescatarian' })}</option>
+              <option value="Vegan">🌱 {t('profile.dietOptions.vegan', { defaultValue: 'Vegan' })}</option>
+              <option value="Vegetarian">🥗 {t('profile.dietOptions.vegetarian', { defaultValue: 'Vegetarian' })}</option>
             </select>
           </div>
 
           {/* Workspace Setup */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.kitchenSetup')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.workspaceLabel', { defaultValue: 'Workspace Setup' })}</label>
             <select
               value={formData.kitchenSetup}
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Kitchen">🏠 Apartment Workspace</option>
-              <option value="Full Kitchen">🏡 Full Workspace</option>
-              <option value="Minimal Setup">📦 Minimal Setup</option>
-              <option value="Outdoor Kitchen">🔥 Field Workspace</option>
-              <option value="Professional Kitchen">🏭 Professional Workspace</option>
+              <option value="Apartment Kitchen">🏠 {t('profile.workspaceOptions.apartment', { defaultValue: 'Apartment Workspace' })}</option>
+              <option value="Full Kitchen">🏡 {t('profile.workspaceOptions.full', { defaultValue: 'Full Workspace' })}</option>
+              <option value="Minimal Setup">📦 {t('profile.workspaceOptions.minimal', { defaultValue: 'Minimal Setup' })}</option>
+              <option value="Outdoor Kitchen">🔥 {t('profile.workspaceOptions.field', { defaultValue: 'Field Workspace' })}</option>
+              <option value="Professional Kitchen">🏭 {t('profile.workspaceOptions.professional', { defaultValue: 'Professional Workspace' })}</option>
             </select>
           </div>
 
@@ -227,10 +227,10 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, experienceLevel: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Advanced">⭐ Advanced</option>
-              <option value="Beginner">🌱 Beginner</option>
-              <option value="Intermediate">📈 Intermediate</option>
-              <option value="Professional">👨‍🍳 Professional</option>
+              <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
+              <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
+              <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
+              <option value="Professional">👨‍🍳 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -323,9 +323,9 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   if (!open) return null;
   
   const currentClasses = [
-    { icon: '🔪', name: 'Knife Skills Fundamentals', instructor: 'Chef Martinez', time: 'Mon/Wed 9:00 AM' },
-    { icon: '🍲', name: 'Sauce Making Techniques', instructor: 'Chef Johnson', time: 'Tue/Thu 11:00 AM' },
-    { icon: '🧁', name: 'Baking & Pastry Arts', instructor: 'Chef Williams', time: 'Fri 1:00 PM' }
+    { icon: '🔪', name: 'Blueprint Interpretation Fundamentals', instructor: 'Instructor Martinez', time: 'Mon/Wed 9:00 AM' },
+    { icon: '🍲', name: 'System Diagnostics Techniques', instructor: 'Instructor Johnson', time: 'Tue/Thu 11:00 AM' },
+    { icon: '🧁', name: 'Precision Fabrication Lab', instructor: 'Instructor Williams', time: 'Fri 1:00 PM' }
   ];
   
   return (
@@ -372,7 +372,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
               {t('profile.register')}
             </button>
             <button 
-              onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
+              onClick={() => window.open('mailto:training@porkchop-edtech.com?subject=Class Schedule Inquiry', '_blank')}
               className="bg-seafoam text-maineBlue px-8 py-3 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
             >
               {t('profile.contact')}
@@ -398,7 +398,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
     { id: 'knife_kit', name: 'Knife Kit Loaner', icon: '🔪', description: 'Request a loaner knife kit or replacement' },
     { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request thermometers, timers, or other equipment' },
     { id: 'textbook', name: 'Textbook/Materials', icon: '📚', description: 'Request textbooks or course materials' },
-    { id: 'kitchen_access', name: 'Lab/Shop Access', icon: '🔑', description: 'Request after-hours lab/shop access' },
+    { id: 'workspace_access', name: 'Lab/Shop Access', icon: '🔑', description: 'Request after-hours lab/shop access' },
     { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
     { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' },
     { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or dietary accommodations' },
@@ -509,11 +509,11 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
   if (!open) return null;
   
   const availableClasses = [
-    { name: 'Advanced Knife Skills', instructor: 'Chef Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
-    { name: 'International Cuisine', instructor: 'Chef Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
-    { name: 'Pastry Fundamentals', instructor: 'Chef Anderson', time: 'Fri 3:00 PM', spots: 6 },
-    { name: 'Food Safety Certification', instructor: 'Chef Thompson', time: 'Sat 9:00 AM', spots: 15 },
-    { name: 'Restaurant Management', instructor: 'Chef Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
+    { name: 'Advanced Blueprint Interpretation', instructor: 'Instructor Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
+    { name: 'Systems Integration', instructor: 'Instructor Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
+    { name: 'Pastry Fundamentals', instructor: 'Instructor Anderson', time: 'Fri 3:00 PM', spots: 6 },
+    { name: 'Safety Certification', instructor: 'Instructor Thompson', time: 'Sat 9:00 AM', spots: 15 },
+    { name: 'Restaurant Management', instructor: 'Instructor Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
   ];
   
   return (
@@ -575,7 +575,7 @@ const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [kitchenSetup, setKitchenSetup] = useState<string>('Apartment Kitchen');
+  const [kitchenSetup, setKitchenSetup] = useState<string>('Professional');
   const [termsContent, setTermsContent] = useState<string>('Loading terms and conditions...');
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -596,10 +596,20 @@ const Profile = () => {
   const [selectedStudentSegment, setSelectedStudentSegment] = useState<string>('all');
   const [selectedUserRole, setSelectedUserRole] = useState<string>('administrator');
   
+  const getLocalizedLevelMeta = (level: number) => {
+    const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
+    const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+    return {
+      title: t(`levels.hvac.titles.${level}`, { defaultValue: title }),
+      icon
+    };
+  };
+  const defaultLevelMeta = getLocalizedLevelMeta(1);
+
   const [levelProgress, setLevelProgress] = useState({
-    title: LEVEL_TITLES_AND_ICONS[0].title,
+    title: defaultLevelMeta.title,
     level: 1,
-    icon: LEVEL_TITLES_AND_ICONS[0].icon,
+    icon: defaultLevelMeta.icon,
     current: 0,
     required: 100,
     progressPercent: 0,
@@ -608,42 +618,43 @@ const Profile = () => {
   // Filter options for reports
   const filterOptions = {
     userRoles: [
-      { value: 'administrator', label: 'School Administrator', description: 'High-level institutional overview' },
-      { value: 'department_head', label: 'Department Head', description: 'Department-specific insights' },
-      { value: 'instructor', label: 'Individual Instructor', description: 'Class-specific data only' },
-      { value: 'coordinator', label: 'Academic Coordinator', description: 'Cross-department analysis' }
+      { value: 'administrator', label: t('profile.filterOptions.userRoles.administrator.label', { defaultValue: 'School Administrator' }), description: t('profile.filterOptions.userRoles.administrator.description', { defaultValue: 'High-level institutional overview' }) },
+      { value: 'department_head', label: t('profile.filterOptions.userRoles.departmentHead.label', { defaultValue: 'Department Head' }), description: t('profile.filterOptions.userRoles.departmentHead.description', { defaultValue: 'Department-specific insights' }) },
+      { value: 'instructor', label: t('profile.filterOptions.userRoles.instructor.label', { defaultValue: 'Individual Instructor' }), description: t('profile.filterOptions.userRoles.instructor.description', { defaultValue: 'Class-specific data only' }) },
+      { value: 'coordinator', label: t('profile.filterOptions.userRoles.coordinator.label', { defaultValue: 'Academic Coordinator' }), description: t('profile.filterOptions.userRoles.coordinator.description', { defaultValue: 'Cross-department analysis' }) }
     ],
     departments: [
-      { value: 'all', label: 'All Departments' },
-      { value: 'culinary_arts', label: 'Culinary Arts' },
-      { value: 'baking_pastry', label: 'Baking & Pastry' },
-      { value: 'business', label: 'Culinary Business' },
-      { value: 'nutrition', label: 'Nutrition & Dietetics' }
+      { value: 'all', label: t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' }) },
+      { value: 'precision_machining', label: t('profile.filterOptions.departments.precisionMachining', { defaultValue: 'Precision Machining' }) },
+      { value: 'welding_fabrication', label: t('profile.filterOptions.departments.weldingFabrication', { defaultValue: 'Welding & Fabrication' }) },
+      { value: 'industrial_automation', label: t('profile.filterOptions.departments.industrialAutomation', { defaultValue: 'Industrial Automation' }) },
+      { value: 'quality_control', label: t('profile.filterOptions.departments.qualityControl', { defaultValue: 'Quality Control' }) },
+      { value: 'assembly_production', label: t('profile.filterOptions.departments.assemblyProduction', { defaultValue: 'Assembly & Production' }) }
     ],
     classes: [
-      { value: 'all', label: 'All Classes' },
-      { value: 'fundamentals', label: 'Fundamentals of Cooking' },
-      { value: 'advanced_techniques', label: 'Advanced Culinary Techniques' },
-      { value: 'food_safety', label: 'Food Safety & Sanitation' },
-      { value: 'menu_planning', label: 'Menu Planning & Costing' },
-      { value: 'baking_basics', label: 'Baking Fundamentals' },
-      { value: 'pastry_arts', label: 'Advanced Pastry Arts' }
+      { value: 'all', label: t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' }) },
+      { value: 'fundamentals_engineering', label: t('profile.filterOptions.classes.fundamentalsEngineering', { defaultValue: 'Fundamentals of Engineering' }) },
+      { value: 'advanced_engineering_techniques', label: t('profile.filterOptions.classes.advancedEngineeringTechniques', { defaultValue: 'Advanced Engineering Techniques' }) },
+      { value: 'cnc_programming', label: t('profile.filterOptions.classes.cncProgramming', { defaultValue: 'CNC Programming' }) },
+      { value: 'process_optimization', label: t('profile.filterOptions.classes.processOptimization', { defaultValue: 'Process Optimization' }) },
+      { value: 'quality_assurance', label: t('profile.filterOptions.classes.qualityAssurance', { defaultValue: 'Quality Assurance' }) },
+      { value: 'safety_compliance', label: t('profile.filterOptions.classes.safetyCompliance', { defaultValue: 'Safety Compliance' }) }
     ],
     timeRanges: [
-      { value: '7days', label: 'Last 7 Days' },
-      { value: '30days', label: 'Last 30 Days' },
-      { value: 'semester', label: 'Current Semester' },
-      { value: 'academic_year', label: 'Academic Year' },
-      { value: 'custom', label: 'Custom Range' }
+      { value: '7days', label: t('profile.filterOptions.timeRanges.days7', { defaultValue: 'Last 7 Days' }) },
+      { value: '30days', label: t('profile.filterOptions.timeRanges.days30', { defaultValue: 'Last 30 Days' }) },
+      { value: 'semester', label: t('profile.filterOptions.timeRanges.semester', { defaultValue: 'Current Semester' }) },
+      { value: 'academic_year', label: t('profile.filterOptions.timeRanges.academicYear', { defaultValue: 'Academic Year' }) },
+      { value: 'custom', label: t('profile.filterOptions.timeRanges.custom', { defaultValue: 'Custom Range' }) }
     ],
     studentSegments: [
-      { value: 'all', label: 'All Students' },
-      { value: 'top_performers', label: 'Top 25% Performers' },
-      { value: 'struggling', label: 'Students Needing Support' },
-      { value: 'full_time', label: 'Full-Time Students' },
-      { value: 'part_time', label: 'Part-Time Students' },
-      { value: 'certificate', label: 'Certificate Program' },
-      { value: 'diploma', label: 'Diploma Program' }
+      { value: 'all', label: t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' }) },
+      { value: 'top_performers', label: t('profile.filterOptions.studentSegments.topPerformers', { defaultValue: 'Top 25% Performers' }) },
+      { value: 'struggling', label: t('profile.filterOptions.studentSegments.struggling', { defaultValue: 'Students Needing Support' }) },
+      { value: 'full_time', label: t('profile.filterOptions.studentSegments.fullTime', { defaultValue: 'Full-Time Students' }) },
+      { value: 'part_time', label: t('profile.filterOptions.studentSegments.partTime', { defaultValue: 'Part-Time Students' }) },
+      { value: 'certificate', label: t('profile.filterOptions.studentSegments.certificate', { defaultValue: 'Certificate Program' }) },
+      { value: 'diploma', label: t('profile.filterOptions.studentSegments.diploma', { defaultValue: 'Diploma Program' }) }
     ]
   };
 
@@ -670,40 +681,41 @@ const Profile = () => {
 
   // 9 talents per tree, unlock at 10, 14, 25, 30, 36, 42, 48, 55, 60
   const talentTrees = {
-    'Cast Iron Champion': [
-      { name: t('profile.talents.searSavant'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.searSavantDesc') },
-      { name: t('profile.talents.heatControl'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.heatControlDesc') },
-      { name: t('profile.talents.ironWill'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.ironWillDesc') },
-      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 30, description: t('profile.talents.seasonedVeteranDesc') },
-      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.rustproofDesc') },
-      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 42, description: t('profile.talents.heavyHitterDesc') },
-      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.surfaceSageDesc') },
-      { name: t('profile.talents.ironclad'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.ironcladDesc') },
-      { name: t('profile.talents.ironChef'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.ironChefDesc') },
+    'Climate Systems Master': [
+      { name: 'Comfort Calibrator', icon: FireIcon, unlockLevel: 10, description: 'Dial in comfort targets with better stability and control' },
+      { name: 'Thermal Analyst', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Read heat load behavior and respond with precision' },
+      { name: 'System Sequencer', icon: StarIcon, unlockLevel: 25, description: 'Coordinate staged equipment operation efficiently' },
+      { name: 'Efficiency Tuner', icon: StarIcon, unlockLevel: 30, description: 'Improve seasonal efficiency and runtime performance' },
+      { name: 'Control Integrator', icon: SparklesIcon, unlockLevel: 36, description: 'Connect thermostats and controls for smooth operation' },
+      { name: 'Performance Auditor', icon: CakeIcon, unlockLevel: 42, description: 'Identify underperforming system components quickly' },
+      { name: 'Commissioning Pro', icon: StarIcon, unlockLevel: 48, description: 'Deliver cleaner startups and handoff performance' },
+      { name: 'Reliability Builder', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Increase long-term HVAC system dependability' },
+      { name: 'Climate Systems Master', icon: TrophyIcon, unlockLevel: 60, description: 'Complete mastery of HVAC climate systems' },
     ],
-    'Grilling Heavy Weight': [
-      { name: t('profile.talents.flameTamer'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.flameTamerDesc') },
-      { name: t('profile.talents.smokeMaster'), icon: SparklesIcon, unlockLevel: 14, description: t('profile.talents.smokeMasterDesc') },
-      { name: t('profile.talents.charChampion'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.charChampionDesc') },
-      { name: t('profile.talents.grillMarks'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.grillMarksDesc') },
-      { name: t('profile.talents.bbqBuff'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.bbqBuffDesc') },
-      { name: t('profile.talents.pitBoss'), icon: TrophyIcon, unlockLevel: 42, description: t('profile.talents.pitBossDesc') },
-      { name: t('profile.talents.coalWhisperer'), icon: FireIcon, unlockLevel: 48, description: t('profile.talents.coalWhispererDesc') },
-      { name: t('profile.talents.grillGuardian'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.grillGuardianDesc') },
-      { name: t('profile.talents.bbqGod'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bbqGodDesc') },
+    'Refrigeration Expert': [
+      { name: 'Charge Precision', icon: FireIcon, unlockLevel: 10, description: 'Set refrigerant charge with higher diagnostic confidence' },
+      { name: 'Superheat Specialist', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Tune superheat/subcooling for peak performance' },
+      { name: 'Leak Hunter', icon: StarIcon, unlockLevel: 25, description: 'Detect and resolve refrigerant leaks faster' },
+      { name: 'Compressor Whisperer', icon: StarIcon, unlockLevel: 30, description: 'Diagnose compressor behavior and failure signals early' },
+      { name: 'Metering Maestro', icon: SparklesIcon, unlockLevel: 36, description: 'Optimize metering device performance under load' },
+      { name: 'Defrost Strategist', icon: CakeIcon, unlockLevel: 42, description: 'Improve defrost cycles and low-temp reliability' },
+      { name: 'Recovery Discipline', icon: StarIcon, unlockLevel: 48, description: 'Execute refrigerant recovery and handling correctly' },
+      { name: 'Cycle Optimizer', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Refine refrigeration cycle efficiency and stability' },
+      { name: 'Refrigeration Master', icon: TrophyIcon, unlockLevel: 60, description: 'Ultimate mastery of refrigeration systems' },
     ],
-    'Baking Warlock': [
-      { name: t('profile.talents.doughWhisperer'), icon: CakeIcon, unlockLevel: 10, description: t('profile.talents.doughWhispererDesc') },
-      { name: t('profile.talents.ovenOracle'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.ovenOracleDesc') },
-      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.proofingProDesc') },
-      { name: t('profile.talents.pastryPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.pastryProDesc') },
-      { name: t('profile.talents.crustConjurer'), icon: CakeIcon, unlockLevel: 36, description: t('profile.talents.crustConjurerDesc') },
-      { name: t('profile.talents.bakeSense'), icon: SparklesIcon, unlockLevel: 42, description: t('profile.talents.bakeSenseDesc') },
-      { name: t('profile.talents.fillingFiend'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.fillingFiendDesc') },
-      { name: t('profile.talents.breadBuffoon'), icon: AcademicCapIcon, unlockLevel: 55, description: t('profile.talents.breadBuffoonDesc') },
-      { name: t('profile.talents.bakingWarlockTalent'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bakingWarlockTalentDesc') },
+    'Airflow Specialist': [
+      { name: 'Static Pressure Pro', icon: FireIcon, unlockLevel: 10, description: 'Measure and correct static pressure issues effectively' },
+      { name: 'Duct Designer', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Improve duct layout outcomes and airflow consistency' },
+      { name: 'Balance Technician', icon: StarIcon, unlockLevel: 25, description: 'Balance zones and branches with precision' },
+      { name: 'Ventilation Planner', icon: StarIcon, unlockLevel: 30, description: 'Improve ventilation performance and air exchanges' },
+      { name: 'Filtration Expert', icon: SparklesIcon, unlockLevel: 36, description: 'Select and maintain filtration for IAQ goals' },
+      { name: 'Noise Reducer', icon: CakeIcon, unlockLevel: 42, description: 'Reduce airflow noise through better design choices' },
+      { name: 'Air Quality Guardian', icon: StarIcon, unlockLevel: 48, description: 'Advance IAQ outcomes across occupied spaces' },
+      { name: 'Distribution Controller', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Optimize supply and return distribution behavior' },
+      { name: 'Airflow Master', icon: TrophyIcon, unlockLevel: 60, description: 'Peak mastery of airflow and duct performance' },
     ],
   };
+
 
   const handleLogout = async () => {
     redirectToLogout('/.netlify/functions/auth-logout');
@@ -785,10 +797,10 @@ const Profile = () => {
     
     // Get filter labels for display
     const userRoleLabel = filterOptions.userRoles.find(r => r.value === selectedUserRole)?.label || 'Administrator';
-    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || 'All Departments';
-    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || 'All Classes';
+    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' });
+    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' });
     const timeRangeLabel = filterOptions.timeRanges.find(t => t.value === selectedTimeRange)?.label || 'Last 30 Days';
-    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || 'All Students';
+    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' });
     
     // Clean text function to remove problematic characters
     const cleanText = (text: string) => {
@@ -859,8 +871,8 @@ const Profile = () => {
     doc.setFont('helvetica', 'normal'); // Reset to normal
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    const platformWidth = doc.getTextWidth(cleanText('Culinary Education Analytics Platform'));
-    doc.text(cleanText('Culinary Education Analytics Platform'), 105 - platformWidth/2, 48);
+    const platformWidth = doc.getTextWidth(cleanText('Technical Education Analytics Platform'));
+    doc.text(cleanText('Technical Education Analytics Platform'), 105 - platformWidth/2, 48);
     
     doc.setFontSize(7);
     doc.setTextColor(100, 100, 100);
@@ -888,8 +900,8 @@ const Profile = () => {
     doc.setTextColor(60, 60, 60);
     
     if (fileName === 'skill-mastery-tracking') {
-      const line1Width = doc.getTextWidth(cleanText('This report analyzes student skill development across core culinary competencies.'));
-      doc.text(cleanText('This report analyzes student skill development across core culinary competencies.'), 105 - line1Width/2, 97);
+      const line1Width = doc.getTextWidth(cleanText('This report analyzes student skill development across core HVAC competencies.'));
+      doc.text(cleanText('This report analyzes student skill development across core HVAC competencies.'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('Data reflects performance metrics for technical skills, safety practices, and workflow quality,'));
       doc.text(cleanText('Data reflects performance metrics for technical skills, safety practices, and workflow quality,'), 105 - line2Width/2, 104);
       const line3Width = doc.getTextWidth(cleanText('and task execution during the current academic period.'));
@@ -906,11 +918,11 @@ const Profile = () => {
       doc.text(cleanText('This report examines student engagement and participation in live training'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'));
       doc.text(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'), 105 - line2Width/2, 104);
-      const line3Width = doc.getTextWidth(cleanText('and learning outcomes from real-time culinary instruction.'));
-      doc.text(cleanText('and learning outcomes from real-time culinary instruction.'), 105 - line3Width/2, 111);
+      const line3Width = doc.getTextWidth(cleanText('and learning outcomes from real-time HVAC instruction.'));
+      doc.text(cleanText('and learning outcomes from real-time HVAC instruction.'), 105 - line3Width/2, 111);
     } else {
-      const line1Width = doc.getTextWidth(cleanText('This report provides detailed analytics and insights for culinary education'));
-      doc.text(cleanText('This report provides detailed analytics and insights for culinary education'), 105 - line1Width/2, 97);
+      const line1Width = doc.getTextWidth(cleanText('This report provides detailed analytics and insights for HVAC education'));
+      doc.text(cleanText('This report provides detailed analytics and insights for HVAC education'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('management, offering data-driven recommendations to enhance student'));
       doc.text(cleanText('management, offering data-driven recommendations to enhance student'), 105 - line2Width/2, 104);
       const line3Width = doc.getTextWidth(cleanText('learning outcomes and institutional performance.'));
@@ -937,13 +949,13 @@ const Profile = () => {
     if (fileName === 'skill-mastery-tracking') {
       // Adjust data based on filters
       const avgProficiency = selectedClass === 'fundamentals' ? '73.8%' : selectedClass === 'advanced_techniques' ? '89.4%' : '81.2%';
-      const safetyRate = selectedDepartment === 'baking_pastry' ? '92.1%' : '86.7%';
+      const safetyRate = selectedDepartment === 'precision_machining' ? '92.1%' : '86.7%';
       const completionRate = selectedStudentSegment === 'struggling' ? '67.3%' : selectedStudentSegment === 'top_performers' ? '96.8%' : '85.1%';
       const supportNeeded = selectedClass === 'all' ? '3 of 15' : selectedStudentSegment === 'struggling' ? '8 of 12' : '1 of 8';
       
       doc.text(cleanText('Average Skill Proficiency:'), 35, 153);
       doc.text(cleanText(avgProficiency), 130, 153);
-      doc.text(cleanText('Food Safety Certification Rate:'), 35, 163);
+      doc.text(cleanText('Safety Certification Rate:'), 35, 163);
       doc.text(cleanText(safetyRate), 130, 163);
       doc.text(cleanText('Recipe Completion Success:'), 35, 173);
       doc.text(cleanText(completionRate), 130, 173);
@@ -1024,8 +1036,8 @@ const Profile = () => {
     // Footer (inside card at bottom)
     doc.setFontSize(7);
     doc.setTextColor(150, 150, 150);
-    const footerWidth1 = doc.getTextWidth(cleanText('PorkChop Ed Tech | Culinary Education Analytics Platform'));
-    doc.text(cleanText('PorkChop Ed Tech | Culinary Education Analytics Platform'), 105 - footerWidth1/2, 270);
+    const footerWidth1 = doc.getTextWidth(cleanText('PorkChop Ed Tech | Technical Education Analytics Platform'));
+    doc.text(cleanText('PorkChop Ed Tech | Technical Education Analytics Platform'), 105 - footerWidth1/2, 270);
     const footerWidth2 = doc.getTextWidth(cleanText('This report contains demonstration data for platform capabilities.'));
     doc.text(cleanText('This report contains demonstration data for platform capabilities.'), 105 - footerWidth2/2, 277);
     
@@ -1039,7 +1051,7 @@ const Profile = () => {
     if (format === 'csv') {
       // Generate CSV content
       if (fileName === 'skill-mastery-tracking') {
-        return `Student ID,Student Name,Knife Skills Score,Cooking Techniques Score,Food Safety Certification,Recipe Completion Rate,Overall Progress
+        return `Student ID,Student Name,Technical Skills Score,Core Techniques Score,Safety Certification,Task Completion Rate,Overall Progress
 STU001,Alex Johnson,85,78,Certified,80%,81%
 STU002,Maria Garcia,92,88,Certified,95%,92%
 STU003,David Chen,67,72,In Progress,65%,68%
@@ -1052,16 +1064,16 @@ STU009,Robert Taylor,70,75,Certified,70%,72%
 STU010,Jennifer Martinez,86,83,Certified,88%,86%`;
       } else if (fileName === 'class-performance') {
         return `Class ID,Class Name,Average Score,Completion Rate,Knowledge Gaps,Assignment Timeliness,Instructor
-CLS001,Fundamentals of Cooking,82,85%,Knife Skills,90%,Chef Martinez
-CLS002,Advanced Culinary Techniques,88,78%,Sauce Making,85%,Chef Johnson
-CLS003,Baking & Pastry Arts,91,92%,Bread Making,95%,Chef Williams
-CLS004,International Cuisine,85,80%,Spice Usage,88%,Chef Chen
-CLS005,Food Safety & Sanitation,94,96%,Temperature Control,98%,Chef Davis
-CLS006,Menu Planning & Costing,79,75%,Cost Analysis,82%,Chef Brown
-CLS007,Restaurant Operations,83,82%,Service Flow,87%,Chef Wilson
-CLS008,Nutrition & Dietary Planning,87,89%,Macro Calculations,91%,Chef Anderson
-CLS009,Culinary Arts Capstone,90,88%,Presentation Skills,93%,Chef Taylor
-CLS010,Professional Workspace Management,86,84%,Team Leadership,89%,Chef Garcia`;
+CLS001,Fundamentals of Engineering,82,85%,Blueprint Interpretation,90%,Instructor Martinez
+CLS002,Advanced Engineering Techniques,88,78%,System Diagnostics,85%,Instructor Johnson
+CLS003,Precision Fabrication Lab,91,92%,Tolerance Control,95%,Instructor Williams
+CLS004,Systems Integration,85,80%,Configuration Logic,88%,Instructor Chen
+CLS005,Workplace Safety & Compliance,94,96%,Safety Procedures,98%,Instructor Davis
+CLS006,Production Planning & Costing,79,75%,Resource Allocation,82%,Instructor Brown
+CLS007,Operations Management,83,82%,Workflow Coordination,87%,Instructor Wilson
+CLS008,Process Analytics,87,89%,Data Analysis,91%,Instructor Anderson
+CLS009,Applied Technical Capstone,90,88%,Technical Presentation,93%,Instructor Taylor
+CLS010,Professional Workspace Management,86,84%,Team Leadership,89%,Instructor Garcia`;
       } else {
         return `Report Type,${reportTitle}
 Generated Date,${currentDate}
@@ -1215,7 +1227,7 @@ Automated calculations and formulas would be present`;
       // Left-click: Add talent (with validation)
       const maxTalents = Math.floor(userProfile.xp / 100); // 1 talent per 100 XP
       if (selectedTalents.length >= maxTalents) {
-        alert(`You can only select ${maxTalents} talents at your current level.`);
+        alert(t('profile.talents.maxSelectionAlert', { defaultValue: 'You can only select {{count}} talents at your current level.', count: maxTalents }));
         return;
       }
       newSelectedTalents = [...selectedTalents, talentName];
@@ -1237,13 +1249,13 @@ Automated calculations and formulas would be present`;
         console.error('Error saving talents:', error);
         // Revert local state if save failed
         setSelectedTalents(selectedTalents);
-        alert('Failed to save talent selection. Please try again.');
+        alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
       }
     } catch (error) {
       console.error('Error saving talents:', error);
       // Revert local state if save failed
       setSelectedTalents(selectedTalents);
-      alert('Failed to save talent selection. Please try again.');
+      alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
     }
   };
 
@@ -1286,13 +1298,13 @@ Automated calculations and formulas would be present`;
           xp,
           // Map backend cooking_experience to UI display value
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
+          kitchenSetup: profile.kitchen_setup || 'Professional',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
 
         // Also update the local kitchenSetup state
-        setKitchenSetup(profile.kitchen_setup || 'Apartment Kitchen');
+        setKitchenSetup(profile.kitchen_setup || 'Professional');
 
         // Load selected talents from database (optional - field might not exist yet)
         if (profile.selected_talents && Array.isArray(profile.selected_talents)) {
@@ -1309,9 +1321,7 @@ Automated calculations and formulas would be present`;
         // Calculate level progress based on XP - USE CORRECTED CALCULATION
         const { level, current, required } = getCorrectXPProgress(xp);
         
-        // Map level to title index
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const { title, icon } = getLocalizedLevelMeta(level);
         const progressPercent = (current / required) * 100;
         
         setLevelProgress({
@@ -1345,8 +1355,7 @@ Automated calculations and formulas would be present`;
       
       // Update level progress when userProfile changes - USE CORRECTED CALCULATION
       const { level, current, required } = getCorrectXPProgress(userProfile.xp);
-      const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-      const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+      const { title, icon } = getLocalizedLevelMeta(level);
       const progressPercent = (current / required) * 100;
       
       setLevelProgress({
@@ -1365,6 +1374,17 @@ Automated calculations and formulas would be present`;
       setKitchenSetup(userProfile.kitchenSetup);
     }
   }, [userProfile]);
+
+  useEffect(() => {
+    setLevelProgress((prev) => {
+      const { title, icon } = getLocalizedLevelMeta(prev.level);
+      return {
+        ...prev,
+        title,
+        icon
+      };
+    });
+  }, [i18n.language]);
 
   // Handle avatar file selection
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1515,15 +1535,14 @@ Automated calculations and formulas would be present`;
           name: profile.name || 'User',
           xp,
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
+          kitchenSetup: profile.kitchen_setup || 'Professional',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
 
         // Use corrected level calculation
         const { level, current, required } = getCorrectXPProgress(xp);
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const { title, icon } = getLocalizedLevelMeta(level);
         const progressPercent = (current / required) * 100;
         
         console.log('🎯 Corrected Level Debug:', { 
@@ -1715,12 +1734,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Cast Iron</div>
-              <div>Champion</div>
+              <div>Climate</div>
+              <div>Systems</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.castIronChampion')}</strong>
-                <div className="mt-1">{t('profile.talents.castIronChampionDesc')}</div>
+                <strong>Climate Systems Master</strong>
+                <div className="mt-1">Master HVAC system performance, comfort, and controls.</div>
               </div>
             </button>
 
@@ -1730,12 +1749,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Grilling</div>
-              <div>Heavyweight</div>
+              <div>Refrigeration</div>
+              <div>Expert</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Grilling Heavyweight</strong>
-                <div className="mt-1">Become a grilling master with advanced techniques, temperature control, and flavor enhancement.</div>
+                <strong>Refrigeration Expert</strong>
+                <div className="mt-1">Specialize in refrigeration cycles, charging, and diagnostics.</div>
               </div>
             </button>
 
@@ -1745,12 +1764,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Baking</div>
-              <div>Warlock</div>
+              <div>Airflow</div>
+              <div>Specialist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.bakingWarlock')}</strong>
-                <div className="mt-1">{t('profile.talents.bakingWarlockDesc')}</div>
+                <strong>Airflow Specialist</strong>
+                <div className="mt-1">Optimize duct systems, balancing, and indoor air quality.</div>
               </div>
             </button>
           </div>
@@ -1856,7 +1875,7 @@ Automated calculations and formulas would be present`;
             
             <div className="text-center">
               <p className="text-gray-600 mb-4">
-                Master the techniques shown in this tutorial to unlock your full culinary potential!
+                Master the techniques shown in this tutorial to unlock your full HVAC potential!
               </p>
               <button
                 onClick={() => {
@@ -1883,8 +1902,8 @@ Automated calculations and formulas would be present`;
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? t('profile.talents.castIronChampion') : 
-                   selectedTalentTree === 'Techniques' ? t('profile.talents.grillingHeavyWeight') : t('profile.talents.bakingWarlock')}
+                  {selectedTalentTree === 'Equipment' ? 'Climate Systems Master' : 
+                   selectedTalentTree === 'Techniques' ? 'Refrigeration Expert' : 'Airflow Specialist'}
                 </h2>
               </div>
               <button
@@ -1896,8 +1915,8 @@ Automated calculations and formulas would be present`;
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {talentTrees[selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
-                           selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock']?.map(talent => {
+              {talentTrees[selectedTalentTree === 'Equipment' ? 'Climate Systems Master' : 
+                           selectedTalentTree === 'Techniques' ? 'Refrigeration Expert' : 'Airflow Specialist']?.map(talent => {
                 const xp = userProfile?.xp || 0;
                 // Use the corrected level calculation instead of the old one
                 const { level } = getCorrectXPProgress(xp);
@@ -1936,10 +1955,10 @@ Automated calculations and formulas would be present`;
                     <div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
                     <div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
                     {!unlocked && (
-                      <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
+                      <div className="text-xs text-red-500">{t('profile.talents.unlocksAtLevel', { defaultValue: 'Unlocks at Level {{level}}', level: talent.unlockLevel })}</div>
                     )}
                     {selected && (
-                      <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
+                      <div className="text-xs text-seafoam font-bold mb-1">{t('profile.talents.selectedBadge', { defaultValue: '✓ Selected' })}</div>
                     )}
                     {selected && (
                       <div className="flex gap-1">
@@ -1958,7 +1977,7 @@ Automated calculations and formulas would be present`;
                               : 'bg-yellow-500 text-white hover:bg-yellow-600'
                           }`}
                         >
-                          {unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
+                          {unlockedTalents.includes(talent.name) ? t('profile.talents.unlockedBadge', { defaultValue: '✅ Unlocked' }) : t('profile.talents.unlockAction', { defaultValue: '🔓 Unlock' })}
                         </button>
                         <button
                           onClick={(e) => {
@@ -2008,7 +2027,7 @@ Automated calculations and formulas would be present`;
           <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
             <div className="flex justify-between items-center mb-4">
               <div></div>
-              <h2 className="text-2xl font-bold text-maineBlue text-center">Culinary Education Reports</h2>
+              <h2 className="text-2xl font-bold text-maineBlue text-center">Technical Education Reports</h2>
               <button
                 onClick={() => setShowReportsModal(false)}
                 className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
@@ -2289,4 +2308,3 @@ Automated calculations and formulas would be present`;
 };
 
 export default Profile;
-
