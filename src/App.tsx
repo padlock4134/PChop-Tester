@@ -311,7 +311,7 @@ const AppRoutes = () => {
   // Render logic happens AFTER hooks
   console.log('AppRoutes - isLoading:', isLoading, 'user:', !!user, 'path:', location.pathname);
   
-  if (isLoading) {
+  if (isLoading && !user) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-sand">
         <div className="text-maineBlue text-xl">Loading...</div>

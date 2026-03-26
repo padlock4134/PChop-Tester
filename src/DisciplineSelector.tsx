@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from './disciplines/culinary/images/logo.png';
+import { useDiscipline } from './DisciplineContext';
 import { useSupabase } from './disciplines/culinary/components/SupabaseProvider';
 import { supabase } from './disciplines/culinary/api/supabaseClient';
 import { generateDisciplineSkin, generateSlug, convertToFullSkin } from './services/aiDisciplineGenerator';
