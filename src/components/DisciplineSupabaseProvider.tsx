@@ -3,15 +3,50 @@ import { useDiscipline } from '../DisciplineContext';
 import { useLocation } from 'react-router-dom';
 
 // Import all SupabaseProviders
-import CulinarySupabaseProvider from '../disciplines/culinary/components/SupabaseProvider';
-import PlumbingSupabaseProvider from '../disciplines/plumbing/components/SupabaseProvider';
-import AutomotiveSupabaseProvider from '../disciplines/automotive/components/SupabaseProvider';
-import ConstructionSupabaseProvider from '../disciplines/construction/components/SupabaseProvider';
-import ElectricalSupabaseProvider from '../disciplines/electrical/components/SupabaseProvider';
-import HvacSupabaseProvider from '../disciplines/hvac/components/SupabaseProvider';
-import ManufacturingSupabaseProvider from '../disciplines/manufacturing/components/SupabaseProvider';
-import LogisticsSupabaseProvider from '../disciplines/logistics/components/SupabaseProvider';
-import MachiningSupabaseProvider from '../disciplines/machining/components/SupabaseProvider';
+import CulinarySupabaseProvider, { useSupabase as useCulinarySupabase } from '../disciplines/culinary/components/SupabaseProvider';
+import PlumbingSupabaseProvider, { useSupabase as usePlumbingSupabase } from '../disciplines/plumbing/components/SupabaseProvider';
+import AutomotiveSupabaseProvider, { useSupabase as useAutomotiveSupabase } from '../disciplines/automotive/components/SupabaseProvider';
+import ConstructionSupabaseProvider, { useSupabase as useConstructionSupabase } from '../disciplines/construction/components/SupabaseProvider';
+import ElectricalSupabaseProvider, { useSupabase as useElectricalSupabase } from '../disciplines/electrical/components/SupabaseProvider';
+import HvacSupabaseProvider, { useSupabase as useHvacSupabase } from '../disciplines/hvac/components/SupabaseProvider';
+import ManufacturingSupabaseProvider, { useSupabase as useManufacturingSupabase } from '../disciplines/manufacturing/components/SupabaseProvider';
+import LogisticsSupabaseProvider, { useSupabase as useLogisticsSupabase } from '../disciplines/logistics/components/SupabaseProvider';
+import MachiningSupabaseProvider, { useSupabase as useMachiningSupabase } from '../disciplines/machining/components/SupabaseProvider';
+
+// Export a discipline-aware useSupabase hook
+export const useSupabase = () => {
+  const { currentDiscipline } = useDiscipline();
+  const location = useLocation();
+  
+  // If we're on the discipline selector page, use culinary hook
+  if (location.pathname === '/select-discipline') {
+    return useCulinarySupabase();
+  }
+  
+  // Otherwise use discipline-specific hook
+  switch (currentDiscipline) {
+    case 'culinary':
+      return useCulinarySupabase();
+    case 'plumbing':
+      return usePlumbingSupabase();
+    case 'automotive':
+      return useAutomotiveSupabase();
+    case 'construction':
+      return useConstructionSupabase();
+    case 'electrical':
+      return useElectricalSupabase();
+    case 'hvac':
+      return useHvacSupabase();
+    case 'manufacturing':
+      return useManufacturingSupabase();
+    case 'logistics':
+      return useLogisticsSupabase();
+    case 'machining':
+      return useMachiningSupabase();
+    default:
+      return useCulinarySupabase();
+  }
+};
 
 const DisciplineSupabaseProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentDiscipline } = useDiscipline();
