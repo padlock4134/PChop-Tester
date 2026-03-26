@@ -22,6 +22,10 @@ const disciplines = [
 const DisciplineSelector: React.FC = () => {
   const navigate = useNavigate();
   const { isAdmin, isLoading, user } = useSupabase();
+  
+  // DEBUG: Add console logs to trace loading state
+  console.log('DisciplineSelector - isLoading:', isLoading, 'user:', !!user);
+  
   const [selectedDiscipline, setSelectedDiscipline] = useState('');
   const [showAddDisciplineModal, setShowAddDisciplineModal] = useState(false);
   const [disciplineName, setDisciplineName] = useState('');
@@ -67,7 +71,8 @@ const DisciplineSelector: React.FC = () => {
     fetchCustomDisciplines();
   }, []);
 
-  if (isLoading) {
+  if (isLoading && !user) {
+    console.log('DisciplineSelector - Still loading, no user yet');
     return (
       <div className="min-h-screen bg-sand flex items-center justify-center">
         <div className="text-maineBlue text-xl">Loading...</div>

@@ -147,11 +147,14 @@ const HomeRedirect = () => {
   const { authStatus } = useWristbandAuth();
   const { user, isLoading } = useSupabase();
 
+  console.log('HomeRedirect - isLoading:', isLoading, 'authStatus:', authStatus, 'user:', !!user);
+
   useEffect(() => {
     if (isLoading) return;
     
     // If authenticated and user is loaded, always redirect to discipline selector
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
+      console.log('HomeRedirect - Authenticated, navigating to selector');
       navigate('/select-discipline', { replace: true });
     } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
       // Not authenticated, redirect to login
@@ -306,6 +309,8 @@ const AppRoutes = () => {
   // const { showInactivityWarning, handleContinueSession, handleLogoutNow } = useAutoLogout();
   
   // Render logic happens AFTER hooks
+  console.log('AppRoutes - isLoading:', isLoading, 'user:', !!user, 'path:', location.pathname);
+  
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-sand">
@@ -315,6 +320,7 @@ const AppRoutes = () => {
   }
 
   if (!user) {
+    console.log('AppRoutes - No user, redirecting to login');
     window.location.href = '/.netlify/functions/auth-login';
     return null;
   }
