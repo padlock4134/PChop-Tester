@@ -589,7 +589,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       }
 
       console.log('Video saved successfully:', data);
-      alert('Video saved successfully to Test Kitchen Videos!');
+      alert('Video saved successfully to Practice Videos!');
       
       // End the session after successful save
       handleEndSession();

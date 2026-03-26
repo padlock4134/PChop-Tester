@@ -1291,7 +1291,7 @@ END:VCALENDAR`;
               </h2>
               
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Add details to save this video to your <span className="font-semibold text-maineBlue">Test Kitchen Videos</span> collection:
+                Add details to save this video to your <span className="font-semibold text-maineBlue">Practice Videos</span> collection:
               </p>
               
               {/* Video Metadata Form */}
@@ -1413,7 +1413,7 @@ END:VCALENDAR`;
                   "🎥 {savedVideoTitle}"
                 </p>
                 <p className="text-green-700 text-sm">
-                  Your cooking session has been saved to <span className="font-bold">Test Kitchen Videos</span> and is ready to share with students!
+                  Your practice session has been saved to <span className="font-bold">Practice Videos</span> and is ready to share with students!
                 </p>
               </div>
               
@@ -1429,7 +1429,7 @@ END:VCALENDAR`;
                 </button>
                 
                 <p className="text-xs text-gray-500">
-                  📚 Your video is now available in the Test Kitchen Videos collection
+                  📚 Your video is now available in the Practice Videos collection
                 </p>
               </div>
             </div>
