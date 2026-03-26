@@ -175,13 +175,13 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Aerospace">✈️ Aerospace</option>
-              <option value="Automotive">🚗 Automotive</option>
-              <option value="Electronics">🔌 Electronics</option>
-              <option value="Medical Devices">🏥 Medical Devices</option>
-              <option value="Precision Machining">⚙️ Precision Machining</option>
-              <option value="Plastics">🧪 Plastics</option>
-              <option value="Metal Fabrication">🔧 Metal Fabrication</option>
+              <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
+              <option value="Automotive">🚗 {t('profile.manufacturingFocusOptions.automotive', { defaultValue: 'Automotive' })}</option>
+              <option value="Electronics">🔌 {t('profile.manufacturingFocusOptions.electronics', { defaultValue: 'Electronics' })}</option>
+              <option value="Medical Devices">🏥 {t('profile.manufacturingFocusOptions.medicalDevices', { defaultValue: 'Medical Devices' })}</option>
+              <option value="Precision Machining">⚙️ {t('profile.manufacturingFocusOptions.precisionMachining', { defaultValue: 'Precision Machining' })}</option>
+              <option value="Plastics">🧪 {t('profile.manufacturingFocusOptions.plastics', { defaultValue: 'Plastics' })}</option>
+              <option value="Metal Fabrication">🔧 {t('profile.manufacturingFocusOptions.metalFabrication', { defaultValue: 'Metal Fabrication' })}</option>
             </select>
           </div>
 
@@ -193,13 +193,13 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="None">📋 None</option>
-              <option value="OSHA-10">🦺 OSHA-10</option>
-              <option value="Six Sigma Green Belt">📊 Six Sigma Green Belt</option>
-              <option value="Lean Manufacturing">⚡ Lean Manufacturing</option>
-              <option value="ISO 9001">✅ ISO 9001</option>
-              <option value="CNC Programming">💻 CNC Programming</option>
-              <option value="Quality Inspector">🔍 Quality Inspector</option>
+              <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
+              <option value="OSHA-10">🦺 {t('profile.certificationOptions.osha10', { defaultValue: 'OSHA-10' })}</option>
+              <option value="Six Sigma Green Belt">📊 {t('profile.certificationOptions.sixSigmaGreenBelt', { defaultValue: 'Six Sigma Green Belt' })}</option>
+              <option value="Lean Manufacturing">⚡ {t('profile.certificationOptions.leanManufacturing', { defaultValue: 'Lean Manufacturing' })}</option>
+              <option value="ISO 9001">✅ {t('profile.certificationOptions.iso9001', { defaultValue: 'ISO 9001' })}</option>
+              <option value="CNC Programming">💻 {t('profile.certificationOptions.cncProgramming', { defaultValue: 'CNC Programming' })}</option>
+              <option value="Quality Inspector">🔍 {t('profile.certificationOptions.qualityInspector', { defaultValue: 'Quality Inspector' })}</option>
             </select>
           </div>
 
@@ -211,11 +211,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, workshopSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Home Workshop">🏠 Home Workshop</option>
-              <option value="School Lab">🏫 School Lab</option>
-              <option value="Shared Makerspace">🔧 Shared Makerspace</option>
-              <option value="Industrial Facility">🏭 Industrial Facility</option>
-              <option value="Full Machine Shop">⚙️ Full Machine Shop</option>
+              <option value="Home Workshop">🏠 {t('profile.workshopOptions.homeWorkshop', { defaultValue: 'Home Workshop' })}</option>
+              <option value="School Lab">🏫 {t('profile.workshopOptions.schoolLab', { defaultValue: 'School Lab' })}</option>
+              <option value="Shared Makerspace">🔧 {t('profile.workshopOptions.sharedMakerspace', { defaultValue: 'Shared Makerspace' })}</option>
+              <option value="Industrial Facility">🏭 {t('profile.workshopOptions.industrialFacility', { defaultValue: 'Industrial Facility' })}</option>
+              <option value="Full Machine Shop">⚙️ {t('profile.workshopOptions.fullMachineShop', { defaultValue: 'Full Machine Shop' })}</option>
             </select>
           </div>
 
@@ -227,10 +227,10 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, experienceLevel: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Advanced">⭐ Advanced</option>
-              <option value="Beginner">🌱 Beginner</option>
-              <option value="Intermediate">📈 Intermediate</option>
-              <option value="Professional">🏭 Professional</option>
+              <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
+              <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
+              <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
+              <option value="Professional">🏭 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -477,7 +477,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
           <div></div>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.submitARequest')}</h2>
-            <p className="text-sm text-gray-500 mt-1">Select a request type and provide details</p>
+            <p className="text-sm text-gray-500 mt-1">{t('profile.requests.selectTypeHelp', { defaultValue: 'Select a request type and provide details' })}</p>
           </div>
           <button
             onClick={onClose}
@@ -636,7 +636,7 @@ Welcome to Porkchop. By using this app, you agree to be bound by the following t
 }
 
 const Profile = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useSupabase();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -673,10 +673,20 @@ const Profile = () => {
   const [selectedStudentSegment, setSelectedStudentSegment] = useState<string>('all');
   const [selectedUserRole, setSelectedUserRole] = useState<string>('administrator');
   
+  const getLocalizedLevelMeta = (level: number) => {
+    const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
+    const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+    return {
+      title: t(`levels.manufacturing.titles.${level}`, { defaultValue: title }),
+      icon
+    };
+  };
+  const defaultLevelMeta = getLocalizedLevelMeta(1);
+
   const [levelProgress, setLevelProgress] = useState({
-    title: LEVEL_TITLES_AND_ICONS[0].title,
+    title: defaultLevelMeta.title,
     level: 1,
-    icon: LEVEL_TITLES_AND_ICONS[0].icon,
+    icon: defaultLevelMeta.icon,
     current: 0,
     required: 100,
     progressPercent: 0,
@@ -685,43 +695,43 @@ const Profile = () => {
   // Filter options for reports
   const filterOptions = {
     userRoles: [
-      { value: 'administrator', label: 'School Administrator', description: 'High-level institutional overview' },
-      { value: 'department_head', label: 'Department Head', description: 'Department-specific insights' },
-      { value: 'instructor', label: 'Individual Instructor', description: 'Class-specific data only' },
-      { value: 'coordinator', label: 'Academic Coordinator', description: 'Cross-department analysis' }
+      { value: 'administrator', label: t('profile.filterOptions.userRoles.administrator.label', { defaultValue: 'School Administrator' }), description: t('profile.filterOptions.userRoles.administrator.description', { defaultValue: 'High-level institutional overview' }) },
+      { value: 'department_head', label: t('profile.filterOptions.userRoles.departmentHead.label', { defaultValue: 'Department Head' }), description: t('profile.filterOptions.userRoles.departmentHead.description', { defaultValue: 'Department-specific insights' }) },
+      { value: 'instructor', label: t('profile.filterOptions.userRoles.instructor.label', { defaultValue: 'Individual Instructor' }), description: t('profile.filterOptions.userRoles.instructor.description', { defaultValue: 'Class-specific data only' }) },
+      { value: 'coordinator', label: t('profile.filterOptions.userRoles.coordinator.label', { defaultValue: 'Academic Coordinator' }), description: t('profile.filterOptions.userRoles.coordinator.description', { defaultValue: 'Cross-department analysis' }) }
     ],
     departments: [
-      { value: 'all', label: 'All Departments' },
-      { value: 'precision_machining', label: 'Precision Machining' },
-      { value: 'assembly_production', label: 'Assembly & Production' },
-      { value: 'quality_control', label: 'Quality Control' },
-      { value: 'industrial_automation', label: 'Industrial Automation' },
-      { value: 'welding_fabrication', label: 'Welding & Fabrication' }
+      { value: 'all', label: t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' }) },
+      { value: 'precision_machining', label: t('profile.filterOptions.departments.precisionMachining', { defaultValue: 'Precision Machining' }) },
+      { value: 'assembly_production', label: t('profile.filterOptions.departments.assemblyProduction', { defaultValue: 'Assembly & Production' }) },
+      { value: 'quality_control', label: t('profile.filterOptions.departments.qualityControl', { defaultValue: 'Quality Control' }) },
+      { value: 'industrial_automation', label: t('profile.filterOptions.departments.industrialAutomation', { defaultValue: 'Industrial Automation' }) },
+      { value: 'welding_fabrication', label: t('profile.filterOptions.departments.weldingFabrication', { defaultValue: 'Welding & Fabrication' }) }
     ],
     classes: [
-      { value: 'all', label: 'All Classes' },
-      { value: 'fundamentals', label: 'Fundamentals of Engineering' },
-      { value: 'advanced_techniques', label: 'Advanced Engineering Techniques' },
-      { value: 'safety_compliance', label: 'Safety & Compliance' },
-      { value: 'process_optimization', label: 'Process Optimization' },
-      { value: 'cnc_programming', label: 'CNC Programming' },
-      { value: 'quality_assurance', label: 'Quality Assurance' }
+      { value: 'all', label: t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' }) },
+      { value: 'fundamentals', label: t('profile.filterOptions.classes.fundamentalsEngineering', { defaultValue: 'Fundamentals of Engineering' }) },
+      { value: 'advanced_techniques', label: t('profile.filterOptions.classes.advancedEngineeringTechniques', { defaultValue: 'Advanced Engineering Techniques' }) },
+      { value: 'safety_compliance', label: t('profile.filterOptions.classes.safetyCompliance', { defaultValue: 'Safety & Compliance' }) },
+      { value: 'process_optimization', label: t('profile.filterOptions.classes.processOptimization', { defaultValue: 'Process Optimization' }) },
+      { value: 'cnc_programming', label: t('profile.filterOptions.classes.cncProgramming', { defaultValue: 'CNC Programming' }) },
+      { value: 'quality_assurance', label: t('profile.filterOptions.classes.qualityAssurance', { defaultValue: 'Quality Assurance' }) }
     ],
     timeRanges: [
-      { value: '7days', label: 'Last 7 Days' },
-      { value: '30days', label: 'Last 30 Days' },
-      { value: 'semester', label: 'Current Semester' },
-      { value: 'academic_year', label: 'Academic Year' },
-      { value: 'custom', label: 'Custom Range' }
+      { value: '7days', label: t('profile.filterOptions.timeRanges.days7', { defaultValue: 'Last 7 Days' }) },
+      { value: '30days', label: t('profile.filterOptions.timeRanges.days30', { defaultValue: 'Last 30 Days' }) },
+      { value: 'semester', label: t('profile.filterOptions.timeRanges.semester', { defaultValue: 'Current Semester' }) },
+      { value: 'academic_year', label: t('profile.filterOptions.timeRanges.academicYear', { defaultValue: 'Academic Year' }) },
+      { value: 'custom', label: t('profile.filterOptions.timeRanges.custom', { defaultValue: 'Custom Range' }) }
     ],
     studentSegments: [
-      { value: 'all', label: 'All Students' },
-      { value: 'top_performers', label: 'Top 25% Performers' },
-      { value: 'struggling', label: 'Students Needing Support' },
-      { value: 'full_time', label: 'Full-Time Students' },
-      { value: 'part_time', label: 'Part-Time Students' },
-      { value: 'certificate', label: 'Certificate Program' },
-      { value: 'diploma', label: 'Diploma Program' }
+      { value: 'all', label: t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' }) },
+      { value: 'top_performers', label: t('profile.filterOptions.studentSegments.topPerformers', { defaultValue: 'Top 25% Performers' }) },
+      { value: 'struggling', label: t('profile.filterOptions.studentSegments.struggling', { defaultValue: 'Students Needing Support' }) },
+      { value: 'full_time', label: t('profile.filterOptions.studentSegments.fullTime', { defaultValue: 'Full-Time Students' }) },
+      { value: 'part_time', label: t('profile.filterOptions.studentSegments.partTime', { defaultValue: 'Part-Time Students' }) },
+      { value: 'certificate', label: t('profile.filterOptions.studentSegments.certificate', { defaultValue: 'Certificate Program' }) },
+      { value: 'diploma', label: t('profile.filterOptions.studentSegments.diploma', { defaultValue: 'Diploma Program' }) }
     ]
   };
 
@@ -905,10 +915,10 @@ const Profile = () => {
     
     // Get filter labels for display
     const userRoleLabel = filterOptions.userRoles.find(r => r.value === selectedUserRole)?.label || 'Administrator';
-    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || 'All Departments';
-    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || 'All Classes';
+    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' });
+    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' });
     const timeRangeLabel = filterOptions.timeRanges.find(t => t.value === selectedTimeRange)?.label || 'Last 30 Days';
-    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || 'All Students';
+    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' });
     
     // Clean text function to remove problematic characters
     const cleanText = (text: string) => {
@@ -1335,7 +1345,7 @@ Automated calculations and formulas would be present`;
       // Left-click: Add talent (with validation)
       const maxTalents = Math.floor(userProfile.xp / 100); // 1 talent per 100 XP
       if (selectedTalents.length >= maxTalents) {
-        alert(`You can only select ${maxTalents} talents at your current level.`);
+        alert(t('profile.talents.maxSelectionAlert', { defaultValue: 'You can only select {{count}} talents at your current level.', count: maxTalents }));
         return;
       }
       newSelectedTalents = [...selectedTalents, talentName];
@@ -1357,13 +1367,13 @@ Automated calculations and formulas would be present`;
         console.error('Error saving talents:', error);
         // Revert local state if save failed
         setSelectedTalents(selectedTalents);
-        alert('Failed to save talent selection. Please try again.');
+        alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
       }
     } catch (error) {
       console.error('Error saving talents:', error);
       // Revert local state if save failed
       setSelectedTalents(selectedTalents);
-      alert('Failed to save talent selection. Please try again.');
+      alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
     }
   };
 
@@ -1429,8 +1439,7 @@ Automated calculations and formulas would be present`;
         const { level, current, required } = getCorrectXPProgress(xp);
         
         // Map level to title index
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const { title, icon } = getLocalizedLevelMeta(level);
         const progressPercent = (current / required) * 100;
         
         setLevelProgress({
@@ -1469,6 +1478,17 @@ Automated calculations and formulas would be present`;
       setWorkshopSetup(userProfile.workshopSetup);
     }
   }, [userProfile]);
+
+  useEffect(() => {
+    setLevelProgress((prev) => {
+      const { title, icon } = getLocalizedLevelMeta(prev.level);
+      return {
+        ...prev,
+        title,
+        icon
+      };
+    });
+  }, [i18n.language]);
 
   // Handle avatar file selection
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1783,7 +1803,7 @@ Automated calculations and formulas would be present`;
               <div>Machinist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Precision Machinist</strong>
+                <strong>{t('profile.talents.precisionMachinist', { defaultValue: 'Precision Machinist' })}</strong>
                 <div className="mt-1">Master precision with tight tolerances and advanced machining techniques.</div>
               </div>
             </button>
@@ -1798,7 +1818,7 @@ Automated calculations and formulas would be present`;
               <div>Specialist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Assembly Specialist</strong>
+                <strong>{t('profile.talents.assemblySpecialist', { defaultValue: 'Assembly Specialist' })}</strong>
                 <div className="mt-1">Excel at assembly line operations with lean manufacturing and quality control expertise.</div>
               </div>
             </button>
@@ -1813,7 +1833,7 @@ Automated calculations and formulas would be present`;
               <div>Inspector</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Quality Inspector</strong>
+                <strong>{t('profile.talents.qualityInspector', { defaultValue: 'Quality Inspector' })}</strong>
                 <div className="mt-1">Become a quality assurance expert with inspection, auditing, and process improvement skills.</div>
               </div>
             </button>
@@ -1947,8 +1967,11 @@ Automated calculations and formulas would be present`;
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? 'Precision Machinist' : 
-                   selectedTalentTree === 'Techniques' ? 'Assembly Specialist' : 'Quality Inspector'}
+                  {selectedTalentTree === 'Equipment'
+                    ? t('profile.talents.precisionMachinist', { defaultValue: 'Precision Machinist' })
+                    : selectedTalentTree === 'Techniques'
+                      ? t('profile.talents.assemblySpecialist', { defaultValue: 'Assembly Specialist' })
+                      : t('profile.talents.qualityInspector', { defaultValue: 'Quality Inspector' })}
                 </h2>
               </div>
               <button
@@ -1960,8 +1983,11 @@ Automated calculations and formulas would be present`;
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {talentTrees[selectedTalentTree === 'Equipment' ? 'Precision Machinist' : 
-                           selectedTalentTree === 'Techniques' ? 'Assembly Specialist' : 'Quality Inspector']?.map((talent: any) => {
+              {talentTrees[selectedTalentTree === 'Equipment'
+                ? 'Precision Machinist'
+                : selectedTalentTree === 'Techniques'
+                  ? 'Assembly Specialist'
+                  : 'Quality Inspector']?.map((talent: any) => {
                 const xp = userProfile?.xp || 0;
                 // Use the corrected level calculation instead of the old one
                 const { level } = getCorrectXPProgress(xp);
@@ -2000,10 +2026,10 @@ Automated calculations and formulas would be present`;
                     <div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
                     <div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
                     {!unlocked && (
-                      <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
+                      <div className="text-xs text-red-500">{t('profile.talents.unlocksAtLevel', { defaultValue: 'Unlocks at Level {{level}}', level: talent.unlockLevel })}</div>
                     )}
                     {selected && (
-                      <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
+                      <div className="text-xs text-seafoam font-bold mb-1">{t('profile.talents.selectedBadge', { defaultValue: '✓ Selected' })}</div>
                     )}
                     {selected && (
                       <div className="flex gap-1">
@@ -2022,7 +2048,7 @@ Automated calculations and formulas would be present`;
                               : 'bg-yellow-500 text-white hover:bg-yellow-600'
                           }`}
                         >
-                          {unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
+                          {unlockedTalents.includes(talent.name) ? t('profile.talents.unlockedBadge', { defaultValue: '✅ Unlocked' }) : t('profile.talents.unlockAction', { defaultValue: '🔓 Unlock' })}
                         </button>
                         <button
                           onClick={(e) => {
