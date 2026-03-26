@@ -2069,7 +2069,7 @@ Automated calculations and formulas would be present`;
                       <div className="text-xs text-red-500">{t('profile.talents.unlocksAtLevel', { defaultValue: 'Unlocks at Level {{level}}', level: talent.unlockLevel })}</div>
                     )}
                     {selected && (
-                      <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
+                      <div className="text-xs text-seafoam font-bold mb-1">{t('profile.talents.selectedBadge', { defaultValue: '✓ Selected' })}</div>
                     )}
                     {selected && (
                       <div className="flex gap-1">

@@ -1803,7 +1803,7 @@ Automated calculations and formulas would be present`;
               <div>Machinist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Precision Machinist</strong>
+                <strong>{t('profile.talents.precisionMachinist', { defaultValue: 'Precision Machinist' })}</strong>
                 <div className="mt-1">Master precision with tight tolerances and advanced machining techniques.</div>
               </div>
             </button>
@@ -1818,7 +1818,7 @@ Automated calculations and formulas would be present`;
               <div>Specialist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Assembly Specialist</strong>
+                <strong>{t('profile.talents.assemblySpecialist', { defaultValue: 'Assembly Specialist' })}</strong>
                 <div className="mt-1">Excel at assembly line operations with lean manufacturing and quality control expertise.</div>
               </div>
             </button>
@@ -1833,7 +1833,7 @@ Automated calculations and formulas would be present`;
               <div>Inspector</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Quality Inspector</strong>
+                <strong>{t('profile.talents.qualityInspector', { defaultValue: 'Quality Inspector' })}</strong>
                 <div className="mt-1">Become a quality assurance expert with inspection, auditing, and process improvement skills.</div>
               </div>
             </button>
@@ -1967,8 +1967,11 @@ Automated calculations and formulas would be present`;
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? 'Precision Machinist' : 
-                   selectedTalentTree === 'Techniques' ? 'Assembly Specialist' : 'Quality Inspector'}
+                  {selectedTalentTree === 'Equipment'
+                    ? t('profile.talents.precisionMachinist', { defaultValue: 'Precision Machinist' })
+                    : selectedTalentTree === 'Techniques'
+                      ? t('profile.talents.assemblySpecialist', { defaultValue: 'Assembly Specialist' })
+                      : t('profile.talents.qualityInspector', { defaultValue: 'Quality Inspector' })}
                 </h2>
               </div>
               <button
@@ -1980,8 +1983,11 @@ Automated calculations and formulas would be present`;
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {talentTrees[selectedTalentTree === 'Equipment' ? 'Precision Machinist' : 
-                           selectedTalentTree === 'Techniques' ? 'Assembly Specialist' : 'Quality Inspector']?.map((talent: any) => {
+              {talentTrees[selectedTalentTree === 'Equipment'
+                ? 'Precision Machinist'
+                : selectedTalentTree === 'Techniques'
+                  ? 'Assembly Specialist'
+                  : 'Quality Inspector']?.map((talent: any) => {
                 const xp = userProfile?.xp || 0;
                 // Use the corrected level calculation instead of the old one
                 const { level } = getCorrectXPProgress(xp);
@@ -2023,7 +2029,7 @@ Automated calculations and formulas would be present`;
                       <div className="text-xs text-red-500">{t('profile.talents.unlocksAtLevel', { defaultValue: 'Unlocks at Level {{level}}', level: talent.unlockLevel })}</div>
                     )}
                     {selected && (
-                      <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
+                      <div className="text-xs text-seafoam font-bold mb-1">{t('profile.talents.selectedBadge', { defaultValue: '✓ Selected' })}</div>
                     )}
                     {selected && (
                       <div className="flex gap-1">
