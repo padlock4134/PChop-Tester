@@ -1538,8 +1538,8 @@ const MyPlaybook = () => {
               ) : (savedVideos.length === 0 && false) ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
-                  <p className="text-gray-600 text-lg">No videos saved yet</p>
-                  <p className="text-gray-500 text-sm mt-2">Record a session in Global MFG Lab to see it here!</p>
+                  <p className="text-gray-600 text-lg">{t('myPlaybook.noVideosSaved')}</p>
+                  <p className="text-gray-500 text-sm mt-2">{t('myPlaybook.recordInTestKitchen')}</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -1587,7 +1587,7 @@ const MyPlaybook = () => {
                     >
                       <div className="p-4 flex items-center justify-between">
                         <div className="flex items-center gap-4 flex-1">
-                          <div className="text-4xl">�</div>
+                          <div className="text-4xl">🔧</div>
                           <div className="flex-1">
                             <h3 className="font-bold text-purple-800 text-lg">{video.name.replace('.webm', '')}</h3>
                             <div className="flex items-center gap-3 mt-1">
