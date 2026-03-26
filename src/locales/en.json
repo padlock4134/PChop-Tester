@@ -130,7 +130,7 @@
     "videoLibrary": "Video Library",
     "loadingVideos": "Loading videos...",
     "noVideosSaved": "No videos saved yet",
-    "recordInTestKitchen": "Record a session in Global Pipe Lab to see it here!",
+    "recordInTestKitchen": "Record a session in Test Kitchen to see it here!",
     "allUsers": "All Users",
     "myVideosOnly": "My Videos Only",
     "publicVideosOnly": "Public Videos Only",
@@ -138,7 +138,7 @@
     "private": "Private",
     "playVideo": "Play Video",
     "deleteVideo": "Delete Video",
-    "myTestKitchenVideos": "My Pipe Lab Videos",
+    "myTestKitchenVideos": "My Test Kitchen Videos",
     "reviewSavedVideos": "Review your saved work sessions",
     "category": "Category",
     "user": "User",
@@ -146,7 +146,8 @@
     "practiceSessions": "Practice Sessions",
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
-    "loadingYourVideos": "Loading your videos..."
+    "loadingYourVideos": "Loading your videos...",
+    "recordedInWorkspace": "Recorded in Test Kitchen"
   },
   "myCookBook": {
     "title": "My Cookbook"
@@ -2360,7 +2361,7 @@
   },
   "myPipeBook": {
     "title": "My Cookbook",
-    "collections": "Collections",
+    "collections": "Project Sets",
     "addRecipe": "Add Procedure",
     "importRecipe": "Import Procedure",
     "shareRecipe": "Share Procedure",
@@ -2410,9 +2411,9 @@
     "instructions": "Steps:",
     "remove": "Remove",
     "deleteRecipe": "Delete Procedure",
-    "collectionsLibrary": "Collections Library",
-    "myCollections": "My Collections",
-    "noCollectionsYet": "No collections yet. Create your first one below!",
+    "collectionsLibrary": "Project Set Library",
+    "myCollections": "My Project Sets",
+    "noCollectionsYet": "No project sets yet. Create your first one below!",
     "selectRecipesToAdd": "Select procedures from your pipe book to add to collections:",
     "createCollectionSelected": "Create Collection ({count} selected)",
     "viewGradebook": "View Gradebook",
@@ -2460,11 +2461,12 @@
     "practiceSessions": "Practice Sessions",
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
-    "loadingYourVideos": "Loading your videos..."
+    "loadingYourVideos": "Loading your videos...",
+    "recordedInWorkspace": "Recorded in Global Pipe Lab"
   },
   "myManual": {
     "title": "My Manual",
-    "collections": "Collections",
+    "collections": "Job Sets",
     "addRecipe": "Add Guide",
     "importRecipe": "Import Guide",
     "shareRecipe": "Share Guide",
@@ -2514,9 +2516,9 @@
     "instructions": "Steps:",
     "remove": "Remove",
     "deleteRecipe": "Delete Guide",
-    "collectionsLibrary": "Collections Library",
-    "myCollections": "My Collections",
-    "noCollectionsYet": "No collections yet. Create your first one below!",
+    "collectionsLibrary": "Job Set Library",
+    "myCollections": "My Job Sets",
+    "noCollectionsYet": "No job sets yet. Create your first one below!",
     "selectRecipesToAdd": "Select guides from your manual to add to collections:",
     "createCollectionSelected": "Create Collection ({count} selected)",
     "viewGradebook": "View Gradebook",
@@ -2556,7 +2558,7 @@
     "private": "Private",
     "playVideo": "Play Video",
     "deleteVideo": "Delete Video",
-    "myTestKitchenVideos": "My Garage Videos",
+    "myTestKitchenVideos": "My Garage Lab Videos",
     "reviewSavedVideos": "Review your saved automotive sessions",
     "category": "Category",
     "user": "User",
@@ -2564,7 +2566,8 @@
     "practiceSessions": "Practice Sessions",
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
-    "loadingYourVideos": "Loading your videos..."
+    "loadingYourVideos": "Loading your videos...",
+    "recordedInWorkspace": "Recorded in Global Garage Lab"
   },
   "gradebook": {
     "technique": "Tool Skills",
@@ -2593,7 +2596,7 @@
   },
   "myBlueprints": {
     "title": "My Blueprints",
-    "collections": "Collections",
+    "collections": "Plan Sets",
     "addRecipe": "Add Plan",
     "importRecipe": "Import Plan",
     "shareRecipe": "Share Plan",
@@ -2643,9 +2646,9 @@
     "instructions": "Steps:",
     "remove": "Remove",
     "deleteRecipe": "Delete Plan",
-    "collectionsLibrary": "Collections Library",
-    "myCollections": "My Collections",
-    "noCollectionsYet": "No collections yet. Create your first one below!",
+    "collectionsLibrary": "Plan Set Library",
+    "myCollections": "My Plan Sets",
+    "noCollectionsYet": "No plan sets yet. Create your first one below!",
     "selectRecipesToAdd": "Select plans from your blueprints to add to collections:",
     "createCollectionSelected": "Create Collection ({count} selected)",
     "viewGradebook": "View Gradebook",
@@ -2693,11 +2696,12 @@
     "practiceSessions": "Practice Sessions",
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
-    "loadingYourVideos": "Loading your videos..."
+    "loadingYourVideos": "Loading your videos...",
+    "recordedInWorkspace": "Recorded in Global Build Lab"
   },
   "myCodeBook": {
     "title": "My Code Book",
-    "collections": "Collections",
+    "collections": "Circuit Sets",
     "addRecipe": "Add Diagram",
     "importRecipe": "Import Diagram",
     "shareRecipe": "Share Diagram",
@@ -2747,9 +2751,9 @@
     "instructions": "Steps:",
     "remove": "Remove",
     "deleteRecipe": "Delete Diagram",
-    "collectionsLibrary": "Collections Library",
-    "myCollections": "My Collections",
-    "noCollectionsYet": "No collections yet. Create your first one below!",
+    "collectionsLibrary": "Circuit Set Library",
+    "myCollections": "My Circuit Sets",
+    "noCollectionsYet": "No circuit sets yet. Create your first one below!",
     "selectRecipesToAdd": "Select diagrams from your code book to add to collections:",
     "createCollectionSelected": "Create Collection ({count} selected)",
     "viewGradebook": "View Gradebook",
@@ -2797,11 +2801,12 @@
     "practiceSessions": "Practice Sessions",
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
-    "loadingYourVideos": "Loading your videos..."
+    "loadingYourVideos": "Loading your videos...",
+    "recordedInWorkspace": "Recorded in Global Wire Lab"
   },
   "mySpecSheets": {
     "title": "My Spec Sheets",
-    "collections": "Collections",
+    "collections": "Service Sets",
     "addRecipe": "Add Spec",
     "importRecipe": "Import Spec",
     "shareRecipe": "Share Spec",
@@ -2851,9 +2856,9 @@
     "instructions": "Steps:",
     "remove": "Remove",
     "deleteRecipe": "Delete Spec",
-    "collectionsLibrary": "Collections Library",
-    "myCollections": "My Collections",
-    "noCollectionsYet": "No collections yet. Create your first one below!",
+    "collectionsLibrary": "Service Set Library",
+    "myCollections": "My Service Sets",
+    "noCollectionsYet": "No service sets yet. Create your first one below!",
     "selectRecipesToAdd": "Select specs from your spec sheets to add to collections:",
     "createCollectionSelected": "Create Collection ({count} selected)",
     "viewGradebook": "View Gradebook",
@@ -2901,11 +2906,12 @@
     "practiceSessions": "Practice Sessions",
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
-    "loadingYourVideos": "Loading your videos..."
+    "loadingYourVideos": "Loading your videos...",
+    "recordedInWorkspace": "Recorded in Global HVAC Lab"
   },
   "myPlaybook": {
     "title": "My Playbook",
-    "collections": "Collections",
+    "collections": "Process Sets",
     "addRecipe": "Add SOP",
     "importRecipe": "Import SOP",
     "shareRecipe": "Share SOP",
@@ -2955,9 +2961,9 @@
     "instructions": "Steps:",
     "remove": "Remove",
     "deleteRecipe": "Delete SOP",
-    "collectionsLibrary": "Collections Library",
-    "myCollections": "My Collections",
-    "noCollectionsYet": "No collections yet. Create your first one below!",
+    "collectionsLibrary": "Process Set Library",
+    "myCollections": "My Process Sets",
+    "noCollectionsYet": "No process sets yet. Create your first one below!",
     "selectRecipesToAdd": "Select SOPs from your playbook to add to collections:",
     "createCollectionSelected": "Create Collection ({count} selected)",
     "viewGradebook": "View Gradebook",
@@ -3005,11 +3011,12 @@
     "practiceSessions": "Practice Sessions",
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
-    "loadingYourVideos": "Loading your videos..."
+    "loadingYourVideos": "Loading your videos...",
+    "recordedInWorkspace": "Recorded in Global MFG Lab"
   },
   "myRunbook": {
     "title": "My Runbook",
-    "collections": "Collections",
+    "collections": "Route Sets",
     "addRecipe": "Add Procedure",
     "importRecipe": "Import Procedure",
     "shareRecipe": "Share Procedure",
@@ -3059,9 +3066,9 @@
     "instructions": "Steps:",
     "remove": "Remove",
     "deleteRecipe": "Delete Procedure",
-    "collectionsLibrary": "Collections Library",
-    "myCollections": "My Collections",
-    "noCollectionsYet": "No collections yet. Create your first one below!",
+    "collectionsLibrary": "Route Set Library",
+    "myCollections": "My Route Sets",
+    "noCollectionsYet": "No route sets yet. Create your first one below!",
     "selectRecipesToAdd": "Select procedures from your runbook to add to collections:",
     "createCollectionSelected": "Create Collection ({count} selected)",
     "viewGradebook": "View Gradebook",
@@ -3109,11 +3116,12 @@
     "practiceSessions": "Practice Sessions",
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
-    "loadingYourVideos": "Loading your videos..."
+    "loadingYourVideos": "Loading your videos...",
+    "recordedInWorkspace": "Recorded in Global Dispatch Lab"
   },
   "mySpecBook": {
     "title": "My Spec Book",
-    "collections": "Collections",
+    "collections": "Job Sets",
     "addRecipe": "Add Spec",
     "importRecipe": "Import Spec",
     "shareRecipe": "Share Spec",
@@ -3163,9 +3171,9 @@
     "instructions": "Steps:",
     "remove": "Remove",
     "deleteRecipe": "Delete Spec",
-    "collectionsLibrary": "Collections Library",
-    "myCollections": "My Collections",
-    "noCollectionsYet": "No collections yet. Create your first one below!",
+    "collectionsLibrary": "Job Set Library",
+    "myCollections": "My Job Sets",
+    "noCollectionsYet": "No job sets yet. Create your first one below!",
     "selectRecipesToAdd": "Select specs from your spec book to add to collections:",
     "createCollectionSelected": "Create Collection ({count} selected)",
     "viewGradebook": "View Gradebook",
@@ -3213,6 +3221,7 @@
     "practiceSessions": "Practice Sessions",
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
-    "loadingYourVideos": "Loading your videos..."
+    "loadingYourVideos": "Loading your videos...",
+    "recordedInWorkspace": "Recorded in The Car Lift"
   }
 }

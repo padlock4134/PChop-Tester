@@ -589,7 +589,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       }
 
       console.log('Video saved successfully:', data);
-      alert('Video saved successfully to Test Kitchen Videos!');
+      alert('Video saved successfully to Practice Videos!');
       
       // End the session after successful save
       handleEndSession();
@@ -628,7 +628,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
 
     const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
     const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Test Kitchen - Online');
+    const location = encodeURIComponent('Global Skill Lab - Online');
 
     // Detect device/platform
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -684,7 +684,7 @@ END:VCALENDAR`;
 
     const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
     const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Test Kitchen - Online');
+    const location = encodeURIComponent('Global Skill Lab - Online');
 
     const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatDate(startDate)}/${formatDate(endDate)}&details=${description}&location=${location}`;
     const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&startdt=${formatDate(startDate)}&enddt=${formatDate(endDate)}&body=${description}&location=${location}`;
@@ -1296,7 +1296,7 @@ END:VCALENDAR`;
               </h2>
               
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Add details to save this video to your <span className="font-semibold text-maineBlue">Test Kitchen Videos</span> collection:
+                Add details to save this video to your <span className="font-semibold text-maineBlue">Practice Videos</span> collection:
               </p>
               
               {/* Video Metadata Form */}
@@ -1418,7 +1418,7 @@ END:VCALENDAR`;
                   "🎥 {savedVideoTitle}"
                 </p>
                 <p className="text-green-700 text-sm">
-                  Your cooking session has been saved to <span className="font-bold">Test Kitchen Videos</span> and is ready to share with students!
+                  Your practice session has been saved to <span className="font-bold">Practice Videos</span> and is ready to share with students!
                 </p>
               </div>
               
@@ -1434,7 +1434,7 @@ END:VCALENDAR`;
                 </button>
                 
                 <p className="text-xs text-gray-500">
-                  📚 Your video is now available in the Test Kitchen Videos collection
+                  📚 Your video is now available in the Practice Videos collection
                 </p>
               </div>
             </div>
