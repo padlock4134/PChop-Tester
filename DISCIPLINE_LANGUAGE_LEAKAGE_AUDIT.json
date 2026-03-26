@@ -1,0 +1,378 @@
+[
+  {
+    "discipline": "hvac",
+    "totalHits": 1665,
+    "filesWithHits": 52,
+    "topFiles": [
+      {
+        "file": "src/disciplines/hvac/modules/MySpecSheets.tsx",
+        "hits": 216
+      },
+      {
+        "file": "src/disciplines/hvac/api/recipeMatcher.ts",
+        "hits": 157
+      },
+      {
+        "file": "src/disciplines/hvac/components/ChallengeOfTheWeek.tsx",
+        "hits": 140
+      },
+      {
+        "file": "src/disciplines/hvac/components/UnitPracticeModal.tsx",
+        "hits": 107
+      },
+      {
+        "file": "src/disciplines/hvac/components/SystemMatcherModal.tsx",
+        "hits": 105
+      },
+      {
+        "file": "src/disciplines/hvac/modules/TechTalk.tsx",
+        "hits": 102
+      },
+      {
+        "file": "src/disciplines/hvac/components/GlobalTestShop.tsx",
+        "hits": 94
+      },
+      {
+        "file": "src/disciplines/hvac/modules/MyShop.tsx",
+        "hits": 84
+      },
+      {
+        "file": "src/disciplines/hvac/modules/HvacSchool.tsx",
+        "hits": 82
+      },
+      {
+        "file": "src/disciplines/hvac/components/TestRunModal.tsx",
+        "hits": 76
+      }
+    ]
+  },
+  {
+    "discipline": "construction",
+    "totalHits": 1662,
+    "filesWithHits": 52,
+    "topFiles": [
+      {
+        "file": "src/disciplines/construction/modules/MyBlueprints.tsx",
+        "hits": 216
+      },
+      {
+        "file": "src/disciplines/construction/api/recipeMatcher.ts",
+        "hits": 157
+      },
+      {
+        "file": "src/disciplines/construction/components/ChallengeOfTheWeek.tsx",
+        "hits": 140
+      },
+      {
+        "file": "src/disciplines/construction/components/FieldPracticeModal.tsx",
+        "hits": 107
+      },
+      {
+        "file": "src/disciplines/construction/components/TaskMatcherModal.tsx",
+        "hits": 105
+      },
+      {
+        "file": "src/disciplines/construction/modules/HardhatHub.tsx",
+        "hits": 98
+      },
+      {
+        "file": "src/disciplines/construction/components/GlobalTestSite.tsx",
+        "hits": 94
+      },
+      {
+        "file": "src/disciplines/construction/modules/MySite.tsx",
+        "hits": 84
+      },
+      {
+        "file": "src/disciplines/construction/modules/BuildSchool.tsx",
+        "hits": 82
+      },
+      {
+        "file": "src/disciplines/construction/components/TestRunModal.tsx",
+        "hits": 76
+      }
+    ]
+  },
+  {
+    "discipline": "electrical",
+    "totalHits": 1661,
+    "filesWithHits": 52,
+    "topFiles": [
+      {
+        "file": "src/disciplines/electrical/modules/MyCodeBook.tsx",
+        "hits": 216
+      },
+      {
+        "file": "src/disciplines/electrical/api/recipeMatcher.ts",
+        "hits": 157
+      },
+      {
+        "file": "src/disciplines/electrical/components/ChallengeOfTheWeek.tsx",
+        "hits": 140
+      },
+      {
+        "file": "src/disciplines/electrical/components/PanelPracticeModal.tsx",
+        "hits": 107
+      },
+      {
+        "file": "src/disciplines/electrical/components/CircuitMatcherModal.tsx",
+        "hits": 105
+      },
+      {
+        "file": "src/disciplines/electrical/modules/WireLounge.tsx",
+        "hits": 98
+      },
+      {
+        "file": "src/disciplines/electrical/components/GlobalTestPanel.tsx",
+        "hits": 94
+      },
+      {
+        "file": "src/disciplines/electrical/modules/MyPanel.tsx",
+        "hits": 84
+      },
+      {
+        "file": "src/disciplines/electrical/modules/ElecSchool.tsx",
+        "hits": 82
+      },
+      {
+        "file": "src/disciplines/electrical/components/TestRunModal.tsx",
+        "hits": 76
+      }
+    ]
+  },
+  {
+    "discipline": "logistics",
+    "totalHits": 1661,
+    "filesWithHits": 52,
+    "topFiles": [
+      {
+        "file": "src/disciplines/logistics/modules/MyRunbook.tsx",
+        "hits": 216
+      },
+      {
+        "file": "src/disciplines/logistics/api/recipeMatcher.ts",
+        "hits": 157
+      },
+      {
+        "file": "src/disciplines/logistics/components/ChallengeOfTheWeek.tsx",
+        "hits": 140
+      },
+      {
+        "file": "src/disciplines/logistics/components/DockPracticeModal.tsx",
+        "hits": 107
+      },
+      {
+        "file": "src/disciplines/logistics/components/RouteMatcherModal.tsx",
+        "hits": 105
+      },
+      {
+        "file": "src/disciplines/logistics/modules/DispatchLounge.tsx",
+        "hits": 98
+      },
+      {
+        "file": "src/disciplines/logistics/components/GlobalTestDock.tsx",
+        "hits": 94
+      },
+      {
+        "file": "src/disciplines/logistics/modules/MyDock.tsx",
+        "hits": 84
+      },
+      {
+        "file": "src/disciplines/logistics/modules/LogisticsSchool.tsx",
+        "hits": 82
+      },
+      {
+        "file": "src/disciplines/logistics/components/TestRunModal.tsx",
+        "hits": 76
+      }
+    ]
+  },
+  {
+    "discipline": "machining",
+    "totalHits": 1661,
+    "filesWithHits": 52,
+    "topFiles": [
+      {
+        "file": "src/disciplines/machining/modules/MySpecBook.tsx",
+        "hits": 216
+      },
+      {
+        "file": "src/disciplines/machining/api/recipeMatcher.ts",
+        "hits": 157
+      },
+      {
+        "file": "src/disciplines/machining/components/ChallengeOfTheWeek.tsx",
+        "hits": 140
+      },
+      {
+        "file": "src/disciplines/machining/components/SetupPracticeModal.tsx",
+        "hits": 107
+      },
+      {
+        "file": "src/disciplines/machining/components/PartMatcherModal.tsx",
+        "hits": 105
+      },
+      {
+        "file": "src/disciplines/machining/modules/MachinistCorner.tsx",
+        "hits": 98
+      },
+      {
+        "file": "src/disciplines/machining/components/GlobalTestBench.tsx",
+        "hits": 94
+      },
+      {
+        "file": "src/disciplines/machining/modules/MyBench.tsx",
+        "hits": 84
+      },
+      {
+        "file": "src/disciplines/machining/modules/MachiningSchool.tsx",
+        "hits": 82
+      },
+      {
+        "file": "src/disciplines/machining/components/TestRunModal.tsx",
+        "hits": 76
+      }
+    ]
+  },
+  {
+    "discipline": "plumbing",
+    "totalHits": 1553,
+    "filesWithHits": 52,
+    "topFiles": [
+      {
+        "file": "src/disciplines/plumbing/modules/MyPipeBook.tsx",
+        "hits": 180
+      },
+      {
+        "file": "src/disciplines/plumbing/api/recipeMatcher.ts",
+        "hits": 157
+      },
+      {
+        "file": "src/disciplines/plumbing/components/ChallengeOfTheWeek.tsx",
+        "hits": 140
+      },
+      {
+        "file": "src/disciplines/plumbing/components/FitPracticeModal.tsx",
+        "hits": 107
+      },
+      {
+        "file": "src/disciplines/plumbing/modules/PipeLounge.tsx",
+        "hits": 98
+      },
+      {
+        "file": "src/disciplines/plumbing/components/GlobalTestVan.tsx",
+        "hits": 94
+      },
+      {
+        "file": "src/disciplines/plumbing/modules/PlumbingSchool.tsx",
+        "hits": 80
+      },
+      {
+        "file": "src/disciplines/plumbing/components/TestRunModal.tsx",
+        "hits": 76
+      },
+      {
+        "file": "src/disciplines/plumbing/modules/MyVan.tsx",
+        "hits": 71
+      },
+      {
+        "file": "src/disciplines/plumbing/components/BuildLayoutModal.tsx",
+        "hits": 67
+      }
+    ]
+  },
+  {
+    "discipline": "automotive",
+    "totalHits": 1245,
+    "filesWithHits": 52,
+    "topFiles": [
+      {
+        "file": "src/disciplines/automotive/api/recipeMatcher.ts",
+        "hits": 157
+      },
+      {
+        "file": "src/disciplines/automotive/components/ChallengeOfTheWeek.tsx",
+        "hits": 132
+      },
+      {
+        "file": "src/disciplines/automotive/modules/GearheadLounge.tsx",
+        "hits": 79
+      },
+      {
+        "file": "src/disciplines/automotive/modules/AutoSchool.tsx",
+        "hits": 75
+      },
+      {
+        "file": "src/disciplines/automotive/components/TestRunModal.tsx",
+        "hits": 68
+      },
+      {
+        "file": "src/disciplines/automotive/components/BuildDiagModal.tsx",
+        "hits": 66
+      },
+      {
+        "file": "src/disciplines/automotive/modules/MyGarage.tsx",
+        "hits": 66
+      },
+      {
+        "file": "src/disciplines/automotive/components/RepairMatcherModal.tsx",
+        "hits": 58
+      },
+      {
+        "file": "src/disciplines/automotive/components/Profile.tsx",
+        "hits": 51
+      },
+      {
+        "file": "src/disciplines/automotive/components/GlobalTestGarage.tsx",
+        "hits": 47
+      }
+    ]
+  },
+  {
+    "discipline": "manufacturing",
+    "totalHits": 1160,
+    "filesWithHits": 48,
+    "topFiles": [
+      {
+        "file": "src/disciplines/manufacturing/api/recipeMatcher.ts",
+        "hits": 105
+      },
+      {
+        "file": "src/disciplines/manufacturing/modules/MfgAcademy.tsx",
+        "hits": 96
+      },
+      {
+        "file": "src/disciplines/manufacturing/modules/ShopTalk.tsx",
+        "hits": 88
+      },
+      {
+        "file": "src/disciplines/manufacturing/modules/MyFloor.tsx",
+        "hits": 79
+      },
+      {
+        "file": "src/disciplines/manufacturing/components/TestRunModal.tsx",
+        "hits": 66
+      },
+      {
+        "file": "src/disciplines/manufacturing/components/BuildProcessModal.tsx",
+        "hits": 65
+      },
+      {
+        "file": "src/disciplines/manufacturing/components/ChallengeOfTheWeek.tsx",
+        "hits": 63
+      },
+      {
+        "file": "src/disciplines/manufacturing/components/LinePracticeModal.tsx",
+        "hits": 58
+      },
+      {
+        "file": "src/disciplines/manufacturing/components/ProcessMatcherModal.tsx",
+        "hits": 57
+      },
+      {
+        "file": "src/disciplines/manufacturing/modules/MyPlaybook.tsx",
+        "hits": 52
+      }
+    ]
+  }
+]
