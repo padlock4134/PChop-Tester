@@ -567,12 +567,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     }
   };
 
-  // Load integrity alerts
+  // Load integrity alerts (for ticker display)
   useEffect(() => {
-    if (activeTab === 'integrity') {
-      loadIntegrityAlerts();
-    }
-  }, [activeTab, selectedDiscipline, showReviewedAlerts]);
+    loadIntegrityAlerts();
+  }, [selectedDiscipline, showReviewedAlerts]);
 
   const loadIntegrityAlerts = async () => {
     setLoadingAlerts(true);
@@ -1459,7 +1457,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
           {/* Integrity Alerts Ticker - Same design as Events */}
-          {integrityAlerts.filter(a => !a.reviewed).length > 0 && (
+          {true && (
             <>
               {/* Mobile: Vertical Stacked Alerts */}
               <div className="lg:hidden mb-6">
@@ -1500,7 +1498,31 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="hidden lg:block">
                 {(() => {
                   const unreviewedAlerts = integrityAlerts.filter(a => !a.reviewed);
-                  if (unreviewedAlerts.length === 0) return null;
+                  
+                  if (unreviewedAlerts.length === 0) {
+                    return (
+                      <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 mb-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center mr-3">
+                            <div className="w-3 h-3 bg-orange-500 rounded-full mr-2 animate-pulse"></div>
+                            <span className="font-bold text-orange-700 text-sm">🛡️ Integrity Alerts</span>
+                          </div>
+                          <div className="flex-1 text-center">
+                            <div className="text-sm text-orange-800">
+                              <span>No integrity alerts • All systems running smoothly</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-2xl">✅</span>
+                            <div className="bg-green-500 text-white text-xs px-4 py-2 rounded-full font-medium">
+                              All Clear
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                  
                   const currentAlert = unreviewedAlerts[currentAlertIndex];
                   
                   return (
