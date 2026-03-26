@@ -24,7 +24,7 @@ import { getIntegrityAlerts, reviewIntegrityAlert, IntegrityAlert } from '../ser
 interface AdminStats {
   totalUsers: number;
   activeUsers: number;
-  totalRecipes: number;
+  totalContent: number;
   totalXP: number;
   subscriptions: {
     active: number;
@@ -158,7 +158,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [stats, setStats] = useState<AdminStats>({
     totalUsers: 0,
     activeUsers: 0,
-    totalRecipes: 0,
+    totalContent: 0,
     totalXP: 0,
     subscriptions: { active: 0, trial: 0, cancelled: 0 }
   });
@@ -1070,12 +1070,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         cancelled: subsData?.filter(s => s.status === 'cancelled').length || 0,
       };
 
-      // Fetch cookbook data for recipe count
+      // Fetch content data
       const { data: cookbookData } = await supabase
         .from('user_cookbook')
         .select('recipes');
       
-      const totalRecipes = cookbookData?.reduce((sum, cookbook) => {
+      const totalContent = cookbookData?.reduce((sum, cookbook) => {
         const recipes = cookbook.recipes || [];
         return sum + (Array.isArray(recipes) ? recipes.length : 0);
       }, 0) || 0;
@@ -1090,7 +1090,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       setStats({
         totalUsers: usersData?.length || 0,
         activeUsers,
-        totalRecipes,
+        totalContent,
         totalXP,
         subscriptions,
       });
@@ -2054,14 +2054,14 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   
                   <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-3 sm:p-4 hover:bg-orange-100 cursor-pointer">
                     <input type="checkbox" id="discipline-metrics" className="mr-2 sm:mr-3" />
-                    <label htmlFor="discipline-metrics" className="font-semibold cursor-pointer text-xs sm:text-base">{skin.icon} {skin.name} {t('admin.culinaryMetrics')}</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{skin.content.metricLabel} {t('admin.recipePerformance')}</p>
+                    <label htmlFor="discipline-metrics" className="font-semibold cursor-pointer text-xs sm:text-base">{skin.icon} {skin.name} Metrics</label>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{skin.content.metricLabel} performance & analytics</p>
                   </div>
                   
                   <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 sm:p-4 hover:bg-purple-100 cursor-pointer">
                     <input type="checkbox" id="operations" className="mr-2 sm:mr-3" />
                     <label htmlFor="operations" className="font-semibold cursor-pointer text-xs sm:text-base">🏪 {t('admin.operations')}</label>
-                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{skin.modules.workspace} {t('admin.kitchenManagement')}</p>
+                    <p className="text-xs sm:text-sm text-gray-600 ml-5 sm:ml-6">{skin.modules.workspace} management & safety</p>
                   </div>
                   
                   <div className="border-4 border-pink-400 bg-pink-50 rounded-lg p-3 sm:p-4 hover:bg-pink-100 cursor-pointer">
@@ -2518,7 +2518,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         className="w-full sm:w-auto bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center justify-center gap-2 border-2 border-pink-400 text-sm sm:text-base min-h-[44px]"
                       >
                         <img src="logo.png" className="w-5 h-5 border border-gray-400 rounded" />
-                        {t('admin.askChefFreddie')}
+                        Ask {skin.assistant.name}
                       </button>
                     </div>
                     <p className="text-xs text-gray-400 mt-2">{t('admin.supportsFileTypes')}</p>
@@ -2547,7 +2547,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item1: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.recipeDatabases')}</span>
+                        <span>{skin.content.table} databases → Feeds matcher algorithm</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2571,7 +2571,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item3: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.kitchenEquipment')}</span>
+                        <span>Equipment → Setup guides</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2628,7 +2628,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, items: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.recipeCollections')}</span>
+                        <span>{skin.content.table} collections → Library</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2868,7 +2868,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         }
 
                         // Distribute to workspace (content items) - based on checkbox state
-                        if (moduleSelection.workspace.item1 && contentType === 'recipe') {
+                        if (moduleSelection.workspace.item1 && contentType === 'content') {
                           const { error: recipeError } = await supabase
                             .from('user_cookbook')
                             .insert({

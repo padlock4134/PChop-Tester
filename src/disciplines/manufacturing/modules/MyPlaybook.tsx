@@ -11,61 +11,61 @@ import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 
 // Manufacturing pioneers quotes
-const chefQuotes = [
-  { chef: 'Elon Musk', quote: 'The path to the CEO\'s office should not be through the CFO\'s office, and it should not be through the marketing department. It needs to be through engineering and design.' },
+const pioneerQuotes = [
+  { expert: 'Elon Musk', quote: 'The path to the CEO\'s office should not be through the CFO\'s office, and it should not be through the marketing department. It needs to be through engineering and design.' },
   { chef: 'Taiichi Ohno', quote: 'All we are doing is looking at the time line from the moment the customer gives us an order to the point when we collect the cash. And we are reducing that time line by removing the non-value-added wastes.' },
   { chef: 'Henry Ford', quote: 'Quality means doing it right when no one is looking.' },
   { chef: 'Thomas Edison', quote: 'There\'s a way to do it better - find it.' },
   { chef: 'Phil Young', quote: 'Excellence in manufacturing is not an act, but a habit.' }
 ];
 
-export function getChefQuoteOfTheDay() {
+export function getPioneerQuoteOfTheDay() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const diff = now.getTime() - start.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
   const dayOfYear = Math.floor(diff / oneDay);
-  const idx = dayOfYear % chefQuotes.length;
-  return chefQuotes[idx];
+  const idx = dayOfYear % pioneerQuotes.length;
+  return pioneerQuotes[idx];
 }
 
-export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
+export function getVideoQueriesForProcess(process: Process): string[] {
   return [
-    `how to ${recipe.name} manufacturing tutorial`,
-    `${recipe.name} production guide`
+    `how to ${process.name} manufacturing tutorial`,
+    `${process.name} production guide`
   ];
 }
 
-export interface Recipe {
+export interface Process {
   id: string;
   name: string;
   description: string;
   photo?: string;
-  ingredients?: string[];
+  materials?: string[];
   instructions?: string;
-  equipment?: string[];
-  nutrition?: {
-    carbs: number;
-    sugars: number;
-    fiber: number;
-    protein: number;
-    saturatedFat?: number;
+  tools?: string[];
+  specifications?: {
+    tolerance?: number;
+    efficiency?: number;
+    cycleTime?: number;
+    yield?: number;
+    scrapRate?: number;
   };
-  healthTags?: string[];
+  safetyTags?: string[];
 }
 
-const MyCookBook = () => {
+const MyPlaybook = () => {
   const { t } = useTranslation();
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
-  const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
+  const [processes, setLocalProcesses] = useState<Process[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [showShareModal, setShowShareModal] = useState(false);
-  const [recipeToShare, setRecipeToShare] = useState<Recipe | null>(null);
+  const [processToShare, setProcessToShare] = useState<Process | null>(null);
   const [flipped, setFlipped] = useState(false);
   const [showCreateCollectionModal, setShowCreateCollectionModal] = useState(false);
   const [showViewCollectionModal, setShowViewCollectionModal] = useState(false);
@@ -83,7 +83,7 @@ const MyCookBook = () => {
   const [userFilter, setUserFilter] = useState('all');
   const [selectedLibraryVideo, setSelectedLibraryVideo] = useState<{name: string, url: string, created_at: string, userId: string, isPublic: boolean} | null>(null);
   const [showLibraryVideoModal, setShowLibraryVideoModal] = useState(false);
-  const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
+  const [activeMobileTab, setActiveMobileTab] = useState<'playbook' | 'collections'>('playbook');
   
   // Assignment data
   const assignments = [
@@ -183,18 +183,18 @@ const MyCookBook = () => {
     }
   };
 
-  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
-  const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
+  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, processes: string[]} | null>(null);
+  const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Setup', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '3', name: 'Safety First', emoji: '�', recipes: ['1', '2', '3', '4', '5'] }
+    { id: '1', name: 'Favorites', emoji: '⭐', processes: ['1', '2', '3'] },
+    { id: '2', name: 'Quick Setup', emoji: '⚡', processes: ['1', '2'] },
+    { id: '3', name: 'Safety First', emoji: '🛡️', processes: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
 
-  // Load recipes and set page context on mount
+  // Load processes and set page context on mount
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
   

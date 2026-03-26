@@ -1,37 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useFreddieContext } from '../components/GarageFreddieContext';
+import { useRecipeContext } from '../components/RepairContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { fetchManual, removeRecipeFromManual } from './manualSupabase';
+import { supabase } from '../api/supabaseClient';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
+import { useSupabase } from '../components/SupabaseProvider';
+import { isSessionValid } from '../api/userSession';
 
 // Automotive quotes (production-ready)
 const automotiveQuotes = [
-  { chef: 'Henry Ford', quote: 'Whether you think you can, or you think you can\'t – you\'re right.' },
-  { chef: 'Enzo Ferrari', quote: 'Aerodynamics are for people who can\'t build engines.' },
-  { chef: 'Soichiro Honda', quote: 'Success represents the 1% of your work which results from the 99% that is called failure.' },
-  { chef: 'Ferdinand Porsche', quote: 'I couldn\'t find the sports car of my dreams, so I built it myself.' },
-  { chef: 'Carroll Shelby', quote: 'I\'m an ex-wrecker driver, I\'m a chicken farmer, and I\'m a used car dealer. That\'s about it.' },
-  { chef: 'Ayrton Senna', quote: 'If you no longer go for a gap that exists, you are no longer a racing driver.' },
-  { chef: 'Mario Andretti', quote: 'Desire is the starting point of all achievement.' },
-  { chef: 'Richard Petty', quote: 'You don\'t win races by looking in your rearview mirror.' },
-  { chef: 'Elon Musk', quote: 'When something is important enough, you do it even if the odds are not in your favor.' },
-  { chef: 'Mary Barra', quote: 'We\'re not just building cars; we\'re building the future of mobility.' },
-  { chef: 'Akio Toyoda', quote: 'Cars are made to move people, not just to move metal.' },
-  { chef: 'Carroll Smith', quote: 'Speed costs money. How fast do you want to go?' },
-  { chef: 'Colin Chapman', quote: 'Simplify, then add lightness.' },
-  { chef: 'Lee Iacocca', quote: 'Management is nothing more than motivating other people.' },
-  { chef: 'Kiichiro Toyoda', quote: 'The customer is the king. If you don\'t listen to him, you won\'t have any business.' },
-  { chef: 'Bruno Sacco', quote: 'A Mercedes must always look like a Mercedes.' },
-  { chef: 'Bob Lutz', quote: 'Cars are more than just transportation. They\'re about emotion and passion.' },
-  { chef: 'Harley Earl', quote: 'You can design a car that lasts forever, or you can design a car that people want to own forever.' },
-  { chef: 'John DeLorean', quote: 'I would rather have a free press and no government than a government and no press.' },
-  { chef: 'Nicolas-Joseph Cugnot', quote: 'The first step toward progress is the realization that something can be done.' }
+  { expert: 'Henry Ford', quote: 'Whether you think you can, or you think you can\'t – you\'re right.' },
+  { expert: 'Enzo Ferrari', quote: 'Aerodynamics are for people who can\'t build engines.' },
+  { expert: 'Soichiro Honda', quote: 'Success represents the 1% of your work which results from the 99% that is called failure.' },
+  { expert: 'Ferdinand Porsche', quote: 'I couldn\'t find the sports car of my dreams, so I built it myself.' },
+  { expert: 'Carroll Shelby', quote: 'I\'m an ex-wrecker driver, I\'m a chicken farmer, and I\'m a used car dealer. That\'s about it.' },
+  { expert: 'Ayrton Senna', quote: 'If you no longer go for a gap that exists, you are no longer a racing driver.' },
+  { expert: 'Mario Andretti', quote: 'Desire is the starting point of all achievement.' },
+  { expert: 'Richard Petty', quote: 'You don\'t win races by looking in your rearview mirror.' },
+  { expert: 'Elon Musk', quote: 'When something is important enough, you do it even if the odds are not in your favor.' },
+  { expert: 'Mary Barra', quote: 'We\'re not just building cars; we\'re building the future of mobility.' },
+  { expert: 'Akio Toyoda', quote: 'Cars are made to move people, not just to move metal.' },
+  { expert: 'Carroll Smith', quote: 'Speed costs money. How fast do you want to go?' },
+  { expert: 'Colin Chapman', quote: 'Simplify, then add lightness.' },
+  { expert: 'Lee Iacocca', quote: 'Management is nothing more than motivating other people.' },
+  { expert: 'Kiichiro Toyoda', quote: 'The customer is the king. If you don\'t listen to him, you won\'t have any business.' },
+  { expert: 'Bruno Sacco', quote: 'A Mercedes must always look like a Mercedes.' },
+  { expert: 'Bob Lutz', quote: 'Cars are more than just transportation. They\'re about emotion and passion.' },
+  { expert: 'Harley Earl', quote: 'You can design a car that lasts forever, or you can design a car that people want to own forever.' },
+  { expert: 'John DeLorean', quote: 'I would rather have a free press and no government than a government and no press.' },
+  { expert: 'Nicolas-Joseph Cugnot', quote: 'The first step toward progress is the realization that something can be done.' }
 ];
 
 export function getMechanicQuoteOfTheDay() {
@@ -44,43 +44,43 @@ export function getMechanicQuoteOfTheDay() {
   return automotiveQuotes[idx];
 }
 
-export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
+export function getVideoQueriesForProcedure(procedure: Procedure): string[] {
   return [
-    `how to ${recipe.name} automotive repair tutorial`,
-    `${recipe.name} car repair guide`
+    `how to ${procedure.name} automotive repair tutorial`,
+    `${procedure.name} car repair guide`
   ];
 }
 
-export interface Recipe {
+export interface Procedure {
   id: string;
   name: string;
   description: string;
   photo?: string;
-  ingredients?: string[];
+  parts?: string[];
   instructions?: string;
-  equipment?: string[];
-  nutrition?: {
-    carbs: number;
-    sugars: number;
-    fiber: number;
-    protein: number;
-    saturatedFat?: number;
+  tools?: string[];
+  specifications?: {
+    torque?: number;
+    pressure?: number;
+    voltage?: number;
+    temperature?: number;
+    clearance?: number;
   };
-  healthTags?: string[];
+  systemTags?: string[];
 }
 
 const MyManual = () => {
   const { t } = useTranslation();
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
-  const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
+  const [procedures, setLocalProcedures] = useState<Procedure[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [showShareModal, setShowShareModal] = useState(false);
-  const [recipeToShare, setRecipeToShare] = useState<Recipe | null>(null);
+  const [procedureToShare, setProcedureToShare] = useState<Procedure | null>(null);
   const [flipped, setFlipped] = useState(false);
   const [showCreateCollectionModal, setShowCreateCollectionModal] = useState(false);
   const [showViewCollectionModal, setShowViewCollectionModal] = useState(false);
@@ -98,7 +98,7 @@ const MyManual = () => {
   const [userFilter, setUserFilter] = useState('all');
   const [selectedLibraryVideo, setSelectedLibraryVideo] = useState<{name: string, url: string, created_at: string, userId: string, isPublic: boolean} | null>(null);
   const [showLibraryVideoModal, setShowLibraryVideoModal] = useState(false);
-  const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
+  const [activeMobileTab, setActiveMobileTab] = useState<'manual' | 'collections'>('manual');
   
   // Assignment data
   const assignments = [
@@ -151,25 +151,25 @@ const MyManual = () => {
     {
       id: 1,
       name: "Sarah Chen",
-      email: "sarah.chen@culinaryschool.edu",
+      email: "sarah.chen@autotech.edu",
       submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique"}
     },
     {
       id: 2,
       name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@culinaryschool.edu", 
+      email: "marcus.rodriguez@autotech.edu", 
       submittedVideos: {1: "knife-skills-demo", 3: "protein-cookery"}
     },
     {
       id: 3,
       name: "Emma Thompson",
-      email: "emma.thompson@culinaryschool.edu",
+      email: "emma.thompson@autotech.edu",
       submittedVideos: {2: "sauce-technique"}
     },
     {
       id: 4,
       name: "David Kim",
-      email: "david.kim@culinaryschool.edu",
+      email: "david.kim@autotech.edu",
       submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique", 3: "protein-cookery"}
     }
   ];
@@ -198,13 +198,13 @@ const MyManual = () => {
     }
   };
 
-  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
-  const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
+  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, procedures: string[]} | null>(null);
+  const [selectedProcedures, setSelectedProcedures] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Fix', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '3', name: 'Green Options', emoji: '🔧', recipes: ['1', '2', '3', '4', '5'] }
+    { id: '1', name: 'Favorites', emoji: '⭐', procedures: ['1', '2', '3'] },
+    { id: '2', name: 'Quick Fix', emoji: '⚡', procedures: ['1', '2'] },
+    { id: '3', name: 'Green Options', emoji: '🔧', procedures: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
@@ -222,12 +222,12 @@ const MyManual = () => {
     { key: 'Dessert', label: t('myManual.dessert') }
   ];
 
-  // Handle recipe selection for collections
-  const handleRecipeSelect = (recipeId: string) => {
-    setSelectedRecipes(prev => 
-      prev.includes(recipeId) 
-        ? prev.filter(id => id !== recipeId)
-        : [...prev, recipeId]
+  // Handle procedure selection for collections
+  const handleProcedureSelect = (procedureId: string) => {
+    setSelectedProcedures(prev => 
+      prev.includes(procedureId) 
+        ? prev.filter(id => id !== procedureId)
+        : [...prev, procedureId]
     );
   };
 
@@ -237,14 +237,14 @@ const MyManual = () => {
       const newCollection = {
         id: Date.now().toString(),
         name: newCollectionName.trim(),
-        recipes: selectedRecipes,
+        procedures: selectedProcedures,
         emoji: '�',
         createdAt: new Date().toISOString()
       };
       
       setCollections(prev => [...prev, newCollection]);
       setNewCollectionName('');
-      setSelectedRecipes([]);
+      setSelectedProcedures([]);
       setShowCreateCollectionModal(false);
     }
   };
@@ -280,11 +280,11 @@ const MyManual = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: recipeToShare ? `${recipeToShare.name} Recipe on Porkchop` : 'My Cookbook on Porkchop',
-      text: recipeToShare 
-        ? `Check out this amazing recipe for ${recipeToShare.name} on Porkchop!` 
-        : 'Check out my digital cookbook on Porkchop! I\'ve been collecting amazing recipes and would love to share them with you.',
-      url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
+      title: procedureToShare ? `${procedureToShare.name} Procedure on Porkchop` : 'My Manual on Porkchop',
+      text: procedureToShare 
+        ? `Check out this repair procedure for ${procedureToShare.name} on Porkchop!` 
+        : 'Check out my digital repair manual on Porkchop! I\'ve been collecting procedures and would love to share them with you.',
+      url: window.location.href + (procedureToShare ? `?procedure=${encodeURIComponent(procedureToShare.id)}` : ''),
     };
 
     try {
@@ -309,7 +309,7 @@ const MyManual = () => {
           break;
         case 'instagram':
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
-          const instagramMessage = `Check out my cookbook! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
+          const instagramMessage = `Check out my manual! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
           alert(t('myManual.sharingInstructions'));
           shared = true;
@@ -339,7 +339,7 @@ const MyManual = () => {
             .from('xp_activity_log')
             .select('id')
             .eq('user_id', user.id)
-            .eq('activity', 'cookbook_share')
+            .eq('activity', 'manual_share')
             .gte('created_at', `${today}T00:00:00`)
             .lte('created_at', `${today}T23:59:59`)
             .maybeSingle();
@@ -354,7 +354,7 @@ const MyManual = () => {
               {
                 user_id: user.id,
                 xp_awarded: XP_REWARDS.RECIPE_SHARE,
-                activity: 'cookbook_share'
+                activity: 'manual_share'
               }
             ]);
             
@@ -373,10 +373,10 @@ const MyManual = () => {
   };
   useEffect(() => {
     updateContext({ page: 'MyCookBook' });
-    const loadRecipes = async () => {
+    const loadProcedures = async () => {
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        const savedRecipes = await fetchManual(user?.id!);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
@@ -388,24 +388,24 @@ const MyManual = () => {
           nutrition: r.nutrition,
           healthTags: r.healthTags
         }));
-        setLocalRecipes(converted);
+        setLocalProcedures(converted);
       } catch (err) {
-        console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        console.error('Error loading manual:', err);
+        setError('Failed to load your manual');
       } finally {
         setLoading(false);
       }
     };
-    loadRecipes();
+    loadProcedures();
   }, [updateContext]);
 
   // Filter recipes based on search term and category
-  const filteredRecipes = recipes.filter(recipe => {
-    const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredProcedures = procedures.filter(recipe => {
+    const matchesSearch = procedure.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('myManual.all')) return matchesSearch;
     
     // Simple category detection based on ingredients
-    const ingredients = recipe.ingredients || [];
+    const ingredients = procedure.parts || [];
     const ingredientsJoined = ingredients.join(' ').toLowerCase();
     
     const hasSeafood = ingredientsJoined.includes('fish') || 
@@ -455,7 +455,7 @@ const MyManual = () => {
       <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">Loading your cookbook...</div>
+          <div className="text-lg font-retro mb-2">Loading your manual...</div>
         </div>
       </div>
     );
@@ -477,9 +477,9 @@ const MyManual = () => {
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
-          onClick={() => setActiveMobileTab('cookbook')}
+          onClick={() => setActiveMobileTab('manual')}
           className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
-            activeMobileTab === 'cookbook'
+            activeMobileTab === 'manual'
               ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
@@ -500,7 +500,7 @@ const MyManual = () => {
       
       <div className="flex flex-col lg:flex-row gap-6">
         <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
-          activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
+          activeMobileTab === 'manual' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
           <div className="flex items-center justify-center p-6 pb-4">
@@ -518,11 +518,11 @@ const MyManual = () => {
       {showShareModal && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => {
         setShowShareModal(false);
-        setRecipeToShare(null);
+        setProcedureToShare(null);
       }}>
         <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
-            {recipeToShare ? `${t('myManual.shareRecipeTitle')} "${recipeToShare.name}"` : t('myManual.shareYourCookbook')}
+            {recipeToShare ? `${t('myManual.shareRecipeTitle')} "${recipeToShare.name}"` : t('myManual.shareYourManual')}
           </h3>
           <div className="flex justify-around mb-4">
             <button 
@@ -578,7 +578,7 @@ const MyManual = () => {
             <button
               onClick={() => {
                 setShowShareModal(false);
-                setRecipeToShare(null);
+                setProcedureToShare(null);
               }}
               className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
             >
@@ -614,7 +614,7 @@ const MyManual = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600">
-                {t('myManual.selectedRecipes')} {selectedRecipes.length}
+                {t('myManual.selectedProcedures')} {selectedProcedures.length}
               </p>
             </div>
             
@@ -658,17 +658,17 @@ const MyManual = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600 mb-3">
-                {t('myManual.recipesInCollection')} ({selectedCollection.recipes.length}):
+                {t('myManual.proceduresInCollection')} ({selectedCollection.procedures.length}):
               </p>
               
               <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                {selectedCollection.recipes.map((recipeId, index) => {
-                  const recipe = recipes.find(r => r.id === recipeId);
+                {selectedCollection.procedures.map((recipeId, index) => {
+                  const procedure = recipes.find(r => r.id === recipeId);
                   return (
                     <div key={recipeId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
                       <div className="flex items-center">
                         <span className="mr-2">🍽️</span>
-                        <span className="text-sm">{recipe ? recipe.name : `Recipe ${index + 1}`}</span>
+                        <span className="text-sm">{recipe ? procedure.name : `Recipe ${index + 1}`}</span>
                       </div>
                       {recipe && recipe.healthTags && recipe.healthTags.length > 0 && (
                         <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
@@ -678,7 +678,7 @@ const MyManual = () => {
                     </div>
                   );
                 })}
-                {selectedCollection.recipes.length === 0 && (
+                {selectedCollection.procedures.length === 0 && (
                   <div className="py-4 text-center text-gray-500 text-sm italic">
                     {t('myManual.noRecipesInCollection')}
                   </div>
@@ -728,7 +728,7 @@ const MyManual = () => {
             value={activeCategory}
             onChange={(e) => {
               setActiveCategory(e.target.value);
-              setCurrentIndex(0); // Reset to first recipe on category change
+              setCurrentIndex(0); // Reset to first procedure on category change
             }}
             className="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam bg-white text-sm w-full sm:w-auto sm:min-w-[120px]"
           >
@@ -748,7 +748,7 @@ const MyManual = () => {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentIndex(0); // Reset to first recipe on search
+                setCurrentIndex(0); // Reset to first procedure on search
               }}
             />
             <div className="absolute left-2 top-2.5 text-gray-400">🔍</div>
@@ -766,9 +766,9 @@ const MyManual = () => {
             <span className="sm:hidden">{t('myManual.prev')}</span>
           </button>
           <button
-            onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
-            disabled={currentIndex === filteredRecipes.length - 1}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+            onClick={() => setCurrentIndex(prev => Math.min(filteredProcedures.length - 1, prev + 1))}
+            disabled={currentIndex === filteredProcedures.length - 1}
+            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredProcedures.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
           >
             <span className="hidden sm:inline">{t('myManual.next')}</span>
             <span className="sm:hidden">{t('myManual.next')} →</span>
@@ -777,15 +777,15 @@ const MyManual = () => {
       </div>
       {/* Recipe Count */}
       <div className="text-sm text-gray-500 mb-4">
-        {filteredRecipes.length === 0 
+        {filteredProcedures.length === 0 
           ? t('myManual.noRecipes') 
-          : `${t('myManual.recipe')} ${currentIndex + 1} ${t('myManual.of')} ${filteredRecipes.length}`}
+          : `${t('myManual.recipe')} ${currentIndex + 1} ${t('myManual.of')} ${filteredProcedures.length}`}
       </div>
 
 
-      {/* Digital Cookbook - Single Recipe */}
+      {/* Digital Manual - Single Recipe */}
       <div className="mt-4">
-        {filteredRecipes.length === 0 ? (
+        {filteredProcedures.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
             {recipes.length === 0 
               ? 'No recipes yet. Add your first recipe!' 
@@ -801,25 +801,25 @@ const MyManual = () => {
             >
               {/* Front */}
               <div className="absolute inset-0 bg-white p-4 sm:p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col items-center [backface-visibility:hidden]">
-                {filteredRecipes[currentIndex].photo && (
+                {filteredProcedures[currentIndex].photo && (
                   <img 
-                    src={filteredRecipes[currentIndex].photo} 
-                    alt={filteredRecipes[currentIndex].name} 
+                    src={filteredProcedures[currentIndex].photo} 
+                    alt={filteredProcedures[currentIndex].name} 
                     className="w-full h-32 sm:h-40 object-cover rounded-lg mb-4 border-2 border-gray-200"
                   />
                 )}
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-center text-maineBlue">{filteredRecipes[currentIndex].name}</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-center text-maineBlue">{filteredProcedures[currentIndex].name}</h3>
                 <div className="flex-1 flex flex-col justify-center w-full px-2">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
                     {/* Ingredients */}
                     <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 {t('myManual.ingredients')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredRecipes[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
+                        {filteredProcedures[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
                           <li key={i} className="line-clamp-1">{ingredient}</li>
                         ))}
-                        {(filteredRecipes[currentIndex].ingredients?.length || 0) > 6 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].ingredients?.length || 0) - 6} {t('myManual.more')}</li>
+                        {(filteredProcedures[currentIndex].ingredients?.length || 0) > 6 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredProcedures[currentIndex].ingredients?.length || 0) - 6} {t('myManual.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -828,11 +828,11 @@ const MyManual = () => {
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 {t('myManual.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
+                        {filteredProcedures[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
                         ))}
-                        {(filteredRecipes[currentIndex].equipment?.length || 0) > 4 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].equipment?.length || 0) - 4} {t('myManual.more')}</li>
+                        {(filteredProcedures[currentIndex].equipment?.length || 0) > 4 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredProcedures[currentIndex].equipment?.length || 0) - 4} {t('myManual.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -841,15 +841,15 @@ const MyManual = () => {
                     <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 {t('myManual.healthTags')}</h4>
                       <div className="flex flex-wrap gap-1.5 justify-center max-h-[80px] sm:max-h-[100px] overflow-y-auto">
-                        {filteredRecipes[currentIndex].healthTags?.slice(0, 4).map(tag => (
+                        {filteredProcedures[currentIndex].healthTags?.slice(0, 4).map(tag => (
                           <span key={tag} className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">
                             {tag}
                           </span>
                         )) || (
                           <span className="text-xs text-gray-500">{t('myManual.noHealthTags')}</span>
                         )}
-                        {(filteredRecipes[currentIndex].healthTags?.length || 0) > 4 && (
-                          <span className="text-xs text-gray-600 font-semibold">+{(filteredRecipes[currentIndex].healthTags?.length || 0) - 4}</span>
+                        {(filteredProcedures[currentIndex].healthTags?.length || 0) > 4 && (
+                          <span className="text-xs text-gray-600 font-semibold">+{(filteredProcedures[currentIndex].healthTags?.length || 0) - 4}</span>
                         )}
                       </div>
                     </div>
@@ -862,18 +862,18 @@ const MyManual = () => {
               
               {/* Back */}
               <div className="absolute inset-0 h-full w-full rounded-lg bg-white p-4 sm:p-6 shadow-lg border-4 border-lobsterRed [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredRecipes[currentIndex].name}</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredProcedures[currentIndex].name}</h3>
                 <div className="flex-grow overflow-y-auto mb-16 sm:mb-20 px-2">
                   <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('myManual.instructions')}</h4>
-                  <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredRecipes[currentIndex].instructions}</p>
+                  <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredProcedures[currentIndex].instructions}</p>
                 </div>
                 <div className="flex justify-between items-center absolute bottom-4 left-4 right-4 gap-2">
                   <button
                     onClick={async () => {
                       try {
-                        const recipeId = filteredRecipes[currentIndex].id;
-                        await removeRecipeFromCookbook(user?.id!, recipeId);
-                        setLocalRecipes(recipes.filter(r => r.id !== recipeId));
+                        const recipeId = filteredProcedures[currentIndex].id;
+                        await removeRecipeFromManual(user?.id!, recipeId);
+                        setLocalProcedures(procedures.filter(r => r.id !== recipeId));
                         setCurrentIndex(0);
                       } catch (err) {
                         console.error('Error deleting recipe:', err);
@@ -889,15 +889,15 @@ const MyManual = () => {
                   <button
                     onClick={() => {
                       const fullRecipe = {
-                        id: `${filteredRecipes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                        title: filteredRecipes[currentIndex].name,
-                        image: filteredRecipes[currentIndex].photo || '',
-                        ingredients: filteredRecipes[currentIndex].ingredients || [],
-                        instructions: filteredRecipes[currentIndex].instructions || '',
-                        equipment: filteredRecipes[currentIndex].equipment || [],
+                        id: `${filteredProcedures[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                        title: filteredProcedures[currentIndex].name,
+                        image: filteredProcedures[currentIndex].photo || '',
+                        ingredients: filteredProcedures[currentIndex].ingredients || [],
+                        instructions: filteredProcedures[currentIndex].instructions || '',
+                        equipment: filteredProcedures[currentIndex].equipment || [],
                         tutorials: [
                           {
-                            title: `Equipment: Using the right tools for ${filteredRecipes[currentIndex].name}`,
+                            title: `Equipment: Using the right tools for ${filteredProcedures[currentIndex].name}`,
                             desc: `Learn how to use the main equipment needed for this dish.`
                           },
                           {
@@ -905,8 +905,8 @@ const MyManual = () => {
                             desc: `How to prep the main protein (e.g., fish, chicken, clams) for this recipe.`
                           },
                           {
-                            title: `Recipe: ${filteredRecipes[currentIndex].name}`,
-                            desc: filteredRecipes[currentIndex].instructions || ''
+                            title: `Recipe: ${filteredProcedures[currentIndex].name}`,
+                            desc: filteredProcedures[currentIndex].instructions || ''
                           }
                         ]
                       };
@@ -919,7 +919,7 @@ const MyManual = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setRecipeToShare(filteredRecipes[currentIndex]);
+                      setProcedureToShare(filteredProcedures[currentIndex]);
                       setShowShareModal(true);
                     }}
                     className="bg-maineBlue text-seafoam px-4 py-2 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
@@ -975,7 +975,7 @@ const MyManual = () => {
                         <span className="text-sm">{collection.name}</span>
                       </div>
                       <span className="text-xs text-gray-500 bg-seafoam px-2 py-1 rounded-full">
-                        {collection.recipes.length}
+                        {collection.procedures.length}
                       </span>
                     </div>
                   ))}
@@ -1000,12 +1000,12 @@ const MyManual = () => {
                             <input
                               type="checkbox"
                               id={`recipe-${recipe.id}`}
-                              checked={selectedRecipes.includes(recipe.id)}
-                              onChange={() => handleRecipeSelect(recipe.id)}
+                              checked={selectedProcedures.includes(recipe.id)}
+                              onChange={() => handleProcedureSelect(recipe.id)}
                               className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
                             />
                             <label htmlFor={`recipe-${recipe.id}`} className="text-sm cursor-pointer">
-                              {recipe.name}
+                              {procedure.name}
                             </label>
                           </div>
                           <div className="flex gap-1">
@@ -1029,7 +1029,7 @@ const MyManual = () => {
                       onClick={() => setShowCreateCollectionModal(true)}
                       className="w-full mt-3 px-4 py-2 rounded border bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam transition-colors"
                     >
-                      {t('myManual.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
+                      {t('myManual.createCollectionSelected', { count: selectedProcedures.length }).replace('{count}', selectedProcedures.length.toString())}
                     </button>
                   </div>
                 ) : (
@@ -1045,7 +1045,7 @@ const MyManual = () => {
                   onClick={() => setShowCreateCollectionModal(true)}
                   className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 hover:text-blue-800"
                 >
-                  {t('myManual.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
+                  {t('myManual.createCollectionSelected', { count: selectedProcedures.length }).replace('{count}', selectedProcedures.length.toString())}
                 </button>
                 
                 {/* Always Visible Bottom Buttons */}
