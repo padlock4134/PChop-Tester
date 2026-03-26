@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import type { RecipeCard } from './CircuitMatcherModal';
 import { useState, useRef } from 'react';
 import { supabase } from '../../culinary/api/supabaseClient';
@@ -24,6 +25,9 @@ interface WeeklyChallengeRecipeModalProps {
 
 const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({ open, onClose, recipe, loading, error, challengeId, weekNumber, xp, badge, onClaimed }) => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [claiming, setClaiming] = useState(false);
   const [claimed, setClaimed] = useState(false);
   const [alreadyClaimed, setAlreadyClaimed] = useState(false);
@@ -41,7 +45,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
     if (!file) return;
     
     if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      setUploadError(t('challenge.photoTooLarge'));
+      setUploadError(ct('photoTooLarge'));
       return;
     }
 
@@ -52,7 +56,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
 
   async function uploadProofPhoto() {
     if (!proofPhoto) {
-      setUploadError(t('challenge.uploadPhoto'));
+      setUploadError(ct('uploadPhoto'));
       return null;
     }
 
@@ -141,7 +145,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
               {recipe.image && <img src={recipe.image} alt={recipe.title} className="w-full max-h-48 sm:max-h-64 object-cover rounded border border-black mb-6" />}
               {/* Photo Upload Section */}
               <div className="w-full mt-4 border-t pt-4">
-                <h3 className="font-semibold text-lg mb-2">{t('challenge.submitProof')}</h3>
+                <h3 className="font-semibold text-lg mb-2">{ct('submitProof')}</h3>
                 <div className="flex flex-col items-center gap-2">
                   {photoUrl ? (
                     <div className="relative w-full">
@@ -162,7 +166,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
                       className="w-full h-48 border-2 border-dashed border-gray-300 rounded flex flex-col items-center justify-center hover:border-maineBlue transition-colors"
                     >
                       📸
-                      <span className="mt-2 text-gray-600">{t('challenge.uploadPhoto')}</span>
+                      <span className="mt-2 text-gray-600">{ct('uploadPhoto')}</span>
                     </button>
                   )}
                   <input
@@ -181,11 +185,11 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
                 onClick={handleClaim}
                 disabled={claiming || claimed || alreadyClaimed || !proofPhoto}
               >
-                {claiming ? t('challenge.claiming') : claimed ? t('challenge.rewardClaimed') : alreadyClaimed ? t('challenge.alreadyClaimed') : t('challenge.submitAndClaim')}
+                {claiming ? ct('claiming') : claimed ? ct('rewardClaimed') : alreadyClaimed ? ct('alreadyClaimed') : ct('submitAndClaim')}
               </button>
               {claimError && <div className="text-red-600 mt-2">{claimError}</div>}
-              {claimed && <div className="text-green-700 mt-2 font-semibold">{t('challenge.xpAwarded')}</div>}
-              {alreadyClaimed && <div className="text-yellow-700 mt-2 font-semibold">{t('challenge.alreadyClaimedMessage')}</div>}
+              {claimed && <div className="text-green-700 mt-2 font-semibold">{ct('xpAwarded')}</div>}
+              {alreadyClaimed && <div className="text-yellow-700 mt-2 font-semibold">{ct('alreadyClaimedMessage')}</div>}
             </>
           )}
         </div>
