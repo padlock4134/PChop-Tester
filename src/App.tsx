@@ -103,8 +103,7 @@ import MachiningBenchDashboard from './disciplines/machining/components/BenchDas
 import MachiningBenchFreddieWidget from './disciplines/machining/modules/BenchFreddieWidget';
 import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
-import CulinarySupabaseProvider, { useSupabase } from './disciplines/culinary/components/SupabaseProvider';
-import DisciplineSupabaseProvider from './components/DisciplineSupabaseProvider';
+import DisciplineSupabaseProvider, { useSupabase } from './components/DisciplineSupabaseProvider';
 import type { WristbandSessionMetadata } from './disciplines/culinary/types/session-types';
 import { setSupabaseJwt } from './disciplines/culinary/api/supabaseClient';
 import { setSupabaseJwt as setPlumbingSupabaseJwt } from './disciplines/plumbing/api/supabaseClient';
