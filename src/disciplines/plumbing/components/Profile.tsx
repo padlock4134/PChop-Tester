@@ -1225,7 +1225,7 @@ Automated calculations and formulas would be present`;
       // Left-click: Add talent (with validation)
       const maxTalents = Math.floor(userProfile.xp / 100); // 1 talent per 100 XP
       if (selectedTalents.length >= maxTalents) {
-        alert(`You can only select ${maxTalents} talents at your current level.`);
+        alert(t('profile.talents.maxSelectionAlert', { defaultValue: 'You can only select {{count}} talents at your current level.', count: maxTalents }));
         return;
       }
       newSelectedTalents = [...selectedTalents, talentName];
@@ -1247,13 +1247,13 @@ Automated calculations and formulas would be present`;
         console.error('Error saving talents:', error);
         // Revert local state if save failed
         setSelectedTalents(selectedTalents);
-        alert('Failed to save talent selection. Please try again.');
+        alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
       }
     } catch (error) {
       console.error('Error saving talents:', error);
       // Revert local state if save failed
       setSelectedTalents(selectedTalents);
-      alert('Failed to save talent selection. Please try again.');
+      alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
     }
   };
 
@@ -1954,7 +1954,7 @@ Automated calculations and formulas would be present`;
                     <div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
                     <div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
                     {!unlocked && (
-                      <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
+                      <div className="text-xs text-red-500">{t('profile.talents.unlocksAtLevel', { defaultValue: 'Unlocks at Level {{level}}', level: talent.unlockLevel })}</div>
                     )}
                     {selected && (
                       <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
@@ -1976,7 +1976,7 @@ Automated calculations and formulas would be present`;
                               : 'bg-yellow-500 text-white hover:bg-yellow-600'
                           }`}
                         >
-                          {unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
+                          {unlockedTalents.includes(talent.name) ? t('profile.talents.unlockedBadge', { defaultValue: '✅ Unlocked' }) : t('profile.talents.unlockAction', { defaultValue: '🔓 Unlock' })}
                         </button>
                         <button
                           onClick={(e) => {
