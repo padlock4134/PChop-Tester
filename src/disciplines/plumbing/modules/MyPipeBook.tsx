@@ -139,7 +139,7 @@ const MyPipeBook = () => {
       weight: "15%",
       techniques: ["Searing techniques", "Internal temperatures", "Resting periods", "Carryover cooking"],
       submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
-      objectives: ["Food safety", "Proper doneness", "Texture control", "Flavor development"],
+      objectives: ["Workplace safety", "Quality standards", "Tolerance control", "Process refinement"],
       studentName: "Sarah Chen",
       videoTitle: "Protein Cookery Demo"
     }
@@ -830,7 +830,7 @@ const MyPipeBook = () => {
                     
                     {/* Equipment */}
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">�️ {t('myPipeBook.equipment')}</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🛠️ {t('myPipeBook.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                         {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
@@ -1054,7 +1054,7 @@ const MyPipeBook = () => {
                         try {
                           // Get list of all user folders (to find all users with videos)
                           const { data: folders, error: foldersError } = await supabase.storage
-                            .from('Test Kitchen Videos')
+                            .from('Practice Videos')
                             .list('', {
                               limit: 1000,
                               offset: 0
@@ -1068,7 +1068,7 @@ const MyPipeBook = () => {
                           for (const folder of folders || []) {
                             if (folder.name) {
                               const { data: userVideos, error: videosError } = await supabase.storage
-                                .from('Test Kitchen Videos')
+                                .from('Practice Videos')
                                 .list(folder.name, {
                                   limit: 100,
                                   offset: 0,
@@ -1084,7 +1084,7 @@ const MyPipeBook = () => {
                                   // Show if: public OR it's my video
                                   if (isPublic || isMyVideo) {
                                     const { data: urlData } = supabase.storage
-                                      .from('Test Kitchen Videos')
+                                      .from('Practice Videos')
                                       .getPublicUrl(`${folder.name}/${file.name}`);
                                     
                                     allVideos.push({
@@ -1572,8 +1572,8 @@ const MyPipeBook = () => {
               ) : (savedVideos.length === 0 && false) ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
-                  <p className="text-gray-600 text-lg">No videos saved yet</p>
-                  <p className="text-gray-500 text-sm mt-2">Record a session in Global Test Kitchen to see it here!</p>
+                  <p className="text-gray-600 text-lg">{t('myPipeBook.noVideosSaved')}</p>
+                  <p className="text-gray-500 text-sm mt-2">{t('myPipeBook.recordInTestKitchen')}</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -1621,7 +1621,7 @@ const MyPipeBook = () => {
                     >
                       <div className="p-4 flex items-center justify-between">
                         <div className="flex items-center gap-4 flex-1">
-                          <div className="text-4xl">�</div>
+                          <div className="text-4xl">🔧</div>
                           <div className="flex-1">
                             <h3 className="font-bold text-purple-800 text-lg">{video.name.replace('.webm', '')}</h3>
                             <div className="flex items-center gap-3 mt-1">
@@ -1701,7 +1701,7 @@ const MyPipeBook = () => {
                   {selectedLibraryVideo.userId !== user?.id && (
                     <p>👤 Uploaded by: {selectedLibraryVideo.userId.substring(0, 8)}...</p>
                   )}
-                  <p className="mt-1">🎥 Recorded in Global Test Kitchen</p>
+                  <p className="mt-1">🎥 {t('myPipeBook.recordedInWorkspace')}</p>
                 </div>
               </div>
             </div>
