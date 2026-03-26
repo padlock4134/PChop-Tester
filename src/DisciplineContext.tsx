@@ -13,7 +13,13 @@ const DisciplineContext = createContext<DisciplineContextType | null>(null);
 export const DisciplineProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
   const [currentDiscipline, setCurrentDiscipline] = useState<DisciplineKey>(() => {
-    // Try to get from localStorage first
+    // First check current URL path
+    const disciplineFromPath = getDisciplineFromPath(location.pathname);
+    if (disciplineFromPath) {
+      return disciplineFromPath;
+    }
+    
+    // Then fallback to localStorage
     const stored = localStorage.getItem('lastDiscipline') as DisciplineKey;
     return stored && DISCIPLINE_CONFIG[stored] ? stored : 'culinary';
   });
