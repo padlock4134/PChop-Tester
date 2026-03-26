@@ -680,40 +680,41 @@ const Profile = () => {
 
   // 9 talents per tree, unlock at 10, 14, 25, 30, 36, 42, 48, 55, 60
   const talentTrees = {
-    'Cast Iron Champion': [
-      { name: t('profile.talents.searSavant'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.searSavantDesc') },
-      { name: t('profile.talents.heatControl'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.heatControlDesc') },
-      { name: t('profile.talents.ironWill'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.ironWillDesc') },
-      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 30, description: t('profile.talents.seasonedVeteranDesc') },
-      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.rustproofDesc') },
-      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 42, description: t('profile.talents.heavyHitterDesc') },
-      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.surfaceSageDesc') },
-      { name: t('profile.talents.ironclad'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.ironcladDesc') },
-      { name: t('profile.talents.ironChef'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.ironChefDesc') },
+    'Climate Systems Master': [
+      { name: 'Comfort Calibrator', icon: FireIcon, unlockLevel: 10, description: 'Dial in comfort targets with better stability and control' },
+      { name: 'Thermal Analyst', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Read heat load behavior and respond with precision' },
+      { name: 'System Sequencer', icon: StarIcon, unlockLevel: 25, description: 'Coordinate staged equipment operation efficiently' },
+      { name: 'Efficiency Tuner', icon: StarIcon, unlockLevel: 30, description: 'Improve seasonal efficiency and runtime performance' },
+      { name: 'Control Integrator', icon: SparklesIcon, unlockLevel: 36, description: 'Connect thermostats and controls for smooth operation' },
+      { name: 'Performance Auditor', icon: CakeIcon, unlockLevel: 42, description: 'Identify underperforming system components quickly' },
+      { name: 'Commissioning Pro', icon: StarIcon, unlockLevel: 48, description: 'Deliver cleaner startups and handoff performance' },
+      { name: 'Reliability Builder', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Increase long-term HVAC system dependability' },
+      { name: 'Climate Systems Master', icon: TrophyIcon, unlockLevel: 60, description: 'Complete mastery of HVAC climate systems' },
     ],
-    'Grilling Heavy Weight': [
-      { name: t('profile.talents.flameTamer'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.flameTamerDesc') },
-      { name: t('profile.talents.smokeMaster'), icon: SparklesIcon, unlockLevel: 14, description: t('profile.talents.smokeMasterDesc') },
-      { name: t('profile.talents.charChampion'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.charChampionDesc') },
-      { name: t('profile.talents.grillMarks'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.grillMarksDesc') },
-      { name: t('profile.talents.bbqBuff'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.bbqBuffDesc') },
-      { name: t('profile.talents.pitBoss'), icon: TrophyIcon, unlockLevel: 42, description: t('profile.talents.pitBossDesc') },
-      { name: t('profile.talents.coalWhisperer'), icon: FireIcon, unlockLevel: 48, description: t('profile.talents.coalWhispererDesc') },
-      { name: t('profile.talents.grillGuardian'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.grillGuardianDesc') },
-      { name: t('profile.talents.bbqGod'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bbqGodDesc') },
+    'Refrigeration Expert': [
+      { name: 'Charge Precision', icon: FireIcon, unlockLevel: 10, description: 'Set refrigerant charge with higher diagnostic confidence' },
+      { name: 'Superheat Specialist', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Tune superheat/subcooling for peak performance' },
+      { name: 'Leak Hunter', icon: StarIcon, unlockLevel: 25, description: 'Detect and resolve refrigerant leaks faster' },
+      { name: 'Compressor Whisperer', icon: StarIcon, unlockLevel: 30, description: 'Diagnose compressor behavior and failure signals early' },
+      { name: 'Metering Maestro', icon: SparklesIcon, unlockLevel: 36, description: 'Optimize metering device performance under load' },
+      { name: 'Defrost Strategist', icon: CakeIcon, unlockLevel: 42, description: 'Improve defrost cycles and low-temp reliability' },
+      { name: 'Recovery Discipline', icon: StarIcon, unlockLevel: 48, description: 'Execute refrigerant recovery and handling correctly' },
+      { name: 'Cycle Optimizer', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Refine refrigeration cycle efficiency and stability' },
+      { name: 'Refrigeration Master', icon: TrophyIcon, unlockLevel: 60, description: 'Ultimate mastery of refrigeration systems' },
     ],
-    'Baking Warlock': [
-      { name: t('profile.talents.doughWhisperer'), icon: CakeIcon, unlockLevel: 10, description: t('profile.talents.doughWhispererDesc') },
-      { name: t('profile.talents.ovenOracle'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.ovenOracleDesc') },
-      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.proofingProDesc') },
-      { name: t('profile.talents.pastryPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.pastryProDesc') },
-      { name: t('profile.talents.crustConjurer'), icon: CakeIcon, unlockLevel: 36, description: t('profile.talents.crustConjurerDesc') },
-      { name: t('profile.talents.bakeSense'), icon: SparklesIcon, unlockLevel: 42, description: t('profile.talents.bakeSenseDesc') },
-      { name: t('profile.talents.fillingFiend'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.fillingFiendDesc') },
-      { name: t('profile.talents.breadBuffoon'), icon: AcademicCapIcon, unlockLevel: 55, description: t('profile.talents.breadBuffoonDesc') },
-      { name: t('profile.talents.bakingWarlockTalent'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bakingWarlockTalentDesc') },
+    'Airflow Specialist': [
+      { name: 'Static Pressure Pro', icon: FireIcon, unlockLevel: 10, description: 'Measure and correct static pressure issues effectively' },
+      { name: 'Duct Designer', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Improve duct layout outcomes and airflow consistency' },
+      { name: 'Balance Technician', icon: StarIcon, unlockLevel: 25, description: 'Balance zones and branches with precision' },
+      { name: 'Ventilation Planner', icon: StarIcon, unlockLevel: 30, description: 'Improve ventilation performance and air exchanges' },
+      { name: 'Filtration Expert', icon: SparklesIcon, unlockLevel: 36, description: 'Select and maintain filtration for IAQ goals' },
+      { name: 'Noise Reducer', icon: CakeIcon, unlockLevel: 42, description: 'Reduce airflow noise through better design choices' },
+      { name: 'Air Quality Guardian', icon: StarIcon, unlockLevel: 48, description: 'Advance IAQ outcomes across occupied spaces' },
+      { name: 'Distribution Controller', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Optimize supply and return distribution behavior' },
+      { name: 'Airflow Master', icon: TrophyIcon, unlockLevel: 60, description: 'Peak mastery of airflow and duct performance' },
     ],
   };
+
 
   const handleLogout = async () => {
     redirectToLogout('/.netlify/functions/auth-logout');
@@ -1732,12 +1733,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Cast Iron</div>
-              <div>Champion</div>
+              <div>Climate</div>
+              <div>Systems</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.castIronChampion')}</strong>
-                <div className="mt-1">{t('profile.talents.castIronChampionDesc')}</div>
+                <strong>Climate Systems Master</strong>
+                <div className="mt-1">Master HVAC system performance, comfort, and controls.</div>
               </div>
             </button>
 
@@ -1747,12 +1748,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Grilling</div>
-              <div>Heavyweight</div>
+              <div>Refrigeration</div>
+              <div>Expert</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Grilling Heavyweight</strong>
-                <div className="mt-1">Become a grilling master with advanced techniques, temperature control, and flavor enhancement.</div>
+                <strong>Refrigeration Expert</strong>
+                <div className="mt-1">Specialize in refrigeration cycles, charging, and diagnostics.</div>
               </div>
             </button>
 
@@ -1762,12 +1763,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Baking</div>
-              <div>Warlock</div>
+              <div>Airflow</div>
+              <div>Specialist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.bakingWarlock')}</strong>
-                <div className="mt-1">{t('profile.talents.bakingWarlockDesc')}</div>
+                <strong>Airflow Specialist</strong>
+                <div className="mt-1">Optimize duct systems, balancing, and indoor air quality.</div>
               </div>
             </button>
           </div>
@@ -1900,8 +1901,8 @@ Automated calculations and formulas would be present`;
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? t('profile.talents.castIronChampion') : 
-                   selectedTalentTree === 'Techniques' ? t('profile.talents.grillingHeavyWeight') : t('profile.talents.bakingWarlock')}
+                  {selectedTalentTree === 'Equipment' ? 'Climate Systems Master' : 
+                   selectedTalentTree === 'Techniques' ? 'Refrigeration Expert' : 'Airflow Specialist'}
                 </h2>
               </div>
               <button
@@ -1913,8 +1914,8 @@ Automated calculations and formulas would be present`;
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {talentTrees[selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
-                           selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock']?.map(talent => {
+              {talentTrees[selectedTalentTree === 'Equipment' ? 'Climate Systems Master' : 
+                           selectedTalentTree === 'Techniques' ? 'Refrigeration Expert' : 'Airflow Specialist']?.map(talent => {
                 const xp = userProfile?.xp || 0;
                 // Use the corrected level calculation instead of the old one
                 const { level } = getCorrectXPProgress(xp);

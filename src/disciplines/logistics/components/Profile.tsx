@@ -680,40 +680,41 @@ const Profile = () => {
 
   // 9 talents per tree, unlock at 10, 14, 25, 30, 36, 42, 48, 55, 60
   const talentTrees = {
-    'Cast Iron Champion': [
-      { name: t('profile.talents.searSavant'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.searSavantDesc') },
-      { name: t('profile.talents.heatControl'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.heatControlDesc') },
-      { name: t('profile.talents.ironWill'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.ironWillDesc') },
-      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 30, description: t('profile.talents.seasonedVeteranDesc') },
-      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.rustproofDesc') },
-      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 42, description: t('profile.talents.heavyHitterDesc') },
-      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.surfaceSageDesc') },
-      { name: t('profile.talents.ironclad'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.ironcladDesc') },
-      { name: t('profile.talents.ironChef'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.ironChefDesc') },
+    'Fleet Operations Master': [
+      { name: 'Dispatch Commander', icon: FireIcon, unlockLevel: 10, description: 'Coordinate fleet dispatch with tighter execution windows' },
+      { name: 'Driver Coordinator', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Improve driver assignments and shift balance' },
+      { name: 'Maintenance Planner', icon: StarIcon, unlockLevel: 25, description: 'Reduce downtime through proactive fleet maintenance planning' },
+      { name: 'Capacity Strategist', icon: StarIcon, unlockLevel: 30, description: 'Balance fleet capacity against demand variation' },
+      { name: 'Incident Responder', icon: SparklesIcon, unlockLevel: 36, description: 'Resolve in-transit exceptions quickly and effectively' },
+      { name: 'Fuel Efficiency Lead', icon: CakeIcon, unlockLevel: 42, description: 'Improve fuel performance through operational discipline' },
+      { name: 'Compliance Tracker', icon: StarIcon, unlockLevel: 48, description: 'Maintain transport compliance and document readiness' },
+      { name: 'Service Reliability', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Raise on-time service reliability across routes' },
+      { name: 'Fleet Master', icon: TrophyIcon, unlockLevel: 60, description: 'Complete mastery of fleet operations' },
     ],
-    'Grilling Heavy Weight': [
-      { name: t('profile.talents.flameTamer'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.flameTamerDesc') },
-      { name: t('profile.talents.smokeMaster'), icon: SparklesIcon, unlockLevel: 14, description: t('profile.talents.smokeMasterDesc') },
-      { name: t('profile.talents.charChampion'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.charChampionDesc') },
-      { name: t('profile.talents.grillMarks'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.grillMarksDesc') },
-      { name: t('profile.talents.bbqBuff'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.bbqBuffDesc') },
-      { name: t('profile.talents.pitBoss'), icon: TrophyIcon, unlockLevel: 42, description: t('profile.talents.pitBossDesc') },
-      { name: t('profile.talents.coalWhisperer'), icon: FireIcon, unlockLevel: 48, description: t('profile.talents.coalWhispererDesc') },
-      { name: t('profile.talents.grillGuardian'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.grillGuardianDesc') },
-      { name: t('profile.talents.bbqGod'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bbqGodDesc') },
+    'Route Optimization Expert': [
+      { name: 'Route Mapper', icon: FireIcon, unlockLevel: 10, description: 'Build cleaner route plans with fewer inefficiencies' },
+      { name: 'ETA Forecaster', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Improve ETA accuracy with real-world constraints' },
+      { name: 'Constraint Solver', icon: StarIcon, unlockLevel: 25, description: 'Handle delivery windows and load constraints effectively' },
+      { name: 'Traffic Navigator', icon: StarIcon, unlockLevel: 30, description: 'Adapt routes rapidly to congestion and incidents' },
+      { name: 'Stop Density Optimizer', icon: SparklesIcon, unlockLevel: 36, description: 'Increase route productivity per run' },
+      { name: 'Backhaul Planner', icon: CakeIcon, unlockLevel: 42, description: 'Use return capacity intelligently to cut waste' },
+      { name: 'Cost Controller', icon: StarIcon, unlockLevel: 48, description: 'Reduce route cost per stop while maintaining service' },
+      { name: 'Performance Analyst', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Use route metrics to drive continuous improvement' },
+      { name: 'Route Master', icon: TrophyIcon, unlockLevel: 60, description: 'Ultimate mastery of route optimization' },
     ],
-    'Baking Warlock': [
-      { name: t('profile.talents.doughWhisperer'), icon: CakeIcon, unlockLevel: 10, description: t('profile.talents.doughWhispererDesc') },
-      { name: t('profile.talents.ovenOracle'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.ovenOracleDesc') },
-      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.proofingProDesc') },
-      { name: t('profile.talents.pastryPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.pastryProDesc') },
-      { name: t('profile.talents.crustConjurer'), icon: CakeIcon, unlockLevel: 36, description: t('profile.talents.crustConjurerDesc') },
-      { name: t('profile.talents.bakeSense'), icon: SparklesIcon, unlockLevel: 42, description: t('profile.talents.bakeSenseDesc') },
-      { name: t('profile.talents.fillingFiend'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.fillingFiendDesc') },
-      { name: t('profile.talents.breadBuffoon'), icon: AcademicCapIcon, unlockLevel: 55, description: t('profile.talents.breadBuffoonDesc') },
-      { name: t('profile.talents.bakingWarlockTalent'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bakingWarlockTalentDesc') },
+    'Warehouse Systems Specialist': [
+      { name: 'Slotting Expert', icon: FireIcon, unlockLevel: 10, description: 'Improve slotting strategy for faster pick performance' },
+      { name: 'Inventory Accuracy', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Increase count accuracy and reconciliation quality' },
+      { name: 'Pick Path Designer', icon: StarIcon, unlockLevel: 25, description: 'Design pick paths that reduce travel time' },
+      { name: 'Dock Flow Manager', icon: StarIcon, unlockLevel: 30, description: 'Improve inbound/outbound dock throughput' },
+      { name: 'Cycle Count Lead', icon: SparklesIcon, unlockLevel: 36, description: 'Run structured cycle counting with fewer variances' },
+      { name: 'Replenishment Pro', icon: CakeIcon, unlockLevel: 42, description: 'Optimize replenishment timing and stock availability' },
+      { name: 'WMS Operator', icon: StarIcon, unlockLevel: 48, description: 'Leverage WMS workflows for reliable execution' },
+      { name: 'Throughput Builder', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Increase warehouse throughput without quality loss' },
+      { name: 'Warehouse Master', icon: TrophyIcon, unlockLevel: 60, description: 'Peak mastery of warehouse systems' },
     ],
   };
+
 
   const handleLogout = async () => {
     redirectToLogout('/.netlify/functions/auth-logout');
@@ -1733,12 +1734,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Cast Iron</div>
-              <div>Champion</div>
+              <div>Fleet</div>
+              <div>Operations</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.castIronChampion')}</strong>
-                <div className="mt-1">{t('profile.talents.castIronChampionDesc')}</div>
+                <strong>Fleet Operations Master</strong>
+                <div className="mt-1">Master dispatch, routing, and transport execution reliability.</div>
               </div>
             </button>
 
@@ -1748,12 +1749,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Grilling</div>
-              <div>Heavyweight</div>
+              <div>Route</div>
+              <div>Optimization</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Grilling Heavyweight</strong>
-                <div className="mt-1">Become a grilling master with advanced techniques, temperature control, and flavor enhancement.</div>
+                <strong>Route Optimization Expert</strong>
+                <div className="mt-1">Improve routing efficiency, timing, and delivery performance.</div>
               </div>
             </button>
 
@@ -1763,12 +1764,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Baking</div>
-              <div>Warlock</div>
+              <div>Warehouse</div>
+              <div>Systems</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.bakingWarlock')}</strong>
-                <div className="mt-1">{t('profile.talents.bakingWarlockDesc')}</div>
+                <strong>Warehouse Systems Specialist</strong>
+                <div className="mt-1">Optimize warehouse flow, inventory accuracy, and throughput.</div>
               </div>
             </button>
           </div>
@@ -1901,8 +1902,8 @@ Automated calculations and formulas would be present`;
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? t('profile.talents.castIronChampion') : 
-                   selectedTalentTree === 'Techniques' ? t('profile.talents.grillingHeavyWeight') : t('profile.talents.bakingWarlock')}
+                  {selectedTalentTree === 'Equipment' ? 'Fleet Operations Master' : 
+                   selectedTalentTree === 'Techniques' ? 'Route Optimization Expert' : 'Warehouse Systems Specialist'}
                 </h2>
               </div>
               <button
@@ -1914,8 +1915,8 @@ Automated calculations and formulas would be present`;
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {talentTrees[selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
-                           selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock']?.map(talent => {
+              {talentTrees[selectedTalentTree === 'Equipment' ? 'Fleet Operations Master' : 
+                           selectedTalentTree === 'Techniques' ? 'Route Optimization Expert' : 'Warehouse Systems Specialist']?.map(talent => {
                 const xp = userProfile?.xp || 0;
                 // Use the corrected level calculation instead of the old one
                 const { level } = getCorrectXPProgress(xp);

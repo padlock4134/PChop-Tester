@@ -680,40 +680,41 @@ const Profile = () => {
 
   // 9 talents per tree, unlock at 10, 14, 25, 30, 36, 42, 48, 55, 60
   const talentTrees = {
-    'Cast Iron Champion': [
-      { name: t('profile.talents.searSavant'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.searSavantDesc') },
-      { name: t('profile.talents.heatControl'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.heatControlDesc') },
-      { name: t('profile.talents.ironWill'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.ironWillDesc') },
-      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 30, description: t('profile.talents.seasonedVeteranDesc') },
-      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.rustproofDesc') },
-      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 42, description: t('profile.talents.heavyHitterDesc') },
-      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.surfaceSageDesc') },
-      { name: t('profile.talents.ironclad'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.ironcladDesc') },
-      { name: t('profile.talents.ironChef'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.ironChefDesc') },
+    'Power Systems Master': [
+      { name: 'Load Analyst', icon: FireIcon, unlockLevel: 10, description: 'Improve load calculations and circuit balancing accuracy' },
+      { name: 'Service Planner', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Design cleaner service layouts and feeder strategies' },
+      { name: 'Panel Architect', icon: StarIcon, unlockLevel: 25, description: 'Build organized and reliable panel configurations' },
+      { name: 'Voltage Manager', icon: StarIcon, unlockLevel: 30, description: 'Stabilize voltage delivery across system demands' },
+      { name: 'Protection Coordinator', icon: SparklesIcon, unlockLevel: 36, description: 'Apply overcurrent protection with fewer coordination errors' },
+      { name: 'Distribution Optimizer', icon: CakeIcon, unlockLevel: 42, description: 'Improve branch distribution efficiency and redundancy' },
+      { name: 'Power Quality Pro', icon: StarIcon, unlockLevel: 48, description: 'Reduce noise, drops, and instability in critical lines' },
+      { name: 'Grid Integrator', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Integrate backup and distributed systems effectively' },
+      { name: 'Power Systems Master', icon: TrophyIcon, unlockLevel: 60, description: 'Complete mastery of power distribution systems' },
     ],
-    'Grilling Heavy Weight': [
-      { name: t('profile.talents.flameTamer'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.flameTamerDesc') },
-      { name: t('profile.talents.smokeMaster'), icon: SparklesIcon, unlockLevel: 14, description: t('profile.talents.smokeMasterDesc') },
-      { name: t('profile.talents.charChampion'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.charChampionDesc') },
-      { name: t('profile.talents.grillMarks'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.grillMarksDesc') },
-      { name: t('profile.talents.bbqBuff'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.bbqBuffDesc') },
-      { name: t('profile.talents.pitBoss'), icon: TrophyIcon, unlockLevel: 42, description: t('profile.talents.pitBossDesc') },
-      { name: t('profile.talents.coalWhisperer'), icon: FireIcon, unlockLevel: 48, description: t('profile.talents.coalWhispererDesc') },
-      { name: t('profile.talents.grillGuardian'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.grillGuardianDesc') },
-      { name: t('profile.talents.bbqGod'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bbqGodDesc') },
+    'Control Wiring Expert': [
+      { name: 'Wiring Precision', icon: FireIcon, unlockLevel: 10, description: 'Execute clean, traceable wiring runs with minimal rework' },
+      { name: 'Relay Specialist', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Configure relays and control logic reliably' },
+      { name: 'Troubleshooting Flow', icon: StarIcon, unlockLevel: 25, description: 'Diagnose control faults faster and more accurately' },
+      { name: 'Sensor Integrator', icon: StarIcon, unlockLevel: 30, description: 'Install and calibrate sensors for stable automation behavior' },
+      { name: 'PLC Interpreter', icon: SparklesIcon, unlockLevel: 36, description: 'Read and apply ladder logic with confidence' },
+      { name: 'Signal Integrity', icon: CakeIcon, unlockLevel: 42, description: 'Maintain clean signal paths in noisy environments' },
+      { name: 'Commissioning Lead', icon: StarIcon, unlockLevel: 48, description: 'Improve startup and commissioning outcomes' },
+      { name: 'Control Guardian', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Build robust, maintainable control panels' },
+      { name: 'Controls Master', icon: TrophyIcon, unlockLevel: 60, description: 'Ultimate mastery of control wiring and diagnostics' },
     ],
-    'Baking Warlock': [
-      { name: t('profile.talents.doughWhisperer'), icon: CakeIcon, unlockLevel: 10, description: t('profile.talents.doughWhispererDesc') },
-      { name: t('profile.talents.ovenOracle'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.ovenOracleDesc') },
-      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.proofingProDesc') },
-      { name: t('profile.talents.pastryPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.pastryProDesc') },
-      { name: t('profile.talents.crustConjurer'), icon: CakeIcon, unlockLevel: 36, description: t('profile.talents.crustConjurerDesc') },
-      { name: t('profile.talents.bakeSense'), icon: SparklesIcon, unlockLevel: 42, description: t('profile.talents.bakeSenseDesc') },
-      { name: t('profile.talents.fillingFiend'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.fillingFiendDesc') },
-      { name: t('profile.talents.breadBuffoon'), icon: AcademicCapIcon, unlockLevel: 55, description: t('profile.talents.breadBuffoonDesc') },
-      { name: t('profile.talents.bakingWarlockTalent'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bakingWarlockTalentDesc') },
+    'Safety Compliance Specialist': [
+      { name: 'Code Tracker', icon: FireIcon, unlockLevel: 10, description: 'Apply NEC requirements consistently on every install' },
+      { name: 'Lockout Leader', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Strengthen lockout/tagout execution and verification' },
+      { name: 'Arc Flash Aware', icon: StarIcon, unlockLevel: 25, description: 'Mitigate arc flash exposure in planning and execution' },
+      { name: 'Inspection Ready', icon: StarIcon, unlockLevel: 30, description: 'Prepare installations for smooth inspection approval' },
+      { name: 'Grounding Expert', icon: SparklesIcon, unlockLevel: 36, description: 'Improve bonding and grounding reliability' },
+      { name: 'Permit Navigator', icon: CakeIcon, unlockLevel: 42, description: 'Coordinate permitting and documentation without delays' },
+      { name: 'Hazard Preventer', icon: StarIcon, unlockLevel: 48, description: 'Identify and remove electrical hazards proactively' },
+      { name: 'Compliance Anchor', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Lead teams in safe, code-first electrical practices' },
+      { name: 'Safety Compliance Master', icon: TrophyIcon, unlockLevel: 60, description: 'Peak mastery of electrical safety and compliance' },
     ],
   };
+
 
   const handleLogout = async () => {
     redirectToLogout('/.netlify/functions/auth-logout');
@@ -1733,12 +1734,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Cast Iron</div>
-              <div>Champion</div>
+              <div>Power</div>
+              <div>Systems</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.castIronChampion')}</strong>
-                <div className="mt-1">{t('profile.talents.castIronChampionDesc')}</div>
+                <strong>Power Systems Master</strong>
+                <div className="mt-1">Master distribution systems, service equipment, and load control.</div>
               </div>
             </button>
 
@@ -1748,12 +1749,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Grilling</div>
-              <div>Heavyweight</div>
+              <div>Control</div>
+              <div>Wiring</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Grilling Heavyweight</strong>
-                <div className="mt-1">Become a grilling master with advanced techniques, temperature control, and flavor enhancement.</div>
+                <strong>Control Wiring Expert</strong>
+                <div className="mt-1">Specialize in panel wiring, controls, and troubleshooting circuits.</div>
               </div>
             </button>
 
@@ -1763,12 +1764,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Baking</div>
-              <div>Warlock</div>
+              <div>Safety</div>
+              <div>Compliance</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.bakingWarlock')}</strong>
-                <div className="mt-1">{t('profile.talents.bakingWarlockDesc')}</div>
+                <strong>Safety Compliance Specialist</strong>
+                <div className="mt-1">Lead code-compliant installs with strong safety discipline.</div>
               </div>
             </button>
           </div>
@@ -1901,8 +1902,8 @@ Automated calculations and formulas would be present`;
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? t('profile.talents.castIronChampion') : 
-                   selectedTalentTree === 'Techniques' ? t('profile.talents.grillingHeavyWeight') : t('profile.talents.bakingWarlock')}
+                  {selectedTalentTree === 'Equipment' ? 'Power Systems Master' : 
+                   selectedTalentTree === 'Techniques' ? 'Control Wiring Expert' : 'Safety Compliance Specialist'}
                 </h2>
               </div>
               <button
@@ -1914,8 +1915,8 @@ Automated calculations and formulas would be present`;
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {talentTrees[selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
-                           selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock']?.map(talent => {
+              {talentTrees[selectedTalentTree === 'Equipment' ? 'Power Systems Master' : 
+                           selectedTalentTree === 'Techniques' ? 'Control Wiring Expert' : 'Safety Compliance Specialist']?.map(talent => {
                 const xp = userProfile?.xp || 0;
                 // Use the corrected level calculation instead of the old one
                 const { level } = getCorrectXPProgress(xp);
