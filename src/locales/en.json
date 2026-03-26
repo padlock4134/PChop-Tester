@@ -130,7 +130,7 @@
     "videoLibrary": "Video Library",
     "loadingVideos": "Loading videos...",
     "noVideosSaved": "No videos saved yet",
-    "recordInTestKitchen": "Record a session in Test Kitchen to see it here!",
+    "recordInTestKitchen": "Record a session in Global Workspace to see it here!",
     "allUsers": "All Users",
     "myVideosOnly": "My Videos Only",
     "publicVideosOnly": "Public Videos Only",
@@ -138,7 +138,7 @@
     "private": "Private",
     "playVideo": "Play Video",
     "deleteVideo": "Delete Video",
-    "myTestKitchenVideos": "My Test Kitchen Videos",
+    "myTestKitchenVideos": "My Workspace Videos",
     "reviewSavedVideos": "Review your saved work sessions",
     "category": "Category",
     "user": "User",
@@ -147,7 +147,7 @@
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
     "loadingYourVideos": "Loading your videos...",
-    "recordedInWorkspace": "Recorded in Test Kitchen"
+    "recordedInWorkspace": "Recorded in Global Workspace"
   },
   "myCookBook": {
     "title": "My Cookbook"
@@ -175,9 +175,9 @@
     "noInstructionsProvided": "No instructions provided.",
     "equipmentNeeded": "Equipment Needed:",
     "noRecipeSelected": "No recipe selected. Import a recipe to showcase!",
-    "globalTestKitchenTab": "Global Test Kitchen",
+    "globalTestKitchenTab": "Global Workspace",
     "globalTestKitchen": {
-      "title": "Global Test Kitchen",
+      "title": "Global Workspace",
       "subtitle": "Share your recipes and learn from fellow cooks worldwide",
       "live": "Live",
       "upcoming": "Upcoming",
