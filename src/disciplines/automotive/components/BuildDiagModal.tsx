@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import { RecipeCard } from './RepairMatcherModal';
@@ -14,6 +15,9 @@ interface BuildMenuModalProps {
 
 const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMarkets }) => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const bt = (key: string) => t(`buildMenu.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`buildMenu.${key}`) });
   const { user } = useSupabase();
   const [recipes, setRecipes] = useState<RecipeCard[]>([]);
   const [selectedRecipeIds, setSelectedRecipeIds] = useState<Set<string>>(new Set());
@@ -251,7 +255,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                           <button
                             onClick={() => toggleRecipe(recipe.id)}
                             className="text-red-500 hover:text-red-700 ml-2"
-                            title={t('buildMenu.removeFromMenu')}
+                            title={bt('removeFromMenu')}
                           >
                             ✕
                           </button>

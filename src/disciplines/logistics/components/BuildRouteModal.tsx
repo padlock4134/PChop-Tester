@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import { RecipeCard } from './RouteMatcherModal';
@@ -14,6 +15,9 @@ interface BuildMenuModalProps {
 
 const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMarkets }) => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const bt = (key: string) => t(`buildMenu.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`buildMenu.${key}`) });
   const { user } = useSupabase();
   const [recipes, setRecipes] = useState<RecipeCard[]>([]);
   const [selectedRecipeIds, setSelectedRecipeIds] = useState<Set<string>>(new Set());
@@ -65,12 +69,12 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     // Title
     pdf.setFontSize(20);
     pdf.setFont('helvetica', 'bold');
-    pdf.text(t('buildMenu.myMenu'), 105, yPos, { align: 'center' });
+    pdf.text(bt('myMenu'), 105, yPos, { align: 'center' });
     yPos += 15;
 
     // Menu Items
     pdf.setFontSize(14);
-    pdf.text(t('buildMenu.selectedRecipes'), 20, yPos);
+    pdf.text(bt('selectedRecipes'), 20, yPos);
     yPos += 8;
     pdf.setFontSize(11);
     pdf.setFont('helvetica', 'normal');
@@ -164,7 +168,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
         <div className="p-6 flex-1 overflow-hidden flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-maineBlue font-retro">🍽️ {t('buildMenu.title')}</h2>
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">🍽️ {bt('title')}</h2>
             <button 
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -175,7 +179,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
           {/* Instructions */}
           <p className="text-sm text-gray-600 mb-4">
-            {t('buildMenu.selectRecipes')}
+            {bt('selectRecipes')}
           </p>
 
           {/* Two Column Layout */}
@@ -225,10 +229,10 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
             {/* Right: Your Menu */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">🍽️ {t('buildMenu.yourMenu')}</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">🍽️ {bt('yourMenu')}</h3>
               {selectedRecipeIds.size === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                  <p className="text-gray-400 text-sm">{t('buildMenu.selectToStart')}</p>
+                  <p className="text-gray-400 text-sm">{bt('selectToStart')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
@@ -251,7 +255,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                           <button
                             onClick={() => toggleRecipe(recipe.id)}
                             className="text-red-500 hover:text-red-700 ml-2"
-                            title={t('buildMenu.removeFromMenu')}
+                            title={bt('removeFromMenu')}
                           >
                             ✕
                           </button>
@@ -266,7 +270,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t flex-shrink-0">
             <div className="text-sm text-gray-600">
-              {selectedRecipeIds.size} {t('buildMenu.recipesSelected')}
+              {selectedRecipeIds.size} {bt('recipesSelected')}
             </div>
             <div className="flex gap-2">
               <button
@@ -284,7 +288,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                     : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam border border-maineBlue'
                 }`}
               >
-                📄 {t('buildMenu.createMenuPDF')}
+                📄 {bt('createMenuPDF')}
               </button>
               <button
                 onClick={handleFindMarkets}
@@ -295,7 +299,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                     : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
                 }`}
               >
-                🛒 {t('buildMenu.findMarkets')}
+                🛒 {bt('findMarkets')}
               </button>
             </div>
           </div>

@@ -267,7 +267,7 @@
   },
   "dashboard": {
     "studentView": "Vista de Estudiante",
-    "clickModule": "¡Haz clic en un módulo para comenzar tu viaje de plomería!",
+    "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido!",
     "home": "Inicio",
     "live": "En Vivo",
     "quickActions": "Acciones Rápidas",
@@ -275,7 +275,7 @@
     "sessions": "Sesiones",
     "watching": "viendo",
     "join": "Unirse",
-    "isCooking": "está trabajando",
+    "isCooking": "está presentando",
     "learningProgress": "Progreso de Aprendizaje",
     "skillsDevelopment": "Desarrollo de Habilidades",
     "engagementMetrics": "Métricas de Participación",
@@ -303,7 +303,45 @@
     "currentSkillLevel": "Nivel de Habilidad Actual",
     "outOf": "de",
     "attempted": "intentados",
-    "areaForImprovement": "Área de Mejora:"
+    "areaForImprovement": "Área de Mejora:",
+    "disciplineCopy": {
+      "culinary": {
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido culinario!",
+        "isCooking": "está cocinando"
+      },
+      "plumbing": {
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido de plomería!",
+        "isCooking": "está diagnosticando"
+      },
+      "automotive": {
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido automotriz!",
+        "isCooking": "está diagnosticando"
+      },
+      "construction": {
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido de construcción!",
+        "isCooking": "está construyendo"
+      },
+      "electrical": {
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido eléctrico!",
+        "isCooking": "está cableando"
+      },
+      "hvac": {
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido HVAC!",
+        "isCooking": "está dando servicio"
+      },
+      "manufacturing": {
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido de manufactura!",
+        "isCooking": "está demostrando"
+      },
+      "logistics": {
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido de logística!",
+        "isCooking": "está despachando"
+      },
+      "machining": {
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido de mecanizado!",
+        "isCooking": "está maquinando"
+      }
+    }
   },
   "culinarySchool": {
     "title": "Escuela de Mecanizado",
@@ -581,14 +619,14 @@
     "contentDistribution": "Distribución de Contenido",
     "chooseContentDestination": "Elige qué partes de tu contenido subido van a cada módulo:",
     "myKitchen": "MyKitchen",
-    "recipeDatabases": "Bases de datos de recetas → Alimenta algoritmo de coincidencias",
-    "ingredientLists": "Listas de ingredientes → Gestión de despensa",
-    "kitchenEquipment": "Equipo de cocina → Guías de configuración",
-    "dietaryRestrictions": "Restricciones dietéticas → Filtrado de recetas",
+    "recipeDatabases": "Registros del espacio de trabajo → Alimenta el motor de coincidencias",
+    "ingredientLists": "Listas de insumos → Inventario del espacio de trabajo",
+    "kitchenEquipment": "Herramientas y equipos → Guías de configuración",
+    "dietaryRestrictions": "Cumplimiento y restricciones → Filtros de coincidencia",
     "myCookBook": "MyCookBook",
     "assignmentsRubrics": "Tareas y rúbricas → Tareas de estudiantes",
-    "recipeCollections": "Colecciones de recetas → Biblioteca de libros de cocina",
-    "videoTutorials": "Tutoriales en video → Guías de técnicas",
+    "recipeCollections": "Colecciones del cuaderno → Biblioteca",
+    "videoTutorials": "Tutoriales en video → Guías paso a paso",
     "culinarySchool": "CulinarySchool",
     "techniqueLessons": "Lecciones de técnica → Desarrollo de habilidades",
     "courseSyllabus": "Plan de estudios del curso → Estructura del programa",
@@ -1095,6 +1133,11 @@
     "timeRemaining": "Tiempo Restante"
   },
   "recipeCard": {
+    "servings": "Porciones",
+    "prepTime": "Tiempo de Preparación",
+    "cookTime": "Tiempo de Cocción",
+    "totalTime": "Tiempo Total",
+    "difficulty": "Dificultad",
     "viewDetails": "Ver Detalles",
     "completed": "Completado",
     "inProgress": "En Progreso",
@@ -1108,7 +1151,31 @@
     "xpAwarded": "¡XP e insignia otorgados! 🎉",
     "alreadyClaimedMessage": "Ya reclamaste la recompensa de esta semana.",
     "ingredients": "Ingredientes",
-    "equipment": "Equipo"
+    "nutrition": "Nutrición",
+    "calories": "Calorías",
+    "protein": "Proteína",
+    "carbs": "Carbohidratos",
+    "fat": "Grasas",
+    "equipment": "Equipo",
+    "instructions": "Instrucciones"
+  },
+  "challenge": {
+    "weeklyChallenge": "Desafío Semanal",
+    "challengeOfTheWeek": "Desafío de la Semana",
+    "completeBy": "Completar antes de",
+    "startChallenge": "Iniciar Desafío",
+    "viewDetails": "Ver Detalles",
+    "completed": "Completado",
+    "inProgress": "En Progreso",
+    "submitProof": "Enviar Foto de Prueba",
+    "uploadPhoto": "Haz clic para agregar una foto de tu trabajo",
+    "photoTooLarge": "La foto debe ser menor a 5MB",
+    "claiming": "Reclamando...",
+    "rewardClaimed": "¡Recompensa Reclamada!",
+    "alreadyClaimed": "Ya Reclamado",
+    "submitAndClaim": "Enviar Prueba y Reclamar Recompensa",
+    "xpAwarded": "¡XP e insignia otorgados! 🎉",
+    "alreadyClaimedMessage": "Ya reclamaste la recompensa de esta semana."
   },
   "recipeMatcher": {
     "recipeMatcher": "Buscador de Recetas",
@@ -1154,7 +1221,117 @@
     "findMarkets": "Encontrar Mercados",
     "myMenu": "MI MENÚ",
     "selectedRecipes": "Recetas Seleccionadas:",
-    "shoppingList": "Lista de Compras por Tipo de Mercado"
+    "shoppingList": "Lista de Compras por Tipo de Mercado",
+    "disciplineCopy": {
+      "culinary": {
+        "title": "Construye Tu Menú",
+        "selectRecipes": "Selecciona recetas de tu libro de cocina para construir tu menú, luego encuentra mercados locales para ingredientes.",
+        "yourMenu": "Tu Menú",
+        "selectToStart": "Selecciona recetas para construir tu menú",
+        "recipesSelected": "receta(s) seleccionada(s)",
+        "removeFromMenu": "Quitar del menú",
+        "createMenuPDF": "Crear Menú (PDF)",
+        "findMarkets": "Encontrar Mercados",
+        "myMenu": "MI MENÚ",
+        "selectedRecipes": "Recetas Seleccionadas:"
+      },
+      "plumbing": {
+        "title": "Crear Orden de Trabajo",
+        "selectRecipes": "Selecciona procedimientos de tu Pipe Book para crear una orden de trabajo y luego encontrar casas de suministro cercanas.",
+        "yourMenu": "Tu Orden de Trabajo",
+        "selectToStart": "Selecciona procedimientos para crear tu orden de trabajo",
+        "recipesSelected": "procedimiento(s) seleccionado(s)",
+        "removeFromMenu": "Quitar de la orden",
+        "createMenuPDF": "Crear Orden de Trabajo (PDF)",
+        "findMarkets": "Encontrar Casas de Suministro",
+        "myMenu": "MI ORDEN DE TRABAJO",
+        "selectedRecipes": "Procedimientos Seleccionados:"
+      },
+      "automotive": {
+        "title": "Crear Orden de Diagnóstico",
+        "selectRecipes": "Selecciona guías de reparación de tu manual para crear una orden de diagnóstico y luego encontrar tiendas de repuestos cercanas.",
+        "yourMenu": "Tu Orden de Diagnóstico",
+        "selectToStart": "Selecciona guías para crear tu orden de diagnóstico",
+        "recipesSelected": "guía(s) seleccionada(s)",
+        "removeFromMenu": "Quitar de la orden",
+        "createMenuPDF": "Crear Orden de Diagnóstico (PDF)",
+        "findMarkets": "Encontrar Tiendas de Repuestos",
+        "myMenu": "MI ORDEN DE DIAGNÓSTICO",
+        "selectedRecipes": "Guías Seleccionadas:"
+      },
+      "construction": {
+        "title": "Crear Paquete de Planos",
+        "selectRecipes": "Selecciona planes de tus blueprints para crear un paquete y luego encontrar patios cercanos.",
+        "yourMenu": "Tu Paquete de Planos",
+        "selectToStart": "Selecciona planes para crear tu paquete",
+        "recipesSelected": "plan(es) seleccionado(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Planos (PDF)",
+        "findMarkets": "Encontrar Patios",
+        "myMenu": "MI PAQUETE DE PLANOS",
+        "selectedRecipes": "Planes Seleccionados:"
+      },
+      "electrical": {
+        "title": "Crear Paquete de Circuitos",
+        "selectRecipes": "Selecciona diagramas de tu Code Book para crear un paquete de circuitos y luego encontrar proveedores cercanos.",
+        "yourMenu": "Tu Paquete de Circuitos",
+        "selectToStart": "Selecciona diagramas para crear tu paquete",
+        "recipesSelected": "diagrama(s) seleccionado(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Circuitos (PDF)",
+        "findMarkets": "Encontrar Proveedores",
+        "myMenu": "MI PAQUETE DE CIRCUITOS",
+        "selectedRecipes": "Diagramas Seleccionados:"
+      },
+      "hvac": {
+        "title": "Crear Paquete de Servicio",
+        "selectRecipes": "Selecciona especificaciones de tus spec sheets para crear un paquete de servicio y luego encontrar distribuidores cercanos.",
+        "yourMenu": "Tu Paquete de Servicio",
+        "selectToStart": "Selecciona especificaciones para crear tu paquete",
+        "recipesSelected": "especificación(es) seleccionada(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Servicio (PDF)",
+        "findMarkets": "Encontrar Distribuidores",
+        "myMenu": "MI PAQUETE DE SERVICIO",
+        "selectedRecipes": "Especificaciones Seleccionadas:"
+      },
+      "manufacturing": {
+        "title": "Crear Paquete de Proceso",
+        "selectRecipes": "Selecciona POEs de tu playbook para crear un paquete de proceso y luego encontrar proveedores cercanos.",
+        "yourMenu": "Tu Paquete de Proceso",
+        "selectToStart": "Selecciona POEs para crear tu paquete",
+        "recipesSelected": "POE(s) seleccionado(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Proceso (PDF)",
+        "findMarkets": "Encontrar Proveedores",
+        "myMenu": "MI PAQUETE DE PROCESO",
+        "selectedRecipes": "POEs Seleccionados:"
+      },
+      "logistics": {
+        "title": "Crear Paquete de Rutas",
+        "selectRecipes": "Selecciona procedimientos de tu runbook para crear un paquete de rutas y luego encontrar almacenes cercanos.",
+        "yourMenu": "Tu Paquete de Rutas",
+        "selectToStart": "Selecciona procedimientos para crear tu paquete",
+        "recipesSelected": "procedimiento(s) seleccionado(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Rutas (PDF)",
+        "findMarkets": "Encontrar Almacenes",
+        "myMenu": "MI PAQUETE DE RUTAS",
+        "selectedRecipes": "Procedimientos Seleccionados:"
+      },
+      "machining": {
+        "title": "Crear Paquete de Trabajo",
+        "selectRecipes": "Selecciona especificaciones de tu spec book para crear un paquete de trabajo y luego encontrar proveedores de herramientas cercanos.",
+        "yourMenu": "Tu Paquete de Trabajo",
+        "selectToStart": "Selecciona especificaciones para crear tu paquete",
+        "recipesSelected": "especificación(es) seleccionada(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Trabajo (PDF)",
+        "findMarkets": "Encontrar Proveedores de Herramientas",
+        "myMenu": "MI PAQUETE DE TRABAJO",
+        "selectedRecipes": "Especificaciones Seleccionadas:"
+      }
+    }
   },
   "practice": {
     "benchPractice": "Tu Tabla de Charcutería",
@@ -1208,7 +1385,8 @@
     "prerequisitesMet": "Requisitos cumplidos",
     "requires": "Requiere",
     "register": "Registrarse en Clases Seleccionadas",
-    "registering": "Registrando..."
+    "registering": "Registrando...",
+    "registrationRequestsAreProcessedWithin": "Las solicitudes de inscripción se procesan dentro de"
   },
   "social": {
     "post": "Publicar",
@@ -1227,6 +1405,7 @@
     "recipeMatch": "Buscar Procedimientos",
     "cookMe": "Intentar Esto",
     "addIngredient": "Agregar Pieza",
+    "ingredients": "Piezas",
     "scanStatus": "Escaneando...",
     "ingredientsInKitchen": "Piezas en la Van",
     "matchRecipes": "Buscar Procedimientos",
@@ -1281,20 +1460,33 @@
     "noMoreSuggestions": "No hay más sugerencias.",
     "tryUpdatingCupboard": "¡Intenta actualizar tu garaje!",
     "cookMe": "Reparar",
+    "fixIt": "Reparar",
     "equipmentUsing": "Usando Equipo Para",
     "learnEquipment": "Aprende a usar las herramientas y equipos necesarios",
     "proteinPrep": "Preparación de Piezas",
+    "partsPrep": "Preparación de Piezas",
     "howToPrepProtein": "Cómo preparar y organizar tus piezas",
+    "howToPrepParts": "Cómo preparar y organizar tus piezas",
+    "procedure": "Procedimiento:",
     "recipe": "Guía de Reparación",
     "heartHealthy": "Certificado de Seguridad",
+    "safetyCertified": "Certificado de Seguridad",
     "antiInflammatory": "Aprobado por Garantía",
+    "warrantyApproved": "Aprobado por Garantía",
     "lowGlycemic": "Eficiente en Combustible",
+    "fuelEfficient": "Eficiente en Combustible",
     "lowCholesterol": "Cumple con Emisiones",
+    "emissionCompliant": "Cumple con Emisiones",
     "renalFriendly": "Bajo Mantenimiento",
+    "lowMaintenance": "Bajo Mantenimiento",
     "dashDiet": "Optimizado para Rendimiento",
+    "performanceTuned": "Optimizado para Rendimiento",
     "lowSodium": "Amigable con el Medio Ambiente",
+    "environmentallyFriendly": "Amigable con el Medio Ambiente",
     "highFiber": "Uso Intensivo",
-    "swipeThrough": "Desliza para más guías de reparación"
+    "heavyDuty": "Uso Intensivo",
+    "swipeThrough": "Desliza para más guías de reparación",
+    "tryUpdatingVan": "¡Intenta actualizar tu van!"
   },
   "mySite": {
     "title": "Mi Obra",
