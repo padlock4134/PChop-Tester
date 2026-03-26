@@ -345,7 +345,7 @@ const BuildSchool = () => {
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
         >
-          �️ {t('buildSchool.title')}
+          🛠️ {t('buildSchool.title')}
         </button>
         <button
           onClick={() => setActiveMobileTab('syllabus')}
@@ -365,7 +365,7 @@ const BuildSchool = () => {
         }`}>
           {/* Culinary School header - moved back inside the module */}
           <div className="flex items-center justify-center mb-4">
-            <span className="text-5xl mr-2">�️</span>
+            <span className="text-5xl mr-2">🛠️</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('buildSchool.title')}</h1>
           </div>
           

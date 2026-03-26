@@ -96,7 +96,7 @@ const MyBench = () => {
   // Save kitchen to Supabase whenever ingredients change
   useEffect(() => {
     if (ingredients.length === 0) return;
-    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your kitchen.'));
+    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your workspace.'));
   }, [ingredients]);
 
   // Freddie context: set page on mount
@@ -113,7 +113,7 @@ const MyBench = () => {
         setCookbook(cookbookRecipes);
       } catch (error) {
         console.error('Error loading data:', error);
-        setKitchenError('Failed to load your kitchen.');
+        setKitchenError('Failed to load your workspace.');
       }
     };
     loadData();
@@ -173,7 +173,7 @@ const MyBench = () => {
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
         {/* My Kitchen header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
-          <span className="text-5xl mr-2">�</span>
+          <span className="text-5xl mr-2">🔧</span>
           <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myBench.title')}</h1>
         </div>
         

@@ -129,7 +129,7 @@ const MyFloor = () => {
   // Save kitchen to Supabase whenever ingredients change
   useEffect(() => {
     if (ingredients.length === 0) return;
-    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your kitchen.'));
+    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your workspace.'));
   }, [ingredients]);
 
   // Freddie context: set page on mount
@@ -146,7 +146,7 @@ const MyFloor = () => {
         setProcessbook(cookbookRecipes);
       } catch (error) {
         console.error('Error loading data:', error);
-        setKitchenError('Failed to load your kitchen.');
+        setKitchenError('Failed to load your workspace.');
       }
     };
     loadData();
