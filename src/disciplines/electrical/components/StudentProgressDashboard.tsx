@@ -16,7 +16,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Hand-pulled Ramen',
+      dishName: 'Precision Pipe Routing',
       culture: 'Japanese',
       viewers: 23,
       thumbnail: '🍜'
@@ -24,7 +24,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'Lebanese Kibbeh',
+      dishName: 'Panel Wiring Calibration',
       culture: 'Lebanese',
       viewers: 35,
       thumbnail: '🧆'
@@ -32,7 +32,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'French Croissants',
+      dishName: 'Hydronic System Balance',
       culture: 'French',
       viewers: 62,
       thumbnail: '🥐'
@@ -40,7 +40,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '5',
       hostName: 'Maria Santos',
-      dishName: 'Authentic Paella',
+      dishName: 'Blueprint Layout Validation',
       culture: 'Spanish',
       viewers: 28,
       thumbnail: '🥘'

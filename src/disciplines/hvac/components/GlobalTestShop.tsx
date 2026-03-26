@@ -102,7 +102,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '1',
       hostName: 'Maria Santos',
-      dishName: 'Authentic Paella Valenciana',
+      dishName: 'Site Layout Calibration',
       culture: 'Spanish',
       viewers: 47,
       isLive: false,
@@ -114,7 +114,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Hand-pulled Ramen',
+      dishName: 'Precision Assembly Practice',
       culture: 'Japanese',
       viewers: 23,
       isLive: true,
@@ -125,7 +125,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'Lebanese Kibbeh',
+      dishName: 'System Fit Verification',
       culture: 'Lebanese',
       viewers: 35,
       isLive: true,
@@ -136,7 +136,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'French Croissants',
+      dishName: 'Blueprint Readthrough Drill',
       culture: 'French',
       viewers: 62,
       isLive: true,
@@ -149,7 +149,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '3',
       hostName: 'Priya Sharma',
-      dishName: 'Hyderabadi Biryani',
+      dishName: 'Workflow Timing Challenge',
       culture: 'Indian',
       scheduledTime: '2:00 PM EST',
       description: 'Layered biryani with aromatic spices and basmati rice'
@@ -157,7 +157,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '4',
       hostName: 'Ahmed Hassan',
-      dishName: 'Moroccan Tagine',
+      dishName: 'Quality Control Walkthrough',
       culture: 'Moroccan',
       scheduledTime: '4:30 PM EST',
       description: 'Slow-cooked tagine with preserved lemons and olives'
@@ -165,7 +165,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '5',
       hostName: 'Elena Volkov',
-      dishName: 'Russian Borscht',
+      dishName: 'Safety Compliance Drill',
       culture: 'Russian',
       scheduledTime: '6:00 PM EST',
       description: 'Traditional beetroot soup with sour cream and fresh dill'
@@ -173,7 +173,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '6',
       hostName: 'Carlos Mendoza',
-      dishName: 'Peruvian Ceviche',
+      dishName: 'Final Inspection Run',
       culture: 'Peruvian',
       scheduledTime: '7:30 PM EST',
       description: 'Fresh fish cured in lime juice with red onions and aji peppers'
