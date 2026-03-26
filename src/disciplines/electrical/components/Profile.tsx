@@ -166,40 +166,38 @@ const EditProfileModal = ({
 
           {/* Divider */}
           <div className="border-t-2 border-gray-300"></div>
-
-          {/* Cuisine Preference */}
+          {/* Specialization Focus */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.cuisinePreference')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisinePreference}
-              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
+              value={formData.cuisine}
+              onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="American">🍔 {t('profile.cuisineOptions.american', { defaultValue: 'American' })}</option>
-              <option value="Asian">🥢 {t('profile.cuisineOptions.asian', { defaultValue: 'Asian' })}</option>
-              <option value="French">🥖 {t('profile.cuisineOptions.french', { defaultValue: 'French' })}</option>
-              <option value="Indian">🍛 {t('profile.cuisineOptions.indian', { defaultValue: 'Indian' })}</option>
-              <option value="Italian">🍝 {t('profile.cuisineOptions.italian', { defaultValue: 'Italian' })}</option>
-              <option value="Mediterranean">🫒 {t('profile.cuisineOptions.mediterranean', { defaultValue: 'Mediterranean' })}</option>
-              <option value="Mexican">🌮 {t('profile.cuisineOptions.mexican', { defaultValue: 'Mexican' })}</option>
+              <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
+              <option value="Automotive">🚗 {t('profile.manufacturingFocusOptions.automotive', { defaultValue: 'Automotive' })}</option>
+              <option value="Electronics">🔌 {t('profile.manufacturingFocusOptions.electronics', { defaultValue: 'Electronics' })}</option>
+              <option value="Medical Devices">🏥 {t('profile.manufacturingFocusOptions.medicalDevices', { defaultValue: 'Medical Devices' })}</option>
+              <option value="Precision Machining">⚙️ {t('profile.manufacturingFocusOptions.precisionMachining', { defaultValue: 'Precision Machining' })}</option>
+              <option value="Plastics">🧪 {t('profile.manufacturingFocusOptions.plastics', { defaultValue: 'Plastics' })}</option>
+              <option value="Metal Fabrication">🔧 {t('profile.manufacturingFocusOptions.metalFabrication', { defaultValue: 'Metal Fabrication' })}</option>
             </select>
           </div>
-
-          {/* Diet Preference */}
+          {/* Certification Preference */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.dietPreference')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certificationPreference', { defaultValue: 'Certifications' })}</label>
             <select
-              value={formData.dietPreference}
-              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
+              value={formData.diet}
+              onChange={(e) => setFormData({...formData, diet: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Gluten-Free">🌾 {t('profile.dietOptions.glutenFree', { defaultValue: 'Gluten-Free' })}</option>
-              <option value="Keto">🥑 {t('profile.dietOptions.keto', { defaultValue: 'Keto' })}</option>
-              <option value="None">🍽️ {t('profile.dietOptions.none', { defaultValue: 'None' })}</option>
-              <option value="Paleo">🥩 {t('profile.dietOptions.paleo', { defaultValue: 'Paleo' })}</option>
-              <option value="Pescatarian">🐟 {t('profile.dietOptions.pescatarian', { defaultValue: 'Pescatarian' })}</option>
-              <option value="Vegan">🌱 {t('profile.dietOptions.vegan', { defaultValue: 'Vegan' })}</option>
-              <option value="Vegetarian">🥗 {t('profile.dietOptions.vegetarian', { defaultValue: 'Vegetarian' })}</option>
+              <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
+              <option value="OSHA-10">🦺 {t('profile.certificationOptions.osha10', { defaultValue: 'OSHA-10' })}</option>
+              <option value="Six Sigma Green Belt">📊 {t('profile.certificationOptions.sixSigmaGreenBelt', { defaultValue: 'Six Sigma Green Belt' })}</option>
+              <option value="Lean Manufacturing">⚡ {t('profile.certificationOptions.leanManufacturing', { defaultValue: 'Lean Manufacturing' })}</option>
+              <option value="ISO 9001">✅ {t('profile.certificationOptions.iso9001', { defaultValue: 'ISO 9001' })}</option>
+              <option value="CNC Programming">💻 {t('profile.certificationOptions.cncProgramming', { defaultValue: 'CNC Programming' })}</option>
+              <option value="Quality Inspector">🔍 {t('profile.certificationOptions.qualityInspector', { defaultValue: 'Quality Inspector' })}</option>
             </select>
           </div>
 

@@ -1257,7 +1257,9 @@
       }
     },
     "bachelorsAppliedTechnology": "Licenciatura en Tecnología Aplicada",
-    "workspaceLabel": "Configuración del espacio de trabajo"
+    "workspaceLabel": "Configuración del espacio de trabajo",
+    "specializationPreference": "Enfoque de especialización",
+    "certificationPreference": "Certificaciones"
   },
   "modals": {
     "close": "Cerrar",

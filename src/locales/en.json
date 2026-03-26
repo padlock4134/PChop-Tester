@@ -948,7 +948,9 @@
       }
     },
     "bachelorsAppliedTechnology": "Bachelor of Applied Technology",
-    "workspaceLabel": "Workspace Setup"
+    "workspaceLabel": "Workspace Setup",
+    "specializationPreference": "Specialization Focus",
+    "certificationPreference": "Certifications"
   },
   "modals": {
     "close": "Close",
