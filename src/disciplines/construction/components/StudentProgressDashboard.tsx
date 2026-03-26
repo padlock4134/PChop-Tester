@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 
 const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
+  const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
   // Mock student progress data
   // Mock live session data
@@ -12,7 +16,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Hand-pulled Ramen',
+      dishName: 'Precision Pipe Routing',
       culture: 'Japanese',
       viewers: 23,
       thumbnail: '🍜'
@@ -20,7 +24,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'Lebanese Kibbeh',
+      dishName: 'Panel Wiring Calibration',
       culture: 'Lebanese',
       viewers: 35,
       thumbnail: '🧆'
@@ -28,7 +32,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'French Croissants',
+      dishName: 'Hydronic System Balance',
       culture: 'French',
       viewers: 62,
       thumbnail: '🥐'
@@ -36,7 +40,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '5',
       hostName: 'Maria Santos',
-      dishName: 'Authentic Paella',
+      dishName: 'Blueprint Layout Validation',
       culture: 'Spanish',
       viewers: 28,
       thumbnail: '🥘'
@@ -219,7 +223,7 @@ const StudentProgressDashboard: React.FC = () => {
           {/* Dashboard header */}
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('dashboard.studentView')}</h1>
-            <p className="text-gray-600 italic">{t('dashboard.clickModule')}</p>
+            <p className="text-gray-600 italic">{clickModuleLabel}</p>
           </div>
           
           {/* Separation line */}
@@ -240,7 +244,7 @@ const StudentProgressDashboard: React.FC = () => {
               to="/construction/my-blueprints"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-blue-400 bg-blue-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
-              <div className="mb-3 text-4xl">�</div>
+              <div className="mb-3 text-4xl">📘</div>
               <h3 className="text-sm font-bold font-retro">{t('myBlueprints.title')}</h3>
             </Link>
             
@@ -256,7 +260,7 @@ const StudentProgressDashboard: React.FC = () => {
               to="/construction/build-school"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
-              <div className="mb-3 text-4xl">�</div>
+              <div className="mb-3 text-4xl">🎓</div>
               <h3 className="text-sm font-bold font-retro">{t('buildSchool.title')}</h3>
             </Link>
           </div>
@@ -318,7 +322,7 @@ const StudentProgressDashboard: React.FC = () => {
                   <div className="flex-1 text-center">
                     <div className="text-sm text-red-800 transition-all duration-500">
                       <span>
-                        <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {t('dashboard.isCooking')}{' '}
+                        <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {liveVerbLabel}{' '}
                         <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
                       </span>
                     </div>
@@ -555,4 +559,3 @@ const StudentProgressDashboard: React.FC = () => {
 };
 
 export default StudentProgressDashboard;
-
