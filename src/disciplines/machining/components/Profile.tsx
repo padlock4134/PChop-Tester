@@ -175,13 +175,13 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="American">🍔 American</option>
-              <option value="Asian">🥢 Asian</option>
-              <option value="French">🥖 French</option>
-              <option value="Indian">🍛 Indian</option>
-              <option value="Italian">🍝 Italian</option>
-              <option value="Mediterranean">🫒 Mediterranean</option>
-              <option value="Mexican">🌮 Mexican</option>
+              <option value="American">🍔 {t('profile.cuisineOptions.american', { defaultValue: 'American' })}</option>
+              <option value="Asian">🥢 {t('profile.cuisineOptions.asian', { defaultValue: 'Asian' })}</option>
+              <option value="French">🥖 {t('profile.cuisineOptions.french', { defaultValue: 'French' })}</option>
+              <option value="Indian">🍛 {t('profile.cuisineOptions.indian', { defaultValue: 'Indian' })}</option>
+              <option value="Italian">🍝 {t('profile.cuisineOptions.italian', { defaultValue: 'Italian' })}</option>
+              <option value="Mediterranean">🫒 {t('profile.cuisineOptions.mediterranean', { defaultValue: 'Mediterranean' })}</option>
+              <option value="Mexican">🌮 {t('profile.cuisineOptions.mexican', { defaultValue: 'Mexican' })}</option>
             </select>
           </div>
 
@@ -193,13 +193,13 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Gluten-Free">🌾 Gluten-Free</option>
-              <option value="Keto">🥑 Keto</option>
-              <option value="None">🍽️ None</option>
-              <option value="Paleo">🥩 Paleo</option>
-              <option value="Pescatarian">🐟 Pescatarian</option>
-              <option value="Vegan">🌱 Vegan</option>
-              <option value="Vegetarian">🥗 Vegetarian</option>
+              <option value="Gluten-Free">🌾 {t('profile.dietOptions.glutenFree', { defaultValue: 'Gluten-Free' })}</option>
+              <option value="Keto">🥑 {t('profile.dietOptions.keto', { defaultValue: 'Keto' })}</option>
+              <option value="None">🍽️ {t('profile.dietOptions.none', { defaultValue: 'None' })}</option>
+              <option value="Paleo">🥩 {t('profile.dietOptions.paleo', { defaultValue: 'Paleo' })}</option>
+              <option value="Pescatarian">🐟 {t('profile.dietOptions.pescatarian', { defaultValue: 'Pescatarian' })}</option>
+              <option value="Vegan">🌱 {t('profile.dietOptions.vegan', { defaultValue: 'Vegan' })}</option>
+              <option value="Vegetarian">🥗 {t('profile.dietOptions.vegetarian', { defaultValue: 'Vegetarian' })}</option>
             </select>
           </div>
 
@@ -211,11 +211,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Kitchen">🏠 Apartment Workspace</option>
-              <option value="Full Kitchen">🏡 Full Workspace</option>
-              <option value="Minimal Setup">📦 Minimal Setup</option>
-              <option value="Outdoor Kitchen">🔥 Field Workspace</option>
-              <option value="Professional Kitchen">🏭 Professional Workspace</option>
+              <option value="Apartment Kitchen">🏠 {t('profile.workspaceOptions.apartment', { defaultValue: 'Apartment Workspace' })}</option>
+              <option value="Full Kitchen">🏡 {t('profile.workspaceOptions.full', { defaultValue: 'Full Workspace' })}</option>
+              <option value="Minimal Setup">📦 {t('profile.workspaceOptions.minimal', { defaultValue: 'Minimal Setup' })}</option>
+              <option value="Outdoor Kitchen">🔥 {t('profile.workspaceOptions.field', { defaultValue: 'Field Workspace' })}</option>
+              <option value="Professional Kitchen">🏭 {t('profile.workspaceOptions.professional', { defaultValue: 'Professional Workspace' })}</option>
             </select>
           </div>
 
@@ -227,10 +227,10 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, experienceLevel: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Advanced">⭐ Advanced</option>
-              <option value="Beginner">🌱 Beginner</option>
-              <option value="Intermediate">📈 Intermediate</option>
-              <option value="Professional">👨‍🍳 Professional</option>
+              <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
+              <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
+              <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
+              <option value="Professional">👨‍🍳 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -559,7 +559,7 @@ Welcome to Porkchop. By using this app, you agree to be bound by the following t
 }
 
 const Profile = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useSupabase();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -596,10 +596,20 @@ const Profile = () => {
   const [selectedStudentSegment, setSelectedStudentSegment] = useState<string>('all');
   const [selectedUserRole, setSelectedUserRole] = useState<string>('administrator');
   
+  const getLocalizedLevelMeta = (level: number) => {
+    const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
+    const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+    return {
+      title: t(`levels.machining.titles.${level}`, { defaultValue: title }),
+      icon
+    };
+  };
+  const defaultLevelMeta = getLocalizedLevelMeta(1);
+
   const [levelProgress, setLevelProgress] = useState({
-    title: LEVEL_TITLES_AND_ICONS[0].title,
+    title: defaultLevelMeta.title,
     level: 1,
-    icon: LEVEL_TITLES_AND_ICONS[0].icon,
+    icon: defaultLevelMeta.icon,
     current: 0,
     required: 100,
     progressPercent: 0,
@@ -608,42 +618,42 @@ const Profile = () => {
   // Filter options for reports
   const filterOptions = {
     userRoles: [
-      { value: 'administrator', label: 'School Administrator', description: 'High-level institutional overview' },
-      { value: 'department_head', label: 'Department Head', description: 'Department-specific insights' },
-      { value: 'instructor', label: 'Individual Instructor', description: 'Class-specific data only' },
-      { value: 'coordinator', label: 'Academic Coordinator', description: 'Cross-department analysis' }
+      { value: 'administrator', label: t('profile.filterOptions.userRoles.administrator.label', { defaultValue: 'School Administrator' }), description: t('profile.filterOptions.userRoles.administrator.description', { defaultValue: 'High-level institutional overview' }) },
+      { value: 'department_head', label: t('profile.filterOptions.userRoles.departmentHead.label', { defaultValue: 'Department Head' }), description: t('profile.filterOptions.userRoles.departmentHead.description', { defaultValue: 'Department-specific insights' }) },
+      { value: 'instructor', label: t('profile.filterOptions.userRoles.instructor.label', { defaultValue: 'Individual Instructor' }), description: t('profile.filterOptions.userRoles.instructor.description', { defaultValue: 'Class-specific data only' }) },
+      { value: 'coordinator', label: t('profile.filterOptions.userRoles.coordinator.label', { defaultValue: 'Academic Coordinator' }), description: t('profile.filterOptions.userRoles.coordinator.description', { defaultValue: 'Cross-department analysis' }) }
     ],
     departments: [
-      { value: 'all', label: 'All Departments' },
-      { value: 'culinary_arts', label: 'Culinary Arts' },
-      { value: 'baking_pastry', label: 'Baking & Pastry' },
-      { value: 'business', label: 'Culinary Business' },
-      { value: 'nutrition', label: 'Nutrition & Dietetics' }
+      { value: 'all', label: t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' }) },
+      { value: 'culinary_arts', label: t('profile.filterOptions.departments.culinaryArts', { defaultValue: 'Culinary Arts' }) },
+      { value: 'baking_pastry', label: t('profile.filterOptions.departments.bakingPastry', { defaultValue: 'Baking & Pastry' }) },
+      { value: 'business', label: t('profile.filterOptions.departments.business', { defaultValue: 'Culinary Business' }) },
+      { value: 'nutrition', label: t('profile.filterOptions.departments.nutrition', { defaultValue: 'Nutrition & Dietetics' }) }
     ],
     classes: [
-      { value: 'all', label: 'All Classes' },
-      { value: 'fundamentals', label: 'Fundamentals of Cooking' },
-      { value: 'advanced_techniques', label: 'Advanced Culinary Techniques' },
-      { value: 'food_safety', label: 'Food Safety & Sanitation' },
-      { value: 'menu_planning', label: 'Menu Planning & Costing' },
-      { value: 'baking_basics', label: 'Baking Fundamentals' },
-      { value: 'pastry_arts', label: 'Advanced Pastry Arts' }
+      { value: 'all', label: t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' }) },
+      { value: 'fundamentals', label: t('profile.filterOptions.classes.fundamentals', { defaultValue: 'Fundamentals of Cooking' }) },
+      { value: 'advanced_techniques', label: t('profile.filterOptions.classes.advancedTechniques', { defaultValue: 'Advanced Culinary Techniques' }) },
+      { value: 'food_safety', label: t('profile.filterOptions.classes.foodSafety', { defaultValue: 'Food Safety & Sanitation' }) },
+      { value: 'menu_planning', label: t('profile.filterOptions.classes.menuPlanning', { defaultValue: 'Menu Planning & Costing' }) },
+      { value: 'baking_basics', label: t('profile.filterOptions.classes.bakingBasics', { defaultValue: 'Baking Fundamentals' }) },
+      { value: 'pastry_arts', label: t('profile.filterOptions.classes.pastryArts', { defaultValue: 'Advanced Pastry Arts' }) }
     ],
     timeRanges: [
-      { value: '7days', label: 'Last 7 Days' },
-      { value: '30days', label: 'Last 30 Days' },
-      { value: 'semester', label: 'Current Semester' },
-      { value: 'academic_year', label: 'Academic Year' },
-      { value: 'custom', label: 'Custom Range' }
+      { value: '7days', label: t('profile.filterOptions.timeRanges.days7', { defaultValue: 'Last 7 Days' }) },
+      { value: '30days', label: t('profile.filterOptions.timeRanges.days30', { defaultValue: 'Last 30 Days' }) },
+      { value: 'semester', label: t('profile.filterOptions.timeRanges.semester', { defaultValue: 'Current Semester' }) },
+      { value: 'academic_year', label: t('profile.filterOptions.timeRanges.academicYear', { defaultValue: 'Academic Year' }) },
+      { value: 'custom', label: t('profile.filterOptions.timeRanges.custom', { defaultValue: 'Custom Range' }) }
     ],
     studentSegments: [
-      { value: 'all', label: 'All Students' },
-      { value: 'top_performers', label: 'Top 25% Performers' },
-      { value: 'struggling', label: 'Students Needing Support' },
-      { value: 'full_time', label: 'Full-Time Students' },
-      { value: 'part_time', label: 'Part-Time Students' },
-      { value: 'certificate', label: 'Certificate Program' },
-      { value: 'diploma', label: 'Diploma Program' }
+      { value: 'all', label: t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' }) },
+      { value: 'top_performers', label: t('profile.filterOptions.studentSegments.topPerformers', { defaultValue: 'Top 25% Performers' }) },
+      { value: 'struggling', label: t('profile.filterOptions.studentSegments.struggling', { defaultValue: 'Students Needing Support' }) },
+      { value: 'full_time', label: t('profile.filterOptions.studentSegments.fullTime', { defaultValue: 'Full-Time Students' }) },
+      { value: 'part_time', label: t('profile.filterOptions.studentSegments.partTime', { defaultValue: 'Part-Time Students' }) },
+      { value: 'certificate', label: t('profile.filterOptions.studentSegments.certificate', { defaultValue: 'Certificate Program' }) },
+      { value: 'diploma', label: t('profile.filterOptions.studentSegments.diploma', { defaultValue: 'Diploma Program' }) }
     ]
   };
 
@@ -670,40 +680,41 @@ const Profile = () => {
 
   // 9 talents per tree, unlock at 10, 14, 25, 30, 36, 42, 48, 55, 60
   const talentTrees = {
-    'Cast Iron Champion': [
-      { name: t('profile.talents.searSavant'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.searSavantDesc') },
-      { name: t('profile.talents.heatControl'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.heatControlDesc') },
-      { name: t('profile.talents.ironWill'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.ironWillDesc') },
-      { name: t('profile.talents.seasonedVeteran'), icon: TrophyIcon, unlockLevel: 30, description: t('profile.talents.seasonedVeteranDesc') },
-      { name: t('profile.talents.rustproof'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.rustproofDesc') },
-      { name: t('profile.talents.heavyHitter'), icon: FireIcon, unlockLevel: 42, description: t('profile.talents.heavyHitterDesc') },
-      { name: t('profile.talents.surfaceSage'), icon: StarIcon, unlockLevel: 48, description: t('profile.talents.surfaceSageDesc') },
-      { name: t('profile.talents.ironclad'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.ironcladDesc') },
-      { name: t('profile.talents.ironChef'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.ironChefDesc') },
+    'Precision Machinist': [
+      { name: 'Setup Precision', icon: FireIcon, unlockLevel: 10, description: 'Improve setup repeatability and first-part success' },
+      { name: 'Tolerance Keeper', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Hold tight tolerances with consistent process control' },
+      { name: 'Tooling Strategist', icon: StarIcon, unlockLevel: 25, description: 'Select tooling for stability, life, and finish quality' },
+      { name: 'Cut Dynamics', icon: StarIcon, unlockLevel: 30, description: 'Balance speed, feed, and depth for stable cutting' },
+      { name: 'Material Whisperer', icon: SparklesIcon, unlockLevel: 36, description: 'Adapt processes quickly by material behavior' },
+      { name: 'Fixturing Expert', icon: CakeIcon, unlockLevel: 42, description: 'Design secure workholding to reduce variation' },
+      { name: 'Surface Finish Pro', icon: StarIcon, unlockLevel: 48, description: 'Deliver improved surface finish and dimensional confidence' },
+      { name: 'Process Stabilizer', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Reduce variability across batches and runs' },
+      { name: 'Master Machinist', icon: TrophyIcon, unlockLevel: 60, description: 'Complete mastery of precision machining' },
     ],
-    'Grilling Heavy Weight': [
-      { name: t('profile.talents.flameTamer'), icon: FireIcon, unlockLevel: 10, description: t('profile.talents.flameTamerDesc') },
-      { name: t('profile.talents.smokeMaster'), icon: SparklesIcon, unlockLevel: 14, description: t('profile.talents.smokeMasterDesc') },
-      { name: t('profile.talents.charChampion'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.charChampionDesc') },
-      { name: t('profile.talents.grillMarks'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.grillMarksDesc') },
-      { name: t('profile.talents.bbqBuff'), icon: ShieldCheckIcon, unlockLevel: 36, description: t('profile.talents.bbqBuffDesc') },
-      { name: t('profile.talents.pitBoss'), icon: TrophyIcon, unlockLevel: 42, description: t('profile.talents.pitBossDesc') },
-      { name: t('profile.talents.coalWhisperer'), icon: FireIcon, unlockLevel: 48, description: t('profile.talents.coalWhispererDesc') },
-      { name: t('profile.talents.grillGuardian'), icon: ShieldCheckIcon, unlockLevel: 55, description: t('profile.talents.grillGuardianDesc') },
-      { name: t('profile.talents.bbqGod'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bbqGodDesc') },
+    'CNC Programming Expert': [
+      { name: 'Toolpath Architect', icon: FireIcon, unlockLevel: 10, description: 'Create efficient toolpaths with fewer collisions' },
+      { name: 'Post Processor Pro', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Tune post outputs for reliable machine execution' },
+      { name: 'Cycle Time Reducer', icon: StarIcon, unlockLevel: 25, description: 'Cut cycle times while maintaining quality' },
+      { name: 'Adaptive Strategy', icon: StarIcon, unlockLevel: 30, description: 'Apply adaptive clearing and modern roughing methods' },
+      { name: 'Macro Builder', icon: SparklesIcon, unlockLevel: 36, description: 'Use CNC macros for scalable process automation' },
+      { name: 'Simulation Specialist', icon: CakeIcon, unlockLevel: 42, description: 'Catch programming risks before machining' },
+      { name: 'Changeover Optimizer', icon: StarIcon, unlockLevel: 48, description: 'Reduce setup-to-cutover time between jobs' },
+      { name: 'Program Validator', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Validate code for safety and repeatability' },
+      { name: 'CNC Master', icon: TrophyIcon, unlockLevel: 60, description: 'Ultimate mastery of CNC programming' },
     ],
-    'Baking Warlock': [
-      { name: t('profile.talents.doughWhisperer'), icon: CakeIcon, unlockLevel: 10, description: t('profile.talents.doughWhispererDesc') },
-      { name: t('profile.talents.ovenOracle'), icon: ShieldCheckIcon, unlockLevel: 14, description: t('profile.talents.ovenOracleDesc') },
-      { name: t('profile.talents.proofingPro'), icon: StarIcon, unlockLevel: 25, description: t('profile.talents.proofingProDesc') },
-      { name: t('profile.talents.pastryPro'), icon: StarIcon, unlockLevel: 30, description: t('profile.talents.pastryProDesc') },
-      { name: t('profile.talents.crustConjurer'), icon: CakeIcon, unlockLevel: 36, description: t('profile.talents.crustConjurerDesc') },
-      { name: t('profile.talents.bakeSense'), icon: SparklesIcon, unlockLevel: 42, description: t('profile.talents.bakeSenseDesc') },
-      { name: t('profile.talents.fillingFiend'), icon: CakeIcon, unlockLevel: 48, description: t('profile.talents.fillingFiendDesc') },
-      { name: t('profile.talents.breadBuffoon'), icon: AcademicCapIcon, unlockLevel: 55, description: t('profile.talents.breadBuffoonDesc') },
-      { name: t('profile.talents.bakingWarlockTalent'), icon: TrophyIcon, unlockLevel: 60, description: t('profile.talents.bakingWarlockTalentDesc') },
+    'Metrology Specialist': [
+      { name: 'Gauge Mastery', icon: FireIcon, unlockLevel: 10, description: 'Use gauges and comparators with high repeatability' },
+      { name: 'CMM Operator', icon: ShieldCheckIcon, unlockLevel: 14, description: 'Run CMM programs for accurate feature verification' },
+      { name: 'GD&T Interpreter', icon: StarIcon, unlockLevel: 25, description: 'Apply GD&T correctly during inspection and feedback' },
+      { name: 'Data Analyst', icon: StarIcon, unlockLevel: 30, description: 'Turn measurement data into process improvements' },
+      { name: 'Inspection Planner', icon: SparklesIcon, unlockLevel: 36, description: 'Build efficient inspection plans by risk and tolerance' },
+      { name: 'Calibration Discipline', icon: CakeIcon, unlockLevel: 42, description: 'Maintain calibrated tools and traceable standards' },
+      { name: 'Nonconformance Resolver', icon: StarIcon, unlockLevel: 48, description: 'Drive faster containment and corrective response' },
+      { name: 'Quality Reporter', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Communicate measurement outcomes clearly to production' },
+      { name: 'Metrology Master', icon: TrophyIcon, unlockLevel: 60, description: 'Peak mastery of machining metrology' },
     ],
   };
+
 
   const handleLogout = async () => {
     redirectToLogout('/.netlify/functions/auth-logout');
@@ -785,10 +796,10 @@ const Profile = () => {
     
     // Get filter labels for display
     const userRoleLabel = filterOptions.userRoles.find(r => r.value === selectedUserRole)?.label || 'Administrator';
-    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || 'All Departments';
-    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || 'All Classes';
+    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' });
+    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' });
     const timeRangeLabel = filterOptions.timeRanges.find(t => t.value === selectedTimeRange)?.label || 'Last 30 Days';
-    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || 'All Students';
+    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' });
     
     // Clean text function to remove problematic characters
     const cleanText = (text: string) => {
@@ -1215,7 +1226,7 @@ Automated calculations and formulas would be present`;
       // Left-click: Add talent (with validation)
       const maxTalents = Math.floor(userProfile.xp / 100); // 1 talent per 100 XP
       if (selectedTalents.length >= maxTalents) {
-        alert(`You can only select ${maxTalents} talents at your current level.`);
+        alert(t('profile.talents.maxSelectionAlert', { defaultValue: 'You can only select {{count}} talents at your current level.', count: maxTalents }));
         return;
       }
       newSelectedTalents = [...selectedTalents, talentName];
@@ -1237,13 +1248,13 @@ Automated calculations and formulas would be present`;
         console.error('Error saving talents:', error);
         // Revert local state if save failed
         setSelectedTalents(selectedTalents);
-        alert('Failed to save talent selection. Please try again.');
+        alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
       }
     } catch (error) {
       console.error('Error saving talents:', error);
       // Revert local state if save failed
       setSelectedTalents(selectedTalents);
-      alert('Failed to save talent selection. Please try again.');
+      alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
     }
   };
 
@@ -1310,8 +1321,7 @@ Automated calculations and formulas would be present`;
         const { level, current, required } = getCorrectXPProgress(xp);
         
         // Map level to title index
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const { title, icon } = getLocalizedLevelMeta(level);
         const progressPercent = (current / required) * 100;
         
         setLevelProgress({
@@ -1345,8 +1355,7 @@ Automated calculations and formulas would be present`;
       
       // Update level progress when userProfile changes - USE CORRECTED CALCULATION
       const { level, current, required } = getCorrectXPProgress(userProfile.xp);
-      const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-      const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+      const { title, icon } = getLocalizedLevelMeta(level);
       const progressPercent = (current / required) * 100;
       
       setLevelProgress({
@@ -1365,6 +1374,17 @@ Automated calculations and formulas would be present`;
       setKitchenSetup(userProfile.kitchenSetup);
     }
   }, [userProfile]);
+
+  useEffect(() => {
+    setLevelProgress((prev) => {
+      const { title, icon } = getLocalizedLevelMeta(prev.level);
+      return {
+        ...prev,
+        title,
+        icon
+      };
+    });
+  }, [i18n.language]);
 
   // Handle avatar file selection
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1522,8 +1542,7 @@ Automated calculations and formulas would be present`;
 
         // Use corrected level calculation
         const { level, current, required } = getCorrectXPProgress(xp);
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const { title, icon } = getLocalizedLevelMeta(level);
         const progressPercent = (current / required) * 100;
         
         console.log('🎯 Corrected Level Debug:', { 
@@ -1715,12 +1734,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Cast Iron</div>
-              <div>Champion</div>
+              <div>Precision</div>
+              <div>Machinist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.castIronChampion')}</strong>
-                <div className="mt-1">{t('profile.talents.castIronChampionDesc')}</div>
+                <strong>Precision Machinist</strong>
+                <div className="mt-1">Master precision setup, machining accuracy, and part quality.</div>
               </div>
             </button>
 
@@ -1730,12 +1749,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Grilling</div>
-              <div>Heavyweight</div>
+              <div>CNC</div>
+              <div>Programming</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>Grilling Heavyweight</strong>
-                <div className="mt-1">Become a grilling master with advanced techniques, temperature control, and flavor enhancement.</div>
+                <strong>CNC Programming Expert</strong>
+                <div className="mt-1">Specialize in toolpaths, feeds/speeds, and cycle optimization.</div>
               </div>
             </button>
 
@@ -1745,12 +1764,12 @@ Automated calculations and formulas would be present`;
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
-              <div>Baking</div>
-              <div>Warlock</div>
+              <div>Metrology</div>
+              <div>Specialist</div>
               {/* Mobile-friendly tooltip */}
               <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-10 hidden group-hover:block bg-white text-black p-2 rounded shadow-lg text-xs w-40 sm:w-48 border border-gray-300">
-                <strong>{t('profile.talents.bakingWarlock')}</strong>
-                <div className="mt-1">{t('profile.talents.bakingWarlockDesc')}</div>
+                <strong>Metrology Specialist</strong>
+                <div className="mt-1">Lead measurement systems, inspection methods, and quality control.</div>
               </div>
             </button>
           </div>
@@ -1883,8 +1902,8 @@ Automated calculations and formulas would be present`;
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
-                  {selectedTalentTree === 'Equipment' ? t('profile.talents.castIronChampion') : 
-                   selectedTalentTree === 'Techniques' ? t('profile.talents.grillingHeavyWeight') : t('profile.talents.bakingWarlock')}
+                  {selectedTalentTree === 'Equipment' ? 'Precision Machinist' : 
+                   selectedTalentTree === 'Techniques' ? 'CNC Programming Expert' : 'Metrology Specialist'}
                 </h2>
               </div>
               <button
@@ -1896,8 +1915,8 @@ Automated calculations and formulas would be present`;
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-              {talentTrees[selectedTalentTree === 'Equipment' ? 'Cast Iron Champion' : 
-                           selectedTalentTree === 'Techniques' ? 'Grilling Heavy Weight' : 'Baking Warlock']?.map(talent => {
+              {talentTrees[selectedTalentTree === 'Equipment' ? 'Precision Machinist' : 
+                           selectedTalentTree === 'Techniques' ? 'CNC Programming Expert' : 'Metrology Specialist']?.map(talent => {
                 const xp = userProfile?.xp || 0;
                 // Use the corrected level calculation instead of the old one
                 const { level } = getCorrectXPProgress(xp);
@@ -1936,10 +1955,10 @@ Automated calculations and formulas would be present`;
                     <div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
                     <div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
                     {!unlocked && (
-                      <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
+                      <div className="text-xs text-red-500">{t('profile.talents.unlocksAtLevel', { defaultValue: 'Unlocks at Level {{level}}', level: talent.unlockLevel })}</div>
                     )}
                     {selected && (
-                      <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
+                      <div className="text-xs text-seafoam font-bold mb-1">{t('profile.talents.selectedBadge', { defaultValue: '✓ Selected' })}</div>
                     )}
                     {selected && (
                       <div className="flex gap-1">
@@ -1958,7 +1977,7 @@ Automated calculations and formulas would be present`;
                               : 'bg-yellow-500 text-white hover:bg-yellow-600'
                           }`}
                         >
-                          {unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
+                          {unlockedTalents.includes(talent.name) ? t('profile.talents.unlockedBadge', { defaultValue: '✅ Unlocked' }) : t('profile.talents.unlockAction', { defaultValue: '🔓 Unlock' })}
                         </button>
                         <button
                           onClick={(e) => {
