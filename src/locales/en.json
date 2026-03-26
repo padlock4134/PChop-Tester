@@ -3223,5 +3223,16 @@
     "demoRecordings": "Demo Recordings",
     "loadingYourVideos": "Loading your videos...",
     "recordedInWorkspace": "Recorded in The Car Lift"
+  },
+  "levels": {
+    "hvac": {
+      "titles": {
+        "1": "Apprentice Tech",
+        "2": "Junior Installer",
+        "3": "Service Tech",
+        "4": "System Specialist",
+        "5": "Lead HVAC Technician"
+      }
+    }
   }
 }
