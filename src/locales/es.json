@@ -3468,5 +3468,16 @@
     "demoRecordings": "Grabaciones de Demostración",
     "loadingYourVideos": "Cargando tus videos...",
     "recordedInWorkspace": "Grabado en The Car Lift"
+  },
+  "levels": {
+    "hvac": {
+      "titles": {
+        "1": "Aprendiz de HVAC",
+        "2": "Instalador Junior",
+        "3": "Técnico de Servicio",
+        "4": "Especialista en Sistemas",
+        "5": "Técnico Líder de HVAC"
+      }
+    }
   }
 }
