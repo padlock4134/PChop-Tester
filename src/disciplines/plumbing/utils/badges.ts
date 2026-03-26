@@ -43,7 +43,7 @@ export const BADGES: BadgeDefinition[] = [
   { id: 'pantry_pro', name: 'Pantry Pro', icon: '🥫', category: 'Weekly Challenge', description: 'Won a pantry challenge.' },
   { id: 'egg_cellent', name: 'Egg-cellent', icon: '🥚', category: 'Weekly Challenge', description: 'Won an egg challenge.' },
   { id: 'samwise', name: 'Samwise', icon: '🥔', category: 'Weekly Challenge', description: 'Won a potato challenge.' },
-  { id: 'festive_chef', name: 'Festive Chef', icon: '🎉', category: 'Weekly Challenge', description: 'Won a festive challenge.' },
+  { id: 'festive_chef', name: 'Festive Champion', icon: '🎉', category: 'Weekly Challenge', description: 'Won a festive challenge.' },
   { id: 'dairy_free_pro', name: 'Dairy-Free Pro', icon: '🥛', category: 'Weekly Challenge', description: 'Won a dairy-free challenge.' },
   { id: 'grain_guru', name: 'Grain Guru', icon: '🌾', category: 'Weekly Challenge', description: 'Won a grain challenge.' },
   { id: 'stuffed_star', name: 'Stuffed Star', icon: '🌯', category: 'Weekly Challenge', description: 'Won a stuffed food challenge.' },
@@ -51,16 +51,16 @@ export const BADGES: BadgeDefinition[] = [
   // ...add 24 more unique weekly challenge badges for a total of 52
 
   // --- MILESTONE BADGES (20) ---
-  { id: 'meal_novice', name: 'Project Novice', icon: '🍽️', category: 'Milestone', description: 'Completed 10 meals.' },
-  { id: 'meal_apprentice', name: 'Project Apprentice', icon: '🍽️', category: 'Milestone', description: 'Completed 25 meals.' },
-  { id: 'meal_pro', name: 'Project Pro', icon: '🍽️', category: 'Milestone', description: 'Completed 50 meals.' },
-  { id: 'meal_veteran', name: 'Project Veteran', icon: '🍽️', category: 'Milestone', description: 'Completed 100 meals.' },
-  { id: 'meal_hero', name: 'Project Hero', icon: '🍽️', category: 'Milestone', description: 'Completed 200 meals.' },
-  { id: 'meal_master', name: 'Project Master', icon: '🍽️', category: 'Milestone', description: 'Completed 300 meals.' },
-  { id: 'meal_legend', name: 'Project Legend', icon: '🍽️', category: 'Milestone', description: 'Completed 400 meals.' },
-  { id: 'meal_icon', name: 'Project Icon', icon: '🍽️', category: 'Milestone', description: 'Completed 500 meals.' },
-  { id: 'meal_champion', name: 'Project Champion', icon: '🍽️', category: 'Milestone', description: 'Completed 750 meals.' },
-  { id: 'meal_god', name: 'Project God', icon: '🍽️', category: 'Milestone', description: 'Completed 1000 meals.' },
+  { id: 'meal_novice', name: 'Project Novice', icon: '🍽️', category: 'Milestone', description: 'Completed 10 projects.' },
+  { id: 'meal_apprentice', name: 'Project Apprentice', icon: '🍽️', category: 'Milestone', description: 'Completed 25 projects.' },
+  { id: 'meal_pro', name: 'Project Pro', icon: '🍽️', category: 'Milestone', description: 'Completed 50 projects.' },
+  { id: 'meal_veteran', name: 'Project Veteran', icon: '🍽️', category: 'Milestone', description: 'Completed 100 projects.' },
+  { id: 'meal_hero', name: 'Project Hero', icon: '🍽️', category: 'Milestone', description: 'Completed 200 projects.' },
+  { id: 'meal_master', name: 'Project Master', icon: '🍽️', category: 'Milestone', description: 'Completed 300 projects.' },
+  { id: 'meal_legend', name: 'Project Legend', icon: '🍽️', category: 'Milestone', description: 'Completed 400 projects.' },
+  { id: 'meal_icon', name: 'Project Icon', icon: '🍽️', category: 'Milestone', description: 'Completed 500 projects.' },
+  { id: 'meal_champion', name: 'Project Champion', icon: '🍽️', category: 'Milestone', description: 'Completed 750 projects.' },
+  { id: 'meal_god', name: 'Project God', icon: '🍽️', category: 'Milestone', description: 'Completed 1000 projects.' },
   { id: 'cookbook_5', name: 'Project Collector', icon: '📚', category: 'Milestone', description: 'Added 5 projects to your playbook.' },
   { id: 'cookbook_10', name: 'Project Curator', icon: '📚', category: 'Milestone', description: 'Added 10 projects to your playbook.' },
   { id: 'cookbook_20', name: 'Project Librarian', icon: '📚', category: 'Milestone', description: 'Added 20 projects to your playbook.' },
@@ -75,7 +75,7 @@ export const BADGES: BadgeDefinition[] = [
   // --- DIFFICULTY BADGES (10) ---
   { id: 'easy_first', name: 'Easy Starter', icon: '🥄', category: 'Difficulty', description: 'Completed your first basic project.' },
   { id: 'intermediate_first', name: 'Intermediate Initiate', icon: '🥄', category: 'Difficulty', description: 'Completed your first intermediate project.' },
-  { id: 'hard_first', name: 'Hardcore Chef', icon: '🔥', category: 'Difficulty', description: 'Completed your first advanced project.' },
+  { id: 'hard_first', name: 'Advanced Specialist', icon: '🔥', category: 'Difficulty', description: 'Completed your first advanced project.' },
   { id: 'easy_10', name: 'Easy Veteran', icon: '🥄', category: 'Difficulty', description: 'Completed 10 basic projects.' },
   { id: 'intermediate_10', name: 'Intermediate Veteran', icon: '🥄', category: 'Difficulty', description: 'Completed 10 intermediate projects.' },
   { id: 'hard_10', name: 'Hardcore Veteran', icon: '🔥', category: 'Difficulty', description: 'Completed 10 advanced projects.' },
@@ -115,7 +115,7 @@ export const BADGES: BadgeDefinition[] = [
           name: `${theme.name}${tier.n > 1 ? ' ' + tier.n : ''}`,
           icon: theme.icon,
           category: 'Theme',
-          description: `${tier.desc} ${theme.name.replace(/ .*/, '').toLowerCase()} meals.`
+          description: `${tier.desc} ${theme.name.replace(/ .*/, '').toLowerCase()} projects.`
         });
       }
     }
@@ -151,16 +151,16 @@ export const BADGES: BadgeDefinition[] = [
   { id: 'liker_100', name: 'Project Champion', icon: '❤️', category: 'Community', description: 'Liked 100 projects.' },
 
   // --- SPECIAL / HIDDEN BADGES (10+) ---
-  { id: 'birthday_chef', name: 'Birthday Builder', icon: '🎂', category: 'Special', description: 'Completed a meal on your birthday.' },
+  { id: 'birthday_chef', name: 'Birthday Builder', icon: '🎂', category: 'Special', description: 'Completed a project on your birthday.' },
   { id: 'all_challenges', name: 'Jack of All Challenges', icon: '🌟', category: 'Special', description: 'Completed every challenge type.' },
   { id: 'secret_sauce', name: 'Secret Sauce', icon: '🕵️‍♂️', category: 'Special', description: 'Discovered a hidden feature.' },
   { id: 'holiday_cook', name: 'Holiday Builder', icon: '🎁', category: 'Special', description: 'Completed a project on a holiday.' },
-  { id: 'night_owl', name: 'Night Shift Pro', icon: '🦉', category: 'Special', description: 'Completed a meal after midnight.' },
-  { id: 'early_bird', name: 'Early Shift Pro', icon: '🐦', category: 'Special', description: 'Completed a meal before 6am.' },
-  { id: 'all_themes', name: 'Domain Master', icon: '🏆', category: 'Special', description: 'Completed at least one meal from every theme.' },
+  { id: 'night_owl', name: 'Night Shift Pro', icon: '🦉', category: 'Special', description: 'Completed a project after midnight.' },
+  { id: 'early_bird', name: 'Early Shift Pro', icon: '🐦', category: 'Special', description: 'Completed a project before 6am.' },
+  { id: 'all_themes', name: 'Domain Master', icon: '🏆', category: 'Special', description: 'Completed at least one project from every theme.' },
   { id: 'challenge_perfect', name: 'Perfect Challenger', icon: '💯', category: 'Special', description: 'Completed every weekly challenge in a month.' },
-  { id: 'chef_of_the_year', name: 'Chef of the Year', icon: '🏅', category: 'Special', description: 'Earned the most badges in a year.' },
-  { id: 'legendary_chef', name: 'Legendary Chef', icon: '🐉', category: 'Special', description: 'Unlocked all milestone badges.' },
+  { id: 'chef_of_the_year', name: 'Builder of the Year', icon: '🏅', category: 'Special', description: 'Earned the most badges in a year.' },
+  { id: 'legendary_chef', name: 'Legendary Builder', icon: '🐉', category: 'Special', description: 'Unlocked all milestone badges.' },
 ];
 
 // --- Badge Utilities ---
