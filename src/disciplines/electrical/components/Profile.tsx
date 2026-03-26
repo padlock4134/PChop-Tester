@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FireIcon, ShieldCheckIcon, StarIcon, TrophyIcon, SparklesIcon, CakeIcon, AcademicCapIcon } from '@heroicons/react/24/solid';
 import { redirectToLogout } from '@wristband/react-client-auth';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { supabase } from '../../culinary/api/supabaseClient';
+import { useSupabase } from '../components/SupabaseProvider';
+import { supabase } from '../api/supabaseClient';
 // Removed external imports that don't exist
 import ReactMarkdown from 'react-markdown';
 import jsPDF from 'jspdf';
@@ -170,8 +170,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisine}
-              onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
+              value={formData.cuisinePreference}
+              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
@@ -187,8 +187,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certificationPreference', { defaultValue: 'Certifications' })}</label>
             <select
-              value={formData.diet}
-              onChange={(e) => setFormData({...formData, diet: e.target.value})}
+              value={formData.dietPreference}
+              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
