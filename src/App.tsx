@@ -456,15 +456,15 @@ const App = () => {
           setSupabaseJwt(supabaseToken);
         }}
       >
-        <DisciplineSupabaseProvider>
-          <RecipeProvider>
-            <FreddieProvider>
-              <DisciplineProvider>
+        <RecipeProvider>
+          <FreddieProvider>
+            <DisciplineProvider>
+              <DisciplineSupabaseProvider>
                 <AppRoutes />
-              </DisciplineProvider>
-            </FreddieProvider>
-          </RecipeProvider>
-        </DisciplineSupabaseProvider>
+              </DisciplineSupabaseProvider>
+            </DisciplineProvider>
+          </FreddieProvider>
+        </RecipeProvider>
       </WristbandAuthProvider>
     </AdminToggleProvider>
   );
