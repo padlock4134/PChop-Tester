@@ -203,7 +203,7 @@ const EditProfileModal = ({
             </select>
           </div>
 
-          {/* Kitchen Setup */}
+          {/* Workspace Setup */}
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.kitchenSetup')}</label>
             <select
@@ -211,11 +211,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Kitchen">🏠 Apartment Kitchen</option>
-              <option value="Full Kitchen">🏡 Full Kitchen</option>
+              <option value="Apartment Kitchen">🏠 Apartment Workspace</option>
+              <option value="Full Kitchen">🏡 Full Workspace</option>
               <option value="Minimal Setup">📦 Minimal Setup</option>
-              <option value="Outdoor Kitchen">🔥 Outdoor Kitchen</option>
-              <option value="Professional Kitchen">👨‍🍳 Professional Kitchen</option>
+              <option value="Outdoor Kitchen">🔥 Field Workspace</option>
+              <option value="Professional Kitchen">🏭 Professional Workspace</option>
             </select>
           </div>
 
@@ -394,11 +394,11 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   const requestTypes = [
     { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
-    { id: 'uniform', name: 'Chef Uniform/Apron', icon: '👕', description: 'Request chef uniforms or aprons' },
+    { id: 'uniform', name: 'PPE / Uniform Kit', icon: '👕', description: 'Request PPE, uniforms, or safety gear' },
     { id: 'knife_kit', name: 'Knife Kit Loaner', icon: '🔪', description: 'Request a loaner knife kit or replacement' },
     { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request thermometers, timers, or other equipment' },
     { id: 'textbook', name: 'Textbook/Materials', icon: '📚', description: 'Request textbooks or course materials' },
-    { id: 'kitchen_access', name: 'Kitchen Access', icon: '🔑', description: 'Request after-hours kitchen/lab access' },
+    { id: 'kitchen_access', name: 'Lab/Shop Access', icon: '🔑', description: 'Request after-hours lab/shop access' },
     { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
     { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' },
     { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or dietary accommodations' },
@@ -722,20 +722,20 @@ const Profile = () => {
       title: 'Class Analytics',
       reports: [
         { title: '👥 Class Performance', description: 'View class scores, completion rates, and knowledge gaps', metrics: ['Average scores by module', 'Completion rates by demographic', 'Common knowledge gaps', 'Assignment submission timeliness'], color: 'green' },
-        { title: '🎤 Live Session Metrics', description: 'Track attendance and engagement in live cooking sessions', metrics: ['Attendance rates', 'Participation levels', 'Q&A engagement', 'Session feedback scores'], color: 'teal' }
+        { title: '🎤 Live Session Metrics', description: 'Track attendance and engagement in live training sessions', metrics: ['Attendance rates', 'Participation levels', 'Q&A engagement', 'Session feedback scores'], color: 'teal' }
       ]
     },
     {
       title: 'Culinary Metrics',
       reports: [
-        { title: '🍳 Recipe Performance', description: 'Analyze recipe success rates and cooking outcomes', metrics: ['Recipe success rates', 'Common modifications', 'Ingredient substitutions', 'Difficulty ratings'], color: 'orange' },
+        { title: '🍳 Task Performance', description: 'Analyze task success rates and training outcomes', metrics: ['Recipe success rates', 'Common modifications', 'Ingredient substitutions', 'Difficulty ratings'], color: 'orange' },
         { title: '🔪 Technique Analysis', description: 'Track progress on specific culinary techniques and skills', metrics: ['Most challenging techniques', 'Common mistakes by technique', 'Time-to-proficiency metrics', 'Video replay frequency'], color: 'amber' }
       ]
     },
     {
       title: 'Operations',
       reports: [
-        { title: '🏪 Kitchen Management', description: 'Monitor equipment usage and operational efficiency', metrics: ['Equipment usage statistics', 'Ingredient waste tracking', 'Inventory management', 'Equipment maintenance'], color: 'purple' },
+        { title: '🏪 Workspace Management', description: 'Monitor equipment usage and operational efficiency', metrics: ['Equipment usage statistics', 'Ingredient waste tracking', 'Inventory management', 'Equipment maintenance'], color: 'purple' },
         { title: '🛡️ Safety & Compliance', description: 'Track food safety violations and compliance metrics', metrics: ['Food safety violations', 'Sanitation check completion', 'Incident reports', 'Allergy compliance tracking'], color: 'red' }
       ]
     },
@@ -768,9 +768,9 @@ const Profile = () => {
       '📈 Learning Analytics': 'learning-analytics',
       '👥 Class Performance': 'class-performance',
       '🎤 Live Session Metrics': 'live-session-metrics',
-      '🍳 Recipe Performance': 'recipe-performance',
+      '🍳 Task Performance': 'task-performance',
       '🔪 Technique Analysis': 'technique-analysis',
-      '🏪 Kitchen Management': 'kitchen-management',
+      '🏪 Workspace Management': 'workspace-management',
       '🛡️ Safety & Compliance': 'safety-compliance',
       '📱 Platform Usage': 'platform-usage',
       '👥 Community Engagement': 'community-engagement'
@@ -890,10 +890,10 @@ const Profile = () => {
     if (fileName === 'skill-mastery-tracking') {
       const line1Width = doc.getTextWidth(cleanText('This report analyzes student skill development across core culinary competencies.'));
       doc.text(cleanText('This report analyzes student skill development across core culinary competencies.'), 105 - line1Width/2, 97);
-      const line2Width = doc.getTextWidth(cleanText('Data reflects performance metrics for knife skills, cooking techniques, food safety,'));
-      doc.text(cleanText('Data reflects performance metrics for knife skills, cooking techniques, food safety,'), 105 - line2Width/2, 104);
-      const line3Width = doc.getTextWidth(cleanText('and recipe execution during the current academic period.'));
-      doc.text(cleanText('and recipe execution during the current academic period.'), 105 - line3Width/2, 111);
+      const line2Width = doc.getTextWidth(cleanText('Data reflects performance metrics for technical skills, safety practices, and workflow quality,'));
+      doc.text(cleanText('Data reflects performance metrics for technical skills, safety practices, and workflow quality,'), 105 - line2Width/2, 104);
+      const line3Width = doc.getTextWidth(cleanText('and task execution during the current academic period.'));
+      doc.text(cleanText('and task execution during the current academic period.'), 105 - line3Width/2, 111);
     } else if (fileName === 'class-performance') {
       const line1Width = doc.getTextWidth(cleanText('This report provides comprehensive analysis of class-level performance metrics'));
       doc.text(cleanText('This report provides comprehensive analysis of class-level performance metrics'), 105 - line1Width/2, 97);
@@ -902,8 +902,8 @@ const Profile = () => {
       const line3Width = doc.getTextWidth(cleanText('all culinary program courses for the current semester.'));
       doc.text(cleanText('all culinary program courses for the current semester.'), 105 - line3Width/2, 111);
     } else if (fileName === 'live-session-metrics') {
-      const line1Width = doc.getTextWidth(cleanText('This report examines student engagement and participation in live cooking'));
-      doc.text(cleanText('This report examines student engagement and participation in live cooking'), 105 - line1Width/2, 97);
+      const line1Width = doc.getTextWidth(cleanText('This report examines student engagement and participation in live training'));
+      doc.text(cleanText('This report examines student engagement and participation in live training'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'));
       doc.text(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'), 105 - line2Width/2, 104);
       const line3Width = doc.getTextWidth(cleanText('and learning outcomes from real-time culinary instruction.'));
@@ -1061,7 +1061,7 @@ CLS006,Menu Planning & Costing,79,75%,Cost Analysis,82%,Chef Brown
 CLS007,Restaurant Operations,83,82%,Service Flow,87%,Chef Wilson
 CLS008,Nutrition & Dietary Planning,87,89%,Macro Calculations,91%,Chef Anderson
 CLS009,Culinary Arts Capstone,90,88%,Presentation Skills,93%,Chef Taylor
-CLS010,Professional Kitchen Management,86,84%,Team Leadership,89%,Chef Garcia`;
+CLS010,Professional Workspace Management,86,84%,Team Leadership,89%,Chef Garcia`;
       } else {
         return `Report Type,${reportTitle}
 Generated Date,${currentDate}

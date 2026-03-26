@@ -106,7 +106,7 @@ const MyManual = () => {
       id: 1,
       week: "Week 3",
       title: "Engine Diagnostics & Tool Skills",
-      emoji: "�",
+      emoji: "🔧",
       dueDate: "Oct 15, 2024",
       points: 100,
       weight: "15%",
@@ -238,7 +238,7 @@ const MyManual = () => {
         id: Date.now().toString(),
         name: newCollectionName.trim(),
         procedures: selectedProcedures,
-        emoji: '�',
+        emoji: '🔧',
         createdAt: new Date().toISOString()
       };
       
@@ -1626,7 +1626,7 @@ const MyManual = () => {
                     >
                       <div className="p-4 flex items-center justify-between">
                         <div className="flex items-center gap-4 flex-1">
-                          <div className="text-4xl">�</div>
+                          <div className="text-4xl">🔧</div>
                           <div className="flex-1">
                             <h3 className="font-bold text-purple-800 text-lg">{video.name.replace('.webm', '')}</h3>
                             <div className="flex items-center gap-3 mt-1">

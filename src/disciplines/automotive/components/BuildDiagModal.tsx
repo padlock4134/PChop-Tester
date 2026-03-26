@@ -103,7 +103,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     yPos += 8;
 
     const marketTypeLabels: Record<string, string> = {
-      seafood: '� Auto Parts Store',
+      seafood: '🔧 Auto Parts Store',
       butcher: '⚙️ Performance Shop',
       produce: '🔩 Hardware Store',
       dairy: '🛢️ Fluids & Chemicals',
@@ -270,7 +270,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t flex-shrink-0">
             <div className="text-sm text-gray-600">
-              {selectedRecipeIds.size} service(s) selected
+              {selectedRecipeIds.size} {bt('recipesSelected')}
             </div>
             <div className="flex gap-2">
               <button
@@ -299,7 +299,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                     : 'bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue border border-maineBlue'
                 }`}
               >
-                � Find Parts Suppliers
+                🔎 {bt('findMarkets')}
               </button>
             </div>
           </div>

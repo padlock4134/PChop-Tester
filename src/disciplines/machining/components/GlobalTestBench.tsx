@@ -572,7 +572,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     try {
       // Generate unique filename
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `test-kitchen-session-${timestamp}.webm`;
+      const filename = `practice-session-${timestamp}.webm`;
       
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
@@ -626,8 +626,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
-    const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
+    const title = encodeURIComponent(`${session.dishName} - Practice Session`);
+    const description = encodeURIComponent(`Join ${session.hostName} for a live skills demonstration: ${session.description}`);
     const location = encodeURIComponent('Global Skill Lab - Online');
 
     // Detect device/platform
@@ -682,8 +682,8 @@ END:VCALENDAR`;
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
-    const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
+    const title = encodeURIComponent(`${session.dishName} - Practice Session`);
+    const description = encodeURIComponent(`Join ${session.hostName} for a live skills demonstration: ${session.description}`);
     const location = encodeURIComponent('Global Skill Lab - Online');
 
     const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatDate(startDate)}/${formatDate(endDate)}&details=${description}&location=${location}`;
@@ -1048,7 +1048,7 @@ END:VCALENDAR`;
                     <h2 className="text-xl sm:text-2xl font-bold">
                       {isViewer && currentLiveSession ? 
                         `🔴 LIVE: ${currentLiveSession.dishName}` : 
-                        '🔴 LIVE: Cooking Session'
+                        '🔴 LIVE: Practice Session'
                       }
                     </h2>
                     {isViewer && currentLiveSession && (
@@ -1117,7 +1117,7 @@ END:VCALENDAR`;
                     // No stream - show placeholder
                     <div className="text-white text-center">
                       <div className="text-3xl sm:text-4xl mb-2">👨‍🍳</div>
-                      <p className="text-xs sm:text-sm">Live Cooking Session</p>
+                      <p className="text-xs sm:text-sm">Live Practice Session</p>
                       <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
                     </div>
                   )}
@@ -1292,7 +1292,7 @@ END:VCALENDAR`;
             <div className="text-center">
               <div className="text-4xl mb-4">🎥</div>
               <h2 className="text-2xl font-bold mb-4 text-maineBlue font-retro">
-                Save Your Cooking Session
+                Save Your Practice Session
               </h2>
               
               <p className="text-gray-700 mb-6 leading-relaxed">
@@ -1344,7 +1344,7 @@ END:VCALENDAR`;
                   <textarea
                     value={videoDescription}
                     onChange={(e) => setVideoDescription(e.target.value)}
-                    placeholder="Brief description of what you cooked and any key techniques..."
+                    placeholder="Brief description of what you practiced and any key techniques..."
                     rows={3}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
