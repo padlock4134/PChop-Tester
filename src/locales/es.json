@@ -3470,6 +3470,33 @@
     "recordedInWorkspace": "Grabado en The Car Lift"
   },
   "levels": {
+    "automotive": {
+      "titles": {
+        "1": "Aprendiz de Automotriz",
+        "2": "Mecánico Junior",
+        "3": "Técnico de Servicio",
+        "4": "Especialista en Diagnóstico",
+        "5": "Técnico Líder Automotriz"
+      }
+    },
+    "construction": {
+      "titles": {
+        "1": "Aprendiz de Construcción",
+        "2": "Oficial Junior",
+        "3": "Técnico de Obra",
+        "4": "Especialista de Proyecto",
+        "5": "Técnico Líder de Construcción"
+      }
+    },
+    "electrical": {
+      "titles": {
+        "1": "Aprendiz Electricista",
+        "2": "Técnico Junior de Cableado",
+        "3": "Electricista de Servicio",
+        "4": "Especialista en Sistemas Eléctricos",
+        "5": "Técnico Líder Eléctrico"
+      }
+    },
     "hvac": {
       "titles": {
         "1": "Aprendiz de HVAC",
@@ -3477,6 +3504,42 @@
         "3": "Técnico de Servicio",
         "4": "Especialista en Sistemas",
         "5": "Técnico Líder de HVAC"
+      }
+    },
+    "logistics": {
+      "titles": {
+        "1": "Aprendiz de Logística",
+        "2": "Despachador Junior",
+        "3": "Especialista en Rutas",
+        "4": "Especialista de Operaciones",
+        "5": "Coordinador Líder de Logística"
+      }
+    },
+    "machining": {
+      "titles": {
+        "1": "Aprendiz de Maquinado",
+        "2": "Operador Junior de Máquina",
+        "3": "Maquinista de Producción",
+        "4": "Especialista en Precisión",
+        "5": "Técnico Líder de Maquinado"
+      }
+    },
+    "manufacturing": {
+      "titles": {
+        "1": "Aprendiz de Manufactura",
+        "2": "Operador Junior de Línea",
+        "3": "Técnico de Proceso",
+        "4": "Especialista de Calidad",
+        "5": "Técnico Líder de Manufactura"
+      }
+    },
+    "plumbing": {
+      "titles": {
+        "1": "Aprendiz de Plomería",
+        "2": "Instalador Junior",
+        "3": "Plomero de Servicio",
+        "4": "Especialista en Sistemas",
+        "5": "Técnico Líder de Plomería"
       }
     }
   }

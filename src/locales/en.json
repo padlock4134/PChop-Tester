@@ -3225,6 +3225,33 @@
     "recordedInWorkspace": "Recorded in The Car Lift"
   },
   "levels": {
+    "automotive": {
+      "titles": {
+        "1": "Apprentice Technician",
+        "2": "Junior Mechanic",
+        "3": "Service Technician",
+        "4": "Diagnostic Specialist",
+        "5": "Lead Automotive Technician"
+      }
+    },
+    "construction": {
+      "titles": {
+        "1": "Apprentice Builder",
+        "2": "Junior Craftsperson",
+        "3": "Site Technician",
+        "4": "Project Specialist",
+        "5": "Lead Construction Technician"
+      }
+    },
+    "electrical": {
+      "titles": {
+        "1": "Apprentice Electrician",
+        "2": "Junior Wire Technician",
+        "3": "Service Electrician",
+        "4": "Systems Electric Specialist",
+        "5": "Lead Electrical Technician"
+      }
+    },
     "hvac": {
       "titles": {
         "1": "Apprentice Tech",
@@ -3232,6 +3259,42 @@
         "3": "Service Tech",
         "4": "System Specialist",
         "5": "Lead HVAC Technician"
+      }
+    },
+    "logistics": {
+      "titles": {
+        "1": "Apprentice Coordinator",
+        "2": "Junior Dispatcher",
+        "3": "Route Specialist",
+        "4": "Operations Specialist",
+        "5": "Lead Logistics Coordinator"
+      }
+    },
+    "machining": {
+      "titles": {
+        "1": "Apprentice Machinist",
+        "2": "Junior Machine Operator",
+        "3": "Production Machinist",
+        "4": "Precision Specialist",
+        "5": "Lead Machining Technician"
+      }
+    },
+    "manufacturing": {
+      "titles": {
+        "1": "Apprentice Operator",
+        "2": "Junior Line Operator",
+        "3": "Process Technician",
+        "4": "Quality Specialist",
+        "5": "Lead Manufacturing Technician"
+      }
+    },
+    "plumbing": {
+      "titles": {
+        "1": "Apprentice Plumber",
+        "2": "Junior Installer",
+        "3": "Service Plumber",
+        "4": "Systems Specialist",
+        "5": "Lead Plumbing Technician"
       }
     }
   }
