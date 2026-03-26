@@ -843,7 +843,7 @@ const Profile = () => {
     {
       title: 'Student Progress',
       reports: [
-        { title: '📊 Skill Mastery Tracking', description: 'Monitor student progress in culinary skills and certifications', metrics: ['Knife skills progression', 'Cooking techniques proficiency', 'Food safety certification', 'Recipe completion rates'], color: 'blue' },
+        { title: '📊 Skill Mastery Tracking', description: 'Monitor student progress in technical skills and certifications', metrics: ['Tool skills progression', 'Core techniques proficiency', 'Workplace safety certification', 'Task completion rates'], color: 'blue' },
         { title: '📈 Learning Analytics', description: 'Analyze engagement, quiz scores, and knowledge retention', metrics: ['Module time tracking', 'Quiz/test scores', 'Video engagement metrics', 'Knowledge retention rates'], color: 'indigo' }
       ]
     },
@@ -864,15 +864,15 @@ const Profile = () => {
     {
       title: 'Operations',
       reports: [
-        { title: '🏪 Workspace Management', description: 'Monitor equipment usage and operational efficiency', metrics: ['Equipment usage statistics', 'Ingredient waste tracking', 'Inventory management', 'Equipment maintenance'], color: 'purple' },
-        { title: '🛡️ Safety & Compliance', description: 'Track safety violations and compliance metrics', metrics: ['Food safety violations', 'Safety checklist completion', 'Incident reports', 'Compliance tracking'], color: 'red' }
+        { title: '🏪 Workspace Management', description: 'Monitor equipment usage and operational efficiency', metrics: ['Equipment usage statistics', 'Material waste tracking', 'Inventory management', 'Equipment maintenance'], color: 'purple' },
+        { title: '🛡️ Safety & Compliance', description: 'Track safety violations and compliance metrics', metrics: ['Safety violations', 'Safety checklist completion', 'Incident reports', 'Compliance tracking'], color: 'red' }
       ]
     },
     {
       title: 'Engagement',
       reports: [
         { title: '📱 Platform Usage', description: 'Analyze student interaction with the learning platform', metrics: ['Peak usage times', 'Feature adoption rates', 'Mobile vs desktop usage', 'Session duration patterns'], color: 'pink' },
-        { title: '👥 Community Engagement', description: 'Track social learning and community participation', metrics: ['Forum participation', 'Recipe sharing metrics', 'Peer feedback statistics', 'Social learning interactions'], color: 'purple' }
+        { title: '👥 Community Engagement', description: 'Track social learning and community participation', metrics: ['Forum participation', 'Project sharing metrics', 'Peer feedback statistics', 'Social learning interactions'], color: 'purple' }
       ]
     }
   ];
@@ -1116,12 +1116,12 @@ const Profile = () => {
     doc.setTextColor(60, 60, 60);
     
     if (fileName === 'skill-mastery-tracking') {
-      const line1Width = doc.getTextWidth(cleanText('- Knife skills show consistent improvement with 81% average proficiency'));
-      doc.text(cleanText('- Knife skills show consistent improvement with 81% average proficiency'), 105 - line1Width/2, 218);
-      const line2Width = doc.getTextWidth(cleanText('- Food safety certification maintains high completion rate at 87%'));
-      doc.text(cleanText('- Food safety certification maintains high completion rate at 87%'), 105 - line2Width/2, 228);
-      const line3Width = doc.getTextWidth(cleanText('- Recipe execution demonstrates strong practical application skills'));
-      doc.text(cleanText('- Recipe execution demonstrates strong practical application skills'), 105 - line3Width/2, 238);
+      const line1Width = doc.getTextWidth(cleanText('- Core technical skills show consistent improvement with 81% average proficiency'));
+      doc.text(cleanText('- Core technical skills show consistent improvement with 81% average proficiency'), 105 - line1Width/2, 218);
+      const line2Width = doc.getTextWidth(cleanText('- Workplace safety certification maintains high completion rate at 87%'));
+      doc.text(cleanText('- Workplace safety certification maintains high completion rate at 87%'), 105 - line2Width/2, 228);
+      const line3Width = doc.getTextWidth(cleanText('- Task execution demonstrates strong practical application skills'));
+      doc.text(cleanText('- Task execution demonstrates strong practical application skills'), 105 - line3Width/2, 238);
       const line4Width = doc.getTextWidth(cleanText('- Recommend additional practice sessions for students below 75% threshold'));
       doc.text(cleanText('- Recommend additional practice sessions for students below 75% threshold'), 105 - line4Width/2, 248);
       const line5Width = doc.getTextWidth(cleanText('- Consider advanced modules for students achieving 90% proficiency'));
