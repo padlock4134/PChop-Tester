@@ -520,7 +520,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   const handleSubmit = () => {
     if (!selectedType) {
-      alert('Please select a request type');
+      alert(t('profile.requests.selectTypeAlert', { defaultValue: 'Please select a request type' }));
       return;
     }
     setShowSuccess(true);
@@ -577,7 +577,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
                 onChange={(e) => setSelectedType(e.target.value)}
                 className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none"
               >
-                <option value="">Select a request type...</option>
+                <option value="">{t('profile.requests.selectTypePlaceholder', { defaultValue: 'Select a request type...' })}</option>
                 {requestTypes.map((type) => (
                   <option key={type.id} value={type.id}>
                     {type.icon} {type.name}
@@ -920,10 +920,10 @@ const Profile = () => {
     
     // Get filter labels for display
     const userRoleLabel = filterOptions.userRoles.find(r => r.value === selectedUserRole)?.label || 'Administrator';
-    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || 'All Departments';
-    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || 'All Classes';
+    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' });
+    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' });
     const timeRangeLabel = filterOptions.timeRanges.find(t => t.value === selectedTimeRange)?.label || 'Last 30 Days';
-    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || 'All Students';
+    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' });
     
     // Clean text function to remove problematic characters
     const cleanText = (text: string) => {
@@ -1350,7 +1350,7 @@ Automated calculations and formulas would be present`;
       // Left-click: Add talent (with validation)
       const maxTalents = Math.floor(userProfile.xp / 100); // 1 talent per 100 XP
       if (selectedTalents.length >= maxTalents) {
-        alert(`You can only select ${maxTalents} talents at your current level.`);
+        alert(t('profile.talents.maxSelectionAlert', { defaultValue: 'You can only select {{count}} talents at your current level.', count: maxTalents }));
         return;
       }
       newSelectedTalents = [...selectedTalents, talentName];
@@ -1372,13 +1372,13 @@ Automated calculations and formulas would be present`;
         console.error('Error saving talents:', error);
         // Revert local state if save failed
         setSelectedTalents(selectedTalents);
-        alert('Failed to save talent selection. Please try again.');
+        alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
       }
     } catch (error) {
       console.error('Error saving talents:', error);
       // Revert local state if save failed
       setSelectedTalents(selectedTalents);
-      alert('Failed to save talent selection. Please try again.');
+      alert(t('profile.talents.saveFailed', { defaultValue: 'Failed to save talent selection. Please try again.' }));
     }
   };
 
@@ -2066,7 +2066,7 @@ Automated calculations and formulas would be present`;
                     <div className="font-bold text-xs sm:text-sm mb-1">{talent.name}</div>
                     <div className="text-xs text-gray-600 mb-1 px-1 leading-tight">{talent.description}</div>
                     {!unlocked && (
-                      <div className="text-xs text-red-500">Unlocks at Level {talent.unlockLevel}</div>
+                      <div className="text-xs text-red-500">{t('profile.talents.unlocksAtLevel', { defaultValue: 'Unlocks at Level {{level}}', level: talent.unlockLevel })}</div>
                     )}
                     {selected && (
                       <div className="text-xs text-seafoam font-bold mb-1">✓ Selected</div>
@@ -2088,7 +2088,7 @@ Automated calculations and formulas would be present`;
                               : 'bg-yellow-500 text-white hover:bg-yellow-600'
                           }`}
                         >
-                          {unlockedTalents.includes(talent.name) ? '✅ Unlocked' : '🔓 Unlock'}
+                          {unlockedTalents.includes(talent.name) ? t('profile.talents.unlockedBadge', { defaultValue: '✅ Unlocked' }) : t('profile.talents.unlockAction', { defaultValue: '🔓 Unlock' })}
                         </button>
                         <button
                           onClick={(e) => {
