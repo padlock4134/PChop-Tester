@@ -175,13 +175,13 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="American">🍔 American</option>
-              <option value="Asian">🥢 Asian</option>
-              <option value="French">🥖 French</option>
-              <option value="Indian">🍛 Indian</option>
-              <option value="Italian">🍝 Italian</option>
-              <option value="Mediterranean">🫒 Mediterranean</option>
-              <option value="Mexican">🌮 Mexican</option>
+              <option value="American">🍔 {t('profile.cuisineOptions.american', { defaultValue: 'American' })}</option>
+              <option value="Asian">🥢 {t('profile.cuisineOptions.asian', { defaultValue: 'Asian' })}</option>
+              <option value="French">🥖 {t('profile.cuisineOptions.french', { defaultValue: 'French' })}</option>
+              <option value="Indian">🍛 {t('profile.cuisineOptions.indian', { defaultValue: 'Indian' })}</option>
+              <option value="Italian">🍝 {t('profile.cuisineOptions.italian', { defaultValue: 'Italian' })}</option>
+              <option value="Mediterranean">🫒 {t('profile.cuisineOptions.mediterranean', { defaultValue: 'Mediterranean' })}</option>
+              <option value="Mexican">🌮 {t('profile.cuisineOptions.mexican', { defaultValue: 'Mexican' })}</option>
             </select>
           </div>
 
@@ -193,13 +193,13 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Gluten-Free">🌾 Gluten-Free</option>
-              <option value="Keto">🥑 Keto</option>
-              <option value="None">🍽️ None</option>
-              <option value="Paleo">🥩 Paleo</option>
-              <option value="Pescatarian">🐟 Pescatarian</option>
-              <option value="Vegan">🌱 Vegan</option>
-              <option value="Vegetarian">🥗 Vegetarian</option>
+              <option value="Gluten-Free">🌾 {t('profile.dietOptions.glutenFree', { defaultValue: 'Gluten-Free' })}</option>
+              <option value="Keto">🥑 {t('profile.dietOptions.keto', { defaultValue: 'Keto' })}</option>
+              <option value="None">🍽️ {t('profile.dietOptions.none', { defaultValue: 'None' })}</option>
+              <option value="Paleo">🥩 {t('profile.dietOptions.paleo', { defaultValue: 'Paleo' })}</option>
+              <option value="Pescatarian">🐟 {t('profile.dietOptions.pescatarian', { defaultValue: 'Pescatarian' })}</option>
+              <option value="Vegan">🌱 {t('profile.dietOptions.vegan', { defaultValue: 'Vegan' })}</option>
+              <option value="Vegetarian">🥗 {t('profile.dietOptions.vegetarian', { defaultValue: 'Vegetarian' })}</option>
             </select>
           </div>
 
@@ -211,11 +211,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Kitchen">🏠 Apartment Workspace</option>
-              <option value="Full Kitchen">🏡 Full Workspace</option>
-              <option value="Minimal Setup">📦 Minimal Setup</option>
-              <option value="Outdoor Kitchen">🔥 Field Workspace</option>
-              <option value="Professional Kitchen">🏭 Professional Workspace</option>
+              <option value="Apartment Kitchen">🏠 {t('profile.workspaceOptions.apartment', { defaultValue: 'Apartment Workspace' })}</option>
+              <option value="Full Kitchen">🏡 {t('profile.workspaceOptions.full', { defaultValue: 'Full Workspace' })}</option>
+              <option value="Minimal Setup">📦 {t('profile.workspaceOptions.minimal', { defaultValue: 'Minimal Setup' })}</option>
+              <option value="Outdoor Kitchen">🔥 {t('profile.workspaceOptions.field', { defaultValue: 'Field Workspace' })}</option>
+              <option value="Professional Kitchen">🏭 {t('profile.workspaceOptions.professional', { defaultValue: 'Professional Workspace' })}</option>
             </select>
           </div>
 
@@ -227,10 +227,10 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, experienceLevel: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Advanced">⭐ Advanced</option>
-              <option value="Beginner">🌱 Beginner</option>
-              <option value="Intermediate">📈 Intermediate</option>
-              <option value="Professional">👨‍🍳 Professional</option>
+              <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
+              <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
+              <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
+              <option value="Professional">👨‍🍳 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -559,7 +559,7 @@ Welcome to Porkchop. By using this app, you agree to be bound by the following t
 }
 
 const Profile = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useSupabase();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -596,10 +596,20 @@ const Profile = () => {
   const [selectedStudentSegment, setSelectedStudentSegment] = useState<string>('all');
   const [selectedUserRole, setSelectedUserRole] = useState<string>('administrator');
   
+  const getLocalizedLevelMeta = (level: number) => {
+    const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
+    const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+    return {
+      title: t(`levels.plumbing.titles.${level}`, { defaultValue: title }),
+      icon
+    };
+  };
+  const defaultLevelMeta = getLocalizedLevelMeta(1);
+
   const [levelProgress, setLevelProgress] = useState({
-    title: LEVEL_TITLES_AND_ICONS[0].title,
+    title: defaultLevelMeta.title,
     level: 1,
-    icon: LEVEL_TITLES_AND_ICONS[0].icon,
+    icon: defaultLevelMeta.icon,
     current: 0,
     required: 100,
     progressPercent: 0,
@@ -608,42 +618,42 @@ const Profile = () => {
   // Filter options for reports
   const filterOptions = {
     userRoles: [
-      { value: 'administrator', label: 'School Administrator', description: 'High-level institutional overview' },
-      { value: 'department_head', label: 'Department Head', description: 'Department-specific insights' },
-      { value: 'instructor', label: 'Individual Instructor', description: 'Class-specific data only' },
-      { value: 'coordinator', label: 'Academic Coordinator', description: 'Cross-department analysis' }
+      { value: 'administrator', label: t('profile.filterOptions.userRoles.administrator.label', { defaultValue: 'School Administrator' }), description: t('profile.filterOptions.userRoles.administrator.description', { defaultValue: 'High-level institutional overview' }) },
+      { value: 'department_head', label: t('profile.filterOptions.userRoles.departmentHead.label', { defaultValue: 'Department Head' }), description: t('profile.filterOptions.userRoles.departmentHead.description', { defaultValue: 'Department-specific insights' }) },
+      { value: 'instructor', label: t('profile.filterOptions.userRoles.instructor.label', { defaultValue: 'Individual Instructor' }), description: t('profile.filterOptions.userRoles.instructor.description', { defaultValue: 'Class-specific data only' }) },
+      { value: 'coordinator', label: t('profile.filterOptions.userRoles.coordinator.label', { defaultValue: 'Academic Coordinator' }), description: t('profile.filterOptions.userRoles.coordinator.description', { defaultValue: 'Cross-department analysis' }) }
     ],
     departments: [
-      { value: 'all', label: 'All Departments' },
-      { value: 'culinary_arts', label: 'Culinary Arts' },
-      { value: 'baking_pastry', label: 'Baking & Pastry' },
-      { value: 'business', label: 'Culinary Business' },
-      { value: 'nutrition', label: 'Nutrition & Dietetics' }
+      { value: 'all', label: t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' }) },
+      { value: 'culinary_arts', label: t('profile.filterOptions.departments.culinaryArts', { defaultValue: 'Culinary Arts' }) },
+      { value: 'baking_pastry', label: t('profile.filterOptions.departments.bakingPastry', { defaultValue: 'Baking & Pastry' }) },
+      { value: 'business', label: t('profile.filterOptions.departments.business', { defaultValue: 'Culinary Business' }) },
+      { value: 'nutrition', label: t('profile.filterOptions.departments.nutrition', { defaultValue: 'Nutrition & Dietetics' }) }
     ],
     classes: [
-      { value: 'all', label: 'All Classes' },
-      { value: 'fundamentals', label: 'Fundamentals of Cooking' },
-      { value: 'advanced_techniques', label: 'Advanced Culinary Techniques' },
-      { value: 'food_safety', label: 'Food Safety & Sanitation' },
-      { value: 'menu_planning', label: 'Menu Planning & Costing' },
-      { value: 'baking_basics', label: 'Baking Fundamentals' },
-      { value: 'pastry_arts', label: 'Advanced Pastry Arts' }
+      { value: 'all', label: t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' }) },
+      { value: 'fundamentals', label: t('profile.filterOptions.classes.fundamentals', { defaultValue: 'Fundamentals of Cooking' }) },
+      { value: 'advanced_techniques', label: t('profile.filterOptions.classes.advancedTechniques', { defaultValue: 'Advanced Culinary Techniques' }) },
+      { value: 'food_safety', label: t('profile.filterOptions.classes.foodSafety', { defaultValue: 'Food Safety & Sanitation' }) },
+      { value: 'menu_planning', label: t('profile.filterOptions.classes.menuPlanning', { defaultValue: 'Menu Planning & Costing' }) },
+      { value: 'baking_basics', label: t('profile.filterOptions.classes.bakingBasics', { defaultValue: 'Baking Fundamentals' }) },
+      { value: 'pastry_arts', label: t('profile.filterOptions.classes.pastryArts', { defaultValue: 'Advanced Pastry Arts' }) }
     ],
     timeRanges: [
-      { value: '7days', label: 'Last 7 Days' },
-      { value: '30days', label: 'Last 30 Days' },
-      { value: 'semester', label: 'Current Semester' },
-      { value: 'academic_year', label: 'Academic Year' },
-      { value: 'custom', label: 'Custom Range' }
+      { value: '7days', label: t('profile.filterOptions.timeRanges.days7', { defaultValue: 'Last 7 Days' }) },
+      { value: '30days', label: t('profile.filterOptions.timeRanges.days30', { defaultValue: 'Last 30 Days' }) },
+      { value: 'semester', label: t('profile.filterOptions.timeRanges.semester', { defaultValue: 'Current Semester' }) },
+      { value: 'academic_year', label: t('profile.filterOptions.timeRanges.academicYear', { defaultValue: 'Academic Year' }) },
+      { value: 'custom', label: t('profile.filterOptions.timeRanges.custom', { defaultValue: 'Custom Range' }) }
     ],
     studentSegments: [
-      { value: 'all', label: 'All Students' },
-      { value: 'top_performers', label: 'Top 25% Performers' },
-      { value: 'struggling', label: 'Students Needing Support' },
-      { value: 'full_time', label: 'Full-Time Students' },
-      { value: 'part_time', label: 'Part-Time Students' },
-      { value: 'certificate', label: 'Certificate Program' },
-      { value: 'diploma', label: 'Diploma Program' }
+      { value: 'all', label: t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' }) },
+      { value: 'top_performers', label: t('profile.filterOptions.studentSegments.topPerformers', { defaultValue: 'Top 25% Performers' }) },
+      { value: 'struggling', label: t('profile.filterOptions.studentSegments.struggling', { defaultValue: 'Students Needing Support' }) },
+      { value: 'full_time', label: t('profile.filterOptions.studentSegments.fullTime', { defaultValue: 'Full-Time Students' }) },
+      { value: 'part_time', label: t('profile.filterOptions.studentSegments.partTime', { defaultValue: 'Part-Time Students' }) },
+      { value: 'certificate', label: t('profile.filterOptions.studentSegments.certificate', { defaultValue: 'Certificate Program' }) },
+      { value: 'diploma', label: t('profile.filterOptions.studentSegments.diploma', { defaultValue: 'Diploma Program' }) }
     ]
   };
 
@@ -785,10 +795,10 @@ const Profile = () => {
     
     // Get filter labels for display
     const userRoleLabel = filterOptions.userRoles.find(r => r.value === selectedUserRole)?.label || 'Administrator';
-    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || 'All Departments';
-    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || 'All Classes';
+    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' });
+    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' });
     const timeRangeLabel = filterOptions.timeRanges.find(t => t.value === selectedTimeRange)?.label || 'Last 30 Days';
-    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || 'All Students';
+    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' });
     
     // Clean text function to remove problematic characters
     const cleanText = (text: string) => {
@@ -1310,8 +1320,7 @@ Automated calculations and formulas would be present`;
         const { level, current, required } = getCorrectXPProgress(xp);
         
         // Map level to title index
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const { title, icon } = getLocalizedLevelMeta(level);
         const progressPercent = (current / required) * 100;
         
         setLevelProgress({
@@ -1345,8 +1354,7 @@ Automated calculations and formulas would be present`;
       
       // Update level progress when userProfile changes - USE CORRECTED CALCULATION
       const { level, current, required } = getCorrectXPProgress(userProfile.xp);
-      const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-      const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+      const { title, icon } = getLocalizedLevelMeta(level);
       const progressPercent = (current / required) * 100;
       
       setLevelProgress({
@@ -1365,6 +1373,17 @@ Automated calculations and formulas would be present`;
       setKitchenSetup(userProfile.kitchenSetup);
     }
   }, [userProfile]);
+
+  useEffect(() => {
+    setLevelProgress((prev) => {
+      const { title, icon } = getLocalizedLevelMeta(prev.level);
+      return {
+        ...prev,
+        title,
+        icon
+      };
+    });
+  }, [i18n.language]);
 
   // Handle avatar file selection
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1522,8 +1541,7 @@ Automated calculations and formulas would be present`;
 
         // Use corrected level calculation
         const { level, current, required } = getCorrectXPProgress(xp);
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const { title, icon } = getLocalizedLevelMeta(level);
         const progressPercent = (current / required) * 100;
         
         console.log('🎯 Corrected Level Debug:', { 
