@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/GarageFreddieContext';
 import { useRecipeContext } from '../components/RepairContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchManual, removeRecipeFromManual } from './manualSupabase';
+import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
 import { supabase } from '../api/supabaseClient';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
@@ -376,17 +376,17 @@ const MyManual = () => {
     const loadProcedures = async () => {
       try {
         setLoading(true);
-        const savedRecipes = await fetchManual(user?.id!);
-        const converted = savedRecipes.map(r => ({
+        const savedRecipes = await fetchCookbook(user?.id!);
+        const converted = savedRecipes.map((r: any) => ({
           id: r.id,
           name: r.title,
           description: r.instructions,
           photo: r.image,
-          ingredients: r.ingredients,
+          parts: r.ingredients,
           instructions: r.instructions,
-          equipment: r.equipment,
-          nutrition: r.nutrition,
-          healthTags: r.healthTags
+          tools: r.equipment,
+          specifications: r.nutrition as any,
+          systemTags: r.healthTags
         }));
         setLocalProcedures(converted);
       } catch (err) {
@@ -399,8 +399,8 @@ const MyManual = () => {
     loadProcedures();
   }, [updateContext]);
 
-  // Filter recipes based on search term and category
-  const filteredProcedures = procedures.filter(recipe => {
+  // Filter procedures based on search term and category
+  const filteredProcedures = procedures.filter((procedure: Procedure) => {
     const matchesSearch = procedure.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('myManual.all')) return matchesSearch;
     
@@ -522,7 +522,7 @@ const MyManual = () => {
       }}>
         <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
-            {recipeToShare ? `${t('myManual.shareRecipeTitle')} "${recipeToShare.name}"` : t('myManual.shareYourManual')}
+            {procedureToShare ? `${t('myManual.shareRecipeTitle')} "${procedureToShare.name}"` : t('myManual.shareYourManual')}
           </h3>
           <div className="flex justify-around mb-4">
             <button 
@@ -662,15 +662,15 @@ const MyManual = () => {
               </p>
               
               <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                {selectedCollection.procedures.map((recipeId, index) => {
-                  const procedure = recipes.find(r => r.id === recipeId);
+                {selectedCollection.procedures.map((procedureId: string, index: number) => {
+                  const procedure = procedures.find((p: Procedure) => p.id === procedureId);
                   return (
-                    <div key={recipeId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
+                    <div key={procedureId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
                       <div className="flex items-center">
                         <span className="mr-2">🍽️</span>
-                        <span className="text-sm">{recipe ? procedure.name : `Recipe ${index + 1}`}</span>
+                        <span className="text-sm">{procedure ? procedure.name : `Procedure ${index + 1}`}</span>
                       </div>
-                      {recipe && recipe.healthTags && recipe.healthTags.length > 0 && (
+                      {procedure && procedure.systemTags && procedure.systemTags.length > 0 && (
                         <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
                           🥗
                         </span>
@@ -815,11 +815,11 @@ const MyManual = () => {
                     <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 {t('myManual.ingredients')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredProcedures[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
-                          <li key={i} className="line-clamp-1">{ingredient}</li>
+                        {filteredProcedures[currentIndex].parts?.slice(0, 6).map((part: string, i: number) => (
+                          <li key={i} className="line-clamp-1">{part}</li>
                         ))}
-                        {(filteredProcedures[currentIndex].ingredients?.length || 0) > 6 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredProcedures[currentIndex].ingredients?.length || 0) - 6} {t('myManual.more')}</li>
+                        {(filteredProcedures[currentIndex].parts?.length || 0) > 6 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredProcedures[currentIndex].parts?.length || 0) - 6} {t('myManual.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -828,11 +828,11 @@ const MyManual = () => {
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 {t('myManual.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredProcedures[currentIndex].equipment?.slice(0, 4).map((item, i) => (
-                          <li key={i} className="line-clamp-1">{item}</li>
+                        {filteredProcedures[currentIndex].tools?.slice(0, 4).map((tool: string, i: number) => (
+                          <li key={i} className="line-clamp-1">{tool}</li>
                         ))}
-                        {(filteredProcedures[currentIndex].equipment?.length || 0) > 4 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredProcedures[currentIndex].equipment?.length || 0) - 4} {t('myManual.more')}</li>
+                        {(filteredProcedures[currentIndex].tools?.length || 0) > 4 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredProcedures[currentIndex].tools?.length || 0) - 4} {t('myManual.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -841,15 +841,15 @@ const MyManual = () => {
                     <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 {t('myManual.healthTags')}</h4>
                       <div className="flex flex-wrap gap-1.5 justify-center max-h-[80px] sm:max-h-[100px] overflow-y-auto">
-                        {filteredProcedures[currentIndex].healthTags?.slice(0, 4).map(tag => (
+                        {filteredProcedures[currentIndex].systemTags?.slice(0, 4).map((tag: string) => (
                           <span key={tag} className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">
                             {tag}
                           </span>
                         )) || (
                           <span className="text-xs text-gray-500">{t('myManual.noHealthTags')}</span>
                         )}
-                        {(filteredProcedures[currentIndex].healthTags?.length || 0) > 4 && (
-                          <span className="text-xs text-gray-600 font-semibold">+{(filteredProcedures[currentIndex].healthTags?.length || 0) - 4}</span>
+                        {(filteredProcedures[currentIndex].systemTags?.length || 0) > 4 && (
+                          <span className="text-xs text-gray-600 font-semibold">+{(filteredProcedures[currentIndex].systemTags?.length || 0) - 4}</span>
                         )}
                       </div>
                     </div>
@@ -872,7 +872,7 @@ const MyManual = () => {
                     onClick={async () => {
                       try {
                         const recipeId = filteredProcedures[currentIndex].id;
-                        await removeRecipeFromManual(user?.id!, recipeId);
+                        await removeRecipeFromCookbook(user?.id!, recipeId);
                         setLocalProcedures(procedures.filter(r => r.id !== recipeId));
                         setCurrentIndex(0);
                       } catch (err) {
@@ -892,9 +892,9 @@ const MyManual = () => {
                         id: `${filteredProcedures[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
                         title: filteredProcedures[currentIndex].name,
                         image: filteredProcedures[currentIndex].photo || '',
-                        ingredients: filteredProcedures[currentIndex].ingredients || [],
+                        ingredients: filteredProcedures[currentIndex].parts || [],
                         instructions: filteredProcedures[currentIndex].instructions || '',
-                        equipment: filteredProcedures[currentIndex].equipment || [],
+                        equipment: filteredProcedures[currentIndex].tools || [],
                         tutorials: [
                           {
                             title: `Equipment: Using the right tools for ${filteredProcedures[currentIndex].name}`,
@@ -943,7 +943,7 @@ const MyManual = () => {
           return (
             <>
               <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
-              <div className="text-gray-600">— {quoteOfDay.chef}</div>
+              <div className="text-gray-600">— {quoteOfDay.expert}</div>
             </>
           );
         })()}
@@ -989,32 +989,32 @@ const MyManual = () => {
 
               {/* Create Collection Section */}
               <div className="mb-6">
-                {recipes.length > 0 ? (
+                {procedures.length > 0 ? (
                   <div className="space-y-2">
                     <p className="text-sm text-gray-600 mb-3">{t('myManual.selectRecipesToAdd')}</p>
                     
                     <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                      {recipes.map((recipe) => (
-                        <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
+                      {procedures.map((procedure: Procedure) => (
+                        <div key={procedure.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
                           <div className="flex items-center">
                             <input
                               type="checkbox"
-                              id={`recipe-${recipe.id}`}
-                              checked={selectedProcedures.includes(recipe.id)}
-                              onChange={() => handleProcedureSelect(recipe.id)}
+                              id={`procedure-${procedure.id}`}
+                              checked={selectedProcedures.includes(procedure.id)}
+                              onChange={() => handleProcedureSelect(procedure.id)}
                               className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
                             />
-                            <label htmlFor={`recipe-${recipe.id}`} className="text-sm cursor-pointer">
+                            <label htmlFor={`procedure-${procedure.id}`} className="text-sm cursor-pointer">
                               {procedure.name}
                             </label>
                           </div>
                           <div className="flex gap-1">
-                            {recipe.healthTags && recipe.healthTags.length > 0 && (
+                            {procedure.systemTags && procedure.systemTags.length > 0 && (
                               <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
                                 🥗
                               </span>
                             )}
-                            {recipe.photo && (
+                            {procedure.photo && (
                               <span className="text-xs bg-blue-100 text-blue-800 px-1 py-0.5 rounded">
                                 📷
                               </span>

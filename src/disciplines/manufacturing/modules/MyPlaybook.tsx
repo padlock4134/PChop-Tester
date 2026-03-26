@@ -208,12 +208,12 @@ const MyPlaybook = () => {
     { key: 'Lean/5S', label: 'Lean/5S' }
   ];
 
-  // Handle recipe selection for collections
-  const handleRecipeSelect = (recipeId: string) => {
-    setSelectedRecipes(prev => 
-      prev.includes(recipeId) 
-        ? prev.filter(id => id !== recipeId)
-        : [...prev, recipeId]
+  // Handle process selection for collections
+  const handleProcessSelect = (processId: string) => {
+    setSelectedProcesses(prev => 
+      prev.includes(processId) 
+        ? prev.filter(id => id !== processId)
+        : [...prev, processId]
     );
   };
 
@@ -224,11 +224,11 @@ const MyPlaybook = () => {
         id: Date.now().toString(),
         name: newCollectionName.trim(),
         emoji: '📁',
-        recipes: [...selectedRecipes]
+        processes: [...selectedProcesses]
       };
       setCollections(prev => [...prev, newCollection]);
       setNewCollectionName('');
-      setSelectedRecipes([]);
+      setSelectedProcesses([]);
       setShowCreateCollectionModal(false);
     }
   };
@@ -264,11 +264,11 @@ const MyPlaybook = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: recipeToShare ? `${recipeToShare.name} Recipe on Porkchop` : 'My Cookbook on Porkchop',
-      text: recipeToShare 
-        ? `Check out this amazing recipe for ${recipeToShare.name} on Porkchop!` 
-        : 'Check out my digital cookbook on Porkchop! I\'ve been collecting amazing recipes and would love to share them with you.',
-      url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
+      title: processToShare ? `${processToShare.name} Process on Porkchop` : 'My Playbook on Porkchop',
+      text: processToShare 
+        ? `Check out this manufacturing process for ${processToShare.name} on Porkchop!` 
+        : 'Check out my digital playbook on Porkchop! I\'ve been collecting processes and would love to share them with you.',
+      url: window.location.href + (processToShare ? `?process=${encodeURIComponent(processToShare.id)}` : ''),
     };
 
     try {
@@ -357,7 +357,7 @@ const MyPlaybook = () => {
   };
   useEffect(() => {
     updateContext({ page: 'MyCookBook' });
-    const loadRecipes = async () => {
+    const loadProcesses = async () => {
       try {
         setLoading(true);
         const savedRecipes = await fetchCookbook(user?.id!);
@@ -366,70 +366,57 @@ const MyPlaybook = () => {
           name: r.title,
           description: r.instructions,
           photo: r.image,
-          ingredients: r.ingredients,
+          materials: r.ingredients,
           instructions: r.instructions,
-          equipment: r.equipment,
-          nutrition: r.nutrition,
-          healthTags: r.healthTags
+          tools: r.equipment,
+          specifications: r.nutrition as any,
+          safetyTags: r.healthTags
         }));
-        setLocalRecipes(converted);
+        setLocalProcesses(converted);
       } catch (err) {
-        console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        console.error('Error loading playbook:', err);
+        setError('Failed to load your playbook');
       } finally {
         setLoading(false);
       }
     };
-    loadRecipes();
+    loadProcesses();
   }, [updateContext]);
 
-  // Filter recipes based on search term and category
-  const filteredRecipes = recipes.filter(recipe => {
-    const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
+  // Filter processes based on search term and category
+  const filteredProcesses = processes.filter((process: Process) => {
+    const matchesSearch = process.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('myPlaybook.all')) return matchesSearch;
     
-    // Simple category detection based on ingredients
-    const ingredients = recipe.ingredients || [];
-    const ingredientsJoined = ingredients.join(' ').toLowerCase();
+    // Simple category detection based on materials
+    const materials = process.materials || [];
+    const materialsJoined = materials.join(' ').toLowerCase();
     
-    const hasSeafood = ingredientsJoined.includes('fish') || 
-      ingredientsJoined.includes('salmon') || 
-      ingredientsJoined.includes('tuna') || 
-      ingredientsJoined.includes('cod') || 
-      ingredientsJoined.includes('tilapia') || 
-      ingredientsJoined.includes('shrimp') || 
-      ingredientsJoined.includes('lobster') || 
-      ingredientsJoined.includes('crab') || 
-      ingredientsJoined.includes('oyster') || 
-      ingredientsJoined.includes('clam') || 
-      ingredientsJoined.includes('mussel');
+    const hasAssembly = materialsJoined.includes('assembly') || 
+      materialsJoined.includes('weld') || 
+      materialsJoined.includes('bolt') || 
+      materialsJoined.includes('rivet');
     
-    const hasMeat = ingredientsJoined.includes('beef') || 
-      ingredientsJoined.includes('chicken') || 
-      ingredientsJoined.includes('pork') || 
-      ingredientsJoined.includes('turkey') || 
-      ingredientsJoined.includes('bacon') || 
-      ingredientsJoined.includes('sausage') || 
-      ingredientsJoined.includes('lamb');
+    const hasQC = materialsJoined.includes('inspection') || 
+      materialsJoined.includes('measurement') || 
+      materialsJoined.includes('tolerance') || 
+      materialsJoined.includes('quality');
     
-    const hasVegetable = ingredientsJoined.includes('vegetable') || 
-      ingredientsJoined.includes('tomato') || 
-      ingredientsJoined.includes('carrot') || 
-      ingredientsJoined.includes('spinach');
+    const hasSafety = materialsJoined.includes('safety') || 
+      materialsJoined.includes('ppe') || 
+      materialsJoined.includes('hazard') || 
+      materialsJoined.includes('lockout');
     
-    const hasDessert = ingredientsJoined.includes('sugar') || 
-      ingredientsJoined.includes('chocolate') || 
-      ingredientsJoined.includes('vanilla') || 
-      ingredientsJoined.includes('cream') || 
-      ingredientsJoined.includes('cake') || 
-      ingredientsJoined.includes('cookie') || 
-      ingredientsJoined.includes('pie');
+    const hasMaintenance = materialsJoined.includes('maintenance') || 
+      materialsJoined.includes('repair') || 
+      materialsJoined.includes('preventive') || 
+      materialsJoined.includes('lubrication');
     
     switch (activeCategory) {
-      case 'Seafood': return hasSeafood && matchesSearch;
-      case 'Meat': return hasMeat && matchesSearch;
-      case 'Vegetarian': return hasVegetable && !hasMeat && !hasSeafood && matchesSearch;
-      case 'Dessert': return hasDessert && matchesSearch;
+      case 'Assembly': return hasAssembly && matchesSearch;
+      case 'Quality Control': return hasQC && matchesSearch;
+      case 'Safety': return hasSafety && matchesSearch;
+      case 'Maintenance': return hasMaintenance && matchesSearch;
       default: return matchesSearch;
     }
   });
@@ -461,9 +448,9 @@ const MyPlaybook = () => {
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
-          onClick={() => setActiveMobileTab('cookbook')}
+          onClick={() => setActiveMobileTab('playbook')}
           className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
-            activeMobileTab === 'cookbook'
+            activeMobileTab === 'playbook'
               ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
@@ -484,7 +471,7 @@ const MyPlaybook = () => {
       
       <div className="flex flex-col lg:flex-row gap-6">
         <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
-          activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
+          activeMobileTab === 'playbook' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
           <div className="flex items-center justify-center p-6 pb-4">
@@ -502,11 +489,11 @@ const MyPlaybook = () => {
       {showShareModal && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => {
         setShowShareModal(false);
-        setRecipeToShare(null);
+        setProcessToShare(null);
       }}>
         <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
-            {recipeToShare ? `${t('myPlaybook.shareRecipeTitle')} "${recipeToShare.name}"` : t('myPlaybook.shareYourCookbook')}
+            {processToShare ? `${t('myPlaybook.shareRecipeTitle')} "${processToShare.name}"` : t('myPlaybook.shareYourCookbook')}
           </h3>
           <div className="flex justify-around mb-4">
             <button 
@@ -562,7 +549,7 @@ const MyPlaybook = () => {
             <button
               onClick={() => {
                 setShowShareModal(false);
-                setRecipeToShare(null);
+                setProcessToShare(null);
               }}
               className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
             >
@@ -598,7 +585,7 @@ const MyPlaybook = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600">
-                {t('myPlaybook.selectedRecipes')} {selectedRecipes.length}
+                {t('myPlaybook.selectedRecipes')} {selectedProcesses.length}
               </p>
             </div>
             
@@ -642,19 +629,19 @@ const MyPlaybook = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600 mb-3">
-                {t('myPlaybook.recipesInCollection')} ({selectedCollection.recipes.length}):
+                {t('myPlaybook.recipesInCollection')} ({selectedCollection.processes.length}):
               </p>
               
               <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                {selectedCollection.recipes.map((recipeId, index) => {
-                  const recipe = recipes.find(r => r.id === recipeId);
+                {selectedCollection.processes.map((processId, index) => {
+                  const process = processes.find(p => p.id === processId);
                   return (
-                    <div key={recipeId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
+                    <div key={processId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
                       <div className="flex items-center">
                         <span className="mr-2">🍽️</span>
-                        <span className="text-sm">{recipe ? recipe.name : `Recipe ${index + 1}`}</span>
+                        <span className="text-sm">{process ? process.name : `Recipe ${index + 1}`}</span>
                       </div>
-                      {recipe && recipe.healthTags && recipe.healthTags.length > 0 && (
+                      {process && process.safetyTags && process.safetyTags.length > 0 && (
                         <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
                           🥗
                         </span>
@@ -662,7 +649,7 @@ const MyPlaybook = () => {
                     </div>
                   );
                 })}
-                {selectedCollection.recipes.length === 0 && (
+                {selectedCollection.processes.length === 0 && (
                   <div className="py-4 text-center text-gray-500 text-sm italic">
                     {t('myPlaybook.noRecipesInCollection')}
                   </div>
@@ -750,9 +737,9 @@ const MyPlaybook = () => {
             <span className="sm:hidden">{t('myPlaybook.prev')}</span>
           </button>
           <button
-            onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
-            disabled={currentIndex === filteredRecipes.length - 1}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+            onClick={() => setCurrentIndex(prev => Math.min(filteredProcesses.length - 1, prev + 1))}
+            disabled={currentIndex === filteredProcesses.length - 1}
+            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredProcesses.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
           >
             <span className="hidden sm:inline">{t('myPlaybook.next')}</span>
             <span className="sm:hidden">{t('myPlaybook.next')} →</span>
@@ -761,15 +748,15 @@ const MyPlaybook = () => {
       </div>
       {/* Recipe Count */}
       <div className="text-sm text-gray-500 mb-4">
-        {filteredRecipes.length === 0 
+        {filteredProcesses.length === 0 
           ? t('myPlaybook.noRecipes') 
-          : `${t('myPlaybook.recipe')} ${currentIndex + 1} ${t('myPlaybook.of')} ${filteredRecipes.length}`}
+          : `${t('myPlaybook.recipe')} ${currentIndex + 1} ${t('myPlaybook.of')} ${filteredProcesses.length}`}
       </div>
 
 
       {/* Digital Cookbook - Single Recipe */}
       <div className="mt-4">
-        {filteredRecipes.length === 0 ? (
+        {filteredProcesses.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
             {processes.length === 0 
               ? t('myPlaybook.noProcessesYet') 
@@ -785,25 +772,25 @@ const MyPlaybook = () => {
             >
               {/* Front */}
               <div className="absolute inset-0 bg-white p-4 sm:p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col items-center [backface-visibility:hidden]">
-                {filteredRecipes[currentIndex].photo && (
+                {filteredProcesses[currentIndex].photo && (
                   <img 
-                    src={filteredRecipes[currentIndex].photo} 
-                    alt={filteredRecipes[currentIndex].name} 
+                    src={filteredProcesses[currentIndex].photo} 
+                    alt={filteredProcesses[currentIndex].name} 
                     className="w-full h-32 sm:h-40 object-cover rounded-lg mb-4 border-2 border-gray-200"
                   />
                 )}
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-center text-maineBlue">{filteredRecipes[currentIndex].name}</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-center text-maineBlue">{filteredProcesses[currentIndex].name}</h3>
                 <div className="flex-1 flex flex-col justify-center w-full px-2">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
                     {/* Ingredients */}
                     <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 {t('myPlaybook.ingredients')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredRecipes[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
-                          <li key={i} className="line-clamp-1">{ingredient}</li>
+                        {filteredProcesses[currentIndex].materials?.slice(0, 6).map((material, i) => (
+                          <li key={i} className="line-clamp-1">{material}</li>
                         ))}
-                        {(filteredRecipes[currentIndex].ingredients?.length || 0) > 6 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].ingredients?.length || 0) - 6} {t('myPlaybook.more')}</li>
+                        {(filteredProcesses[currentIndex].materials?.length || 0) > 6 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredProcesses[currentIndex].materials?.length || 0) - 6} {t('myPlaybook.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -812,11 +799,11 @@ const MyPlaybook = () => {
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 {t('myPlaybook.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
+                        {filteredProcesses[currentIndex].tools?.slice(0, 4).map((item: string, i: number) => (
                           <li key={i} className="line-clamp-1">{item}</li>
                         ))}
-                        {(filteredRecipes[currentIndex].equipment?.length || 0) > 4 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].equipment?.length || 0) - 4} {t('myPlaybook.more')}</li>
+                        {(filteredProcesses[currentIndex].tools?.length || 0) > 4 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredProcesses[currentIndex].tools?.length || 0) - 4} {t('myPlaybook.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -825,15 +812,15 @@ const MyPlaybook = () => {
                     <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 {t('myPlaybook.healthTags')}</h4>
                       <div className="flex flex-wrap gap-1.5 justify-center max-h-[80px] sm:max-h-[100px] overflow-y-auto">
-                        {filteredRecipes[currentIndex].healthTags?.slice(0, 4).map(tag => (
+                        {filteredProcesses[currentIndex].safetyTags?.slice(0, 4).map((tag: string) => (
                           <span key={tag} className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">
                             {tag}
                           </span>
                         )) || (
                           <span className="text-xs text-gray-500">{t('myPlaybook.noHealthTags')}</span>
                         )}
-                        {(filteredRecipes[currentIndex].healthTags?.length || 0) > 4 && (
-                          <span className="text-xs text-gray-600 font-semibold">+{(filteredRecipes[currentIndex].healthTags?.length || 0) - 4}</span>
+                        {(filteredProcesses[currentIndex].safetyTags?.length || 0) > 4 && (
+                          <span className="text-xs text-gray-600 font-semibold">+{(filteredProcesses[currentIndex].safetyTags?.length || 0) - 4}</span>
                         )}
                       </div>
                     </div>
@@ -846,18 +833,18 @@ const MyPlaybook = () => {
               
               {/* Back */}
               <div className="absolute inset-0 h-full w-full rounded-lg bg-white p-4 sm:p-6 shadow-lg border-4 border-lobsterRed [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredRecipes[currentIndex].name}</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredProcesses[currentIndex].name}</h3>
                 <div className="flex-grow overflow-y-auto mb-16 sm:mb-20 px-2">
                   <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('myPlaybook.instructions')}</h4>
-                  <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredRecipes[currentIndex].instructions}</p>
+                  <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredProcesses[currentIndex].instructions}</p>
                 </div>
                 <div className="flex justify-between items-center absolute bottom-4 left-4 right-4 gap-2">
                   <button
                     onClick={async () => {
                       try {
-                        const recipeId = filteredRecipes[currentIndex].id;
+                        const recipeId = filteredProcesses[currentIndex].id;
                         await removeRecipeFromCookbook(user?.id!, recipeId);
-                        setLocalRecipes(recipes.filter(r => r.id !== recipeId));
+                        setLocalProcesses(processes.filter(p => p.id !== recipeId));
                         setCurrentIndex(0);
                       } catch (err) {
                         console.error('Error deleting recipe:', err);
@@ -873,15 +860,15 @@ const MyPlaybook = () => {
                   <button
                     onClick={() => {
                       const fullRecipe = {
-                        id: `${filteredRecipes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                        title: filteredRecipes[currentIndex].name,
-                        image: filteredRecipes[currentIndex].photo || '',
-                        ingredients: filteredRecipes[currentIndex].ingredients || [],
-                        instructions: filteredRecipes[currentIndex].instructions || '',
-                        equipment: filteredRecipes[currentIndex].equipment || [],
+                        id: `${filteredProcesses[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                        title: filteredProcesses[currentIndex].name,
+                        image: filteredProcesses[currentIndex].photo || '',
+                        ingredients: filteredProcesses[currentIndex].materials || [],
+                        instructions: filteredProcesses[currentIndex].instructions || '',
+                        equipment: filteredProcesses[currentIndex].tools || [],
                         tutorials: [
                           {
-                            title: `Equipment: Using the right tools for ${filteredRecipes[currentIndex].name}`,
+                            title: `Equipment: Using the right tools for ${filteredProcesses[currentIndex].name}`,
                             desc: `Learn how to use the main equipment needed for this dish.`
                           },
                           {
@@ -889,8 +876,8 @@ const MyPlaybook = () => {
                             desc: `How to prep the main protein (e.g., fish, chicken, clams) for this recipe.`
                           },
                           {
-                            title: `Recipe: ${filteredRecipes[currentIndex].name}`,
-                            desc: filteredRecipes[currentIndex].instructions || ''
+                            title: `Recipe: ${filteredProcesses[currentIndex].name}`,
+                            desc: filteredProcesses[currentIndex].instructions || ''
                           }
                         ]
                       };
@@ -903,7 +890,7 @@ const MyPlaybook = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setRecipeToShare(filteredRecipes[currentIndex]);
+                      setProcessToShare(filteredProcesses[currentIndex]);
                       setShowShareModal(true);
                     }}
                     className="bg-maineBlue text-seafoam px-4 py-2 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
@@ -923,11 +910,11 @@ const MyPlaybook = () => {
       {/* Chef of the Day Quote - simplified text only */}
       <div className="mt-6 text-center">
         {(() => {
-          const quoteOfDay = getChefQuoteOfTheDay();
+          const quoteOfDay = getPioneerQuoteOfTheDay();
           return (
             <>
               <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
-              <div className="text-gray-600">— {quoteOfDay.chef}</div>
+              <div className="text-gray-600">— {quoteOfDay.expert}</div>
             </>
           );
         })()}
@@ -961,7 +948,7 @@ const MyPlaybook = () => {
                         <span className="text-sm">{collection.name}</span>
                       </div>
                       <span className="text-xs text-gray-500 bg-seafoam px-2 py-1 rounded-full">
-                        {collection.recipes.length}
+                        {collection.processes.length}
                       </span>
                     </div>
                   ))}
@@ -976,27 +963,27 @@ const MyPlaybook = () => {
               {/* Create Collection Section */}
               <div className="mb-6">
                 <div className="space-y-2">
-                  {recipes.length > 0 && (
+                  {processes.length > 0 && (
                     <>
                       <p className="text-sm text-gray-600 mb-3">{t('myPlaybook.selectRecipesToAdd')}</p>
                       
                       <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                        {recipes.map((recipe) => (
-                          <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
+                        {processes.map((process) => (
+                          <div key={process.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
                             <div className="flex items-center">
                               <input
                                 type="checkbox"
-                                id={`recipe-${recipe.id}`}
-                                checked={selectedRecipes.includes(recipe.id)}
-                                onChange={() => handleRecipeSelect(recipe.id)}
+                                id={`process-${process.id}`}
+                                checked={selectedProcesses.includes(process.id)}
+                                onClick={() => handleProcessSelect(process.id)}
                                 className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
                               />
-                              <label htmlFor={`recipe-${recipe.id}`} className="text-sm cursor-pointer">
-                                {recipe.name}
+                              <label htmlFor={`process-${process.id}`} className="text-sm cursor-pointer">
+                                {process.name}
                               </label>
                             </div>
                             <div className="flex gap-1">
-                              {recipe.healthTags && recipe.healthTags.length > 0 && (
+                              {process.safetyTags && process.safetyTags.length > 0 && (
                                 <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
                                   🥗
                                 </span>
@@ -1008,11 +995,11 @@ const MyPlaybook = () => {
                     </>
                   )}
                   
-                  {recipes.length === 0 && (
+                  {processes.length === 0 && (
                     <div className="text-center py-4 mb-3">
                       <div className="text-4xl mb-2">📝</div>
-                      <p className="text-gray-500 text-sm">{t('myPlaybook.noRecipesYet')}</p>
-                      <p className="text-gray-500 text-sm">{t('myPlaybook.addRecipesFirst')}</p>
+                      <p className="text-gray-500 text-sm">{t('myPlaybook.noProcessesYet')}</p>
+                      <p className="text-gray-500 text-sm">{t('myPlaybook.addProcessesFirst')}</p>
                     </div>
                   )}
                   
@@ -1021,7 +1008,7 @@ const MyPlaybook = () => {
                     onClick={() => setShowCreateCollectionModal(true)}
                     className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 hover:text-blue-800"
                   >
-                    {t('myPlaybook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
+                    {t('myPlaybook.createCollectionSelected', { count: selectedProcesses.length }).replace('{count}', selectedProcesses.length.toString())}
                   </button>
 
                   {/* View Gradebook Button - Always visible */}
@@ -1691,4 +1678,4 @@ const MyPlaybook = () => {
   );
 };
 
-export default MyCookBook;
+export default MyPlaybook;
