@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { useLevelProgressContext } from './NavBar';
 import WeeklyChallengeFitModal from './WeeklyChallengeFitModal';
 import type { RecipeCard } from './FitMatcherModal';
@@ -313,6 +314,9 @@ function getCurrentWeeklyChallenge() {
 
 const ChallengeOfTheWeek: React.FC = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [open, setOpen] = useState(false);
   const [recipeModalOpen, setRecipeModalOpen] = useState(false);
   const [modalRecipe, setModalRecipe] = useState<RecipeCard | null>(null);
@@ -377,8 +381,8 @@ const ChallengeOfTheWeek: React.FC = () => {
       {!alreadyClaimed ? (
         <button
           className="relative flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100 hover:bg-yellow-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black"
-          title={t('challenge.challengeOfTheWeek') + ": " + challenge.title}
-          aria-label={t('challenge.challengeOfTheWeek') + ": " + challenge.title}
+          title={ct('challengeOfTheWeek') + ": " + challenge.title}
+          aria-label={ct('challengeOfTheWeek') + ": " + challenge.title}
           onClick={() => setOpen(true)}
         >
           <span role="img" aria-label="Trophy">🏆</span>
@@ -386,8 +390,8 @@ const ChallengeOfTheWeek: React.FC = () => {
       ) : (
         <button
           className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 cursor-not-allowed text-2xl border-2 border-black"
-          title={t('challenge.completed')}
-          aria-label={t('challenge.completed')}
+          title={ct('completed')}
+          aria-label={ct('completed')}
           disabled
           style={{ outline: 'none', border: 'none' }}
         >
@@ -406,7 +410,7 @@ const ChallengeOfTheWeek: React.FC = () => {
             <span className="text-3xl mb-2">🏆</span>
             <span className="font-bold text-xl text-yellow-800 mb-1">{challenge.title}</span>
             <span className="text-gray-800 mb-2 text-center">{challenge.description}</span>
-            <span className="text-sm text-gray-500">{t('challenge.viewDetails')}: <b>{challenge.reward.xp} XP</b> and <b>{challenge.reward.badge}</b> badge</span>
+            <span className="text-sm text-gray-500">{ct('viewDetails')}: <b>{challenge.reward.xp} XP</b> and <b>{challenge.reward.badge}</b> badge</span>
             <button
               className="mt-4 px-4 py-2 rounded bg-maineBlue hover:bg-seafoam text-seafoam hover:text-maineBlue font-bold shadow border border-black w-full"
               onClick={handleCookMe}

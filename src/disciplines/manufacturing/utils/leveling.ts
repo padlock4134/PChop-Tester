@@ -68,62 +68,62 @@ export const LEVEL_TITLES_AND_ICONS = [
   { title: "Dishwasher II", icon: "\uD83E\uDDF9" },
   { title: "Dishwasher III", icon: "\uD83E\uDDF9" },
   { title: "Dishwasher IV", icon: "\uD83E\uDDF9" },
-  { title: "Prep Cook", icon: "\uD83E\uDDC8" }, // 🥄
-  { title: "Prep Cook II", icon: "\uD83E\uDDC8" },
-  { title: "Prep Cook III", icon: "\uD83E\uDDC8" },
-  { title: "Prep Cook IV", icon: "\uD83E\uDDC8" },
-  { title: "Line Cook", icon: "\uD83C\uDF73" }, // 🍳
-  { title: "Line Cook II", icon: "\uD83C\uDF73" },
-  { title: "Line Cook III", icon: "\uD83C\uDF73" },
-  { title: "Line Cook IV", icon: "\uD83C\uDF73" },
-  { title: "Commis Chef", icon: "\uD83D\uDD2A" }, // 🔪
-  { title: "Commis Chef II", icon: "\uD83D\uDD2A" },
-  { title: "Commis Chef III", icon: "\uD83D\uDD2A" },
-  { title: "Sous Chef", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" }, // 🧑‍🍳
-  { title: "Sous Chef II", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
-  { title: "Sous Chef III", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
-  { title: "Chef de Partie", icon: "\uD83C\uDF7D\uFE0F" }, // 🍽️
-  { title: "Chef de Partie II", icon: "\uD83C\uDF7D\uFE0F" },
-  { title: "Chef de Partie III", icon: "\uD83C\uDF7D\uFE0F" },
-  { title: "Pastry Chef", icon: "\uD83E\uDDC1" }, // 🧁
-  { title: "Pastry Chef II", icon: "\uD83E\uDDC1" },
-  { title: "Pastry Chef III", icon: "\uD83E\uDDC1" },
-  { title: "Saucier", icon: "\uD83E\uDD63" }, // 🥣
-  { title: "Saucier II", icon: "\uD83E\uDD63" },
-  { title: "Saucier III", icon: "\uD83E\uDD63" },
-  { title: "Sommelier", icon: "\uD83C\uDF77" }, // 🍷
-  { title: "Sommelier II", icon: "\uD83C\uDF77" },
-  { title: "Sommelier III", icon: "\uD83C\uDF77" },
-  { title: "Grillardin", icon: "\uD83C\uDF56" }, // 🍖
-  { title: "Grillardin II", icon: "\uD83C\uDF56" },
-  { title: "Grillardin III", icon: "\uD83C\uDF56" },
-  { title: "Garde Manger", icon: "\uD83E\uDD57" }, // 🥗
-  { title: "Garde Manger II", icon: "\uD83E\uDD57" },
-  { title: "Garde Manger III", icon: "\uD83E\uDD57" },
-  { title: "Executive Chef", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" }, // 👨‍🍳
-  { title: "Executive Chef II", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
-  { title: "Executive Chef III", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
-  { title: "Head Chef", icon: "\uD83C\uDF93" }, // 🎓
-  { title: "Head Chef II", icon: "\uD83C\uDF93" },
-  { title: "Head Chef III", icon: "\uD83C\uDF93" },
-  { title: "Master Chef", icon: "\uD83C\uDFC5" }, // 🏅
-  { title: "Master Chef II", icon: "\uD83C\uDFC5" },
-  { title: "Master Chef III", icon: "\uD83C\uDFC5" },
-  { title: "Culinary Director", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" }, // 👨‍💼
-  { title: "Culinary Director II", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
-  { title: "Culinary Director III", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
-  { title: "Celebrity Chef", icon: "\u2B50" }, // ⭐
-  { title: "Celebrity Chef II", icon: "\u2B50" },
-  { title: "Celebrity Chef III", icon: "\u2B50" },
-  { title: "Iron Chef", icon: "\uD83E\uDDBE" }, // 🦾
-  { title: "Iron Chef II", icon: "\uD83E\uDDBE" },
-  { title: "Iron Chef III", icon: "\uD83E\uDDBE" },
-  { title: "Legendary Chef", icon: "\uD83D\uDC09" }, // 🐉
-  { title: "Legendary Chef II", icon: "\uD83D\uDC09" },
-  { title: "Legendary Chef III", icon: "\uD83D\uDC09" },
-  { title: "Legendary Chef IV", icon: "\uD83D\uDC09" },
-  { title: "Legendary Chef V", icon: "\uD83D\uDC09" },
-  { title: "Toji Master", icon: "\uD83C\uDF76" }, // 🍶
+  { title: "Prep Builder", icon: "\uD83E\uDDC8" }, // 🥄
+  { title: "Prep Builder II", icon: "\uD83E\uDDC8" },
+  { title: "Prep Builder III", icon: "\uD83E\uDDC8" },
+  { title: "Prep Builder IV", icon: "\uD83E\uDDC8" },
+  { title: "Line Builder", icon: "\uD83C\uDF73" }, // 🍳
+  { title: "Line Builder II", icon: "\uD83C\uDF73" },
+  { title: "Line Builder III", icon: "\uD83C\uDF73" },
+  { title: "Line Builder IV", icon: "\uD83C\uDF73" },
+  { title: "Apprentice Builder", icon: "\uD83D\uDD2A" }, // 🔪
+  { title: "Apprentice Builder II", icon: "\uD83D\uDD2A" },
+  { title: "Apprentice Builder III", icon: "\uD83D\uDD2A" },
+  { title: "Team Builder", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" }, // 🧑‍🍳
+  { title: "Team Builder II", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
+  { title: "Team Builder III", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
+  { title: "Specialist Builder", icon: "\uD83C\uDF7D\uFE0F" }, // 🍽️
+  { title: "Specialist Builder II", icon: "\uD83C\uDF7D\uFE0F" },
+  { title: "Specialist Builder III", icon: "\uD83C\uDF7D\uFE0F" },
+  { title: "Pastry Builder", icon: "\uD83E\uDDC1" }, // 🧁
+  { title: "Pastry Builder II", icon: "\uD83E\uDDC1" },
+  { title: "Pastry Builder III", icon: "\uD83E\uDDC1" },
+  { title: "Process Specialist", icon: "\uD83E\uDD63" }, // 🥣
+  { title: "Process Specialist II", icon: "\uD83E\uDD63" },
+  { title: "Process Specialist III", icon: "\uD83E\uDD63" },
+  { title: "Quality Specialist", icon: "\uD83C\uDF77" }, // 🍷
+  { title: "Quality Specialist II", icon: "\uD83C\uDF77" },
+  { title: "Quality Specialist III", icon: "\uD83C\uDF77" },
+  { title: "Field Specialist", icon: "\uD83C\uDF56" }, // 🍖
+  { title: "Field Specialist II", icon: "\uD83C\uDF56" },
+  { title: "Field Specialist III", icon: "\uD83C\uDF56" },
+  { title: "Inventory Specialist", icon: "\uD83E\uDD57" }, // 🥗
+  { title: "Inventory Specialist II", icon: "\uD83E\uDD57" },
+  { title: "Inventory Specialist III", icon: "\uD83E\uDD57" },
+  { title: "Executive Builder", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" }, // 👨‍🍳
+  { title: "Executive Builder II", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
+  { title: "Executive Builder III", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
+  { title: "Head Builder", icon: "\uD83C\uDF93" }, // 🎓
+  { title: "Head Builder II", icon: "\uD83C\uDF93" },
+  { title: "Head Builder III", icon: "\uD83C\uDF93" },
+  { title: "Master Builder", icon: "\uD83C\uDFC5" }, // 🏅
+  { title: "Master Builder II", icon: "\uD83C\uDFC5" },
+  { title: "Master Builder III", icon: "\uD83C\uDFC5" },
+  { title: "Program Director", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" }, // 👨‍💼
+  { title: "Program Director II", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
+  { title: "Program Director III", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
+  { title: "Celebrity Builder", icon: "\u2B50" }, // ⭐
+  { title: "Celebrity Builder II", icon: "\u2B50" },
+  { title: "Celebrity Builder III", icon: "\u2B50" },
+  { title: "Iron Builder", icon: "\uD83E\uDDBE" }, // 🦾
+  { title: "Iron Builder II", icon: "\uD83E\uDDBE" },
+  { title: "Iron Builder III", icon: "\uD83E\uDDBE" },
+  { title: "Legendary Builder", icon: "\uD83D\uDC09" }, // 🐉
+  { title: "Legendary Builder II", icon: "\uD83D\uDC09" },
+  { title: "Legendary Builder III", icon: "\uD83D\uDC09" },
+  { title: "Legendary Builder IV", icon: "\uD83D\uDC09" },
+  { title: "Legendary Builder V", icon: "\uD83D\uDC09" },
+  { title: "Craft Master", icon: "\uD83C\uDF76" }, // 🍶
 ];
 
 // XP per activity (example)
