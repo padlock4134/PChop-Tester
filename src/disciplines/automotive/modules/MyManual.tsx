@@ -455,7 +455,7 @@ const MyManual = () => {
       <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">Loading your manual...</div>
+          <div className="text-lg font-retro mb-2">{t('myManual.loadingManual')}</div>
         </div>
       </div>
     );
@@ -787,9 +787,9 @@ const MyManual = () => {
       <div className="mt-4">
         {filteredProcedures.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
-            {recipes.length === 0 
-              ? 'No recipes yet. Add your first recipe!' 
-              : 'No recipes match your search criteria.'}
+            {procedures.length === 0 
+              ? t('myManual.noProceduresYet') 
+              : t('myManual.noMatchingProcedures')}
           </div>
         ) : (
           <div 

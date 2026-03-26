@@ -271,7 +271,7 @@ const ShopTalk = () => {
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
                         disabled={isLoading}
                       >
-                        {isLoading ? 'Loading...' : 'Import from Playbook'}
+                        {isLoading ? t('shopTalk.loading') : 'Import from Playbook'}
                       </button>
                     </div>
                   </div>
