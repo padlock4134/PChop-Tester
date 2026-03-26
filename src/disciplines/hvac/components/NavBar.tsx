@@ -35,10 +35,20 @@ export const useLevelProgressContext = () => useContext(LevelProgressContext);
 
 
 const useLevelProgress = (): [LevelProgress, () => void] => {
+  const { t, i18n } = useTranslation();
+  const getLocalizedLevelMeta = (level: number) => {
+    const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
+    const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+    return {
+      title: t(`levels.hvac.titles.${level}`, { defaultValue: title }),
+      icon,
+    };
+  };
+  const defaultLevelMeta = getLocalizedLevelMeta(1);
   const [progress, setProgress] = useState<LevelProgress>({
-    title: LEVEL_TITLES_AND_ICONS[0].title,
+    title: defaultLevelMeta.title,
     level: 1,
-    icon: LEVEL_TITLES_AND_ICONS[0].icon,
+    icon: defaultLevelMeta.icon,
     current: 0,
     required: 100,
     progressPercent: 0,
@@ -61,10 +71,7 @@ const useLevelProgress = (): [LevelProgress, () => void] => {
 
     const { level, current, required } = getXPProgress(data.xp);
     
-    // Map level to title index
-    // Map level directly to LEVEL_TITLES_AND_ICONS index (level 1 = index 0, level 2 = index 1, ...)
-    const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-    const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+    const { title, icon } = getLocalizedLevelMeta(level);
     const progressPercent = (current / required) * 100;
 
     setProgress({
@@ -80,7 +87,7 @@ const useLevelProgress = (): [LevelProgress, () => void] => {
   useEffect(() => {
     fetchXpRef.current = fetchXp;
     fetchXp();
-  }, []);
+  }, [i18n.language, user?.id]);
 
   const refreshXP = () => {
     if (fetchXpRef.current) fetchXpRef.current();
@@ -287,4 +294,3 @@ const NavBarWithProvider: React.FC = (props) => {
 };
 
 export default NavBarWithProvider;
-
