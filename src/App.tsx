@@ -330,13 +330,12 @@ const AppRoutes = () => {
 
   // Get discipline components for NavBar
   const disciplineFromPath = getDisciplineFromPath(location.pathname);
-  const discipline = disciplineFromPath || 'culinary';
-  const components = getDisciplineComponents(discipline);
-  const { NavBar } = components;
+  const discipline = disciplineFromPath;
+  const components = discipline ? getDisciplineComponents(discipline) : null;
 
   return (
     <div className="min-h-screen bg-sand">
-      {!isDisciplineSelect && <NavBar />}
+      {!isDisciplineSelect && components?.NavBar && <components.NavBar />}
       <main className={`max-w-5xl mx-auto px-4 pt-4 pb-8`}>
         <Routes>
           <Route path="/select-discipline" element={<DisciplineSelector />} />
@@ -418,7 +417,7 @@ const AppRoutes = () => {
           <Route path="*" element={<Navigate to="/select-discipline" replace />} />
         </Routes>
       </main>
-      {!isDisciplineSelect && !isAdminRoute && components.FreddieWidget && <components.FreddieWidget />}
+      {!isDisciplineSelect && !isAdminRoute && components?.FreddieWidget && <components.FreddieWidget />}
       {/* InactivityWarningModal temporarily disabled to fix loading issue */}
     </div>
   );
