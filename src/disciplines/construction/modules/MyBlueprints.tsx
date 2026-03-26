@@ -25,13 +25,13 @@ const chefQuotes = [
   { chef: 'Rene Redzepi', quote: 'Innovation, being avant-garde, is always polemic.' },
   { chef: 'Heston Blumenthal', quote: 'Question everything. No idea is a bad idea.' },
   { chef: 'Alain Ducasse', quote: 'Cooking is a way of giving.' },
-  { chef: 'Rachel Ray', quote: 'Good food and a warm kitchen are what make a house a home.' },
+  { chef: 'Rachel Ray', quote: 'Good work and a safe workspace are what make a team strong.' },
   { chef: 'Pierre Gagnaire', quote: 'Cooking is not difficult. Everyone has taste, even if they don\'t realize it.' },
   { chef: 'Paul Bocuse', quote: 'Cooking is not just eating energy. It\'s an experience.' },
   { chef: 'Joël Robuchon', quote: 'The simpler the food, the more exceptional it can be.' },
   { chef: 'Marco Pierre White', quote: 'Mother Nature is the true artist and our job as cooks is to allow her to shine.' },
   { chef: 'Jamie Oliver', quote: 'Real food doesn\'t have ingredients, real food is ingredients.' },
-  { chef: 'Nigella Lawson', quote: 'I have always believed that what goes on in the kitchen should stay in the kitchen.' }
+  { chef: 'Nigella Lawson', quote: 'I have always believed that what is learned in the workshop should raise standards everywhere.' }
 ];
 
 export function getChefQuoteOfTheDay() {
@@ -1566,8 +1566,8 @@ const MyBlueprints = () => {
               ) : (savedVideos.length === 0 && false) ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
-                  <p className="text-gray-600 text-lg">No videos saved yet</p>
-                  <p className="text-gray-500 text-sm mt-2">Record a session in Global Test Kitchen to see it here!</p>
+                  <p className="text-gray-600 text-lg">{t('myBlueprints.noVideosSaved')}</p>
+                  <p className="text-gray-500 text-sm mt-2">{t('myBlueprints.recordInTestKitchen')}</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -1615,7 +1615,7 @@ const MyBlueprints = () => {
                     >
                       <div className="p-4 flex items-center justify-between">
                         <div className="flex items-center gap-4 flex-1">
-                          <div className="text-4xl">�</div>
+                          <div className="text-4xl">🔧</div>
                           <div className="flex-1">
                             <h3 className="font-bold text-purple-800 text-lg">{video.name.replace('.webm', '')}</h3>
                             <div className="flex items-center gap-3 mt-1">
@@ -1695,7 +1695,7 @@ const MyBlueprints = () => {
                   {selectedLibraryVideo.userId !== user?.id && (
                     <p>👤 Uploaded by: {selectedLibraryVideo.userId.substring(0, 8)}...</p>
                   )}
-                  <p className="mt-1">🎥 Recorded in Global Test Kitchen</p>
+                  <p className="mt-1">🎥 {t('myBlueprints.recordedInWorkspace')}</p>
                 </div>
               </div>
             </div>

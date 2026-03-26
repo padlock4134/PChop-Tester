@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import { RecipeCard } from './RepairMatcherModal';
@@ -14,6 +15,9 @@ interface BuildMenuModalProps {
 
 const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMarkets }) => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const bt = (key: string) => t(`buildMenu.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`buildMenu.${key}`) });
   const { user } = useSupabase();
   const [recipes, setRecipes] = useState<RecipeCard[]>([]);
   const [selectedRecipeIds, setSelectedRecipeIds] = useState<Set<string>>(new Set());
@@ -99,7 +103,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     yPos += 8;
 
     const marketTypeLabels: Record<string, string> = {
-      seafood: '� Auto Parts Store',
+      seafood: '🔧 Auto Parts Store',
       butcher: '⚙️ Performance Shop',
       produce: '🔩 Hardware Store',
       dairy: '🛢️ Fluids & Chemicals',
@@ -175,22 +179,22 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
           {/* Instructions */}
           <p className="text-sm text-gray-600 mb-4">
-            Select services from your manual to build your work order, then find local parts suppliers.
+            {bt('selectRecipes')}
           </p>
 
           {/* Two Column Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 flex-1 overflow-hidden">
             {/* Left: Recipe Picklist */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 Available Services</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 {bt('availableItems')}</h3>
               {loading ? (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
-                  <p className="text-gray-500 mt-2">Loading...</p>
+                  <p className="text-gray-500 mt-2">{bt('loading')}</p>
                 </div>
               ) : recipes.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-500 text-sm">No services in your manual yet.</p>
+                  <p className="text-gray-500 text-sm">{bt('noItems')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
@@ -213,7 +217,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                         <div className="font-medium text-sm text-gray-900 truncate">{recipe.title}</div>
                         {recipe.ingredients && (
                           <div className="text-xs text-gray-400">
-                            {recipe.ingredients.length} parts
+                            {bt('itemsCount').replace('{count}', recipe.ingredients.length.toString())}
                           </div>
                         )}
                       </div>
@@ -225,10 +229,10 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
             {/* Right: Your Work Order */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">🔧 Your Work Order</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">🔧 {bt('yourMenu')}</h3>
               {selectedRecipeIds.size === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                  <p className="text-gray-400 text-sm">Select services to build your work order</p>
+                  <p className="text-gray-400 text-sm">{bt('selectToStart')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
@@ -244,14 +248,14 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                             <div className="font-medium text-gray-900">{idx + 1}. {recipe.title}</div>
                             {recipe.ingredients && (
                               <div className="text-xs text-gray-500 mt-1">
-                                {recipe.ingredients.length} parts needed
+                                {bt('itemsCountNeeded').replace('{count}', recipe.ingredients.length.toString())}
                               </div>
                             )}
                           </div>
                           <button
                             onClick={() => toggleRecipe(recipe.id)}
                             className="text-red-500 hover:text-red-700 ml-2"
-                            title={t('buildMenu.removeFromMenu')}
+                            title={bt('removeFromMenu')}
                           >
                             ✕
                           </button>
@@ -266,14 +270,14 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t flex-shrink-0">
             <div className="text-sm text-gray-600">
-              {selectedRecipeIds.size} service(s) selected
+              {selectedRecipeIds.size} {bt('recipesSelected')}
             </div>
             <div className="flex gap-2">
               <button
                 onClick={onClose}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
               >
-                Cancel
+                {bt('cancel')}
               </button>
               <button
                 onClick={handleCreateMenuPDF}
@@ -295,7 +299,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                     : 'bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue border border-maineBlue'
                 }`}
               >
-                � Find Parts Suppliers
+                🔎 {bt('findMarkets')}
               </button>
             </div>
           </div>
@@ -306,4 +310,3 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 };
 
 export default BuildMenuModal;
-
