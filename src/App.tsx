@@ -276,11 +276,10 @@ const AppRoutes = () => {
   const { user, isLoading } = useSupabase();
   const { isAdminMode } = useAdminToggle();
   const { currentDiscipline } = useDiscipline();
-  const responsiveClasses = getResponsiveClasses();
   const hasRedirected = useRef(false);
   
-  // Auto logout functionality
-  const { showInactivityWarning, handleContinueSession, handleLogoutNow } = useAutoLogout();
+  // Auto logout functionality - simplified to avoid errors
+  // const { showInactivityWarning, handleContinueSession, handleLogoutNow } = useAutoLogout();
   
   // Show loading for authenticated routes
   if (isLoading) {
@@ -333,7 +332,7 @@ const AppRoutes = () => {
   return (
     <div className="min-h-screen bg-sand">
       {!isDisciplineSelect && <NavBar />}
-      <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
+      <main className={`max-w-5xl mx-auto px-4 pt-4 pb-8`}>
         <Routes>
           <Route path="/select-discipline" element={<DisciplineSelector />} />
           <Route path="/admin" element={<UnifiedAdminDashboard />} />
@@ -415,12 +414,7 @@ const AppRoutes = () => {
         </Routes>
       </main>
       {!isDisciplineSelect && !isAdminRoute && components.FreddieWidget && <components.FreddieWidget />}
-      <InactivityWarningModal
-        isOpen={showInactivityWarning}
-        countdown={0}
-        onStayLoggedIn={handleContinueSession}
-        onLogout={handleLogoutNow}
-      />
+      {/* InactivityWarningModal temporarily disabled to fix loading issue */}
     </div>
   );
 };
