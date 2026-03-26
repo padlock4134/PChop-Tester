@@ -78,7 +78,7 @@ const DisciplineSelector: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedDiscipline) {
-      // Store the selected discipline for the session
+      // ALWAYS save selectedDiscipline to localStorage
       localStorage.setItem('selectedDiscipline', selectedDiscipline);
       
       if (isAdmin) {
@@ -93,19 +93,11 @@ const DisciplineSelector: React.FC = () => {
           storageArea: localStorage
         }));
         
-        // ALWAYS go to unified admin dashboard, ignore intended destinations
-        localStorage.removeItem('intendedDestination');
-        navigate('/admin'); // This goes to UnifiedAdminDashboard
+        // Routing: Admin -> /admin
+        navigate('/admin');
       } else {
-        // Check if there was an intended destination
-        const intendedDestination = localStorage.getItem('intendedDestination');
-        if (intendedDestination && intendedDestination.startsWith(`/${selectedDiscipline}/`)) {
-          // Clear the intended destination and navigate there
-          localStorage.removeItem('intendedDestination');
-          navigate(intendedDestination);
-        } else {
-          navigate(`/${selectedDiscipline}/dashboard`);
-        }
+        // Routing: User -> /{selectedDiscipline}/dashboard
+        navigate(`/${selectedDiscipline}/dashboard`);
       }
     }
   };

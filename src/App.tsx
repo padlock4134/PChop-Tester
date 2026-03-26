@@ -136,26 +136,20 @@ const AdminToggleProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 const HomeRedirect = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { authStatus } = useWristbandAuth();
-  const { user, isLoading, isAdmin } = useSupabase();
+  const { user, isLoading } = useSupabase();
 
   useEffect(() => {
     if (isLoading) return;
     
-    // If authenticated and user is loaded, always redirect to discipline selector first
+    // If authenticated and user is loaded, always redirect to discipline selector
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
-      // If user is on the root path, always go to discipline selector
-      if (location.pathname === '/' || location.pathname === '') {
-        // Always redirect to discipline selector after login
-        navigate('/select-discipline', { replace: true });
-      }
-      // If user is already on a specific page, don't redirect - let them stay there
+      navigate('/select-discipline', { replace: true });
     } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
       // Not authenticated, redirect to login
       window.location.href = '/.netlify/functions/auth-login';
     }
-  }, [authStatus, user, isLoading, navigate, location.pathname, isAdmin]);
+  }, [authStatus, user, isLoading, navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-sand">
@@ -270,47 +264,15 @@ const getDisciplineComponents = (discipline: string) => {
 const AppRoutes = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
   const { authStatus } = useWristbandAuth();
-  const { user, isLoading, refreshAuthState } = useSupabase();
+  const { user, isLoading } = useSupabase();
   const { isAdminMode } = useAdminToggle();
+  const { currentDiscipline } = useDiscipline();
+  const responsiveClasses = getResponsiveClasses();
   
-  // Save current page to localStorage for persistence on refresh
-  useEffect(() => {
-    if (user && location.pathname !== '/' && location.pathname !== '') {
-      localStorage.setItem('lastPage', location.pathname);
-      
-      // Also save to sessionStorage for more immediate persistence
-      sessionStorage.setItem('lastPath', location.pathname);
-      
-      // Clear any intended destination if user navigates directly to a discipline page
-      if (location.pathname !== '/select-discipline' && location.pathname !== '/admin') {
-        localStorage.removeItem('intendedDestination');
-      }
-    }
-  }, [location.pathname, user]);
+  // Auto logout functionality
+  const { showInactivityWarning, handleContinueSession, handleLogoutNow } = useAutoLogout();
   
-  // Get current discipline from path
-  const currentDiscipline = getDisciplineFromPath(location.pathname) || 'culinary';
-  const components = getDisciplineComponents(currentDiscipline);
-  
-  const NavBar = components.NavBar;
-  const Dashboard = components.Dashboard;
-  const FreddieWidget = components.FreddieWidget;
-  
-  // Use the device detection hook
-  const { deviceType } = useDeviceDetect();
-  
-  // Get responsive classes based on device type
-  const responsiveClasses = getResponsiveClasses(deviceType);
-
-  // Auto-logout after 30 minutes of inactivity with 2-minute warning
-  const { showWarning, countdown, stayLoggedIn, logoutNow } = useAutoLogout({
-    inactivityTimeout: 30 * 60 * 1000, // 30 minutes
-    warningTime: 2 * 60 * 1000, // 2 minutes warning
-    enabled: !!user // Only enable when user is authenticated
-  });
-
   // Show loading for authenticated routes
   if (isLoading) {
     return (
@@ -325,10 +287,37 @@ const AppRoutes = () => {
     return <Navigate to="/" replace />;
   }
 
-  
+  // Global post-auth gate
+  useEffect(() => {
+    if (!user) return;
+    
+    const currentPath = location.pathname;
+    const disciplineFromPath = getDisciplineFromPath(currentPath);
+    
+    // If NOT on allowed routes, redirect to selector
+    if (currentPath !== '/select-discipline' && 
+        currentPath !== '/admin' && 
+        !disciplineFromPath) {
+      navigate('/select-discipline');
+      return;
+    }
+    
+    // If user has NOT selected a discipline → FORCE selector
+    const selectedDiscipline = localStorage.getItem('selectedDiscipline');
+    if (!selectedDiscipline && currentPath !== '/select-discipline' && currentPath !== '/admin') {
+      navigate('/select-discipline');
+      return;
+    }
+  }, [user, location.pathname, navigate]);
 
   const isDisciplineSelect = location.pathname === '/select-discipline';
   const isAdminRoute = location.pathname === '/admin';
+
+  // Get discipline components for NavBar
+  const disciplineFromPath = getDisciplineFromPath(location.pathname);
+  const discipline = disciplineFromPath || 'culinary';
+  const components = getDisciplineComponents(discipline);
+  const { NavBar } = components;
 
   return (
     <div className="min-h-screen bg-sand">
@@ -411,14 +400,15 @@ const AppRoutes = () => {
           <Route path="/machining/profile" element={<MachiningProfile />} />
           
           <Route path="/" element={<HomeRedirect />} />
+          <Route path="*" element={<Navigate to="/select-discipline" replace />} />
         </Routes>
       </main>
-      {!isDisciplineSelect && !isAdminRoute && <FreddieWidget />}
+      {!isDisciplineSelect && !isAdminRoute && components.FreddieWidget && <components.FreddieWidget />}
       <InactivityWarningModal
-        isOpen={showWarning}
-        countdown={countdown}
-        onStayLoggedIn={stayLoggedIn}
-        onLogout={logoutNow}
+        isOpen={showInactivityWarning}
+        countdown={0}
+        onStayLoggedIn={handleContinueSession}
+        onLogout={handleLogoutNow}
       />
     </div>
   );
