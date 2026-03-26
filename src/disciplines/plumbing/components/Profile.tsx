@@ -795,10 +795,10 @@ const Profile = () => {
     
     // Get filter labels for display
     const userRoleLabel = filterOptions.userRoles.find(r => r.value === selectedUserRole)?.label || 'Administrator';
-    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || 'All Departments';
-    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || 'All Classes';
+    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' });
+    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' });
     const timeRangeLabel = filterOptions.timeRanges.find(t => t.value === selectedTimeRange)?.label || 'Last 30 Days';
-    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || 'All Students';
+    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' });
     
     // Clean text function to remove problematic characters
     const cleanText = (text: string) => {

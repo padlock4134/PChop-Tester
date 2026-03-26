@@ -515,7 +515,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   const handleSubmit = () => {
     if (!selectedType) {
-      alert('Please select a request type');
+      alert(t('profile.requests.selectTypeAlert', { defaultValue: 'Please select a request type' }));
       return;
     }
     setShowSuccess(true);
@@ -572,7 +572,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
                 onChange={(e) => setSelectedType(e.target.value)}
                 className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none"
               >
-                <option value="">Select a request type...</option>
+                <option value="">{t('profile.requests.selectTypePlaceholder', { defaultValue: 'Select a request type...' })}</option>
                 {requestTypes.map((type) => (
                   <option key={type.id} value={type.id}>
                     {type.icon} {type.name}
@@ -924,10 +924,10 @@ const Profile = () => {
     
     // Get filter labels for display
     const userRoleLabel = filterOptions.userRoles.find(r => r.value === selectedUserRole)?.label || 'Administrator';
-    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || 'All Departments';
-    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || 'All Classes';
+    const departmentLabel = filterOptions.departments.find(d => d.value === selectedDepartment)?.label || t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' });
+    const classLabel = filterOptions.classes.find(c => c.value === selectedClass)?.label || t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' });
     const timeRangeLabel = filterOptions.timeRanges.find(t => t.value === selectedTimeRange)?.label || 'Last 30 Days';
-    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || 'All Students';
+    const segmentLabel = filterOptions.studentSegments.find(s => s.value === selectedStudentSegment)?.label || t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' });
     
     // Clean text function to remove problematic characters
     const cleanText = (text: string) => {
