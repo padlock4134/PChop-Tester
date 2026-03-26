@@ -288,11 +288,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, vehicleType: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Cars">🚗 Cars</option>
-              <option value="Trucks">🚚 Trucks</option>
-              <option value="Motorcycles">🏍️ Motorcycles</option>
-              <option value="Hybrids">🔋 Hybrids</option>
-              <option value="Electric">⚡ Electric</option>
+              <option value="Cars">🚗 {t('profile.vehicleOptions.cars', { defaultValue: 'Cars' })}</option>
+              <option value="Trucks">🚚 {t('profile.vehicleOptions.trucks', { defaultValue: 'Trucks' })}</option>
+              <option value="Motorcycles">🏍️ {t('profile.vehicleOptions.motorcycles', { defaultValue: 'Motorcycles' })}</option>
+              <option value="Hybrids">🔋 {t('profile.vehicleOptions.hybrids', { defaultValue: 'Hybrids' })}</option>
+              <option value="Electric">⚡ {t('profile.vehicleOptions.electric', { defaultValue: 'Electric' })}</option>
             </select>
           </div>
 
@@ -304,10 +304,10 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, certifications: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="ASE Certified">🔧 ASE Certified</option>
-              <option value="EPA 609">🛡️ EPA 609</option>
-              <option value="Manufacturer Training">🏭️ Manufacturer Training</option>
-              <option value="None">🍽️ None</option>
+              <option value="ASE Certified">🔧 {t('profile.certificationOptions.aseCertified', { defaultValue: 'ASE Certified' })}</option>
+              <option value="EPA 609">🛡️ {t('profile.certificationOptions.epa609', { defaultValue: 'EPA 609' })}</option>
+              <option value="Manufacturer Training">🏭️ {t('profile.certificationOptions.manufacturerTraining', { defaultValue: 'Manufacturer Training' })}</option>
+              <option value="None">🍽️ {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
             </select>
           </div>
 
@@ -319,11 +319,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, garageSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Home Garage">🏠 Home Garage</option>
-              <option value="Professional Shop">🏭️ Professional Shop</option>
-              <option value="Mobile Service">🚐 Mobile Service</option>
-              <option value="School Lab">🏫 School Lab</option>
-              <option value="Minimal Setup">📦 Minimal Setup</option>
+              <option value="Home Garage">🏠 {t('profile.garageOptions.homeGarage', { defaultValue: 'Home Garage' })}</option>
+              <option value="Professional Shop">🏭️ {t('profile.garageOptions.professionalShop', { defaultValue: 'Professional Shop' })}</option>
+              <option value="Mobile Service">🚐 {t('profile.garageOptions.mobileService', { defaultValue: 'Mobile Service' })}</option>
+              <option value="School Lab">🏫 {t('profile.garageOptions.schoolLab', { defaultValue: 'School Lab' })}</option>
+              <option value="Minimal Setup">📦 {t('profile.garageOptions.minimalSetup', { defaultValue: 'Minimal Setup' })}</option>
             </select>
           </div>
 
@@ -335,10 +335,10 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, experienceLevel: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Advanced">⭐ Advanced</option>
-              <option value="Beginner">🌱 Beginner</option>
-              <option value="Intermediate">📈 Intermediate</option>
-              <option value="Professional">🏭️ Professional</option>
+              <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
+              <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
+              <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
+              <option value="Professional">🏭️ {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -747,42 +747,42 @@ const Profile = () => {
   // Filter options for reports
   const filterOptions = {
     userRoles: [
-      { value: 'administrator', label: 'School Administrator', description: 'High-level institutional overview' },
-      { value: 'department_head', label: 'Department Head', description: 'Department-specific insights' },
-      { value: 'instructor', label: 'Individual Instructor', description: 'Class-specific data only' },
-      { value: 'coordinator', label: 'Academic Coordinator', description: 'Cross-department analysis' }
+      { value: 'administrator', label: t('profile.filterOptions.userRoles.administrator.label', { defaultValue: 'School Administrator' }), description: t('profile.filterOptions.userRoles.administrator.description', { defaultValue: 'High-level institutional overview' }) },
+      { value: 'department_head', label: t('profile.filterOptions.userRoles.departmentHead.label', { defaultValue: 'Department Head' }), description: t('profile.filterOptions.userRoles.departmentHead.description', { defaultValue: 'Department-specific insights' }) },
+      { value: 'instructor', label: t('profile.filterOptions.userRoles.instructor.label', { defaultValue: 'Individual Instructor' }), description: t('profile.filterOptions.userRoles.instructor.description', { defaultValue: 'Class-specific data only' }) },
+      { value: 'coordinator', label: t('profile.filterOptions.userRoles.coordinator.label', { defaultValue: 'Academic Coordinator' }), description: t('profile.filterOptions.userRoles.coordinator.description', { defaultValue: 'Cross-department analysis' }) }
     ],
     departments: [
-      { value: 'all', label: 'All Departments' },
-      { value: 'culinary_arts', label: 'Culinary Arts' },
-      { value: 'baking_pastry', label: 'Baking & Pastry' },
-      { value: 'business', label: 'Culinary Business' },
-      { value: 'nutrition', label: 'Nutrition & Dietetics' }
+      { value: 'all', label: t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' }) },
+      { value: 'culinary_arts', label: t('profile.filterOptions.departments.culinaryArts', { defaultValue: 'Culinary Arts' }) },
+      { value: 'baking_pastry', label: t('profile.filterOptions.departments.bakingPastry', { defaultValue: 'Baking & Pastry' }) },
+      { value: 'business', label: t('profile.filterOptions.departments.business', { defaultValue: 'Culinary Business' }) },
+      { value: 'nutrition', label: t('profile.filterOptions.departments.nutrition', { defaultValue: 'Nutrition & Dietetics' }) }
     ],
     classes: [
-      { value: 'all', label: 'All Classes' },
-      { value: 'fundamentals', label: 'Fundamentals of Cooking' },
-      { value: 'advanced_techniques', label: 'Advanced Culinary Techniques' },
-      { value: 'food_safety', label: 'Food Safety & Sanitation' },
-      { value: 'menu_planning', label: 'Menu Planning & Costing' },
-      { value: 'baking_basics', label: 'Baking Fundamentals' },
-      { value: 'pastry_arts', label: 'Advanced Pastry Arts' }
+      { value: 'all', label: t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' }) },
+      { value: 'fundamentals', label: t('profile.filterOptions.classes.fundamentals', { defaultValue: 'Fundamentals of Cooking' }) },
+      { value: 'advanced_techniques', label: t('profile.filterOptions.classes.advancedTechniques', { defaultValue: 'Advanced Culinary Techniques' }) },
+      { value: 'food_safety', label: t('profile.filterOptions.classes.foodSafety', { defaultValue: 'Food Safety & Sanitation' }) },
+      { value: 'menu_planning', label: t('profile.filterOptions.classes.menuPlanning', { defaultValue: 'Menu Planning & Costing' }) },
+      { value: 'baking_basics', label: t('profile.filterOptions.classes.bakingBasics', { defaultValue: 'Baking Fundamentals' }) },
+      { value: 'pastry_arts', label: t('profile.filterOptions.classes.pastryArts', { defaultValue: 'Advanced Pastry Arts' }) }
     ],
     timeRanges: [
-      { value: '7days', label: 'Last 7 Days' },
-      { value: '30days', label: 'Last 30 Days' },
-      { value: 'semester', label: 'Current Semester' },
-      { value: 'academic_year', label: 'Academic Year' },
-      { value: 'custom', label: 'Custom Range' }
+      { value: '7days', label: t('profile.filterOptions.timeRanges.days7', { defaultValue: 'Last 7 Days' }) },
+      { value: '30days', label: t('profile.filterOptions.timeRanges.days30', { defaultValue: 'Last 30 Days' }) },
+      { value: 'semester', label: t('profile.filterOptions.timeRanges.semester', { defaultValue: 'Current Semester' }) },
+      { value: 'academic_year', label: t('profile.filterOptions.timeRanges.academicYear', { defaultValue: 'Academic Year' }) },
+      { value: 'custom', label: t('profile.filterOptions.timeRanges.custom', { defaultValue: 'Custom Range' }) }
     ],
     studentSegments: [
-      { value: 'all', label: 'All Students' },
-      { value: 'top_performers', label: 'Top 25% Performers' },
-      { value: 'struggling', label: 'Students Needing Support' },
-      { value: 'full_time', label: 'Full-Time Students' },
-      { value: 'part_time', label: 'Part-Time Students' },
-      { value: 'certificate', label: 'Certificate Program' },
-      { value: 'diploma', label: 'Diploma Program' }
+      { value: 'all', label: t('profile.filterOptions.studentSegments.all', { defaultValue: 'All Students' }) },
+      { value: 'top_performers', label: t('profile.filterOptions.studentSegments.topPerformers', { defaultValue: 'Top 25% Performers' }) },
+      { value: 'struggling', label: t('profile.filterOptions.studentSegments.struggling', { defaultValue: 'Students Needing Support' }) },
+      { value: 'full_time', label: t('profile.filterOptions.studentSegments.fullTime', { defaultValue: 'Full-Time Students' }) },
+      { value: 'part_time', label: t('profile.filterOptions.studentSegments.partTime', { defaultValue: 'Part-Time Students' }) },
+      { value: 'certificate', label: t('profile.filterOptions.studentSegments.certificate', { defaultValue: 'Certificate Program' }) },
+      { value: 'diploma', label: t('profile.filterOptions.studentSegments.diploma', { defaultValue: 'Diploma Program' }) }
     ]
   };
 
