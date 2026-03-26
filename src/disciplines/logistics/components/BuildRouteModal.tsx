@@ -186,15 +186,15 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 flex-1 overflow-hidden">
             {/* Left: Recipe Picklist */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 Available Recipes</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 {bt('availableItems')}</h3>
               {loading ? (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
-                  <p className="text-gray-500 mt-2">Loading...</p>
+                  <p className="text-gray-500 mt-2">{bt('loading')}</p>
                 </div>
               ) : recipes.length === 0 ? (
                 <div className="text-center py-8">
-                  <p className="text-gray-500 text-sm">No recipes in your cookbook yet.</p>
+                  <p className="text-gray-500 text-sm">{bt('noItems')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
@@ -217,7 +217,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                         <div className="font-medium text-sm text-gray-900 truncate">{recipe.title}</div>
                         {recipe.ingredients && (
                           <div className="text-xs text-gray-400">
-                            {recipe.ingredients.length} ingredients
+                            {bt('itemsCount').replace('{count}', recipe.ingredients.length.toString())}
                           </div>
                         )}
                       </div>
@@ -248,7 +248,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                             <div className="font-medium text-gray-900">{idx + 1}. {recipe.title}</div>
                             {recipe.ingredients && (
                               <div className="text-xs text-gray-500 mt-1">
-                                {recipe.ingredients.length} ingredients needed
+                                {bt('itemsCountNeeded').replace('{count}', recipe.ingredients.length.toString())}
                               </div>
                             )}
                           </div>
@@ -277,7 +277,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                 onClick={onClose}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
               >
-                Cancel
+                {bt('cancel')}
               </button>
               <button
                 onClick={handleCreateMenuPDF}
