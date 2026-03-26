@@ -1,7 +1,7 @@
 [
   {
     "discipline": "hvac",
-    "totalHits": 1653,
+    "totalHits": 1654,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -48,7 +48,7 @@
   },
   {
     "discipline": "construction",
-    "totalHits": 1650,
+    "totalHits": 1651,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -95,7 +95,7 @@
   },
   {
     "discipline": "electrical",
-    "totalHits": 1649,
+    "totalHits": 1650,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -142,7 +142,7 @@
   },
   {
     "discipline": "logistics",
-    "totalHits": 1649,
+    "totalHits": 1650,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -189,7 +189,7 @@
   },
   {
     "discipline": "machining",
-    "totalHits": 1649,
+    "totalHits": 1650,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -236,7 +236,7 @@
   },
   {
     "discipline": "plumbing",
-    "totalHits": 1541,
+    "totalHits": 1542,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -283,7 +283,7 @@
   },
   {
     "discipline": "automotive",
-    "totalHits": 1245,
+    "totalHits": 1202,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -319,18 +319,18 @@
         "hits": 58
       },
       {
-        "file": "src/disciplines/automotive/components/Profile.tsx",
-        "hits": 51
-      },
-      {
         "file": "src/disciplines/automotive/components/GlobalTestGarage.tsx",
         "hits": 47
+      },
+      {
+        "file": "src/disciplines/automotive/components/RepairContext.tsx",
+        "hits": 45
       }
     ]
   },
   {
     "discipline": "manufacturing",
-    "totalHits": 1160,
+    "totalHits": 1134,
     "filesWithHits": 48,
     "topFiles": [
       {

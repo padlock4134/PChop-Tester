@@ -754,19 +754,20 @@ const Profile = () => {
     ],
     departments: [
       { value: 'all', label: t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' }) },
-      { value: 'culinary_arts', label: t('profile.filterOptions.departments.culinaryArts', { defaultValue: 'Culinary Arts' }) },
-      { value: 'baking_pastry', label: t('profile.filterOptions.departments.bakingPastry', { defaultValue: 'Baking & Pastry' }) },
-      { value: 'business', label: t('profile.filterOptions.departments.business', { defaultValue: 'Culinary Business' }) },
-      { value: 'nutrition', label: t('profile.filterOptions.departments.nutrition', { defaultValue: 'Nutrition & Dietetics' }) }
+      { value: 'precision_machining', label: t('profile.filterOptions.departments.precisionMachining', { defaultValue: 'Precision Machining' }) },
+      { value: 'welding_fabrication', label: t('profile.filterOptions.departments.weldingFabrication', { defaultValue: 'Welding & Fabrication' }) },
+      { value: 'industrial_automation', label: t('profile.filterOptions.departments.industrialAutomation', { defaultValue: 'Industrial Automation' }) },
+      { value: 'quality_control', label: t('profile.filterOptions.departments.qualityControl', { defaultValue: 'Quality Control' }) },
+      { value: 'assembly_production', label: t('profile.filterOptions.departments.assemblyProduction', { defaultValue: 'Assembly & Production' }) }
     ],
     classes: [
       { value: 'all', label: t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' }) },
-      { value: 'fundamentals', label: t('profile.filterOptions.classes.fundamentals', { defaultValue: 'Fundamentals of Cooking' }) },
-      { value: 'advanced_techniques', label: t('profile.filterOptions.classes.advancedTechniques', { defaultValue: 'Advanced Culinary Techniques' }) },
-      { value: 'food_safety', label: t('profile.filterOptions.classes.foodSafety', { defaultValue: 'Food Safety & Sanitation' }) },
-      { value: 'menu_planning', label: t('profile.filterOptions.classes.menuPlanning', { defaultValue: 'Menu Planning & Costing' }) },
-      { value: 'baking_basics', label: t('profile.filterOptions.classes.bakingBasics', { defaultValue: 'Baking Fundamentals' }) },
-      { value: 'pastry_arts', label: t('profile.filterOptions.classes.pastryArts', { defaultValue: 'Advanced Pastry Arts' }) }
+      { value: 'fundamentals_engineering', label: t('profile.filterOptions.classes.fundamentalsEngineering', { defaultValue: 'Fundamentals of Engineering' }) },
+      { value: 'advanced_engineering_techniques', label: t('profile.filterOptions.classes.advancedEngineeringTechniques', { defaultValue: 'Advanced Engineering Techniques' }) },
+      { value: 'cnc_programming', label: t('profile.filterOptions.classes.cncProgramming', { defaultValue: 'CNC Programming' }) },
+      { value: 'process_optimization', label: t('profile.filterOptions.classes.processOptimization', { defaultValue: 'Process Optimization' }) },
+      { value: 'quality_assurance', label: t('profile.filterOptions.classes.qualityAssurance', { defaultValue: 'Quality Assurance' }) },
+      { value: 'safety_compliance', label: t('profile.filterOptions.classes.safetyCompliance', { defaultValue: 'Safety Compliance' }) }
     ],
     timeRanges: [
       { value: '7days', label: t('profile.filterOptions.timeRanges.days7', { defaultValue: 'Last 7 Days' }) },
@@ -998,8 +999,8 @@ const Profile = () => {
     doc.setFont('helvetica', 'normal'); // Reset to normal
     doc.setFontSize(8);
     doc.setTextColor(100, 100, 100);
-    const platformWidth = doc.getTextWidth(cleanText('Culinary Education Analytics Platform'));
-    doc.text(cleanText('Culinary Education Analytics Platform'), 105 - platformWidth/2, 48);
+    const platformWidth = doc.getTextWidth(cleanText('Technical Education Analytics Platform'));
+    doc.text(cleanText('Technical Education Analytics Platform'), 105 - platformWidth/2, 48);
     
     doc.setFontSize(7);
     doc.setTextColor(100, 100, 100);
@@ -1027,8 +1028,8 @@ const Profile = () => {
     doc.setTextColor(60, 60, 60);
     
     if (fileName === 'skill-mastery-tracking') {
-      const line1Width = doc.getTextWidth(cleanText('This report analyzes student skill development across core culinary competencies.'));
-      doc.text(cleanText('This report analyzes student skill development across core culinary competencies.'), 105 - line1Width/2, 97);
+      const line1Width = doc.getTextWidth(cleanText('This report analyzes student skill development across core technical competencies.'));
+      doc.text(cleanText('This report analyzes student skill development across core technical competencies.'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('Data reflects performance metrics for technical skills, safety practices, and workflow quality,'));
       doc.text(cleanText('Data reflects performance metrics for technical skills, safety practices, and workflow quality,'), 105 - line2Width/2, 104);
       const line3Width = doc.getTextWidth(cleanText('and task execution during the current academic period.'));
@@ -1045,11 +1046,11 @@ const Profile = () => {
       doc.text(cleanText('This report examines student engagement and participation in live training'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'));
       doc.text(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'), 105 - line2Width/2, 104);
-      const line3Width = doc.getTextWidth(cleanText('and learning outcomes from real-time culinary instruction.'));
-      doc.text(cleanText('and learning outcomes from real-time culinary instruction.'), 105 - line3Width/2, 111);
+      const line3Width = doc.getTextWidth(cleanText('and learning outcomes from real-time technical instruction.'));
+      doc.text(cleanText('and learning outcomes from real-time technical instruction.'), 105 - line3Width/2, 111);
     } else {
-      const line1Width = doc.getTextWidth(cleanText('This report provides detailed analytics and insights for culinary education'));
-      doc.text(cleanText('This report provides detailed analytics and insights for culinary education'), 105 - line1Width/2, 97);
+      const line1Width = doc.getTextWidth(cleanText('This report provides detailed analytics and insights for technical education'));
+      doc.text(cleanText('This report provides detailed analytics and insights for technical education'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('management, offering data-driven recommendations to enhance student'));
       doc.text(cleanText('management, offering data-driven recommendations to enhance student'), 105 - line2Width/2, 104);
       const line3Width = doc.getTextWidth(cleanText('learning outcomes and institutional performance.'));
@@ -1076,7 +1077,7 @@ const Profile = () => {
     if (fileName === 'skill-mastery-tracking') {
       // Adjust data based on filters
       const avgProficiency = selectedClass === 'fundamentals' ? '73.8%' : selectedClass === 'advanced_techniques' ? '89.4%' : '81.2%';
-      const safetyRate = selectedDepartment === 'baking_pastry' ? '92.1%' : '86.7%';
+      const safetyRate = selectedDepartment === 'precision_machining' ? '92.1%' : '86.7%';
       const completionRate = selectedStudentSegment === 'struggling' ? '67.3%' : selectedStudentSegment === 'top_performers' ? '96.8%' : '85.1%';
       const supportNeeded = selectedClass === 'all' ? '3 of 15' : selectedStudentSegment === 'struggling' ? '8 of 12' : '1 of 8';
       
@@ -1163,8 +1164,8 @@ const Profile = () => {
     // Footer (inside card at bottom)
     doc.setFontSize(7);
     doc.setTextColor(150, 150, 150);
-    const footerWidth1 = doc.getTextWidth(cleanText('PorkChop Ed Tech | Culinary Education Analytics Platform'));
-    doc.text(cleanText('PorkChop Ed Tech | Culinary Education Analytics Platform'), 105 - footerWidth1/2, 270);
+    const footerWidth1 = doc.getTextWidth(cleanText('PorkChop Ed Tech | Technical Education Analytics Platform'));
+    doc.text(cleanText('PorkChop Ed Tech | Technical Education Analytics Platform'), 105 - footerWidth1/2, 270);
     const footerWidth2 = doc.getTextWidth(cleanText('This report contains demonstration data for platform capabilities.'));
     doc.text(cleanText('This report contains demonstration data for platform capabilities.'), 105 - footerWidth2/2, 277);
     
@@ -1178,7 +1179,7 @@ const Profile = () => {
     if (format === 'csv') {
       // Generate CSV content
       if (fileName === 'skill-mastery-tracking') {
-        return `Student ID,Student Name,Knife Skills Score,Cooking Techniques Score,Food Safety Certification,Recipe Completion Rate,Overall Progress
+        return `Student ID,Student Name,Blueprint Interpretation Score,Cooking Techniques Score,Food Safety Certification,Recipe Completion Rate,Overall Progress
 STU001,Alex Johnson,85,78,Certified,80%,81%
 STU002,Maria Garcia,92,88,Certified,95%,92%
 STU003,David Chen,67,72,In Progress,65%,68%
@@ -1191,16 +1192,16 @@ STU009,Robert Taylor,70,75,Certified,70%,72%
 STU010,Jennifer Martinez,86,83,Certified,88%,86%`;
       } else if (fileName === 'class-performance') {
         return `Class ID,Class Name,Average Score,Completion Rate,Knowledge Gaps,Assignment Timeliness,Instructor
-CLS001,Fundamentals of Cooking,82,85%,Knife Skills,90%,Chef Martinez
-CLS002,Advanced Culinary Techniques,88,78%,Sauce Making,85%,Chef Johnson
-CLS003,Baking & Pastry Arts,91,92%,Bread Making,95%,Chef Williams
-CLS004,International Cuisine,85,80%,Spice Usage,88%,Chef Chen
-CLS005,Food Safety & Sanitation,94,96%,Temperature Control,98%,Chef Davis
-CLS006,Menu Planning & Costing,79,75%,Cost Analysis,82%,Chef Brown
-CLS007,Restaurant Operations,83,82%,Service Flow,87%,Chef Wilson
-CLS008,Nutrition & Dietary Planning,87,89%,Macro Calculations,91%,Chef Anderson
-CLS009,Culinary Arts Capstone,90,88%,Presentation Skills,93%,Chef Taylor
-CLS010,Professional Workspace Management,86,84%,Team Leadership,89%,Chef Garcia`;
+CLS001,Fundamentals of Engineering,82,85%,Blueprint Interpretation,90%,Instructor Martinez
+CLS002,Advanced Engineering Techniques,88,78%,System Diagnostics,85%,Instructor Johnson
+CLS003,Precision Fabrication Lab,91,92%,Tolerance Control,95%,Instructor Williams
+CLS004,Systems Integration,85,80%,Configuration Logic,88%,Instructor Chen
+CLS005,Workplace Safety & Compliance,94,96%,Safety Procedures,98%,Instructor Davis
+CLS006,Production Planning & Costing,79,75%,Resource Allocation,82%,Instructor Brown
+CLS007,Operations Management,83,82%,Workflow Coordination,87%,Instructor Wilson
+CLS008,Process Analytics,87,89%,Data Analysis,91%,Instructor Anderson
+CLS009,Applied Technical Capstone,90,88%,Technical Presentation,93%,Instructor Taylor
+CLS010,Professional Workspace Management,86,84%,Team Leadership,89%,Instructor Garcia`;
       } else {
         return `Report Type,${reportTitle}
 Generated Date,${currentDate}
