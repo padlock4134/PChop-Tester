@@ -559,7 +559,7 @@ Welcome to Porkchop. By using this app, you agree to be bound by the following t
 }
 
 const Profile = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useSupabase();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -596,10 +596,20 @@ const Profile = () => {
   const [selectedStudentSegment, setSelectedStudentSegment] = useState<string>('all');
   const [selectedUserRole, setSelectedUserRole] = useState<string>('administrator');
   
+  const getLocalizedLevelMeta = (level: number) => {
+    const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
+    const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+    return {
+      title: t(`levels.plumbing.titles.${level}`, { defaultValue: title }),
+      icon
+    };
+  };
+  const defaultLevelMeta = getLocalizedLevelMeta(1);
+
   const [levelProgress, setLevelProgress] = useState({
-    title: LEVEL_TITLES_AND_ICONS[0].title,
+    title: defaultLevelMeta.title,
     level: 1,
-    icon: LEVEL_TITLES_AND_ICONS[0].icon,
+    icon: defaultLevelMeta.icon,
     current: 0,
     required: 100,
     progressPercent: 0,
@@ -1310,8 +1320,7 @@ Automated calculations and formulas would be present`;
         const { level, current, required } = getCorrectXPProgress(xp);
         
         // Map level to title index
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const { title, icon } = getLocalizedLevelMeta(level);
         const progressPercent = (current / required) * 100;
         
         setLevelProgress({
@@ -1345,8 +1354,7 @@ Automated calculations and formulas would be present`;
       
       // Update level progress when userProfile changes - USE CORRECTED CALCULATION
       const { level, current, required } = getCorrectXPProgress(userProfile.xp);
-      const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-      const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+      const { title, icon } = getLocalizedLevelMeta(level);
       const progressPercent = (current / required) * 100;
       
       setLevelProgress({
@@ -1365,6 +1373,17 @@ Automated calculations and formulas would be present`;
       setKitchenSetup(userProfile.kitchenSetup);
     }
   }, [userProfile]);
+
+  useEffect(() => {
+    setLevelProgress((prev) => {
+      const { title, icon } = getLocalizedLevelMeta(prev.level);
+      return {
+        ...prev,
+        title,
+        icon
+      };
+    });
+  }, [i18n.language]);
 
   // Handle avatar file selection
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1522,8 +1541,7 @@ Automated calculations and formulas would be present`;
 
         // Use corrected level calculation
         const { level, current, required } = getCorrectXPProgress(xp);
-        const titleIndex = Math.max(0, Math.min(level - 1, LEVEL_TITLES_AND_ICONS.length - 1));
-        const { title, icon } = LEVEL_TITLES_AND_ICONS[titleIndex];
+        const { title, icon } = getLocalizedLevelMeta(level);
         const progressPercent = (current / required) * 100;
         
         console.log('🎯 Corrected Level Debug:', { 
