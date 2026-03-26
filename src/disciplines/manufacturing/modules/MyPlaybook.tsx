@@ -1027,7 +1027,7 @@ const MyPlaybook = () => {
                       try {
                         // Get list of all user folders (to find all users with videos)
                         const { data: folders, error: foldersError } = await supabase.storage
-                          .from('Test Kitchen Videos')
+                          .from('Practice Videos')
                           .list('', {
                             limit: 1000,
                             offset: 0
@@ -1041,7 +1041,7 @@ const MyPlaybook = () => {
                         for (const folder of folders || []) {
                           if (folder.name) {
                             const { data: userVideos, error: videosError } = await supabase.storage
-                              .from('Test Kitchen Videos')
+                              .from('Practice Videos')
                               .list(folder.name, {
                                 limit: 100,
                                 offset: 0,
@@ -1057,7 +1057,7 @@ const MyPlaybook = () => {
                                 // Show if: public OR it's my video
                                 if (isPublic || isMyVideo) {
                                   const { data: urlData } = supabase.storage
-                                    .from('Test Kitchen Videos')
+                                    .from('Practice Videos')
                                     .getPublicUrl(`${folder.name}/${file.name}`);
                                   
                                   allVideos.push({

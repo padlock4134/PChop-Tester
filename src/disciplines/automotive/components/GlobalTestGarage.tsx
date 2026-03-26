@@ -484,7 +484,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       
       // Upload to Supabase Storage with metadata
       const { data, error} = await supabase.storage
-        .from('Test Kitchen Videos')
+        .from('Practice Videos')
         .upload(filename, recordedBlob, {
           contentType: 'video/webm',
           upsert: false,
@@ -576,7 +576,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
-        .from('Test Kitchen Videos')
+        .from('Practice Videos')
         .upload(filename, recordedBlob, {
           contentType: 'video/webm',
           upsert: false
