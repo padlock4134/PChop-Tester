@@ -1053,7 +1053,7 @@ END:VCALENDAR`;
                     </h2>
                     {isViewer && currentLiveSession && (
                       <p className="text-sm sm:text-base mt-1">
-                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Track
                       </p>
                     )}
                   </div>
@@ -1116,7 +1116,7 @@ END:VCALENDAR`;
                   ) : (
                     // No stream - show placeholder
                     <div className="text-white text-center">
-                      <div className="text-3xl sm:text-4xl mb-2">👨‍🍳</div>
+                      <div className="text-3xl sm:text-4xl mb-2">🎥</div>
                       <p className="text-xs sm:text-sm">Live Practice Session</p>
                       <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
                     </div>

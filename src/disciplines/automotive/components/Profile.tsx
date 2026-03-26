@@ -855,17 +855,17 @@ const Profile = () => {
       ]
     },
     {
-      title: 'Culinary Metrics',
+      title: 'Program Metrics',
       reports: [
-        { title: '🍳 Task Performance', description: 'Analyze task success rates and training outcomes', metrics: ['Recipe success rates', 'Common modifications', 'Ingredient substitutions', 'Difficulty ratings'], color: 'orange' },
-        { title: '🔪 Technique Analysis', description: 'Track progress on specific culinary techniques and skills', metrics: ['Most challenging techniques', 'Common mistakes by technique', 'Time-to-proficiency metrics', 'Video replay frequency'], color: 'amber' }
+        { title: '🍳 Task Performance', description: 'Analyze task success rates and training outcomes', metrics: ['Task success rates', 'Common revisions', 'Material substitutions', 'Difficulty ratings'], color: 'orange' },
+        { title: '🔪 Technique Analysis', description: 'Track progress on discipline-specific techniques and skills', metrics: ['Most challenging techniques', 'Common mistakes by technique', 'Time-to-proficiency metrics', 'Video replay frequency'], color: 'amber' }
       ]
     },
     {
       title: 'Operations',
       reports: [
         { title: '🏪 Workspace Management', description: 'Monitor equipment usage and operational efficiency', metrics: ['Equipment usage statistics', 'Ingredient waste tracking', 'Inventory management', 'Equipment maintenance'], color: 'purple' },
-        { title: '🛡️ Safety & Compliance', description: 'Track food safety violations and compliance metrics', metrics: ['Food safety violations', 'Sanitation check completion', 'Incident reports', 'Allergy compliance tracking'], color: 'red' }
+        { title: '🛡️ Safety & Compliance', description: 'Track safety violations and compliance metrics', metrics: ['Food safety violations', 'Safety checklist completion', 'Incident reports', 'Compliance tracking'], color: 'red' }
       ]
     },
     {
@@ -1028,8 +1028,8 @@ const Profile = () => {
       doc.text(cleanText('This report provides comprehensive analysis of class-level performance metrics'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('including completion rates, knowledge gaps, and instructor effectiveness across'));
       doc.text(cleanText('including completion rates, knowledge gaps, and instructor effectiveness across'), 105 - line2Width/2, 104);
-      const line3Width = doc.getTextWidth(cleanText('all culinary program courses for the current semester.'));
-      doc.text(cleanText('all culinary program courses for the current semester.'), 105 - line3Width/2, 111);
+      const line3Width = doc.getTextWidth(cleanText('all program courses for the current semester.'));
+      doc.text(cleanText('all program courses for the current semester.'), 105 - line3Width/2, 111);
     } else if (fileName === 'live-session-metrics') {
       const line1Width = doc.getTextWidth(cleanText('This report examines student engagement and participation in live training'));
       doc.text(cleanText('This report examines student engagement and participation in live training'), 105 - line1Width/2, 97);
