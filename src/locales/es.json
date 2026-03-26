@@ -1221,7 +1221,117 @@
     "findMarkets": "Encontrar Mercados",
     "myMenu": "MI MENÚ",
     "selectedRecipes": "Recetas Seleccionadas:",
-    "shoppingList": "Lista de Compras por Tipo de Mercado"
+    "shoppingList": "Lista de Compras por Tipo de Mercado",
+    "disciplineCopy": {
+      "culinary": {
+        "title": "Construye Tu Menú",
+        "selectRecipes": "Selecciona recetas de tu libro de cocina para construir tu menú, luego encuentra mercados locales para ingredientes.",
+        "yourMenu": "Tu Menú",
+        "selectToStart": "Selecciona recetas para construir tu menú",
+        "recipesSelected": "receta(s) seleccionada(s)",
+        "removeFromMenu": "Quitar del menú",
+        "createMenuPDF": "Crear Menú (PDF)",
+        "findMarkets": "Encontrar Mercados",
+        "myMenu": "MI MENÚ",
+        "selectedRecipes": "Recetas Seleccionadas:"
+      },
+      "plumbing": {
+        "title": "Crear Orden de Trabajo",
+        "selectRecipes": "Selecciona procedimientos de tu Pipe Book para crear una orden de trabajo y luego encontrar casas de suministro cercanas.",
+        "yourMenu": "Tu Orden de Trabajo",
+        "selectToStart": "Selecciona procedimientos para crear tu orden de trabajo",
+        "recipesSelected": "procedimiento(s) seleccionado(s)",
+        "removeFromMenu": "Quitar de la orden",
+        "createMenuPDF": "Crear Orden de Trabajo (PDF)",
+        "findMarkets": "Encontrar Casas de Suministro",
+        "myMenu": "MI ORDEN DE TRABAJO",
+        "selectedRecipes": "Procedimientos Seleccionados:"
+      },
+      "automotive": {
+        "title": "Crear Orden de Diagnóstico",
+        "selectRecipes": "Selecciona guías de reparación de tu manual para crear una orden de diagnóstico y luego encontrar tiendas de repuestos cercanas.",
+        "yourMenu": "Tu Orden de Diagnóstico",
+        "selectToStart": "Selecciona guías para crear tu orden de diagnóstico",
+        "recipesSelected": "guía(s) seleccionada(s)",
+        "removeFromMenu": "Quitar de la orden",
+        "createMenuPDF": "Crear Orden de Diagnóstico (PDF)",
+        "findMarkets": "Encontrar Tiendas de Repuestos",
+        "myMenu": "MI ORDEN DE DIAGNÓSTICO",
+        "selectedRecipes": "Guías Seleccionadas:"
+      },
+      "construction": {
+        "title": "Crear Paquete de Planos",
+        "selectRecipes": "Selecciona planes de tus blueprints para crear un paquete y luego encontrar patios cercanos.",
+        "yourMenu": "Tu Paquete de Planos",
+        "selectToStart": "Selecciona planes para crear tu paquete",
+        "recipesSelected": "plan(es) seleccionado(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Planos (PDF)",
+        "findMarkets": "Encontrar Patios",
+        "myMenu": "MI PAQUETE DE PLANOS",
+        "selectedRecipes": "Planes Seleccionados:"
+      },
+      "electrical": {
+        "title": "Crear Paquete de Circuitos",
+        "selectRecipes": "Selecciona diagramas de tu Code Book para crear un paquete de circuitos y luego encontrar proveedores cercanos.",
+        "yourMenu": "Tu Paquete de Circuitos",
+        "selectToStart": "Selecciona diagramas para crear tu paquete",
+        "recipesSelected": "diagrama(s) seleccionado(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Circuitos (PDF)",
+        "findMarkets": "Encontrar Proveedores",
+        "myMenu": "MI PAQUETE DE CIRCUITOS",
+        "selectedRecipes": "Diagramas Seleccionados:"
+      },
+      "hvac": {
+        "title": "Crear Paquete de Servicio",
+        "selectRecipes": "Selecciona especificaciones de tus spec sheets para crear un paquete de servicio y luego encontrar distribuidores cercanos.",
+        "yourMenu": "Tu Paquete de Servicio",
+        "selectToStart": "Selecciona especificaciones para crear tu paquete",
+        "recipesSelected": "especificación(es) seleccionada(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Servicio (PDF)",
+        "findMarkets": "Encontrar Distribuidores",
+        "myMenu": "MI PAQUETE DE SERVICIO",
+        "selectedRecipes": "Especificaciones Seleccionadas:"
+      },
+      "manufacturing": {
+        "title": "Crear Paquete de Proceso",
+        "selectRecipes": "Selecciona POEs de tu playbook para crear un paquete de proceso y luego encontrar proveedores cercanos.",
+        "yourMenu": "Tu Paquete de Proceso",
+        "selectToStart": "Selecciona POEs para crear tu paquete",
+        "recipesSelected": "POE(s) seleccionado(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Proceso (PDF)",
+        "findMarkets": "Encontrar Proveedores",
+        "myMenu": "MI PAQUETE DE PROCESO",
+        "selectedRecipes": "POEs Seleccionados:"
+      },
+      "logistics": {
+        "title": "Crear Paquete de Rutas",
+        "selectRecipes": "Selecciona procedimientos de tu runbook para crear un paquete de rutas y luego encontrar almacenes cercanos.",
+        "yourMenu": "Tu Paquete de Rutas",
+        "selectToStart": "Selecciona procedimientos para crear tu paquete",
+        "recipesSelected": "procedimiento(s) seleccionado(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Rutas (PDF)",
+        "findMarkets": "Encontrar Almacenes",
+        "myMenu": "MI PAQUETE DE RUTAS",
+        "selectedRecipes": "Procedimientos Seleccionados:"
+      },
+      "machining": {
+        "title": "Crear Paquete de Trabajo",
+        "selectRecipes": "Selecciona especificaciones de tu spec book para crear un paquete de trabajo y luego encontrar proveedores de herramientas cercanos.",
+        "yourMenu": "Tu Paquete de Trabajo",
+        "selectToStart": "Selecciona especificaciones para crear tu paquete",
+        "recipesSelected": "especificación(es) seleccionada(s)",
+        "removeFromMenu": "Quitar del paquete",
+        "createMenuPDF": "Crear Paquete de Trabajo (PDF)",
+        "findMarkets": "Encontrar Proveedores de Herramientas",
+        "myMenu": "MI PAQUETE DE TRABAJO",
+        "selectedRecipes": "Especificaciones Seleccionadas:"
+      }
+    }
   },
   "practice": {
     "benchPractice": "Tu Tabla de Charcutería",

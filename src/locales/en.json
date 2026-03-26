@@ -934,7 +934,117 @@
     "videoDescription": "Description",
     "saving": "Saving...",
     "practiceGuide": "Practice Guide",
-    "instructions": "Instructions"
+    "instructions": "Instructions",
+    "disciplineCopy": {
+      "culinary": {
+        "title": "Build Your Menu",
+        "selectRecipes": "Select recipes from your cookbook to build your menu, then find local markets for ingredients.",
+        "yourMenu": "Your Menu",
+        "selectToStart": "Select recipes to build your menu",
+        "recipesSelected": "recipe(s) selected",
+        "removeFromMenu": "Remove from menu",
+        "createMenuPDF": "Create Menu (PDF)",
+        "findMarkets": "Find Markets",
+        "myMenu": "MY MENU",
+        "selectedRecipes": "Selected Recipes:"
+      },
+      "plumbing": {
+        "title": "Build Work Order",
+        "selectRecipes": "Select procedures from your pipe book to build a work order, then find nearby supply houses.",
+        "yourMenu": "Your Work Order",
+        "selectToStart": "Select procedures to build your work order",
+        "recipesSelected": "procedure(s) selected",
+        "removeFromMenu": "Remove from work order",
+        "createMenuPDF": "Create Work Order (PDF)",
+        "findMarkets": "Find Supply Houses",
+        "myMenu": "MY WORK ORDER",
+        "selectedRecipes": "Selected Procedures:"
+      },
+      "automotive": {
+        "title": "Build Diagnostic Order",
+        "selectRecipes": "Select repair guides from your manual to build a diagnostic order, then find nearby parts stores.",
+        "yourMenu": "Your Diagnostic Order",
+        "selectToStart": "Select repair guides to build your diagnostic order",
+        "recipesSelected": "repair guide(s) selected",
+        "removeFromMenu": "Remove from diagnostic order",
+        "createMenuPDF": "Create Diagnostic Order (PDF)",
+        "findMarkets": "Find Parts Stores",
+        "myMenu": "MY DIAGNOSTIC ORDER",
+        "selectedRecipes": "Selected Repair Guides:"
+      },
+      "construction": {
+        "title": "Build Plan Set",
+        "selectRecipes": "Select plans from your blueprints to build a plan set, then find nearby yards.",
+        "yourMenu": "Your Plan Set",
+        "selectToStart": "Select plans to build your plan set",
+        "recipesSelected": "plan(s) selected",
+        "removeFromMenu": "Remove from plan set",
+        "createMenuPDF": "Create Plan Set (PDF)",
+        "findMarkets": "Find Yards",
+        "myMenu": "MY PLAN SET",
+        "selectedRecipes": "Selected Plans:"
+      },
+      "electrical": {
+        "title": "Build Circuit Package",
+        "selectRecipes": "Select diagrams from your code book to build a circuit package, then find nearby suppliers.",
+        "yourMenu": "Your Circuit Package",
+        "selectToStart": "Select diagrams to build your circuit package",
+        "recipesSelected": "diagram(s) selected",
+        "removeFromMenu": "Remove from circuit package",
+        "createMenuPDF": "Create Circuit Package (PDF)",
+        "findMarkets": "Find Suppliers",
+        "myMenu": "MY CIRCUIT PACKAGE",
+        "selectedRecipes": "Selected Diagrams:"
+      },
+      "hvac": {
+        "title": "Build Service Package",
+        "selectRecipes": "Select specs from your spec sheets to build a service package, then find nearby distributors.",
+        "yourMenu": "Your Service Package",
+        "selectToStart": "Select specs to build your service package",
+        "recipesSelected": "spec(s) selected",
+        "removeFromMenu": "Remove from service package",
+        "createMenuPDF": "Create Service Package (PDF)",
+        "findMarkets": "Find Distributors",
+        "myMenu": "MY SERVICE PACKAGE",
+        "selectedRecipes": "Selected Specs:"
+      },
+      "manufacturing": {
+        "title": "Build Process Package",
+        "selectRecipes": "Select SOPs from your playbook to build a process package, then find nearby suppliers.",
+        "yourMenu": "Your Process Package",
+        "selectToStart": "Select SOPs to build your process package",
+        "recipesSelected": "SOP(s) selected",
+        "removeFromMenu": "Remove from process package",
+        "createMenuPDF": "Create Process Package (PDF)",
+        "findMarkets": "Find Suppliers",
+        "myMenu": "MY PROCESS PACKAGE",
+        "selectedRecipes": "Selected SOPs:"
+      },
+      "logistics": {
+        "title": "Build Route Package",
+        "selectRecipes": "Select procedures from your runbook to build a route package, then find nearby warehouses.",
+        "yourMenu": "Your Route Package",
+        "selectToStart": "Select procedures to build your route package",
+        "recipesSelected": "procedure(s) selected",
+        "removeFromMenu": "Remove from route package",
+        "createMenuPDF": "Create Route Package (PDF)",
+        "findMarkets": "Find Warehouses",
+        "myMenu": "MY ROUTE PACKAGE",
+        "selectedRecipes": "Selected Procedures:"
+      },
+      "machining": {
+        "title": "Build Job Package",
+        "selectRecipes": "Select specs from your spec book to build a job package, then find nearby tooling vendors.",
+        "yourMenu": "Your Job Package",
+        "selectToStart": "Select specs to build your job package",
+        "recipesSelected": "spec(s) selected",
+        "removeFromMenu": "Remove from job package",
+        "createMenuPDF": "Create Job Package (PDF)",
+        "findMarkets": "Find Tooling Vendors",
+        "myMenu": "MY JOB PACKAGE",
+        "selectedRecipes": "Selected Specs:"
+      }
+    }
   },
   "liveSession": {
     "live": "LIVE",
