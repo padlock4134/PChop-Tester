@@ -277,6 +277,7 @@ const AppRoutes = () => {
   const { isAdminMode } = useAdminToggle();
   const { currentDiscipline } = useDiscipline();
   const responsiveClasses = getResponsiveClasses();
+  const hasRedirected = useRef(false);
   
   // Auto logout functionality
   const { showInactivityWarning, handleContinueSession, handleLogoutNow } = useAutoLogout();
@@ -297,7 +298,7 @@ const AppRoutes = () => {
 
   // Global post-auth gate
   useEffect(() => {
-    if (!user) return;
+    if (!user || hasRedirected.current) return;
     
     const currentPath = location.pathname;
     const disciplineFromPath = getDisciplineFromPath(currentPath);
@@ -306,6 +307,7 @@ const AppRoutes = () => {
     if (currentPath !== '/select-discipline' && 
         currentPath !== '/admin' && 
         !disciplineFromPath) {
+      hasRedirected.current = true;
       navigate('/select-discipline');
       return;
     }
@@ -313,6 +315,7 @@ const AppRoutes = () => {
     // If user has NOT selected a discipline → FORCE selector
     const selectedDiscipline = localStorage.getItem('selectedDiscipline');
     if (!selectedDiscipline && currentPath !== '/select-discipline' && currentPath !== '/admin') {
+      hasRedirected.current = true;
       navigate('/select-discipline');
       return;
     }
