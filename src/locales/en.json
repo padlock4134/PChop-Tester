@@ -946,7 +946,8 @@
         "certificate": "Certificate Program",
         "diploma": "Diploma Program"
       }
-    }
+    },
+    "bachelorsAppliedTechnology": "Bachelor of Applied Technology"
   },
   "modals": {
     "close": "Close",

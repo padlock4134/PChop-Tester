@@ -1255,7 +1255,8 @@
         "certificate": "Programa de certificado",
         "diploma": "Programa de diploma"
       }
-    }
+    },
+    "bachelorsAppliedTechnology": "Licenciatura en Tecnología Aplicada"
   },
   "modals": {
     "close": "Cerrar",

@@ -1,7 +1,7 @@
 [
   {
     "discipline": "hvac",
-    "totalHits": 1722,
+    "totalHits": 1665,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -15,10 +15,6 @@
       {
         "file": "src/disciplines/hvac/components/ChallengeOfTheWeek.tsx",
         "hits": 140
-      },
-      {
-        "file": "src/disciplines/hvac/components/Profile.tsx",
-        "hits": 111
       },
       {
         "file": "src/disciplines/hvac/components/UnitPracticeModal.tsx",
@@ -43,12 +39,16 @@
       {
         "file": "src/disciplines/hvac/modules/HvacSchool.tsx",
         "hits": 82
+      },
+      {
+        "file": "src/disciplines/hvac/components/TestRunModal.tsx",
+        "hits": 76
       }
     ]
   },
   {
     "discipline": "construction",
-    "totalHits": 1719,
+    "totalHits": 1662,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -62,10 +62,6 @@
       {
         "file": "src/disciplines/construction/components/ChallengeOfTheWeek.tsx",
         "hits": 140
-      },
-      {
-        "file": "src/disciplines/construction/components/Profile.tsx",
-        "hits": 111
       },
       {
         "file": "src/disciplines/construction/components/FieldPracticeModal.tsx",
@@ -90,12 +86,16 @@
       {
         "file": "src/disciplines/construction/modules/BuildSchool.tsx",
         "hits": 82
+      },
+      {
+        "file": "src/disciplines/construction/components/TestRunModal.tsx",
+        "hits": 76
       }
     ]
   },
   {
     "discipline": "electrical",
-    "totalHits": 1718,
+    "totalHits": 1661,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -109,10 +109,6 @@
       {
         "file": "src/disciplines/electrical/components/ChallengeOfTheWeek.tsx",
         "hits": 140
-      },
-      {
-        "file": "src/disciplines/electrical/components/Profile.tsx",
-        "hits": 111
       },
       {
         "file": "src/disciplines/electrical/components/PanelPracticeModal.tsx",
@@ -137,12 +133,16 @@
       {
         "file": "src/disciplines/electrical/modules/ElecSchool.tsx",
         "hits": 82
+      },
+      {
+        "file": "src/disciplines/electrical/components/TestRunModal.tsx",
+        "hits": 76
       }
     ]
   },
   {
     "discipline": "logistics",
-    "totalHits": 1718,
+    "totalHits": 1661,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -156,10 +156,6 @@
       {
         "file": "src/disciplines/logistics/components/ChallengeOfTheWeek.tsx",
         "hits": 140
-      },
-      {
-        "file": "src/disciplines/logistics/components/Profile.tsx",
-        "hits": 111
       },
       {
         "file": "src/disciplines/logistics/components/DockPracticeModal.tsx",
@@ -184,12 +180,16 @@
       {
         "file": "src/disciplines/logistics/modules/LogisticsSchool.tsx",
         "hits": 82
+      },
+      {
+        "file": "src/disciplines/logistics/components/TestRunModal.tsx",
+        "hits": 76
       }
     ]
   },
   {
     "discipline": "machining",
-    "totalHits": 1718,
+    "totalHits": 1661,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -203,10 +203,6 @@
       {
         "file": "src/disciplines/machining/components/ChallengeOfTheWeek.tsx",
         "hits": 140
-      },
-      {
-        "file": "src/disciplines/machining/components/Profile.tsx",
-        "hits": 111
       },
       {
         "file": "src/disciplines/machining/components/SetupPracticeModal.tsx",
@@ -231,12 +227,16 @@
       {
         "file": "src/disciplines/machining/modules/MachiningSchool.tsx",
         "hits": 82
+      },
+      {
+        "file": "src/disciplines/machining/components/TestRunModal.tsx",
+        "hits": 76
       }
     ]
   },
   {
     "discipline": "plumbing",
-    "totalHits": 1610,
+    "totalHits": 1553,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -250,10 +250,6 @@
       {
         "file": "src/disciplines/plumbing/components/ChallengeOfTheWeek.tsx",
         "hits": 140
-      },
-      {
-        "file": "src/disciplines/plumbing/components/Profile.tsx",
-        "hits": 111
       },
       {
         "file": "src/disciplines/plumbing/components/FitPracticeModal.tsx",
@@ -278,6 +274,10 @@
       {
         "file": "src/disciplines/plumbing/modules/MyVan.tsx",
         "hits": 71
+      },
+      {
+        "file": "src/disciplines/plumbing/components/BuildLayoutModal.tsx",
+        "hits": 67
       }
     ]
   },
