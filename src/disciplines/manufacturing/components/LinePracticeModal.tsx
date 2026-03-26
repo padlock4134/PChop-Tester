@@ -144,7 +144,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             ) : (
               // Not practicing - show placeholder
               <div className="text-amber-900 text-center">
-                <div className="text-4xl mb-2">�‍♂️</div>
+                <div className="text-4xl mb-2">👷‍♂️</div>
                 <p className="text-sm font-bold">AI Guided Practice</p>
                 <p className="text-xs opacity-75">Select a process to begin practice</p>
               </div>
