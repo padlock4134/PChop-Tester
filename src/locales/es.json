@@ -1256,7 +1256,8 @@
         "diploma": "Programa de diploma"
       }
     },
-    "bachelorsAppliedTechnology": "Licenciatura en Tecnología Aplicada"
+    "bachelorsAppliedTechnology": "Licenciatura en Tecnología Aplicada",
+    "workspaceLabel": "Configuración del espacio de trabajo"
   },
   "modals": {
     "close": "Cerrar",

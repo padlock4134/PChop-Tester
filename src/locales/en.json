@@ -947,7 +947,8 @@
         "diploma": "Diploma Program"
       }
     },
-    "bachelorsAppliedTechnology": "Bachelor of Applied Technology"
+    "bachelorsAppliedTechnology": "Bachelor of Applied Technology",
+    "workspaceLabel": "Workspace Setup"
   },
   "modals": {
     "close": "Close",

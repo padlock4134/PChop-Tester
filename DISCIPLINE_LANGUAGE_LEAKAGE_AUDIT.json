@@ -1,7 +1,7 @@
 [
   {
     "discipline": "hvac",
-    "totalHits": 1665,
+    "totalHits": 1653,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -48,7 +48,7 @@
   },
   {
     "discipline": "construction",
-    "totalHits": 1662,
+    "totalHits": 1650,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -95,7 +95,7 @@
   },
   {
     "discipline": "electrical",
-    "totalHits": 1661,
+    "totalHits": 1649,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -142,7 +142,7 @@
   },
   {
     "discipline": "logistics",
-    "totalHits": 1661,
+    "totalHits": 1649,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -189,7 +189,7 @@
   },
   {
     "discipline": "machining",
-    "totalHits": 1661,
+    "totalHits": 1649,
     "filesWithHits": 52,
     "topFiles": [
       {
@@ -236,7 +236,7 @@
   },
   {
     "discipline": "plumbing",
-    "totalHits": 1553,
+    "totalHits": 1541,
     "filesWithHits": 52,
     "topFiles": [
       {

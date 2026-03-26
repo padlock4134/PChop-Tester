@@ -68,7 +68,7 @@ const EditProfileModal = ({
     name: user?.name || '',
     cuisinePreference: user?.cuisine?.[0] || 'Italian',
     dietPreference: user?.dietary?.[0] || 'None',
-    kitchenSetup: user?.kitchenSetup || 'Apartment Kitchen',
+    kitchenSetup: user?.kitchenSetup || 'Professional',
     experienceLevel: user?.experience || 'Beginner',
     program: (user as any)?.program || ''
   });
@@ -205,7 +205,7 @@ const EditProfileModal = ({
 
           {/* Workspace Setup */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.kitchenSetup')}</label>
+            <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.workspaceLabel', { defaultValue: 'Workspace Setup' })}</label>
             <select
               value={formData.kitchenSetup}
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
@@ -372,7 +372,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
               {t('profile.register')}
             </button>
             <button 
-              onClick={() => window.open('mailto:professors@culinaryschool.edu?subject=Class Schedule Inquiry', '_blank')}
+              onClick={() => window.open('mailto:training@porkchop-edtech.com?subject=Class Schedule Inquiry', '_blank')}
               className="bg-seafoam text-maineBlue px-8 py-3 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
             >
               {t('profile.contact')}
@@ -398,7 +398,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
     { id: 'knife_kit', name: 'Knife Kit Loaner', icon: '🔪', description: 'Request a loaner knife kit or replacement' },
     { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request thermometers, timers, or other equipment' },
     { id: 'textbook', name: 'Textbook/Materials', icon: '📚', description: 'Request textbooks or course materials' },
-    { id: 'kitchen_access', name: 'Lab/Shop Access', icon: '🔑', description: 'Request after-hours lab/shop access' },
+    { id: 'workspace_access', name: 'Lab/Shop Access', icon: '🔑', description: 'Request after-hours lab/shop access' },
     { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
     { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' },
     { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or dietary accommodations' },
@@ -575,7 +575,7 @@ const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [kitchenSetup, setKitchenSetup] = useState<string>('Apartment Kitchen');
+  const [kitchenSetup, setKitchenSetup] = useState<string>('Professional');
   const [termsContent, setTermsContent] = useState<string>('Loading terms and conditions...');
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -949,7 +949,7 @@ const Profile = () => {
     if (fileName === 'skill-mastery-tracking') {
       // Adjust data based on filters
       const avgProficiency = selectedClass === 'fundamentals' ? '73.8%' : selectedClass === 'advanced_techniques' ? '89.4%' : '81.2%';
-      const safetyRate = selectedDepartment === 'baking_pastry' ? '92.1%' : '86.7%';
+      const safetyRate = selectedDepartment === 'precision_machining' ? '92.1%' : '86.7%';
       const completionRate = selectedStudentSegment === 'struggling' ? '67.3%' : selectedStudentSegment === 'top_performers' ? '96.8%' : '85.1%';
       const supportNeeded = selectedClass === 'all' ? '3 of 15' : selectedStudentSegment === 'struggling' ? '8 of 12' : '1 of 8';
       
@@ -1298,13 +1298,13 @@ Automated calculations and formulas would be present`;
           xp,
           // Map backend cooking_experience to UI display value
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
+          kitchenSetup: profile.kitchen_setup || 'Professional',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
 
         // Also update the local kitchenSetup state
-        setKitchenSetup(profile.kitchen_setup || 'Apartment Kitchen');
+        setKitchenSetup(profile.kitchen_setup || 'Professional');
 
         // Load selected talents from database (optional - field might not exist yet)
         if (profile.selected_talents && Array.isArray(profile.selected_talents)) {
@@ -1536,7 +1536,7 @@ Automated calculations and formulas would be present`;
           name: profile.name || 'User',
           xp,
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Apartment Kitchen',
+          kitchenSetup: profile.kitchen_setup || 'Professional',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
