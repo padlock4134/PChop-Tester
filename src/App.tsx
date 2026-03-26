@@ -320,9 +320,17 @@ const AppRoutes = () => {
   }
 
   if (!user) {
-    console.log('AppRoutes - No user, redirecting to login');
-    window.location.href = '/.netlify/functions/auth-login';
-    return null;
+    if (authStatus === AuthStatus.UNAUTHENTICATED) {
+      console.log('AppRoutes - User unauthenticated, redirecting to login');
+      window.location.href = '/.netlify/functions/auth-login';
+      return null;
+    }
+
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-sand">
+        <div className="text-maineBlue text-xl">Loading...</div>
+      </div>
+    );
   }
 
   const isDisciplineSelect = location.pathname === '/select-discipline';
