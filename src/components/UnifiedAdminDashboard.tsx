@@ -3078,7 +3078,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             Level {user.level || 1}
                           </span>
                           <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                            <p>📚 {t('admin.program')}: {t('admin.culinaryArts')}</p>
+                            <p>📚 {t('admin.program')}: {skin.people.defaultProgram}</p>
                             <p className="truncate">📧 {user.email}</p>
                             <p>📞 (555) 123-4567</p>
                           </div>
@@ -3808,10 +3808,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 className="w-full max-w-md mx-auto block px-4 py-3 border-2 border-maineBlue rounded-lg focus:outline-none focus:ring-2 focus:ring-maineBlue font-retro text-center"
               >
                 <option value="all">{t('admin.allPrograms')}</option>
-                <option value="culinary_arts">{t('admin.culinaryArts')}</option>
-                <option value="pastry_arts">{t('admin.pastryArts')}</option>
-                <option value="baking_pastry">{t('admin.bakingAndPastry')}</option>
-                <option value="restaurant_management">{t('admin.restaurantManagement')}</option>
+                <option value="program_1">{skin.people.defaultProgram}</option>
+                <option value="program_2">Advanced Program</option>
+                <option value="program_3">Specialized Track</option>
+                <option value="program_4">Management Program</option>
                 <option value="food_service">{t('admin.foodServiceManagement')}</option>
                 <option value="hospitality">{t('admin.hospitalityManagementOption')}</option>
               </select>
@@ -3822,10 +3822,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-2 sm:p-3 text-center">
                   <p className="text-xs sm:text-sm text-blue-800">
                     {t('admin.showingDataFor')}: <span className="font-bold text-maineBlue">
-                      {selectedProgram === 'culinary_arts' && t('admin.culinaryArts')}
-                      {selectedProgram === 'pastry_arts' && t('admin.pastryArts')}
-                      {selectedProgram === 'baking_pastry' && t('admin.bakingAndPastry')}
-                      {selectedProgram === 'restaurant_management' && t('admin.restaurantManagement')}
+                      {selectedProgram === 'program_1' && skin.people.defaultProgram}
+                      {selectedProgram === 'program_2' && 'Advanced Program'}
+                      {selectedProgram === 'program_3' && 'Specialized Track'}
+                      {selectedProgram === 'program_4' && 'Management Program'}
                       {selectedProgram === 'food_service' && t('admin.foodServiceManagement')}
                       {selectedProgram === 'hospitality' && t('admin.hospitalityManagementOption')}
                     </span>
@@ -4043,7 +4043,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.culinaryArtsFall2024')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{skin.people.defaultProgram} - Fall 2024</p>
                           <p className="text-xs sm:text-sm text-gray-600">42 students</p>
                         </div>
                         <div className="text-right">
@@ -4053,7 +4053,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-green-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.bakingPastryFall2024')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Advanced Program - Fall 2024</p>
                           <p className="text-xs sm:text-sm text-gray-600">28 students</p>
                         </div>
                         <div className="text-right">
@@ -4406,7 +4406,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           { metric: 'Completion Rate', value: '73%', change: '+5%' },
                           { metric: 'Avg Engagement Score', value: 4.2, change: 'No change' },
                           { metric: 'Active Recipes', value: 28, change: '+3 new' },
-                          { metric: 'Top Recipe', value: 'French Knife Skills', completion: '94%' },
+                          { metric: `Top ${skin.content.table}`, value: 'Advanced Techniques', completion: '94%' },
                           { metric: 'Needs Attention', value: 'Advanced Plating', completion: '34%' }
                         ];
                         
@@ -4972,7 +4972,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="flex items-center flex-1">
                         <span className="text-xl sm:text-2xl mr-2 sm:mr-3">📄</span>
                         <div className="min-w-0">
-                          <p className="font-medium text-xs sm:text-base truncate">Culinary Fundamentals Syllabus.pdf</p>
+                          <p className="font-medium text-xs sm:text-base truncate">{skin.name} Fundamentals Syllabus.pdf</p>
                           <p className="text-xs sm:text-sm text-gray-500">2.4 MB • Uploaded 2 hours ago</p>
                         </div>
                       </div>
@@ -4983,7 +4983,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="flex items-center flex-1">
                         <span className="text-xl sm:text-2xl mr-2 sm:mr-3">🍳</span>
                         <div className="min-w-0">
-                          <p className="font-medium text-xs sm:text-base truncate">Week 3 - Knife Skills Recipes.docx</p>
+                          <p className="font-medium text-xs sm:text-base truncate">Week 3 - {skin.content.table} Materials.docx</p>
                           <p className="text-xs sm:text-sm text-gray-500">1.8 MB • Uploaded yesterday</p>
                         </div>
                       </div>
@@ -5127,7 +5127,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-6">
                 {/* Welcome Message */}
                 <div className="bg-red-50 border-4 border-red-400 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-red-800 mb-2 text-sm sm:text-base">🎉 Welcome! I'm here to help with your culinary curriculum</h3>
+                  <h3 className="text-center font-bold text-red-800 mb-2 text-sm sm:text-base">🎉 {skin.assistant.greeting}</h3>
                   <p className="text-center text-xs sm:text-sm text-red-700">
                     What would you like to work on today?
                   </p>
@@ -5152,7 +5152,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-bold text-green-800 mb-2 text-sm sm:text-base">Build Lesson Plan</h4>
                     <p className="text-xs sm:text-sm text-green-600 mb-2 sm:mb-3">Create structured weekly lesson plans</p>
                     <button 
-                      onClick={() => handleQuickAction('Create a detailed lesson plan for teaching knife skills to culinary students. Include warm-up activities, demonstrations, hands-on practice, safety protocols, and assessment methods.')}
+                      onClick={() => handleQuickAction(skin.assistant.quickActions[0])}
                       className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-xs sm:text-sm min-h-[44px]"
                     >
                       Plan Lesson
@@ -5902,7 +5902,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <label className="flex items-center min-h-[44px]">
                     <input type="checkbox" className="mr-2 w-5 h-5" />
-                    <span className="text-xs sm:text-sm text-gray-700">Knife Skills</span>
+                    <span className="text-xs sm:text-sm text-gray-700">Core Techniques</span>
                   </label>
                   <label className="flex items-center min-h-[44px]">
                     <input type="checkbox" className="mr-2 w-5 h-5" />
@@ -6063,11 +6063,11 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   onChange={(e) => setNewStudentProgram(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
-                  <option value="Culinary Arts">Culinary Arts</option>
-                  <option value="Pastry Arts">Pastry Arts</option>
-                  <option value="Baking & Pastry">Baking & Pastry</option>
-                  <option value="Restaurant Management">Restaurant Management</option>
-                  <option value="Hospitality Management">Hospitality Management</option>
+                  <option value="{skin.people.defaultProgram}">{skin.people.defaultProgram}</option>
+                  <option value="Advanced Program">Advanced Program</option>
+                  <option value="Specialized Track">Specialized Track</option>
+                  <option value="Management Program">Management Program</option>
+                  <option value="Industry Leadership">Industry Leadership</option>
                 </select>
               </div>
             </div>
@@ -6121,7 +6121,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     setNewStudentName('');
                     setNewStudentEmail('');
                     setNewStudentPhone('');
-                    setNewStudentProgram('Culinary Arts');
+                    setNewStudentProgram(skin.people.defaultProgram);
                     setShowAddStudentModal(false);
                     
                     alert('Student added successfully!');
@@ -6197,11 +6197,11 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">Program</label>
                 <select
-                  value="Bachelors of Arts in Culinary"
+                  value={`Bachelor's Degree in ${skin.name}`}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 >
-                  <option value="Bachelors of Arts in Culinary">Bachelors of Arts in Culinary</option>
-                  <option value="Associates in Aquaculture">Associates in Aquaculture</option>
+                  <option value={`Bachelor's Degree in ${skin.name}`}>Bachelor's Degree in {skin.name}</option>
+                  <option value={`Associate's Degree in ${skin.name}`}>Associate's Degree in {skin.name}</option>
                 </select>
               </div>
               
@@ -6398,7 +6398,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
                       <div>
                         <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Julia Martinez</p>
-                        <p className="text-xs text-gray-600">julia.martinez@culinary.edu</p>
+                        <p className="text-xs text-gray-600">julia.martinez@{skin.people.emailDomain}</p>
                       </div>
                       <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block w-fit">Instructor</span>
                     </div>
@@ -6425,7 +6425,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
                       <div>
                         <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Marcus Chen</p>
-                        <p className="text-xs text-gray-600">marcus.chen@culinary.edu</p>
+                        <p className="text-xs text-gray-600">marcus.chen@{skin.people.emailDomain}</p>
                       </div>
                       <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded inline-block w-fit">Dept. Head</span>
                     </div>
@@ -7844,8 +7844,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <option value="all_students">All Students</option>
                       <option value="class_2025">Class of 2025</option>
                       <option value="class_2026">Class of 2026</option>
-                      <option value="culinary_arts">Culinary Arts Program</option>
-                      <option value="pastry_arts">Pastry Arts Program</option>
+                      <option value="program_1">{skin.people.defaultProgram}</option>
+                      <option value="program_2">Advanced Program</option>
                       <option value="alumni">Alumni</option>
                     </select>
                     <input
@@ -8566,14 +8566,14 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900 text-xs sm:text-sm">Sarah Johnson</p>
-                        <p className="text-xs text-gray-600 truncate">Culinary Arts - Class of 2025</p>
+                        <p className="text-xs text-gray-600 truncate">{skin.people.defaultProgram} - Class of 2025</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Confirmed</span>
                     </div>
                     <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900 text-xs sm:text-sm">Michael Chen</p>
-                        <p className="text-xs text-gray-600 truncate">Pastry Arts - Class of 2025</p>
+                        <p className="text-xs text-gray-600 truncate">Advanced Program - Class of 2025</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Confirmed</span>
                     </div>
@@ -8632,11 +8632,11 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     try {
                       // Generate career event attendee data
                       const attendeeData = [
-                        { name: 'Sarah Johnson', email: 'sarah.j@email.com', program: 'Culinary Arts', class: '2025', status: 'Confirmed' },
-                        { name: 'Michael Chen', email: 'michael.c@email.com', program: 'Pastry Arts', class: '2025', status: 'Confirmed' },
-                        { name: 'Emma Rodriguez', email: 'emma.r@email.com', program: 'Culinary Management', class: '2026', status: 'Pending' },
-                        { name: 'James Wilson', email: 'james.w@email.com', program: 'Culinary Arts', class: '2025', status: 'Confirmed' },
-                        { name: 'Lisa Anderson', email: 'lisa.a@email.com', program: 'Pastry Arts', class: '2026', status: 'Confirmed' }
+                        { name: 'Sarah Johnson', email: 'sarah.j@email.com', program: skin.people.defaultProgram, class: '2025', status: 'Confirmed' },
+                        { name: 'Michael Chen', email: 'michael.c@email.com', program: 'Advanced Program', class: '2025', status: 'Confirmed' },
+                        { name: 'Emma Rodriguez', email: 'emma.r@email.com', program: 'Management Program', class: '2026', status: 'Pending' },
+                        { name: 'James Wilson', email: 'james.w@email.com', program: skin.people.defaultProgram, class: '2025', status: 'Confirmed' },
+                        { name: 'Lisa Anderson', email: 'lisa.a@email.com', program: 'Advanced Program', class: '2026', status: 'Confirmed' }
                       ];
                       
                       const csv = convertToCSV(attendeeData);
