@@ -405,7 +405,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="space-y-4">
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
-                  <span>�</span>
+                  <span>🔧</span>
                   <span>Tool Technique</span>
                 </p>
                 <p className="text-sm text-gray-800">Proper tool handling and precision techniques for automotive repairs</p>
