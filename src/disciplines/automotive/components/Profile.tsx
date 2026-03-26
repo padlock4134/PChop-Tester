@@ -1609,30 +1609,18 @@ Automated calculations and formulas would be present`;
   const getCorrectXPProgress = (totalXP: number) => {
     const level = getCorrectLevel(totalXP);
     
-    // Debug the calculation
-    console.log('🔧 XP Progress Debug:', {
-      totalXP,
-      level,
-      currentLevelXP: WOW_CLASSIC_XP_TABLE[level - 1],
-      nextLevelXP: WOW_CLASSIC_XP_TABLE[level]
-    });
-    
+    // Get the XP requirement for the current level (not the next level)
     const currentLevelXP = WOW_CLASSIC_XP_TABLE[level - 1] || 0;
     const nextLevelXP = WOW_CLASSIC_XP_TABLE[level] || 0;
-    
-    // For max level (60), show full progress
-    if (level === 60) {
-      return { 
-        level: 60, 
-        current: WOW_CLASSIC_XP_TABLE[59] - WOW_CLASSIC_XP_TABLE[58],  // Show progress within level 60
-        required: WOW_CLASSIC_XP_TABLE[59] - WOW_CLASSIC_XP_TABLE[58]
-      };
-    }
     
     const current = totalXP - currentLevelXP;
     const required = nextLevelXP - currentLevelXP;
     
-    return { level, current, required };
+    // Show positive progress from start of current level
+    const displayCurrent = Math.max(0, current);
+    const displayRequired = Math.max(1, required);
+    
+    return { level, current: displayCurrent, required: displayRequired };
   };
 
   // Add a refresh function to reload profile data
