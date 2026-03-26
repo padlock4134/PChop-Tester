@@ -107,6 +107,14 @@ import CulinarySupabaseProvider, { useSupabase } from './disciplines/culinary/co
 import DisciplineSupabaseProvider from './components/DisciplineSupabaseProvider';
 import type { WristbandSessionMetadata } from './disciplines/culinary/types/session-types';
 import { setSupabaseJwt } from './disciplines/culinary/api/supabaseClient';
+import { setSupabaseJwt as setPlumbingSupabaseJwt } from './disciplines/plumbing/api/supabaseClient';
+import { getSupabaseClient as setAutomotiveSupabaseJwt } from './disciplines/automotive/api/supabaseClient';
+import { getSupabaseClient as setConstructionSupabaseJwt } from './disciplines/construction/api/supabaseClient';
+import { setSupabaseJwt as setElectricalSupabaseJwt } from './disciplines/electrical/api/supabaseClient';
+import { setSupabaseJwt as setHvacSupabaseJwt } from './disciplines/hvac/api/supabaseClient';
+import { setSupabaseJwt as setManufacturingSupabaseJwt } from './disciplines/manufacturing/api/supabaseClient';
+import { setSupabaseJwt as setLogisticsSupabaseJwt } from './disciplines/logistics/api/supabaseClient';
+import { setSupabaseJwt as setMachiningSupabaseJwt } from './disciplines/machining/api/supabaseClient';
 import { useDeviceDetect, getResponsiveClasses } from './disciplines/culinary/utils/responsiveUtils';
 import InactivityWarningModal from './disciplines/culinary/components/InactivityWarningModal';
 import { useAutoLogout } from './disciplines/culinary/hooks/useAutoLogout';
@@ -444,6 +452,14 @@ const App = () => {
           const { metadata } = sessionResponse;
           const { supabaseToken } = metadata as WristbandSessionMetadata;
           setSupabaseJwt(supabaseToken);
+          setPlumbingSupabaseJwt(supabaseToken);
+          setAutomotiveSupabaseJwt(supabaseToken);
+          setConstructionSupabaseJwt(supabaseToken);
+          setElectricalSupabaseJwt(supabaseToken);
+          setHvacSupabaseJwt(supabaseToken);
+          setManufacturingSupabaseJwt(supabaseToken);
+          setLogisticsSupabaseJwt(supabaseToken);
+          setMachiningSupabaseJwt(supabaseToken);
         }}
       >
         <RecipeProvider>
