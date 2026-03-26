@@ -5,7 +5,7 @@ import { DISCIPLINE_CONFIG, DisciplineKey, getDisciplineFromPath } from './disci
 interface DisciplineContextType {
   currentDiscipline: DisciplineKey;
   setDiscipline: (discipline: DisciplineKey) => void;
-  disciplineConfig: typeof DISCIPLINE_CONFIG[DisciplineKey];
+  disciplineConfig: typeof DISCIPLINE_CONFIG[keyof typeof DISCIPLINE_CONFIG];
 }
 
 const DisciplineContext = createContext<DisciplineContextType | null>(null);
@@ -20,8 +20,8 @@ export const DisciplineProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }
     
     // Then fallback to localStorage
-    const stored = localStorage.getItem('lastDiscipline') as DisciplineKey;
-    return stored && DISCIPLINE_CONFIG[stored] ? stored : 'culinary';
+    const stored = localStorage.getItem('lastDiscipline');
+    return stored && DISCIPLINE_CONFIG[stored as keyof typeof DISCIPLINE_CONFIG] ? stored as DisciplineKey : 'culinary';
   });
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export const DisciplineProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     localStorage.setItem('lastDiscipline', discipline);
   };
 
-  const disciplineConfig = DISCIPLINE_CONFIG[currentDiscipline];
+  const disciplineConfig = DISCIPLINE_CONFIG[currentDiscipline as keyof typeof DISCIPLINE_CONFIG];
 
   return (
     <DisciplineContext.Provider value={{ currentDiscipline, setDiscipline, disciplineConfig }}>
