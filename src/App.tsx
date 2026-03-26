@@ -277,11 +277,35 @@ const AppRoutes = () => {
   const { isAdminMode } = useAdminToggle();
   const { currentDiscipline } = useDiscipline();
   const hasRedirected = useRef(false);
-  
+
+  // Post-auth routing useEffect - ALWAYS at top level
+  useEffect(() => {
+    if (!user || isLoading) return;
+
+    const isRoot = location.pathname === '/';
+    const isSelector = location.pathname === '/select-discipline';
+    const isAdmin = location.pathname === '/admin';
+    const disciplineFromPath = getDisciplineFromPath(location.pathname);
+    const selectedDiscipline = localStorage.getItem('selectedDiscipline');
+
+    if (isRoot) {
+      navigate('/select-discipline', { replace: true });
+      return;
+    }
+
+    if (isSelector || isAdmin || disciplineFromPath) {
+      return;
+    }
+
+    if (!selectedDiscipline) {
+      navigate('/select-discipline', { replace: true });
+    }
+  }, [user, isLoading, location.pathname, navigate]);
+
   // Auto logout functionality - simplified to avoid errors
   // const { showInactivityWarning, handleContinueSession, handleLogoutNow } = useAutoLogout();
   
-  // Show loading for authenticated routes
+  // Render logic happens AFTER hooks
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-sand">
@@ -290,35 +314,10 @@ const AppRoutes = () => {
     );
   }
 
-  // If not authenticated, redirect to home (which will trigger login)
-  if (!isLoading && !user) {
-    return <Navigate to="/" replace />;
+  if (!user) {
+    window.location.href = '/.netlify/functions/auth-login';
+    return null;
   }
-
-  // Global post-auth gate
-  useEffect(() => {
-    if (!user || hasRedirected.current) return;
-    
-    const currentPath = location.pathname;
-    const disciplineFromPath = getDisciplineFromPath(currentPath);
-    
-    // If NOT on allowed routes, redirect to selector
-    if (currentPath !== '/select-discipline' && 
-        currentPath !== '/admin' && 
-        !disciplineFromPath) {
-      hasRedirected.current = true;
-      navigate('/select-discipline');
-      return;
-    }
-    
-    // If user has NOT selected a discipline → FORCE selector
-    const selectedDiscipline = localStorage.getItem('selectedDiscipline');
-    if (!selectedDiscipline && currentPath !== '/select-discipline' && currentPath !== '/admin') {
-      hasRedirected.current = true;
-      navigate('/select-discipline');
-      return;
-    }
-  }, [user, location.pathname, navigate]);
 
   const isDisciplineSelect = location.pathname === '/select-discipline';
   const isAdminRoute = location.pathname === '/admin';
