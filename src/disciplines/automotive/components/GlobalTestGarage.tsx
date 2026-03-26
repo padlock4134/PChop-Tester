@@ -572,7 +572,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
     try {
       // Generate unique filename
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `test-kitchen-session-${timestamp}.webm`;
+      const filename = `practice-session-${timestamp}.webm`;
       
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
@@ -589,7 +589,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       }
 
       console.log('Video saved successfully:', data);
-      alert('Video saved successfully to Test Kitchen Videos!');
+      alert('Video saved successfully to Practice Videos!');
       
       // End the session after successful save
       handleEndSession();
@@ -1115,7 +1115,7 @@ END:VCALENDAR`;
                   ) : (
                     // No stream - show placeholder
                     <div className="text-white text-center">
-                      <div className="text-3xl sm:text-4xl mb-2">👨‍🍳</div>
+                      <div className="text-3xl sm:text-4xl mb-2">🎥</div>
                       <p className="text-xs sm:text-sm">Live Automotive Service</p>
                       <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
                     </div>

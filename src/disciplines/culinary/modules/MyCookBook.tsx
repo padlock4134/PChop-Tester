@@ -1503,7 +1503,7 @@ const MyCookBook = () => {
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
               <div className="flex justify-between items-center mb-4">
                 <div>
-                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 My Test Kitchen Videos</h2>
+                  <h2 className="text-3xl font-bold text-purple-800 font-retro">🎥 {t('myCookbook.myTestKitchenVideos')}</h2>
                   <p className="text-purple-600 mt-1">{t('myCookbook.reviewSavedVideos')}</p>
                 </div>
                 <button
@@ -1555,8 +1555,8 @@ const MyCookBook = () => {
               ) : (savedVideos.length === 0 && false) ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🎥</div>
-                  <p className="text-gray-600 text-lg">No videos saved yet</p>
-                  <p className="text-gray-500 text-sm mt-2">Record a session in Test Kitchen to see it here!</p>
+                  <p className="text-gray-600 text-lg">{t('myCookbook.noVideosSaved')}</p>
+                  <p className="text-gray-500 text-sm mt-2">{t('myCookbook.recordInTestKitchen')}</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -1604,7 +1604,7 @@ const MyCookBook = () => {
                     >
                       <div className="p-4 flex items-center justify-between">
                         <div className="flex items-center gap-4 flex-1">
-                          <div className="text-4xl">�</div>
+                          <div className="text-4xl">🔧</div>
                           <div className="flex-1">
                             <h3 className="font-bold text-purple-800 text-lg">{video.name.replace('.webm', '')}</h3>
                             <div className="flex items-center gap-3 mt-1">
@@ -1684,7 +1684,7 @@ const MyCookBook = () => {
                   {selectedLibraryVideo.userId !== user?.id && (
                     <p>👤 Uploaded by: {selectedLibraryVideo.userId.substring(0, 8)}...</p>
                   )}
-                  <p className="mt-1">🎥 Recorded in Test Kitchen</p>
+                  <p className="mt-1">🎥 {t('myCookbook.recordedInWorkspace')}</p>
                 </div>
               </div>
             </div>

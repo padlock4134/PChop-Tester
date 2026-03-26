@@ -572,7 +572,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     try {
       // Generate unique filename
       const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `test-kitchen-session-${timestamp}.webm`;
+      const filename = `practice-session-${timestamp}.webm`;
       
       // Upload to Supabase Storage
       const { data, error } = await supabase.storage
@@ -589,7 +589,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       }
 
       console.log('Video saved successfully:', data);
-      alert('Video saved successfully to Test Kitchen Videos!');
+      alert('Video saved successfully to Practice Videos!');
       
       // End the session after successful save
       handleEndSession();
@@ -626,9 +626,9 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
-    const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Test Kitchen - Online');
+    const title = encodeURIComponent(`${session.dishName} - Practice Session`);
+    const description = encodeURIComponent(`Join ${session.hostName} for a live skills demonstration: ${session.description}`);
+    const location = encodeURIComponent('Global Skill Lab - Online');
 
     // Detect device/platform
     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -682,9 +682,9 @@ END:VCALENDAR`;
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Cooking Session`);
-    const description = encodeURIComponent(`Join ${session.hostName} for a live cooking demonstration: ${session.description}`);
-    const location = encodeURIComponent('Global Test Kitchen - Online');
+    const title = encodeURIComponent(`${session.dishName} - Practice Session`);
+    const description = encodeURIComponent(`Join ${session.hostName} for a live skills demonstration: ${session.description}`);
+    const location = encodeURIComponent('Global Skill Lab - Online');
 
     const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${formatDate(startDate)}/${formatDate(endDate)}&details=${description}&location=${location}`;
     const outlookUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${title}&startdt=${formatDate(startDate)}&enddt=${formatDate(endDate)}&body=${description}&location=${location}`;
@@ -1048,12 +1048,12 @@ END:VCALENDAR`;
                     <h2 className="text-xl sm:text-2xl font-bold">
                       {isViewer && currentLiveSession ? 
                         `🔴 LIVE: ${currentLiveSession.dishName}` : 
-                        '🔴 LIVE: Cooking Session'
+                        '🔴 LIVE: Practice Session'
                       }
                     </h2>
                     {isViewer && currentLiveSession && (
                       <p className="text-sm sm:text-base mt-1">
-                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Track
                       </p>
                     )}
                   </div>
@@ -1116,8 +1116,8 @@ END:VCALENDAR`;
                   ) : (
                     // No stream - show placeholder
                     <div className="text-white text-center">
-                      <div className="text-3xl sm:text-4xl mb-2">👨‍🍳</div>
-                      <p className="text-xs sm:text-sm">Live Cooking Session</p>
+                      <div className="text-3xl sm:text-4xl mb-2">🎥</div>
+                      <p className="text-xs sm:text-sm">Live Practice Session</p>
                       <p className="text-xs opacity-75">{isRecording ? 'You are live!' : 'Click Go Live to start'}</p>
                     </div>
                   )}
@@ -1292,11 +1292,11 @@ END:VCALENDAR`;
             <div className="text-center">
               <div className="text-4xl mb-4">🎥</div>
               <h2 className="text-2xl font-bold mb-4 text-maineBlue font-retro">
-                Save Your Cooking Session
+                Save Your Practice Session
               </h2>
               
               <p className="text-gray-700 mb-6 leading-relaxed">
-                Add details to save this video to your <span className="font-semibold text-maineBlue">Test Kitchen Videos</span> collection:
+                Add details to save this video to your <span className="font-semibold text-maineBlue">Practice Videos</span> collection:
               </p>
               
               {/* Video Metadata Form */}
@@ -1344,7 +1344,7 @@ END:VCALENDAR`;
                   <textarea
                     value={videoDescription}
                     onChange={(e) => setVideoDescription(e.target.value)}
-                    placeholder="Brief description of what you cooked and any key techniques..."
+                    placeholder="Brief description of what you practiced and any key techniques..."
                     rows={3}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
@@ -1418,7 +1418,7 @@ END:VCALENDAR`;
                   "🎥 {savedVideoTitle}"
                 </p>
                 <p className="text-green-700 text-sm">
-                  Your cooking session has been saved to <span className="font-bold">Test Kitchen Videos</span> and is ready to share with students!
+                  Your practice session has been saved to <span className="font-bold">Practice Videos</span> and is ready to share with students!
                 </p>
               </div>
               
@@ -1434,7 +1434,7 @@ END:VCALENDAR`;
                 </button>
                 
                 <p className="text-xs text-gray-500">
-                  📚 Your video is now available in the Test Kitchen Videos collection
+                  📚 Your video is now available in the Practice Videos collection
                 </p>
               </div>
             </div>

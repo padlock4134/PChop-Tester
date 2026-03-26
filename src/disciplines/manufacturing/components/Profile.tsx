@@ -1010,20 +1010,20 @@ const Profile = () => {
     if (fileName === 'skill-mastery-tracking') {
       const line1Width = doc.getTextWidth(cleanText('This report analyzes student skill development across core culinary competencies.'));
       doc.text(cleanText('This report analyzes student skill development across core culinary competencies.'), 105 - line1Width/2, 97);
-      const line2Width = doc.getTextWidth(cleanText('Data reflects performance metrics for knife skills, cooking techniques, food safety,'));
-      doc.text(cleanText('Data reflects performance metrics for knife skills, cooking techniques, food safety,'), 105 - line2Width/2, 104);
-      const line3Width = doc.getTextWidth(cleanText('and recipe execution during the current academic period.'));
-      doc.text(cleanText('and recipe execution during the current academic period.'), 105 - line3Width/2, 111);
+      const line2Width = doc.getTextWidth(cleanText('Data reflects performance metrics for technical skills, safety practices, and workflow quality,'));
+      doc.text(cleanText('Data reflects performance metrics for technical skills, safety practices, and workflow quality,'), 105 - line2Width/2, 104);
+      const line3Width = doc.getTextWidth(cleanText('and task execution during the current academic period.'));
+      doc.text(cleanText('and task execution during the current academic period.'), 105 - line3Width/2, 111);
     } else if (fileName === 'class-performance') {
       const line1Width = doc.getTextWidth(cleanText('This report provides comprehensive analysis of class-level performance metrics'));
       doc.text(cleanText('This report provides comprehensive analysis of class-level performance metrics'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('including completion rates, knowledge gaps, and instructor effectiveness across'));
       doc.text(cleanText('including completion rates, knowledge gaps, and instructor effectiveness across'), 105 - line2Width/2, 104);
-      const line3Width = doc.getTextWidth(cleanText('all culinary program courses for the current semester.'));
-      doc.text(cleanText('all culinary program courses for the current semester.'), 105 - line3Width/2, 111);
+      const line3Width = doc.getTextWidth(cleanText('all program courses for the current semester.'));
+      doc.text(cleanText('all program courses for the current semester.'), 105 - line3Width/2, 111);
     } else if (fileName === 'live-session-metrics') {
-      const line1Width = doc.getTextWidth(cleanText('This report examines student engagement and participation in live cooking'));
-      doc.text(cleanText('This report examines student engagement and participation in live cooking'), 105 - line1Width/2, 97);
+      const line1Width = doc.getTextWidth(cleanText('This report examines student engagement and participation in live training'));
+      doc.text(cleanText('This report examines student engagement and participation in live training'), 105 - line1Width/2, 97);
       const line2Width = doc.getTextWidth(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'));
       doc.text(cleanText('demonstrations and interactive sessions, measuring attendance, participation,'), 105 - line2Width/2, 104);
       const line3Width = doc.getTextWidth(cleanText('and learning outcomes from real-time culinary instruction.'));
@@ -1181,7 +1181,7 @@ CLS006,Menu Planning & Costing,79,75%,Cost Analysis,82%,Chef Brown
 CLS007,Restaurant Operations,83,82%,Service Flow,87%,Chef Wilson
 CLS008,Nutrition & Dietary Planning,87,89%,Macro Calculations,91%,Chef Anderson
 CLS009,Culinary Arts Capstone,90,88%,Presentation Skills,93%,Chef Taylor
-CLS010,Professional Kitchen Management,86,84%,Team Leadership,89%,Chef Garcia`;
+CLS010,Professional Workspace Management,86,84%,Team Leadership,89%,Chef Garcia`;
       } else {
         return `Report Type,${reportTitle}
 Generated Date,${currentDate}
