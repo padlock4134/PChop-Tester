@@ -103,7 +103,8 @@ import MachiningBenchDashboard from './disciplines/machining/components/BenchDas
 import MachiningBenchFreddieWidget from './disciplines/machining/modules/BenchFreddieWidget';
 import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
-import SupabaseProvider, { useSupabase } from './disciplines/culinary/components/SupabaseProvider';
+import CulinarySupabaseProvider, { useSupabase } from './disciplines/culinary/components/SupabaseProvider';
+import DisciplineSupabaseProvider from './components/DisciplineSupabaseProvider';
 import type { WristbandSessionMetadata } from './disciplines/culinary/types/session-types';
 import { setSupabaseJwt } from './disciplines/culinary/api/supabaseClient';
 import { useDeviceDetect, getResponsiveClasses } from './disciplines/culinary/utils/responsiveUtils';
@@ -455,7 +456,7 @@ const App = () => {
           setSupabaseJwt(supabaseToken);
         }}
       >
-        <SupabaseProvider>
+        <DisciplineSupabaseProvider>
           <RecipeProvider>
             <FreddieProvider>
               <DisciplineProvider>
@@ -463,7 +464,7 @@ const App = () => {
               </DisciplineProvider>
             </FreddieProvider>
           </RecipeProvider>
-        </SupabaseProvider>
+        </DisciplineSupabaseProvider>
       </WristbandAuthProvider>
     </AdminToggleProvider>
   );
