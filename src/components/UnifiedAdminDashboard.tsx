@@ -1340,26 +1340,28 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <p className="text-gray-600 italic">{t('admin.subtitle')}</p>
             
             {/* Discipline Filter Dropdown with Exit Admin Dropdown */}
-            <div className="mt-4 flex items-center justify-center gap-3">
-              <label className="font-retro text-sm text-maineBlue">Program:</label>
-              <select
-                value={selectedDiscipline}
-                onChange={(e) => {
-                  const newDiscipline = e.target.value as 'total' | DisciplineKey;
-                  setSelectedDiscipline(newDiscipline);
-                  // Store non-total selections for next time
-                  if (newDiscipline !== 'total') {
-                    localStorage.setItem('adminSelectedDiscipline', newDiscipline);
-                  }
-                }}
-                className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer"
-              >
-                {disciplineOptions.map((opt) => (
-                  <option key={opt.key} value={opt.key}>
-                    {opt.icon} {opt.label}
-                  </option>
-                ))}
-              </select>
+            <div className="mt-4 flex flex-col lg:flex-row items-center justify-center gap-3">
+              <div className="flex items-center gap-2 w-full lg:w-auto justify-center">
+                <label className="font-retro text-sm text-maineBlue">Program:</label>
+                <select
+                  value={selectedDiscipline}
+                  onChange={(e) => {
+                    const newDiscipline = e.target.value as 'total' | DisciplineKey;
+                    setSelectedDiscipline(newDiscipline);
+                    // Store non-total selections for next time
+                    if (newDiscipline !== 'total') {
+                      localStorage.setItem('adminSelectedDiscipline', newDiscipline);
+                    }
+                  }}
+                  className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer"
+                >
+                  {disciplineOptions.map((opt) => (
+                    <option key={opt.key} value={opt.key}>
+                      {opt.icon} {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
               
               {/* Exit Admin Mode Dropdown */}
               <select
@@ -1370,7 +1372,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   }
                 }}
                 defaultValue=""
-                className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer"
+                className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
               >
                 <option value="" disabled>Exit Admin Mode</option>
                 {disciplineOptions.filter(opt => opt.key !== 'total').map((opt) => (
