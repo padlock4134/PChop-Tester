@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { PlayIcon, PauseIcon, StopIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 interface Timer {
@@ -18,6 +19,9 @@ interface JobTimerProps {
 
 const CookingTimer: React.FC<JobTimerProps> = ({ teamSize, setTeamSize }) => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [timers, setTimers] = useState<Timer[]>([]);
   const [newTimerMinutes, setNewTimerMinutes] = useState(5);
   const [newTimerLabel, setNewTimerLabel] = useState('');
@@ -193,7 +197,7 @@ const CookingTimer: React.FC<JobTimerProps> = ({ teamSize, setTeamSize }) => {
                 <div className="font-semibold text-maineBlue">{timer.label}</div>
                 <div className={`text-2xl font-mono ${timer.isFinished ? 'text-red-600' : 'text-gray-800'}`}>
                   {formatTime(timer.remainingSeconds)}
-                  {timer.isFinished && <span className="text-sm ml-2 text-red-600 font-bold">{t('challenge.completed').toUpperCase()}!</span>}
+                  {timer.isFinished && <span className="text-sm ml-2 text-red-600 font-bold">{ct('completed').toUpperCase()}!</span>}
                 </div>
               </div>
               <div className="flex space-x-2">
