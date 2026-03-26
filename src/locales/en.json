@@ -878,7 +878,54 @@
     "alreadyClaimed": "Already Claimed",
     "submitAndClaim": "Submit Proof & Claim Reward",
     "xpAwarded": "XP and badge awarded! 🎉",
-    "alreadyClaimedMessage": "You already claimed this week's reward."
+    "alreadyClaimedMessage": "You already claimed this week's reward.",
+    "disciplineCopy": {
+      "culinary": {
+        "challengeOfTheWeek": "Recipe Challenge of the Week",
+        "submitProof": "Submit Dish Photo",
+        "uploadPhoto": "Click to add a photo of your dish"
+      },
+      "plumbing": {
+        "challengeOfTheWeek": "Fit Challenge of the Week",
+        "submitProof": "Submit Jobsite Proof",
+        "uploadPhoto": "Click to add a photo of your plumbing work"
+      },
+      "automotive": {
+        "challengeOfTheWeek": "Repair Challenge of the Week",
+        "submitProof": "Submit Repair Proof",
+        "uploadPhoto": "Click to add a photo of your repair work"
+      },
+      "construction": {
+        "challengeOfTheWeek": "Task Challenge of the Week",
+        "submitProof": "Submit Build Proof",
+        "uploadPhoto": "Click to add a photo of your build work"
+      },
+      "electrical": {
+        "challengeOfTheWeek": "Circuit Challenge of the Week",
+        "submitProof": "Submit Wiring Proof",
+        "uploadPhoto": "Click to add a photo of your wiring work"
+      },
+      "hvac": {
+        "challengeOfTheWeek": "System Challenge of the Week",
+        "submitProof": "Submit Service Proof",
+        "uploadPhoto": "Click to add a photo of your HVAC work"
+      },
+      "manufacturing": {
+        "challengeOfTheWeek": "Process Challenge of the Week",
+        "submitProof": "Submit Process Proof",
+        "uploadPhoto": "Click to add a photo of your process work"
+      },
+      "logistics": {
+        "challengeOfTheWeek": "Route Challenge of the Week",
+        "submitProof": "Submit Route Proof",
+        "uploadPhoto": "Click to add a photo of your route execution"
+      },
+      "machining": {
+        "challengeOfTheWeek": "Part Challenge of the Week",
+        "submitProof": "Submit Part Proof",
+        "uploadPhoto": "Click to add a photo of your machining work"
+      }
+    }
   },
   "cookbook": {
     "selectRecipe": "Select Recipe to Showcase",

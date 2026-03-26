@@ -1175,7 +1175,54 @@
     "alreadyClaimed": "Ya Reclamado",
     "submitAndClaim": "Enviar Prueba y Reclamar Recompensa",
     "xpAwarded": "¡XP e insignia otorgados! 🎉",
-    "alreadyClaimedMessage": "Ya reclamaste la recompensa de esta semana."
+    "alreadyClaimedMessage": "Ya reclamaste la recompensa de esta semana.",
+    "disciplineCopy": {
+      "culinary": {
+        "challengeOfTheWeek": "Desafío de Receta de la Semana",
+        "submitProof": "Enviar Foto del Platillo",
+        "uploadPhoto": "Haz clic para agregar una foto de tu platillo"
+      },
+      "plumbing": {
+        "challengeOfTheWeek": "Desafío de Instalación de la Semana",
+        "submitProof": "Enviar Evidencia del Trabajo",
+        "uploadPhoto": "Haz clic para agregar una foto de tu trabajo de plomería"
+      },
+      "automotive": {
+        "challengeOfTheWeek": "Desafío de Reparación de la Semana",
+        "submitProof": "Enviar Evidencia de Reparación",
+        "uploadPhoto": "Haz clic para agregar una foto de tu trabajo de reparación"
+      },
+      "construction": {
+        "challengeOfTheWeek": "Desafío de Obra de la Semana",
+        "submitProof": "Enviar Evidencia de Construcción",
+        "uploadPhoto": "Haz clic para agregar una foto de tu trabajo de construcción"
+      },
+      "electrical": {
+        "challengeOfTheWeek": "Desafío de Circuito de la Semana",
+        "submitProof": "Enviar Evidencia de Cableado",
+        "uploadPhoto": "Haz clic para agregar una foto de tu trabajo eléctrico"
+      },
+      "hvac": {
+        "challengeOfTheWeek": "Desafío de Sistema de la Semana",
+        "submitProof": "Enviar Evidencia de Servicio",
+        "uploadPhoto": "Haz clic para agregar una foto de tu trabajo HVAC"
+      },
+      "manufacturing": {
+        "challengeOfTheWeek": "Desafío de Proceso de la Semana",
+        "submitProof": "Enviar Evidencia de Proceso",
+        "uploadPhoto": "Haz clic para agregar una foto de tu trabajo de proceso"
+      },
+      "logistics": {
+        "challengeOfTheWeek": "Desafío de Ruta de la Semana",
+        "submitProof": "Enviar Evidencia de Ruta",
+        "uploadPhoto": "Haz clic para agregar una foto de tu ejecución de ruta"
+      },
+      "machining": {
+        "challengeOfTheWeek": "Desafío de Pieza de la Semana",
+        "submitProof": "Enviar Evidencia de Pieza",
+        "uploadPhoto": "Haz clic para agregar una foto de tu trabajo de mecanizado"
+      }
+    }
   },
   "recipeMatcher": {
     "recipeMatcher": "Buscador de Recetas",
