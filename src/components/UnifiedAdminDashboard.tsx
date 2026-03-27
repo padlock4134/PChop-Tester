@@ -215,7 +215,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [showLtiIntegrationModal, setShowLtiIntegrationModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
-  const [selectedApiModel, setSelectedApiModel] = useState('GPT-4o Mini');
   const [selectedLtiProvider, setSelectedLtiProvider] = useState('Canvas');
   
   // Integrity monitoring state
@@ -495,7 +494,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         .from('api_keys')
         .insert({
           api_key: apiKey,
-          name: `${selectedLtiProvider} • ${selectedApiModel} • ${new Date().toLocaleDateString()}`,
+          name: `${selectedLtiProvider} • LTI 1.3 • ${new Date().toLocaleDateString()}`,
           created_by: currentUser.id,
           is_active: true,
           created_at: new Date().toISOString()
@@ -5074,19 +5073,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4">
-                <h3 className="font-bold text-green-900 mb-3 text-sm sm:text-base">API Model</h3>
-                <select
-                  value={selectedApiModel}
-                  onChange={(e) => setSelectedApiModel(e.target.value)}
-                  className="w-full px-3 py-2 border-2 border-green-400 rounded-md bg-white text-sm min-h-[44px]"
-                >
-                  <option>GPT-4o Mini</option>
-                  <option>GPT-4.1</option>
-                  <option>Claude 3.5 Sonnet</option>
-                  <option>Gemini 1.5 Pro</option>
-                </select>
-                <p className="text-xs text-green-800 mt-2">
-                  Selected integration: <strong>{selectedLtiProvider}</strong> + <strong>{selectedApiModel}</strong>.
+                <h3 className="font-bold text-green-900 mb-2 text-sm sm:text-base">Integration Workflow</h3>
+                <p className="text-xs sm:text-sm text-green-900">
+                  Once LTI 1.3 / Advantage is connected for <strong>{selectedLtiProvider}</strong>, the integration continues with the
+                  existing background curriculum deployment flow (same behavior as the Bench Tech curriculum deployer).
                 </p>
               </div>
 
