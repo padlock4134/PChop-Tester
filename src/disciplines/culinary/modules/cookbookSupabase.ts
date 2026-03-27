@@ -15,8 +15,11 @@ export async function saveCookbook(userId: string, recipes: RecipeCard[]) {
 }
 
 export async function fetchCookbook(userId: string): Promise<RecipeCard[]> {
+  if (!userId) return [];
+
   const sessionValid = await isSessionValid();
-  if (!sessionValid || !userId) throw new Error('Not signed in');
+  if (!sessionValid) return [];
+
   const { data, error } = await supabase
     .from('user_cookbook')
     .select('recipes')
