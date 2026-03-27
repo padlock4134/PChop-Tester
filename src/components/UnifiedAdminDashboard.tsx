@@ -2795,7 +2795,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         onChange={(e) => setPublishNotification(e.target.value)}
                         className="w-full px-2 sm:px-3 py-2 border-4 border-green-400 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white text-sm sm:text-base min-h-[44px]"
                       >
-                        <option>{t('admin.notifyStudents')}</option>
+                        <option>Notify Faculty</option>
                         <option>{t('admin.silentPublish')}</option>
                         <option>{t('admin.notifyStudents')}</option>
                       </select>
@@ -3811,8 +3811,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <option value="program_2">Advanced Program</option>
                 <option value="program_3">Specialized Track</option>
                 <option value="program_4">Management Program</option>
-                <option value="food_service">{t('admin.foodServiceManagement')}</option>
-                <option value="hospitality">{t('admin.hospitalityManagementOption')}</option>
+                <option value="program_5">Industry Fundamentals</option>
+                <option value="program_6">Professional Development</option>
               </select>
             </div>
             
@@ -3825,8 +3825,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       {selectedProgram === 'program_2' && 'Advanced Program'}
                       {selectedProgram === 'program_3' && 'Specialized Track'}
                       {selectedProgram === 'program_4' && 'Management Program'}
-                      {selectedProgram === 'food_service' && t('admin.foodServiceManagement')}
-                      {selectedProgram === 'hospitality' && t('admin.hospitalityManagementOption')}
+                      {selectedProgram === 'program_5' && 'Industry Fundamentals'}
+                      {selectedProgram === 'program_6' && 'Professional Development'}
                     </span>
                   </p>
                 </div>
@@ -4199,7 +4199,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.motherSaucesMastery')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">Core Skills Mastery</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
@@ -5355,7 +5355,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <input
                   type="text"
                   id="curriculum-title"
-                  placeholder="e.g., Week 5: Sauce Making Assignment"
+                  placeholder="e.g., Week 5: Core Skills Assignment"
                   className="w-full border-2 border-gray-300 rounded-md px-3 py-2 text-sm"
                 />
               </div>
@@ -5913,7 +5913,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </label>
                   <label className="flex items-center min-h-[44px]">
                     <input type="checkbox" className="mr-2 w-5 h-5" />
-                    <span className="text-xs sm:text-sm text-gray-700">Sauce Making</span>
+                    <span className="text-xs sm:text-sm text-gray-700">Core Techniques</span>
                   </label>
                 </div>
               </div>
@@ -6062,7 +6062,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   onChange={(e) => setNewStudentProgram(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
-                  <option value="{skin.people.defaultProgram}">{skin.people.defaultProgram}</option>
+                  <option value={skin.people.defaultProgram}>{skin.people.defaultProgram}</option>
                   <option value="Advanced Program">Advanced Program</option>
                   <option value="Specialized Track">Specialized Track</option>
                   <option value="Management Program">Management Program</option>
@@ -6199,8 +6199,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   value={`Bachelor's Degree in ${skin.name}`}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-maineBlue text-sm min-h-[44px]"
                 >
-                  <option value={`Bachelor's Degree in ${skin.name}`}>Bachelor's Degree in {skin.name}</option>
-                  <option value={`Associate's Degree in ${skin.name}`}>Associate's Degree in {skin.name}</option>
+                  <option value={`Bachelor's Degree in ${skin.name}`}>{`Bachelor's Degree in ${skin.name}`}</option>
+                  <option value={`Associate's Degree in ${skin.name}`}>{`Associate's Degree in ${skin.name}`}</option>
                 </select>
               </div>
               
@@ -6900,7 +6900,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     type="text"
                     value={editingFaculty.courses}
                     onChange={(e) => setEditingFaculty({...editingFaculty, courses: e.target.value})}
-                    placeholder="e.g., Advanced Techniques, Sauce Mastery"
+                    placeholder="e.g., Core Techniques, Advanced Systems"
                     className="w-full border-4 border-maineBlue rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base min-h-[44px]"
                   />
                 </div>
