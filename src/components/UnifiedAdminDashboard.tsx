@@ -2538,13 +2538,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       >
                         {t('admin.browseFiles')}
                       </button>
-                      <button
-                        disabled
-                        className="w-full sm:w-auto bg-gray-100 text-gray-600 px-6 py-2 rounded-md font-retro border-2 border-gray-300 cursor-not-allowed text-sm sm:text-base min-h-[44px]"
-                        title="API keys are automatically provisioned during LMS integration."
-                      >
-                        Auto-provisioned via LMS Integration
-                      </button>
                       <button 
                         onClick={() => setShowChefFreddieModal(true)}
                         className="w-full sm:w-auto bg-pink-100 text-pink-700 px-6 py-2 rounded-md hover:bg-pink-200 font-retro flex items-center justify-center gap-2 border-2 border-pink-400 text-sm sm:text-base min-h-[44px]"
