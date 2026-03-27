@@ -213,7 +213,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showAlumniManagementModal, setShowAlumniManagementModal] = useState(false);
   const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+  const [showLtiIntegrationModal, setShowLtiIntegrationModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
+  const [selectedApiModel, setSelectedApiModel] = useState('GPT-4o Mini');
+  const [selectedLtiProvider, setSelectedLtiProvider] = useState('Canvas');
   
   // Integrity monitoring state
   const [integrityAlerts, setIntegrityAlerts] = useState<IntegrityAlert[]>([]);
@@ -474,6 +477,47 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const showSuccess = (message: string) => {
     setDownloadedReportInfo({ type: 'success', count: 0, filename: message });
     setShowDownloadSuccessModal(true);
+  };
+
+  const handleGenerateApiKey = async () => {
+    if (!currentUser?.id) {
+      showWarning('You must be logged in to generate API keys');
+      return;
+    }
+
+    setGeneratingApiKey(true);
+    try {
+      const timestamp = Date.now().toString(36);
+      const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      const apiKey = `pk_porkchop_${timestamp}_${randomPart}`;
+
+      const { data, error } = await supabase
+        .from('api_keys')
+        .insert({
+          api_key: apiKey,
+          name: `${selectedLtiProvider} • ${selectedApiModel} • ${new Date().toLocaleDateString()}`,
+          created_by: currentUser.id,
+          is_active: true,
+          created_at: new Date().toISOString()
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.warn('API keys table may not exist:', error);
+        setGeneratedApiKey(apiKey);
+        setShowApiKeyModal(true);
+      } else {
+        setGeneratedApiKey(apiKey);
+        setShowApiKeyModal(true);
+        setApiKeys(prev => [...prev, data]);
+      }
+    } catch (error: any) {
+      console.error('API key generation error:', error);
+      showError('Failed to generate API key: ' + error.message);
+    } finally {
+      setGeneratingApiKey(false);
+    }
   };
 
   // Mock upcoming events data
@@ -1399,6 +1443,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </option>
                 ))}
               </select>
+              <button
+                onClick={() => setShowLtiIntegrationModal(true)}
+                className="bg-maineBlue hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
+              >
+                🔗 LMS Integration
+              </button>
             </div>
           </div>
           
@@ -2482,50 +2532,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         {t('admin.browseFiles')}
                       </button>
                       <button 
-                        onClick={async () => {
-                          if (!currentUser?.id) {
-                            showWarning('You must be logged in to generate API keys');
-                            return;
-                          }
-                          
-                          setGeneratingApiKey(true);
-                          try {
-                            // Generate cryptographically secure API key
-                            const timestamp = Date.now().toString(36);
-                            const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                            const apiKey = `pk_porkchop_${timestamp}_${randomPart}`;
-                            
-                            // Save to database (you'll need to create an api_keys table)
-                            const { data, error } = await supabase
-                              .from('api_keys')
-                              .insert({
-                                api_key: apiKey,
-                                name: `API Key ${new Date().toLocaleDateString()}`,
-                                created_by: currentUser.id,
-                                is_active: true,
-                                created_at: new Date().toISOString()
-                              })
-                              .select()
-                              .single();
-                            
-                            if (error) {
-                              // If table doesn't exist, just show the key
-                              console.warn('API keys table may not exist:', error);
-                              setGeneratedApiKey(apiKey);
-                              setShowApiKeyModal(true);
-                            } else {
-                              setGeneratedApiKey(apiKey);
-                              setShowApiKeyModal(true);
-                              // Optionally reload API keys list
-                              setApiKeys(prev => [...prev, data]);
-                            }
-                          } catch (error: any) {
-                            console.error('API key generation error:', error);
-                            showError('Failed to generate API key: ' + error.message);
-                          } finally {
-                            setGeneratingApiKey(false);
-                          }
-                        }}
+                        onClick={handleGenerateApiKey}
                         disabled={generatingApiKey}
                         className="w-full sm:w-auto bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                       >
@@ -5023,6 +5030,78 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     Files are processed immediately after selection
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* LTI Integration Modal */}
+      {showLtiIntegrationModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[90vh] flex flex-col">
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">🔗 LTI 1.3 / Advantage Integration</h2>
+                <button
+                  onClick={() => setShowLtiIntegrationModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 text-xs sm:text-base">Configure API access and LMS launch settings for your unified dashboard.</p>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4">
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-blue-900 mb-3 text-sm sm:text-base">LMS Provider</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {['Blackboard', 'Canvas', 'Moodle', 'Other'].map((provider) => (
+                    <button
+                      key={provider}
+                      onClick={() => setSelectedLtiProvider(provider)}
+                      className={`px-3 py-2 rounded border-2 text-xs sm:text-sm font-medium transition-colors min-h-[44px] ${
+                        selectedLtiProvider === provider
+                          ? 'bg-maineBlue text-white border-maineBlue'
+                          : 'bg-white text-gray-700 border-blue-300 hover:bg-blue-100'
+                      }`}
+                    >
+                      {provider}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-green-900 mb-3 text-sm sm:text-base">API Model</h3>
+                <select
+                  value={selectedApiModel}
+                  onChange={(e) => setSelectedApiModel(e.target.value)}
+                  className="w-full px-3 py-2 border-2 border-green-400 rounded-md bg-white text-sm min-h-[44px]"
+                >
+                  <option>GPT-4o Mini</option>
+                  <option>GPT-4.1</option>
+                  <option>Claude 3.5 Sonnet</option>
+                  <option>Gemini 1.5 Pro</option>
+                </select>
+                <p className="text-xs text-green-800 mt-2">
+                  Selected integration: <strong>{selectedLtiProvider}</strong> + <strong>{selectedApiModel}</strong>.
+                </p>
+              </div>
+
+              <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-yellow-900 mb-2 text-sm sm:text-base">API Key Generation</h3>
+                <p className="text-xs sm:text-sm text-yellow-900 mb-3">
+                  Generate a key for LTI deep-linking, roster sync, and grade passback workflows.
+                </p>
+                <button
+                  onClick={handleGenerateApiKey}
+                  disabled={generatingApiKey}
+                  className="w-full sm:w-auto bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro border-2 border-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                >
+                  {generatingApiKey ? t('admin.generating') : t('admin.generateAPIKey')}
+                </button>
               </div>
             </div>
           </div>
