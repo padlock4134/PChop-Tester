@@ -27,7 +27,17 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       output: {
-        manualChunks: undefined,
+        manualChunks: (id) => {
+          if (!id.includes('node_modules')) {
+            return undefined;
+          }
+
+          if (id.includes('jspdf') || id.includes('html2canvas') || id.includes('mammoth') || id.includes('pdf-parse')) {
+            return 'document-vendor';
+          }
+
+          return 'vendor';
+        },
         entryFileNames: 'assets/[name].[hash].js',
         chunkFileNames: 'assets/[name].[hash].js',
         assetFileNames: 'assets/[name].[hash].[ext]'
