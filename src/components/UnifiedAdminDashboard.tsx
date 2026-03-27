@@ -5155,37 +5155,37 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
                     <div className="text-2xl sm:text-3xl mb-2">📝</div>
-                    <h4 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">Quick Action 1</h4>
+                    <h4 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">Plan Learning Activity</h4>
                     <p className="text-xs sm:text-sm text-blue-600 mb-2 sm:mb-3">{assistantQuickActions[0]}</p>
                     <button 
                       onClick={() => handleQuickAction(assistantQuickActions[0])}
                       className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-200 font-retro text-xs sm:text-sm min-h-[44px]"
                     >
-                      Use Prompt
+                      Insert Prompt
                     </button>
                   </div>
                 
                   <div className="border-4 border-green-300 bg-green-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
                     <div className="text-2xl sm:text-3xl mb-2">📅</div>
-                    <h4 className="font-bold text-green-800 mb-2 text-sm sm:text-base">Quick Action 2</h4>
+                    <h4 className="font-bold text-green-800 mb-2 text-sm sm:text-base">Build Lesson Sequence</h4>
                     <p className="text-xs sm:text-sm text-green-600 mb-2 sm:mb-3">{assistantQuickActions[1]}</p>
                     <button 
                       onClick={() => handleQuickAction(assistantQuickActions[1])}
                       className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-xs sm:text-sm min-h-[44px]"
                     >
-                      Use Prompt
+                      Insert Prompt
                     </button>
                   </div>
                 
                   <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
                     <div className="text-2xl sm:text-3xl mb-2">🏆</div>
-                    <h4 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Quick Action 3</h4>
+                    <h4 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Create Assessment Rubric</h4>
                     <p className="text-xs sm:text-sm text-purple-600 mb-2 sm:mb-3">{assistantQuickActions[2]}</p>
                     <button 
                       onClick={() => handleQuickAction(assistantQuickActions[2])}
                       className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200 font-retro text-xs sm:text-sm min-h-[44px]"
                     >
-                      Use Prompt
+                      Insert Prompt
                     </button>
                   </div>
                 
