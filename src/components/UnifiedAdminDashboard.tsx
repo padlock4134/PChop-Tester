@@ -20,6 +20,7 @@ import {
   ExclamationTriangleIcon,
 } from '@heroicons/react/24/outline';
 import { getIntegrityAlerts, reviewIntegrityAlert, IntegrityAlert } from '../services/integrityMonitoring';
+import NavBar from '../disciplines/culinary/components/NavBar';
 
 interface AdminStats {
   totalUsers: number;
@@ -1294,7 +1295,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="mb-8 mx-auto">
+    <>
+      <NavBar />
+      <div className="mb-8 mx-auto">
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-1 border-b-2 border-maineBlue max-w-6xl mx-auto">
         <button
@@ -9215,6 +9218,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       )}
 
     </div>
+    </>
   );
 };
 
