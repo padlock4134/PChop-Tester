@@ -59,7 +59,20 @@ const baseDisciplineOptions = [
 ];
 
 const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
-  const { t } = useTranslation();
+  const { t: i18nT } = useTranslation();
+  const t = (key: string, options?: Record<string, any>) => {
+    const fallback =
+      key
+        .split('.')
+        .pop()
+        ?.replace(/([A-Z])/g, ' $1')
+        .replace(/[_-]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .replace(/^./, (c) => c.toUpperCase()) || key;
+
+    return i18nT(key, { defaultValue: fallback, ...(options || {}) });
+  };
   const navigate = useNavigate();
   const { toggleAdminMode } = useAdminToggle();
   const [activeTab, setActiveTab] = useState('overview');
