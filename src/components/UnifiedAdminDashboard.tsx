@@ -1070,15 +1070,14 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         cancelled: subsData?.filter(s => s.status === 'cancelled').length || 0,
       };
 
-      // Fetch content data
-      const { data: cookbookData } = await supabase
-        .from('user_cookbook')
-        .select('recipes');
-      
-      const totalContent = cookbookData?.reduce((sum, cookbook) => {
-        const recipes = cookbook.recipes || [];
-        return sum + (Array.isArray(recipes) ? recipes.length : 0);
-      }, 0) || 0;
+      // Fetch content data for currently selected discipline skin
+      const { count: totalContentCount, error: contentError } = await supabase
+        .from(skin.content.table)
+        .select('*', { count: 'exact', head: true });
+
+      if (contentError) throw contentError;
+
+      const totalContent = totalContentCount || 0;
 
       // Calculate active users (logged in within last 7 days)
       const sevenDaysAgo = new Date();
@@ -2165,7 +2164,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="border-4 border-orange-400 bg-orange-50 rounded-lg p-3 sm:p-6 text-center hover:scale-105 transition-transform duration-200">
                     <div className="mb-2 sm:mb-3 text-3xl sm:text-4xl">🏅</div>
                     <h3 className="font-bold text-gray-900 mb-2 font-retro text-sm sm:text-base">{t('admin.credentialingCertifications')}</h3>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">{t('admin.trackServSafe')}</p>
+                    <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">Track certifications and compliance for {skin.name} programs.</p>
                     <button 
                       onClick={() => setShowCredentialingModal(true)}
                       className="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 font-retro w-full text-xs sm:text-base min-h-[44px]"
@@ -3400,7 +3399,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-orange-600">47</div>
                     <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.businessOwners')}</p>
-                    <p className="text-xs text-orange-600">{t('admin.startedOwnRestaurants')}</p>
+                    <p className="text-xs text-orange-600">Started their own businesses</p>
                   </div>
                 </div>
               </div>
@@ -3425,7 +3424,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </span>
                       <div className="text-xs sm:text-sm text-gray-600 space-y-1">
                         <p>🏆 {skin.people.mockAlumniTitles[0]} at top-tier employer</p>
-                        <p>📍 Le Bernardin, New York</p>
+                        <p>📍 Top industry employer</p>
                         <p>💰 Salary: $85,000/year</p>
                       </div>
                     </div>
@@ -3460,8 +3459,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         Class of 2021
                       </span>
                       <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>🏢 Restaurant Owner & Entrepreneur</p>
-                        <p>📍 Chen's Kitchen (3 locations)</p>
+                        <p>🏢 {skin.people.mockAlumniTitles[1]} & Entrepreneur</p>
+                        <p>📍 Multi-location industry business</p>
                         <p>💰 Revenue: $2.1M annually</p>
                       </div>
                     </div>
@@ -3694,7 +3693,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">🔍</span>
-                      <span className="font-medium text-xs sm:text-base">{t('admin.recipeMatcher')}</span>
+                      <span className="font-medium text-xs sm:text-base">Content Matcher</span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
@@ -3718,7 +3717,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
                       <span className="text-base sm:text-lg mr-2 sm:mr-3">🔴</span>
-                      <span className="font-medium text-xs sm:text-base">{t('admin.globalTestKitchen')}</span>
+                      <span className="font-medium text-xs sm:text-base">Live Skills Lab</span>
                     </div>
                     <div className="flex items-center">
                       <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
@@ -4162,7 +4161,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
                       <div className="text-2xl sm:text-3xl font-bold text-blue-600">847</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalRecipeViews')}</p>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Content Views</p>
                       <p className="text-xs text-blue-600">↑ 12% {t('admin.thisWeek')}</p>
                     </div>
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
@@ -4177,7 +4176,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
                       <div className="text-2xl sm:text-3xl font-bold text-blue-600">28</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.activeRecipes')} ({skin.content.metricLabel})</p>
+                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Active Content ({skin.content.metricLabel})</p>
                       <p className="text-xs text-blue-600">↑ 3 {t('admin.newThisWeek')}</p>
                     </div>
                   </div>
@@ -4186,7 +4185,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 {/* Top Performing Content */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6">
                   <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏆 {t('admin.topPerformingRecipes')} ({skin.content.metricLabel})</h3>
+                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏆 Top Performing Content ({skin.content.metricLabel})</h3>
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
@@ -4402,10 +4401,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       try {
                         // Generate analytics report data
                         const analyticsData = [
-                          { metric: 'Total Recipe Views', value: 847, change: '+12%' },
+                          { metric: 'Total Content Views', value: 847, change: '+12%' },
                           { metric: 'Completion Rate', value: '73%', change: '+5%' },
                           { metric: 'Avg Engagement Score', value: 4.2, change: 'No change' },
-                          { metric: 'Active Recipes', value: 28, change: '+3 new' },
+                          { metric: 'Active Content', value: 28, change: '+3 new' },
                           { metric: `Top ${skin.content.table}`, value: 'Advanced Techniques', completion: '94%' },
                           { metric: 'Needs Attention', value: 'Advanced Plating', completion: '34%' }
                         ];
@@ -4465,7 +4464,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">✅ {t('admin.contentApprovalWorkflows')}</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
                     <div>
-                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.recipeApprovalProcess')}</h4>
+                      <h4 className="font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{skin.content.approvalLabel} Process</h4>
                       <div className="space-y-2 sm:space-y-3">
                         <label className="flex items-center">
                           <input 
@@ -7039,7 +7038,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <option value="networking">Networking Event</option>
                     <option value="reunion">Reunion Dinner</option>
                     <option value="career_fair">Career Fair</option>
-                    <option value="workshop">Cooking Workshop</option>
+                    <option value="workshop">Skills Workshop</option>
                   </select>
                 </div>
                 <div>
@@ -7158,7 +7157,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                     <div className="bg-white border-2 border-purple-300 rounded-lg p-2 sm:p-3">
                       <div className="flex justify-between items-center mb-2">
-                        <p className="font-semibold text-gray-900 text-xs sm:text-base">New Kitchen Equipment</p>
+                        <p className="font-semibold text-gray-900 text-xs sm:text-base">New Lab Equipment</p>
                         <span className="text-xs sm:text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">In Progress</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
@@ -7202,9 +7201,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         const donorData = [
                           { name: 'John Smith', email: 'john.s@email.com', amount: 500, date: '2024-11-15', campaign: 'Scholarship Fund 2025' },
                           { name: 'Mary Johnson', email: 'mary.j@email.com', amount: 250, date: '2024-11-18', campaign: 'Scholarship Fund 2025' },
-                          { name: 'Robert Davis', email: 'robert.d@email.com', amount: 1000, date: '2024-11-20', campaign: 'New Kitchen Equipment' },
+                          { name: 'Robert Davis', email: 'robert.d@email.com', amount: 1000, date: '2024-11-20', campaign: 'New Lab Equipment' },
                           { name: 'Sarah Wilson', email: 'sarah.w@email.com', amount: 150, date: '2024-11-22', campaign: 'Scholarship Fund 2025' },
-                          { name: 'Michael Brown', email: 'michael.b@email.com', amount: 750, date: '2024-11-23', campaign: 'New Kitchen Equipment' }
+                          { name: 'Michael Brown', email: 'michael.b@email.com', amount: 750, date: '2024-11-23', campaign: 'New Lab Equipment' }
                         ];
                         
                         const csv = convertToCSV(donorData);
@@ -7481,7 +7480,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900 text-base sm:text-lg">Eleven Madison Park</p>
+                        <p className="font-semibold text-gray-900 text-base sm:text-lg">{skin.name} Employer Prime</p>
                         <p className="text-xs sm:text-sm text-gray-600">New York, NY</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
@@ -7501,9 +7500,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       onClick={() => {
                         setEditingPartnerId('partner-2');
                         setIsEditMode(true);
-                        setPartnerName('Eleven Madison Park');
+                        setPartnerName(`${skin.name} Employer Prime`);
                         setPartnerLocation('New York, NY');
-                        setPartnerEmail('info@elevenmadisonpark.com');
+                        setPartnerEmail(`partners@${skin.people.emailDomain}`);
                         setPartnerPhone('(212) 889-0905');
                         setPartnerStudentsHired('8');
                         setPartnerOpenPositions('2');
@@ -7517,7 +7516,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900 text-base sm:text-lg">Alinea</p>
+                        <p className="font-semibold text-gray-900 text-base sm:text-lg">{skin.name} Employer A</p>
                         <p className="text-xs sm:text-sm text-gray-600">Chicago, IL</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
@@ -7537,7 +7536,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       onClick={() => {
                         setEditingPartnerId('partner-3');
                         setIsEditMode(true);
-                        setPartnerName('Alinea');
+                        setPartnerName(`${skin.name} Employer A`);
                         setPartnerLocation('Chicago, IL');
                         setPartnerEmail(`careers@${skin.people.emailDomain}`);
                         setPartnerPhone('(312) 867-0110');
@@ -7553,7 +7552,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900 text-base sm:text-lg">Le Bernardin</p>
+                        <p className="font-semibold text-gray-900 text-base sm:text-lg">{skin.name} Employer B</p>
                         <p className="text-xs sm:text-sm text-gray-600">New York, NY</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
@@ -7573,9 +7572,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       onClick={() => {
                         setEditingPartnerId('partner-4');
                         setIsEditMode(true);
-                        setPartnerName('Le Bernardin');
+                        setPartnerName(`${skin.name} Employer B`);
                         setPartnerLocation('New York, NY');
-                        setPartnerEmail('info@le-bernardin.com');
+                        setPartnerEmail(`hiring@${skin.people.emailDomain}`);
                         setPartnerPhone('(212) 554-1515');
                         setPartnerStudentsHired('10');
                         setPartnerOpenPositions('4');
@@ -7596,7 +7595,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       type="text"
                       value={partnerName}
                       onChange={(e) => setPartnerName(e.target.value)}
-                      placeholder="Restaurant/Company Name"
+                      placeholder="Employer/Company Name"
                       className="border-4 border-blue-300 rounded-lg p-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[44px]"
                     />
                     <input
@@ -7973,7 +7972,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <p className="font-semibold text-gray-900">David Kim</p>
-                        <p className="text-sm text-gray-600">Owner of Kim's Kitchen (Michelin Star)</p>
+                        <p className="text-sm text-gray-600">Owner of a successful independent business</p>
                         <p className="text-xs text-gray-500">Class of 2018</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Featured</span>
@@ -8122,7 +8121,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     type="text"
                     value={newAlumniEmployer}
                     onChange={(e) => setNewAlumniEmployer(e.target.value)}
-                    placeholder="e.g., Le Bernardin, New York"
+                    placeholder={`e.g., ${skin.name} Employer A, Chicago`}
                     className="w-full border-4 border-orange-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm min-h-[44px] bg-white"
                   />
                 </div>
@@ -8297,8 +8296,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-2 sm:p-3">
                       <div className="flex justify-between items-center gap-2">
                         <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 text-xs sm:text-sm">🍽️ ServSafe Manager</p>
-                          <p className="text-xs text-gray-600">Food safety certification</p>
+                          <p className="font-semibold text-gray-900 text-xs sm:text-sm">🏅 Core Safety Certification</p>
+                          <p className="text-xs text-gray-600">Core program safety requirement</p>
                         </div>
                         <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">142 certified</span>
                       </div>
@@ -8306,8 +8305,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">👋 Food Handler Permit</p>
-                        <p className="text-xs text-gray-600">State-required permit</p>
+                        <p className="font-semibold text-gray-900">📄 Licensing Permit</p>
+                        <p className="text-xs text-gray-600">State-required professional permit</p>
                       </div>
                       <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">158 certified</span>
                       </div>
@@ -8315,8 +8314,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">⚠️ Allergen Training</p>
-                        <p className="text-xs text-gray-600">Allergen awareness</p>
+                        <p className="font-semibold text-gray-900">⚠️ Risk Management Training</p>
+                        <p className="text-xs text-gray-600">Safety hazard awareness</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">89 certified</span>
                       </div>
@@ -8324,8 +8323,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">🍷 Alcohol Service (TIPS)</p>
-                        <p className="text-xs text-gray-600">Responsible alcohol service</p>
+                        <p className="font-semibold text-gray-900">✅ Client Service Certification</p>
+                        <p className="text-xs text-gray-600">Professional customer-service standards</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">67 certified</span>
                       </div>
@@ -8333,8 +8332,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">🍸 Bartending Certification</p>
-                        <p className="text-xs text-gray-600">Professional bartending</p>
+                        <p className="font-semibold text-gray-900">🧰 Equipment Operations Certification</p>
+                        <p className="text-xs text-gray-600">Tool and equipment operation standards</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">34 certified</span>
                       </div>
@@ -8695,7 +8694,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                   <div className="border-4 border-green-400 rounded-lg p-2 sm:p-4 bg-green-50 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-green-600">87%</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">ServSafe Certified</p>
+                    <p className="text-xs sm:text-sm text-green-800 font-medium">Compliance Certified</p>
                   </div>
                   <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-4 bg-blue-50 text-center">
                     <div className="text-2xl sm:text-3xl font-bold text-blue-600">156</div>
@@ -8718,8 +8717,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-2 sm:p-3">
                       <div className="flex justify-between items-center gap-2">
                         <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 text-xs sm:text-sm">🍽️ ServSafe Manager</p>
-                          <p className="text-xs text-gray-600">Food safety certification</p>
+                          <p className="font-semibold text-gray-900 text-xs sm:text-sm">🏅 Core Safety Certification</p>
+                          <p className="text-xs text-gray-600">Core program safety requirement</p>
                         </div>
                         <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">142 certified</span>
                       </div>
@@ -8727,8 +8726,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">👋 Food Handler Permit</p>
-                        <p className="text-xs text-gray-600">State-required permit</p>
+                        <p className="font-semibold text-gray-900">📄 Licensing Permit</p>
+                        <p className="text-xs text-gray-600">State-required professional permit</p>
                       </div>
                       <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">158 certified</span>
                       </div>
@@ -8736,8 +8735,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">⚠️ Allergen Training</p>
-                        <p className="text-xs text-gray-600">Allergen awareness</p>
+                        <p className="font-semibold text-gray-900">⚠️ Risk Management Training</p>
+                        <p className="text-xs text-gray-600">Safety hazard awareness</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">89 certified</span>
                       </div>
@@ -8745,8 +8744,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">🍷 Alcohol Service (TIPS)</p>
-                        <p className="text-xs text-gray-600">Responsible alcohol service</p>
+                        <p className="font-semibold text-gray-900">✅ Client Service Certification</p>
+                        <p className="text-xs text-gray-600">Professional customer-service standards</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">67 certified</span>
                       </div>
@@ -8754,8 +8753,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-center">
                       <div>
-                        <p className="font-semibold text-gray-900">🍸 Bartending Certification</p>
-                        <p className="text-xs text-gray-600">Professional bartending</p>
+                        <p className="font-semibold text-gray-900">🧰 Equipment Operations Certification</p>
+                        <p className="text-xs text-gray-600">Tool and equipment operation standards</p>
                       </div>
                       <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">34 certified</span>
                       </div>
@@ -8797,7 +8796,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="bg-white border-2 border-red-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900 text-xs sm:text-sm">Sarah Johnson</p>
-                        <p className="text-xs text-gray-600 truncate">ServSafe expires in 15 days</p>
+                        <p className="text-xs text-gray-600 truncate">Core safety certification expires in 15 days</p>
                       </div>
                       <button className="text-xs bg-yellow-100 text-yellow-800 px-2 sm:px-3 py-1 rounded hover:bg-yellow-200 whitespace-nowrap min-h-[44px]">
                         Send Reminder
@@ -8806,7 +8805,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="bg-white border-2 border-red-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900 text-xs sm:text-sm">Michael Chen</p>
-                        <p className="text-xs text-gray-600 truncate">Food Handler Permit expired 5 days ago</p>
+                        <p className="text-xs text-gray-600 truncate">Licensing permit expired 5 days ago</p>
                       </div>
                       <button className="text-xs bg-red-100 text-red-800 px-2 sm:px-3 py-1 rounded hover:bg-red-200 whitespace-nowrap min-h-[44px]">
                         Urgent Reminder
@@ -8815,7 +8814,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="bg-white border-2 border-red-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900 text-xs sm:text-sm">Emma Rodriguez</p>
-                        <p className="text-xs text-gray-600 truncate">No ServSafe certification on file</p>
+                        <p className="text-xs text-gray-600 truncate">No compliance certification on file</p>
                       </div>
                       <button className="text-xs bg-blue-100 text-blue-800 px-2 sm:px-3 py-1 rounded hover:bg-blue-200 whitespace-nowrap min-h-[44px]">
                         Request Upload
