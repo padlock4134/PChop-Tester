@@ -87,17 +87,17 @@ const DisciplineSelector: React.FC = () => {
       localStorage.setItem('selectedDiscipline', selectedDiscipline);
       
       if (isAdmin) {
-        console.log('DisciplineSelector - Storing discipline:', selectedDiscipline);
-        localStorage.setItem('adminSelectedDiscipline', selectedDiscipline);
-        
+        // Admins should land with global visibility, not a single-discipline filter.
+        localStorage.setItem('adminSelectedDiscipline', 'total');
+
         // Trigger storage event to notify admin dashboard
         window.dispatchEvent(new StorageEvent('storage', {
           key: 'adminSelectedDiscipline',
-          newValue: selectedDiscipline,
+          newValue: 'total',
           oldValue: null,
           storageArea: localStorage
         }));
-        
+
         // Routing: Admin -> /admin
         navigate('/admin');
       } else {
