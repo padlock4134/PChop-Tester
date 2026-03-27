@@ -342,7 +342,8 @@ const AppRoutes = () => {
 
   return (
     <div className="min-h-screen bg-sand">
-      {!isDisciplineSelect && components?.NavBar && <components.NavBar />}
+      {!isDisciplineSelect && !isAdminRoute && components?.NavBar && <components.NavBar />}
+      {isAdminRoute && <CulinaryNavBar />}
       <main className={`max-w-5xl mx-auto px-4 pt-4 pb-8`}>
         <Routes>
           <Route path="/select-discipline" element={<DisciplineSelector />} />
