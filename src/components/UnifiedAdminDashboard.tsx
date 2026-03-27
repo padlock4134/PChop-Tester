@@ -3249,12 +3249,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
                     <div className="mb-3">
-                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Chef Julia Davis</h4>
+                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{facultyList[0]?.name || skin.people.mockFaculty[0].name}</h4>
                       <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
                         Active
                       </span>
                       <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>📚 Courses: Advanced Techniques, Sauce Mastery</p>
+                        <p>📚 Courses: {facultyList[0]?.courses || skin.people.mockFaculty[0].courses}</p>
                         <p>👥 Students: 42 active</p>
                         <p>📅 Last Login: Today, 9:15 AM</p>
                       </div>
@@ -3271,7 +3271,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </button>
                       <button
                         onClick={() => {
-                          if (window.confirm(t('admin.confirmRemoveFaculty', { name: 'Chef Julia Davis' }))) {
+                          if (window.confirm(t('admin.confirmRemoveFaculty', { name: facultyList[0]?.name || skin.people.mockFaculty[0].name }))) {
                             setFacultyList(prev => prev.filter(f => f.id !== facultyList[0].id));
                             alert(t('admin.facultyRemovedSuccess'));
                           }
@@ -3285,12 +3285,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   
                   <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
                     <div className="mb-3">
-                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Chef Marco Rodriguez</h4>
+                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{facultyList[1]?.name || skin.people.mockFaculty[1].name}</h4>
                       <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
                         {t('admin.active')}
                       </span>
                       <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>📚 Courses: Baking Fundamentals, Cake Decoration</p>
+                        <p>📚 Courses: {facultyList[1]?.courses || skin.people.mockFaculty[1].courses}</p>
                         <p>👥 Students: 28 active</p>
                         <p>📅 Last Login: Yesterday, 4:30 PM</p>
                       </div>
@@ -3307,7 +3307,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </button>
                       <button
                         onClick={() => {
-                          if (window.confirm(t('admin.confirmRemoveFaculty', { name: 'Chef Marco Rodriguez' }))) {
+                          if (window.confirm(t('admin.confirmRemoveFaculty', { name: facultyList[1]?.name || skin.people.mockFaculty[1].name }))) {
                             setFacultyList(prev => prev.filter(f => f.id !== facultyList[1].id));
                             alert(t('admin.facultyRemovedSuccess'));
                           }
@@ -3424,7 +3424,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         Class of 2022
                       </span>
                       <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>🏆 Executive Chef at Michelin-starred restaurant</p>
+                        <p>🏆 {skin.people.mockAlumniTitles[0]} at top-tier employer</p>
                         <p>📍 Le Bernardin, New York</p>
                         <p>💰 Salary: $85,000/year</p>
                       </div>
@@ -4937,7 +4937,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="border-4 border-dashed border-maineBlue rounded-lg p-4 sm:p-8 text-center bg-blue-50">
                   <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">📁</div>
                   <h3 className="text-base sm:text-xl font-bold text-maineBlue mb-2">Select Files to Upload</h3>
-                  <p className="text-xs sm:text-base text-gray-600 mb-3 sm:mb-4">Choose curriculum files, recipes, assignments, or lesson plans</p>
+                  <p className="text-xs sm:text-base text-gray-600 mb-3 sm:mb-4">Choose curriculum files, projects, assignments, or lesson plans</p>
                   
                   <input 
                     type="file" 
@@ -5138,9 +5138,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
                     <div className="text-2xl sm:text-3xl mb-2">📝</div>
                     <h4 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">Create Assignment</h4>
-                    <p className="text-xs sm:text-sm text-blue-600 mb-2 sm:mb-3">Generate practical cooking assignments with rubrics</p>
+                    <p className="text-xs sm:text-sm text-blue-600 mb-2 sm:mb-3">Generate practical trade assignments with rubrics</p>
                     <button 
-                      onClick={() => handleQuickAction('Create a practical cooking assignment for Week 5 on sauce making. Include learning objectives, required equipment, step-by-step instructions, and a grading rubric.')}
+                      onClick={() => handleQuickAction(skin.assistant.quickActions[0])}
                       className="bg-blue-100 text-blue-700 px-4 py-2 rounded-md hover:bg-blue-200 font-retro text-xs sm:text-sm min-h-[44px]"
                     >
                       Start Creating
@@ -5152,7 +5152,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-bold text-green-800 mb-2 text-sm sm:text-base">Build Lesson Plan</h4>
                     <p className="text-xs sm:text-sm text-green-600 mb-2 sm:mb-3">Create structured weekly lesson plans</p>
                     <button 
-                      onClick={() => handleQuickAction(skin.assistant.quickActions[0])}
+                      onClick={() => handleQuickAction(skin.assistant.quickActions[1])}
                       className="bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 font-retro text-xs sm:text-sm min-h-[44px]"
                     >
                       Plan Lesson
@@ -5164,7 +5164,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <h4 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Design Rubric</h4>
                     <p className="text-xs sm:text-sm text-purple-600 mb-2 sm:mb-3">Create assessment rubrics for skills</p>
                     <button 
-                      onClick={() => handleQuickAction('Design a comprehensive grading rubric for evaluating student performance in protein cookery. Include criteria for technique, temperature control, presentation, and food safety.')}
+                      onClick={() => handleQuickAction(skin.assistant.quickActions[2])}
                       className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200 font-retro text-xs sm:text-sm min-h-[44px]"
                     >
                       Design Rubric
@@ -6397,10 +6397,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-white border-2 border-green-300 rounded-lg p-2 sm:p-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
                       <div>
-                        <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Julia Martinez</p>
+                        <p className="font-semibold text-gray-900 text-sm sm:text-base">{facultyList[0]?.name || skin.people.mockFaculty[0].name}</p>
                         <p className="text-xs text-gray-600">julia.martinez@{skin.people.emailDomain}</p>
                       </div>
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block w-fit">Instructor</span>
+                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block w-fit">{facultyList[0]?.role || skin.people.mockFaculty[0].role}</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                       <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
@@ -6424,10 +6424,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-white border-2 border-green-300 rounded-lg p-2 sm:p-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
                       <div>
-                        <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Marcus Chen</p>
+                        <p className="font-semibold text-gray-900 text-sm sm:text-base">{facultyList[1]?.name || skin.people.mockFaculty[1].name}</p>
                         <p className="text-xs text-gray-600">marcus.chen@{skin.people.emailDomain}</p>
                       </div>
-                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded inline-block w-fit">Dept. Head</span>
+                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded inline-block w-fit">{facultyList[1]?.role || skin.people.mockFaculty[1].role}</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
                       <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
@@ -6519,7 +6519,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="space-y-2 sm:space-y-3">
                   <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
-                      <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Julia Martinez</p>
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">{facultyList[0]?.name || skin.people.mockFaculty[0].name}</p>
                       <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded inline-block w-fit">Excellent</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2 text-xs">
@@ -6536,7 +6536,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
-                      <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Marcus Chen</p>
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">{facultyList[1]?.name || skin.people.mockFaculty[1].name}</p>
                       <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded inline-block w-fit">Excellent</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2 text-xs">
@@ -6553,7 +6553,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
                     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
-                      <p className="font-semibold text-gray-900 text-sm sm:text-base">Chef Sarah Williams</p>
+                      <p className="font-semibold text-gray-900 text-sm sm:text-base">{skin.people.facultyTitle} Sarah Williams</p>
                       <span className="text-xs sm:text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block w-fit">Good</span>
                     </div>
                     <div className="grid grid-cols-3 gap-2 text-xs">
@@ -7326,21 +7326,21 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="bg-green-50 border-2 border-green-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900 text-xs sm:text-sm">Sarah Johnson</p>
-                        <p className="text-xs text-gray-600 truncate">Sous Chef at The French Laundry</p>
+                        <p className="text-xs text-gray-600 truncate">{skin.people.mockAlumniTitles[0]} • Industry Partner</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Placed</span>
                     </div>
                     <div className="bg-green-50 border-2 border-green-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900 text-xs sm:text-sm">Michael Chen</p>
-                        <p className="text-xs text-gray-600 truncate">Pastry Chef at Eleven Madison Park</p>
+                        <p className="text-xs text-gray-600 truncate">{skin.people.mockAlumniTitles[1]} • Industry Partner</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Placed</span>
                     </div>
                     <div className="bg-green-50 border-2 border-green-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900 text-xs sm:text-sm">Emma Rodriguez</p>
-                        <p className="text-xs text-gray-600 truncate">Executive Chef at Nobu</p>
+                        <p className="text-xs text-gray-600 truncate">{skin.people.mockAlumniTitles[2]} • Industry Partner</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Placed</span>
                     </div>
@@ -7432,7 +7432,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Manage relationships with restaurants, hotels, and culinary employers.</p>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Manage relationships with employers and hiring partners across {skin.name} industries.</p>
             </div>
             
             {/* Scrollable Content */}
@@ -7539,7 +7539,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setIsEditMode(true);
                         setPartnerName('Alinea');
                         setPartnerLocation('Chicago, IL');
-                        setPartnerEmail('careers@alinearestaurant.com');
+                        setPartnerEmail(`careers@${skin.people.emailDomain}`);
                         setPartnerPhone('(312) 867-0110');
                         setPartnerStudentsHired('15');
                         setPartnerOpenPositions('5');
@@ -7961,24 +7961,24 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900">Chef Maria Santos</p>
-                        <p className="text-sm text-gray-600">Executive Chef at Nobu Malibu</p>
+                        <p className="font-semibold text-gray-900">Maria Santos</p>
+                        <p className="text-sm text-gray-600">{skin.people.mockAlumniTitles[0]} at a leading employer</p>
                         <p className="text-xs text-gray-500">Class of 2019</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Featured</span>
                     </div>
-                    <p className="text-xs text-gray-700 italic">"The program gave me the foundation to pursue my dream of becoming an executive chef."</p>
+                    <p className="text-xs text-gray-700 italic">"The program gave me the foundation to pursue my dream career in this industry."</p>
                   </div>
                   <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900">Chef David Kim</p>
+                        <p className="font-semibold text-gray-900">David Kim</p>
                         <p className="text-sm text-gray-600">Owner of Kim's Kitchen (Michelin Star)</p>
                         <p className="text-xs text-gray-500">Class of 2018</p>
                       </div>
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Featured</span>
                     </div>
-                    <p className="text-xs text-gray-700 italic">"Best decision I ever made. Now running my own Michelin-starred restaurant!"</p>
+                    <p className="text-xs text-gray-700 italic">"Best decision I ever made. Now leading my own successful business!"</p>
                   </div>
                 </div>
               </div>
@@ -8112,7 +8112,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     type="text"
                     value={newAlumniPosition}
                     onChange={(e) => setNewAlumniPosition(e.target.value)}
-                    placeholder="e.g., Executive Chef, Restaurant Owner"
+                    placeholder={`e.g., ${skin.people.mockAlumniTitles[0]}, ${skin.people.mockAlumniTitles[1]}`}
                     className="w-full border-4 border-orange-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs sm:text-sm min-h-[44px] bg-white"
                   />
                 </div>
@@ -8685,7 +8685,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Track ServSafe, Food Handler permits, and culinary certifications.</p>
+              <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">Track trade certifications, licenses, and compliance milestones for {skin.name} programs.</p>
             </div>
             
             {/* Scrollable Content */}

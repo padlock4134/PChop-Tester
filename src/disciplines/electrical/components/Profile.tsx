@@ -170,8 +170,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisinePreference}
-              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
+              value={formData.cuisine}
+              onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
@@ -187,8 +187,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certificationPreference', { defaultValue: 'Certifications' })}</label>
             <select
-              value={formData.dietPreference}
-              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
+              value={formData.diet}
+              onChange={(e) => setFormData({...formData, diet: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
