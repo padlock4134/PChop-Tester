@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from './disciplines/culinary/images/logo.png';
-import { useSupabase } from './disciplines/culinary/components/SupabaseProvider';
+import { useSupabase } from './components/DisciplineSupabaseProvider';
 import { supabase } from './disciplines/culinary/api/supabaseClient';
 import { generateDisciplineSkin, generateSlug, convertToFullSkin } from './services/aiDisciplineGenerator';
 import { loadCustomDisciplines } from './disciplineConfig';
@@ -22,6 +22,10 @@ const disciplines = [
 const DisciplineSelector: React.FC = () => {
   const navigate = useNavigate();
   const { isAdmin, isLoading, user } = useSupabase();
+  
+  // DEBUG: Add console logs to trace loading state
+  console.log('DisciplineSelector - isLoading:', isLoading, 'user:', !!user);
+  
   const [selectedDiscipline, setSelectedDiscipline] = useState('');
   const [showAddDisciplineModal, setShowAddDisciplineModal] = useState(false);
   const [disciplineName, setDisciplineName] = useState('');
@@ -67,7 +71,8 @@ const DisciplineSelector: React.FC = () => {
     fetchCustomDisciplines();
   }, []);
 
-  if (isLoading) {
+  if (isLoading && !user) {
+    console.log('DisciplineSelector - Still loading, no user yet');
     return (
       <div className="min-h-screen bg-sand flex items-center justify-center">
         <div className="text-maineBlue text-xl">Loading...</div>
@@ -78,7 +83,7 @@ const DisciplineSelector: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedDiscipline) {
-      // Store the selected discipline for the session
+      // ALWAYS save selectedDiscipline to localStorage
       localStorage.setItem('selectedDiscipline', selectedDiscipline);
       
       if (isAdmin) {
@@ -93,19 +98,11 @@ const DisciplineSelector: React.FC = () => {
           storageArea: localStorage
         }));
         
-        // ALWAYS go to unified admin dashboard, ignore intended destinations
-        localStorage.removeItem('intendedDestination');
-        navigate('/admin'); // This goes to UnifiedAdminDashboard
+        // Routing: Admin -> /admin
+        navigate('/admin');
       } else {
-        // Check if there was an intended destination
-        const intendedDestination = localStorage.getItem('intendedDestination');
-        if (intendedDestination && intendedDestination.startsWith(`/${selectedDiscipline}/`)) {
-          // Clear the intended destination and navigate there
-          localStorage.removeItem('intendedDestination');
-          navigate(intendedDestination);
-        } else {
-          navigate(`/${selectedDiscipline}/dashboard`);
-        }
+        // Routing: User -> /{selectedDiscipline}/dashboard
+        navigate(`/${selectedDiscipline}/dashboard`);
       }
     }
   };

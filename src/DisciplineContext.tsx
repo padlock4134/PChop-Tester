@@ -3,19 +3,33 @@ import { useLocation } from 'react-router-dom';
 import { DISCIPLINE_CONFIG, DisciplineKey, getDisciplineFromPath } from './disciplineConfig';
 
 interface DisciplineContextType {
-  currentDiscipline: DisciplineKey;
+  currentDiscipline: DisciplineKey | null;
   setDiscipline: (discipline: DisciplineKey) => void;
-  disciplineConfig: typeof DISCIPLINE_CONFIG[DisciplineKey];
+  disciplineConfig: typeof DISCIPLINE_CONFIG[keyof typeof DISCIPLINE_CONFIG] | null;
 }
 
 const DisciplineContext = createContext<DisciplineContextType | null>(null);
 
 export const DisciplineProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
-  const [currentDiscipline, setCurrentDiscipline] = useState<DisciplineKey>(() => {
-    // Try to get from localStorage first
-    const stored = localStorage.getItem('lastDiscipline') as DisciplineKey;
-    return stored && DISCIPLINE_CONFIG[stored] ? stored : 'culinary';
+  const [currentDiscipline, setCurrentDiscipline] = useState<DisciplineKey | null>(() => {
+    // First check current URL path
+    const disciplineFromPath = getDisciplineFromPath(location.pathname);
+    if (disciplineFromPath) {
+      return disciplineFromPath;
+    }
+    
+    // Then fallback to localStorage (only if it exists)
+    const stored = localStorage.getItem('lastDiscipline');
+    const selected = localStorage.getItem('selectedDiscipline');
+    const disciplineToUse = selected || stored;
+    
+    if (disciplineToUse && DISCIPLINE_CONFIG[disciplineToUse as keyof typeof DISCIPLINE_CONFIG]) {
+      return disciplineToUse as DisciplineKey;
+    }
+    
+    // Return null if nothing exists - DO NOT AUTO-SET
+    return null;
   });
 
   useEffect(() => {
@@ -33,7 +47,7 @@ export const DisciplineProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     localStorage.setItem('lastDiscipline', discipline);
   };
 
-  const disciplineConfig = DISCIPLINE_CONFIG[currentDiscipline];
+  const disciplineConfig = currentDiscipline ? DISCIPLINE_CONFIG[currentDiscipline as keyof typeof DISCIPLINE_CONFIG] : null;
 
   return (
     <DisciplineContext.Provider value={{ currentDiscipline, setDiscipline, disciplineConfig }}>
