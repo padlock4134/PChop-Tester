@@ -103,9 +103,17 @@ import MachiningBenchDashboard from './disciplines/machining/components/BenchDas
 import MachiningBenchFreddieWidget from './disciplines/machining/modules/BenchFreddieWidget';
 import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
-import SupabaseProvider, { useSupabase } from './disciplines/culinary/components/SupabaseProvider';
+import DisciplineSupabaseProvider, { useSupabase } from './components/DisciplineSupabaseProvider';
 import type { WristbandSessionMetadata } from './disciplines/culinary/types/session-types';
 import { setSupabaseJwt } from './disciplines/culinary/api/supabaseClient';
+import { setSupabaseJwt as setPlumbingSupabaseJwt } from './disciplines/plumbing/api/supabaseClient';
+import { getSupabaseClient as setAutomotiveSupabaseJwt } from './disciplines/automotive/api/supabaseClient';
+import { getSupabaseClient as setConstructionSupabaseJwt } from './disciplines/construction/api/supabaseClient';
+import { setSupabaseJwt as setElectricalSupabaseJwt } from './disciplines/electrical/api/supabaseClient';
+import { setSupabaseJwt as setHvacSupabaseJwt } from './disciplines/hvac/api/supabaseClient';
+import { setSupabaseJwt as setManufacturingSupabaseJwt } from './disciplines/manufacturing/api/supabaseClient';
+import { setSupabaseJwt as setLogisticsSupabaseJwt } from './disciplines/logistics/api/supabaseClient';
+import { setSupabaseJwt as setMachiningSupabaseJwt } from './disciplines/machining/api/supabaseClient';
 import { useDeviceDetect, getResponsiveClasses } from './disciplines/culinary/utils/responsiveUtils';
 import InactivityWarningModal from './disciplines/culinary/components/InactivityWarningModal';
 import { useAutoLogout } from './disciplines/culinary/hooks/useAutoLogout';
@@ -135,26 +143,23 @@ const AdminToggleProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 const HomeRedirect = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { authStatus } = useWristbandAuth();
-  const { user, isLoading, isAdmin } = useSupabase();
+  const { user, isLoading } = useSupabase();
+
+  console.log('HomeRedirect - isLoading:', isLoading, 'authStatus:', authStatus, 'user:', !!user);
 
   useEffect(() => {
     if (isLoading) return;
     
-    // If authenticated and user is loaded, always redirect to discipline selector first
+    // If authenticated and user is loaded, always redirect to discipline selector
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
-      // If user is on the root path, always go to discipline selector
-      if (location.pathname === '/' || location.pathname === '') {
-        // Always redirect to discipline selector after login
-        navigate('/select-discipline', { replace: true });
-      }
-      // If user is already on a specific page, don't redirect - let them stay there
+      console.log('HomeRedirect - Authenticated, navigating to selector');
+      navigate('/select-discipline', { replace: true });
     } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
       // Not authenticated, redirect to login
       window.location.href = '/.netlify/functions/auth-login';
     }
-  }, [authStatus, user, isLoading, navigate, location.pathname, isAdmin]);
+  }, [authStatus, user, isLoading, navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-sand">
@@ -269,49 +274,43 @@ const getDisciplineComponents = (discipline: string) => {
 const AppRoutes = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
   const { authStatus } = useWristbandAuth();
-  const { user, isLoading, refreshAuthState } = useSupabase();
+  const { user, isLoading } = useSupabase();
   const { isAdminMode } = useAdminToggle();
-  
-  // Save current page to localStorage for persistence on refresh
+  const { currentDiscipline } = useDiscipline();
+  const hasRedirected = useRef(false);
+
+  // Post-auth routing useEffect - ALWAYS at top level
   useEffect(() => {
-    if (user && location.pathname !== '/' && location.pathname !== '') {
-      localStorage.setItem('lastPage', location.pathname);
-      
-      // Also save to sessionStorage for more immediate persistence
-      sessionStorage.setItem('lastPath', location.pathname);
-      
-      // Clear any intended destination if user navigates directly to a discipline page
-      if (location.pathname !== '/select-discipline' && location.pathname !== '/admin') {
-        localStorage.removeItem('intendedDestination');
-      }
+    if (!user || isLoading) return;
+
+    const isRoot = location.pathname === '/';
+    const isSelector = location.pathname === '/select-discipline';
+    const isAdmin = location.pathname === '/admin';
+    const disciplineFromPath = getDisciplineFromPath(location.pathname);
+    const selectedDiscipline = localStorage.getItem('selectedDiscipline');
+
+    if (isRoot) {
+      navigate('/select-discipline', { replace: true });
+      return;
     }
-  }, [location.pathname, user]);
-  
-  // Get current discipline from path
-  const currentDiscipline = getDisciplineFromPath(location.pathname) || 'culinary';
-  const components = getDisciplineComponents(currentDiscipline);
-  
-  const NavBar = components.NavBar;
-  const Dashboard = components.Dashboard;
-  const FreddieWidget = components.FreddieWidget;
-  
-  // Use the device detection hook
-  const { deviceType } = useDeviceDetect();
-  
-  // Get responsive classes based on device type
-  const responsiveClasses = getResponsiveClasses(deviceType);
 
-  // Auto-logout after 30 minutes of inactivity with 2-minute warning
-  const { showWarning, countdown, stayLoggedIn, logoutNow } = useAutoLogout({
-    inactivityTimeout: 30 * 60 * 1000, // 30 minutes
-    warningTime: 2 * 60 * 1000, // 2 minutes warning
-    enabled: !!user // Only enable when user is authenticated
-  });
+    if (isSelector || isAdmin || disciplineFromPath) {
+      return;
+    }
 
-  // Show loading for authenticated routes
-  if (isLoading) {
+    if (!selectedDiscipline) {
+      navigate('/select-discipline', { replace: true });
+    }
+  }, [user, isLoading, location.pathname, navigate]);
+
+  // Auto logout functionality - simplified to avoid errors
+  // const { showInactivityWarning, handleContinueSession, handleLogoutNow } = useAutoLogout();
+  
+  // Render logic happens AFTER hooks
+  console.log('AppRoutes - isLoading:', isLoading, 'user:', !!user, 'path:', location.pathname);
+  
+  if (isLoading && !user) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-sand">
         <div className="text-maineBlue text-xl">Loading...</div>
@@ -319,20 +318,32 @@ const AppRoutes = () => {
     );
   }
 
-  // If not authenticated, redirect to home (which will trigger login)
-  if (!isLoading && !user) {
-    return <Navigate to="/" replace />;
-  }
+  if (!user) {
+    if (authStatus === AuthStatus.UNAUTHENTICATED) {
+      console.log('AppRoutes - User unauthenticated, redirecting to login');
+      window.location.href = '/.netlify/functions/auth-login';
+      return null;
+    }
 
-  
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-sand">
+        <div className="text-maineBlue text-xl">Loading...</div>
+      </div>
+    );
+  }
 
   const isDisciplineSelect = location.pathname === '/select-discipline';
   const isAdminRoute = location.pathname === '/admin';
 
+  // Get discipline components for NavBar
+  const disciplineFromPath = getDisciplineFromPath(location.pathname);
+  const discipline = disciplineFromPath;
+  const components = discipline ? getDisciplineComponents(discipline) : null;
+
   return (
     <div className="min-h-screen bg-sand">
-      {!isDisciplineSelect && <NavBar />}
-      <main className={`${responsiveClasses} max-w-5xl mx-auto px-4 pt-4 pb-8`}>
+      {!isDisciplineSelect && components?.NavBar && <components.NavBar />}
+      <main className={`max-w-5xl mx-auto px-4 pt-4 pb-8`}>
         <Routes>
           <Route path="/select-discipline" element={<DisciplineSelector />} />
           <Route path="/admin" element={<UnifiedAdminDashboard />} />
@@ -410,15 +421,11 @@ const AppRoutes = () => {
           <Route path="/machining/profile" element={<MachiningProfile />} />
           
           <Route path="/" element={<HomeRedirect />} />
+          <Route path="*" element={<Navigate to="/select-discipline" replace />} />
         </Routes>
       </main>
-      {!isDisciplineSelect && !isAdminRoute && <FreddieWidget />}
-      <InactivityWarningModal
-        isOpen={showWarning}
-        countdown={countdown}
-        onStayLoggedIn={stayLoggedIn}
-        onLogout={logoutNow}
-      />
+      {!isDisciplineSelect && !isAdminRoute && components?.FreddieWidget && <components.FreddieWidget />}
+      {/* InactivityWarningModal temporarily disabled to fix loading issue */}
     </div>
   );
 };
@@ -453,17 +460,25 @@ const App = () => {
           const { metadata } = sessionResponse;
           const { supabaseToken } = metadata as WristbandSessionMetadata;
           setSupabaseJwt(supabaseToken);
+          setPlumbingSupabaseJwt(supabaseToken);
+          setAutomotiveSupabaseJwt(supabaseToken);
+          setConstructionSupabaseJwt(supabaseToken);
+          setElectricalSupabaseJwt(supabaseToken);
+          setHvacSupabaseJwt(supabaseToken);
+          setManufacturingSupabaseJwt(supabaseToken);
+          setLogisticsSupabaseJwt(supabaseToken);
+          setMachiningSupabaseJwt(supabaseToken);
         }}
       >
-        <SupabaseProvider>
-          <RecipeProvider>
-            <FreddieProvider>
-              <DisciplineProvider>
+        <RecipeProvider>
+          <FreddieProvider>
+            <DisciplineProvider>
+              <DisciplineSupabaseProvider>
                 <AppRoutes />
-              </DisciplineProvider>
-            </FreddieProvider>
-          </RecipeProvider>
-        </SupabaseProvider>
+              </DisciplineSupabaseProvider>
+            </DisciplineProvider>
+          </FreddieProvider>
+        </RecipeProvider>
       </WristbandAuthProvider>
     </AdminToggleProvider>
   );

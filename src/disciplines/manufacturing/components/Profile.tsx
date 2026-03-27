@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FireIcon, ShieldCheckIcon, StarIcon, TrophyIcon, SparklesIcon, CakeIcon, AcademicCapIcon } from '@heroicons/react/24/solid';
 import { redirectToLogout } from '@wristband/react-client-auth';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { supabase } from '../../culinary/api/supabaseClient';
+import { useSupabase } from '../components/SupabaseProvider';
+import { supabase } from '../api/supabaseClient';
 // Removed external imports that don't exist
 import ReactMarkdown from 'react-markdown';
 import jsPDF from 'jspdf';
