@@ -190,20 +190,74 @@ export async function getDisciplineConfig(): Promise<Record<string, CustomDiscip
  */
 export const DISCIPLINE_CONFIG = BASE_DISCIPLINE_CONFIG;
 
+const DISCIPLINE_ROUTE_SEGMENTS = new Set([
+  'dashboard',
+  'profile',
+  'my-kitchen',
+  'my-cookbook',
+  'chefs-corner',
+  'culinary-school',
+  'my-van',
+  'my-pipebook',
+  'pipe-lounge',
+  'plumbing-school',
+  'my-garage',
+  'my-manual',
+  'gearhead-lounge',
+  'auto-school',
+  'my-site',
+  'my-blueprints',
+  'hardhat-hub',
+  'build-school',
+  'my-panel',
+  'my-codebook',
+  'wire-lounge',
+  'elec-school',
+  'my-shop',
+  'my-specsheets',
+  'tech-talk',
+  'hvac-school',
+  'my-floor',
+  'my-playbook',
+  'shop-talk',
+  'mfg-academy',
+  'my-dock',
+  'my-runbook',
+  'dispatch-lounge',
+  'logistics-school',
+  'my-bench',
+  'my-specbook',
+  'machinist-corner',
+  'machining-school',
+  // Generic/custom discipline pages
+  'my-workspace',
+  'my-notebook',
+  'community',
+  'school',
+]);
+
 export const getDisciplineFromPath = (pathname: string): DisciplineKey | null => {
   const pathParts = pathname.split('/').filter(Boolean);
   const disciplineFromPath = pathParts[0];
-  
+  const routeSegment = pathParts[1];
+
+  if (!disciplineFromPath) return null;
+
   // Check base disciplines
   if (BASE_DISCIPLINE_CONFIG[disciplineFromPath as BaseDisciplineKey]) {
     return disciplineFromPath as BaseDisciplineKey;
   }
-  
+
   // Check custom disciplines cache
   if (customDisciplinesCache && customDisciplinesCache[disciplineFromPath]) {
     return disciplineFromPath;
   }
-  
+
+  // Fallback: treat unknown slugs that match discipline page patterns as custom disciplines.
+  if (routeSegment && DISCIPLINE_ROUTE_SEGMENTS.has(routeSegment)) {
+    return disciplineFromPath;
+  }
+
   return null;
 };
 
