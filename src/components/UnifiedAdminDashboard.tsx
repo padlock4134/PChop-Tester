@@ -479,16 +479,21 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   };
 
   const handleGenerateApiKey = async ({ revealKey = true }: { revealKey?: boolean } = {}) => {
-    if (!currentUser?.id) {
-      showWarning('You must be logged in to generate API keys');
-      return;
-    }
-
     setGeneratingApiKey(true);
     try {
       const timestamp = Date.now().toString(36);
       const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       const apiKey = `pk_porkchop_${timestamp}_${randomPart}`;
+
+      if (!currentUser?.id) {
+        if (revealKey) {
+          setGeneratedApiKey(apiKey);
+          setShowApiKeyModal(true);
+        } else {
+          showSuccess(`LTI integration token auto-provisioned for ${selectedLtiProvider}.`);
+        }
+        return;
+      }
 
       const { data, error } = await supabase
         .from('api_keys')
