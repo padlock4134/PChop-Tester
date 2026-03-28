@@ -224,6 +224,29 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     internal_role: 'https://purl.imsglobal.org/spec/lti/claim/roles',
     internal_section: 'https://purl.imsglobal.org/spec/lti/claim/context.label'
   });
+  const commonLtiClaimOptions = [
+    'https://purl.imsglobal.org/spec/lti/claim/context.id',
+    'https://purl.imsglobal.org/spec/lti/claim/context.label',
+    'https://purl.imsglobal.org/spec/lti/claim/context.title',
+    'https://purl.imsglobal.org/spec/lti/claim/roles',
+    'sub',
+    'email',
+    'name',
+    'given_name',
+    'family_name',
+    'lis.person_sourcedid',
+    'lis.course_section_sourcedid'
+  ];
+  const ltiProviderSpecificOptions: Record<string, string[]> = {
+    Canvas: ['custom_canvas_course_id', 'custom_canvas_user_id', 'custom_canvas_section_id'],
+    Moodle: ['custom_moodle_courseid', 'custom_moodle_userid', 'custom_moodle_groupid'],
+    Blackboard: ['custom_blackboard_course_pk1', 'custom_blackboard_user_pk1', 'custom_blackboard_batch_uid'],
+    Other: ['custom.course_id', 'custom.user_id', 'custom.section_code']
+  };
+  const availableLtiClaimOptions = useMemo(() => {
+    const providerOptions = ltiProviderSpecificOptions[selectedLtiProvider] || ltiProviderSpecificOptions.Other;
+    return Array.from(new Set([...commonLtiClaimOptions, ...providerOptions]));
+  }, [selectedLtiProvider]);
   
   // Integrity monitoring state
   const [integrityAlerts, setIntegrityAlerts] = useState<IntegrityAlert[]>([]);
@@ -1467,7 +1490,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 onClick={() => setShowLtiIntegrationModal(true)}
                 className="bg-maineBlue hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
               >
-                🔗 LMS Integration
+                🔗 WorkBench Connector
               </button>
             </div>
           </div>
@@ -5088,7 +5111,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4">
                 <h3 className="font-bold text-green-900 mb-2 text-sm sm:text-base">Integration Workflow</h3>
-                <p className="text-xs sm:text-sm text-green-900">
+                <p className="text-xs sm:text-sm text-green-900 text-center">
                   Once LTI 1.3 / Advantage is connected for <strong>{selectedLtiProvider}</strong>, the integration continues with the
                   existing background curriculum deployment flow (same behavior as the Bench Tech curriculum deployer).
                 </p>
@@ -5161,18 +5184,16 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         onChange={(e) => setLtiFieldMappings((prev) => ({ ...prev, [field.key]: e.target.value }))}
                         className="w-full px-3 py-2 border-2 border-blue-400 rounded-md bg-white text-sm min-h-[44px]"
                       >
-                        <option value="https://purl.imsglobal.org/spec/lti/claim/context.id">https://purl.imsglobal.org/spec/lti/claim/context.id</option>
-                        <option value="sub">sub</option>
-                        <option value="email">email</option>
-                        <option value="https://purl.imsglobal.org/spec/lti/claim/roles">https://purl.imsglobal.org/spec/lti/claim/roles</option>
-                        <option value="https://purl.imsglobal.org/spec/lti/claim/context.label">https://purl.imsglobal.org/spec/lti/claim/context.label</option>
-                        <option value="lis.person_sourcedid">lis.person_sourcedid</option>
-                        <option value="lis.course_section_sourcedid">lis.course_section_sourcedid</option>
-                        <option value="custom.section_code">custom.section_code</option>
+                        {availableLtiClaimOptions.map((claim) => (
+                          <option key={claim} value={claim}>{claim}</option>
+                        ))}
                       </select>
                     </div>
                   ))}
                 </div>
+                <p className="text-center text-xs text-blue-800 mt-3">
+                  Showing claim keys for <strong>{selectedLtiProvider}</strong> + standard LTI 1.3 claims.
+                </p>
               </div>
             </div>
 
