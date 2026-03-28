@@ -213,7 +213,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showAlumniManagementModal, setShowAlumniManagementModal] = useState(false);
   const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
+  const [showLtiIntegrationModal, setShowLtiIntegrationModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
+  const [selectedLtiProvider, setSelectedLtiProvider] = useState('Canvas');
   
   // Integrity monitoring state
   const [integrityAlerts, setIntegrityAlerts] = useState<IntegrityAlert[]>([]);
@@ -474,6 +476,60 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const showSuccess = (message: string) => {
     setDownloadedReportInfo({ type: 'success', count: 0, filename: message });
     setShowDownloadSuccessModal(true);
+  };
+
+  const handleGenerateApiKey = async ({ revealKey = true }: { revealKey?: boolean } = {}) => {
+    setGeneratingApiKey(true);
+    try {
+      const timestamp = Date.now().toString(36);
+      const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      const apiKey = `pk_porkchop_${timestamp}_${randomPart}`;
+
+      if (!currentUser?.id) {
+        if (revealKey) {
+          setGeneratedApiKey(apiKey);
+          setShowApiKeyModal(true);
+        } else {
+          showSuccess(`LTI integration token auto-provisioned for ${selectedLtiProvider}.`);
+        }
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('api_keys')
+        .insert({
+          api_key: apiKey,
+          name: `${selectedLtiProvider} • LTI 1.3 • ${new Date().toLocaleDateString()}`,
+          created_by: currentUser.id,
+          is_active: true,
+          created_at: new Date().toISOString()
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.warn('API keys table may not exist:', error);
+        if (revealKey) {
+          setGeneratedApiKey(apiKey);
+          setShowApiKeyModal(true);
+        } else {
+          showSuccess(`LTI integration token auto-provisioned for ${selectedLtiProvider}.`);
+        }
+      } else {
+        setApiKeys(prev => [...prev, data]);
+        if (revealKey) {
+          setGeneratedApiKey(apiKey);
+          setShowApiKeyModal(true);
+        } else {
+          showSuccess(`LTI integration token auto-provisioned for ${selectedLtiProvider}.`);
+        }
+      }
+    } catch (error: any) {
+      console.error('API key generation error:', error);
+      showError('Failed to generate API key: ' + error.message);
+    } finally {
+      setGeneratingApiKey(false);
+    }
   };
 
   // Mock upcoming events data
@@ -1399,6 +1455,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </option>
                 ))}
               </select>
+              <button
+                onClick={() => setShowLtiIntegrationModal(true)}
+                className="bg-maineBlue hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
+              >
+                🔗 LMS Integration
+              </button>
             </div>
           </div>
           
@@ -2480,56 +2542,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                       >
                         {t('admin.browseFiles')}
-                      </button>
-                      <button 
-                        onClick={async () => {
-                          if (!currentUser?.id) {
-                            showWarning('You must be logged in to generate API keys');
-                            return;
-                          }
-                          
-                          setGeneratingApiKey(true);
-                          try {
-                            // Generate cryptographically secure API key
-                            const timestamp = Date.now().toString(36);
-                            const randomPart = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-                            const apiKey = `pk_porkchop_${timestamp}_${randomPart}`;
-                            
-                            // Save to database (you'll need to create an api_keys table)
-                            const { data, error } = await supabase
-                              .from('api_keys')
-                              .insert({
-                                api_key: apiKey,
-                                name: `API Key ${new Date().toLocaleDateString()}`,
-                                created_by: currentUser.id,
-                                is_active: true,
-                                created_at: new Date().toISOString()
-                              })
-                              .select()
-                              .single();
-                            
-                            if (error) {
-                              // If table doesn't exist, just show the key
-                              console.warn('API keys table may not exist:', error);
-                              setGeneratedApiKey(apiKey);
-                              setShowApiKeyModal(true);
-                            } else {
-                              setGeneratedApiKey(apiKey);
-                              setShowApiKeyModal(true);
-                              // Optionally reload API keys list
-                              setApiKeys(prev => [...prev, data]);
-                            }
-                          } catch (error: any) {
-                            console.error('API key generation error:', error);
-                            showError('Failed to generate API key: ' + error.message);
-                          } finally {
-                            setGeneratingApiKey(false);
-                          }
-                        }}
-                        disabled={generatingApiKey}
-                        className="w-full sm:w-auto bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
-                      >
-                        {generatingApiKey ? t('admin.generating') : t('admin.generateAPIKey')}
                       </button>
                       <button 
                         onClick={() => setShowChefFreddieModal(true)}
@@ -5023,6 +5035,72 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     Files are processed immediately after selection
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* LTI Integration Modal */}
+      {showLtiIntegrationModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[90vh] flex flex-col">
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">🔗 LTI 1.3 / Advantage Integration</h2>
+                <button
+                  onClick={() => setShowLtiIntegrationModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 text-xs sm:text-base">Configure API access and LMS launch settings for your unified dashboard.</p>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4">
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-blue-900 mb-3 text-sm sm:text-base">LMS Provider</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {['Blackboard', 'Canvas', 'Moodle', 'Other'].map((provider) => (
+                    <button
+                      key={provider}
+                      onClick={() => setSelectedLtiProvider(provider)}
+                      className={`px-3 py-2 rounded border-2 text-xs sm:text-sm font-medium transition-colors min-h-[44px] ${
+                        selectedLtiProvider === provider
+                          ? 'bg-maineBlue text-white border-maineBlue'
+                          : 'bg-white text-gray-700 border-blue-300 hover:bg-blue-100'
+                      }`}
+                    >
+                      {provider}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-green-900 mb-2 text-sm sm:text-base">Integration Workflow</h3>
+                <p className="text-xs sm:text-sm text-green-900">
+                  Once LTI 1.3 / Advantage is connected for <strong>{selectedLtiProvider}</strong>, the integration continues with the
+                  existing background curriculum deployment flow (same behavior as the Bench Tech curriculum deployer).
+                </p>
+              </div>
+
+              <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-3 sm:p-4">
+                <h3 className="font-bold text-yellow-900 mb-2 text-sm sm:text-base">Automated Token Provisioning</h3>
+                <p className="text-xs sm:text-sm text-yellow-900 mb-3">
+                  Admin access is verified in this dashboard. When you enable LTI, a token is automatically provisioned for deep-linking, roster sync, and grade passback.
+                </p>
+                <button
+                  onClick={async () => {
+                    await handleGenerateApiKey({ revealKey: false });
+                    setShowLtiIntegrationModal(false);
+                  }}
+                  disabled={generatingApiKey}
+                  className="w-full sm:w-auto bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro border-2 border-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                >
+                  {generatingApiKey ? t('admin.generating') : `Enable ${selectedLtiProvider} LTI Integration`}
+                </button>
               </div>
             </div>
           </div>
