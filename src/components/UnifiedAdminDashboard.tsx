@@ -5094,18 +5094,28 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </p>
               </div>
 
-              <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-3 sm:p-4">
+              <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-3 sm:p-4 text-center">
                 <h3 className="font-bold text-yellow-900 mb-2 text-sm sm:text-base">Automated Token Provisioning</h3>
                 <p className="text-xs sm:text-sm text-yellow-900 mb-3">
                   Admin access is verified in this dashboard. When you enable LTI, a token is automatically provisioned for deep-linking, roster sync, and grade passback.
                 </p>
-                <button
-                  onClick={() => setShowLtiMappingModal(true)}
-                  disabled={generatingApiKey}
-                  className="w-full sm:w-auto bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro border-2 border-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                <div className="flex justify-center">
+                  <button
+                    onClick={() => setShowLtiMappingModal(true)}
+                    disabled={generatingApiKey}
+                    className="w-full sm:w-auto bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro border-2 border-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
+                  >
+                    Configure Mapping
+                  </button>
+                </div>
+                <a
+                  href="https://www.1edtech.org/standards/lti"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-3 text-xs sm:text-sm text-maineBlue underline hover:text-blue-700 font-medium"
                 >
-                  Configure Mapping
-                </button>
+                  What is LTI 1.3 / Advantage?
+                </a>
               </div>
             </div>
           </div>
@@ -5166,7 +5176,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
             </div>
 
-            <div className="p-3 sm:p-6 pt-3 border-t-2 border-gray-200 flex flex-col sm:flex-row gap-2 sm:gap-3 justify-end">
+            <div className="p-3 sm:p-6 pt-3 border-t-2 border-gray-200 flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center">
               <button
                 onClick={() => setShowLtiMappingModal(false)}
                 className="w-full sm:w-auto px-5 py-2 rounded-md border-2 border-gray-400 bg-white text-gray-700 hover:bg-gray-100 font-retro min-h-[44px]"
