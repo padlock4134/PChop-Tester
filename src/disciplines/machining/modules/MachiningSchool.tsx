@@ -219,7 +219,7 @@ const MachiningSchool = () => {
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
-  // Helper: extract main protein from ingredients
+  // Helper: extract primary material from components
   function getMainProtein(ingredients: string[] = []) {
     const proteins = [
       'chicken', 'beef', 'pork', 'fish', 'salmon', 'shrimp', 'clam', 'crab', 'lobster',
@@ -247,9 +247,9 @@ const MachiningSchool = () => {
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
-      query = `how to ${tut.techniqueData.title.toLowerCase()} cooking technique`;
+      query = `how to ${tut.techniqueData.title.toLowerCase()} trade technique`;
     } else if (tut.type === 'cooking_tutorial') {
-      // For cooking tutorials, focus on the recipe
+      // For task tutorials, focus on the project
       const mainProtein = getMainProtein(recipe.ingredients || []);
       const mainEquipment = getMainEquipment(recipe.equipment || []);
       if (mainProtein && mainEquipment) {
@@ -257,7 +257,7 @@ const MachiningSchool = () => {
       } else if (mainProtein) {
         query = `How to cook ${mainProtein}`;
       } else {
-        query = `how to make ${recipe.title}`;
+        query = `how to complete ${recipe.title}`;
       }
     } else {
       // Legacy fallback for older tutorial formats
@@ -267,7 +267,7 @@ const MachiningSchool = () => {
       
       // Use Chef Freddie for complex queries
       const prompt = `
-        Given the following recipe and tutorial step, generate a concise YouTube search query for a relevant cooking video.\n
+        Given the following project and tutorial step, generate a concise YouTube search query for a relevant trade training video.\n
         - Only use the equipment and ingredients listed.\n
         - Do NOT include unrelated tools or techniques.\n
         - The query should be specific to the step and recipe.\n

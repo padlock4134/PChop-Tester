@@ -30,34 +30,34 @@ const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
 const RECIPE_PROMPTS = {
   new_to_cooking: (numRecipes: number, ingredients: string[]) => 
-    `You are a patient cooking teacher. Create ${numRecipes} super simple recipes for a beginner cook using ingredients from: ${ingredients.join(", ")}. 
+    `You are a patient trade instructor. Create ${numRecipes} simple beginner projects using available materials/components from: ${ingredients.join(", ")}. 
     RULES:
-    1. Use only 2-3 ingredients per recipe
-    2. Only basic cooking methods (pan fry, boil, mix)
+    1. Use only 2-3 required materials/components per project
+    2. Only basic entry-level methods
     3. Very detailed step-by-step instructions
-    4. Keep cook time under 20 minutes
-    5. Include necessary equipment for each recipe
-    6. Add dietary tags from: Heart Healthy, Anti Inflammatory, Low Glycemic, Low Cholesterol, Renal Friendly, DASH Diet`,
+    4. Keep completion time under 20 minutes when possible
+    5. Include necessary tools/equipment for each project
+    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
 
   home_cook: (numRecipes: number, ingredients: string[]) => 
-    `You are a helpful home cooking expert. Create ${numRecipes} recipes for someone comfortable with basic cooking using ingredients from: ${ingredients.join(", ")}.
+    `You are a helpful trade coach. Create ${numRecipes} intermediate projects for someone comfortable with fundamentals using materials/components from: ${ingredients.join(", ")}.
     RULES:
-    1. Use 3-4 ingredients per recipe
-    2. Standard cooking methods
+    1. Use 3-4 required materials/components per project
+    2. Standard trade methods
     3. Clear instructions
-    4. Keep cook time under 30 minutes
-    5. Include necessary equipment for each recipe
-    6. Add dietary tags from: Heart Healthy, Anti Inflammatory, Low Glycemic, Low Cholesterol, Renal Friendly, DASH Diet`,
+    4. Keep completion time under 30 minutes when possible
+    5. Include necessary tools/equipment for each project
+    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
 
   kitchen_confident: (numRecipes: number, ingredients: string[]) => 
-    `You are a professional chef. Create ${numRecipes} interesting recipes for an experienced home cook using ingredients from: ${ingredients.join(", ")}.
+    `You are an expert trade mentor. Create ${numRecipes} advanced projects for an experienced learner using materials/components from: ${ingredients.join(", ")}.
     RULES:
-    1. Use 4+ ingredients per recipe
-    2. Can include advanced techniques
+    1. Use 4+ required materials/components per project
+    2. Can include advanced trade techniques
     3. Professional-style instructions
-    4. Focus on flavor and technique
-    5. Include necessary equipment for each recipe
-    6. Add dietary tags from: Heart Healthy, Anti Inflammatory, Low Glycemic, Low Cholesterol, Renal Friendly, DASH Diet`
+    4. Focus on quality and technique
+    5. Include necessary tools/equipment for each project
+    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`
 };
 
 async function getUserProfile(userId: string) {
@@ -313,7 +313,7 @@ export async function fetchRecipesWithImages({
   let talentTreePrompt = '';
   if (talentsEnabled && talentTree && talentTree in TALENT_TREE_EQUIPMENT) {
     const preferredEquipment = TALENT_TREE_EQUIPMENT[talentTree as keyof typeof TALENT_TREE_EQUIPMENT];
-    talentTreePrompt = `IMPORTANT: User has selected "${talentTree}" talent tree. Prioritize recipes that use these cooking methods/equipment: ${preferredEquipment.join(', ')}. Generate recipes that showcase these tools and techniques.`;
+    talentTreePrompt = `IMPORTANT: User has selected "${talentTree}" talent tree. Prioritize projects that use these methods/equipment: ${preferredEquipment.join(', ')}. Generate projects that showcase these tools and techniques.`;
   }
 
   const prompt = `${basePrompt}
@@ -323,16 +323,16 @@ ${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : 
 ${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
 ${talentTreePrompt}
 
-Return the recipes as a JSON array with the following structure for each recipe:
+Return the projects as a JSON array with the following structure for each project:
 {
-  "title": "Recipe Name",
+  "title": "Project Name",
   "ingredients": ["ingredient 1", "ingredient 2"],
   "instructions": ["Step 1", "Step 2"],
   "equipment": ["equipment 1", "equipment 2"],
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary kitchen tools and appliances needed to prepare the recipe (e.g., "frying pan", "mixing bowl", "oven", "blender").
+For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
 Return ONLY the JSON array, no other text.`;
 
   // 3. Call Anthropic API
@@ -462,16 +462,16 @@ export async function generateFallbackRecipes(userId: string, ingredients: strin
   
   const prompt = `${promptTemplate(count, ingredients)}
 
-Format your response as a JSON array of recipe objects. Each recipe object MUST have these exact fields:
+Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
 {
-  "title": "Recipe Name",
+  "title": "Project Name",
   "ingredients": ["ingredient 1", "ingredient 2", ...],
   "instructions": ["step 1", "step 2", ...],
   "equipment": ["equipment 1", "equipment 2", ...],
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary kitchen tools and appliances needed to prepare the recipe (e.g., "frying pan", "mixing bowl", "oven", "blender").
+For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
 Return ONLY the JSON array, no other text.`;
 
   // 2. Call Anthropic API

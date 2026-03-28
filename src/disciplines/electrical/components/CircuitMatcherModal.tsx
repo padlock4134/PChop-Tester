@@ -104,11 +104,11 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
       desc: t('recipeMatcher.learnEquipment')
     },
     {
-      title: t('recipeMatcher.proteinPrep'),
-      desc: t('recipeMatcher.howToPrepProtein')
+      title: t('recipeMatcher.proteinPrep', { defaultValue: 'Material Prep' }),
+      desc: t('recipeMatcher.howToPrepProtein', { defaultValue: 'How to prep primary materials for this project.' })
     },
     {
-      title: `${t('recipeMatcher.recipe')} ${recipe.title}`,
+      title: `${t('recipeMatcher.recipe', { defaultValue: 'Procedure' })} ${recipe.title}`,
       desc: recipe.instructions
     }
   ];
@@ -158,7 +158,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes')}</div>
+            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes', { defaultValue: 'Finding matching projects...' })}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
@@ -186,9 +186,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Materials' })}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
                   {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Tools/Equipment' })}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">
@@ -203,10 +203,10 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                     {isSaving ? '...' : '♥'}
                   </button>
                   <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {t('recipeMatcher.cookMe')}
+                    {t('recipeMatcher.cookMe', { defaultValue: 'Run It' })}
                   </button>
                 </div>
-                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough')}</div>
+                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough', { defaultValue: 'Swipe through project options' })}</div>
               </div>
             );
           })()

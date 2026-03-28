@@ -206,7 +206,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                     Build It
                   </button>
                 </div>
-                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough')}</div>
+                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough', { defaultValue: 'Swipe through project options' })}</div>
               </div>
             );
           })()
