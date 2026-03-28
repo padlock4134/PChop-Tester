@@ -28,7 +28,7 @@ const MyCookBookVideoModals: React.FC<Props> = ({ recipe, open, onClose }) => {
       {loading && <div>Loading videos...</div>}
       {!loading && videoUrls.map((url, idx) => (
         <div key={idx} style={{ marginBottom: 24 }}>
-          <h3>{idx === 0 ? `How to make ${recipe.name}` : `How to prepare main ingredient`}</h3>
+          <h3>{idx === 0 ? `How to complete ${recipe.name}` : `How to prepare primary material`}</h3>
           {url ? (
             <iframe
               width="100%"
