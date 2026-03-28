@@ -478,7 +478,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     setShowDownloadSuccessModal(true);
   };
 
-  const handleGenerateApiKey = async () => {
+  const handleGenerateApiKey = async ({ revealKey = true }: { revealKey?: boolean } = {}) => {
     if (!currentUser?.id) {
       showWarning('You must be logged in to generate API keys');
       return;
@@ -504,12 +504,20 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
       if (error) {
         console.warn('API keys table may not exist:', error);
-        setGeneratedApiKey(apiKey);
-        setShowApiKeyModal(true);
+        if (revealKey) {
+          setGeneratedApiKey(apiKey);
+          setShowApiKeyModal(true);
+        } else {
+          showSuccess(`LTI integration token auto-provisioned for ${selectedLtiProvider}.`);
+        }
       } else {
-        setGeneratedApiKey(apiKey);
-        setShowApiKeyModal(true);
         setApiKeys(prev => [...prev, data]);
+        if (revealKey) {
+          setGeneratedApiKey(apiKey);
+          setShowApiKeyModal(true);
+        } else {
+          showSuccess(`LTI integration token auto-provisioned for ${selectedLtiProvider}.`);
+        }
       }
     } catch (error: any) {
       console.error('API key generation error:', error);
@@ -2529,13 +2537,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                       >
                         {t('admin.browseFiles')}
-                      </button>
-                      <button 
-                        onClick={handleGenerateApiKey}
-                        disabled={generatingApiKey}
-                        className="w-full sm:w-auto bg-green-100 text-green-700 px-6 py-2 rounded-md hover:bg-green-200 font-retro border-2 border-green-400 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
-                      >
-                        {generatingApiKey ? t('admin.generating') : t('admin.generateAPIKey')}
                       </button>
                       <button 
                         onClick={() => setShowChefFreddieModal(true)}
@@ -5081,16 +5082,19 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-3 sm:p-4">
-                <h3 className="font-bold text-yellow-900 mb-2 text-sm sm:text-base">API Key Generation</h3>
+                <h3 className="font-bold text-yellow-900 mb-2 text-sm sm:text-base">Automated Token Provisioning</h3>
                 <p className="text-xs sm:text-sm text-yellow-900 mb-3">
-                  Generate a key for LTI deep-linking, roster sync, and grade passback workflows.
+                  Admin access is verified in this dashboard. When you enable LTI, a token is automatically provisioned for deep-linking, roster sync, and grade passback.
                 </p>
                 <button
-                  onClick={handleGenerateApiKey}
+                  onClick={async () => {
+                    await handleGenerateApiKey({ revealKey: false });
+                    setShowLtiIntegrationModal(false);
+                  }}
                   disabled={generatingApiKey}
                   className="w-full sm:w-auto bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro border-2 border-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                 >
-                  {generatingApiKey ? t('admin.generating') : t('admin.generateAPIKey')}
+                  {generatingApiKey ? t('admin.generating') : `Enable ${selectedLtiProvider} LTI Integration`}
                 </button>
               </div>
             </div>
