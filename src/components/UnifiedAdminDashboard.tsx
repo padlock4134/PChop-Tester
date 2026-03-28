@@ -5110,10 +5110,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </div>
 
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4">
-                <h3 className="font-bold text-green-900 mb-2 text-sm sm:text-base">Integration Workflow</h3>
+                <h3 className="font-bold text-green-900 mb-2 text-sm sm:text-base text-center">Integration Workflow</h3>
                 <p className="text-xs sm:text-sm text-green-900 text-center">
-                  Once LTI 1.3 / Advantage is connected for <strong>{selectedLtiProvider}</strong>, the integration continues with the
-                  existing background curriculum deployment flow (same behavior as the Bench Tech curriculum deployer).
+                  Connect <strong>{selectedLtiProvider}</strong> via LTI 1.3/Advantage, then hand off to the WorkBench deployment engine for provisioning and sync.
                 </p>
               </div>
 
