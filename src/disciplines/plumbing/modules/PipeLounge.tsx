@@ -32,9 +32,9 @@ const PipeLounge = () => {
     "Never apologize for learning your trade.",
     "A party without cake is just a meeting.",
     "The secret of mastering a trade is to love the process.",
-    "Learn how to cook - try new recipes, learn from your mistakes, be fearless, and above all have fun!",
+    "Learn your trade - try new projects, learn from mistakes, be fearless, and have fun improving.",
     "You'll never know everything about anything, especially something you love.",
-    "The only time to eat diet food is while you're waiting for the steak to cook.",
+    "The only bad training day is the one where you stop learning.",
     "I started late, but consistent practice changed everything.",
     "Cooking is one of the great pleasures of life.",
     "Find something you're passionate about and keep tremendously interested in it.",
@@ -51,7 +51,7 @@ const PipeLounge = () => {
     "Assume the worst. About everybody. But don't let this poisoned outlook affect your job performance.",
     "Food is everything we are. It's an extension of nationalist feeling, ethnic feeling, your personal history.",
     "I don't have to agree with you to like you or respect you.",
-    "Bad food is made without pride, by cooks who have no pride, and no love.",
+    "Poor work happens without pride; craftsmanship starts with ownership and care.",
     
     // David Chang (10 quotes)
     "Cooking is an expression of the land where you are and the culture of that place.",
@@ -63,7 +63,7 @@ const PipeLounge = () => {
     "Contemporary ramen is totally different than what most Americans think ramen should be.",
     "I love the masochistic aspect of eating seething, spicy food and being tortured by it.",
     "We're hoping to succeed; we're okay with failure. We just don't want to land in between.",
-    "I think the basic thing that home cooks can learn how to do is just season properly.",
+    "I think the basic thing every learner can master is solid process and standards.",
     
     // Martha Stewart (10 quotes)
     "Life is too complicated not to be orderly.",
@@ -72,13 +72,13 @@ const PipeLounge = () => {
     "Getting over those times and overcoming those difficulties really makes you appreciate the good times.",
     "I am always asking myself how I can improve the lives of my customers, my colleagues, my shareholders.",
     "The ultimate goal is to be an interesting, useful, wholesome person.",
-    "I think baking cookies is equal to Queen Victoria running an empire.",
+    "Small repeatable tasks build the discipline needed for big outcomes.",
     "Without an open-minded mind, you can never be a great success.",
     "I love the challenge of starting at zero every day and seeing how much I can accomplish.",
     "Never make a big decision without sleeping on it.",
     
     // Emeril Lagasse (10 quotes)
-    "Cooking is so much more than recipes and techniques. It's about heart and soul.",
+    "Technical work is more than steps and tools; it's about focus and pride.",
     "My philosophy is: If you can't have fun, there's no sense in doing it.",
     "The cool thing about being famous is traveling. I have always wanted to travel across seas.",
     "I think you've got to keep it simple, keep it fresh. Stay away from all that processed stuff.",

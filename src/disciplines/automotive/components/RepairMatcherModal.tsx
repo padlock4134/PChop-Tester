@@ -108,7 +108,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
       desc: t('repairMatcher.howToPrepProtein')
     },
     {
-      title: `${t('repairMatcher.recipe')} ${recipe.title}`,
+      title: `${t('repairMatcher.recipe', { defaultValue: 'Procedure' })} ${recipe.title}`,
       desc: recipe.instructions
     }
   ];
@@ -186,9 +186,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Materials' })}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
                   {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Tools/Equipment' })}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">

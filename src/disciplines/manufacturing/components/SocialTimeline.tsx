@@ -9,7 +9,7 @@ interface TimelinePost {
   timestamp: string;
   content: string;
   image?: string;
-  type: 'recipe' | 'ingredient' | 'story' | 'live' | 'success' | 'market';
+  type: 'project' | 'material' | 'story' | 'live' | 'success' | 'market';
   likes: number;
   comments: number;
   isLiked: boolean;
@@ -23,9 +23,9 @@ const SocialTimeline: React.FC = () => {
       author: 'Sofia Rodriguez',
       avatar: '👩🏽‍🍳',
       timestamp: '2m',
-      content: 'Just finished making my abuela\'s mole recipe! The secret is toasting the chiles until they\'re fragrant but not burnt. 🌶️✨',
+      content: 'Just finished a full troubleshooting runbook for a recurring equipment fault. Root cause nailed and documented. 🛠️✅',
       image: '🍛',
-      type: 'recipe',
+      type: 'project',
       likes: 12,
       comments: 3,
       isLiked: false,
@@ -36,8 +36,8 @@ const SocialTimeline: React.FC = () => {
       author: 'Marcus Chen',
       avatar: '👨🏻‍🍳',
       timestamp: '15m',
-      content: 'Found the most incredible black garlic at Portland Farmers Market! Perfect for my Korean-fusion experiments 🧄',
-      type: 'ingredient',
+      content: 'Found an excellent local supplier for replacement fittings and calibration tools. Huge win for this week\'s jobs. 📦',
+      type: 'material',
       likes: 8,
       comments: 1,
       isLiked: true,
@@ -60,7 +60,7 @@ const SocialTimeline: React.FC = () => {
       author: 'Giuseppe Rossi',
       avatar: '👨🏻‍🍳',
       timestamp: '1h',
-      content: 'My nonna always said "La pasta deve ballare" - the pasta must dance in the water. Finally understand what she meant after today\'s class! 💃🍝',
+      content: 'Today\'s lab finally made sequencing click: inspect, isolate, test, verify. The workflow just clicked. 🔧',
       type: 'story',
       likes: 15,
       comments: 4,
@@ -72,7 +72,7 @@ const SocialTimeline: React.FC = () => {
       author: 'Priya Patel',
       avatar: '👩🏽‍🍳',
       timestamp: '2h',
-      content: 'SUCCESS! Finally nailed the perfect dosa after 47 attempts 😅 The batter fermentation was the key. Persistence pays off!',
+      content: 'SUCCESS! Finally nailed this diagnostic workflow after dozens of attempts 😅 Persistence and repeatable checks paid off!',
       image: '🥞',
       type: 'success',
       likes: 31,
@@ -85,7 +85,7 @@ const SocialTimeline: React.FC = () => {
       author: 'Ahmed Hassan',
       avatar: '👨🏽‍🍳',
       timestamp: '3h',
-      content: 'PSA: Eastern Market has fresh za\'atar and sumac! Owner said they get shipments from Lebanon every Tuesday 🌿',
+      content: 'PSA: Local vendor has fresh stock of fasteners, seals, and meters. New shipment lands every Tuesday. 📦',
       type: 'market',
       likes: 19,
       comments: 5,
@@ -108,8 +108,8 @@ const SocialTimeline: React.FC = () => {
 
   const getPostIcon = (type: string) => {
     switch (type) {
-      case 'recipe': return '👨‍🍳';
-      case 'ingredient': return '🛒';
+      case 'project': return '🧰';
+      case 'material': return '📦';
       case 'story': return '💭';
       case 'live': return '🔴';
       case 'success': return '🎉';
@@ -122,7 +122,7 @@ const SocialTimeline: React.FC = () => {
     switch (type) {
       case 'live': return 'border-l-red-500';
       case 'success': return 'border-l-green-500';
-      case 'ingredient': return 'border-l-blue-500';
+      case 'material': return 'border-l-blue-500';
       case 'market': return 'border-l-purple-500';
       default: return 'border-l-gray-300';
     }
@@ -135,7 +135,7 @@ const SocialTimeline: React.FC = () => {
           <span className="mr-2">🌊</span>
           Community Feed
         </h3>
-        <p className="text-sm text-gray-600">What's cooking in our community</p>
+        <p className="text-sm text-gray-600">What's happening in our trade community</p>
       </div>
       
       <div className="max-h-96 overflow-y-auto">
@@ -203,10 +203,10 @@ const SocialTimeline: React.FC = () => {
       
       <div className="p-4 border-t border-gray-200">
         <div className="flex items-center space-x-3">
-          <span className="text-2xl">👨‍🍳</span>
+          <span className="text-2xl">🧰</span>
           <input
             type="text"
-            placeholder="Share what you're cooking..."
+            placeholder="Share what you're building..."
             className="flex-1 text-sm border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue focus:border-transparent"
           />
           <button className="bg-maineBlue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition-colors">
