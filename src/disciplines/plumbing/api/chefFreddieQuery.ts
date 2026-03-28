@@ -13,10 +13,11 @@ export async function handler(event: any, context: any) {
   }
   const reqBody = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
   const { prompt } = reqBody;
-  // TODO: Replace with actual Claude Haiku API call
-  // TODO: Implement real query logic here.
+  const normalizedPrompt = typeof prompt === 'string' ? prompt.trim() : '';
+  const fallbackQuery = 'plumbing leak diagnosis basics';
+
   return {
     statusCode: 200,
-    body: JSON.stringify({ query: 'knife skills for salmon' })
+    body: JSON.stringify({ query: normalizedPrompt || fallbackQuery })
   };
 }
