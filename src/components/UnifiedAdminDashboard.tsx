@@ -214,8 +214,16 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [showLtiIntegrationModal, setShowLtiIntegrationModal] = useState(false);
+  const [showLtiMappingModal, setShowLtiMappingModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
   const [selectedLtiProvider, setSelectedLtiProvider] = useState('Canvas');
+  const [ltiFieldMappings, setLtiFieldMappings] = useState<Record<string, string>>({
+    internal_course_id: 'https://purl.imsglobal.org/spec/lti/claim/context.id',
+    internal_user_id: 'sub',
+    internal_email: 'email',
+    internal_role: 'https://purl.imsglobal.org/spec/lti/claim/roles',
+    internal_section: 'https://purl.imsglobal.org/spec/lti/claim/context.label'
+  });
   
   // Integrity monitoring state
   const [integrityAlerts, setIntegrityAlerts] = useState<IntegrityAlert[]>([]);
@@ -5092,16 +5100,90 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   Admin access is verified in this dashboard. When you enable LTI, a token is automatically provisioned for deep-linking, roster sync, and grade passback.
                 </p>
                 <button
-                  onClick={async () => {
-                    await handleGenerateApiKey({ revealKey: false });
-                    setShowLtiIntegrationModal(false);
-                  }}
+                  onClick={() => setShowLtiMappingModal(true)}
                   disabled={generatingApiKey}
                   className="w-full sm:w-auto bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 font-retro border-2 border-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                 >
-                  {generatingApiKey ? t('admin.generating') : `Enable ${selectedLtiProvider} LTI Integration`}
+                  Configure Mapping
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* LTI Field Mapping Modal */}
+      {showLtiMappingModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[90vh] flex flex-col">
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">🗺️ {selectedLtiProvider} Field Mapping</h2>
+                <button
+                  onClick={() => setShowLtiMappingModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mt-2 text-xs sm:text-base">
+                Map LMS launch claims to your internal fields, then confirm to enable the integration.
+              </p>
+              <p className="text-center text-gray-500 mt-1 text-xs">
+                Claim keys align with 1EdTech LTI 1.3 Core naming.
+              </p>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-3 sm:p-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+                  {[
+                    { key: 'internal_course_id', label: 'Internal Course ID' },
+                    { key: 'internal_user_id', label: 'Internal User ID' },
+                    { key: 'internal_email', label: 'Internal Email' },
+                    { key: 'internal_role', label: 'Internal Role' },
+                    { key: 'internal_section', label: 'Internal Section' }
+                  ].map((field) => (
+                    <div key={field.key}>
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">{field.label}</label>
+                      <select
+                        value={ltiFieldMappings[field.key]}
+                        onChange={(e) => setLtiFieldMappings((prev) => ({ ...prev, [field.key]: e.target.value }))}
+                        className="w-full px-3 py-2 border-2 border-blue-400 rounded-md bg-white text-sm min-h-[44px]"
+                      >
+                        <option value="https://purl.imsglobal.org/spec/lti/claim/context.id">https://purl.imsglobal.org/spec/lti/claim/context.id</option>
+                        <option value="sub">sub</option>
+                        <option value="email">email</option>
+                        <option value="https://purl.imsglobal.org/spec/lti/claim/roles">https://purl.imsglobal.org/spec/lti/claim/roles</option>
+                        <option value="https://purl.imsglobal.org/spec/lti/claim/context.label">https://purl.imsglobal.org/spec/lti/claim/context.label</option>
+                        <option value="lis.person_sourcedid">lis.person_sourcedid</option>
+                        <option value="lis.course_section_sourcedid">lis.course_section_sourcedid</option>
+                        <option value="custom.section_code">custom.section_code</option>
+                      </select>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3 sm:p-6 pt-3 border-t-2 border-gray-200 flex flex-col sm:flex-row gap-2 sm:gap-3 justify-end">
+              <button
+                onClick={() => setShowLtiMappingModal(false)}
+                className="w-full sm:w-auto px-5 py-2 rounded-md border-2 border-gray-400 bg-white text-gray-700 hover:bg-gray-100 font-retro min-h-[44px]"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  await handleGenerateApiKey({ revealKey: false });
+                  setShowLtiMappingModal(false);
+                  setShowLtiIntegrationModal(false);
+                }}
+                disabled={generatingApiKey}
+                className="w-full sm:w-auto px-5 py-2 rounded-md border-2 border-green-700 bg-green-600 text-white hover:bg-green-700 font-retro min-h-[44px] disabled:opacity-50"
+              >
+                {generatingApiKey ? t('admin.generating') : 'Confirm & Enable Integration'}
+              </button>
             </div>
           </div>
         </div>
