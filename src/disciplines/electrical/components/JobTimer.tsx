@@ -29,11 +29,11 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
 
   // Preset timer options
   const presetTimers = [
-    { label: 'Pasta', minutes: 8 },
-    { label: 'Rice', minutes: 18 },
-    { label: 'Eggs (Soft)', minutes: 6 },
-    { label: 'Eggs (Hard)', minutes: 12 },
-    { label: 'Steak (Medium)', minutes: 4 },
+    { label: 'Panel Layout', minutes: 8 },
+    { label: 'Conduit Run', minutes: 12 },
+    { label: 'Wire Pull', minutes: 6 },
+    { label: 'Breaker Test', minutes: 10 },
+    { label: 'Final Voltage Check', minutes: 4 },
   ];
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
     const adjustedMinutes = calculateAdjustedTime(minutes);
     const newTimer: Timer = {
       id: Date.now().toString(),
-      label: `${label} (${servingSize} servings)`,
+      label: `${label} (${servingSize} techs)`,
       totalSeconds: adjustedMinutes * 60,
       remainingSeconds: adjustedMinutes * 60,
       isRunning: false,
@@ -139,7 +139,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
       <div className="bg-sand p-4 rounded-lg border border-black">
         <div className="flex items-center justify-between mb-3">
           <label className="text-sm font-semibold text-gray-700">
-            {t('cookingTimer.servings')}:
+            Team Size:
           </label>
           <div className="flex items-center space-x-2">
             <input
@@ -150,7 +150,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
               onChange={(e) => setServingSize(parseInt(e.target.value) || 1)}
               className="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold"
             />
-            <span className="text-sm text-gray-600">{t('cookingTimer.servings').toLowerCase()}</span>
+            <span className="text-sm text-gray-600">techs</span>
           </div>
         </div>
         
@@ -165,16 +165,16 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
                   : 'bg-gray-200 text-gray-400'
               }`}
             >
-              👤
+              ⚡
             </div>
           ))}
         </div>
         
         <div className="text-xs text-gray-500">
-          *1 serving = ~400-600 calories or 1 cup portions
+          *1 tech represents one learner assigned to the panel task.
         </div>
         <div className="text-xs text-gray-400 mt-1">
-          Recommended nutritional values and numbers provided by the USDA
+          Time recommendations scale by team size for realistic lab pacing.
         </div>
       </div>
 
