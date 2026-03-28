@@ -48,7 +48,7 @@ const SocialTimeline: React.FC = () => {
       author: 'Amara Okafor',
       avatar: '👩🏿‍🍳',
       timestamp: '32m',
-      content: 'Going LIVE in 30 minutes! Teaching how to make proper Nigerian jollof rice. Come through and let\'s settle this debate once and for all! 🍚🔥',
+      content: 'Going LIVE in 30 minutes! Teaching a preventive maintenance workflow and proper tool setup. Join in and run it with me! 🛠️📋',
       type: 'live',
       likes: 23,
       comments: 7,
