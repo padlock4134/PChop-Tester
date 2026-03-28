@@ -218,11 +218,11 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [generatedApiKey, setGeneratedApiKey] = useState('');
   const [selectedLtiProvider, setSelectedLtiProvider] = useState('Canvas');
   const [ltiFieldMappings, setLtiFieldMappings] = useState<Record<string, string>>({
-    internal_course_id: 'context.id',
+    internal_course_id: 'https://purl.imsglobal.org/spec/lti/claim/context.id',
     internal_user_id: 'sub',
     internal_email: 'email',
-    internal_role: 'roles',
-    internal_section: 'context.label'
+    internal_role: 'https://purl.imsglobal.org/spec/lti/claim/roles',
+    internal_section: 'https://purl.imsglobal.org/spec/lti/claim/context.label'
   });
   
   // Integrity monitoring state
@@ -5129,6 +5129,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <p className="text-center text-gray-600 mt-2 text-xs sm:text-base">
                 Map LMS launch claims to your internal fields, then confirm to enable the integration.
               </p>
+              <p className="text-center text-gray-500 mt-1 text-xs">
+                Claim keys align with 1EdTech LTI 1.3 Core naming.
+              </p>
             </div>
 
             <div className="flex-1 overflow-y-auto p-3 sm:p-6">
@@ -5148,12 +5151,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         onChange={(e) => setLtiFieldMappings((prev) => ({ ...prev, [field.key]: e.target.value }))}
                         className="w-full px-3 py-2 border-2 border-blue-400 rounded-md bg-white text-sm min-h-[44px]"
                       >
-                        <option value="context.id">context.id</option>
+                        <option value="https://purl.imsglobal.org/spec/lti/claim/context.id">https://purl.imsglobal.org/spec/lti/claim/context.id</option>
                         <option value="sub">sub</option>
                         <option value="email">email</option>
-                        <option value="roles">roles</option>
-                        <option value="context.label">context.label</option>
-                        <option value="lis.person.sourcedid">lis.person.sourcedid</option>
+                        <option value="https://purl.imsglobal.org/spec/lti/claim/roles">https://purl.imsglobal.org/spec/lti/claim/roles</option>
+                        <option value="https://purl.imsglobal.org/spec/lti/claim/context.label">https://purl.imsglobal.org/spec/lti/claim/context.label</option>
+                        <option value="lis.person_sourcedid">lis.person_sourcedid</option>
+                        <option value="lis.course_section_sourcedid">lis.course_section_sourcedid</option>
                         <option value="custom.section_code">custom.section_code</option>
                       </select>
                     </div>
