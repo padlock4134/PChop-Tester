@@ -140,7 +140,7 @@ const CookingTimer: React.FC<JobTimerProps> = ({ teamSize, setTeamSize }) => {
       <div className="bg-sand p-4 rounded-lg border border-black">
         <div className="flex items-center justify-between mb-3">
           <label className="text-sm font-semibold text-gray-700">
-            {t('cookingTimer.servings')}:
+            Bay Team:
           </label>
           <div className="flex items-center space-x-2">
             <input
@@ -151,7 +151,7 @@ const CookingTimer: React.FC<JobTimerProps> = ({ teamSize, setTeamSize }) => {
               onChange={(e) => setTeamSize(parseInt(e.target.value) || 1)}
               className="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold"
             />
-            <span className="text-sm text-gray-600">{t('cookingTimer.servings').toLowerCase()}</span>
+            <span className="text-sm text-gray-600">techs</span>
           </div>
         </div>
         
@@ -166,16 +166,16 @@ const CookingTimer: React.FC<JobTimerProps> = ({ teamSize, setTeamSize }) => {
                   : 'bg-gray-200 text-gray-400'
               }`}
             >
-              👤
+              🚗
             </div>
           ))}
         </div>
         
         <div className="text-xs text-gray-500">
-          *1 serving = ~400-600 calories or 1 cup portions
+          *1 tech represents one learner assigned to the service bay.
         </div>
         <div className="text-xs text-gray-400 mt-1">
-          Recommended nutritional values and numbers provided by the USDA
+          Time recommendations scale by bay team size for realistic shop pacing.
         </div>
       </div>
 
