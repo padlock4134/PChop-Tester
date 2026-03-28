@@ -160,7 +160,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       dishName: 'Quality Control Walkthrough',
       culture: 'Moroccan',
       scheduledTime: '4:30 PM EST',
-      description: 'Slow-cooked tagine with preserved lemons and olives'
+      description: 'Advanced troubleshooting walkthrough for a real-world field issue'
     },
     {
       id: '5',
@@ -871,7 +871,7 @@ END:VCALENDAR`;
             <VideoCameraIcon className="h-12 w-12 mx-auto mb-3 text-maineBlue" />
             <h3 className="font-semibold text-gray-900 mb-2">Share Your Heritage Dish</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Teach others a recipe from your culture and build your culinary leadership skills
+              Teach a proven workflow from your trade and build your leadership skills
             </p>
           </div>
           
@@ -899,7 +899,7 @@ END:VCALENDAR`;
               <li>• Share the story behind your dish</li>
               <li>• Highlight unique ingredients and where to find them</li>
               <li>• Engage with viewers and answer questions</li>
-              <li>• Practice your recipe beforehand</li>
+              <li>• Practice your workflow beforehand</li>
             </ul>
           </div>
         </div>
@@ -930,7 +930,7 @@ END:VCALENDAR`;
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., Grandma's Pasta Recipe"
+                  placeholder="e.g., Emergency panel troubleshooting walkthrough"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
@@ -1169,7 +1169,7 @@ END:VCALENDAR`;
                   value={scheduledDishName}
                   onChange={(e) => setScheduledDishName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                  placeholder="e.g., Grandma's Pasta Recipe"
+                  placeholder="e.g., Emergency panel troubleshooting walkthrough"
                 />
               </div>
               
@@ -1259,7 +1259,7 @@ END:VCALENDAR`;
                     type="text"
                     value={scheduledTeacher}
                     onChange={(e) => setScheduledTeacher(e.target.value)}
-                    placeholder="e.g., Chef Martinez"
+                    placeholder="e.g., Instructor Martinez"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                   />
                 </div>
