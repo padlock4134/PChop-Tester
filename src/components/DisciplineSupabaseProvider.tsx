@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDiscipline } from '../DisciplineContext';
 import { useLocation } from 'react-router-dom';
+import { getDisciplineFromPath } from '../disciplineConfig';
 
 // Import all SupabaseProviders
 import CulinarySupabaseProvider, { useSupabase as useCulinarySupabase } from '../disciplines/culinary/components/SupabaseProvider';
@@ -17,14 +18,16 @@ import MachiningSupabaseProvider, { useSupabase as useMachiningSupabase } from '
 export const useSupabase = () => {
   const { currentDiscipline } = useDiscipline();
   const location = useLocation();
-  
+  const disciplineFromPath = getDisciplineFromPath(location.pathname);
+  const activeDiscipline = disciplineFromPath || currentDiscipline;
+
   // If we're on the discipline selector page, use culinary hook
   if (location.pathname === '/select-discipline') {
     return useCulinarySupabase();
   }
-  
+
   // Otherwise use discipline-specific hook
-  switch (currentDiscipline) {
+  switch (activeDiscipline) {
     case 'culinary':
       return useCulinarySupabase();
     case 'plumbing':
@@ -51,6 +54,8 @@ export const useSupabase = () => {
 const DisciplineSupabaseProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { currentDiscipline } = useDiscipline();
   const location = useLocation();
+  const disciplineFromPath = getDisciplineFromPath(location.pathname);
+  const activeDiscipline = disciplineFromPath || currentDiscipline;
 
   // If we're on the discipline selector page, use culinary as default
   if (location.pathname === '/select-discipline') {
@@ -58,7 +63,7 @@ const DisciplineSupabaseProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }
 
   const getProvider = () => {
-    switch (currentDiscipline) {
+    switch (activeDiscipline) {
       case 'culinary':
         return CulinarySupabaseProvider;
       case 'plumbing':

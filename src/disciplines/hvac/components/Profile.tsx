@@ -251,7 +251,7 @@ const EditProfileModal = ({
 };
 
 const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => void; content: string }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   if (!open) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -557,7 +557,7 @@ Welcome to Porkchop. By using this app, you agree to be bound by the following t
 }
 
 const Profile = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useSupabase();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
