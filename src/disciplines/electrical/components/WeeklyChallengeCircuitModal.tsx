@@ -131,7 +131,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
           {loading && (
             <div className="flex flex-col items-center justify-center w-full h-full">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mb-4"></div>
-              <span className="text-lg font-semibold">Generating Recipe...</span>
+              <span className="text-lg font-semibold">Generating Challenge...</span>
             </div>
           )}
           {!loading && error && (
