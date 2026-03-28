@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
-import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate, Navigate, useParams } from 'react-router-dom';
 import {
   AuthStatus,
   redirectToLogout,
@@ -271,6 +271,33 @@ const getDisciplineComponents = (discipline: string) => {
   return componentMap[discipline] || componentMap.culinary;
 };
 
+const DynamicDisciplineRoute = ({ page }: { page: 'dashboard' | 'profile' | 'workspace' | 'notebook' | 'community' | 'school' }) => {
+  const { discipline } = useParams<{ discipline: string }>();
+
+  if (!discipline) {
+    return <Navigate to="/select-discipline" replace />;
+  }
+
+  const components = getDisciplineComponents(discipline);
+
+  switch (page) {
+    case 'dashboard':
+      return <components.Dashboard />;
+    case 'profile':
+      return <components.Profile />;
+    case 'workspace':
+      return <components.Kitchen />;
+    case 'notebook':
+      return <components.Cookbook />;
+    case 'community':
+      return <components.Corner />;
+    case 'school':
+      return <components.School />;
+    default:
+      return <Navigate to="/select-discipline" replace />;
+  }
+};
+
 const AppRoutes = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -420,6 +447,14 @@ const AppRoutes = () => {
           <Route path="/machining/machinist-corner" element={<MachiningMachinistCorner />} />
           <Route path="/machining/machining-school" element={<MachiningMachiningSchool />} />
           <Route path="/machining/profile" element={<MachiningProfile />} />
+
+          {/* Dynamic custom discipline routes */}
+          <Route path="/:discipline/dashboard" element={<DynamicDisciplineRoute page="dashboard" />} />
+          <Route path="/:discipline/profile" element={<DynamicDisciplineRoute page="profile" />} />
+          <Route path="/:discipline/my-workspace" element={<DynamicDisciplineRoute page="workspace" />} />
+          <Route path="/:discipline/my-notebook" element={<DynamicDisciplineRoute page="notebook" />} />
+          <Route path="/:discipline/community" element={<DynamicDisciplineRoute page="community" />} />
+          <Route path="/:discipline/school" element={<DynamicDisciplineRoute page="school" />} />
           
           <Route path="/" element={<HomeRedirect />} />
           <Route path="*" element={<Navigate to="/select-discipline" replace />} />

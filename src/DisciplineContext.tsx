@@ -10,6 +10,20 @@ interface DisciplineContextType {
 
 const DisciplineContext = createContext<DisciplineContextType | null>(null);
 
+
+const buildFallbackDisciplineConfig = (discipline: string) => ({
+  key: discipline,
+  name: discipline.charAt(0).toUpperCase() + discipline.slice(1),
+  routes: {
+    kitchen: `/${discipline}/my-workspace`,
+    cookbook: `/${discipline}/my-notebook`,
+    corner: `/${discipline}/community`,
+    school: `/${discipline}/school`,
+    dashboard: `/${discipline}/dashboard`,
+    profile: `/${discipline}/profile`,
+  },
+});
+
 export const DisciplineProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
   const [currentDiscipline, setCurrentDiscipline] = useState<DisciplineKey | null>(() => {
@@ -24,7 +38,7 @@ export const DisciplineProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const selected = localStorage.getItem('selectedDiscipline');
     const disciplineToUse = selected || stored;
     
-    if (disciplineToUse && DISCIPLINE_CONFIG[disciplineToUse as keyof typeof DISCIPLINE_CONFIG]) {
+    if (disciplineToUse) {
       return disciplineToUse as DisciplineKey;
     }
     
@@ -47,7 +61,9 @@ export const DisciplineProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     localStorage.setItem('lastDiscipline', discipline);
   };
 
-  const disciplineConfig = currentDiscipline ? DISCIPLINE_CONFIG[currentDiscipline as keyof typeof DISCIPLINE_CONFIG] : null;
+  const disciplineConfig = currentDiscipline
+    ? DISCIPLINE_CONFIG[currentDiscipline as keyof typeof DISCIPLINE_CONFIG] || buildFallbackDisciplineConfig(currentDiscipline)
+    : null;
 
   return (
     <DisciplineContext.Provider value={{ currentDiscipline, setDiscipline, disciplineConfig }}>
