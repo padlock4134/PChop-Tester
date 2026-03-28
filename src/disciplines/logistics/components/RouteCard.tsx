@@ -24,22 +24,22 @@ const RecipeCardComponent: React.FC<Props> = ({ recipe }) => {
       </div>
       <div className="grid grid-cols-3 gap-2 mb-2">
         <div className="text-xs text-gray-600">
-          <div className="font-bold">{t('recipeCard.ingredients')}</div>
+          <div className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Materials' })}</div>
           {recipe.ingredients.join(', ')}
         </div>
         <div className="text-xs text-gray-600">
-          <div className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Equipment' })}</div>
+          <div className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Tools/Equipment' })}</div>
           {recipe.equipment?.join(', ') || 'None'}
         </div>
         <div className="text-xs text-gray-600">
-          <div className="font-bold">{t('recipeCard.nutrition')}</div>
-          <div>{t('recipeCard.carbs')}: {recipe.nutrition?.carbs}g</div>
-          <div>{t('recipeCard.protein')}: {recipe.nutrition?.protein}g</div>
-          <div>{t('recipeCard.fat')}: {recipe.nutrition?.saturatedFat}g</div>
+          <div className="font-bold">{t('recipeCard.nutrition', { defaultValue: 'Specifications' })}</div>
+          <div>{t('recipeCard.carbs', { defaultValue: 'Complexity' })}: {recipe.nutrition?.carbs}g</div>
+          <div>{t('recipeCard.protein', { defaultValue: 'Quality' })}: {recipe.nutrition?.protein}g</div>
+          <div>{t('recipeCard.fat', { defaultValue: 'Risk' })}: {recipe.nutrition?.saturatedFat}g</div>
         </div>
       </div>
       <div className="text-xs text-gray-600">
-        <span className="font-bold">{t('recipeCard.instructions')}:</span> {recipe.instructions}
+        <span className="font-bold">{t('recipeCard.instructions', { defaultValue: 'Procedure' })}:</span> {recipe.instructions}
       </div>
     </div>
   );

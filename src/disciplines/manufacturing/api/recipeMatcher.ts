@@ -462,16 +462,16 @@ export async function generateFallbackRecipes(userId: string, ingredients: strin
   
   const prompt = `${promptTemplate(count, ingredients)}
 
-Format your response as a JSON array of recipe objects. Each recipe object MUST have these exact fields:
+Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
 {
-  "title": "Recipe Name",
+  "title": "Project Name",
   "ingredients": ["ingredient 1", "ingredient 2", ...],
   "instructions": ["step 1", "step 2", ...],
   "equipment": ["equipment 1", "equipment 2", ...],
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary kitchen tools and appliances needed to prepare the recipe (e.g., "frying pan", "mixing bowl", "oven", "blender").
+For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
 Return ONLY the JSON array, no other text.`;
 
   // 2. Call Anthropic API

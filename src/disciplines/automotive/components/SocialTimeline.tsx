@@ -9,7 +9,7 @@ interface TimelinePost {
   timestamp: string;
   content: string;
   image?: string;
-  type: 'recipe' | 'ingredient' | 'story' | 'live' | 'success' | 'market';
+  type: 'project' | 'material' | 'story' | 'live' | 'success' | 'market';
   likes: number;
   comments: number;
   isLiked: boolean;
@@ -25,7 +25,7 @@ const SocialTimeline: React.FC = () => {
       timestamp: '2m',
       content: 'Just finished rebuilding my first carburetor! The secret is calibrating the float level until it\'s perfect but not flooded. 🌶️✨',
       image: '🔧',
-      type: 'recipe',
+      type: 'project',
       likes: 12,
       comments: 3,
       isLiked: false,
@@ -37,7 +37,7 @@ const SocialTimeline: React.FC = () => {
       avatar: '👨🏻‍🔧',
       timestamp: '15m',
       content: 'Found the most incredible synthetic oil at Portland Auto Parts! Perfect for my high-performance engine experiments 🔧',
-      type: 'ingredient',
+      type: 'material',
       likes: 8,
       comments: 1,
       isLiked: true,
@@ -108,8 +108,8 @@ const SocialTimeline: React.FC = () => {
 
   const getPostIcon = (type: string) => {
     switch (type) {
-      case 'recipe': return '👨‍🍳';
-      case 'ingredient': return '🛒';
+      case 'project': return '🧰';
+      case 'material': return '📦';
       case 'story': return '💭';
       case 'live': return '🔴';
       case 'success': return '🎉';
@@ -122,7 +122,7 @@ const SocialTimeline: React.FC = () => {
     switch (type) {
       case 'live': return 'border-l-red-500';
       case 'success': return 'border-l-green-500';
-      case 'ingredient': return 'border-l-blue-500';
+      case 'material': return 'border-l-blue-500';
       case 'market': return 'border-l-purple-500';
       default: return 'border-l-gray-300';
     }
