@@ -363,7 +363,7 @@ const ChallengeOfTheWeek: React.FC = () => {
         };
         setModalRecipe(recipe);
       } catch (e: any) {
-        setError(e.message || 'Failed to generate recipe');
+        setError(e.message || 'Failed to generate challenge');
       } finally {
         setLoading(false);
       }
@@ -416,7 +416,7 @@ const ChallengeOfTheWeek: React.FC = () => {
               onClick={handleCookMe}
               disabled={loading}
             >
-              {loading ? t('common.loading') : t('myKitchen.cookMe')}
+              {loading ? t('common.loading') : t('myKitchen.cookMe', { defaultValue: 'Generate Challenge' })}
             </button>
             {error && <div className="text-red-600 mt-2">{error}</div>}
             <button

@@ -2,16 +2,16 @@ import React, { useState, useRef, useEffect } from 'react';
 import { LightBulbIcon } from '@heroicons/react/24/outline';
 
 const tips = [
-  "Always read the entire recipe before starting.",
-  "Let meat rest after cooking for juicier results.",
-  "Use a sharp knife for safer, easier chopping.",
-  "Season as you go, not just at the end.",
-  "Preheat your pan before adding ingredients.",
-  "Taste as you cook for better results.",
-  "Clean as you go to keep your workspace tidy.",
-  "Store herbs in a damp paper towel to keep them fresh.",
-  "Use a thermometer for perfect doneness.",
-  "Balance flavors with acid, salt, and sweetness."
+  "Review the full work order before starting.",
+  "Measure twice and verify specs before making cuts or installs.",
+  "Use the right tool for the job to improve safety and quality.",
+  "Stage your materials in order of operations.",
+  "Lock out power/energy sources before hands-on work.",
+  "Document each major step so handoffs are easier.",
+  "Keep your work area clean to prevent rework and accidents.",
+  "Check tolerances early to catch fit issues before final assembly.",
+  "Inspect and test your work before sign-off.",
+  "If something feels off, pause and troubleshoot before proceeding."
   // ...add up to 365 tips
 ];
 

@@ -873,7 +873,7 @@ const MyPlaybook = () => {
                           },
                           {
                             title: `Protein Prep: Preparing the main ingredient`,
-                            desc: `How to prep the main protein (e.g., fish, chicken, clams) for this recipe.`
+                            desc: `How to prep the primary material and tools for this project.`
                           },
                           {
                             title: `Recipe: ${filteredProcesses[currentIndex].name}`,

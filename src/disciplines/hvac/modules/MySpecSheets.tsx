@@ -138,7 +138,7 @@ const MySpecSheets = () => {
       dueDate: "Nov 12, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Searing techniques", "Internal temperatures", "Resting periods", "Carryover cooking"],
+      techniques: ["Diagnostic methods", "Measurement standards", "Safety checks", "Quality verification"],
       submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
       objectives: ["Workplace safety", "Quality standards", "Tolerance control", "Process refinement"],
       studentName: "Sarah Chen",
@@ -900,7 +900,7 @@ const MySpecSheets = () => {
                           },
                           {
                             title: `Protein Prep: Preparing the main ingredient`,
-                            desc: `How to prep the main protein (e.g., fish, chicken, clams) for this recipe.`
+                            desc: `How to prep the primary material and tools for this project.`
                           },
                           {
                             title: `Recipe: ${filteredRecipes[currentIndex].name}`,

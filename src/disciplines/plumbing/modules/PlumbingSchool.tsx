@@ -219,7 +219,7 @@ const PlumbingSchool = () => {
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
-  // Helper: extract main protein from ingredients
+  // Helper: extract primary material from components
   function getMainProtein(ingredients: string[] = []) {
     const proteins = [
       'chicken', 'beef', 'pork', 'fish', 'salmon', 'shrimp', 'clam', 'crab', 'lobster',

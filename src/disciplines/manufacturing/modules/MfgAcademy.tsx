@@ -220,7 +220,7 @@ const MfgAcademy = () => {
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
-  // Helper: extract main protein from ingredients
+  // Helper: extract primary material from components
   function getMainProtein(ingredients: string[] = []) {
     const proteins = [
       'chicken', 'beef', 'pork', 'fish', 'salmon', 'shrimp', 'clam', 'crab', 'lobster',
@@ -248,9 +248,9 @@ const MfgAcademy = () => {
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
-      query = `how to ${tut.techniqueData.title.toLowerCase()} cooking technique`;
+      query = `how to ${tut.techniqueData.title.toLowerCase()} trade technique`;
     } else if (tut.type === 'cooking_tutorial') {
-      // For cooking tutorials, focus on the recipe
+      // For task tutorials, focus on the project
       const mainProtein = getMainProtein(recipe.ingredients || []);
       const mainEquipment = getMainEquipment(recipe.equipment || []);
       if (mainProtein && mainEquipment) {
@@ -258,7 +258,7 @@ const MfgAcademy = () => {
       } else if (mainProtein) {
         query = `How to cook ${mainProtein}`;
       } else {
-        query = `how to make ${recipe.title}`;
+        query = `how to complete ${recipe.title}`;
       }
     } else {
       // Legacy fallback for older tutorial formats
