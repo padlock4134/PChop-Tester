@@ -203,7 +203,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                     {isSaving ? '...' : '♥'}
                   </button>
                   <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {t('repairMatcher.cookMe')}
+                    {t('repairMatcher.cookMe', { defaultValue: 'Run It' })}
                   </button>
                 </div>
                 <div className="text-xs mt-4 text-center text-gray-500">{t('repairMatcher.swipeThrough')}</div>

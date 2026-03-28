@@ -28,7 +28,7 @@ const RecipeCardComponent: React.FC<Props> = ({ recipe }) => {
           {recipe.ingredients.join(', ')}
         </div>
         <div className="text-xs text-gray-600">
-          <div className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Equipment' })}</div>
+          <div className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Tools/Equipment' })}</div>
           {recipe.equipment?.join(', ') || 'None'}
         </div>
         <div className="text-xs text-gray-600">
