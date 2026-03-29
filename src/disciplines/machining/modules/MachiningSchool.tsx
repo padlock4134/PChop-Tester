@@ -388,14 +388,14 @@ const MachiningSchool = () => {
         {isRecipeSelected && selectedRecipe ? (
           <div className="mb-6 mt-8">
             {/* Tutorials Section */}
-            <ol className="space-y-4 list-decimal list-inside">
+            <ol className="space-y-4">
               {tutorials.map((tut, idx) => (
                 <li
                   key={idx}
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">{t('machiningSchool.step')} {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
                 </li>
               ))}
@@ -469,14 +469,14 @@ const MachiningSchool = () => {
           </div>
         ) : (
           <>
-            <ol className="space-y-4 list-decimal list-inside mt-8">
+            <ol className="space-y-4 mt-8">
               {tutorials.map((tut, idx) => (
                 <li
                   key={idx}
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
-                  <div className="font-bold mb-1">{t('machiningSchool.step')} {idx + 1}: {tut.title}</div>
+                  <div className="font-bold mb-1">{tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
                 </li>
               ))}
@@ -484,8 +484,8 @@ const MachiningSchool = () => {
             <div className="mt-8 text-center">
               <div className="text-gray-700 mb-4">{t('machiningSchool.getStarted')}</div>
               <div className="flex justify-center space-x-4">
-                <Link to="/my-kitchen" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyKitchen')}</Link>
-                <Link to="/my-cookbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyCookbook')}</Link>
+                <Link to="/machining/my-bench" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyKitchen')}</Link>
+                <Link to="/machining/my-specbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyCookbook')}</Link>
               </div>
             </div>
           </>
