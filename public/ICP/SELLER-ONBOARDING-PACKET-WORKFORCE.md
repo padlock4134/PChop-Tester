@@ -218,3 +218,98 @@ Do not rely on generic talking points. Anchor every outreach to:
 4. **How PorkChop operationally fixes that pain (leverage)**
 
 When this is done well, outreach sounds consultative, not scripted.
+
+---
+
+## 8) Prospect Universe Build (Onboarding Operations Packet)
+
+This is a seller **execution packet**, not marketing copy.
+Build the list in four master tabs and run them in parallel:
+
+1. U.S. Community Colleges
+2. U.S. K-12 CTE Systems
+3. Ireland + UK Tech Institutions
+4. Australia Tech/TAFE Institutions
+
+### Master Data Columns (Use These Exactly)
+
+- account_name
+- country
+- state_region
+- segment (community_college | k12_system | tech_institution | tafe_provider)
+- program_match_9_lanes (one or more: culinary, plumbing, automotive, construction, electrical, hvac, manufacturing, logistics, machining)
+- persona_tag (A/B/C/D/E from this packet)
+- primary_contact_name
+- primary_contact_title
+- primary_contact_email
+- primary_contact_phone
+- secondary_contact_name
+- secondary_contact_title
+- secondary_contact_email
+- it_or_lms_contact_name
+- it_or_lms_contact_title
+- it_or_lms_contact_email
+- pain_trigger
+- leverage_statement (\"How they leverage PorkChop\")
+- outreach_priority (P1/P2/P3)
+- record_owner
+- qa_status (draft/verified/ready)
+
+### Segment Build Rules
+
+#### A) U.S. Community Colleges
+- Include only institutions with proven career/technical, workforce, or continuing-ed delivery.
+- Mark every lane that matches the institution's published programs.
+- Require at least one program-side contact and one operations/IT-side contact.
+
+#### B) U.S. K-12 Systems
+- Include districts/systems with pathway language (CTE, career academy, technical center, vocational, workforce pathways).
+- Capture both district-level and pathway-school-level contacts where available.
+- Flag whether onboarding likely starts district-wide or school-site pilot.
+
+#### C) Ireland + UK Tech Institutions
+- Prioritize technological universities/institutes, further-ed colleges, and formal technical pathway operators.
+- Capture equivalent role mapping (Head of School, Programme Director, Vice Principal, Quality/Systems lead).
+- Note governance model (centralized multi-campus vs autonomous campus model).
+
+#### D) Australia Tech/TAFE Institutions
+- Include state-level TAFE systems and major regional technical providers.
+- Capture institute-level and campus-level buyers when both exist.
+- Include apprenticeship, industry training, or skills-partnership owner if listed.
+
+---
+
+## 9) Contact Capture Standard (Required for \"ready\")
+
+Each record must have:
+1. One buyer-side contact (dean/director/chair/pathways leader/program owner)
+2. One implementation-side contact (IT/LMS/systems/operations)
+
+If an email is missing:
+- Keep the record as `qa_status = draft`
+- Add direct phone and role-confirmed directory line
+- Add a note for email verification before first send
+
+---
+
+## 10) Throughput Targets (Weekly Seller Minimum)
+
+- 250 net-new records added
+- 150 records moved to `verified`
+- 75 records moved to `ready`
+- 100% of `ready` records include persona tag + pain trigger + leverage statement
+
+This keeps prospecting thorough while staying personalized.
+
+---
+
+## 11) Outreach Readiness Gate (Must Pass All 5)
+
+Before any outreach, confirm:
+1. Persona is tagged correctly.
+2. One lane match to PorkChop's 9 disciplines is explicit.
+3. A real pain trigger is documented (not generic).
+4. A one-sentence leverage statement is written for that account.
+5. Two contacts are captured (buyer + implementation).
+
+If any item is missing, the account is **not outreach-ready**.
