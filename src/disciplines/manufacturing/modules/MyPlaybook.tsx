@@ -426,7 +426,7 @@ const MyPlaybook = () => {
       <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">{t('myPlaybook.loadingPlaybook')}</div>
+          <div className="text-lg font-retro mb-2">{t('common.loading')}</div>
         </div>
       </div>
     );
@@ -759,8 +759,8 @@ const MyPlaybook = () => {
         {filteredProcesses.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
             {processes.length === 0 
-              ? t('myPlaybook.noProcessesYet') 
-              : t('myPlaybook.noMatchingProcesses')}
+              ? t('myPlaybook.noRecipesYet') 
+              : t('myPlaybook.noRecipes')}
           </div>
         ) : (
           <div 
@@ -998,8 +998,8 @@ const MyPlaybook = () => {
                   {processes.length === 0 && (
                     <div className="text-center py-4 mb-3">
                       <div className="text-4xl mb-2">📝</div>
-                      <p className="text-gray-500 text-sm">{t('myPlaybook.noProcessesYet')}</p>
-                      <p className="text-gray-500 text-sm">{t('myPlaybook.addProcessesFirst')}</p>
+                      <p className="text-gray-500 text-sm">{t('myPlaybook.noRecipesYet')}</p>
+                      <p className="text-gray-500 text-sm">{t('myPlaybook.addRecipesFirst')}</p>
                     </div>
                   )}
                   
