@@ -1177,7 +1177,6 @@ END:VCALENDAR`;
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
                   <option value="">Select</option>
-                  <option value="">Select</option>
                   <option value="Lean Manufacturing">Lean Manufacturing</option>
                   <option value="Quality Control">Quality Control</option>
                   <option value="Assembly">Assembly</option>
@@ -1198,7 +1197,7 @@ END:VCALENDAR`;
                   onChange={(e) => setScheduledDescription(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                   rows={3}
-                  placeholder="Tell us about your dish and what makes it special..."
+                  placeholder="Tell us about this session and what students will practice..."
                 />
               </div>
               
@@ -1321,13 +1320,13 @@ END:VCALENDAR`;
                     disabled={isSaving}
                   >
                     <option value="">Select cuisine type</option>
-                    <option value="Italian">Italian</option>
-                    <option value="French">French</option>
-                    <option value="Mexican">Mexican</option>
+                    <option value="Diagnostics">Diagnostics</option>
+                    <option value="Safety">Safety</option>
+                    <option value="Installation">Installation</option>
                     <option value="Asian">Asian</option>
                     <option value="American">American</option>
                     <option value="Mediterranean">Mediterranean</option>
-                    <option value="Indian">Indian</option>
+                    <option value="Troubleshooting">Troubleshooting</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>
