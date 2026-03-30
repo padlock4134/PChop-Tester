@@ -169,7 +169,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   // Admin-route navbar control swap:
   // Replace Weekly Challenge/Profile slots with Exit Admin Mode/WorkBench Connector
   useEffect(() => {
-    const navActionContainers = document.querySelectorAll('nav.navbar .flex.items-center.space-x-2');
+    const navbar = document.querySelector('nav.navbar') as HTMLElement | null;
+    if (!navbar) return;
+
+    const navActionContainers = navbar.querySelectorAll('.flex.items-center.space-x-2');
     const navActions = navActionContainers[navActionContainers.length - 1] as HTMLElement | undefined;
     if (!navActions) return;
 
@@ -1514,31 +1517,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </select>
               </div>
               
-              {/* Exit Admin Mode Dropdown */}
-              <select
-                onChange={(e) => {
-                  if (e.target.value) {
-                    localStorage.setItem('adminSelectedDiscipline', e.target.value);
-                    navigate(`/${e.target.value}/dashboard`);
-                  }
-                }}
-                defaultValue=""
-                aria-label="Exit Admin Mode Picker"
-                className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
-              >
-                <option value="" disabled>Exit Admin Mode</option>
-                {disciplineOptions.filter(opt => opt.key !== 'total').map((opt) => (
-                  <option key={opt.key} value={opt.key} className="bg-white text-black">
-                    {opt.icon} {opt.label}
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={() => setShowLtiIntegrationModal(true)}
-                className="bg-maineBlue hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
-              >
-                🔗 WorkBench Connector
-              </button>
             </div>
           </div>
           
