@@ -165,6 +165,59 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       localStorage.setItem('adminSelectedDiscipline', selectedDiscipline);
     }
   }, [selectedDiscipline]);
+
+  // Admin-route navbar control swap:
+  // Replace Weekly Challenge/Profile slots with Exit Admin Mode/WorkBench Connector
+  useEffect(() => {
+    const navActionContainers = document.querySelectorAll('nav.navbar .flex.items-center.space-x-2');
+    const navActions = navActionContainers[navActionContainers.length - 1] as HTMLElement | undefined;
+    if (!navActions) return;
+
+    const weeklyChallengeControl = navActions.children[0] as HTMLElement | undefined;
+    const profileControl = navActions.children[1] as HTMLElement | undefined;
+    if (!weeklyChallengeControl || !profileControl) return;
+
+    const originalWeeklyDisplay = weeklyChallengeControl.style.display;
+    const originalProfileDisplay = profileControl.style.display;
+    weeklyChallengeControl.style.display = 'none';
+    profileControl.style.display = 'none';
+
+    const exitAdminButton = document.createElement('button');
+    exitAdminButton.type = 'button';
+    exitAdminButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-lobsterRed hover:bg-red-700 text-white text-lg';
+    exitAdminButton.setAttribute('aria-label', 'Exit Admin Mode');
+    exitAdminButton.title = 'Exit Admin Mode';
+    exitAdminButton.textContent = '🚪';
+    exitAdminButton.onclick = () => {
+      const exitPicker = document.querySelector('select[aria-label="Exit Admin Mode Picker"]') as HTMLSelectElement | null;
+      if (!exitPicker) return;
+
+      exitPicker.focus();
+      if (typeof (exitPicker as any).showPicker === 'function') {
+        (exitPicker as any).showPicker();
+      } else {
+        exitPicker.click();
+      }
+    };
+
+    const connectorButton = document.createElement('button');
+    connectorButton.type = 'button';
+    connectorButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-seafoam hover:bg-teal-400 text-black text-lg';
+    connectorButton.setAttribute('aria-label', 'WorkBench Connector');
+    connectorButton.title = 'WorkBench Connector';
+    connectorButton.textContent = '🔗';
+    connectorButton.onclick = () => setShowLtiIntegrationModal(true);
+
+    navActions.insertBefore(exitAdminButton, weeklyChallengeControl);
+    navActions.insertBefore(connectorButton, profileControl);
+
+    return () => {
+      exitAdminButton.remove();
+      connectorButton.remove();
+      weeklyChallengeControl.style.display = originalWeeklyDisplay;
+      profileControl.style.display = originalProfileDisplay;
+    };
+  }, [navigate]);
   
   // Mobile tab state - mimicking Student Dashboard
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'events' | 'actions'>('home');
@@ -1477,6 +1530,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   }
                 }}
                 defaultValue=""
+                aria-label="Exit Admin Mode Picker"
                 className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
               >
                 <option value="" disabled>Exit Admin Mode</option>
