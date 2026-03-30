@@ -792,7 +792,7 @@ const MyPipeBook = () => {
         {filteredRecipes.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
             {recipes.length === 0 
-              ? 'No recipes yet. Add your first recipe!' 
+              ? t('myPipeBook.noRecipesYet')
               : 'No recipes match your search criteria.'}
           </div>
         ) : (
