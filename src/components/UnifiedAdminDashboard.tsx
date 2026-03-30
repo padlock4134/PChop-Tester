@@ -4518,7 +4518,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setShowContentAnalyticsModal(false);
                       } catch (error: any) {
                         console.error('Error exporting analytics:', error);
-                        alert('Failed to export analytics: ' + error.message);
+                        alert(t('admin.failedToExportAnalytics', { defaultValue: 'Failed to export analytics: ' }) + error.message);
                       }
                     }}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
@@ -5341,7 +5341,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <button
                       onClick={() => {
                         navigator.clipboard.writeText(generatedApiKey);
-                        alert('API Key copied to clipboard!');
+                        alert(t('admin.apiKeyCopiedToClipboard', { defaultValue: 'API Key copied to clipboard!' }));
                       }}
                       className="bg-green-100 text-green-700 px-3 py-2 rounded-md hover:bg-green-200 text-sm sm:text-base font-retro min-h-[44px]"
                     >
@@ -5367,7 +5367,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="flex justify-center">
                   <button
                     onClick={() => {
-                      alert('API Key saved to your account settings!');
+                      alert(t('admin.apiKeySavedToSettings', { defaultValue: 'API Key saved to your account settings!' }));
                       setShowApiKeyModal(false);
                     }}
                     className="w-full sm:w-auto bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro text-sm sm:text-base min-h-[44px]"
@@ -5563,7 +5563,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             <div className="flex gap-2 w-full sm:w-auto">
                               <button 
                                 onClick={() => {
-                                  alert(`Title: ${item.title}\n\nContent:\n${item.content}`);
+                                  alert(t('admin.announcementPreview', { defaultValue: `Title: ${item.title}\n\nContent:\n${item.content}` }));
                                 }}
                                 className="text-yellow-700 hover:text-yellow-800 font-medium text-xs sm:text-sm px-2 min-h-[36px]"
                               >
@@ -5949,13 +5949,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       if (error) throw error;
                       
-                      alert(`Announcement sent to ${users.length} recipients!`);
+                      alert(t('admin.announcementSentToRecipients', { count: users.length, defaultValue: `Announcement sent to ${users.length} recipients!` }));
                       setAnnouncementSubject('');
                       setAnnouncementMessage('');
                       setShowAnnouncementModal(false);
                     } catch (error: any) {
                       console.error('Error sending announcement:', error);
-                      alert('Failed to send announcement: ' + error.message);
+                      alert(t('admin.failedToSendAnnouncement', { defaultValue: 'Failed to send announcement: ' }) + error.message);
                     } finally {
                       setSendingAnnouncement(false);
                     }
@@ -6064,7 +6064,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (error) throw error;
                       
                       if (!data || data.length === 0) {
-                        alert('No student data to export');
+                        alert(t('admin.noStudentDataToExport', { defaultValue: 'No student data to export' }));
                         return;
                       }
                       
@@ -6084,7 +6084,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowExportDataModal(false);
                     } catch (error: any) {
                       console.error('Error exporting data:', error);
-                      alert('Failed to export data: ' + error.message);
+                      alert(t('admin.failedToExportData', { defaultValue: 'Failed to export data: ' }) + error.message);
                     } finally {
                       setExportingData(false);
                     }
@@ -6251,10 +6251,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setNewFacultyEmail('');
                       setNewFacultyRole('Instructor');
                       setShowAddFacultyModal(false);
-                      alert('Faculty member added successfully!');
+                      alert(t('admin.facultyMemberAddedSuccess', { defaultValue: 'Faculty member added successfully!' }));
                     } catch (error: any) {
                       console.error('Error adding faculty:', error);
-                      alert('Failed to add faculty: ' + error.message);
+                      alert(t('admin.failedToAddFaculty', { defaultValue: 'Failed to add faculty: ' }) + error.message);
                     } finally {
                       setAddingFaculty(false);
                     }
@@ -6403,10 +6403,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     setNewStudentProgram(skin.people.defaultProgram);
                     setShowAddStudentModal(false);
                     
-                    alert('Student added successfully!');
+                    alert(t('admin.studentAddedSuccess', { defaultValue: 'Student added successfully!' }));
                   } catch (error: any) {
                     console.error('Error adding student:', error);
-                    alert('Failed to add student: ' + error.message);
+                    alert(t('admin.failedToAddStudent', { defaultValue: 'Failed to add student: ' }) + error.message);
                   }
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
@@ -6638,7 +6638,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     
                     setShowEditStudentModal(false);
                     setEditingStudent(null);
-                    alert('Student updated successfully!');
+                    alert(t('admin.studentUpdatedSuccess', { defaultValue: 'Student updated successfully!' }));
                   }}
                   className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm min-h-[44px]"
                 >
@@ -6738,11 +6738,11 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       // For now, just demonstrate it works by simulating the update
                       await new Promise(resolve => setTimeout(resolve, 800));
                       
-                      alert('Permissions updated successfully! (In production, this would update faculty roles in the database)');
+                      alert(t('admin.permissionsUpdatedSuccess', { defaultValue: 'Permissions updated successfully! (In production, this would update faculty roles in the database)' }));
                       setShowManagePermissionsModal(false);
                     } catch (error: any) {
                       console.error('Error updating permissions:', error);
-                      alert('Failed to update permissions: ' + error.message);
+                      alert(t('admin.failedToUpdatePermissions', { defaultValue: 'Failed to update permissions: ' }) + error.message);
                     } finally {
                       setUpdatingPermissions(false);
                     }
@@ -6862,7 +6862,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (error) throw error;
                       
                       if (!data || data.length === 0) {
-                        alert('No faculty data to export');
+                        alert(t('admin.noFacultyDataToExport', { defaultValue: 'No faculty data to export' }));
                         return;
                       }
                       
@@ -6880,7 +6880,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowDownloadSuccessModal(true);
                     } catch (error: any) {
                       console.error('Error exporting faculty:', error);
-                      alert('Failed to export: ' + error.message);
+                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     } finally {
                       setExportingFaculty(false);
                     }
@@ -6976,7 +6976,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (alumniError) throw alumniError;
                       
                       if (!alumniData || alumniData.length === 0) {
-                        alert('No alumni found to send newsletter to');
+                        alert(t('admin.noAlumniFoundForNewsletter', { defaultValue: 'No alumni found to send newsletter to' }));
                         return;
                       }
                       
@@ -7008,7 +7008,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowAlumniNewsletterModal(false);
                     } catch (error: any) {
                       console.error('Error sending newsletter:', error);
-                      alert('Failed to send newsletter: ' + error.message);
+                      alert(t('admin.failedToSendNewsletter', { defaultValue: 'Failed to send newsletter: ' }) + error.message);
                     } finally {
                       setSendingNewsletter(false);
                     }
@@ -7111,7 +7111,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       ));
                       setShowEditAlumniModal(false);
                       setEditingAlumni(null);
-                      alert('Alumni information updated successfully!');
+                      alert(t('admin.alumniInfoUpdatedSuccess', { defaultValue: 'Alumni information updated successfully!' }));
                     }}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                   >
@@ -7205,7 +7205,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       ));
                       setShowEditFacultyModal(false);
                       setEditingFaculty(null);
-                      alert('Faculty information updated successfully!');
+                      alert(t('admin.facultyInfoUpdatedSuccess', { defaultValue: 'Faculty information updated successfully!' }));
                     }}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
                   >
@@ -7371,7 +7371,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setShowPlanEventModal(false);
                       } catch (error: any) {
                         console.error('Error creating event:', error);
-                        alert('Failed to create event: ' + error.message);
+                        alert(t('admin.failedToCreateEvent', { defaultValue: 'Failed to create event: ' }) + error.message);
                       } finally {
                         setCreatingEvent(false);
                       }
@@ -7501,7 +7501,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setShowGiftingDonationsModal(false);
                       } catch (error: any) {
                         console.error('Error exporting donor list:', error);
-                        alert('Failed to export: ' + error.message);
+                        alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                       }
                     }}
                     className="w-full sm:w-auto bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 font-retro text-sm sm:text-base min-h-[44px]"
@@ -7543,7 +7543,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         setShowGiftingDonationsModal(false);
                       } catch (error: any) {
                         console.error('Error creating campaign:', error);
-                        alert('Failed to create campaign: ' + error.message);
+                        alert(t('admin.failedToCreateCampaign', { defaultValue: 'Failed to create campaign: ' }) + error.message);
                       } finally {
                         setCreatingCampaign(false);
                       }
@@ -7647,7 +7647,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (error) throw error;
                       
                       if (!data || data.length === 0) {
-                        alert('No employment data to export');
+                        alert(t('admin.noEmploymentDataToExport', { defaultValue: 'No employment data to export' }));
                         return;
                       }
                       
@@ -7679,7 +7679,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowDownloadSuccessModal(true);
                     } catch (error: any) {
                       console.error('Error exporting employment data:', error);
-                      alert('Failed to export: ' + error.message);
+                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     } finally {
                       setExportingEmployment(false);
                     }
@@ -8189,7 +8189,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowCareerServicesModal(false);
                     } catch (error: any) {
                       console.error('Error scheduling event:', error);
-                      alert('Failed to schedule event: ' + error.message);
+                      alert(t('admin.failedToScheduleEvent', { defaultValue: 'Failed to schedule event: ' }) + error.message);
                     } finally {
                       setSchedulingCareerEvent(false);
                     }
@@ -8300,7 +8300,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       if (error) throw error;
                       
                       if (!data || data.length === 0) {
-                        alert('No alumni data to export');
+                        alert(t('admin.noAlumniDataToExport', { defaultValue: 'No alumni data to export' }));
                         return;
                       }
                       
@@ -8318,7 +8318,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowDownloadSuccessModal(true);
                     } catch (error: any) {
                       console.error('Error exporting alumni:', error);
-                      alert('Failed to export: ' + error.message);
+                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     } finally {
                       setExportingAlumni(false);
                     }
@@ -8483,7 +8483,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowAddAlumniModal(false);
                     } catch (error: any) {
                       console.error('Error adding alumni:', error);
-                      alert('Failed to add alumni: ' + error.message);
+                      alert(t('admin.failedToAddAlumni', { defaultValue: 'Failed to add alumni: ' }) + error.message);
                     }
                     }}
                     className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
@@ -8688,7 +8688,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <button
                     onClick={async () => {
                     if (!currentUser?.id) {
-                      alert('You must be logged in to send reminders');
+                      alert(t('admin.mustBeLoggedInToSendReminders', { defaultValue: 'You must be logged in to send reminders' }));
                       return;
                     }
                     
@@ -8716,7 +8716,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowViewEventModal(false);
                     } catch (error: any) {
                       console.error('Error sending reminders:', error);
-                      alert('Failed to send reminders: ' + error.message);
+                      alert(t('admin.failedToSendReminders', { defaultValue: 'Failed to send reminders: ' }) + error.message);
                     }
                   }}
                   className="bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro"
@@ -8752,7 +8752,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowViewEventModal(false);
                     } catch (error: any) {
                       console.error('Error exporting attendee list:', error);
-                      alert('Failed to export: ' + error.message);
+                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     }
                     }}
                     className="w-full sm:w-auto bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 font-retro text-sm sm:text-base min-h-[44px]"
@@ -8871,7 +8871,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <button
                     onClick={async () => {
                     if (!currentUser?.id) {
-                      alert('You must be logged in to send reminders');
+                      alert(t('admin.mustBeLoggedInToSendReminders', { defaultValue: 'You must be logged in to send reminders' }));
                       return;
                     }
                     
@@ -8899,7 +8899,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowViewCareerEventModal(false);
                     } catch (error: any) {
                       console.error('Error sending reminders:', error);
-                      alert('Failed to send reminders: ' + error.message);
+                      alert(t('admin.failedToSendReminders', { defaultValue: 'Failed to send reminders: ' }) + error.message);
                     }
                     }}
                     className="w-full sm:w-auto bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-500 font-retro text-sm sm:text-base min-h-[44px]"
@@ -8935,7 +8935,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       setShowViewCareerEventModal(false);
                     } catch (error: any) {
                       console.error('Error exporting attendee list:', error);
-                      alert('Failed to export: ' + error.message);
+                      alert(t('admin.failedToExportGeneric', { defaultValue: 'Failed to export: ' }) + error.message);
                     }
                     }}
                     className="w-full sm:w-auto bg-purple-400 text-white px-6 py-2 rounded-md hover:bg-purple-500 font-retro text-sm sm:text-base min-h-[44px]"
@@ -9106,13 +9106,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3">
                   <button
-                    onClick={() => alert('Send renewal reminders to all expiring certifications')}
+                    onClick={() => alert(t('admin.sendRenewalRemindersAction', { defaultValue: 'Send renewal reminders to all expiring certifications' }))}
                     className="w-full sm:w-auto bg-yellow-400 text-white px-4 sm:px-6 py-2 rounded-md hover:bg-yellow-500 font-retro text-sm sm:text-base min-h-[44px]"
                   >
                     Send Reminders
                   </button>
                   <button
-                    onClick={() => alert('Export certification report')}
+                    onClick={() => alert(t('admin.exportCertificationReportAction', { defaultValue: 'Export certification report' }))}
                     className="w-full sm:w-auto bg-orange-400 text-white px-4 sm:px-6 py-2 rounded-md hover:bg-orange-500 font-retro text-sm sm:text-base min-h-[44px]"
                   >
                     Export Report

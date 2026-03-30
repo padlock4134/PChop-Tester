@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/GarageFreddieContext';
-import { useRecipeContext } from '../components/RepairContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
 import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
 import { supabase } from '../api/supabaseClient';
@@ -455,7 +455,7 @@ const MyManual = () => {
       <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">{t('myManual.loadingManual')}</div>
+          <div className="text-lg font-retro mb-2">{t('common.loading')}</div>
         </div>
       </div>
     );
@@ -522,7 +522,7 @@ const MyManual = () => {
       }}>
         <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
-            {procedureToShare ? `${t('myManual.shareRecipeTitle')} "${procedureToShare.name}"` : t('myManual.shareYourManual')}
+            {procedureToShare ? `${t('myManual.shareRecipeTitle')} "${procedureToShare.name}"` : t('myManual.shareYourCookbook')}
           </h3>
           <div className="flex justify-around mb-4">
             <button 
@@ -614,7 +614,7 @@ const MyManual = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600">
-                {t('myManual.selectedProcedures')} {selectedProcedures.length}
+                {t('myManual.selectedRecipes')} {selectedProcedures.length}
               </p>
             </div>
             
@@ -658,7 +658,7 @@ const MyManual = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600 mb-3">
-                {t('myManual.proceduresInCollection')} ({selectedCollection.procedures.length}):
+                {t('myManual.recipesInCollection')} ({selectedCollection.procedures.length}):
               </p>
               
               <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
@@ -788,8 +788,8 @@ const MyManual = () => {
         {filteredProcedures.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
             {procedures.length === 0 
-              ? t('myManual.noProceduresYet') 
-              : t('myManual.noMatchingProcedures')}
+              ? t('myManual.noRecipesYet') 
+              : t('myManual.noRecipes')}
           </div>
         ) : (
           <div 
@@ -1153,7 +1153,7 @@ const MyManual = () => {
                     {/* Grading Rubric */}
                     <div className="bg-white border-2 lg:border-4 border-green-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm flex-shrink-0">
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-2">
-                        <h4 className="font-serif font-bold text-emerald-800 text-sm lg:text-xs">📊 {t('gradebook.rubric')}</h4>
+                        <h4 className="font-serif font-bold text-emerald-800 text-sm lg:text-xs">📊 {t('myManual.rubric')}</h4>
                       <select 
                         className="bg-white border border-emerald-300 rounded px-2 py-1 text-xs font-serif"
                         value={currentStudentIndex}
@@ -1170,9 +1170,9 @@ const MyManual = () => {
                       <div className="grid grid-cols-2 gap-1 lg:gap-1">
                         {/* Technique Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('gradebook.technique')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myManual.technique')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">{t('gradebook.score')}</option>
+                          <option value="">{t('myManual.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1183,9 +1183,9 @@ const MyManual = () => {
 
                         {/* Safety Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('gradebook.safety')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myManual.safety')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">{t('gradebook.score')}</option>
+                          <option value="">{t('myManual.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1196,9 +1196,9 @@ const MyManual = () => {
 
                         {/* Consistency Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('gradebook.consistency')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myManual.consistency')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">{t('gradebook.score')}</option>
+                          <option value="">{t('myManual.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1209,9 +1209,9 @@ const MyManual = () => {
 
                         {/* Presentation Score */}
                         <div className="bg-white/60 p-2 lg:p-1 rounded border border-emerald-200">
-                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('gradebook.presentation')} (25)</div>
+                          <div className="text-xs font-medium text-emerald-900 mb-1">{t('myManual.presentation')} (25)</div>
                           <select className="w-full text-xs border border-emerald-300 rounded px-1 py-1 lg:py-0.5 bg-white min-h-[32px] lg:min-h-0">
-                          <option value="">{t('gradebook.score')}</option>
+                          <option value="">{t('myManual.score')}</option>
                           <option value="25">A (23-25)</option>
                           <option value="22">B (20-22)</option>
                           <option value="19">C (17-19)</option>
@@ -1224,35 +1224,35 @@ const MyManual = () => {
                       {/* Total Score */}
                       <div className="mt-2 pt-2 border-t border-emerald-300 text-center py-2 lg:py-3">
                         <span className="text-base lg:text-xl font-bold text-red-600">
-                          <span className="block lg:inline">{t('gradebook.total')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100</span>
+                          <span className="block lg:inline">{t('myManual.total')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.total || '--'} / 100</span>
                           <span className="hidden lg:inline"> | </span>
-                          <span className="block lg:inline">{t('gradebook.grade')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}</span>
+                          <span className="block lg:inline">{t('myManual.grade')}: {(mockGrades as any)[students[currentStudentIndex].id]?.[assignments[currentAssignmentPage].id]?.grade || '--'}</span>
                         </span>
                       </div>
                     </div>
 
                     {/* Instructor Feedback */}
                     <div className="bg-white border-2 lg:border-4 border-yellow-500 rounded-lg p-2 lg:p-3 mb-2 shadow-sm flex-shrink-0">
-                      <h4 className="font-serif font-bold text-amber-800 mb-1 lg:mb-2 text-sm">💬 {t('gradebook.feedback')}</h4>
+                      <h4 className="font-serif font-bold text-amber-800 mb-1 lg:mb-2 text-sm">💬 {t('myManual.feedback')}</h4>
                       
                       <textarea 
-                        placeholder={t('gradebook.feedbackPlaceholder')}
+                        placeholder={t('myManual.feedbackPlaceholder')}
                         className="w-full h-16 lg:h-14 text-xs border border-amber-300 rounded p-2 bg-white/80 resize-none focus:border-amber-500 focus:outline-none"
                       />
 
                       <div className="mt-2 flex space-x-2">
                         <button className="flex-1 bg-emerald-100 text-emerald-800 border border-emerald-300 px-2 py-1 lg:px-3 lg:py-2 rounded text-xs hover:bg-emerald-200 transition-all">
-                          💾 {t('gradebook.save')}
+                          💾 {t('myManual.save')}
                         </button>
                         <button className="flex-1 bg-blue-100 text-blue-800 border border-blue-300 px-2 py-1 lg:px-3 lg:py-2 rounded text-xs hover:bg-blue-200 transition-all">
-                          📧 {t('gradebook.send')}
+                          📧 {t('myManual.send')}
                         </button>
                     </div>
                   </div>
 
                     {/* Saved Feedback Notepad */}
                     <div className="bg-white border-2 lg:border-4 border-amber-700 rounded-lg p-2 lg:p-3 shadow-sm overflow-hidden flex flex-col flex-1 min-h-0">
-                      <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 {t('gradebook.savedFeedbackNotes')}</h4>
+                      <h4 className="font-serif font-bold text-yellow-800 mb-2 text-sm border-b border-yellow-300 pb-1">📝 {t('myManual.savedFeedbackNotes')}</h4>
                     
                     <div className="bg-white/80 rounded border border-yellow-200 p-2 flex-1 overflow-y-auto">
                       <div className="space-y-2 text-xs">
@@ -1292,7 +1292,7 @@ const MyManual = () => {
                       <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b-2 border-amber-300 flex-shrink-0">
                         <div className="text-center">
                           <div className="text-2xl lg:text-3xl mb-1">{assignments[currentAssignmentPage].emoji}</div>
-                          <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} {t('gradebook.assignment')}</div>
+                          <div className="text-xs font-bold text-amber-800">{assignments[currentAssignmentPage].week} {t('myManual.assignment')}</div>
                         </div>
                       </div>
 
@@ -1303,28 +1303,28 @@ const MyManual = () => {
                         
                         <h3 className="font-bold text-base lg:text-lg mb-2 text-maineBlue">{assignments[currentAssignmentPage].title}</h3>
                         <div className="text-xs text-gray-600 mb-2 lg:mb-4">
-                          <span className="block lg:inline">{t('gradebook.due')}: {assignments[currentAssignmentPage].dueDate}</span>
+                          <span className="block lg:inline">{t('myManual.due')}: {assignments[currentAssignmentPage].dueDate}</span>
                           <span className="hidden lg:inline"> | </span>
                           <span className="block lg:inline">{assignments[currentAssignmentPage].points} pts | {assignments[currentAssignmentPage].weight}</span>
                         </div>
                         
                         <div className="space-y-1 lg:space-y-2 flex-shrink-0">
                           <div>
-                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('gradebook.requiredTechniques')}</div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('myManual.requiredTechniques')}</div>
                             <div className="text-xs text-gray-700 leading-tight">
                               {assignments[currentAssignmentPage].techniques.join(' • ')}
                             </div>
                           </div>
 
                           <div>
-                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('gradebook.submission')}</div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('myManual.submission')}</div>
                             <div className="text-xs text-gray-700 leading-tight">
                               {assignments[currentAssignmentPage].submission.join(' • ')}
                             </div>
                           </div>
 
                           <div>
-                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('gradebook.objectives')}</div>
+                            <div className="font-semibold mb-1 text-sm text-amber-800">{t('myManual.objectives')}</div>
                             <div className="text-xs text-gray-700 leading-tight">
                               {assignments[currentAssignmentPage].objectives.join(' • ')}
                             </div>
@@ -1718,5 +1718,4 @@ const MyManual = () => {
 };
 
 export default MyManual;
-
 

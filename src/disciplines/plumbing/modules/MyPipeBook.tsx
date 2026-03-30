@@ -277,10 +277,10 @@ const MyPipeBook = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: recipeToShare ? `${recipeToShare.name} Recipe on Porkchop` : 'My Cookbook on Porkchop',
+      title: recipeToShare ? `${recipeToShare.name} Procedure on Porkchop` : 'My Pipe Book on Porkchop',
       text: recipeToShare 
-        ? `Check out this amazing recipe for ${recipeToShare.name} on Porkchop!` 
-        : 'Check out my digital cookbook on Porkchop! I\'ve been collecting amazing recipes and would love to share them with you.',
+        ? `Check out this plumbing procedure for ${recipeToShare.name} on Porkchop!` 
+        : 'Check out my digital pipe book on Porkchop! I’ve been collecting useful plumbing procedures and would love to share them with you.',
       url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
     };
 
@@ -306,7 +306,7 @@ const MyPipeBook = () => {
           break;
         case 'instagram':
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
-          const instagramMessage = `Check out my cookbook! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
+          const instagramMessage = `Check out my pipe book! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
           alert(t('myPipeBook.sharingInstructions'));
           shared = true;
@@ -394,8 +394,8 @@ const MyPipeBook = () => {
         }));
         setLocalRecipes(converted);
       } catch (err) {
-        console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        console.error('Error loading pipe book:', err);
+        setError(t('myPipeBook.failedToLoadPipeBook', { defaultValue: 'Failed to load your pipe book' }));
       } finally {
         setLoading(false);
       }
@@ -459,7 +459,7 @@ const MyPipeBook = () => {
       <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">Loading your cookbook...</div>
+          <div className="text-lg font-retro mb-2">{t('common.loading')}</div>
         </div>
       </div>
     );
@@ -995,8 +995,9 @@ const MyPipeBook = () => {
 
               {/* Create Collection Section */}
               <div className="mb-6">
-                {recipes.length > 0 ? (
-                  <div className="space-y-2">
+                <div className="space-y-2">
+                  {recipes.length > 0 ? (
+                    <>
                     <p className="text-sm text-gray-600 mb-3">{t('myPipeBook.selectRecipesToAdd')}</p>
                     
                     <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
@@ -1024,104 +1025,105 @@ const MyPipeBook = () => {
                         </div>
                       ))}
                     </div>
-                    
-                    {/* Create Collection Button */}
-                    <button
-                      onClick={() => setShowCreateCollectionModal(true)}
-                      disabled={selectedRecipes.length === 0}
-                      className={`w-full mt-3 px-4 py-2 rounded border transition-colors ${
-                        selectedRecipes.length === 0 
-                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
-                          : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
-                      }`}
-                    >
-                      {t('myPipeBook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
-                    </button>
+                    </>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-4xl mb-2">📝</div>
+                      <p className="text-gray-500 text-sm">{t('myPipeBook.noRecipesYet')}</p>
+                      <p className="text-gray-500 text-sm">{t('myPipeBook.addRecipesFirst')}</p>
+                    </div>
+                  )}
 
-                    {/* View Gradebook Button */}
-                    <button
-                      onClick={handleOpenGradebook}
-                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
-                    >
-                      📊 {t('myPipeBook.viewGradebook')}
-                    </button>
+                  {/* Create Collection Button */}
+                  <button
+                    onClick={() => setShowCreateCollectionModal(true)}
+                    disabled={selectedRecipes.length === 0}
+                    className={`w-full mt-3 px-4 py-2 rounded border transition-colors ${
+                      selectedRecipes.length === 0 
+                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
+                        : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
+                    }`}
+                  >
+                    {t('myPipeBook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
+                  </button>
 
-                    {/* View Videos Button */}
-                    <button
-                      onClick={async () => {
-                        setShowVideoLibraryModal(true);
-                        setLoadingVideos(true);
-                        try {
-                          // Get list of all user folders (to find all users with videos)
-                          const { data: folders, error: foldersError } = await supabase.storage
-                            .from('Practice Videos')
-                            .list('', {
-                              limit: 1000,
-                              offset: 0
-                            });
-                          
-                          if (foldersError) throw foldersError;
-                          
-                          // For each user folder, get their videos
-                          const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
-                          
-                          for (const folder of folders || []) {
-                            if (folder.name) {
-                              const { data: userVideos, error: videosError } = await supabase.storage
-                                .from('Practice Videos')
-                                .list(folder.name, {
-                                  limit: 100,
-                                  offset: 0,
-                                  sortBy: { column: 'created_at', order: 'desc' }
-                                });
-                              
-                              if (!videosError && userVideos) {
-                                for (const file of userVideos) {
-                                  // Get file metadata to check if public
-                                  const isPublic = file.metadata?.isPublic === 'true';
-                                  const isMyVideo = folder.name === user?.id;
+                  {/* View Gradebook Button */}
+                  <button
+                    onClick={handleOpenGradebook}
+                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
+                  >
+                    📊 {t('myPipeBook.viewGradebook')}
+                  </button>
+
+                  {/* View Videos Button */}
+                  <button
+                    onClick={async () => {
+                      setShowVideoLibraryModal(true);
+                      setLoadingVideos(true);
+                      try {
+                        // Get list of all user folders (to find all users with videos)
+                        const { data: folders, error: foldersError } = await supabase.storage
+                          .from('Practice Videos')
+                          .list('', {
+                            limit: 1000,
+                            offset: 0
+                          });
+                        
+                        if (foldersError) throw foldersError;
+                        
+                        // For each user folder, get their videos
+                        const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
+                        
+                        for (const folder of folders || []) {
+                          if (folder.name) {
+                            const { data: userVideos, error: videosError } = await supabase.storage
+                              .from('Practice Videos')
+                              .list(folder.name, {
+                                limit: 100,
+                                offset: 0,
+                                sortBy: { column: 'created_at', order: 'desc' }
+                              });
+                            
+                            if (!videosError && userVideos) {
+                              for (const file of userVideos) {
+                                // Get file metadata to check if public
+                                const isPublic = file.metadata?.isPublic === 'true';
+                                const isMyVideo = folder.name === user?.id;
+                                
+                                // Show if: public OR it's my video
+                                if (isPublic || isMyVideo) {
+                                  const { data: urlData } = supabase.storage
+                                    .from('Practice Videos')
+                                    .getPublicUrl(`${folder.name}/${file.name}`);
                                   
-                                  // Show if: public OR it's my video
-                                  if (isPublic || isMyVideo) {
-                                    const { data: urlData } = supabase.storage
-                                      .from('Practice Videos')
-                                      .getPublicUrl(`${folder.name}/${file.name}`);
-                                    
-                                    allVideos.push({
-                                      name: file.name,
-                                      url: urlData.publicUrl,
-                                      created_at: file.created_at,
-                                      userId: folder.name,
-                                      isPublic: isPublic
-                                    });
-                                  }
+                                  allVideos.push({
+                                    name: file.name,
+                                    url: urlData.publicUrl,
+                                    created_at: file.created_at,
+                                    userId: folder.name,
+                                    isPublic: isPublic
+                                  });
                                 }
                               }
                             }
                           }
-                          
-                          // Sort by date
-                          allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-                          setSavedVideos(allVideos);
-                        } catch (error) {
-                          console.error('Error loading videos:', error);
-                          alert('Failed to load videos');
-                        } finally {
-                          setLoadingVideos(false);
                         }
-                      }}
-                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
-                    >
-                      🎥 {t('myPipeBook.viewVideos')}
-                    </button>
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="text-4xl mb-2">📝</div>
-                    <p className="text-gray-500 text-sm">{t('myPipeBook.noRecipesYet')}</p>
-                    <p className="text-gray-500 text-sm">{t('myPipeBook.addRecipesFirst')}</p>
-                  </div>
-                )}
+                        
+                        // Sort by date
+                        allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                        setSavedVideos(allVideos);
+                      } catch (error) {
+                        console.error('Error loading videos:', error);
+                        alert(t('myPipeBook.failedToLoadVideos', { defaultValue: 'Failed to load videos' }));
+                      } finally {
+                        setLoadingVideos(false);
+                      }
+                    }}
+                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
+                  >
+                    🎥 {t('myPipeBook.viewVideos')}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1713,5 +1715,4 @@ const MyPipeBook = () => {
 };
 
 export default MyPipeBook;
-
 
