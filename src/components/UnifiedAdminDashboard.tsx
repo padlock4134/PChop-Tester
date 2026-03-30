@@ -184,10 +184,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
     const exitAdminButton = document.createElement('button');
     exitAdminButton.type = 'button';
-    exitAdminButton.className = 'relative flex items-center justify-center h-10 px-3 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-lobsterRed hover:bg-red-700 text-white text-xs font-bold';
+    exitAdminButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-lobsterRed hover:bg-red-700 text-white text-lg';
     exitAdminButton.setAttribute('aria-label', 'Exit Admin Mode');
     exitAdminButton.title = 'Exit Admin Mode';
-    exitAdminButton.textContent = 'Exit Admin Mode';
+    exitAdminButton.textContent = '🚪';
     exitAdminButton.onclick = () => {
       const nextDiscipline =
         localStorage.getItem('adminSelectedDiscipline') ||
@@ -198,10 +198,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
     const connectorButton = document.createElement('button');
     connectorButton.type = 'button';
-    connectorButton.className = 'relative flex items-center justify-center h-10 px-3 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-maineBlue hover:bg-blue-700 text-white text-xs font-bold';
+    connectorButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-seafoam hover:bg-teal-400 text-black text-lg';
     connectorButton.setAttribute('aria-label', 'WorkBench Connector');
     connectorButton.title = 'WorkBench Connector';
-    connectorButton.textContent = '🔗 WorkBench Connector';
+    connectorButton.textContent = '🔗';
     connectorButton.onclick = () => setShowLtiIntegrationModal(true);
 
     navActions.insertBefore(exitAdminButton, weeklyChallengeControl);
