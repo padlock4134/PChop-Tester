@@ -165,6 +165,55 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       localStorage.setItem('adminSelectedDiscipline', selectedDiscipline);
     }
   }, [selectedDiscipline]);
+
+  // Admin-route navbar control swap:
+  // Replace Weekly Challenge/Profile slots with Exit Admin Mode/WorkBench Connector
+  useEffect(() => {
+    const navActionContainers = document.querySelectorAll('nav.navbar .flex.items-center.space-x-2');
+    const navActions = navActionContainers[navActionContainers.length - 1] as HTMLElement | undefined;
+    if (!navActions) return;
+
+    const weeklyChallengeControl = navActions.children[0] as HTMLElement | undefined;
+    const profileControl = navActions.children[1] as HTMLElement | undefined;
+    if (!weeklyChallengeControl || !profileControl) return;
+
+    const originalWeeklyDisplay = weeklyChallengeControl.style.display;
+    const originalProfileDisplay = profileControl.style.display;
+    weeklyChallengeControl.style.display = 'none';
+    profileControl.style.display = 'none';
+
+    const exitAdminButton = document.createElement('button');
+    exitAdminButton.type = 'button';
+    exitAdminButton.className = 'relative flex items-center justify-center h-10 px-3 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-lobsterRed hover:bg-red-700 text-white text-xs font-bold';
+    exitAdminButton.setAttribute('aria-label', 'Exit Admin Mode');
+    exitAdminButton.title = 'Exit Admin Mode';
+    exitAdminButton.textContent = 'Exit Admin Mode';
+    exitAdminButton.onclick = () => {
+      const nextDiscipline =
+        localStorage.getItem('adminSelectedDiscipline') ||
+        localStorage.getItem('selectedDiscipline') ||
+        'culinary';
+      navigate(`/${nextDiscipline}/dashboard`);
+    };
+
+    const connectorButton = document.createElement('button');
+    connectorButton.type = 'button';
+    connectorButton.className = 'relative flex items-center justify-center h-10 px-3 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-maineBlue hover:bg-blue-700 text-white text-xs font-bold';
+    connectorButton.setAttribute('aria-label', 'WorkBench Connector');
+    connectorButton.title = 'WorkBench Connector';
+    connectorButton.textContent = '🔗 WorkBench Connector';
+    connectorButton.onclick = () => setShowLtiIntegrationModal(true);
+
+    navActions.insertBefore(exitAdminButton, weeklyChallengeControl);
+    navActions.insertBefore(connectorButton, profileControl);
+
+    return () => {
+      exitAdminButton.remove();
+      connectorButton.remove();
+      weeklyChallengeControl.style.display = originalWeeklyDisplay;
+      profileControl.style.display = originalProfileDisplay;
+    };
+  }, [navigate]);
   
   // Mobile tab state - mimicking Student Dashboard
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'events' | 'actions'>('home');
