@@ -2519,7 +2519,7 @@
     }
   },
   "myPipeBook": {
-    "title": "My Cookbook",
+    "title": "My Pipe Book",
     "collections": "Project Sets",
     "addRecipe": "Add Procedure",
     "importRecipe": "Import Procedure",
@@ -2541,6 +2541,8 @@
     "sharingInstructions": "Sharing instructions copied to clipboard! Open Instagram to share your pipe book.",
     "linkCopied": "Pipe book link copied to clipboard!",
     "failedToShare": "Failed to share. Please try again.",
+    "failedToLoadPipeBook": "Failed to load your pipe book.",
+    "failedToLoadVideos": "Failed to load videos.",
     "createNewCollection": "Create New Collection",
     "collectionName": "Collection Name",
     "enterCollectionName": "Enter collection name...",

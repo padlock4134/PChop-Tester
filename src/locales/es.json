@@ -2854,6 +2854,8 @@
     "sharingInstructions": "¡Instrucciones de compartir copiadas al portapapeles! Abre Instagram para compartir tu libro de tuberías.",
     "linkCopied": "¡Enlace del libro de tuberías copiado al portapapeles!",
     "failedToShare": "Error al compartir. Por favor intenta de nuevo.",
+    "failedToLoadPipeBook": "No se pudo cargar tu libro de tuberías.",
+    "failedToLoadVideos": "No se pudieron cargar los videos.",
     "createNewCollection": "Crear Nueva Colección",
     "collectionName": "Nombre de la Colección",
     "enterCollectionName": "Ingresa el nombre de la colección...",
