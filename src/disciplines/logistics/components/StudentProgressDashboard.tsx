@@ -71,14 +71,14 @@ const StudentProgressDashboard: React.FC = () => {
     curriculum: {
       completedLessons: 12,
       totalLessons: 24,
-      currentLesson: "Knife Skills: Julienne Technique",
+      currentLesson: "Route Optimization Fundamentals",
       timeSpent: "18.5 hours"
     },
     skills: {
       recipesAttempted: 8,
       recipesCompleted: 6,
       currentLevel: "Intermediate",
-      nextMilestone: "Advanced Sauces"
+      nextMilestone: "Advanced Dispatch Planning"
     },
     engagement: {
       appUsage: "5 days this week",
@@ -87,10 +87,10 @@ const StudentProgressDashboard: React.FC = () => {
       recipesSaved: 15
     },
     insights: {
-      strongestArea: "Knife Skills",
-      improvementArea: "Timing & Multitasking",
+      strongestArea: "Route Planning",
+      improvementArea: "Dock Timing Coordination",
       learningVelocity: "Above Average",
-      achievements: ["Safety Certified", "Recipe Creator", "Community Helper"]
+      achievements: ["Safety Certified", "On-Time Specialist", "Team Coordinator"]
     }
   };
 
