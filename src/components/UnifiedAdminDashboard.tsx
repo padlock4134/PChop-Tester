@@ -296,6 +296,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     const providerOptions = ltiProviderSpecificOptions[selectedLtiProvider] || ltiProviderSpecificOptions.Other;
     return Array.from(new Set([...commonLtiClaimOptions, ...providerOptions]));
   }, [selectedLtiProvider]);
+  const selectedDisciplineLabel = disciplineOptions.find((opt) => opt.key === selectedDiscipline)?.label || 'TOTAL';
   
   // Integrity monitoring state
   const [integrityAlerts, setIntegrityAlerts] = useState<IntegrityAlert[]>([]);
@@ -1485,8 +1486,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       </div>
 
       {/* Admin Context Bar */}
-      <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-4 max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div className="flex items-center gap-2 w-full sm:w-auto">
+      <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-4 max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 items-center gap-3">
+        <p className="text-maineBlue font-retro text-sm sm:text-base text-center sm:text-left">
+          Your School Name Here
+        </p>
+
+        <div className="flex items-center justify-center gap-2 w-full">
           <label className="font-retro text-sm text-maineBlue whitespace-nowrap">Program:</label>
           <select
             value={selectedDiscipline}
@@ -1497,7 +1502,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 localStorage.setItem('adminSelectedDiscipline', newDiscipline);
               }
             }}
-            className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer w-full sm:w-auto"
+            className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer"
           >
             {disciplineOptions.map((opt) => (
               <option key={opt.key} value={opt.key}>
@@ -1506,8 +1511,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             ))}
           </select>
         </div>
-        <p className="text-xs sm:text-sm text-gray-600 italic">
-          Viewing: <span className="font-semibold text-maineBlue">{skin.name}</span>
+
+        <p className="text-xs sm:text-sm text-gray-600 italic text-center sm:text-right">
+          Viewing: <span className="font-semibold text-maineBlue">{selectedDisciplineLabel}</span>
         </p>
       </div>
       
