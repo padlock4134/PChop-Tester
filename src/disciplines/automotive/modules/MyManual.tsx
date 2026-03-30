@@ -373,10 +373,20 @@ const MyManual = () => {
   };
   useEffect(() => {
     updateContext({ page: 'MyCookBook' });
+  }, [updateContext]);
+
+  useEffect(() => {
     const loadProcedures = async () => {
+      if (!user?.id) {
+        setLocalProcedures([]);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        setError(null);
+        const savedRecipes = await fetchCookbook(user.id);
         const converted = savedRecipes.map((r: any) => ({
           id: r.id,
           name: r.title,
@@ -396,8 +406,9 @@ const MyManual = () => {
         setLoading(false);
       }
     };
+
     loadProcedures();
-  }, [updateContext]);
+  }, [user?.id]);
 
   // Filter procedures based on search term and category
   const filteredProcedures = procedures.filter((procedure: Procedure) => {
@@ -449,6 +460,19 @@ const MyManual = () => {
       default: return matchesSearch;
     }
   });
+
+  useEffect(() => {
+    if (filteredProcedures.length === 0) {
+      if (currentIndex !== 0) {
+        setCurrentIndex(0);
+      }
+      return;
+    }
+
+    if (currentIndex > filteredProcedures.length - 1) {
+      setCurrentIndex(filteredProcedures.length - 1);
+    }
+  }, [filteredProcedures.length, currentIndex]);
 
   if (loading) {
     return (
@@ -1718,4 +1742,3 @@ const MyManual = () => {
 };
 
 export default MyManual;
-
