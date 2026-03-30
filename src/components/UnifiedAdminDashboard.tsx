@@ -189,15 +189,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     exitAdminButton.title = 'Exit Admin Mode';
     exitAdminButton.textContent = '🚪';
     exitAdminButton.onclick = () => {
-      const exitPicker = document.querySelector('select[aria-label="Exit Admin Mode Picker"]') as HTMLSelectElement | null;
-      if (!exitPicker) return;
-
-      exitPicker.focus();
-      if (typeof (exitPicker as any).showPicker === 'function') {
-        (exitPicker as any).showPicker();
-      } else {
-        exitPicker.click();
-      }
+      setShowExitAdminModal(true);
     };
 
     const connectorButton = document.createElement('button');
@@ -267,6 +259,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [showLtiIntegrationModal, setShowLtiIntegrationModal] = useState(false);
+  const [showExitAdminModal, setShowExitAdminModal] = useState(false);
   const [showLtiMappingModal, setShowLtiMappingModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
   const [selectedLtiProvider, setSelectedLtiProvider] = useState('Canvas');
@@ -5121,6 +5114,45 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Exit Admin Modal */}
+      {showExitAdminModal && (
+        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-md w-full">
+            <div className="p-4 sm:p-6">
+              <div className="text-center relative mb-4">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">🚪 Exit Admin Mode</h2>
+                <button
+                  onClick={() => setShowExitAdminModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                  aria-label="Close Exit Admin Modal"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mb-4 text-sm">Choose where you want to return:</p>
+
+              <select
+                defaultValue=""
+                onChange={(e) => {
+                  if (!e.target.value) return;
+                  localStorage.setItem('adminSelectedDiscipline', e.target.value);
+                  setShowExitAdminModal(false);
+                  navigate(`/${e.target.value}/dashboard`);
+                }}
+                className="w-full bg-lobsterRed hover:bg-red-700 text-white px-4 py-3 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer"
+              >
+                <option value="" disabled>Select discipline</option>
+                {disciplineOptions.filter(opt => opt.key !== 'total').map((opt) => (
+                  <option key={opt.key} value={opt.key} className="bg-white text-black">
+                    {opt.icon} {opt.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>
