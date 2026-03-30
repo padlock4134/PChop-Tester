@@ -165,6 +165,54 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       localStorage.setItem('adminSelectedDiscipline', selectedDiscipline);
     }
   }, [selectedDiscipline]);
+
+  // Admin-route navbar control swap:
+  // Replace Weekly Challenge/Profile slots with Exit Admin Mode/WorkBench Connector
+  useEffect(() => {
+    const navbar = document.querySelector('nav.navbar') as HTMLElement | null;
+    if (!navbar) return;
+
+    const navActionContainers = navbar.querySelectorAll('.flex.items-center.space-x-2');
+    const navActions = navActionContainers[navActionContainers.length - 1] as HTMLElement | undefined;
+    if (!navActions) return;
+
+    const weeklyChallengeControl = navActions.children[0] as HTMLElement | undefined;
+    const profileControl = navActions.children[1] as HTMLElement | undefined;
+    if (!weeklyChallengeControl || !profileControl) return;
+
+    const originalWeeklyDisplay = weeklyChallengeControl.style.display;
+    const originalProfileDisplay = profileControl.style.display;
+    weeklyChallengeControl.style.display = 'none';
+    profileControl.style.display = 'none';
+
+    const exitAdminButton = document.createElement('button');
+    exitAdminButton.type = 'button';
+    exitAdminButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-lobsterRed hover:bg-red-700 text-white text-lg';
+    exitAdminButton.setAttribute('aria-label', 'Exit Admin Mode');
+    exitAdminButton.title = 'Exit Admin Mode';
+    exitAdminButton.textContent = '🚪';
+    exitAdminButton.onclick = () => {
+      setShowExitAdminModal(true);
+    };
+
+    const connectorButton = document.createElement('button');
+    connectorButton.type = 'button';
+    connectorButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-seafoam hover:bg-teal-400 text-black text-lg';
+    connectorButton.setAttribute('aria-label', 'WorkBench Connector');
+    connectorButton.title = 'WorkBench Connector';
+    connectorButton.textContent = '🔗';
+    connectorButton.onclick = () => setShowLtiIntegrationModal(true);
+
+    navActions.insertBefore(exitAdminButton, weeklyChallengeControl);
+    navActions.insertBefore(connectorButton, profileControl);
+
+    return () => {
+      exitAdminButton.remove();
+      connectorButton.remove();
+      weeklyChallengeControl.style.display = originalWeeklyDisplay;
+      profileControl.style.display = originalProfileDisplay;
+    };
+  }, [navigate]);
   
   // Mobile tab state - mimicking Student Dashboard
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'events' | 'actions'>('home');
@@ -214,6 +262,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [showLtiIntegrationModal, setShowLtiIntegrationModal] = useState(false);
+  const [showExitAdminModal, setShowExitAdminModal] = useState(false);
   const [showLtiMappingModal, setShowLtiMappingModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
   const [selectedLtiProvider, setSelectedLtiProvider] = useState('Canvas');
@@ -1434,6 +1483,33 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           📅 {t('admin.events')}
         </button>
       </div>
+
+      {/* Admin Context Bar */}
+      <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-4 max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <label className="font-retro text-sm text-maineBlue whitespace-nowrap">Program:</label>
+          <select
+            value={selectedDiscipline}
+            onChange={(e) => {
+              const newDiscipline = e.target.value as 'total' | DisciplineKey;
+              setSelectedDiscipline(newDiscipline);
+              if (newDiscipline !== 'total') {
+                localStorage.setItem('adminSelectedDiscipline', newDiscipline);
+              }
+            }}
+            className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer w-full sm:w-auto"
+          >
+            {disciplineOptions.map((opt) => (
+              <option key={opt.key} value={opt.key}>
+                {opt.icon} {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <p className="text-xs sm:text-sm text-gray-600 italic">
+          Viewing: <span className="font-semibold text-maineBlue">{skin.name}</span>
+        </p>
+      </div>
       
       {/* Main Admin Dashboard - matching student dashboard style */}
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
@@ -1443,56 +1519,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('admin.adminDashboard')}</h1>
             <p className="text-gray-600 italic">{t('admin.subtitle')}</p>
-            
-            {/* Discipline Filter Dropdown with Exit Admin Dropdown */}
-            <div className="mt-4 flex flex-col lg:flex-row items-center justify-center gap-3">
-              <div className="flex items-center gap-2 w-full lg:w-auto justify-center">
-                <label className="font-retro text-sm text-maineBlue">Program:</label>
-                <select
-                  value={selectedDiscipline}
-                  onChange={(e) => {
-                    const newDiscipline = e.target.value as 'total' | DisciplineKey;
-                    setSelectedDiscipline(newDiscipline);
-                    // Store non-total selections for next time
-                    if (newDiscipline !== 'total') {
-                      localStorage.setItem('adminSelectedDiscipline', newDiscipline);
-                    }
-                  }}
-                  className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer"
-                >
-                  {disciplineOptions.map((opt) => (
-                    <option key={opt.key} value={opt.key}>
-                      {opt.icon} {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              
-              {/* Exit Admin Mode Dropdown */}
-              <select
-                onChange={(e) => {
-                  if (e.target.value) {
-                    localStorage.setItem('adminSelectedDiscipline', e.target.value);
-                    navigate(`/${e.target.value}/dashboard`);
-                  }
-                }}
-                defaultValue=""
-                className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
-              >
-                <option value="" disabled>Exit Admin Mode</option>
-                {disciplineOptions.filter(opt => opt.key !== 'total').map((opt) => (
-                  <option key={opt.key} value={opt.key} className="bg-white text-black">
-                    {opt.icon} {opt.label}
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={() => setShowLtiIntegrationModal(true)}
-                className="bg-maineBlue hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
-              >
-                🔗 WorkBench Connector
-              </button>
-            </div>
           </div>
           
           {/* Separation line */}
@@ -5067,6 +5093,45 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Exit Admin Modal */}
+      {showExitAdminModal && (
+        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-md w-full">
+            <div className="p-4 sm:p-6">
+              <div className="text-center relative mb-4">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">🚪 Exit Admin Mode</h2>
+                <button
+                  onClick={() => setShowExitAdminModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                  aria-label="Close Exit Admin Modal"
+                >
+                  ×
+                </button>
+              </div>
+              <p className="text-center text-gray-600 mb-4 text-sm">Choose where you want to return:</p>
+
+              <select
+                defaultValue=""
+                onChange={(e) => {
+                  if (!e.target.value) return;
+                  localStorage.setItem('adminSelectedDiscipline', e.target.value);
+                  setShowExitAdminModal(false);
+                  navigate(`/${e.target.value}/dashboard`);
+                }}
+                className="w-full bg-lobsterRed hover:bg-red-700 text-white px-4 py-3 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer"
+              >
+                <option value="" disabled>Select discipline</option>
+                {disciplineOptions.filter(opt => opt.key !== 'total').map((opt) => (
+                  <option key={opt.key} value={opt.key} className="bg-white text-black">
+                    {opt.icon} {opt.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>
