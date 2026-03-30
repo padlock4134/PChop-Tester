@@ -82,7 +82,7 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
 
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+    <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center bg-black bg-opacity-60">
       <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-2xl w-full p-4 relative">
         <button
           onClick={onClose}
