@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/GarageFreddieContext';
-import { useRecipeContext } from '../components/RepairContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
 import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
 import { supabase } from '../api/supabaseClient';
@@ -1718,5 +1718,4 @@ const MyManual = () => {
 };
 
 export default MyManual;
-
 
