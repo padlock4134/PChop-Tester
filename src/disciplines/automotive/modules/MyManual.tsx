@@ -1013,58 +1013,41 @@ const MyManual = () => {
 
               {/* Create Collection Section */}
               <div className="mb-6">
-                {true ? (
-                  <div className="space-y-2">
-                    <p className="text-sm text-gray-600 mb-3">{t('myManual.selectRecipesToAdd')}</p>
-                    
-                    <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                      {procedures.map((procedure: Procedure) => (
-                        <div key={procedure.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
-                          <div className="flex items-center">
-                            <input
-                              type="checkbox"
-                              id={`procedure-${procedure.id}`}
-                              checked={selectedProcedures.includes(procedure.id)}
-                              onChange={() => handleProcedureSelect(procedure.id)}
-                              className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
-                            />
-                            <label htmlFor={`procedure-${procedure.id}`} className="text-sm cursor-pointer">
-                              {procedure.name}
-                            </label>
-                          </div>
-                          <div className="flex gap-1">
-                            {procedure.systemTags && procedure.systemTags.length > 0 && (
-                              <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                                🥗
-                              </span>
-                            )}
-                            {procedure.photo && (
-                              <span className="text-xs bg-blue-100 text-blue-800 px-1 py-0.5 rounded">
-                                📷
-                              </span>
-                            )}
-                          </div>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-600 mb-3">{t('myManual.selectRecipesToAdd')}</p>
+
+                  <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+                    {procedures.map((procedure: Procedure) => (
+                      <div key={procedure.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
+                        <div className="flex items-center">
+                          <input
+                            type="checkbox"
+                            id={`procedure-${procedure.id}`}
+                            checked={selectedProcedures.includes(procedure.id)}
+                            onChange={() => handleProcedureSelect(procedure.id)}
+                            className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
+                          />
+                          <label htmlFor={`procedure-${procedure.id}`} className="text-sm cursor-pointer">
+                            {procedure.name}
+                          </label>
                         </div>
-                      ))}
-                    </div>
-                    
-                    {/* Create Collection Button - Always visible */}
-                    <button
-                      onClick={() => setShowCreateCollectionModal(true)}
-                      className="w-full mt-3 px-4 py-2 rounded border bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam transition-colors"
-                    >
-                      {t('myManual.createCollectionSelected', { count: selectedProcedures.length }).replace('{count}', selectedProcedures.length.toString())}
-                    </button>
+                        <div className="flex gap-1">
+                          {procedure.systemTags && procedure.systemTags.length > 0 && (
+                            <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                              🥗
+                            </span>
+                          )}
+                          {procedure.photo && (
+                            <span className="text-xs bg-blue-100 text-blue-800 px-1 py-0.5 rounded">
+                              📷
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="text-4xl mb-2">📝</div>
-                    <p className="text-gray-500 text-sm">{t('myManual.noRecipesYet')}</p>
-                    <p className="text-gray-500 text-sm">{t('myManual.addRecipesFirst')}</p>
-                  </div>
-                )}
-                
-                {/* Create Collection Button - Always visible */}
+                </div>
+
                 <button
                   onClick={() => setShowCreateCollectionModal(true)}
                   className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 hover:text-blue-800"
