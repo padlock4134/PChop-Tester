@@ -1022,12 +1022,7 @@ const MyBlueprints = () => {
                     {/* Create Collection Button */}
                     <button
                       onClick={() => setShowCreateCollectionModal(true)}
-                      disabled={selectedRecipes.length === 0}
-                      className={`w-full mt-3 px-4 py-2 rounded border transition-colors ${
-                        selectedRecipes.length === 0 
-                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
-                          : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
-                      }`}
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
                     >
                       {t('myBlueprints.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
                     </button>
@@ -1707,5 +1702,4 @@ const MyBlueprints = () => {
 };
 
 export default MyBlueprints;
-
 
