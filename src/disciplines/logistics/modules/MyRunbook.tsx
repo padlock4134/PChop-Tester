@@ -10,38 +10,13 @@ import { useLevelProgressContext } from '../../culinary/components/NavBar';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 
-// Chef quotes (production-ready)
-const chefQuotes = [
-  { chef: 'Julia Child', quote: 'People who love to eat are always the best people.' },
-  { chef: 'Gordon Ramsay', quote: 'Cooking is about passion, so it may look slightly temperamental in a way that it\'s too assertive to the naked eye.' },
-  { chef: 'Alice Waters', quote: 'Let things taste of what they are.' },
-  { chef: 'Anthony Bourdain', quote: 'Your body is not a temple, it\'s an amusement park. Enjoy the ride.' },
-  { chef: 'Massimo Bottura', quote: 'Cooking is an act of love, a gift, a way of sharing with others the little secrets — "piccoli segreti" — that are simmering on the burners.' },
-  { chef: 'Thomas Keller', quote: 'A recipe has no soul. You as the cook must bring soul to the recipe.' },
-  { chef: 'Ina Garten', quote: 'Food is not about impressing people. It\'s about making them feel comfortable.' },
-  { chef: 'Ferran Adrià', quote: 'The more you know, the more you can create. There\'s no end to imagination in the kitchen.' },
-  { chef: 'Emeril Lagasse', quote: 'Kick it up a notch!' },
-  { chef: 'Wolfgang Puck', quote: 'Cooking is like painting or writing a song.' },
-  { chef: 'Rene Redzepi', quote: 'Innovation, being avant-garde, is always polemic.' },
-  { chef: 'Heston Blumenthal', quote: 'Question everything. No idea is a bad idea.' },
-  { chef: 'Alain Ducasse', quote: 'Cooking is a way of giving.' },
-  { chef: 'Rachel Ray', quote: 'Good work and a safe workspace are what make a team strong.' },
-  { chef: 'Pierre Gagnaire', quote: 'Cooking is not difficult. Everyone has taste, even if they don\'t realize it.' },
-  { chef: 'Paul Bocuse', quote: 'Cooking is not just eating energy. It\'s an experience.' },
-  { chef: 'Joël Robuchon', quote: 'The simpler the food, the more exceptional it can be.' },
-  { chef: 'Marco Pierre White', quote: 'Mother Nature is the true artist and our job as cooks is to allow her to shine.' },
-  { chef: 'Jamie Oliver', quote: 'Real food doesn\'t have ingredients, real food is ingredients.' },
-  { chef: 'Nigella Lawson', quote: 'I have always believed that what is learned in the workshop should raise standards everywhere.' }
-];
+const logisticsQuoteOfTheDay = {
+  chef: 'W. Edwards Deming',
+  quote: 'Quality and reliability in every handoff keep the whole system moving.'
+};
 
 export function getChefQuoteOfTheDay() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 0);
-  const diff = now.getTime() - start.getTime();
-  const oneDay = 1000 * 60 * 60 * 24;
-  const dayOfYear = Math.floor(diff / oneDay);
-  const idx = dayOfYear % chefQuotes.length;
-  return chefQuotes[idx];
+  return logisticsQuoteOfTheDay;
 }
 
 export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
@@ -786,7 +761,7 @@ const MyRunbook = () => {
         {filteredRecipes.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
             {recipes.length === 0 
-              ? 'No recipes yet. Add your first recipe!' 
+              ? t('myRunbook.noRecipesYet')
               : 'No recipes match your search criteria.'}
           </div>
         ) : (
@@ -1022,12 +997,7 @@ const MyRunbook = () => {
                     {/* Create Collection Button */}
                     <button
                       onClick={() => setShowCreateCollectionModal(true)}
-                      disabled={selectedRecipes.length === 0}
-                      className={`w-full mt-3 px-4 py-2 rounded border transition-colors ${
-                        selectedRecipes.length === 0 
-                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed border-gray-300'
-                          : 'bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam'
-                      }`}
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
                     >
                       {t('myRunbook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
                     </button>
@@ -1707,5 +1677,3 @@ const MyRunbook = () => {
 };
 
 export default MyRunbook;
-
-
