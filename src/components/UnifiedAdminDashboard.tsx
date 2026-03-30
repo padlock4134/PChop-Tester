@@ -189,11 +189,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     exitAdminButton.title = 'Exit Admin Mode';
     exitAdminButton.textContent = '🚪';
     exitAdminButton.onclick = () => {
-      const nextDiscipline =
-        localStorage.getItem('adminSelectedDiscipline') ||
-        localStorage.getItem('selectedDiscipline') ||
-        'culinary';
-      navigate(`/${nextDiscipline}/dashboard`);
+      const exitPicker = document.querySelector('select[aria-label="Exit Admin Mode Picker"]') as HTMLSelectElement | null;
+      if (!exitPicker) return;
+
+      exitPicker.focus();
+      if (typeof (exitPicker as any).showPicker === 'function') {
+        (exitPicker as any).showPicker();
+      } else {
+        exitPicker.click();
+      }
     };
 
     const connectorButton = document.createElement('button');
@@ -1526,6 +1530,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   }
                 }}
                 defaultValue=""
+                aria-label="Exit Admin Mode Picker"
                 className="bg-lobsterRed hover:bg-red-700 text-white px-4 py-2 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer w-full lg:w-auto"
               >
                 <option value="" disabled>Exit Admin Mode</option>
