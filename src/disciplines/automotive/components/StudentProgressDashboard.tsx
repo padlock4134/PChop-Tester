@@ -222,7 +222,7 @@ const StudentProgressDashboard: React.FC = () => {
         <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
           {/* Dashboard header */}
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-retro text-maineBlue mb-2">Technician Dashboard</h1>
+            <h1 className="text-4xl font-retro text-maineBlue mb-2">Pit Crew Chief Dashboard</h1>
             <p className="text-gray-600 italic">Click a module to begin your automotive journey!</p>
           </div>
           
@@ -559,4 +559,3 @@ const StudentProgressDashboard: React.FC = () => {
 };
 
 export default StudentProgressDashboard;
-

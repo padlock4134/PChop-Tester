@@ -5162,7 +5162,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
             <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4">
               <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                <h3 className="font-bold text-blue-900 mb-3 text-sm sm:text-base">LMS Provider</h3>
+                <h3 className="font-bold text-blue-900 mb-3 text-sm sm:text-base text-center">LMS Provider</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   {['Blackboard', 'Canvas', 'Moodle', 'Other'].map((provider) => (
                     <button
