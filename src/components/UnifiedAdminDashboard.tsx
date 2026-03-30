@@ -169,7 +169,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   // Admin-route navbar control swap:
   // Replace Weekly Challenge/Profile slots with Exit Admin Mode/WorkBench Connector
   useEffect(() => {
-    const navActionContainers = document.querySelectorAll('nav.navbar .flex.items-center.space-x-2');
+    const navbar = document.querySelector('nav.navbar') as HTMLElement | null;
+    if (!navbar) return;
+
+    const navActionContainers = navbar.querySelectorAll('.flex.items-center.space-x-2');
     const navActions = navActionContainers[navActionContainers.length - 1] as HTMLElement | undefined;
     if (!navActions) return;
 
