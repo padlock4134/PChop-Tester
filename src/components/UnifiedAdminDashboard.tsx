@@ -1483,6 +1483,33 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           📅 {t('admin.events')}
         </button>
       </div>
+
+      {/* Admin Context Bar */}
+      <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-4 max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <label className="font-retro text-sm text-maineBlue whitespace-nowrap">Program:</label>
+          <select
+            value={selectedDiscipline}
+            onChange={(e) => {
+              const newDiscipline = e.target.value as 'total' | DisciplineKey;
+              setSelectedDiscipline(newDiscipline);
+              if (newDiscipline !== 'total') {
+                localStorage.setItem('adminSelectedDiscipline', newDiscipline);
+              }
+            }}
+            className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer w-full sm:w-auto"
+          >
+            {disciplineOptions.map((opt) => (
+              <option key={opt.key} value={opt.key}>
+                {opt.icon} {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <p className="text-xs sm:text-sm text-gray-600 italic">
+          Viewing: <span className="font-semibold text-maineBlue">{skin.name}</span>
+        </p>
+      </div>
       
       {/* Main Admin Dashboard - matching student dashboard style */}
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
@@ -1492,32 +1519,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('admin.adminDashboard')}</h1>
             <p className="text-gray-600 italic">{t('admin.subtitle')}</p>
-            
-            {/* Discipline Filter Dropdown with Exit Admin Dropdown */}
-            <div className="mt-4 flex flex-col lg:flex-row items-center justify-center gap-3">
-              <div className="flex items-center gap-2 w-full lg:w-auto justify-center">
-                <label className="font-retro text-sm text-maineBlue">Program:</label>
-                <select
-                  value={selectedDiscipline}
-                  onChange={(e) => {
-                    const newDiscipline = e.target.value as 'total' | DisciplineKey;
-                    setSelectedDiscipline(newDiscipline);
-                    // Store non-total selections for next time
-                    if (newDiscipline !== 'total') {
-                      localStorage.setItem('adminSelectedDiscipline', newDiscipline);
-                    }
-                  }}
-                  className="border-2 border-maineBlue rounded-lg px-4 py-2 font-retro text-sm bg-white text-maineBlue focus:ring-2 focus:ring-seafoam focus:outline-none cursor-pointer"
-                >
-                  {disciplineOptions.map((opt) => (
-                    <option key={opt.key} value={opt.key}>
-                      {opt.icon} {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              
-            </div>
           </div>
           
           {/* Separation line */}
