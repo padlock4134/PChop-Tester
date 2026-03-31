@@ -104,44 +104,44 @@ const MyPipeBook = () => {
     {
       id: 1,
       week: "Week 3",
-      title: "French Knife Skills & Mother Sauces",
-      emoji: "🔪",
+      title: "Pipe Layout & Fixture Rough-In",
+      emoji: "🧰",
       dueDate: "Oct 15, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Julienne cuts (2mm strips)", "Brunoise dice (2mm cubes)", "Chiffonade herbs", "Proper knife grip"],
-      submission: ["Video demo (3-5 min)", "Photos of cuts", "Self-reflection", "Upload to cookbook"],
-      objectives: ["Safety protocols", "Uniform cuts", "Consistent speed", "Mise en place"],
+      techniques: ["Pipe measurement and marking", "Clean PVC cuts and deburring", "Primer and cement application", "Safe cutter handling"],
+      submission: ["Rough-in demo (3-5 min)", "Rough-in photos", "Install reflection", "Upload to pipebook"],
+      objectives: ["Plumbing safety protocols", "Joint consistency", "Install efficiency", "Material staging"],
       studentName: "Sarah Chen",
-      videoTitle: "Knife Skills Demo"
+      videoTitle: "Pipe Layout Demo"
     },
     {
       id: 2,
       week: "Week 5",
-      title: "Sauce Making & Emulsification",
-      emoji: "🥄",
+      title: "Drain-Waste-Vent Assembly",
+      emoji: "🚰",
       dueDate: "Oct 29, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Hollandaise sauce", "Mayonnaise emulsion", "Beurre blanc", "Pan sauce reduction"],
-      submission: ["Video demonstration", "Sauce samples", "Temperature logs", "Technique notes"],
-      objectives: ["Temperature control", "Emulsion stability", "Flavor balance", "Professional presentation"],
+      techniques: ["Proper slope setup", "Trap arm sizing", "Vent tie-in planning", "Leak test procedure"],
+      submission: ["Video demonstration", "Assembly photos", "Pressure test logs", "Code notes"],
+      objectives: ["Flow control", "System reliability", "Fixture balance", "Inspector-ready documentation"],
       studentName: "Sarah Chen",
-      videoTitle: "Sauce Emulsification Demo"
+      videoTitle: "DWV Assembly Demo"
     },
     {
       id: 3,
       week: "Week 7",
-      title: "Protein Cookery & Temperature Control",
-      emoji: "🥩",
+      title: "Water Heater Service & Commissioning",
+      emoji: "🔥",
       dueDate: "Nov 12, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Diagnostic methods", "Measurement standards", "Safety checks", "Quality verification"],
-      submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
-      objectives: ["Workplace safety", "Quality standards", "Tolerance control", "Process refinement"],
+      techniques: ["Combustion diagnostics", "Pressure/temperature standards", "Gas safety checks", "Commissioning verification"],
+      submission: ["Service video", "Temperature readings", "Commissioning package", "Performance assessment"],
+      objectives: ["Gas and water safety", "Plumbing code standards", "Pressure tolerance control", "Service refinement"],
       studentName: "Sarah Chen",
-      videoTitle: "Protein Cookery Demo"
+      videoTitle: "Water Heater Service Demo"
     }
   ];
 
@@ -150,26 +150,26 @@ const MyPipeBook = () => {
     {
       id: 1,
       name: "Sarah Chen",
-      email: "sarah.chen@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique"}
+      email: "sarah.chen@plumbinginstitute.edu",
+      submittedVideos: {1: "pipe-layout-demo", 2: "dwv-assembly-demo"}
     },
     {
       id: 2,
       name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@culinaryschool.edu", 
-      submittedVideos: {1: "knife-skills-demo", 3: "protein-cookery"}
+      email: "marcus.rodriguez@plumbinginstitute.edu", 
+      submittedVideos: {1: "pipe-layout-demo", 3: "water-heater-demo"}
     },
     {
       id: 3,
       name: "Emma Thompson",
-      email: "emma.thompson@culinaryschool.edu",
-      submittedVideos: {2: "sauce-technique"}
+      email: "emma.thompson@plumbinginstitute.edu",
+      submittedVideos: {2: "dwv-assembly-demo"}
     },
     {
       id: 4,
       name: "David Kim",
-      email: "david.kim@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique", 3: "protein-cookery"}
+      email: "david.kim@plumbinginstitute.edu",
+      submittedVideos: {1: "pipe-layout-demo", 2: "dwv-assembly-demo", 3: "water-heater-demo"}
     }
   ];
 
@@ -1251,24 +1251,24 @@ const MyPipeBook = () => {
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 28, 2024 - 2:15 PM</div>
                           <div className="text-gray-600">
-                            "Great improvement on knife grip! Your julienne cuts are much more consistent than last week. 
-                            Focus on maintaining steady rhythm for the brunoise. Overall excellent progress."
+                            "Great improvement on pipe cutter control and fitting prep. Your cut quality was much more consistent than last week. 
+                            Focus on dry-fitting before cementing each joint. Overall excellent progress."
                           </div>
                         </div>
                         
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 21, 2024 - 1:45 PM</div>
                           <div className="text-gray-600">
-                            "Good safety awareness throughout the demo. Work on keeping fingers curled more consistently 
-                            during chopping. Your mise en place organization was excellent."
+                            "Good torch and ventilation awareness throughout the demo. Work on leak checking each connection more consistently 
+                            before final startup. Your staging and cleanup were excellent."
                           </div>
                         </div>
 
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 14, 2024 - 3:20 PM</div>
                           <div className="text-gray-600">
-                            "First knife skills assessment - showing natural talent! Remember to keep the knife tip on 
-                            the board for better control. Practice the rocking motion we discussed."
+                            "First rough-in assessment - showing natural talent! Remember to confirm pitch with a level on 
+                            every long run for better drainage. Practice the measure-cut-deburr flow we discussed."
                           </div>
                         </div>
                       </div>
@@ -1344,10 +1344,10 @@ const MyPipeBook = () => {
                               disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
                               <option value="">{t('myPipeBook.selectVideo')}</option>
-                              <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
-                              <option value="sauce-technique">Sauce Technique.mp4</option>
-                              <option value="protein-cookery">Protein Cookery.mp4</option>
-                              <option value="plating-final">Final Plating.mp4</option>
+                              <option value="pipe-layout-demo">Pipe Layout Demo.mp4</option>
+                              <option value="dwv-assembly-demo">DWV Assembly Demo.mp4</option>
+                              <option value="water-heater-demo">Protein Cookery.mp4</option>
+                              <option value="plating-final">Final Commissioning.mp4</option>
                             </select>
                           </div>
                           <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 relative flex-1 min-h-[150px]">
@@ -1467,10 +1467,10 @@ const MyPipeBook = () => {
               <div className="text-4xl mb-4">📹</div>
               <p className="text-gray-700 mb-2">Are you sure you want to submit:</p>
               <p className="font-bold text-maineBlue mb-4">
-                {selectedVideoOption === 'knife-skills-demo' && 'Knife Skills Demo.mp4'}
-                {selectedVideoOption === 'sauce-technique' && 'Sauce Technique.mp4'}
-                {selectedVideoOption === 'protein-cookery' && 'Protein Cookery.mp4'}
-                {selectedVideoOption === 'plating-final' && 'Final Plating.mp4'}
+                {selectedVideoOption === 'pipe-layout-demo' && 'Pipe Layout Demo.mp4'}
+                {selectedVideoOption === 'dwv-assembly-demo' && 'DWV Assembly Demo.mp4'}
+                {selectedVideoOption === 'water-heater-demo' && 'Protein Cookery.mp4'}
+                {selectedVideoOption === 'plating-final' && 'Final Commissioning.mp4'}
               </p>
               <p className="text-sm text-gray-600 mb-6">
                 For: {assignments[currentAssignmentPage].week} - {assignments[currentAssignmentPage].title}
@@ -1576,22 +1576,22 @@ const MyPipeBook = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Knife Skills Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Knife+Skills+Demo',
+                      name: 'Pipe Layout Practice Session.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Pipe+Layout+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Mother Sauces Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Sauce+Making+Demo',
+                      name: 'Pipe Layout Assignment.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=DWV+Assembly+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Protein Cookery Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Protein+Cookery',
+                      name: 'Water Heater Service Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Water+Heater+Service',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true

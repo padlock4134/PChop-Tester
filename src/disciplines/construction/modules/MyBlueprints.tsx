@@ -80,44 +80,44 @@ const MyBlueprints = () => {
     {
       id: 1,
       week: "Week 3",
-      title: "French Knife Skills & Mother Sauces",
-      emoji: "🔪",
+      title: "Framing Layout & Blueprint Reading",
+      emoji: "🏗️",
       dueDate: "Oct 15, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Julienne cuts (2mm strips)", "Brunoise dice (2mm cubes)", "Chiffonade herbs", "Proper knife grip"],
-      submission: ["Video demo (3-5 min)", "Photos of cuts", "Self-reflection", "Upload to cookbook"],
-      objectives: ["Safety protocols", "Uniform cuts", "Consistent speed", "Mise en place"],
+      techniques: ["Stud spacing layout", "Blueprint dimension callouts", "Level and plumb verification", "Safe saw handling"],
+      submission: ["Framing demo (3-5 min)", "Layout photos", "Build reflection", "Upload to blueprints"],
+      objectives: ["Site safety protocols", "Layout accuracy", "Steady workflow pace", "Material staging"],
       studentName: "Sarah Chen",
-      videoTitle: "Knife Skills Demo"
+      videoTitle: "Blueprint Layout Demo"
     },
     {
       id: 2,
       week: "Week 5",
-      title: "Sauce Making & Emulsification",
-      emoji: "🥄",
+      title: "Concrete Formwork & Pour Prep",
+      emoji: "🧱",
       dueDate: "Oct 29, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Hollandaise sauce", "Mayonnaise emulsion", "Beurre blanc", "Pan sauce reduction"],
-      submission: ["Video demonstration", "Sauce samples", "Temperature logs", "Technique notes"],
-      objectives: ["Temperature control", "Emulsion stability", "Flavor balance", "Professional presentation"],
+      techniques: ["Form alignment checks", "Rebar placement validation", "Anchor bolt positioning", "Pour sequencing"],
+      submission: ["Video demonstration", "Formwork photos", "Cure condition logs", "Site notes"],
+      objectives: ["Cure control", "Form stability", "Load balance", "Inspector-ready package"],
       studentName: "Sarah Chen",
-      videoTitle: "Sauce Emulsification Demo"
+      videoTitle: "Formwork Prep Demo"
     },
     {
       id: 3,
       week: "Week 7",
-      title: "Protein Cookery & Temperature Control",
-      emoji: "🥩",
+      title: "Finish Carpentry & Punch List Quality",
+      emoji: "🪚",
       dueDate: "Nov 12, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Diagnostic methods", "Measurement standards", "Safety checks", "Quality verification"],
-      submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
-      objectives: ["Workplace safety", "Quality standards", "Tolerance control", "Process refinement"],
+      techniques: ["Punch list diagnostics", "Tolerance measurement standards", "Tool safety checks", "Finish quality verification"],
+      submission: ["Punch list walkthrough video", "Temperature readings", "Final walkthrough package", "Completion assessment"],
+      objectives: ["Jobsite safety", "Building code standards", "Tolerance compliance", "Crew process refinement"],
       studentName: "Sarah Chen",
-      videoTitle: "Protein Cookery Demo"
+      videoTitle: "Finish Carpentry Demo"
     }
   ];
 
@@ -126,26 +126,26 @@ const MyBlueprints = () => {
     {
       id: 1,
       name: "Sarah Chen",
-      email: "sarah.chen@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique"}
+      email: "sarah.chen@buildacademy.edu",
+      submittedVideos: {1: "blueprint-layout-demo", 2: "formwork-prep-demo"}
     },
     {
       id: 2,
       name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@culinaryschool.edu", 
-      submittedVideos: {1: "knife-skills-demo", 3: "protein-cookery"}
+      email: "marcus.rodriguez@buildacademy.edu", 
+      submittedVideos: {1: "blueprint-layout-demo", 3: "finish-carpentry-demo"}
     },
     {
       id: 3,
       name: "Emma Thompson",
-      email: "emma.thompson@culinaryschool.edu",
-      submittedVideos: {2: "sauce-technique"}
+      email: "emma.thompson@buildacademy.edu",
+      submittedVideos: {2: "formwork-prep-demo"}
     },
     {
       id: 4,
       name: "David Kim",
-      email: "david.kim@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique", 3: "protein-cookery"}
+      email: "david.kim@buildacademy.edu",
+      submittedVideos: {1: "blueprint-layout-demo", 2: "formwork-prep-demo", 3: "finish-carpentry-demo"}
     }
   ];
 
@@ -799,7 +799,7 @@ const MyBlueprints = () => {
                     
                     {/* Equipment */}
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 {t('myBlueprints.equipment')}</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🏗️ {t('myBlueprints.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                         {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
@@ -1218,24 +1218,24 @@ const MyBlueprints = () => {
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 28, 2024 - 2:15 PM</div>
                           <div className="text-gray-600">
-                            "Great improvement on knife grip! Your julienne cuts are much more consistent than last week. 
-                            Focus on maintaining steady rhythm for the brunoise. Overall excellent progress."
+                            "Great improvement on tape control and layout marking. Your framing lines were much more consistent than last week. 
+                            Focus on confirming dimensions from the blueprint before each cut. Overall excellent progress."
                           </div>
                         </div>
                         
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 21, 2024 - 1:45 PM</div>
                           <div className="text-gray-600">
-                            "Good safety awareness throughout the demo. Work on keeping fingers curled more consistently 
-                            during chopping. Your mise en place organization was excellent."
+                            "Good PPE and ladder awareness throughout the demo. Work on maintaining three points of contact more consistently 
+                            during elevated work. Your material staging was excellent."
                           </div>
                         </div>
 
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 14, 2024 - 3:20 PM</div>
                           <div className="text-gray-600">
-                            "First knife skills assessment - showing natural talent! Remember to keep the knife tip on 
-                            the board for better control. Practice the rocking motion we discussed."
+                            "First layout assessment - showing natural talent! Remember to square off the first wall before 
+                            continuing line snapping for better accuracy. Practice the mark-measure-verify flow we discussed."
                           </div>
                         </div>
                       </div>
@@ -1311,10 +1311,10 @@ const MyBlueprints = () => {
                               disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
                               <option value="">{t('myBlueprints.selectVideo')}</option>
-                              <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
-                              <option value="sauce-technique">Sauce Technique.mp4</option>
-                              <option value="protein-cookery">Protein Cookery.mp4</option>
-                              <option value="plating-final">Final Plating.mp4</option>
+                              <option value="blueprint-layout-demo">Blueprint Layout Demo.mp4</option>
+                              <option value="formwork-prep-demo">Formwork Prep Demo.mp4</option>
+                              <option value="finish-carpentry-demo">Protein Cookery.mp4</option>
+                              <option value="plating-final">Final Walkthrough.mp4</option>
                             </select>
                           </div>
                           <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 relative flex-1 min-h-[150px]">
@@ -1434,10 +1434,10 @@ const MyBlueprints = () => {
               <div className="text-4xl mb-4">📹</div>
               <p className="text-gray-700 mb-2">Are you sure you want to submit:</p>
               <p className="font-bold text-maineBlue mb-4">
-                {selectedVideoOption === 'knife-skills-demo' && 'Knife Skills Demo.mp4'}
-                {selectedVideoOption === 'sauce-technique' && 'Sauce Technique.mp4'}
-                {selectedVideoOption === 'protein-cookery' && 'Protein Cookery.mp4'}
-                {selectedVideoOption === 'plating-final' && 'Final Plating.mp4'}
+                {selectedVideoOption === 'blueprint-layout-demo' && 'Blueprint Layout Demo.mp4'}
+                {selectedVideoOption === 'formwork-prep-demo' && 'Formwork Prep Demo.mp4'}
+                {selectedVideoOption === 'finish-carpentry-demo' && 'Protein Cookery.mp4'}
+                {selectedVideoOption === 'plating-final' && 'Final Walkthrough.mp4'}
               </p>
               <p className="text-sm text-gray-600 mb-6">
                 For: {assignments[currentAssignmentPage].week} - {assignments[currentAssignmentPage].title}
@@ -1543,22 +1543,22 @@ const MyBlueprints = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Knife Skills Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Knife+Skills+Demo',
+                      name: 'Blueprint Layout Practice Session.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Blueprint+Layout+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Mother Sauces Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Sauce+Making+Demo',
+                      name: 'Blueprint Layout Assignment.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Formwork+Prep+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Protein Cookery Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Protein+Cookery',
+                      name: 'Finish Carpentry Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Finish+Carpentry+Demo',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true

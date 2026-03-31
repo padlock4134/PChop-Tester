@@ -80,44 +80,44 @@ const MySpecBook = () => {
     {
       id: 1,
       week: "Week 3",
-      title: "French Knife Skills & Mother Sauces",
-      emoji: "🔪",
+      title: "Blueprint Interpretation & Setup Basics",
+      emoji: "🧲",
       dueDate: "Oct 15, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Julienne cuts (2mm strips)", "Brunoise dice (2mm cubes)", "Chiffonade herbs", "Proper knife grip"],
-      submission: ["Video demo (3-5 min)", "Photos of cuts", "Self-reflection", "Upload to cookbook"],
-      objectives: ["Safety protocols", "Uniform cuts", "Consistent speed", "Mise en place"],
+      techniques: ["Blueprint tolerance interpretation", "Workholding setup", "Tool offset entry", "Safe chuck key handling"],
+      submission: ["Setup demo (3-5 min)", "Setup photos", "Machining reflection", "Upload to specbook"],
+      objectives: ["Machine safety protocols", "Dimensional consistency", "Cycle efficiency", "Tool crib preparation"],
       studentName: "Sarah Chen",
-      videoTitle: "Knife Skills Demo"
+      videoTitle: "Setup Basics Demo"
     },
     {
       id: 2,
       week: "Week 5",
-      title: "Sauce Making & Emulsification",
-      emoji: "🥄",
+      title: "Turning Operations & Surface Finish",
+      emoji: "⚙️",
       dueDate: "Oct 29, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Hollandaise sauce", "Mayonnaise emulsion", "Beurre blanc", "Pan sauce reduction"],
-      submission: ["Video demonstration", "Sauce samples", "Temperature logs", "Technique notes"],
-      objectives: ["Temperature control", "Emulsion stability", "Flavor balance", "Professional presentation"],
+      techniques: ["Facing and turning passes", "Feed/speed optimization", "Surface finish measurement", "Tool wear tracking"],
+      submission: ["Video demonstration", "Part photos", "Machine parameter logs", "Setup notes"],
+      objectives: ["Heat management", "Process stability", "Chip load balance", "Traveler-ready documentation"],
       studentName: "Sarah Chen",
-      videoTitle: "Sauce Emulsification Demo"
+      videoTitle: "Turning Operations Demo"
     },
     {
       id: 3,
       week: "Week 7",
-      title: "Protein Cookery & Temperature Control",
-      emoji: "🥩",
+      title: "CNC Program Verification & First Article",
+      emoji: "🧪",
       dueDate: "Nov 12, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Diagnostic methods", "Measurement standards", "Safety checks", "Quality verification"],
-      submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
-      objectives: ["Workplace safety", "Quality standards", "Tolerance control", "Process refinement"],
+      techniques: ["Program verification checks", "Metrology standards", "Machine interlock checks", "First article verification"],
+      submission: ["Verification video", "Temperature readings", "First article report", "Nonconformance review"],
+      objectives: ["Machine shop safety", "GD&T standards", "Tolerance control plan", "Cycle refinement"],
       studentName: "Sarah Chen",
-      videoTitle: "Protein Cookery Demo"
+      videoTitle: "First Article Demo"
     }
   ];
 
@@ -126,26 +126,26 @@ const MySpecBook = () => {
     {
       id: 1,
       name: "Sarah Chen",
-      email: "sarah.chen@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique"}
+      email: "sarah.chen@machininglab.edu",
+      submittedVideos: {1: "setup-basics-demo", 2: "turning-operations-demo"}
     },
     {
       id: 2,
       name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@culinaryschool.edu", 
-      submittedVideos: {1: "knife-skills-demo", 3: "protein-cookery"}
+      email: "marcus.rodriguez@machininglab.edu", 
+      submittedVideos: {1: "setup-basics-demo", 3: "first-article-demo"}
     },
     {
       id: 3,
       name: "Emma Thompson",
-      email: "emma.thompson@culinaryschool.edu",
-      submittedVideos: {2: "sauce-technique"}
+      email: "emma.thompson@machininglab.edu",
+      submittedVideos: {2: "turning-operations-demo"}
     },
     {
       id: 4,
       name: "David Kim",
-      email: "david.kim@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique", 3: "protein-cookery"}
+      email: "david.kim@machininglab.edu",
+      submittedVideos: {1: "setup-basics-demo", 2: "turning-operations-demo", 3: "first-article-demo"}
     }
   ];
 
@@ -799,7 +799,7 @@ const MySpecBook = () => {
                     
                     {/* Equipment */}
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 {t('mySpecBook.equipment')}</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🧲 {t('mySpecBook.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                         {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
@@ -1218,24 +1218,24 @@ const MySpecBook = () => {
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 28, 2024 - 2:15 PM</div>
                           <div className="text-gray-600">
-                            "Great improvement on knife grip! Your julienne cuts are much more consistent than last week. 
-                            Focus on maintaining steady rhythm for the brunoise. Overall excellent progress."
+                            "Great improvement on tool setup and indicator use. Your initial dimensions were much more consistent than last week. 
+                            Focus on recording offsets immediately after each touch-off. Overall excellent progress."
                           </div>
                         </div>
                         
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 21, 2024 - 1:45 PM</div>
                           <div className="text-gray-600">
-                            "Good safety awareness throughout the demo. Work on keeping fingers curled more consistently 
-                            during chopping. Your mise en place organization was excellent."
+                            "Good spindle and pinch-point awareness throughout the demo. Work on verifying spindle stop more consistently 
+                            before gauging parts. Your tool prep organization was excellent."
                           </div>
                         </div>
 
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 14, 2024 - 3:20 PM</div>
                           <div className="text-gray-600">
-                            "First knife skills assessment - showing natural talent! Remember to keep the knife tip on 
-                            the board for better control. Practice the rocking motion we discussed."
+                            "First setup assessment - showing natural talent! Remember to indicate the vise jaw before 
+                            running the first part for better repeatability. Practice the setup-cut-measure flow we discussed."
                           </div>
                         </div>
                       </div>
@@ -1311,10 +1311,10 @@ const MySpecBook = () => {
                               disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
                               <option value="">{t('mySpecBook.selectVideo')}</option>
-                              <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
-                              <option value="sauce-technique">Sauce Technique.mp4</option>
-                              <option value="protein-cookery">Protein Cookery.mp4</option>
-                              <option value="plating-final">Final Plating.mp4</option>
+                              <option value="setup-basics-demo">Setup Basics Demo.mp4</option>
+                              <option value="turning-operations-demo">Turning Operations Demo.mp4</option>
+                              <option value="first-article-demo">Protein Cookery.mp4</option>
+                              <option value="plating-final">First Article Review.mp4</option>
                             </select>
                           </div>
                           <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 relative flex-1 min-h-[150px]">
@@ -1434,10 +1434,10 @@ const MySpecBook = () => {
               <div className="text-4xl mb-4">📹</div>
               <p className="text-gray-700 mb-2">Are you sure you want to submit:</p>
               <p className="font-bold text-maineBlue mb-4">
-                {selectedVideoOption === 'knife-skills-demo' && 'Knife Skills Demo.mp4'}
-                {selectedVideoOption === 'sauce-technique' && 'Sauce Technique.mp4'}
-                {selectedVideoOption === 'protein-cookery' && 'Protein Cookery.mp4'}
-                {selectedVideoOption === 'plating-final' && 'Final Plating.mp4'}
+                {selectedVideoOption === 'setup-basics-demo' && 'Setup Basics Demo.mp4'}
+                {selectedVideoOption === 'turning-operations-demo' && 'Turning Operations Demo.mp4'}
+                {selectedVideoOption === 'first-article-demo' && 'Protein Cookery.mp4'}
+                {selectedVideoOption === 'plating-final' && 'First Article Review.mp4'}
               </p>
               <p className="text-sm text-gray-600 mb-6">
                 For: {assignments[currentAssignmentPage].week} - {assignments[currentAssignmentPage].title}
@@ -1543,22 +1543,22 @@ const MySpecBook = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Knife Skills Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Knife+Skills+Demo',
+                      name: 'Setup Basics Practice Session.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Setup+Basics+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Mother Sauces Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Sauce+Making+Demo',
+                      name: 'Setup Basics Assignment.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Turning+Operations+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Protein Cookery Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Protein+Cookery',
+                      name: 'First Article Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=First+Article+Review',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true

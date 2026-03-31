@@ -80,44 +80,44 @@ const MySpecSheets = () => {
     {
       id: 1,
       week: "Week 3",
-      title: "French Knife Skills & Mother Sauces",
-      emoji: "🔪",
+      title: "HVAC Airflow Balancing & Psychrometrics",
+      emoji: "❄️",
       dueDate: "Oct 15, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Julienne cuts (2mm strips)", "Brunoise dice (2mm cubes)", "Chiffonade herbs", "Proper knife grip"],
-      submission: ["Video demo (3-5 min)", "Photos of cuts", "Self-reflection", "Upload to cookbook"],
-      objectives: ["Safety protocols", "Uniform cuts", "Consistent speed", "Mise en place"],
+      techniques: ["Static pressure measurement", "Airflow balancing at diffusers", "Superheat and subcooling check", "Safe manifold gauge setup"],
+      submission: ["Service call demo (3-5 min)", "Before/after readings", "Diagnostic reflection", "Upload to spec sheets"],
+      objectives: ["Lockout/tagout compliance", "Consistent airflow targets", "Accurate instrument usage", "Clean service workflow"],
       studentName: "Sarah Chen",
-      videoTitle: "Knife Skills Demo"
+      videoTitle: "Airflow Balancing Demo"
     },
     {
       id: 2,
       week: "Week 5",
-      title: "Sauce Making & Emulsification",
-      emoji: "🥄",
+      title: "Refrigerant Charging & Leak Verification",
+      emoji: "🧊",
       dueDate: "Oct 29, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Hollandaise sauce", "Mayonnaise emulsion", "Beurre blanc", "Pan sauce reduction"],
-      submission: ["Video demonstration", "Sauce samples", "Temperature logs", "Technique notes"],
-      objectives: ["Temperature control", "Emulsion stability", "Flavor balance", "Professional presentation"],
+      techniques: ["Evacuation to target microns", "Weigh-in charging method", "Electronic leak detection", "Soap bubble confirmation"],
+      submission: ["Video demonstration", "Leak-check screenshots", "Pressure/temperature logs", "Service notes"],
+      objectives: ["Charge accuracy", "System stability", "Efficiency tuning", "Customer-ready documentation"],
       studentName: "Sarah Chen",
-      videoTitle: "Sauce Emulsification Demo"
+      videoTitle: "Refrigerant Charging Demo"
     },
     {
       id: 3,
       week: "Week 7",
-      title: "Protein Cookery & Temperature Control",
-      emoji: "🥩",
+      title: "Heat Pump Defrost & Control Verification",
+      emoji: "🌡️",
       dueDate: "Nov 12, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Diagnostic methods", "Measurement standards", "Safety checks", "Quality verification"],
-      submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
-      objectives: ["Workplace safety", "Quality standards", "Tolerance control", "Process refinement"],
+      techniques: ["Defrost board diagnostics", "Sensor calibration checks", "Electrical safety verification", "System performance validation"],
+      submission: ["Control test video", "Temperature readings", "Final commissioning report", "Troubleshooting summary"],
+      objectives: ["Electrical safety", "Code compliance", "Temperature differential control", "System optimization"],
       studentName: "Sarah Chen",
-      videoTitle: "Protein Cookery Demo"
+      videoTitle: "Heat Pump Defrost Demo"
     }
   ];
 
@@ -126,26 +126,26 @@ const MySpecSheets = () => {
     {
       id: 1,
       name: "Sarah Chen",
-      email: "sarah.chen@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique"}
+      email: "sarah.chen@hvactech.edu",
+      submittedVideos: {1: "airflow-balance-demo", 2: "charging-technique"}
     },
     {
       id: 2,
       name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@culinaryschool.edu", 
-      submittedVideos: {1: "knife-skills-demo", 3: "protein-cookery"}
+      email: "marcus.rodriguez@hvactech.edu", 
+      submittedVideos: {1: "airflow-balance-demo", 3: "defrost-control-demo"}
     },
     {
       id: 3,
       name: "Emma Thompson",
-      email: "emma.thompson@culinaryschool.edu",
-      submittedVideos: {2: "sauce-technique"}
+      email: "emma.thompson@hvactech.edu",
+      submittedVideos: {2: "charging-technique"}
     },
     {
       id: 4,
       name: "David Kim",
-      email: "david.kim@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique", 3: "protein-cookery"}
+      email: "david.kim@hvactech.edu",
+      submittedVideos: {1: "airflow-balance-demo", 2: "charging-technique", 3: "defrost-control-demo"}
     }
   ];
 
@@ -799,7 +799,7 @@ const MySpecSheets = () => {
                     
                     {/* Equipment */}
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 {t('mySpecSheets.equipment')}</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">❄️ {t('mySpecSheets.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                         {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
@@ -1218,24 +1218,24 @@ const MySpecSheets = () => {
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 28, 2024 - 2:15 PM</div>
                           <div className="text-gray-600">
-                            "Great improvement on knife grip! Your julienne cuts are much more consistent than last week. 
-                            Focus on maintaining steady rhythm for the brunoise. Overall excellent progress."
+                            "Great improvement on gauge handling and airflow adjustments. Your diffuser balance readings were much more consistent than last week. 
+                            Focus on documenting each adjustment step in real time. Overall excellent progress."
                           </div>
                         </div>
                         
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 21, 2024 - 1:45 PM</div>
                           <div className="text-gray-600">
-                            "Good safety awareness throughout the demo. Work on keeping fingers curled more consistently 
-                            during chopping. Your mise en place organization was excellent."
+                            "Good lockout/tagout awareness throughout the service demo. Work on double-checking disconnect status more consistently 
+                            before opening the condenser panel. Your tool staging was excellent."
                           </div>
                         </div>
 
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 14, 2024 - 3:20 PM</div>
                           <div className="text-gray-600">
-                            "First knife skills assessment - showing natural talent! Remember to keep the knife tip on 
-                            the board for better control. Practice the rocking motion we discussed."
+                            "First airflow assessment - showing natural talent! Remember to verify return static before 
+                            final balancing for better accuracy. Practice the test-adjust-test cycle we discussed."
                           </div>
                         </div>
                       </div>
@@ -1311,10 +1311,10 @@ const MySpecSheets = () => {
                               disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
                               <option value="">{t('mySpecSheets.selectVideo')}</option>
-                              <option value="knife-skills-demo">Knife Skills Demo.mp4</option>
-                              <option value="sauce-technique">Sauce Technique.mp4</option>
-                              <option value="protein-cookery">Protein Cookery.mp4</option>
-                              <option value="plating-final">Final Plating.mp4</option>
+                              <option value="airflow-balance-demo">Airflow Balancing Demo.mp4</option>
+                              <option value="charging-technique">Charging Technique.mp4</option>
+                              <option value="defrost-control-demo">Protein Cookery.mp4</option>
+                              <option value="plating-final">Final Commissioning.mp4</option>
                             </select>
                           </div>
                           <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 relative flex-1 min-h-[150px]">
@@ -1434,10 +1434,10 @@ const MySpecSheets = () => {
               <div className="text-4xl mb-4">📹</div>
               <p className="text-gray-700 mb-2">Are you sure you want to submit:</p>
               <p className="font-bold text-maineBlue mb-4">
-                {selectedVideoOption === 'knife-skills-demo' && 'Knife Skills Demo.mp4'}
-                {selectedVideoOption === 'sauce-technique' && 'Sauce Technique.mp4'}
-                {selectedVideoOption === 'protein-cookery' && 'Protein Cookery.mp4'}
-                {selectedVideoOption === 'plating-final' && 'Final Plating.mp4'}
+                {selectedVideoOption === 'airflow-balance-demo' && 'Airflow Balancing Demo.mp4'}
+                {selectedVideoOption === 'charging-technique' && 'Charging Technique.mp4'}
+                {selectedVideoOption === 'defrost-control-demo' && 'Protein Cookery.mp4'}
+                {selectedVideoOption === 'plating-final' && 'Final Commissioning.mp4'}
               </p>
               <p className="text-sm text-gray-600 mb-6">
                 For: {assignments[currentAssignmentPage].week} - {assignments[currentAssignmentPage].title}
@@ -1543,22 +1543,22 @@ const MySpecSheets = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Knife Skills Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Knife+Skills+Demo',
+                      name: 'Airflow Balancing Practice Session.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Airflow+Balancing+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Mother Sauces Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Sauce+Making+Demo',
+                      name: 'HVAC Airflow Balancing Assignment.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Charging+Procedure+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Protein Cookery Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Protein+Cookery',
+                      name: 'Heat Pump Defrost Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Defrost+Control+Demo',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
