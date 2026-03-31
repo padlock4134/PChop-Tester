@@ -1591,22 +1591,22 @@ const MyManual = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Tool Skills Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Knife+Skills+Demo',
+                      name: 'Brake Service Practice.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Brake+Service+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Repair Technique Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Repair+Technique+Demo',
+                      name: 'Engine Diagnostics Assignment.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Engine+Diagnostics+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Parts Assembly Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Parts+Assembly+Demo',
+                      name: 'Suspension Assembly Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Suspension+Assembly+Demo',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false

@@ -1576,22 +1576,22 @@ const MyPipeBook = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Knife Skills Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Knife+Skills+Demo',
+                      name: 'Pipe Fitting Practice.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Pipe+Fitting+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
                       name: 'Pipe Layout Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Sauce+Making+Demo',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Drain+Assembly+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Protein Cookery Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Protein+Cookery',
+                      name: 'Pressure Test Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Pressure+Test+Final',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
