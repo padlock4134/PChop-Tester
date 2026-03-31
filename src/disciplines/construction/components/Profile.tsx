@@ -456,6 +456,17 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
 
   const selectedRequest = requestTypes.find((item) => item.id === selectedType);
   
+  // Get selected request details
+  const getSelectedRequest = () => {
+    for (const category of requestCategories) {
+      const found = category.items.find(item => item.id === selectedType);
+      if (found) return found;
+    }
+    return null;
+  };
+  
+  const selectedRequest = getSelectedRequest();
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[90vh] flex flex-col">
