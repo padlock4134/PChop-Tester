@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import ShopFreddieWidget from './ShopFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import SpecSheetImportModal from '../components/SpecSheetImportModal';
@@ -376,7 +375,6 @@ const TechTalk = () => {
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
           <GlobalTestShop showcaseRecipe={showcaseRecipe} />
-          <ShopFreddieWidget />
         </div>
       </div>
     </div>
@@ -385,5 +383,4 @@ const TechTalk = () => {
 };
 
 export default TechTalk;
-
 

@@ -30,7 +30,7 @@ import PlumbingPipeLounge from './disciplines/plumbing/modules/PipeLounge';
 import PlumbingPlumbingSchool from './disciplines/plumbing/modules/PlumbingSchool';
 import PlumbingProfile from './disciplines/plumbing/components/Profile';
 import PlumbingVanDashboard from './disciplines/plumbing/components/VanDashboard';
-import PlumbingPipeFreddieWidget from './disciplines/plumbing/modules/PipeFreddieWidget';
+import PlumbingPipeFreddieWidget from './disciplines/plumbing/components/PipeFreddieWidget';
 
 // Automotive imports
 import AutomotiveNavBar from './disciplines/automotive/components/NavBar';
@@ -40,7 +40,7 @@ import AutomotiveGearheadLounge from './disciplines/automotive/modules/GearheadL
 import AutomotiveAutoSchool from './disciplines/automotive/modules/AutoSchool';
 import AutomotiveProfile from './disciplines/automotive/components/Profile';
 import AutomotiveGarageDashboard from './disciplines/automotive/components/GarageDashboard';
-import AutomotiveGarageFreddieWidget from './disciplines/automotive/modules/GarageFreddieWidget';
+import AutomotiveGarageFreddieWidget from './disciplines/automotive/components/GarageFreddieWidget';
 
 // Construction imports
 import ConstructionNavBar from './disciplines/construction/components/NavBar';
@@ -50,7 +50,7 @@ import ConstructionHardhatHub from './disciplines/construction/modules/HardhatHu
 import ConstructionBuildSchool from './disciplines/construction/modules/BuildSchool';
 import ConstructionProfile from './disciplines/construction/components/Profile';
 import ConstructionSiteDashboard from './disciplines/construction/components/SiteDashboard';
-import ConstructionSiteFreddieWidget from './disciplines/construction/modules/SiteFreddieWidget';
+import ConstructionSiteFreddieWidget from './disciplines/construction/components/SiteFreddieWidget';
 
 // Electrical imports
 import ElectricalNavBar from './disciplines/electrical/components/NavBar';
@@ -60,7 +60,7 @@ import ElectricalWireLounge from './disciplines/electrical/modules/WireLounge';
 import ElectricalElecSchool from './disciplines/electrical/modules/ElecSchool';
 import ElectricalProfile from './disciplines/electrical/components/Profile';
 import ElectricalPanelDashboard from './disciplines/electrical/components/PanelDashboard';
-import ElectricalSparkFreddieWidget from './disciplines/electrical/modules/SparkFreddieWidget';
+import ElectricalSparkFreddieWidget from './disciplines/electrical/components/SparkFreddieWidget';
 
 // HVAC imports
 import HvacNavBar from './disciplines/hvac/components/NavBar';
@@ -70,7 +70,7 @@ import HvacTechTalk from './disciplines/hvac/modules/TechTalk';
 import HvacHvacSchool from './disciplines/hvac/modules/HvacSchool';
 import HvacProfile from './disciplines/hvac/components/Profile';
 import HvacShopDashboard from './disciplines/hvac/components/ShopDashboard';
-import HvacShopFreddieWidget from './disciplines/hvac/modules/ShopFreddieWidget';
+import HvacShopFreddieWidget from './disciplines/hvac/components/ShopFreddieWidget';
 
 // Manufacturing imports
 import ManufacturingNavBar from './disciplines/manufacturing/components/NavBar';
@@ -80,7 +80,7 @@ import ManufacturingShopTalk from './disciplines/manufacturing/modules/ShopTalk'
 import ManufacturingMfgAcademy from './disciplines/manufacturing/modules/MfgAcademy';
 import ManufacturingProfile from './disciplines/manufacturing/components/Profile';
 import ManufacturingFloorDashboard from './disciplines/manufacturing/components/FloorDashboard';
-import ManufacturingFloorFreddieWidget from './disciplines/manufacturing/modules/FloorFreddieWidget';
+import ManufacturingFloorFreddieWidget from './disciplines/manufacturing/components/FloorFreddieWidget';
 
 // Logistics imports
 import LogisticsNavBar from './disciplines/logistics/components/NavBar';
@@ -90,7 +90,7 @@ import LogisticsDispatchLounge from './disciplines/logistics/modules/DispatchLou
 import LogisticsLogisticsSchool from './disciplines/logistics/modules/LogisticsSchool';
 import LogisticsProfile from './disciplines/logistics/components/Profile';
 import LogisticsDockDashboard from './disciplines/logistics/components/DockDashboard';
-import LogisticsDockFreddieWidget from './disciplines/logistics/modules/DockFreddieWidget';
+import LogisticsDockFreddieWidget from './disciplines/logistics/components/DockFreddieWidget';
 
 // Machining imports
 import MachiningNavBar from './disciplines/machining/components/NavBar';
@@ -100,7 +100,7 @@ import MachiningMachinistCorner from './disciplines/machining/modules/MachinistC
 import MachiningMachiningSchool from './disciplines/machining/modules/MachiningSchool';
 import MachiningProfile from './disciplines/machining/components/Profile';
 import MachiningBenchDashboard from './disciplines/machining/components/BenchDashboard';
-import MachiningBenchFreddieWidget from './disciplines/machining/modules/BenchFreddieWidget';
+import MachiningBenchFreddieWidget from './disciplines/machining/components/BenchFreddieWidget';
 import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
 import DisciplineSupabaseProvider, { useSupabase } from './components/DisciplineSupabaseProvider';
