@@ -417,7 +417,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [careerEventDate, setCareerEventDate] = useState('');
   const [careerEventDescription, setCareerEventDescription] = useState('');
   const [schedulingCareerEvent, setSchedulingCareerEvent] = useState(false);
-  const [selectedProgram, setSelectedProgram] = useState('all');
   const [exportingAlumni, setExportingAlumni] = useState(false);
   const [updatingPermissions, setUpdatingPermissions] = useState(false);
   const [exportingFaculty, setExportingFaculty] = useState(false);
@@ -3892,40 +3891,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto p-3 sm:p-6">
               <div className="space-y-4 sm:space-y-6">
-            {/* Program Selector */}
-            <div>
-              <label className="block text-center text-xs sm:text-sm font-medium text-gray-700 mb-2">📚 {t('admin.selectProgram')}:</label>
-              <select
-                value={selectedProgram}
-                onChange={(e) => setSelectedProgram(e.target.value)}
-                className="w-full max-w-md mx-auto block px-4 py-3 border-2 border-maineBlue rounded-lg focus:outline-none focus:ring-2 focus:ring-maineBlue font-retro text-center"
-              >
-                <option value="all">{t('admin.allPrograms')}</option>
-                <option value="program_1">{skin.people.defaultProgram}</option>
-                <option value="program_2">Advanced Program</option>
-                <option value="program_3">Specialized Track</option>
-                <option value="program_4">Management Program</option>
-                <option value="program_5">Industry Fundamentals</option>
-                <option value="program_6">Professional Development</option>
-              </select>
-            </div>
-            
-              {/* Selected Program Indicator */}
-              {selectedProgram !== 'all' && (
-                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-2 sm:p-3 text-center">
-                  <p className="text-xs sm:text-sm text-blue-800">
-                    {t('admin.showingDataFor')}: <span className="font-bold text-maineBlue">
-                      {selectedProgram === 'program_1' && skin.people.defaultProgram}
-                      {selectedProgram === 'program_2' && 'Advanced Program'}
-                      {selectedProgram === 'program_3' && 'Specialized Track'}
-                      {selectedProgram === 'program_4' && 'Management Program'}
-                      {selectedProgram === 'program_5' && 'Industry Fundamentals'}
-                      {selectedProgram === 'program_6' && 'Professional Development'}
-                    </span>
-                  </p>
-                </div>
-              )}
-              
               {/* Program Completion Rates */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
                 <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 {t('admin.programCompletionRates')}</h3>
