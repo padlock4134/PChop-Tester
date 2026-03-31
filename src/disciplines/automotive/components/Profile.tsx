@@ -496,26 +496,45 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   const { t } = useTranslation();
   const [selectedType, setSelectedType] = React.useState('');
   const [requestDetails, setRequestDetails] = React.useState('');
-  const [quantity, setQuantity] = React.useState(1);
   const [showSuccess, setShowSuccess] = React.useState(false);
   
   if (!open) return null;
   
-  const requestTypes = [
-    { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
-    { id: 'uniform', name: 'Mechanic Uniform/Tools', icon: '👕', description: 'Request mechanic uniforms or tool kits' },
-    { id: 'tool_kit', name: 'Tool Kit Loaner', icon: '🔧', description: 'Request a loaner tool kit or replacement' },
-    { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request diagnostic scanners, lifts, or other equipment' },
-    { id: 'manuals', name: 'Manuals/Materials', icon: '📚', description: 'Request repair manuals or course materials' },
-    { id: 'garage_access', name: 'Garage Access', icon: '🔑', description: 'Request after-hours garage/lab access' },
-    { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
-    { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' },
-    { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or physical accommodations' },
+  const requestCategories = [
+    {
+      title: 'Academic Needs',
+      items: [
+        { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
+        { id: 'textbook', name: 'Manual/Materials', icon: '📚', description: 'Request technical manuals or course materials' },
+        { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
+        { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' }
+      ]
+    },
+    {
+      title: 'Equipment & Access',
+      items: [
+        { id: 'uniform', name: 'Safety Gear/Workwear', icon: '👕', description: 'Request safety vests, hard hats, or work uniforms' },
+        { id: 'tool_kit', name: 'Tool Kit Loaner', icon: '🔧', description: 'Request a loaner tool kit or replacement tools' },
+        { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request calipers, gauges, or other equipment' },
+        { id: 'workshop_access', name: 'Workshop Access', icon: '🔑', description: 'Request after-hours workshop/lab access' }
+      ]
+    },
+    {
+      title: 'Support & Other',
+      items: [
+        { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or accessibility accommodations' },
+        { id: 'other', name: 'Other Request', icon: '📝', description: 'Other requests or inquiries' }
+      ]
+    }
   ];
+
+  const requestTypes = requestCategories.flatMap((category) =>
+    category.items.map((item) => ({ ...item, category: category.title }))
+  );
   
   const handleSubmit = () => {
-    if (!selectedType) {
-      alert(t('profile.requests.selectTypeAlert', { defaultValue: 'Please select a request type' }));
+    if (!selectedType || !requestDetails.trim()) {
+      alert(t('profile.pleaseSelectRequestType'));
       return;
     }
     setShowSuccess(true);
@@ -526,108 +545,103 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-lg shadow-lg border-4 border-seafoam p-8 max-w-md w-full text-center">
           <div className="text-6xl mb-4">✅</div>
-          <h2 className="text-2xl font-bold text-maineBlue mb-4 font-retro">Request Submitted</h2>
-          <p className="text-gray-700 mb-2">Your request has been sent to the admin</p>
-          <p className="text-gray-600 mb-6">You will receive an email update on your request</p>
+          <h2 className="text-2xl font-bold text-maineBlue mb-4 font-retro">{t('profile.requestSubmitted')}</h2>
+          <p className="text-gray-700 mb-2">{t('profile.requestSentToAdmin')}</p>
+          <p className="text-gray-600 mb-6">{t('profile.emailUpdateOnRequest')}</p>
           <button
             onClick={() => {
               setShowSuccess(false);
               setSelectedType('');
               setRequestDetails('');
-              setQuantity(1);
               onClose();
             }}
             className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black"
           >
-            Got it
+            {t('profile.gotIt')}
           </button>
         </div>
       </div>
     );
   }
+
+  const selectedRequest = requestTypes.find((item) => item.id === selectedType);
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-md w-full max-h-[90vh] flex flex-col">
-        {/* Fixed Header */}
-        <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[90vh] flex flex-col">
+        <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200 bg-gray-50">
           <div></div>
-          <h2 className="text-2xl font-bold text-maineBlue font-retro">Submit a Request</h2>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.submitARequest')}</h2>
+            <p className="text-sm text-gray-500 mt-1">{t('profile.requests.selectTypeHelp', { defaultValue: 'Choose a request type from the list and provide details' })}</p>
+          </div>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+            className="text-gray-500 hover:text-gray-700 text-2xl font-bold bg-white rounded-full w-8 h-8 flex items-center justify-center border border-gray-300 hover:bg-gray-100 transition-colors"
           >
             ×
           </button>
         </div>
-        
-        {/* Scrollable Content */}
-        <div className="overflow-y-auto p-6 pt-4">
-          <div className="mb-6">
-            {/* Request Type Dropdown */}
-            <div>
-              <label className="block text-sm font-bold text-gray-700 mb-2">Request Type</label>
-              <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none"
-              >
-                <option value="">{t('profile.requests.selectTypePlaceholder', { defaultValue: 'Select a request type...' })}</option>
-                {requestTypes.map((type) => (
-                  <option key={type.id} value={type.id}>
-                    {type.icon} {type.name}
-                  </option>
-                ))}
-              </select>
-              {selectedType && (
-                <p className="text-xs text-gray-600 mt-2">
-                  {requestTypes.find(t => t.id === selectedType)?.description}
-                </p>
-              )}
-            </div>
-          </div>
-        
-        {selectedType && (
-          <div className="mb-6 space-y-4">
-            {/* Quantity Field */}
-            <div>
-              <h3 className="text-lg font-bold text-gray-700 mb-2">Quantity</h3>
-              <input
-                type="number"
-                min="1"
-                max="99"
-                value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none"
-                placeholder="Enter quantity"
-              />
-            </div>
-            
-            {/* Request Details */}
-            <div>
-              <h3 className="text-lg font-bold text-gray-700 mb-2">Request Details (Optional)</h3>
-              <textarea
-                value={requestDetails}
-                onChange={(e) => setRequestDetails(e.target.value)}
-                placeholder="Provide additional details about your request..."
-                className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[120px]"
-              />
-            </div>
-          </div>
-        )}
-        </div>
-        
-        {/* Fixed Footer with Buttons */}
-        <div className="p-6 pt-4 border-t-2 border-gray-200">
-          <div className="flex justify-end">
-            <button
-              onClick={handleSubmit}
-              disabled={!selectedType}
-              className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
+
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div>
+            <label className="block text-lg font-bold text-gray-700 mb-3">
+              {t('profile.selectRequestType')} <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 bg-white focus:border-maineBlue focus:outline-none text-gray-700"
             >
-              Submit Request
-            </button>
+              <option value="">{t('profile.pleaseSelectRequestType')}</option>
+              {requestCategories.map((category) => (
+                <optgroup key={category.title} label={category.title}>
+                  {category.items.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      {type.icon} {type.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
           </div>
+
+          {selectedRequest && (
+            <div className="bg-seafoam border-2 border-maineBlue rounded-lg p-4">
+              <div className="flex items-center gap-3">
+                <div className="text-3xl">{selectedRequest.icon}</div>
+                <div>
+                  <h3 className="font-bold text-maineBlue text-lg">{selectedRequest.name}</h3>
+                  <p className="text-sm text-gray-700">{selectedRequest.description}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div>
+            <label className="block text-lg font-bold text-gray-700 mb-3">
+              {t('profile.requestDetails')} <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              value={requestDetails}
+              onChange={(e) => setRequestDetails(e.target.value)}
+              placeholder={t('profile.provideRequestDetails')}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[150px] text-gray-700 resize-none"
+            />
+            <p className="text-sm text-gray-500 mt-2">
+              Please provide as much detail as possible to help us process your request efficiently.
+            </p>
+          </div>
+        </div>
+
+        <div className="p-6 pt-4 border-t-2 border-gray-200 flex justify-end">
+          <button
+            onClick={handleSubmit}
+            disabled={!selectedType || !requestDetails.trim()}
+            className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {t('profile.submitRequest')}
+          </button>
         </div>
       </div>
     </div>
