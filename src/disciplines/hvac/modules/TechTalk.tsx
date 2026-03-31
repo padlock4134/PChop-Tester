@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import ShopFreddieWidget from './ShopFreddieWidget';
+import ShopFreddieWidget from '../components/ShopFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import SpecSheetImportModal from '../components/SpecSheetImportModal';
@@ -385,5 +385,4 @@ const TechTalk = () => {
 };
 
 export default TechTalk;
-
 
