@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { askChefFreddie } from '../api/chefFreddie';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
 interface Message {
   sender: 'freddie' | 'user';
