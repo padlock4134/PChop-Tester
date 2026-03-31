@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import PipeFreddieWidget from '../components/PipeFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import PipeBookImportModal from '../components/PipeBookImportModal';
@@ -376,7 +375,6 @@ const PipeLounge = () => {
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
           <GlobalTestVan showcaseRecipe={showcaseRecipe} />
-          <PipeFreddieWidget />
         </div>
       </div>
     </div>

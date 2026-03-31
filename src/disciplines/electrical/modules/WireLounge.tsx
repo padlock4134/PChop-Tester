@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import SparkFreddieWidget from '../components/SparkFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import CodeBookImportModal from '../components/CodeBookImportModal';
@@ -376,7 +375,6 @@ const WireLounge = () => {
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
           <GlobalTestPanel showcaseRecipe={showcaseRecipe} />
-          <SparkFreddieWidget />
         </div>
       </div>
     </div>

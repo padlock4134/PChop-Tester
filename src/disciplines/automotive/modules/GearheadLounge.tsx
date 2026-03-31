@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import GarageFreddieWidget from '../components/GarageFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import ManualImportModal from '../components/ManualImportModal';
@@ -377,7 +376,6 @@ const GearheadLounge = () => {
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
           <TheCarLift showcaseRecipe={showcaseRecipe} />
-          <GarageFreddieWidget />
         </div>
       </div>
     </div>

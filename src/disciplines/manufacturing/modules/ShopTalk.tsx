@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import FloorFreddieWidget from '../components/FloorFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import PlaybookImportModal from '../components/PlaybookImportModal';
@@ -376,7 +375,6 @@ const ShopTalk = () => {
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
           <ProductionLine showcaseRecipe={showcaseRecipe} />
-          <FloorFreddieWidget />
         </div>
       </div>
     </div>
