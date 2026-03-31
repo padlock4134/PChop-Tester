@@ -500,11 +500,9 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   if (!open) return null;
   
-  // Group request types by category for better organization
   const requestCategories = [
     {
       title: 'Academic Needs',
-      icon: '🎓',
       items: [
         { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
         { id: 'textbook', name: 'Manual/Materials', icon: '📚', description: 'Request technical manuals or course materials' },
@@ -514,7 +512,6 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
     },
     {
       title: 'Equipment & Access',
-      icon: '🔧',
       items: [
         { id: 'uniform', name: 'Safety Gear/Workwear', icon: '👕', description: 'Request safety vests, hard hats, or work uniforms' },
         { id: 'tool_kit', name: 'Tool Kit Loaner', icon: '🔧', description: 'Request a loaner tool kit or replacement tools' },
@@ -524,13 +521,16 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
     },
     {
       title: 'Support & Other',
-      icon: '💬',
       items: [
         { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or accessibility accommodations' },
         { id: 'other', name: 'Other Request', icon: '📝', description: 'Other requests or inquiries' }
       ]
     }
   ];
+
+  const requestTypes = requestCategories.flatMap((category) =>
+    category.items.map((item) => ({ ...item, category: category.title }))
+  );
   
   const handleSubmit = () => {
     if (!selectedType || !requestDetails.trim()) {
@@ -563,6 +563,8 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
       </div>
     );
   }
+
+  const selectedRequest = requestTypes.find((item) => item.id === selectedType);
   
   // Get selected request details
   const getSelectedRequest = () => {
@@ -577,13 +579,12 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-5xl w-full max-h-[90vh] flex flex-col">
-        {/* Fixed Header */}
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[90vh] flex flex-col">
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200 bg-gray-50">
           <div></div>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.submitARequest')}</h2>
-            <p className="text-sm text-gray-500 mt-1">{t('profile.requests.selectTypeHelp', { defaultValue: 'Select a request type and provide details' })}</p>
+            <p className="text-sm text-gray-500 mt-1">{t('profile.requests.selectTypeHelp', { defaultValue: 'Choose a request type from the list and provide details' })}</p>
           </div>
           <button
             onClick={onClose}
@@ -592,95 +593,66 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
             ×
           </button>
         </div>
-        
-        {/* Main Content */}
-        <div className="flex-1 overflow-y-auto">
-          <div className="p-6">
-            {!selectedType ? (
-              /* Request Type Selection */
-              <div className="space-y-6">
-                {requestCategories.map((category) => (
-                  <div key={category.title} className="space-y-3">
-                    <div className="flex items-center gap-2 mb-4">
-                      <span className="text-2xl">{category.icon}</span>
-                      <h3 className="text-lg font-bold text-gray-800">{category.title}</h3>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {category.items.map((type) => (
-                        <button
-                          key={type.id}
-                          onClick={() => setSelectedType(type.id)}
-                          className={`p-4 border-2 rounded-lg text-left transition-all hover:shadow-md ${
-                            selectedType === type.id
-                              ? 'border-maineBlue bg-seafoam shadow-md'
-                              : 'border-gray-300 hover:border-maineBlue bg-white'
-                          }`}
-                        >
-                          <div className="flex items-start gap-3">
-                            <div className="text-2xl flex-shrink-0">{type.icon}</div>
-                            <div className="flex-1">
-                              <h4 className="font-bold text-gray-800 mb-1 text-sm">{type.name}</h4>
-                              <p className="text-xs text-gray-600 leading-relaxed">{type.description}</p>
-                            </div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              /* Request Details Form */
-              <div className="max-w-2xl mx-auto space-y-6">
-                {/* Selected Request Summary */}
-                <div className="bg-seafoam border-2 border-maineBlue rounded-lg p-4">
-                  <div className="flex items-center gap-3">
-                    <div className="text-3xl">{selectedRequest?.icon}</div>
-                    <div>
-                      <h3 className="font-bold text-maineBlue text-lg">{selectedRequest?.name}</h3>
-                      <p className="text-sm text-gray-700">{selectedRequest?.description}</p>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Request Details */}
-                <div>
-                  <label className="block text-lg font-bold text-gray-700 mb-3">
-                    {t('profile.requestDetails')} <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    value={requestDetails}
-                    onChange={(e) => setRequestDetails(e.target.value)}
-                    placeholder={t('profile.provideRequestDetails')}
-                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[150px] text-gray-700 resize-none"
-                  />
-                  <p className="text-sm text-gray-500 mt-2">
-                    Please provide as much detail as possible to help us process your request efficiently.
-                  </p>
-                </div>
-                
-                {/* Action Buttons */}
-                <div className="flex gap-4 justify-center">
-                  <button
-                    onClick={() => {
-                      setSelectedType('');
-                      setRequestDetails('');
-                    }}
-                    className="px-6 py-3 border-2 border-gray-300 rounded-lg font-bold text-gray-700 hover:bg-gray-50 transition-colors"
-                  >
-                    ← Back to Selection
-                  </button>
-                  <button
-                    onClick={handleSubmit}
-                    disabled={!requestDetails.trim()}
-                    className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {t('profile.submitRequest')}
-                  </button>
-                </div>
-              </div>
-            )}
+
+        <div className="flex-1 overflow-y-auto p-6 space-y-6">
+          <div>
+            <label className="block text-lg font-bold text-gray-700 mb-3">
+              {t('profile.selectRequestType')} <span className="text-red-500">*</span>
+            </label>
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 bg-white focus:border-maineBlue focus:outline-none text-gray-700"
+            >
+              <option value="">{t('profile.pleaseSelectRequestType')}</option>
+              {requestCategories.map((category) => (
+                <optgroup key={category.title} label={category.title}>
+                  {category.items.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      {type.icon} {type.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
           </div>
+
+          {selectedRequest && (
+            <div className="bg-seafoam border-2 border-maineBlue rounded-lg p-4">
+              <div className="flex items-center gap-3">
+                <div className="text-3xl">{selectedRequest.icon}</div>
+                <div>
+                  <h3 className="font-bold text-maineBlue text-lg">{selectedRequest.name}</h3>
+                  <p className="text-sm text-gray-700">{selectedRequest.description}</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div>
+            <label className="block text-lg font-bold text-gray-700 mb-3">
+              {t('profile.requestDetails')} <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              value={requestDetails}
+              onChange={(e) => setRequestDetails(e.target.value)}
+              placeholder={t('profile.provideRequestDetails')}
+              className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[150px] text-gray-700 resize-none"
+            />
+            <p className="text-sm text-gray-500 mt-2">
+              Please provide as much detail as possible to help us process your request efficiently.
+            </p>
+          </div>
+        </div>
+
+        <div className="p-6 pt-4 border-t-2 border-gray-200 flex justify-end">
+          <button
+            onClick={handleSubmit}
+            disabled={!selectedType || !requestDetails.trim()}
+            className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {t('profile.submitRequest')}
+          </button>
         </div>
       </div>
     </div>
