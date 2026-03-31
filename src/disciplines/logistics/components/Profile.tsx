@@ -321,14 +321,14 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   if (!open) return null;
   
   const currentClasses = [
-    { icon: '🔪', name: 'Blueprint Interpretation Fundamentals', instructor: 'Instructor Martinez', time: 'Mon/Wed 9:00 AM' },
-    { icon: '🍲', name: 'System Diagnostics Techniques', instructor: 'Instructor Johnson', time: 'Tue/Thu 11:00 AM' },
-    { icon: '🧁', name: 'Precision Fabrication Lab', instructor: 'Instructor Williams', time: 'Fri 1:00 PM' }
+    { icon: '🚚', name: 'Freight Operations Fundamentals', instructor: 'Instructor Martinez', time: 'Mon/Wed 9:00 AM' },
+    { icon: '📦', name: 'Warehouse Inventory Systems', instructor: 'Instructor Johnson', time: 'Tue/Thu 11:00 AM' },
+    { icon: '🗺️', name: 'Route Planning & Dispatch', instructor: 'Instructor Williams', time: 'Fri 1:00 PM' }
   ];
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-2xl w-full max-h-[80vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-md w-full max-h-[80vh] flex flex-col">
         {/* Fixed Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
@@ -455,17 +455,6 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   }
 
   const selectedRequest = requestTypes.find((item) => item.id === selectedType);
-  
-  // Get selected request details
-  const getSelectedRequest = () => {
-    for (const category of requestCategories) {
-      const found = category.items.find(item => item.id === selectedType);
-      if (found) return found;
-    }
-    return null;
-  };
-  
-  const selectedRequest = getSelectedRequest();
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
