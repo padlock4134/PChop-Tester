@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import PipeFreddieWidget from './PipeFreddieWidget';
+import PipeFreddieWidget from '../components/PipeFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import PipeBookImportModal from '../components/PipeBookImportModal';

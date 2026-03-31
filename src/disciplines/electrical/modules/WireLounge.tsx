@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import SparkFreddieWidget from './SparkFreddieWidget';
+import SparkFreddieWidget from '../components/SparkFreddieWidget';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import CodeBookImportModal from '../components/CodeBookImportModal';
