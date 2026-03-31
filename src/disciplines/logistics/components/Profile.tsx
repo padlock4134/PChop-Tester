@@ -321,9 +321,9 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   if (!open) return null;
   
   const currentClasses = [
-    { icon: '🔪', name: 'Blueprint Interpretation Fundamentals', instructor: 'Instructor Martinez', time: 'Mon/Wed 9:00 AM' },
-    { icon: '🍲', name: 'System Diagnostics Techniques', instructor: 'Instructor Johnson', time: 'Tue/Thu 11:00 AM' },
-    { icon: '🧁', name: 'Precision Fabrication Lab', instructor: 'Instructor Williams', time: 'Fri 1:00 PM' }
+    { icon: '🚚', name: 'Freight Operations Fundamentals', instructor: 'Instructor Martinez', time: 'Mon/Wed 9:00 AM' },
+    { icon: '📦', name: 'Warehouse Inventory Systems', instructor: 'Instructor Johnson', time: 'Tue/Thu 11:00 AM' },
+    { icon: '🗺️', name: 'Route Planning & Dispatch', instructor: 'Instructor Williams', time: 'Fri 1:00 PM' }
   ];
   
   return (
