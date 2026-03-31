@@ -1543,22 +1543,22 @@ const MySpecSheets = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Ductwork Setup Practice.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Ductwork+Setup+Demo',
+                      name: 'Airflow Balancing Practice Session.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Airflow+Balancing+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
                       name: 'HVAC Airflow Balancing Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Refrigerant+Check+Demo',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Charging+Procedure+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'System Diagnostics Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=System+Diagnostics+Final',
+                      name: 'Heat Pump Defrost Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Defrost+Control+Demo',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true

@@ -1543,22 +1543,22 @@ const MySpecBook = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Lathe Setup Practice.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Lathe+Setup+Demo',
+                      name: 'Setup Basics Practice Session.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Setup+Basics+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
                       name: 'Setup Basics Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Tolerance+Measurement+Demo',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Turning+Operations+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'CNC Programming Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=CNC+Programming+Final',
+                      name: 'First Article Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=First+Article+Review',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true

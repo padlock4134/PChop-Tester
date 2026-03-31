@@ -1543,22 +1543,22 @@ const MyRunbook = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Dock Safety Walkthrough.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Dock+Safety+Walkthrough',
+                      name: 'Receiving Workflow Practice Session.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Receiving+Workflow+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Route Planning Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Route+Planning+Demo',
+                      name: 'Warehouse Receiving Assignment.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Load+Sequencing+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Freight Handling Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Freight+Handling+Final',
+                      name: 'Final-Mile Delivery Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Final-Mile+Delivery',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true

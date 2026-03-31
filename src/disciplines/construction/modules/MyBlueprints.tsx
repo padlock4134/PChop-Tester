@@ -1543,22 +1543,22 @@ const MyBlueprints = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Foundation Layout Practice.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Foundation+Layout+Demo',
+                      name: 'Blueprint Layout Practice Session.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Blueprint+Layout+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
                       name: 'Blueprint Layout Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Framing+Technique+Demo',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Formwork+Prep+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Blueprint Review Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Blueprint+Review+Final',
+                      name: 'Finish Carpentry Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=Finish+Carpentry+Demo',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
