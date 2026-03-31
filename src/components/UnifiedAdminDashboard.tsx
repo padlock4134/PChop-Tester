@@ -308,6 +308,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [freddieMessages, setFreddieMessages] = useState<Array<{sender: 'freddie' | 'user', text: string, id?: string}>>([]);
   const [freddieInput, setFreddieInput] = useState('');
   const [freddieLoading, setFreddieLoading] = useState(false);
+  const freddieInputRef = useRef<HTMLInputElement>(null);
   const [recentCurriculum, setRecentCurriculum] = useState<Array<{id: string, title: string, content: string, type: string, module: string | null, applied: boolean, created_at: string}>>([]);
   const [savingCurriculum, setSavingCurriculum] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
@@ -417,7 +418,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [careerEventDate, setCareerEventDate] = useState('');
   const [careerEventDescription, setCareerEventDescription] = useState('');
   const [schedulingCareerEvent, setSchedulingCareerEvent] = useState(false);
-  const [selectedProgram, setSelectedProgram] = useState('all');
   const [exportingAlumni, setExportingAlumni] = useState(false);
   const [updatingPermissions, setUpdatingPermissions] = useState(false);
   const [exportingFaculty, setExportingFaculty] = useState(false);
@@ -690,6 +690,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       loadRecentCurriculum();
     }
   }, [showChefFreddieModal, freddieMessages.length, selectedDiscipline]);
+
+  useEffect(() => {
+    if (!showChefFreddieModal || freddieLoading) return;
+    const focusTimer = window.setTimeout(() => {
+      freddieInputRef.current?.focus();
+    }, 50);
+
+    return () => window.clearTimeout(focusTimer);
+  }, [showChefFreddieModal, freddieLoading]);
 
   // Load recent curriculum from database
   const loadRecentCurriculum = async () => {
@@ -3892,40 +3901,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Scrollable Content */}
             <div className="flex-1 overflow-y-auto p-3 sm:p-6">
               <div className="space-y-4 sm:space-y-6">
-            {/* Program Selector */}
-            <div>
-              <label className="block text-center text-xs sm:text-sm font-medium text-gray-700 mb-2">📚 {t('admin.selectProgram')}:</label>
-              <select
-                value={selectedProgram}
-                onChange={(e) => setSelectedProgram(e.target.value)}
-                className="w-full max-w-md mx-auto block px-4 py-3 border-2 border-maineBlue rounded-lg focus:outline-none focus:ring-2 focus:ring-maineBlue font-retro text-center"
-              >
-                <option value="all">{t('admin.allPrograms')}</option>
-                <option value="program_1">{skin.people.defaultProgram}</option>
-                <option value="program_2">Advanced Program</option>
-                <option value="program_3">Specialized Track</option>
-                <option value="program_4">Management Program</option>
-                <option value="program_5">Industry Fundamentals</option>
-                <option value="program_6">Professional Development</option>
-              </select>
-            </div>
-            
-              {/* Selected Program Indicator */}
-              {selectedProgram !== 'all' && (
-                <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-2 sm:p-3 text-center">
-                  <p className="text-xs sm:text-sm text-blue-800">
-                    {t('admin.showingDataFor')}: <span className="font-bold text-maineBlue">
-                      {selectedProgram === 'program_1' && skin.people.defaultProgram}
-                      {selectedProgram === 'program_2' && 'Advanced Program'}
-                      {selectedProgram === 'program_3' && 'Specialized Track'}
-                      {selectedProgram === 'program_4' && 'Management Program'}
-                      {selectedProgram === 'program_5' && 'Industry Fundamentals'}
-                      {selectedProgram === 'program_6' && 'Professional Development'}
-                    </span>
-                  </p>
-                </div>
-              )}
-              
               {/* Program Completion Rates */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
                 <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 {t('admin.programCompletionRates')}</h3>
@@ -5424,7 +5399,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 
                 {/* Quick Actions */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                  <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                  <div
+                    className="border-4 border-blue-300 bg-blue-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                    onClick={() => handleQuickAction(assistantQuickActions[0])}
+                  >
                     <div className="text-2xl sm:text-3xl mb-2">📝</div>
                     <h4 className="font-bold text-blue-800 mb-2 text-sm sm:text-base">Plan Learning Activity</h4>
                     <p className="text-xs sm:text-sm text-blue-600 mb-2 sm:mb-3">{assistantQuickActions[0]}</p>
@@ -5436,7 +5414,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </button>
                   </div>
                 
-                  <div className="border-4 border-green-300 bg-green-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                  <div
+                    className="border-4 border-green-300 bg-green-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                    onClick={() => handleQuickAction(assistantQuickActions[1])}
+                  >
                     <div className="text-2xl sm:text-3xl mb-2">📅</div>
                     <h4 className="font-bold text-green-800 mb-2 text-sm sm:text-base">Build Lesson Sequence</h4>
                     <p className="text-xs sm:text-sm text-green-600 mb-2 sm:mb-3">{assistantQuickActions[1]}</p>
@@ -5448,7 +5429,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </button>
                   </div>
                 
-                  <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                  <div
+                    className="border-4 border-purple-300 bg-purple-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                    onClick={() => handleQuickAction(assistantQuickActions[2])}
+                  >
                     <div className="text-2xl sm:text-3xl mb-2">🏆</div>
                     <h4 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Create Assessment Rubric</h4>
                     <p className="text-xs sm:text-sm text-purple-600 mb-2 sm:mb-3">{assistantQuickActions[2]}</p>
@@ -5460,7 +5444,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </button>
                   </div>
                 
-                  <div className="border-4 border-orange-300 bg-orange-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                  <div
+                    className="border-4 border-orange-300 bg-orange-50 rounded-lg p-3 sm:p-4 text-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                    onClick={() => handleQuickAction(`Help me understand how to apply my curriculum content to the different modules (${skin.modules.workspace}, ${skin.modules.notebook}, ${skin.modules.school}, ${skin.modules.community}). What types of content work best for each module?`)}
+                  >
                     <div className="text-2xl sm:text-3xl mb-2">🔄</div>
                     <h4 className="font-bold text-orange-800 mb-2 text-sm sm:text-base">Apply to Modules</h4>
                     <p className="text-xs sm:text-sm text-orange-600 mb-2 sm:mb-3">Distribute curriculum to {skin.modules.workspace}, {skin.modules.notebook}</p>
@@ -5523,28 +5510,32 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     </div>
                   </div>
                 
-                  <div className="flex flex-col sm:flex-row gap-2">
+                  <form
+                    className="flex flex-col sm:flex-row gap-2"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (!freddieLoading) {
+                        sendFreddieMessage(freddieInput);
+                      }
+                    }}
+                  >
                     <input 
+                      ref={freddieInputRef}
                       type="text" 
                       placeholder={`Ask ${skin.assistant.name} to create curriculum...`}
                       value={freddieInput}
                       onChange={(e) => setFreddieInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !freddieLoading) {
-                          sendFreddieMessage(freddieInput);
-                        }
-                      }}
                       disabled={freddieLoading}
                       className="flex-1 border-4 border-blue-400 rounded-md px-2 sm:px-3 py-2 text-xs sm:text-sm disabled:opacity-50 min-h-[44px]"
                     />
                     <button 
-                      onClick={() => sendFreddieMessage(freddieInput)}
+                      type="submit"
                       disabled={freddieLoading || !freddieInput.trim()}
                       className="w-full sm:w-auto bg-pink-400 text-white px-6 py-2 rounded-md hover:bg-pink-500 font-retro disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base min-h-[44px]"
                     >
                       {freddieLoading ? 'Thinking...' : 'Ask'}
                     </button>
-                  </div>
+                  </form>
                 </div>
               
                 {/* Recent Curriculum */}
