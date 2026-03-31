@@ -390,16 +390,36 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   if (!open) return null;
   
-  const requestTypes = [
-    { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
-    { id: 'uniform', name: 'PPE / Uniform Kit', icon: '👕', description: 'Request PPE, uniforms, or safety gear' },
-    { id: 'knife_kit', name: 'Knife Kit Loaner', icon: '🔪', description: 'Request a loaner knife kit or replacement' },
-    { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request thermometers, timers, or other equipment' },
-    { id: 'textbook', name: 'Textbook/Materials', icon: '📚', description: 'Request textbooks or course materials' },
-    { id: 'workspace_access', name: 'Lab/Shop Access', icon: '🔑', description: 'Request after-hours lab/shop access' },
-    { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
-    { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' },
-    { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or dietary accommodations' },
+  // Group request types by category for better organization
+  const requestCategories = [
+    {
+      title: 'Academic Needs',
+      icon: '🎓',
+      items: [
+        { id: 'id_card', name: 'Student ID/Key Card', icon: '🎫', description: 'Request a new or replacement student ID card' },
+        { id: 'textbook', name: 'Manual/Materials', icon: '📚', description: 'Request technical manuals or course materials' },
+        { id: 'transcript', name: 'Transcript Request', icon: '📋', description: 'Request official transcripts' },
+        { id: 'recommendation', name: 'Letter of Recommendation', icon: '✉️', description: 'Request a letter of recommendation' }
+      ]
+    },
+    {
+      title: 'Equipment & Access',
+      icon: '🔧',
+      items: [
+        { id: 'uniform', name: 'Safety Gear/Workwear', icon: '👕', description: 'Request safety vests, hard hats, or work uniforms' },
+        { id: 'tool_kit', name: 'Tool Kit Loaner', icon: '🔧', description: 'Request a loaner tool kit or replacement tools' },
+        { id: 'equipment', name: 'Equipment Loaner', icon: '🧰', description: 'Request calipers, gauges, or other equipment' },
+        { id: 'workshop_access', name: 'Workshop Access', icon: '🔑', description: 'Request after-hours workshop/lab access' }
+      ]
+    },
+    {
+      title: 'Support & Other',
+      icon: '💬',
+      items: [
+        { id: 'accommodation', name: 'Accommodation Request', icon: '🏥', description: 'Request medical or accessibility accommodations' },
+        { id: 'other', name: 'Other Request', icon: '📝', description: 'Other requests or inquiries' }
+      ]
+    }
   ];
   
   const handleSubmit = () => {
@@ -434,67 +454,122 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
     );
   }
   
+  // Get selected request details
+  const getSelectedRequest = () => {
+    for (const category of requestCategories) {
+      const found = category.items.find(item => item.id === selectedType);
+      if (found) return found;
+    }
+    return null;
+  };
+  
+  const selectedRequest = getSelectedRequest();
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-5xl w-full max-h-[90vh] flex flex-col">
         {/* Fixed Header */}
-        <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
+        <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200 bg-gray-50">
           <div></div>
-          <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.submitARequest')}</h2>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">{t('profile.submitARequest')}</h2>
+            <p className="text-sm text-gray-500 mt-1">{t('profile.requests.selectTypeHelp', { defaultValue: 'Select a request type and provide details' })}</p>
+          </div>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+            className="text-gray-500 hover:text-gray-700 text-2xl font-bold bg-white rounded-full w-8 h-8 flex items-center justify-center border border-gray-300 hover:bg-gray-100 transition-colors"
           >
             ×
           </button>
         </div>
         
-        {/* Scrollable Content */}
-        <div className="overflow-y-auto p-6 pt-4">
-          <div className="mb-6">
-          <h3 className="text-lg font-bold text-gray-700 mb-4 text-center">{t('profile.selectRequestType')}</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {requestTypes.map((type) => (
-              <button
-                key={type.id}
-                onClick={() => setSelectedType(type.id)}
-                className={`p-4 border-2 rounded-lg text-left transition-all ${
-                  selectedType === type.id
-                    ? 'border-maineBlue bg-seafoam'
-                    : 'border-gray-300 hover:border-maineBlue'
-                }`}
-              >
-                <div className="text-3xl mb-2">{type.icon}</div>
-                <h4 className="font-bold text-gray-800 mb-1">{type.name}</h4>
-                <p className="text-xs text-gray-600">{type.description}</p>
-              </button>
-            ))}
-          </div>
-        </div>
-        
-        {selectedType && (
-          <div className="mb-6">
-            <h3 className="text-lg font-bold text-gray-700 mb-2">{t('profile.requestDetails')}</h3>
-            <textarea
-              value={requestDetails}
-              onChange={(e) => setRequestDetails(e.target.value)}
-              placeholder={t('profile.provideRequestDetails')}
-              className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[120px]"
-            />
-          </div>
-        )}
-        </div>
-        
-        {/* Fixed Footer with Buttons */}
-        <div className="p-6 pt-4 border-t-2 border-gray-200">
-          <div className="flex justify-end">
-            <button
-              onClick={handleSubmit}
-              disabled={!selectedType || !requestDetails.trim()}
-              className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {t('profile.submitRequest')}
-            </button>
+        {/* Main Content */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="p-6">
+            {!selectedType ? (
+              /* Request Type Selection */
+              <div className="space-y-6">
+                {requestCategories.map((category) => (
+                  <div key={category.title} className="space-y-3">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-2xl">{category.icon}</span>
+                      <h3 className="text-lg font-bold text-gray-800">{category.title}</h3>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {category.items.map((type) => (
+                        <button
+                          key={type.id}
+                          onClick={() => setSelectedType(type.id)}
+                          className={`p-4 border-2 rounded-lg text-left transition-all hover:shadow-md ${
+                            selectedType === type.id
+                              ? 'border-maineBlue bg-seafoam shadow-md'
+                              : 'border-gray-300 hover:border-maineBlue bg-white'
+                          }`}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="text-2xl flex-shrink-0">{type.icon}</div>
+                            <div className="flex-1">
+                              <h4 className="font-bold text-gray-800 mb-1 text-sm">{type.name}</h4>
+                              <p className="text-xs text-gray-600 leading-relaxed">{type.description}</p>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              /* Request Details Form */
+              <div className="max-w-2xl mx-auto space-y-6">
+                {/* Selected Request Summary */}
+                <div className="bg-seafoam border-2 border-maineBlue rounded-lg p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="text-3xl">{selectedRequest?.icon}</div>
+                    <div>
+                      <h3 className="font-bold text-maineBlue text-lg">{selectedRequest?.name}</h3>
+                      <p className="text-sm text-gray-700">{selectedRequest?.description}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Request Details */}
+                <div>
+                  <label className="block text-lg font-bold text-gray-700 mb-3">
+                    {t('profile.requestDetails')} <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    value={requestDetails}
+                    onChange={(e) => setRequestDetails(e.target.value)}
+                    placeholder={t('profile.provideRequestDetails')}
+                    className="w-full border-2 border-gray-300 rounded-lg px-4 py-3 focus:border-maineBlue focus:outline-none min-h-[150px] text-gray-700 resize-none"
+                  />
+                  <p className="text-sm text-gray-500 mt-2">
+                    Please provide as much detail as possible to help us process your request efficiently.
+                  </p>
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="flex gap-4 justify-center">
+                  <button
+                    onClick={() => {
+                      setSelectedType('');
+                      setRequestDetails('');
+                    }}
+                    className="px-6 py-3 border-2 border-gray-300 rounded-lg font-bold text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    ← Back to Selection
+                  </button>
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!requestDetails.trim()}
+                    className="bg-maineBlue text-white px-8 py-3 rounded-lg font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {t('profile.submitRequest')}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
