@@ -106,8 +106,46 @@ CREATE POLICY "Users can update their own kitchen"
       FROM public.users
       WHERE users.external_id = (auth.jwt() ->> 'sub'::text)
     )
+    AND discipline_slug = ANY (
+      ARRAY[
+        'culinary',
+        'plumbing',
+        'automotive',
+        'construction',
+        'electrical',
+        'hvac',
+        'manufacturing',
+        'logistics',
+        'machining'
+      ]::text[]
+    )
   )
   WITH CHECK (
+    user_id IN (
+      SELECT users.id
+      FROM public.users
+      WHERE users.external_id = (auth.jwt() ->> 'sub'::text)
+    )
+    AND discipline_slug = ANY (
+      ARRAY[
+        'culinary',
+        'plumbing',
+        'automotive',
+        'construction',
+        'electrical',
+        'hvac',
+        'manufacturing',
+        'logistics',
+        'machining'
+      ]::text[]
+    )
+  );
+
+DROP POLICY IF EXISTS "Users can view their own kitchen" ON public.user_kitchen;
+CREATE POLICY "Users can view their own kitchen"
+  ON public.user_kitchen
+  FOR SELECT
+  USING (
     user_id IN (
       SELECT users.id
       FROM public.users
