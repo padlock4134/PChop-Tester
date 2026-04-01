@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { saveKitchen, fetchKitchen } from '../../culinary/modules/kitchenSupabase';
+import { saveKitchen, fetchKitchen } from './kitchenSupabase';
 import { fetchCookbook, addRecipeToCookbook } from '../../culinary/modules/cookbookSupabase';
 import { Ingredient } from '../../culinary/types/shared-types';
 import { XP_REWARDS } from '../../culinary/services/xpService';
