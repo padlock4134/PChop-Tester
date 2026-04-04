@@ -10,6 +10,7 @@ interface BenchPracticeModalProps {
 
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
+  const practiceTitle = 'The Panel Lab';
   const [isPracticing, setIsPracticing] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
@@ -23,8 +24,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const startVirtualPractice = async () => {
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built electrical AR scene (instant load)
+      const defaultLesson = 'Panel Circuit Identification and Safe Isolation';
+      const demoLesson = defaultARScenes[defaultLesson]
+        ? defaultLesson
+        : Object.keys(defaultARScenes)[0];
       
       // Check if we have a default scene
       if (defaultARScenes[demoLesson]) {
@@ -102,8 +106,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Banner Header - Left Side Only */}
           <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
-              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🧀</span>
-              {t('culinarySchool.charcuterieBoard.title')}
+              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">⚡</span>
+              {practiceTitle}
             </h2>
           </div>
           
@@ -220,7 +224,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="panel-isolation">Panel Circuit Identification and Safe Isolation</option>
                 </select>
               </>
             )}
@@ -235,7 +239,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
                   <p className="text-xs text-blue-800">
                     {isPracticing 
-                      ? "Great start! Keep your knife angle consistent..."
+                      ? "Great start! Keep lockout steps controlled and consistent."
                       : "Start practicing to receive real-time AI guidance"}
                   </p>
                 </div>
@@ -475,4 +479,3 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 };
 
 export default BenchPracticeModal;
-
