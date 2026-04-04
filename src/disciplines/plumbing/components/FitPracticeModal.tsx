@@ -23,11 +23,14 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const startVirtualPractice = async () => {
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built plumbing AR scene (instant load)
+      const defaultLesson = 'Copper Pipe Cut, Deburr, and Dry-Fit Alignment';
+      const demoLesson = defaultARScenes[defaultLesson]
+        ? defaultLesson
+        : Object.keys(defaultARScenes)[0];
       
       // Check if we have a default scene
-      if (defaultARScenes[demoLesson]) {
+      if (demoLesson && defaultARScenes[demoLesson]) {
         console.log('Loading default AR scene for demo');
         setArScene(defaultARScenes[demoLesson]);
         setIsPracticing(true);
@@ -220,7 +223,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="copper-pipe">Copper Pipe Cut, Deburr, and Dry-Fit Alignment</option>
                 </select>
               </>
             )}
@@ -475,4 +478,3 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 };
 
 export default BenchPracticeModal;
-
