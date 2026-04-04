@@ -1,234 +1,234 @@
 // Default AR practice scenes for instant demo loading
 // AI can still generate custom scenes, but these load instantly
 
-export const whetstoneSharpening = {
-  lesson: "Traditional Whetstone Knife Sharpening",
+export const copperPipeCutDeburrDryFit = {
+  lesson: "Copper Pipe Cut, Deburr, and Dry-Fit Alignment",
   setup: {
-    workspace: "Clean, stable surface with damp towel underneath whetstone",
-    requiredTools: ["8-inch chef's knife", "1000/6000 grit whetstone", "bowl of water", "damp towel"],
+    workspace: "Clean, stable bench with copper pipe secured in a virtual vise",
+    requiredTools: ["copper pipe", "pipe cutter", "deburring tool", "bench vise", "marker", "fitting"],
     requiredIngredients: []
   },
   steps: [
     {
       id: 1,
-      instruction: "Soak your whetstone in water for 10 minutes. The stone should feel heavy and fully saturated. Place a damp towel under the stone to prevent slipping.",
+      instruction: "Secure the copper pipe in the vise and mark your cut line. Confirm the pipe cannot shift before cutting.",
       duration: "30s",
-      tools: ["Whetstone", "Bowl of water", "Damp towel"],
+      tools: ["Copper pipe", "Bench vise", "Marker"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Stone fully saturated",
+          label: "Pipe secured",
           color: "#3B82F6",
           position: "center"
         }
       ],
       keyPoints: [
-        "Stone should be completely wet",
-        "Damp towel prevents sliding",
-        "Stable, comfortable workspace height"
+        "Pipe firmly clamped",
+        "Cut line clearly visible",
+        "Stable workspace before starting"
       ]
     },
     {
       id: 2,
-      instruction: "Hold the knife with your dominant hand. Place the blade against the stone at a 20-degree angle. This is critical—visualize a matchbook under the spine of the blade.",
+      instruction: "Place the pipe cutter wheel directly on the marked line. Keep the cutter body square to the pipe so the cut stays true.",
       duration: "45s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Pipe cutter", "Copper pipe"],
       ingredients: [],
       overlays: [
         {
           type: "line",
-          label: "20° angle",
+          label: "90° to pipe axis",
           color: "#F59E0B",
-          angle: 20
+          angle: 90
         },
         {
           type: "text",
-          label: "Matchbook thickness",
+          label: "Square alignment",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "20-degree angle is crucial",
-        "Consistent angle throughout",
-        "Firm but not white-knuckle grip"
+        "Wheel centered on the mark",
+        "Cutter remains square",
+        "Start with light pressure"
       ]
     },
     {
       id: 3,
-      instruction: "Using light to moderate pressure, sweep the blade from heel to tip across the stone. Imagine you're trying to shave a thin layer off the stone. Keep the angle consistent.",
+      instruction: "Rotate the cutter smoothly around the pipe to score the line. Maintain even motion and keep the wheel on track.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Pipe cutter", "Copper pipe"],
       ingredients: [],
       overlays: [
         {
           type: "arrow",
-          label: "Heel to tip motion",
+          label: "Rotate around pipe",
           color: "#3B82F6",
           direction: "forward"
         },
         {
           type: "line",
-          label: "Sweeping path",
+          label: "Cut path",
           color: "#3B82F6",
           angle: 0
         }
       ],
       keyPoints: [
-        "Smooth, controlled motion",
-        "Let the stone do the work",
-        "Maintain 20° angle throughout stroke",
-        "Full blade contact—heel to tip"
+        "Smooth, controlled rotation",
+        "Keep wheel on the cut line",
+        "Consistency over speed",
+        "Even pressure each turn"
       ]
     },
     {
       id: 4,
-      instruction: "Complete 10 strokes on this side. Count them out loud. Listen to the sound—it should be consistent, like a whisper across the stone.",
+      instruction: "Continue the tighten-rotate sequence for 8 to 10 turns. Count each turn and keep pressure steady.",
       duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Pipe cutter", "Copper pipe"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "10 strokes",
+          label: "8-10 turns",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Listen for consistency",
+          label: "Steady pressure",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Count each stroke",
-        "Consistent pressure",
-        "Consistent sound = consistent angle",
-        "Smooth, rhythmic motion"
+        "Count each full turn",
+        "Small tighten increments",
+        "Consistent cutter pressure",
+        "Smooth cutting rhythm"
       ]
     },
     {
       id: 5,
-      instruction: "Flip the knife over. Maintain the same 20-degree angle on the opposite side. Your hand position will feel different—that's normal. 10 more strokes, same motion.",
+      instruction: "Finish the cut with controlled rotations until the pipe separates cleanly. Do not force the final breakthrough.",
       duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Pipe cutter", "Copper pipe"],
       ingredients: [],
       overlays: [
         {
           type: "line",
-          label: "20° opposite side",
+          label: "Maintain square cut",
           color: "#F59E0B",
-          angle: -20
+          angle: 90
         },
         {
           type: "text",
-          label: "Mirror the angle",
+          label: "Controlled finish",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "Same angle, opposite side",
-        "Same pressure and motion",
-        "10 strokes to match first side",
-        "Symmetry is key"
+        "Stay square through the final turns",
+        "Avoid forcing the cutter",
+        "Clean separation is the goal",
+        "Control movement at breakthrough"
       ]
     },
     {
       id: 6,
-      instruction: "Feel for the burr. Run your thumb CAREFULLY perpendicular to the edge on the side you just sharpened. You should feel a tiny metal ridge—that's the burr. It means you've sharpened through to the edge.",
+      instruction: "Inspect the cut edge and carefully feel for burrs on the inner lip before deburring.",
       duration: "45s",
-      tools: ["Chef's knife"],
+      tools: ["Copper pipe"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Feel for burr",
+          label: "Check burrs",
           color: "#EF4444",
           position: "center"
         },
         {
           type: "arrow",
-          label: "Thumb perpendicular to edge",
+          label: "Inspect inner lip",
           color: "#EF4444",
           direction: "across"
         }
       ],
       keyPoints: [
-        "Move thumb AWAY from edge",
-        "Tiny ridge = success",
-        "Should feel it on opposite side",
-        "Be careful—edge is sharp"
+        "Check inside edge first",
+        "Check outside edge second",
+        "Identify rough spots before cleanup",
+        "Handle sharp edges carefully"
       ]
     },
     {
       id: 7,
-      instruction: "Alternate sides with lighter pressure—5 strokes per side, then 3, then 1. This removes the burr and polishes the edge. The blade should now feel razor-sharp.",
+      instruction: "Use the deburring tool on the inner edge, then clean the outer edge with lighter finishing passes until smooth.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Deburring tool", "Copper pipe"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "5-3-1 pattern",
+          label: "Deburr + smooth",
           color: "#8B5CF6",
           position: "center"
         },
         {
           type: "text",
-          label: "Lighter pressure",
+          label: "Light finishing passes",
           color: "#8B5CF6",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Decreasing strokes: 5, 3, 1",
-        "Lighter pressure each round",
-        "Removes the burr",
-        "Final polish"
+        "Remove inner burr completely",
+        "Break the outer edge cleanly",
+        "Use lighter pressure on final passes",
+        "Smooth edge for proper fit"
       ]
     },
     {
       id: 8,
-      instruction: "Rinse the blade and test on paper. A sharp knife will slice through paper cleanly with no tearing. You've just mastered a centuries-old technique.",
+      instruction: "Dry-fit the pipe into the fitting and verify full seating with straight alignment. A full seat confirms success.",
       duration: "30s",
-      tools: ["Chef's knife"],
+      tools: ["Copper pipe", "Fitting"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Paper test",
+          label: "Dry-fit test",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Clean slice = success",
+          label: "Full seat = success",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Clean, smooth cut through paper",
-        "No tearing or catching",
-        "Blade should feel razor-sharp",
-        "Old-school skill mastered"
+        "Pipe seats fully in fitting",
+        "Alignment remains straight",
+        "No burr interference",
+        "Connection ready for next step"
       ]
     }
   ],
   tips: [
-    "Close your eyes between steps and visualize the motion",
-    "Practice the 20-degree angle in the air before touching the stone",
-    "The sound tells you everything—listen for consistency",
-    "Most people press too hard—let the stone do the work",
-    "This is a meditation. Slow down and feel the process."
+    "Visualize the cut path before rotating the cutter",
+    "Keep the cutter square from first turn to last",
+    "Count turns to maintain consistent rhythm",
+    "Most mistakes come from forcing pressure—stay controlled",
+    "Smooth prep makes the fit easy"
   ]
 };
 
 export const defaultARScenes = {
-  "Traditional Whetstone Knife Sharpening": whetstoneSharpening,
-  "whetstone": whetstoneSharpening,
-  "knife sharpening": whetstoneSharpening
+  "Copper Pipe Cut, Deburr, and Dry-Fit Alignment": copperPipeCutDeburrDryFit,
+  "copper pipe": copperPipeCutDeburrDryFit,
+  "pipe deburr": copperPipeCutDeburrDryFit
 };
