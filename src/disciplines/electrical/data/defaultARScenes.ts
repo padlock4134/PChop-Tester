@@ -1,234 +1,233 @@
 // Default AR practice scenes for instant demo loading
 // AI can still generate custom scenes, but these load instantly
 
-export const whetstoneSharpening = {
-  lesson: "Traditional Whetstone Knife Sharpening",
+export const panelCircuitIsolation = {
+  lesson: "Panel Circuit Identification and Safe Isolation",
   setup: {
-    workspace: "Clean, stable surface with damp towel underneath whetstone",
-    requiredTools: ["8-inch chef's knife", "1000/6000 grit whetstone", "bowl of water", "damp towel"],
+    workspace: "Clear workspace in front of a labeled breaker panel with safe access and good lighting",
+    requiredTools: ["breaker panel", "non-contact voltage tester", "circuit directory", "lockout tag", "insulated screwdriver"],
     requiredIngredients: []
   },
   steps: [
     {
       id: 1,
-      instruction: "Soak your whetstone in water for 10 minutes. The stone should feel heavy and fully saturated. Place a damp towel under the stone to prevent slipping.",
+      instruction: "Verify the work area is dry and clear. Confirm panel labels are visible and put on proper PPE before opening the panel.",
       duration: "30s",
-      tools: ["Whetstone", "Bowl of water", "Damp towel"],
+      tools: ["Breaker panel", "PPE"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Stone fully saturated",
+          label: "Area clear + PPE on",
           color: "#3B82F6",
           position: "center"
         }
       ],
       keyPoints: [
-        "Stone should be completely wet",
-        "Damp towel prevents sliding",
-        "Stable, comfortable workspace height"
+        "Dry and uncluttered workspace",
+        "Panel labels readable",
+        "PPE before panel interaction"
       ]
     },
     {
       id: 2,
-      instruction: "Hold the knife with your dominant hand. Place the blade against the stone at a 20-degree angle. This is critical—visualize a matchbook under the spine of the blade.",
+      instruction: "Use the circuit directory to locate the target branch circuit. Confirm breaker position and match the label before touching controls.",
       duration: "45s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Circuit directory", "Breaker panel"],
       ingredients: [],
       overlays: [
         {
           type: "line",
-          label: "20° angle",
+          label: "Target breaker",
           color: "#F59E0B",
-          angle: 20
+          angle: 90
         },
         {
           type: "text",
-          label: "Matchbook thickness",
+          label: "Label match",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "20-degree angle is crucial",
-        "Consistent angle throughout",
-        "Firm but not white-knuckle grip"
+        "Identify correct breaker",
+        "Verify label and location",
+        "Do not guess circuit assignment"
       ]
     },
     {
       id: 3,
-      instruction: "Using light to moderate pressure, sweep the blade from heel to tip across the stone. Imagine you're trying to shave a thin layer off the stone. Keep the angle consistent.",
+      instruction: "Test nearby conductors and panel face with a non-contact tester before switching. Confirm tester response on known live source first.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Non-contact voltage tester", "Breaker panel"],
       ingredients: [],
       overlays: [
         {
           type: "arrow",
-          label: "Heel to tip motion",
+          label: "Scan test path",
           color: "#3B82F6",
           direction: "forward"
         },
         {
           type: "line",
-          label: "Sweeping path",
+          label: "Probe route",
           color: "#3B82F6",
           angle: 0
         }
       ],
       keyPoints: [
-        "Smooth, controlled motion",
-        "Let the stone do the work",
-        "Maintain 20° angle throughout stroke",
-        "Full blade contact—heel to tip"
+        "Prove tester on known live point",
+        "Scan systematically",
+        "Keep hands clear of exposed parts",
+        "Verify reading confidence"
       ]
     },
     {
       id: 4,
-      instruction: "Complete 10 strokes on this side. Count them out loud. Listen to the sound—it should be consistent, like a whisper across the stone.",
+      instruction: "Switch the identified breaker to OFF with a controlled motion. Confirm full travel to the OFF position.",
       duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Breaker panel"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "10 strokes",
+          label: "Breaker OFF",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Listen for consistency",
+          label: "Controlled switch action",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Count each stroke",
-        "Consistent pressure",
-        "Consistent sound = consistent angle",
-        "Smooth, rhythmic motion"
+        "Deliberate switch action",
+        "Confirm full OFF position",
+        "No partial/tripped midpoint"
       ]
     },
     {
       id: 5,
-      instruction: "Flip the knife over. Maintain the same 20-degree angle on the opposite side. Your hand position will feel different—that's normal. 10 more strokes, same motion.",
+      instruction: "Apply lockout/tagout on the isolated breaker. Confirm lock and tag are visible and secure.",
       duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Lockout tag", "Breaker panel"],
       ingredients: [],
       overlays: [
         {
           type: "line",
-          label: "20° opposite side",
+          label: "LOTO applied",
           color: "#F59E0B",
-          angle: -20
+          angle: 90
         },
         {
           type: "text",
-          label: "Mirror the angle",
+          label: "Lock + tag visible",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "Same angle, opposite side",
-        "Same pressure and motion",
-        "10 strokes to match first side",
-        "Symmetry is key"
+        "Lock physically installed",
+        "Tag readable",
+        "No unauthorized reset",
+        "Isolation controlled"
       ]
     },
     {
       id: 6,
-      instruction: "Feel for the burr. Run your thumb CAREFULLY perpendicular to the edge on the side you just sharpened. You should feel a tiny metal ridge—that's the burr. It means you've sharpened through to the edge.",
+      instruction: "Re-test at the work point to confirm de-energized condition. Verify zero indication before proceeding.",
       duration: "45s",
-      tools: ["Chef's knife"],
+      tools: ["Non-contact voltage tester"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Feel for burr",
+          label: "Verify de-energized",
           color: "#EF4444",
           position: "center"
         },
         {
           type: "arrow",
-          label: "Thumb perpendicular to edge",
+          label: "Confirm zero reading",
           color: "#EF4444",
           direction: "across"
         }
       ],
       keyPoints: [
-        "Move thumb AWAY from edge",
-        "Tiny ridge = success",
-        "Should feel it on opposite side",
-        "Be careful—edge is sharp"
+        "Test at actual work point",
+        "No voltage indication",
+        "Re-check if uncertain",
+        "Safety before task"
       ]
     },
     {
       id: 7,
-      instruction: "Alternate sides with lighter pressure—5 strokes per side, then 3, then 1. This removes the burr and polishes the edge. The blade should now feel razor-sharp.",
+      instruction: "Document breaker ID, time, and lockout status. Perform a final visual check of panel condition and labeling.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Circuit directory", "Lockout tag"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "5-3-1 pattern",
+          label: "Record + verify",
           color: "#8B5CF6",
           position: "center"
         },
         {
           type: "text",
-          label: "Lighter pressure",
+          label: "Final panel check",
           color: "#8B5CF6",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Decreasing strokes: 5, 3, 1",
-        "Lighter pressure each round",
-        "Removes the burr",
-        "Final polish"
+        "Log breaker and timestamp",
+        "Confirm lockout remains in place",
+        "Panel remains orderly",
+        "Labels still legible"
       ]
     },
     {
       id: 8,
-      instruction: "Rinse the blade and test on paper. A sharp knife will slice through paper cleanly with no tearing. You've just mastered a centuries-old technique.",
+      instruction: "Complete isolation confirmation and proceed to planned electrical work only after all checks pass.",
       duration: "30s",
-      tools: ["Chef's knife"],
+      tools: ["Breaker panel", "Non-contact voltage tester"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Paper test",
+          label: "Isolation confirmed",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Clean slice = success",
+          label: "Safe to proceed",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Clean, smooth cut through paper",
-        "No tearing or catching",
-        "Blade should feel razor-sharp",
-        "Old-school skill mastered"
+        "All safety checks complete",
+        "Circuit status confirmed",
+        "Documentation complete",
+        "Ready for next task"
       ]
     }
   ],
   tips: [
-    "Close your eyes between steps and visualize the motion",
-    "Practice the 20-degree angle in the air before touching the stone",
-    "The sound tells you everything—listen for consistency",
-    "Most people press too hard—let the stone do the work",
-    "This is a meditation. Slow down and feel the process."
+    "Always verify test equipment before and after checking a circuit",
+    "Treat every conductor as live until proven otherwise",
+    "Keep one clear sequence: identify, isolate, lock, verify",
+    "Slow and deliberate actions reduce mistakes",
+    "Consistency and documentation are part of safety"
   ]
 };
 
 export const defaultARScenes = {
-  "Traditional Whetstone Knife Sharpening": whetstoneSharpening,
-  "whetstone": whetstoneSharpening,
-  "knife sharpening": whetstoneSharpening
+  "Panel Circuit Identification and Safe Isolation": panelCircuitIsolation,
+  "panel isolation": panelCircuitIsolation,
+  "breaker lockout": panelCircuitIsolation
 };

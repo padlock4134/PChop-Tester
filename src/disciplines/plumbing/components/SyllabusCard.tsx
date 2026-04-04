@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { CheckCircleIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { CheckCircleIcon as CheckCircleSolidIcon } from '@heroicons/react/24/solid';
 
@@ -24,7 +23,6 @@ interface SyllabusCardProps {
 }
 
 const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonClick, onButcherBlockClick }) => {
-  const { t } = useTranslation();
   const [expandedCourses, setExpandedCourses] = useState<Record<string, boolean>>(
     // Default to first course expanded
     courses.reduce((acc, course, index) => ({ ...acc, [course.id]: index === 0 }), {})
@@ -43,13 +41,13 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
         <h3 className="text-xl">✏️ {title}</h3>
       </div>
       
-      {/* Charcuterie Board Button */}
+      {/* Practice modal button */}
       <div className="px-4 pt-4">
         <button
           onClick={onButcherBlockClick}
           className="w-full px-4 py-2 rounded border transition-colors bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200 hover:text-amber-900"
         >
-          🧀 {t('culinarySchool.charcuterieBoard.charcuterieBoardButton')}
+          🚰 The Kitchen Sink
         </button>
       </div>
       
@@ -98,4 +96,3 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
 };
 
 export default SyllabusCard;
-

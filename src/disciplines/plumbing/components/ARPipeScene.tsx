@@ -384,7 +384,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         {!knifeSelected && (
           <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <div className="bg-black bg-opacity-60 text-white px-6 py-4 rounded-xl text-center animate-pulse">
-              <p className="text-lg font-bold">👆 Tap to pick up knife & whetstone</p>
+              <p className="text-lg font-bold">👆 Tap to pick up pipe cutter & copper pipe</p>
             </div>
           </div>
         )}
@@ -413,23 +413,11 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               vr-mode-ui="enabled: false"
               style="width: 100%; height: 100%;"
             >
-              <!-- Camera -->
               <a-entity camera look-controls="enabled: false"></a-entity>
-
-              <!-- Scene content scaled up 2% -->
               <a-entity scale="1.02 1.02 1.02">
+              <a-sky color="#F3F4F6"></a-sky>
 
-              <!-- Sky/Environment - stylized gradient -->
-              <a-sky color="#1a1a2e"></a-sky>
-              
-              <!-- Ambient particles - floating embers -->
-              <a-entity position="0 0 -1.5">
-                <a-sphere position="-0.3 0.2 0" radius="0.008" color="#A8D5BA" material="emissive: #A8D5BA; emissiveIntensity: 0.8" animation="property: position; to: -0.3 0.4 0; dur: 3000; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.2 0.15 0.1" radius="0.006" color="#A8D5BA" material="emissive: #A8D5BA; emissiveIntensity: 0.6" animation="property: position; to: 0.2 0.35 0.1; dur: 2500; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.4 0.25 -0.1" radius="0.007" color="#C41E3A" material="emissive: #C41E3A; emissiveIntensity: 0.5" animation="property: position; to: 0.4 0.45 -0.1; dur: 2800; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-              </a-entity>
-
-              <!-- Kitchen Counter - rich wood with PorkChop sand tones -->
+              <!-- Workbench -->
               <a-box 
                 position="0 -0.5 -1.5" 
                 width="2.2" 
@@ -438,94 +426,58 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 color="#8B5A2B"
                 material="metalness: 0.1; roughness: 0.7"
               ></a-box>
-              <!-- Counter edge trim - Maine blue -->
               <a-box 
                 position="0 -0.44 -1.0" 
                 width="2.25" 
                 height="0.02" 
                 depth="0.02"
                 color="#003366"
-                material="metalness: 0.6; roughness: 0.3; emissive: #003366; emissiveIntensity: 0.2"
+                material="metalness: 0.4; roughness: 0.5"
               ></a-box>
 
-              <!-- Whetstone on table - only visible when NOT picked up -->
+              <!-- Copper pipe on bench -->
               ${!whetstoneSelected ? `
-              <a-box 
-                position="0 -0.4 -1.5" 
-                width="0.65" 
-                height="0.06" 
-                depth="0.22"
-                color="${strokeCount > 0 ? '#4A5568' : '#2D3748'}"
-                material="metalness: 0.3; roughness: 0.6"
-              >
-                <!-- Whetstone glow rim -->
-                <a-box 
-                  position="0 0 0" 
-                  width="0.67" 
-                  height="0.02" 
-                  depth="0.24"
-                  color="#A8D5BA"
-                  material="opacity: 0.4; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.5"
-                  animation="property: material.emissiveIntensity; to: 0.2; dur: 1500; easing: easeInOutSine; loop: true; dir: alternate"
-                ></a-box>
-              </a-box>` : ''}
-              <!-- Water puddle effect -->
-              <a-circle 
-                position="0.35 -0.44 -1.4" 
-                radius="0.08" 
-                rotation="-90 0 0"
-                color="#A8D5BA"
-                material="opacity: 0.3; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.3"
-              ></a-circle>
-              
-              <!-- Stroke counter removed from A-Frame to prevent re-renders - shown in React overlay instead -->
+              <a-cylinder 
+                position="0 -0.37 -1.5"
+                radius="0.035"
+                height="0.62"
+                rotation="0 0 90"
+                color="#B87333"
+                material="metalness: 0.5; roughness: 0.45"
+              ></a-cylinder>` : ''}
 
-              <!-- LEFT HAND holding WHETSTONE - angled 8 to 2 o'clock -->
+              <!-- Left hand holding copper pipe -->
               ${whetstoneSelected ? `
               <a-entity 
                 position="-0.15 -0.15 -0.55" 
                 rotation="-15 25 -55" 
                 scale="1.3 1.3 1.3"
               >
-                <!-- THE WHETSTONE you're holding -->
-                <a-box 
+                <a-cylinder 
                   position="0 0.12 0" 
-                  width="0.25" 
-                  height="0.06" 
-                  depth="0.08"
-                  color="#6B8E6B"
-                  material="shader: standard; roughness: 0.8"
-                ></a-box>
-                <a-box position="0 0.12 0" width="0.26" height="0.065" depth="0.085" color="#3D5C3D" material="shader: standard; roughness: 0.8; side: back"></a-box>
-                
-                <!-- === LEFT HAND + ARM (connected anatomy) === -->
-                <!-- FOREARM (blue sleeve) - moved up to overlap wrist -->
+                  radius="0.03" 
+                  height="0.32" 
+                  rotation="0 0 90"
+                  color="#B87333"
+                  material="shader: standard; roughness: 0.6; metalness: 0.45"
+                ></a-cylinder>
                 <a-cylinder position="0.008 -0.15 0.03" radius="0.035" height="0.28" color="#003366" rotation="10 0 6" material="shader: standard; roughness: 0.7" segments-radial="16"></a-cylinder>
-                <!-- Elbow-end cap -->
                 <a-sphere position="0.02 -0.29 0.06" radius="0.036" color="#003366" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- Sleeve cuff overlap - where sleeve meets skin -->
                 <a-sphere position="0.003 -0.02 0.015" radius="0.036" color="#003366" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- WRIST skin - bridges sleeve to hand -->
                 <a-cylinder position="0 -0.03 0.015" radius="0.03" height="0.07" color="#F4A460" rotation="6 0 3" material="shader: standard; roughness: 0.8" segments-radial="16"></a-cylinder>
-                <!-- Wrist-to-hand overlap sphere -->
                 <a-sphere position="0 -0.005 0.01" radius="0.032" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- PALM - ellipsoid under the stone -->
                 <a-sphere position="0 0.06 0" radius="0.055" scale="1.4 0.7 0.8" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- FINGERS underneath stone, curling under from front -->
                 <a-cylinder position="0 0.09 -0.04" radius="0.022" height="0.1" color="#F4A460" rotation="15 0 90" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
-                <!-- Fingertip bumps (under front edge of stone) -->
                 <a-sphere position="-0.03 0.09 -0.055" radius="0.013" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <a-sphere position="-0.01 0.09 -0.058" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <a-sphere position="0.01 0.088 -0.055" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- Knuckle ridge underneath -->
                 <a-sphere position="0 0.1 -0.02" radius="0.04" scale="1.3 0.5 0.6" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- THUMB - base merges into palm, extends up along near face of stone -->
                 <a-sphere position="-0.05 0.04 0.02" radius="0.025" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
                 <a-cylinder position="-0.06 0.08 0.04" radius="0.016" height="0.08" color="#F4A460" rotation="10 0 0" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
                 <a-sphere position="-0.06 0.12 0.048" radius="0.016" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
 
-              <!-- RIGHT HAND holding KNIFE - controlled by camera/touch/mouse input -->
+              <!-- Right hand holding pipe cutter -->
               ${knifeSelected ? `
               <a-entity 
                 id="knife-hand-entity"
@@ -533,56 +485,46 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 rotation="-30 -10 40" 
                 scale="1.3 1.3 1.3"
               >
-                <!-- THE KNIFE you're holding -->
-                <!-- Handle -->
+                <a-torus
+                  position="0 0.18 0"
+                  radius="0.085"
+                  radius-tubular="0.015"
+                  rotation="90 0 0"
+                  color="#D1D5DB"
+                  material="metalness: 0.75; roughness: 0.35"
+                ></a-torus>
+                <a-cylinder
+                  position="0.055 0.18 0"
+                  radius="0.015"
+                  height="0.05"
+                  rotation="90 0 0"
+                  color="#6B7280"
+                  material="metalness: 0.8; roughness: 0.3"
+                ></a-cylinder>
                 <a-box 
-                  position="0 0.05 0" 
-                  width="0.04" 
-                  height="0.12" 
-                  depth="0.03"
-                  color="#8B0000"
-                  material="shader: standard; roughness: 0.8"
+                  position="-0.045 0.1 0" 
+                  width="0.03" 
+                  height="0.11" 
+                  depth="0.025"
+                  color="#374151"
+                  material="shader: standard; roughness: 0.7"
                 ></a-box>
-                <!-- Blade -->
-                <a-box 
-                  position="0 0.22 0" 
-                  width="0.02" 
-                  height="0.25" 
-                  depth="0.08"
-                  color="#C0C0C0"
-                  material="shader: standard; roughness: 0.3; metalness: 0.8"
-                ></a-box>
-                <a-box position="0 0.22 0" width="0.025" height="0.26" depth="0.085" color="#888888" material="shader: standard; roughness: 0.3; metalness: 0.8; side: back"></a-box>
-                <!-- Blade edge glow -->
-                <a-box position="0.012 0.22 0" width="0.003" height="0.25" depth="0.075" color="#A8D5BA" material="shader: standard; emissive: #A8D5BA; emissiveIntensity: 0.5"></a-box>
-                
-                <!-- === RIGHT HAND + ARM (connected anatomy) === -->
-                <!-- FOREARM (white sleeve) - shorter, pulled back -->
                 <a-cylinder position="-0.01 -0.16 0.04" radius="0.035" height="0.18" color="#FFFFFF" rotation="12 0 -8" material="shader: standard; roughness: 0.7" segments-radial="16"></a-cylinder>
-                <!-- Elbow-end cap -->
                 <a-sphere position="-0.02 -0.25 0.06" radius="0.036" color="#FFFFFF" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- WRIST - slightly narrower, overlaps forearm and hand -->
                 <a-cylinder position="0 -0.06 0.02" radius="0.028" height="0.06" color="#F4A460" rotation="8 0 -4" material="shader: standard; roughness: 0.8" segments-radial="16"></a-cylinder>
-                <!-- Wrist-to-sleeve overlap sphere -->
                 <a-sphere position="-0.005 -0.08 0.03" radius="0.033" color="#FFFFFF" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- Wrist-to-hand overlap sphere -->
                 <a-sphere position="0 -0.04 0.015" radius="0.03" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- PALM - ellipsoid (squashed sphere) wrapping around handle -->
                 <a-sphere position="0 0.03 0" radius="0.05" scale="0.9 1.3 0.7" color="#F4A460" material="shader: standard; roughness: 0.8"></a-sphere>
-                <!-- KNUCKLE RIDGE - elongated sphere across top of fist -->
                 <a-sphere position="0 0.09 0" radius="0.035" scale="1 0.5 0.8" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- FINGERS curled around handle (one wide curved piece) -->
                 <a-cylinder position="0 0.06 -0.02" radius="0.025" height="0.08" color="#F4A460" rotation="-20 0 0" material="shader: standard; roughness: 0.8" segments-radial="12"></a-cylinder>
-                <!-- Fingertip bumps (front of fist) -->
                 <a-sphere position="-0.015 0.06 -0.04" radius="0.014" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <a-sphere position="0.005 0.06 -0.042" radius="0.013" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
                 <a-sphere position="0.02 0.055 -0.038" radius="0.012" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
-                <!-- THUMB - pressed along handle side, pointing up -->
                 <a-cylinder position="-0.035 0.06 0.015" radius="0.013" height="0.07" color="#F4A460" rotation="5 0 15" material="shader: standard; roughness: 0.8" segments-radial="10"></a-cylinder>
                 <a-sphere position="-0.04 0.095 0.018" radius="0.013" color="#E8945A" material="shader: standard; roughness: 0.7"></a-sphere>
               </a-entity>` : ''}
 
-              <!-- KNIFE on table - only visible when NOT picked up -->
+              <!-- Pipe cutter on bench -->
               ${!knifeSelected ? `
               <a-entity 
                 id="knife-on-table"
@@ -590,83 +532,43 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 rotation="0 0 ${currentStepData.overlays.find(o => o.type === 'line')?.angle || 20}"
               >` : `
               <a-entity id="knife-placeholder" visible="false">`}
-                
-                <!-- Blade -->
+                <a-torus
+                  position="0.05 0.02 0"
+                  radius="0.11"
+                  radius-tubular="0.02"
+                  rotation="90 0 0"
+                  color="#9CA3AF"
+                  material="metalness: 0.75; roughness: 0.3"
+                ></a-torus>
                 <a-box 
-                  position="0.15 0 0" 
-                  width="0.4" 
-                  height="0.025" 
-                  depth="0.06"
-                  color="${knifeSelected ? '#E8E8E8' : '#B8B8B8'}"
-                  material="metalness: 0.9; roughness: 0.2; emissive: ${knifeSelected ? '#FFFFFF' : '#888888'}; emissiveIntensity: ${knifeSelected ? '0.3' : '0.1'}"
-                ></a-box>
-                <!-- Blade edge glow -->
-                <a-box 
-                  position="0.15 -0.015 0" 
-                  width="0.42" 
-                  height="0.005" 
-                  depth="0.062"
-                  color="#A8D5BA"
-                  material="opacity: ${knifeSelected ? '0.6' : '0.2'}; transparent: true; emissive: #A8D5BA; emissiveIntensity: 0.9"
-                  animation="property: material.opacity; to: 0.3; dur: 800; easing: easeInOutSine; loop: true; dir: alternate"
-                ></a-box>
-                <!-- Sparks - always present with subtle glow -->
-                <a-sphere position="0.2 -0.02 0.03" radius="0.006" color="#FFD700" material="emissive: #FFD700; emissiveIntensity: 0.5" animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 400; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.25 -0.015 -0.02" radius="0.004" color="#FFA500" material="emissive: #FFA500; emissiveIntensity: 0.4" animation="property: scale; from: 1 1 1; to: 1.5 1.5 1.5; dur: 500; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <a-sphere position="0.15 -0.02 0.01" radius="0.005" color="#FFD700" material="emissive: #FFD700; emissiveIntensity: 0.5" animation="property: scale; from: 1 1 1; to: 1.4 1.4 1.4; dur: 450; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
-                <!-- Handle - Lobster Red -->
-                <a-box 
-                  position="-0.12 0 0" 
-                  width="0.15" 
-                  height="0.035" 
-                  depth="0.045"
-                  color="#C41E3A"
-                  material="metalness: 0.2; roughness: 0.5; emissive: #C41E3A; emissiveIntensity: 0.2"
-                ></a-box>
-                <!-- Handle accent -->
-                <a-box 
-                  position="-0.04 0 0" 
-                  width="0.02" 
-                  height="0.04" 
-                  depth="0.05"
-                  color="#003366"
-                  material="metalness: 0.7; roughness: 0.3"
+                  position="-0.07 0.02 0" 
+                  width="0.06" 
+                  height="0.14" 
+                  depth="0.03"
+                  color="#374151"
+                  material="metalness: 0.2; roughness: 0.65"
                 ></a-box>
               </a-entity>
-              
-              <!-- Knife selection aura -->
-              ${knifeSelected ? `
-              <a-ring 
-                position="0 -0.35 -1.5" 
-                radius-inner="0.28" 
-                radius-outer="0.32"
-                rotation="-90 0 0"
-                color="#A8D5BA"
-                material="opacity: 0.5; transparent: true; emissive: #A8D5BA; emissiveIntensity: 1; side: double"
-                animation="property: scale; to: 1.1 1.1 1.1; dur: 1000; easing: easeInOutSine; loop: true; dir: alternate"
-              ></a-ring>` : ''}
 
-              <!-- Angle Guide Line - glowing -->
+              <!-- Angle guide -->
               ${currentStepData.overlays.filter(o => o.type === 'line').map((overlay, idx) => `
                 <a-cylinder 
                   position="${knifeSelected ? '0.15 -0.35 -1.5' : '0.55 -0.33 -1.5'}"
                   radius="0.008" 
                   height="0.35" 
-                  color="#C41E3A"
+                  color="#B91C1C"
                   rotation="0 0 ${overlay.angle || 20}"
-                  material="emissive: #C41E3A; emissiveIntensity: 0.6; opacity: 0.8; transparent: true"
-                  animation="property: material.emissiveIntensity; to: 0.3; dur: 1000; easing: easeInOutSine; loop: true; dir: alternate"
+                  material="opacity: 0.85; transparent: true"
                 ></a-cylinder>
                 <a-text 
-                  value="${overlay.angle || 20}°" 
+                  value="${overlay.label || `${overlay.angle || 20}°`}" 
                   position="${knifeSelected ? '0.35 -0.2 -1.5' : '0.75 -0.18 -1.5'}" 
                   scale="0.15 0.15 0.15" 
-                  color="#C41E3A"
-                  material="emissive: #C41E3A; emissiveIntensity: 0.5"
+                  color="#B91C1C"
                 ></a-text>
               `).join('')}
 
-              <!-- Motion Path Arrow - stylized -->
+              <!-- Motion path arrow -->
               ${currentStepData.overlays.filter(o => o.type === 'arrow').map((overlay, idx) => `
                 <a-cone 
                   position="0.65 -0.33 -1.5"
@@ -675,20 +577,15 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                   height="0.12"
                   color="#003366"
                   rotation="0 0 -90"
-                  material="emissive: #003366; emissiveIntensity: 0.4"
-                  animation="property: position; to: 0.75 -0.33 -1.5; dur: 800; easing: easeInOutSine; loop: true; dir: alternate"
+                  material="opacity: 0.9; transparent: true"
                 ></a-cone>
               `).join('')}
 
 
               </a-entity>
 
-              <!-- Lighting - soft and natural -->
-              <a-light type="ambient" color="#FFEEDD" intensity="0.5"></a-light>
-              <a-light type="directional" color="#FFFFFF" intensity="0.6" position="-1 2.5 1.5"></a-light>
-              <a-light type="directional" color="#FFE4C4" intensity="0.25" position="1 0.5 -0.5"></a-light>
-              <a-light type="point" color="#C41E3A" intensity="0.15" position="0.5 0.5 -1" distance="3"></a-light>
-              <a-light type="point" color="#003366" intensity="0.1" position="-0.5 0.3 -1.2" distance="2"></a-light>
+              <a-light type="ambient" color="#FFFFFF" intensity="0.65"></a-light>
+              <a-light type="directional" color="#FFFFFF" intensity="0.5" position="-1 2.5 1.5"></a-light>
             </a-scene>
           `
           }}
@@ -700,4 +597,3 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
 };
 
 export default ARPracticeSceneComponent;
-
