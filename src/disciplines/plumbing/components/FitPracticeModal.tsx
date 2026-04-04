@@ -10,6 +10,7 @@ interface BenchPracticeModalProps {
 
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
+  const practiceTitle = 'The Kitchen Sink';
   const [isPracticing, setIsPracticing] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
@@ -23,11 +24,14 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const startVirtualPractice = async () => {
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built plumbing AR scene (instant load)
+      const defaultLesson = 'Copper Pipe Cut, Deburr, and Dry-Fit Alignment';
+      const demoLesson = defaultARScenes[defaultLesson]
+        ? defaultLesson
+        : Object.keys(defaultARScenes)[0];
       
       // Check if we have a default scene
-      if (defaultARScenes[demoLesson]) {
+      if (demoLesson && defaultARScenes[demoLesson]) {
         console.log('Loading default AR scene for demo');
         setArScene(defaultARScenes[demoLesson]);
         setIsPracticing(true);
@@ -103,7 +107,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
               <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🧀</span>
-              {t('culinarySchool.charcuterieBoard.title')}
+              {practiceTitle}
             </h2>
           </div>
           
@@ -220,29 +224,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="copper-pipe">Copper Pipe Cut, Deburr, and Dry-Fit Alignment</option>
                 </select>
               </>
             )}
           </div>
 
-          {/* Technique Feedback - below controls */}
-          <div className="mb-2 mx-2 sm:mx-4">
-            <div className="bg-blue-50 border border-blue-200 rounded p-3">
-              <div className="flex items-start space-x-2">
-                <span className="text-lg">🤖</span>
-                <div className="flex-1">
-                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
-                  <p className="text-xs text-blue-800">
-                    {isPracticing 
-                      ? "Great start! Keep your knife angle consistent..."
-                      : "Start practicing to receive real-time AI guidance"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
             onClick={() => setInstructionsOpen(!instructionsOpen)}
@@ -380,6 +367,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <span className="text-lg">📋</span>
             <span className="text-sm font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
           </button>
+
+          {/* Technique Feedback - moved under Open Guide button */}
+          <div className="mb-4">
+            <div className="bg-blue-50 border border-blue-200 rounded p-3">
+              <div className="flex items-start space-x-2">
+                <span className="text-lg">🤖</span>
+                <div className="flex-1">
+                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
+                  <p className="text-xs text-blue-800">
+                    {isPracticing
+                      ? "Great start! Keep your cutter square and pressure consistent."
+                      : "Start practicing to receive real-time AI guidance"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
@@ -475,4 +479,3 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 };
 
 export default BenchPracticeModal;
-
