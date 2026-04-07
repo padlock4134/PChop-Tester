@@ -97,9 +97,8 @@ export interface Recipe {
 }
 
 const MyPipeBook = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const currentLanguage =
-    i18n?.language ||
     (typeof window !== 'undefined' &&
       (window.localStorage?.getItem('i18nextLng') || window.navigator?.language)) ||
     'en';
