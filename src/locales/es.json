@@ -1334,6 +1334,59 @@
     "submitAndClaim": "Enviar Prueba y Reclamar Recompensa",
     "xpAwarded": "¡XP e insignia otorgados! 🎉",
     "alreadyClaimedMessage": "Ya reclamaste la recompensa de esta semana.",
+    "rewardDetails": "{{xp}} XP e insignia {{badge}}",
+    "plumbing": {
+      "leakLocator": {
+        "title": "Detector de Fugas",
+        "description": "Completa una tarea de detección/reparación de fugas.",
+        "badge": "Detector de Fugas"
+      },
+      "pipefitPro": {
+        "title": "Pro de Tuberías",
+        "description": "Entrega una tarea de conexión/ajuste de tuberías.",
+        "badge": "Pro de Tuberías"
+      },
+      "drainDoctor": {
+        "title": "Doctor de Drenajes",
+        "description": "Completa un diagnóstico de drenaje o flujo.",
+        "badge": "Doctor de Drenajes"
+      },
+      "fixtureFinish": {
+        "title": "Acabado de Accesorios",
+        "description": "Registra una instalación o ajuste final de accesorios.",
+        "badge": "Acabado de Accesorios"
+      },
+      "codeCheck": {
+        "title": "Verificación de Código",
+        "description": "Entrega trabajo de cumplimiento de código de plomería.",
+        "badge": "Código Verificado"
+      },
+      "pressureTest": {
+        "title": "Prueba de Presión",
+        "description": "Completa pruebas/validación de presión.",
+        "badge": "Pro de Presión"
+      },
+      "solderStation": {
+        "title": "Estación de Soldadura",
+        "description": "Registra trabajo de conexión por soldadura/prensado.",
+        "badge": "Especialista en Conexiones"
+      },
+      "ventVerify": {
+        "title": "Verificación de Ventilación",
+        "description": "Completa la verificación del sistema de ventilación.",
+        "badge": "Verificador de Ventilación"
+      },
+      "serviceSaver": {
+        "title": "Ahorro de Servicio",
+        "description": "Entrega una tarea de flujo de mantenimiento/servicio.",
+        "badge": "Ahorro de Servicio"
+      },
+      "systemReliability": {
+        "title": "Confiabilidad del Sistema",
+        "description": "Completa trabajo de mejora de confiabilidad.",
+        "badge": "Guardián del Sistema"
+      }
+    },
     "disciplineCopy": {
       "culinary": {
         "challengeOfTheWeek": "Desafío de Receta de la Semana",

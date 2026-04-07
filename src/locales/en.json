@@ -1039,6 +1039,59 @@
     "submitAndClaim": "Submit Proof & Claim Reward",
     "xpAwarded": "XP and badge awarded! 🎉",
     "alreadyClaimedMessage": "You already claimed this week's reward.",
+    "rewardDetails": "{{xp}} XP and {{badge}} badge",
+    "plumbing": {
+      "leakLocator": {
+        "title": "Leak Locator",
+        "description": "Complete a leak detection/repair task.",
+        "badge": "Leak Locator"
+      },
+      "pipefitPro": {
+        "title": "Pipefit Pro",
+        "description": "Submit a pipe fitting/connection task.",
+        "badge": "Pipefit Pro"
+      },
+      "drainDoctor": {
+        "title": "Drain Doctor",
+        "description": "Complete drainage or flow troubleshooting.",
+        "badge": "Drain Doctor"
+      },
+      "fixtureFinish": {
+        "title": "Fixture Finish",
+        "description": "Log a fixture install/trim-out task.",
+        "badge": "Fixture Finish"
+      },
+      "codeCheck": {
+        "title": "Code Check",
+        "description": "Submit plumbing code compliance work.",
+        "badge": "Code Checked"
+      },
+      "pressureTest": {
+        "title": "Pressure Test",
+        "description": "Complete pressure testing/validation.",
+        "badge": "Pressure Pro"
+      },
+      "solderStation": {
+        "title": "Solder Station",
+        "description": "Log solder/press connection work.",
+        "badge": "Connection Specialist"
+      },
+      "ventVerify": {
+        "title": "Vent Verify",
+        "description": "Complete venting system verification.",
+        "badge": "Vent Verifier"
+      },
+      "serviceSaver": {
+        "title": "Service Saver",
+        "description": "Submit maintenance/service workflow task.",
+        "badge": "Service Saver"
+      },
+      "systemReliability": {
+        "title": "System Reliability",
+        "description": "Complete reliability improvement work.",
+        "badge": "System Guardian"
+      }
+    },
     "disciplineCopy": {
       "culinary": {
         "challengeOfTheWeek": "Recipe Challenge of the Week",
@@ -1686,7 +1739,7 @@
     "noEquipmentListed": "No tools listed.",
     "getStarted": "Get started by selecting a procedure from My Van or My Cookbook!",
     "goToMyKitchen": "Go to My Van",
-    "goToMyCookbook": "Go to My Cookbook",
+    "goToMyCookbook": "Go to My Pipe Book",
     "techniqueOfTheWeek": "Technique of the Week:",
     "letsCookThisMeal": "Let's Do This!"
   },
