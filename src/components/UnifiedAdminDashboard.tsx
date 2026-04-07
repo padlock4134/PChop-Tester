@@ -5240,16 +5240,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <button
-                onClick={() => {
-                  setShowExitAdminModal(false);
-                  localStorage.removeItem('adminSelectedDiscipline');
-                  window.location.href = '/.netlify/functions/auth-logout';
-                }}
-                className="w-full mb-4 bg-maineBlue hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow"
-              >
-                🔓 Sign Out
-              </button>
               <p className="text-center text-gray-600 mb-4 text-sm">Choose where you want to return:</p>
 
               <select
@@ -5260,7 +5250,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   setShowExitAdminModal(false);
                   navigate(`/${e.target.value}/dashboard`);
                 }}
-                className="w-full bg-lobsterRed hover:bg-red-700 text-white text-center px-4 py-3 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer"
+                className="w-full mb-4 bg-lobsterRed hover:bg-red-700 text-white text-center px-4 py-3 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow cursor-pointer"
               >
                 <option value="" disabled className="text-center">Select discipline</option>
                 {disciplineOptions.filter(opt => opt.key !== 'total').map((opt) => (
@@ -5269,6 +5259,16 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </option>
                 ))}
               </select>
+              <button
+                onClick={() => {
+                  setShowExitAdminModal(false);
+                  localStorage.removeItem('adminSelectedDiscipline');
+                  window.location.href = '/.netlify/functions/auth-logout';
+                }}
+                className="w-full bg-maineBlue hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-retro text-sm transition-colors border-2 border-black shadow"
+              >
+                🔓 Sign Out
+              </button>
             </div>
           </div>
         </div>
