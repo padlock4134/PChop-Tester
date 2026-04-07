@@ -2070,7 +2070,19 @@
     "lessonToolsMaterials": "Herramientas, Materiales y Tipos de Tubería",
     "lessonIntroCode": "Introducción al Código de Plomería",
     "lessonPipeFitting": "Ajuste y Unión Básica de Tuberías",
-    "lessonMeasurements": "Mediciones, Matemática y Conversiones"
+    "lessonMeasurements": "Mediciones, Matemática y Conversiones",
+    "lessonHotColdWater": "Distribución de Agua Caliente y Fría",
+    "lessonShutOffValves": "Válvulas de Cierre y Control de Presión",
+    "lessonWaterHeater": "Instalación de Calentador de Agua",
+    "lessonBackflow": "Prevención y Prueba de Reflujo",
+    "lessonDwvDesign": "Diseño del Sistema DWV",
+    "lessonTrapVent": "Instalación de Trampa y Ventilación",
+    "lessonCodeDrainage": "Drenaje Conforme al Código",
+    "lessonCleanoutCamera": "Registros y Cámara de Drenaje Básica",
+    "lessonEstimating": "Estimaciones y Licitación de Trabajos",
+    "lessonPermits": "Permisos, Inspecciones y Licencias",
+    "lessonCustomerService": "Servicio al Cliente y Documentación de Trabajos",
+    "lessonCareerPathways": "Trayectorias Profesionales en Plomería"
   },
   "autoSchool": {
     "title": "Escuela Automotriz",

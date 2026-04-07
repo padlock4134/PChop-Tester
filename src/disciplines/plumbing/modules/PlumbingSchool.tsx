@@ -163,30 +163,30 @@ const PlumbingSchool = () => {
         id: "course-2",
         title: t('plumbingSchool.term1WaterSupply', { defaultValue: 'Term 1: Water Supply Systems' }),
         lessons: [
-          { id: "lesson-2-1", title: "Hot and Cold Water Distribution", completed: false, current: false },
-          { id: "lesson-2-2", title: "Shut-Off Valves and Pressure Control", completed: false, current: false },
-          { id: "lesson-2-3", title: "Water Heater Installation", completed: false, current: false },
-          { id: "lesson-2-4", title: "Backflow Prevention and Testing", completed: false, current: false },
+          { id: "lesson-2-1", title: t('plumbingSchool.lessonHotColdWater', { defaultValue: 'Hot and Cold Water Distribution' }), completed: false, current: false },
+          { id: "lesson-2-2", title: t('plumbingSchool.lessonShutOffValves', { defaultValue: 'Shut-Off Valves and Pressure Control' }), completed: false, current: false },
+          { id: "lesson-2-3", title: t('plumbingSchool.lessonWaterHeater', { defaultValue: 'Water Heater Installation' }), completed: false, current: false },
+          { id: "lesson-2-4", title: t('plumbingSchool.lessonBackflow', { defaultValue: 'Backflow Prevention and Testing' }), completed: false, current: false },
         ]
       },
       {
         id: "course-3",
         title: t('plumbingSchool.term2Dwv', { defaultValue: 'Term 2: Drain, Waste & Vent' }),
         lessons: [
-          { id: "lesson-3-1", title: "DWV System Design", completed: false, current: false },
-          { id: "lesson-3-2", title: "Trap and Vent Installation", completed: false, current: false },
-          { id: "lesson-3-3", title: "Code-Compliant Drainage", completed: false, current: false },
-          { id: "lesson-3-4", title: "Cleanouts and Drain Camera Basics", completed: false, current: false },
+          { id: "lesson-3-1", title: t('plumbingSchool.lessonDwvDesign', { defaultValue: 'DWV System Design' }), completed: false, current: false },
+          { id: "lesson-3-2", title: t('plumbingSchool.lessonTrapVent', { defaultValue: 'Trap and Vent Installation' }), completed: false, current: false },
+          { id: "lesson-3-3", title: t('plumbingSchool.lessonCodeDrainage', { defaultValue: 'Code-Compliant Drainage' }), completed: false, current: false },
+          { id: "lesson-3-4", title: t('plumbingSchool.lessonCleanoutCamera', { defaultValue: 'Cleanouts and Drain Camera Basics' }), completed: false, current: false },
         ]
       },
       {
         id: "course-4",
         title: t('plumbingSchool.term2ProfessionalPractice', { defaultValue: 'Term 2: Professional Practice' }),
         lessons: [
-          { id: "lesson-4-1", title: "Estimating and Bidding Jobs", completed: false, current: false },
-          { id: "lesson-4-2", title: "Permits, Inspections, and Licensing", completed: false, current: false },
-          { id: "lesson-4-3", title: "Customer Service and Job Documentation", completed: false, current: false },
-          { id: "lesson-4-4", title: "Career Pathways in Plumbing", completed: false, current: false },
+          { id: "lesson-4-1", title: t('plumbingSchool.lessonEstimating', { defaultValue: 'Estimating and Bidding Jobs' }), completed: false, current: false },
+          { id: "lesson-4-2", title: t('plumbingSchool.lessonPermits', { defaultValue: 'Permits, Inspections, and Licensing' }), completed: false, current: false },
+          { id: "lesson-4-3", title: t('plumbingSchool.lessonCustomerService', { defaultValue: 'Customer Service and Job Documentation' }), completed: false, current: false },
+          { id: "lesson-4-4", title: t('plumbingSchool.lessonCareerPathways', { defaultValue: 'Career Pathways in Plumbing' }), completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
