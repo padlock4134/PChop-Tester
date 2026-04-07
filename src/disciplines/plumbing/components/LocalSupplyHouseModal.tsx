@@ -92,7 +92,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
               </span>
             )}
           </div>
-        <div className="text-xs text-gray-500 text-center mt-2">Click to flip</div>
+        <div className="text-xs text-gray-500 text-center mt-2">{t('markets.clickToFlip', { defaultValue: 'Click to flip' })}</div>
         </div>
 
         {/* Back of card */}
@@ -103,7 +103,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
             {/* Show ingredients if in menu mode */}
             {ingredientsForMarket && ingredientsForMarket.length > 0 && (
               <div className="mb-3 pb-3 border-b border-gray-200">
-                <div className="text-xs font-semibold text-gray-600 mb-1">Pick up here:</div>
+                <div className="text-xs font-semibold text-gray-600 mb-1">{t('markets.pickUpHere', { defaultValue: 'Pick up here:' })}</div>
                 <div className="space-y-1 max-h-20 overflow-y-auto">
                   {ingredientsForMarket.map((ing, idx) => {
                     const priceInfo = getEstimatedPrice(ing);
@@ -159,6 +159,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
 };
 
 const LoadingCard: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div className="relative h-48 w-full">
       <div className="absolute inset-0 bg-sand p-4 rounded-lg shadow-md border border-black flex flex-col justify-between animate-pulse">
@@ -175,7 +176,7 @@ const LoadingCard: React.FC = () => {
           <div className="w-16 h-4 bg-gray-300 rounded"></div>
           <div className="w-12 h-4 bg-gray-300 rounded"></div>
         </div>
-        <div className="text-xs text-gray-400 text-center mt-2">Searching...</div>
+        <div className="text-xs text-gray-400 text-center mt-2">{t('markets.searching')}</div>
       </div>
     </div>
   );
@@ -191,7 +192,7 @@ const EmptyCard: React.FC = () => {
           {t('markets.noMarketsFound')}
         </div>
         <div className="text-xs text-gray-400 text-center mt-1">
-          Try expanding your search area
+          {t('markets.tryExpandingSearch', { defaultValue: 'Try expanding your search area' })}
         </div>
       </div>
     </div>
@@ -250,14 +251,14 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
             </div>
           ) : markets.length === 0 ? (
             <div className="text-center">
-              <p className="text-sm text-gray-500">No {title.toLowerCase()} found</p>
+              <p className="text-sm text-gray-500">{t('markets.noCategoryFound', { defaultValue: 'No {{category}} found', category: title.toLowerCase() })}</p>
             </div>
           ) : (
             <div className="space-y-2">
               {/* Show ingredients if in menu mode */}
               {ingredientsForCategory && ingredientsForCategory.length > 0 && (
                 <div className="mb-2 pb-2 border-b border-gray-200">
-                  <div className="text-xs font-semibold text-gray-600 mb-1">Buy here:</div>
+                  <div className="text-xs font-semibold text-gray-600 mb-1">{t('markets.buyHere')}</div>
                   <div className="space-y-0.5 max-h-16 overflow-y-auto">
                     {ingredientsForCategory.map((ing, idx) => {
                       const priceInfo = getEstimatedPrice(ing);
@@ -283,7 +284,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:text-blue-800 mx-2 text-lg"
                     onClick={(e) => e.stopPropagation()}
-                    title="Visit website"
+                    title={t('markets.visitWebsite', { defaultValue: 'Visit website' })}
                   >
                     🌐
                   </a>
@@ -373,7 +374,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
       );
     } else {
       setLoading(false);
-      alert('Geolocation is not supported by this browser.');
+      alert(t('markets.geoNotSupported', { defaultValue: 'Geolocation is not supported by this browser.' }));
     }
   };
 
@@ -497,61 +498,61 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
       <div className="bg-white p-6 rounded-lg shadow-xl border-4 border-black max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-4">
           <div></div>
-          <h3 className="text-xl font-bold text-maineBlue text-center">Find Supply Houses</h3>
+          <h3 className="text-xl font-bold text-maineBlue text-center">{t('markets.findSupplyHouses', { defaultValue: 'Find Supply Houses' })}</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <CategoryCard 
             category="grocery" 
-            title="Supply Houses" 
+            title={t('markets.supplyHouses', { defaultValue: 'Supply Houses' })} 
             icon="🏪" 
-            description="Regional plumbing supply houses and distributors"
+            description={t('markets.supplyHousesDesc', { defaultValue: 'Regional plumbing supply houses and distributors' })}
             markets={markets.filter(m => m.type === 'grocery')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['grocery']}
           />
           <CategoryCard 
             category="butcher" 
-            title="Pipe & Fittings" 
+            title={t('markets.pipeFittings', { defaultValue: 'Pipe & Fittings' })} 
             icon="🔩" 
-            description="Pipe, fittings, and connection suppliers"
+            description={t('markets.pipeFittingsDesc', { defaultValue: 'Pipe, fittings, and connection suppliers' })}
             markets={markets.filter(m => m.type === 'butcher')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['butcher']}
           />
           <CategoryCard 
             category="seafood" 
-            title="Drain & Sewer" 
+            title={t('markets.drainSewer', { defaultValue: 'Drain & Sewer' })} 
             icon="🌀" 
-            description="Drain cleaning and sewer system suppliers"
+            description={t('markets.drainSewerDesc', { defaultValue: 'Drain cleaning and sewer system suppliers' })}
             markets={markets.filter(m => m.type === 'seafood')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['seafood']}
           />
           <CategoryCard 
             category="produce" 
-            title="Pumps & Valves" 
+            title={t('markets.pumpsValves', { defaultValue: 'Pumps & Valves' })} 
             icon="🚰" 
-            description="Pump, valve, and control component suppliers"
+            description={t('markets.pumpsValvesDesc', { defaultValue: 'Pump, valve, and control component suppliers' })}
             markets={markets.filter(m => m.type === 'produce')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['produce']}
           />
           <CategoryCard 
             category="farms" 
-            title="Water Heaters" 
+            title={t('markets.waterHeaters', { defaultValue: 'Water Heaters' })} 
             icon="🔥" 
-            description="Water heater and mechanical equipment distributors"
+            description={t('markets.waterHeatersDesc', { defaultValue: 'Water heater and mechanical equipment distributors' })}
             markets={markets.filter(m => m.type === 'farms')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['farms']}
           />
           <CategoryCard 
             category="specialty" 
-            title="Tools & Rentals" 
+            title={t('markets.toolsRentals', { defaultValue: 'Tools & Rentals' })} 
             icon="🧰" 
-            description="Specialty tools, rentals, and diagnostics equipment"
+            description={t('markets.toolsRentalsDesc', { defaultValue: 'Specialty tools, rentals, and diagnostics equipment' })}
             markets={markets.filter(m => ['deli', 'dairy', 'bakery'].includes(m.type))}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['deli'] || ingredientsByMarketType['dairy']}
