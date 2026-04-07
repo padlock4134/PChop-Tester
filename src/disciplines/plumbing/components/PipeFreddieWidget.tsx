@@ -62,7 +62,7 @@ const ChefFreddieWidget = () => {
         if (
           msgs.length > 0 &&
           msgs[msgs.length - 1].sender === 'freddie' &&
-          (msgs[msgs.length - 1].text.startsWith('You’re in') || msgs[msgs.length - 1].text.startsWith('Welcome to'))
+          (msgs[msgs.length - 1].text.startsWith('You’re in') || msgs[msgs.length - 1].text.startsWith('Welcome to') || msgs[msgs.length - 1].text.startsWith('Bienvenido') || msgs[msgs.length - 1].text.startsWith('¡Hola'))
         ) {
           return [...msgs.slice(0, -1), { sender: 'freddie', text: proactive }];
         }
@@ -105,6 +105,24 @@ const ChefFreddieWidget = () => {
     }
     // eslint-disable-next-line
   }, [open, context.page]);
+
+  // Re-translate the last proactive message when language changes
+  useEffect(() => {
+    const proactive = getProactiveMessage(context.page, t);
+    setMessages(msgs => {
+      if (msgs.length === 0) return msgs;
+      const last = msgs[msgs.length - 1];
+      if (last.sender === 'freddie' && last.text !== proactive) {
+        // Check if it looks like a proactive message (not an AI response)
+        const isProactive = last.text.startsWith('Welcome to') || last.text.startsWith('Bienvenido') || last.text.startsWith('Hey!') || last.text.startsWith('¡Hola');
+        if (isProactive) {
+          return [...msgs.slice(0, -1), { sender: 'freddie', text: proactive }];
+        }
+      }
+      return msgs;
+    });
+    // eslint-disable-next-line
+  }, [i18n.language]);
 
   return (
     <>
