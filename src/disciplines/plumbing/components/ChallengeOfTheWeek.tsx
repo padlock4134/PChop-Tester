@@ -11,66 +11,76 @@ import { isSessionValid } from '../../culinary/api/userSession';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
 // Pool of weekly challenges
-export const WEEKLY_CHALLENGES = [
+const WEEKLY_CHALLENGES = [
   {
-    title: 'Leak Locator',
-    description: 'Complete a leak detection/repair task.',
+    id: 'leakLocator',
+    defaultTitle: 'Leak Locator',
+    defaultDescription: 'Complete a leak detection/repair task.',
+    defaultBadge: 'Leak Locator',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['leak','seal','pressure'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'Leak Locator' },
   },
   {
-    title: 'Pipefit Pro',
-    description: 'Submit a pipe fitting/connection task.',
+    id: 'pipefitPro',
+    defaultTitle: 'Pipefit Pro',
+    defaultDescription: 'Submit a pipe fitting/connection task.',
+    defaultBadge: 'Pipefit Pro',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['pipe','fitting','joint'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'Pipefit Pro' },
   },
   {
-    title: 'Drain Doctor',
-    description: 'Complete drainage or flow troubleshooting.',
+    id: 'drainDoctor',
+    defaultTitle: 'Drain Doctor',
+    defaultDescription: 'Complete drainage or flow troubleshooting.',
+    defaultBadge: 'Drain Doctor',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['drain','clog','flow'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'Drain Doctor' },
   },
   {
-    title: 'Fixture Finish',
-    description: 'Log a fixture install/trim-out task.',
+    id: 'fixtureFinish',
+    defaultTitle: 'Fixture Finish',
+    defaultDescription: 'Log a fixture install/trim-out task.',
+    defaultBadge: 'Fixture Finish',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['fixture','trim','install'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'Fixture Finish' },
   },
   {
-    title: 'Code Check',
-    description: 'Submit plumbing code compliance work.',
+    id: 'codeCheck',
+    defaultTitle: 'Code Check',
+    defaultDescription: 'Submit plumbing code compliance work.',
+    defaultBadge: 'Code Checked',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['code','inspection','permit'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'Code Checked' },
   },
   {
-    title: 'Pressure Test',
-    description: 'Complete pressure testing/validation.',
+    id: 'pressureTest',
+    defaultTitle: 'Pressure Test',
+    defaultDescription: 'Complete pressure testing/validation.',
+    defaultBadge: 'Pressure Pro',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['pressure','test','gauge'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'Pressure Pro' },
   },
   {
-    title: 'Solder Station',
-    description: 'Log solder/press connection work.',
+    id: 'solderStation',
+    defaultTitle: 'Solder Station',
+    defaultDescription: 'Log solder/press connection work.',
+    defaultBadge: 'Connection Specialist',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['solder','press','braze'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'Connection Specialist' },
   },
   {
-    title: 'Vent Verify',
-    description: 'Complete venting system verification.',
+    id: 'ventVerify',
+    defaultTitle: 'Vent Verify',
+    defaultDescription: 'Complete venting system verification.',
+    defaultBadge: 'Vent Verifier',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['vent','trap','dwv'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'Vent Verifier' },
   },
   {
-    title: 'Service Saver',
-    description: 'Submit maintenance/service workflow task.',
+    id: 'serviceSaver',
+    defaultTitle: 'Service Saver',
+    defaultDescription: 'Submit maintenance/service workflow task.',
+    defaultBadge: 'Service Saver',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['service','maintenance','repair'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'Service Saver' },
   },
   {
-    title: 'System Reliability',
-    description: 'Complete reliability improvement work.',
+    id: 'systemReliability',
+    defaultTitle: 'System Reliability',
+    defaultDescription: 'Complete reliability improvement work.',
+    defaultBadge: 'System Guardian',
     criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['reliability','system','performance'].includes(i.toLowerCase())),
-    reward: { xp: 100, badge: 'System Guardian' },
   }
 ];
 
@@ -84,26 +94,33 @@ function getWeekNumber(date: Date): number {
 }
 
 // Get the current weekly challenge based on the current week number
-function getCurrentWeeklyChallenge() {
-  const now = new Date();
-  const week = getWeekNumber(now);
-  return WEEKLY_CHALLENGES[week % WEEKLY_CHALLENGES.length];
+function getCurrentWeeklyChallenge(weekNumber: number, t: (key: string, options?: any) => string) {
+  const challenge = WEEKLY_CHALLENGES[weekNumber % WEEKLY_CHALLENGES.length];
+  return {
+    ...challenge,
+    title: t(`challenge.plumbing.${challenge.id}.title`, { defaultValue: challenge.defaultTitle }),
+    description: t(`challenge.plumbing.${challenge.id}.description`, { defaultValue: challenge.defaultDescription }),
+    reward: {
+      xp: 100,
+      badge: t(`challenge.plumbing.${challenge.id}.badge`, { defaultValue: challenge.defaultBadge })
+    }
+  };
 }
 
 const ChallengeOfTheWeek: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
-  const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
+  const ct = (key: string, options?: any) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`, options), ...options });
   const [open, setOpen] = useState(false);
   const [recipeModalOpen, setRecipeModalOpen] = useState(false);
   const [modalRecipe, setModalRecipe] = useState<RecipeCard | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [weekNumber, setWeekNumber] = useState(getWeekNumber(new Date()));
-  const [challenge, setChallenge] = useState(getCurrentWeeklyChallenge());
   const [alreadyClaimed, setAlreadyClaimed] = useState(false);
   const { refreshXP } = useLevelProgressContext();
+  const challenge = getCurrentWeeklyChallenge(weekNumber, t);
 
   const { user } = useSupabase();
 
@@ -127,7 +144,6 @@ const ChallengeOfTheWeek: React.FC = () => {
   useEffect(() => {
     const fetchRecipeAndImage = async () => {
       try {
-        const challenge = getCurrentWeeklyChallenge();
         const prompt = `${challenge.title}: ${challenge.description}`;
         const recipeData = await getWeeklyChallengeRecipe(prompt);
         const image = await getRecipeImage(recipeData.title || challenge.title, recipeData.title || challenge.title, 'recipe');
@@ -147,7 +163,7 @@ const ChallengeOfTheWeek: React.FC = () => {
       }
     };
     fetchRecipeAndImage();
-  }, [weekNumber]);
+  }, [weekNumber, i18n.language]);
 
   function handleCookMe() {
     setRecipeModalOpen(true);
@@ -188,13 +204,15 @@ const ChallengeOfTheWeek: React.FC = () => {
             <span className="text-3xl mb-2">🏆</span>
             <span className="font-bold text-xl text-yellow-800 mb-1">{challenge.title}</span>
             <span className="text-gray-800 mb-2 text-center">{challenge.description}</span>
-            <span className="text-sm text-gray-500">{ct('viewDetails')}: <b>{challenge.reward.xp} XP</b> and <b>{challenge.reward.badge}</b> badge</span>
+            <span className="text-sm text-gray-500">
+              {ct('viewDetails')}: <b>{t('challenge.rewardDetails', { xp: challenge.reward.xp, badge: challenge.reward.badge, defaultValue: `${challenge.reward.xp} XP and ${challenge.reward.badge} badge` })}</b>
+            </span>
             <button
               className="mt-4 px-4 py-2 rounded bg-maineBlue hover:bg-seafoam text-seafoam hover:text-maineBlue font-bold shadow border border-black w-full"
               onClick={handleCookMe}
               disabled={loading}
             >
-              {loading ? t('common.loading') : t('myKitchen.cookMe', { defaultValue: 'Generate Challenge' })}
+              {loading ? t('common.loading') : ct('startChallenge', { defaultValue: t('challenge.startChallenge') })}
             </button>
             {error && <div className="text-red-600 mt-2">{error}</div>}
             <button
@@ -220,4 +238,3 @@ const ChallengeOfTheWeek: React.FC = () => {
 };
 
 export default ChallengeOfTheWeek;
-

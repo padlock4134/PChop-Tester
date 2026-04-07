@@ -123,6 +123,19 @@
     "submission": "Submission",
     "objectives": "Objectives",
     "selectVideo": "Select Video",
+    "allUsers": "All Users",
+    "myVideosOnly": "My Videos Only",
+    "publicVideosOnly": "Public Videos Only",
+    "defaultCollections": {
+      "favorites": "Favorites",
+      "quickRepairs": "Quick Repairs",
+      "safetyFirst": "Safety First"
+    },
+    "demoVideos": {
+      "pipeLayoutPracticeSession": "Pipe Layout Practice Session",
+      "pipeLayoutAssignment": "Pipe Layout Assignment",
+      "waterHeaterServiceFinal": "Water Heater Service Final"
+    },
     "clickToPlay": "Click to play video submission",
     "submittedVia": "Submitted via Global Pipe Lab",
     "assignment": "Assignment",
@@ -1039,6 +1052,59 @@
     "submitAndClaim": "Submit Proof & Claim Reward",
     "xpAwarded": "XP and badge awarded! 🎉",
     "alreadyClaimedMessage": "You already claimed this week's reward.",
+    "rewardDetails": "{{xp}} XP and {{badge}} badge",
+    "plumbing": {
+      "leakLocator": {
+        "title": "Leak Locator",
+        "description": "Complete a leak detection/repair task.",
+        "badge": "Leak Locator"
+      },
+      "pipefitPro": {
+        "title": "Pipefit Pro",
+        "description": "Submit a pipe fitting/connection task.",
+        "badge": "Pipefit Pro"
+      },
+      "drainDoctor": {
+        "title": "Drain Doctor",
+        "description": "Complete drainage or flow troubleshooting.",
+        "badge": "Drain Doctor"
+      },
+      "fixtureFinish": {
+        "title": "Fixture Finish",
+        "description": "Log a fixture install/trim-out task.",
+        "badge": "Fixture Finish"
+      },
+      "codeCheck": {
+        "title": "Code Check",
+        "description": "Submit plumbing code compliance work.",
+        "badge": "Code Checked"
+      },
+      "pressureTest": {
+        "title": "Pressure Test",
+        "description": "Complete pressure testing/validation.",
+        "badge": "Pressure Pro"
+      },
+      "solderStation": {
+        "title": "Solder Station",
+        "description": "Log solder/press connection work.",
+        "badge": "Connection Specialist"
+      },
+      "ventVerify": {
+        "title": "Vent Verify",
+        "description": "Complete venting system verification.",
+        "badge": "Vent Verifier"
+      },
+      "serviceSaver": {
+        "title": "Service Saver",
+        "description": "Submit maintenance/service workflow task.",
+        "badge": "Service Saver"
+      },
+      "systemReliability": {
+        "title": "System Reliability",
+        "description": "Complete reliability improvement work.",
+        "badge": "System Guardian"
+      }
+    },
     "disciplineCopy": {
       "culinary": {
         "challengeOfTheWeek": "Recipe Challenge of the Week",
@@ -1686,9 +1752,23 @@
     "noEquipmentListed": "No tools listed.",
     "getStarted": "Get started by selecting a procedure from My Van or My Cookbook!",
     "goToMyKitchen": "Go to My Van",
-    "goToMyCookbook": "Go to My Cookbook",
+    "goToMyCookbook": "Go to My Pipe Book",
     "techniqueOfTheWeek": "Technique of the Week:",
-    "letsCookThisMeal": "Let's Do This!"
+    "letsCookThisMeal": "Let's Do This!",
+    "projectApproach": "How to approach the main task for this project.",
+    "projectWalkthrough": "Step-by-step project walkthrough for {{title}}.",
+    "curriculumTitle": "Plumbing Technology Curriculum",
+    "kitchenSink": "The Kitchen Sink",
+    "lessonsPracticed": "Lessons Practiced",
+    "term1Fundamentals": "Term 1: Plumbing Fundamentals",
+    "term1WaterSupply": "Term 1: Water Supply Systems",
+    "term2Dwv": "Term 2: Drain, Waste & Vent",
+    "term2ProfessionalPractice": "Term 2: Professional Practice",
+    "lessonSafetyPpe": "Safety, PPE, and Job Site Procedures",
+    "lessonToolsMaterials": "Tools, Materials, and Pipe Types",
+    "lessonIntroCode": "Introduction to the Plumbing Code",
+    "lessonPipeFitting": "Basic Pipe Fitting and Joining",
+    "lessonMeasurements": "Measurements, Math, and Conversions"
   },
   "autoSchool": {
     "title": "Auto School",
@@ -1854,6 +1934,17 @@
     "errorNoRecipe": "Error: No procedure selected",
     "recipeSetToShowcase": "Procedure \"{title}\" is now set to showcase!",
     "failedToImport": "Failed to import procedure. Please try again.",
+    "importModal": {
+      "selectProcedure": "Select Procedure to Showcase",
+      "chooseProcedure": "Choose a procedure from your pipe book to showcase in Pipe Lounge.",
+      "noProcedures": "No procedures found in your Pipe Book.",
+      "parts": "parts",
+      "stepsIncluded": "Steps included",
+      "showcaseProcedure": "Showcase Procedure",
+      "importing": "Importing...",
+      "cancel": "Cancel",
+      "failedImport": "Failed to import procedure. Please try again."
+    },
     "loading": "Loading...",
     "removeShowcaseRecipe": "Remove showcase procedure",
     "ingredients": "Parts:",
