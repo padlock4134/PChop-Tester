@@ -22,19 +22,19 @@ const generalLessons = [
 ];
 
 // Generate default tutorials including the weekly technique
-function getDefaultTutorials() {
+function getDefaultTutorials(t: (key: string, options?: any) => string) {
   const weeklyTechnique = getCurrentWeekTechnique();
   
   return [
     {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
+      title: `${t('plumbingSchool.techniqueOfTheWeek', { defaultValue: 'Technique of the Week:' })} ${weeklyTechnique.title}`,
       desc: weeklyTechnique.desc,
       type: 'weekly_technique',
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Work This Job!',
-      desc: 'How to approach the main task for this project.'
+      title: t('plumbingSchool.letsCookThisMeal', { defaultValue: "Let's Work This Job!" }),
+      desc: t('plumbingSchool.projectApproach', { defaultValue: 'How to approach the main task for this project.' })
     }
   ];
 }
@@ -111,21 +111,21 @@ function getCurrentWeekTechnique() {
   return WEEKLY_TECHNIQUES[techniqueIndex];
 }
 
-function getTwoTutorials(recipe: any) {
+function getTwoTutorials(recipe: any, t: (key: string, options?: any) => string) {
   if (!recipe) return [];
   
   const weeklyTechnique = getCurrentWeekTechnique();
   
   return [
     {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
+      title: `${t('plumbingSchool.techniqueOfTheWeek', { defaultValue: 'Technique of the Week:' })} ${weeklyTechnique.title}`,
       desc: weeklyTechnique.desc,
       type: 'weekly_technique',
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Work This Job!`,
-      desc: `Step-by-step project walkthrough for ${recipe.title}.`,
+      title: t('plumbingSchool.letsCookThisMeal', { defaultValue: "Let's Work This Job!" }),
+      desc: t('plumbingSchool.projectWalkthrough', { defaultValue: `Step-by-step project walkthrough for ${recipe.title}.`, title: recipe.title }),
       type: 'cooking_tutorial'
     }
   ];
@@ -146,22 +146,22 @@ const PlumbingSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Plumbing Technology Curriculum",
+    title: t('plumbingSchool.curriculumTitle', { defaultValue: 'Plumbing Technology Curriculum' }),
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Plumbing Fundamentals",
+        title: t('plumbingSchool.term1Fundamentals', { defaultValue: 'Term 1: Plumbing Fundamentals' }),
         lessons: [
-          { id: "lesson-1-1", title: "Safety, PPE, and Job Site Procedures", completed: true, current: false },
-          { id: "lesson-1-2", title: "Tools, Materials, and Pipe Types", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to the Plumbing Code", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Pipe Fitting and Joining", completed: false, current: true },
-          { id: "lesson-1-5", title: "Measurements, Math, and Conversions", completed: false, current: false },
+          { id: "lesson-1-1", title: t('plumbingSchool.lessonSafetyPpe', { defaultValue: 'Safety, PPE, and Job Site Procedures' }), completed: true, current: false },
+          { id: "lesson-1-2", title: t('plumbingSchool.lessonToolsMaterials', { defaultValue: 'Tools, Materials, and Pipe Types' }), completed: true, current: false },
+          { id: "lesson-1-3", title: t('plumbingSchool.lessonIntroCode', { defaultValue: 'Introduction to the Plumbing Code' }), completed: true, current: false },
+          { id: "lesson-1-4", title: t('plumbingSchool.lessonPipeFitting', { defaultValue: 'Basic Pipe Fitting and Joining' }), completed: false, current: true },
+          { id: "lesson-1-5", title: t('plumbingSchool.lessonMeasurements', { defaultValue: 'Measurements, Math, and Conversions' }), completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Water Supply Systems",
+        title: t('plumbingSchool.term1WaterSupply', { defaultValue: 'Term 1: Water Supply Systems' }),
         lessons: [
           { id: "lesson-2-1", title: "Hot and Cold Water Distribution", completed: false, current: false },
           { id: "lesson-2-2", title: "Shut-Off Valves and Pressure Control", completed: false, current: false },
@@ -171,7 +171,7 @@ const PlumbingSchool = () => {
       },
       {
         id: "course-3",
-        title: "Term 2: Drain, Waste & Vent",
+        title: t('plumbingSchool.term2Dwv', { defaultValue: 'Term 2: Drain, Waste & Vent' }),
         lessons: [
           { id: "lesson-3-1", title: "DWV System Design", completed: false, current: false },
           { id: "lesson-3-2", title: "Trap and Vent Installation", completed: false, current: false },
@@ -181,7 +181,7 @@ const PlumbingSchool = () => {
       },
       {
         id: "course-4",
-        title: "Term 2: Professional Practice",
+        title: t('plumbingSchool.term2ProfessionalPractice', { defaultValue: 'Term 2: Professional Practice' }),
         lessons: [
           { id: "lesson-4-1", title: "Estimating and Bidding Jobs", completed: false, current: false },
           { id: "lesson-4-2", title: "Permits, Inspections, and Licensing", completed: false, current: false },
@@ -216,7 +216,7 @@ const PlumbingSchool = () => {
   }, [selectedRecipe]);
 
   const isRecipeSelected = !!selectedRecipe;
-  const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
+  const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe, t) : getDefaultTutorials(t);
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
   // Helper: extract primary material from components
@@ -515,5 +515,4 @@ const PlumbingSchool = () => {
 };
 
 export default PlumbingSchool;
-
 
