@@ -10,7 +10,7 @@ interface BenchPracticeModalProps {
 
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
-  const practiceTitle = 'The Kitchen Sink';
+  const practiceTitle = t('plumbingSchool.kitchenSink', { defaultValue: 'The Kitchen Sink' });
   const [isPracticing, setIsPracticing] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
@@ -223,7 +223,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   defaultValue=""
                 >
-                  <option value="" disabled>Lessons Practiced</option>
+                  <option value="" disabled>{t('plumbingSchool.lessonsPracticed', { defaultValue: 'Lessons Practiced' })}</option>
                   <option value="copper-pipe">Copper Pipe Cut, Deburr, and Dry-Fit Alignment</option>
                 </select>
               </>
@@ -352,7 +352,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Colored Header for Right Side */}
           <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h3 className="text-lg font-bold">
-              📋 Practice Instructions
+              📋 {t('culinarySchool.charcuterieBoard.practiceInstructions')}
             </h3>
           </div>
           
@@ -365,7 +365,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             className="w-full mb-4 bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow border-2 border-amber-600 px-4 py-2 cursor-pointer transition-all flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
-            <span className="text-sm font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
+            <span className="text-sm font-bold">{guideOpen ? t('culinarySchool.charcuterieBoard.closeGuide') : t('culinarySchool.charcuterieBoard.openGuide')}</span>
           </button>
 
           {/* Technique Feedback - moved under Open Guide button */}
@@ -374,11 +374,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <div className="flex items-start space-x-2">
                 <span className="text-lg">🤖</span>
                 <div className="flex-1">
-                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
+                  <div className="font-semibold text-xs text-blue-900 mb-1">{t('culinarySchool.charcuterieBoard.aiFeedback')}</div>
                   <p className="text-xs text-blue-800">
                     {isPracticing
-                      ? "Great start! Keep your cutter square and pressure consistent."
-                      : "Start practicing to receive real-time AI guidance"}
+                      ? t('culinarySchool.charcuterieBoard.aiFeedbackActive')
+                      : t('culinarySchool.charcuterieBoard.aiFeedbackInactive')}
                   </p>
                 </div>
               </div>
@@ -387,23 +387,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Setup</div>
-              <p className="text-xs text-gray-700">Secure your pipe, mark your line, and prep the work area.</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">{t('culinarySchool.charcuterieBoard.step1Setup')}</div>
+              <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step1Desc')}</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Cutter Position</div>
-              <p className="text-xs text-gray-700">Keep the cutter square to the pipe and centered on the mark.</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">{t('culinarySchool.charcuterieBoard.step2KnifeGrip')}</div>
+              <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step2Desc')}</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Cutting Passes</div>
-              <p className="text-xs text-gray-700">Use smooth tighten-rotate passes with steady pressure.</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">{t('culinarySchool.charcuterieBoard.step3FirstCuts')}</div>
+              <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step3Desc')}</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-70">
-              <div className="font-semibold text-sm text-gray-700 mb-1">Validation</div>
-              <p className="text-xs text-gray-600">Confirm deburr quality and dry-fit alignment.</p>
+              <div className="font-semibold text-sm text-gray-700 mb-1">{t('culinarySchool.charcuterieBoard.step4Validation')}</div>
+              <p className="text-xs text-gray-600">{t('culinarySchool.charcuterieBoard.step4Desc')}</p>
             </div>
           </div>
           

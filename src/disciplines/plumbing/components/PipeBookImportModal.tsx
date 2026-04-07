@@ -63,7 +63,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
       
     } catch (error) {
       console.error('Error during import:', error);
-      alert('Failed to import recipe. Please try again.');
+      alert(t('pipeLounge.importModal.failedImport', { defaultValue: 'Failed to import procedure. Please try again.' }));
     } finally {
       setIsLoading(false);
     }
@@ -78,16 +78,18 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
         className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-2xl max-h-[90vh] flex flex-col"
       >
         <div className="p-6 pb-0">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('cookbook.selectRecipe')}</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            {t('pipeLounge.importModal.selectProcedure', { defaultValue: 'Select Procedure to Showcase' })}
+          </h2>
           <p className="text-gray-600 mb-4">
-            {t('cookbook.chooseRecipe')}
+            {t('pipeLounge.importModal.chooseProcedure', { defaultValue: 'Choose a procedure from your pipe book to showcase in Pipe Lounge.' })}
           </p>
         </div>
         
         <div className="flex-1 overflow-y-auto p-6 pt-2">
           {recipes.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              {t('cookbook.noRecipes')}
+              {t('pipeLounge.importModal.noProcedures', { defaultValue: 'No procedures found in your Pipe Book.' })}
             </div>
           ) : (
             <div className="space-y-3">
@@ -105,8 +107,8 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900">{recipe.title}</h3>
                       <p className="text-sm text-gray-500 mt-1">
-                        {Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0} {t('cookbook.ingredients')}
-                        {recipe.instructions && ' • ' + t('cookbook.instructionsIncluded')}
+                        {Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0} {t('pipeLounge.importModal.parts', { defaultValue: 'parts' })}
+                        {recipe.instructions && ' • ' + t('pipeLounge.importModal.stepsIncluded', { defaultValue: 'Steps included' })}
                       </p>
                     </div>
                     {selectedRecipe?.id === recipe.id && (
@@ -129,7 +131,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
             className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-black rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             disabled={isLoading}
           >
-            Cancel
+            {t('pipeLounge.importModal.cancel', { defaultValue: 'Cancel' })}
           </button>
           <button
             onClick={handleImport}
@@ -138,7 +140,9 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
             }`}
             disabled={isLoading || !selectedRecipe}
           >
-            {isLoading ? t('cookbook.importing') : t('cookbook.showcaseRecipe')}
+            {isLoading
+              ? t('pipeLounge.importModal.importing', { defaultValue: 'Importing...' })
+              : t('pipeLounge.importModal.showcaseProcedure', { defaultValue: 'Showcase Procedure' })}
           </button>
         </div>
       </div>
@@ -147,4 +151,3 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
 };
 
 export default CookBookImportModal;
-
