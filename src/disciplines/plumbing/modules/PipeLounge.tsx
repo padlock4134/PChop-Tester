@@ -8,7 +8,7 @@ import BuildLayoutModal from '../components/BuildLayoutModal';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/FitMatcherModal';
 import GlobalTestVan from '../components/GlobalTestVan';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../components/SupabaseProvider';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
 
@@ -383,5 +383,4 @@ const PipeLounge = () => {
 };
 
 export default PipeLounge;
-
 
