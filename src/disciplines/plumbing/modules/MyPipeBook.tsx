@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
@@ -15,13 +16,8 @@ type PlumberQuote = {
   quote: string;
 };
 
-// Defensive fallback used by legacy/stale transpiled references that may still read `i18n.language`.
-const i18n = {
-  language:
-    (typeof window !== 'undefined' &&
-      (window.localStorage?.getItem('i18nextLng') || window.navigator?.language)) ||
-    'en'
-};
+// Use the real i18next instance so language switches are detected reactively.
+const i18n = i18next;
 
 // Plumbing professional quotes (localized)
 const plumberQuotesByLocale: Record<'en' | 'es', PlumberQuote[]> = {
