@@ -1474,9 +1474,9 @@
   "repairMatcher": {
     "repairMatcher": "Repair Guide Matcher",
     "findingRecipes": "Finding repair guides...",
-    "loadingMessage1": "Garage Freddie Taking A Look...",
-    "loadingMessage2": "Preparing Your Repair Guides...",
-    "loadingMessage3": "Almost Ready...",
+    "loadingMessage1": "Pete the Plumber is looking at your van inventory…",
+    "loadingMessage2": "Pete the Plumber is matching plumbing procedures…",
+    "loadingMessage3": "Pete the Plumber is finding the best repair flow for you…",
     "noMoreSuggestions": "No more suggestions.",
     "tryUpdatingCupboard": "Try updating your garage!",
     "cookMe": "Fix It",

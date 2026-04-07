@@ -55,9 +55,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
   const navigate = useNavigate();
 
   const loadingMessages = [
-    'Pete the Plumber is looking at your van inventory…',
-    'Pete the Plumber is matching plumbing procedures…',
-    'Pete the Plumber is finding the best repair flow for you…'
+    t('repairMatcher.loadingMessage1', { defaultValue: 'Pete the Plumber is looking at your van inventory…' }),
+    t('repairMatcher.loadingMessage2', { defaultValue: 'Pete the Plumber is matching plumbing procedures…' }),
+    t('repairMatcher.loadingMessage3', { defaultValue: 'Pete the Plumber is finding the best repair flow for you…' }),
   ];
 
   // Timer effect for loading steps
