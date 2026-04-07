@@ -1761,3 +1761,11 @@ const MyPipeBook = () => {
 };
 
 export default MyPipeBook;
+  useEffect(() => {
+    setCollections((prev) => prev.map((collection) => {
+      if (collection.id === '1') return { ...collection, name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }) };
+      if (collection.id === '3') return { ...collection, name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }) };
+      if (collection.id === '4') return { ...collection, name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }) };
+      return collection;
+    }));
+  }, [i18n.language, t]);
