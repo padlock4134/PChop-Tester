@@ -71,14 +71,14 @@ const StudentProgressDashboard: React.FC = () => {
     curriculum: {
       completedLessons: 12,
       totalLessons: 24,
-      currentLesson: "Drainage Diagnostics: Vent Stack Troubleshooting",
-      timeSpent: "18.5 hours"
+      currentLesson: t('dashboard.plumbingCurrentLessonValue'),
+      timeSpent: t('dashboard.plumbingTimeSpentValue')
     },
     skills: {
       recipesAttempted: 8,
       recipesCompleted: 6,
-      currentLevel: "Intermediate",
-      nextMilestone: "Advanced Piping Systems"
+      currentLevel: t('dashboard.plumbingCurrentLevelValue'),
+      nextMilestone: t('dashboard.plumbingNextMilestoneValue')
     },
     engagement: {
       appUsage: "5 days this week",
@@ -87,10 +87,14 @@ const StudentProgressDashboard: React.FC = () => {
       recipesSaved: 15
     },
     insights: {
-      strongestArea: "Leak Detection",
-      improvementArea: "Complex Retrofit Planning",
-      learningVelocity: "Above Average",
-      achievements: ["Safety Certified", "Code Compliance Pro", "Community Helper"]
+      strongestArea: t('dashboard.plumbingStrongestAreaValue'),
+      improvementArea: t('dashboard.plumbingImprovementAreaValue'),
+      learningVelocity: t('dashboard.plumbingLearningVelocityValue'),
+      achievements: [
+        t('dashboard.plumbingAchievements.safetyCertified'),
+        t('dashboard.plumbingAchievements.codeCompliancePro'),
+        t('dashboard.plumbingAchievements.communityHelper')
+      ]
     }
   };
 
@@ -479,10 +483,10 @@ const StudentProgressDashboard: React.FC = () => {
                 <div className="text-4xl font-bold text-purple-600 text-center">
                   {progressData.insights.achievements.length}
                 </div>
-                <p className="text-center text-purple-800 font-medium mt-2">Achievements Earned</p>
+                <p className="text-center text-purple-800 font-medium mt-2">{t('dashboard.achievementsEarned')}</p>
               </div>
               <div className="border-4 border-purple-400 rounded-lg p-4">
-                <h3 className="font-bold text-purple-800 mb-2">Your Achievements:</h3>
+                <h3 className="font-bold text-purple-800 mb-2">{t('dashboard.yourAchievements')}</h3>
                 <div className="space-y-2">
                   {progressData.insights.achievements.map((achievement, index) => (
                     <div key={index} className="bg-purple-50 rounded p-3 text-gray-700 flex items-center">
