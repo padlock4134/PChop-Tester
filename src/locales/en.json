@@ -2048,7 +2048,14 @@
       "schedule": "Schedule",
       "endSession": "End Session",
       "viewers": "Viewers",
-      "report": "Report"
+      "report": "Report",
+      "hostTitle": "Host a Live Trade Session",
+      "hostDescription": "Teach a proven workflow from your trade and build your leadership skills",
+      "tipsForSuccess": "Tips for Success:",
+      "tip1": "Share the goal behind your workflow",
+      "tip2": "Highlight required tools/materials and where to source them",
+      "tip3": "Engage with viewers and answer questions",
+      "tip4": "Practice your workflow beforehand"
     }
   },
   "gearheadLounge": {
