@@ -15,6 +15,14 @@ type PlumberQuote = {
   quote: string;
 };
 
+// Defensive fallback used by legacy/stale transpiled references that may still read `i18n.language`.
+const i18n = {
+  language:
+    (typeof window !== 'undefined' &&
+      (window.localStorage?.getItem('i18nextLng') || window.navigator?.language)) ||
+    'en'
+};
+
 // Plumbing professional quotes (localized)
 const plumberQuotesByLocale: Record<'en' | 'es', PlumberQuote[]> = {
   en: [
@@ -99,8 +107,7 @@ export interface Recipe {
 const MyPipeBook = () => {
   const { t } = useTranslation();
   const currentLanguage =
-    (typeof window !== 'undefined' &&
-      (window.localStorage?.getItem('i18nextLng') || window.navigator?.language)) ||
+    i18n.language ||
     'en';
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
