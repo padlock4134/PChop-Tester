@@ -2394,7 +2394,14 @@
         "cultureMoroccan": "Marroquí",
         "cultureRussian": "Ruso",
         "culturePeruvian": "Peruano"
-      }
+      },
+      "hostTitle": "Organiza una Sesión en Vivo de Oficio",
+      "hostDescription": "Enseña un flujo de trabajo comprobado de tu oficio y desarrolla tus habilidades de liderazgo",
+      "tipsForSuccess": "Consejos para el Éxito:",
+      "tip1": "Comparte el objetivo detrás de tu flujo de trabajo",
+      "tip2": "Destaca las herramientas/materiales necesarios y dónde conseguirlos",
+      "tip3": "Interactúa con los espectadores y responde preguntas",
+      "tip4": "Practica tu flujo de trabajo de antemano"
     }
   },
   "gearheadLounge": {

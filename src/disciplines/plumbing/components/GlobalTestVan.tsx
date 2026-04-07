@@ -886,9 +886,9 @@ END:VCALENDAR`;
         <div className="space-y-4">
           <div className="text-center py-4">
             <VideoCameraIcon className="h-12 w-12 mx-auto mb-3 text-maineBlue" />
-            <h3 className="font-semibold text-gray-900 mb-2">Host a Live Trade Session</h3>
+            <h3 className="font-semibold text-gray-900 mb-2">{t('pipeLounge.globalTestKitchen.hostTitle', { defaultValue: 'Host a Live Trade Session' })}</h3>
             <p className="text-sm text-gray-600 mb-4">
-              Teach a proven workflow from your trade and build your leadership skills
+              {t('pipeLounge.globalTestKitchen.hostDescription', { defaultValue: 'Teach a proven workflow from your trade and build your leadership skills' })}
             </p>
           </div>
           
@@ -911,12 +911,12 @@ END:VCALENDAR`;
           </div>
 
           <div className="bg-sand p-3 rounded-lg">
-            <h4 className="font-semibold text-sm text-gray-900 mb-2">💡 Tips for Success:</h4>
+            <h4 className="font-semibold text-sm text-gray-900 mb-2">💡 {t('pipeLounge.globalTestKitchen.tipsForSuccess', { defaultValue: 'Tips for Success:' })}</h4>
             <ul className="text-xs text-gray-700 space-y-1">
-              <li>• Share the goal behind your workflow</li>
-              <li>• Highlight required tools/materials and where to source them</li>
-              <li>• Engage with viewers and answer questions</li>
-              <li>• Practice your workflow beforehand</li>
+              <li>• {t('pipeLounge.globalTestKitchen.tip1', { defaultValue: 'Share the goal behind your workflow' })}</li>
+              <li>• {t('pipeLounge.globalTestKitchen.tip2', { defaultValue: 'Highlight required tools/materials and where to source them' })}</li>
+              <li>• {t('pipeLounge.globalTestKitchen.tip3', { defaultValue: 'Engage with viewers and answer questions' })}</li>
+              <li>• {t('pipeLounge.globalTestKitchen.tip4', { defaultValue: 'Practice your workflow beforehand' })}</li>
             </ul>
           </div>
         </div>
