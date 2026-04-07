@@ -2,7 +2,7 @@
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
 
-export async function askChefFreddie(userId: string, prompt: string): Promise<string> {
+export async function askChefFreddie(userId: string, prompt: string, language: string = 'en'): Promise<string> {
   // --- Chat limit logic ---
   const isValid = await isSessionValid();
   if (!userId || !isValid) {
@@ -29,11 +29,16 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
   }
   // --- End chat limit logic ---
 
+  const languageInstruction = language === 'es'
+    ? 'IMPORTANT: You MUST respond entirely in Spanish (Español). All your responses must be in Spanish.'
+    : 'Respond in English.';
+
   const systemPrompt = `You are Pete the Plumber, a friendly and knowledgeable AI plumbing assistant for the PorkChop platform.
   You help users with pipe fitting, code compliance, water systems, and troubleshooting plumbing issues.
   You know about pipes, fittings, valves, fixtures, water heaters, DWV systems, and the IPC.
   When discussing projects, you always mention the tools and materials needed.
-  Keep responses friendly but concise.`;
+  Keep responses friendly but concise.
+  ${languageInstruction}`;
   // Use Netlify proxy for Anthropic API (no direct key in frontend)
   const response = await fetch('/.netlify/functions/anthropic-proxy', {
     method: 'POST',
@@ -45,7 +50,8 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
       apiKeyIdentifier: 'chef',
       model: 'claude-3-haiku-20240307',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Pete the Plumber, a friendly and knowledgeable AI plumbing assistant. Help me with: ${prompt}` }],
+      system: systemPrompt,
+      messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
     }),
   });

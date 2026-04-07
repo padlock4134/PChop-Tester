@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
@@ -14,15 +15,15 @@ interface Message {
 const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
     case 'MyVan':
-      return "Welcome to My Van — I can help you look up materials, check job requirements, and plan your inventory.";
+      return t('pipeFreddie.proactiveMyVan', { defaultValue: 'Welcome to My Van — I can help you look up materials, check job requirements, and plan your inventory.' });
     case 'MyPipeBook':
-      return "Welcome to My Pipebook — need help writing up a job ticket or reviewing a project?";
+      return t('pipeFreddie.proactiveMyPipeBook', { defaultValue: 'Welcome to My Pipebook — need help writing up a job ticket or reviewing a project?' });
     case 'PipeLounge':
-      return "Welcome to the Pipe Lounge — want tips on finding local supply houses or connecting with fellow plumbers?";
+      return t('pipeFreddie.proactivePipeLounge', { defaultValue: 'Welcome to the Pipe Lounge — want tips on finding local supply houses or connecting with fellow plumbers?' });
     case 'PlumbingSchool':
-      return "Welcome to Plumbing School — I can help you prep for code exams or find technique videos.";
+      return t('pipeFreddie.proactivePlumbingSchool', { defaultValue: 'Welcome to Plumbing School — I can help you prep for code exams or find technique videos.' });
     default:
-      return "Hey! I'm Pete the Plumber, your AI plumbing assistant. Ask me anything about pipe fitting, code compliance, or job planning.";
+      return t('pipeFreddie.proactiveDefault', { defaultValue: "Hey! I'm Pete the Plumber, your AI plumbing assistant. Ask me anything about pipe fitting, code compliance, or job planning." });
   }
 };
 
@@ -41,7 +42,7 @@ const ChefFreddieWidget = () => {
     setMessages(msgs => [...msgs, { sender: 'user', text }]);
     setInput('');
     try {
-      const reply = await askChefFreddie(user?.id!, text);
+      const reply = await askChefFreddie(user?.id!, text, i18n.language || 'en');
       setMessages(msgs => [...msgs, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
       setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || t('chefFreddie.errorContacting') }]);
@@ -123,7 +124,7 @@ const ChefFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Pete the Plumber</span>
+              <span className="font-bold text-maineBlue">{t('pipeFreddie.title', { defaultValue: 'Pete the Plumber' })}</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);
@@ -138,7 +139,7 @@ const ChefFreddieWidget = () => {
             </div>
             <input
               className="w-full border rounded p-2"
-              placeholder="Type your question..."
+              placeholder={t('pipeFreddie.placeholder', { defaultValue: 'Type your question...' })}
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => {

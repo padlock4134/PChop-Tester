@@ -1957,14 +1957,21 @@
     "close": "Cerrar"
   },
   "pipeFreddie": {
+    "title": "Pete el Plomero",
+    "placeholder": "Escribe tu pregunta...",
     "welcomeMyKitchen": "¡Bienvenido a Mi Van! ¿Necesitas ayuda para encontrar las piezas y conexiones correctas para tu trabajo?",
     "welcomeMyCookbook": "¿Buscas organizar tus procedimientos o encontrar un nuevo enfoque? ¡Estoy aquí para ayudar!",
     "welcomeChefsCorner": "¿Listo para conectar con otros plomeros o compartir tu último proyecto? ¡Pregúntame lo que quieras!",
     "welcomeCulinarySchool": "¿Curioso por aprender nuevas habilidades o ganar insignias? ¡Puedo guiarte a través de la Escuela de Plomería!",
     "welcomeDefault": "¿Necesitas ayuda con algo en PorkChop? ¡Siempre estoy aquí para ayudarte a completar el trabajo!",
-    "errorContacting": "Error al contactar a Pipe Freddie.",
-    "askChefFreddie": "Pregúntale a Pipe Freddie...",
-    "chatWithFreddie": "Chatear con Pipe Freddie"
+    "proactiveMyVan": "Bienvenido a Mi Van — puedo ayudarte a buscar materiales, verificar requisitos del trabajo y planificar tu inventario.",
+    "proactiveMyPipeBook": "Bienvenido a Mi Libro de Tuberías — ¿necesitas ayuda para redactar una orden de trabajo o revisar un proyecto?",
+    "proactivePipeLounge": "Bienvenido al Salón de Plomeros — ¿quieres consejos para encontrar proveedores locales o conectar con otros plomeros?",
+    "proactivePlumbingSchool": "Bienvenido a la Escuela de Plomería — puedo ayudarte a prepararte para exámenes de código o encontrar videos de técnicas.",
+    "proactiveDefault": "¡Hola! Soy Pete el Plomero, tu asistente de plomería con IA. Pregúntame sobre instalación de tuberías, cumplimiento de códigos o planificación de trabajos.",
+    "errorContacting": "Error al contactar a Pete el Plomero.",
+    "askChefFreddie": "Pregúntale a Pete el Plomero...",
+    "chatWithFreddie": "Chatear con Pete el Plomero"
   },
   "garageFreddie": {
     "welcomeMyKitchen": "¡Bienvenido a Mi Garaje! ¿Necesitas ayuda para encontrar las piezas correctas para tu reparación?",
