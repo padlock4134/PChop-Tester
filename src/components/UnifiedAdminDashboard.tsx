@@ -108,6 +108,65 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     () => humanizeKeyLikeText(skin.content.table.replace(/^user[._-]?/i, '')),
     [skin.content.table]
   );
+  const disciplineMockContent = useMemo(() => {
+    const byDiscipline: Partial<Record<DisciplineKey, {
+      progressionLabel: string;
+      topPerforming: string[];
+      needsAttention: string[];
+    }>> = {
+      culinary: {
+        progressionLabel: 'Knife Skills & Techniques (52)',
+        topPerforming: ['French Knife Skills', 'Core Skills Mastery', 'Pasta Making Fundamentals'],
+        needsAttention: ['Advanced Plating Techniques', 'Molecular Gastronomy Basics', 'Wine Pairing Fundamentals'],
+      },
+      automotive: {
+        progressionLabel: 'Diagnostic Skills & Repair Procedures (52)',
+        topPerforming: ['Brake System Diagnostics', 'Core Repair Workflow Mastery', 'Engine Performance Fundamentals'],
+        needsAttention: ['Advanced Transmission Diagnostics', 'Hybrid Systems Troubleshooting', 'Electrical Fault Isolation'],
+      },
+      construction: {
+        progressionLabel: 'Site Skills & Build Procedures (52)',
+        topPerforming: ['Blueprint Reading Fundamentals', 'Core Build Workflow Mastery', 'Framing & Layout Basics'],
+        needsAttention: ['Advanced Scheduling & Sequencing', 'Site Logistics Optimization', 'Code Compliance Deep Dive'],
+      },
+      electrical: {
+        progressionLabel: 'Circuit Skills & Safety Procedures (52)',
+        topPerforming: ['Circuit Fundamentals', 'Core Panel Workflow Mastery', 'Conduit Planning Basics'],
+        needsAttention: ['Advanced Motor Controls', 'Service Upgrade Planning', 'Troubleshooting Complex Faults'],
+      },
+      plumbing: {
+        progressionLabel: 'Fit Skills & Installation Procedures (52)',
+        topPerforming: ['Pipe Layout Fundamentals', 'Core Installation Workflow Mastery', 'Fixture Installation Basics'],
+        needsAttention: ['Advanced Backflow Systems', 'Hydronic Balancing', 'Commercial Code Applications'],
+      },
+      hvac: {
+        progressionLabel: 'System Skills & Service Procedures (52)',
+        topPerforming: ['Airflow Fundamentals', 'Core Service Workflow Mastery', 'Refrigeration Cycle Basics'],
+        needsAttention: ['Advanced Controls Integration', 'Load Calculation Deep Dive', 'Commercial Rooftop Diagnostics'],
+      },
+      manufacturing: {
+        progressionLabel: 'Process Skills & Quality Procedures (52)',
+        topPerforming: ['Lean Fundamentals', 'Core Process Workflow Mastery', 'Quality Checkpoint Basics'],
+        needsAttention: ['Advanced SPC Analysis', 'Root Cause Investigation', 'Line Balancing Optimization'],
+      },
+      logistics: {
+        progressionLabel: 'Route Skills & Dispatch Procedures (52)',
+        topPerforming: ['Route Planning Fundamentals', 'Core Dispatch Workflow Mastery', 'Warehouse Coordination Basics'],
+        needsAttention: ['Advanced Last-Mile Optimization', 'Carrier Performance Analysis', 'Demand Volatility Planning'],
+      },
+      machining: {
+        progressionLabel: 'Setup Skills & Precision Procedures (52)',
+        topPerforming: ['Blueprint & Tolerance Basics', 'Core Setup Workflow Mastery', 'Tooling Selection Fundamentals'],
+        needsAttention: ['Advanced CNC Offsets', 'Surface Finish Optimization', 'Complex Fixture Strategy'],
+      },
+    };
+
+    return byDiscipline[selectedDiscipline as DisciplineKey] || {
+      progressionLabel: `${skin.name} Skills & Procedures (52)`,
+      topPerforming: ['Foundations', 'Core Workflow Mastery', 'Applied Fundamentals'],
+      needsAttention: ['Advanced Applications', 'Complex Scenario Practice', 'Performance Optimization'],
+    };
+  }, [selectedDiscipline, skin.name]);
   
   // Load custom disciplines on mount
   useEffect(() => {
@@ -2997,8 +3056,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                         // Distribute to workspace (content items) - based on checkbox state
                         if (moduleSelection.workspace.item1 && contentType === 'content') {
-                          const { error: recipeError } = await supabase
-                            .from('user_cookbook')
+                          const { error: contentInsertError } = await supabase
+                            .from(skin.content.table)
                             .insert({
                               user_id: currentUser.id,
                               title: metadata.title,
@@ -3008,8 +3067,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               created_at: new Date().toISOString()
                             });
                           
-                          if (recipeError) {
-                            console.error('Recipe insert error:', recipeError);
+                          if (contentInsertError) {
+                            console.error(`${skin.content.table} insert error:`, contentInsertError);
                           }
                         }
 
@@ -3972,7 +4031,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="space-y-2 sm:space-y-3">
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">{t('admin.knifeSkillsTechniques', { count: 52 })}</span>
+                      <span className="font-medium text-xs sm:text-base">{disciplineMockContent.progressionLabel}</span>
                       <span className="text-xs sm:text-sm font-bold text-blue-600">{t('admin.averageCompleted', { completed: 38, total: 52 })}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
@@ -4284,7 +4343,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.frenchKnifeSkills')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.topPerforming[0]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook} • {skin.name}</p>
                         </div>
                         <div className="text-right">
@@ -4294,7 +4353,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Core Skills Mastery</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.topPerforming[1]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
@@ -4304,7 +4363,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.pastaMakingFundamentals')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.topPerforming[2]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
@@ -4320,7 +4379,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.advancedPlatingTechniques')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.needsAttention[0]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
@@ -4330,7 +4389,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.molecularGastronomyBasics')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.needsAttention[1]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.community}</p>
                         </div>
                         <div className="text-right">
@@ -4340,7 +4399,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.winePairingFundamentals')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.needsAttention[2]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.school}</p>
                         </div>
                         <div className="text-right">
@@ -4360,7 +4419,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-blue-900 mb-2 text-xs sm:text-base">📚 {skin.modules.notebook}</h4>
                       <div className="space-y-1 text-xs sm:text-sm">
                       <div className="flex justify-between">
-                        <span>{t('admin.activeRecipes')}:</span>
+                        <span>Active {contentSourceLabel}:</span>
                         <span className="font-medium">18</span>
                       </div>
                       <div className="flex justify-between">
@@ -4500,8 +4559,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           { metric: 'Completion Rate', value: '73%', change: '+5%' },
                           { metric: 'Avg Engagement Score', value: 4.2, change: 'No change' },
                           { metric: 'Active Content', value: 28, change: '+3 new' },
-                          { metric: `Top ${contentSourceLabel}`, value: 'Advanced Techniques', completion: '94%' },
-                          { metric: 'Needs Attention', value: 'Advanced Plating', completion: '34%' }
+                          { metric: `Top ${contentSourceLabel}`, value: disciplineMockContent.topPerforming[0], completion: '94%' },
+                          { metric: 'Needs Attention', value: disciplineMockContent.needsAttention[0], completion: '34%' }
                         ];
                         
                         const csv = convertToCSV(analyticsData);
