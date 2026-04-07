@@ -1735,7 +1735,17 @@
     "failedToSave": "Error al guardar piezas escaneadas:",
     "failedToScan": "Error al escanear imagen.",
     "couldNotVerify": "No se pudo verificar la autenticación del usuario.",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "categoryPipes": "Tuberías",
+    "categoryFittings": "Conexiones",
+    "categoryTools": "Herramientas",
+    "categoryValves": "Válvulas",
+    "categorySeals": "Sellos",
+    "categoryAdhesives": "Adhesivos",
+    "categoryFasteners": "Sujetadores",
+    "categoryChemicals": "Químicos",
+    "categoryEquipment": "Equipos",
+    "categoryOther": "Otros"
   },
   "myGarage": {
     "title": "Mi Garaje",

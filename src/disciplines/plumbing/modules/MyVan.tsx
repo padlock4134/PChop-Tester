@@ -43,6 +43,11 @@ function categorizeIngredient(name: string): string {
   return "Other";
 }
 
+const getCategoryLabel = (cat: string, t: (key: string, options?: any) => string): string => {
+  const key = `myVan.category${cat}`;
+  return t(key, { defaultValue: cat });
+};
+
 const MyVan = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
@@ -379,7 +384,7 @@ const MyVan = () => {
           onChange={e => setCategory(e.target.value)}
         >
           {CATEGORIES.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
+            <option key={cat} value={cat}>{getCategoryLabel(cat, t)}</option>
           ))}
         </select>
         <button
@@ -410,7 +415,7 @@ const MyVan = () => {
                       {/* Jar look */}
                       <div className="w-16 h-20 bg-weatheredWhite border-2 border-yellow-700 rounded-b-lg rounded-t-md shadow relative flex flex-col items-center justify-center">
                         <div className="w-12 h-3 bg-yellow-900 rounded-t-md absolute -top-3 left-1/2 -translate-x-1/2"></div>
-                        <span className="text-[10px] text-yellow-900 bg-sand px-1 rounded-sm font-medium mb-1">{ing.category}</span>
+                        <span className="text-[10px] text-yellow-900 bg-sand px-1 rounded-sm font-medium mb-1">{getCategoryLabel(ing.category, t)}</span>
                         <span className="text-xs font-semibold text-maineBlue break-words text-center px-1">{ing.name}</span>
                       </div>
                       <button

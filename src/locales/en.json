@@ -1433,7 +1433,17 @@
     "failedToSave": "Failed to save scanned parts:",
     "failedToScan": "Failed to scan image.",
     "couldNotVerify": "Could not verify user authentication.",
-    "close": "Close"
+    "close": "Close",
+    "categoryPipes": "Pipes",
+    "categoryFittings": "Fittings",
+    "categoryTools": "Tools",
+    "categoryValves": "Valves",
+    "categorySeals": "Seals",
+    "categoryAdhesives": "Adhesives",
+    "categoryFasteners": "Fasteners",
+    "categoryChemicals": "Chemicals",
+    "categoryEquipment": "Equipment",
+    "categoryOther": "Other"
   },
   "myGarage": {
     "title": "My Garage",
