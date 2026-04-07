@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { getPlumberQuoteOfTheDay } from './MyPipeBook';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import PipeBookImportModal from '../components/PipeBookImportModal';
 import LocalSupplyHouseModal from '../components/LocalSupplyHouseModal';
@@ -24,98 +26,8 @@ const PipeLounge = () => {
   const [servingSize, setServingSize] = useState(2);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
-  // Chef quotes rotation (52 quotes for weekly rotation)
-  const chefQuotes = [
-    // Julia Child (11 quotes)
-    "Cooking is not about convenience. It's about love, patience, and bringing people together around the table.",
-    "Never apologize for learning your trade.",
-    "A party without cake is just a meeting.",
-    "The secret of mastering a trade is to love the process.",
-    "Learn your trade - try new projects, learn from mistakes, be fearless, and have fun improving.",
-    "You'll never know everything about anything, especially something you love.",
-    "The only bad training day is the one where you stop learning.",
-    "I started late, but consistent practice changed everything.",
-    "Cooking is one of the great pleasures of life.",
-    "Find something you're passionate about and keep tremendously interested in it.",
-    "Life itself is the proper binge.",
-    
-    // Anthony Bourdain (11 quotes)
-    "Your body is not a temple, it's an amusement park. Enjoy the ride.",
-    "Travel changes you. As you move through this life and this world you change things slightly.",
-    "Skills can be taught. Character you either have or you don't have.",
-    "Good food is very often, even most often, simple food.",
-    "Context and memory play powerful roles in all the truly great meals in one's life.",
-    "I'm not afraid to look like an idiot.",
-    "The way you make an omelet reveals your character.",
-    "Assume the worst. About everybody. But don't let this poisoned outlook affect your job performance.",
-    "Food is everything we are. It's an extension of nationalist feeling, ethnic feeling, your personal history.",
-    "I don't have to agree with you to like you or respect you.",
-    "Poor work happens without pride; craftsmanship starts with ownership and care.",
-    
-    // David Chang (10 quotes)
-    "Cooking is an expression of the land where you are and the culture of that place.",
-    "The greatest dishes are very simple.",
-    "I'm grasping with how you do something on a large scale with multiple operations.",
-    "Great work is built by collaborating with people you trust and respect.",
-    "I constantly think about what it means to be Asian-American.",
-    "Rage or fear... It oscillates. Rage I can handle. Fear is the problem.",
-    "Contemporary ramen is totally different than what most Americans think ramen should be.",
-    "I love the masochistic aspect of eating seething, spicy food and being tortured by it.",
-    "We're hoping to succeed; we're okay with failure. We just don't want to land in between.",
-    "I think the basic thing every learner can master is solid process and standards.",
-    
-    // Martha Stewart (10 quotes)
-    "Life is too complicated not to be orderly.",
-    "I find that when you have a real interest in life and a curious life, that sleep is not the most important thing.",
-    "I catnap now and then, but I think while I nap, so it's not a waste of time.",
-    "Getting over those times and overcoming those difficulties really makes you appreciate the good times.",
-    "I am always asking myself how I can improve the lives of my customers, my colleagues, my shareholders.",
-    "The ultimate goal is to be an interesting, useful, wholesome person.",
-    "Small repeatable tasks build the discipline needed for big outcomes.",
-    "Without an open-minded mind, you can never be a great success.",
-    "I love the challenge of starting at zero every day and seeing how much I can accomplish.",
-    "Never make a big decision without sleeping on it.",
-    
-    // Emeril Lagasse (10 quotes)
-    "Technical work is more than steps and tools; it's about focus and pride.",
-    "My philosophy is: If you can't have fun, there's no sense in doing it.",
-    "The cool thing about being famous is traveling. I have always wanted to travel across seas.",
-    "I think you've got to keep it simple, keep it fresh. Stay away from all that processed stuff.",
-    "Spice is life. It depends upon what you like... have fun with it. Yes, food is serious, but you should have fun with it.",
-    "I wouldn't ask any of my employees to do anything I wouldn't do. And I work very hard.",
-    "You know, for 300 years it's been kind of the same. There are restaurants in New Orleans that the menu hasn't changed in 125 years.",
-    "I think preparing food and feeding people brings nourishment not only to our bodies but to our spirits.",
-    "We'll be going to the fish market and a farmer's market this afternoon to get what we need to make 13 fish dishes.",
-    "Everyone needs a mentor."
-  ];
-  
-  const chefNames = [
-    // Julia Child (11)
-    "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child",
-    // Anthony Bourdain (11)
-    "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain",
-    // David Chang (10)
-    "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang",
-    // Martha Stewart (10)
-    "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart",
-    // Emeril Lagasse (10)
-    "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse"
-  ];
-  
-  // Get current week of year (0-51) to rotate through 52 quotes
-  const getCurrentWeekQuote = () => {
-    const now = new Date();
-    const start = new Date(now.getFullYear(), 0, 1);
-    const diff = now.getTime() - start.getTime();
-    const oneWeek = 1000 * 60 * 60 * 24 * 7;
-    const weekNumber = Math.floor(diff / oneWeek) % 52;
-    return {
-      quote: chefQuotes[weekNumber],
-      chef: chefNames[weekNumber]
-    };
-  };
-  
-  const currentQuote = getCurrentWeekQuote();
+  // Localized plumber quote of the day (reuses MyPipeBook's localized quotes)
+  const currentQuote = getPlumberQuoteOfTheDay(i18n.language);
   const [localMarketsModalOpen, setLocalMarketsModalOpen] = useState(false);
   const [buildMenuModalOpen, setBuildMenuModalOpen] = useState(false);
   const [selectedMenuRecipes, setSelectedMenuRecipes] = useState<RecipeCard[]>([]);
@@ -351,7 +263,7 @@ const PipeLounge = () => {
 
               {/* Chef Quote of the Week */}
               <p className="text-center text-gray-600 italic mb-6">
-                "{currentQuote.quote}" — {currentQuote.chef}
+                "{currentQuote.quote}" — {currentQuote.professional}
               </p>
 
 
