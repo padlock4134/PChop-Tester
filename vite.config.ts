@@ -1,9 +1,41 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import obfuscatorPlugin from 'rollup-plugin-obfuscator';
 import { resolve } from 'path';
 
 export default defineConfig(({ mode }) => ({
-  plugins: [react()],
+  plugins: [
+    react(),
+    ...(mode === 'production' ? [obfuscatorPlugin({
+      options: {
+        compact: true,
+        controlFlowFlattening: false,
+        deadCodeInjection: false,
+        debugProtection: false,
+        disableConsoleOutput: true,
+        identifierNamesGenerator: 'hexadecimal',
+        log: false,
+        numbersToExpressions: true,
+        renameGlobals: false,
+        selfDefending: false,
+        simplify: true,
+        splitStrings: true,
+        splitStringsChunkLength: 5,
+        stringArray: true,
+        stringArrayCallsTransform: true,
+        stringArrayEncoding: ['base64'],
+        stringArrayIndexShift: true,
+        stringArrayRotate: true,
+        stringArrayShuffle: true,
+        stringArrayWrappersCount: 2,
+        stringArrayWrappersChainedCalls: true,
+        stringArrayWrappersType: 'function',
+        stringArrayThreshold: 0.75,
+        transformObjectKeys: false,
+        unicodeEscapeSequence: false,
+      }
+    })] : []),
+  ],
   server: {
     port: 3000,
     open: true, // Auto-launch in the browser when starting the server
@@ -41,9 +73,9 @@ export default defineConfig(({ mode }) => ({
 
           return 'vendor';
         },
-        entryFileNames: 'assets/[name].[hash].js',
-        chunkFileNames: 'assets/[name].[hash].js',
-        assetFileNames: 'assets/[name].[hash].[ext]'
+        entryFileNames: 'assets/[hash].js',
+        chunkFileNames: 'assets/[hash].js',
+        assetFileNames: 'assets/[hash].[ext]'
       }
     }
   },
