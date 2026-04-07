@@ -55,9 +55,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
   const navigate = useNavigate();
 
   const loadingMessages = [
-    t('repairMatcher.loadingMessage1'),
-    t('repairMatcher.loadingMessage2'),
-    t('repairMatcher.loadingMessage3')
+    'Pete the Plumber is looking at your van inventory…',
+    'Pete the Plumber is matching plumbing procedures…',
+    'Pete the Plumber is finding the best repair flow for you…'
   ];
 
   // Timer effect for loading steps
@@ -145,7 +145,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
         <h2 className="font-retro text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={chefFreddiePng} alt="Chef Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
+              <img src={chefFreddiePng} alt="Pete the Plumber" className="w-12 h-12 rounded-full border-2 border-black" />
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
@@ -213,4 +213,3 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
 };
 
 export default RecipeMatcherModal;
-
