@@ -99,7 +99,10 @@ export interface Recipe {
 const MyPipeBook = () => {
   const translation = useTranslation();
   const t = translation.t;
-  const currentLanguage = translation.i18n?.language || 'en';
+  const currentLanguage =
+    (typeof window !== 'undefined' &&
+      (window.localStorage?.getItem('i18nextLng') || window.navigator?.language)) ||
+    'en';
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
   const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
