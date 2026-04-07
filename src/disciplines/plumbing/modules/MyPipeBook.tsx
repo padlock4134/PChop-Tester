@@ -10,8 +10,14 @@ import { useLevelProgressContext } from '../components/NavBar';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 
-// Plumbing professional quotes (production-ready)
-const plumberQuotes = [
+type PlumberQuote = {
+  professional: string;
+  quote: string;
+};
+
+// Plumbing professional quotes (localized)
+const plumberQuotesByLocale: Record<'en' | 'es', PlumberQuote[]> = {
+  en: [
   { professional: 'Mike Diamond', quote: 'The best time to fix a leak is before it starts.' },
   { professional: 'Richard Trethewey', quote: 'Plumbing is not just about pipes, it\'s about people\'s lives.' },
   { professional: 'Roger Wakefield', quote: 'A good plumber knows that the most important tool is the one between your ears.' },
@@ -29,16 +35,38 @@ const plumberQuotes = [
   { professional: 'Richard Trethewey', quote: 'Excellence is not a skill. It is an attitude.' },
   { professional: 'Ed Del Grande', quote: 'The only way to do great work is to love what you do.' },
   { professional: 'Matt Muenster', quote: 'Plumbing isn\'t a job, it\'s a craft.' }
-];
+  ],
+  es: [
+    { professional: 'Mike Diamond', quote: 'El mejor momento para arreglar una fuga es antes de que comience.' },
+    { professional: 'Richard Trethewey', quote: 'La plomería no se trata solo de tuberías, se trata de la vida de las personas.' },
+    { professional: 'Roger Wakefield', quote: 'Un buen plomero sabe que la herramienta más importante es la que está entre tus oídos.' },
+    { professional: 'Ed Del Grande', quote: 'Cada trabajo es un autorretrato de quien lo hizo.' },
+    { professional: 'Matt Muenster', quote: 'La diferencia entre un buen plomero y uno excelente está en la atención al detalle.' },
+    { professional: 'Steve Berry', quote: 'La plomería es el sistema circulatorio del hogar.' },
+    { professional: 'Roger Wakefield', quote: 'Si no tienes tiempo para hacerlo bien, ¿cuándo tendrás tiempo para hacerlo de nuevo?' },
+    { professional: 'Mike Diamond', quote: 'En plomería, aprendes algo nuevo todos los días.' },
+    { professional: 'Richard Trethewey', quote: 'Al cliente no le importa cuánto sabes hasta que sabe cuánto te importa.' },
+    { professional: 'Ed Del Grande', quote: 'La calidad se recuerda mucho después de que se olvida el precio.' },
+    { professional: 'Matt Muenster', quote: 'Mide dos veces, corta una vez. Ese es el lema del plomero.' },
+    { professional: 'Steve Berry', quote: 'No hay sustituto para la experiencia en este oficio.' },
+    { professional: 'Roger Wakefield', quote: 'El problema no es el problema. El problema es tu actitud frente al problema.' },
+    { professional: 'Mike Diamond', quote: 'El éxito es la suma de pequeños esfuerzos repetidos día tras día.' },
+    { professional: 'Richard Trethewey', quote: 'La excelencia no es una habilidad. Es una actitud.' },
+    { professional: 'Ed Del Grande', quote: 'La única forma de hacer un gran trabajo es amar lo que haces.' },
+    { professional: 'Matt Muenster', quote: 'La plomería no es un trabajo, es un oficio.' }
+  ]
+};
 
-export function getPlumberQuoteOfTheDay() {
+export function getPlumberQuoteOfTheDay(language: string = 'en') {
+  const locale: 'en' | 'es' = language.toLowerCase().startsWith('es') ? 'es' : 'en';
+  const quotes = plumberQuotesByLocale[locale];
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const diff = now.getTime() - start.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
   const dayOfYear = Math.floor(diff / oneDay);
-  const idx = dayOfYear % plumberQuotes.length;
-  return plumberQuotes[idx];
+  const idx = dayOfYear % quotes.length;
+  return quotes[idx];
 }
 
 export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
@@ -69,7 +97,7 @@ export interface Recipe {
 }
 
 const MyPipeBook = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
   const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
@@ -943,7 +971,7 @@ const MyPipeBook = () => {
       {/* Plumber of the Day Quote - simplified text only */}
       <div className="mt-6 text-center">
         {(() => {
-          const quoteOfDay = getPlumberQuoteOfTheDay();
+          const quoteOfDay = getPlumberQuoteOfTheDay(i18n.language);
           return (
             <>
               <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
