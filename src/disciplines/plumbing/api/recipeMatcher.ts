@@ -318,6 +318,13 @@ export async function fetchRecipesWithImages({
 
   const prompt = `${basePrompt}
 
+You are Pete the Plumber. Generate PLUMBING procedures/projects only.
+Hard constraints:
+- Do NOT return food, meals, cooking, nutrition, or culinary terminology.
+- Every project must be a realistic plumbing task (installation, repair, diagnostics, maintenance, or code-compliance work).
+- Prefer common plumbing materials (e.g., PVC, PEX, copper, fittings, valves, traps, sealants) and plumbing tools (e.g., pipe cutter, press tool, torch, snake, pressure gauge, multimeter for diagnostics).
+- Instructions must reference plumbing actions and safety/code checks.
+
 ${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
 ${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
 ${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
@@ -461,6 +468,13 @@ export async function generateFallbackRecipes(userId: string, ingredients: strin
   const promptTemplate = RECIPE_PROMPTS[experienceLevel] || RECIPE_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
   
   const prompt = `${promptTemplate(count, ingredients)}
+
+You are Pete the Plumber. Generate PLUMBING procedures/projects only.
+Hard constraints:
+- Do NOT return food, meals, cooking, nutrition, or culinary terminology.
+- Every project must be a realistic plumbing task (installation, repair, diagnostics, maintenance, or code-compliance work).
+- Prefer common plumbing materials (e.g., PVC, PEX, copper, fittings, valves, traps, sealants) and plumbing tools (e.g., pipe cutter, press tool, torch, snake, pressure gauge, multimeter for diagnostics).
+- Instructions must reference plumbing actions and safety/code checks.
 
 Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
 {

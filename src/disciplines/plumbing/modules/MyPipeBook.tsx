@@ -10,8 +10,14 @@ import { useLevelProgressContext } from '../components/NavBar';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
 
-// Plumbing professional quotes (production-ready)
-const plumberQuotes = [
+type PlumberQuote = {
+  professional: string;
+  quote: string;
+};
+
+// Plumbing professional quotes (localized)
+const plumberQuotesByLocale: Record<'en' | 'es', PlumberQuote[]> = {
+  en: [
   { professional: 'Mike Diamond', quote: 'The best time to fix a leak is before it starts.' },
   { professional: 'Richard Trethewey', quote: 'Plumbing is not just about pipes, it\'s about people\'s lives.' },
   { professional: 'Roger Wakefield', quote: 'A good plumber knows that the most important tool is the one between your ears.' },
@@ -29,16 +35,38 @@ const plumberQuotes = [
   { professional: 'Richard Trethewey', quote: 'Excellence is not a skill. It is an attitude.' },
   { professional: 'Ed Del Grande', quote: 'The only way to do great work is to love what you do.' },
   { professional: 'Matt Muenster', quote: 'Plumbing isn\'t a job, it\'s a craft.' }
-];
+  ],
+  es: [
+    { professional: 'Mike Diamond', quote: 'El mejor momento para arreglar una fuga es antes de que comience.' },
+    { professional: 'Richard Trethewey', quote: 'La plomería no se trata solo de tuberías, se trata de la vida de las personas.' },
+    { professional: 'Roger Wakefield', quote: 'Un buen plomero sabe que la herramienta más importante es la que está entre tus oídos.' },
+    { professional: 'Ed Del Grande', quote: 'Cada trabajo es un autorretrato de quien lo hizo.' },
+    { professional: 'Matt Muenster', quote: 'La diferencia entre un buen plomero y uno excelente está en la atención al detalle.' },
+    { professional: 'Steve Berry', quote: 'La plomería es el sistema circulatorio del hogar.' },
+    { professional: 'Roger Wakefield', quote: 'Si no tienes tiempo para hacerlo bien, ¿cuándo tendrás tiempo para hacerlo de nuevo?' },
+    { professional: 'Mike Diamond', quote: 'En plomería, aprendes algo nuevo todos los días.' },
+    { professional: 'Richard Trethewey', quote: 'Al cliente no le importa cuánto sabes hasta que sabe cuánto te importa.' },
+    { professional: 'Ed Del Grande', quote: 'La calidad se recuerda mucho después de que se olvida el precio.' },
+    { professional: 'Matt Muenster', quote: 'Mide dos veces, corta una vez. Ese es el lema del plomero.' },
+    { professional: 'Steve Berry', quote: 'No hay sustituto para la experiencia en este oficio.' },
+    { professional: 'Roger Wakefield', quote: 'El problema no es el problema. El problema es tu actitud frente al problema.' },
+    { professional: 'Mike Diamond', quote: 'El éxito es la suma de pequeños esfuerzos repetidos día tras día.' },
+    { professional: 'Richard Trethewey', quote: 'La excelencia no es una habilidad. Es una actitud.' },
+    { professional: 'Ed Del Grande', quote: 'La única forma de hacer un gran trabajo es amar lo que haces.' },
+    { professional: 'Matt Muenster', quote: 'La plomería no es un trabajo, es un oficio.' }
+  ]
+};
 
-export function getPlumberQuoteOfTheDay() {
+export function getPlumberQuoteOfTheDay(language: string = 'en') {
+  const locale: 'en' | 'es' = language.toLowerCase().startsWith('es') ? 'es' : 'en';
+  const quotes = plumberQuotesByLocale[locale];
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const diff = now.getTime() - start.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
   const dayOfYear = Math.floor(diff / oneDay);
-  const idx = dayOfYear % plumberQuotes.length;
-  return plumberQuotes[idx];
+  const idx = dayOfYear % quotes.length;
+  return quotes[idx];
 }
 
 export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
@@ -69,7 +97,12 @@ export interface Recipe {
 }
 
 const MyPipeBook = () => {
-  const { t } = useTranslation();
+  const translation = useTranslation();
+  const t = translation.t;
+  const currentLanguage =
+    (typeof window !== 'undefined' &&
+      (window.localStorage?.getItem('i18nextLng') || window.navigator?.language)) ||
+    'en';
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
   const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
@@ -201,9 +234,9 @@ const MyPipeBook = () => {
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '3', name: 'Quick Repairs', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '4', name: 'Safety First', emoji: '🔧', recipes: ['1', '2', '3', '4', '5'] }
+    { id: '1', name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }), emoji: '⭐', recipes: ['1', '2', '3'] },
+    { id: '3', name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }), emoji: '⚡', recipes: ['1', '2'] },
+    { id: '4', name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }), emoji: '🔧', recipes: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
@@ -220,6 +253,15 @@ const MyPipeBook = () => {
     { key: 'Vegetarian', label: t('myPipeBook.vegetarian') },
     { key: 'Dessert', label: t('myPipeBook.dessert') }
   ];
+
+  useEffect(() => {
+    setCollections((prev) => prev.map((collection) => {
+      if (collection.id === '1') return { ...collection, name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }) };
+      if (collection.id === '3') return { ...collection, name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }) };
+      if (collection.id === '4') return { ...collection, name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }) };
+      return collection;
+    }));
+  }, [currentLanguage, t]);
 
   // Handle recipe selection for collections
   const handleRecipeSelect = (recipeId: string) => {
@@ -943,7 +985,7 @@ const MyPipeBook = () => {
       {/* Plumber of the Day Quote - simplified text only */}
       <div className="mt-6 text-center">
         {(() => {
-          const quoteOfDay = getPlumberQuoteOfTheDay();
+          const quoteOfDay = getPlumberQuoteOfTheDay(currentLanguage);
           return (
             <>
               <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
@@ -1551,9 +1593,9 @@ const MyPipeBook = () => {
                     onChange={(e) => setUserFilter(e.target.value)}
                     className="border-2 border-purple-300 rounded-lg px-4 py-2 bg-white text-purple-800 font-bold focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
-                    <option value="all">All Users</option>
-                    <option value="me">My Videos Only</option>
-                    <option value="public">Public Videos Only</option>
+                    <option value="all">{t('myPipeBook.allUsers', { defaultValue: 'All Users' })}</option>
+                    <option value="me">{t('myPipeBook.myVideosOnly', { defaultValue: 'My Videos Only' })}</option>
+                    <option value="public">{t('myPipeBook.publicVideosOnly', { defaultValue: 'Public Videos Only' })}</option>
                   </select>
                 </div>
               </div>
@@ -1576,21 +1618,21 @@ const MyPipeBook = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Pipe Layout Practice Session.webm',
+                      name: `${t('myPipeBook.demoVideos.pipeLayoutPracticeSession', { defaultValue: 'Pipe Layout Practice Session' })}.webm`,
                       url: 'https://placehold.co/640x360/1e293b/white?text=Pipe+Layout+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Pipe Layout Assignment.webm',
+                      name: `${t('myPipeBook.demoVideos.pipeLayoutAssignment', { defaultValue: 'Pipe Layout Assignment' })}.webm`,
                       url: 'https://placehold.co/640x360/1e293b/white?text=DWV+Assembly+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Water Heater Service Final.webm',
+                      name: `${t('myPipeBook.demoVideos.waterHeaterServiceFinal', { defaultValue: 'Water Heater Service Final' })}.webm`,
                       url: 'https://placehold.co/640x360/1e293b/white?text=Water+Heater+Service',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
