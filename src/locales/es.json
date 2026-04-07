@@ -3063,6 +3063,11 @@
       "pipeLayoutPracticeSession": "Sesión de Práctica de Diseño de Tuberías",
       "pipeLayoutAssignment": "Tarea de Diseño de Tuberías",
       "waterHeaterServiceFinal": "Servicio Final de Calentador de Agua"
+    },
+    "defaultCollections": {
+      "favorites": "Favoritos",
+      "quickRepairs": "Reparaciones Rápidas",
+      "safetyFirst": "Seguridad Primero"
     }
   },
   "myManual": {

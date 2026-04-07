@@ -2738,6 +2738,11 @@
       "pipeLayoutPracticeSession": "Pipe Layout Practice Session",
       "pipeLayoutAssignment": "Pipe Layout Assignment",
       "waterHeaterServiceFinal": "Water Heater Service Final"
+    },
+    "defaultCollections": {
+      "favorites": "Favorites",
+      "quickRepairs": "Quick Repairs",
+      "safetyFirst": "Safety First"
     }
   },
   "myManual": {
