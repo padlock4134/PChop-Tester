@@ -75,6 +75,28 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   };
   const navigate = useNavigate();
   const { toggleAdminMode } = useAdminToggle();
+  const humanizeKeyLikeText = (value: string) =>
+    value
+      .replace(/^https?:\/\/[^/]+\//, '')
+      .replace(/^.*claim\//, '')
+      .replace(/[._-]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  const formatLtiClaimLabel = (claim: string) => {
+    if (claim === 'sub') return 'User Subject ID';
+    if (claim === 'email') return 'User Email';
+    if (claim.includes('roles')) return 'User Roles';
+    if (claim.includes('context.id')) return 'Course Context ID';
+    if (claim.includes('context.label')) return 'Course Section Label';
+    return humanizeKeyLikeText(claim);
+  };
+  const formatAlertTypeLabel = (alertType: string) =>
+    alertType
+      .replace(/_/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedDiscipline, setSelectedDiscipline] = useState<'total' | DisciplineKey>(() => {
     const stored = localStorage.getItem('adminSelectedDiscipline');
@@ -82,6 +104,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   });
   const skin = useMemo(() => getSkin(selectedDiscipline), [selectedDiscipline]);
   const [disciplineOptions, setDisciplineOptions] = useState(baseDisciplineOptions);
+  const contentSourceLabel = useMemo(
+    () => humanizeKeyLikeText(skin.content.table.replace(/^user[._-]?/i, '')),
+    [skin.content.table]
+  );
   
   // Load custom disciplines on mount
   useEffect(() => {
@@ -1634,7 +1660,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                              alert.alert_type === 'plagiarism' ? '📝' : '🚨'}
                           </span>
                           <div className="flex-1">
-                            <div className="font-bold text-orange-900 text-sm">{alert.alert_type.replace('_', ' ').toUpperCase()}</div>
+                            <div className="font-bold text-orange-900 text-sm">{formatAlertTypeLabel(alert.alert_type)}</div>
                             <div className="text-orange-800 text-xs">{alert.description}</div>
                             <div className="text-orange-600 text-xs mt-1">{alert.discipline || 'System'}</div>
                           </div>
@@ -1694,7 +1720,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <div className="flex-1 text-center">
                           <div className="text-sm text-orange-800 transition-all duration-500">
                             <span>
-                              <strong>{currentAlert.alert_type.replace('_', ' ').toUpperCase()}</strong> •{' '}
+                              <strong>{formatAlertTypeLabel(currentAlert.alert_type)}</strong> •{' '}
                               {currentAlert.description} •{' '}
                               {currentAlert.discipline || 'System'}
                             </span>
@@ -2059,7 +2085,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }`}
                         />
                         <span className="font-bold text-sm uppercase">
-                          {alert.alert_type.replace('_', ' ')}
+                          {formatAlertTypeLabel(alert.alert_type)}
                         </span>
                         <span
                           className={`px-2 py-1 rounded text-xs font-bold ${
@@ -2128,7 +2154,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <h3 className="text-xl font-bold text-maineBlue mb-4">Review Alert</h3>
               <div className="mb-4">
                 <p className="text-sm text-gray-700 mb-2">
-                  <strong>Type:</strong> {selectedAlert.alert_type.replace('_', ' ')}
+                  <strong>Type:</strong> {formatAlertTypeLabel(selectedAlert.alert_type)}
                 </p>
                 <p className="text-sm text-gray-700 mb-2">
                   <strong>Description:</strong> {selectedAlert.description}
@@ -2649,7 +2675,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item1: e.target.checked }
                           })}
                         />
-                        <span>{skin.content.table} databases → Feeds matcher algorithm</span>
+                        <span>{contentSourceLabel} databases → Feeds matcher algorithm</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2730,7 +2756,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, items: e.target.checked }
                           })}
                         />
-                        <span>{skin.content.table} collections → Library</span>
+                        <span>{contentSourceLabel} collections → Library</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -4474,7 +4500,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           { metric: 'Completion Rate', value: '73%', change: '+5%' },
                           { metric: 'Avg Engagement Score', value: 4.2, change: 'No change' },
                           { metric: 'Active Content', value: 28, change: '+3 new' },
-                          { metric: `Top ${skin.content.table}`, value: 'Advanced Techniques', completion: '94%' },
+                          { metric: `Top ${contentSourceLabel}`, value: 'Advanced Techniques', completion: '94%' },
                           { metric: 'Needs Attention', value: 'Advanced Plating', completion: '34%' }
                         ];
                         
@@ -5051,7 +5077,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="flex items-center flex-1">
                         <span className="text-xl sm:text-2xl mr-2 sm:mr-3">🍳</span>
                         <div className="min-w-0">
-                          <p className="font-medium text-xs sm:text-base truncate">Week 3 - {skin.content.table} Materials.docx</p>
+                          <p className="font-medium text-xs sm:text-base truncate">Week 3 - {contentSourceLabel} Materials.docx</p>
                           <p className="text-xs sm:text-sm text-gray-500">1.8 MB • Uploaded yesterday</p>
                         </div>
                       </div>
@@ -5240,7 +5266,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         className="w-full px-3 py-2 border-2 border-blue-400 rounded-md bg-white text-sm min-h-[44px]"
                       >
                         {availableLtiClaimOptions.map((claim) => (
-                          <option key={claim} value={claim}>{claim}</option>
+                          <option key={claim} value={claim}>{formatLtiClaimLabel(claim)}</option>
                         ))}
                       </select>
                     </div>
