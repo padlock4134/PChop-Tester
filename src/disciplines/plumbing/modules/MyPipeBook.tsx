@@ -229,9 +229,9 @@ const MyPipeBook = () => {
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '3', name: 'Quick Repairs', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '4', name: 'Safety First', emoji: '🔧', recipes: ['1', '2', '3', '4', '5'] }
+    { id: '1', name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }), emoji: '⭐', recipes: ['1', '2', '3'] },
+    { id: '3', name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }), emoji: '⚡', recipes: ['1', '2'] },
+    { id: '4', name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }), emoji: '🔧', recipes: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
@@ -1579,9 +1579,9 @@ const MyPipeBook = () => {
                     onChange={(e) => setUserFilter(e.target.value)}
                     className="border-2 border-purple-300 rounded-lg px-4 py-2 bg-white text-purple-800 font-bold focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
-                    <option value="all">All Users</option>
-                    <option value="me">My Videos Only</option>
-                    <option value="public">Public Videos Only</option>
+                    <option value="all">{t('myPipeBook.allUsers', { defaultValue: 'All Users' })}</option>
+                    <option value="me">{t('myPipeBook.myVideosOnly', { defaultValue: 'My Videos Only' })}</option>
+                    <option value="public">{t('myPipeBook.publicVideosOnly', { defaultValue: 'Public Videos Only' })}</option>
                   </select>
                 </div>
               </div>
@@ -1604,21 +1604,21 @@ const MyPipeBook = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Pipe Layout Practice Session.webm',
+                      name: `${t('myPipeBook.demoVideos.pipeLayoutPracticeSession', { defaultValue: 'Pipe Layout Practice Session' })}.webm`,
                       url: 'https://placehold.co/640x360/1e293b/white?text=Pipe+Layout+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Pipe Layout Assignment.webm',
+                      name: `${t('myPipeBook.demoVideos.pipeLayoutAssignment', { defaultValue: 'Pipe Layout Assignment' })}.webm`,
                       url: 'https://placehold.co/640x360/1e293b/white?text=DWV+Assembly+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'Water Heater Service Final.webm',
+                      name: `${t('myPipeBook.demoVideos.waterHeaterServiceFinal', { defaultValue: 'Water Heater Service Final' })}.webm`,
                       url: 'https://placehold.co/640x360/1e293b/white?text=Water+Heater+Service',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
@@ -1738,3 +1738,11 @@ const MyPipeBook = () => {
 };
 
 export default MyPipeBook;
+  useEffect(() => {
+    setCollections((prev) => prev.map((collection) => {
+      if (collection.id === '1') return { ...collection, name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }) };
+      if (collection.id === '3') return { ...collection, name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }) };
+      if (collection.id === '4') return { ...collection, name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }) };
+      return collection;
+    }));
+  }, [i18n.language, t]);

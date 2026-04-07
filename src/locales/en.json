@@ -123,6 +123,19 @@
     "submission": "Submission",
     "objectives": "Objectives",
     "selectVideo": "Select Video",
+    "allUsers": "All Users",
+    "myVideosOnly": "My Videos Only",
+    "publicVideosOnly": "Public Videos Only",
+    "defaultCollections": {
+      "favorites": "Favorites",
+      "quickRepairs": "Quick Repairs",
+      "safetyFirst": "Safety First"
+    },
+    "demoVideos": {
+      "pipeLayoutPracticeSession": "Pipe Layout Practice Session",
+      "pipeLayoutAssignment": "Pipe Layout Assignment",
+      "waterHeaterServiceFinal": "Water Heater Service Final"
+    },
     "clickToPlay": "Click to play video submission",
     "submittedVia": "Submitted via Global Pipe Lab",
     "assignment": "Assignment",
@@ -1741,7 +1754,21 @@
     "goToMyKitchen": "Go to My Van",
     "goToMyCookbook": "Go to My Pipe Book",
     "techniqueOfTheWeek": "Technique of the Week:",
-    "letsCookThisMeal": "Let's Do This!"
+    "letsCookThisMeal": "Let's Do This!",
+    "projectApproach": "How to approach the main task for this project.",
+    "projectWalkthrough": "Step-by-step project walkthrough for {{title}}.",
+    "curriculumTitle": "Plumbing Technology Curriculum",
+    "kitchenSink": "The Kitchen Sink",
+    "lessonsPracticed": "Lessons Practiced",
+    "term1Fundamentals": "Term 1: Plumbing Fundamentals",
+    "term1WaterSupply": "Term 1: Water Supply Systems",
+    "term2Dwv": "Term 2: Drain, Waste & Vent",
+    "term2ProfessionalPractice": "Term 2: Professional Practice",
+    "lessonSafetyPpe": "Safety, PPE, and Job Site Procedures",
+    "lessonToolsMaterials": "Tools, Materials, and Pipe Types",
+    "lessonIntroCode": "Introduction to the Plumbing Code",
+    "lessonPipeFitting": "Basic Pipe Fitting and Joining",
+    "lessonMeasurements": "Measurements, Math, and Conversions"
   },
   "autoSchool": {
     "title": "Auto School",
@@ -1907,6 +1934,17 @@
     "errorNoRecipe": "Error: No procedure selected",
     "recipeSetToShowcase": "Procedure \"{title}\" is now set to showcase!",
     "failedToImport": "Failed to import procedure. Please try again.",
+    "importModal": {
+      "selectProcedure": "Select Procedure to Showcase",
+      "chooseProcedure": "Choose a procedure from your pipe book to showcase in Pipe Lounge.",
+      "noProcedures": "No procedures found in your Pipe Book.",
+      "parts": "parts",
+      "stepsIncluded": "Steps included",
+      "showcaseProcedure": "Showcase Procedure",
+      "importing": "Importing...",
+      "cancel": "Cancel",
+      "failedImport": "Failed to import procedure. Please try again."
+    },
     "loading": "Loading...",
     "removeShowcaseRecipe": "Remove showcase procedure",
     "ingredients": "Parts:",

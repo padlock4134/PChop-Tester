@@ -123,6 +123,19 @@
     "submission": "Entrega",
     "objectives": "Objetivos",
     "selectVideo": "Seleccionar Video",
+    "allUsers": "Todos los Usuarios",
+    "myVideosOnly": "Solo Mis Videos",
+    "publicVideosOnly": "Solo Videos Públicos",
+    "defaultCollections": {
+      "favorites": "Favoritos",
+      "quickRepairs": "Reparaciones Rápidas",
+      "safetyFirst": "Seguridad Primero"
+    },
+    "demoVideos": {
+      "pipeLayoutPracticeSession": "Sesión de Práctica de Trazado de Tuberías",
+      "pipeLayoutAssignment": "Tarea de Trazado de Tuberías",
+      "waterHeaterServiceFinal": "Servicio Final de Calentador de Agua"
+    },
     "clickToPlay": "Haz clic para reproducir la entrega de video",
     "submittedVia": "Enviado a través de Laboratorio Global de Tuberías",
     "assignment": "Tarea",
@@ -2043,7 +2056,21 @@
     "goToMyKitchen": "Ir a Mi Van",
     "goToMyCookbook": "Ir a Mi Libro de Tuberías",
     "techniqueOfTheWeek": "Técnica de la Semana:",
-    "letsCookThisMeal": "¡Hagámoslo!"
+    "letsCookThisMeal": "¡Hagámoslo!",
+    "projectApproach": "Cómo abordar la tarea principal para este proyecto.",
+    "projectWalkthrough": "Guía paso a paso del proyecto para {{title}}.",
+    "curriculumTitle": "Plan de Estudios de Tecnología de Plomería",
+    "kitchenSink": "El Fregadero de Práctica",
+    "lessonsPracticed": "Lecciones Practicadas",
+    "term1Fundamentals": "Término 1: Fundamentos de Plomería",
+    "term1WaterSupply": "Término 1: Sistemas de Suministro de Agua",
+    "term2Dwv": "Término 2: Drenaje, Desechos y Ventilación",
+    "term2ProfessionalPractice": "Término 2: Práctica Profesional",
+    "lessonSafetyPpe": "Seguridad, EPP y Procedimientos en el Sitio",
+    "lessonToolsMaterials": "Herramientas, Materiales y Tipos de Tubería",
+    "lessonIntroCode": "Introducción al Código de Plomería",
+    "lessonPipeFitting": "Ajuste y Unión Básica de Tuberías",
+    "lessonMeasurements": "Mediciones, Matemática y Conversiones"
   },
   "autoSchool": {
     "title": "Escuela Automotriz",
@@ -2209,6 +2236,17 @@
     "errorNoRecipe": "Error: No se seleccionó ningún procedimiento",
     "recipeSetToShowcase": "¡El procedimiento \"{title}\" ahora está destacado!",
     "failedToImport": "Error al importar procedimiento. Por favor intenta de nuevo.",
+    "importModal": {
+      "selectProcedure": "Seleccionar Procedimiento para Destacar",
+      "chooseProcedure": "Elige un procedimiento de tu libro de tuberías para destacarlo en la Sala de Tuberías.",
+      "noProcedures": "No se encontraron procedimientos en tu Libro de Tuberías.",
+      "parts": "piezas",
+      "stepsIncluded": "Pasos incluidos",
+      "showcaseProcedure": "Destacar Procedimiento",
+      "importing": "Importando...",
+      "cancel": "Cancelar",
+      "failedImport": "Error al importar procedimiento. Por favor intenta de nuevo."
+    },
     "loading": "Cargando...",
     "removeShowcaseRecipe": "Eliminar procedimiento destacado",
     "ingredients": "Piezas:",
