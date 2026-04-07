@@ -75,6 +75,28 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   };
   const navigate = useNavigate();
   const { toggleAdminMode } = useAdminToggle();
+  const humanizeKeyLikeText = (value: string) =>
+    value
+      .replace(/^https?:\/\/[^/]+\//, '')
+      .replace(/^.*claim\//, '')
+      .replace(/[._-]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  const formatLtiClaimLabel = (claim: string) => {
+    if (claim === 'sub') return 'User Subject ID';
+    if (claim === 'email') return 'User Email';
+    if (claim.includes('roles')) return 'User Roles';
+    if (claim.includes('context.id')) return 'Course Context ID';
+    if (claim.includes('context.label')) return 'Course Section Label';
+    return humanizeKeyLikeText(claim);
+  };
+  const formatAlertTypeLabel = (alertType: string) =>
+    alertType
+      .replace(/_/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/\b\w/g, (c) => c.toUpperCase());
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedDiscipline, setSelectedDiscipline] = useState<'total' | DisciplineKey>(() => {
     const stored = localStorage.getItem('adminSelectedDiscipline');
@@ -82,6 +104,130 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   });
   const skin = useMemo(() => getSkin(selectedDiscipline), [selectedDiscipline]);
   const [disciplineOptions, setDisciplineOptions] = useState(baseDisciplineOptions);
+  const contentSourceLabel = useMemo(
+    () => humanizeKeyLikeText(skin.content.table.replace(/^user[._-]?/i, '')),
+    [skin.content.table]
+  );
+  const disciplineMockContent = useMemo(() => {
+    const byDiscipline: Partial<Record<DisciplineKey, {
+      progressionLabel: string;
+      topPerforming: string[];
+      needsAttention: string[];
+    }>> = {
+      culinary: {
+        progressionLabel: 'Knife Skills & Techniques (52)',
+        topPerforming: ['French Knife Skills', 'Core Skills Mastery', 'Pasta Making Fundamentals'],
+        needsAttention: ['Advanced Plating Techniques', 'Molecular Gastronomy Basics', 'Wine Pairing Fundamentals'],
+      },
+      automotive: {
+        progressionLabel: 'Diagnostic Skills & Repair Procedures (52)',
+        topPerforming: ['Brake System Diagnostics', 'Core Repair Workflow Mastery', 'Engine Performance Fundamentals'],
+        needsAttention: ['Advanced Transmission Diagnostics', 'Hybrid Systems Troubleshooting', 'Electrical Fault Isolation'],
+      },
+      construction: {
+        progressionLabel: 'Site Skills & Build Procedures (52)',
+        topPerforming: ['Blueprint Reading Fundamentals', 'Core Build Workflow Mastery', 'Framing & Layout Basics'],
+        needsAttention: ['Advanced Scheduling & Sequencing', 'Site Logistics Optimization', 'Code Compliance Deep Dive'],
+      },
+      electrical: {
+        progressionLabel: 'Circuit Skills & Safety Procedures (52)',
+        topPerforming: ['Circuit Fundamentals', 'Core Panel Workflow Mastery', 'Conduit Planning Basics'],
+        needsAttention: ['Advanced Motor Controls', 'Service Upgrade Planning', 'Troubleshooting Complex Faults'],
+      },
+      plumbing: {
+        progressionLabel: 'Fit Skills & Installation Procedures (52)',
+        topPerforming: ['Pipe Layout Fundamentals', 'Core Installation Workflow Mastery', 'Fixture Installation Basics'],
+        needsAttention: ['Advanced Backflow Systems', 'Hydronic Balancing', 'Commercial Code Applications'],
+      },
+      hvac: {
+        progressionLabel: 'System Skills & Service Procedures (52)',
+        topPerforming: ['Airflow Fundamentals', 'Core Service Workflow Mastery', 'Refrigeration Cycle Basics'],
+        needsAttention: ['Advanced Controls Integration', 'Load Calculation Deep Dive', 'Commercial Rooftop Diagnostics'],
+      },
+      manufacturing: {
+        progressionLabel: 'Process Skills & Quality Procedures (52)',
+        topPerforming: ['Lean Fundamentals', 'Core Process Workflow Mastery', 'Quality Checkpoint Basics'],
+        needsAttention: ['Advanced SPC Analysis', 'Root Cause Investigation', 'Line Balancing Optimization'],
+      },
+      logistics: {
+        progressionLabel: 'Route Skills & Dispatch Procedures (52)',
+        topPerforming: ['Route Planning Fundamentals', 'Core Dispatch Workflow Mastery', 'Warehouse Coordination Basics'],
+        needsAttention: ['Advanced Last-Mile Optimization', 'Carrier Performance Analysis', 'Demand Volatility Planning'],
+      },
+      machining: {
+        progressionLabel: 'Setup Skills & Precision Procedures (52)',
+        topPerforming: ['Blueprint & Tolerance Basics', 'Core Setup Workflow Mastery', 'Tooling Selection Fundamentals'],
+        needsAttention: ['Advanced CNC Offsets', 'Surface Finish Optimization', 'Complex Fixture Strategy'],
+      },
+    };
+
+    return byDiscipline[selectedDiscipline as DisciplineKey] || {
+      progressionLabel: `${skin.name} Skills & Procedures (52)`,
+      topPerforming: ['Foundations', 'Core Workflow Mastery', 'Applied Fundamentals'],
+      needsAttention: ['Advanced Applications', 'Complex Scenario Practice', 'Performance Optimization'],
+    };
+  }, [selectedDiscipline, skin.name]);
+  const disciplineDistributionLabels = useMemo(() => {
+    const defaults = {
+      workspace: ['Source records → Matching engine feeds', 'Input lists → Workspace inventory', 'Equipment → Setup guides', 'Compliance constraints → Matching filters'],
+      notebook: ['Assignments & rubrics', 'Assessment rubrics', `${contentSourceLabel} collections → Library`, 'Video tutorials'],
+      school: ['Technique lessons', 'Course syllabus', 'Weekly lessons', 'Learning objectives'],
+      community: ['Instructor videos', 'Industry insights', 'Live session schedules', 'Partnership opportunities'],
+    };
+
+    const byDiscipline: Partial<Record<DisciplineKey, typeof defaults>> = {
+      automotive: {
+        workspace: ['Repair orders → Matcher engine feeds', 'Parts lists → Shop inventory', 'Tools → Bay setup guides', 'Safety constraints → Diagnostic filters'],
+        notebook: ['Repair assignments & rubrics', 'Inspection rubrics', `${contentSourceLabel} collections → Library`, 'Service walkthrough videos'],
+        school: ['Diagnostics lessons', 'Program syllabus', 'Weekly lab plans', 'ASE-aligned objectives'],
+        community: ['Master tech videos', 'Industry insights', 'Live shop sessions', 'Employer partnership opportunities'],
+      },
+      construction: {
+        workspace: ['Site logs → Planning engine feeds', 'Material lists → Site inventory', 'Equipment → Site setup guides', 'Code constraints → Plan filters'],
+        notebook: ['Build assignments & rubrics', 'Inspection rubrics', `${contentSourceLabel} collections → Library`, 'Field walkthrough videos'],
+        school: ['Build methods lessons', 'Program syllabus', 'Weekly site plans', 'Code-aligned objectives'],
+        community: ['Instructor field videos', 'Industry insights', 'Live site sessions', 'Contractor partnership opportunities'],
+      },
+      electrical: {
+        workspace: ['Work orders → Troubleshooting feeds', 'Parts lists → Panel inventory', 'Tools → Setup guides', 'Code constraints → Circuit filters'],
+        notebook: ['Circuit assignments & rubrics', 'Troubleshooting rubrics', `${contentSourceLabel} collections → Library`, 'Panel walkthrough videos'],
+        school: ['Circuit lessons', 'Program syllabus', 'Weekly lab plans', 'NEC-aligned objectives'],
+        community: ['Instructor demo videos', 'Industry insights', 'Live troubleshooting sessions', 'Partner opportunities'],
+      },
+      plumbing: {
+        workspace: ['Service tickets → Matcher feeds', 'Material lists → Van inventory', 'Tools → Install guides', 'Code constraints → Fit filters'],
+        notebook: ['Fit assignments & rubrics', 'Installation rubrics', `${contentSourceLabel} collections → Library`, 'Service walkthrough videos'],
+        school: ['Piping lessons', 'Program syllabus', 'Weekly install plans', 'Code-aligned objectives'],
+        community: ['Instructor install videos', 'Industry insights', 'Live service sessions', 'Supply-house partnerships'],
+      },
+      hvac: {
+        workspace: ['Service tickets → System matcher feeds', 'Parts lists → Shop inventory', 'Equipment → Setup guides', 'Code constraints → System filters'],
+        notebook: ['System assignments & rubrics', 'Service rubrics', `${contentSourceLabel} collections → Library`, 'Diagnostics walkthrough videos'],
+        school: ['HVAC system lessons', 'Program syllabus', 'Weekly service plans', 'EPA/Code-aligned objectives'],
+        community: ['Instructor service videos', 'Industry insights', 'Live service sessions', 'Distributor partnerships'],
+      },
+      manufacturing: {
+        workspace: ['Process logs → Optimization feeds', 'Material lists → Floor inventory', 'Tooling → Setup guides', 'Quality constraints → Process filters'],
+        notebook: ['Process assignments & rubrics', 'Quality rubrics', `${contentSourceLabel} collections → Library`, 'Line walkthrough videos'],
+        school: ['Process lessons', 'Program syllabus', 'Weekly production plans', 'Lean-aligned objectives'],
+        community: ['Instructor floor videos', 'Industry insights', 'Live production sessions', 'Partner opportunities'],
+      },
+      logistics: {
+        workspace: ['Route logs → Optimization feeds', 'Manifest lists → Dock inventory', 'Equipment → Loadout guides', 'Delivery constraints → Route filters'],
+        notebook: ['Route assignments & rubrics', 'Dispatch rubrics', `${contentSourceLabel} collections → Library`, 'Operations walkthrough videos'],
+        school: ['Dispatch lessons', 'Program syllabus', 'Weekly route plans', 'Operations objectives'],
+        community: ['Instructor operations videos', 'Industry insights', 'Live dispatch sessions', 'Carrier partnerships'],
+      },
+      machining: {
+        workspace: ['Job travelers → Matcher feeds', 'Tool lists → Bench inventory', 'Setup tools → Guide sheets', 'Tolerance constraints → Process filters'],
+        notebook: ['Setup assignments & rubrics', 'Inspection rubrics', `${contentSourceLabel} collections → Library`, 'Machining walkthrough videos'],
+        school: ['Setup lessons', 'Program syllabus', 'Weekly machining plans', 'Precision objectives'],
+        community: ['Instructor demo videos', 'Industry insights', 'Live machining sessions', 'Employer partnerships'],
+      },
+    };
+
+    return byDiscipline[selectedDiscipline as DisciplineKey] || defaults;
+  }, [selectedDiscipline, contentSourceLabel]);
   
   // Load custom disciplines on mount
   useEffect(() => {
@@ -1634,7 +1780,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                              alert.alert_type === 'plagiarism' ? '📝' : '🚨'}
                           </span>
                           <div className="flex-1">
-                            <div className="font-bold text-orange-900 text-sm">{alert.alert_type.replace('_', ' ').toUpperCase()}</div>
+                            <div className="font-bold text-orange-900 text-sm">{formatAlertTypeLabel(alert.alert_type)}</div>
                             <div className="text-orange-800 text-xs">{alert.description}</div>
                             <div className="text-orange-600 text-xs mt-1">{alert.discipline || 'System'}</div>
                           </div>
@@ -1694,7 +1840,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         <div className="flex-1 text-center">
                           <div className="text-sm text-orange-800 transition-all duration-500">
                             <span>
-                              <strong>{currentAlert.alert_type.replace('_', ' ').toUpperCase()}</strong> •{' '}
+                              <strong>{formatAlertTypeLabel(currentAlert.alert_type)}</strong> •{' '}
                               {currentAlert.description} •{' '}
                               {currentAlert.discipline || 'System'}
                             </span>
@@ -2059,7 +2205,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           }`}
                         />
                         <span className="font-bold text-sm uppercase">
-                          {alert.alert_type.replace('_', ' ')}
+                          {formatAlertTypeLabel(alert.alert_type)}
                         </span>
                         <span
                           className={`px-2 py-1 rounded text-xs font-bold ${
@@ -2128,7 +2274,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <h3 className="text-xl font-bold text-maineBlue mb-4">Review Alert</h3>
               <div className="mb-4">
                 <p className="text-sm text-gray-700 mb-2">
-                  <strong>Type:</strong> {selectedAlert.alert_type.replace('_', ' ')}
+                  <strong>Type:</strong> {formatAlertTypeLabel(selectedAlert.alert_type)}
                 </p>
                 <p className="text-sm text-gray-700 mb-2">
                   <strong>Description:</strong> {selectedAlert.description}
@@ -2649,7 +2795,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item1: e.target.checked }
                           })}
                         />
-                        <span>{skin.content.table} databases → Feeds matcher algorithm</span>
+                        <span>{disciplineDistributionLabels.workspace[0]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2661,7 +2807,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item2: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.ingredientLists')}</span>
+                        <span>{disciplineDistributionLabels.workspace[1]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2673,7 +2819,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item3: e.target.checked }
                           })}
                         />
-                        <span>Equipment → Setup guides</span>
+                        <span>{disciplineDistributionLabels.workspace[2]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2685,7 +2831,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item4: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.dietaryRestrictions')}</span>
+                        <span>{disciplineDistributionLabels.workspace[3]}</span>
                       </label>
                       </div>
                     </div>
@@ -2706,7 +2852,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, assignments: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.assignmentsRubrics')}</span>
+                        <span>{disciplineDistributionLabels.notebook[0]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2718,7 +2864,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, rubrics: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.assignmentsRubrics')}</span>
+                        <span>{disciplineDistributionLabels.notebook[1]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2730,7 +2876,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, items: e.target.checked }
                           })}
                         />
-                        <span>{skin.content.table} collections → Library</span>
+                        <span>{disciplineDistributionLabels.notebook[2]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2742,7 +2888,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, video: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.videoTutorials')}</span>
+                        <span>{disciplineDistributionLabels.notebook[3]}</span>
                       </label>
                       </div>
                     </div>
@@ -2763,7 +2909,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             school: { ...moduleSelection.school, techniques: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.techniqueLessons')}</span>
+                        <span>{disciplineDistributionLabels.school[0]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2775,7 +2921,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             school: { ...moduleSelection.school, syllabus: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.courseSyllabus')}</span>
+                        <span>{disciplineDistributionLabels.school[1]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2787,7 +2933,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             school: { ...moduleSelection.school, lessons: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.weeklyLessons')}</span>
+                        <span>{disciplineDistributionLabels.school[2]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2799,7 +2945,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             school: { ...moduleSelection.school, objectives: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.learningObjectives')}</span>
+                        <span>{disciplineDistributionLabels.school[3]}</span>
                       </label>
                       </div>
                     </div>
@@ -2820,7 +2966,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             community: { ...moduleSelection.community, videos: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.instructorVideos')}</span>
+                        <span>{disciplineDistributionLabels.community[0]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2832,7 +2978,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             community: { ...moduleSelection.community, insights: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.industryInsights')}</span>
+                        <span>{disciplineDistributionLabels.community[1]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2844,7 +2990,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             community: { ...moduleSelection.community, sessions: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.liveSessionSchedules')}</span>
+                        <span>{disciplineDistributionLabels.community[2]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2856,7 +3002,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             community: { ...moduleSelection.community, partnerships: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.partnershipOpportunities')}</span>
+                        <span>{disciplineDistributionLabels.community[3]}</span>
                       </label>
                       </div>
                     </div>
@@ -2971,8 +3117,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                         // Distribute to workspace (content items) - based on checkbox state
                         if (moduleSelection.workspace.item1 && contentType === 'content') {
-                          const { error: recipeError } = await supabase
-                            .from('user_cookbook')
+                          const { error: contentInsertError } = await supabase
+                            .from(skin.content.table)
                             .insert({
                               user_id: currentUser.id,
                               title: metadata.title,
@@ -2982,8 +3128,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                               created_at: new Date().toISOString()
                             });
                           
-                          if (recipeError) {
-                            console.error('Recipe insert error:', recipeError);
+                          if (contentInsertError) {
+                            console.error(`${skin.content.table} insert error:`, contentInsertError);
                           }
                         }
 
@@ -3946,7 +4092,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="space-y-2 sm:space-y-3">
                   <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">{t('admin.knifeSkillsTechniques', { count: 52 })}</span>
+                      <span className="font-medium text-xs sm:text-base">{disciplineMockContent.progressionLabel}</span>
                       <span className="text-xs sm:text-sm font-bold text-blue-600">{t('admin.averageCompleted', { completed: 38, total: 52 })}</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
@@ -4258,7 +4404,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.frenchKnifeSkills')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.topPerforming[0]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook} • {skin.name}</p>
                         </div>
                         <div className="text-right">
@@ -4268,7 +4414,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Core Skills Mastery</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.topPerforming[1]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
@@ -4278,7 +4424,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.pastaMakingFundamentals')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.topPerforming[2]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
@@ -4294,7 +4440,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.advancedPlatingTechniques')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.needsAttention[0]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
                         </div>
                         <div className="text-right">
@@ -4304,7 +4450,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.molecularGastronomyBasics')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.needsAttention[1]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.community}</p>
                         </div>
                         <div className="text-right">
@@ -4314,7 +4460,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       </div>
                       <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
                         <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.winePairingFundamentals')}</p>
+                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.needsAttention[2]}</p>
                           <p className="text-xs sm:text-sm text-gray-600">{skin.modules.school}</p>
                         </div>
                         <div className="text-right">
@@ -4334,7 +4480,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <h4 className="font-medium text-blue-900 mb-2 text-xs sm:text-base">📚 {skin.modules.notebook}</h4>
                       <div className="space-y-1 text-xs sm:text-sm">
                       <div className="flex justify-between">
-                        <span>{t('admin.activeRecipes')}:</span>
+                        <span>Active {contentSourceLabel}:</span>
                         <span className="font-medium">18</span>
                       </div>
                       <div className="flex justify-between">
@@ -4474,8 +4620,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           { metric: 'Completion Rate', value: '73%', change: '+5%' },
                           { metric: 'Avg Engagement Score', value: 4.2, change: 'No change' },
                           { metric: 'Active Content', value: 28, change: '+3 new' },
-                          { metric: `Top ${skin.content.table}`, value: 'Advanced Techniques', completion: '94%' },
-                          { metric: 'Needs Attention', value: 'Advanced Plating', completion: '34%' }
+                          { metric: `Top ${contentSourceLabel}`, value: disciplineMockContent.topPerforming[0], completion: '94%' },
+                          { metric: 'Needs Attention', value: disciplineMockContent.needsAttention[0], completion: '34%' }
                         ];
                         
                         const csv = convertToCSV(analyticsData);
@@ -5051,7 +5197,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       <div className="flex items-center flex-1">
                         <span className="text-xl sm:text-2xl mr-2 sm:mr-3">🍳</span>
                         <div className="min-w-0">
-                          <p className="font-medium text-xs sm:text-base truncate">Week 3 - {skin.content.table} Materials.docx</p>
+                          <p className="font-medium text-xs sm:text-base truncate">Week 3 - {contentSourceLabel} Materials.docx</p>
                           <p className="text-xs sm:text-sm text-gray-500">1.8 MB • Uploaded yesterday</p>
                         </div>
                       </div>
@@ -5240,7 +5386,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                         className="w-full px-3 py-2 border-2 border-blue-400 rounded-md bg-white text-sm min-h-[44px]"
                       >
                         {availableLtiClaimOptions.map((claim) => (
-                          <option key={claim} value={claim}>{claim}</option>
+                          <option key={claim} value={claim}>{formatLtiClaimLabel(claim)}</option>
                         ))}
                       </select>
                     </div>
