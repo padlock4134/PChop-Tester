@@ -2368,7 +2368,33 @@
       "schedule": "Programar",
       "endSession": "Terminar Sesión",
       "viewers": "Espectadores",
-      "report": "Reportar"
+      "report": "Reportar",
+      "mockSessions": {
+        "siteLayout": "Calibración de Diseño de Sitio",
+        "siteLayoutDesc": "Calibrando mediciones de diseño para instalación residencial",
+        "precisionAssembly": "Práctica de Ensamblaje de Precisión",
+        "precisionAssemblyDesc": "Practicando ensamblaje de precisión con conexiones de cobre",
+        "systemFit": "Verificación de Ajuste del Sistema",
+        "systemFitDesc": "Verificando ajuste del sistema para conexiones DWV",
+        "blueprintDrill": "Ejercicio de Lectura de Planos",
+        "blueprintDrillDesc": "Ejercicio de lectura de planos y verificación de medidas",
+        "workflowTiming": "Desafío de Cronometraje de Flujo de Trabajo",
+        "workflowTimingDesc": "Desafío cronometrado de flujo de trabajo para llamadas de servicio residencial",
+        "qualityControl": "Recorrido de Control de Calidad",
+        "qualityControlDesc": "Recorrido avanzado de resolución de problemas para un caso real de campo",
+        "safetyDrill": "Ejercicio de Cumplimiento de Seguridad",
+        "safetyDrillDesc": "Ejercicio de cumplimiento de seguridad para entrada en espacios confinados",
+        "finalInspection": "Recorrido de Inspección Final",
+        "finalInspectionDesc": "Recorrido de inspección final para aprobación de cumplimiento de código",
+        "cultureSpanish": "Español",
+        "cultureJapanese": "Japonés",
+        "cultureLebanese": "Libanés",
+        "cultureFrench": "Francés",
+        "cultureIndian": "Indio",
+        "cultureMoroccan": "Marroquí",
+        "cultureRussian": "Ruso",
+        "culturePeruvian": "Peruano"
+      }
     }
   },
   "gearheadLounge": {

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 import { PlayIcon, VideoCameraIcon, UserGroupIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
 import { supabase } from '../../culinary/api/supabaseClient';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
@@ -98,87 +99,103 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   const [currentLiveSession, setCurrentLiveSession] = useState<LiveSession | null>(null);
   const [isViewer, setIsViewer] = useState(false);
   const [isHost, setIsHost] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
+  const buildMockLiveSessions = (tr: typeof t): LiveSession[] => [
     {
       id: '1',
       hostName: 'Maria Santos',
-      dishName: 'Site Layout Calibration',
-      culture: 'Spanish',
+      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.siteLayout', { defaultValue: 'Site Layout Calibration' }),
+      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureSpanish', { defaultValue: 'Spanish' }),
       viewers: 47,
       isLive: false,
       isEnded: true,
       thumbnail: '🥘',
-      description: 'Traditional paella from Valencia with saffron and bomba rice',
+      description: tr('pipeLounge.globalTestKitchen.mockSessions.siteLayoutDesc', { defaultValue: 'Calibrating layout measurements for residential rough-in' }),
       ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
     },
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Precision Assembly Practice',
-      culture: 'Japanese',
+      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.precisionAssembly', { defaultValue: 'Precision Assembly Practice' }),
+      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureJapanese', { defaultValue: 'Japanese' }),
       viewers: 23,
       isLive: true,
       thumbnail: '🍜',
-      description: 'Making ramen noodles from scratch with tonkotsu broth',
+      description: tr('pipeLounge.globalTestKitchen.mockSessions.precisionAssemblyDesc', { defaultValue: 'Practicing precision pipe assembly with copper fittings' }),
       ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'System Fit Verification',
-      culture: 'Lebanese',
+      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.systemFit', { defaultValue: 'System Fit Verification' }),
+      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureLebanese', { defaultValue: 'Lebanese' }),
       viewers: 35,
       isLive: true,
       thumbnail: '🧆',
-      description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
+      description: tr('pipeLounge.globalTestKitchen.mockSessions.systemFitDesc', { defaultValue: 'Verifying system fit for DWV connections' }),
       ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'Blueprint Readthrough Drill',
-      culture: 'French',
+      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.blueprintDrill', { defaultValue: 'Blueprint Readthrough Drill' }),
+      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureFrench', { defaultValue: 'French' }),
       viewers: 62,
       isLive: true,
       thumbnail: '🥐',
-      description: 'Mastering the art of laminated dough and butter layers',
+      description: tr('pipeLounge.globalTestKitchen.mockSessions.blueprintDrillDesc', { defaultValue: 'Blueprint readthrough and measurement verification drill' }),
       ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
     }
-  ]);
-  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
+  ];
+
+  const buildMockUpcomingSessions = (tr: typeof t): UpcomingSession[] => [
     {
       id: '3',
       hostName: 'Priya Sharma',
-      dishName: 'Workflow Timing Challenge',
-      culture: 'Indian',
+      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.workflowTiming', { defaultValue: 'Workflow Timing Challenge' }),
+      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureIndian', { defaultValue: 'Indian' }),
       scheduledTime: '2:00 PM EST',
-      description: 'Layered biryani with aromatic spices and basmati rice'
+      description: tr('pipeLounge.globalTestKitchen.mockSessions.workflowTimingDesc', { defaultValue: 'Timed workflow challenge for residential service calls' })
     },
     {
       id: '4',
       hostName: 'Ahmed Hassan',
-      dishName: 'Quality Control Walkthrough',
-      culture: 'Moroccan',
+      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.qualityControl', { defaultValue: 'Quality Control Walkthrough' }),
+      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureMoroccan', { defaultValue: 'Moroccan' }),
       scheduledTime: '4:30 PM EST',
-      description: 'Advanced troubleshooting walkthrough for a real-world field issue'
+      description: tr('pipeLounge.globalTestKitchen.mockSessions.qualityControlDesc', { defaultValue: 'Advanced troubleshooting walkthrough for a real-world field issue' })
     },
     {
       id: '5',
       hostName: 'Elena Volkov',
-      dishName: 'Safety Compliance Drill',
-      culture: 'Russian',
+      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.safetyDrill', { defaultValue: 'Safety Compliance Drill' }),
+      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureRussian', { defaultValue: 'Russian' }),
       scheduledTime: '6:00 PM EST',
-      description: 'Traditional beetroot soup with sour cream and fresh dill'
+      description: tr('pipeLounge.globalTestKitchen.mockSessions.safetyDrillDesc', { defaultValue: 'Safety compliance drill for confined space entry' })
     },
     {
       id: '6',
       hostName: 'Carlos Mendoza',
-      dishName: 'Final Inspection Run',
-      culture: 'Peruvian',
+      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.finalInspection', { defaultValue: 'Final Inspection Run' }),
+      culture: tr('pipeLounge.globalTestKitchen.mockSessions.culturePeruvian', { defaultValue: 'Peruvian' }),
       scheduledTime: '7:30 PM EST',
-      description: 'Fresh fish cured in lime juice with red onions and aji peppers'
+      description: tr('pipeLounge.globalTestKitchen.mockSessions.finalInspectionDesc', { defaultValue: 'Final inspection run for code compliance sign-off' })
     }
-  ]);
+  ];
+
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>(buildMockLiveSessions(t));
+  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>(buildMockUpcomingSessions(t));
+
+  // Re-translate mock sessions on language change
+  useEffect(() => {
+    setLiveSessions(prev => {
+      const fresh = buildMockLiveSessions(t);
+      return prev.map((s, i) => fresh[i] ? { ...s, dishName: fresh[i].dishName, description: fresh[i].description, culture: fresh[i].culture } : s);
+    });
+    setUpcomingSessions(prev => {
+      const fresh = buildMockUpcomingSessions(t);
+      return prev.map((s, i) => fresh[i] ? { ...s, dishName: fresh[i].dishName, description: fresh[i].description, culture: fresh[i].culture } : s);
+    });
+  }, [i18n.language]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {
@@ -788,7 +805,7 @@ END:VCALENDAR`;
                     ) : (
                       <>
                         <div className="w-2 h-2 bg-red-500 rounded-full mr-1 animate-pulse"></div>
-                        LIVE
+                        {t('pipeLounge.globalTestKitchen.live', { defaultValue: 'LIVE' })}
                       </>
                     )}
                   </div>
