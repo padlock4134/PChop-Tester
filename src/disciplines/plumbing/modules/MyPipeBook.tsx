@@ -97,7 +97,9 @@ export interface Recipe {
 }
 
 const MyPipeBook = () => {
-  const { t, i18n } = useTranslation();
+  const translation = useTranslation();
+  const t = translation.t;
+  const currentLanguage = translation.i18n?.language || 'en';
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
   const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
@@ -256,7 +258,7 @@ const MyPipeBook = () => {
       if (collection.id === '4') return { ...collection, name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }) };
       return collection;
     }));
-  }, [i18n.language, t]);
+  }, [currentLanguage, t]);
 
   // Handle recipe selection for collections
   const handleRecipeSelect = (recipeId: string) => {
@@ -980,7 +982,7 @@ const MyPipeBook = () => {
       {/* Plumber of the Day Quote - simplified text only */}
       <div className="mt-6 text-center">
         {(() => {
-          const quoteOfDay = getPlumberQuoteOfTheDay(i18n.language);
+          const quoteOfDay = getPlumberQuoteOfTheDay(currentLanguage);
           return (
             <>
               <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
