@@ -910,9 +910,9 @@ END:VCALENDAR`;
             </button>
           </div>
 
-          <div className="bg-sand p-3 rounded-lg">
+          <div className="bg-sand p-3 rounded-lg text-center">
             <h4 className="font-semibold text-sm text-gray-900 mb-2">💡 {t('pipeLounge.globalTestKitchen.tipsForSuccess', { defaultValue: 'Tips for Success:' })}</h4>
-            <ul className="text-xs text-gray-700 space-y-1">
+            <ul className="text-xs text-gray-700 space-y-1 inline-block text-left">
               <li>• {t('pipeLounge.globalTestKitchen.tip1', { defaultValue: 'Share the goal behind your workflow' })}</li>
               <li>• {t('pipeLounge.globalTestKitchen.tip2', { defaultValue: 'Highlight required tools/materials and where to source them' })}</li>
               <li>• {t('pipeLounge.globalTestKitchen.tip3', { defaultValue: 'Engage with viewers and answer questions' })}</li>
