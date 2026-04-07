@@ -1167,67 +1167,67 @@ END:VCALENDAR`;
             <button
               onClick={() => setScheduleModalOpen(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
-              aria-label="Close"
+              aria-label={t('pipeLounge.globalTestKitchen.close', { defaultValue: 'Close' })}
             >
               ×
             </button>
             
             <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              📅 Schedule Live Session
+              📅 {t('pipeLounge.globalTestKitchen.scheduleLiveSession', { defaultValue: 'Schedule Live Session' })}
             </h2>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Dish Name
+                  {t('pipeLounge.globalTestKitchen.dishName', { defaultValue: 'Project Name' })}
                 </label>
                 <input
                   type="text"
                   value={scheduledDishName}
                   onChange={(e) => setScheduledDishName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder={t('pipeLounge.globalTestKitchen.projectNamePlaceholder', { defaultValue: 'e.g., Residential rough-in walkthrough' })}
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Focus Area
+                  {t('pipeLounge.globalTestKitchen.focusArea', { defaultValue: 'Focus Area' })}
                 </label>
                 <select 
                   value={scheduledCuisine}
                   onChange={(e) => setScheduledCuisine(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
-                  <option value="">Select</option>
-                  <option value="Diagnostics">Diagnostics</option>
-                  <option value="Installation">Installation</option>
-                  <option value="Maintenance">Maintenance</option>
-                  <option value="Safety">Safety</option>
-                  <option value="Troubleshooting">Troubleshooting</option>
-                  <option value="Planning">Planning</option>
-                  <option value="QualityControl">Quality Control</option>
-                  <option value="Other">Other</option>
+                  <option value="">{t('pipeLounge.globalTestKitchen.select', { defaultValue: 'Select' })}</option>
+                  <option value="Diagnostics">{t('pipeLounge.globalTestKitchen.focusAreaOptions.diagnostics', { defaultValue: 'Diagnostics' })}</option>
+                  <option value="Installation">{t('pipeLounge.globalTestKitchen.focusAreaOptions.installation', { defaultValue: 'Installation' })}</option>
+                  <option value="Maintenance">{t('pipeLounge.globalTestKitchen.focusAreaOptions.maintenance', { defaultValue: 'Maintenance' })}</option>
+                  <option value="Safety">{t('pipeLounge.globalTestKitchen.focusAreaOptions.safety', { defaultValue: 'Safety' })}</option>
+                  <option value="Troubleshooting">{t('pipeLounge.globalTestKitchen.focusAreaOptions.troubleshooting', { defaultValue: 'Troubleshooting' })}</option>
+                  <option value="Planning">{t('pipeLounge.globalTestKitchen.focusAreaOptions.planning', { defaultValue: 'Planning' })}</option>
+                  <option value="QualityControl">{t('pipeLounge.globalTestKitchen.focusAreaOptions.qualityControl', { defaultValue: 'Quality Control' })}</option>
+                  <option value="Other">{t('pipeLounge.globalTestKitchen.focusAreaOptions.other', { defaultValue: 'Other' })}</option>
                 </select>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description
+                  {t('pipeLounge.globalTestKitchen.description', { defaultValue: 'Description' })}
                 </label>
                 <textarea
                   value={scheduledDescription}
                   onChange={(e) => setScheduledDescription(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                   rows={3}
-                  placeholder="Tell us about this session and what students will practice..."
+                  placeholder={t('pipeLounge.globalTestKitchen.descriptionPlaceholder', { defaultValue: 'Tell us about this session and what students will practice...' })}
                 />
               </div>
               
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Date
+                    {t('pipeLounge.globalTestKitchen.date', { defaultValue: 'Date' })}
                   </label>
                   <input
                     type="date"
@@ -1240,7 +1240,7 @@ END:VCALENDAR`;
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Time
+                    {t('pipeLounge.globalTestKitchen.time', { defaultValue: 'Time' })}
                   </label>
                   <input
                     type="time"
@@ -1254,29 +1254,29 @@ END:VCALENDAR`;
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Session Type
+                    {t('pipeLounge.globalTestKitchen.sessionType', { defaultValue: 'Session Type' })}
                   </label>
                   <select 
                     value={scheduledSessionType}
                     onChange={(e) => setScheduledSessionType(e.target.value as 'practice' | 'assignment' | 'demo' | 'showcase')}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                   >
-                    <option value="practice">🎯 Practice</option>
-                    <option value="assignment">📚 Assignment</option>
-                    <option value="demo">👨‍🏫 Demo</option>
-                    <option value="showcase">🏆 Showcase</option>
+                    <option value="practice">🎯 {t('pipeLounge.globalTestKitchen.practice', { defaultValue: 'Practice' })}</option>
+                    <option value="assignment">📚 {t('pipeLounge.globalTestKitchen.assignment', { defaultValue: 'Assignment' })}</option>
+                    <option value="demo">👨‍🏫 {t('pipeLounge.globalTestKitchen.demo', { defaultValue: 'Demo' })}</option>
+                    <option value="showcase">🏆 {t('pipeLounge.globalTestKitchen.showcase', { defaultValue: 'Showcase' })}</option>
                   </select>
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Teacher (Optional)
+                    {t('pipeLounge.globalTestKitchen.teacherOptional', { defaultValue: 'Teacher (Optional)' })}
                   </label>
                   <input
                     type="text"
                     value={scheduledTeacher}
                     onChange={(e) => setScheduledTeacher(e.target.value)}
-                    placeholder="e.g., Instructor Martinez"
+                    placeholder={t('pipeLounge.globalTestKitchen.teacherPlaceholder', { defaultValue: 'e.g., Instructor Martinez' })}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                   />
                 </div>
@@ -1287,14 +1287,14 @@ END:VCALENDAR`;
                   onClick={() => setScheduleModalOpen(false)}
                   className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                 >
-                  Cancel
+                  {t('pipeLounge.globalTestKitchen.cancel', { defaultValue: 'Cancel' })}
                 </button>
                 <button
                   onClick={handleScheduleSession}
                   disabled={!scheduledDishName.trim() || !scheduledCuisine || !scheduledDescription.trim() || !scheduledDate || !scheduledTime}
                   className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  📅 Schedule Session
+                  📅 {t('pipeLounge.globalTestKitchen.scheduleSession', { defaultValue: 'Schedule Session' })}
                 </button>
               </div>
             </div>
@@ -1464,4 +1464,3 @@ END:VCALENDAR`;
 };
 
 export default GlobalTestKitchen;
-
