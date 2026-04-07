@@ -1655,14 +1655,21 @@
     "close": "Close"
   },
   "pipeFreddie": {
+    "title": "Pete the Plumber",
+    "placeholder": "Type your question...",
     "welcomeMyKitchen": "Welcome to My Van! Need help finding the right parts and fittings for your job?",
     "welcomeMyCookbook": "Looking to organize your procedures or find a new approach? I'm here to help!",
     "welcomeChefsCorner": "Ready to connect with fellow plumbers or share your latest project? Ask me anything!",
     "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through Plumbing School!",
     "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you get the job done!",
-    "errorContacting": "Error contacting Pipe Freddie.",
-    "askChefFreddie": "Ask Pipe Freddie...",
-    "chatWithFreddie": "Chat with Pipe Freddie"
+    "proactiveMyVan": "Welcome to My Van — I can help you look up materials, check job requirements, and plan your inventory.",
+    "proactiveMyPipeBook": "Welcome to My Pipebook — need help writing up a job ticket or reviewing a project?",
+    "proactivePipeLounge": "Welcome to the Pipe Lounge — want tips on finding local supply houses or connecting with fellow plumbers?",
+    "proactivePlumbingSchool": "Welcome to Plumbing School — I can help you prep for code exams or find technique videos.",
+    "proactiveDefault": "Hey! I'm Pete the Plumber, your AI plumbing assistant. Ask me anything about pipe fitting, code compliance, or job planning.",
+    "errorContacting": "Error contacting Pete the Plumber.",
+    "askChefFreddie": "Ask Pete the Plumber...",
+    "chatWithFreddie": "Chat with Pete the Plumber"
   },
   "garageFreddie": {
     "welcomeMyKitchen": "Welcome to My Garage! Need help finding the right parts for your repair?",
