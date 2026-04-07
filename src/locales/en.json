@@ -2731,7 +2731,14 @@
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
     "loadingYourVideos": "Loading your videos...",
-    "recordedInWorkspace": "Recorded in Global Pipe Lab"
+    "recordedInWorkspace": "Recorded in Global Pipe Lab",
+    "videosSavedCount": "videos saved",
+    "uploadedBy": "Uploaded by",
+    "demoVideos": {
+      "pipeLayoutPracticeSession": "Pipe Layout Practice Session",
+      "pipeLayoutAssignment": "Pipe Layout Assignment",
+      "waterHeaterServiceFinal": "Water Heater Service Final"
+    }
   },
   "myManual": {
     "title": "My Manual",

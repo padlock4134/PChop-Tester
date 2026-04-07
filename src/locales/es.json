@@ -3056,7 +3056,14 @@
     "assignmentSubmissions": "Entregas de Tareas",
     "demoRecordings": "Grabaciones de Demostración",
     "loadingYourVideos": "Cargando tus videos...",
-    "recordedInWorkspace": "Grabado en el Laboratorio Global de Tuberías"
+    "recordedInWorkspace": "Grabado en el Laboratorio Global de Tuberías",
+    "videosSavedCount": "videos guardados",
+    "uploadedBy": "Subido por",
+    "demoVideos": {
+      "pipeLayoutPracticeSession": "Sesión de Práctica de Diseño de Tuberías",
+      "pipeLayoutAssignment": "Tarea de Diseño de Tuberías",
+      "waterHeaterServiceFinal": "Servicio Final de Calentador de Agua"
+    }
   },
   "myManual": {
     "title": "Mi Manual",

@@ -1693,7 +1693,7 @@ const MyPipeBook = () => {
                             </div>
                             {video.userId !== user?.id && (
                               <p className="text-xs text-purple-500 mt-1">
-                                👤 User: {video.userId.substring(0, 8)}...
+                                👤 {t('myPipeBook.user')}: {video.userId.substring(0, 8)}...
                               </p>
                             )}
                           </div>
@@ -1709,7 +1709,7 @@ const MyPipeBook = () => {
             {/* Footer */}
             <div className="bg-purple-50 border-t-4 border-purple-400 p-4 text-center">
               <p className="text-purple-700 text-sm">
-                <strong>{savedVideos.length > 0 ? savedVideos.length : 3}</strong> video{(savedVideos.length > 0 ? savedVideos.length : 3) !== 1 ? 's' : ''} saved
+                <strong>{savedVideos.length > 0 ? savedVideos.length : 3}</strong> {t('myPipeBook.videosSavedCount', { defaultValue: 'videos saved' })}
               </p>
             </div>
           </div>
@@ -1729,9 +1729,9 @@ const MyPipeBook = () => {
                       {new Date(selectedLibraryVideo.created_at).toLocaleDateString()} at {new Date(selectedLibraryVideo.created_at).toLocaleTimeString()}
                     </p>
                     {selectedLibraryVideo.isPublic ? (
-                      <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">🌍 Public</span>
+                      <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded font-bold">🌍 {t('myPipeBook.public')}</span>
                     ) : (
-                      <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-bold">🔒 Private</span>
+                      <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded font-bold">🔒 {t('myPipeBook.private')}</span>
                     )}
                   </div>
                 </div>
@@ -1756,7 +1756,7 @@ const MyPipeBook = () => {
               <div className="p-4 bg-purple-50 border-t-4 border-black">
                 <div className="text-center text-purple-700 text-sm">
                   {selectedLibraryVideo.userId !== user?.id && (
-                    <p>👤 Uploaded by: {selectedLibraryVideo.userId.substring(0, 8)}...</p>
+                    <p>👤 {t('myPipeBook.uploadedBy', { defaultValue: 'Uploaded by' })}: {selectedLibraryVideo.userId.substring(0, 8)}...</p>
                   )}
                   <p className="mt-1">🎥 {t('myPipeBook.recordedInWorkspace')}</p>
                 </div>
