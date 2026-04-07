@@ -105,7 +105,10 @@ export interface Recipe {
 }
 
 const MyPipeBook = () => {
-  const { t } = useTranslation();
+  const translation = useTranslation();
+  const t =
+    translation?.t ??
+    ((key: string, options?: { defaultValue?: string }) => options?.defaultValue ?? key);
   const currentLanguage =
     i18n.language ||
     'en';
