@@ -167,6 +167,67 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       needsAttention: ['Advanced Applications', 'Complex Scenario Practice', 'Performance Optimization'],
     };
   }, [selectedDiscipline, skin.name]);
+  const disciplineDistributionLabels = useMemo(() => {
+    const defaults = {
+      workspace: ['Source records → Matching engine feeds', 'Input lists → Workspace inventory', 'Equipment → Setup guides', 'Compliance constraints → Matching filters'],
+      notebook: ['Assignments & rubrics', 'Assessment rubrics', `${contentSourceLabel} collections → Library`, 'Video tutorials'],
+      school: ['Technique lessons', 'Course syllabus', 'Weekly lessons', 'Learning objectives'],
+      community: ['Instructor videos', 'Industry insights', 'Live session schedules', 'Partnership opportunities'],
+    };
+
+    const byDiscipline: Partial<Record<DisciplineKey, typeof defaults>> = {
+      automotive: {
+        workspace: ['Repair orders → Matcher engine feeds', 'Parts lists → Shop inventory', 'Tools → Bay setup guides', 'Safety constraints → Diagnostic filters'],
+        notebook: ['Repair assignments & rubrics', 'Inspection rubrics', `${contentSourceLabel} collections → Library`, 'Service walkthrough videos'],
+        school: ['Diagnostics lessons', 'Program syllabus', 'Weekly lab plans', 'ASE-aligned objectives'],
+        community: ['Master tech videos', 'Industry insights', 'Live shop sessions', 'Employer partnership opportunities'],
+      },
+      construction: {
+        workspace: ['Site logs → Planning engine feeds', 'Material lists → Site inventory', 'Equipment → Site setup guides', 'Code constraints → Plan filters'],
+        notebook: ['Build assignments & rubrics', 'Inspection rubrics', `${contentSourceLabel} collections → Library`, 'Field walkthrough videos'],
+        school: ['Build methods lessons', 'Program syllabus', 'Weekly site plans', 'Code-aligned objectives'],
+        community: ['Instructor field videos', 'Industry insights', 'Live site sessions', 'Contractor partnership opportunities'],
+      },
+      electrical: {
+        workspace: ['Work orders → Troubleshooting feeds', 'Parts lists → Panel inventory', 'Tools → Setup guides', 'Code constraints → Circuit filters'],
+        notebook: ['Circuit assignments & rubrics', 'Troubleshooting rubrics', `${contentSourceLabel} collections → Library`, 'Panel walkthrough videos'],
+        school: ['Circuit lessons', 'Program syllabus', 'Weekly lab plans', 'NEC-aligned objectives'],
+        community: ['Instructor demo videos', 'Industry insights', 'Live troubleshooting sessions', 'Partner opportunities'],
+      },
+      plumbing: {
+        workspace: ['Service tickets → Matcher feeds', 'Material lists → Van inventory', 'Tools → Install guides', 'Code constraints → Fit filters'],
+        notebook: ['Fit assignments & rubrics', 'Installation rubrics', `${contentSourceLabel} collections → Library`, 'Service walkthrough videos'],
+        school: ['Piping lessons', 'Program syllabus', 'Weekly install plans', 'Code-aligned objectives'],
+        community: ['Instructor install videos', 'Industry insights', 'Live service sessions', 'Supply-house partnerships'],
+      },
+      hvac: {
+        workspace: ['Service tickets → System matcher feeds', 'Parts lists → Shop inventory', 'Equipment → Setup guides', 'Code constraints → System filters'],
+        notebook: ['System assignments & rubrics', 'Service rubrics', `${contentSourceLabel} collections → Library`, 'Diagnostics walkthrough videos'],
+        school: ['HVAC system lessons', 'Program syllabus', 'Weekly service plans', 'EPA/Code-aligned objectives'],
+        community: ['Instructor service videos', 'Industry insights', 'Live service sessions', 'Distributor partnerships'],
+      },
+      manufacturing: {
+        workspace: ['Process logs → Optimization feeds', 'Material lists → Floor inventory', 'Tooling → Setup guides', 'Quality constraints → Process filters'],
+        notebook: ['Process assignments & rubrics', 'Quality rubrics', `${contentSourceLabel} collections → Library`, 'Line walkthrough videos'],
+        school: ['Process lessons', 'Program syllabus', 'Weekly production plans', 'Lean-aligned objectives'],
+        community: ['Instructor floor videos', 'Industry insights', 'Live production sessions', 'Partner opportunities'],
+      },
+      logistics: {
+        workspace: ['Route logs → Optimization feeds', 'Manifest lists → Dock inventory', 'Equipment → Loadout guides', 'Delivery constraints → Route filters'],
+        notebook: ['Route assignments & rubrics', 'Dispatch rubrics', `${contentSourceLabel} collections → Library`, 'Operations walkthrough videos'],
+        school: ['Dispatch lessons', 'Program syllabus', 'Weekly route plans', 'Operations objectives'],
+        community: ['Instructor operations videos', 'Industry insights', 'Live dispatch sessions', 'Carrier partnerships'],
+      },
+      machining: {
+        workspace: ['Job travelers → Matcher feeds', 'Tool lists → Bench inventory', 'Setup tools → Guide sheets', 'Tolerance constraints → Process filters'],
+        notebook: ['Setup assignments & rubrics', 'Inspection rubrics', `${contentSourceLabel} collections → Library`, 'Machining walkthrough videos'],
+        school: ['Setup lessons', 'Program syllabus', 'Weekly machining plans', 'Precision objectives'],
+        community: ['Instructor demo videos', 'Industry insights', 'Live machining sessions', 'Employer partnerships'],
+      },
+    };
+
+    return byDiscipline[selectedDiscipline as DisciplineKey] || defaults;
+  }, [selectedDiscipline, contentSourceLabel]);
   
   // Load custom disciplines on mount
   useEffect(() => {
@@ -2734,7 +2795,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item1: e.target.checked }
                           })}
                         />
-                        <span>{contentSourceLabel} databases → Feeds matcher algorithm</span>
+                        <span>{disciplineDistributionLabels.workspace[0]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2746,7 +2807,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item2: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.ingredientLists')}</span>
+                        <span>{disciplineDistributionLabels.workspace[1]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2758,7 +2819,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item3: e.target.checked }
                           })}
                         />
-                        <span>Equipment → Setup guides</span>
+                        <span>{disciplineDistributionLabels.workspace[2]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2770,7 +2831,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             workspace: { ...moduleSelection.workspace, item4: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.dietaryRestrictions')}</span>
+                        <span>{disciplineDistributionLabels.workspace[3]}</span>
                       </label>
                       </div>
                     </div>
@@ -2791,7 +2852,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, assignments: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.assignmentsRubrics')}</span>
+                        <span>{disciplineDistributionLabels.notebook[0]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2803,7 +2864,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, rubrics: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.assignmentsRubrics')}</span>
+                        <span>{disciplineDistributionLabels.notebook[1]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2815,7 +2876,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, items: e.target.checked }
                           })}
                         />
-                        <span>{contentSourceLabel} collections → Library</span>
+                        <span>{disciplineDistributionLabels.notebook[2]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2827,7 +2888,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             notebook: { ...moduleSelection.notebook, video: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.videoTutorials')}</span>
+                        <span>{disciplineDistributionLabels.notebook[3]}</span>
                       </label>
                       </div>
                     </div>
@@ -2848,7 +2909,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             school: { ...moduleSelection.school, techniques: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.techniqueLessons')}</span>
+                        <span>{disciplineDistributionLabels.school[0]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2860,7 +2921,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             school: { ...moduleSelection.school, syllabus: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.courseSyllabus')}</span>
+                        <span>{disciplineDistributionLabels.school[1]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2872,7 +2933,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             school: { ...moduleSelection.school, lessons: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.weeklyLessons')}</span>
+                        <span>{disciplineDistributionLabels.school[2]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2884,7 +2945,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             school: { ...moduleSelection.school, objectives: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.learningObjectives')}</span>
+                        <span>{disciplineDistributionLabels.school[3]}</span>
                       </label>
                       </div>
                     </div>
@@ -2905,7 +2966,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             community: { ...moduleSelection.community, videos: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.instructorVideos')}</span>
+                        <span>{disciplineDistributionLabels.community[0]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2917,7 +2978,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             community: { ...moduleSelection.community, insights: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.industryInsights')}</span>
+                        <span>{disciplineDistributionLabels.community[1]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2929,7 +2990,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             community: { ...moduleSelection.community, sessions: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.liveSessionSchedules')}</span>
+                        <span>{disciplineDistributionLabels.community[2]}</span>
                       </label>
                         <label className="flex items-center cursor-pointer">
                           <input 
@@ -2941,7 +3002,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                             community: { ...moduleSelection.community, partnerships: e.target.checked }
                           })}
                         />
-                        <span>{t('admin.partnershipOpportunities')}</span>
+                        <span>{disciplineDistributionLabels.community[3]}</span>
                       </label>
                       </div>
                     </div>
