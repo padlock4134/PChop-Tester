@@ -434,7 +434,6 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
             __html: `
             <a-scene 
               embedded 
-              arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
               vr-mode-ui="enabled: false"
               style="width: 100%; height: 100%;"
             >
