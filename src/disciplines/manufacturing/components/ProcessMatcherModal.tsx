@@ -126,14 +126,14 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   };
 
   const DIETARY_TAGS = [
-    { key: 'Quality Certified', label: 'Quality Certified' },
-    { key: 'ISO Compliant', label: 'ISO Compliant' },
-    { key: 'Lean Process', label: 'Lean Process' },
-    { key: 'Safety Verified', label: 'Safety Verified' },
-    { key: 'Low Waste', label: 'Low Waste' },
-    { key: 'High Efficiency', label: 'High Efficiency' },
-    { key: '5S Compliant', label: '5S Compliant' },
-    { key: 'Six Sigma', label: 'Six Sigma' }
+    { key: 'Heart Healthy', label: 'Quality Certified' },
+    { key: 'Anti Inflammatory', label: 'ISO Compliant' },
+    { key: 'Low Glycemic', label: 'Lean Process' },
+    { key: 'Low Cholesterol', label: 'Safety Verified' },
+    { key: 'Renal Friendly', label: 'Low Waste' },
+    { key: 'DASH Diet', label: 'High Efficiency' },
+    { key: 'Low Sodium', label: '5S Compliant' },
+    { key: 'High Fiber', label: 'Six Sigma' }
   ];
 
   return (

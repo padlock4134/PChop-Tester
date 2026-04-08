@@ -307,7 +307,7 @@ export async function fetchRecipesWithImages({
   // Get preferences
   const dietaryPrefs = profile?.dietary || [];
   const cuisinePrefs = profile?.cuisine || [];
-  const kitchenSetup = profile?.workshop_setup || '';
+  const workshopSetup = userKitchenSetup || profile?.workshop_setup || '';
   
   // Add specialization equipment preference to prompt
   let talentTreePrompt = '';
@@ -320,7 +320,7 @@ export async function fetchRecipesWithImages({
 
 ${dietaryPrefs.length > 0 ? `Quality requirements: ${dietaryPrefs.join(', ')}` : ''}
 ${cuisinePrefs.length > 0 ? `Process preferences: ${cuisinePrefs.join(', ')}` : ''}
-${userKitchenSetup ? `Workshop setup: ${userKitchenSetup}` : ''}
+${workshopSetup ? `Workshop setup: ${workshopSetup}` : ''}
 ${talentTreePrompt}
 
 Return the SOPs as a JSON array with the following structure for each SOP:
@@ -400,7 +400,7 @@ Return ONLY the JSON array, no other text.`;
           equipment: Array.isArray(recipe.equipment) ? recipe.equipment : []
         },
         ingredients,
-        kitchenSetup,
+        workshopSetup,
         talentTree,
         talentsEnabled
       )
