@@ -286,6 +286,20 @@
     "outOf": "out of",
     "attempted": "attempted",
     "areaForImprovement": "Area for Improvement:",
+    "achievementsEarned": "Achievements Earned",
+    "yourAchievements": "Your Achievements:",
+    "plumbingCurrentLessonValue": "Drainage Diagnostics: Vent Stack Troubleshooting",
+    "plumbingTimeSpentValue": "18.5 hours",
+    "plumbingCurrentLevelValue": "Intermediate",
+    "plumbingNextMilestoneValue": "Advanced Piping Systems",
+    "plumbingStrongestAreaValue": "Leak Detection",
+    "plumbingImprovementAreaValue": "Complex Retrofit Planning",
+    "plumbingLearningVelocityValue": "Above Average",
+    "plumbingAchievements": {
+      "safetyCertified": "Safety Certified",
+      "codeCompliancePro": "Code Compliance Pro",
+      "communityHelper": "Community Helper"
+    },
     "disciplineCopy": {
       "culinary": {
         "clickModule": "Click a module to begin your culinary journey!",

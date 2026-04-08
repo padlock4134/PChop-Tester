@@ -318,6 +318,20 @@
     "outOf": "de",
     "attempted": "intentados",
     "areaForImprovement": "Área de Mejora:",
+    "achievementsEarned": "Logros Obtenidos",
+    "yourAchievements": "Tus Logros:",
+    "plumbingCurrentLessonValue": "Diagnóstico de Drenaje: Resolución de Problemas en la Columna de Ventilación",
+    "plumbingTimeSpentValue": "18.5 horas",
+    "plumbingCurrentLevelValue": "Intermedio",
+    "plumbingNextMilestoneValue": "Sistemas Avanzados de Tuberías",
+    "plumbingStrongestAreaValue": "Detección de Fugas",
+    "plumbingImprovementAreaValue": "Planificación de Reacondicionamiento Complejo",
+    "plumbingLearningVelocityValue": "Superior al Promedio",
+    "plumbingAchievements": {
+      "safetyCertified": "Certificación en Seguridad",
+      "codeCompliancePro": "Experto en Cumplimiento de Códigos",
+      "communityHelper": "Apoyo a la Comunidad"
+    },
     "disciplineCopy": {
       "culinary": {
         "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido culinario!",
