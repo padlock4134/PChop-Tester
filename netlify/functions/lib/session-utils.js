@@ -48,8 +48,8 @@ async function getSessionFromCookie(event) {
 // Create or update the session cookie string
 async function setSessionCookie(sessionData) {
   const encryptedSession = await encryptSession(sessionData);
+  // No maxAge — cookie is session-scoped and dies when the browser closes.
   return createCookieString('session', encryptedSession, {
-    maxAge: process.env.PORKCHOP_SESSION_COOKIE_MAX_AGE,
     path: '/',
     httpOnly: true,
     secure: !WRISTBAND_CONFIG.dangerouslyDisableSecureCookies,

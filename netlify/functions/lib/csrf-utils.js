@@ -21,8 +21,8 @@ function isCsrfValid (event, csrfToken) {
 }
 
 function setCsrfCookie(csrfToken) {
+  // No maxAge — cookie is session-scoped and dies when the browser closes.
   return createCookieString(CSRF_TOKEN_COOKIE_NAME, csrfToken, {
-    maxAge: process.env.PORKCHOP_SESSION_COOKIE_MAX_AGE,
     path: '/',
     httpOnly: false,
     secure: !WRISTBAND_CONFIG.dangerouslyDisableSecureCookies,
