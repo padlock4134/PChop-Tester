@@ -1507,6 +1507,7 @@
   "repairMatcher": {
     "repairMatcher": "Repair Guide Matcher",
     "findingRecipes": "Finding repair guides...",
+    "findingProcedures": "Building procedures...",
     "loadingMessage1": "Pete the Plumber is looking at your van inventory…",
     "loadingMessage2": "Pete the Plumber is matching plumbing procedures…",
     "loadingMessage3": "Pete the Plumber is finding the best repair flow for you…",
