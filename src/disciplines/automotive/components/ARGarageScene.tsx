@@ -242,7 +242,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
     }
   };
   
-  // Handle tap on 3D scene - Pick up both knife and whetstone
+  // Handle tap on 3D scene - Pick up scan tool and connect to port
   const handleSceneTap = (e: React.MouseEvent | React.TouchEvent) => {
     if (!knifeSelected) {
       // Pick up both items at once
@@ -422,7 +422,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
         {!knifeSelected && (
           <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
             <div className="bg-black bg-opacity-60 text-white px-6 py-4 rounded-xl text-center animate-pulse">
-              <p className="text-lg font-bold">👆 Tap to pick up knife & whetstone</p>
+              <p className="text-lg font-bold">👆 Tap to pick up scan tool & connect to port</p>
             </div>
           </div>
         )}
@@ -466,7 +466,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-sphere position="0.4 0.25 -0.1" radius="0.007" color="#C41E3A" material="emissive: #C41E3A; emissiveIntensity: 0.5" animation="property: position; to: 0.4 0.45 -0.1; dur: 2800; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
               </a-entity>
 
-              <!-- Kitchen Counter - rich wood with PorkChop sand tones -->
+              <!-- Workbench - with PorkChop brand tones -->
               <a-box 
                 position="0 -0.5 -1.5" 
                 width="2.2" 
@@ -485,7 +485,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 material="metalness: 0.6; roughness: 0.3; emissive: #003366; emissiveIntensity: 0.2"
               ></a-box>
 
-              <!-- Whetstone on table - only visible when NOT picked up -->
+              <!-- Diagnostic device on table - only visible when NOT picked up -->
               ${!whetstoneSelected ? `
               <a-box 
                 position="0 -0.4 -1.5" 
@@ -495,7 +495,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 color="${strokeCount > 0 ? '#4A5568' : '#2D3748'}"
                 material="metalness: 0.3; roughness: 0.6"
               >
-                <!-- Whetstone glow rim -->
+                <!-- Device glow rim -->
                 <a-box 
                   position="0 0 0" 
                   width="0.67" 
@@ -517,14 +517,14 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
               
               <!-- Stroke counter removed from A-Frame to prevent re-renders - shown in React overlay instead -->
 
-              <!-- LEFT HAND holding WHETSTONE - angled 8 to 2 o'clock -->
+              <!-- LEFT HAND holding DIAGNOSTIC DEVICE - angled 8 to 2 o'clock -->
               ${whetstoneSelected ? `
               <a-entity 
                 position="-0.15 -0.15 -0.55" 
                 rotation="-15 25 -55" 
                 scale="1.3 1.3 1.3"
               >
-                <!-- THE WHETSTONE you're holding -->
+                <!-- THE DIAGNOSTIC DEVICE you're holding -->
                 <a-box 
                   position="0 0.12 0" 
                   width="0.25" 

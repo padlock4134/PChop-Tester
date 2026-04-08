@@ -22,8 +22,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const startVirtualPractice = async () => {
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built diagnostic AR scene (instant load)
+      const demoLesson = 'Basic OBD-II Diagnostic Scan';
       
       // Check if we have a default scene
       if (defaultARScenes[demoLesson]) {
@@ -80,7 +80,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
               <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🔧</span>
-              {t('culinarySchool.charcuterieBoard.title')}
+              {t('autoSchool.diagnosticBay.title')}
             </h2>
           </div>
           
@@ -89,10 +89,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-sm sm:text-lg font-bold mb-1 text-center text-amber-800">
-                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'Knife Skills'}
+                � {t('autoSchool.diagnosticBay.virtualPractice')}: {arScene?.lesson || 'Diagnostics'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-1">
-                {t('culinarySchool.charcuterieBoard.arDemonstration')}
+                {t('autoSchool.diagnosticBay.arDemonstration')}
               </p>
             </>
           )}
@@ -104,7 +104,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <ARGarageScene 
                 scene={arScene}
                 onComplete={() => {
-                  alert(t('culinarySchool.charcuterieBoard.practiceComplete'));
+                  alert(t('autoSchool.diagnosticBay.practiceComplete'));
                   cleanupPractice();
                 }}
                 guideOpen={guideOpen}
@@ -114,9 +114,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             ) : (
               // Not practicing - show placeholder
               <div className="text-amber-900 text-center">
-                <div className="text-4xl mb-2">👨‍🍳</div>
-                <p className="text-sm font-bold">{t('culinarySchool.charcuterieBoard.aiGuidedPracticeLabel')}</p>
-                <p className="text-xs opacity-75">{t('culinarySchool.charcuterieBoard.selectLessonStart')}</p>
+                <div className="text-4xl mb-2">�</div>
+                <p className="text-sm font-bold">{t('autoSchool.diagnosticBay.aiGuidedPracticeLabel')}</p>
+                <p className="text-xs opacity-75">{t('autoSchool.diagnosticBay.selectLessonStart')}</p>
               </div>
             )}
             
@@ -124,13 +124,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             {isPracticing && (
               <div className="absolute top-4 left-4 bg-amber-700 text-white text-sm px-3 py-1 rounded-full flex items-center">
                 <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
-                {t('culinarySchool.charcuterieBoard.practicing')}
+                {t('autoSchool.diagnosticBay.practicing')}
               </div>
             )}
             
             {/* Timer/Progress */}
             <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full">
-              ⏱️ {isPracticing ? '5:23' : t('culinarySchool.charcuterieBoard.notStarted')}
+              ⏱️ {isPracticing ? '5:23' : t('autoSchool.diagnosticBay.notStarted')}
             </div>
           </div>
 
@@ -142,14 +142,14 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onClick={startVirtualPractice}
                   className="w-full sm:w-auto bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
                 >
-                  📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
+                  � {t('autoSchool.diagnosticBay.virtualPracticeButton')}
                 </button>
                 <select
                   value={selectedLesson}
                   onChange={(e) => setSelectedLesson(e.target.value)}
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
-                  <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
+                  <option value="">{t('autoSchool.diagnosticBay.chooseLesson')}</option>
                   <optgroup label="Term 1 - Automotive Foundations">
                     <option value="lesson-1-1">Garage Safety and Procedures</option>
                     <option value="lesson-1-2">Tool Handling and Storage</option>
@@ -183,14 +183,14 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onClick={endPractice}
                   className="w-full sm:w-auto bg-amber-800 text-white px-4 py-2 text-sm rounded font-bold hover:bg-amber-900 transition-colors border border-amber-900"
                 >
-                  ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
+                  ⏹️ {t('autoSchool.diagnosticBay.endPractice')}
                 </button>
                 <select
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="obd-scan">Basic OBD-II Diagnostic Scan</option>
                 </select>
               </>
             )}
@@ -203,7 +203,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-2 text-sm font-bold border-t-2 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
-            <span>{instructionsOpen ? t('culinarySchool.charcuterieBoard.hideInstructions') : t('culinarySchool.charcuterieBoard.showInstructions')}</span>
+            <span>{instructionsOpen ? t('autoSchool.diagnosticBay.hideInstructions') : t('autoSchool.diagnosticBay.showInstructions')}</span>
             <span className="text-xs">{instructionsOpen ? '▼' : '▲'}</span>
           </button>
           
@@ -213,7 +213,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               {/* Instructions Header */}
               <div className="p-3 bg-amber-100 text-amber-800 font-retro text-center border-b-2 border-amber-300">
                 <h3 className="text-base font-bold">
-                  📋 {t('culinarySchool.charcuterieBoard.practiceInstructions')}
+                  📋 {t('autoSchool.diagnosticBay.practiceInstructions')}
                 </h3>
               </div>
               
@@ -222,14 +222,14 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Lesson Selection Dropdown */}
                 <div className="mb-3">
                   <label className="block text-xs font-semibold text-amber-800 mb-1">
-                    {t('culinarySchool.charcuterieBoard.selectLessonToPractice')}
+                    {t('autoSchool.diagnosticBay.selectLessonToPractice')}
                   </label>
                   <select
                     value={selectedLesson}
                     onChange={(e) => setSelectedLesson(e.target.value)}
                     className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   >
-                    <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
+                    <option value="">{t('autoSchool.diagnosticBay.chooseLesson')}</option>
                     <optgroup label="Term 1 - Automotive Foundations">
                       <option value="lesson-1-1">Garage Safety and Procedures</option>
                       <option value="lesson-1-2">Tool Handling and Storage</option>
@@ -264,7 +264,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   className="w-full mb-3 bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow border-2 border-amber-600 px-3 py-1.5 text-sm cursor-pointer transition-all flex items-center justify-center gap-2"
                 >
                   <span className="text-base">📋</span>
-                  <span className="text-xs font-bold">{guideOpen ? t('culinarySchool.charcuterieBoard.closeGuide') : t('culinarySchool.charcuterieBoard.openGuide')}</span>
+                  <span className="text-xs font-bold">{guideOpen ? t('autoSchool.diagnosticBay.closeGuide') : t('autoSchool.diagnosticBay.openGuide')}</span>
                 </button>
                 
                 {/* Technique Feedback - below guide button */}
@@ -388,7 +388,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="flex-1"></div>
             <h3 className="text-xl font-bold text-amber-900 flex items-center gap-2">
               <span>📖</span>
-              <span>{t('culinarySchool.charcuterieBoard.practiceGuide')}</span>
+              <span>{t('autoSchool.diagnosticBay.practiceGuide')}</span>
             </h3>
             <div className="flex-1 flex justify-end">
               <button

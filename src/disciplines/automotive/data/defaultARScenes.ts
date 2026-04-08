@@ -1,234 +1,236 @@
 // Default AR practice scenes for instant demo loading
 // AI can still generate custom scenes, but these load instantly
 
-export const whetstoneSharpening = {
-  lesson: "Traditional Whetstone Knife Sharpening",
+export const obdDiagnosticScan = {
+  lesson: "Basic OBD-II Diagnostic Scan",
   setup: {
-    workspace: "Clean, stable surface with damp towel underneath whetstone",
-    requiredTools: ["8-inch chef's knife", "1000/6000 grit whetstone", "bowl of water", "damp towel"],
+    workspace: "Vehicle parked on level surface, engine off, key in ignition",
+    requiredTools: ["OBD-II scan tool", "Vehicle service manual", "Notepad/tablet", "Safety glasses"],
     requiredIngredients: []
   },
   steps: [
     {
       id: 1,
-      instruction: "Soak your whetstone in water for 10 minutes. The stone should feel heavy and fully saturated. Place a damp towel under the stone to prevent slipping.",
+      instruction: "Locate the OBD-II diagnostic port. It's typically under the dashboard on the driver's side, near the steering column. Some vehicles have it behind a small cover panel.",
       duration: "30s",
-      tools: ["Whetstone", "Bowl of water", "Damp towel"],
+      tools: ["OBD-II scan tool"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Stone fully saturated",
+          label: "OBD-II port location",
           color: "#3B82F6",
           position: "center"
         }
       ],
       keyPoints: [
-        "Stone should be completely wet",
-        "Damp towel prevents sliding",
-        "Stable, comfortable workspace height"
+        "Usually under driver-side dash",
+        "16-pin trapezoidal connector",
+        "Check behind cover panels if not visible",
+        "Engine should be OFF"
       ]
     },
     {
       id: 2,
-      instruction: "Hold the knife with your dominant hand. Place the blade against the stone at a 20-degree angle. This is critical—visualize a matchbook under the spine of the blade.",
-      duration: "45s",
-      tools: ["Chef's knife", "Whetstone"],
+      instruction: "Connect the OBD-II scan tool to the diagnostic port. The connector only fits one way—align the pins and push firmly until it clicks. Do NOT force it.",
+      duration: "30s",
+      tools: ["OBD-II scan tool"],
       ingredients: [],
       overlays: [
         {
-          type: "line",
-          label: "20° angle",
+          type: "arrow",
+          label: "Align and insert",
           color: "#F59E0B",
-          angle: 20
+          direction: "forward"
         },
         {
           type: "text",
-          label: "Matchbook thickness",
+          label: "Listen for click",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "20-degree angle is crucial",
-        "Consistent angle throughout",
-        "Firm but not white-knuckle grip"
+        "Connector is keyed—one orientation only",
+        "Push firmly but don't force",
+        "Should click into place",
+        "Scan tool should power on from port"
       ]
     },
     {
       id: 3,
-      instruction: "Using light to moderate pressure, sweep the blade from heel to tip across the stone. Imagine you're trying to shave a thin layer off the stone. Keep the angle consistent.",
-      duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
-      overlays: [
-        {
-          type: "arrow",
-          label: "Heel to tip motion",
-          color: "#3B82F6",
-          direction: "forward"
-        },
-        {
-          type: "line",
-          label: "Sweeping path",
-          color: "#3B82F6",
-          angle: 0
-        }
-      ],
-      keyPoints: [
-        "Smooth, controlled motion",
-        "Let the stone do the work",
-        "Maintain 20° angle throughout stroke",
-        "Full blade contact—heel to tip"
-      ]
-    },
-    {
-      id: 4,
-      instruction: "Complete 10 strokes on this side. Count them out loud. Listen to the sound—it should be consistent, like a whisper across the stone.",
-      duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
+      instruction: "Turn the ignition to the ON position (do not start the engine). The scan tool should power up and begin communicating with the vehicle's ECU. Wait for the initial handshake.",
+      duration: "45s",
+      tools: ["OBD-II scan tool", "Vehicle ignition"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "10 strokes",
+          label: "Key ON, Engine OFF",
+          color: "#3B82F6",
+          position: "center"
+        },
+        {
+          type: "text",
+          label: "Wait for ECU handshake",
+          color: "#3B82F6",
+          position: "bottom"
+        }
+      ],
+      keyPoints: [
+        "Key ON, Engine OFF (KOEO)",
+        "Dashboard lights should illuminate",
+        "Scan tool displays vehicle info",
+        "Wait for communication confirmation"
+      ]
+    },
+    {
+      id: 4,
+      instruction: "Select 'Read Codes' or 'Diagnostic Trouble Codes (DTCs)' from the scan tool menu. The tool will query all vehicle systems and retrieve any stored trouble codes.",
+      duration: "60s",
+      tools: ["OBD-II scan tool"],
+      ingredients: [],
+      overlays: [
+        {
+          type: "text",
+          label: "Read DTCs",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Listen for consistency",
+          label: "Record all codes",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Count each stroke",
-        "Consistent pressure",
-        "Consistent sound = consistent angle",
-        "Smooth, rhythmic motion"
+        "Navigate to Read Codes / DTCs",
+        "Record ALL codes displayed",
+        "Note pending vs. confirmed codes",
+        "Check for freeze frame data"
       ]
     },
     {
       id: 5,
-      instruction: "Flip the knife over. Maintain the same 20-degree angle on the opposite side. Your hand position will feel different—that's normal. 10 more strokes, same motion.",
-      duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
+      instruction: "Record each DTC and its description. Example: P0301 = Cylinder 1 Misfire. The first character tells you the system: P = Powertrain, B = Body, C = Chassis, U = Network.",
+      duration: "60s",
+      tools: ["OBD-II scan tool", "Notepad/tablet"],
       ingredients: [],
       overlays: [
         {
-          type: "line",
-          label: "20° opposite side",
+          type: "text",
+          label: "P=Powertrain B=Body C=Chassis U=Network",
           color: "#F59E0B",
-          angle: -20
+          position: "center"
         },
         {
           type: "text",
-          label: "Mirror the angle",
+          label: "Record code + description",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "Same angle, opposite side",
-        "Same pressure and motion",
-        "10 strokes to match first side",
-        "Symmetry is key"
+        "P = Powertrain, B = Body, C = Chassis, U = Network",
+        "0 = Generic (SAE), 1 = Manufacturer specific",
+        "Write down every code with description",
+        "Note which codes are pending vs. stored"
       ]
     },
     {
       id: 6,
-      instruction: "Feel for the burr. Run your thumb CAREFULLY perpendicular to the edge on the side you just sharpened. You should feel a tiny metal ridge—that's the burr. It means you've sharpened through to the edge.",
-      duration: "45s",
-      tools: ["Chef's knife"],
+      instruction: "Check live data / sensor readings. Navigate to the Live Data stream on your scan tool. Monitor key PIDs: engine RPM, coolant temp, O2 sensors, fuel trims, and MAF readings.",
+      duration: "90s",
+      tools: ["OBD-II scan tool"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Feel for burr",
-          color: "#EF4444",
+          label: "Monitor live PIDs",
+          color: "#8B5CF6",
           position: "center"
         },
         {
-          type: "arrow",
-          label: "Thumb perpendicular to edge",
-          color: "#EF4444",
-          direction: "across"
+          type: "text",
+          label: "Compare to spec values",
+          color: "#8B5CF6",
+          position: "bottom"
         }
       ],
       keyPoints: [
-        "Move thumb AWAY from edge",
-        "Tiny ridge = success",
-        "Should feel it on opposite side",
-        "Be careful—edge is sharp"
+        "Engine RPM should be stable at idle",
+        "Coolant temp should reach operating range",
+        "O2 sensors should oscillate (0.1V–0.9V)",
+        "Fuel trims within ±10% is normal"
       ]
     },
     {
       id: 7,
-      instruction: "Alternate sides with lighter pressure—5 strokes per side, then 3, then 1. This removes the burr and polishes the edge. The blade should now feel razor-sharp.",
+      instruction: "Cross-reference DTCs with the vehicle service manual. Look up each code's possible causes, diagnostic steps, and repair procedures. Prioritize codes by severity.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
+      tools: ["Vehicle service manual", "Notepad/tablet"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "5-3-1 pattern",
-          color: "#8B5CF6",
+          label: "Cross-reference service manual",
+          color: "#EF4444",
           position: "center"
         },
         {
           type: "text",
-          label: "Lighter pressure",
-          color: "#8B5CF6",
+          label: "Prioritize by severity",
+          color: "#EF4444",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Decreasing strokes: 5, 3, 1",
-        "Lighter pressure each round",
-        "Removes the burr",
-        "Final polish"
+        "Look up each DTC in service manual",
+        "Identify possible causes",
+        "Note recommended diagnostic steps",
+        "Prioritize safety-critical codes first"
       ]
     },
     {
       id: 8,
-      instruction: "Rinse the blade and test on paper. A sharp knife will slice through paper cleanly with no tearing. You've just mastered a centuries-old technique.",
+      instruction: "Disconnect the scan tool, turn the ignition OFF, and document your findings. Create a diagnostic summary with codes found, live data observations, and recommended next steps.",
       duration: "30s",
-      tools: ["Chef's knife"],
+      tools: ["OBD-II scan tool", "Notepad/tablet"],
       ingredients: [],
       overlays: [
         {
           type: "text",
-          label: "Paper test",
+          label: "Document findings",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Clean slice = success",
+          label: "Diagnostic complete",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Clean, smooth cut through paper",
-        "No tearing or catching",
-        "Blade should feel razor-sharp",
-        "Old-school skill mastered"
+        "Turn ignition OFF before disconnecting",
+        "Remove scan tool gently",
+        "Complete diagnostic report",
+        "Recommend next diagnostic or repair steps"
       ]
     }
   ],
   tips: [
-    "Close your eyes between steps and visualize the motion",
-    "Practice the 20-degree angle in the air before touching the stone",
-    "The sound tells you everything—listen for consistency",
-    "Most people press too hard—let the stone do the work",
-    "This is a meditation. Slow down and feel the process."
+    "Always start diagnostics with a visual inspection first",
+    "Never clear codes until you've recorded them all",
+    "Freeze frame data shows conditions when the code was set—invaluable for intermittent issues",
+    "A code tells you WHAT failed, not WHY—further diagnosis is always needed",
+    "Keep your scan tool firmware updated for the latest vehicle coverage"
   ]
 };
 
-export const defaultARScenes = {
-  "Traditional Whetstone Knife Sharpening": whetstoneSharpening,
-  "whetstone": whetstoneSharpening,
-  "knife sharpening": whetstoneSharpening
+export const defaultARScenes: Record<string, typeof obdDiagnosticScan> = {
+  "Basic OBD-II Diagnostic Scan": obdDiagnosticScan,
+  "obd-scan": obdDiagnosticScan,
+  "diagnostic scan": obdDiagnosticScan
 };

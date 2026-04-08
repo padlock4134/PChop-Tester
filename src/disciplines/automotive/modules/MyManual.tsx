@@ -1293,7 +1293,7 @@ const MyManual = () => {
 
                   {/* Right Page - Assignment Recipe Card */}
                   <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 flex flex-col">
-                    {/* Assignment Recipe Card (matching CulinarySchool layout) */}
+                    {/* Assignment Card (matching AutoSchool layout) */}
                     <div className="flex flex-col bg-white w-full h-full overflow-hidden rounded-lg border-4 border-maineBlue">
                       {/* Assignment Image */}
                       <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b-2 border-amber-300 flex-shrink-0">
