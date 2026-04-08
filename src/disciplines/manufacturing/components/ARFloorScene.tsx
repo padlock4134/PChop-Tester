@@ -79,6 +79,27 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   // Tweezers position controlled by wrist (0 = left of belt, 1 = right of belt)
   const [tweezersProgress, setTweezersProgress] = useState(0.5);
   const [inputMode, setInputMode] = useState<'camera' | 'touch' | 'mouse' | null>(null);
+
+  const teardownARSession = useCallback(() => {
+    const arVideoSelectors = ['#arjs-video', '.arjs-video'];
+    arVideoSelectors.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((node) => {
+        if (!(node instanceof HTMLVideoElement)) return;
+        const mediaStream = node.srcObject;
+        if (mediaStream instanceof MediaStream) {
+          mediaStream.getTracks().forEach((track) => track.stop());
+        }
+        node.pause();
+        node.srcObject = null;
+        node.remove();
+      });
+    });
+
+    const orphanedArElements = ['.arjs-loader', '#arjsDebugUIContainer', '.a-enter-vr', '.a-orientation-modal'];
+    orphanedArElements.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((node) => node.remove());
+    });
+  }, []);
   
   // Track wrist movement for placement counting
   const lastWristDirection = useRef<'left' | 'right' | null>(null);
@@ -125,20 +146,24 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   useEffect(() => {
     return () => {
       stopTracking();
+      teardownARSession();
     };
-  }, [stopTracking]);
+  }, [stopTracking, teardownARSession]);
   
   // Expose stopTracking to parent via ref
   useEffect(() => {
     if (onStopTrackingRef) {
-      onStopTrackingRef.current = stopTracking;
+      onStopTrackingRef.current = () => {
+        stopTracking();
+        teardownARSession();
+      };
     }
     return () => {
       if (onStopTrackingRef) {
         onStopTrackingRef.current = null;
       }
     };
-  }, [onStopTrackingRef, stopTracking]);
+  }, [onStopTrackingRef, stopTracking, teardownARSession]);
   
   // Update all dynamic elements via DOM (avoids React re-renders / blinking)
   useEffect(() => {
