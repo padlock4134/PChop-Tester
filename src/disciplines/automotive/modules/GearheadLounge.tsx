@@ -8,7 +8,7 @@ import LocalPartsModal from '../components/LocalPartsModal';
 import BuildDiagModal from '../components/BuildDiagModal';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/RepairMatcherModal';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import TheCarLift from '../components/GlobalTestGarage';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
