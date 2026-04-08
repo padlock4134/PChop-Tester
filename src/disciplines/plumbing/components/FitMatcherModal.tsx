@@ -155,7 +155,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('repairMatcher.findingRecipes')}</div>
+            <div className="text-lg font-retro mb-2">{t('repairMatcher.findingProcedures', { defaultValue: 'Building procedures...' })}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
