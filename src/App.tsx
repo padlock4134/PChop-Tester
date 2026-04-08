@@ -151,13 +151,16 @@ const HomeRedirect = () => {
   useEffect(() => {
     if (isLoading) return;
     
-    // If authenticated and user is loaded, always redirect to discipline selector
+    // If Wristband confirms unauthenticated, redirect to login
+    if (authStatus === AuthStatus.UNAUTHENTICATED) {
+      window.location.href = '/.netlify/functions/auth-login';
+      return;
+    }
+
+    // If authenticated and user is loaded, go to discipline selector
     if (authStatus === AuthStatus.AUTHENTICATED && user) {
       console.log('HomeRedirect - Authenticated, navigating to selector');
       navigate('/select-discipline', { replace: true });
-    } else if (authStatus === AuthStatus.UNAUTHENTICATED) {
-      // Not authenticated, redirect to login
-      window.location.href = '/.netlify/functions/auth-login';
     }
   }, [authStatus, user, isLoading, navigate]);
 
@@ -337,7 +340,8 @@ const AppRoutes = () => {
   // Render logic happens AFTER hooks
   console.log('AppRoutes - isLoading:', isLoading, 'user:', !!user, 'path:', location.pathname);
   
-  if (isLoading && !user) {
+  // While Wristband is still determining auth status, show a loading screen.
+  if (authStatus !== AuthStatus.AUTHENTICATED && authStatus !== AuthStatus.UNAUTHENTICATED) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-sand">
         <div className="text-maineBlue text-xl">Loading...</div>
@@ -345,13 +349,15 @@ const AppRoutes = () => {
     );
   }
 
-  if (!user) {
-    if (authStatus === AuthStatus.UNAUTHENTICATED) {
-      console.log('AppRoutes - User unauthenticated, redirecting to login');
-      window.location.href = '/.netlify/functions/auth-login';
-      return null;
-    }
+  // If Wristband confirms the user is NOT authenticated, redirect to login immediately.
+  if (authStatus === AuthStatus.UNAUTHENTICATED) {
+    console.log('AppRoutes - User unauthenticated, redirecting to login');
+    window.location.href = '/.netlify/functions/auth-login';
+    return null;
+  }
 
+  // User is authenticated via Wristband but Supabase user is still loading.
+  if (isLoading || !user) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-sand">
         <div className="text-maineBlue text-xl">Loading...</div>
