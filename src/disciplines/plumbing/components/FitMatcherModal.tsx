@@ -24,6 +24,7 @@ export type RecipeCard = {
     image: string;
   }>;
   complianceTags?: string[];
+  healthTags?: string[];
   specs?: {
     pressure: number;
     flow: number;
@@ -122,14 +123,14 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
   };
 
   const COMPLIANCE_TAGS = [
-    { key: 'Safety Certified', label: t('repairMatcher.safetyCertified') },
-    { key: 'Warranty Approved', label: t('repairMatcher.warrantyApproved') },
-    { key: 'Fuel Efficient', label: t('repairMatcher.fuelEfficient') },
-    { key: 'Emission Compliant', label: t('repairMatcher.emissionCompliant') },
-    { key: 'Low Maintenance', label: t('repairMatcher.lowMaintenance') },
-    { key: 'Performance Tuned', label: t('repairMatcher.performanceTuned') },
-    { key: 'Environmentally Friendly', label: t('repairMatcher.environmentallyFriendly') },
-    { key: 'Heavy Duty', label: t('repairMatcher.heavyDuty') }
+    { key: 'Heart Healthy', label: t('repairMatcher.safetyCertified') },
+    { key: 'Anti Inflammatory', label: t('repairMatcher.warrantyApproved') },
+    { key: 'Low Glycemic', label: t('repairMatcher.fuelEfficient') },
+    { key: 'Low Cholesterol', label: t('repairMatcher.emissionCompliant') },
+    { key: 'Renal Friendly', label: t('repairMatcher.lowMaintenance') },
+    { key: 'DASH Diet', label: t('repairMatcher.performanceTuned') },
+    { key: 'Low Sodium', label: t('repairMatcher.environmentallyFriendly') },
+    { key: 'High Fiber', label: t('repairMatcher.heavyDuty') }
   ];
 
   return (
@@ -154,7 +155,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('repairMatcher.findingRecipes')}</div>
+            <div className="text-lg font-retro mb-2">{t('repairMatcher.findingProcedures', { defaultValue: 'Building procedures...' })}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
@@ -162,14 +163,15 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
           <div className="text-center text-maineBlue font-bold py-10">{t('repairMatcher.noMoreSuggestions')}<br/>{t('repairMatcher.tryUpdatingVan')}</div>
         ) : (
           (() => {
-            console.log('Procedure complianceTags:', recipes[currentIdx].complianceTags);
+            const activeTags = recipes[currentIdx].complianceTags ?? recipes[currentIdx].healthTags ?? [];
+            console.log('Procedure tags:', activeTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
                   <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
                     {COMPLIANCE_TAGS.map((tag: any) => {
-                      const isMatch = recipes[currentIdx].complianceTags?.includes(tag.key);
+                      const isMatch = activeTags.includes(tag.key);
                       return (
                         <span 
                           key={tag.key}
