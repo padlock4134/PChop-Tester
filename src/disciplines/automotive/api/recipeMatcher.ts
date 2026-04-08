@@ -5,14 +5,13 @@ import { isSessionValid } from './userSession';
 import { fetchNutritionData, getKeyNutrients } from './nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
-// Define equipment available for each garage setup
-const KITCHEN_EQUIPMENT = {
-  'Basic Toolbox': ['wrench set', 'screwdriver set', 'pliers', 'jack', 'lug wrench'],
-  'Home Garage': ['socket set', 'torque wrench', 'jack stands', 'oil drain pan', 'multimeter'],
-  'Enthusiast Garage': ['air compressor', 'impact wrench', 'creeper', 'engine hoist', 'OBD scanner'],
-  'Student Bay': ['lift', 'diagnostic scanner', 'brake lathe', 'tire machine', 'alignment rack'],
-  'Pro Shop': ['dynamometer', 'engine analyzer', 'transmission jack', 'welding equipment', 'paint booth'],
-  'Full Service Center': ['all equipment']
+// Define equipment available for each garage setup (must match Profile.tsx garage options)
+const GARAGE_EQUIPMENT = {
+  'Minimal Setup': ['wrench set', 'screwdriver set', 'pliers', 'jack', 'lug wrench'],
+  'Home Garage': ['socket set', 'torque wrench', 'jack stands', 'oil drain pan', 'multimeter', 'wrench set', 'screwdriver set'],
+  'Mobile Service': ['portable diagnostic scanner', 'cordless impact wrench', 'portable jack', 'multimeter', 'socket set', 'jump starter'],
+  'School Lab': ['lift', 'diagnostic scanner', 'brake lathe', 'tire machine', 'alignment rack', 'engine analyzer'],
+  'Professional Shop': ['all equipment']
 } as const;
 
 // Define equipment associated with each talent tree
@@ -22,14 +21,14 @@ const TALENT_TREE_EQUIPMENT = {
   'Electrical Diagnostics': ['OBD scanner', 'multimeter', 'oscilloscope', 'wiring harness tester']
 } as const;
 
-type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
+type GarageSetup = keyof typeof GARAGE_EQUIPMENT;
 
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
 const RECIPE_PROMPTS = {
-  new_to_cooking: (numRecipes: number, ingredients: string[]) => 
+  new_to_automotive: (numRecipes: number, ingredients: string[]) => 
     `You are Gus the Mechanic, a patient automotive instructor. Create ${numRecipes} simple beginner automotive repair guides using available parts from the student's garage: ${ingredients.join(", ")}. 
     RULES:
     1. Use only 2-3 required parts per repair
@@ -39,7 +38,7 @@ const RECIPE_PROMPTS = {
     5. Include necessary tools for each repair (wrench, jack, etc.)
     6. Add relevant certification tags from: Safety Certified, Warranty Approved, Fuel Efficient, Emission Compliant, Low Maintenance, Performance Tuned, Environmentally Friendly, Heavy Duty`,
 
-  home_cook: (numRecipes: number, ingredients: string[]) => 
+  apprentice_technician: (numRecipes: number, ingredients: string[]) => 
     `You are Gus the Mechanic, a knowledgeable automotive instructor. Create ${numRecipes} intermediate automotive repair guides for someone comfortable with basic maintenance using parts from their garage: ${ingredients.join(", ")}.
     RULES:
     1. Use 3-4 required parts per repair
@@ -49,7 +48,7 @@ const RECIPE_PROMPTS = {
     5. Include necessary tools for each repair
     6. Add relevant certification tags from: Safety Certified, Warranty Approved, Fuel Efficient, Emission Compliant, Low Maintenance, Performance Tuned, Environmentally Friendly, Heavy Duty`,
 
-  kitchen_confident: (numRecipes: number, ingredients: string[]) => 
+  certified_technician: (numRecipes: number, ingredients: string[]) => 
     `You are Gus the Mechanic, an expert automotive instructor. Create ${numRecipes} advanced automotive repair guides for an experienced technician using parts from their shop: ${ingredients.join(", ")}.
     RULES:
     1. Use 4+ required parts per repair
@@ -66,7 +65,7 @@ async function getUserProfile(userId: string) {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('dietary, cuisine, kitchen_setup')
+    .select('vehicle_type, certifications, garage_setup')
     .eq('id', userId)
     .single();
 
@@ -76,9 +75,9 @@ async function getUserProfile(userId: string) {
   }
 
   return data as {
-    dietary: string[];
-    cuisine: string[];
-    kitchen_setup?: string;
+    vehicle_type: string[];
+    certifications: string[];
+    garage_setup?: string;
   };
 }
 
@@ -116,8 +115,8 @@ function scoreRecipe(
   score += matchingIngredients * 2;
   
   // 2. Penalize based on missing equipment
-  if (kitchenSetup && kitchenSetup in KITCHEN_EQUIPMENT) {
-    const availableEquipment = KITCHEN_EQUIPMENT[kitchenSetup as KitchenSetup];
+  if (kitchenSetup && kitchenSetup in GARAGE_EQUIPMENT) {
+    const availableEquipment = GARAGE_EQUIPMENT[kitchenSetup as GarageSetup];
     const requiredEquipment = recipe.equipment || [];
     
     const missingEquipment = requiredEquipment.filter((eq: string) => {
@@ -304,35 +303,37 @@ export async function fetchRecipesWithImages({
   // 2. Build the Anthropic prompt with enhanced instructions
   const basePrompt = promptTemplate(numRecipes, ingredients);
   
-  // Get preferences
-  const dietaryPrefs = profile?.dietary || [];
-  const cuisinePrefs = profile?.cuisine || [];
-  const kitchenSetup = profile?.kitchen_setup || '';
+  // Get automotive profile preferences
+  const vehicleType = profile?.vehicle_type || [];
+  const certifications = profile?.certifications || [];
+  const garageSetup = profile?.garage_setup || '';
   
   // Add talent tree equipment preference to prompt
   let talentTreePrompt = '';
   if (talentsEnabled && talentTree && talentTree in TALENT_TREE_EQUIPMENT) {
     const preferredEquipment = TALENT_TREE_EQUIPMENT[talentTree as keyof typeof TALENT_TREE_EQUIPMENT];
-    talentTreePrompt = `IMPORTANT: User has selected "${talentTree}" talent tree. Prioritize projects that use these methods/equipment: ${preferredEquipment.join(', ')}. Generate projects that showcase these tools and techniques.`;
+    talentTreePrompt = `IMPORTANT: User has selected "${talentTree}" specialization. Prioritize repairs that use these methods/equipment: ${preferredEquipment.join(', ')}. Generate repair guides that showcase these tools and techniques.`;
   }
 
   const prompt = `${basePrompt}
 
-${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
-${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
-${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
+${vehicleType.length > 0 ? `Vehicle type focus: ${vehicleType.join(', ')}. Tailor repair guides to this vehicle type.` : ''}
+${certifications.length > 0 && certifications[0] !== 'None' ? `Certifications: ${certifications.join(', ')}. Reference relevant certification standards in procedures.` : ''}
+${garageSetup ? `Garage setup: ${garageSetup}. Only suggest tools/equipment available in this type of setup.` : ''}
+${userKitchenSetup ? `Override garage setup: ${userKitchenSetup}` : ''}
 ${talentTreePrompt}
 
-Return the projects as a JSON array with the following structure for each project:
+Return the repair guides as a JSON array with the following structure for each guide:
 {
-  "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2"],
+  "title": "Repair Guide Name",
+  "ingredients": ["part 1", "part 2"],
   "instructions": ["Step 1", "Step 2"],
-  "equipment": ["equipment 1", "equipment 2"],
+  "equipment": ["tool 1", "tool 2"],
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary tools needed to complete the repair (e.g., "torque wrench", "OBD scanner", "jack stands", "multimeter").
+For ingredients, list the actual automotive parts needed (e.g., "brake pads", "oil filter", "spark plugs").
 Return ONLY the JSON array, no other text.`;
 
   // 3. Call Anthropic API
@@ -389,7 +390,7 @@ Return ONLY the JSON array, no other text.`;
     return generateFallbackRecipes(userId, ingredients, numRecipes);
   }
 
-  // 4. Score and sort recipes based on user's cupboard, kitchen setup, and talent tree
+  // 4. Score and sort recipes based on user's garage parts, garage setup, and talent tree
   const scoredRecipes = recipes
     .map(recipe => ({
       ...recipe,
@@ -400,7 +401,7 @@ Return ONLY the JSON array, no other text.`;
           equipment: Array.isArray(recipe.equipment) ? recipe.equipment : []
         },
         ingredients,
-        kitchenSetup,
+        garageSetup,
         talentTree,
         talentsEnabled
       )
