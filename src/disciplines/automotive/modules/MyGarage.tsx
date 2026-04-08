@@ -281,7 +281,7 @@ const MyGarage = () => {
             setMatcherError('');
             try {
               const garageParts = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
+              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
                 ingredients: garageParts,

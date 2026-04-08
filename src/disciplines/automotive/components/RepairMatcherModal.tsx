@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from './RepairContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
@@ -122,18 +122,18 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         : generateTutorials(recipes[currentIdx])
     };
     setSelectedRecipe(fullRecipe);
-    navigate('/culinary-school');
+    navigate('/automotive/auto-school');
   };
 
-  const DIETARY_TAGS = [
-    { key: 'Heart Healthy', label: t('repairMatcher.heartHealthy') },
-    { key: 'Anti Inflammatory', label: t('repairMatcher.antiInflammatory') },
-    { key: 'Low Glycemic', label: t('repairMatcher.lowGlycemic') },
-    { key: 'Low Cholesterol', label: t('repairMatcher.lowCholesterol') },
-    { key: 'Renal Friendly', label: t('repairMatcher.renalFriendly') },
-    { key: 'DASH Diet', label: t('repairMatcher.dashDiet') },
-    { key: 'Low Sodium', label: t('repairMatcher.lowSodium') },
-    { key: 'High Fiber', label: t('repairMatcher.highFiber') }
+  const REPAIR_TAGS = [
+    { key: 'Heart Healthy', label: t('repairMatcher.safetyCertified') },
+    { key: 'Anti Inflammatory', label: t('repairMatcher.warrantyApproved') },
+    { key: 'Low Glycemic', label: t('repairMatcher.fuelEfficient') },
+    { key: 'Low Cholesterol', label: t('repairMatcher.emissionCompliant') },
+    { key: 'Renal Friendly', label: t('repairMatcher.lowMaintenance') },
+    { key: 'DASH Diet', label: t('repairMatcher.performanceTuned') },
+    { key: 'Low Sodium', label: t('repairMatcher.environmentallyFriendly') },
+    { key: 'High Fiber', label: t('repairMatcher.heavyDuty') }
   ];
 
   return (
@@ -172,7 +172,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
                   <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
-                    {DIETARY_TAGS.map(tag => {
+                    {REPAIR_TAGS.map(tag => {
                       const isMatch = recipes[currentIdx].healthTags?.includes(tag.key);
                       return (
                         <span 
@@ -186,9 +186,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Materials' })}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('repairMatcher.parts', { defaultValue: 'Parts' })}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
                   {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Tools/Equipment' })}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('repairMatcher.tools', { defaultValue: 'Tools' })}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">
@@ -206,7 +206,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                     {t('repairMatcher.cookMe', { defaultValue: 'Run It' })}
                   </button>
                 </div>
-                <div className="text-xs mt-4 text-center text-gray-500">{t('repairMatcher.swipeThrough')}</div>
+                <div className="text-xs mt-4 text-center text-gray-500">{t('repairMatcher.swipeThrough', { defaultValue: 'Swipe through for more repair guides' })}</div>
               </div>
             );
           })()

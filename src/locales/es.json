@@ -1815,9 +1815,9 @@
   "repairMatcher": {
     "repairMatcher": "Buscador de Guías de Reparación",
     "findingRecipes": "Buscando guías de reparación...",
-    "loadingMessage1": "Pete el Plomero está revisando el inventario de tu van…",
-    "loadingMessage2": "Pete el Plomero está buscando procedimientos de plomería…",
-    "loadingMessage3": "Pete el Plomero está encontrando el mejor flujo de reparación para ti…",
+    "loadingMessage1": "Gus el Mecánico está revisando el inventario de tu garaje…",
+    "loadingMessage2": "Gus el Mecánico está buscando procedimientos de reparación…",
+    "loadingMessage3": "Gus el Mecánico está encontrando la mejor guía de reparación para ti…",
     "noMoreSuggestions": "No hay más sugerencias.",
     "tryUpdatingCupboard": "¡Intenta actualizar tu garaje!",
     "cookMe": "Reparar",

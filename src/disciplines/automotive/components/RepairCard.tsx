@@ -24,7 +24,7 @@ const RecipeCardComponent: React.FC<Props> = ({ recipe }) => {
       </div>
       <div className="grid grid-cols-3 gap-2 mb-2">
         <div className="text-xs text-gray-600">
-          <div className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Materials' })}</div>
+          <div className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Parts' })}</div>
           {recipe.ingredients.join(', ')}
         </div>
         <div className="text-xs text-gray-600">
@@ -33,9 +33,9 @@ const RecipeCardComponent: React.FC<Props> = ({ recipe }) => {
         </div>
         <div className="text-xs text-gray-600">
           <div className="font-bold">{t('recipeCard.nutrition', { defaultValue: 'Specifications' })}</div>
-          <div>{t('recipeCard.carbs', { defaultValue: 'Complexity' })}: {recipe.nutrition?.carbs}g</div>
-          <div>{t('recipeCard.protein', { defaultValue: 'Quality' })}: {recipe.nutrition?.protein}g</div>
-          <div>{t('recipeCard.fat', { defaultValue: 'Risk' })}: {recipe.nutrition?.saturatedFat}g</div>
+          <div>{t('recipeCard.carbs', { defaultValue: 'Complexity' })}: {recipe.nutrition?.carbs}</div>
+          <div>{t('recipeCard.protein', { defaultValue: 'Quality' })}: {recipe.nutrition?.protein}</div>
+          <div>{t('recipeCard.fat', { defaultValue: 'Risk' })}: {recipe.nutrition?.saturatedFat}</div>
         </div>
       </div>
       <div className="text-xs text-gray-600">

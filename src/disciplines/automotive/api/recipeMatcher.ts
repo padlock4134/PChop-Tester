@@ -5,21 +5,21 @@ import { isSessionValid } from './userSession';
 import { fetchNutritionData, getKeyNutrients } from './nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
-// Define equipment available for each kitchen setup
+// Define equipment available for each garage setup
 const KITCHEN_EQUIPMENT = {
-  'Dorm Life': ['microwave', 'kettle', 'toaster', 'mini-fridge'],
-  'Minimalist': ['pot', 'pan', 'knife', 'cutting board', 'stove'],
-  'Apartment Kitchen': ['oven', 'stove', 'basic utensils', 'baking sheets'],
-  'Outdoor Grilling': ['grill', 'tongs', 'grill brush', 'meat thermometer'],
-  'Home Chef': ['blender', 'food processor', 'mixer', 'knives', 'oven', 'stove'],
-  'Full Chef\'s Kitchen': ['all equipment']
+  'Basic Toolbox': ['wrench set', 'screwdriver set', 'pliers', 'jack', 'lug wrench'],
+  'Home Garage': ['socket set', 'torque wrench', 'jack stands', 'oil drain pan', 'multimeter'],
+  'Enthusiast Garage': ['air compressor', 'impact wrench', 'creeper', 'engine hoist', 'OBD scanner'],
+  'Student Bay': ['lift', 'diagnostic scanner', 'brake lathe', 'tire machine', 'alignment rack'],
+  'Pro Shop': ['dynamometer', 'engine analyzer', 'transmission jack', 'welding equipment', 'paint booth'],
+  'Full Service Center': ['all equipment']
 } as const;
 
 // Define equipment associated with each talent tree
 const TALENT_TREE_EQUIPMENT = {
-  'Cast Iron Champion': ['cast iron', 'dutch oven', 'skillet'],
-  'Grilling Heavy Weight': ['grill', 'smoker', 'charcoal', 'gas grill'],
-  'Baking Warlock': ['stand mixer', 'baking sheet', 'pastry brush', 'rolling pin']
+  'Engine Specialist': ['engine hoist', 'timing light', 'compression tester', 'bore gauge'],
+  'Brake & Suspension Pro': ['brake lathe', 'spring compressor', 'alignment rack', 'strut tool'],
+  'Electrical Diagnostics': ['OBD scanner', 'multimeter', 'oscilloscope', 'wiring harness tester']
 } as const;
 
 type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
@@ -30,34 +30,34 @@ const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
 const RECIPE_PROMPTS = {
   new_to_cooking: (numRecipes: number, ingredients: string[]) => 
-    `You are a patient trade instructor. Create ${numRecipes} simple beginner projects using available materials/components from: ${ingredients.join(", ")}. 
+    `You are Gus the Mechanic, a patient automotive instructor. Create ${numRecipes} simple beginner automotive repair guides using available parts from the student's garage: ${ingredients.join(", ")}. 
     RULES:
-    1. Use only 2-3 required materials/components per project
-    2. Only basic entry-level methods
-    3. Very detailed step-by-step instructions
-    4. Keep completion time under 20 minutes when possible
-    5. Include necessary tools/equipment for each project
-    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
+    1. Use only 2-3 required parts per repair
+    2. Only basic entry-level repair procedures (oil change, tire rotation, bulb replacement, etc.)
+    3. Very detailed step-by-step instructions with safety warnings
+    4. Keep estimated repair time under 30 minutes when possible
+    5. Include necessary tools for each repair (wrench, jack, etc.)
+    6. Add relevant certification tags from: Safety Certified, Warranty Approved, Fuel Efficient, Emission Compliant, Low Maintenance, Performance Tuned, Environmentally Friendly, Heavy Duty`,
 
   home_cook: (numRecipes: number, ingredients: string[]) => 
-    `You are a helpful trade coach. Create ${numRecipes} intermediate projects for someone comfortable with fundamentals using materials/components from: ${ingredients.join(", ")}.
+    `You are Gus the Mechanic, a knowledgeable automotive instructor. Create ${numRecipes} intermediate automotive repair guides for someone comfortable with basic maintenance using parts from their garage: ${ingredients.join(", ")}.
     RULES:
-    1. Use 3-4 required materials/components per project
-    2. Standard trade methods
-    3. Clear instructions
-    4. Keep completion time under 30 minutes when possible
-    5. Include necessary tools/equipment for each project
-    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
+    1. Use 3-4 required parts per repair
+    2. Standard repair procedures (brake pad replacement, belt changes, fluid flushes, sensor swaps)
+    3. Clear step-by-step instructions with torque specs where applicable
+    4. Keep estimated repair time under 1 hour when possible
+    5. Include necessary tools for each repair
+    6. Add relevant certification tags from: Safety Certified, Warranty Approved, Fuel Efficient, Emission Compliant, Low Maintenance, Performance Tuned, Environmentally Friendly, Heavy Duty`,
 
   kitchen_confident: (numRecipes: number, ingredients: string[]) => 
-    `You are an expert trade mentor. Create ${numRecipes} advanced projects for an experienced learner using materials/components from: ${ingredients.join(", ")}.
+    `You are Gus the Mechanic, an expert automotive instructor. Create ${numRecipes} advanced automotive repair guides for an experienced technician using parts from their shop: ${ingredients.join(", ")}.
     RULES:
-    1. Use 4+ required materials/components per project
-    2. Can include advanced trade techniques
-    3. Professional-style instructions
-    4. Focus on quality and technique
-    5. Include necessary tools/equipment for each project
-    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`
+    1. Use 4+ required parts per repair
+    2. Can include advanced procedures (engine rebuilds, transmission work, suspension overhauls, electrical diagnostics)
+    3. Professional-level instructions with specifications and tolerances
+    4. Focus on quality workmanship and proper technique
+    5. Include necessary tools and specialty equipment for each repair
+    6. Add relevant certification tags from: Safety Certified, Warranty Approved, Fuel Efficient, Emission Compliant, Low Maintenance, Performance Tuned, Environmentally Friendly, Heavy Duty`
 };
 
 async function getUserProfile(userId: string) {
@@ -412,7 +412,7 @@ Return ONLY the JSON array, no other text.`;
   const imagePromises = scoredRecipes.map(async (recipe) => {
     try {
       const res = await fetch(
-        `${UNSPLASH_API_URL}?query=${encodeURIComponent(recipe.title)}&client_id=${unsplashKey}`
+        `${UNSPLASH_API_URL}?query=${encodeURIComponent(recipe.title + ' automotive repair')}&client_id=${unsplashKey}`
       );
       const data = await res.json();
       return data.results?.[0]?.urls?.small || '';
@@ -541,10 +541,10 @@ Return ONLY the JSON array, no other text.`;
 
   // 3. For each recipe, call Unsplash in parallel
   const imagePromises = validRecipes.map(async (r) => {
-    const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'meal');
+    const q = encodeURIComponent((r.title || r.ingredients?.[0] || 'auto repair') + ' automotive mechanic');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836';
+    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e';
   });
   const images = await Promise.all(imagePromises);
 

@@ -1507,9 +1507,9 @@
   "repairMatcher": {
     "repairMatcher": "Repair Guide Matcher",
     "findingRecipes": "Finding repair guides...",
-    "loadingMessage1": "Pete the Plumber is looking at your van inventory…",
-    "loadingMessage2": "Pete the Plumber is matching plumbing procedures…",
-    "loadingMessage3": "Pete the Plumber is finding the best repair flow for you…",
+    "loadingMessage1": "Gus the Mechanic is looking at your garage inventory…",
+    "loadingMessage2": "Gus the Mechanic is matching repair procedures…",
+    "loadingMessage3": "Gus the Mechanic is finding the best repair guide for you…",
     "noMoreSuggestions": "No more suggestions.",
     "tryUpdatingCupboard": "Try updating your garage!",
     "cookMe": "Fix It",
@@ -1539,7 +1539,7 @@
     "highFiber": "Heavy Duty",
     "heavyDuty": "Heavy Duty",
     "swipeThrough": "Swipe through for more repair guides",
-    "tryUpdatingVan": "Try updating your van!"
+    "tryUpdatingVan": "Try updating your garage!"
   },
   "mySite": {
     "title": "My Site",
