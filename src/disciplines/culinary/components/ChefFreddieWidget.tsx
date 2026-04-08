@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from './FreddieContext';
 import { askChefFreddie } from '../api/chefFreddie';
 import { useSupabase } from './SupabaseProvider';
+// @ts-ignore
+import chefFreddiePng from '../images/logo.png';
 
 interface Message {
   sender: 'freddie' | 'user';
@@ -110,7 +112,11 @@ const ChefFreddieWidget = () => {
         onClick={() => setOpen(o => !o)}
         aria-label="Open Chef Freddie AI Assistant"
       >
-        <span className="text-3xl">🔪</span>
+        <img
+          src={chefFreddiePng}
+          alt="Chef Freddie"
+          className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
+        />
       </button>
 
       {open && (
