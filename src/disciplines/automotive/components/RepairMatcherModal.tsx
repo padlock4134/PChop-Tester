@@ -59,9 +59,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const navigate = useNavigate();
 
   const loadingMessages = [
-    t('repairMatcher.loadingMessage1'),
-    t('repairMatcher.loadingMessage2'),
-    t('repairMatcher.loadingMessage3')
+    t('garageMatcher.loadingMessage1'),
+    t('garageMatcher.loadingMessage2'),
+    t('garageMatcher.loadingMessage3')
   ];
 
   // Timer effect for loading steps
@@ -100,15 +100,15 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   function generateTutorials(recipe: RecipeCard) {
   return [
     {
-      title: `${t('repairMatcher.equipmentUsing')} ${recipe.title}`,
-      desc: t('repairMatcher.learnEquipment')
+      title: `${t('garageMatcher.equipmentUsing')} ${recipe.title}`,
+      desc: t('garageMatcher.learnEquipment')
     },
     {
-      title: t('repairMatcher.proteinPrep'),
-      desc: t('repairMatcher.howToPrepProtein')
+      title: t('garageMatcher.partsPrep'),
+      desc: t('garageMatcher.howToPrepParts')
     },
     {
-      title: `${t('repairMatcher.recipe', { defaultValue: 'Procedure' })} ${recipe.title}`,
+      title: `${t('garageMatcher.procedure')} ${recipe.title}`,
       desc: recipe.instructions
     }
   ];
@@ -126,14 +126,14 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   };
 
   const REPAIR_TAGS = [
-    { key: 'Heart Healthy', label: t('repairMatcher.safetyCertified') },
-    { key: 'Anti Inflammatory', label: t('repairMatcher.warrantyApproved') },
-    { key: 'Low Glycemic', label: t('repairMatcher.fuelEfficient') },
-    { key: 'Low Cholesterol', label: t('repairMatcher.emissionCompliant') },
-    { key: 'Renal Friendly', label: t('repairMatcher.lowMaintenance') },
-    { key: 'DASH Diet', label: t('repairMatcher.performanceTuned') },
-    { key: 'Low Sodium', label: t('repairMatcher.environmentallyFriendly') },
-    { key: 'High Fiber', label: t('repairMatcher.heavyDuty') }
+    { key: 'Heart Healthy', label: t('garageMatcher.safetyCertified') },
+    { key: 'Anti Inflammatory', label: t('garageMatcher.warrantyApproved') },
+    { key: 'Low Glycemic', label: t('garageMatcher.fuelEfficient') },
+    { key: 'Low Cholesterol', label: t('garageMatcher.emissionCompliant') },
+    { key: 'Renal Friendly', label: t('garageMatcher.lowMaintenance') },
+    { key: 'DASH Diet', label: t('garageMatcher.performanceTuned') },
+    { key: 'Low Sodium', label: t('garageMatcher.environmentallyFriendly') },
+    { key: 'High Fiber', label: t('garageMatcher.heavyDuty') }
   ];
 
   return (
@@ -153,17 +153,17 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('repairMatcher.repairMatcher'))}
+           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('garageMatcher.garageMatcher'))}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('repairMatcher.findingRecipes')}</div>
+            <div className="text-lg font-retro mb-2">{t('garageMatcher.findingGuides')}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
         ) : recipes.length === 0 || currentIdx >= recipes.length ? (
-          <div className="text-center text-maineBlue font-bold py-10">{t('repairMatcher.noMoreSuggestions')}<br/>{t('repairMatcher.tryUpdatingCupboard')}</div>
+          <div className="text-center text-maineBlue font-bold py-10">{t('garageMatcher.noMoreSuggestions')}<br/>{t('garageMatcher.tryUpdatingGarage')}</div>
         ) : (
           (() => {
             console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
@@ -186,9 +186,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('repairMatcher.parts', { defaultValue: 'Parts' })}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('garageMatcher.parts')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
                   {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('repairMatcher.tools', { defaultValue: 'Tools' })}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('garageMatcher.tools')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">
@@ -203,10 +203,10 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                     {isSaving ? '...' : '♥'}
                   </button>
                   <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {t('repairMatcher.cookMe', { defaultValue: 'Run It' })}
+                    {t('garageMatcher.fixIt')}
                   </button>
                 </div>
-                <div className="text-xs mt-4 text-center text-gray-500">{t('repairMatcher.swipeThrough', { defaultValue: 'Swipe through for more repair guides' })}</div>
+                <div className="text-xs mt-4 text-center text-gray-500">{t('garageMatcher.swipeThrough')}</div>
               </div>
             );
           })()
