@@ -81,24 +81,37 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
   const [inputMode, setInputMode] = useState<'camera' | 'touch' | 'mouse' | null>(null);
 
   const teardownARSession = useCallback(() => {
-    const arVideoSelectors = ['#arjs-video', '.arjs-video'];
-    arVideoSelectors.forEach((selector) => {
+    document.querySelectorAll('video').forEach((node) => {
+      if (node.closest('#root') && !node.id?.includes('arjs')) return;
+      const mediaStream = node.srcObject;
+      if (mediaStream instanceof MediaStream) {
+        mediaStream.getTracks().forEach((track) => track.stop());
+      }
+      node.pause();
+      node.srcObject = null;
+      node.remove();
+    });
+
+    const orphanedSelectors = [
+      '.arjs-loader', '#arjsDebugUIContainer',
+      '.a-enter-vr', '.a-orientation-modal', '.a-loader-title',
+      'a-scene > canvas', '.a-canvas',
+    ];
+    orphanedSelectors.forEach((selector) => {
       document.querySelectorAll(selector).forEach((node) => {
-        if (!(node instanceof HTMLVideoElement)) return;
-        const mediaStream = node.srcObject;
-        if (mediaStream instanceof MediaStream) {
-          mediaStream.getTracks().forEach((track) => track.stop());
-        }
-        node.pause();
-        node.srcObject = null;
-        node.remove();
+        if (!node.closest('#root')) node.remove();
       });
     });
 
-    const orphanedArElements = ['.arjs-loader', '#arjsDebugUIContainer', '.a-enter-vr', '.a-orientation-modal'];
-    orphanedArElements.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((node) => node.remove());
-    });
+    document.querySelectorAll('style[data-href*="aframe"]').forEach((s) => s.remove());
+
+    document.body.style.overflow = '';
+    document.body.style.margin = '';
+    document.body.style.padding = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.height = '';
+    document.documentElement.style.overflow = '';
   }, []);
   
   // Track wrist movement for stroke counting
