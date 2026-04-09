@@ -8,7 +8,7 @@ import BuildProcessModal from '../components/BuildProcessModal';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/ProcessMatcherModal';
 import ProductionLine from '../components/GlobalTestFloor';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
 
