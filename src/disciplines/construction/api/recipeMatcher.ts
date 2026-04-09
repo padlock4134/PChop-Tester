@@ -307,7 +307,7 @@ export async function fetchRecipesWithImages({
   // Get preferences
   const dietaryPrefs = profile?.dietary || [];
   const cuisinePrefs = profile?.cuisine || [];
-  const kitchenSetup = profile?.kitchen_setup || '';
+  const kitchenSetup = userKitchenSetup || profile?.kitchen_setup || '';
   
   // Add talent tree equipment preference to prompt
   let talentTreePrompt = '';
@@ -320,7 +320,7 @@ export async function fetchRecipesWithImages({
 
 ${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
 ${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
-${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
+${kitchenSetup ? `Kitchen setup: ${kitchenSetup}` : ''}
 ${talentTreePrompt}
 
 Return the projects as a JSON array with the following structure for each project:

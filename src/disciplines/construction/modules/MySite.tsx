@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { saveKitchen, fetchKitchen } from './kitchenSupabase';
-import { fetchCookbook, addRecipeToCookbook } from '../../culinary/modules/cookbookSupabase';
-import { Ingredient } from '../../culinary/types/shared-types';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
+import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
+import { Ingredient } from '../types/shared-types';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
-import { scanImage } from '../../culinary/api/vision';
+import { scanImage } from '../api/vision';
 import TaskMatcherModal, { RecipeCard } from '../components/TaskMatcherModal';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { supabase } from '../../culinary/api/supabaseClient';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
+import { isSessionValid } from '../api/userSession';
+import { supabase } from '../api/supabaseClient';
 import TaskCard from '../components/TaskCard';
 
 const CATEGORIES = [
@@ -95,19 +95,26 @@ const MySite = () => {
 
   // Save kitchen to Supabase whenever ingredients change
   useEffect(() => {
-    if (ingredients.length === 0) return;
+    if (!user?.id || ingredients.length === 0) return;
     saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your workspace.'));
-  }, [ingredients]);
+  }, [ingredients, user?.id]);
 
   // Freddie context: set page on mount
   useEffect(() => {
-    updateContext({ page: 'MyKitchen' });
+    updateContext({ page: 'MySite' });
+
+    if (!user?.id) {
+      setIngredients([]);
+      setCookbook([]);
+      return;
+    }
+
     // Load both kitchen and cookbook data
     const loadData = async () => {
       try {
         const [kitchenIngredients, cookbookRecipes] = await Promise.all([
-          fetchKitchen(user?.id!),
-          fetchCookbook(user?.id!)
+          fetchKitchen(user.id),
+          fetchCookbook(user.id)
         ]);
         setIngredients(kitchenIngredients);
         setCookbook(cookbookRecipes);
@@ -117,7 +124,7 @@ const MySite = () => {
       }
     };
     loadData();
-  }, [updateContext]);
+  }, [updateContext, user?.id]);
 
   // Filtering logic (only by search text)
   const filteredIngredients = ingredients.filter(ing => {
@@ -144,7 +151,7 @@ const MySite = () => {
       
       // Award XP for saving a recipe
       if (user) {
-        await import('../../culinary/services/xpService').then(m => 
+        await import('../services/xpService').then(m => 
           m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
         );
         refreshXP();
@@ -289,7 +296,7 @@ const MySite = () => {
             setMatcherError('');
             try {
               const cupboardNames = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
+              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
                 ingredients: cupboardNames,
@@ -440,5 +447,3 @@ const MySite = () => {
 };
 
 export default MySite;
-
-
