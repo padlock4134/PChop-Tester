@@ -930,7 +930,7 @@ END:VCALENDAR`;
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder="e.g., Foundation layout and anchor-bolt placement walkthrough"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
@@ -941,13 +941,15 @@ END:VCALENDAR`;
                 </label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
                   <option>Select</option>
-                  <option>Diagnostics</option>
-                  <option>Installation</option>
-                  <option>Maintenance</option>
+                  <option>Site Prep</option>
+                  <option>Framing</option>
+                  <option>Concrete &amp; Masonry</option>
+                  <option>Electrical Rough-In</option>
+                  <option>Plumbing Rough-In</option>
                   <option>Safety</option>
+                  <option>Inspection &amp; Code</option>
+                  <option>Finishing</option>
                   <option>Troubleshooting</option>
-                  <option>Planning</option>
-                  <option>Quality Control</option>
                   <option>Other</option>
                 </select>
               </div>
@@ -1156,20 +1158,20 @@ END:VCALENDAR`;
             </button>
             
             <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              📅 Schedule Live Session
+              📅 Schedule Build Session
             </h2>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Dish Name
+                  Session Title
                 </label>
                 <input
                   type="text"
                   value={scheduledDishName}
                   onChange={(e) => setScheduledDishName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder="e.g., Roof truss layout and bracing walkthrough"
                 />
               </div>
               
@@ -1183,13 +1185,15 @@ END:VCALENDAR`;
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
                   <option value="">Select</option>
-                  <option value="Diagnostics">Diagnostics</option>
-                  <option value="Installation">Installation</option>
-                  <option value="Maintenance">Maintenance</option>
+                  <option value="SitePrep">Site Prep</option>
+                  <option value="Framing">Framing</option>
+                  <option value="ConcreteMasonry">Concrete &amp; Masonry</option>
+                  <option value="ElectricalRoughIn">Electrical Rough-In</option>
+                  <option value="PlumbingRoughIn">Plumbing Rough-In</option>
                   <option value="Safety">Safety</option>
+                  <option value="InspectionCode">Inspection &amp; Code</option>
+                  <option value="Finishing">Finishing</option>
                   <option value="Troubleshooting">Troubleshooting</option>
-                  <option value="Planning">Planning</option>
-                  <option value="QualityControl">Quality Control</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
@@ -1309,7 +1313,7 @@ END:VCALENDAR`;
                     type="text"
                     value={videoTitle}
                     onChange={(e) => setVideoTitle(e.target.value)}
-                    placeholder="e.g., Perfect Pasta Technique Demo"
+                    placeholder="e.g., Stair stringer layout accuracy demo"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   />
@@ -1317,7 +1321,7 @@ END:VCALENDAR`;
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cuisine Type
+                    Focus Area
                   </label>
                   <select 
                     value={videoCuisine}
@@ -1325,13 +1329,15 @@ END:VCALENDAR`;
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   >
-                    <option value="">Select cuisine type</option>
-                    <option value="Diagnostics">Diagnostics</option>
+                    <option value="">Select focus area</option>
+                    <option value="Site Prep">Site Prep</option>
+                    <option value="Framing">Framing</option>
+                    <option value="Concrete & Masonry">Concrete &amp; Masonry</option>
+                    <option value="Electrical Rough-In">Electrical Rough-In</option>
+                    <option value="Plumbing Rough-In">Plumbing Rough-In</option>
                     <option value="Safety">Safety</option>
-                    <option value="Installation">Installation</option>
-                    <option value="Asian">Asian</option>
-                    <option value="American">American</option>
-                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Inspection & Code">Inspection &amp; Code</option>
+                    <option value="Finishing">Finishing</option>
                     <option value="Troubleshooting">Troubleshooting</option>
                     <option value="Other">Other</option>
                   </select>
@@ -1447,4 +1453,3 @@ END:VCALENDAR`;
 };
 
 export default GlobalTestKitchen;
-
