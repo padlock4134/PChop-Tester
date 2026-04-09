@@ -16,7 +16,7 @@ const ShopTalk = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { recipes, setRecipes } = useRecipeContext();
-  const { user } = useSupabase();
+  const { user, isLoading: authLoading } = useSupabase();
   
   // Showcase recipe state
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
@@ -150,6 +150,10 @@ const ShopTalk = () => {
 
   // Open modal for My CookBook import
   const importFromCookBook = () => {
+    if (authLoading) {
+      // Still loading authentication, do nothing
+      return;
+    }
     if (!user) {
       alert(t('shopTalk.pleaseSignIn'));
       return;
@@ -268,9 +272,9 @@ const ShopTalk = () => {
                       <button 
                         onClick={importFromCookBook} 
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
-                        disabled={isLoading}
+                        disabled={isLoading || authLoading}
                       >
-                        {isLoading ? t('shopTalk.loading') : 'Import from Playbook'}
+                        {isLoading || authLoading ? t('shopTalk.loading') : 'Import from Playbook'}
                       </button>
                     </div>
                   </div>
