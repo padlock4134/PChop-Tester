@@ -122,11 +122,18 @@ export async function generateDisciplineSkin(
 ): Promise<AIGeneratedSkin> {
   const { disciplineName, additionalContext } = params;
 
-  // TODO: Get API key from environment or Supabase platform_config table
-  const apiKey = process.env.REACT_APP_OPENAI_API_KEY || '';
+  // Support both Vite-style env vars and legacy process.env injection.
+  const viteEnv = (typeof import.meta !== 'undefined' ? (import.meta as any).env : undefined) || {};
+  const legacyEnv = (typeof process !== 'undefined' ? (process as any).env : undefined) || {};
+  const apiKey =
+    viteEnv.VITE_OPENAI_API_KEY ||
+    viteEnv.REACT_APP_OPENAI_API_KEY ||
+    legacyEnv.VITE_OPENAI_API_KEY ||
+    legacyEnv.REACT_APP_OPENAI_API_KEY ||
+    '';
   
   if (!apiKey) {
-    throw new Error('AI API key not configured. Please add REACT_APP_OPENAI_API_KEY to environment.');
+    throw new Error('AI API key not configured. Please add VITE_OPENAI_API_KEY to environment.');
   }
 
   const prompt = buildAIPrompt(disciplineName, additionalContext);

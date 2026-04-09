@@ -31,8 +31,9 @@ const DisciplineSelector: React.FC = () => {
   const [disciplineName, setDisciplineName] = useState('');
   const [additionalContext, setAdditionalContext] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [publishImmediately, setPublishImmediately] = useState(true);
   const [generationError, setGenerationError] = useState<string | null>(null);
-  const [customDisciplines, setCustomDisciplines] = useState<Array<{ key: string; label: string; icon: string }>>([]);
+  const [customDisciplines, setCustomDisciplines] = useState<Array<{ key: string; label: string; icon: string; isActive: boolean }>>([]);
   const [isLoadingCustom, setIsLoadingCustom] = useState(true);
 
   // Load custom disciplines on mount
@@ -45,8 +46,7 @@ const DisciplineSelector: React.FC = () => {
         // Fetch custom disciplines for dropdown
         const { data, error } = await supabase
           .from('custom_disciplines')
-          .select('slug, name, skin_config')
-          .eq('is_active', true)
+          .select('slug, name, skin_config, is_active')
           .order('name');
 
         if (error) {
@@ -54,11 +54,16 @@ const DisciplineSelector: React.FC = () => {
           return;
         }
 
-        const customDisciplinesList = data?.map((d) => ({
+        const visibleDisciplines = isAdmin
+          ? (data || [])
+          : (data || []).filter((discipline) => discipline.is_active);
+
+        const customDisciplinesList = visibleDisciplines.map((d) => ({
           key: d.slug,
           label: d.name,
           icon: (d.skin_config as any)?.icon || '📚',
-        })) || [];
+          isActive: d.is_active,
+        }));
 
         setCustomDisciplines(customDisciplinesList);
       } catch (error) {
@@ -69,7 +74,7 @@ const DisciplineSelector: React.FC = () => {
     }
 
     fetchCustomDisciplines();
-  }, []);
+  }, [isAdmin]);
 
   if (isLoading && !user) {
     console.log('DisciplineSelector - Still loading, no user yet');
@@ -140,9 +145,18 @@ const DisciplineSelector: React.FC = () => {
                 ))}
                 {customDisciplines.length > 0 && (
                   <optgroup label="Custom Programs">
-                    {customDisciplines.map((d) => (
+                    {customDisciplines.filter((d) => d.isActive).map((d) => (
                       <option key={d.key} value={d.key}>
                         {d.icon} {d.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
+                {isAdmin && customDisciplines.some((d) => !d.isActive) && (
+                  <optgroup label="Draft Programs (Admin only)">
+                    {customDisciplines.filter((d) => !d.isActive).map((d) => (
+                      <option key={d.key} value={d.key}>
+                        {d.icon} {d.label} (Draft)
                       </option>
                     ))}
                   </optgroup>
@@ -189,6 +203,7 @@ const DisciplineSelector: React.FC = () => {
                   setShowAddDisciplineModal(false);
                   setDisciplineName('');
                   setAdditionalContext('');
+                  setPublishImmediately(true);
                   setGenerationError(null);
                 }}
                 className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -217,7 +232,7 @@ const DisciplineSelector: React.FC = () => {
                   .from('custom_disciplines')
                   .select('id')
                   .eq('slug', slug)
-                  .single();
+                  .maybeSingle();
 
                 if (existing) {
                   throw new Error('A discipline with this name already exists');
@@ -240,7 +255,7 @@ const DisciplineSelector: React.FC = () => {
                     slug,
                     skin_config: fullSkin,
                     created_by: user?.id,
-                    is_active: true,
+                    is_active: publishImmediately,
                   });
 
                 if (insertError) {
@@ -251,6 +266,7 @@ const DisciplineSelector: React.FC = () => {
                 setShowAddDisciplineModal(false);
                 setDisciplineName('');
                 setAdditionalContext('');
+                setPublishImmediately(true);
                 
                 // Reload page to fetch new disciplines
                 window.location.reload();
@@ -291,6 +307,25 @@ const DisciplineSelector: React.FC = () => {
                 />
               </div>
 
+              <div className="mb-6 p-3 border-2 border-gray-200 rounded-lg bg-gray-50">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={publishImmediately}
+                    onChange={(e) => setPublishImmediately(e.target.checked)}
+                    disabled={isGenerating}
+                  />
+                  <span className="text-sm text-gray-700">
+                    Publish immediately (uncheck to save as draft)
+                  </span>
+                </label>
+                {!publishImmediately && (
+                  <p className="text-xs text-gray-500 mt-2">
+                    Draft disciplines are visible only to admins until published.
+                  </p>
+                )}
+              </div>
+
               <div className="flex gap-3">
                 <button
                   type="button"
@@ -298,6 +333,7 @@ const DisciplineSelector: React.FC = () => {
                     setShowAddDisciplineModal(false);
                     setDisciplineName('');
                     setAdditionalContext('');
+                    setPublishImmediately(true);
                     setGenerationError(null);
                   }}
                   className="flex-1 bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
