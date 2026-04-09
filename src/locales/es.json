@@ -1815,6 +1815,7 @@
   "repairMatcher": {
     "repairMatcher": "Buscador de Guías de Reparación",
     "findingRecipes": "Buscando guías de reparación...",
+    "findingProcedures": "Generando procedimientos...",
     "loadingMessage1": "Pete el Plomero está revisando el inventario de tu van…",
     "loadingMessage2": "Pete el Plomero está buscando procedimientos de plomería…",
     "loadingMessage3": "Pete el Plomero está encontrando el mejor flujo de reparación para ti…",
