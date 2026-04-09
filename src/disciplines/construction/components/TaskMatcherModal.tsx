@@ -122,7 +122,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         : generateTutorials(recipes[currentIdx])
     };
     setSelectedRecipe(fullRecipe);
-    navigate('/culinary-school');
+    navigate('/construction/build-school');
   };
 
   const DIETARY_TAGS = [
@@ -158,7 +158,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes', { defaultValue: 'Finding matching projects...' })}</div>
+            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes', { defaultValue: 'Finding matching build plans...' })}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
@@ -217,4 +217,3 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
 };
 
 export default RecipeMatcherModal;
-
