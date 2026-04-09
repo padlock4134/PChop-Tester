@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
+import { fetchCookbook } from './cookbookSupabase';
 import BlueprintImportModal from '../components/BlueprintImportModal';
 import LocalYardsModal from '../components/LocalYardsModal';
 import BuildPlanModal from '../components/BuildPlanModal';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from '../components/TaskMatcherModal';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import GlobalTestSite from '../components/GlobalTestSite';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
@@ -16,7 +16,7 @@ const HardhatHub = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { recipes, setRecipes } = useRecipeContext();
-  const { user } = useSupabase();
+  const { user, isLoading: authLoading } = useSupabase();
   
   // Showcase recipe state
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
@@ -150,6 +150,7 @@ const HardhatHub = () => {
 
   // Open modal for My CookBook import
   const importFromCookBook = () => {
+    if (authLoading) return;
     if (!user) {
       alert(t('hardhatHub.pleaseSignIn'));
       return;
@@ -268,7 +269,7 @@ const HardhatHub = () => {
                       <button 
                         onClick={importFromCookBook} 
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
-                        disabled={isLoading}
+                        disabled={isLoading || authLoading}
                       >
                         {isLoading ? t('hardhatHub.loading') : t('hardhatHub.importFromCookbook')}
                       </button>
@@ -383,4 +384,3 @@ const HardhatHub = () => {
 };
 
 export default HardhatHub;
-
