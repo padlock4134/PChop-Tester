@@ -103,46 +103,46 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '1',
       hostName: 'Maria Santos',
       dishName: 'Site Layout Calibration',
-      culture: 'Spanish',
+      culture: 'Layout & Surveying',
       viewers: 47,
       isLive: false,
       isEnded: true,
-      thumbnail: '🥘',
-      description: 'Traditional paella from Valencia with saffron and bomba rice',
-      ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
+      thumbnail: '📐',
+      description: 'String-line setup, benchmark checks, and batter board alignment for accurate foundation layout',
+      ingredients: ['Laser level', 'String line', 'Batter boards', 'Tape measure', 'Marking paint']
     },
     {
       id: '2',
       hostName: 'Kenji Nakamura',
       dishName: 'Precision Assembly Practice',
-      culture: 'Japanese',
+      culture: 'Framing',
       viewers: 23,
       isLive: true,
-      thumbnail: '🍜',
-      description: 'Making ramen noodles from scratch with tonkotsu broth',
-      ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
+      thumbnail: '🪵',
+      description: 'Wall section assembly with stud spacing verification, corner tie-ins, and anchor checks',
+      ingredients: ['2x4 studs', 'Framing nails', 'Speed square', 'Chalk line']
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
       dishName: 'System Fit Verification',
-      culture: 'Lebanese',
+      culture: 'MEP Coordination',
       viewers: 35,
       isLive: true,
-      thumbnail: '🧆',
-      description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
-      ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
+      thumbnail: '🧰',
+      description: 'Cross-trade fit-up check for duct, conduit, and plumbing runs before close-in',
+      ingredients: ['Duct section', 'EMT conduit', 'P-trap assembly', 'Hangers', 'Level']
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
       dishName: 'Blueprint Readthrough Drill',
-      culture: 'French',
+      culture: 'Plan Reading',
       viewers: 62,
       isLive: true,
-      thumbnail: '🥐',
-      description: 'Mastering the art of laminated dough and butter layers',
-      ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
+      thumbnail: '📘',
+      description: 'Interpreting section cuts, callouts, and detail bubbles to validate build sequence',
+      ingredients: ['Plan set', 'Highlighter', 'Scale ruler', 'RFI template']
     }
   ]);
   const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
@@ -150,15 +150,15 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '3',
       hostName: 'Priya Sharma',
       dishName: 'Workflow Timing Challenge',
-      culture: 'Indian',
+      culture: 'Production Planning',
       scheduledTime: '2:00 PM EST',
-      description: 'Layered biryani with aromatic spices and basmati rice'
+      description: 'Balancing crew sequencing and handoffs to reduce idle time during rough-in'
     },
     {
       id: '4',
       hostName: 'Ahmed Hassan',
       dishName: 'Quality Control Walkthrough',
-      culture: 'Moroccan',
+      culture: 'Quality Assurance',
       scheduledTime: '4:30 PM EST',
       description: 'Advanced troubleshooting walkthrough for a real-world field issue'
     },
@@ -166,17 +166,17 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       id: '5',
       hostName: 'Elena Volkov',
       dishName: 'Safety Compliance Drill',
-      culture: 'Russian',
+      culture: 'Site Safety',
       scheduledTime: '6:00 PM EST',
-      description: 'Traditional beetroot soup with sour cream and fresh dill'
+      description: 'Fall-protection setup, ladder inspection, and daily JSA briefing best practices'
     },
     {
       id: '6',
       hostName: 'Carlos Mendoza',
       dishName: 'Final Inspection Run',
-      culture: 'Peruvian',
+      culture: 'Inspection & Code',
       scheduledTime: '7:30 PM EST',
-      description: 'Fresh fish cured in lime juice with red onions and aji peppers'
+      description: 'Pre-inspection checklist run-through for framing, MEP rough-in, and documentation'
     }
   ]);
   
@@ -930,7 +930,7 @@ END:VCALENDAR`;
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder="e.g., Foundation layout and anchor-bolt placement walkthrough"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
@@ -941,13 +941,15 @@ END:VCALENDAR`;
                 </label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
                   <option>Select</option>
-                  <option>Diagnostics</option>
-                  <option>Installation</option>
-                  <option>Maintenance</option>
+                  <option>Site Prep</option>
+                  <option>Framing</option>
+                  <option>Concrete &amp; Masonry</option>
+                  <option>Electrical Rough-In</option>
+                  <option>Plumbing Rough-In</option>
                   <option>Safety</option>
+                  <option>Inspection &amp; Code</option>
+                  <option>Finishing</option>
                   <option>Troubleshooting</option>
-                  <option>Planning</option>
-                  <option>Quality Control</option>
                   <option>Other</option>
                 </select>
               </div>
@@ -1156,20 +1158,20 @@ END:VCALENDAR`;
             </button>
             
             <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              📅 Schedule Live Session
+              📅 Schedule Build Session
             </h2>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Dish Name
+                  Session Title
                 </label>
                 <input
                   type="text"
                   value={scheduledDishName}
                   onChange={(e) => setScheduledDishName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder="e.g., Roof truss layout and bracing walkthrough"
                 />
               </div>
               
@@ -1183,13 +1185,15 @@ END:VCALENDAR`;
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
                   <option value="">Select</option>
-                  <option value="Diagnostics">Diagnostics</option>
-                  <option value="Installation">Installation</option>
-                  <option value="Maintenance">Maintenance</option>
+                  <option value="SitePrep">Site Prep</option>
+                  <option value="Framing">Framing</option>
+                  <option value="ConcreteMasonry">Concrete &amp; Masonry</option>
+                  <option value="ElectricalRoughIn">Electrical Rough-In</option>
+                  <option value="PlumbingRoughIn">Plumbing Rough-In</option>
                   <option value="Safety">Safety</option>
+                  <option value="InspectionCode">Inspection &amp; Code</option>
+                  <option value="Finishing">Finishing</option>
                   <option value="Troubleshooting">Troubleshooting</option>
-                  <option value="Planning">Planning</option>
-                  <option value="QualityControl">Quality Control</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
@@ -1309,7 +1313,7 @@ END:VCALENDAR`;
                     type="text"
                     value={videoTitle}
                     onChange={(e) => setVideoTitle(e.target.value)}
-                    placeholder="e.g., Perfect Pasta Technique Demo"
+                    placeholder="e.g., Stair stringer layout accuracy demo"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   />
@@ -1317,7 +1321,7 @@ END:VCALENDAR`;
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cuisine Type
+                    Focus Area
                   </label>
                   <select 
                     value={videoCuisine}
@@ -1325,13 +1329,15 @@ END:VCALENDAR`;
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   >
-                    <option value="">Select cuisine type</option>
-                    <option value="Diagnostics">Diagnostics</option>
+                    <option value="">Select focus area</option>
+                    <option value="Site Prep">Site Prep</option>
+                    <option value="Framing">Framing</option>
+                    <option value="Concrete & Masonry">Concrete &amp; Masonry</option>
+                    <option value="Electrical Rough-In">Electrical Rough-In</option>
+                    <option value="Plumbing Rough-In">Plumbing Rough-In</option>
                     <option value="Safety">Safety</option>
-                    <option value="Installation">Installation</option>
-                    <option value="Asian">Asian</option>
-                    <option value="American">American</option>
-                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Inspection & Code">Inspection &amp; Code</option>
+                    <option value="Finishing">Finishing</option>
                     <option value="Troubleshooting">Troubleshooting</option>
                     <option value="Other">Other</option>
                   </select>
@@ -1447,4 +1453,3 @@ END:VCALENDAR`;
 };
 
 export default GlobalTestKitchen;
-
