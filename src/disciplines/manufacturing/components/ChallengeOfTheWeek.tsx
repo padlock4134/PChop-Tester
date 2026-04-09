@@ -218,7 +218,7 @@ const ChallengeOfTheWeek: React.FC = () => {
               onClick={handleCookMe}
               disabled={loading}
             >
-              {loading ? t('common.loading') : t('myKitchen.cookMe', { defaultValue: 'Generate Challenge' })}
+              {loading ? t('common.loading') : t('myFloor.cookMe', { defaultValue: 'Try This' })}
             </button>
             {error && <div className="text-red-600 mt-2">{error}</div>}
             <button
