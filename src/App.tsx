@@ -334,8 +334,8 @@ const AppRoutes = () => {
     }
   }, [user, isLoading, location.pathname, navigate]);
 
-  // Auto logout functionality - simplified to avoid errors
-  // const { showInactivityWarning, handleContinueSession, handleLogoutNow } = useAutoLogout();
+  // Auto logout functionality
+  const { showWarning, countdown, stayLoggedIn, logoutNow } = useAutoLogout();
   
   // Render logic happens AFTER hooks
   console.log('AppRoutes - isLoading:', isLoading, 'user:', !!user, 'path:', location.pathname);
@@ -467,7 +467,12 @@ const AppRoutes = () => {
         </Routes>
       </main>
       {!isDisciplineSelect && !isAdminRoute && components?.FreddieWidget && <components.FreddieWidget />}
-      {/* InactivityWarningModal temporarily disabled to fix loading issue */}
+      <InactivityWarningModal 
+        isOpen={showWarning}
+        countdown={countdown}
+        onStayLoggedIn={stayLoggedIn}
+        onLogout={logoutNow}
+      />
     </div>
   );
 };
