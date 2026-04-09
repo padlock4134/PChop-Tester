@@ -217,7 +217,7 @@ const DisciplineSelector: React.FC = () => {
                   .from('custom_disciplines')
                   .select('id')
                   .eq('slug', slug)
-                  .single();
+                  .maybeSingle();
 
                 if (existing) {
                   throw new Error('A discipline with this name already exists');
