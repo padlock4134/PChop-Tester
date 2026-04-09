@@ -2,6 +2,7 @@ import { ExperienceLevel, DEFAULT_EXPERIENCE_LEVEL } from '../types/userPreferen
 import { getUserPreferences } from './userPreferences';
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
+import { RecipeCard } from '../components/TaskMatcherModal';
 
 // Define equipment available for each kitchen setup
 const KITCHEN_EQUIPMENT = {
@@ -25,6 +26,7 @@ type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
+const DEFAULT_CONSTRUCTION_IMAGE = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd';
 
 const RECIPE_PROMPTS = {
   new_to_cooking: (numRecipes: number, ingredients: string[]) => 
@@ -148,8 +150,6 @@ function scoreRecipe(
   return score;
 }
 
-import { RecipeCard } from '../components/TaskMatcherModal';
-
 export interface RecipeMatchOptions {
   userId: string;
   ingredients: string[];
@@ -173,22 +173,26 @@ function normalizeConstructionTags(tags: unknown): string[] {
   return valid.length > 0 ? valid.slice(0, 3) : ['Safety', 'Quality'];
 }
 
-function localConstructionFallback(ingredients: string[], count: number) {
+function localConstructionFallback(ingredients: string[], count: number): RecipeCard[] {
   const materialPool = ingredients.length > 0 ? ingredients : ['2x4 lumber', 'drywall', 'deck screws', 'level'];
   return Array.from({ length: Math.max(1, count) }).map((_, idx) => {
     const a = materialPool[idx % materialPool.length];
     const b = materialPool[(idx + 1) % materialPool.length];
+    const instructions = [
+      'Review safety requirements and PPE before starting.',
+      `Measure and stage ${a} and ${b} at the work area.`,
+      'Execute installation steps per code and verify tolerances.',
+      'Document inspection points and final quality checks.'
+    ];
     return {
+      id: `fallback-${Date.now()}-${idx}`,
       title: `Site Build Plan ${idx + 1}: ${a} + ${b}`,
+      image: DEFAULT_CONSTRUCTION_IMAGE,
       ingredients: [a, b],
-      instructions: [
-        'Review safety requirements and PPE before starting.',
-        `Measure and stage ${a} and ${b} at the work area.`,
-        'Execute installation steps per code and verify tolerances.',
-        'Document inspection points and final quality checks.'
-      ],
+      instructions: instructions.join('\n'),
       equipment: ['tape measure', 'level', 'drill/driver', 'PPE kit'],
-      healthTags: ['Safety', 'Precision', 'Quality']
+      healthTags: ['Safety', 'Precision', 'Quality'],
+      nutrition: undefined
     };
   });
 }
@@ -329,10 +333,10 @@ Return ONLY the JSON array, no other text.`;
         `${UNSPLASH_API_URL}?query=${encodeURIComponent(`${recipe.title} construction blueprint`)}&client_id=${unsplashKey}`
       );
       const data = await res.json();
-      return data.results?.[0]?.urls?.small || '';
+      return data.results?.[0]?.urls?.small || DEFAULT_CONSTRUCTION_IMAGE;
     } catch (err) {
       console.error('Failed to fetch image:', err);
-      return '';
+      return DEFAULT_CONSTRUCTION_IMAGE;
     }
   });
 
@@ -342,7 +346,7 @@ Return ONLY the JSON array, no other text.`;
   return scoredRecipes.map((recipe, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
     title: recipe.title,
-    image: images[i],
+    image: images[i] || DEFAULT_CONSTRUCTION_IMAGE,
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     instructions: Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '',
     equipment: Array.isArray(recipe.equipment) ? recipe.equipment : [],
@@ -440,7 +444,7 @@ Return ONLY the JSON array, no other text.`;
     const q = encodeURIComponent(`${r.title || r.ingredients?.[0] || 'construction site plan'} construction blueprint`);
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd';
+    return data.results?.[0]?.urls?.regular || DEFAULT_CONSTRUCTION_IMAGE;
   });
   const images = await Promise.all(imagePromises);
 
