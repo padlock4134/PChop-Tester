@@ -112,10 +112,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-sm sm:text-lg font-bold mb-1 text-center text-amber-800">
-                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'Knife Skills'}
+                📚 Virtual Practice: {arScene?.lesson || 'Layout Fundamentals'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-1">
-                {t('culinarySchool.charcuterieBoard.arDemonstration')}
+                Guided construction simulation for on-site execution
               </p>
             </>
           )}
@@ -126,8 +126,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               // Generating AR scene
               <div className="text-amber-900 text-center">
                 <div className="text-6xl mb-4 animate-pulse">🧠</div>
-                <p className="text-lg font-bold">{t('culinarySchool.charcuterieBoard.aiGeneratingPractice')}</p>
-                <p className="text-sm opacity-75 mt-2">{t('culinarySchool.charcuterieBoard.creatingVirtualKitchen')}</p>
+                <p className="text-lg font-bold">AI is generating your site simulation...</p>
+                <p className="text-sm opacity-75 mt-2">Preparing virtual job site conditions</p>
               </div>
             ) : isPracticing && arScene ? (
               // Virtual practice mode - show AR scene
@@ -144,9 +144,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             ) : (
               // Not practicing - show placeholder
               <div className="text-amber-900 text-center">
-                <div className="text-4xl mb-2">👨‍🍳</div>
-                <p className="text-sm font-bold">{t('culinarySchool.charcuterieBoard.aiGuidedPracticeLabel')}</p>
-                <p className="text-xs opacity-75">{t('culinarySchool.charcuterieBoard.selectLessonStart')}</p>
+                <div className="text-4xl mb-2">👷</div>
+                <p className="text-sm font-bold">AI-Guided Field Practice</p>
+                <p className="text-xs opacity-75">Select a lesson and start practicing</p>
               </div>
             )}
             
@@ -172,38 +172,31 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onClick={startVirtualPractice}
                   className="w-full sm:w-auto bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
                 >
-                  📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
+                  📚 Start Field Practice
                 </button>
                 <select
                   value={selectedLesson}
                   onChange={(e) => setSelectedLesson(e.target.value)}
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
-                  <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                    <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                    <option value="lesson-1-2">Food Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                    <option value="lesson-1-4">Basic Cooking Terminology</option>
-                    <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                  <option value="">Choose a lesson...</option>
+                  <optgroup label="Term 1: Site Foundations">
+                    <option value="lesson-1-1">Job Site Safety and PPE</option>
+                    <option value="lesson-1-2">Blueprint Symbols and Scale Reading</option>
+                    <option value="lesson-1-3">Material Staging and Site Logistics</option>
+                    <option value="lesson-1-4">Measurement Accuracy and Layout Basics</option>
+                    <option value="lesson-1-5">Tool Setup and Daily Inspection</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                    <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                    <option value="lesson-2-2">Basic Knife Cuts</option>
-                    <option value="lesson-2-3">Vegetable Fabrication</option>
-                    <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                  <optgroup label="Term 2: Structural Execution">
+                    <option value="lesson-2-1">Framing Layout and Anchor Alignment</option>
+                    <option value="lesson-2-2">Stud Spacing and Bracing Checks</option>
+                    <option value="lesson-2-3">Rough-In Coordination (MEP)</option>
+                    <option value="lesson-2-4">Quality Control and Punch List Workflow</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                    <option value="lesson-3-1">Egg Cookery</option>
-                    <option value="lesson-3-2">Breakfast Preparations</option>
-                    <option value="lesson-3-3">Cold Food Preparation</option>
-                    <option value="lesson-3-4">Salads and Dressings</option>
-                  </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                    <option value="lesson-4-1">Basic Dough and Batters</option>
-                    <option value="lesson-4-2">Quick Breads and Muffins</option>
-                    <option value="lesson-4-3">Yeast Breads</option>
-                    <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                  <optgroup label="Term 3: Safety, Code & Handover">
+                    <option value="lesson-3-1">Inspection Readiness and Documentation</option>
+                    <option value="lesson-3-2">Safety Audits and Risk Mitigation</option>
+                    <option value="lesson-3-3">Final Verification and Client Walkthrough</option>
                   </optgroup>
                 </select>
               </>
@@ -213,14 +206,14 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onClick={endPractice}
                   className="w-full sm:w-auto bg-amber-800 text-white px-4 py-2 text-sm rounded font-bold hover:bg-amber-900 transition-colors border border-amber-900"
                 >
-                  ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
+                  ⏹️ End Practice
                 </button>
                 <select
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="layout">Foundation Layout and Line Control</option>
                 </select>
               </>
             )}
@@ -232,11 +225,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <div className="flex items-start space-x-2">
                 <span className="text-lg">🤖</span>
                 <div className="flex-1">
-                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
+                  <div className="font-semibold text-xs text-blue-900 mb-1">Field Technique Feedback</div>
                   <p className="text-xs text-blue-800">
                     {isPracticing 
-                      ? "Great start! Keep your knife angle consistent..."
-                      : "Start practicing to receive real-time AI guidance"}
+                      ? "Great start! Keep your measurements consistent and verify each mark."
+                      : "Start practicing to receive real-time AI field guidance."}
                   </p>
                 </div>
               </div>
@@ -249,7 +242,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-2 text-sm font-bold border-t-2 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
-            <span>{instructionsOpen ? t('culinarySchool.charcuterieBoard.hideInstructions') : t('culinarySchool.charcuterieBoard.showInstructions')}</span>
+            <span>{instructionsOpen ? 'Hide Instructions' : 'Show Instructions'}</span>
             <span className="text-xs">{instructionsOpen ? '▼' : '▲'}</span>
           </button>
           
@@ -317,23 +310,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Practice Steps */}
                 <div className="space-y-2">
                   <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step1Setup')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step1Desc')}</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 1: Site Setup</div>
+                    <p className="text-xs text-gray-700">Confirm PPE, staging area, and tool readiness before starting work.</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step2KnifeGrip')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step2Desc')}</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 2: Layout Marks</div>
+                    <p className="text-xs text-gray-700">Measure, mark, and verify key reference points with level and square.</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step3FirstCuts')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step3Desc')}</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 3: Execute Task</div>
+                    <p className="text-xs text-gray-700">Install or assemble per plan details and maintain target tolerances.</p>
                   </div>
 
                   <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">{t('culinarySchool.charcuterieBoard.step4Validation')}</div>
-                    <p className="text-xs text-gray-600">{t('culinarySchool.charcuterieBoard.step4Desc')}</p>
+                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Step 4: Validation</div>
+                    <p className="text-xs text-gray-600">Complete quality checks and document findings for handoff.</p>
                   </div>
                 </div>
                 
@@ -384,23 +377,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
-              <p className="text-xs text-gray-700">Position your cutting board and gather ingredients</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Site Setup</div>
+              <p className="text-xs text-gray-700">Confirm PPE, staging area, and tool readiness before starting work.</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Knife Grip</div>
-              <p className="text-xs text-gray-700">Hold knife with proper pinch grip technique</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Layout Marks</div>
+              <p className="text-xs text-gray-700">Measure, mark, and verify key reference points with level and square.</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Cuts</div>
-              <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: Execute Task</div>
+              <p className="text-xs text-gray-700">Install or assemble per plan details and maintain target tolerances.</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
               <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Validation</div>
-              <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
+              <p className="text-xs text-gray-600">Complete quality checks and document findings for handoff.</p>
             </div>
           </div>
           
@@ -418,7 +411,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="flex-1"></div>
             <h3 className="text-xl font-bold text-amber-900 flex items-center gap-2">
               <span>📖</span>
-              <span>{t('culinarySchool.charcuterieBoard.practiceGuide')}</span>
+              <span>Job Site Practice Guide</span>
             </h3>
             <div className="flex-1 flex justify-end">
               <button
@@ -435,34 +428,34 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="space-y-4">
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
-                  <span>🔪</span>
-                  <span>{t('culinarySchool.charcuterieBoard.knifeTechnique')}</span>
+                  <span>📐</span>
+                  <span>Layout Accuracy</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.knifeTechniqueDesc')}</p>
+                <p className="text-sm text-gray-800">Confirm control lines, benchmark elevations, and square references before installation.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>📏</span>
-                  <span>{t('culinarySchool.charcuterieBoard.consistency')}</span>
+                  <span>Execution Consistency</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.consistencyDesc')}</p>
+                <p className="text-sm text-gray-800">Repeat the measure-mark-verify cycle for each task to reduce rework and error drift.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>⚡</span>
-                  <span>{t('culinarySchool.charcuterieBoard.safetyFirst')}</span>
+                  <span>Safety First</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.safetyFirstDesc')}</p>
+                <p className="text-sm text-gray-800">Use PPE, maintain clear travel paths, and follow lockout/tagout and tool inspection routines.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>🎯</span>
-                  <span>{t('culinarySchool.charcuterieBoard.focusPoints')}</span>
+                  <span>Focus Points</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.focusPointsDesc')}</p>
+                <p className="text-sm text-gray-800">Prioritize code compliance, tolerance checks, and clean documentation at every phase.</p>
               </div>
             </div>
           </div>
