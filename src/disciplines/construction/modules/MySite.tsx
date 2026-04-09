@@ -1,47 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { saveKitchen, fetchKitchen } from './kitchenSupabase';
-import { fetchCookbook, addRecipeToCookbook } from '../../culinary/modules/cookbookSupabase';
-import { Ingredient } from '../../culinary/types/shared-types';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
+import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
+import { Ingredient } from '../types/shared-types';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
-import { scanImage } from '../../culinary/api/vision';
+import { scanImage } from '../api/vision';
 import TaskMatcherModal, { RecipeCard } from '../components/TaskMatcherModal';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { supabase } from '../../culinary/api/supabaseClient';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
+import { isSessionValid } from '../api/userSession';
+import { supabase } from '../api/supabaseClient';
 import TaskCard from '../components/TaskCard';
 
 const CATEGORIES = [
-  "Vegetable",
-  "Fruit",
-  "Protein",
-  "Dairy",
-  "Grain",
-  "Spice",
-  "Canned/Preserved",
-  "Condiment/Sauce",
-  "Frozen",
+  "Lumber",
+  "Concrete/Masonry",
+  "Metal",
+  "Electrical",
+  "Plumbing",
+  "Fasteners/Hardware",
+  "Finishes",
+  "Safety",
+  "Tools/Equipment",
   "Other"
 ];
 
 // Categorize ingredient names to best-fit category
 function categorizeIngredient(name: string): string {
   const n = name.toLowerCase();
-  // Enhanced detection for loose produce and specific food items
-  if (/(green bean|string bean|snap bean|haricot vert|french bean)/.test(n)) return "Vegetable";
-  if (/(loose|raw|fresh|unpackaged|bulk) (vegetable|produce|bean|legume)/.test(n)) return "Vegetable";
-  if (/(lettuce|spinach|carrot|broccoli|onion|pepper|cabbage|kale|tomato|bean|pea|potato|corn|mushroom|zucchini|cucumber|asparagus|squash|celery|radish|beet|turnip|eggplant|avocado)/.test(n)) return "Vegetable";
-  if (/(apple|banana|orange|lemon|lime|berry|grape|melon|peach|pear|plum|kiwi|mango|pineapple|apricot|cherry|fig|date|papaya|guava|coconut)/.test(n)) return "Fruit";
-  if (/(chicken|beef|pork|lamb|turkey|fish|salmon|shrimp|egg|duck|bacon|ham|sausage|steak|tofu|tempeh|seitan|crab|lobster|clam|mussel|scallop|oyster)/.test(n)) return "Protein";
-  if (/(milk|cheese|yogurt|cream|butter|ghee|custard|paneer|ricotta|mozzarella|parmesan|brie|feta|goat cheese)/.test(n)) return "Dairy";
-  if (/(rice|bread|pasta|noodle|quinoa|barley|oat|wheat|cornmeal|tortilla|cracker|bun|roll|bagel|cereal)/.test(n)) return "Grain";
-  if (/(salt|pepper|cumin|coriander|turmeric|saffron|paprika|chili|cinnamon|nutmeg|clove|ginger|garlic|herb|basil|oregano|thyme|rosemary|sage|dill|parsley|mint|bay)/.test(n)) return "Spice";
-  if (/(can|canned|jar|preserve|pickle|jam|jelly|sardine|anchovy|soup|beans|olives|sauerkraut)/.test(n)) return "Canned/Preserved";
-  if (/(ketchup|mustard|mayo|mayonnaise|sauce|dressing|vinegar|soy sauce|hot sauce|bbq|aioli|salsa|chutney|relish|gravy|honey)/.test(n)) return "Condiment/Sauce";
-  if (/(frozen|ice cream|ice|peas|spinach|pizza|waffle|fries|nugget|berries|corn|broccoli|shrimp|fish stick)/.test(n)) return "Frozen";
+  if (/(2x4|2x6|stud|plywood|osb|lumber|beam|joist|timber|mdf|framing)/.test(n)) return "Lumber";
+  if (/(concrete|cement|mortar|grout|block|brick|rebar|aggregate|stucco)/.test(n)) return "Concrete/Masonry";
+  if (/(steel|aluminum|metal|sheet metal|angle iron|channel|plate|copper)/.test(n)) return "Metal";
+  if (/(wire|cable|breaker|panel|outlet|switch|conduit|junction|electrical)/.test(n)) return "Electrical";
+  if (/(pipe|pvc|cpvc|pex|valve|fitting|elbow|tee|plumbing)/.test(n)) return "Plumbing";
+  if (/(screw|nail|bolt|nut|washer|anchor|hinge|bracket|fastener|hardware)/.test(n)) return "Fasteners/Hardware";
+  if (/(drywall|paint|primer|sealant|caulk|flooring|tile|insulation|trim)/.test(n)) return "Finishes";
+  if (/(ppe|helmet|hard hat|gloves|goggle|harness|vest|safety)/.test(n)) return "Safety";
+  if (/(drill|saw|level|hammer|wrench|ladder|compressor|generator|tool)/.test(n)) return "Tools/Equipment";
   return "Other";
 }
 
@@ -57,15 +54,15 @@ const MySite = () => {
   const [scanStatus, setScanStatus] = useState<string | null>(null); // persistent feedback
   // Optionally, map category to emoji for pills
   const CATEGORY_ICONS: Record<string, string> = {
-    Vegetable: '🥦',
-    Fruit: '🍎',
-    Protein: '🍗',
-    Dairy: '🧀',
-    Grain: '🌾',
-    Spice: '🌶️',
-    'Canned/Preserved': '🥫',
-    'Condiment/Sauce': '🥄',
-    Frozen: '🧊',
+    Lumber: '🪵',
+    'Concrete/Masonry': '🧱',
+    Metal: '🔩',
+    Electrical: '🔌',
+    Plumbing: '🚰',
+    'Fasteners/Hardware': '🧰',
+    Finishes: '🎨',
+    Safety: '🦺',
+    'Tools/Equipment': '🛠️',
     Other: '🍽️',
   };
 
@@ -95,19 +92,26 @@ const MySite = () => {
 
   // Save kitchen to Supabase whenever ingredients change
   useEffect(() => {
-    if (ingredients.length === 0) return;
+    if (!user?.id || ingredients.length === 0) return;
     saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your workspace.'));
-  }, [ingredients]);
+  }, [ingredients, user?.id]);
 
   // Freddie context: set page on mount
   useEffect(() => {
-    updateContext({ page: 'MyKitchen' });
+    updateContext({ page: 'MySite' });
+
+    if (!user?.id) {
+      setIngredients([]);
+      setCookbook([]);
+      return;
+    }
+
     // Load both kitchen and cookbook data
     const loadData = async () => {
       try {
         const [kitchenIngredients, cookbookRecipes] = await Promise.all([
-          fetchKitchen(user?.id!),
-          fetchCookbook(user?.id!)
+          fetchKitchen(user.id),
+          fetchCookbook(user.id)
         ]);
         setIngredients(kitchenIngredients);
         setCookbook(cookbookRecipes);
@@ -117,7 +121,7 @@ const MySite = () => {
       }
     };
     loadData();
-  }, [updateContext]);
+  }, [updateContext, user?.id]);
 
   // Filtering logic (only by search text)
   const filteredIngredients = ingredients.filter(ing => {
@@ -144,7 +148,7 @@ const MySite = () => {
       
       // Award XP for saving a recipe
       if (user) {
-        await import('../../culinary/services/xpService').then(m => 
+        await import('../services/xpService').then(m => 
           m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
         );
         refreshXP();
@@ -289,7 +293,7 @@ const MySite = () => {
             setMatcherError('');
             try {
               const cupboardNames = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
+              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
                 ingredients: cupboardNames,
@@ -440,5 +444,3 @@ const MySite = () => {
 };
 
 export default MySite;
-
-
