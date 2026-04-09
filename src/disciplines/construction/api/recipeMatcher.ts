@@ -2,8 +2,6 @@ import { ExperienceLevel, DEFAULT_EXPERIENCE_LEVEL } from '../types/userPreferen
 import { getUserPreferences } from './userPreferences';
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
-import { fetchNutritionData, getKeyNutrients } from './nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 
 // Define equipment available for each kitchen setup
 const KITCHEN_EQUIPMENT = {
@@ -59,6 +57,9 @@ const RECIPE_PROMPTS = {
     5. Include necessary tools/equipment for each project
     6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`
 };
+
+const CONSTRUCTION_TAGS = ['Safety', 'Precision', 'Efficiency', 'Quality', 'Compliance', 'Documentation'];
+const CULINARY_TERMS = /(recipe|cook|bake|grill|soup|salad|pasta|bread|kitchen|ingredient|meal|oven|crouton|chef)/i;
 
 async function getUserProfile(userId: string) {
   const sessionValid = await isSessionValid();
@@ -158,131 +159,38 @@ export interface RecipeMatchOptions {
   talentTree?: string | null;
 }
 
-// Helper to estimate recipe nutrition
-async function calculateRecipeNutrition(
-  ingredients: string[]
-): Promise<KeyNutrients> {
-  console.log('Calculating nutrition for ingredients:', ingredients);
-  
-  try {
-    const nutritionData = await Promise.all(
-      ingredients.map(ingredient => fetchNutritionData(ingredient))
-    );
-    
-    console.log('Nutrition data:', nutritionData);
-    
-    const totalNutrition: KeyNutrients = {
-      carbs: 0,
-      sugars: 0,
-      fiber: 0,
-      protein: 0,
-      saturatedFat: 0,
-      omega3: 0,
-      cholesterol: 0,
-      sodium: 0,
-      phosphorus: 0
-    };
-    
-    nutritionData.forEach((food, index) => {
-      if (food) {
-        console.log(`Food ${index}: ${food.name}`, food.nutrients);
-        
-        const nutrients = getKeyNutrients(food.nutrients);
-        console.log(`Key nutrients for ${food.name}:`, nutrients);
-        
-        Object.keys(nutrients).forEach(key => {
-          const k = key as keyof KeyNutrients;
-          totalNutrition[k] += nutrients[k];
-        });
-        
-        console.log('Updated total nutrition:', totalNutrition);
-      }
-    });
-    
-    console.log('Total nutrition:', totalNutrition);
-    return totalNutrition;
-  } catch (error) {
-    console.error('Error in calculateRecipeNutrition:', error);
-    // Return default nutrition data to avoid breaking health tags
-    return {
-      carbs: 0,
-      sugars: 0,
-      fiber: 0,
-      protein: 0,
-      saturatedFat: 0,
-      omega3: 0,
-      cholesterol: 0,
-      sodium: 0,
-      phosphorus: 0
-    };
-  }
+function isConstructionLikeProject(project: any): boolean {
+  const title = String(project?.title || '');
+  const ingredients = Array.isArray(project?.ingredients) ? project.ingredients.join(' ') : '';
+  const equipment = Array.isArray(project?.equipment) ? project.equipment.join(' ') : '';
+  const blob = `${title} ${ingredients} ${equipment}`;
+  return !CULINARY_TERMS.test(blob);
 }
 
-// Define ideal nutrition profiles for each health tag
-const HEALTH_TAG_IDEALS = {
-  'Heart Healthy': { saturatedFat: 0, cholesterol: 0, sodium: 0 },
-  'Anti Inflammatory': { omega3: 10, saturatedFat: 0 },
-  'Low Glycemic': { carbs: 30, sugars: 5, fiber: 10 },
-  'Low Cholesterol': { cholesterol: 0, saturatedFat: 0 },
-  'Renal Friendly': { phosphorus: 100, sodium: 500 },
-  'DASH Diet': { sodium: 500, saturatedFat: 0 },
-  'Low Sodium': { sodium: 500 },
-  'High Fiber': { fiber: 10 }
-};
+function normalizeConstructionTags(tags: unknown): string[] {
+  const parsed = Array.isArray(tags) ? tags.map(String) : [];
+  const valid = parsed.filter(tag => CONSTRUCTION_TAGS.includes(tag));
+  return valid.length > 0 ? valid.slice(0, 3) : ['Safety', 'Quality'];
+}
 
-function getHealthTags(nutrition: KeyNutrients): string[] {
-  console.log('Nutrition data for health tags:', nutrition);
-  const tags: string[] = [];
-  
-  const satFat = nutrition.saturatedFat || 0;
-  if (satFat < 5) {
-    console.log(`Qualifies for Heart Healthy: saturatedFat=${satFat} < 5`);
-    tags.push('Heart Healthy');
-  }
-  
-  const omega3 = nutrition.omega3 || 0;
-  if (omega3 > 0.5) {
-    console.log(`Qualifies for Anti Inflammatory: omega3=${omega3} > 0.5`);
-    tags.push('Anti Inflammatory');
-  }
-  
-  const cholesterol = nutrition.cholesterol || 0;
-  if (cholesterol < 100) {
-    console.log(`Qualifies for Low Cholesterol: cholesterol=${cholesterol} < 100`);
-    tags.push('Low Cholesterol');
-  }
-  
-  const phosphorus = nutrition.phosphorus || 0;
-  if (phosphorus < 100) {
-    console.log(`Qualifies for Renal Friendly: phosphorus=${phosphorus} < 100`);
-    tags.push('Renal Friendly');
-  }
-  
-  const sodium = nutrition.sodium || 0;
-  if (sodium < 500) {
-    console.log(`Qualifies for DASH Diet and Low Sodium: sodium=${sodium} < 500`);
-    tags.push('DASH Diet');
-    tags.push('Low Sodium');
-  }
-  
-  if (nutrition.fiber > 10) {
-    console.log(`Qualifies for High Fiber: fiber=${nutrition.fiber} > 10`);
-    tags.push('High Fiber');
-  }
-  
-  const netCarbs = nutrition.carbs - nutrition.fiber;
-  if (netCarbs < 20 && nutrition.sugars < 10) {
-    console.log(`Qualifies for Low Glycemic: netCarbs=${netCarbs} < 20 and sugars=${nutrition.sugars} < 10`);
-    tags.push('Low Glycemic');
-  }
-  
-  if (tags.length === 0) {
-    console.log('No tags qualified, using fallback: Heart Healthy');
-    tags.push('Heart Healthy');
-  }
-  
-  console.log('Selected health tags:', tags);
-  return tags;
+function localConstructionFallback(ingredients: string[], count: number) {
+  const materialPool = ingredients.length > 0 ? ingredients : ['2x4 lumber', 'drywall', 'deck screws', 'level'];
+  return Array.from({ length: Math.max(1, count) }).map((_, idx) => {
+    const a = materialPool[idx % materialPool.length];
+    const b = materialPool[(idx + 1) % materialPool.length];
+    return {
+      title: `Site Build Plan ${idx + 1}: ${a} + ${b}`,
+      ingredients: [a, b],
+      instructions: [
+        'Review safety requirements and PPE before starting.',
+        `Measure and stage ${a} and ${b} at the work area.`,
+        'Execute installation steps per code and verify tolerances.',
+        'Document inspection points and final quality checks.'
+      ],
+      equipment: ['tape measure', 'level', 'drill/driver', 'PPE kit'],
+      healthTags: ['Safety', 'Precision', 'Quality']
+    };
+  });
 }
 
 export async function fetchRecipesWithImages({
@@ -304,9 +212,9 @@ export async function fetchRecipesWithImages({
   // 2. Build the Anthropic prompt with enhanced instructions
   const basePrompt = promptTemplate(numRecipes, ingredients);
   
-  // Get preferences
-  const dietaryPrefs = profile?.dietary || [];
-  const cuisinePrefs = profile?.cuisine || [];
+  // Get profile preferences (mapped to construction context)
+  const certificationPrefs = profile?.dietary || [];
+  const specializationPrefs = profile?.cuisine || [];
   const kitchenSetup = userKitchenSetup || profile?.kitchen_setup || '';
   
   // Add talent tree equipment preference to prompt
@@ -318,18 +226,19 @@ export async function fetchRecipesWithImages({
 
   const prompt = `${basePrompt}
 
-${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
-${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
-${kitchenSetup ? `Kitchen setup: ${kitchenSetup}` : ''}
+${specializationPrefs.length > 0 ? `Specialization focus: ${specializationPrefs.join(', ')}` : ''}
+${certificationPrefs.length > 0 ? `Certification focus: ${certificationPrefs.join(', ')}` : ''}
+${kitchenSetup ? `Workspace setup: ${kitchenSetup}` : ''}
 ${talentTreePrompt}
+CRITICAL: Generate only construction/trades build plans and procedures. Do NOT generate food, meal, cooking, chef, or culinary content.
 
 Return the projects as a JSON array with the following structure for each project:
 {
-  "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2"],
+  "title": "Build Plan Name",
+  "ingredients": ["material 1", "material 2"],
   "instructions": ["Step 1", "Step 2"],
-  "equipment": ["equipment 1", "equipment 2"],
-  "healthTags": ["tag 1", "tag 2"]
+  "equipment": ["tool 1", "tool 2"],
+  "healthTags": ["Safety", "Precision"]
 }
 
 For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
@@ -354,7 +263,7 @@ Return ONLY the JSON array, no other text.`;
   const anthropicData = await anthropicRes.json();
   if (!anthropicRes.ok) {
     console.error('Anthropic API error:', anthropicData);
-    return generateFallbackRecipes(userId, ingredients, numRecipes);
+    return localConstructionFallback(ingredients, numRecipes);
   }
 
   let recipes;
@@ -386,11 +295,16 @@ Return ONLY the JSON array, no other text.`;
     console.error('Failed to parse recipes:', err);
     console.log('Raw content:', anthropicData.content[0].text);
     console.log('Error at position:', err instanceof Error ? err.message : String(err));
-    return generateFallbackRecipes(userId, ingredients, numRecipes);
+    return localConstructionFallback(ingredients, numRecipes);
+  }
+
+  const constructionRecipes = recipes.filter((recipe: any) => isConstructionLikeProject(recipe));
+  if (constructionRecipes.length === 0) {
+    return localConstructionFallback(ingredients, numRecipes);
   }
 
   // 4. Score and sort recipes based on user's cupboard, kitchen setup, and talent tree
-  const scoredRecipes = recipes
+  const scoredRecipes = constructionRecipes
     .map(recipe => ({
       ...recipe,
       score: scoreRecipe(
@@ -412,7 +326,7 @@ Return ONLY the JSON array, no other text.`;
   const imagePromises = scoredRecipes.map(async (recipe) => {
     try {
       const res = await fetch(
-        `${UNSPLASH_API_URL}?query=${encodeURIComponent(recipe.title)}&client_id=${unsplashKey}`
+        `${UNSPLASH_API_URL}?query=${encodeURIComponent(`${recipe.title} construction blueprint`)}&client_id=${unsplashKey}`
       );
       const data = await res.json();
       return data.results?.[0]?.urls?.small || '';
@@ -424,35 +338,16 @@ Return ONLY the JSON array, no other text.`;
 
   const images = await Promise.all(imagePromises);
 
-  // 6. Add nutrition and tags
-  const recipesWithNutrition = await Promise.all(scoredRecipes.map(async recipe => {
-    try {
-      const nutrition = await calculateRecipeNutrition(recipe.ingredients);
-      const healthTags = getHealthTags(nutrition);
-      return {
-        ...recipe,
-        nutrition,
-        healthTags
-      };
-    } catch (error) {
-      console.error('Error calculating nutrition:', error);
-      return {
-        ...recipe,
-        healthTags: ['Heart Healthy']
-      };
-    }
-  }));
-
-  // 7. Return scored recipe cards with images
-  return recipesWithNutrition.map((recipe, i) => ({
+  // 6. Return scored recipe cards with images (construction tags only)
+  return scoredRecipes.map((recipe, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
     title: recipe.title,
     image: images[i],
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     instructions: Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '',
     equipment: Array.isArray(recipe.equipment) ? recipe.equipment : [],
-    healthTags: recipe.healthTags,
-    nutrition: recipe.nutrition
+    healthTags: normalizeConstructionTags(recipe.healthTags),
+    nutrition: undefined
   }));
 }
 
@@ -472,6 +367,7 @@ Format your response as a JSON array of project objects. Each project object MUS
 }
 
 For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+CRITICAL: Output construction build plans only. Do not output food/cooking recipes.
 Return ONLY the JSON array, no other text.`;
 
   // 2. Call Anthropic API
@@ -495,7 +391,7 @@ Return ONLY the JSON array, no other text.`;
       statusText: anthropicRes.statusText,
       body: await anthropicRes.text()
     });
-    throw new Error(`Anthropic API error: ${anthropicRes.status} ${anthropicRes.statusText}`);
+    return localConstructionFallback(ingredients, count);
   }
 
   const anthropicData = await anthropicRes.json();
@@ -505,7 +401,7 @@ Return ONLY the JSON array, no other text.`;
   try {
     if (!anthropicData.content?.[0]?.text) {
       console.error('Invalid Anthropic response format:', anthropicData);
-      throw new Error('Invalid response format from Anthropic API');
+      return localConstructionFallback(ingredients, count);
     }
     const responseText = anthropicData.content[0].text;
     console.log('Raw Anthropic response:', responseText);
@@ -517,11 +413,11 @@ Return ONLY the JSON array, no other text.`;
       console.log('Parsed recipes:', recipes);
     } else {
       console.error('No JSON array found in response:', responseText);
-      throw new Error('No recipe data found in API response');
+      return localConstructionFallback(ingredients, count);
     }
   } catch (error) {
     console.error('Error parsing recipe data:', error);
-    throw new Error('Failed to parse recipe data from API response');
+    return localConstructionFallback(ingredients, count);
   }
 
   // Validate recipe format
@@ -536,25 +432,29 @@ Return ONLY the JSON array, no other text.`;
 
   if (validRecipes.length === 0) {
     console.error('No valid recipes found in response');
-    throw new Error('No valid recipes found in API response');
+    return localConstructionFallback(ingredients, count);
   }
 
   // 3. For each recipe, call Unsplash in parallel
   const imagePromises = validRecipes.map(async (r) => {
-    const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'meal');
+    const q = encodeURIComponent(`${r.title || r.ingredients?.[0] || 'construction site plan'} construction blueprint`);
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836';
+    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504307651254-35680f356dfd';
   });
   const images = await Promise.all(imagePromises);
 
   // 4. Return RecipeCards
-  return validRecipes.slice(0, count).map((r, i) => ({
+  return validRecipes
+    .filter(isConstructionLikeProject)
+    .slice(0, count)
+    .map((r, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
     title: r.title,
     image: images[i],
     ingredients: Array.isArray(r.ingredients) ? r.ingredients : [],
     instructions: Array.isArray(r.instructions) ? r.instructions.join('\n') : '',
-    equipment: Array.isArray(r.equipment) ? r.equipment : []
+    equipment: Array.isArray(r.equipment) ? r.equipment : [],
+    healthTags: normalizeConstructionTags(r.healthTags)
   }));
 }
