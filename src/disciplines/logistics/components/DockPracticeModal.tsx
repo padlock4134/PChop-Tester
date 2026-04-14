@@ -14,6 +14,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const { t } = useTranslation();
   const [isPracticing, setIsPracticing] = useState(false);
   const [practiceMode, setPracticeMode] = useState<'ar' | 'vr'>('ar');
+  const [modeNotice, setModeNotice] = useState<string | null>(null);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
   const [arScene, setArScene] = useState<any>(null);
@@ -24,10 +25,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   if (!open) return null;
 
   const startVirtualPractice = async () => {
+    setModeNotice(null);
     if (practiceMode === 'vr') {
       const vrSupported = await canUseImmersiveVR();
       if (!vrSupported) {
-        alert('No VR headset detected. Starting AR practice instead.');
+        setModeNotice('No VR headset detected. Starting AR practice instead.');
       }
     }
 
@@ -86,6 +88,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       stopTrackingRef.current();
     }
     setIsPracticing(false);
+    setModeNotice(null);
   };
 
   return (
@@ -254,6 +257,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             </div>
           </div>
           
+          {modeNotice && (
+            <div className="mx-2 sm:mx-0 mb-2 rounded-lg border-2 border-maineBlue bg-sand px-3 py-2 text-xs sm:text-sm text-maineBlue text-center font-semibold">
+              {modeNotice}
+            </div>
+          )}
+
           {/* Mobile Instructions Toggle - Only show on mobile */}
           <button 
             onClick={() => setInstructionsOpen(!instructionsOpen)}
