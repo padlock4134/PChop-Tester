@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ARBenchScene from './ARBenchScene';
 import { defaultARScenes } from '../data/defaultARScenes';
-import PracticeModeSwitch from '../../../components/PracticeModeSwitch';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
 import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
 
@@ -14,7 +13,6 @@ interface BenchPracticeModalProps {
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
   const [isPracticing, setIsPracticing] = useState(false);
-  const [practiceMode, setPracticeMode] = useState<'ar' | 'vr'>('ar');
   const [modeNotice, setModeNotice] = useState<string | null>(null);
   const [showDeviceSelection, setShowDeviceSelection] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
@@ -26,7 +24,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
   if (!open) return null;
 
-  const startVirtualPractice = async (selectedMode: 'ar' | 'vr' = practiceMode) => {
+  const startVirtualPractice = async (selectedMode: 'ar' | 'vr' = 'ar') => {
     setModeNotice(null);
     if (selectedMode === 'vr') {
       const vrSupported = await canUseImmersiveVR();
@@ -497,12 +495,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       open={showDeviceSelection}
       onClose={() => setShowDeviceSelection(false)}
       onSelectAR={() => {
-        setPracticeMode('ar');
         setShowDeviceSelection(false);
         startVirtualPractice('ar');
       }}
       onSelectVR={() => {
-        setPracticeMode('vr');
         setShowDeviceSelection(false);
         startVirtualPractice('vr');
       }}
