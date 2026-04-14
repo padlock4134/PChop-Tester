@@ -152,7 +152,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mt-1 mb-1 px-2 sm:px-0">
             {!isPracticing ? (
               <>
-                <PracticeModeSwitch value={practiceMode} onChange={setPracticeMode} className="w-full sm:w-auto" />
                 <button 
                   onClick={() => setShowDeviceSelection(true)}
                   className="w-full sm:w-auto bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
