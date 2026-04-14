@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import ARGarageScene from './ARGarageScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 import PracticeModeSwitch from '../../../components/PracticeModeSwitch';
+import { canUseImmersiveVR } from '../../../utils/xrSupport';
 
 interface BenchPracticeModalProps {
   open: boolean;
@@ -22,6 +23,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   if (!open) return null;
 
   const startVirtualPractice = async () => {
+    if (practiceMode === 'vr') {
+      const vrSupported = await canUseImmersiveVR();
+      if (!vrSupported) {
+        alert('No VR headset detected. Starting AR practice instead.');
+      }
+    }
+
 
     try {
       // For demo: Use pre-built diagnostic AR scene (instant load)
