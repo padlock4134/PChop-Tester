@@ -4,6 +4,7 @@ import ARShopScene from './ARShopScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 import PracticeModeSwitch from '../../../components/PracticeModeSwitch';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
+import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
 
 interface BenchPracticeModalProps {
   open: boolean;
@@ -15,6 +16,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const [isPracticing, setIsPracticing] = useState(false);
   const [practiceMode, setPracticeMode] = useState<'ar' | 'vr'>('ar');
   const [modeNotice, setModeNotice] = useState<string | null>(null);
+  const [showDeviceSelection, setShowDeviceSelection] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
   const [arScene, setArScene] = useState<any>(null);
@@ -24,9 +26,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
   if (!open) return null;
 
-  const startVirtualPractice = async () => {
+  const startVirtualPractice = async (selectedMode: 'ar' | 'vr' = practiceMode) => {
     setModeNotice(null);
-    if (practiceMode === 'vr') {
+    if (selectedMode === 'vr') {
       const vrSupported = await canUseImmersiveVR();
       if (!vrSupported) {
         setModeNotice('No VR headset detected. Starting AR practice instead.');
@@ -102,6 +104,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               stopTrackingRef.current();
             }
             cleanupPractice();
+            setShowDeviceSelection(false);
             onClose();
           }}
           className="absolute top-2 right-2 text-amber-800 hover:text-amber-900 text-2xl z-10"
@@ -183,7 +186,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <>
                 <PracticeModeSwitch value={practiceMode} onChange={setPracticeMode} className="w-full sm:w-auto" />
                 <button 
-                  onClick={startVirtualPractice}
+                  onClick={() => setShowDeviceSelection(true)}
                   className="w-full sm:w-auto bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
                 >
                   📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
@@ -489,6 +492,21 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         </div>
       </div>
     )}
+
+    <DeviceSelectionModal
+      open={showDeviceSelection}
+      onClose={() => setShowDeviceSelection(false)}
+      onSelectAR={() => {
+        setPracticeMode('ar');
+        setShowDeviceSelection(false);
+        startVirtualPractice('ar');
+      }}
+      onSelectVR={() => {
+        setPracticeMode('vr');
+        setShowDeviceSelection(false);
+        startVirtualPractice('vr');
+      }}
+    />
 
     </>
   );
