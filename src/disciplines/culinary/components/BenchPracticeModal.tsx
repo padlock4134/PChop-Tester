@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ARPracticeScene from './ARPracticeScene';
 import { defaultARScenes } from '../data/defaultARScenes';
+import PracticeModeSwitch from '../../../components/PracticeModeSwitch';
 
 interface BenchPracticeModalProps {
   open: boolean;
@@ -169,32 +170,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mt-1 mb-1 px-2 sm:px-0">
             {!isPracticing ? (
               <>
-                <div className="w-full sm:w-auto inline-flex items-center rounded border border-amber-900 overflow-hidden">
-                  <button
-                    type="button"
-                    onClick={() => setPracticeMode('ar')}
-                    className={`px-3 py-2 text-xs sm:text-sm font-bold transition-colors ${
-                      practiceMode === 'ar'
-                        ? 'bg-maineBlue text-white'
-                        : 'bg-white text-maineBlue hover:bg-amber-50'
-                    }`}
-                    aria-pressed={practiceMode === 'ar'}
-                  >
-                    AR
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPracticeMode('vr')}
-                    className={`px-3 py-2 text-xs sm:text-sm font-bold transition-colors border-l border-amber-900 ${
-                      practiceMode === 'vr'
-                        ? 'bg-maineBlue text-white'
-                        : 'bg-white text-maineBlue hover:bg-amber-50'
-                    }`}
-                    aria-pressed={practiceMode === 'vr'}
-                  >
-                    VR
-                  </button>
-                </div>
+                <PracticeModeSwitch value={practiceMode} onChange={setPracticeMode} className="w-full sm:w-auto" />
                 <button 
                   onClick={startVirtualPractice}
                   className="w-full sm:w-auto bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
