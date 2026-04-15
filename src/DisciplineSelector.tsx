@@ -29,7 +29,6 @@ const DisciplineSelector: React.FC = () => {
   const [additionalContext, setAdditionalContext] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSavingDiscipline, setIsSavingDiscipline] = useState(false);
-  const [publishImmediately, setPublishImmediately] = useState(true);
   const [approvalChecked, setApprovalChecked] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [generatedSkinPreview, setGeneratedSkinPreview] = useState<AIGeneratedSkin | null>(null);
@@ -81,7 +80,6 @@ const DisciplineSelector: React.FC = () => {
     setShowAddDisciplineModal(false);
     setDisciplineName('');
     setAdditionalContext('');
-    setPublishImmediately(true);
     setApprovalChecked(false);
     setGenerationError(null);
     setGeneratedSkinPreview(null);
@@ -302,25 +300,6 @@ const DisciplineSelector: React.FC = () => {
                 </p>
               </div>
 
-              <div className="mb-6 p-3 border-2 border-gray-200 rounded-lg bg-gray-50">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={publishImmediately}
-                    onChange={(e) => setPublishImmediately(e.target.checked)}
-                    disabled={isGenerating || !!generatedSkinPreview}
-                  />
-                  <span className="text-sm text-gray-700">
-                    Publish immediately (uncheck to save as draft)
-                  </span>
-                </label>
-                {!publishImmediately && (
-                  <p className="text-xs text-gray-500 mt-2">
-                    Draft disciplines are visible only to admins until published.
-                  </p>
-                )}
-              </div>
-
               {generatedSkinPreview && (
                 <div className="mb-6 border-2 border-seafoam bg-green-50 rounded-lg p-4">
                   <h3 className="font-bold text-maineBlue mb-2">Preview & Final Approval</h3>
@@ -347,9 +326,12 @@ const DisciplineSelector: React.FC = () => {
                       className="mt-1"
                     />
                     <span className="text-sm text-gray-700">
-                      Looks awesome — approve this preview and {publishImmediately ? 'publish live' : 'save as draft'}.
+                      Looks awesome — approve this preview before saving.
                     </span>
                   </label>
+                  <p className="text-xs text-gray-600 mt-2">
+                    Choose draft (admin only) or publish live using the buttons below.
+                  </p>
                 </div>
               )}
 
@@ -376,61 +358,108 @@ const DisciplineSelector: React.FC = () => {
                     Regenerate
                   </button>
                 )}
-                <button
-                  type={generatedSkinPreview ? 'button' : 'submit'}
-                  onClick={generatedSkinPreview ? async () => {
-                    if (!generatedSkinPreview || !approvalChecked) {
-                      return;
-                    }
+                {generatedSkinPreview ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (!generatedSkinPreview || !approvalChecked) {
+                          return;
+                        }
 
-                    setIsSavingDiscipline(true);
-                    setGenerationError(null);
+                        setIsSavingDiscipline(true);
+                        setGenerationError(null);
 
-                    try {
-                      const fullSkin = convertToFullSkin(generatedSlug, generatedSkinPreview);
-                      const { error: insertError } = await supabase
-                        .from('custom_disciplines')
-                        .insert({
-                          name: generatedSkinPreview.name,
-                          slug: generatedSlug,
-                          skin_config: fullSkin,
-                          created_by: user?.id,
-                          is_active: publishImmediately,
-                        });
+                        try {
+                          const fullSkin = convertToFullSkin(generatedSlug, generatedSkinPreview);
+                          const { error: insertError } = await supabase
+                            .from('custom_disciplines')
+                            .insert({
+                              name: generatedSkinPreview.name,
+                              slug: generatedSlug,
+                              skin_config: fullSkin,
+                              created_by: user?.id,
+                              is_active: false,
+                            });
 
-                      if (insertError) {
-                        throw insertError;
-                      }
+                          if (insertError) {
+                            throw insertError;
+                          }
 
-                      resetCreateDisciplineState();
-                      window.location.reload();
-                    } catch (error: any) {
-                      console.error('Error saving discipline:', error);
-                      setGenerationError(error.message || 'Failed to save discipline. Please try again.');
-                    } finally {
-                      setIsSavingDiscipline(false);
-                    }
-                  } : undefined}
-                  disabled={
-                    !disciplineName.trim()
-                    || isGenerating
-                    || isSavingDiscipline
-                    || (generatedSkinPreview ? !approvalChecked : false)
-                  }
-                  className="flex-1 bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isGenerating || isSavingDiscipline ? (
-                    <span className="flex items-center justify-center">
-                      <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                      {isGenerating ? 'Generating...' : 'Saving...'}
-                    </span>
-                  ) : (
-                    generatedSkinPreview ? (publishImmediately ? 'Approve & Publish' : 'Approve & Save Draft') : 'Generate Preview'
-                  )}
-                </button>
+                          resetCreateDisciplineState();
+                          window.location.reload();
+                        } catch (error: any) {
+                          console.error('Error saving discipline:', error);
+                          setGenerationError(error.message || 'Failed to save discipline. Please try again.');
+                        } finally {
+                          setIsSavingDiscipline(false);
+                        }
+                      }}
+                      disabled={isSavingDiscipline || !approvalChecked}
+                      className="flex-1 bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSavingDiscipline ? 'Saving...' : 'Approve & Save Draft'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (!generatedSkinPreview || !approvalChecked) {
+                          return;
+                        }
+
+                        setIsSavingDiscipline(true);
+                        setGenerationError(null);
+
+                        try {
+                          const fullSkin = convertToFullSkin(generatedSlug, generatedSkinPreview);
+                          const { error: insertError } = await supabase
+                            .from('custom_disciplines')
+                            .insert({
+                              name: generatedSkinPreview.name,
+                              slug: generatedSlug,
+                              skin_config: fullSkin,
+                              created_by: user?.id,
+                              is_active: true,
+                            });
+
+                          if (insertError) {
+                            throw insertError;
+                          }
+
+                          resetCreateDisciplineState();
+                          window.location.reload();
+                        } catch (error: any) {
+                          console.error('Error saving discipline:', error);
+                          setGenerationError(error.message || 'Failed to save discipline. Please try again.');
+                        } finally {
+                          setIsSavingDiscipline(false);
+                        }
+                      }}
+                      disabled={isSavingDiscipline || !approvalChecked}
+                      className="flex-1 bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSavingDiscipline ? 'Saving...' : 'Approve & Publish'}
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={!disciplineName.trim() || isGenerating}
+                    className="flex-1 bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isGenerating ? (
+                      <span className="flex items-center justify-center">
+                        <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Generating...
+                      </span>
+                    ) : (
+                      'Generate Preview'
+                    )}
+                  </button>
+                )}
               </div>
             </form>
           </div>
