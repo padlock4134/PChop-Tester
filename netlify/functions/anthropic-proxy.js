@@ -7,6 +7,19 @@ const API_KEYS = {
   add_discipline: process.env.ANTHROPIC_ADD_DISCIPLINE_KEY
 };
 
+const BLOCKED_DISCIPLINE_TERMS = [
+  'porn',
+  'pornography',
+  'sexual',
+  'sex',
+  'xxx',
+  'nude',
+  'escort',
+  'onlyfans',
+  'fetish',
+  'adult content'
+];
+
 // Log which API keys are configured (safely)
 console.log('API Keys configured:', Object.keys(API_KEYS).reduce((acc, key) => {
   acc[key] = !!API_KEYS[key];
@@ -31,6 +44,25 @@ exports.handler = async function(event) {
 
     const apiKeyIdentifier = requestBody.apiKeyIdentifier;
     console.log(`Request from ${apiKeyIdentifier} endpoint`);
+
+    if (apiKeyIdentifier === 'add_discipline') {
+      const combinedPromptText = JSON.stringify({
+        system: requestBody.system,
+        messages: requestBody.messages
+      }).toLowerCase();
+      const blockedTermsFound = BLOCKED_DISCIPLINE_TERMS.filter((term) =>
+        combinedPromptText.includes(term)
+      );
+
+      if (blockedTermsFound.length > 0) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({
+            error: `Blocked unsafe add-discipline prompt content: ${blockedTermsFound.join(', ')}`
+          })
+        };
+      }
+    }
     
     // Remove the identifier from the body before forwarding to Anthropic
     delete requestBody.apiKeyIdentifier;

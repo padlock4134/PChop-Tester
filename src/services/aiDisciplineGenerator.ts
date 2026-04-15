@@ -10,7 +10,20 @@ interface GenerateDisciplineSkinParams {
   additionalContext?: string;
 }
 
-interface AIGeneratedSkin {
+const DISALLOWED_PROMPT_TERMS = [
+  'porn',
+  'pornography',
+  'sex',
+  'sexual',
+  'xxx',
+  'nude',
+  'escort',
+  'onlyfans',
+  'fetish',
+  'adult content',
+];
+
+export interface AIGeneratedSkin {
   name: string;
   icon: string;
   modules: {
@@ -37,6 +50,48 @@ interface AIGeneratedSkin {
     mockAlumniTitles: string[];
     emailDomain: string;
   };
+}
+
+const CULINARY_TERMS = [
+  'kitchen',
+  'culinary',
+  'chef',
+  'cookbook',
+  'recipe',
+  'recipes',
+  "chef's corner",
+];
+
+/**
+ * Returns culinary terms detected anywhere in a generated skin payload.
+ * Custom disciplines should avoid legacy culinary language unless intentionally configured.
+ */
+export function findCulinaryLeakage(payload: unknown): string[] {
+  const detected = new Set<string>();
+
+  const visit = (value: unknown) => {
+    if (typeof value === 'string') {
+      const normalized = value.toLowerCase();
+      CULINARY_TERMS.forEach((term) => {
+        if (normalized.includes(term)) {
+          detected.add(term);
+        }
+      });
+      return;
+    }
+
+    if (Array.isArray(value)) {
+      value.forEach(visit);
+      return;
+    }
+
+    if (value && typeof value === 'object') {
+      Object.values(value as Record<string, unknown>).forEach(visit);
+    }
+  };
+
+  visit(payload);
+  return Array.from(detected);
 }
 
 /**
@@ -110,7 +165,20 @@ Important guidelines:
 - Quick actions should be specific to this discipline
 - Mock data should feel authentic to the industry
 - Keep all text professional but friendly
+- Keep content safe for students and professional training organizations
+- Refuse and avoid sexual, pornographic, violent, hateful, illegal, or exploitative content
 - Return ONLY the JSON object, nothing else`;
+}
+
+function assertPromptSafety(disciplineName: string, additionalContext?: string): void {
+  const joined = `${disciplineName} ${additionalContext || ''}`.toLowerCase();
+  const badTerms = DISALLOWED_PROMPT_TERMS.filter((term) => joined.includes(term));
+
+  if (badTerms.length > 0) {
+    throw new Error(
+      `Discipline request contains blocked content (${badTerms.join(', ')}). Use professional workforce training language only.`
+    );
+  }
 }
 
 /**
@@ -120,6 +188,7 @@ export async function generateDisciplineSkin(
   params: GenerateDisciplineSkinParams
 ): Promise<AIGeneratedSkin> {
   const { disciplineName, additionalContext } = params;
+  assertPromptSafety(disciplineName, additionalContext);
 
   const prompt = buildAIPrompt(disciplineName, additionalContext);
 

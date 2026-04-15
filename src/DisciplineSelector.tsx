@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from './disciplines/culinary/images/logo.png';
 import { useSupabase } from './components/DisciplineSupabaseProvider';
 import { supabase } from './disciplines/culinary/api/supabaseClient';
-import { generateDisciplineSkin, generateSlug, convertToFullSkin } from './services/aiDisciplineGenerator';
+import { AIGeneratedSkin, generateDisciplineSkin, generateSlug, convertToFullSkin, findCulinaryLeakage } from './services/aiDisciplineGenerator';
 import { loadCustomDisciplines } from './disciplineConfig';
 import { loadCustomSkins } from './disciplineSkinConfig';
 
@@ -22,17 +22,18 @@ const disciplines = [
 const DisciplineSelector: React.FC = () => {
   const navigate = useNavigate();
   const { isAdmin, isLoading, user } = useSupabase();
-  
-  // DEBUG: Add console logs to trace loading state
-  console.log('DisciplineSelector - isLoading:', isLoading, 'user:', !!user);
-  
+
   const [selectedDiscipline, setSelectedDiscipline] = useState('');
   const [showAddDisciplineModal, setShowAddDisciplineModal] = useState(false);
   const [disciplineName, setDisciplineName] = useState('');
   const [additionalContext, setAdditionalContext] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isSavingDiscipline, setIsSavingDiscipline] = useState(false);
   const [publishImmediately, setPublishImmediately] = useState(true);
+  const [approvalChecked, setApprovalChecked] = useState(false);
   const [generationError, setGenerationError] = useState<string | null>(null);
+  const [generatedSkinPreview, setGeneratedSkinPreview] = useState<AIGeneratedSkin | null>(null);
+  const [generatedSlug, setGeneratedSlug] = useState('');
   const [customDisciplines, setCustomDisciplines] = useState<Array<{ key: string; label: string; icon: string; isActive: boolean }>>([]);
   const [isLoadingCustom, setIsLoadingCustom] = useState(true);
 
@@ -76,8 +77,18 @@ const DisciplineSelector: React.FC = () => {
     fetchCustomDisciplines();
   }, [isAdmin]);
 
+  const resetCreateDisciplineState = () => {
+    setShowAddDisciplineModal(false);
+    setDisciplineName('');
+    setAdditionalContext('');
+    setPublishImmediately(true);
+    setApprovalChecked(false);
+    setGenerationError(null);
+    setGeneratedSkinPreview(null);
+    setGeneratedSlug('');
+  };
+
   if (isLoading && !user) {
-    console.log('DisciplineSelector - Still loading, no user yet');
     return (
       <div className="min-h-screen bg-sand flex items-center justify-center">
         <div className="text-maineBlue text-xl">Loading...</div>
@@ -199,13 +210,7 @@ const DisciplineSelector: React.FC = () => {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">Create New Discipline</h2>
               <button
-                onClick={() => {
-                  setShowAddDisciplineModal(false);
-                  setDisciplineName('');
-                  setAdditionalContext('');
-                  setPublishImmediately(true);
-                  setGenerationError(null);
-                }}
+                onClick={resetCreateDisciplineState}
                 className="text-gray-500 hover:text-gray-700 text-2xl"
               >
                 ✕
@@ -220,12 +225,17 @@ const DisciplineSelector: React.FC = () => {
 
             <form onSubmit={async (e) => {
               e.preventDefault();
+              if (generatedSkinPreview) {
+                return;
+              }
+
               setIsGenerating(true);
               setGenerationError(null);
 
               try {
                 // Generate slug
                 const slug = generateSlug(disciplineName);
+                setGeneratedSlug(slug);
 
                 // Check if discipline already exists
                 const { data: existing } = await supabase
@@ -244,32 +254,14 @@ const DisciplineSelector: React.FC = () => {
                   additionalContext: additionalContext || undefined,
                 });
 
-                // Convert to full skin format
-                const fullSkin = convertToFullSkin(slug, aiSkin);
-
-                // Save to database
-                const { error: insertError } = await supabase
-                  .from('custom_disciplines')
-                  .insert({
-                    name: aiSkin.name,
-                    slug,
-                    skin_config: fullSkin,
-                    created_by: user?.id,
-                    is_active: publishImmediately,
-                  });
-
-                if (insertError) {
-                  throw insertError;
+                const leakageTerms = findCulinaryLeakage(aiSkin);
+                if (leakageTerms.length > 0) {
+                  throw new Error(
+                    `Generated skin still includes legacy culinary language (${leakageTerms.join(', ')}). Please regenerate.`
+                  );
                 }
 
-                // Success - close modal and refresh
-                setShowAddDisciplineModal(false);
-                setDisciplineName('');
-                setAdditionalContext('');
-                setPublishImmediately(true);
-                
-                // Reload page to fetch new disciplines
-                window.location.reload();
+                setGeneratedSkinPreview(aiSkin);
               } catch (error: any) {
                 console.error('Error creating discipline:', error);
                 setGenerationError(error.message || 'Failed to create discipline. Please try again.');
@@ -289,7 +281,7 @@ const DisciplineSelector: React.FC = () => {
                   placeholder="e.g., Welding, Cosmetology, HVAC"
                   className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none"
                   required
-                  disabled={isGenerating}
+                  disabled={isGenerating || !!generatedSkinPreview}
                 />
               </div>
 
@@ -303,8 +295,11 @@ const DisciplineSelector: React.FC = () => {
                   onChange={(e) => setAdditionalContext(e.target.value)}
                   placeholder="Any specific details about your program? (e.g., 'Focus on residential welding' or 'Includes advanced color theory'))"
                   className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none h-24 resize-none"
-                  disabled={isGenerating}
+                  disabled={isGenerating || !!generatedSkinPreview}
                 />
+                <p className="text-xs text-gray-500 mt-2">
+                  Guardrails enabled: use professional workforce-training context only.
+                </p>
               </div>
 
               <div className="mb-6 p-3 border-2 border-gray-200 rounded-lg bg-gray-50">
@@ -313,7 +308,7 @@ const DisciplineSelector: React.FC = () => {
                     type="checkbox"
                     checked={publishImmediately}
                     onChange={(e) => setPublishImmediately(e.target.checked)}
-                    disabled={isGenerating}
+                    disabled={isGenerating || !!generatedSkinPreview}
                   />
                   <span className="text-sm text-gray-700">
                     Publish immediately (uncheck to save as draft)
@@ -326,36 +321,114 @@ const DisciplineSelector: React.FC = () => {
                 )}
               </div>
 
+              {generatedSkinPreview && (
+                <div className="mb-6 border-2 border-seafoam bg-green-50 rounded-lg p-4">
+                  <h3 className="font-bold text-maineBlue mb-2">Preview & Final Approval</h3>
+                  <p className="text-xs text-gray-600 mb-3">
+                    Review generated language before publishing. No legacy culinary terms should appear.
+                  </p>
+                  <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+                    <div className="bg-white border rounded p-2"><strong>Slug:</strong> {generatedSlug}</div>
+                    <div className="bg-white border rounded p-2"><strong>Icon:</strong> {generatedSkinPreview.icon}</div>
+                    <div className="bg-white border rounded p-2"><strong>Workspace:</strong> {generatedSkinPreview.modules.workspace}</div>
+                    <div className="bg-white border rounded p-2"><strong>Notebook:</strong> {generatedSkinPreview.modules.notebook}</div>
+                    <div className="bg-white border rounded p-2"><strong>Community:</strong> {generatedSkinPreview.modules.community}</div>
+                    <div className="bg-white border rounded p-2"><strong>School:</strong> {generatedSkinPreview.modules.school}</div>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">
+                    <strong>{generatedSkinPreview.assistant.name}</strong>: {generatedSkinPreview.assistant.greeting}
+                  </p>
+                  <label className="flex items-start gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={approvalChecked}
+                      onChange={(e) => setApprovalChecked(e.target.checked)}
+                      disabled={isSavingDiscipline}
+                      className="mt-1"
+                    />
+                    <span className="text-sm text-gray-700">
+                      Looks awesome — approve this preview and {publishImmediately ? 'publish live' : 'save as draft'}.
+                    </span>
+                  </label>
+                </div>
+              )}
+
               <div className="flex gap-3">
                 <button
                   type="button"
-                  onClick={() => {
-                    setShowAddDisciplineModal(false);
-                    setDisciplineName('');
-                    setAdditionalContext('');
-                    setPublishImmediately(true);
-                    setGenerationError(null);
-                  }}
+                  onClick={resetCreateDisciplineState}
                   className="flex-1 bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
-                  disabled={isGenerating}
+                  disabled={isGenerating || isSavingDiscipline}
                 >
                   Cancel
                 </button>
+                {generatedSkinPreview && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setGeneratedSkinPreview(null);
+                      setApprovalChecked(false);
+                      setGenerationError(null);
+                    }}
+                    disabled={isSavingDiscipline}
+                    className="flex-1 bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-gray-100 transition-colors"
+                  >
+                    Regenerate
+                  </button>
+                )}
                 <button
-                  type="submit"
-                  disabled={!disciplineName.trim() || isGenerating}
+                  type={generatedSkinPreview ? 'button' : 'submit'}
+                  onClick={generatedSkinPreview ? async () => {
+                    if (!generatedSkinPreview || !approvalChecked) {
+                      return;
+                    }
+
+                    setIsSavingDiscipline(true);
+                    setGenerationError(null);
+
+                    try {
+                      const fullSkin = convertToFullSkin(generatedSlug, generatedSkinPreview);
+                      const { error: insertError } = await supabase
+                        .from('custom_disciplines')
+                        .insert({
+                          name: generatedSkinPreview.name,
+                          slug: generatedSlug,
+                          skin_config: fullSkin,
+                          created_by: user?.id,
+                          is_active: publishImmediately,
+                        });
+
+                      if (insertError) {
+                        throw insertError;
+                      }
+
+                      resetCreateDisciplineState();
+                      window.location.reload();
+                    } catch (error: any) {
+                      console.error('Error saving discipline:', error);
+                      setGenerationError(error.message || 'Failed to save discipline. Please try again.');
+                    } finally {
+                      setIsSavingDiscipline(false);
+                    }
+                  } : undefined}
+                  disabled={
+                    !disciplineName.trim()
+                    || isGenerating
+                    || isSavingDiscipline
+                    || (generatedSkinPreview ? !approvalChecked : false)
+                  }
                   className="flex-1 bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isGenerating ? (
+                  {isGenerating || isSavingDiscipline ? (
                     <span className="flex items-center justify-center">
                       <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
-                      Generating...
+                      {isGenerating ? 'Generating...' : 'Saving...'}
                     </span>
                   ) : (
-                    'Create Discipline'
+                    generatedSkinPreview ? (publishImmediately ? 'Approve & Publish' : 'Approve & Save Draft') : 'Generate Preview'
                   )}
                 </button>
               </div>
