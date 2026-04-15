@@ -3,7 +3,8 @@ const fetch = require('node-fetch');
 const API_KEYS = {
   recipe: process.env.ANTHROPIC_RECIPE_KEY,
   challenge: process.env.ANTHROPIC_CHALLENGE_KEY,
-  chef: process.env.ANTHROPIC_CHEF_KEY
+  chef: process.env.ANTHROPIC_CHEF_KEY,
+  add_discipline: process.env.ANTHROPIC_ADD_DISCIPLINE_KEY
 };
 
 // Log which API keys are configured (safely)

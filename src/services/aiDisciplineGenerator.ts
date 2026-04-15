@@ -114,44 +114,26 @@ Important guidelines:
 }
 
 /**
- * Call AI API to generate discipline skin
- * API key should be stored in environment variable or Supabase config
+ * Call Anthropic API via Netlify proxy to generate discipline skin.
  */
 export async function generateDisciplineSkin(
   params: GenerateDisciplineSkinParams
 ): Promise<AIGeneratedSkin> {
   const { disciplineName, additionalContext } = params;
 
-  // Support both Vite-style env vars and legacy process.env injection.
-  const viteEnv = (typeof import.meta !== 'undefined' ? (import.meta as any).env : undefined) || {};
-  const legacyEnv = (typeof process !== 'undefined' ? (process as any).env : undefined) || {};
-  const apiKey =
-    viteEnv.VITE_OPENAI_API_KEY ||
-    viteEnv.REACT_APP_OPENAI_API_KEY ||
-    legacyEnv.VITE_OPENAI_API_KEY ||
-    legacyEnv.REACT_APP_OPENAI_API_KEY ||
-    '';
-  
-  if (!apiKey) {
-    throw new Error('AI API key not configured. Please add VITE_OPENAI_API_KEY to environment.');
-  }
-
   const prompt = buildAIPrompt(disciplineName, additionalContext);
 
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('/.netlify/functions/anthropic-proxy', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini', // Fast and cost-effective
+        apiKeyIdentifier: 'add_discipline',
+        model: 'claude-3-haiku-20240307',
+        system: 'You are a curriculum design expert. Return only valid JSON, no markdown formatting.',
         messages: [
-          {
-            role: 'system',
-            content: 'You are a curriculum design expert. Return only valid JSON, no markdown formatting.',
-          },
           {
             role: 'user',
             content: prompt,
@@ -163,15 +145,15 @@ export async function generateDisciplineSkin(
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(`AI API error: ${errorData.error?.message || response.statusText}`);
+      const errorText = await response.text();
+      throw new Error(`Anthropic API error: ${errorText || response.statusText}`);
     }
 
     const data = await response.json();
-    const aiResponse = data.choices[0]?.message?.content;
+    const aiResponse = data.content?.[0]?.text;
 
     if (!aiResponse) {
-      throw new Error('No response from AI');
+      throw new Error('No response from Anthropic');
     }
 
     // Parse JSON response (remove markdown code blocks if present)
