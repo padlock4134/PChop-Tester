@@ -787,63 +787,109 @@ const DisciplineSelector: React.FC = () => {
                       <h1 className="text-3xl font-retro text-maineBlue mb-0">{s.modules.school}</h1>
                     </div>
                     <hr className="border-t-2 border-maineBlue mb-6" />
-                    <div className="bg-yellow-50 border-4 border-yellow-400 rounded-lg p-4 mb-4">
-                      <h3 className="font-retro text-sm text-maineBlue mb-1">⏱️ Practice Timer &amp; Settings</h3>
-                      <div className="flex items-center gap-3 text-xs">
-                        <span className="bg-white border rounded px-2 py-1">Duration: 30m</span>
-                        <span className="bg-maineBlue text-white px-3 py-1 rounded font-bold">Start Timer</span>
-                      </div>
-                    </div>
-                    <div className="space-y-4 mt-8">
-                      <div className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors">
-                        <div className="font-bold mb-1">📺 Skill of the Week</div>
-                        <div className="text-sm text-gray-700">Watch this week's featured technique tutorial</div>
-                      </div>
-                      <div className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors">
-                        <div className="font-bold mb-1">📺 Guided Practice</div>
-                        <div className="text-sm text-gray-700">Follow along with step-by-step instruction</div>
-                      </div>
-                    </div>
-                    <div className="mt-8 text-center">
-                      <div className="flex justify-center space-x-4">
-                        <span className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow font-bold">Go to {s.modules.workspace}</span>
-                        <span className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow font-bold">Go to {s.modules.notebook}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="lg:w-1/3">
-                    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4">
-                      <h2 className="text-lg font-retro text-maineBlue mb-3">📚 Syllabus</h2>
-                      <hr className="border-t-2 border-maineBlue mb-3" />
-                      <h3 className="font-bold text-sm text-maineBlue mb-2">{s.people.defaultProgram} Curriculum</h3>
-                      {['Term 1: Foundations', 'Term 1: Core Skills', 'Term 2: Applied Practice', 'Term 2: Specialization'].map((term, idx) => (
-                        <div key={idx} className="mb-2">
-                          <div className="font-semibold text-xs text-gray-800 mb-1">{term}</div>
-                          <div className="space-y-1">
-                            {['Lesson A', 'Lesson B', 'Lesson C'].map((lesson, li) => (
-                              <div key={li} className="flex items-center gap-1.5 text-[10px] text-gray-600">
-                                <span className={`w-3 h-3 rounded-full border-2 ${idx === 0 && li < 2 ? 'bg-green-500 border-green-600' : idx === 0 && li === 2 ? 'bg-maineBlue border-blue-700' : 'border-gray-300'}`}></span>
-                                {lesson}
-                              </div>
+                    <div className="w-full mx-auto">
+                      {/* CookingTimer - Serving Size Section */}
+                      <div className="space-y-4">
+                        <div className="bg-sand p-4 rounded-lg border border-black">
+                          <div className="flex items-center justify-between mb-3">
+                            <label className="text-sm font-semibold text-gray-700">Servings:</label>
+                            <div className="flex items-center space-x-2">
+                              <input type="number" min="1" max="8" defaultValue={2} className="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold" readOnly />
+                              <span className="text-sm text-gray-600">servings</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-1 mb-2">
+                            {Array.from({ length: 8 }, (_, i) => (
+                              <div key={i} className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${i < 2 ? 'bg-maineBlue text-seafoam' : 'bg-gray-200 text-gray-400'}`}>👤</div>
+                            ))}
+                          </div>
+                          <div className="text-xs text-gray-500">*1 serving = ~400-600 calories or 1 cup portions</div>
+                          <div className="text-xs text-gray-400 mt-1">Recommended nutritional values and numbers provided by the USDA</div>
+                        </div>
+                        {/* CookingTimer - Preset Timers */}
+                        <div className="bg-sand p-4 rounded-lg border border-black">
+                          <h4 className="text-sm font-semibold mb-2 text-gray-700">Practice Timers:</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {['Drill A (8m)', 'Drill B (18m)', 'Practice C (6m)', 'Practice D (12m)', 'Exercise E (4m)'].map((preset, index) => (
+                              <span key={index} className="px-3 py-1 bg-seafoam text-maineBlue rounded-full text-xs font-medium hover:bg-maineBlue hover:text-seafoam transition-colors cursor-pointer">{preset}</span>
                             ))}
                           </div>
                         </div>
-                      ))}
-                    </div>
-                    <div className="bg-amber-50 rounded-lg border-4 border-amber-400 p-3 mt-4">
-                      <div className="text-center mb-2">
-                        <span className="text-2xl">🧀</span>
-                        <h3 className="font-retro text-sm text-amber-800">AR/VR Practice Board</h3>
                       </div>
-                      <div className="bg-amber-100 rounded-lg h-16 flex items-center justify-center mb-2 border-2 border-amber-300">
-                        <div className="text-center">
-                          <div className="text-xl">👨‍🏫</div>
-                          <p className="text-[9px] text-amber-800 font-bold">AI-Guided Practice</p>
+                      {/* Tutorial Cards */}
+                      <div className="space-y-4 mt-8">
+                        <div className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors">
+                          <div className="font-bold mb-1">📺 Skill of the Week</div>
+                          <div className="text-sm text-gray-700">Watch this week's featured technique tutorial</div>
+                        </div>
+                        <div className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors">
+                          <div className="font-bold mb-1">📺 Guided Practice</div>
+                          <div className="text-sm text-gray-700">Follow along with step-by-step instruction</div>
                         </div>
                       </div>
-                      <div className="flex gap-2">
-                        <span className="flex-1 bg-amber-600 text-amber-50 px-2 py-1 rounded font-bold text-[10px] border border-amber-900 text-center">📚 Virtual Practice</span>
-                        <span className="flex-1 bg-white text-amber-800 px-2 py-1 rounded font-bold text-[10px] border-2 border-amber-400 text-center">🥽 AR/VR Mode</span>
+                      {/* Navigation Links */}
+                      <div className="mt-8 text-center">
+                        <div className="text-gray-700 mb-4">Select a {s.content.metricLabel.toLowerCase().replace(/s$/, '')} to get started:</div>
+                        <div className="flex justify-center space-x-4">
+                          <span className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow font-bold">Go to {s.modules.workspace}</span>
+                          <span className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow font-bold">Go to {s.modules.notebook}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Right Side - SyllabusCard */}
+                  <div className="lg:w-1/3">
+                    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full">
+                      <div className="p-4 bg-yellow-400 text-maineBlue font-retro">
+                        <h3 className="text-xl">✏️ {s.people.defaultProgram} Curriculum</h3>
+                      </div>
+                      {/* Practice Board Button */}
+                      <div className="px-4 pt-4">
+                        <span className="w-full px-4 py-2 rounded border transition-colors bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200 hover:text-amber-900 block text-center cursor-pointer">🧀 AR/VR Practice Board</span>
+                      </div>
+                      <div className="p-4">
+                        {[
+                          { title: 'Term 1: Foundations', expanded: true, lessons: [
+                            { name: 'Lesson A', completed: true, current: false },
+                            { name: 'Lesson B', completed: true, current: false },
+                            { name: 'Lesson C', completed: false, current: true },
+                            { name: 'Lesson D', completed: false, current: false },
+                            { name: 'Lesson E', completed: false, current: false },
+                          ]},
+                          { title: 'Term 1: Core Skills', expanded: false, lessons: [
+                            { name: 'Lesson A', completed: false, current: false },
+                            { name: 'Lesson B', completed: false, current: false },
+                          ]},
+                          { title: 'Term 2: Applied Practice', expanded: false, lessons: [] },
+                          { title: 'Term 2: Specialization', expanded: false, lessons: [] },
+                        ].map((course, idx) => (
+                          <div key={idx} className="mb-4 last:mb-0">
+                            <div className="flex items-center justify-between cursor-pointer hover:bg-sand p-2 rounded">
+                              <h4 className="font-bold text-maineBlue">{course.title}</h4>
+                              <span className="text-sm text-gray-500">{course.expanded ? '▼' : '►'}</span>
+                            </div>
+                            {course.expanded && course.lessons.length > 0 && (
+                              <div className="ml-4 mt-2 border-l-2 border-gray-300 pl-4">
+                                {course.lessons.map((lesson, li) => (
+                                  <div key={li} className={`py-2 flex items-center cursor-pointer hover:bg-sand rounded px-2 ${lesson.current ? 'bg-sand' : ''}`}>
+                                    <div className="mr-2">
+                                      {lesson.completed ? (
+                                        <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+                                          <span className="text-white text-xs">✓</span>
+                                        </div>
+                                      ) : (
+                                        <div className="w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center">
+                                          <span className="text-gray-400 text-[8px]">⏱</span>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <span className={lesson.current ? 'font-bold' : ''}>{lesson.name}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
