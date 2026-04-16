@@ -651,23 +651,23 @@ const DisciplineSelector: React.FC = () => {
                               <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
                                 <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">📋 Items</h4>
                                 <ul className="list-disc pl-4 max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                                  <li>Component Alpha</li>
-                                  <li>Component Beta</li>
-                                  <li>Component Gamma</li>
+                                  <li>Item One</li>
+                                  <li>Item Two</li>
+                                  <li>Item Three</li>
                                 </ul>
                               </div>
                               <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
                                 <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">�️ Equipment</h4>
                                 <ul className="list-disc pl-4 max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                                  <li>Tool A</li>
-                                  <li>Tool B</li>
+                                  <li>Resource A</li>
+                                  <li>Resource B</li>
                                 </ul>
                               </div>
                               <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
                                 <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🏷️ Tags</h4>
                                 <div className="flex flex-wrap gap-1.5 justify-center max-h-[100px] overflow-y-auto">
-                                  <span className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">Healthy</span>
-                                  <span className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">Quick</span>
+                                  <span className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">Beginner</span>
+                                  <span className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">Essential</span>
                                 </div>
                               </div>
                             </div>
@@ -700,7 +700,7 @@ const DisciplineSelector: React.FC = () => {
                             {['Favorites', 'Quick Start', 'Advanced'].map((name, idx) => (
                               <div key={idx} className="py-2 px-2 hover:bg-sand rounded cursor-pointer flex items-center justify-between">
                                 <div className="flex items-center">
-                                  <span className="mr-2">{idx === 0 ? '⭐' : idx === 1 ? '⚡' : '🥗'}</span>
+                                  <span className="mr-2">{idx === 0 ? '⭐' : idx === 1 ? '⚡' : '📂'}</span>
                                   <span className="text-sm">{name}</span>
                                 </div>
                                 <span className="text-xs text-gray-500 bg-seafoam px-2 py-1 rounded-full">{idx === 0 ? 3 : idx === 1 ? 2 : 5}</span>
@@ -724,6 +724,8 @@ const DisciplineSelector: React.FC = () => {
                       </div>
                       <div className="p-4 border-t border-gray-200">
                         <span className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue block text-center font-bold">Create Collection (0)</span>
+                        <span className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 block text-center font-bold">📊 View Gradebook</span>
+                        <span className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 block text-center font-bold">🎥 Video Portfolio</span>
                       </div>
                     </div>
                   </div>
