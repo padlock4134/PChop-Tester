@@ -1382,13 +1382,23 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       };
 
       // Fetch content data for currently selected discipline skin
-      const { count: totalContentCount, error: contentError } = await supabase
-        .from(skin.content.table)
+      let totalContent = 0;
+      const preferredTable = skin.content.table || 'user_cookbook';
+      const contentCountQuery = await supabase
+        .from(preferredTable)
         .select('*', { count: 'exact', head: true });
 
-      if (contentError) throw contentError;
+      if (contentCountQuery.error) {
+        console.warn(`Content table "${preferredTable}" unavailable; falling back to user_cookbook`, contentCountQuery.error);
+        const fallbackQuery = await supabase
+          .from('user_cookbook')
+          .select('*', { count: 'exact', head: true });
 
-      const totalContent = totalContentCount || 0;
+        if (fallbackQuery.error) throw fallbackQuery.error;
+        totalContent = fallbackQuery.count || 0;
+      } else {
+        totalContent = contentCountQuery.count || 0;
+      }
 
       // Calculate active users (logged in within last 7 days)
       const sevenDaysAgo = new Date();
