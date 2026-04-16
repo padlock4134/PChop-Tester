@@ -46,12 +46,10 @@ exports.handler = async function(event) {
     console.log(`Request from ${apiKeyIdentifier} endpoint`);
 
     if (apiKeyIdentifier === 'add_discipline') {
-      const combinedPromptText = JSON.stringify({
-        system: requestBody.system,
-        messages: requestBody.messages
-      }).toLowerCase();
+      const safetyInput = requestBody.safetyInput || {};
+      const combinedPromptText = `${safetyInput.disciplineName || ''} ${safetyInput.additionalContext || ''}`.toLowerCase();
       const blockedTermsFound = BLOCKED_DISCIPLINE_TERMS.filter((term) =>
-        combinedPromptText.includes(term)
+        new RegExp(`\\b${term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(combinedPromptText)
       );
 
       if (blockedTermsFound.length > 0) {
@@ -66,6 +64,7 @@ exports.handler = async function(event) {
     
     // Remove the identifier from the body before forwarding to Anthropic
     delete requestBody.apiKeyIdentifier;
+    delete requestBody.safetyInput;
 
     // Get the appropriate API key
     const apiKey = API_KEYS[apiKeyIdentifier];

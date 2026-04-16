@@ -172,7 +172,11 @@ Important guidelines:
 
 function assertPromptSafety(disciplineName: string, additionalContext?: string): void {
   const joined = `${disciplineName} ${additionalContext || ''}`.toLowerCase();
-  const badTerms = DISALLOWED_PROMPT_TERMS.filter((term) => joined.includes(term));
+  const badTerms = DISALLOWED_PROMPT_TERMS.filter((term) => {
+    const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const matcher = new RegExp(`\\b${escapedTerm}\\b`, 'i');
+    return matcher.test(joined);
+  });
 
   if (badTerms.length > 0) {
     throw new Error(
@@ -200,6 +204,10 @@ export async function generateDisciplineSkin(
       },
       body: JSON.stringify({
         apiKeyIdentifier: 'add_discipline',
+        safetyInput: {
+          disciplineName,
+          additionalContext: additionalContext || '',
+        },
         model: 'claude-3-haiku-20240307',
         system: 'You are a curriculum design expert. Return only valid JSON, no markdown formatting.',
         messages: [
@@ -214,8 +222,15 @@ export async function generateDisciplineSkin(
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Anthropic API error: ${errorText || response.statusText}`);
+      let errorMessage = response.statusText;
+      try {
+        const parsedError = await response.json();
+        errorMessage = parsedError.error || errorMessage;
+      } catch {
+        const rawError = await response.text();
+        errorMessage = rawError || errorMessage;
+      }
+      throw new Error(`Anthropic API error: ${errorMessage}`);
     }
 
     const data = await response.json();
