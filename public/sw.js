@@ -1,5 +1,5 @@
 // PorkChop Service Worker
-const CACHE_NAME = 'porkchop-v2';
+const CACHE_NAME = 'porkchop-v3';
 const urlsToCache = [
   '/manifest.json',
   '/logo.png'
@@ -8,6 +8,7 @@ const urlsToCache = [
 
 // Install event - cache core assets
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
@@ -19,15 +20,18 @@ self.addEventListener('install', event => {
 // Activate event - clean up old caches
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.filter(cacheName => {
-          return cacheName !== CACHE_NAME;
-        }).map(cacheName => {
-          return caches.delete(cacheName);
-        })
-      );
-    })
+    Promise.all([
+      self.clients.claim(),
+      caches.keys().then(cacheNames => {
+        return Promise.all(
+          cacheNames.filter(cacheName => {
+            return cacheName !== CACHE_NAME;
+          }).map(cacheName => {
+            return caches.delete(cacheName);
+          })
+        );
+      })
+    ])
   );
 });
 
