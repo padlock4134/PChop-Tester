@@ -31,6 +31,12 @@
   </head>
   <body class="bg-sand font-retro">
     <div id="root"></div>
+    <script>
+      // Emergency compatibility shim for stale bundles referencing removed symbol.
+      // TODO: remove after all deployments have rotated to current chunks.
+      window.PracticeModeSwitch = window.PracticeModeSwitch || function PracticeModeSwitchShim() { return null; };
+      var PracticeModeSwitch = window.PracticeModeSwitch;
+    </script>
     <script type="module" src="/src/main.tsx"></script>
     <form name="demo-request" netlify netlify-honeypot="bot-field" hidden>
       <input type="text" name="name" />
