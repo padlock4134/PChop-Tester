@@ -456,23 +456,36 @@ const DisciplineSelector: React.FC = () => {
               </button>
             </div>
 
-            {/* Tab Bar */}
-            <div className="flex flex-wrap gap-1 mb-3 shrink-0">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.key}
-                  type="button"
-                  onClick={() => setPreviewTab(tab.key)}
-                  className={`text-[10px] sm:text-xs font-bold py-1.5 px-2 sm:px-3 rounded border-2 transition-colors ${
-                    previewTab === tab.key
-                      ? 'bg-maineBlue text-white border-maineBlue'
-                      : 'bg-white text-maineBlue border-maineBlue hover:bg-gray-100'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+            {/* Tab Arrow Navigation */}
+            {(() => {
+              const currentIdx = tabs.findIndex((t) => t.key === previewTab);
+              const prevIdx = (currentIdx - 1 + tabs.length) % tabs.length;
+              const nextIdx = (currentIdx + 1) % tabs.length;
+              return (
+                <div className="flex items-center justify-between mb-3 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setPreviewTab(tabs[prevIdx].key)}
+                    className="w-9 h-9 flex items-center justify-center rounded-full border-2 border-maineBlue text-maineBlue hover:bg-maineBlue hover:text-white transition-colors text-lg font-bold"
+                    aria-label="Previous tab"
+                  >
+                    ‹
+                  </button>
+                  <div className="text-center">
+                    <span className="font-retro text-maineBlue text-sm sm:text-base font-bold">{tabs[currentIdx]?.label}</span>
+                    <span className="block text-[10px] text-gray-500">{currentIdx + 1} / {tabs.length}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setPreviewTab(tabs[nextIdx].key)}
+                    className="w-9 h-9 flex items-center justify-center rounded-full border-2 border-maineBlue text-maineBlue hover:bg-maineBlue hover:text-white transition-colors text-lg font-bold"
+                    aria-label="Next tab"
+                  >
+                    ›
+                  </button>
+                </div>
+              );
+            })()}
 
             {/* Tab Content */}
             <div className="overflow-y-auto pr-1 flex-1">
