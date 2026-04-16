@@ -432,8 +432,8 @@ const DisciplineSelector: React.FC = () => {
 
       {showStudentPreviewModal && generatedSkinPreview && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-start sm:items-center justify-center z-[60] p-2 sm:p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-3xl max-h-[92vh] flex flex-col p-4 sm:p-6">
-            <div className="flex justify-between items-center mb-4">
+          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-4xl max-h-[92vh] flex flex-col p-4 sm:p-6">
+            <div className="flex justify-between items-center mb-4 shrink-0">
               <h3 className="text-xl sm:text-2xl font-retro text-maineBlue">Student Experience Preview</h3>
               <button
                 onClick={() => setShowStudentPreviewModal(false)}
@@ -444,173 +444,94 @@ const DisciplineSelector: React.FC = () => {
               </button>
             </div>
 
-            <div className="overflow-y-auto space-y-4 pr-1">
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                <button
-                  type="button"
-                  onClick={() => setPreviewTab('dashboard')}
-                  className={`text-xs sm:text-sm font-bold py-2 px-2 rounded border-2 transition-colors ${previewTab === 'dashboard' ? 'bg-maineBlue text-white border-maineBlue' : 'bg-white text-maineBlue border-maineBlue hover:bg-gray-100'}`}
-                >
-                  Student Dash
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPreviewTab('workspace')}
-                  className={`text-xs sm:text-sm font-bold py-2 px-2 rounded border-2 transition-colors ${previewTab === 'workspace' ? 'bg-maineBlue text-white border-maineBlue' : 'bg-white text-maineBlue border-maineBlue hover:bg-gray-100'}`}
-                >
-                  Module 1
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPreviewTab('notebook')}
-                  className={`text-xs sm:text-sm font-bold py-2 px-2 rounded border-2 transition-colors ${previewTab === 'notebook' ? 'bg-maineBlue text-white border-maineBlue' : 'bg-white text-maineBlue border-maineBlue hover:bg-gray-100'}`}
-                >
-                  Module 2
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPreviewTab('community')}
-                  className={`text-xs sm:text-sm font-bold py-2 px-2 rounded border-2 transition-colors ${previewTab === 'community' ? 'bg-maineBlue text-white border-maineBlue' : 'bg-white text-maineBlue border-maineBlue hover:bg-gray-100'}`}
-                >
-                  Module 3
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setPreviewTab('school')}
-                  className={`text-xs sm:text-sm font-bold py-2 px-2 rounded border-2 transition-colors ${previewTab === 'school' ? 'bg-maineBlue text-white border-maineBlue' : 'bg-white text-maineBlue border-maineBlue hover:bg-gray-100'}`}
-                >
-                  Module 4
-                </button>
-              </div>
+            {/* Miniature Skinned Dashboard */}
+            <div className="overflow-y-auto pr-1">
+              <div className="bg-sand rounded-lg border-4 border-maineBlue p-4 sm:p-6 relative">
 
-              <div className="border-2 border-maineBlue rounded-lg p-4 bg-sand">
-                <p className="text-sm text-gray-600 mb-2">Student Dashboard Header</p>
-                <h4 className="text-2xl font-bold text-maineBlue">{generatedSkinPreview.icon} {generatedSkinPreview.name}</h4>
-                <p className="text-sm text-gray-700 mt-2">{generatedSkinPreview.assistant.greeting}</p>
-              </div>
+                {/* Dashboard Header - mirrors real StudentProgressDashboard */}
+                <div className="text-center mb-4">
+                  <h1 className="text-2xl sm:text-3xl font-retro text-maineBlue mb-1">
+                    {generatedSkinPreview.icon} {generatedSkinPreview.name} Dashboard
+                  </h1>
+                  <p className="text-gray-600 italic text-sm">Click a module to begin your {generatedSkinPreview.name.toLowerCase()} journey!</p>
+                </div>
 
-              {previewTab === 'dashboard' && (
-                <div className="border-2 border-seafoam rounded-lg p-4 bg-green-50">
-                  <h5 className="font-bold text-maineBlue mb-2">Student Dashboard Skin</h5>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                    <div className="border rounded bg-white p-3">
-                      <p className="font-semibold mb-1">Primary CTA</p>
-                      <p>Jump into {generatedSkinPreview.modules.workspace}</p>
+                <hr className="border-t-2 border-maineBlue mb-4" />
+
+                {/* Module Navigation Cards - same color scheme as real dashboard */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                  <div className="flex flex-col items-center p-4 rounded-lg border-4 border-seafoam bg-teal-50 text-center min-h-[90px]">
+                    <div className="mb-2 text-3xl">{generatedSkinPreview.icon}</div>
+                    <h3 className="text-xs sm:text-sm font-bold font-retro">{generatedSkinPreview.modules.workspace}</h3>
+                  </div>
+                  <div className="flex flex-col items-center p-4 rounded-lg border-4 border-blue-400 bg-blue-50 text-center min-h-[90px]">
+                    <div className="mb-2 text-3xl">📖</div>
+                    <h3 className="text-xs sm:text-sm font-bold font-retro">{generatedSkinPreview.modules.notebook}</h3>
+                  </div>
+                  <div className="flex flex-col items-center p-4 rounded-lg border-4 border-red-400 bg-red-50 text-center min-h-[90px]">
+                    <div className="mb-2 text-3xl">🤝</div>
+                    <h3 className="text-xs sm:text-sm font-bold font-retro">{generatedSkinPreview.modules.community}</h3>
+                  </div>
+                  <div className="flex flex-col items-center p-4 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-center min-h-[90px]">
+                    <div className="mb-2 text-3xl">🎓</div>
+                    <h3 className="text-xs sm:text-sm font-bold font-retro">{generatedSkinPreview.modules.school}</h3>
+                  </div>
+                </div>
+
+                {/* Mock Live Session Ticker */}
+                <div className="bg-red-50 border-4 border-red-400 rounded-lg p-3 mb-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center mr-3">
+                      <div className="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></div>
+                      <span className="font-bold text-red-700 text-xs sm:text-sm">LIVE NOW</span>
                     </div>
-                    <div className="border rounded bg-white p-3">
-                      <p className="font-semibold mb-1">Assistant Card</p>
-                      <p>{generatedSkinPreview.assistant.name} welcomes students with discipline-specific guidance.</p>
+                    <div className="flex-1 text-center">
+                      <span className="text-xs sm:text-sm text-red-800">
+                        <strong>{generatedSkinPreview.people.mockFaculty[0]?.name || 'Instructor Demo'}</strong> is presenting live • 23 watching
+                      </span>
+                    </div>
+                    <div className="bg-red-500 text-white text-xs px-3 py-1 rounded-full font-medium">
+                      🔴 Join
                     </div>
                   </div>
                 </div>
-              )}
 
-              {previewTab === 'workspace' && (
-                <div className="border-2 border-seafoam rounded-lg p-4 bg-green-50">
-                  <h5 className="font-bold text-maineBlue mb-2">Module Skin: {generatedSkinPreview.modules.workspace}</h5>
-                  <p className="text-sm">This module skin would frame hands-on student work and submitted {generatedSkinPreview.content.metricLabel.toLowerCase()}.</p>
-                </div>
-              )}
-
-              {previewTab === 'notebook' && (
-                <div className="border-2 border-seafoam rounded-lg p-4 bg-green-50">
-                  <h5 className="font-bold text-maineBlue mb-2">Module Skin: {generatedSkinPreview.modules.notebook}</h5>
-                  <p className="text-sm">This module skin would style personal notes, reflections, and progress journaling.</p>
-                </div>
-              )}
-
-              {previewTab === 'community' && (
-                <div className="border-2 border-seafoam rounded-lg p-4 bg-green-50">
-                  <h5 className="font-bold text-maineBlue mb-2">Module Skin: {generatedSkinPreview.modules.community}</h5>
-                  <p className="text-sm">This module skin would represent peer discussion prompts and community support threads.</p>
-                </div>
-              )}
-
-              {previewTab === 'school' && (
-                <div className="border-2 border-seafoam rounded-lg p-4 bg-green-50">
-                  <h5 className="font-bold text-maineBlue mb-2">Module Skin: {generatedSkinPreview.modules.school}</h5>
-                  <p className="text-sm">This module skin would present coursework tracks, standards, and compliance-aligned lessons.</p>
-                </div>
-              )}
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-              <button
-                type="button"
-                onClick={() => setShowStudentPreviewModal(false)}
-                className="bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-gray-100 transition-colors"
-              >
-                Back to Edit
-              </button>
-              <button
-                type="button"
-                onClick={publishGeneratedDiscipline}
-                disabled={isSavingDiscipline}
-                className="bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSavingDiscipline ? 'Publishing...' : 'Publish Live'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showStudentPreviewModal && generatedSkinPreview && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-start sm:items-center justify-center z-[60] p-2 sm:p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-3xl max-h-[92vh] flex flex-col p-4 sm:p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl sm:text-2xl font-retro text-maineBlue">Student Experience Preview</h3>
-              <button
-                onClick={() => setShowStudentPreviewModal(false)}
-                className="text-gray-500 hover:text-gray-700 text-2xl"
-                aria-label="Close preview"
-              >
-                ✕
-              </button>
-            </div>
-
-            <div className="overflow-y-auto space-y-4 pr-1">
-              <div className="border-2 border-maineBlue rounded-lg p-4 bg-sand">
-                <p className="text-sm text-gray-600 mb-2">Student Dashboard Header</p>
-                <h4 className="text-2xl font-bold text-maineBlue">{generatedSkinPreview.icon} {generatedSkinPreview.name}</h4>
-                <p className="text-sm text-gray-700 mt-2">{generatedSkinPreview.assistant.greeting}</p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="border rounded-lg p-3 bg-white">
-                  <p className="text-xs text-gray-500">Primary Module</p>
-                  <p className="font-bold">{generatedSkinPreview.modules.workspace}</p>
-                </div>
-                <div className="border rounded-lg p-3 bg-white">
-                  <p className="text-xs text-gray-500">Journal Module</p>
-                  <p className="font-bold">{generatedSkinPreview.modules.notebook}</p>
-                </div>
-                <div className="border rounded-lg p-3 bg-white">
-                  <p className="text-xs text-gray-500">Community Module</p>
-                  <p className="font-bold">{generatedSkinPreview.modules.community}</p>
-                </div>
-                <div className="border rounded-lg p-3 bg-white">
-                  <p className="text-xs text-gray-500">School Module</p>
-                  <p className="font-bold">{generatedSkinPreview.modules.school}</p>
-                </div>
-              </div>
-
-              <div className="border-2 border-seafoam rounded-lg p-4 bg-green-50">
-                <h5 className="font-bold text-maineBlue mb-2">Sample Student Modal Pages</h5>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                  <div className="border rounded bg-white p-3">
-                    <p className="font-semibold mb-1">Assignment Modal</p>
-                    <p>Create a new {generatedSkinPreview.content.metricLabel.toLowerCase()} in {generatedSkinPreview.modules.workspace}.</p>
+                {/* Progress Cards - same 3-card layout as real dashboard */}
+                <div className="bg-white rounded-lg shadow-md p-4 border-4 border-maineBlue">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
+                      <div className="text-3xl mb-2">📚</div>
+                      <h4 className="font-semibold text-gray-900 text-sm font-retro mb-1">Learning Progress</h4>
+                      <p className="text-xs text-gray-600 italic mb-2">Track your lessons &amp; curriculum</p>
+                      <span className="bg-maineBlue text-white px-4 py-1.5 rounded-md text-xs font-retro inline-block">View Details</span>
+                    </div>
+                    <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
+                      <div className="text-3xl mb-2">⭐</div>
+                      <h4 className="font-semibold text-gray-900 text-sm font-retro mb-1">Skills Development</h4>
+                      <p className="text-xs text-gray-600 italic mb-2">Monitor your {generatedSkinPreview.content.metricLabel.toLowerCase()}</p>
+                      <span className="bg-maineBlue text-white px-4 py-1.5 rounded-md text-xs font-retro inline-block">View Details</span>
+                    </div>
+                    <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
+                      <div className="text-3xl mb-2">🏆</div>
+                      <h4 className="font-semibold text-gray-900 text-sm font-retro mb-1">Achievements</h4>
+                      <p className="text-xs text-gray-600 italic mb-2">View badges &amp; milestones</p>
+                      <span className="bg-maineBlue text-white px-4 py-1.5 rounded-md text-xs font-retro inline-block">View Details</span>
+                    </div>
                   </div>
-                  <div className="border rounded bg-white p-3">
-                    <p className="font-semibold mb-1">Approval Modal</p>
-                    <p>Submit for {generatedSkinPreview.content.approvalLabel} and track feedback.</p>
+                </div>
+
+                {/* AI Assistant Preview - mini widget in corner */}
+                <div className="mt-4 flex justify-end">
+                  <div className="bg-white border-4 border-maineBlue rounded-lg shadow-lg p-3 max-w-[220px]">
+                    <p className="font-bold text-maineBlue text-xs font-retro mb-1">💬 {generatedSkinPreview.assistant.name}</p>
+                    <p className="text-[10px] text-gray-600 leading-tight line-clamp-2">{generatedSkinPreview.assistant.greeting.split('.')[0]}.</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            {/* Action Buttons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 shrink-0">
               <button
                 type="button"
                 onClick={() => setShowStudentPreviewModal(false)}
