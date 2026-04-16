@@ -747,32 +747,74 @@ const DisciplineSelector: React.FC = () => {
                       <h1 className="text-3xl font-retro text-maineBlue mb-0">{s.modules.community}</h1>
                     </div>
                     <hr className="border-t-2 border-maineBlue mb-6" />
-                    <div className="bg-sand p-4 rounded-lg border border-black mb-8">
-                      <div className="flex items-center justify-between mb-3">
-                        <label className="text-sm font-semibold text-gray-700">Showcase {s.content.metricLabel.replace(/s$/, '')}</label>
-                        <div className="flex gap-2">
-                          <span className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black">📋 Build Showcase</span>
-                          <span className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300">Import from {s.modules.notebook}</span>
+                    <div className="w-full mx-auto">
+                      <section className="mb-8">
+                        <div className="bg-sand p-4 rounded-lg border border-black">
+                          <div className="flex items-center justify-between mb-3">
+                            <label className="text-sm font-semibold text-gray-700">Showcase {s.content.metricLabel.replace(/s$/, '')}</label>
+                            <div className="flex gap-2">
+                              <span className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black cursor-pointer">🍽️ Build Showcase</span>
+                              <span className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300 cursor-pointer">Import from {s.modules.notebook}</span>
+                            </div>
+                          </div>
+                          <div className="mt-4 text-gray-400 italic text-center">No {s.content.metricLabel.toLowerCase().replace(/s$/, '')} selected — import one to showcase</div>
                         </div>
-                      </div>
-                      <div className="mt-4 text-gray-400 italic text-center">No {s.content.metricLabel.toLowerCase().replace(/s$/, '')} selected — import one to showcase</div>
+                      </section>
+                      <p className="text-center text-gray-600 italic mb-6">&ldquo;Skills can be taught. Character you either have or you don&rsquo;t have.&rdquo; &mdash; Industry Leader</p>
                     </div>
-                    <p className="text-center text-gray-600 italic mb-6">&ldquo;Skills can be taught. Character you either have or you don&rsquo;t have.&rdquo; &mdash; Industry Leader</p>
                   </div>
+                  {/* Right Sidebar - GlobalTestKitchen */}
                   <div className="lg:w-1/3 space-y-6">
-                    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6">
-                      <div className="flex items-center mb-4">
-                        <span className="text-3xl mr-2">🧪</span>
-                        <h2 className="text-xl font-retro text-maineBlue">Global Test Lab</h2>
+                    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full">
+                      <div className="p-4 bg-red-500 text-white font-retro text-center">
+                        <h2 className="text-xl flex items-center justify-center">
+                          <span className="text-2xl mr-2">🌍</span>
+                          Global {s.name} Lab
+                        </h2>
                       </div>
-                      <hr className="border-t-2 border-maineBlue mb-4" />
-                      <div className="bg-red-50 border-4 border-red-400 rounded-lg p-3 mb-4">
-                        <div className="flex items-center gap-2">
-                          <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-                          <span className="text-sm text-red-800 font-bold">{s.people.mockFaculty[0]?.name || 'Instructor'} is live &bull; 23 watching</span>
+                      <div className="p-4">
+                        <p className="text-sm text-gray-600 text-center mb-4">Watch and share live {s.name.toLowerCase()} sessions with peers worldwide</p>
+                        {/* Tab Navigation */}
+                        <div className="flex mb-4 bg-gray-100 rounded-lg p-1">
+                          <span className="flex-1 py-2 px-1 rounded-md text-xs font-medium bg-white text-maineBlue shadow-sm text-center">🔴 Live</span>
+                          <span className="flex-1 py-2 px-1 rounded-md text-xs font-medium text-gray-600 text-center">📅 Upcoming</span>
+                          <span className="flex-1 py-2 px-1 rounded-md text-xs font-medium text-gray-600 text-center">🎥 Host</span>
+                        </div>
+                        {/* Live Sessions */}
+                        <div className="space-y-3">
+                          {[
+                            { name: `${s.people.mockFaculty[0]?.name || 'Instructor A'}`, title: `Advanced ${s.name} Demo`, viewers: 47, isLive: true, emoji: '📺', desc: `Live demonstration of advanced ${s.name.toLowerCase()} techniques` },
+                            { name: 'Guest Speaker', title: `${s.name} Industry Insights`, viewers: 23, isLive: true, emoji: '🎤', desc: `Real-world ${s.name.toLowerCase()} career perspectives` },
+                            { name: 'Student Showcase', title: `Peer ${s.content.metricLabel.replace(/s$/, '')} Review`, viewers: 35, isLive: false, emoji: '🏆', desc: `Student-led ${s.content.metricLabel.toLowerCase()} showcase and feedback` },
+                          ].map((session, idx) => (
+                            <div key={idx} className="border border-gray-200 rounded-lg p-3 hover:shadow-md transition-shadow cursor-pointer">
+                              <div className="flex items-start justify-between mb-2">
+                                <div className="flex items-center">
+                                  <span className="text-2xl mr-2">{session.emoji}</span>
+                                  <div>
+                                    <h3 className="font-semibold text-sm text-gray-900">{session.title}</h3>
+                                    <p className="text-xs text-gray-600">by {session.name}</p>
+                                  </div>
+                                </div>
+                                <div className={`flex items-center text-xs ${session.isLive ? 'text-red-600' : 'text-gray-500'}`}>
+                                  <div className={`w-2 h-2 ${session.isLive ? 'bg-red-500 animate-pulse' : 'bg-gray-400'} rounded-full mr-1`}></div>
+                                  {session.isLive ? 'LIVE' : 'Ended'}
+                                </div>
+                              </div>
+                              <p className="text-xs text-gray-700 mb-2">{session.desc}</p>
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-gray-500">🌍 {s.name}</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs text-gray-500">👥 {session.viewers} watching</span>
+                                  <span className={`text-white text-xs px-3 py-1 rounded-full ${session.isLive ? 'bg-red-500 animate-pulse' : 'bg-gray-400'}`}>
+                                    {session.isLive ? 'Join' : 'Ended'}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
-                      <span className="bg-lobsterRed text-white px-6 py-2 rounded font-bold text-sm border border-black block text-center">🎥 Go Live</span>
                     </div>
                   </div>
                 </div>
