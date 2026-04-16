@@ -30,7 +30,7 @@ const DisciplineSelector: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSavingDiscipline, setIsSavingDiscipline] = useState(false);
   const [showStudentPreviewModal, setShowStudentPreviewModal] = useState(false);
-  const [previewTab, setPreviewTab] = useState<'dashboard' | 'workspace' | 'notebook' | 'community' | 'school'>('dashboard');
+  const [previewTab, setPreviewTab] = useState<'dashboard' | 'workspace' | 'notebook' | 'community' | 'school' | 'admin'>('dashboard');
   const [generationError, setGenerationError] = useState<string | null>(null);
   const [generatedSkinPreview, setGeneratedSkinPreview] = useState<AIGeneratedSkin | null>(null);
   const [generatedSlug, setGeneratedSlug] = useState('');
@@ -430,11 +430,23 @@ const DisciplineSelector: React.FC = () => {
         </div>
       )}
 
-      {showStudentPreviewModal && generatedSkinPreview && (
+      {showStudentPreviewModal && generatedSkinPreview && (() => {
+        const s = generatedSkinPreview;
+        const facultyTitle = s.people.facultyTitle;
+        const dashTitle = `${facultyTitle}'s Desk`;
+        const tabs: { key: typeof previewTab; label: string }[] = [
+          { key: 'dashboard', label: dashTitle },
+          { key: 'workspace', label: s.modules.workspace },
+          { key: 'notebook', label: s.modules.notebook },
+          { key: 'community', label: s.modules.community },
+          { key: 'school', label: s.modules.school },
+          { key: 'admin', label: 'Admin Dashboard' },
+        ];
+        return (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-start sm:items-center justify-center z-[60] p-2 sm:p-4 overflow-y-auto">
           <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-4xl max-h-[92vh] flex flex-col p-4 sm:p-6">
-            <div className="flex justify-between items-center mb-4 shrink-0">
-              <h3 className="text-xl sm:text-2xl font-retro text-maineBlue">Student Experience Preview</h3>
+            <div className="flex justify-between items-center mb-3 shrink-0">
+              <h3 className="text-lg sm:text-2xl font-retro text-maineBlue">Live Preview</h3>
               <button
                 onClick={() => setShowStudentPreviewModal(false)}
                 className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -444,90 +456,365 @@ const DisciplineSelector: React.FC = () => {
               </button>
             </div>
 
-            {/* Miniature Skinned Dashboard */}
-            <div className="overflow-y-auto pr-1">
-              <div className="bg-sand rounded-lg border-4 border-maineBlue p-4 sm:p-6 relative">
+            {/* Tab Bar */}
+            <div className="flex flex-wrap gap-1 mb-3 shrink-0">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setPreviewTab(tab.key)}
+                  className={`text-[10px] sm:text-xs font-bold py-1.5 px-2 sm:px-3 rounded border-2 transition-colors ${
+                    previewTab === tab.key
+                      ? 'bg-maineBlue text-white border-maineBlue'
+                      : 'bg-white text-maineBlue border-maineBlue hover:bg-gray-100'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-                {/* Dashboard Header - mirrors real StudentProgressDashboard */}
-                <div className="text-center mb-4">
-                  <h1 className="text-2xl sm:text-3xl font-retro text-maineBlue mb-1">
-                    {generatedSkinPreview.icon} {generatedSkinPreview.name} Dashboard
-                  </h1>
-                  <p className="text-gray-600 italic text-sm">Click a module to begin your {generatedSkinPreview.name.toLowerCase()} journey!</p>
-                </div>
+            {/* Tab Content */}
+            <div className="overflow-y-auto pr-1 flex-1">
 
-                <hr className="border-t-2 border-maineBlue mb-4" />
-
-                {/* Module Navigation Cards - same color scheme as real dashboard */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                  <div className="flex flex-col items-center p-4 rounded-lg border-4 border-seafoam bg-teal-50 text-center min-h-[90px]">
-                    <div className="mb-2 text-3xl">{generatedSkinPreview.icon}</div>
-                    <h3 className="text-xs sm:text-sm font-bold font-retro">{generatedSkinPreview.modules.workspace}</h3>
+              {/* ===== TAB 1: STUDENT DASHBOARD ===== */}
+              {previewTab === 'dashboard' && (
+                <div className="bg-sand rounded-lg border-4 border-maineBlue p-4 sm:p-5">
+                  <div className="text-center mb-4">
+                    <h1 className="text-2xl sm:text-3xl font-retro text-maineBlue mb-1">{s.icon} {dashTitle}</h1>
+                    <p className="text-gray-600 italic text-sm">Click a module to begin your {s.name.toLowerCase()} journey!</p>
                   </div>
-                  <div className="flex flex-col items-center p-4 rounded-lg border-4 border-blue-400 bg-blue-50 text-center min-h-[90px]">
-                    <div className="mb-2 text-3xl">📖</div>
-                    <h3 className="text-xs sm:text-sm font-bold font-retro">{generatedSkinPreview.modules.notebook}</h3>
-                  </div>
-                  <div className="flex flex-col items-center p-4 rounded-lg border-4 border-red-400 bg-red-50 text-center min-h-[90px]">
-                    <div className="mb-2 text-3xl">🤝</div>
-                    <h3 className="text-xs sm:text-sm font-bold font-retro">{generatedSkinPreview.modules.community}</h3>
-                  </div>
-                  <div className="flex flex-col items-center p-4 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-center min-h-[90px]">
-                    <div className="mb-2 text-3xl">🎓</div>
-                    <h3 className="text-xs sm:text-sm font-bold font-retro">{generatedSkinPreview.modules.school}</h3>
-                  </div>
-                </div>
-
-                {/* Mock Live Session Ticker */}
-                <div className="bg-red-50 border-4 border-red-400 rounded-lg p-3 mb-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center mr-3">
-                      <div className="w-3 h-3 bg-red-500 rounded-full mr-2 animate-pulse"></div>
-                      <span className="font-bold text-red-700 text-xs sm:text-sm">LIVE NOW</span>
+                  <hr className="border-t-2 border-maineBlue mb-4" />
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                    <div className="flex flex-col items-center p-3 rounded-lg border-4 border-seafoam bg-teal-50 text-center min-h-[80px]">
+                      <div className="mb-1 text-2xl">{s.icon}</div>
+                      <h3 className="text-[10px] sm:text-xs font-bold font-retro">{s.modules.workspace}</h3>
                     </div>
-                    <div className="flex-1 text-center">
-                      <span className="text-xs sm:text-sm text-red-800">
-                        <strong>{generatedSkinPreview.people.mockFaculty[0]?.name || 'Instructor Demo'}</strong> is presenting live • 23 watching
+                    <div className="flex flex-col items-center p-3 rounded-lg border-4 border-blue-400 bg-blue-50 text-center min-h-[80px]">
+                      <div className="mb-1 text-2xl">📖</div>
+                      <h3 className="text-[10px] sm:text-xs font-bold font-retro">{s.modules.notebook}</h3>
+                    </div>
+                    <div className="flex flex-col items-center p-3 rounded-lg border-4 border-red-400 bg-red-50 text-center min-h-[80px]">
+                      <div className="mb-1 text-2xl">🤝</div>
+                      <h3 className="text-[10px] sm:text-xs font-bold font-retro">{s.modules.community}</h3>
+                    </div>
+                    <div className="flex flex-col items-center p-3 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-center min-h-[80px]">
+                      <div className="mb-1 text-2xl">🎓</div>
+                      <h3 className="text-[10px] sm:text-xs font-bold font-retro">{s.modules.school}</h3>
+                    </div>
+                  </div>
+                  <div className="bg-red-50 border-4 border-red-400 rounded-lg p-2 mb-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center mr-2">
+                        <div className="w-2.5 h-2.5 bg-red-500 rounded-full mr-1.5 animate-pulse"></div>
+                        <span className="font-bold text-red-700 text-[10px] sm:text-xs">LIVE NOW</span>
+                      </div>
+                      <span className="text-[10px] sm:text-xs text-red-800 flex-1 text-center">
+                        <strong>{s.people.mockFaculty[0]?.name || 'Instructor'}</strong> is presenting live &bull; 23 watching
                       </span>
+                      <span className="bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full font-medium">🔴 Join</span>
                     </div>
-                    <div className="bg-red-500 text-white text-xs px-3 py-1 rounded-full font-medium">
-                      🔴 Join
+                  </div>
+                  <div className="bg-white rounded-lg shadow-md p-3 border-4 border-maineBlue">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 text-center">
+                        <div className="text-2xl mb-1">📚</div>
+                        <h4 className="font-semibold text-gray-900 text-xs font-retro mb-1">Learning Progress</h4>
+                        <p className="text-[10px] text-gray-600 italic mb-1">Track your lessons</p>
+                        <span className="bg-maineBlue text-white px-3 py-1 rounded-md text-[10px] font-retro inline-block">View Details</span>
+                      </div>
+                      <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 text-center">
+                        <div className="text-2xl mb-1">⭐</div>
+                        <h4 className="font-semibold text-gray-900 text-xs font-retro mb-1">Skills Development</h4>
+                        <p className="text-[10px] text-gray-600 italic mb-1">Monitor your {s.content.metricLabel.toLowerCase()}</p>
+                        <span className="bg-maineBlue text-white px-3 py-1 rounded-md text-[10px] font-retro inline-block">View Details</span>
+                      </div>
+                      <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 text-center">
+                        <div className="text-2xl mb-1">🏆</div>
+                        <h4 className="font-semibold text-gray-900 text-xs font-retro mb-1">Achievements</h4>
+                        <p className="text-[10px] text-gray-600 italic mb-1">View badges &amp; milestones</p>
+                        <span className="bg-maineBlue text-white px-3 py-1 rounded-md text-[10px] font-retro inline-block">View Details</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3 flex justify-end">
+                    <div className="bg-white border-4 border-maineBlue rounded-lg shadow-lg p-2 max-w-[200px]">
+                      <p className="font-bold text-maineBlue text-[10px] font-retro mb-0.5">💬 {s.assistant.name}</p>
+                      <p className="text-[9px] text-gray-600 leading-tight line-clamp-2">{s.assistant.greeting.split('.')[0]}.</p>
                     </div>
                   </div>
                 </div>
+              )}
 
-                {/* Progress Cards - same 3-card layout as real dashboard */}
-                <div className="bg-white rounded-lg shadow-md p-4 border-4 border-maineBlue">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4 text-center">
-                      <div className="text-3xl mb-2">📚</div>
-                      <h4 className="font-semibold text-gray-900 text-sm font-retro mb-1">Learning Progress</h4>
-                      <p className="text-xs text-gray-600 italic mb-2">Track your lessons &amp; curriculum</p>
-                      <span className="bg-maineBlue text-white px-4 py-1.5 rounded-md text-xs font-retro inline-block">View Details</span>
+              {/* ===== TAB 2: WORKSPACE (mirrors MyKitchen) ===== */}
+              {previewTab === 'workspace' && (
+                <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col">
+                  <div className="flex items-center justify-center p-4 pb-3">
+                    <span className="text-4xl mr-2">{s.icon}</span>
+                    <h1 className="text-2xl font-retro text-maineBlue">{s.modules.workspace}</h1>
+                  </div>
+                  <hr className="border-t-2 border-maineBlue mx-4" />
+                  <div className="p-4 pt-3">
+                    <div className="mb-4 flex flex-col sm:flex-row gap-3 items-center justify-center">
+                      <span className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold text-sm border border-black">📷 Scan {s.modules.workspace}</span>
+                      <span className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold text-sm border border-black">🔍 Match {s.content.metricLabel}</span>
                     </div>
-                    <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 text-center">
-                      <div className="text-3xl mb-2">⭐</div>
-                      <h4 className="font-semibold text-gray-900 text-sm font-retro mb-1">Skills Development</h4>
-                      <p className="text-xs text-gray-600 italic mb-2">Monitor your {generatedSkinPreview.content.metricLabel.toLowerCase()}</p>
-                      <span className="bg-maineBlue text-white px-4 py-1.5 rounded-md text-xs font-retro inline-block">View Details</span>
+                    <div className="mb-2 flex items-center justify-between">
+                      <h3 className="text-sm font-retro text-maineBlue flex items-center gap-1">
+                        <span>⚓</span> Digital Inventory
+                      </h3>
+                      <span className="text-[10px] text-lobsterRed underline">Clear All</span>
                     </div>
-                    <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-4 text-center">
-                      <div className="text-3xl mb-2">🏆</div>
-                      <h4 className="font-semibold text-gray-900 text-sm font-retro mb-1">Achievements</h4>
-                      <p className="text-xs text-gray-600 italic mb-2">View badges &amp; milestones</p>
-                      <span className="bg-maineBlue text-white px-4 py-1.5 rounded-md text-xs font-retro inline-block">View Details</span>
+                    <div className="flex flex-col sm:flex-row gap-2 mb-3">
+                      <span className="border px-3 py-1.5 rounded text-xs text-gray-400 flex-1">Search inventory...</span>
+                      <span className="border px-3 py-1.5 rounded text-xs text-gray-400 flex-1">Add an item...</span>
+                      <span className="bg-seafoam text-maineBlue px-3 py-1.5 rounded font-bold text-xs border border-black">Add</span>
+                    </div>
+                    <div className="bg-gradient-to-br from-yellow-100 to-sand border-4 border-yellow-900 rounded-2xl shadow-lg p-3 relative overflow-hidden">
+                      <div className="flex flex-col gap-3">
+                        {[0, 1].map((shelfIdx) => (
+                          <div key={shelfIdx} className="flex justify-around items-end border-b-4 border-yellow-900 pb-2 last:border-b-0">
+                            {['Item A', 'Item B', 'Item C'].map((item, idx) => (
+                              <div key={idx} className="flex flex-col items-center mx-1">
+                                <div className="w-12 h-16 bg-weatheredWhite border-2 border-yellow-700 rounded-b-lg rounded-t-md shadow relative flex flex-col items-center justify-center">
+                                  <div className="w-9 h-2.5 bg-yellow-900 rounded-t-md absolute -top-2.5 left-1/2 -translate-x-1/2"></div>
+                                  <span className="text-[8px] text-yellow-900 bg-sand px-0.5 rounded-sm font-medium">Category</span>
+                                  <span className="text-[9px] font-semibold text-maineBlue text-center px-0.5">{item}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
+              )}
 
-                {/* AI Assistant Preview - mini widget in corner */}
-                <div className="mt-4 flex justify-end">
-                  <div className="bg-white border-4 border-maineBlue rounded-lg shadow-lg p-3 max-w-[220px]">
-                    <p className="font-bold text-maineBlue text-xs font-retro mb-1">💬 {generatedSkinPreview.assistant.name}</p>
-                    <p className="text-[10px] text-gray-600 leading-tight line-clamp-2">{generatedSkinPreview.assistant.greeting.split('.')[0]}.</p>
+              {/* ===== TAB 3: NOTEBOOK (mirrors MyCookBook) ===== */}
+              {previewTab === 'notebook' && (
+                <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col">
+                  <div className="flex items-center justify-center p-4 pb-3">
+                    <span className="text-4xl mr-2">📖</span>
+                    <h1 className="text-2xl font-retro text-maineBlue">{s.modules.notebook}</h1>
+                  </div>
+                  <hr className="border-t-2 border-maineBlue mx-4" />
+                  <div className="p-4 pt-3">
+                    <p className="text-center text-gray-600 italic text-sm mb-4">
+                      &ldquo;The only way to do great work is to love what you do.&rdquo; &mdash; Industry Leader
+                    </p>
+                    <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden min-h-[200px] mb-4">
+                      <div className="flex-1 p-4 bg-weatheredWhite border-r border-gray-200 flex flex-col">
+                        <div className="w-full h-20 bg-gray-200 rounded-lg mb-2 flex items-center justify-center text-gray-400 text-sm">Photo</div>
+                        <h3 className="font-bold text-sm text-maineBlue mb-1">Sample {s.content.metricLabel.replace(/s$/, '')}</h3>
+                        <div className="text-xs font-semibold mb-1">Items:</div>
+                        <ul className="list-disc list-inside text-[10px] text-gray-700">
+                          <li>Component Alpha</li>
+                          <li>Component Beta</li>
+                          <li>Component Gamma</li>
+                        </ul>
+                      </div>
+                      <div className="flex-1 p-4 bg-white flex flex-col">
+                        <h3 className="font-bold text-sm text-maineBlue mb-1">Instructions</h3>
+                        <p className="text-[10px] text-gray-700 leading-relaxed">Step-by-step instructions would appear here for the selected {s.content.metricLabel.toLowerCase().replace(/s$/, '')}.</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 text-center">
+                        <div className="text-2xl mb-1">📋</div>
+                        <h4 className="font-semibold text-xs font-retro">Gradebook</h4>
+                        <p className="text-[10px] text-gray-600 italic">Video submissions &amp; grades</p>
+                      </div>
+                      <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 text-center">
+                        <div className="text-2xl mb-1">📁</div>
+                        <h4 className="font-semibold text-xs font-retro">Collections</h4>
+                        <p className="text-[10px] text-gray-600 italic">Organize your {s.content.metricLabel.toLowerCase()}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
+
+              {/* ===== TAB 4: COMMUNITY (mirrors ChefsCorner) ===== */}
+              {previewTab === 'community' && (
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="lg:w-2/3 bg-white p-4 rounded-lg shadow-lg border-4 border-maineBlue">
+                    <div className="flex items-center justify-center mb-3">
+                      <span className="text-4xl mr-2">🤝</span>
+                      <h1 className="text-2xl font-retro text-maineBlue">{s.modules.community}</h1>
+                    </div>
+                    <hr className="border-t-2 border-maineBlue mb-4" />
+                    <div className="bg-sand p-3 rounded-lg border border-black mb-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-semibold text-gray-700">Showcase {s.content.metricLabel.replace(/s$/, '')}</span>
+                        <div className="flex gap-2">
+                          <span className="bg-seafoam text-maineBlue px-3 py-1 rounded font-bold text-[10px] border border-black">🍽️ Build Menu</span>
+                          <span className="bg-maineBlue text-seafoam px-3 py-1 rounded font-bold text-[10px] border border-gray-300">Import from {s.modules.notebook}</span>
+                        </div>
+                      </div>
+                      <div className="text-gray-400 italic text-center text-xs py-6">No {s.content.metricLabel.toLowerCase().replace(/s$/, '')} selected — import one to showcase</div>
+                    </div>
+                    <p className="text-center text-gray-600 italic text-[10px]">&ldquo;Skills can be taught. Character you either have or you don&rsquo;t have.&rdquo; &mdash; Industry Leader</p>
+                  </div>
+                  <div className="lg:w-1/3 space-y-4">
+                    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4">
+                      <div className="flex items-center mb-3">
+                        <span className="text-2xl mr-2">🧪</span>
+                        <h2 className="text-lg font-retro text-maineBlue">Global Test Lab</h2>
+                      </div>
+                      <hr className="border-t-2 border-maineBlue mb-3" />
+                      <div className="bg-red-50 border-4 border-red-400 rounded-lg p-2 mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                          <span className="text-[10px] text-red-800 font-bold">{s.people.mockFaculty[0]?.name || 'Instructor'} is live &bull; 23 watching</span>
+                        </div>
+                      </div>
+                      <span className="bg-lobsterRed text-white px-4 py-2 rounded font-bold text-xs border border-black block text-center">🎥 Go Live</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ===== TAB 5: SCHOOL (mirrors CulinarySchool) ===== */}
+              {previewTab === 'school' && (
+                <div className="flex flex-col lg:flex-row gap-4">
+                  <div className="lg:w-2/3 bg-white p-4 rounded-lg shadow-lg border-4 border-maineBlue">
+                    <div className="flex items-center justify-center mb-3">
+                      <span className="text-4xl mr-2">🎓</span>
+                      <h1 className="text-2xl font-retro text-maineBlue">{s.modules.school}</h1>
+                    </div>
+                    <hr className="border-t-2 border-maineBlue mb-4" />
+                    <div className="bg-yellow-50 border-4 border-yellow-400 rounded-lg p-3 mb-4">
+                      <h3 className="font-retro text-sm text-maineBlue mb-1">⏱️ Cooking Timer &amp; Servings</h3>
+                      <div className="flex items-center gap-3 text-xs">
+                        <span className="bg-white border rounded px-2 py-1">Servings: 2</span>
+                        <span className="bg-maineBlue text-white px-3 py-1 rounded font-bold">Start Timer</span>
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3">
+                        <h4 className="font-retro text-sm text-maineBlue mb-1">📺 Technique of the Week</h4>
+                        <div className="bg-black rounded-lg h-24 flex items-center justify-center">
+                          <span className="text-white text-xs">▶️ Video tutorial loads here</span>
+                        </div>
+                      </div>
+                      <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3">
+                        <h4 className="font-retro text-sm text-maineBlue mb-1">📺 Let&rsquo;s Do This!</h4>
+                        <div className="bg-black rounded-lg h-24 flex items-center justify-center">
+                          <span className="text-white text-xs">▶️ Step-by-step tutorial</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <span className="bg-maineBlue text-white px-4 py-2 rounded font-bold text-xs border border-black inline-block">🏋️ Bench Practice</span>
+                    </div>
+                  </div>
+                  <div className="lg:w-1/3">
+                    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4">
+                      <h2 className="text-lg font-retro text-maineBlue mb-3">📚 Syllabus</h2>
+                      <hr className="border-t-2 border-maineBlue mb-3" />
+                      <h3 className="font-bold text-sm text-maineBlue mb-2">{s.people.defaultProgram} Curriculum</h3>
+                      {['Term 1: Foundations', 'Term 1: Core Skills', 'Term 2: Applied Practice', 'Term 2: Specialization'].map((term, idx) => (
+                        <div key={idx} className="mb-2">
+                          <div className="font-semibold text-xs text-gray-800 mb-1">{term}</div>
+                          <div className="space-y-1">
+                            {['Lesson A', 'Lesson B', 'Lesson C'].map((lesson, li) => (
+                              <div key={li} className="flex items-center gap-1.5 text-[10px] text-gray-600">
+                                <span className={`w-3 h-3 rounded-full border-2 ${idx === 0 && li < 2 ? 'bg-green-500 border-green-600' : idx === 0 && li === 2 ? 'bg-maineBlue border-blue-700' : 'border-gray-300'}`}></span>
+                                {lesson}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ===== TAB 6: ADMIN DASHBOARD (mirrors UnifiedAdminDashboard) ===== */}
+              {previewTab === 'admin' && (
+                <div className="space-y-4">
+                  <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-3 py-2 grid grid-cols-3 items-center gap-2">
+                    <p className="text-maineBlue font-retro text-xs">Your School Name Here</p>
+                    <div className="flex items-center justify-center gap-1">
+                      <span className="font-retro text-[10px] text-maineBlue">Program:</span>
+                      <span className="border-2 border-maineBlue rounded px-2 py-1 font-retro text-[10px] bg-white text-maineBlue">{s.icon} {s.name}</span>
+                    </div>
+                    <p className="text-[10px] text-gray-600 italic text-right">Viewing: <span className="font-semibold text-maineBlue">{s.name}</span></p>
+                  </div>
+                  <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4">
+                    <div className="text-center mb-4">
+                      <h1 className="text-2xl font-retro text-maineBlue mb-1">Admin Dashboard</h1>
+                      <p className="text-gray-600 italic text-xs">Manage your {s.name.toLowerCase()} program</p>
+                    </div>
+                    <hr className="border-t-2 border-maineBlue mb-4" />
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                      <div className="flex flex-col items-center p-3 rounded-lg border-4 border-seafoam bg-teal-50 text-center min-h-[80px]">
+                        <div className="mb-1 text-2xl">🌡️</div>
+                        <h3 className="text-[10px] sm:text-xs font-bold font-retro">Overview</h3>
+                      </div>
+                      <div className="flex flex-col items-center p-3 rounded-lg border-4 border-blue-400 bg-blue-50 text-center min-h-[80px]">
+                        <div className="mb-1 text-2xl">🎓</div>
+                        <h3 className="text-[10px] sm:text-xs font-bold font-retro">Users</h3>
+                      </div>
+                      <div className="flex flex-col items-center p-3 rounded-lg border-4 border-red-400 bg-red-50 text-center min-h-[80px]">
+                        <div className="mb-1 text-2xl">📚</div>
+                        <h3 className="text-[10px] sm:text-xs font-bold font-retro">Curriculum</h3>
+                      </div>
+                      <div className="flex flex-col items-center p-3 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-center min-h-[80px]">
+                        <div className="mb-1 text-2xl">🏫</div>
+                        <h3 className="text-[10px] sm:text-xs font-bold font-retro">Settings</h3>
+                      </div>
+                    </div>
+                    <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 mb-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center mr-2">
+                          <div className="w-2.5 h-2.5 bg-orange-500 rounded-full mr-1.5 animate-pulse"></div>
+                          <span className="font-bold text-orange-700 text-[10px] sm:text-xs">🛡️ Integrity Alerts (3)</span>
+                        </div>
+                        <span className="text-[10px] text-orange-800 flex-1 text-center">Fast completion detected &bull; Flagged for review</span>
+                        <span className="bg-orange-500 text-white text-[10px] px-2 py-0.5 rounded-full font-medium">Review</span>
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-lg shadow-md p-3 border-4 border-maineBlue mb-4">
+                      <h3 className="font-retro text-sm text-maineBlue mb-2">Program Health</h3>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        {[
+                          { label: 'Total Users', value: '156', icon: '👥' },
+                          { label: 'Active Users', value: '89', icon: '✅' },
+                          { label: s.content.metricLabel, value: '342', icon: '📄' },
+                          { label: 'Total XP', value: '24,500', icon: '⭐' },
+                        ].map((stat, idx) => (
+                          <div key={idx} className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 text-center">
+                            <div className="text-xl mb-1">{stat.icon}</div>
+                            <div className="text-lg font-bold text-maineBlue">{stat.value}</div>
+                            <div className="text-[10px] text-gray-600">{stat.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="bg-white rounded-lg shadow-md p-3 border-4 border-maineBlue">
+                      <h3 className="font-retro text-sm text-maineBlue mb-2">Faculty</h3>
+                      <div className="space-y-2">
+                        {s.people.mockFaculty.map((f, idx) => (
+                          <div key={idx} className="bg-gray-50 rounded-lg p-2 border-4 border-gray-400 flex items-center gap-3">
+                            <div className={`w-8 h-8 rounded-full ${idx === 0 ? 'bg-blue-500' : 'bg-green-500'} flex items-center justify-center text-white text-xs font-bold`}>
+                              {f.name.split(' ').filter((_: string, i: number, a: string[]) => i === 0 || i === a.length - 1).map((w: string) => w[0]).join('')}
+                            </div>
+                            <div className="flex-1">
+                              <div className="font-medium text-xs text-gray-900">{f.name}</div>
+                              <div className="text-[10px] text-gray-500">{f.role} &bull; {f.courses}</div>
+                            </div>
+                            <span className="text-[10px] bg-green-100 text-green-800 px-2 py-0.5 rounded">Active</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
             </div>
 
             {/* Action Buttons */}
@@ -550,7 +837,8 @@ const DisciplineSelector: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+        );
+      })()}
     </div>
   );
 };
