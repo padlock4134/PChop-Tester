@@ -31,6 +31,7 @@ export interface AIGeneratedSkin {
     notebook: string;
     community: string;
     school: string;
+    practiceBench: string;
   };
   assistant: {
     name: string;
@@ -123,7 +124,8 @@ You must return ONLY valid JSON (no markdown, no explanations) with this exact s
     "workspace": "Name for hands-on practice area (like 'My Kitchen' for culinary)",
     "notebook": "Name for personal learning journal (like 'My Cookbook' for culinary)",
     "community": "Name for peer discussion area (like 'Chef's Corner' for culinary)",
-    "school": "Name for formal coursework area (like 'Culinary School' for culinary)"
+    "school": "Name for formal coursework area (like 'Culinary School' for culinary)",
+    "practiceBench": "Fun, creative name for the AR/VR hands-on practice simulator (like 'Charcuterie Board' for culinary, 'The Kitchen Sink' for plumbing, 'The Factory Floor' for manufacturing — should be a playful industry-specific metaphor)"
   },
   "assistant": {
     "name": "Friendly AI assistant name (like 'Chef Freddie' for culinary)",
