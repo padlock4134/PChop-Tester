@@ -203,9 +203,9 @@ const DisciplineSelector: React.FC = () => {
 
       {/* Add Discipline Modal */}
       {showAddDisciplineModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue max-w-lg w-full p-6">
-            <div className="flex justify-between items-center mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start sm:items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-2xl max-h-[92vh] flex flex-col p-4 sm:p-6">
+            <div className="flex justify-between items-center mb-4 shrink-0">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">Create New Discipline</h2>
               <button
                 onClick={resetCreateDisciplineState}
@@ -221,7 +221,7 @@ const DisciplineSelector: React.FC = () => {
               </div>
             )}
 
-            <form onSubmit={async (e) => {
+            <form className="overflow-y-auto pr-1" onSubmit={async (e) => {
               e.preventDefault();
               if (generatedSkinPreview) {
                 return;
@@ -335,11 +335,11 @@ const DisciplineSelector: React.FC = () => {
                 </div>
               )}
 
-              <div className="flex gap-3">
+              <div className={`grid gap-3 ${generatedSkinPreview ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2'}`}>
                 <button
                   type="button"
                   onClick={resetCreateDisciplineState}
-                  className="flex-1 bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+                  className="bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
                   disabled={isGenerating || isSavingDiscipline}
                 >
                   Cancel
@@ -353,7 +353,7 @@ const DisciplineSelector: React.FC = () => {
                       setGenerationError(null);
                     }}
                     disabled={isSavingDiscipline}
-                    className="flex-1 bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-gray-100 transition-colors"
+                    className="bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-gray-100 transition-colors"
                   >
                     Regenerate
                   </button>
@@ -396,7 +396,7 @@ const DisciplineSelector: React.FC = () => {
                         }
                       }}
                       disabled={isSavingDiscipline || !approvalChecked}
-                      className="flex-1 bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSavingDiscipline ? 'Saving...' : 'Approve & Save Draft'}
                     </button>
@@ -436,7 +436,7 @@ const DisciplineSelector: React.FC = () => {
                         }
                       }}
                       disabled={isSavingDiscipline || !approvalChecked}
-                      className="flex-1 bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSavingDiscipline ? 'Saving...' : 'Approve & Publish'}
                     </button>
@@ -445,7 +445,7 @@ const DisciplineSelector: React.FC = () => {
                   <button
                     type="submit"
                     disabled={!disciplineName.trim() || isGenerating}
-                    className="flex-1 bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isGenerating ? (
                       <span className="flex items-center justify-center">
