@@ -879,7 +879,7 @@ const DisciplineSelector: React.FC = () => {
                       </div>
                       {/* Practice Board Button */}
                       <div className="px-4 pt-4">
-                        <span className="w-full px-4 py-2 rounded border transition-colors bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200 hover:text-amber-900 block text-center cursor-pointer">🧀 AR/VR Practice Board</span>
+                        <span className="w-full px-4 py-2 rounded border transition-colors bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200 hover:text-amber-900 block text-center cursor-pointer">🥽 Interactive Practice Simulator</span>
                       </div>
                       <div className="p-4">
                         {[
