@@ -569,18 +569,18 @@ const DisciplineSelector: React.FC = () => {
                   <hr className="border-t-2 border-maineBlue mx-4" />
                   <div className="p-4 pt-3">
                     <div className="mb-4 flex flex-col sm:flex-row gap-3 items-center justify-center">
-                      <span className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold text-sm border border-black">📷 Scan {s.modules.workspace}</span>
-                      <span className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold text-sm border border-black">🔍 Match {s.content.metricLabel}</span>
+                      <span className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold text-sm border border-black">📷 Upload to {s.modules.workspace}</span>
+                      <span className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold text-sm border border-black">🔍 Browse {s.content.metricLabel}</span>
                     </div>
                     <div className="mb-2 flex items-center justify-between">
                       <h3 className="text-sm font-retro text-maineBlue flex items-center gap-1">
-                        <span>⚓</span> Digital Inventory
+                        <span>📌</span> Project Board
                       </h3>
                       <span className="text-[10px] text-lobsterRed underline">Clear All</span>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 mb-3">
-                      <span className="border px-3 py-1.5 rounded text-xs text-gray-400 flex-1">Search inventory...</span>
-                      <span className="border px-3 py-1.5 rounded text-xs text-gray-400 flex-1">Add an item...</span>
+                      <span className="border px-3 py-1.5 rounded text-xs text-gray-400 flex-1">Search projects...</span>
+                      <span className="border px-3 py-1.5 rounded text-xs text-gray-400 flex-1">Add a {s.content.metricLabel.toLowerCase().replace(/s$/, '')}...</span>
                       <span className="bg-seafoam text-maineBlue px-3 py-1.5 rounded font-bold text-xs border border-black">Add</span>
                     </div>
                     <div className="bg-gradient-to-br from-yellow-100 to-sand border-4 border-yellow-900 rounded-2xl shadow-lg p-3 relative overflow-hidden">
@@ -661,7 +661,7 @@ const DisciplineSelector: React.FC = () => {
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs font-semibold text-gray-700">Showcase {s.content.metricLabel.replace(/s$/, '')}</span>
                         <div className="flex gap-2">
-                          <span className="bg-seafoam text-maineBlue px-3 py-1 rounded font-bold text-[10px] border border-black">🍽️ Build Menu</span>
+                          <span className="bg-seafoam text-maineBlue px-3 py-1 rounded font-bold text-[10px] border border-black">📋 Build Showcase</span>
                           <span className="bg-maineBlue text-seafoam px-3 py-1 rounded font-bold text-[10px] border border-gray-300">Import from {s.modules.notebook}</span>
                         </div>
                       </div>
@@ -698,28 +698,28 @@ const DisciplineSelector: React.FC = () => {
                     </div>
                     <hr className="border-t-2 border-maineBlue mb-4" />
                     <div className="bg-yellow-50 border-4 border-yellow-400 rounded-lg p-3 mb-4">
-                      <h3 className="font-retro text-sm text-maineBlue mb-1">⏱️ Cooking Timer &amp; Servings</h3>
+                      <h3 className="font-retro text-sm text-maineBlue mb-1">⏱️ Practice Timer &amp; Settings</h3>
                       <div className="flex items-center gap-3 text-xs">
-                        <span className="bg-white border rounded px-2 py-1">Servings: 2</span>
+                        <span className="bg-white border rounded px-2 py-1">Duration: 30m</span>
                         <span className="bg-maineBlue text-white px-3 py-1 rounded font-bold">Start Timer</span>
                       </div>
                     </div>
                     <div className="space-y-3">
                       <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3">
-                        <h4 className="font-retro text-sm text-maineBlue mb-1">📺 Technique of the Week</h4>
+                        <h4 className="font-retro text-sm text-maineBlue mb-1">📺 Skill of the Week</h4>
                         <div className="bg-black rounded-lg h-24 flex items-center justify-center">
                           <span className="text-white text-xs">▶️ Video tutorial loads here</span>
                         </div>
                       </div>
                       <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3">
-                        <h4 className="font-retro text-sm text-maineBlue mb-1">📺 Let&rsquo;s Do This!</h4>
+                        <h4 className="font-retro text-sm text-maineBlue mb-1">📺 Guided Practice</h4>
                         <div className="bg-black rounded-lg h-24 flex items-center justify-center">
                           <span className="text-white text-xs">▶️ Step-by-step tutorial</span>
                         </div>
                       </div>
                     </div>
                     <div className="mt-4">
-                      <span className="bg-maineBlue text-white px-4 py-2 rounded font-bold text-xs border border-black inline-block">🏋️ Bench Practice</span>
+                      <span className="bg-maineBlue text-white px-4 py-2 rounded font-bold text-xs border border-black inline-block">🏋️ Hands-On Practice</span>
                     </div>
                   </div>
                   <div className="lg:w-1/3">
