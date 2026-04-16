@@ -594,19 +594,12 @@ const DisciplineSelector: React.FC = () => {
                       </select>
                       <span className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black text-center">Add</span>
                     </div>
-                    <div className="bg-gradient-to-br from-yellow-100 to-sand border-4 border-yellow-900 rounded-2xl shadow-lg p-4 relative overflow-hidden">
-                      <div className="flex flex-col gap-4 relative z-10">
-                        {[0, 1].map((shelfIdx) => (
-                          <div key={shelfIdx} className="flex justify-around items-end border-b-4 border-yellow-900 pb-3 last:border-b-0">
-                            {['Item A', 'Item B', 'Item C'].map((item, idx) => (
-                              <div key={idx} className="flex flex-col items-center mx-2">
-                                <div className="w-16 h-20 bg-weatheredWhite border-2 border-yellow-700 rounded-b-lg rounded-t-md shadow relative flex flex-col items-center justify-center">
-                                  <div className="w-12 h-3 bg-yellow-900 rounded-t-md absolute -top-3 left-1/2 -translate-x-1/2"></div>
-                                  <span className="text-[10px] text-yellow-900 bg-sand px-1 rounded-sm font-medium mb-1">Category</span>
-                                  <span className="text-xs font-semibold text-maineBlue break-words text-center px-1">{item}</span>
-                                </div>
-                              </div>
-                            ))}
+                    <div className="bg-gradient-to-br from-blue-50 to-sand border-4 border-maineBlue rounded-2xl shadow-lg p-4 relative overflow-hidden">
+                      <div className="grid grid-cols-3 gap-3 relative z-10">
+                        {['Item A', 'Item B', 'Item C', 'Item D', 'Item E', 'Item F'].map((item, idx) => (
+                          <div key={idx} className="bg-white border-2 border-maineBlue rounded-lg shadow-sm p-3 flex flex-col items-center justify-center text-center hover:shadow-md transition-shadow">
+                            <span className="text-[10px] text-gray-500 bg-sand px-1.5 rounded-sm font-medium mb-1">Category</span>
+                            <span className="text-xs font-semibold text-maineBlue break-words px-1">{item}</span>
                           </div>
                         ))}
                       </div>
@@ -656,7 +649,7 @@ const DisciplineSelector: React.FC = () => {
                           <div className="flex-1 flex flex-col justify-center w-full px-2">
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
                               <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
-                                <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 Items</h4>
+                                <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">📋 Items</h4>
                                 <ul className="list-disc pl-4 max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                                   <li>Component Alpha</li>
                                   <li>Component Beta</li>
@@ -664,14 +657,14 @@ const DisciplineSelector: React.FC = () => {
                                 </ul>
                               </div>
                               <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
-                                <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🔪 Equipment</h4>
+                                <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">�️ Equipment</h4>
                                 <ul className="list-disc pl-4 max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
                                   <li>Tool A</li>
                                   <li>Tool B</li>
                                 </ul>
                               </div>
                               <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
-                                <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 Tags</h4>
+                                <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🏷️ Tags</h4>
                                 <div className="flex flex-wrap gap-1.5 justify-center max-h-[100px] overflow-y-auto">
                                   <span className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">Healthy</span>
                                   <span className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">Quick</span>
@@ -731,7 +724,6 @@ const DisciplineSelector: React.FC = () => {
                       </div>
                       <div className="p-4 border-t border-gray-200">
                         <span className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue block text-center font-bold">Create Collection (0)</span>
-                        <span className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 block text-center font-bold">📊 View Gradebook</span>
                       </div>
                     </div>
                   </div>
@@ -753,7 +745,7 @@ const DisciplineSelector: React.FC = () => {
                           <div className="flex items-center justify-between mb-3">
                             <label className="text-sm font-semibold text-gray-700">Showcase {s.content.metricLabel.replace(/s$/, '')}</label>
                             <div className="flex gap-2">
-                              <span className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black cursor-pointer">🍽️ Build Showcase</span>
+                              <span className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black cursor-pointer">📋 Build Showcase</span>
                               <span className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300 cursor-pointer">Import from {s.modules.notebook}</span>
                             </div>
                           </div>
