@@ -788,14 +788,14 @@ const DisciplineSelector: React.FC = () => {
                     </div>
                     <hr className="border-t-2 border-maineBlue mb-6" />
                     <div className="w-full mx-auto">
-                      {/* CookingTimer - Serving Size Section */}
+                      {/* Practice Settings Section (mirrors CookingTimer layout) */}
                       <div className="space-y-4">
                         <div className="bg-sand p-4 rounded-lg border border-black">
                           <div className="flex items-center justify-between mb-3">
-                            <label className="text-sm font-semibold text-gray-700">Servings:</label>
+                            <label className="text-sm font-semibold text-gray-700">Study Group Size:</label>
                             <div className="flex items-center space-x-2">
                               <input type="number" min="1" max="8" defaultValue={2} className="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold" readOnly />
-                              <span className="text-sm text-gray-600">servings</span>
+                              <span className="text-sm text-gray-600">participants</span>
                             </div>
                           </div>
                           <div className="flex items-center space-x-1 mb-2">
@@ -803,14 +803,14 @@ const DisciplineSelector: React.FC = () => {
                               <div key={i} className={`w-6 h-6 rounded-full flex items-center justify-center text-xs ${i < 2 ? 'bg-maineBlue text-seafoam' : 'bg-gray-200 text-gray-400'}`}>👤</div>
                             ))}
                           </div>
-                          <div className="text-xs text-gray-500">*1 serving = ~400-600 calories or 1 cup portions</div>
-                          <div className="text-xs text-gray-400 mt-1">Recommended nutritional values and numbers provided by the USDA</div>
+                          <div className="text-xs text-gray-500">*Practice settings adjust based on group size</div>
+                          <div className="text-xs text-gray-400 mt-1">Recommended by {s.people.defaultProgram} standards</div>
                         </div>
-                        {/* CookingTimer - Preset Timers */}
+                        {/* Preset Practice Timers */}
                         <div className="bg-sand p-4 rounded-lg border border-black">
-                          <h4 className="text-sm font-semibold mb-2 text-gray-700">Practice Timers:</h4>
+                          <h4 className="text-sm font-semibold mb-2 text-gray-700">{s.name} Practice Timers:</h4>
                           <div className="flex flex-wrap gap-2">
-                            {['Drill A (8m)', 'Drill B (18m)', 'Practice C (6m)', 'Practice D (12m)', 'Exercise E (4m)'].map((preset, index) => (
+                            {[`${s.name} Basics (8m)`, `Core Skills (18m)`, `Quick Review (6m)`, `Deep Practice (12m)`, `Assessment (4m)`].map((preset, index) => (
                               <span key={index} className="px-3 py-1 bg-seafoam text-maineBlue rounded-full text-xs font-medium hover:bg-maineBlue hover:text-seafoam transition-colors cursor-pointer">{preset}</span>
                             ))}
                           </div>
@@ -819,12 +819,12 @@ const DisciplineSelector: React.FC = () => {
                       {/* Tutorial Cards */}
                       <div className="space-y-4 mt-8">
                         <div className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors">
-                          <div className="font-bold mb-1">📺 Skill of the Week</div>
-                          <div className="text-sm text-gray-700">Watch this week's featured technique tutorial</div>
+                          <div className="font-bold mb-1">📺 {s.name} Technique of the Week</div>
+                          <div className="text-sm text-gray-700">Watch this week's featured {s.name.toLowerCase()} tutorial</div>
                         </div>
                         <div className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors">
-                          <div className="font-bold mb-1">📺 Guided Practice</div>
-                          <div className="text-sm text-gray-700">Follow along with step-by-step instruction</div>
+                          <div className="font-bold mb-1">📺 {s.name} Guided Practice</div>
+                          <div className="text-sm text-gray-700">Follow along with step-by-step {s.name.toLowerCase()} instruction</div>
                         </div>
                       </div>
                       {/* Navigation Links */}
