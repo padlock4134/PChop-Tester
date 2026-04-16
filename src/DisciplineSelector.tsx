@@ -554,6 +554,82 @@ const DisciplineSelector: React.FC = () => {
           </div>
         </div>
       )}
+
+      {showStudentPreviewModal && generatedSkinPreview && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-start sm:items-center justify-center z-[60] p-2 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-3xl max-h-[92vh] flex flex-col p-4 sm:p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl sm:text-2xl font-retro text-maineBlue">Student Experience Preview</h3>
+              <button
+                onClick={() => setShowStudentPreviewModal(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+                aria-label="Close preview"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="overflow-y-auto space-y-4 pr-1">
+              <div className="border-2 border-maineBlue rounded-lg p-4 bg-sand">
+                <p className="text-sm text-gray-600 mb-2">Student Dashboard Header</p>
+                <h4 className="text-2xl font-bold text-maineBlue">{generatedSkinPreview.icon} {generatedSkinPreview.name}</h4>
+                <p className="text-sm text-gray-700 mt-2">{generatedSkinPreview.assistant.greeting}</p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="border rounded-lg p-3 bg-white">
+                  <p className="text-xs text-gray-500">Primary Module</p>
+                  <p className="font-bold">{generatedSkinPreview.modules.workspace}</p>
+                </div>
+                <div className="border rounded-lg p-3 bg-white">
+                  <p className="text-xs text-gray-500">Journal Module</p>
+                  <p className="font-bold">{generatedSkinPreview.modules.notebook}</p>
+                </div>
+                <div className="border rounded-lg p-3 bg-white">
+                  <p className="text-xs text-gray-500">Community Module</p>
+                  <p className="font-bold">{generatedSkinPreview.modules.community}</p>
+                </div>
+                <div className="border rounded-lg p-3 bg-white">
+                  <p className="text-xs text-gray-500">School Module</p>
+                  <p className="font-bold">{generatedSkinPreview.modules.school}</p>
+                </div>
+              </div>
+
+              <div className="border-2 border-seafoam rounded-lg p-4 bg-green-50">
+                <h5 className="font-bold text-maineBlue mb-2">Sample Student Modal Pages</h5>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                  <div className="border rounded bg-white p-3">
+                    <p className="font-semibold mb-1">Assignment Modal</p>
+                    <p>Create a new {generatedSkinPreview.content.metricLabel.toLowerCase()} in {generatedSkinPreview.modules.workspace}.</p>
+                  </div>
+                  <div className="border rounded bg-white p-3">
+                    <p className="font-semibold mb-1">Approval Modal</p>
+                    <p>Submit for {generatedSkinPreview.content.approvalLabel} and track feedback.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+              <button
+                type="button"
+                onClick={() => setShowStudentPreviewModal(false)}
+                className="bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-gray-100 transition-colors"
+              >
+                Back to Edit
+              </button>
+              <button
+                type="button"
+                onClick={publishGeneratedDiscipline}
+                disabled={isSavingDiscipline}
+                className="bg-maineBlue text-white font-bold py-2 px-4 rounded-lg hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-maineBlue disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSavingDiscipline ? 'Publishing...' : 'Publish Live'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
