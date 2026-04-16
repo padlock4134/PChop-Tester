@@ -741,6 +741,22 @@ const DisciplineSelector: React.FC = () => {
                         </div>
                       ))}
                     </div>
+                    <div className="bg-amber-50 rounded-lg border-4 border-amber-400 p-3 mt-4">
+                      <div className="text-center mb-2">
+                        <span className="text-2xl">🧀</span>
+                        <h3 className="font-retro text-sm text-amber-800">AR/VR Practice Board</h3>
+                      </div>
+                      <div className="bg-amber-100 rounded-lg h-16 flex items-center justify-center mb-2 border-2 border-amber-300">
+                        <div className="text-center">
+                          <div className="text-xl">👨‍🏫</div>
+                          <p className="text-[9px] text-amber-800 font-bold">AI-Guided Practice</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <span className="flex-1 bg-amber-600 text-amber-50 px-2 py-1 rounded font-bold text-[10px] border border-amber-900 text-center">📚 Virtual Practice</span>
+                        <span className="flex-1 bg-white text-amber-800 px-2 py-1 rounded font-bold text-[10px] border-2 border-amber-400 text-center">🥽 AR/VR Mode</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
