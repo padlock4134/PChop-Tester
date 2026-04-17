@@ -5,21 +5,20 @@ import { isSessionValid } from './userSession';
 import { fetchNutritionData, getKeyNutrients } from './nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
-// Define equipment available for each kitchen setup
+// Define equipment available for each workspace setup
 const KITCHEN_EQUIPMENT = {
-  'Dorm Life': ['microwave', 'kettle', 'toaster', 'mini-fridge'],
-  'Minimalist': ['pot', 'pan', 'knife', 'cutting board', 'stove'],
-  'Apartment Kitchen': ['oven', 'stove', 'basic utensils', 'baking sheets'],
-  'Outdoor Grilling': ['grill', 'tongs', 'grill brush', 'meat thermometer'],
-  'Home Chef': ['blender', 'food processor', 'mixer', 'knives', 'oven', 'stove'],
-  'Full Chef\'s Kitchen': ['all equipment']
+  'Student Toolkit': ['pipe wrench', 'pliers', 'tape measure', 'hacksaw'],
+  'Apprentice Van': ['pipe wrench', 'tubing cutter', 'torch', 'level', 'pliers'],
+  'Home Workshop': ['pipe wrench', 'drill', 'tubing cutter', 'level', 'hacksaw', 'torch'],
+  'Field Service Van': ['pipe wrench', 'camera', 'auger', 'pressure gauge', 'torch', 'threader'],
+  'Full Shop': ['all equipment']
 } as const;
 
-// Define equipment associated with each talent tree
+// Define equipment associated with each specialization track
 const TALENT_TREE_EQUIPMENT = {
-  'Cast Iron Champion': ['cast iron', 'dutch oven', 'skillet'],
-  'Grilling Heavy Weight': ['grill', 'smoker', 'charcoal', 'gas grill'],
-  'Baking Warlock': ['stand mixer', 'baking sheet', 'pastry brush', 'rolling pin']
+  'Copper & Solder Pro': ['torch', 'flux', 'solder', 'tubing cutter', 'deburring tool'],
+  'Drain & Sewer Specialist': ['auger', 'camera', 'jetter', 'closet auger', 'snake'],
+  'Gas Fitting Expert': ['manometer', 'leak detector', 'pipe wrench', 'thread sealant', 'pressure gauge']
 } as const;
 
 type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
@@ -29,7 +28,7 @@ const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
 const RECIPE_PROMPTS = {
-  new_to_cooking: (numRecipes: number, ingredients: string[]) => 
+  new_to_trade: (numRecipes: number, ingredients: string[]) => 
     `You are a patient trade instructor. Create ${numRecipes} simple beginner projects using available materials/components from: ${ingredients.join(", ")}. 
     RULES:
     1. Use only 2-3 required materials/components per project
@@ -39,7 +38,7 @@ const RECIPE_PROMPTS = {
     5. Include necessary tools/equipment for each project
     6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
 
-  home_cook: (numRecipes: number, ingredients: string[]) => 
+  apprentice: (numRecipes: number, ingredients: string[]) => 
     `You are a helpful trade coach. Create ${numRecipes} intermediate projects for someone comfortable with fundamentals using materials/components from: ${ingredients.join(", ")}.
     RULES:
     1. Use 3-4 required materials/components per project
@@ -49,7 +48,7 @@ const RECIPE_PROMPTS = {
     5. Include necessary tools/equipment for each project
     6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
 
-  kitchen_confident: (numRecipes: number, ingredients: string[]) => 
+  journeyman: (numRecipes: number, ingredients: string[]) => 
     `You are an expert trade mentor. Create ${numRecipes} advanced projects for an experienced learner using materials/components from: ${ingredients.join(", ")}.
     RULES:
     1. Use 4+ required materials/components per project

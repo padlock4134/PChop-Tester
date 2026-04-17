@@ -110,7 +110,7 @@ function getCurrentWeeklyChallenge(weekNumber: number, t: (key: string, options?
 const ChallengeOfTheWeek: React.FC = () => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'plumbing';
   const ct = (key: string, options?: any) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`, options), ...options });
   const [open, setOpen] = useState(false);
   const [recipeModalOpen, setRecipeModalOpen] = useState(false);

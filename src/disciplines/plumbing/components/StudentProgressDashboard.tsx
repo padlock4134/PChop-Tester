@@ -6,7 +6,7 @@ import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon
 const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'plumbing';
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
@@ -75,8 +75,8 @@ const StudentProgressDashboard: React.FC = () => {
       timeSpent: t('dashboard.plumbingTimeSpentValue')
     },
     skills: {
-      recipesAttempted: 8,
-      recipesCompleted: 6,
+      fitsAttempted: 8,
+      fitsCompleted: 6,
       currentLevel: t('dashboard.plumbingCurrentLevelValue'),
       nextMilestone: t('dashboard.plumbingNextMilestoneValue')
     },
@@ -84,7 +84,7 @@ const StudentProgressDashboard: React.FC = () => {
       appUsage: "5 days this week",
       liveSessionsAttended: 3,
       communityPosts: 7,
-      recipesSaved: 15
+      fitsSaved: 15
     },
     insights: {
       strongestArea: t('dashboard.plumbingStrongestAreaValue'),
@@ -453,8 +453,8 @@ const StudentProgressDashboard: React.FC = () => {
                 <p className="text-center text-green-800 font-medium mt-2">{t('dashboard.currentSkillLevel')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
-                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.recipesCompleted')}</h3>
-                <p className="text-gray-700">{progressData.skills.recipesCompleted} {t('dashboard.outOf')} {progressData.skills.recipesAttempted} {t('dashboard.attempted')}</p>
+                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.fitsCompleted', { defaultValue: 'Fits Completed' })}</h3>
+                <p className="text-gray-700">{progressData.skills.fitsCompleted} {t('dashboard.outOf')} {progressData.skills.fitsAttempted} {t('dashboard.attempted')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.nextMilestone')}</h3>

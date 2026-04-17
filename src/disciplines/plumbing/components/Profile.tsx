@@ -23,11 +23,11 @@ type UserProfile = {
 
 // Level titles and icons
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Novice Cook", icon: "🥄", level: 1 },
-  { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
-  { title: "Home Chef", icon: "🍳", level: 3 },
-  { title: "Trade Expert", icon: "🧠", level: 4 },
-  { title: "Master Chef", icon: "🏆", level: 5 }
+  { title: "Tool Runner", icon: "🧹", level: 1 },
+  { title: "Pipe Cutter", icon: "🔧", level: 2 },
+  { title: "Apprentice Plumber", icon: "🔩", level: 3 },
+  { title: "Journeyman Plumber", icon: "🛠️", level: 4 },
+  { title: "Master Plumber", icon: "🏆", level: 5 }
 ];
 
 // WoW Classic XP table
@@ -38,17 +38,17 @@ const WOW_CLASSIC_XP_TABLE = [
 
 // Experience level mapping between UI labels and backend values
 const EXPERIENCE_LEVEL_MAPPING = {
-  'Beginner': 'new_to_cooking',
-  'Intermediate': 'home_cook', 
-  'Advanced': 'kitchen_confident',
-  'Professional': 'kitchen_confident' // Both Advanced and Professional map to kitchen_confident
+  'Beginner': 'new_to_trade',
+  'Intermediate': 'apprentice', 
+  'Advanced': 'journeyman',
+  'Professional': 'journeyman' // Both Advanced and Professional map to journeyman
 } as const;
 
 // Reverse mapping for displaying in UI
 const EXPERIENCE_LEVEL_DISPLAY = {
-  'new_to_cooking': 'Beginner',
-  'home_cook': 'Intermediate',
-  'kitchen_confident': 'Advanced'
+  'new_to_trade': 'Beginner',
+  'apprentice': 'Intermediate',
+  'journeyman': 'Advanced'
 } as const;
 
 // Modal components
@@ -174,13 +174,13 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
-              <option value="Automotive">🚗 {t('profile.manufacturingFocusOptions.automotive', { defaultValue: 'Automotive' })}</option>
-              <option value="Electronics">🔌 {t('profile.manufacturingFocusOptions.electronics', { defaultValue: 'Electronics' })}</option>
-              <option value="Medical Devices">🏥 {t('profile.manufacturingFocusOptions.medicalDevices', { defaultValue: 'Medical Devices' })}</option>
-              <option value="Precision Machining">⚙️ {t('profile.manufacturingFocusOptions.precisionMachining', { defaultValue: 'Precision Machining' })}</option>
-              <option value="Plastics">🧪 {t('profile.manufacturingFocusOptions.plastics', { defaultValue: 'Plastics' })}</option>
-              <option value="Metal Fabrication">🔧 {t('profile.manufacturingFocusOptions.metalFabrication', { defaultValue: 'Metal Fabrication' })}</option>
+              <option value="Residential">🏠 {t('profile.plumbingFocusOptions.residential', { defaultValue: 'Residential' })}</option>
+              <option value="Commercial">🏢 {t('profile.plumbingFocusOptions.commercial', { defaultValue: 'Commercial' })}</option>
+              <option value="Gas Fitting">🔥 {t('profile.plumbingFocusOptions.gasFitting', { defaultValue: 'Gas Fitting' })}</option>
+              <option value="Hydronics">♨️ {t('profile.plumbingFocusOptions.hydronics', { defaultValue: 'Hydronics' })}</option>
+              <option value="Drain & Sewer">🚰 {t('profile.plumbingFocusOptions.drainSewer', { defaultValue: 'Drain & Sewer' })}</option>
+              <option value="Backflow Prevention">♻️ {t('profile.plumbingFocusOptions.backflow', { defaultValue: 'Backflow Prevention' })}</option>
+              <option value="Service & Repair">🔧 {t('profile.plumbingFocusOptions.serviceRepair', { defaultValue: 'Service & Repair' })}</option>
             </select>
           </div>
           {/* Certification Preference */}
@@ -193,11 +193,11 @@ const EditProfileModal = ({
             >
               <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
               <option value="OSHA-10">🦺 {t('profile.certificationOptions.osha10', { defaultValue: 'OSHA-10' })}</option>
-              <option value="Six Sigma Green Belt">📊 {t('profile.certificationOptions.sixSigmaGreenBelt', { defaultValue: 'Six Sigma Green Belt' })}</option>
-              <option value="Lean Manufacturing">⚡ {t('profile.certificationOptions.leanManufacturing', { defaultValue: 'Lean Manufacturing' })}</option>
-              <option value="ISO 9001">✅ {t('profile.certificationOptions.iso9001', { defaultValue: 'ISO 9001' })}</option>
-              <option value="CNC Programming">💻 {t('profile.certificationOptions.cncProgramming', { defaultValue: 'CNC Programming' })}</option>
-              <option value="Quality Inspector">🔍 {t('profile.certificationOptions.qualityInspector', { defaultValue: 'Quality Inspector' })}</option>
+              <option value="Journeyman License">🔧 {t('profile.certificationOptions.journeyman', { defaultValue: 'Journeyman License' })}</option>
+              <option value="Master Plumber License">🏅 {t('profile.certificationOptions.masterPlumber', { defaultValue: 'Master Plumber License' })}</option>
+              <option value="Backflow Certification">♻️ {t('profile.certificationOptions.backflow', { defaultValue: 'Backflow Certification' })}</option>
+              <option value="Gas Fitter Certification">🔥 {t('profile.certificationOptions.gasFitter', { defaultValue: 'Gas Fitter Certification' })}</option>
+              <option value="Medical Gas Installer">🏥 {t('profile.certificationOptions.medicalGas', { defaultValue: 'Medical Gas Installer' })}</option>
             </select>
           </div>
 
@@ -209,11 +209,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Kitchen">🏠 {t('profile.workspaceOptions.apartment', { defaultValue: 'Apartment Workspace' })}</option>
-              <option value="Full Kitchen">🏡 {t('profile.workspaceOptions.full', { defaultValue: 'Full Workspace' })}</option>
-              <option value="Minimal Setup">📦 {t('profile.workspaceOptions.minimal', { defaultValue: 'Minimal Setup' })}</option>
-              <option value="Outdoor Kitchen">🔥 {t('profile.workspaceOptions.field', { defaultValue: 'Field Workspace' })}</option>
-              <option value="Professional Kitchen">🏭 {t('profile.workspaceOptions.professional', { defaultValue: 'Professional Workspace' })}</option>
+              <option value="Student Toolkit">🧰 {t('profile.workspaceOptions.studentToolkit', { defaultValue: 'Student Toolkit' })}</option>
+              <option value="Apprentice Van">🚐 {t('profile.workspaceOptions.apprenticeVan', { defaultValue: 'Apprentice Van' })}</option>
+              <option value="Home Workshop">🏠 {t('profile.workspaceOptions.homeWorkshop', { defaultValue: 'Home Workshop' })}</option>
+              <option value="Field Service Van">🔧 {t('profile.workspaceOptions.fieldServiceVan', { defaultValue: 'Field Service Van' })}</option>
+              <option value="Full Shop">🏭 {t('profile.workspaceOptions.fullShop', { defaultValue: 'Full Shop' })}</option>
             </select>
           </div>
 
@@ -228,7 +228,7 @@ const EditProfileModal = ({
               <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
               <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
               <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
-              <option value="Professional">👨‍🍳 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
+              <option value="Professional">👷 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -659,20 +659,20 @@ const Profile = () => {
     ],
     departments: [
       { value: 'all', label: t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' }) },
-      { value: 'precision_machining', label: t('profile.filterOptions.departments.precisionMachining', { defaultValue: 'Precision Machining' }) },
-      { value: 'welding_fabrication', label: t('profile.filterOptions.departments.weldingFabrication', { defaultValue: 'Welding & Fabrication' }) },
-      { value: 'industrial_automation', label: t('profile.filterOptions.departments.industrialAutomation', { defaultValue: 'Industrial Automation' }) },
-      { value: 'quality_control', label: t('profile.filterOptions.departments.qualityControl', { defaultValue: 'Quality Control' }) },
-      { value: 'assembly_production', label: t('profile.filterOptions.departments.assemblyProduction', { defaultValue: 'Assembly & Production' }) }
+      { value: 'residential_plumbing', label: t('profile.filterOptions.departments.residentialPlumbing', { defaultValue: 'Residential Plumbing' }) },
+      { value: 'commercial_plumbing', label: t('profile.filterOptions.departments.commercialPlumbing', { defaultValue: 'Commercial Plumbing' }) },
+      { value: 'gas_fitting', label: t('profile.filterOptions.departments.gasFitting', { defaultValue: 'Gas Fitting' }) },
+      { value: 'hydronics', label: t('profile.filterOptions.departments.hydronics', { defaultValue: 'Hydronics & Heating' }) },
+      { value: 'drain_sewer', label: t('profile.filterOptions.departments.drainSewer', { defaultValue: 'Drain & Sewer' }) }
     ],
     classes: [
       { value: 'all', label: t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' }) },
-      { value: 'fundamentals_engineering', label: t('profile.filterOptions.classes.fundamentalsEngineering', { defaultValue: 'Fundamentals of Engineering' }) },
-      { value: 'advanced_engineering_techniques', label: t('profile.filterOptions.classes.advancedEngineeringTechniques', { defaultValue: 'Advanced Engineering Techniques' }) },
-      { value: 'cnc_programming', label: t('profile.filterOptions.classes.cncProgramming', { defaultValue: 'CNC Programming' }) },
-      { value: 'process_optimization', label: t('profile.filterOptions.classes.processOptimization', { defaultValue: 'Process Optimization' }) },
-      { value: 'quality_assurance', label: t('profile.filterOptions.classes.qualityAssurance', { defaultValue: 'Quality Assurance' }) },
-      { value: 'safety_compliance', label: t('profile.filterOptions.classes.safetyCompliance', { defaultValue: 'Safety Compliance' }) }
+      { value: 'plumbing_fundamentals', label: t('profile.filterOptions.classes.plumbingFundamentals', { defaultValue: 'Plumbing Fundamentals' }) },
+      { value: 'pipe_fitting', label: t('profile.filterOptions.classes.pipeFitting', { defaultValue: 'Pipe Fitting & Layout' }) },
+      { value: 'plumbing_code', label: t('profile.filterOptions.classes.plumbingCode', { defaultValue: 'Plumbing Code' }) },
+      { value: 'drain_waste_vent', label: t('profile.filterOptions.classes.drainWasteVent', { defaultValue: 'Drain, Waste & Vent' }) },
+      { value: 'water_supply', label: t('profile.filterOptions.classes.waterSupply', { defaultValue: 'Water Supply Systems' }) },
+      { value: 'safety_compliance', label: t('profile.filterOptions.classes.safetyCompliance', { defaultValue: 'Safety & Compliance' }) }
     ],
     timeRanges: [
       { value: '7days', label: t('profile.filterOptions.timeRanges.days7', { defaultValue: 'Last 7 Days' }) },

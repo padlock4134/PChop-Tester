@@ -16,7 +16,7 @@ interface BuildMenuModalProps {
 const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMarkets }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'plumbing';
   const bt = (key: string) => t(`buildMenu.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`buildMenu.${key}`) });
   const { user } = useSupabase();
   const [recipes, setRecipes] = useState<RecipeCard[]>([]);

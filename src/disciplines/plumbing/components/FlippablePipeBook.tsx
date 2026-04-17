@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './FlippableCookbook.css';
+import './FlippablePipeBook.css';
 import { useDeviceDetect } from '../utils/responsiveUtils';
 
 const PAGES = [
@@ -82,9 +82,9 @@ const PAGES = [
           <img src="/logo.png" alt="PorkChop Logo" className="inspiration-logo" />
         </div>
         <p className="page-content-text">
-          We created PorkChop because my grandfather Frederick would always know what to make when he's looking in his fridge. 
-          Everyone loved Pancake Saturdays cause everyone got to eat - even friends we brought with us.
-          He taught us that it's important to always be as nice as you can and help people if you can - food is the best way to make sure no one goes hungry.
+          We created PorkChop because every skilled trade deserves a purpose-built learning platform.
+          Plumbing keeps communities safe and healthy — clean water in, waste water out.
+          We believe the next generation of plumbers deserves the best tools to learn, practice, and master the trade.
         </p>
       </>
     ),
@@ -188,7 +188,7 @@ const PAGES = [
   }
 ];
 
-const FlippableCookbook: React.FC = () => {
+const FlippablePipeBook: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [turnedPages, setTurnedPages] = useState<number[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -329,4 +329,4 @@ const FlippableCookbook: React.FC = () => {
   );
 };
 
-export default FlippableCookbook;
+export default FlippablePipeBook;
