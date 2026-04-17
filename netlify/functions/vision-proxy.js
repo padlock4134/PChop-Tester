@@ -88,9 +88,8 @@ exports.handler = async (event) => {
     // Combine text, labels, and objects
     const allRawResults = [...textLines, ...labels, ...objects];
     
-    // Filter out generic terms and non-manufacturing items
-    const genericTerms = ['product', 'item', 'object', 'device', 'equipment', 'tool', 'machine', 'part', 'component', 'material', 'substance', 'element', 'close up', 'photography', 'table', 'workbench', 'container', 'box', 'carton', 'glass', 'bottle', 'jar', 'can', 'tin', 'package', 'packaging', 'wrapper', 'bag', 'tub', 'tube',
-                          'manufacturing', 'industry', 'production', 'assembly', 'fabrication', 'processing', 'workshop', 'factory', 'plant', 'facility'];
+    // Filter out generic terms but keep logistics-relevant items
+    const genericTerms = ['product', 'item', 'object', 'substance', 'element', 'close up', 'photography', 'table', 'person', 'human', 'man', 'woman', 'building', 'sky', 'ground', 'floor', 'wall', 'room', 'indoor', 'outdoor'];
     const specificResults = allRawResults.filter(item => {
       const text = item.toLowerCase();
       // Only filter if the term is exactly generic or part of a longer phrase
@@ -103,27 +102,23 @@ exports.handler = async (event) => {
     // Start with basic results
     let results = Array.from(new Set(specificResults));
     
-    // Enhanced manufacturing detection - only add if base detection worked
+    // Enhanced logistics detection - identify freight and cargo items
     if (results.length > 0) {
       try {
-        const manufacturingTerms = ['metal', 'steel', 'aluminum', 'iron', 'copper', 'plastic', 'rubber', 'wood', 'glass', 'component', 'part', 'fastener', 'tool'];
-        const manufacturingItems = [];
+        const logisticsTerms = ['pallet', 'crate', 'drum', 'container', 'box', 'carton', 'package', 'freight', 'cargo', 'truck', 'trailer', 'forklift', 'dock', 'warehouse', 'shrink wrap', 'strapping', 'label', 'barcode', 'shipping', 'skid', 'tote', 'bin', 'rack'];
+        const logisticsItems = [];
         
-        // Add manufacturing items if manufacturing terms detected
+        // Tag logistics items if logistics terms detected
         results.forEach(item => {
           const lowerItem = item.toLowerCase();
-          if (manufacturingTerms.some(term => lowerItem.includes(term))) {
-            manufacturingItems.push(...[
-              'manufacturing material', 
-              'industrial component',
-              item
-            ]);
+          if (logisticsTerms.some(term => lowerItem.includes(term))) {
+            logisticsItems.push(item);
           }
         });
         
-        // Add to results if we found any
-        if (manufacturingItems.length > 0) {
-          results = Array.from(new Set([...results, ...manufacturingItems]));
+        // Add categorization hints
+        if (logisticsItems.length > 0) {
+          results = Array.from(new Set([...results, ...logisticsItems]));
         }
       } catch (enhanceError) {
         console.error('Enhanced detection failed:', enhanceError);
