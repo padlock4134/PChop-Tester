@@ -28,12 +28,12 @@ const PostComposer = () => {
       }
       
       // Check if this is a fit share (simplified check for fit keywords)
-      const isRecipeShare = /fit|materials?|instructions?|method|steps|serves|prep time|cook time/i.test(input);
+      const isProcedureShare = /fit|materials?|instructions?|method|steps|procedure|install|repair/i.test(input);
       
       // In a real app, you would upload the image and create the post here
       // For now, we'll just simulate a successful post
       
-      if (isRecipeShare) {
+      if (isProcedureShare) {
         // Award XP for sharing a fit
         const { error } = await supabase.rpc('increment_user_xp', {
           user_id: user.id,
@@ -46,7 +46,7 @@ const PostComposer = () => {
             {
               user_id: user.id,
               xp_awarded: XP_REWARDS.RECIPE_SHARE,
-              activity: 'recipe_share'
+              activity: 'procedure_share'
             }
           ]);
           
@@ -59,7 +59,7 @@ const PostComposer = () => {
       setImage(null);
       
       // Show success message or update UI
-      alert('Post shared successfully!' + (isRecipeShare ? ' +' + XP_REWARDS.RECIPE_SHARE + ' XP for sharing a recipe!' : ''));
+      alert('Post shared successfully!' + (isProcedureShare ? ' +' + XP_REWARDS.RECIPE_SHARE + ' XP for sharing a procedure!' : ''));
       
     } catch (error) {
       console.error('Error sharing post:', error);

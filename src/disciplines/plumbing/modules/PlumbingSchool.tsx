@@ -139,7 +139,7 @@ const PlumbingSchool = () => {
   console.log('Plumbing School - Project data:', selectedRecipe?.nutrition);
   console.log('Plumbing School - Full Project:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
+  const [fitNutrition, setFitNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
@@ -205,13 +205,13 @@ const PlumbingSchool = () => {
       // Calculate nutrition if missing
       calculateRecipeNutrition(selectedRecipe.materials)
         .then(nutrition => {
-          setRecipeNutrition(nutrition);
+          setFitNutrition(nutrition);
         })
         .catch(error => {
           console.error('Error calculating nutrition:', error);
         });
     } else {
-      setRecipeNutrition(selectedRecipe?.nutrition || null);
+      setFitNutrition(selectedRecipe?.nutrition || null);
     }
   }, [selectedRecipe]);
 
@@ -400,7 +400,7 @@ const PlumbingSchool = () => {
                 </li>
               ))}
             </ol>
-            {/* Fit Card Display at Bottom (matching MyPipeBook RecipeCard layout) */}
+            {/* Fit Card Display at Bottom (matching MyPipeBook fit layout) */}
             <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
               <button
                 onClick={() => window.location.reload()}
@@ -420,7 +420,7 @@ const PlumbingSchool = () => {
                   />
                 )}
                 <h3 className="font-bold text-xl mb-1 text-maineBlue">{selectedRecipe.title}</h3>
-                {/* No description on RecipeCard, but add if needed: */}
+                {/* No description on fit card, but add if needed: */}
                 {/* <div className="text-gray-600 mb-2 text-base">{selectedRecipe.description}</div> */}
                 <div className="font-semibold mb-1 mt-2">{t('plumbingSchool.ingredients')}</div>
                 <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
@@ -430,14 +430,14 @@ const PlumbingSchool = () => {
                     <li className="italic text-gray-400">{t('plumbingSchool.noIngredientsListed')}</li>
                   )}
                 </ul>
-                {recipeNutrition && (
+                {fitNutrition && (
                   <div className="mt-2">
                     <div className="font-semibold mb-1">{t('plumbingSchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
                     <div className="text-sm">
-                      <div>{t('plumbingSchool.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('plumbingSchool.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('plumbingSchool.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('plumbingSchool.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
+                      <div>{t('plumbingSchool.carbs')}: {(fitNutrition.carbs * servingSize).toFixed(1)}g</div>
+                      <div>{t('plumbingSchool.sugars')}: {(fitNutrition.sugars * servingSize).toFixed(1)}g</div>
+                      <div>{t('plumbingSchool.fiber')}: {(fitNutrition.fiber * servingSize).toFixed(1)}g</div>
+                      <div>{t('plumbingSchool.protein')}: {(fitNutrition.protein * servingSize).toFixed(1)}g</div>
                     </div>
                   </div>
                 )}

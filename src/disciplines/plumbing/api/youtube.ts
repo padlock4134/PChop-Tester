@@ -3,17 +3,17 @@
 
 // Helper to build a more specific YouTube query
 // type can be 'main_material', 'equipment', or 'fit'
-function buildVideoQuery(recipeTitle: string, item: string, type: 'main_material' | 'equipment' | 'fit' = 'fit'): string {
+function buildVideoQuery(fitTitle: string, item: string, type: 'main_material' | 'equipment' | 'fit' = 'fit'): string {
   if (type === 'equipment') {
     // Equipment tutorial: 'Fit Name with Equipment'
-    return `${recipeTitle} with a ${item}`;
+    return `${fitTitle} using ${item}`;
   }
   if (type === 'main_material') {
     // Main material prep: 'Main Material for Fit Name'
-    return `${item} for ${recipeTitle}`;
+    return `${item} for ${fitTitle}`;
   }
   // Default: 'Fit Name' (possibly with other context)
-  return `${recipeTitle}${item ? ' ' + item : ''}`;
+  return `${fitTitle}${item ? ' ' + item : ''}`;
 }
 
 // Helper to filter out irrelevant results (e.g., "plant pot", "garden")
@@ -25,8 +25,8 @@ function isRelevantYouTubeResult(result: any, item: string): boolean {
   return true;
 }
 
-export async function getTutorialVideoUrl(query: string, recipeTitle?: string, type: 'main_material' | 'equipment' | 'fit' = 'fit'): Promise<string | null> {
+export async function getTutorialVideoUrl(query: string, fitTitle?: string, type: 'main_material' | 'equipment' | 'fit' = 'fit'): Promise<string | null> {
   // YouTube API disabled to prevent quota issues affecting user's personal account
-  console.log(`[YouTube API] Disabled. Query was: ${query}, Fit: ${recipeTitle}, Type: ${type}`);
+  console.log(`[YouTube API] Disabled. Query was: ${query}, Fit: ${fitTitle}, Type: ${type}`);
   return null;
 }

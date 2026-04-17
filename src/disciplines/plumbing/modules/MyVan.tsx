@@ -28,7 +28,7 @@ const CATEGORIES = [
 ];
 
 // Categorize part names to best-fit category
-function categorizeIngredient(name: string): string {
+function categorizeMaterial(name: string): string {
   const n = name.toLowerCase();
   // Enhanced detection for plumbing parts and materials
   if (/(pipe|tube|conduit|pvc|copper|pe|pex|galvanized|steel|brass)/.test(n)) return "Pipes";
@@ -78,10 +78,10 @@ const MyVan = () => {
   const [matcherOpen, setMatcherOpen] = useState(false);
   const [matcherLoading, setMatcherLoading] = useState(false);
   const [matcherError, setMatcherError] = useState('');
-  const [matcherRecipes, setMatcherRecipes] = useState<RecipeCard[]>([]);
+  const [matchedFits, setMatchedFits] = useState<RecipeCard[]>([]);
 
   // MyPipeBook state (for MVP, local only)
-  const [pipebook, setPipeBook] = useState<RecipeCard[]>([]);
+  const [_pipebookFits, setPipeBook] = useState<RecipeCard[]>([]);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [vanError, setVanError] = useState<string | null>(null);
 
@@ -108,12 +108,12 @@ const MyVan = () => {
     // Load both van and pipebook data
     const loadData = async () => {
       try {
-        const [vanParts, pipebookRecipes] = await Promise.all([
+        const [vanParts, pipebookFits] = await Promise.all([
           fetchVan(user?.id!),
           fetchPipeBook(user?.id!)
         ]);
         setMaterials(vanParts);
-        setPipeBook(pipebookRecipes);
+        setPipeBook(pipebookFits);
       } catch (error) {
         console.error('Error loading data:', error);
         setVanError('Failed to load your van.');
@@ -162,7 +162,7 @@ const MyVan = () => {
     }
   };
 
-  const handleSaveRecipeToPipeBook = async (fit: RecipeCard) => {
+  const handleSaveFitToPipeBook = async (fit: RecipeCard) => {
     try {
       await addRecipeToPipeBook(user?.id!, fit);
       setPipeBook(prevPipeBook => [...prevPipeBook, fit]);
@@ -249,7 +249,7 @@ const MyVan = () => {
                     }
                     const updatedMaterials = [
                       ...materials,
-                      ...newParts.map((name: string) => ({ name, category: categorizeIngredient(name) }))
+                      ...newParts.map((name: string) => ({ name, category: categorizeMaterial(name) }))
                     ];
                     setMaterials(updatedMaterials);
                     try {
@@ -258,7 +258,7 @@ const MyVan = () => {
                       setScanStatus(t('myVan.ingredientsSaved'));
                       alert(t('myVan.ingredientsSaved'));
                     } catch (err: any) {
-                      setKitchenError(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
+                      setVanError(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
                       alert(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
                     }
@@ -302,7 +302,7 @@ const MyVan = () => {
                 talentsEnabled: false,
                 talentTree: null
               });
-              setMatcherRecipes(fits);
+              setMatchedFits(fits);
             } catch (err: any) {
               setMatcherError('Failed to fetch procedures.');
             } finally {
@@ -338,14 +338,14 @@ const MyVan = () => {
         onClose={() => setMatcherOpen(false)}
         vanMaterials={materials.map(i => i.name)}
         onLike={handleLikeRecipe}
-        saveRecipeToPipeBook={handleSaveRecipeToPipeBook}
-        fits={matcherRecipes}
+        saveRecipeToPipeBook={handleSaveFitToPipeBook}
+        fits={matchedFits}
         loading={matcherLoading}
         error={matcherError}
       />
 
 
-      {/* Digital Cupboard Section */}
+      {/* Digital Parts Locker Section */}
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
           <span role="img" aria-label="wrench">🔧</span> {t('myVan.digitalCupboard')}
