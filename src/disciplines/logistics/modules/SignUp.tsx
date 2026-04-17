@@ -90,7 +90,7 @@ const SignUp = () => {
               <option value="Wegmans">Wegmans</option>
               <option value="Shaw's">Shaw's</option>
               <option value="Market Basket">Market Basket</option>
-              <option value="Whole Foods">Whole Foods</option>
+              <option value="Whole __PROTECT_CARGO__s">Whole __PROTECT_CARGO__s</option>
               <option value="Trader Joe's">Trader Joe's</option>
               <option value="Other">Other</option>
             </select>

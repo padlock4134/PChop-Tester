@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useLevelProgressContext } from './NavBar';
 import WeeklyChallengeRouteModal from './WeeklyChallengeRouteModal';
-import type { RecipeCard } from './RouteMatcherModal';
+import type { RouteCard } from './RouteMatcherModal';
 import { getWeeklyChallengeRecipe } from '../../culinary/api/anthropicChallenge';
 import { getRecipeImage } from '../../culinary/api/unsplash';
 import { supabase } from '../../culinary/api/supabaseClient';
@@ -15,61 +15,61 @@ export const WEEKLY_CHALLENGES = [
   {
     title: 'Route Runner',
     description: 'Complete a route-planning optimization task.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['route','eta','delivery'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['route','eta','delivery'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'Route Runner' },
   },
   {
     title: 'Dock Discipline',
     description: 'Submit a dock operations task.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['dock','inbound','outbound'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['dock','inbound','outbound'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'Dock Specialist' },
   },
   {
     title: 'Inventory Integrity',
     description: 'Complete inventory accuracy/cycle count work.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['inventory','cycle count','stock'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['inventory','cycle count','stock'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'Inventory Guard' },
   },
   {
     title: 'Pallet Precision',
     description: 'Log palletization or load securement work.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['pallet','load','secure'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['pallet','load','secure'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'Pallet Pro' },
   },
   {
     title: 'Fleet Focus',
     description: 'Complete a fleet dispatch/maintenance task.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['fleet','dispatch','maintenance'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['fleet','dispatch','maintenance'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'Fleet Focus' },
   },
   {
     title: 'On-Time Target',
     description: 'Submit work that improves on-time delivery.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['on-time','sla','delivery'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['on-time','sla','delivery'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'On-Time Operator' },
   },
   {
     title: 'Warehouse Flow',
     description: 'Complete a warehouse throughput task.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['warehouse','pick','pack'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['warehouse','pick','pack'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'Flow Master' },
   },
   {
     title: 'Safety Shipment',
     description: 'Log transport safety/compliance work.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['safety','compliance','hazmat'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['safety','compliance','hazmat'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'Safety Shipper' },
   },
   {
     title: 'Data-Driven Dispatch',
     description: 'Complete a task using logistics metrics.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['kpi','utilization','throughput'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['kpi','utilization','throughput'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'Dispatch Analyst' },
   },
   {
     title: 'Return Loop',
     description: 'Submit reverse logistics or returns handling work.',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['returns','reverse','reconcile'].includes(i.toLowerCase())),
+    criteria: (route: { items: string[] }) => route.items.some(i => ['returns','reverse','reconcile'].includes(i.toLowerCase())),
     reward: { xp: 100, badge: 'Return Resolver' },
   }
 ];
@@ -93,11 +93,11 @@ function getCurrentWeeklyChallenge() {
 const ChallengeOfTheWeek: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'logistics';
   const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [open, setOpen] = useState(false);
-  const [recipeModalOpen, setRecipeModalOpen] = useState(false);
-  const [modalRecipe, setModalRecipe] = useState<RecipeCard | null>(null);
+  const [routeModalOpen, setRouteModalOpen] = useState(false);
+  const [modalRoute, setModalRoute] = useState<RouteCard | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [weekNumber, setWeekNumber] = useState(getWeekNumber(new Date()));
@@ -125,32 +125,32 @@ const ChallengeOfTheWeek: React.FC = () => {
   }, [weekNumber]);
 
   useEffect(() => {
-    const fetchRecipeAndImage = async () => {
+    const fetchRouteAndImage = async () => {
       try {
         const challenge = getCurrentWeeklyChallenge();
         const prompt = `${challenge.title}: ${challenge.description}`;
-        const recipeData = await getWeeklyChallengeRecipe(prompt);
-        const image = await getRecipeImage(recipeData.title || challenge.title, recipeData.title || challenge.title, 'recipe');
-        const recipe: RecipeCard = {
+        const routeData = await getWeeklyChallengeRoute(prompt);
+        const image = await getRouteImage(routeData.title || challenge.title, routeData.title || challenge.title, 'route');
+        const route: RouteCard = {
           id: `weekly-${challenge.title.replace(/\s+/g, '-').toLowerCase()}`,
-          title: recipeData.title || challenge.title,
+          title: routeData.title || challenge.title,
           image,
-          ingredients: recipeData.ingredients || [],
-          instructions: recipeData.instructions || '',
-          equipment: recipeData.equipment || [],
+          items: routeData.items || [],
+          instructions: routeData.instructions || '',
+          equipment: routeData.equipment || [],
         };
-        setModalRecipe(recipe);
+        setModalRoute(route);
       } catch (e: any) {
         setError(e.message || 'Failed to generate challenge');
       } finally {
         setLoading(false);
       }
     };
-    fetchRecipeAndImage();
+    fetchRouteAndImage();
   }, [weekNumber]);
 
   function handleCookMe() {
-    setRecipeModalOpen(true);
+    setRouteModalOpen(true);
     setOpen(false);
   }
 
@@ -205,12 +205,12 @@ const ChallengeOfTheWeek: React.FC = () => {
         </div>
       )}
       <WeeklyChallengeRouteModal
-        open={recipeModalOpen}
-        onClose={() => setRecipeModalOpen(false)}
-        recipe={modalRecipe}
+        open={routeModalOpen}
+        onClose={() => setRouteModalOpen(false)}
+        route={modalRoute}
         loading={loading}
         error={error}
-        challengeId={modalRecipe?.id || ''}
+        challengeId={modalRoute?.id || ''}
         weekNumber={getWeekNumber(new Date())}
         xp={challenge.reward.xp}
         badge={challenge.reward.badge}

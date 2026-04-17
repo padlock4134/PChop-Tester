@@ -77,8 +77,8 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                   <label htmlFor="cul101" className="font-semibold text-maineBlue cursor-pointer">
                     CUL 101 - Knife Skills & Safety
                   </label>
-                  <div className="text-sm text-gray-600">Monday 9:00 AM - 11:00 AM • Lab Kitchen A</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Martinez</div>
+                  <div className="text-sm text-gray-600">Monday 9:00 AM - 11:00 AM • Lab Dock A</div>
+                  <div className="text-xs text-gray-500">Instructor: Dispatcher Martinez</div>
                 </div>
               </div>
               <div className="text-right">
@@ -89,7 +89,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
             <div className="text-xs text-green-600 ml-7">✓ Prerequisites met</div>
           </div>
 
-          {/* CUL 205 - Seafood Preparation (Full) */}
+          {/* CUL 205 - Seacargo Preparation (Full) */}
           <div className="p-4 bg-sand rounded border border-black">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-3">
@@ -102,10 +102,10 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 />
                 <div>
                   <label htmlFor="cul205" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 205 - Seafood Preparation
+                    CUL 205 - Seacargo Preparation
                   </label>
-                  <div className="text-sm text-gray-600">Wednesday 1:00 PM - 4:00 PM • Lab Kitchen B</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Thompson</div>
+                  <div className="text-sm text-gray-600">Wednesday 1:00 PM - 4:00 PM • Lab Dock B</div>
+                  <div className="text-xs text-gray-500">Instructor: Dispatcher Thompson</div>
                 </div>
               </div>
               <div className="text-right">
@@ -132,7 +132,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                     CUL 150 - Pastry Fundamentals
                   </label>
                   <div className="text-sm text-gray-600">Friday 10:00 AM - 12:00 PM • Baking Lab</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Rodriguez</div>
+                  <div className="text-xs text-gray-500">Instructor: Dispatcher Rodriguez</div>
                 </div>
               </div>
               <div className="text-right">
@@ -157,8 +157,8 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                   <label className="font-semibold text-gray-600 cursor-not-allowed">
                     CUL 301 - Advanced Sauce Making
                   </label>
-                  <div className="text-sm text-gray-500">Tuesday 2:00 PM - 5:00 PM • Lab Kitchen C</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Williams</div>
+                  <div className="text-sm text-gray-500">Tuesday 2:00 PM - 5:00 PM • Lab Dock C</div>
+                  <div className="text-xs text-gray-500">Instructor: Dispatcher Williams</div>
                 </div>
               </div>
               <div className="text-right">

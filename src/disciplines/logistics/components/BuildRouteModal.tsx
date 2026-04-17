@@ -3,64 +3,64 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
-import { RecipeCard } from './RouteMatcherModal';
+import { RouteCard } from './RouteMatcherModal';
 import jsPDF from 'jspdf';
-import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
+import { groupItemsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
 
 interface BuildMenuModalProps {
   open: boolean;
   onClose: () => void;
-  onFindMarkets: (selectedRecipes: RecipeCard[]) => void;
+  onFindMarkets: (selectedRoutes: RouteCard[]) => void;
 }
 
 const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMarkets }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'logistics';
   const bt = (key: string) => t(`buildMenu.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`buildMenu.${key}`) });
   const { user } = useSupabase();
-  const [recipes, setRecipes] = useState<RecipeCard[]>([]);
-  const [selectedRecipeIds, setSelectedRecipeIds] = useState<Set<string>>(new Set());
+  const [routes, setRoutes] = useState<RouteCard[]>([]);
+  const [selectedRouteIds, setSelectedRouteIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open && user?.id) {
-      loadRecipes();
+      loadRoutes();
     }
   }, [open, user?.id]);
 
-  const loadRecipes = async () => {
+  const loadRoutes = async () => {
     if (!user?.id) return;
     
     try {
       setLoading(true);
-      const savedRecipes = await fetchCookbook(user.id);
-      setRecipes(savedRecipes || []);
+      const savedRoutes = await fetchRunbook(user.id);
+      setRoutes(savedRoutes || []);
     } catch (err) {
-      console.error('Error loading cookbook recipes:', err);
-      setRecipes([]);
+      console.error('Error loading runbook routes:', err);
+      setRoutes([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const toggleRecipe = (recipeId: string) => {
-    const newSelected = new Set(selectedRecipeIds);
-    if (newSelected.has(recipeId)) {
-      newSelected.delete(recipeId);
+  const toggleRoute = (routeId: string) => {
+    const newSelected = new Set(selectedRouteIds);
+    if (newSelected.has(routeId)) {
+      newSelected.delete(routeId);
     } else {
-      newSelected.add(recipeId);
+      newSelected.add(routeId);
     }
-    setSelectedRecipeIds(newSelected);
+    setSelectedRouteIds(newSelected);
   };
 
   const handleFindMarkets = () => {
-    const selected = recipes.filter(r => selectedRecipeIds.has(r.id));
+    const selected = routes.filter(r => selectedRouteIds.has(r.id));
     onFindMarkets(selected);
   };
 
   const handleCreateMenuPDF = () => {
-    const selected = recipes.filter(r => selectedRecipeIds.has(r.id));
+    const selected = routes.filter(r => selectedRouteIds.has(r.id));
     if (selected.length === 0) return;
 
     const pdf = new jsPDF();
@@ -78,23 +78,23 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     yPos += 8;
     pdf.setFontSize(11);
     pdf.setFont('helvetica', 'normal');
-    selected.forEach((recipe, idx) => {
-      pdf.text(`${idx + 1}. ${recipe.title}`, 25, yPos);
+    selected.forEach((route, idx) => {
+      pdf.text(`${idx + 1}. ${route.title}`, 25, yPos);
       yPos += 6;
     });
     yPos += 5;
 
-    // Extract and deduplicate ingredients
-    const allIngredients: string[] = [];
-    selected.forEach(recipe => {
-      if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
-        allIngredients.push(...recipe.ingredients);
+    // Extract and deduplicate items
+    const allItems: string[] = [];
+    selected.forEach(route => {
+      if (route.items && Array.isArray(route.items)) {
+        allItems.push(...route.items);
       }
     });
-    const uniqueIngredients = Array.from(
-      new Set(allIngredients.map(ing => ing.toLowerCase()))
-    ).map(ing => allIngredients.find(original => original.toLowerCase() === ing) || ing);
-    const ingredientsByType = groupIngredientsByMarketType(uniqueIngredients);
+    const uniqueItems = Array.from(
+      new Set(allItems.map(ing => ing.toLowerCase()))
+    ).map(ing => allItems.find(original => original.toLowerCase() === ing) || ing);
+    const itemsByType = groupItemsByMarketType(uniqueItems);
 
     // Shopping List by Market Type
     pdf.setFontSize(14);
@@ -103,7 +103,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     yPos += 8;
 
     const marketTypeLabels: Record<string, string> = {
-      seafood: '🐟 Seafood Markets',
+      seacargo: '🐟 Seacargo Markets',
       butcher: '🥩 Butcher',
       produce: '🥦 Produce',
       dairy: '🥛 Dairy',
@@ -112,8 +112,8 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       farms: '🚜 Farms'
     };
 
-    Object.entries(ingredientsByType).forEach(([type, ingredients]) => {
-      if (ingredients.length === 0) return;
+    Object.entries(itemsByType).forEach(([type, items]) => {
+      if (items.length === 0) return;
       
       // Check if we need a new page
       if (yPos > 250) {
@@ -129,7 +129,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'normal');
       let subtotal = 0;
-      ingredients.forEach(ing => {
+      items.forEach(ing => {
         const priceInfo = getEstimatedPrice(ing);
         const priceText = priceInfo ? ` ~$${priceInfo.price}/${priceInfo.unit}` : '';
         pdf.text(`• ${ing}${priceText}`, 25, yPos);
@@ -184,7 +184,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
           {/* Two Column Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 flex-1 overflow-hidden">
-            {/* Left: Recipe Picklist */}
+            {/* Left: Route Picklist */}
             <div className="flex flex-col overflow-hidden">
               <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 {bt('availableItems')}</h3>
               {loading ? (
@@ -192,32 +192,32 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
                   <p className="text-gray-500 mt-2">{bt('loading')}</p>
                 </div>
-              ) : recipes.length === 0 ? (
+              ) : routes.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-gray-500 text-sm">{bt('noItems')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
-                  {recipes.map((recipe) => (
+                  {routes.map((route) => (
                     <label
-                      key={recipe.id}
+                      key={route.id}
                       className={`flex items-center p-2 rounded-lg border cursor-pointer transition-colors ${
-                        selectedRecipeIds.has(recipe.id)
+                        selectedRouteIds.has(route.id)
                           ? 'border-maineBlue bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
                       <input
                         type="checkbox"
-                        checked={selectedRecipeIds.has(recipe.id)}
-                        onChange={() => toggleRecipe(recipe.id)}
+                        checked={selectedRouteIds.has(route.id)}
+                        onChange={() => toggleRoute(route.id)}
                         className="mr-2 h-4 w-4 text-maineBlue"
                       />
                       <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm text-gray-900 truncate">{recipe.title}</div>
-                        {recipe.ingredients && (
+                        <div className="font-medium text-sm text-gray-900 truncate">{route.title}</div>
+                        {route.items && (
                           <div className="text-xs text-gray-400">
-                            {bt('itemsCount').replace('{count}', recipe.ingredients.length.toString())}
+                            {bt('itemsCount').replace('{count}', route.items.length.toString())}
                           </div>
                         )}
                       </div>
@@ -230,30 +230,30 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
             {/* Right: Your Menu */}
             <div className="flex flex-col overflow-hidden">
               <h3 className="text-sm font-semibold text-gray-700 mb-2">🍽️ {bt('yourMenu')}</h3>
-              {selectedRecipeIds.size === 0 ? (
+              {selectedRouteIds.size === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <p className="text-gray-400 text-sm">{bt('selectToStart')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
-                  {recipes
-                    .filter(r => selectedRecipeIds.has(r.id))
-                    .map((recipe, idx) => (
+                  {routes
+                    .filter(r => selectedRouteIds.has(r.id))
+                    .map((route, idx) => (
                       <div
-                        key={recipe.id}
+                        key={route.id}
                         className="p-3 bg-sand rounded-lg border border-maineBlue"
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <div className="font-medium text-gray-900">{idx + 1}. {recipe.title}</div>
-                            {recipe.ingredients && (
+                            <div className="font-medium text-gray-900">{idx + 1}. {route.title}</div>
+                            {route.items && (
                               <div className="text-xs text-gray-500 mt-1">
-                                {bt('itemsCountNeeded').replace('{count}', recipe.ingredients.length.toString())}
+                                {bt('itemsCountNeeded').replace('{count}', route.items.length.toString())}
                               </div>
                             )}
                           </div>
                           <button
-                            onClick={() => toggleRecipe(recipe.id)}
+                            onClick={() => toggleRoute(route.id)}
                             className="text-red-500 hover:text-red-700 ml-2"
                             title={bt('removeFromMenu')}
                           >
@@ -270,7 +270,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t flex-shrink-0">
             <div className="text-sm text-gray-600">
-              {selectedRecipeIds.size} {bt('recipesSelected')}
+              {selectedRouteIds.size} {bt('recipesSelected')}
             </div>
             <div className="flex gap-2">
               <button
@@ -281,9 +281,9 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
               </button>
               <button
                 onClick={handleCreateMenuPDF}
-                disabled={selectedRecipeIds.size === 0}
+                disabled={selectedRouteIds.size === 0}
                 className={`px-4 py-2 rounded font-bold transition-colors ${
-                  selectedRecipeIds.size === 0
+                  selectedRouteIds.size === 0
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam border border-maineBlue'
                 }`}
@@ -292,9 +292,9 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
               </button>
               <button
                 onClick={handleFindMarkets}
-                disabled={selectedRecipeIds.size === 0}
+                disabled={selectedRouteIds.size === 0}
                 className={`px-6 py-2 rounded font-bold transition-colors ${
-                  selectedRecipeIds.size === 0
+                  selectedRouteIds.size === 0
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
                 }`}

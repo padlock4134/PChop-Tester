@@ -22,7 +22,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const [input, setInput] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [filterText, setFilterText] = useState('');
-  const [ingredients, setIngredients] = useState([
+  const [items, setItems] = useState([
     { name: 'Chicken Breast', category: 'Protein' },
     { name: 'Broccoli', category: 'Vegetable' },
     { name: 'Rice', category: 'Grain' },
@@ -32,22 +32,22 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const [scanLoading, setScanLoading] = useState(false);
   const [matcherOpen, setMatcherOpen] = useState(false);
   const [matcherLoading, setMatcherLoading] = useState(false);
-  const [showRecipeMatcher, setShowRecipeMatcher] = useState(false);
+  const [showRouteMatcher, setShowRouteMatcher] = useState(false);
   const [showWelcomeTooltip, setShowWelcomeTooltip] = useState(true);
-  const [matchedRecipes, setMatchedRecipes] = useState<Array<{
-    recipe: any;
+  const [matchedRoutes, setMatchedRoutes] = useState<Array<{
+    route: any;
     matchScore: number;
-    matchingIngredients: string[];
+    matchingItems: string[];
   }>>([]);
-  const [currentRecipeIndex, setCurrentRecipeIndex] = useState(0);
+  const [currentRouteIndex, setCurrentRouteIndex] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
 
-  const allRecipes = [
+  const allRoutes = [
     {
       id: '1',
       title: 'Avocado Toast',
       image: '/Preview Images/Avacado Toast.png',
-      ingredients: ['Bread', 'Avocado', 'Salt', 'Pepper', 'Red Pepper Flakes', 'Olive Oil'],
+      items: ['Bread', 'Avocado', 'Salt', 'Pepper', 'Red Pepper Flakes', 'Olive Oil'],
       instructions: 'Toast bread. Mash avocado with salt, pepper, and a drizzle of olive oil. Spread on toast and sprinkle with red pepper flakes.',
       equipment: ['Toaster', 'Knife', 'Bowl'],
       healthTags: ['Heart Healthy', 'High Fiber']
@@ -56,7 +56,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '2',
       title: 'Baked Salmon',
       image: '/Preview Images/Baked Salmon.png',
-      ingredients: ['Salmon fillet', 'Lemon', 'Dill', 'Olive Oil', 'Garlic', 'Salt', 'Pepper'],
+      items: ['Salmon fillet', 'Lemon', 'Dill', 'Olive Oil', 'Garlic', 'Salt', 'Pepper'],
       instructions: 'Preheat oven to 375°F. Place salmon on baking sheet, drizzle with olive oil, and season with salt, pepper, dill, and garlic. Add lemon slices on top. Bake for 12-15 minutes.',
       equipment: ['Baking Sheet', 'Oven'],
       healthTags: ['Heart Healthy', 'High in Omega-3']
@@ -65,7 +65,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '3',
       title: 'Breakfast Burrito',
       image: '/Preview Images/Breakfast Burrito.png',
-      ingredients: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Bell Peppers', 'Onion', 'Salt', 'Pepper', 'Butter'],
+      items: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Bell Peppers', 'Onion', 'Salt', 'Pepper', 'Butter'],
       instructions: 'Cook sausage, then sauté onions and bell peppers. Scramble eggs with salt and pepper. Warm tortilla and assemble with eggs, sausage, veggies, and cheese.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -74,7 +74,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '4',
       title: 'Breakfast Tacos',
       image: '/Preview Images/Breakfast Tacos.png',
-      ingredients: ['Corn Tortillas', 'Eggs', 'Black Beans', 'Avocado', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
+      items: ['Corn Tortillas', 'Eggs', 'Black Beans', 'Avocado', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
       instructions: 'Warm tortillas. Scramble eggs with salt and pepper. Heat black beans. Assemble tacos with eggs, beans, avocado, salsa, and cilantro. Squeeze lime on top.',
       equipment: ['Skillet', 'Mixing Bowl'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -83,7 +83,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '5',
       title: 'Chicken Fajitas',
       image: '/Preview Images/Chicken Fajitas.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Tortilla', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Tortilla', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
       instructions: 'Sauté chicken, bell peppers, and onions. Warm tortillas. Assemble fajitas with chicken, veggies, salsa, and cilantro. Squeeze lime on top.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -92,7 +92,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '6',
       title: 'Chicken Quesadillas',
       image: '/Preview Images/Chicken Quesadillas.png',
-      ingredients: ['Chicken Breast', 'Tortilla', 'Cheese', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Tortilla', 'Cheese', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
       instructions: 'Shred chicken and mix with cheese. Place mixture on tortilla and top with another tortilla. Cook in skillet until cheese is melted and tortillas are crispy.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -101,7 +101,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '7',
       title: 'Chicken and Rice Bowls',
       image: '/Preview Images/Chicken and Rice Bowls.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Vegetable Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Rice', 'Vegetable Oil', 'Salt', 'Pepper'],
       instructions: 'Cook chicken and rice in skillet with vegetable oil. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -110,7 +110,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '8',
       title: 'Chicken and Vegetable Kabobs',
       image: '/Preview Images/Chicken and Vegetable Kabobs.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Zucchini', 'Cherry Tomatoes', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Zucchini', 'Cherry Tomatoes', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Alternate chicken and vegetables on skewers. Brush with olive oil and season with salt and pepper. Grill or bake until cooked through.',
       equipment: ['Grill', 'Baking Sheet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -119,7 +119,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '9',
       title: 'Chickpea and Avocado Salad',
       image: '/Preview Images/Chickpea and Avocado Salad.png',
-      ingredients: ['Chickpeas', 'Avocado', 'Red Onion', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
+      items: ['Chickpeas', 'Avocado', 'Red Onion', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
       instructions: 'Mash avocado and mix with chickpeas, red onion, and cilantro. Squeeze lime on top and season with salt and pepper.',
       equipment: ['Mixing Bowl', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -128,7 +128,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '10',
       title: 'Classic Beef Burger',
       image: '/Preview Images/Classic Beef Burger.png',
-      ingredients: ['Ground Beef', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Ketchup', 'Mayonnaise', 'Mustard'],
+      items: ['Ground Beef', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Ketchup', 'Mayonnaise', 'Mustard'],
       instructions: 'Grill or pan-fry burger. Assemble with lettuce, tomato, cheese, ketchup, mayonnaise, and mustard.',
       equipment: ['Grill', 'Skillet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -137,7 +137,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '11',
       title: 'Garlic Butter Chicken with Rice',
       image: '/Preview Images/Garlic Butter Chicken with Rice.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Butter', 'Garlic', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Rice', 'Butter', 'Garlic', 'Salt', 'Pepper'],
       instructions: 'Cook chicken and rice in skillet with butter and garlic. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -146,7 +146,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '12',
       title: 'Greek Salad',
       image: '/Preview Images/Greek Salad.png',
-      ingredients: ['Lettuce', 'Tomato', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Olives', 'Greek Vinaigrette'],
+      items: ['Lettuce', 'Tomato', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Olives', 'Greek Vinaigrette'],
       instructions: 'Combine lettuce, tomato, cucumber, red onion, feta cheese, and olives in bowl. Drizzle with Greek vinaigrette.',
       equipment: ['Mixing Bowl', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -155,7 +155,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '13',
       title: 'Grilled Cheese',
       image: '/Preview Images/Grilled Cheese.png',
-      ingredients: ['Bread', 'Cheese', 'Butter'],
+      items: ['Bread', 'Cheese', 'Butter'],
       instructions: 'Butter bread and place cheese in between. Grill in skillet until cheese is melted and bread is crispy.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Calcium']
@@ -164,7 +164,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '14',
       title: 'Lemon Garlic Chicken with Roasted Broccoli',
       image: '/Preview Images/Lemon Garlic Chicken with Roasted Broccoli.png',
-      ingredients: ['Chicken Breast', 'Broccoli', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Broccoli', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Cook chicken and broccoli in skillet with lemon, garlic, and olive oil. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -173,7 +173,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '15',
       title: 'Lemon Herb Roasted Chicken',
       image: '/Preview Images/Lemon Herb Roasted Chicken.png',
-      ingredients: ['Chicken Breast', 'Lemon', 'Herbs', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Lemon', 'Herbs', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Rub chicken with lemon, herbs, and olive oil. Season with salt and pepper. Roast in oven until cooked through.',
       equipment: ['Oven', 'Baking Sheet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -182,7 +182,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '16',
       title: 'Lentil Soup',
       image: '/Preview Images/Lentil Soup.png',
-      ingredients: ['Lentils', 'Vegetable Broth', 'Onion', 'Carrot', 'Celery', 'Tomato', 'Cumin', 'Paprika'],
+      items: ['Lentils', 'Vegetable Broth', 'Onion', 'Carrot', 'Celery', 'Tomato', 'Cumin', 'Paprika'],
       instructions: 'Saute onion, carrot, and celery in pot. Add lentils, vegetable broth, tomato, cumin, and paprika. Simmer until lentils are tender.',
       equipment: ['Pot', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -191,7 +191,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '17',
       title: 'Pasta Carbonara',
       image: '/Preview Images/Pasta Carbonara.png',
-      ingredients: ['Pasta', 'Bacon', 'Eggs', 'Parmesan Cheese', 'Black Pepper'],
+      items: ['Pasta', 'Bacon', 'Eggs', 'Parmesan Cheese', 'Black Pepper'],
       instructions: 'Cook pasta in pot. Whisk eggs, parmesan cheese, and black pepper in bowl. Add cooked bacon to bowl and mix. Combine with cooked pasta.',
       equipment: ['Pot', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -200,7 +200,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '18',
       title: 'Quinoa Salad Bowl',
       image: '/Preview Images/Quinoa Salad Bowl.png',
-      ingredients: ['Quinoa', 'Mixed Greens', 'Cherry Tomatoes', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Lemon Vinaigrette'],
+      items: ['Quinoa', 'Mixed Greens', 'Cherry Tomatoes', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Lemon Vinaigrette'],
       instructions: 'Combine quinoa, mixed greens, cherry tomatoes, cucumber, red onion, and feta cheese in bowl. Drizzle with lemon vinaigrette.',
       equipment: ['Mixing Bowl', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -209,7 +209,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '19',
       title: 'Roasted Brussel Sprouts',
       image: '/Preview Images/Roasted Brussel Sprouts.png',
-      ingredients: ['Brussel Sprouts', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Brussel Sprouts', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Toss brussel sprouts with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
       equipment: ['Oven', 'Baking Sheet'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -218,7 +218,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '20',
       title: 'Roasted Sweet Potatoes',
       image: '/Preview Images/Roasted Sweet Potatoes.png',
-      ingredients: ['Sweet Potatoes', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Sweet Potatoes', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Toss sweet potatoes with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
       equipment: ['Oven', 'Baking Sheet'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -227,7 +227,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '21',
       title: 'Spaghetti Squash with Meat Sauce',
       image: '/Preview Images/Spaghetti Squash with Meat Sauce.png',
-      ingredients: ['Spaghetti Squash', 'Ground Beef', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Spaghetti Squash', 'Ground Beef', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Cook spaghetti squash in oven. Cook ground beef and tomato sauce in skillet. Combine with cooked spaghetti squash.',
       equipment: ['Oven', 'Skillet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -236,7 +236,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '22',
       title: 'Spinach and Feta Stuffed Chicken',
       image: '/Preview Images/Spinach and Feta Stuffed Chicken.png',
-      ingredients: ['Chicken Breast', 'Spinach', 'Feta Cheese', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Spinach', 'Feta Cheese', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Stuff chicken breast with spinach, feta cheese, and garlic. Drizzle with olive oil and season with salt and pepper. Bake in oven until cooked through.',
       equipment: ['Oven', 'Baking Sheet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -245,7 +245,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '23',
       title: 'Vegetable Curry',
       image: '/Preview Images/Vegetable Curry.png',
-      ingredients: ['Mixed Vegetables', 'Coconut Milk', 'Curry Powder', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Mixed Vegetables', 'Coconut Milk', 'Curry Powder', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Saute mixed vegetables in pot. Add coconut milk, curry powder, and olive oil. Simmer until vegetables are tender.',
       equipment: ['Pot', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -254,7 +254,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '24',
       title: 'Vegetable Stir Fry',
       image: '/Preview Images/Vegetable Stir Fry.png',
-      ingredients: ['Mixed Vegetables', 'Olive Oil', 'Soy Sauce', 'Salt', 'Pepper'],
+      items: ['Mixed Vegetables', 'Olive Oil', 'Soy Sauce', 'Salt', 'Pepper'],
       instructions: 'Saute mixed vegetables in skillet with olive oil and soy sauce. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -263,7 +263,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '25',
       title: 'Zucchini Noodles with Tomato Sauce',
       image: '/Preview Images/Zucchini Noodles with Tomato Sauce.png',
-      ingredients: ['Zucchini', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Zucchini', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Saute zucchini noodles in skillet with olive oil and tomato sauce. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -281,40 +281,40 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
     'High Fiber'
   ];
 
-  const findMatchingRecipes = (userIngredients: string[]) => {
-    const userIngredientSet = new Set(userIngredients.map(ing => ing.toLowerCase()));
+  const findMatchingRoutes = (userItems: string[]) => {
+    const userItemSet = new Set(userItems.map(ing => ing.toLowerCase()));
     
-    const recipesWithScores = allRecipes.map(recipe => {
-      const matchingIngredients = recipe.ingredients.filter(ing => 
-        userIngredientSet.has(ing.toLowerCase())
+    const routesWithScores = allRoutes.map(route => {
+      const matchingItems = route.items.filter(ing => 
+        userItemSet.has(ing.toLowerCase())
       );
       
-      // Calculate match score (percentage of recipe ingredients that match)
-      const matchScore = (matchingIngredients.length / recipe.ingredients.length) * 100;
+      // Calculate match score (percentage of route items that match)
+      const matchScore = (matchingItems.length / route.items.length) * 100;
       
       return {
-        recipe,
+        route,
         matchScore,
-        matchingIngredients
+        matchingItems
       };
     });
     
     // Sort by match score (highest first)
-    return recipesWithScores.sort((a, b) => b.matchScore - a.matchScore);
+    return routesWithScores.sort((a, b) => b.matchScore - a.matchScore);
   };
 
-  const handleRecipeMatcherOpen = () => {
-    // Only show if user has added ingredients
-    if (ingredients.length === 0) {
+  const handleRouteMatcherOpen = () => {
+    // Only show if user has added items
+    if (items.length === 0) {
       alert('Please add some ingredients to your cupboard first!');
       return;
     }
     
-    const userIngredients = ingredients.map(ing => ing.name);
-    const matched = findMatchingRecipes(userIngredients);
-    setMatchedRecipes(matched);
-    setCurrentRecipeIndex(0);
-    setShowRecipeMatcher(true);
+    const userItems = items.map(ing => ing.name);
+    const matched = findMatchingRoutes(userItems);
+    setMatchedRoutes(matched);
+    setCurrentRouteIndex(0);
+    setShowRouteMatcher(true);
   };
 
   const handleLike = () => {
@@ -327,8 +327,8 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleSkip = () => {
-    setCurrentRecipeIndex(prev => 
-      prev < matchedRecipes.length - 1 ? prev + 1 : 0
+    setCurrentRouteIndex(prev => 
+      prev < matchedRoutes.length - 1 ? prev + 1 : 0
     );
   };
 
@@ -336,18 +336,18 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
     window.location.href = 'https://global-mvp123-porkchop.us.wristband.dev/signup';
   };
 
-  const addIngredient = () => {
+  const addItem = () => {
     if (input.trim()) {
-      setIngredients(prev => [...prev, { name: input.trim(), category }]);
+      setItems(prev => [...prev, { name: input.trim(), category }]);
       setInput('');
     }
   };
 
-  const filteredIngredients = ingredients.filter(ing => 
+  const filteredItems = items.filter(ing => 
     ing.name.toLowerCase().includes(filterText.toLowerCase())
   );
 
-  const recipeImages = [
+  const routeImages = [
     'Avacado Toast.png',
     'Baked Salmon.png',
     'Breakfast Burrito.png',
@@ -375,12 +375,12 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
     'Vegetable Stir Fry.png'
   ];
 
-  const sampleRecipes = [
+  const sampleRoutes = [
     {
       id: '1',
       title: 'Avocado Toast',
       image: '/Preview Images/Avacado Toast.png',
-      ingredients: ['Bread', 'Avocado', 'Salt', 'Pepper', 'Red Pepper Flakes', 'Olive Oil'],
+      items: ['Bread', 'Avocado', 'Salt', 'Pepper', 'Red Pepper Flakes', 'Olive Oil'],
       instructions: 'Toast bread. Mash avocado with salt, pepper, and a drizzle of olive oil. Spread on toast and sprinkle with red pepper flakes.',
       equipment: ['Toaster', 'Knife', 'Bowl'],
       healthTags: ['Heart Healthy', 'High Fiber']
@@ -389,7 +389,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '2',
       title: 'Baked Salmon',
       image: '/Preview Images/Baked Salmon.png',
-      ingredients: ['Salmon fillet', 'Lemon', 'Dill', 'Olive Oil', 'Garlic', 'Salt', 'Pepper'],
+      items: ['Salmon fillet', 'Lemon', 'Dill', 'Olive Oil', 'Garlic', 'Salt', 'Pepper'],
       instructions: 'Preheat oven to 375°F. Place salmon on baking sheet, drizzle with olive oil, and season with salt, pepper, dill, and garlic. Add lemon slices on top. Bake for 12-15 minutes.',
       equipment: ['Baking Sheet', 'Oven'],
       healthTags: ['Heart Healthy', 'High in Omega-3']
@@ -398,7 +398,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '3',
       title: 'Breakfast Burrito',
       image: '/Preview Images/Breakfast Burrito.png',
-      ingredients: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Bell Peppers', 'Onion', 'Salt', 'Pepper', 'Butter'],
+      items: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Bell Peppers', 'Onion', 'Salt', 'Pepper', 'Butter'],
       instructions: 'Cook sausage, then sauté onions and bell peppers. Scramble eggs with salt and pepper. Warm tortilla and assemble with eggs, sausage, veggies, and cheese.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -407,7 +407,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '4',
       title: 'Breakfast Tacos',
       image: '/Preview Images/Breakfast Tacos.png',
-      ingredients: ['Corn Tortillas', 'Eggs', 'Black Beans', 'Avocado', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
+      items: ['Corn Tortillas', 'Eggs', 'Black Beans', 'Avocado', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
       instructions: 'Warm tortillas. Scramble eggs with salt and pepper. Heat black beans. Assemble tacos with eggs, beans, avocado, salsa, and cilantro. Squeeze lime on top.',
       equipment: ['Skillet', 'Mixing Bowl'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -416,7 +416,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '5',
       title: 'Chicken Fajitas',
       image: '/Preview Images/Chicken Fajitas.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Tortilla', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Tortilla', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
       instructions: 'Sauté chicken, bell peppers, and onions. Warm tortillas. Assemble fajitas with chicken, veggies, salsa, and cilantro. Squeeze lime on top.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -425,7 +425,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '6',
       title: 'Chicken Quesadillas',
       image: '/Preview Images/Chicken Quesadillas.png',
-      ingredients: ['Chicken Breast', 'Tortilla', 'Cheese', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Tortilla', 'Cheese', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
       instructions: 'Shred chicken and mix with cheese. Place mixture on tortilla and top with another tortilla. Cook in skillet until cheese is melted and tortillas are crispy.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -434,7 +434,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '7',
       title: 'Chicken and Rice Bowls',
       image: '/Preview Images/Chicken and Rice Bowls.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Vegetable Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Rice', 'Vegetable Oil', 'Salt', 'Pepper'],
       instructions: 'Cook chicken and rice in skillet with vegetable oil. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -443,7 +443,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '8',
       title: 'Chicken and Vegetable Kabobs',
       image: '/Preview Images/Chicken and Vegetable Kabobs.png',
-      ingredients: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Zucchini', 'Cherry Tomatoes', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Zucchini', 'Cherry Tomatoes', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Alternate chicken and vegetables on skewers. Brush with olive oil and season with salt and pepper. Grill or bake until cooked through.',
       equipment: ['Grill', 'Baking Sheet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -452,7 +452,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '9',
       title: 'Chickpea and Avocado Salad',
       image: '/Preview Images/Chickpea and Avocado Salad.png',
-      ingredients: ['Chickpeas', 'Avocado', 'Red Onion', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
+      items: ['Chickpeas', 'Avocado', 'Red Onion', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
       instructions: 'Mash avocado and mix with chickpeas, red onion, and cilantro. Squeeze lime on top and season with salt and pepper.',
       equipment: ['Mixing Bowl', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -461,7 +461,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '10',
       title: 'Classic Beef Burger',
       image: '/Preview Images/Classic Beef Burger.png',
-      ingredients: ['Ground Beef', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Ketchup', 'Mayonnaise', 'Mustard'],
+      items: ['Ground Beef', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Ketchup', 'Mayonnaise', 'Mustard'],
       instructions: 'Grill or pan-fry burger. Assemble with lettuce, tomato, cheese, ketchup, mayonnaise, and mustard.',
       equipment: ['Grill', 'Skillet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -470,7 +470,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '11',
       title: 'Garlic Butter Chicken with Rice',
       image: '/Preview Images/Garlic Butter Chicken with Rice.png',
-      ingredients: ['Chicken Breast', 'Rice', 'Butter', 'Garlic', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Rice', 'Butter', 'Garlic', 'Salt', 'Pepper'],
       instructions: 'Cook chicken and rice in skillet with butter and garlic. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -479,7 +479,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '12',
       title: 'Greek Salad',
       image: '/Preview Images/Greek Salad.png',
-      ingredients: ['Lettuce', 'Tomato', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Olives', 'Greek Vinaigrette'],
+      items: ['Lettuce', 'Tomato', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Olives', 'Greek Vinaigrette'],
       instructions: 'Combine lettuce, tomato, cucumber, red onion, feta cheese, and olives in bowl. Drizzle with Greek vinaigrette.',
       equipment: ['Mixing Bowl', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -488,7 +488,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '13',
       title: 'Grilled Cheese',
       image: '/Preview Images/Grilled Cheese.png',
-      ingredients: ['Bread', 'Cheese', 'Butter'],
+      items: ['Bread', 'Cheese', 'Butter'],
       instructions: 'Butter bread and place cheese in between. Grill in skillet until cheese is melted and bread is crispy.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Calcium']
@@ -497,7 +497,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '14',
       title: 'Lemon Garlic Chicken with Roasted Broccoli',
       image: '/Preview Images/Lemon Garlic Chicken with Roasted Broccoli.png',
-      ingredients: ['Chicken Breast', 'Broccoli', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Broccoli', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Cook chicken and broccoli in skillet with lemon, garlic, and olive oil. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -506,7 +506,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '15',
       title: 'Lemon Herb Roasted Chicken',
       image: '/Preview Images/Lemon Herb Roasted Chicken.png',
-      ingredients: ['Chicken Breast', 'Lemon', 'Herbs', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Lemon', 'Herbs', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Rub chicken with lemon, herbs, and olive oil. Season with salt and pepper. Roast in oven until cooked through.',
       equipment: ['Oven', 'Baking Sheet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -515,7 +515,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '16',
       title: 'Lentil Soup',
       image: '/Preview Images/Lentil Soup.png',
-      ingredients: ['Lentils', 'Vegetable Broth', 'Onion', 'Carrot', 'Celery', 'Tomato', 'Cumin', 'Paprika'],
+      items: ['Lentils', 'Vegetable Broth', 'Onion', 'Carrot', 'Celery', 'Tomato', 'Cumin', 'Paprika'],
       instructions: 'Saute onion, carrot, and celery in pot. Add lentils, vegetable broth, tomato, cumin, and paprika. Simmer until lentils are tender.',
       equipment: ['Pot', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -524,7 +524,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '17',
       title: 'Pasta Carbonara',
       image: '/Preview Images/Pasta Carbonara.png',
-      ingredients: ['Pasta', 'Bacon', 'Eggs', 'Parmesan Cheese', 'Black Pepper'],
+      items: ['Pasta', 'Bacon', 'Eggs', 'Parmesan Cheese', 'Black Pepper'],
       instructions: 'Cook pasta in pot. Whisk eggs, parmesan cheese, and black pepper in bowl. Add cooked bacon to bowl and mix. Combine with cooked pasta.',
       equipment: ['Pot', 'Spatula'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -533,7 +533,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '18',
       title: 'Quinoa Salad Bowl',
       image: '/Preview Images/Quinoa Salad Bowl.png',
-      ingredients: ['Quinoa', 'Mixed Greens', 'Cherry Tomatoes', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Lemon Vinaigrette'],
+      items: ['Quinoa', 'Mixed Greens', 'Cherry Tomatoes', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Lemon Vinaigrette'],
       instructions: 'Combine quinoa, mixed greens, cherry tomatoes, cucumber, red onion, and feta cheese in bowl. Drizzle with lemon vinaigrette.',
       equipment: ['Mixing Bowl', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -542,7 +542,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '19',
       title: 'Roasted Brussel Sprouts',
       image: '/Preview Images/Roasted Brussel Sprouts.png',
-      ingredients: ['Brussel Sprouts', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Brussel Sprouts', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Toss brussel sprouts with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
       equipment: ['Oven', 'Baking Sheet'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -551,7 +551,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '20',
       title: 'Roasted Sweet Potatoes',
       image: '/Preview Images/Roasted Sweet Potatoes.png',
-      ingredients: ['Sweet Potatoes', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Sweet Potatoes', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Toss sweet potatoes with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
       equipment: ['Oven', 'Baking Sheet'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -560,7 +560,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '21',
       title: 'Spaghetti Squash with Meat Sauce',
       image: '/Preview Images/Spaghetti Squash with Meat Sauce.png',
-      ingredients: ['Spaghetti Squash', 'Ground Beef', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Spaghetti Squash', 'Ground Beef', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Cook spaghetti squash in oven. Cook ground beef and tomato sauce in skillet. Combine with cooked spaghetti squash.',
       equipment: ['Oven', 'Skillet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -569,7 +569,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '22',
       title: 'Spinach and Feta Stuffed Chicken',
       image: '/Preview Images/Spinach and Feta Stuffed Chicken.png',
-      ingredients: ['Chicken Breast', 'Spinach', 'Feta Cheese', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Chicken Breast', 'Spinach', 'Feta Cheese', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Stuff chicken breast with spinach, feta cheese, and garlic. Drizzle with olive oil and season with salt and pepper. Bake in oven until cooked through.',
       equipment: ['Oven', 'Baking Sheet'],
       healthTags: ['High Protein', 'Low Glycemic']
@@ -578,7 +578,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '23',
       title: 'Vegetable Curry',
       image: '/Preview Images/Vegetable Curry.png',
-      ingredients: ['Mixed Vegetables', 'Coconut Milk', 'Curry Powder', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Mixed Vegetables', 'Coconut Milk', 'Curry Powder', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Saute mixed vegetables in pot. Add coconut milk, curry powder, and olive oil. Simmer until vegetables are tender.',
       equipment: ['Pot', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -587,7 +587,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '24',
       title: 'Vegetable Stir Fry',
       image: '/Preview Images/Vegetable Stir Fry.png',
-      ingredients: ['Mixed Vegetables', 'Olive Oil', 'Soy Sauce', 'Salt', 'Pepper'],
+      items: ['Mixed Vegetables', 'Olive Oil', 'Soy Sauce', 'Salt', 'Pepper'],
       instructions: 'Saute mixed vegetables in skillet with olive oil and soy sauce. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -596,7 +596,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
       id: '25',
       title: 'Zucchini Noodles with Tomato Sauce',
       image: '/Preview Images/Zucchini Noodles with Tomato Sauce.png',
-      ingredients: ['Zucchini', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
+      items: ['Zucchini', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
       instructions: 'Saute zucchini noodles in skillet with olive oil and tomato sauce. Season with salt and pepper.',
       equipment: ['Skillet', 'Spatula'],
       healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
@@ -621,11 +621,11 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
               ✕
             </button>
             <h3 className="font-retro text-lg mb-2">Your PorkChop Preview!</h3>
-            <p className="text-sm mb-2">This is our My Kitchen Module (1 of 5).</p>
+            <p className="text-sm mb-2">This is our My Dock Module (1 of 5).</p>
             <ul className="text-xs space-y-1 list-disc pl-4 text-left inline-block">
-              <li><span className="font-semibold">Scan Kitchen</span> - Scans your food, works in app!</li>
-              <li>Click the <span className="font-semibold">Recipe Matcher</span> Builds Recipes!</li>
-              <li>Add, sort and search your digital cupboard.</li>
+              <li><span className="font-semibold">Scan Dock</span> - Scans your cargo, works in app!</li>
+              <li>Click the <span className="font-semibold">Route Matcher</span> Builds Routes!</li>
+              <li>Add, sort and search your digital inventory.</li>
             </ul>
             <p className="text-xs mt-2 italic">Feel free to hit <span className="font-semibold">Full Demo</span> to see everything in action.</p>
           </div>
@@ -642,14 +642,14 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
         </button>
         <div className="flex items-center justify-center mb-2">
           <span className="text-5xl mr-2">🐟</span>
-          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Kitchen</h1>
+          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Dock</h1>
         </div>
 
         {/* Action Buttons */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
           <input
             type="file"
-            id="scan-kitchen-file"
+            id="scan-dock-file"
             className="hidden"
             accept="image/*"
             onChange={() => {}}
@@ -658,52 +658,52 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
             className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full sm:w-auto max-w-xs flex items-center justify-center gap-2"
             onClick={() => alert('Functionality available in app. Please try again later.')}
           >
-            Scan Kitchen
+            Scan Dock
           </button>
           
           <button
             className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors w-full sm:w-auto max-w-xs"
-            onClick={handleRecipeMatcherOpen}
+            onClick={handleRouteMatcherOpen}
             disabled={matcherLoading}
           >
-            {matcherLoading ? 'Loading...' : 'Recipe Matcher'}
+            {matcherLoading ? 'Loading...' : 'Route Matcher'}
           </button>
         </div>
 
-        {/* Digital Cupboard Section */}
+        {/* Digital Inventory Section */}
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
-            <span role="img" aria-label="anchor">⚓</span> Digital Cupboard
+            <span role="img" aria-label="anchor">⚓</span> Digital Inventory
           </h3>
-          {ingredients.length > 0 && (
+          {items.length > 0 && (
             <button
               className="text-xs text-lobsterRed underline hover:text-maineBlue"
-              onClick={() => setIngredients([])}
+              onClick={() => setItems([])}
             >
               Clear All
             </button>
           )}
         </div>
 
-        {/* Add Ingredient Bar */}
+        {/* Add Item Bar */}
         <div className="flex flex-col sm:flex-row gap-2 mb-4 w-full">
-          {/* Search cupboard input */}
+          {/* Search inventory input */}
           <input
             type="text"
             className="border px-3 py-2 rounded w-full sm:w-1/3"
-            placeholder="Search cupboard..."
+            placeholder="Search inventory..."
             value={filterText}
             onChange={e => setFilterText(e.target.value)}
             style={{ minWidth: 120 }}
           />
-          {/* Add ingredient input */}
+          {/* Add item input */}
           <input
             type="text"
             className="border px-3 py-2 rounded w-full sm:w-1/3"
-            placeholder="Add an ingredient..."
+            placeholder="Add an item..."
             value={input}
             onChange={e => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && addIngredient()}
+            onKeyPress={(e) => e.key === 'Enter' && addItem()}
           />
           <select
             className="border px-2 py-2 rounded bg-weatheredWhite"
@@ -716,13 +716,13 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           </select>
           <button
             className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors"
-            onClick={addIngredient}
+            onClick={addItem}
           >
             Add
           </button>
         </div>
 
-        {/* Cupboard Display */}
+        {/* Inventory Display */}
         <div className="bg-gradient-to-br from-yellow-100 to-sand border-4 border-yellow-900 rounded-2xl shadow-lg p-4 relative overflow-hidden">
           {/* Rope border accent */}
           <div className="absolute inset-0 pointer-events-none z-0">
@@ -731,14 +731,14 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
             </svg>
           </div>
           
-          {filteredIngredients.length === 0 ? (
+          {filteredItems.length === 0 ? (
             <div className="text-gray-500 italic text-center py-8 relative z-10">
-              No matching ingredients in your digital cupboard!
+              No matching items in your digital inventory!
             </div>
           ) : (
             <div className="flex flex-col gap-4 relative z-10">
               {[0,1,2,3,4,5].map(shelfIdx => {
-                const shelfItems = filteredIngredients.slice(shelfIdx*3, (shelfIdx+1)*3);
+                const shelfItems = filteredItems.slice(shelfIdx*3, (shelfIdx+1)*3);
                 if (shelfItems.length === 0) return null;
                 return (
                   <div key={shelfIdx} className="flex justify-around items-end border-b-4 border-yellow-900 pb-3 last:border-b-0">
@@ -757,7 +757,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
                         <button
                           className="mt-1 text-xs text-lobsterRed hover:text-maineBlue font-bold"
                           onClick={() => {
-                            setIngredients(ingredients.filter(i => i !== ing));
+                            setItems(items.filter(i => i !== ing));
                           }}
                           title="Remove"
                         >
@@ -772,31 +772,31 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           )}
         </div>
       </div>
-      {showRecipeMatcher && (
+      {showRouteMatcher && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="bg-weatheredWhite rounded-lg shadow-lg p-6 max-w-xl w-full relative">
             <button 
               className="absolute top-2 right-2 text-lobsterRed font-bold text-xl" 
-              onClick={() => setShowRecipeMatcher(false)}
+              onClick={() => setShowRouteMatcher(false)}
             >
               ✕
             </button>
-            <h2 className="font-retro text-2xl mb-2 text-center">Recipe Matcher</h2>
+            <h2 className="font-retro text-2xl mb-2 text-center">Route Matcher</h2>
             
             <div className="flex flex-col items-center">
               <div className="bg-sand rounded-xl shadow-lg p-4 w-full max-w-md mb-4 relative">
                 <img 
-                  src={sampleRecipes[currentRecipeIndex].image} 
-                  alt={sampleRecipes[currentRecipeIndex].title} 
+                  src={sampleRoutes[currentRouteIndex].image} 
+                  alt={sampleRoutes[currentRouteIndex].title} 
                   className="w-full h-48 object-cover rounded mb-2" 
                 />
                 <h3 className="font-retro text-xl mb-3 text-center">
-                  {sampleRecipes[currentRecipeIndex].title}
+                  {sampleRoutes[currentRouteIndex].title}
                 </h3>
                 
                 <div className="flex flex-wrap gap-1 mb-3 justify-center">
                   {DIETARY_TAGS.map(tag => {
-                    const isMatch = sampleRecipes[currentRecipeIndex].healthTags?.includes(tag);
+                    const isMatch = sampleRoutes[currentRouteIndex].healthTags?.includes(tag);
                     return (
                       <span 
                         key={tag}
@@ -810,11 +810,11 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
                   })}
                 </div>
                 <div className="text-xs text-gray-600 mb-2 text-center">
-                  <span className="font-bold">Ingredients:</span> {sampleRecipes[currentRecipeIndex].ingredients.join(', ')}
+                  <span className="font-bold">Items:</span> {sampleRoutes[currentRouteIndex].items.join(', ')}
                 </div>
-                {sampleRecipes[currentRecipeIndex].equipment && sampleRecipes[currentRecipeIndex].equipment.length > 0 && (
+                {sampleRoutes[currentRouteIndex].equipment && sampleRoutes[currentRouteIndex].equipment.length > 0 && (
                   <div className="text-xs text-gray-600 mb-2 text-center">
-                    <span className="font-bold">Equipment:</span> {sampleRecipes[currentRecipeIndex].equipment.join(', ')}
+                    <span className="font-bold">Equipment:</span> {sampleRoutes[currentRouteIndex].equipment.join(', ')}
                   </div>
                 )}
               </div>
@@ -837,12 +837,12 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
                   className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" 
                   onClick={handleCookMe}
                 >
-                  Cook Me
+                  Run It
                 </button>
               </div>
               
               <div className="text-xs mt-4 text-center text-gray-500">
-                Swipe through AI-powered recipes based on your cupboard!
+                Swipe through AI-powered routes based on your inventory!
               </div>
             </div>
           </div>
