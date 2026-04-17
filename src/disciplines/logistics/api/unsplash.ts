@@ -4,7 +4,7 @@
 // Helper to build a more specific Unsplash query
 function buildImageQuery(routeTitle: string, item: string, type: 'item' | 'equipment' | 'route' = 'route'): string {
   if (type === 'equipment') {
-    return `${routeTitle} ${item} cooking`;
+    return `${routeTitle} ${item} logistics`;
   }
   if (type === 'item') {
     return `${item} for ${routeTitle}`;

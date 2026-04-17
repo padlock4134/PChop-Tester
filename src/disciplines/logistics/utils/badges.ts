@@ -27,16 +27,16 @@ export const BADGES: BadgeDefinition[] = [
   { id: 'salad_savant', name: 'Salad Savant', icon: '🥗', category: 'Weekly Challenge', description: 'Won a salad challenge.' },
   { id: 'breakfast_boss', name: 'Breakfast Boss', icon: '🥞', category: 'Weekly Challenge', description: 'Won a breakfast challenge.' },
   { id: 'dessert_devotee', name: 'Dessert Devotee', icon: '🍰', category: 'Weekly Challenge', description: 'Won a dessert challenge.' },
-  { id: 'seacargo_specialist', name: 'Seacargo Specialist', icon: '🦞', category: 'Weekly Challenge', description: 'Won a seacargo challenge.' },
+  { id: 'marine_specialist', name: 'Marine Specialist', icon: '🦞', category: 'Weekly Challenge', description: 'Won a marine challenge.' },
   { id: 'bbq_boss', name: 'BBQ Boss', icon: '🍗', category: 'Weekly Challenge', description: 'Won a BBQ challenge.' },
   { id: 'veggie_victor', name: 'Veggie Victor', icon: '🥦', category: 'Weekly Challenge', description: 'Won a vegetarian challenge.' },
   { id: 'vegan_victor', name: 'Vegan Victor', icon: '🥕', category: 'Weekly Challenge', description: 'Won a vegan challenge.' },
   { id: 'holiday_hero', name: 'Holiday Hero', icon: '🎄', category: 'Weekly Challenge', description: 'Won a holiday challenge.' },
   { id: 'spicy_supreme', name: 'Spicy Supreme', icon: '🌶️', category: 'Weekly Challenge', description: 'Won a spicy challenge.' },
-  { id: 'comfort_king', name: 'Comfort King', icon: '🥘', category: 'Weekly Challenge', description: 'Won a comfort cargo challenge.' },
+  { id: 'comfort_king', name: 'Comfort King', icon: '🥘', category: 'Weekly Challenge', description: 'Won a comfort challenge.' },
   { id: 'fusion_fanatic', name: 'Fusion Fanatic', icon: '🍱', category: 'Weekly Challenge', description: 'Won a fusion challenge.' },
-  { id: 'street_cargoie', name: 'Street __PROTECT_CARGO__ie', icon: '🌯', category: 'Weekly Challenge', description: 'Won a street cargo challenge.' },
-  { id: 'bowl_boss', name: 'Bowl Boss', icon: '🥣', category: 'Weekly Challenge', description: 'Won a bowl cargo challenge.' },
+  { id: 'street_specialist', name: 'Street Specialist', icon: '🌯', category: 'Weekly Challenge', description: 'Won a street challenge.' },
+  { id: 'bowl_boss', name: 'Bowl Boss', icon: '🥣', category: 'Weekly Challenge', description: 'Won a bowl challenge.' },
   { id: 'harvest_hero', name: 'Harvest Hero', icon: '🌽', category: 'Weekly Challenge', description: 'Won a harvest challenge.' },
   { id: 'brunch_boss', name: 'Brunch Boss', icon: '🥓', category: 'Weekly Challenge', description: 'Won a brunch challenge.' },
   { id: 'sizzle_star', name: 'Sizzle Star', icon: '🍳', category: 'Weekly Challenge', description: 'Won a stir-fry challenge.' },
@@ -46,7 +46,7 @@ export const BADGES: BadgeDefinition[] = [
   { id: 'festive_dispatcher', name: 'Festive Champion', icon: '🎉', category: 'Weekly Challenge', description: 'Won a festive challenge.' },
   { id: 'dairy_free_pro', name: 'Dairy-Free Pro', icon: '🥛', category: 'Weekly Challenge', description: 'Won a dairy-free challenge.' },
   { id: 'grain_guru', name: 'Grain Guru', icon: '🌾', category: 'Weekly Challenge', description: 'Won a grain challenge.' },
-  { id: 'stuffed_star', name: 'Stuffed Star', icon: '🌯', category: 'Weekly Challenge', description: 'Won a stuffed cargo challenge.' },
+  { id: 'stuffed_star', name: 'Stuffed Star', icon: '🌯', category: 'Weekly Challenge', description: 'Won a stuffed challenge.' },
   { id: 'dip_master', name: 'Dip Master', icon: '🥣', category: 'Weekly Challenge', description: 'Won a dip challenge.' },
   // ...add 24 more unique weekly challenge badges for a total of 52
 
@@ -68,7 +68,7 @@ export const BADGES: BadgeDefinition[] = [
   { id: 'runbook_60', name: 'Project Historian', icon: '📚', category: 'Milestone', description: 'Added 60 projects to your playbook.' },
   { id: 'runbook_80', name: 'Project Scholar', icon: '📚', category: 'Milestone', description: 'Added 80 projects to your playbook.' },
   { id: 'runbook_100', name: 'Project Sage', icon: '📚', category: 'Milestone', description: 'Added 100 projects to your playbook.' },
-  { id: 'first_route', name: 'First Completion', icon: '👨‍🍳', category: 'Milestone', description: 'Completed your first project.' },
+  { id: 'first_route', name: 'First Completion', icon: '🚚', category: 'Milestone', description: 'Completed your first project.' },
   { id: 'first_added', name: 'First Addition', icon: '📝', category: 'Milestone', description: 'Added your first project.' },
   { id: 'first_challenge', name: 'First Challenge', icon: '🏆', category: 'Milestone', description: 'Completed your first challenge.' },
 
@@ -85,7 +85,7 @@ export const BADGES: BadgeDefinition[] = [
   { id: 'iron_dispatcher', name: 'Master Technician', icon: '🦾', category: 'Difficulty', description: 'Completed 50 advanced projects.' },
 
   // --- THEME/ITEM BADGES (50) ---
-  // Vegetarian, Vegan, Dessert, BBQ, Seacargo, Pasta, Breakfast, Salad, Soup, Bread
+  // Vegetarian, Vegan, Dessert, BBQ, Marine, Pasta, Breakfast, Salad, Soup, Bread
   // Each theme has 5 tiers: 1, 5, 10, 25, 50
   ...(() => {
     const themes = [
@@ -93,7 +93,7 @@ export const BADGES: BadgeDefinition[] = [
       { key: 'vegan', name: 'Vegan Virtuoso', icon: '🥕' },
       { key: 'dessert', name: 'Dessert Pro', icon: '🧁' },
       { key: 'bbq', name: 'BBQ Boss', icon: '🍗' },
-      { key: 'seacargo', name: 'Seacargo Star', icon: '🦀' },
+      { key: 'marine', name: 'Marine Star', icon: '🦀' },
       { key: 'pasta', name: 'Pasta Pro', icon: '🍝' },
       { key: 'breakfast', name: 'Breakfast Buff', icon: '🥞' },
       { key: 'salad', name: 'Salad Sage', icon: '🥗' },
@@ -154,7 +154,7 @@ export const BADGES: BadgeDefinition[] = [
   { id: 'birthday_dispatcher', name: 'Birthday Builder', icon: '🎂', category: 'Special', description: 'Completed a project on your birthday.' },
   { id: 'all_challenges', name: 'Jack of All Challenges', icon: '🌟', category: 'Special', description: 'Completed every challenge type.' },
   { id: 'secret_sauce', name: 'Secret Sauce', icon: '🕵️‍♂️', category: 'Special', description: 'Discovered a hidden feature.' },
-  { id: 'holiday_cook', name: 'Holiday Builder', icon: '🎁', category: 'Special', description: 'Completed a project on a holiday.' },
+  { id: 'holiday_route', name: 'Holiday Builder', icon: '🎁', category: 'Special', description: 'Completed a project on a holiday.' },
   { id: 'night_owl', name: 'Night Owl', icon: '🦉', category: 'Special', description: 'Completed a project after midnight.' },
   { id: 'early_bird', name: 'Early Bird', icon: '🐦', category: 'Special', description: 'Completed a project before 6am.' },
   { id: 'all_themes', name: 'Domain Master', icon: '🏆', category: 'Special', description: 'Completed at least one project from every theme.' },

@@ -178,7 +178,7 @@ const MyRunbook = () => {
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
     { id: '1', name: 'Favorites', emoji: '⭐', routes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Cook', emoji: '⚡', routes: ['1', '2'] },
+    { id: '2', name: 'Quick Routes', emoji: '⚡', routes: ['1', '2'] },
     { id: '3', name: 'Healthy Options', emoji: '🥗', routes: ['1', '2', '3', '4', '5'] }
   ]);
 

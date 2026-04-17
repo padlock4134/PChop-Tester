@@ -10,20 +10,20 @@ export interface ItemPrice {
 
 // Map item keywords to market types
 export const itemToMarketType: Record<string, string> = {
-  // Seacargo
-  'lobster': 'seacargo',
-  'clam': 'seacargo',
-  'clams': 'seacargo',
-  'fish': 'seacargo',
-  'salmon': 'seacargo',
-  'tuna': 'seacargo',
-  'shrimp': 'seacargo',
-  'crab': 'seacargo',
-  'scallop': 'seacargo',
-  'oyster': 'seacargo',
-  'mussel': 'seacargo',
-  'cod': 'seacargo',
-  'haddock': 'seacargo',
+  // Marine
+  'lobster': 'marine',
+  'clam': 'marine',
+  'clams': 'marine',
+  'fish': 'marine',
+  'salmon': 'marine',
+  'tuna': 'marine',
+  'shrimp': 'marine',
+  'crab': 'marine',
+  'scallop': 'marine',
+  'oyster': 'marine',
+  'mussel': 'marine',
+  'cod': 'marine',
+  'haddock': 'marine',
   
   // Meat/Butcher
   'beef': 'butcher',
@@ -181,7 +181,7 @@ export const itemToMarketType: Record<string, string> = {
 
 // Basic price estimates (in USD)
 export const itemPriceEstimates: Record<string, { price: number; unit: string }> = {
-  // Seacargo (premium pricing)
+  // Marine (premium pricing)
   'lobster': { price: 18, unit: 'lb' },
   'clam': { price: 9, unit: 'lb' },
   'clams': { price: 9, unit: 'lb' },

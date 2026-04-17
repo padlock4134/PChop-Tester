@@ -11,7 +11,7 @@ const DOCK_EQUIPMENT = {
   'Minimalist': ['pot', 'pan', 'knife', 'cutting board', 'stove'],
   'Apartment Dock': ['oven', 'stove', 'basic utensils', 'baking sheets'],
   'Outdoor Grilling': ['grill', 'tongs', 'grill brush', 'meat thermometer'],
-  'Home Dispatcher': ['blender', 'cargo processor', 'mixer', 'knives', 'oven', 'stove'],
+  'Home Dispatcher': ['blender', 'industrial processor', 'mixer', 'knives', 'oven', 'stove'],
   'Full Dispatcher\'s Dock': ['all equipment']
 } as const;
 

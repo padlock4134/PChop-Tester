@@ -53,7 +53,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, itemsForMarket }) => {
       case 'dairy': return '🥛';
       case 'deli': return '🥪';
       case 'farms': return '🚜';
-      case 'seacargo': return '🐟';
+      case 'marine': return '🐟';
       default: return '🏪';
     }
   };
@@ -209,7 +209,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
         return { bg: 'bg-blue-50', border: 'border-blue-500' };
       case 'butcher':
         return { bg: 'bg-red-50', border: 'border-red-500' };
-      case 'seacargo':
+      case 'marine':
         return { bg: 'bg-cyan-50', border: 'border-cyan-500' };
       case 'produce':
         return { bg: 'bg-green-50', border: 'border-green-500' };
@@ -397,7 +397,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
           { query: 'dairy farm', type: 'dairy' },
           { query: 'deli', type: 'deli' },
           { query: 'farm stand', type: 'farms' },
-          { query: 'seacargo market', type: 'seacargo' }
+          { query: 'marine market', type: 'marine' }
         ];
         
         const allMarkets: Market[] = [];
@@ -460,10 +460,10 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
           { name: "Browne Trading Company", address: "262 Commercial St, Portland, ME 04101", distance: 2.4, type: "butcher", rating: 4.7, isOpen: true },
           { name: "The Meat House", address: "1012 Brighton Ave, Portland, ME 04102", distance: 3.8, type: "butcher", rating: 4.4, isOpen: false },
           
-          // Seacargo markets (3)
-          { name: "Harbor Fish Market", address: "9 Custom House Wharf, Portland, ME 04101", distance: 2.3, type: "seacargo", rating: 4.8, isOpen: true },
-          { name: "Free Range Fish & Lobster", address: "470 Forest Ave, Portland, ME 04101", distance: 2.7, type: "seacargo", rating: 4.5, isOpen: true },
-          { name: "Portland Fish Pier", address: "6 Portland Fish Pier, Portland, ME 04101", distance: 3.2, type: "seacargo", rating: 4.3, isOpen: true },
+          // Marine markets (3)
+          { name: "Harbor Fish Market", address: "9 Custom House Wharf, Portland, ME 04101", distance: 2.3, type: "marine", rating: 4.8, isOpen: true },
+          { name: "Free Range Fish & Lobster", address: "470 Forest Ave, Portland, ME 04101", distance: 2.7, type: "marine", rating: 4.5, isOpen: true },
+          { name: "Portland Fish Pier", address: "6 Portland Fish Pier, Portland, ME 04101", distance: 3.2, type: "marine", rating: 4.3, isOpen: true },
           
           // Produce markets (3)
           { name: "Portland Farmers Market", address: "Monument Square, Portland, ME 04101", distance: 1.9, type: "produce", rating: 4.6, isOpen: true },
@@ -525,13 +525,13 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             itemsForCategory={itemsByMarketType['butcher']}
           />
           <CategoryCard 
-            category="seacargo" 
-            title="Seacargo" 
+            category="marine" 
+            title="Marine" 
             icon="🐟" 
-            description="Fresh seacargo markets and fishmongers"
-            markets={markets.filter(m => m.type === 'seacargo')}
+            description="Fresh marine markets and fishmongers"
+            markets={markets.filter(m => m.type === 'marine')}
             loading={loading}
-            itemsForCategory={itemsByMarketType['seacargo']}
+            itemsForCategory={itemsByMarketType['marine']}
           />
           <CategoryCard 
             category="produce" 
