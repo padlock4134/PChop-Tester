@@ -14,33 +14,30 @@ import { isSessionValid } from '../api/userSession';
 import { supabase } from '../api/supabaseClient';
 
 const CATEGORIES = [
-  "Vegetable",
-  "Fruit",
-  "Protein",
-  "Dairy",
-  "Grain",
-  "Spice",
-  "Canned/Preserved",
-  "Condiment/Sauce",
-  "Frozen",
+  "General Freight",
+  "Palletized Goods",
+  "Temperature Controlled",
+  "Hazmat",
+  "Oversized/Heavy",
+  "Parcel/Small Package",
+  "Raw Materials",
+  "Electronics/High Value",
+  "Documents/Paperwork",
   "Other"
 ];
 
-// Categorize item names to best-fit category
+// Categorize item names to best-fit cargo category
 function categorizeItem(name: string): string {
   const n = name.toLowerCase();
-  // Enhanced detection for loose produce and specific cargo items
-  if (/(green bean|string bean|snap bean|haricot vert|french bean)/.test(n)) return "Vegetable";
-  if (/(loose|raw|fresh|unpackaged|bulk) (vegetable|produce|bean|legume)/.test(n)) return "Vegetable";
-  if (/(lettuce|spinach|carrot|broccoli|onion|pepper|cabbage|kale|tomato|bean|pea|potato|corn|mushroom|zucchini|cucumber|asparagus|squash|celery|radish|beet|turnip|eggplant|avocado)/.test(n)) return "Vegetable";
-  if (/(apple|banana|orange|lemon|lime|berry|grape|melon|peach|pear|plum|kiwi|mango|pineapple|apricot|cherry|fig|date|papaya|guava|coconut)/.test(n)) return "Fruit";
-  if (/(chicken|beef|pork|lamb|turkey|fish|salmon|shrimp|egg|duck|bacon|ham|sausage|steak|tofu|tempeh|seitan|crab|lobster|clam|mussel|scallop|oyster)/.test(n)) return "Protein";
-  if (/(milk|cheese|yogurt|cream|butter|ghee|custard|paneer|ricotta|mozzarella|parmesan|brie|feta|goat cheese)/.test(n)) return "Dairy";
-  if (/(rice|bread|pasta|noodle|quinoa|barley|oat|wheat|cornshipment|tortilla|cracker|bun|roll|bagel|cereal)/.test(n)) return "Grain";
-  if (/(salt|pepper|cumin|coriander|turmeric|saffron|paprika|chili|cinnamon|nutmeg|clove|ginger|garlic|herb|basil|oregano|thyme|rosemary|sage|dill|parsley|mint|bay)/.test(n)) return "Spice";
-  if (/(can|canned|jar|preserve|pickle|jam|jelly|sardine|anchovy|soup|beans|olives|sauerkraut)/.test(n)) return "Canned/Preserved";
-  if (/(ketchup|mustard|mayo|mayonnaise|sauce|dressing|vinegar|soy sauce|hot sauce|bbq|aioli|salsa|chutney|relish|gravy|honey)/.test(n)) return "Condiment/Sauce";
-  if (/(frozen|ice cream|ice|peas|spinach|pizza|waffle|fries|nugget|berries|corn|broccoli|shrimp|fish stick)/.test(n)) return "Frozen";
+  if (/(pallet|skid|crate|case lot|bulk goods|carton|drum)/.test(n)) return "Palletized Goods";
+  if (/(frozen|refrigerat|cold|reefer|perishable|chilled|dairy|produce|meat|seafood|ice)/.test(n)) return "Temperature Controlled";
+  if (/(hazmat|hazardous|flammable|corrosive|explosive|toxic|chemical|fuel|gas|propane|acid)/.test(n)) return "Hazmat";
+  if (/(oversize|oversized|heavy haul|wide load|machinery|equipment|crane|bulldozer|generator|transformer)/.test(n)) return "Oversized/Heavy";
+  if (/(parcel|package|envelope|small box|letter|fedex|ups|usps|dhl|last.?mile)/.test(n)) return "Parcel/Small Package";
+  if (/(lumber|steel|concrete|gravel|sand|aggregate|pipe|rebar|raw|ore|grain|coal|scrap)/.test(n)) return "Raw Materials";
+  if (/(electronic|computer|server|phone|laptop|tv|monitor|high.?value|medical device|pharma)/.test(n)) return "Electronics/High Value";
+  if (/(document|paper|bol|manifest|invoice|customs|permit|certificate|label)/.test(n)) return "Documents/Paperwork";
+  if (/(freight|shipment|cargo|load|delivery|order|container|trailer)/.test(n)) return "General Freight";
   return "Other";
 }
 
@@ -56,16 +53,16 @@ const MyDock = () => {
   const [scanStatus, setScanStatus] = useState<string | null>(null); // persistent feedback
   // Optionally, map category to emoji for pills
   const CATEGORY_ICONS: Record<string, string> = {
-    Vegetable: '🥦',
-    Fruit: '🍎',
-    Protein: '🍗',
-    Dairy: '🧀',
-    Grain: '🌾',
-    Spice: '🌶️',
-    'Canned/Preserved': '🥫',
-    'Condiment/Sauce': '🥄',
-    Frozen: '🧊',
-    Other: '🍽️',
+    'General Freight': '🚛',
+    'Palletized Goods': '📦',
+    'Temperature Controlled': '❄️',
+    'Hazmat': '☣️',
+    'Oversized/Heavy': '�️',
+    'Parcel/Small Package': '📬',
+    'Raw Materials': '�',
+    'Electronics/High Value': '💻',
+    'Documents/Paperwork': '📋',
+    'Other': '�️',
   };
 
   const [detectedItems, setDetectedItems] = useState<string[]>([]);
