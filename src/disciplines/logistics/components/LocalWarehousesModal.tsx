@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
+import { groupItemsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
 
 // TypeScript declarations for Google Maps API (will be available at runtime)
 declare global {
@@ -23,12 +23,12 @@ interface Market {
 interface LocalMarketsModalProps {
   open: boolean;
   onClose: () => void;
-  selectedRecipes?: any[]; // Optional: recipes from Build Menu feature
+  selectedRoutes?: any[]; // Optional: routes from Build Menu feature
 }
 
 interface MarketCardProps {
   market: Market;
-  ingredientsForMarket?: string[]; // Optional: ingredients to buy at this market
+  itemsForMarket?: string[]; // Optional: items to buy at this market
 }
 
 interface CategoryCardProps {
@@ -38,10 +38,10 @@ interface CategoryCardProps {
   description: string;
   markets: Market[];
   loading: boolean;
-  ingredientsForCategory?: string[]; // Optional: ingredients to buy at this market type
+  itemsForCategory?: string[]; // Optional: items to buy at this market type
 }
 
-const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket }) => {
+const MarketCard: React.FC<MarketCardProps> = ({ market, itemsForMarket }) => {
   const { t } = useTranslation();
   const [flipped, setFlipped] = useState(false);
 
@@ -53,7 +53,7 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
       case 'dairy': return '🥛';
       case 'deli': return '🥪';
       case 'farms': return '🚜';
-      case 'seafood': return '🐟';
+      case 'seacargo': return '🐟';
       default: return '🏪';
     }
   };
@@ -100,12 +100,12 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
           <div>
             <h4 className="font-bold text-maineBlue text-lg mb-3">{market.name}</h4>
             
-            {/* Show ingredients if in menu mode */}
-            {ingredientsForMarket && ingredientsForMarket.length > 0 && (
+            {/* Show items if in menu mode */}
+            {itemsForMarket && itemsForMarket.length > 0 && (
               <div className="mb-3 pb-3 border-b border-gray-200">
                 <div className="text-xs font-semibold text-gray-600 mb-1">Buy here:</div>
                 <div className="space-y-1 max-h-20 overflow-y-auto">
-                  {ingredientsForMarket.map((ing, idx) => {
+                  {itemsForMarket.map((ing, idx) => {
                     const priceInfo = getEstimatedPrice(ing);
                     return (
                       <div key={idx} className="text-xs text-gray-700 flex justify-between items-center">
@@ -198,7 +198,7 @@ const EmptyCard: React.FC = () => {
   );
 };
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, description, markets, loading, ingredientsForCategory }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, description, markets, loading, itemsForCategory }) => {
   const { t } = useTranslation();
   const [flipped, setFlipped] = useState(false);
 
@@ -209,7 +209,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
         return { bg: 'bg-blue-50', border: 'border-blue-500' };
       case 'butcher':
         return { bg: 'bg-red-50', border: 'border-red-500' };
-      case 'seafood':
+      case 'seacargo':
         return { bg: 'bg-cyan-50', border: 'border-cyan-500' };
       case 'produce':
         return { bg: 'bg-green-50', border: 'border-green-500' };
@@ -254,12 +254,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
             </div>
           ) : (
             <div className="space-y-2">
-              {/* Show ingredients if in menu mode */}
-              {ingredientsForCategory && ingredientsForCategory.length > 0 && (
+              {/* Show items if in menu mode */}
+              {itemsForCategory && itemsForCategory.length > 0 && (
                 <div className="mb-2 pb-2 border-b border-gray-200">
                   <div className="text-xs font-semibold text-gray-600 mb-1">Buy here:</div>
                   <div className="space-y-0.5 max-h-16 overflow-y-auto">
-                    {ingredientsForCategory.map((ing, idx) => {
+                    {itemsForCategory.map((ing, idx) => {
                       const priceInfo = getEstimatedPrice(ing);
                       return (
                         <div key={idx} className="text-xs text-gray-700 flex justify-between items-center">
@@ -298,34 +298,34 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
   );
 };
 
-const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, selectedRecipes }) => {
+const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, selectedRoutes }) => {
   const { t } = useTranslation();
   const [markets, setMarkets] = useState<Market[]>([]);
   const [loading, setLoading] = useState(false);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  // Extract and group ingredients from selected recipes
-  const ingredientsByMarketType = React.useMemo(() => {
-    if (!selectedRecipes || selectedRecipes.length === 0) return {};
+  // Extract and group items from selected routes
+  const itemsByMarketType = React.useMemo(() => {
+    if (!selectedRoutes || selectedRoutes.length === 0) return {};
     
-    const allIngredients: string[] = [];
-    selectedRecipes.forEach(recipe => {
-      if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
-        allIngredients.push(...recipe.ingredients);
+    const allItems: string[] = [];
+    selectedRoutes.forEach(route => {
+      if (route.items && Array.isArray(route.items)) {
+        allItems.push(...route.items);
       }
     });
     
-    // Deduplicate ingredients (case-insensitive)
-    const uniqueIngredients = Array.from(
-      new Set(allIngredients.map(ing => ing.toLowerCase()))
+    // Deduplicate items (case-insensitive)
+    const uniqueItems = Array.from(
+      new Set(allItems.map(ing => ing.toLowerCase()))
     ).map(ing => {
-      // Find the original casing from allIngredients
-      return allIngredients.find(original => original.toLowerCase() === ing) || ing;
+      // Find the original casing from allItems
+      return allItems.find(original => original.toLowerCase() === ing) || ing;
     });
     
-    return groupIngredientsByMarketType(uniqueIngredients);
-  }, [selectedRecipes]);
+    return groupItemsByMarketType(uniqueItems);
+  }, [selectedRoutes]);
 
   const marketCategories = [
     { key: 'all', label: 'All Markets', icon: '🏪' },
@@ -397,7 +397,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
           { query: 'dairy farm', type: 'dairy' },
           { query: 'deli', type: 'deli' },
           { query: 'farm stand', type: 'farms' },
-          { query: 'seafood market', type: 'seafood' }
+          { query: 'seacargo market', type: 'seacargo' }
         ];
         
         const allMarkets: Market[] = [];
@@ -452,7 +452,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         const mockMarkets: Market[] = [
           // Grocery stores (3)
           { name: "Hannaford Supermarket", address: "295 Forest Ave, Portland, ME 04101", distance: 2.1, type: "grocery", rating: 4.3, isOpen: true },
-          { name: "Whole Foods Market", address: "87 Marginal Way, Portland, ME 04101", distance: 2.9, type: "grocery", rating: 4.2, isOpen: true },
+          { name: "Whole __PROTECT_CARGO__s Market", address: "87 Marginal Way, Portland, ME 04101", distance: 2.9, type: "grocery", rating: 4.2, isOpen: true },
           { name: "Rosemont Market & Bakery", address: "580 Brighton Ave, Portland, ME 04102", distance: 1.8, type: "grocery", rating: 4.5, isOpen: true },
           
           // Butcher shops (3)
@@ -460,15 +460,15 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
           { name: "Browne Trading Company", address: "262 Commercial St, Portland, ME 04101", distance: 2.4, type: "butcher", rating: 4.7, isOpen: true },
           { name: "The Meat House", address: "1012 Brighton Ave, Portland, ME 04102", distance: 3.8, type: "butcher", rating: 4.4, isOpen: false },
           
-          // Seafood markets (3)
-          { name: "Harbor Fish Market", address: "9 Custom House Wharf, Portland, ME 04101", distance: 2.3, type: "seafood", rating: 4.8, isOpen: true },
-          { name: "Free Range Fish & Lobster", address: "470 Forest Ave, Portland, ME 04101", distance: 2.7, type: "seafood", rating: 4.5, isOpen: true },
-          { name: "Portland Fish Pier", address: "6 Portland Fish Pier, Portland, ME 04101", distance: 3.2, type: "seafood", rating: 4.3, isOpen: true },
+          // Seacargo markets (3)
+          { name: "Harbor Fish Market", address: "9 Custom House Wharf, Portland, ME 04101", distance: 2.3, type: "seacargo", rating: 4.8, isOpen: true },
+          { name: "Free Range Fish & Lobster", address: "470 Forest Ave, Portland, ME 04101", distance: 2.7, type: "seacargo", rating: 4.5, isOpen: true },
+          { name: "Portland Fish Pier", address: "6 Portland Fish Pier, Portland, ME 04101", distance: 3.2, type: "seacargo", rating: 4.3, isOpen: true },
           
           // Produce markets (3)
           { name: "Portland Farmers Market", address: "Monument Square, Portland, ME 04101", distance: 1.9, type: "produce", rating: 4.6, isOpen: true },
           { name: "Deering Oaks Farmers Market", address: "Deering Oaks Park, Portland, ME 04102", distance: 2.8, type: "produce", rating: 4.4, isOpen: false },
-          { name: "Good Shepherd Food Bank", address: "1115 Forest Ave, Portland, ME 04103", distance: 4.1, type: "produce", rating: 4.2, isOpen: true },
+          { name: "Good Shepherd __PROTECT_CARGO__ Bank", address: "1115 Forest Ave, Portland, ME 04103", distance: 4.1, type: "produce", rating: 4.2, isOpen: true },
           
           // Farms (3)
           { name: "Pineland Farms", address: "15 Farm View Dr, New Gloucester, ME 04260", distance: 12.4, type: "farms", rating: 4.7, isOpen: true },
@@ -513,7 +513,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description="Regional grocery stores and supermarkets"
             markets={markets.filter(m => m.type === 'grocery')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['grocery']}
+            itemsForCategory={itemsByMarketType['grocery']}
           />
           <CategoryCard 
             category="butcher" 
@@ -522,16 +522,16 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description="Local butcher shops and meat markets"
             markets={markets.filter(m => m.type === 'butcher')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['butcher']}
+            itemsForCategory={itemsByMarketType['butcher']}
           />
           <CategoryCard 
-            category="seafood" 
-            title="Seafood" 
+            category="seacargo" 
+            title="Seacargo" 
             icon="🐟" 
-            description="Fresh seafood markets and fishmongers"
-            markets={markets.filter(m => m.type === 'seafood')}
+            description="Fresh seacargo markets and fishmongers"
+            markets={markets.filter(m => m.type === 'seacargo')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['seafood']}
+            itemsForCategory={itemsByMarketType['seacargo']}
           />
           <CategoryCard 
             category="produce" 
@@ -540,7 +540,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description="Fresh produce markets and farm stands"
             markets={markets.filter(m => m.type === 'produce')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['produce']}
+            itemsForCategory={itemsByMarketType['produce']}
           />
           <CategoryCard 
             category="farms" 
@@ -549,16 +549,16 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description="Local farms and farmers markets"
             markets={markets.filter(m => m.type === 'farms')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['farms']}
+            itemsForCategory={itemsByMarketType['farms']}
           />
           <CategoryCard 
             category="specialty" 
             title="Specialty" 
             icon="🏦" 
-            description="Delis, bakeries, and specialty food stores"
+            description="Delis, bakeries, and specialty cargo stores"
             markets={markets.filter(m => ['deli', 'dairy', 'bakery'].includes(m.type))}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['deli'] || ingredientsByMarketType['dairy']}
+            itemsForCategory={itemsByMarketType['deli'] || itemsByMarketType['dairy']}
           />
         </div>
 

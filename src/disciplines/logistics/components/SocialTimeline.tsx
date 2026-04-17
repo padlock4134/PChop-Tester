@@ -29,7 +29,7 @@ const SocialTimeline: React.FC = () => {
       likes: 12,
       comments: 3,
       isLiked: false,
-      tags: ['Mexican', 'FamilyRecipe', 'Mole']
+      tags: ['Mexican', 'FamilyRoute', 'Mole']
     },
     {
       id: '2',

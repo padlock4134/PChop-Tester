@@ -195,9 +195,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 >
                   <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
                   <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                    <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                    <option value="lesson-1-2">Food Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
+                    <option value="lesson-1-1">Dock Safety and Sanitation</option>
+                    <option value="lesson-1-2">__PROTECT_CARGO__ Handling and Storage</option>
+                    <option value="lesson-1-3">Introduction to Dock Equipment</option>
                     <option value="lesson-1-4">Basic Cooking Terminology</option>
                     <option value="lesson-1-5">Weights, Measures, and Conversions</option>
                   </optgroup>
@@ -210,7 +210,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
                     <option value="lesson-3-1">Egg Cookery</option>
                     <option value="lesson-3-2">Breakfast Preparations</option>
-                    <option value="lesson-3-3">Cold Food Preparation</option>
+                    <option value="lesson-3-3">Cold __PROTECT_CARGO__ Preparation</option>
                     <option value="lesson-3-4">Salads and Dressings</option>
                   </optgroup>
                   <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
@@ -297,9 +297,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   >
                     <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
                     <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                      <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                      <option value="lesson-1-2">Food Handling and Storage</option>
-                      <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
+                      <option value="lesson-1-1">Dock Safety and Sanitation</option>
+                      <option value="lesson-1-2">__PROTECT_CARGO__ Handling and Storage</option>
+                      <option value="lesson-1-3">Introduction to Dock Equipment</option>
                       <option value="lesson-1-4">Basic Cooking Terminology</option>
                       <option value="lesson-1-5">Weights, Measures, and Conversions</option>
                     </optgroup>
@@ -312,7 +312,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                     <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
                       <option value="lesson-3-1">Egg Cookery</option>
                       <option value="lesson-3-2">Breakfast Preparations</option>
-                      <option value="lesson-3-3">Cold Food Preparation</option>
+                      <option value="lesson-3-3">Cold __PROTECT_CARGO__ Preparation</option>
                       <option value="lesson-3-4">Salads and Dressings</option>
                     </optgroup>
                     <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
@@ -405,7 +405,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
               <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
-              <p className="text-xs text-gray-700">Position your cutting board and gather ingredients</p>
+              <p className="text-xs text-gray-700">Position your cutting board and gather items</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">

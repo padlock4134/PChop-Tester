@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { saveKitchen, fetchKitchen } from './kitchenSupabase';
+import { saveDock, fetchDock } from './kitchenSupabase';
 import { fetchCookbook, addRecipeToCookbook } from '../../culinary/modules/cookbookSupabase';
 import { Ingredient } from '../../culinary/types/shared-types';
 import { XP_REWARDS } from '../../culinary/services/xpService';
@@ -7,7 +7,7 @@ import { useLevelProgressContext } from '../../culinary/components/NavBar';
 import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../../culinary/api/vision';
-import RouteMatcherModal, { RecipeCard } from '../components/RouteMatcherModal';
+import RouteMatcherModal, { RouteCard } from '../components/RouteMatcherModal';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
@@ -27,17 +27,17 @@ const CATEGORIES = [
   "Other"
 ];
 
-// Categorize ingredient names to best-fit category
-function categorizeIngredient(name: string): string {
+// Categorize item names to best-fit category
+function categorizeItem(name: string): string {
   const n = name.toLowerCase();
-  // Enhanced detection for loose produce and specific food items
+  // Enhanced detection for loose produce and specific cargo items
   if (/(green bean|string bean|snap bean|haricot vert|french bean)/.test(n)) return "Vegetable";
   if (/(loose|raw|fresh|unpackaged|bulk) (vegetable|produce|bean|legume)/.test(n)) return "Vegetable";
   if (/(lettuce|spinach|carrot|broccoli|onion|pepper|cabbage|kale|tomato|bean|pea|potato|corn|mushroom|zucchini|cucumber|asparagus|squash|celery|radish|beet|turnip|eggplant|avocado)/.test(n)) return "Vegetable";
   if (/(apple|banana|orange|lemon|lime|berry|grape|melon|peach|pear|plum|kiwi|mango|pineapple|apricot|cherry|fig|date|papaya|guava|coconut)/.test(n)) return "Fruit";
   if (/(chicken|beef|pork|lamb|turkey|fish|salmon|shrimp|egg|duck|bacon|ham|sausage|steak|tofu|tempeh|seitan|crab|lobster|clam|mussel|scallop|oyster)/.test(n)) return "Protein";
   if (/(milk|cheese|yogurt|cream|butter|ghee|custard|paneer|ricotta|mozzarella|parmesan|brie|feta|goat cheese)/.test(n)) return "Dairy";
-  if (/(rice|bread|pasta|noodle|quinoa|barley|oat|wheat|cornmeal|tortilla|cracker|bun|roll|bagel|cereal)/.test(n)) return "Grain";
+  if (/(rice|bread|pasta|noodle|quinoa|barley|oat|wheat|cornshipment|tortilla|cracker|bun|roll|bagel|cereal)/.test(n)) return "Grain";
   if (/(salt|pepper|cumin|coriander|turmeric|saffron|paprika|chili|cinnamon|nutmeg|clove|ginger|garlic|herb|basil|oregano|thyme|rosemary|sage|dill|parsley|mint|bay)/.test(n)) return "Spice";
   if (/(can|canned|jar|preserve|pickle|jam|jelly|sardine|anchovy|soup|beans|olives|sauerkraut)/.test(n)) return "Canned/Preserved";
   if (/(ketchup|mustard|mayo|mayonnaise|sauce|dressing|vinegar|soy sauce|hot sauce|bbq|aioli|salsa|chutney|relish|gravy|honey)/.test(n)) return "Condiment/Sauce";
@@ -69,63 +69,63 @@ const MyDock = () => {
     Other: '🍽️',
   };
 
-  const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);
+  const [detectedItems, setDetectedItems] = useState<string[]>([]);
 
-  // Recipe Matcher modal state
+  // Route Matcher modal state
   const [matcherOpen, setMatcherOpen] = useState(false);
   const [matcherLoading, setMatcherLoading] = useState(false);
   const [matcherError, setMatcherError] = useState('');
-  const [matcherRecipes, setMatcherRecipes] = useState<RecipeCard[]>([]);
+  const [matcherRoutes, setMatcherRoutes] = useState<RouteCard[]>([]);
 
-  // MyCookBook state (for MVP, local only)
-  const [cookbook, setCookbook] = useState<RecipeCard[]>([]);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [kitchenError, setKitchenError] = useState<string | null>(null);
+  // Runbook state (for MVP, local only)
+  const [runbook, setRunbook] = useState<RouteCard[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
+  const [dockError, setDockError] = useState<string | null>(null);
 
   const [input, setInput] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [filterText, setFilterText] = useState('');
 
-  const addIngredient = () => {
+  const addItem = () => {
     if (input.trim()) {
-      setIngredients(prev => [...prev, { name: input.trim(), category }]);
+      setItems(prev => [...prev, { name: input.trim(), category }]);
       setInput('');
     }
   };
 
-  // Save kitchen to Supabase whenever ingredients change
+  // Save dock to Supabase whenever items change
   useEffect(() => {
-    if (ingredients.length === 0) return;
-    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your workspace.'));
-  }, [ingredients]);
+    if (items.length === 0) return;
+    saveDock(user?.id!, items).catch(err => setDockError('Failed to save your workspace.'));
+  }, [items]);
 
   // Freddie context: set page on mount
   useEffect(() => {
-    updateContext({ page: 'MyKitchen' });
-    // Load both kitchen and cookbook data
+    updateContext({ page: 'MyDock' });
+    // Load both dock and runbook data
     const loadData = async () => {
       try {
-        const [kitchenIngredients, cookbookRecipes] = await Promise.all([
-          fetchKitchen(user?.id!),
-          fetchCookbook(user?.id!)
+        const [dockItems, runbookRoutes] = await Promise.all([
+          fetchDock(user?.id!),
+          fetchRunbook(user?.id!)
         ]);
-        setIngredients(kitchenIngredients);
-        setCookbook(cookbookRecipes);
+        setItems(dockItems);
+        setRunbook(runbookRoutes);
       } catch (error) {
         console.error('Error loading data:', error);
-        setKitchenError('Failed to load your workspace.');
+        setDockError('Failed to load your workspace.');
       }
     };
     loadData();
   }, [updateContext]);
 
   // Filtering logic (only by search text)
-  const filteredIngredients = ingredients.filter(ing => {
+  const filteredItems = items.filter(ing => {
     return ing.name.toLowerCase().includes(filterText.toLowerCase());
   });
 
-  const handleLikeRecipe = async (recipe: RecipeCard) => {
-    console.log('Saving recipe with nutrition data:', recipe.nutrition);
+  const handleLikeRoute = async (route: RouteCard) => {
+    console.log('Saving route with nutrition data:', route.nutrition);
     
     try {
       const { data, error } = await supabase
@@ -133,45 +133,45 @@ const MyDock = () => {
         .insert([
           { 
             user_id: user?.id, 
-            recipe: {
-              ...recipe,
-              nutrition: recipe.nutrition // Include nutrition data
+            route: {
+              ...route,
+              nutrition: route.nutrition // Include nutrition data
             }
           }
         ]);
       
       if (error) throw error;
       
-      // Award XP for saving a recipe
+      // Award XP for saving a route
       if (user) {
         await import('../../culinary/services/xpService').then(m => 
-          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
+          m.awardXP(user.id, XP_REWARDS.ROUTE_SAVE, 'route_save')
         );
         refreshXP();
       }
     } catch (error: any) {
-      console.error('Error saving recipe:', error.message || error);
-      console.error('Failed recipe:', {
-        id: recipe.id,
-        title: recipe.title,
+      console.error('Error saving route:', error.message || error);
+      console.error('Failed route:', {
+        id: route.id,
+        title: route.title,
         user: user?.id || 'no user'
       });
     }
   };
 
-  const handleSaveRecipeToCookbook = async (recipe: RecipeCard) => {
+  const handleSaveRouteToRunbook = async (route: RouteCard) => {
     try {
-      await addRecipeToCookbook(user?.id!, recipe);
-      setCookbook(prevCookbook => [...prevCookbook, recipe]);
+      await addRouteToRunbook(user?.id!, route);
+      setRunbook(prevRunbook => [...prevRunbook, route]);
     } catch (error) {
-      console.error('Error saving recipe to cookbook:', error);
+      console.error('Error saving route to runbook:', error);
     }
   };
 
   return (
     <>
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
-        {/* My Kitchen header - moved back inside the module */}
+        {/* My Dock header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
           <span className="text-5xl mr-2">🔧</span>
           <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myDock.title')}</h1>
@@ -184,7 +184,7 @@ const MyDock = () => {
         
         {/* Scrollable Content */}
         <div className="overflow-y-auto p-6 pt-4">
-      {/* Kitchen, Recipe Matcher, and Upload Photo Action Buttons */}
+      {/* Dock, Route Matcher, and Upload Photo Action Buttons */}
       <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
         {/* Scan status feedback */}
         {scanStatus && (
@@ -196,7 +196,7 @@ const MyDock = () => {
         <input
           type="file"
           accept="image/*"
-          id="scan-kitchen-file"
+          id="scan-dock-file"
           style={{ display: 'none' }}
           onChange={async (e) => {
             const file = e.target.files?.[0];
@@ -212,18 +212,18 @@ const MyDock = () => {
                   const detectedItems = await scanImage(base64);
                   console.log('Detected items:', detectedItems);
                   
-                  const newIngredients = Array.from(new Set(detectedItems))
+                  const newItems = Array.from(new Set(detectedItems))
                     .filter(d => {
                       const normalizedDetected = d.toLowerCase().trim();
-                      return !ingredients.some(i => 
+                      return !items.some(i => 
                         i.name.toLowerCase().trim() === normalizedDetected ||
                         i.name.toLowerCase().trim().includes(normalizedDetected) ||
                         normalizedDetected.includes(i.name.toLowerCase().trim())
                       );
                     });
                   
-                  console.log('New ingredients to add:', newIngredients);
-                  if (newIngredients.length === 0) {
+                  console.log('New items to add:', newItems);
+                  if (newItems.length === 0) {
                     setScanStatus(t('myDock.noNewIngredients'));
                     alert(t('myDock.noNewIngredients'));
                   } else {
@@ -244,23 +244,23 @@ const MyDock = () => {
                       setScanLoading(false);
                       return;
                     }
-                    const updatedIngredients = [
-                      ...ingredients,
-                      ...newIngredients.map(name => ({ name, category: categorizeIngredient(name) }))
+                    const updatedItems = [
+                      ...items,
+                      ...newItems.map(name => ({ name, category: categorizeItem(name) }))
                     ];
-                    setIngredients(updatedIngredients);
+                    setItems(updatedItems);
                     try {
-                      await saveKitchen(user?.id!, updatedIngredients);
-                      setKitchenError(null);
+                      await saveDock(user?.id!, updatedItems);
+                      setDockError(null);
                       setScanStatus(t('myDock.ingredientsSaved'));
                       alert(t('myDock.ingredientsSaved'));
                     } catch (err: any) {
-                      setKitchenError(t('myDock.failedToSave') + ' ' + (err.message || err.toString()));
+                      setDockError(t('myDock.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myDock.failedToSave') + ' ' + (err.message || err.toString()));
                       alert(t('myDock.failedToSave') + ' ' + (err.message || err.toString()));
                     }
                   }
-                  setDetectedIngredients([]);
+                  setDetectedItems([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myDock.failedToScan'));
                   alert(t('myDock.failedToScan') + ': ' + (err.message || err.toString()));
@@ -276,7 +276,7 @@ const MyDock = () => {
         />
         <button
           className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black w-full sm:w-auto max-w-xs"
-          onClick={() => document.getElementById('scan-kitchen-file')?.click()}
+          onClick={() => document.getElementById('scan-dock-file')?.click()}
           disabled={scanLoading}
         >
           {scanLoading ? t('myDock.scanning') : t('myDock.scanKitchen')}
@@ -288,20 +288,20 @@ const MyDock = () => {
             setMatcherLoading(true);
             setMatcherError('');
             try {
-              const cupboardNames = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
-              const recipes = await fetchRecipesWithImages({
+              const inventoryNames = items.map(i => i.name);
+              const { fetchRoutesWithImages } = await import('../../culinary/api/recipeMatcher');
+              const routes = await fetchRoutesWithImages({
                 userId: user?.id!,
-                ingredients: cupboardNames,
-                numRecipes: 5,
+                items: inventoryNames,
+                numRoutes: 5,
                 // These will be undefined by default, which is fine - the function has defaults
-                kitchenSetup: undefined,
+                dockSetup: undefined,
                 talentsEnabled: false,
                 talentTree: null
               });
-              setMatcherRecipes(recipes);
+              setMatcherRoutes(routes);
             } catch (err: any) {
-              setMatcherError('Failed to fetch recipes.');
+              setMatcherError('Failed to fetch routes.');
             } finally {
               setMatcherLoading(false);
             }
@@ -329,36 +329,36 @@ const MyDock = () => {
         </div>
       )}
 
-      {/* Recipe Matcher Modal (always mounted for overlay) */}
+      {/* Route Matcher Modal (always mounted for overlay) */}
       <RouteMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
-        cupboardIngredients={ingredients.map(i => i.name)}
-        onLike={handleLikeRecipe}
-        saveRecipeToCookbook={handleSaveRecipeToCookbook}
-        recipes={matcherRecipes}
+        inventoryItems={items.map(i => i.name)}
+        onLike={handleLikeRoute}
+        saveRouteToRunbook={handleSaveRouteToRunbook}
+        routes={matcherRoutes}
         loading={matcherLoading}
         error={matcherError}
       />
 
 
-      {/* Digital Cupboard Section */}
+      {/* Digital Inventory Section */}
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
           <span role="img" aria-label="package">📦</span> {t('myDock.digitalCupboard')}
         </h3>
-        {ingredients.length > 0 && (
+        {items.length > 0 && (
           <button
             className="text-xs text-lobsterRed underline hover:text-maineBlue"
-            onClick={() => setIngredients([])}
+            onClick={() => setItems([])}
           >
             {t('myDock.clearAll')}
           </button>
         )}
       </div>
-      {/* Add Ingredient Bar */}
+      {/* Add Item Bar */}
       <div className="flex flex-col sm:flex-row gap-2 mb-4 w-full">
-        {/* Search cupboard input */}
+        {/* Search inventory input */}
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
@@ -367,7 +367,7 @@ const MyDock = () => {
           onChange={e => setFilterText(e.target.value)}
           style={{ minWidth: 120 }}
         />
-        {/* Add ingredient input */}
+        {/* Add item input */}
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
@@ -386,7 +386,7 @@ const MyDock = () => {
         </select>
         <button
           className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
-          onClick={addIngredient}
+          onClick={addItem}
         >
           {t('myDock.add')}
         </button>
@@ -398,12 +398,12 @@ const MyDock = () => {
             <rect x="2" y="2" width="calc(100% - 4px)" height="calc(100% - 4px)" rx="20" fill="none" stroke="#d2b48c" strokeWidth="4" strokeDasharray="8,4" />
           </svg>
         </div>
-        {filteredIngredients.length === 0 ? (
+        {filteredItems.length === 0 ? (
           <div className="text-gray-500 italic text-center py-8 relative z-10">{t('myDock.noMatchingIngredients')}</div>
         ) : (
           <div className="flex flex-col gap-4 relative z-10">
             {[0,1,2,3,4,5].map(shelfIdx => {
-              const shelfItems = filteredIngredients.slice(shelfIdx*3, (shelfIdx+1)*3);
+              const shelfItems = filteredItems.slice(shelfIdx*3, (shelfIdx+1)*3);
               if (shelfItems.length === 0) return null;
               return (
                 <div key={shelfIdx} className="flex justify-around items-end border-b-4 border-yellow-900 pb-3 last:border-b-0">
@@ -419,7 +419,7 @@ const MyDock = () => {
                         className="mt-1 text-xs text-lobsterRed hover:text-maineBlue font-bold"
                         onClick={() => {
                           // Remove by name and category match to be robust
-                          setIngredients(ingredients.filter((item, i) => !(item.name === ing.name && item.category === ing.category && ingredients.indexOf(item) === ingredients.indexOf(filteredIngredients[shelfIdx*3+idx]))));
+                          setItems(items.filter((item, i) => !(item.name === ing.name && item.category === ing.category && items.indexOf(item) === items.indexOf(filteredItems[shelfIdx*3+idx]))));
                         }}
                         title="Remove"
                       >

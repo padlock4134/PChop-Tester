@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import VideoModal from '../components/VideoModal';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRouteContext } from '../components/RouteContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
-import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
+import { getMainEquipment, getMainItem } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
@@ -111,8 +111,8 @@ function getCurrentWeekTechnique() {
   return WEEKLY_TECHNIQUES[techniqueIndex];
 }
 
-function getTwoTutorials(recipe: any) {
-  if (!recipe) return [];
+function getTwoTutorials(route: any) {
+  if (!route) return [];
   
   const weeklyTechnique = getCurrentWeekTechnique();
   
@@ -125,7 +125,7 @@ function getTwoTutorials(recipe: any) {
     },
     {
       title: `Let\'s Move This Shipment!`,
-      desc: `Step-by-step logistics walkthrough for ${recipe.title}.`,
+      desc: `Step-by-step logistics walkthrough for ${route.title}.`,
       type: 'cooking_tutorial'
     }
   ];
@@ -135,11 +135,11 @@ function getTwoTutorials(recipe: any) {
 const LogisticsSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
-  const { selectedRecipe } = useRecipeContext();
-  console.log('Logistics School - Shipment data:', selectedRecipe?.nutrition);
-  console.log('Logistics School - Full Operation:', selectedRecipe);
+  const { selectedRoute } = useRouteContext();
+  console.log('Logistics School - Shipment data:', selectedRoute?.nutrition);
+  console.log('Logistics School - Full Operation:', selectedRoute);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
+  const [routeNutrition, setRouteNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
@@ -201,32 +201,32 @@ const LogisticsSchool = () => {
   }, [updateContext]);
 
   useEffect(() => {
-    if (selectedRecipe && !selectedRecipe.nutrition) {
+    if (selectedRoute && !selectedRoute.nutrition) {
       // Calculate nutrition if missing
-      calculateRecipeNutrition(selectedRecipe.ingredients)
+      calculateRouteNutrition(selectedRoute.items)
         .then(nutrition => {
-          setRecipeNutrition(nutrition);
+          setRouteNutrition(nutrition);
         })
         .catch(error => {
           console.error('Error calculating nutrition:', error);
         });
     } else {
-      setRecipeNutrition(selectedRecipe?.nutrition || null);
+      setRouteNutrition(selectedRoute?.nutrition || null);
     }
-  }, [selectedRecipe]);
+  }, [selectedRoute]);
 
-  const isRecipeSelected = !!selectedRecipe;
-  const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
+  const isRouteSelected = !!selectedRoute;
+  const tutorials = isRouteSelected ? getTwoTutorials(selectedRoute) : getDefaultTutorials();
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
   // Helper: extract primary material from components
-  function getMainProtein(ingredients: string[] = []) {
+  function getMainProtein(items: string[] = []) {
     const proteins = [
       'chicken', 'beef', 'pork', 'fish', 'salmon', 'shrimp', 'clam', 'crab', 'lobster',
       'tofu', 'turkey', 'duck', 'lamb', 'egg', 'eggs', 'scallop', 'scallops', 'mussels', 'steak',
       'bacon', 'sausage', 'ham', 'vegan', 'tempeh', 'seitan', 'octopus', 'squid', 'anchovy', 'anchovies'
     ];
-    return ingredients.find(ing => proteins.some(p => ing.toLowerCase().includes(p)));
+    return items.find(ing => proteins.some(p => ing.toLowerCase().includes(p)));
   }
   // Helper: extract main equipment from equipment array
   function getMainEquipment(equipment: string[] = []) {
@@ -240,8 +240,8 @@ const LogisticsSchool = () => {
     return equipment[0] || '';
   }
 
-  // Helper to call Chef Freddie backend for a smart search query
-  async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
+  // Helper to call Dispatcher Freddie backend for a smart search query
+  async function getVideoQueryFromFreddie(route: any, tut: any, idx: any) {
     let query = '';
     
     // Handle different tutorial types
@@ -250,44 +250,44 @@ const LogisticsSchool = () => {
       query = `how to ${tut.techniqueData.title.toLowerCase()} trade technique`;
     } else if (tut.type === 'cooking_tutorial') {
       // For task tutorials, focus on the project
-      const mainProtein = getMainProtein(recipe.ingredients || []);
-      const mainEquipment = getMainEquipment(recipe.equipment || []);
+      const mainProtein = getMainProtein(route.items || []);
+      const mainEquipment = getMainEquipment(route.equipment || []);
       if (mainProtein && mainEquipment) {
         query = `How to cook ${mainProtein} using ${mainEquipment}`;
       } else if (mainProtein) {
         query = `How to cook ${mainProtein}`;
       } else {
-        query = `how to complete ${recipe.title}`;
+        query = `how to complete ${route.title}`;
       }
     } else {
       // Legacy fallback for older tutorial formats
-      if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
-        return recipe.title;
+      if (typeof idx === 'number' && idx === 2 && route && route.title) {
+        return route.title;
       }
       
-      // Use Chef Freddie for complex queries
+      // Use Dispatcher Freddie for complex queries
       const prompt = `
         Given the following project and tutorial step, generate a concise YouTube search query for a relevant trade training video.\n
-        - Only use the equipment and ingredients listed.\n
+        - Only use the equipment and items listed.\n
         - Do NOT include unrelated tools or techniques.\n
-        - The query should be specific to the step and recipe.\n
-        Recipe: ${recipe.title}\n
-        Ingredients: ${recipe.ingredients?.join(', ')}\n
-        Equipment: ${recipe.equipment?.join(', ') || 'N/A'}\n
+        - The query should be specific to the step and route.\n
+        Route: ${route.title}\n
+        Items: ${route.items?.join(', ')}\n
+        Equipment: ${route.equipment?.join(', ') || 'N/A'}\n
         Step Title: ${tut.title}\n
         Step Description: ${tut.desc}\n
         Query:
       `;
       try {
-        const res = await fetch('/api/chefFreddieQuery', {
+        const res = await fetch('/api/dispatcherFreddieQuery', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ prompt })
         });
         const data = await res.json();
-        query = data.query || tut.title + ' ' + (recipe.title || '');
+        query = data.query || tut.title + ' ' + (route.title || '');
       } catch {
-        query = tut.title + ' ' + (recipe.title || '');
+        query = tut.title + ' ' + (route.title || '');
       }
     }
     
@@ -300,14 +300,14 @@ const LogisticsSchool = () => {
       // Now using API key rotation system for better quota management
       console.log('[LogisticsSchool] Fetching videos with API key rotation');
       console.log('[LogisticsSchool] Tutorials to fetch:', tutorials);
-      console.log('[LogisticsSchool] Selected operation:', selectedRecipe);
+      console.log('[LogisticsSchool] Selected operation:', selectedRoute);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
         try {
           // Use the improved video query generation that handles different tutorial types
           const query = await getVideoQueryFromFreddie(
-            selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
+            selectedRoute || { title: '', items: [], equipment: [] }, 
             tut, 
             idx
           );
@@ -331,7 +331,7 @@ const LogisticsSchool = () => {
     fetchVideos();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRecipeSelected, selectedRecipe?.id]);
+  }, [isRouteSelected, selectedRoute?.id]);
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
@@ -363,7 +363,7 @@ const LogisticsSchool = () => {
         <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
           activeMobileTab === 'school' ? 'block' : 'hidden lg:block'
         }`}>
-          {/* Culinary School header - moved back inside the module */}
+          {/* Logistics School header - moved back inside the module */}
           <div className="flex items-center justify-center mb-4">
             <span className="text-5xl mr-2">🚢</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('logisticsSchool.title')}</h1>
@@ -381,11 +381,11 @@ const LogisticsSchool = () => {
             onClose={() => setModalIdx(null)}
             title={tut.title}
             videoUrl={videoUrls[idx] || ''}
-            tutorialId={`${selectedRecipe?.id || 'general'}_${idx}`}
-            recipeId={selectedRecipe?.id}
+            tutorialId={`${selectedRoute?.id || 'general'}_${idx}`}
+            routeId={selectedRoute?.id}
           />
         ))}
-        {isRecipeSelected && selectedRecipe ? (
+        {isRouteSelected && selectedRoute ? (
           <div className="mb-6 mt-8">
             {/* Tutorials Section */}
             <ol className="space-y-4">
@@ -400,7 +400,7 @@ const LogisticsSchool = () => {
                 </li>
               ))}
             </ol>
-            {/* Recipe Card Display at Bottom (matching MyCookBook RecipeCard layout) */}
+            {/* Route Card Display at Bottom (matching MyRunbook RouteCard layout) */}
             <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
               <button
                 onClick={() => window.location.reload()}
@@ -411,33 +411,33 @@ const LogisticsSchool = () => {
               </button>
               {/* Left Page */}
               <div className="flex-1 p-6 bg-weatheredWhite border-r border-gray-200 flex flex-col">
-                {selectedRecipe.image && (
+                {selectedRoute.image && (
                   <img
-                    src={selectedRecipe.image}
-                    alt={selectedRecipe.title}
+                    src={selectedRoute.image}
+                    alt={selectedRoute.title}
                     className="rounded-lg w-full h-32 object-cover mb-4"
                     style={{ objectFit: 'cover' }}
                   />
                 )}
-                <h3 className="font-bold text-xl mb-1 text-maineBlue">{selectedRecipe.title}</h3>
-                {/* No description on RecipeCard, but add if needed: */}
-                {/* <div className="text-gray-600 mb-2 text-base">{selectedRecipe.description}</div> */}
+                <h3 className="font-bold text-xl mb-1 text-maineBlue">{selectedRoute.title}</h3>
+                {/* No description on RouteCard, but add if needed: */}
+                {/* <div className="text-gray-600 mb-2 text-base">{selectedRoute.description}</div> */}
                 <div className="font-semibold mb-1 mt-2">{t('logisticsSchool.ingredients')}</div>
                 <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                  {selectedRecipe.ingredients?.length ? (
-                    selectedRecipe.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
+                  {selectedRoute.items?.length ? (
+                    selectedRoute.items.map((ing: string, i: number) => <li key={i}>{ing}</li>)
                   ) : (
                     <li className="italic text-gray-400">{t('logisticsSchool.noIngredientsListed')}</li>
                   )}
                 </ul>
-                {recipeNutrition && (
+                {routeNutrition && (
                   <div className="mt-2">
                     <div className="font-semibold mb-1">{t('logisticsSchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
                     <div className="text-sm">
-                      <div>{t('logisticsSchool.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('logisticsSchool.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('logisticsSchool.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('logisticsSchool.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
+                      <div>{t('logisticsSchool.carbs')}: {(routeNutrition.carbs * servingSize).toFixed(1)}g</div>
+                      <div>{t('logisticsSchool.sugars')}: {(routeNutrition.sugars * servingSize).toFixed(1)}g</div>
+                      <div>{t('logisticsSchool.fiber')}: {(routeNutrition.fiber * servingSize).toFixed(1)}g</div>
+                      <div>{t('logisticsSchool.protein')}: {(routeNutrition.protein * servingSize).toFixed(1)}g</div>
                     </div>
                   </div>
                 )}
@@ -446,22 +446,22 @@ const LogisticsSchool = () => {
               <div className="flex-1 p-6 bg-white flex flex-col">
                 <h3 className="font-bold text-xl mb-2 text-maineBlue">{t('logisticsSchool.instructions')}</h3>
                 <div className="text-gray-700 whitespace-pre-line text-[15px] leading-7 flex-1">
-                  {selectedRecipe.instructions || (
+                  {selectedRoute.instructions || (
                     <span className="italic text-gray-400">{t('logisticsSchool.noInstructionsProvided')}</span>
                   )}
                 </div>
                 {/* Equipment Section */}
-                {selectedRecipe.equipment && selectedRecipe.equipment.length > 0 && (
+                {selectedRoute.equipment && selectedRoute.equipment.length > 0 && (
                   <>
                     <div className="font-semibold mt-4 mb-1">{t('logisticsSchool.equipmentNeeded')}</div>
                     <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                      {selectedRecipe.equipment.map((eq: string, i: number) => (
+                      {selectedRoute.equipment.map((eq: string, i: number) => (
                         <li key={i}>{eq}</li>
                       ))}
                     </ul>
                   </>
                 )}
-                {(!selectedRecipe.equipment || selectedRecipe.equipment.length === 0) && (
+                {(!selectedRoute.equipment || selectedRoute.equipment.length === 0) && (
                   <div className="italic text-gray-400 mt-2">{t('logisticsSchool.noEquipmentListed')}</div>
                 )}
               </div>

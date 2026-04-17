@@ -6,7 +6,7 @@ import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon
 const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'logistics';
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
@@ -75,8 +75,8 @@ const StudentProgressDashboard: React.FC = () => {
       timeSpent: "18.5 hours"
     },
     skills: {
-      recipesAttempted: 8,
-      recipesCompleted: 6,
+      routesAttempted: 8,
+      routesCompleted: 6,
       currentLevel: "Intermediate",
       nextMilestone: "Advanced Dispatch Planning"
     },
@@ -84,7 +84,7 @@ const StudentProgressDashboard: React.FC = () => {
       appUsage: "5 days this week",
       liveSessionsAttended: 3,
       communityPosts: 7,
-      recipesSaved: 15
+      routesSaved: 15
     },
     insights: {
       strongestArea: "Route Planning",
@@ -164,8 +164,8 @@ const StudentProgressDashboard: React.FC = () => {
 
   const getPostBorderColor = (type: string) => {
     switch (type) {
-      case 'recipe': return 'border-blue-400';
-      case 'ingredient': return 'border-green-400';
+      case 'route': return 'border-blue-400';
+      case 'item': return 'border-green-400';
       case 'live': return 'border-red-400';
       default: return 'border-gray-400';
     }
@@ -173,8 +173,8 @@ const StudentProgressDashboard: React.FC = () => {
 
   const getPostIcon = (type: string) => {
     switch (type) {
-      case 'recipe': return '📝';
-      case 'ingredient': return '🛒';
+      case 'route': return '📝';
+      case 'item': return '🛒';
       case 'live': return '🔴';
       default: return '💭';
     }
@@ -450,7 +450,7 @@ const StudentProgressDashboard: React.FC = () => {
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.recipesCompleted')}</h3>
-                <p className="text-gray-700">{progressData.skills.recipesCompleted} {t('dashboard.outOf')} {progressData.skills.recipesAttempted} {t('dashboard.attempted')}</p>
+                <p className="text-gray-700">{progressData.skills.routesCompleted} {t('dashboard.outOf')} {progressData.skills.routesAttempted} {t('dashboard.attempted')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.nextMilestone')}</h3>

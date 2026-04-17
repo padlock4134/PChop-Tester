@@ -163,10 +163,10 @@ const LastBadge = () => {
 };
 
 const navItems = [
-  { path: '/my-kitchen', label: 'My Kitchen' },
-  { path: '/culinary-school', label: 'Culinary School' },
-  { path: '/my-cookbook', label: 'My Cookbook' },
-  { path: '/chefs-corner', label: 'Chefs Corner' },
+  { path: '/my-dock', label: 'My Dock' },
+  { path: '/logistics-school', label: 'Logistics School' },
+  { path: '/my-runbook', label: 'My Runbook' },
+  { path: '/dispatchers-corner', label: 'Dispatchers Corner' },
 ];
 
 // Language Toggle Button Component

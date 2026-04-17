@@ -17,7 +17,7 @@ interface ARStep {
   duration: string;
   overlays: AROverlay[];
   tools: string[];
-  ingredients: string[];
+  items: string[];
   keyPoints: string[];
 }
 
@@ -26,7 +26,7 @@ interface ARPracticeScene {
   setup: {
     workspace: string;
     requiredTools: string[];
-    requiredIngredients: string[];
+    requiredItems: string[];
   };
   steps: ARStep[];
   tips: string[];
@@ -466,7 +466,7 @@ const ARPracticeSceneComponent: React.FC<ARPracticeSceneProps> = ({ scene, onCom
                 <a-sphere position="0.4 0.25 -0.1" radius="0.007" color="#C41E3A" material="emissive: #C41E3A; emissiveIntensity: 0.5" animation="property: position; to: 0.4 0.45 -0.1; dur: 2800; easing: easeInOutSine; loop: true; dir: alternate"></a-sphere>
               </a-entity>
 
-              <!-- Kitchen Counter - rich wood with PorkChop sand tones -->
+              <!-- Dock Counter - rich wood with PorkChop sand tones -->
               <a-box 
                 position="0 -0.5 -1.5" 
                 width="2.2" 

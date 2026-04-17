@@ -1,13 +1,13 @@
-export interface FoodNutrient {
+export interface __PROTECT_CARGONUTRIENT__ {
   name: string;
   unit: string;
   value: number;
 }
 
-export interface Food {
+export interface __PROTECT_CARGO__ {
   id: number;
   name: string;
-  nutrients: FoodNutrient[];
+  nutrients: __PROTECT_CARGONUTRIENT__[];
 }
 
 export interface KeyNutrients {
