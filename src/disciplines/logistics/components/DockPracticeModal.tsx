@@ -5,12 +5,12 @@ import { defaultARScenes } from '../data/defaultARScenes';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
 import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
 
-interface BenchPracticeModalProps {
+interface DockPracticeModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
+const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) => {
   const { t } = useTranslation();
   const [isPracticing, setIsPracticing] = useState(false);
   const [modeNotice, setModeNotice] = useState<string | null>(null);
@@ -116,8 +116,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Banner Header - Left Side Only */}
           <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
-              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">📦</span>
-              {t('logisticsSchool.dockPractice.title')}
+              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">�</span>
+              The Flatbed
             </h2>
           </div>
           
@@ -438,7 +438,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="flex-1"></div>
             <h3 className="text-xl font-bold text-amber-900 flex items-center gap-2">
               <span>📖</span>
-              <span>{t('logisticsSchool.dockPractice.practiceGuide')}</span>
+              <span>Flatbed Practice Guide</span>
             </h3>
             <div className="flex-1 flex justify-end">
               <button
@@ -455,34 +455,34 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="space-y-4">
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
-                  <span>🔪</span>
-                  <span>{t('logisticsSchool.dockPractice.knifeTechnique')}</span>
+                  <span>�</span>
+                  <span>Load Planning</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('logisticsSchool.dockPractice.knifeTechniqueDesc')}</p>
+                <p className="text-sm text-gray-800">Review the shipping manifest, confirm pallet counts, and plan your trailer loading sequence before touching freight.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>📏</span>
-                  <span>{t('logisticsSchool.dockPractice.consistency')}</span>
+                  <span>Weight Distribution</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('logisticsSchool.dockPractice.consistencyDesc')}</p>
+                <p className="text-sm text-gray-800">Balance weight evenly across the trailer floor. Heavy pallets low, last-stop freight at the nose, first-stop near the doors.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>⚡</span>
-                  <span>{t('logisticsSchool.dockPractice.safetyFirst')}</span>
+                  <span>Safety First</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('logisticsSchool.dockPractice.safetyFirstDesc')}</p>
+                <p className="text-sm text-gray-800">Chock wheels before loading, keep forks low on the pallet jack, and never exceed dock plate weight limits.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>🎯</span>
-                  <span>{t('logisticsSchool.dockPractice.focusPoints')}</span>
+                  <span>Focus Points</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('logisticsSchool.dockPractice.focusPointsDesc')}</p>
+                <p className="text-sm text-gray-800">BOL accuracy, seal numbers, pallet condition, and on-time dock door assignment are the metrics that matter.</p>
               </div>
             </div>
           </div>
@@ -507,5 +507,5 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   );
 };
 
-export default BenchPracticeModal;
+export default DockPracticeModal;
 
