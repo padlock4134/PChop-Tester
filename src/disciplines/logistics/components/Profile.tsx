@@ -38,16 +38,16 @@ const WOW_CLASSIC_XP_TABLE = [
 
 // Experience level mapping between UI labels and backend values
 const EXPERIENCE_LEVEL_MAPPING = {
-  'Beginner': 'new_to_cooking',
-  'Intermediate': 'home_cook', 
+  'Beginner': 'new_to_logistics',
+  'Intermediate': 'apprentice_dispatcher', 
   'Advanced': 'dock_confident',
   'Professional': 'dock_confident' // Both Advanced and Professional map to dock_confident
 } as const;
 
 // Reverse mapping for displaying in UI
 const EXPERIENCE_LEVEL_DISPLAY = {
-  'new_to_cooking': 'Beginner',
-  'home_cook': 'Intermediate',
+  'new_to_logistics': 'Beginner',
+  'apprentice_dispatcher': 'Intermediate',
   'dock_confident': 'Advanced'
 } as const;
 

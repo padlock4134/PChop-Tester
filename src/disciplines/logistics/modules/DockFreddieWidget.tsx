@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useFreddieContext } from '../components/DockFreddieContext';
 
 const DockFreddieWidget = () => {
   const [open, setOpen] = useState(false);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import dispatcherFreddiePng from '../images/logo.png';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useFreddieContext } from './DockFreddieContext';
 import { askDispatcherFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 

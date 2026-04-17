@@ -1,234 +1,177 @@
 // Default AR practice scenes for instant demo loading
 // AI can still generate custom scenes, but these load instantly
 
-export const whetstoneSharpening = {
-  lesson: "Traditional Whetstone Knife Sharpening",
+export const dockLoadingScene = {
+  lesson: "Dock Loading & Freight Staging",
   setup: {
-    workspace: "Clean, stable surface with damp towel underneath whetstone",
-    requiredTools: ["8-inch dispatcher's knife", "1000/6000 grit whetstone", "bowl of water", "damp towel"],
+    workspace: "Clear dock area with level floor, proper lighting, and safety markings",
+    requiredTools: ["pallet jack", "dock leveler", "stretch wrap", "load bars"],
     requiredItems: []
   },
   steps: [
     {
       id: 1,
-      instruction: "Soak your whetstone in water for 10 minutes. The stone should feel heavy and fully saturated. Place a damp towel under the stone to prevent slipping.",
+      instruction: "Inspect the dock area. Verify the dock leveler is operational, the trailer is chocked, and the area is clear of debris. Check the load plan for pallet count and weight distribution.",
       duration: "30s",
-      tools: ["Whetstone", "Bowl of water", "Damp towel"],
+      tools: ["Load plan", "Safety checklist"],
       items: [],
       overlays: [
         {
           type: "text",
-          label: "Stone fully saturated",
+          label: "Dock area clear",
           color: "#3B82F6",
           position: "center"
         }
       ],
       keyPoints: [
-        "Stone should be completely wet",
-        "Damp towel prevents sliding",
-        "Stable, comfortable workspace height"
+        "Trailer wheels chocked",
+        "Dock leveler engaged",
+        "Load plan reviewed"
       ]
     },
     {
       id: 2,
-      instruction: "Hold the knife with your dominant hand. Place the blade against the stone at a 20-degree angle. This is critical—visualize a matchbook under the spine of the blade.",
+      instruction: "Verify pallet labels match the BOL (Bill of Lading). Confirm piece count, weight, and destination for each pallet. Flag any discrepancies before loading.",
       duration: "45s",
-      tools: ["Dispatcher's knife", "Whetstone"],
+      tools: ["BOL", "Pallet labels"],
       items: [],
       overlays: [
         {
-          type: "line",
-          label: "20° angle",
-          color: "#F59E0B",
-          angle: 20
-        },
-        {
           type: "text",
-          label: "Matchbook thickness",
+          label: "BOL match confirmed",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "20-degree angle is crucial",
-        "Consistent angle throughout",
-        "Firm but not white-knuckle grip"
+        "Cross-reference BOL with pallet labels",
+        "Verify weight per pallet",
+        "Flag discrepancies immediately"
       ]
     },
     {
       id: 3,
-      instruction: "Using light to moderate pressure, sweep the blade from heel to tip across the stone. Imagine you're trying to shave a thin layer off the stone. Keep the angle consistent.",
+      instruction: "Stage pallets in loading order—last stop loaded first (nose of trailer), first stop loaded last (near doors). Distribute weight evenly across the trailer floor.",
       duration: "60s",
-      tools: ["Dispatcher's knife", "Whetstone"],
+      tools: ["Pallet jack", "Load plan"],
       items: [],
       overlays: [
         {
           type: "arrow",
-          label: "Heel to tip motion",
+          label: "Last stop → Nose",
           color: "#3B82F6",
           direction: "forward"
         },
         {
-          type: "line",
-          label: "Sweeping path",
+          type: "text",
+          label: "Even weight distribution",
           color: "#3B82F6",
-          angle: 0
+          position: "bottom"
         }
       ],
       keyPoints: [
-        "Smooth, controlled motion",
-        "Let the stone do the work",
-        "Maintain 20° angle throughout stroke",
-        "Full blade contact—heel to tip"
+        "Last stop loads first (nose)",
+        "First stop loads last (tail)",
+        "Balance weight left-to-right",
+        "Heavy pallets on the floor"
       ]
     },
     {
       id: 4,
-      instruction: "Complete 10 strokes on this side. Count them out loud. Listen to the sound—it should be consistent, like a whisper across the stone.",
+      instruction: "Load pallets using the pallet jack. Keep forks low and move slowly across the dock plate. Position pallets flush against trailer walls to minimize shifting.",
       duration: "90s",
-      tools: ["Dispatcher's knife", "Whetstone"],
+      tools: ["Pallet jack", "Load bars"],
       items: [],
       overlays: [
         {
           type: "text",
-          label: "10 strokes",
+          label: "Forks low, slow speed",
           color: "#10B981",
           position: "center"
-        },
-        {
-          type: "text",
-          label: "Listen for consistency",
-          color: "#10B981",
-          position: "bottom"
         }
       ],
       keyPoints: [
-        "Count each stroke",
-        "Consistent pressure",
-        "Consistent sound = consistent angle",
-        "Smooth, rhythmic motion"
+        "Forks fully inserted under pallet",
+        "Slow, controlled movement",
+        "Flush against walls",
+        "No gaps between pallets"
       ]
     },
     {
       id: 5,
-      instruction: "Flip the knife over. Maintain the same 20-degree angle on the opposite side. Your hand position will feel different—that's normal. 10 more strokes, same motion.",
+      instruction: "Secure the load with load bars and stretch wrap. Place load bars at intervals to prevent forward/backward shifting. Wrap any unstable pallets.",
       duration: "90s",
-      tools: ["Dispatcher's knife", "Whetstone"],
+      tools: ["Load bars", "Stretch wrap"],
       items: [],
       overlays: [
         {
-          type: "line",
-          label: "20° opposite side",
-          color: "#F59E0B",
-          angle: -20
-        },
-        {
           type: "text",
-          label: "Mirror the angle",
+          label: "Load secured",
           color: "#F59E0B",
-          position: "top"
+          position: "center"
         }
       ],
       keyPoints: [
-        "Same angle, opposite side",
-        "Same pressure and motion",
-        "10 strokes to match first side",
-        "Symmetry is key"
+        "Load bars at key intervals",
+        "Stretch wrap loose pallets",
+        "No gaps that allow shifting",
+        "Test stability before closing"
       ]
     },
     {
       id: 6,
-      instruction: "Feel for the burr. Run your thumb CAREFULLY perpendicular to the edge on the side you just sharpened. You should feel a tiny metal ridge—that's the burr. It means you've sharpened through to the edge.",
+      instruction: "Perform a final walk-around inspection. Verify pallet count matches BOL, load is stable, and nothing is damaged. Sign off on the BOL and note any exceptions.",
       duration: "45s",
-      tools: ["Dispatcher's knife"],
+      tools: ["BOL", "Inspection checklist"],
       items: [],
       overlays: [
         {
           type: "text",
-          label: "Feel for burr",
+          label: "Final inspection",
           color: "#EF4444",
           position: "center"
-        },
-        {
-          type: "arrow",
-          label: "Thumb perpendicular to edge",
-          color: "#EF4444",
-          direction: "across"
         }
       ],
       keyPoints: [
-        "Move thumb AWAY from edge",
-        "Tiny ridge = success",
-        "Should feel it on opposite side",
-        "Be careful—edge is sharp"
+        "Count matches BOL",
+        "No visible damage",
+        "Load is stable and secured",
+        "Sign and note exceptions"
       ]
     },
     {
       id: 7,
-      instruction: "Alternate sides with lighter pressure—5 strokes per side, then 3, then 1. This removes the burr and polishes the edge. The blade should now feel razor-sharp.",
-      duration: "60s",
-      tools: ["Dispatcher's knife", "Whetstone"],
-      items: [],
-      overlays: [
-        {
-          type: "text",
-          label: "5-3-1 pattern",
-          color: "#8B5CF6",
-          position: "center"
-        },
-        {
-          type: "text",
-          label: "Lighter pressure",
-          color: "#8B5CF6",
-          position: "bottom"
-        }
-      ],
-      keyPoints: [
-        "Decreasing strokes: 5, 3, 1",
-        "Lighter pressure each round",
-        "Removes the burr",
-        "Final polish"
-      ]
-    },
-    {
-      id: 8,
-      instruction: "Rinse the blade and test on paper. A sharp knife will slice through paper cleanly with no tearing. You've just mastered a centuries-old technique.",
+      instruction: "Close trailer doors and apply the seal. Record the seal number on the BOL. Disengage the dock leveler and remove wheel chocks only when driver is ready to depart.",
       duration: "30s",
-      tools: ["Dispatcher's knife"],
+      tools: ["Trailer seal", "BOL"],
       items: [],
       overlays: [
         {
           type: "text",
-          label: "Paper test",
+          label: "Seal applied",
           color: "#10B981",
           position: "center"
-        },
-        {
-          type: "text",
-          label: "Clean slice = success",
-          color: "#10B981",
-          position: "bottom"
         }
       ],
       keyPoints: [
-        "Clean, smooth cut through paper",
-        "No tearing or catching",
-        "Blade should feel razor-sharp",
-        "Old-school skill mastered"
+        "Record seal number on BOL",
+        "Doors fully latched",
+        "Chocks removed last",
+        "Dock loading complete"
       ]
     }
   ],
   tips: [
-    "Close your eyes between steps and visualize the motion",
-    "Practice the 20-degree angle in the air before touching the stone",
-    "The sound tells you everything—listen for consistency",
-    "Most people press too hard—let the stone do the work",
-    "This is a meditation. Slow down and feel the process."
+    "Always review the load plan before touching freight",
+    "Weight distribution prevents trailer sway on the road",
+    "Last stop in, first stop out—plan your load sequence",
+    "When in doubt, re-check the BOL",
+    "Safety first—never rush a load."
   ]
 };
 
-export const defaultARScenes = {
-  "Traditional Whetstone Knife Sharpening": whetstoneSharpening,
-  "whetstone": whetstoneSharpening,
-  "knife sharpening": whetstoneSharpening
+export const defaultARScenes: Record<string, typeof dockLoadingScene> = {
+  "Dock Loading & Freight Staging": dockLoadingScene,
+  "dock loading": dockLoadingScene,
+  "freight staging": dockLoadingScene
 };

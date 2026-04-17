@@ -29,7 +29,7 @@ const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
 const ROUTE_PROMPTS = {
-  new_to_cooking: (numRoutes: number, items: string[]) => 
+  new_to_logistics: (numRoutes: number, items: string[]) => 
     `You are a patient trade instructor. Create ${numRoutes} simple beginner projects using available materials/components from: ${items.join(", ")}. 
     RULES:
     1. Use only 2-3 required materials/components per project
@@ -39,7 +39,7 @@ const ROUTE_PROMPTS = {
     5. Include necessary tools/equipment for each project
     6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
 
-  home_cook: (numRoutes: number, items: string[]) => 
+  apprentice_dispatcher: (numRoutes: number, items: string[]) => 
     `You are a helpful trade coach. Create ${numRoutes} intermediate projects for someone comfortable with fundamentals using materials/components from: ${items.join(", ")}.
     RULES:
     1. Use 3-4 required materials/components per project

@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-dom';
 import { useLevelProgressContext } from './NavBar';
 import WeeklyChallengeRouteModal from './WeeklyChallengeRouteModal';
 import type { RouteCard } from './RouteMatcherModal';
-import { getWeeklyChallengeRecipe } from '../../culinary/api/anthropicChallenge';
-import { getRecipeImage } from '../../culinary/api/unsplash';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { getWeeklyChallengeRoute } from '../api/anthropicChallenge';
+import { getRouteImage } from '../api/unsplash';
+import { supabase } from '../api/supabaseClient';
+import { isSessionValid } from '../api/userSession';
+import { useSupabase } from '../components/SupabaseProvider';
 
 // Pool of weekly challenges
 export const WEEKLY_CHALLENGES = [

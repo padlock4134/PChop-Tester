@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from './SupabaseProvider';
 import { fetchRunbook } from '../modules/cookbookSupabase';
 import { RouteCard } from './RouteMatcherModal';
 import jsPDF from 'jspdf';

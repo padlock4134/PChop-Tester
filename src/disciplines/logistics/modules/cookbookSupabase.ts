@@ -1,5 +1,5 @@
-import { supabase } from '../../culinary/api/supabaseClient';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { supabase } from '../api/supabaseClient';
+import { isSessionValid } from '../api/userSession';
 import type { RouteCard } from '../components/RouteMatcherModal';
 
 export async function saveRunbook(userId: string, routes: RouteCard[]) {
@@ -22,7 +22,7 @@ export async function fetchRunbook(userId: string): Promise<RouteCard[]> {
 
   const { data, error } = await supabase
     .from('user_cookbook')
-    .select('recipes')
+    .select('routes')
     .eq('user_id', userId)
     .single();
   if (error && error.code !== 'PGRST116') throw error; // PGRST116: no rows
@@ -36,7 +36,7 @@ export async function addRouteToRunbook(userId: string, route: RouteCard) {
   // First get existing routes
   const { data, error: fetchError } = await supabase
     .from('user_cookbook')
-    .select('recipes')
+    .select('routes')
     .eq('user_id', userId)
     .single();
     
@@ -61,7 +61,7 @@ export async function removeRouteFromRunbook(userId: string, routeId: string) {
   
   const { data, error: fetchError } = await supabase
     .from('user_cookbook')
-    .select('recipes')
+    .select('routes')
     .eq('user_id', userId)
     .single();
     

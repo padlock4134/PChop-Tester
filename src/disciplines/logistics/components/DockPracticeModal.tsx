@@ -35,8 +35,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built dock AR scene (instant load)
+      const demoLesson = 'Dock Loading & Freight Staging';
       
       // Check if we have a default scene
       if (defaultARScenes[demoLesson]) {
@@ -54,7 +54,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           lessonTitle: demoLesson,
-          lessonContent: 'Traditional Japanese water stone sharpening technique. Includes stone preparation, proper angle maintenance (20 degrees), stroke technique, and burr detection. Old-school method using only water and stone.',
+          lessonContent: 'Dock loading and freight staging fundamentals. Includes load planning, pallet stacking, weight distribution, trailer loading sequence, and dock door assignment. Standard operating procedures for inbound and outbound freight.',
         }),
       });
 
@@ -68,7 +68,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       }
     } catch (error) {
       console.error('Error generating AR practice:', error);
-      alert(t('culinarySchool.charcuterieBoard.couldNotGenerateAR'));
+      alert(t('logisticsSchool.dockPractice.couldNotGenerateAR'));
       setIsPracticing(false);
     } finally {
       setIsGeneratingAR(false);
@@ -116,8 +116,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Banner Header - Left Side Only */}
           <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
-              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🧀</span>
-              {t('culinarySchool.charcuterieBoard.title')}
+              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">📦</span>
+              {t('logisticsSchool.dockPractice.title')}
             </h2>
           </div>
           
@@ -126,10 +126,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-sm sm:text-lg font-bold mb-1 text-center text-amber-800">
-                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'Knife Skills'}
+                📚 {t('logisticsSchool.dockPractice.virtualPractice')}: {arScene?.lesson || 'Dock Operations'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-1">
-                {t('culinarySchool.charcuterieBoard.arDemonstration')}
+                {t('logisticsSchool.dockPractice.arDemonstration')}
               </p>
             </>
           )}
@@ -140,15 +140,15 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               // Generating AR scene
               <div className="text-amber-900 text-center">
                 <div className="text-6xl mb-4 animate-pulse">🧠</div>
-                <p className="text-lg font-bold">{t('culinarySchool.charcuterieBoard.aiGeneratingPractice')}</p>
-                <p className="text-sm opacity-75 mt-2">{t('culinarySchool.charcuterieBoard.creatingVirtualKitchen')}</p>
+                <p className="text-lg font-bold">{t('logisticsSchool.dockPractice.aiGeneratingPractice')}</p>
+                <p className="text-sm opacity-75 mt-2">{t('logisticsSchool.dockPractice.creatingVirtualDock')}</p>
               </div>
             ) : isPracticing && arScene ? (
               // Virtual practice mode - show AR scene
               <ARDockScene 
                 scene={arScene}
                 onComplete={() => {
-                  alert(t('culinarySchool.charcuterieBoard.practiceComplete'));
+                  alert(t('logisticsSchool.dockPractice.practiceComplete'));
                   cleanupPractice();
                 }}
                 guideOpen={guideOpen}
@@ -158,9 +158,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             ) : (
               // Not practicing - show placeholder
               <div className="text-amber-900 text-center">
-                <div className="text-4xl mb-2">👨‍🍳</div>
-                <p className="text-sm font-bold">{t('culinarySchool.charcuterieBoard.aiGuidedPracticeLabel')}</p>
-                <p className="text-xs opacity-75">{t('culinarySchool.charcuterieBoard.selectLessonStart')}</p>
+                <div className="text-4xl mb-2">�</div>
+                <p className="text-sm font-bold">{t('logisticsSchool.dockPractice.aiGuidedPracticeLabel')}</p>
+                <p className="text-xs opacity-75">{t('logisticsSchool.dockPractice.selectLessonStart')}</p>
               </div>
             )}
             
@@ -168,13 +168,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             {isPracticing && (
               <div className="absolute top-4 left-4 bg-amber-700 text-white text-sm px-3 py-1 rounded-full flex items-center">
                 <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
-                {t('culinarySchool.charcuterieBoard.practicing')}
+                {t('logisticsSchool.dockPractice.practicing')}
               </div>
             )}
             
             {/* Timer/Progress */}
             <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full">
-              ⏱️ {isPracticing ? '5:23' : t('culinarySchool.charcuterieBoard.notStarted')}
+              ⏱️ {isPracticing ? '5:23' : t('logisticsSchool.dockPractice.notStarted')}
             </div>
           </div>
 
@@ -186,38 +186,38 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onClick={() => setShowDeviceSelection(true)}
                   className="w-full sm:w-auto bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
                 >
-                  📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
+                  📚 {t('logisticsSchool.dockPractice.virtualPracticeButton')}
                 </button>
                 <select
                   value={selectedLesson}
                   onChange={(e) => setSelectedLesson(e.target.value)}
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
-                  <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
+                  <option value="">{t('logisticsSchool.dockPractice.chooseLesson')}</option>
+                  <optgroup label={t('logisticsSchool.dockPractice.term1Foundations')}>
                     <option value="lesson-1-1">Dock Safety and Sanitation</option>
-                    <option value="lesson-1-2">__PROTECT_CARGO__ Handling and Storage</option>
+                    <option value="lesson-1-2">Freight Handling and Storage</option>
                     <option value="lesson-1-3">Introduction to Dock Equipment</option>
-                    <option value="lesson-1-4">Basic Cooking Terminology</option>
-                    <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                    <option value="lesson-1-4">Basic Freight Terminology</option>
+                    <option value="lesson-1-5">Weights, Dimensions, and Freight Class</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                    <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                    <option value="lesson-2-2">Basic Knife Cuts</option>
-                    <option value="lesson-2-3">Vegetable Fabrication</option>
-                    <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                  <optgroup label={t('logisticsSchool.dockPractice.term1FreightDocs')}>
+                    <option value="lesson-2-1">BOL Preparation and Review</option>
+                    <option value="lesson-2-2">Freight Classification (NMFC)</option>
+                    <option value="lesson-2-3">Shipping Labels and Hazmat Marking</option>
+                    <option value="lesson-2-4">Customs and Import Documentation</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                    <option value="lesson-3-1">Egg Cookery</option>
-                    <option value="lesson-3-2">Breakfast Preparations</option>
-                    <option value="lesson-3-3">Cold __PROTECT_CARGO__ Preparation</option>
-                    <option value="lesson-3-4">Salads and Dressings</option>
+                  <optgroup label={t('logisticsSchool.dockPractice.term2RoutePlanning')}>
+                    <option value="lesson-3-1">Route Optimization Basics</option>
+                    <option value="lesson-3-2">Multi-Stop Planning</option>
+                    <option value="lesson-3-3">Temperature-Controlled Shipping</option>
+                    <option value="lesson-3-4">Last-Mile Delivery Strategy</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                    <option value="lesson-4-1">Basic Dough and Batters</option>
-                    <option value="lesson-4-2">Quick Breads and Muffins</option>
-                    <option value="lesson-4-3">Yeast Breads</option>
-                    <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                  <optgroup label={t('logisticsSchool.dockPractice.term2WarehouseOps')}>
+                    <option value="lesson-4-1">Receiving and Put-Away</option>
+                    <option value="lesson-4-2">Pick, Pack, and Ship</option>
+                    <option value="lesson-4-3">Inventory Cycle Counting</option>
+                    <option value="lesson-4-4">Cross-Docking Operations</option>
                   </optgroup>
                 </select>
               </>
@@ -227,14 +227,14 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onClick={endPractice}
                   className="w-full sm:w-auto bg-amber-800 text-white px-4 py-2 text-sm rounded font-bold hover:bg-amber-900 transition-colors border border-amber-900"
                 >
-                  ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
+                  ⏹️ {t('logisticsSchool.dockPractice.endPractice')}
                 </button>
                 <select
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="dock-loading">Dock Operations</option>
                 </select>
               </>
             )}
@@ -249,7 +249,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
                   <p className="text-xs text-blue-800">
                     {isPracticing 
-                      ? "Great start! Keep your knife angle consistent..."
+                      ? "Great start! Keep your load distribution even..."
                       : "Start practicing to receive real-time AI guidance"}
                   </p>
                 </div>
@@ -269,7 +269,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-2 text-sm font-bold border-t-2 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
-            <span>{instructionsOpen ? t('culinarySchool.charcuterieBoard.hideInstructions') : t('culinarySchool.charcuterieBoard.showInstructions')}</span>
+            <span>{instructionsOpen ? t('logisticsSchool.dockPractice.hideInstructions') : t('logisticsSchool.dockPractice.showInstructions')}</span>
             <span className="text-xs">{instructionsOpen ? '▼' : '▲'}</span>
           </button>
           
@@ -279,7 +279,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               {/* Instructions Header */}
               <div className="p-3 bg-amber-100 text-amber-800 font-retro text-center border-b-2 border-amber-300">
                 <h3 className="text-base font-bold">
-                  📋 {t('culinarySchool.charcuterieBoard.practiceInstructions')}
+                  📋 {t('logisticsSchool.dockPractice.practiceInstructions')}
                 </h3>
               </div>
               
@@ -288,38 +288,38 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Lesson Selection Dropdown */}
                 <div className="mb-3">
                   <label className="block text-xs font-semibold text-amber-800 mb-1">
-                    {t('culinarySchool.charcuterieBoard.selectLessonToPractice')}
+                    {t('logisticsSchool.dockPractice.selectLessonToPractice')}
                   </label>
                   <select
                     value={selectedLesson}
                     onChange={(e) => setSelectedLesson(e.target.value)}
                     className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   >
-                    <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
+                    <option value="">{t('logisticsSchool.dockPractice.chooseLesson')}</option>
+                    <optgroup label={t('logisticsSchool.dockPractice.term1Foundations')}>
                       <option value="lesson-1-1">Dock Safety and Sanitation</option>
-                      <option value="lesson-1-2">__PROTECT_CARGO__ Handling and Storage</option>
+                      <option value="lesson-1-2">Freight Handling and Storage</option>
                       <option value="lesson-1-3">Introduction to Dock Equipment</option>
-                      <option value="lesson-1-4">Basic Cooking Terminology</option>
-                      <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                      <option value="lesson-1-4">Basic Freight Terminology</option>
+                      <option value="lesson-1-5">Weights, Dimensions, and Freight Class</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                      <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                      <option value="lesson-2-2">Basic Knife Cuts</option>
-                      <option value="lesson-2-3">Vegetable Fabrication</option>
-                      <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                    <optgroup label={t('logisticsSchool.dockPractice.term1FreightDocs')}>
+                      <option value="lesson-2-1">BOL Preparation and Review</option>
+                      <option value="lesson-2-2">Freight Classification (NMFC)</option>
+                      <option value="lesson-2-3">Shipping Labels and Hazmat Marking</option>
+                      <option value="lesson-2-4">Customs and Import Documentation</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                      <option value="lesson-3-1">Egg Cookery</option>
-                      <option value="lesson-3-2">Breakfast Preparations</option>
-                      <option value="lesson-3-3">Cold __PROTECT_CARGO__ Preparation</option>
-                      <option value="lesson-3-4">Salads and Dressings</option>
+                    <optgroup label={t('logisticsSchool.dockPractice.term2RoutePlanning')}>
+                      <option value="lesson-3-1">Route Optimization Basics</option>
+                      <option value="lesson-3-2">Multi-Stop Planning</option>
+                      <option value="lesson-3-3">Temperature-Controlled Shipping</option>
+                      <option value="lesson-3-4">Last-Mile Delivery Strategy</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                      <option value="lesson-4-1">Basic Dough and Batters</option>
-                      <option value="lesson-4-2">Quick Breads and Muffins</option>
-                      <option value="lesson-4-3">Yeast Breads</option>
-                      <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                    <optgroup label={t('logisticsSchool.dockPractice.term2WarehouseOps')}>
+                      <option value="lesson-4-1">Receiving and Put-Away</option>
+                      <option value="lesson-4-2">Pick, Pack, and Ship</option>
+                      <option value="lesson-4-3">Inventory Cycle Counting</option>
+                      <option value="lesson-4-4">Cross-Docking Operations</option>
                     </optgroup>
                   </select>
                 </div>
@@ -330,30 +330,30 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   className="w-full mb-3 bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow border-2 border-amber-600 px-3 py-1.5 text-sm cursor-pointer transition-all flex items-center justify-center gap-2"
                 >
                   <span className="text-base">📋</span>
-                  <span className="text-xs font-bold">{guideOpen ? t('culinarySchool.charcuterieBoard.closeGuide') : t('culinarySchool.charcuterieBoard.openGuide')}</span>
+                  <span className="text-xs font-bold">{guideOpen ? t('logisticsSchool.dockPractice.closeGuide') : t('logisticsSchool.dockPractice.openGuide')}</span>
                 </button>
                 
                 
                 {/* Practice Steps */}
                 <div className="space-y-2">
                   <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step1Setup')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step1Desc')}</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('logisticsSchool.dockPractice.step1Setup')}</div>
+                    <p className="text-xs text-gray-700">{t('logisticsSchool.dockPractice.step1Desc')}</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step2KnifeGrip')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step2Desc')}</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('logisticsSchool.dockPractice.step2FreightHandling')}</div>
+                    <p className="text-xs text-gray-700">{t('logisticsSchool.dockPractice.step2Desc')}</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step3FirstCuts')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step3Desc')}</p>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('logisticsSchool.dockPractice.step3LoadFreight')}</div>
+                    <p className="text-xs text-gray-700">{t('logisticsSchool.dockPractice.step3Desc')}</p>
                   </div>
 
                   <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">{t('culinarySchool.charcuterieBoard.step4Validation')}</div>
-                    <p className="text-xs text-gray-600">{t('culinarySchool.charcuterieBoard.step4Desc')}</p>
+                    <div className="font-semibold text-xs text-gray-600 mb-0.5">{t('logisticsSchool.dockPractice.step4Validation')}</div>
+                    <p className="text-xs text-gray-600">{t('logisticsSchool.dockPractice.step4Desc')}</p>
                   </div>
                 </div>
                 
@@ -363,11 +363,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                     <div className="flex items-start space-x-2">
                       <span className="text-base">🤖</span>
                       <div className="flex-1">
-                        <div className="font-semibold text-xs text-blue-900 mb-0.5">{t('culinarySchool.charcuterieBoard.aiFeedback')}</div>
+                        <div className="font-semibold text-xs text-blue-900 mb-0.5">{t('logisticsSchool.dockPractice.aiFeedback')}</div>
                         <p className="text-xs text-blue-800">
                           {isPracticing 
-                            ? t('culinarySchool.charcuterieBoard.aiFeedbackActive')
-                            : t('culinarySchool.charcuterieBoard.aiFeedbackInactive')}
+                            ? t('logisticsSchool.dockPractice.aiFeedbackActive')
+                            : t('logisticsSchool.dockPractice.aiFeedbackInactive')}
                         </p>
                       </div>
                     </div>
@@ -405,22 +405,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
               <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
-              <p className="text-xs text-gray-700">Position your cutting board and gather items</p>
+              <p className="text-xs text-gray-700">Review the load plan and inspect dock area</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Knife Grip</div>
-              <p className="text-xs text-gray-700">Hold knife with proper pinch grip technique</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Freight Handling</div>
+              <p className="text-xs text-gray-700">Verify freight is properly secured and labeled</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Cuts</div>
-              <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: Load Freight</div>
+              <p className="text-xs text-gray-700">Stage pallets and load trailer per the shipping plan</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
               <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Validation</div>
-              <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
+              <p className="text-xs text-gray-600">AI will verify load accuracy and weight distribution</p>
             </div>
           </div>
           
@@ -438,7 +438,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="flex-1"></div>
             <h3 className="text-xl font-bold text-amber-900 flex items-center gap-2">
               <span>📖</span>
-              <span>{t('culinarySchool.charcuterieBoard.practiceGuide')}</span>
+              <span>{t('logisticsSchool.dockPractice.practiceGuide')}</span>
             </h3>
             <div className="flex-1 flex justify-end">
               <button
@@ -456,33 +456,33 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>🔪</span>
-                  <span>{t('culinarySchool.charcuterieBoard.knifeTechnique')}</span>
+                  <span>{t('logisticsSchool.dockPractice.knifeTechnique')}</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.knifeTechniqueDesc')}</p>
+                <p className="text-sm text-gray-800">{t('logisticsSchool.dockPractice.knifeTechniqueDesc')}</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>📏</span>
-                  <span>{t('culinarySchool.charcuterieBoard.consistency')}</span>
+                  <span>{t('logisticsSchool.dockPractice.consistency')}</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.consistencyDesc')}</p>
+                <p className="text-sm text-gray-800">{t('logisticsSchool.dockPractice.consistencyDesc')}</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>⚡</span>
-                  <span>{t('culinarySchool.charcuterieBoard.safetyFirst')}</span>
+                  <span>{t('logisticsSchool.dockPractice.safetyFirst')}</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.safetyFirstDesc')}</p>
+                <p className="text-sm text-gray-800">{t('logisticsSchool.dockPractice.safetyFirstDesc')}</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>🎯</span>
-                  <span>{t('culinarySchool.charcuterieBoard.focusPoints')}</span>
+                  <span>{t('logisticsSchool.dockPractice.focusPoints')}</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.focusPointsDesc')}</p>
+                <p className="text-sm text-gray-800">{t('logisticsSchool.dockPractice.focusPointsDesc')}</p>
               </div>
             </div>
           </div>

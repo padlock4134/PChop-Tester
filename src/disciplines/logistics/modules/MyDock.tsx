@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { saveDock, fetchDock } from './kitchenSupabase';
 import { fetchRunbook, addRouteToRunbook } from './cookbookSupabase';
-import { Ingredient } from '../../culinary/types/shared-types';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
+import { Item } from '../types/shared-types';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
-import { scanImage } from '../../culinary/api/vision';
+import { scanImage } from '../api/vision';
 import RouteMatcherModal, { RouteCard } from '../components/RouteMatcherModal';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { supabase } from '../../culinary/api/supabaseClient';
-import RouteCard from '../components/RouteCard';
+import { useFreddieContext } from '../components/DockFreddieContext';
+import { useSupabase } from '../components/SupabaseProvider';
+import { isSessionValid } from '../api/userSession';
+import { supabase } from '../api/supabaseClient';
 
 const CATEGORIES = [
   "Vegetable",
@@ -144,7 +143,7 @@ const MyDock = () => {
       
       // Award XP for saving a route
       if (user) {
-        await import('../../culinary/services/xpService').then(m => 
+        await import('../services/xpService').then(m => 
           m.awardXP(user.id, XP_REWARDS.ROUTE_SAVE, 'route_save')
         );
         refreshXP();
@@ -289,7 +288,7 @@ const MyDock = () => {
             setMatcherError('');
             try {
               const inventoryNames = items.map(i => i.name);
-              const { fetchRoutesWithImages } = await import('../../culinary/api/recipeMatcher');
+              const { fetchRoutesWithImages } = await import('../api/recipeMatcher');
               const routes = await fetchRoutesWithImages({
                 userId: user?.id!,
                 items: inventoryNames,

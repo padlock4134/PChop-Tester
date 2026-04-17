@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useFreddieContext } from '../components/DockFreddieContext';
 import { fetchRunbook } from './cookbookSupabase';
 import RunbookImportModal from '../components/RunbookImportModal';
 import LocalWarehousesModal from '../components/LocalWarehousesModal';
 import BuildRouteModal from '../components/BuildRouteModal';
 import { useRouteContext } from '../components/RouteContext';
 import { RouteCard } from '../components/RouteMatcherModal';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../components/SupabaseProvider';
 import GlobalTestDock from '../components/GlobalTestDock';
-import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../../culinary/types/nutrition';
+import { fetchNutritionData, calculateRouteNutrition } from '../api/nutritionService';
+import { KeyNutrients } from '../types/nutrition';
 
 const DispatchLounge = () => {
   const { t } = useTranslation();

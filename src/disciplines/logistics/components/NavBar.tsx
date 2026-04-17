@@ -4,13 +4,13 @@ import { Bars3Icon, CogIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
-import { supabase } from '../../culinary/api/supabaseClient';
+import { supabase } from '../api/supabaseClient';
 import ChallengeOfTheWeek from './ChallengeOfTheWeek';
 import { getUserBadges, BADGES } from '../utils/badges';
 // @ts-ignore
 import logo from '../images/logo.png';
 import { useSupabase } from '../components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { isSessionValid } from '../api/userSession';
 import { useAdminToggle } from '../../../App';
 import { useDiscipline } from '../../../DisciplineContext';
 
@@ -213,7 +213,7 @@ const AdminToggleButton: React.FC = () => {
       onClick={() => {
         if (isOnAdmin) {
           // Exit admin mode - go back to current discipline dashboard
-          navigate(disciplineConfig.routes.dashboard);
+          navigate(disciplineConfig?.routes.dashboard ?? '/');
         } else {
           // Enter admin mode - go directly to admin dashboard
           navigate('/admin');
@@ -247,7 +247,7 @@ const NavBar: React.FC = () => {
           <div className="flex items-center space-x-2 ml-[5%]">
             {/* PorkChop Text as Smart Dashboard Link */}
             <Link 
-              to={isAdminMode ? "/admin" : disciplineConfig.routes.dashboard} 
+              to={isAdminMode ? "/admin" : (disciplineConfig?.routes.dashboard ?? '/')} 
               className="flex items-center hover:opacity-80 transition-opacity"
             >
               <span className="text-3xl sm:text-4xl font-bold tracking-wider font-retro">PorkChop</span>
@@ -260,7 +260,7 @@ const NavBar: React.FC = () => {
             
             {/* Profile Avatar */}
             <Link
-              to={location.pathname.includes('/profile') ? disciplineConfig.routes.dashboard : disciplineConfig.routes.profile}
+              to={location.pathname.includes('/profile') ? (disciplineConfig?.routes.dashboard ?? '/') : (disciplineConfig?.routes.profile ?? '/profile')}
               className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
                 location.pathname === '/profile'
                   ? 'bg-seafoam hover:bg-teal-400'

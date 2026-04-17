@@ -1,4 +1,4 @@
-export type ExperienceLevel = 'new_to_cooking' | 'home_cook' | 'dock_confident';
+export type ExperienceLevel = 'new_to_logistics' | 'apprentice_dispatcher' | 'dock_confident';
 
 export interface UserPreferences {
   experienceLevel: ExperienceLevel;
@@ -9,4 +9,4 @@ export interface UserPreferences {
   level?: number;
 }
 
-export const DEFAULT_EXPERIENCE_LEVEL: ExperienceLevel = 'new_to_cooking';
+export const DEFAULT_EXPERIENCE_LEVEL: ExperienceLevel = 'new_to_logistics';

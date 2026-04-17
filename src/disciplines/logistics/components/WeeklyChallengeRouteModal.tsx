@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { RouteCard } from './RouteMatcherModal';
 import { useState, useRef } from 'react';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { claimWeeklyChallenge } from '../../culinary/api/weeklyChallenge';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { XP_REWARDS } from '../../culinary/services/xpService';
+import { supabase } from '../api/supabaseClient';
+import { claimWeeklyChallenge } from '../api/weeklyChallenge';
+import { isSessionValid } from '../api/userSession';
+import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from './NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from './SupabaseProvider';
 
 interface WeeklyChallengeRouteModalProps {
   open: boolean;
@@ -108,7 +108,7 @@ const WeeklyChallengeRouteModal: React.FC<WeeklyChallengeRouteModalProps> = ({ o
         // Award XP for completing the challenge
         const sessionValid = await isSessionValid();
         if (sessionValid && user.id) {
-          await import('../../culinary/services/xpService').then(m => 
+          await import('../services/xpService').then(m => 
             m.awardXP(user.id, XP_REWARDS.CHALLENGE_COMPLETE, 'challenge_complete')
           );
           refreshXP();

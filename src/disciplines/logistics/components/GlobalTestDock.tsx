@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PlayIcon, VideoCameraIcon, UserGroupIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { supabase } from '../api/supabaseClient';
+import { useSupabase } from './SupabaseProvider';
 // Removed RecordRTC import to improve performance
 
 interface LiveSession {
@@ -107,9 +107,9 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       viewers: 47,
       isLive: false,
       isEnded: true,
-      thumbnail: '🥘',
-      description: 'Traditional paella from Valencia with saffron and bomba rice',
-      items: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
+      thumbnail: '📐',
+      description: 'Calibrating site layout using GPS and total station equipment',
+      items: ['GPS unit', 'Total station', 'Measuring tape', 'Stakes', 'Layout plans']
     },
     {
       id: '2',
@@ -118,9 +118,9 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       culture: 'Japanese',
       viewers: 23,
       isLive: true,
-      thumbnail: '🍜',
-      description: 'Making ramen noodles from scratch with tonkotsu broth',
-      items: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
+      thumbnail: '🔧',
+      description: 'Precision assembly of modular components per engineering specs',
+      items: ['Torque wrench', 'Calipers', 'Assembly jig', 'Fastener kit']
     },
     {
       id: '3',
@@ -129,9 +129,9 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       culture: 'Lebanese',
       viewers: 35,
       isLive: true,
-      thumbnail: '🧆',
-      description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
-      items: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
+      thumbnail: '✅',
+      description: 'Verifying system fit and clearances for HVAC ductwork installation',
+      items: ['Duct sections', 'Hangers', 'Sealant', 'Level', 'Tape measure']
     },
     {
       id: '4',
@@ -140,9 +140,9 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       culture: 'French',
       viewers: 62,
       isLive: true,
-      thumbnail: '🥐',
-      description: 'Mastering the art of laminated dough and butter layers',
-      items: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
+      thumbnail: '📋',
+      description: 'Reading and interpreting blueprints for structural steel layout',
+      items: ['Blueprint set', 'Scale ruler', 'Highlighters', 'Field notes']
     }
   ]);
   const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
@@ -152,7 +152,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       dishName: 'Workflow Timing Challenge',
       culture: 'Indian',
       scheduledTime: '2:00 PM EST',
-      description: 'Layered biryani with aromatic spices and basmati rice'
+      description: 'Timed workflow drill for multi-step packing and staging operations'
     },
     {
       id: '4',
@@ -168,7 +168,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       dishName: 'Safety Compliance Drill',
       culture: 'Russian',
       scheduledTime: '6:00 PM EST',
-      description: 'Traditional beetroot soup with sour cream and fresh dill'
+      description: 'OSHA-focused safety compliance drill covering PPE and lockout/tagout'
     },
     {
       id: '6',
@@ -176,7 +176,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       dishName: 'Final Inspection Run',
       culture: 'Peruvian',
       scheduledTime: '7:30 PM EST',
-      description: 'Fresh fish cured in lime juice with red onions and aji peppers'
+      description: 'Final walkthrough inspection of a completed shipment before dispatch'
     }
   ]);
   
