@@ -240,22 +240,6 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
             )}
           </div>
 
-          {/* Technique Feedback - below controls */}
-          <div className="mb-2 mx-2 sm:mx-4">
-            <div className="bg-blue-50 border border-blue-200 rounded p-3">
-              <div className="flex items-start space-x-2">
-                <span className="text-lg">🤖</span>
-                <div className="flex-1">
-                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
-                  <p className="text-xs text-blue-800">
-                    {isPracticing 
-                      ? "Great start! Keep your load distribution even..."
-                      : "Start practicing to receive real-time AI guidance"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
           
           {modeNotice && (
             <div className="mx-2 sm:mx-0 mb-2 rounded-lg border-2 border-maineBlue bg-sand px-3 py-2 text-xs sm:text-sm text-maineBlue text-center font-semibold">
@@ -332,33 +316,9 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
                   <span className="text-base">📋</span>
                   <span className="text-xs font-bold">{guideOpen ? t('logisticsSchool.dockPractice.closeGuide') : t('logisticsSchool.dockPractice.openGuide')}</span>
                 </button>
-                
-                
-                {/* Practice Steps */}
-                <div className="space-y-2">
-                  <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('logisticsSchool.dockPractice.step1Setup')}</div>
-                    <p className="text-xs text-gray-700">{t('logisticsSchool.dockPractice.step1Desc')}</p>
-                  </div>
-                  
-                  <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('logisticsSchool.dockPractice.step2FreightHandling')}</div>
-                    <p className="text-xs text-gray-700">{t('logisticsSchool.dockPractice.step2Desc')}</p>
-                  </div>
-                  
-                  <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('logisticsSchool.dockPractice.step3LoadFreight')}</div>
-                    <p className="text-xs text-gray-700">{t('logisticsSchool.dockPractice.step3Desc')}</p>
-                  </div>
 
-                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">{t('logisticsSchool.dockPractice.step4Validation')}</div>
-                    <p className="text-xs text-gray-600">{t('logisticsSchool.dockPractice.step4Desc')}</p>
-                  </div>
-                </div>
-                
                 {/* AI Feedback */}
-                <div className="mt-3 pt-2 border-t border-gray-200">
+                <div className="mb-3">
                   <div className="bg-blue-50 border border-blue-200 rounded p-2">
                     <div className="flex items-start space-x-2">
                       <span className="text-base">🤖</span>
@@ -371,6 +331,25 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
                         </p>
                       </div>
                     </div>
+                  </div>
+                </div>
+                
+                {/* Practice Steps */}
+                <div className="space-y-2">
+                  <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
+                    <p className="text-xs text-gray-700">{t('logisticsSchool.dockPractice.step1Desc')}</p>
+                  </div>
+                  
+                  <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
+                    <p className="text-xs text-gray-700">{t('logisticsSchool.dockPractice.step2Desc')}</p>
+                  </div>
+                  
+                  <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
+                    <p className="text-xs text-gray-700">{t('logisticsSchool.dockPractice.step3Desc')}</p>
+                  </div>
+
+                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
+                    <p className="text-xs text-gray-600">{t('logisticsSchool.dockPractice.step4Desc')}</p>
                   </div>
                 </div>
               </div>
@@ -400,26 +379,38 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
             <span className="text-lg">📋</span>
             <span className="text-sm font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
           </button>
+
+          {/* Technique Feedback */}
+          <div className="mb-4">
+            <div className="bg-blue-50 border border-blue-200 rounded p-3">
+              <div className="flex items-start space-x-2">
+                <span className="text-lg">🤖</span>
+                <div className="flex-1">
+                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
+                  <p className="text-xs text-blue-800">
+                    {isPracticing 
+                      ? "Great start! Keep your load distribution even..."
+                      : "Start practicing to receive real-time AI guidance"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
-            {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
               <p className="text-xs text-gray-700">Review the load plan and inspect dock area</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Freight Handling</div>
               <p className="text-xs text-gray-700">Verify freight is properly secured and labeled</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: Load Freight</div>
               <p className="text-xs text-gray-700">Stage pallets and load trailer per the shipping plan</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Validation</div>
               <p className="text-xs text-gray-600">AI will verify load accuracy and weight distribution</p>
             </div>
           </div>
