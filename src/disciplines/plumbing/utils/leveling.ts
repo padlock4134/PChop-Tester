@@ -64,66 +64,66 @@ export const WOW_CLASSIC_XP_TABLE = [
 
 // Level titles and icons (milestones and in-betweens)
 export const LEVEL_TITLES_AND_ICONS = [
-  { title: "Dishwasher", icon: "\uD83E\uDDF9" }, // 🧽
-  { title: "Dishwasher II", icon: "\uD83E\uDDF9" },
-  { title: "Dishwasher III", icon: "\uD83E\uDDF9" },
-  { title: "Dishwasher IV", icon: "\uD83E\uDDF9" },
-  { title: "Prep Builder", icon: "\uD83E\uDDC8" }, // 🥄
-  { title: "Prep Builder II", icon: "\uD83E\uDDC8" },
-  { title: "Prep Builder III", icon: "\uD83E\uDDC8" },
-  { title: "Prep Builder IV", icon: "\uD83E\uDDC8" },
-  { title: "Line Builder", icon: "\uD83C\uDF73" }, // 🍳
-  { title: "Line Builder II", icon: "\uD83C\uDF73" },
-  { title: "Line Builder III", icon: "\uD83C\uDF73" },
-  { title: "Line Builder IV", icon: "\uD83C\uDF73" },
-  { title: "Apprentice Builder", icon: "\uD83D\uDD2A" }, // 🔪
-  { title: "Apprentice Builder II", icon: "\uD83D\uDD2A" },
-  { title: "Apprentice Builder III", icon: "\uD83D\uDD2A" },
-  { title: "Team Builder", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" }, // 🧑‍🍳
-  { title: "Team Builder II", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
-  { title: "Team Builder III", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
-  { title: "Specialist Builder", icon: "\uD83C\uDF7D\uFE0F" }, // 🍽️
-  { title: "Specialist Builder II", icon: "\uD83C\uDF7D\uFE0F" },
-  { title: "Specialist Builder III", icon: "\uD83C\uDF7D\uFE0F" },
-  { title: "Pastry Builder", icon: "\uD83E\uDDC1" }, // 🧁
-  { title: "Pastry Builder II", icon: "\uD83E\uDDC1" },
-  { title: "Pastry Builder III", icon: "\uD83E\uDDC1" },
-  { title: "Process Specialist", icon: "\uD83E\uDD63" }, // 🥣
-  { title: "Process Specialist II", icon: "\uD83E\uDD63" },
-  { title: "Process Specialist III", icon: "\uD83E\uDD63" },
-  { title: "Quality Specialist", icon: "\uD83C\uDF77" }, // 🍷
-  { title: "Quality Specialist II", icon: "\uD83C\uDF77" },
-  { title: "Quality Specialist III", icon: "\uD83C\uDF77" },
-  { title: "Field Specialist", icon: "\uD83C\uDF56" }, // 🍖
-  { title: "Field Specialist II", icon: "\uD83C\uDF56" },
-  { title: "Field Specialist III", icon: "\uD83C\uDF56" },
-  { title: "Inventory Specialist", icon: "\uD83E\uDD57" }, // 🥗
-  { title: "Inventory Specialist II", icon: "\uD83E\uDD57" },
-  { title: "Inventory Specialist III", icon: "\uD83E\uDD57" },
-  { title: "Executive Builder", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" }, // 👨‍🍳
-  { title: "Executive Builder II", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
-  { title: "Executive Builder III", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
-  { title: "Head Builder", icon: "\uD83C\uDF93" }, // 🎓
-  { title: "Head Builder II", icon: "\uD83C\uDF93" },
-  { title: "Head Builder III", icon: "\uD83C\uDF93" },
-  { title: "Master Builder", icon: "\uD83C\uDFC5" }, // 🏅
-  { title: "Master Builder II", icon: "\uD83C\uDFC5" },
-  { title: "Master Builder III", icon: "\uD83C\uDFC5" },
-  { title: "Program Director", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" }, // 👨‍💼
-  { title: "Program Director II", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
-  { title: "Program Director III", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
-  { title: "Celebrity Builder", icon: "\u2B50" }, // ⭐
-  { title: "Celebrity Builder II", icon: "\u2B50" },
-  { title: "Celebrity Builder III", icon: "\u2B50" },
-  { title: "Iron Builder", icon: "\uD83E\uDDBE" }, // 🦾
-  { title: "Iron Builder II", icon: "\uD83E\uDDBE" },
-  { title: "Iron Builder III", icon: "\uD83E\uDDBE" },
-  { title: "Legendary Builder", icon: "\uD83D\uDC09" }, // 🐉
-  { title: "Legendary Builder II", icon: "\uD83D\uDC09" },
-  { title: "Legendary Builder III", icon: "\uD83D\uDC09" },
-  { title: "Legendary Builder IV", icon: "\uD83D\uDC09" },
-  { title: "Legendary Builder V", icon: "\uD83D\uDC09" },
-  { title: "Craft Master", icon: "\uD83C\uDF76" }, // 🍶
+  { title: "Tool Runner", icon: "🧹" },
+  { title: "Tool Runner II", icon: "🧹" },
+  { title: "Tool Runner III", icon: "🧹" },
+  { title: "Tool Runner IV", icon: "🧹" },
+  { title: "Pipe Cutter", icon: "🔧" },
+  { title: "Pipe Cutter II", icon: "🔧" },
+  { title: "Pipe Cutter III", icon: "🔧" },
+  { title: "Pipe Cutter IV", icon: "🔧" },
+  { title: "Apprentice Plumber", icon: "🔩" },
+  { title: "Apprentice Plumber II", icon: "🔩" },
+  { title: "Apprentice Plumber III", icon: "🔩" },
+  { title: "Apprentice Plumber IV", icon: "🔩" },
+  { title: "Service Plumber", icon: "🚿" },
+  { title: "Service Plumber II", icon: "🚿" },
+  { title: "Service Plumber III", icon: "🚿" },
+  { title: "Residential Plumber", icon: "🏠" },
+  { title: "Residential Plumber II", icon: "🏠" },
+  { title: "Residential Plumber III", icon: "🏠" },
+  { title: "Commercial Plumber", icon: "🏢" },
+  { title: "Commercial Plumber II", icon: "🏢" },
+  { title: "Commercial Plumber III", icon: "🏢" },
+  { title: "Drain Specialist", icon: "🚰" },
+  { title: "Drain Specialist II", icon: "🚰" },
+  { title: "Drain Specialist III", icon: "🚰" },
+  { title: "Gas Fitter", icon: "🔥" },
+  { title: "Gas Fitter II", icon: "🔥" },
+  { title: "Gas Fitter III", icon: "🔥" },
+  { title: "Hydronics Tech", icon: "♨️" },
+  { title: "Hydronics Tech II", icon: "♨️" },
+  { title: "Hydronics Tech III", icon: "♨️" },
+  { title: "Backflow Specialist", icon: "💧" },
+  { title: "Backflow Specialist II", icon: "💧" },
+  { title: "Backflow Specialist III", icon: "💧" },
+  { title: "Code Inspector", icon: "📋" },
+  { title: "Code Inspector II", icon: "📋" },
+  { title: "Code Inspector III", icon: "📋" },
+  { title: "Lead Plumber", icon: "🛠️" },
+  { title: "Lead Plumber II", icon: "🛠️" },
+  { title: "Lead Plumber III", icon: "🛠️" },
+  { title: "Foreman", icon: "👷" },
+  { title: "Foreman II", icon: "👷" },
+  { title: "Foreman III", icon: "👷" },
+  { title: "Master Plumber", icon: "🏅" },
+  { title: "Master Plumber II", icon: "🏅" },
+  { title: "Master Plumber III", icon: "🏅" },
+  { title: "Plumbing Contractor", icon: "📐" },
+  { title: "Plumbing Contractor II", icon: "📐" },
+  { title: "Plumbing Contractor III", icon: "📐" },
+  { title: "Estimator", icon: "⭐" },
+  { title: "Estimator II", icon: "⭐" },
+  { title: "Estimator III", icon: "⭐" },
+  { title: "Project Manager", icon: "🦾" },
+  { title: "Project Manager II", icon: "🦾" },
+  { title: "Project Manager III", icon: "🦾" },
+  { title: "Legendary Plumber", icon: "🐉" },
+  { title: "Legendary Plumber II", icon: "🐉" },
+  { title: "Legendary Plumber III", icon: "🐉" },
+  { title: "Legendary Plumber IV", icon: "🐉" },
+  { title: "Legendary Plumber V", icon: "🐉" },
+  { title: "Pipe Master", icon: "🏆" },
 ];
 
 // XP per activity (example)

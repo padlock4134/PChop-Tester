@@ -41,7 +41,7 @@ const SignUp = () => {
           localStorage.setItem('porkchop-session', JSON.stringify(data.session));
         }
         // Navigate directly to dashboard after signup
-        navigate('/dashboard');
+        navigate('/plumbing/dashboard');
       }
     } catch (err) {
       console.error('Sign up error:', err);
