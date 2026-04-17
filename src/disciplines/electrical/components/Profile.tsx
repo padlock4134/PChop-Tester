@@ -23,11 +23,11 @@ type UserProfile = {
 
 // Level titles and icons
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Novice Cook", icon: "🥄", level: 1 },
-  { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
-  { title: "Home Chef", icon: "🍳", level: 3 },
-  { title: "Trade Expert", icon: "🧠", level: 4 },
-  { title: "Master Chef", icon: "🏆", level: 5 }
+  { title: "Wire Stripper", icon: "⚡", level: 1 },
+  { title: "Helper", icon: "🔌", level: 2 },
+  { title: "Apprentice Electrician", icon: "🔧", level: 3 },
+  { title: "Journeyman", icon: "💡", level: 4 },
+  { title: "Master Electrician", icon: "🏆", level: 5 }
 ];
 
 // WoW Classic XP table
@@ -38,17 +38,17 @@ const WOW_CLASSIC_XP_TABLE = [
 
 // Experience level mapping between UI labels and backend values
 const EXPERIENCE_LEVEL_MAPPING = {
-  'Beginner': 'new_to_cooking',
-  'Intermediate': 'home_cook', 
-  'Advanced': 'kitchen_confident',
-  'Professional': 'kitchen_confident' // Both Advanced and Professional map to kitchen_confident
+  'Beginner': 'new_to_trade',
+  'Intermediate': 'apprentice', 
+  'Advanced': 'journeyman',
+  'Professional': 'journeyman' // Both Advanced and Professional map to journeyman
 } as const;
 
 // Reverse mapping for displaying in UI
 const EXPERIENCE_LEVEL_DISPLAY = {
-  'new_to_cooking': 'Beginner',
-  'home_cook': 'Intermediate',
-  'kitchen_confident': 'Advanced'
+  'new_to_trade': 'Beginner',
+  'apprentice': 'Intermediate',
+  'journeyman': 'Advanced'
 } as const;
 
 // Modal components
@@ -170,34 +170,34 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisine}
-              onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
+              value={formData.cuisinePreference}
+              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
-              <option value="Automotive">🚗 {t('profile.manufacturingFocusOptions.automotive', { defaultValue: 'Automotive' })}</option>
-              <option value="Electronics">🔌 {t('profile.manufacturingFocusOptions.electronics', { defaultValue: 'Electronics' })}</option>
-              <option value="Medical Devices">🏥 {t('profile.manufacturingFocusOptions.medicalDevices', { defaultValue: 'Medical Devices' })}</option>
-              <option value="Precision Machining">⚙️ {t('profile.manufacturingFocusOptions.precisionMachining', { defaultValue: 'Precision Machining' })}</option>
-              <option value="Plastics">🧪 {t('profile.manufacturingFocusOptions.plastics', { defaultValue: 'Plastics' })}</option>
-              <option value="Metal Fabrication">🔧 {t('profile.manufacturingFocusOptions.metalFabrication', { defaultValue: 'Metal Fabrication' })}</option>
+              <option value="Residential">🏠 {t('profile.electricalFocusOptions.residential', { defaultValue: 'Residential' })}</option>
+              <option value="Commercial">🏢 {t('profile.electricalFocusOptions.commercial', { defaultValue: 'Commercial' })}</option>
+              <option value="Industrial">🏭 {t('profile.electricalFocusOptions.industrial', { defaultValue: 'Industrial' })}</option>
+              <option value="Low Voltage">📶 {t('profile.electricalFocusOptions.lowVoltage', { defaultValue: 'Low Voltage' })}</option>
+              <option value="Motor Controls">⚙️ {t('profile.electricalFocusOptions.motorControls', { defaultValue: 'Motor Controls' })}</option>
+              <option value="Solar/Renewable">☀️ {t('profile.electricalFocusOptions.solarRenewable', { defaultValue: 'Solar / Renewable' })}</option>
+              <option value="Fire Alarm">🚨 {t('profile.electricalFocusOptions.fireAlarm', { defaultValue: 'Fire Alarm' })}</option>
             </select>
           </div>
           {/* Certification Preference */}
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certificationPreference', { defaultValue: 'Certifications' })}</label>
             <select
-              value={formData.diet}
-              onChange={(e) => setFormData({...formData, diet: e.target.value})}
+              value={formData.dietPreference}
+              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
               <option value="OSHA-10">🦺 {t('profile.certificationOptions.osha10', { defaultValue: 'OSHA-10' })}</option>
-              <option value="Six Sigma Green Belt">📊 {t('profile.certificationOptions.sixSigmaGreenBelt', { defaultValue: 'Six Sigma Green Belt' })}</option>
-              <option value="Lean Manufacturing">⚡ {t('profile.certificationOptions.leanManufacturing', { defaultValue: 'Lean Manufacturing' })}</option>
-              <option value="ISO 9001">✅ {t('profile.certificationOptions.iso9001', { defaultValue: 'ISO 9001' })}</option>
-              <option value="CNC Programming">💻 {t('profile.certificationOptions.cncProgramming', { defaultValue: 'CNC Programming' })}</option>
-              <option value="Quality Inspector">🔍 {t('profile.certificationOptions.qualityInspector', { defaultValue: 'Quality Inspector' })}</option>
+              <option value="OSHA-30">🦺 {t('profile.certificationOptions.osha30', { defaultValue: 'OSHA-30' })}</option>
+              <option value="NEC Code">📐 {t('profile.certificationOptions.necCode', { defaultValue: 'NEC Code Certification' })}</option>
+              <option value="Journeyman License">⚡ {t('profile.certificationOptions.journeymanLicense', { defaultValue: 'Journeyman License' })}</option>
+              <option value="Master Electrician">🏆 {t('profile.certificationOptions.masterElectrician', { defaultValue: 'Master Electrician' })}</option>
+              <option value="NFPA 70E">🔥 {t('profile.certificationOptions.nfpa70e', { defaultValue: 'NFPA 70E Arc Flash' })}</option>
             </select>
           </div>
 
@@ -228,7 +228,7 @@ const EditProfileModal = ({
               <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
               <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
               <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
-              <option value="Professional">👨‍🍳 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
+              <option value="Professional">🔌 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -659,20 +659,20 @@ const Profile = () => {
     ],
     departments: [
       { value: 'all', label: t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' }) },
-      { value: 'precision_machining', label: t('profile.filterOptions.departments.precisionMachining', { defaultValue: 'Precision Machining' }) },
-      { value: 'welding_fabrication', label: t('profile.filterOptions.departments.weldingFabrication', { defaultValue: 'Welding & Fabrication' }) },
-      { value: 'industrial_automation', label: t('profile.filterOptions.departments.industrialAutomation', { defaultValue: 'Industrial Automation' }) },
-      { value: 'quality_control', label: t('profile.filterOptions.departments.qualityControl', { defaultValue: 'Quality Control' }) },
-      { value: 'assembly_production', label: t('profile.filterOptions.departments.assemblyProduction', { defaultValue: 'Assembly & Production' }) }
+      { value: 'residential_wiring', label: t('profile.filterOptions.departments.residentialWiring', { defaultValue: 'Residential Wiring' }) },
+      { value: 'commercial_electrical', label: t('profile.filterOptions.departments.commercialElectrical', { defaultValue: 'Commercial Electrical' }) },
+      { value: 'industrial_controls', label: t('profile.filterOptions.departments.industrialControls', { defaultValue: 'Industrial Controls' }) },
+      { value: 'low_voltage', label: t('profile.filterOptions.departments.lowVoltage', { defaultValue: 'Low Voltage Systems' }) },
+      { value: 'renewable_energy', label: t('profile.filterOptions.departments.renewableEnergy', { defaultValue: 'Renewable Energy' }) }
     ],
     classes: [
       { value: 'all', label: t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' }) },
-      { value: 'fundamentals_engineering', label: t('profile.filterOptions.classes.fundamentalsEngineering', { defaultValue: 'Fundamentals of Engineering' }) },
-      { value: 'advanced_engineering_techniques', label: t('profile.filterOptions.classes.advancedEngineeringTechniques', { defaultValue: 'Advanced Engineering Techniques' }) },
-      { value: 'cnc_programming', label: t('profile.filterOptions.classes.cncProgramming', { defaultValue: 'CNC Programming' }) },
-      { value: 'process_optimization', label: t('profile.filterOptions.classes.processOptimization', { defaultValue: 'Process Optimization' }) },
-      { value: 'quality_assurance', label: t('profile.filterOptions.classes.qualityAssurance', { defaultValue: 'Quality Assurance' }) },
-      { value: 'safety_compliance', label: t('profile.filterOptions.classes.safetyCompliance', { defaultValue: 'Safety Compliance' }) }
+      { value: 'electrical_theory', label: t('profile.filterOptions.classes.electricalTheory', { defaultValue: 'Electrical Theory & Ohm\'s Law' }) },
+      { value: 'nec_code', label: t('profile.filterOptions.classes.necCode', { defaultValue: 'NEC Code & Compliance' }) },
+      { value: 'conduit_bending', label: t('profile.filterOptions.classes.conduitBending', { defaultValue: 'Conduit Bending & Raceway' }) },
+      { value: 'panel_wiring', label: t('profile.filterOptions.classes.panelWiring', { defaultValue: 'Panel Wiring & Load Calcs' }) },
+      { value: 'motor_controls', label: t('profile.filterOptions.classes.motorControls', { defaultValue: 'Motor Controls & PLCs' }) },
+      { value: 'safety_compliance', label: t('profile.filterOptions.classes.safetyCompliance', { defaultValue: 'Safety & OSHA Compliance' }) }
     ],
     timeRanges: [
       { value: '7days', label: t('profile.filterOptions.timeRanges.days7', { defaultValue: 'Last 7 Days' }) },

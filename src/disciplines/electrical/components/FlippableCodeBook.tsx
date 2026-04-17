@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './FlippableCookbook.css';
+import './FlippableCodeBook.css';
 import { useDeviceDetect } from '../utils/responsiveUtils';
 
 const PAGES = [
@@ -82,9 +82,9 @@ const PAGES = [
           <img src="/logo.png" alt="PorkChop Logo" className="inspiration-logo" />
         </div>
         <p className="page-content-text">
-          We created PorkChop because my grandfather Frederick would always know what to make when he's looking in his fridge. 
-          Everyone loved Pancake Saturdays cause everyone got to eat - even friends we brought with us.
-          He taught us that it's important to always be as nice as you can and help people if you can - food is the best way to make sure no one goes hungry.
+          We created PorkChop because every trade student deserves a training companion that meets them where they are.
+          Whether you're bending your first conduit or wiring a commercial panel, PorkChop guides you step by step.
+          We believe that hands-on education paired with smart technology is the best way to build confident, skilled electricians.
         </p>
       </>
     ),
@@ -99,7 +99,7 @@ const PAGES = [
           Your digital circuit tracker that manages your tools and suggests the right wiring approach for any job.
         </p>
         <div className="page-image-container page-3-image">
-          <img src="/my-kitchen-screenshot.png" alt="My Panel Screenshot" className="page-screenshot" />
+          <img src="/my-panel-screenshot.png" alt="My Panel Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -114,7 +114,7 @@ const PAGES = [
           Your personal wiring diagram portfolio — circuit designs, inspection records, and completed jobs in one place.
         </p>
         <div className="page-image-container page-4-image">
-          <img src="/my-cookbook-screenshot.png" alt="My Codebook Screenshot" className="page-screenshot" />
+          <img src="/my-codebook-screenshot.png" alt="My Codebook Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -129,7 +129,7 @@ const PAGES = [
           Master electrical techniques with step-by-step video lessons — from NEC code compliance to panel installation.
         </p>
         <div className="page-image-container page-5-image">
-          <img src="/culinary-school-screenshot.png" alt="Elec School Screenshot" className="page-screenshot" />
+          <img src="/elec-school-screenshot.png" alt="Elec School Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -144,7 +144,7 @@ const PAGES = [
           Connect with peers, find local electrical suppliers and wholesalers, and share techniques with fellow electricians.
         </p>
         <div className="page-image-container page-6-image">
-          <img src="/chefs-corner-screenshot.png" alt="Wire Lounge Screenshot" className="page-screenshot" />
+          <img src="/wire-lounge-screenshot.png" alt="Wire Lounge Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -159,7 +159,7 @@ const PAGES = [
           Your AI electrical assistant, ready to help with NEC code lookups, circuit design, load calculations, and troubleshooting.
         </p>
         <div className="page-image-container page-7-image">
-          <img src="/chef-freddie-screenshot.png" alt="Sparky Screenshot" className="page-screenshot" />
+          <img src="/sparky-screenshot.png" alt="Sparky Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -188,7 +188,7 @@ const PAGES = [
   }
 ];
 
-const FlippableCookbook: React.FC = () => {
+const FlippableCodeBook: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [turnedPages, setTurnedPages] = useState<number[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -329,4 +329,4 @@ const FlippableCookbook: React.FC = () => {
   );
 };
 
-export default FlippableCookbook;
+export default FlippableCodeBook;

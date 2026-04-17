@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
+import { fetchCookbook } from '../modules/cookbookSupabase';
 import { RecipeCard } from './CircuitMatcherModal';
 import jsPDF from 'jspdf';
 import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
@@ -16,7 +16,7 @@ interface BuildMenuModalProps {
 const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMarkets }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'electrical';
   const bt = (key: string) => t(`buildMenu.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`buildMenu.${key}`) });
   const { user } = useSupabase();
   const [recipes, setRecipes] = useState<RecipeCard[]>([]);
@@ -103,13 +103,13 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     yPos += 8;
 
     const marketTypeLabels: Record<string, string> = {
-      seafood: '🐟 Seafood Markets',
-      butcher: '🥩 Butcher',
-      produce: '🥦 Produce',
-      dairy: '🥛 Dairy',
-      grocery: '🛒 Grocery',
-      deli: '🥪 Deli/Bakery',
-      farms: '🚜 Farms'
+      wire_cable: '� Wire & Cable',
+      conduit_fittings: '🛠️ Conduit & Fittings',
+      breakers_panels: '⚡ Breakers & Panels',
+      devices_switches: '💡 Devices & Switches',
+      connectors: '🧰 Connectors & Terminals',
+      tools: '🔧 Tools & Meters',
+      general: '� General Supply'
     };
 
     Object.entries(ingredientsByType).forEach(([type, ingredients]) => {

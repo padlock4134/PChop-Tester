@@ -5,21 +5,20 @@ import { isSessionValid } from './userSession';
 import { fetchNutritionData, getKeyNutrients } from './nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
-// Define equipment available for each kitchen setup
+// Define equipment available for each workspace setup
 const KITCHEN_EQUIPMENT = {
-  'Dorm Life': ['microwave', 'kettle', 'toaster', 'mini-fridge'],
-  'Minimalist': ['pot', 'pan', 'knife', 'cutting board', 'stove'],
-  'Apartment Kitchen': ['oven', 'stove', 'basic utensils', 'baking sheets'],
-  'Outdoor Grilling': ['grill', 'tongs', 'grill brush', 'meat thermometer'],
-  'Home Chef': ['blender', 'food processor', 'mixer', 'knives', 'oven', 'stove'],
-  'Full Chef\'s Kitchen': ['all equipment']
+  'Minimal Setup': ['wire strippers', 'screwdriver', 'voltage tester', 'pliers'],
+  'Apartment Workspace': ['multimeter', 'wire strippers', 'pliers', 'screwdrivers', 'fish tape'],
+  'Full Workspace': ['conduit bender', 'multimeter', 'drill', 'fish tape', 'wire strippers', 'level'],
+  'Field Workspace': ['megger', 'amp clamp', 'conduit bender', 'knockout set', 'hydraulic bender'],
+  'Professional Workspace': ['all equipment']
 } as const;
 
-// Define equipment associated with each talent tree
+// Define equipment associated with each specialization track
 const TALENT_TREE_EQUIPMENT = {
-  'Cast Iron Champion': ['cast iron', 'dutch oven', 'skillet'],
-  'Grilling Heavy Weight': ['grill', 'smoker', 'charcoal', 'gas grill'],
-  'Baking Warlock': ['stand mixer', 'baking sheet', 'pastry brush', 'rolling pin']
+  'Residential Pro': ['romex stapler', 'stud finder', 'outlet tester', 'wire nuts'],
+  'Commercial Commander': ['conduit bender', 'threading machine', 'cable puller', 'hydraulic bender'],
+  'Industrial Expert': ['megger', 'motor analyzer', 'PLC programmer', 'thermal imager']
 } as const;
 
 type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;

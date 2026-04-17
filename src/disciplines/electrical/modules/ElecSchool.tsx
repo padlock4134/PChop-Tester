@@ -6,8 +6,8 @@ import VideoModal from '../components/VideoModal';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
-import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../../culinary/types/nutrition';
+import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
+import { KeyNutrients } from '../../culinary/types/nutrition'; // shared type
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
 import JobTimer from '../components/JobTimer';
 import PanelPracticeModal from '../components/PanelPracticeModal';

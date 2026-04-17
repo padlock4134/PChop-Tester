@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
+import { supabase } from '../api/supabaseClient';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
+import { isSessionValid } from '../api/userSession';
 
 const electricalQuoteOfTheDay = {
   chef: 'Nikola Tesla',
@@ -178,8 +178,8 @@ const MyCodeBook = () => {
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
     { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Cook', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '3', name: 'Healthy Options', emoji: '🥗', recipes: ['1', '2', '3', '4', '5'] }
+    { id: '2', name: 'Quick Circuits', emoji: '⚡', recipes: ['1', '2'] },
+    { id: '3', name: 'Code Compliant', emoji: '✅', recipes: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
@@ -253,10 +253,10 @@ const MyCodeBook = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: recipeToShare ? `${recipeToShare.name} Recipe on Porkchop` : 'My Cookbook on Porkchop',
+      title: recipeToShare ? `${recipeToShare.name} Circuit on Porkchop` : 'My Code Book on Porkchop',
       text: recipeToShare 
-        ? `Check out this amazing recipe for ${recipeToShare.name} on Porkchop!` 
-        : 'Check out my digital cookbook on Porkchop! I\'ve been collecting amazing recipes and would love to share them with you.',
+        ? `Check out this circuit design for ${recipeToShare.name} on Porkchop!` 
+        : 'Check out my digital code book on Porkchop! I\'ve been collecting circuit designs and would love to share them with you.',
       url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
     };
 
@@ -884,11 +884,11 @@ const MyCodeBook = () => {
                         ]
                       };
                       setSelectedRecipe(fullRecipe);
-                      navigate('/culinary-school');
+                      navigate('/electrical/elec-school');
                     }}
                     className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
-                    Cook This
+                    Wire This
                   </button>
                   <button
                     onClick={() => {

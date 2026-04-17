@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
+import { fetchCookbook } from './cookbookSupabase';
 import CodeBookImportModal from '../components/CodeBookImportModal';
 import LocalSupplyModal from '../components/LocalSupplyModal';
 import BuildCircuitModal from '../components/BuildCircuitModal';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext'; // shared context
 import { RecipeCard } from '../components/CircuitMatcherModal';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import GlobalTestPanel from '../components/GlobalTestPanel';
-import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../../culinary/types/nutrition';
+import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
+import { KeyNutrients } from '../../culinary/types/nutrition'; // shared type
 
 const WireLounge = () => {
   const { t } = useTranslation();

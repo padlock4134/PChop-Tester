@@ -6,7 +6,7 @@ import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon
 const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'electrical';
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
@@ -19,7 +19,7 @@ const StudentProgressDashboard: React.FC = () => {
       dishName: 'Precision Pipe Routing',
       culture: 'Japanese',
       viewers: 23,
-      thumbnail: '🍜'
+      thumbnail: '🔧'
     },
     {
       id: '3',
@@ -27,7 +27,7 @@ const StudentProgressDashboard: React.FC = () => {
       dishName: 'Panel Wiring Calibration',
       culture: 'Lebanese',
       viewers: 35,
-      thumbnail: '🧆'
+      thumbnail: '⚡'
     },
     {
       id: '4',
@@ -35,7 +35,7 @@ const StudentProgressDashboard: React.FC = () => {
       dishName: 'Hydronic System Balance',
       culture: 'French',
       viewers: 62,
-      thumbnail: '🥐'
+      thumbnail: '💡'
     },
     {
       id: '5',
@@ -43,7 +43,7 @@ const StudentProgressDashboard: React.FC = () => {
       dishName: 'Blueprint Layout Validation',
       culture: 'Spanish',
       viewers: 28,
-      thumbnail: '🥘'
+      thumbnail: '🔌'
     }
   ];
 
@@ -75,8 +75,8 @@ const StudentProgressDashboard: React.FC = () => {
       timeSpent: "18.5 hours"
     },
     skills: {
-      recipesAttempted: 8,
-      recipesCompleted: 6,
+      circuitsAttempted: 8,
+      circuitsCompleted: 6,
       currentLevel: "Intermediate",
       nextMilestone: "Advanced Motor Controls"
     },
@@ -84,7 +84,7 @@ const StudentProgressDashboard: React.FC = () => {
       appUsage: "5 days this week",
       liveSessionsAttended: 3,
       communityPosts: 7,
-      recipesSaved: 15
+      circuitsSaved: 15
     },
     insights: {
       strongestArea: "Circuit Diagnostics",
@@ -449,8 +449,8 @@ const StudentProgressDashboard: React.FC = () => {
                 <p className="text-center text-green-800 font-medium mt-2">{t('dashboard.currentSkillLevel')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
-                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.recipesCompleted')}</h3>
-                <p className="text-gray-700">{progressData.skills.recipesCompleted} {t('dashboard.outOf')} {progressData.skills.recipesAttempted} {t('dashboard.attempted')}</p>
+                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.circuitsCompleted', { defaultValue: 'Circuits Completed' })}</h3>
+                <p className="text-gray-700">{progressData.skills.circuitsCompleted} {t('dashboard.outOf')} {progressData.skills.circuitsAttempted} {t('dashboard.attempted')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.nextMilestone')}</h3>
@@ -530,7 +530,7 @@ const StudentProgressDashboard: React.FC = () => {
                   </button>
                 </div>
                 <p className="text-center text-black mt-2 sm:mt-3 text-xs sm:text-sm">
-                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Track
                 </p>
               </div>
 
