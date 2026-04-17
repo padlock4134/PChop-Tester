@@ -9,7 +9,7 @@ export async function saveRunbook(userId: string, routes: RouteCard[]) {
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId,
-      routes: routes // Stored as JSONB in Supabase
+      recipes: routes // DB column is 'recipes', stores route data as JSONB
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }
@@ -22,11 +22,11 @@ export async function fetchRunbook(userId: string): Promise<RouteCard[]> {
 
   const { data, error } = await supabase
     .from('user_cookbook')
-    .select('routes')
+    .select('recipes')
     .eq('user_id', userId)
     .single();
   if (error && error.code !== 'PGRST116') throw error; // PGRST116: no rows
-  return (data?.routes || []) as RouteCard[];
+  return (data?.recipes || []) as RouteCard[];
 }
 
 export async function addRouteToRunbook(userId: string, route: RouteCard) {
@@ -36,20 +36,20 @@ export async function addRouteToRunbook(userId: string, route: RouteCard) {
   // First get existing routes
   const { data, error: fetchError } = await supabase
     .from('user_cookbook')
-    .select('routes')
+    .select('recipes')
     .eq('user_id', userId)
     .single();
     
   if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
   
   // Add new route if not already present
-  const existingRoutes = (data?.routes || []) as RouteCard[];
+  const existingRoutes = (data?.recipes || []) as RouteCard[];
   if (!existingRoutes.some(r => r.id === route.id)) {
     const { error } = await supabase
       .from('user_cookbook')
       .upsert([{ 
         user_id: userId, 
-        routes: [...existingRoutes, route] // Stored as JSONB in Supabase
+        recipes: [...existingRoutes, route] // DB column is 'recipes'
       }], { onConflict: 'user_id' });
     if (error) throw error;
   }
@@ -61,20 +61,20 @@ export async function removeRouteFromRunbook(userId: string, routeId: string) {
   
   const { data, error: fetchError } = await supabase
     .from('user_cookbook')
-    .select('routes')
+    .select('recipes')
     .eq('user_id', userId)
     .single();
     
   if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
   
-  const existingRoutes = (data?.routes || []) as RouteCard[];
+  const existingRoutes = (data?.recipes || []) as RouteCard[];
   const updatedRoutes = existingRoutes.filter(r => r.id !== routeId);
   
   const { error } = await supabase
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId, 
-      routes: updatedRoutes
+      recipes: updatedRoutes // DB column is 'recipes'
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }
