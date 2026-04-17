@@ -236,7 +236,7 @@ const StudentProgressDashboard: React.FC = () => {
               to="/logistics/my-dock"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
-              <div className="mb-3 text-4xl">�</div>
+              <div className="mb-3 text-4xl">🚂</div>
               <h3 className="text-sm font-bold font-retro">{t('myDock.title')}</h3>
             </Link>
             
