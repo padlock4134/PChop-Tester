@@ -343,7 +343,7 @@ Return ONLY the JSON array, no other text.`;
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      apiKeyIdentifier: 'route',
+      apiKeyIdentifier: 'recipe',
       model: 'claude-3-haiku-20240307',
       max_tokens: 1500, // Increased to handle equipment field
       messages: [{ role: 'user', content: prompt }],
@@ -482,7 +482,7 @@ Return ONLY the JSON array, no other text.`;
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      apiKeyIdentifier: 'route',
+      apiKeyIdentifier: 'recipe',
       model: 'claude-3-opus-20240229',
       max_tokens: 4096,
       messages: [{ role: 'user', content: prompt }],
