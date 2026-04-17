@@ -1,29 +1,29 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRouteContext } from './RouteContext';
 
-interface CookBookImportModalProps {
+interface RunbookImportModalProps {
   open: boolean;
   onClose: () => void;
-  onImport: (recipe: any) => void;
-  existingIngredients?: string[];
+  onImport: (route: any) => void;
+  existingItems?: string[];
 }
 
-const CookBookImportModal: React.FC<CookBookImportModalProps> = ({ 
+const RunbookImportModal: React.FC<RunbookImportModalProps> = ({ 
   open, 
   onClose, 
   onImport,
-  existingIngredients = []
+  existingItems = []
 }) => {
   const { t } = useTranslation();
-  const { recipes } = useRecipeContext();
-  const [selectedRecipe, setSelectedRecipe] = useState<any>(null);
+  const { routes } = useRouteContext();
+  const [selectedRoute, setSelectedRoute] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Reset selection when modal opens/closes
   useEffect(() => {
-    setSelectedRecipe(null);
+    setSelectedRoute(null);
     setIsLoading(false);
   }, [open]);
 
@@ -49,21 +49,21 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open, onClose]);
 
-  const handleSelectRecipe = (recipe: any) => {
-    setSelectedRecipe(recipe);
+  const handleSelectRoute = (route: any) => {
+    setSelectedRoute(route);
   };
 
   const handleImport = async () => {
-    if (!selectedRecipe) return;
+    if (!selectedRoute) return;
     
     setIsLoading(true);
     try {
-      // Call the import function with the selected recipe
-      onImport(selectedRecipe);
+      // Call the import function with the selected route
+      onImport(selectedRoute);
       
     } catch (error) {
       console.error('Error during import:', error);
-      alert('Failed to import recipe. Please try again.');
+      alert('Failed to import route. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -85,31 +85,31 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
         </div>
         
         <div className="flex-1 overflow-y-auto p-6 pt-2">
-          {recipes.length === 0 ? (
+          {routes.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               {t('cookbook.noRecipes')}
             </div>
           ) : (
             <div className="space-y-3">
-              {recipes.map((recipe: any) => (
+              {routes.map((route: any) => (
                 <div 
-                  key={recipe.id} 
+                  key={route.id} 
                   className={`border rounded-lg overflow-hidden cursor-pointer transition-colors ${
-                    selectedRecipe?.id === recipe.id 
+                    selectedRoute?.id === route.id 
                       ? 'border-maineBlue bg-blue-50' 
                       : 'border-gray-300 hover:border-gray-400'
                   }`}
-                  onClick={() => handleSelectRecipe(recipe)}
+                  onClick={() => handleSelectRoute(route)}
                 >
                   <div className="flex items-center p-4">
                     <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{recipe.title}</h3>
+                      <h3 className="font-medium text-gray-900">{route.title}</h3>
                       <p className="text-sm text-gray-500 mt-1">
-                        {Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0} {t('cookbook.ingredients')}
-                        {recipe.instructions && ' • ' + t('cookbook.instructionsIncluded')}
+                        {Array.isArray(route.items) ? route.items.length : 0} {t('cookbook.ingredients')}
+                        {route.instructions && ' • ' + t('cookbook.instructionsIncluded')}
                       </p>
                     </div>
-                    {selectedRecipe?.id === recipe.id && (
+                    {selectedRoute?.id === route.id && (
                       <div className="text-maineBlue">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -136,7 +136,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
             className={`px-4 py-2 text-sm font-medium text-white bg-maineBlue border border-black rounded-md shadow-sm hover:bg-seafoam hover:text-maineBlue transition-colors ${
               isLoading ? 'opacity-70 cursor-not-allowed' : ''
             }`}
-            disabled={isLoading || !selectedRecipe}
+            disabled={isLoading || !selectedRoute}
           >
             {isLoading ? t('cookbook.importing') : t('cookbook.showcaseRecipe')}
           </button>
@@ -146,5 +146,5 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
   );
 };
 
-export default CookBookImportModal;
+export default RunbookImportModal;
 

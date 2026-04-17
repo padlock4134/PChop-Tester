@@ -11,10 +11,10 @@ export function getPrimaryMaterialPrepQuery(primaryMaterial: string, taskTitle: 
 }
 
 // Backward-compatible aliases used by older callers.
-export function getMealVideoQuery(recipeTitle: string) {
-  return getTaskVideoQuery(recipeTitle);
+export function getShipmentVideoQuery(routeTitle: string) {
+  return getTaskVideoQuery(routeTitle);
 }
 
-export function getMainIngredientPrepQuery(mainIngredient: string, recipeTitle: string) {
-  return getPrimaryMaterialPrepQuery(mainIngredient, recipeTitle);
+export function getMainItemPrepQuery(mainItem: string, routeTitle: string) {
+  return getPrimaryMaterialPrepQuery(mainItem, routeTitle);
 }

@@ -2,7 +2,7 @@
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
 
-export async function askChefFreddie(userId: string, prompt: string): Promise<string> {
+export async function askDispatcherFreddie(userId: string, prompt: string): Promise<string> {
   // --- Chat limit logic ---
   const isValid = await isSessionValid();
   if (!userId || !isValid) {
@@ -42,7 +42,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      apiKeyIdentifier: 'chef',
+      apiKeyIdentifier: 'dispatcher',
       model: 'claude-3-haiku-20240307',
       max_tokens: 400,
       messages: [{ role: 'user', content: `You are Lou the Dispatcher, a friendly and knowledgeable AI logistics assistant. Help me with: ${prompt}` }],
