@@ -20,10 +20,10 @@ interface SyllabusCardProps {
   title: string;
   courses: SyllabusCourse[];
   onLessonClick: (lessonId: string) => void;
-  onButcherBlockClick?: () => void;
+  onDiagnosticBayClick?: () => void;
 }
 
-const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonClick, onButcherBlockClick }) => {
+const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonClick, onDiagnosticBayClick }) => {
   const { t } = useTranslation();
   const [expandedCourses, setExpandedCourses] = useState<Record<string, boolean>>(
     // Default to first course expanded
@@ -46,7 +46,7 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
       {/* Diagnostic Bay Button */}
       <div className="px-4 pt-4">
         <button
-          onClick={onButcherBlockClick}
+          onClick={onDiagnosticBayClick}
           className="w-full px-4 py-2 rounded border transition-colors bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200 hover:text-amber-900"
         >
           🔧 {t('autoSchool.diagnosticBay.buttonLabel')}

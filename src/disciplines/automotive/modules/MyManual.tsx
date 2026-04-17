@@ -152,25 +152,25 @@ const MyManual = () => {
       id: 1,
       name: "Sarah Chen",
       email: "sarah.chen@autotech.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique"}
+      submittedVideos: {1: "tool-skills-demo", 2: "repair-technique"}
     },
     {
       id: 2,
       name: "Marcus Rodriguez",
       email: "marcus.rodriguez@autotech.edu", 
-      submittedVideos: {1: "knife-skills-demo", 3: "protein-cookery"}
+      submittedVideos: {1: "tool-skills-demo", 3: "parts-assembly"}
     },
     {
       id: 3,
       name: "Emma Thompson",
       email: "emma.thompson@autotech.edu",
-      submittedVideos: {2: "sauce-technique"}
+      submittedVideos: {2: "repair-technique"}
     },
     {
       id: 4,
       name: "David Kim",
       email: "david.kim@autotech.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique", 3: "protein-cookery"}
+      submittedVideos: {1: "tool-skills-demo", 2: "repair-technique", 3: "parts-assembly"}
     }
   ];
 
@@ -372,7 +372,7 @@ const MyManual = () => {
     }
   };
   useEffect(() => {
-    updateContext({ page: 'MyCookBook' });
+    updateContext({ page: 'MyManual' });
   }, [updateContext]);
 
   useEffect(() => {
@@ -529,7 +529,7 @@ const MyManual = () => {
         <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
           activeMobileTab === 'manual' ? 'flex' : 'hidden lg:flex'
         }`}>
-          {/* My Cook Book header */}
+          {/* My Manual header */}
           <div className="flex items-center justify-center p-6 pb-4">
             <span className="text-5xl mr-2">📖</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myManual.title')}</h1>
@@ -925,24 +925,24 @@ const MyManual = () => {
                         tutorials: [
                           {
                             title: `Equipment: Using the right tools for ${filteredProcedures[currentIndex].name}`,
-                            desc: `Learn how to use the main equipment needed for this dish.`
+                            desc: `Learn how to use the main equipment needed for this job.`
                           },
                           {
-                            title: `Protein Prep: Preparing the main ingredient`,
+                            title: `Parts Prep: Preparing the primary components`,
                             desc: `How to prep the primary material and tools for this project.`
                           },
                           {
-                            title: `Recipe: ${filteredProcedures[currentIndex].name}`,
+                            title: `Procedure: ${filteredProcedures[currentIndex].name}`,
                             desc: filteredProcedures[currentIndex].instructions || ''
                           }
                         ]
                       };
                       setSelectedRecipe(fullRecipe);
-                      navigate('/culinary-school');
+                      navigate('/auto-school');
                     }}
                     className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
-                    Cook This
+                    Start Repair
                   </button>
                   <button
                     onClick={() => {
@@ -1362,9 +1362,9 @@ const MyManual = () => {
                               disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
                               <option value="">{t('myManual.selectVideo')}</option>
-                              <option value="knife-skills-demo">Tool Skills Demo.mp4</option>
-                              <option value="sauce-technique">Repair Technique.mp4</option>
-                              <option value="protein-cookery">Parts Assembly.mp4</option>
+                              <option value="tool-skills-demo">Tool Skills Demo.mp4</option>
+                              <option value="repair-technique">Repair Technique.mp4</option>
+                              <option value="parts-assembly">Parts Assembly.mp4</option>
                               <option value="plating-final">Final Inspection.mp4</option>
                             </select>
                           </div>
@@ -1485,9 +1485,9 @@ const MyManual = () => {
               <div className="text-4xl mb-4">📹</div>
               <p className="text-gray-700 mb-2">Are you sure you want to submit:</p>
               <p className="font-bold text-maineBlue mb-4">
-                {selectedVideoOption === 'knife-skills-demo' && 'Tool Skills Demo.mp4'}
-                {selectedVideoOption === 'sauce-technique' && 'Repair Technique.mp4'}
-                {selectedVideoOption === 'protein-cookery' && 'Parts Assembly.mp4'}
+                {selectedVideoOption === 'tool-skills-demo' && 'Tool Skills Demo.mp4'}
+                {selectedVideoOption === 'repair-technique' && 'Repair Technique.mp4'}
+                {selectedVideoOption === 'parts-assembly' && 'Parts Assembly.mp4'}
                 {selectedVideoOption === 'plating-final' && 'Final Inspection.mp4'}
               </p>
               <p className="text-sm text-gray-600 mb-6">

@@ -1,51 +1,53 @@
 import React, { useEffect, useState } from 'react';
 
-// Types for market info
+// Types for store info
 export const DEPARTMENT_TYPES = [
-  { key: 'grocery', label: 'Grocery', icon: '🛒', placeTypes: ['supermarket', 'convenience_store'], keywords: ['grocery', 'market', 'food', 'store', 'co-op', 'coop', 'natural', 'organic'] },
-  { key: 'produce', label: 'Produce', icon: '🥦', placeTypes: ['supermarket', 'convenience_store'], keywords: ['produce', 'fruit', 'vegetable', 'farm', 'organic', 'farmers', 'garden', 'orchard', 'berry', 'apple', 'greengrocer', 'csa', 'stand'] },
-  { key: 'bakery', label: 'Bakery', icon: '🍞', placeTypes: ['bakery'], keywords: ['bakery', 'bread', 'pastry', 'cake', 'donut', 'bake', 'bagel', 'cookie', 'pie', 'patisserie', 'boulangerie', 'confection'] },
-  { key: 'butcher', label: 'Meat', icon: '🥩', placeTypes: ['supermarket'], keywords: ['meat', 'butcher', 'steak', 'beef', 'poultry', 'pat', 'pats', 'sausage', 'deli', 'chop', 'prime', 'angus', 'pork', 'chicken', 'lamb'] },
-  { key: 'seafood', label: 'Seafood', icon: '🐟', placeTypes: ['supermarket'], keywords: ['seafood', 'fish', 'shellfish', 'lobster', 'crab', 'harbor', 'ocean', 'sea', 'marine', 'catch', 'oyster', 'clam', 'shrimp', 'mussel', 'fishmonger', 'fishery'] },
-  { key: 'farms', label: 'Farms', icon: '🚜', placeTypes: ['supermarket', 'convenience_store'], keywords: ['farm', 'farmers market', 'farmstand', 'csa', 'agriculture', 'ranch', 'homestead', 'acres', 'dairy', 'milk', 'cheese', 'creamery', 'yogurt'] },
-  { key: 'equipment', label: 'Equipment', icon: '🔪', placeTypes: ['store', 'home_goods_store'], keywords: ['kitchen', 'knife', 'cookware', 'utensil', 'appliance', 'tool', 'gadget', 'cutlery', 'pot', 'pan', 'bakeware', 'chef', 'cooking'] },
+  { key: 'auto_parts', label: 'Auto Parts', icon: '�', placeTypes: ['car_repair', 'store'], keywords: ['auto parts', 'autozone', 'o\'reilly', 'advance auto', 'napa', 'parts', 'auto supply', 'car parts'] },
+  { key: 'tire_shop', label: 'Tire Shop', icon: '🛞', placeTypes: ['car_repair'], keywords: ['tire', 'tires', 'wheel', 'alignment', 'discount tire', 'goodyear', 'firestone', 'tire center', 'tire shop'] },
+  { key: 'salvage', label: 'Salvage Yard', icon: '🏗️', placeTypes: ['car_repair', 'store'], keywords: ['salvage', 'junkyard', 'pull-a-part', 'used parts', 'auto recycler', 'wrecking', 'scrap'] },
+  { key: 'dealer', label: 'Dealer Parts', icon: '🏢', placeTypes: ['car_dealer'], keywords: ['dealer', 'dealership', 'oem', 'toyota', 'ford', 'honda', 'chevy', 'chevrolet', 'gm', 'nissan', 'hyundai', 'kia', 'subaru'] },
+  { key: 'tools', label: 'Tool Supplier', icon: '�️', placeTypes: ['store', 'hardware_store'], keywords: ['tool', 'harbor freight', 'snap-on', 'matco', 'mac tools', 'craftsman', 'hardware', 'tool supply'] },
+  { key: 'body_shop', label: 'Body Shop', icon: '🎨', placeTypes: ['car_repair'], keywords: ['body shop', 'collision', 'paint', 'auto body', 'dent', 'refinish', 'body work'] },
 ];
 
 // Maximum number of places to show per category
 const MAX_PLACES_PER_CATEGORY = 5;
 
-// List of big box retailers and non-food places to exclude
-const BIG_BOX_RETAILERS = ['walmart', 'costco', 'bj', 'bjs', 'sams club', 'sam\'s club', 'best buy', 'target', 'home depot', 'lowe\'s', 'lowes', 'duluth trading', 'duluth trading company', 'cvs', 'cvs pharmacy', 'maine audubon'];
+// List of non-automotive places to exclude
+const BIG_BOX_RETAILERS = ['walmart', 'costco', 'best buy', 'target', 'cvs', 'cvs pharmacy', 'walgreens', 'dollar tree', 'dollar general'];
 
 // List of specific places to exclude (exact matches)
-const EXCLUDED_PLACES = ['Brunswick Farmers Market', 'Brunswick Winter Farmers\' Market'];
+const EXCLUDED_PLACES: string[] = [];
 
-// List of generic grocery chains that should not be considered specialized
-const GENERIC_GROCERY_CHAINS = ['trader joe', 'whole foods', 'hannaford', 'shaw', 'market basket', 'stop & shop', 'kroger', 'publix', 'albertsons', 'safeway', 'giant', 'food lion'];
+// List of generic big chain auto shops that should not be considered specialized
+const GENERIC_SERVICE_CHAINS = ['jiffy lube', 'valvoline', 'meineke', 'midas', 'pep boys', 'maaco'];
 
-// Specialty keywords that strongly indicate a specialized market
+// Specialty keywords that strongly indicate a specialized auto store
 const SPECIALTY_INDICATORS = [
-  'specialty', 'artisan', 'gourmet', 'local', 'fresh', 'organic', 'market', 'shop', 'farm', 'stand'
+  'specialty', 'performance', 'custom', 'racing', 'speed', 'off-road', 'diesel', 'import', 'european'
 ];
 
-// Known specialized markets to prioritize
-const SPECIALIZED_MARKETS = {
-  'harbor fish': 'seafood',
-  'harbor fish market': 'seafood',
-  'merrill seafood': 'seafood',
-  'pats meat': 'butcher',
-  'pat meat': 'butcher',
-  'pat\'s meat': 'butcher',
-  'pat\'s meat market': 'butcher'
+// Known specialized stores to prioritize
+const SPECIALIZED_MARKETS: Record<string, string> = {
+  'autozone': 'auto_parts',
+  'o\'reilly': 'auto_parts',
+  'advance auto': 'auto_parts',
+  'napa auto': 'auto_parts',
+  'carquest': 'auto_parts',
+  'discount tire': 'tire_shop',
+  'tire warehouse': 'tire_shop',
+  'harbor freight': 'tools',
+  'snap-on': 'tools',
 };
 
 // Search queries for specialty categories
 const SPECIALTY_SEARCH_QUERIES = {
-  'butcher': ['meat market', 'butcher shop'],
-  'seafood': ['seafood market', 'fish market'],
-  'produce': ['produce market', 'fruit stand', 'vegetable market'],
-  'farms': ['farm', 'farmers market', 'farm stand'],
-  'equipment': ['kitchen store', 'cookware shop', 'knife store']
+  'auto_parts': ['auto parts store', 'car parts store'],
+  'tire_shop': ['tire shop', 'tire center', 'wheel alignment'],
+  'salvage': ['auto salvage yard', 'junkyard', 'used auto parts'],
+  'dealer': ['car dealership parts department'],
+  'tools': ['auto tool supplier', 'harbor freight', 'hardware store'],
+  'body_shop': ['auto body shop', 'collision repair']
 };
 
 interface Place {
@@ -61,7 +63,7 @@ interface Place {
     }
   };
   assignedCategory?: string; // Track which category this place is assigned to
-  isSpecialized?: boolean; // Whether this is a specialized market vs. general grocery
+  isSpecialized?: boolean; // Whether this is a specialized store vs. general auto service
   distance?: number; // Distance from user's location in miles
 }
 
@@ -118,9 +120,9 @@ const MarketDirectory: React.FC = () => {
         const radius = 24140; // 15 miles in meters
         let allPlaces: Place[] = [];
         
-        // Initial fetch for supermarkets, convenience stores, and bakeries
+        // Initial fetch for auto parts stores, car repair, and car dealers
         const initialResponse = await fetch(
-          `/.netlify/functions/get-places?lat=${coordinates.lat}&lng=${coordinates.lng}&radius=${radius}&type=supermarket,convenience_store,bakery`
+          `/.netlify/functions/get-places?lat=${coordinates.lat}&lng=${coordinates.lng}&radius=${radius}&type=car_repair,car_dealer,hardware_store`
         );
         
         const initialData = await initialResponse.json();
@@ -131,7 +133,7 @@ const MarketDirectory: React.FC = () => {
         }
         
         if (initialData.status === 'OK' && initialData.results) {
-          // Filter out restaurants and big box retailers
+          // Filter out restaurants and non-automotive places
           const filteredPlaces = initialData.results.filter(
             (place: Place) => 
               !place.types.some(type => type === 'restaurant' || type === 'meal_takeaway') &&
@@ -142,7 +144,7 @@ const MarketDirectory: React.FC = () => {
         }
         
         // Additional searches for specialty categories
-        const specialtyCategories = ['butcher', 'seafood', 'produce', 'farms', 'equipment'];
+        const specialtyCategories = ['auto_parts', 'tire_shop', 'salvage', 'dealer', 'tools', 'body_shop'];
         for (const category of specialtyCategories) {
           const queries = SPECIALTY_SEARCH_QUERIES[category as keyof typeof SPECIALTY_SEARCH_QUERIES];
           
@@ -157,7 +159,7 @@ const MarketDirectory: React.FC = () => {
               console.log(`${category} search response for "${query}":`, specialtyData);
               
               if (specialtyData.status === 'OK' && specialtyData.results) {
-                // Filter out restaurants and big box retailers
+                // Filter out non-automotive places
                 const filteredSpecialtyPlaces = specialtyData.results.filter(
                   (place: Place) => 
                     !place.types.some(type => type === 'restaurant' || type === 'meal_takeaway') &&
@@ -206,112 +208,81 @@ const MarketDirectory: React.FC = () => {
     result.forEach(place => {
       const nameLower = place.name.toLowerCase();
       
-      // Debug: Log if we find Harbor Fish or other specialty markets
-      if (nameLower.includes('harbor') && nameLower.includes('fish')) {
-        console.log('Found Harbor Fish during categorization:', place);
-      }
-      if (nameLower.includes('merrill') && nameLower.includes('seafood')) {
-        console.log('Found Merrill Seafood during categorization:', place);
-      }
-      if ((nameLower.includes('pat') || nameLower.includes('pat\'s')) && nameLower.includes('meat')) {
-        console.log('Found Pat\'s Meat Market during categorization:', place);
-      }
-      
-      // Check if it's a big box retailer (already filtered, but double-check)
+      // Check if it's an excluded retailer (already filtered, but double-check)
       const isBigBox = BIG_BOX_RETAILERS.some(retailer => nameLower.includes(retailer));
       if (isBigBox) {
-        // Skip big box retailers entirely
         return;
       }
       
       // Check if it's in our specific exclusion list (exact match)
       if (EXCLUDED_PLACES.includes(place.name)) {
-        // Skip specifically excluded places
         return;
       }
       
-      // Priority categorization for seafood and meat in name - these take precedence over other rules
-      if (nameLower.includes('seafood') || nameLower.includes('fish') || nameLower.includes('shellfish') || nameLower.includes('lobster')) {
-        place.assignedCategory = 'seafood';
+      // Priority categorization for tire shops
+      if (nameLower.includes('tire') || nameLower.includes('wheel') || nameLower.includes('alignment')) {
+        place.assignedCategory = 'tire_shop';
         place.isSpecialized = true;
         return;
       }
       
-      if (nameLower.includes('meat') || nameLower.includes('butcher')) {
-        place.assignedCategory = 'butcher';
+      // Priority categorization for salvage yards
+      if (nameLower.includes('salvage') || nameLower.includes('junkyard') || nameLower.includes('wrecking') || nameLower.includes('pull-a-part') || nameLower.includes('used parts')) {
+        place.assignedCategory = 'salvage';
         place.isSpecialized = true;
         return;
       }
       
-      // Special handling for bakeries - make sure they're properly categorized
-      if (nameLower.includes('bakery') || nameLower.includes('bakeries') || nameLower.includes('bread') || 
-          nameLower.includes('pastry') || nameLower.includes('cake') || 
-          (place.types && place.types.includes('bakery'))) {
-        place.assignedCategory = 'bakery';
+      // Priority categorization for body shops
+      if (nameLower.includes('body shop') || nameLower.includes('collision') || nameLower.includes('auto body') || nameLower.includes('paint shop')) {
+        place.assignedCategory = 'body_shop';
         place.isSpecialized = true;
         return;
       }
       
-      // Special handling for farms
-      if (nameLower.includes('farm') || nameLower.includes('farmers market')) {
-        place.assignedCategory = 'farms';
-        place.isSpecialized = true;
-        return;
-      }
-      
-      // Check if it's a generic grocery chain
-      const isGenericChain = GENERIC_GROCERY_CHAINS.some(chain => nameLower.includes(chain));
+      // Check if it's a generic chain auto service
+      const isGenericChain = GENERIC_SERVICE_CHAINS.some(chain => nameLower.includes(chain));
       if (isGenericChain) {
-        // Generic chains always go to grocery and are not specialized
-        place.assignedCategory = 'grocery';
+        place.assignedCategory = 'auto_parts';
         place.isSpecialized = false;
         return;
       }
       
-      // First check for known specialized markets we want to explicitly categorize
+      // First check for known specialized stores we want to explicitly categorize
       for (const [marketName, category] of Object.entries(SPECIALIZED_MARKETS)) {
         if (nameLower.includes(marketName)) {
           place.assignedCategory = category;
           place.isSpecialized = true;
-          return; // Skip further processing for this place
+          return;
         }
       }
       
-      // Special handling for farms - farms are typically specialized
-      if (nameLower.includes('farm')) {
-        if (nameLower.includes('beef') || nameLower.includes('poultry')) {
-          place.assignedCategory = 'butcher';
-          place.isSpecialized = true;
-          return;
-        } else if (nameLower.includes('dairy') || nameLower.includes('milk') || nameLower.includes('cheese')) {
-          place.assignedCategory = 'farms';
-          place.isSpecialized = true;
-          return;
-        } else {
-          // Default farm to farms category if not specified
-          place.assignedCategory = 'farms';
-          place.isSpecialized = true;
-          return;
-        }
+      // Check for dealer/dealership
+      if (nameLower.includes('dealer') || nameLower.includes('dealership') || 
+          (place.types && place.types.includes('car_dealer'))) {
+        place.assignedCategory = 'dealer';
+        place.isSpecialized = true;
+        return;
+      }
+      
+      // Check for tool suppliers
+      if (nameLower.includes('tool') || nameLower.includes('hardware') || nameLower.includes('snap-on') || nameLower.includes('matco')) {
+        place.assignedCategory = 'tools';
+        place.isSpecialized = true;
+        return;
       }
       
       // Check for specialty keywords in each department
       for (const dept of DEPARTMENT_TYPES) {
-        // Skip grocery category for specialty keyword matching
-        if (dept.key === 'grocery') continue;
-        
-        // Check if any specialty keywords are in the name
         if (dept.keywords.some(keyword => nameLower.includes(keyword))) {
           place.assignedCategory = dept.key;
-          // Check if it contains any specialty indicators
           place.isSpecialized = SPECIALTY_INDICATORS.some(indicator => nameLower.includes(indicator)) || 
-                               // These types are always specialized
-                               dept.key === 'bakery' || 
-                               dept.key === 'butcher' || 
-                               dept.key === 'seafood' ||
-                               dept.key === 'farms' ||
-                               dept.key === 'equipment';
-          return; // Found a match, no need to check further
+                               dept.key === 'salvage' || 
+                               dept.key === 'tire_shop' || 
+                               dept.key === 'body_shop' ||
+                               dept.key === 'tools' ||
+                               dept.key === 'dealer';
+          return;
         }
       }
       
@@ -319,15 +290,14 @@ const MarketDirectory: React.FC = () => {
       for (const dept of DEPARTMENT_TYPES) {
         if (place.types.some(type => dept.placeTypes.includes(type))) {
           place.assignedCategory = dept.key;
-          // Bakeries from Google place types are specialized
-          place.isSpecialized = dept.key === 'bakery';
-          return; // Found a match, no need to check further
+          place.isSpecialized = false;
+          return;
         }
       }
       
-      // Default to grocery if no category was assigned
+      // Default to auto_parts if no category was assigned
       if (!place.assignedCategory) {
-        place.assignedCategory = 'grocery';
+        place.assignedCategory = 'auto_parts';
         place.isSpecialized = false;
       }
     });
@@ -413,10 +383,10 @@ const MarketDirectory: React.FC = () => {
     }
     
     // Fallback: If no places were specifically assigned to this category,
-    // use the place type-based filtering, excluding generic grocery chains
+    // use the place type-based filtering, excluding generic service chains
     const fallbackPlaces = places.filter(place => 
       place.types.some(type => dept.placeTypes.includes(type)) &&
-      !GENERIC_GROCERY_CHAINS.some(chain => place.name.toLowerCase().includes(chain))
+      !GENERIC_SERVICE_CHAINS.some(chain => place.name.toLowerCase().includes(chain))
     );
     
     // Also deduplicate fallback places

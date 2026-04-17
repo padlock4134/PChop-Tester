@@ -103,13 +103,12 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     yPos += 8;
 
     const marketTypeLabels: Record<string, string> = {
-      seafood: '🔧 Auto Parts Store',
-      butcher: '⚙️ Performance Shop',
-      produce: '🔩 Hardware Store',
-      dairy: '🛢️ Fluids & Chemicals',
-      grocery: '🛒 General Auto Supply',
-      deli: '🚗 Dealership Parts',
-      farms: '♻️ Salvage Yard'
+      auto_parts: '🔧 Auto Parts Store',
+      tire_shop: '🛞 Tire Shop',
+      salvage: '♻️ Salvage Yard',
+      dealer: '🏢 Dealership Parts',
+      tools: '�️ Tool Supplier',
+      body_shop: '🎨 Body Shop'
     };
 
     Object.entries(ingredientsByType).forEach(([type, ingredients]) => {

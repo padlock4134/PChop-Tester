@@ -7,15 +7,15 @@ interface TestRunModalProps {
 
 const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const CATEGORIES = [
-    "Vegetable",
-    "Fruit",
-    "Protein",
-    "Dairy",
-    "Grain",
-    "Spice",
-    "Canned/Preserved",
-    "Condiment/Sauce",
-    "Frozen",
+    "Engine",
+    "Brakes",
+    "Electrical",
+    "Fluids",
+    "Suspension",
+    "Filters",
+    "Body/Exterior",
+    "Fasteners",
+    "Tools",
     "Other"
   ];
 
@@ -23,11 +23,11 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [filterText, setFilterText] = useState('');
   const [ingredients, setIngredients] = useState([
-    { name: 'Chicken Breast', category: 'Protein' },
-    { name: 'Broccoli', category: 'Vegetable' },
-    { name: 'Rice', category: 'Grain' },
-    { name: 'Garlic', category: 'Spice'},
-    { name: 'Cheese', category: 'Dairy'}
+    { name: 'Spark Plugs', category: 'Engine' },
+    { name: 'Brake Pads', category: 'Brakes' },
+    { name: 'Motor Oil', category: 'Fluids' },
+    { name: 'Air Filter', category: 'Filters'},
+    { name: 'Battery', category: 'Electrical'}
   ]);
   const [scanLoading, setScanLoading] = useState(false);
   const [matcherOpen, setMatcherOpen] = useState(false);
@@ -189,96 +189,96 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
     },
     {
       id: '17',
-      title: 'Pasta Carbonara',
-      image: '/Preview Images/Pasta Carbonara.png',
-      ingredients: ['Pasta', 'Bacon', 'Eggs', 'Parmesan Cheese', 'Black Pepper'],
-      instructions: 'Cook pasta in pot. Whisk eggs, parmesan cheese, and black pepper in bowl. Add cooked bacon to bowl and mix. Combine with cooked pasta.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Power Steering Service',
+      image: '/Preview Images/Steering Service.png',
+      ingredients: ['Power Steering Fluid', 'Pump', 'Hoses', 'Reservoir', 'Clamps', 'Rags'],
+      instructions: 'Flush old power steering fluid. Replace pump and hoses if needed. Refill with fresh fluid and bleed system. Check for leaks.',
+      equipment: ['Drain Pan', 'Wrench Set', 'Fluid Pump'],
+      healthTags: ['Steering Response', 'Safety']
     },
     {
       id: '18',
-      title: 'Quinoa Salad Bowl',
-      image: '/Preview Images/Quinoa Salad Bowl.png',
-      ingredients: ['Quinoa', 'Mixed Greens', 'Cherry Tomatoes', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Lemon Vinaigrette'],
-      instructions: 'Combine quinoa, mixed greens, cherry tomatoes, cucumber, red onion, and feta cheese in bowl. Drizzle with lemon vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Differential Service',
+      image: '/Preview Images/Differential Service.png',
+      ingredients: ['Differential Fluid', 'Gasket', 'Sealant', 'Drain Pan', 'Fill Pump'],
+      instructions: 'Drain old differential fluid. Clean mating surfaces and install new gasket. Refill with proper gear oil to correct level.',
+      equipment: ['Drain Pan', 'Wrench Set', 'Fill Pump'],
+      healthTags: ['Drivetrain', 'Longevity']
     },
     {
       id: '19',
-      title: 'Roasted Brussel Sprouts',
-      image: '/Preview Images/Roasted Brussel Sprouts.png',
-      ingredients: ['Brussel Sprouts', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss brussel sprouts with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Headlight Restoration',
+      image: '/Preview Images/Headlight Service.png',
+      ingredients: ['Sandpaper Kit', 'Polishing Compound', 'UV Sealant', 'Masking Tape', 'Microfiber Towels'],
+      instructions: 'Mask surrounding area. Sand headlight lenses progressively. Polish with compound until clear. Apply UV sealant for protection.',
+      equipment: ['Drill with Buffer', 'Spray Bottle', 'Masking Tape'],
+      healthTags: ['Safety', 'Visibility', 'Appearance']
     },
     {
       id: '20',
-      title: 'Roasted Sweet Potatoes',
-      image: '/Preview Images/Roasted Sweet Potatoes.png',
-      ingredients: ['Sweet Potatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss sweet potatoes with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Timing Belt Replacement',
+      image: '/Preview Images/Timing Belt Service.png',
+      ingredients: ['Timing Belt', 'Tensioner', 'Idler Pulley', 'Water Pump', 'Gaskets', 'Coolant'],
+      instructions: 'Remove accessories and covers. Align timing marks. Replace belt, tensioner, and water pump. Reassemble and verify timing.',
+      equipment: ['Socket Set', 'Torque Wrench', 'Timing Light'],
+      healthTags: ['Engine Protection', 'Preventive']
     },
     {
       id: '21',
-      title: 'Spaghetti Squash with Meat Sauce',
-      image: '/Preview Images/Spaghetti Squash with Meat Sauce.png',
-      ingredients: ['Spaghetti Squash', 'Ground Beef', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook spaghetti squash in oven. Cook ground beef and tomato sauce in skillet. Combine with cooked spaghetti squash.',
-      equipment: ['Oven', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Clutch Replacement',
+      image: '/Preview Images/Clutch Service.png',
+      ingredients: ['Clutch Disc', 'Pressure Plate', 'Throw-Out Bearing', 'Flywheel', 'Alignment Tool'],
+      instructions: 'Remove transmission. Replace clutch disc, pressure plate, and throw-out bearing. Resurface or replace flywheel. Reinstall transmission.',
+      equipment: ['Transmission Jack', 'Socket Set', 'Alignment Tool'],
+      healthTags: ['Drivetrain', 'Performance']
     },
     {
       id: '22',
-      title: 'Spinach and Feta Stuffed Chicken',
-      image: '/Preview Images/Spinach and Feta Stuffed Chicken.png',
-      ingredients: ['Chicken Breast', 'Spinach', 'Feta Cheese', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Stuff chicken breast with spinach, feta cheese, and garlic. Drizzle with olive oil and season with salt and pepper. Bake in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Spark Plug Replacement',
+      image: '/Preview Images/Spark Plug Service.png',
+      ingredients: ['Spark Plugs', 'Anti-Seize Compound', 'Dielectric Grease', 'Gap Tool', 'Compressed Air'],
+      instructions: 'Remove ignition coils. Clean spark plug wells. Gap new plugs to spec. Apply anti-seize and torque to spec. Apply dielectric grease to coil boots.',
+      equipment: ['Spark Plug Socket', 'Torque Wrench', 'Gap Tool'],
+      healthTags: ['Performance', 'Fuel Efficiency']
     },
     {
       id: '23',
-      title: 'Vegetable Curry',
-      image: '/Preview Images/Vegetable Curry.png',
-      ingredients: ['Mixed Vegetables', 'Coconut Milk', 'Curry Powder', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in pot. Add coconut milk, curry powder, and olive oil. Simmer until vegetables are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'CV Axle Replacement',
+      image: '/Preview Images/CV Axle Service.png',
+      ingredients: ['CV Axle Assembly', 'Axle Nut', 'Cotter Pin', 'Grease', 'Penetrating Oil'],
+      instructions: 'Remove wheel and brake components. Remove axle nut and disconnect from hub. Remove old axle and install new one. Torque axle nut to spec.',
+      equipment: ['Socket Set', 'Pry Bar', 'Torque Wrench'],
+      healthTags: ['Drivetrain', 'Safety']
     },
     {
       id: '24',
-      title: 'Vegetable Stir Fry',
-      image: '/Preview Images/Vegetable Stir Fry.png',
-      ingredients: ['Mixed Vegetables', 'Olive Oil', 'Soy Sauce', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in skillet with olive oil and soy sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Radiator Replacement',
+      image: '/Preview Images/Radiator Service.png',
+      ingredients: ['Radiator', 'Coolant', 'Hoses', 'Clamps', 'Thermostat', 'Gasket'],
+      instructions: 'Drain coolant and disconnect hoses. Remove old radiator and fans. Install new radiator with fresh hoses. Fill system and bleed air.',
+      equipment: ['Drain Pan', 'Wrench Set', 'Funnel'],
+      healthTags: ['Engine Protection', 'Temperature Control']
     },
     {
       id: '25',
-      title: 'Zucchini Noodles with Tomato Sauce',
-      image: '/Preview Images/Zucchini Noodles with Tomato Sauce.png',
-      ingredients: ['Zucchini', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute zucchini noodles in skillet with olive oil and tomato sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Windshield Wiper Service',
+      image: '/Preview Images/Wiper Service.png',
+      ingredients: ['Wiper Blades', 'Washer Fluid', 'Wiper Arms', 'Cleaning Solution'],
+      instructions: 'Remove old wiper blades. Clean wiper arm contacts. Install new blades and verify proper fit. Refill washer fluid reservoir.',
+      equipment: ['Wrench', 'Cleaning Cloth'],
+      healthTags: ['Safety', 'Visibility']
     }
   ];
 
   const DIETARY_TAGS = [
-    'Heart Healthy',
-    'Anti Inflammatory',
-    'Low Glycemic',
-    'Low Cholesterol',
-    'Renal Friendly',
-    'DASH Diet',
-    'Low Sodium',
-    'High Fiber'
+    'Safety Critical',
+    'Preventive Maintenance',
+    'Performance',
+    'Fuel Efficiency',
+    'Reliability',
+    'Engine Protection',
+    'Drivetrain',
+    'Appearance'
   ];
 
   const findMatchingRecipes = (userIngredients: string[]) => {
@@ -348,260 +348,35 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   );
 
   const recipeImages = [
-    'Avacado Toast.png',
-    'Baked Salmon.png',
-    'Breakfast Burrito.png',
-    'Breakfast Tacos.png',
-    'Chicken Fajitas.png',
-    'Chicken Feta Phyllo Triangles.png',
-    'Chicken Quesadillas.png',
-    'Chicken and Rice Bowls.png',
-    'Chicken and Vegetable Kabobs.png',
-    'Chickpea and Avocado Salad.png',
-    'Classic Beef Burger.png',
-    'Garlic Butter Chicken with Rice.png',
-    'Greek Salad.png',
-    'Grilled Cheese.png',
-    'Lemon Garlic Chicken with Roasted Broccoli.png',
-    'Lemon Herb Roasted Chicken.png',
-    'Lentil Soup.png',
-    'Pasta Carbonara.png',
-    'Quinoa Salad Bowl.png',
-    'Roasted Brussel Sprouts.png',
-    'Roasted Sweet Potatoes.png',
-    'Spaghetti Squash with Meat Sauce.png',
-    'Spinach and Feta Stuffed Chicken.png',
-    'Vegetable Curry.png',
-    'Vegetable Stir Fry.png'
+    'Oil Change.png',
+    'Brake Service.png',
+    'Engine Service.png',
+    'Transmission Service.png',
+    'Suspension Service.png',
+    'Electrical Service.png',
+    'Cooling Service.png',
+    'Exhaust Service.png',
+    'Tire Service.png',
+    'Battery Service.png',
+    'Alignment Service.png',
+    'Detailing Service.png',
+    'Paint Service.png',
+    'Diagnostic Service.png',
+    'Fuel Service.png',
+    'AC Service.png',
+    'Steering Service.png',
+    'Differential Service.png',
+    'Headlight Service.png',
+    'Timing Belt Service.png',
+    'Clutch Service.png',
+    'Spark Plug Service.png',
+    'CV Axle Service.png',
+    'Radiator Service.png',
+    'Wiper Service.png'
   ];
 
-  const sampleRecipes = [
-    {
-      id: '1',
-      title: 'Avocado Toast',
-      image: '/Preview Images/Avacado Toast.png',
-      ingredients: ['Bread', 'Avocado', 'Salt', 'Pepper', 'Red Pepper Flakes', 'Olive Oil'],
-      instructions: 'Toast bread. Mash avocado with salt, pepper, and a drizzle of olive oil. Spread on toast and sprinkle with red pepper flakes.',
-      equipment: ['Toaster', 'Knife', 'Bowl'],
-      healthTags: ['Heart Healthy', 'High Fiber']
-    },
-    {
-      id: '2',
-      title: 'Brake Pad Replacement',
-      image: '/Preview Images/Brake Service.png',
-      ingredients: ['Brake Pads', 'Rotors', 'Caliper', 'Brake Fluid', 'C-Clamp', 'Wire Brush'],
-      instructions: 'Remove wheel and caliper. Compress caliper piston. Remove old pads and install new ones. Reassemble and bleed brakes if needed.',
-      equipment: ['Socket Set', 'Brake Tool', 'Bleeder Kit'],
-      healthTags: ['Safety Critical', 'Stopping Power']
-    },
-    {
-      id: '3',
-      title: 'Engine Tune-Up',
-      image: '/Preview Images/Engine Service.png',
-      ingredients: ['Spark Plugs', 'Air Filter', 'Fuel Filter', 'Distributor Cap', 'Rotor', 'Wires'],
-      instructions: 'Replace spark plugs and wires. Install new air and fuel filters. Check distributor cap and rotor. Adjust timing if needed.',
-      equipment: ['Socket Set', 'Timing Light', 'Gap Tool'],
-      healthTags: ['Performance Boost', 'Fuel Efficiency']
-    },
-    {
-      id: '4',
-      title: 'Transmission Service',
-      image: '/Preview Images/Transmission Service.png',
-      ingredients: ['Transmission Fluid', 'Filter Kit', 'Gasket', 'Sealant', 'Drain Pan', 'Torque Wrench'],
-      instructions: 'Drain transmission fluid. Remove pan and replace filter. Install new gasket and pan. Refill with correct fluid amount and check for leaks.',
-      equipment: ['Socket Set', 'Torque Wrench', 'Fluid Pump'],
-      healthTags: ['Smooth Shifting', 'Longevity']
-    },
-    {
-      id: '5',
-      title: 'Suspension Service',
-      image: '/Preview Images/Suspension Service.png',
-      ingredients: ['Shock Absorbers', 'Struts', 'Springs', 'Bushings', 'Bolts', 'Torque Wrench'],
-      instructions: 'Remove old shocks and struts. Install new suspension components. Torque all bolts to specifications. Check alignment after installation.',
-      equipment: ['Socket Set', 'Spring Compressor', 'Torque Wrench'],
-      healthTags: ['Ride Comfort', 'Handling']
-    },
-    {
-      id: '6',
-      title: 'Electrical System Service',
-      image: '/Preview Images/Electrical Service.png',
-      ingredients: ['Battery', 'Alternator', 'Starter', 'Fuses', 'Wiring', 'Multimeter'],
-      instructions: 'Test battery and charging system. Replace alternator or starter if needed. Check all fuses and wiring connections. Verify electrical system operation.',
-      equipment: ['Multimeter', 'Wiring Tools', 'Battery Tester'],
-      healthTags: ['Reliability', 'Power System']
-    },
-    {
-      id: '7',
-      title: 'Cooling System Service',
-      image: '/Preview Images/Cooling Service.png',
-      ingredients: ['Coolant', 'Radiator', 'Water Pump', 'Thermostat', 'Hoses', 'Clamps'],
-      instructions: 'Drain old coolant and flush radiator. Replace water pump and thermostat if needed. Refill with proper coolant mixture and check for leaks.',
-      equipment: ['Radiator Tester', 'Hose Clamps', 'Funnel'],
-      healthTags: ['Engine Protection', 'Temperature Control']
-    },
-    {
-      id: '8',
-      title: 'Exhaust System Service',
-      image: '/Preview Images/Exhaust Service.png',
-      ingredients: ['Muffler', 'Catalytic Converter', 'Pipes', 'Gaskets', 'Hangers', 'Welder'],
-      instructions: 'Remove old exhaust components. Install new muffler and catalytic converter. Check for proper fit and no exhaust leaks. Test for proper operation.',
-      equipment: ['Welder', 'Socket Set', 'Exhaust Cutter'],
-      healthTags: ['Performance', 'Emissions Control']
-    },
-    {
-      id: '9',
-      title: 'Tire Rotation Service',
-      image: '/Preview Images/Tire Service.png',
-      ingredients: ['Tire Iron', 'Jack Stands', 'Lug Nuts', 'Torque Wrench', 'Tire Gauge', 'Air Compressor'],
-      instructions: 'Jack up vehicle and remove wheels. Rotate tires according to proper pattern. Torque lug nuts to specifications and set proper tire pressure.',
-      equipment: ['Jack', 'Torque Wrench', 'Tire Pressure Gauge'],
-      healthTags: ['Safety', 'Even Wear', 'Fuel Efficiency']
-    },
-    {
-      id: '10',
-      title: 'Battery Replacement Service',
-      image: '/Preview Images/Battery Service.png',
-      ingredients: ['Battery', 'Battery Terminals', 'Terminal Cleaner', 'Wrench', 'Memory Saver'],
-      instructions: 'Disconnect negative terminal first. Remove old battery and clean terminals. Install new battery and connect terminals. Apply anti-corrosion grease.',
-      equipment: ['Wrench Set', 'Battery Tester', 'Wire Brush'],
-      healthTags: ['Reliability', 'Starting Power']
-    },
-    {
-      id: '11',
-      title: 'Wheel Alignment Service',
-      image: '/Preview Images/Alignment Service.png',
-      ingredients: ['Alignment Machine', 'Wheel Weights', 'Adjustment Tools', 'Tape Measure', 'Chalk'],
-      instructions: 'Place vehicle on alignment machine. Adjust toe, camber, and caster angles to specifications. Verify with test drive and final alignment check.',
-      equipment: ['Alignment Machine', 'Wrench Set', 'Tape Measure'],
-      healthTags: ['Tire Life', 'Handling', 'Safety']
-    },
-    {
-      id: '12',
-      title: 'Detailing Service',
-      image: '/Preview Images/Detailing Service.png',
-      ingredients: ['Car Wax', 'Microfiber Towels', 'Applicator Pads', 'Interior Cleaner', 'Vacuum', 'Brushes'],
-      instructions: 'Wash and dry vehicle thoroughly. Apply car wax in sections using applicator pads. Clean interior surfaces and vacuum carpets. Buff to high shine.',
-      equipment: ['Buffer', 'Vacuum Cleaner', 'Detailing Brushes'],
-      healthTags: ['Appearance', 'Protection', 'Value']
-    },
-    {
-      id: '13',
-      title: 'Paint Protection Service',
-      image: '/Preview Images/Paint Service.png',
-      ingredients: ['Car Wax', 'Paint Sealant', 'Applicator Pads', 'Microfiber Towels', 'Clay Bar'],
-      instructions: 'Wash and clay vehicle surface to remove contaminants. Apply paint sealant for protection. Finish with car wax for high gloss shine.',
-      equipment: ['Clay Bar', 'Polisher', 'Microfiber Towels'],
-      healthTags: ['Paint Protection', 'Appearance', 'UV Protection']
-    },
-    {
-      id: '14',
-      title: 'Engine Diagnostic Service',
-      image: '/Preview Images/Diagnostic Service.png',
-      ingredients: ['Scan Tool', 'Code Reader', 'Multimeter', 'Test Leads', 'Software'],
-      instructions: 'Connect scan tool to OBD-II port. Read and diagnose trouble codes. Use multimeter to test electrical components. Provide detailed repair recommendations.',
-      equipment: ['Scan Tool', 'Multimeter', 'Test Leads'],
-      healthTags: ['Diagnostics', 'Performance', 'Emissions']
-    },
-    {
-      id: '15',
-      title: 'Fuel System Service',
-      image: '/Preview Images/Fuel Service.png',
-      ingredients: ['Fuel Filter', 'Fuel Pump', 'Fuel Lines', 'Pressure Gauge', 'Hose Clamps'],
-      instructions: 'Relieve fuel system pressure. Replace fuel filter and fuel pump if needed. Check for leaks and proper fuel pressure. Test system operation.',
-      equipment: ['Fuel Pressure Tester', 'Wrench Set', 'Hose Clamps'],
-      healthTags: ['Fuel Efficiency', 'Engine Performance', 'Reliability']
-    },
-    {
-      id: '16',
-      title: 'Air Conditioning Service',
-      image: '/Preview Images/AC Service.png',
-      ingredients: ['Refrigerant', 'AC Compressor', 'Condenser', 'Evaporator', 'O-Rings', 'Recovery Machine'],
-      instructions: 'Recover old refrigerant. Replace compressor, condenser, and evaporator as needed. Vacuum system and recharge with proper refrigerant. Test system operation.',
-      equipment: ['AC Machine', 'Vacuum Pump', 'Gauge Set'],
-      healthTags: ['Comfort', 'Air Quality', 'Efficiency']
-    },
-    {
-      id: '17',
-      title: 'Pasta Carbonara',
-      image: '/Preview Images/Pasta Carbonara.png',
-      ingredients: ['Pasta', 'Bacon', 'Eggs', 'Parmesan Cheese', 'Black Pepper'],
-      instructions: 'Cook pasta in pot. Whisk eggs, parmesan cheese, and black pepper in bowl. Add cooked bacon to bowl and mix. Combine with cooked pasta.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '18',
-      title: 'Quinoa Salad Bowl',
-      image: '/Preview Images/Quinoa Salad Bowl.png',
-      ingredients: ['Quinoa', 'Mixed Greens', 'Cherry Tomatoes', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Lemon Vinaigrette'],
-      instructions: 'Combine quinoa, mixed greens, cherry tomatoes, cucumber, red onion, and feta cheese in bowl. Drizzle with lemon vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '19',
-      title: 'Roasted Brussel Sprouts',
-      image: '/Preview Images/Roasted Brussel Sprouts.png',
-      ingredients: ['Brussel Sprouts', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss brussel sprouts with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '20',
-      title: 'Roasted Sweet Potatoes',
-      image: '/Preview Images/Roasted Sweet Potatoes.png',
-      ingredients: ['Sweet Potatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss sweet potatoes with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '21',
-      title: 'Spaghetti Squash with Meat Sauce',
-      image: '/Preview Images/Spaghetti Squash with Meat Sauce.png',
-      ingredients: ['Spaghetti Squash', 'Ground Beef', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook spaghetti squash in oven. Cook ground beef and tomato sauce in skillet. Combine with cooked spaghetti squash.',
-      equipment: ['Oven', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '22',
-      title: 'Spinach and Feta Stuffed Chicken',
-      image: '/Preview Images/Spinach and Feta Stuffed Chicken.png',
-      ingredients: ['Chicken Breast', 'Spinach', 'Feta Cheese', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Stuff chicken breast with spinach, feta cheese, and garlic. Drizzle with olive oil and season with salt and pepper. Bake in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '23',
-      title: 'Vegetable Curry',
-      image: '/Preview Images/Vegetable Curry.png',
-      ingredients: ['Mixed Vegetables', 'Coconut Milk', 'Curry Powder', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in pot. Add coconut milk, curry powder, and olive oil. Simmer until vegetables are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '24',
-      title: 'Vegetable Stir Fry',
-      image: '/Preview Images/Vegetable Stir Fry.png',
-      ingredients: ['Mixed Vegetables', 'Olive Oil', 'Soy Sauce', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in skillet with olive oil and soy sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '25',
-      title: 'Zucchini Noodles with Tomato Sauce',
-      image: '/Preview Images/Zucchini Noodles with Tomato Sauce.png',
-      ingredients: ['Zucchini', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute zucchini noodles in skillet with olive oil and tomato sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    }
-  ];
+  // sampleRecipes mirrors allRecipes for the preview/demo mode
+  const sampleRecipes = allRecipes;
 
   if (!isOpen) return null;
 
@@ -621,11 +396,11 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
               ✕
             </button>
             <h3 className="font-retro text-lg mb-2">Your PorkChop Preview!</h3>
-            <p className="text-sm mb-2">This is our My Kitchen Module (1 of 5).</p>
+            <p className="text-sm mb-2">This is our My Garage Module (1 of 5).</p>
             <ul className="text-xs space-y-1 list-disc pl-4 text-left inline-block">
-              <li><span className="font-semibold">Scan Kitchen</span> - Scans your food, works in app!</li>
-              <li>Click the <span className="font-semibold">Recipe Matcher</span> Builds Recipes!</li>
-              <li>Add, sort and search your digital cupboard.</li>
+              <li><span className="font-semibold">Scan Parts</span> - Scans your parts, works in app!</li>
+              <li>Click the <span className="font-semibold">Service Matcher</span> Builds Repair Orders!</li>
+              <li>Add, sort and search your digital parts bin.</li>
             </ul>
             <p className="text-xs mt-2 italic">Feel free to hit <span className="font-semibold">Full Demo</span> to see everything in action.</p>
           </div>
@@ -641,8 +416,8 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           &times;
         </button>
         <div className="flex items-center justify-center mb-2">
-          <span className="text-5xl mr-2">🐟</span>
-          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Kitchen</h1>
+          <span className="text-5xl mr-2">�</span>
+          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Garage</h1>
         </div>
 
         {/* Action Buttons */}
@@ -658,7 +433,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
             className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors w-full sm:w-auto max-w-xs flex items-center justify-center gap-2"
             onClick={() => alert('Functionality available in app. Please try again later.')}
           >
-            Scan Kitchen
+            Scan Parts
           </button>
           
           <button
@@ -666,14 +441,14 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
             onClick={handleRecipeMatcherOpen}
             disabled={matcherLoading}
           >
-            {matcherLoading ? 'Loading...' : 'Recipe Matcher'}
+            {matcherLoading ? 'Loading...' : 'Service Matcher'}
           </button>
         </div>
 
         {/* Digital Cupboard Section */}
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
-            <span role="img" aria-label="anchor">⚓</span> Digital Cupboard
+            <span role="img" aria-label="toolbox">🧰</span> Parts Bin
           </h3>
           {ingredients.length > 0 && (
             <button
@@ -691,7 +466,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           <input
             type="text"
             className="border px-3 py-2 rounded w-full sm:w-1/3"
-            placeholder="Search cupboard..."
+            placeholder="Search parts..."
             value={filterText}
             onChange={e => setFilterText(e.target.value)}
             style={{ minWidth: 120 }}
@@ -700,7 +475,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           <input
             type="text"
             className="border px-3 py-2 rounded w-full sm:w-1/3"
-            placeholder="Add an ingredient..."
+            placeholder="Add a part..."
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && addIngredient()}

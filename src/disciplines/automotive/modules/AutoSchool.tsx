@@ -219,19 +219,20 @@ const AutoSchool = () => {
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
-  // Helper: extract primary material from components
-  function getMainProtein(ingredients: string[] = []) {
-    const proteins = [
-      'chicken', 'beef', 'pork', 'fish', 'salmon', 'shrimp', 'clam', 'crab', 'lobster',
-      'tofu', 'turkey', 'duck', 'lamb', 'egg', 'eggs', 'scallop', 'scallops', 'mussels', 'steak',
-      'bacon', 'sausage', 'ham', 'vegan', 'tempeh', 'seitan', 'octopus', 'squid', 'anchovy', 'anchovies'
+  // Helper: extract primary part from components list
+  function getMainPart(ingredients: string[] = []) {
+    const keyParts = [
+      'brake', 'rotor', 'caliper', 'spark plug', 'battery', 'alternator', 'starter',
+      'filter', 'belt', 'hose', 'pump', 'sensor', 'bearing', 'gasket', 'clutch',
+      'shock', 'strut', 'axle', 'radiator', 'thermostat', 'muffler', 'tire', 'wheel'
     ];
-    return ingredients.find(ing => proteins.some(p => ing.toLowerCase().includes(p)));
+    return ingredients.find(ing => keyParts.some(p => ing.toLowerCase().includes(p)));
   }
-  // Helper: extract main equipment from equipment array
+  // Helper: extract main tool from equipment array
   function getMainEquipment(equipment: string[] = []) {
     const priorities = [
-      'pan', 'pot', 'oven', 'grill', 'skillet', 'wok', 'baking sheet', 'slow cooker', 'pressure cooker', 'air fryer', 'broiler', 'deep fryer', 'steamer', 'microwave', 'toaster oven'
+      'socket set', 'torque wrench', 'scan tool', 'multimeter', 'jack', 'wrench set',
+      'impact wrench', 'brake tool', 'compression tester', 'timing light', 'spring compressor'
     ];
     for (const p of priorities) {
       const found = equipment.find(eq => eq.toLowerCase().includes(p));
@@ -250,12 +251,12 @@ const AutoSchool = () => {
       query = `how to ${tut.techniqueData.title.toLowerCase()} trade technique`;
     } else if (tut.type === 'cooking_tutorial') {
       // For task tutorials, focus on the project
-      const mainProtein = getMainProtein(recipe.ingredients || []);
+      const mainPart = getMainPart(recipe.ingredients || []);
       const mainEquipment = getMainEquipment(recipe.equipment || []);
-      if (mainProtein && mainEquipment) {
-        query = `How to cook ${mainProtein} using ${mainEquipment}`;
-      } else if (mainProtein) {
-        query = `How to cook ${mainProtein}`;
+      if (mainPart && mainEquipment) {
+        query = `How to replace ${mainPart} using ${mainEquipment}`;
+      } else if (mainPart) {
+        query = `How to replace ${mainPart}`;
       } else {
         query = `how to complete ${recipe.title}`;
       }
@@ -499,7 +500,7 @@ const AutoSchool = () => {
             title={mockSyllabusData.title}
             courses={mockSyllabusData.courses}
             onLessonClick={handleLessonClick}
-            onButcherBlockClick={() => setBenchPracticeOpen(true)}
+            onDiagnosticBayClick={() => setBenchPracticeOpen(true)}
           />
         </div>
       </div>

@@ -47,14 +47,13 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'grocery': return '🛒';
-      case 'butcher': return '🥩';
-      case 'produce': return '🥦';
-      case 'dairy': return '🥛';
-      case 'deli': return '🥪';
-      case 'farms': return '🚜';
-      case 'seafood': return '🐟';
-      default: return '🏪';
+      case 'auto_parts': return '�';
+      case 'tire_shop': return '🛞';
+      case 'salvage': return '🏗️';
+      case 'dealer': return '🏢';
+      case 'tools': return '�️';
+      case 'body_shop': return '🎨';
+      default: return '🔧';
     }
   };
 
@@ -205,17 +204,17 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
   // Get category-specific colors
   const getCategoryColors = (category: string) => {
     switch (category) {
-      case 'grocery':
+      case 'auto_parts':
         return { bg: 'bg-blue-50', border: 'border-blue-500' };
-      case 'butcher':
-        return { bg: 'bg-red-50', border: 'border-red-500' };
-      case 'seafood':
-        return { bg: 'bg-cyan-50', border: 'border-cyan-500' };
-      case 'produce':
+      case 'tire_shop':
+        return { bg: 'bg-gray-50', border: 'border-gray-500' };
+      case 'salvage':
+        return { bg: 'bg-amber-50', border: 'border-amber-500' };
+      case 'dealer':
         return { bg: 'bg-green-50', border: 'border-green-500' };
-      case 'farms':
-        return { bg: 'bg-yellow-50', border: 'border-yellow-500' };
-      case 'specialty':
+      case 'tools':
+        return { bg: 'bg-red-50', border: 'border-red-500' };
+      case 'body_shop':
         return { bg: 'bg-purple-50', border: 'border-purple-500' };
       default:
         return { bg: 'bg-sand', border: 'border-black' };
@@ -328,13 +327,13 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
   }, [selectedRecipes]);
 
   const marketCategories = [
-    { key: 'all', label: 'All Markets', icon: '🏪' },
-    { key: 'grocery', label: 'Regional Grocery', icon: '🛒' },
-    { key: 'butcher', label: 'Butcher', icon: '🥩' },
-    { key: 'produce', label: 'Produce', icon: '🥦' },
-    { key: 'dairy', label: 'Dairy', icon: '🥛' },
-    { key: 'deli', label: 'Deli', icon: '🥪' },
-    { key: 'farms', label: 'Farms', icon: '🚜' }
+    { key: 'all', label: 'All Stores', icon: '🔧' },
+    { key: 'auto_parts', label: 'Auto Parts', icon: '�' },
+    { key: 'tire_shop', label: 'Tire Shop', icon: '🛞' },
+    { key: 'salvage', label: 'Salvage', icon: '🏗️' },
+    { key: 'dealer', label: 'Dealer', icon: '🏢' },
+    { key: 'tools', label: 'Tools', icon: '🛠️' },
+    { key: 'body_shop', label: 'Body Shop', icon: '🎨' }
   ];
 
   // Get user location when modal opens
@@ -388,16 +387,16 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         const location = new google.maps.LatLng(lat, lng);
         
         const searchQueries = [
-          { query: 'grocery store', type: 'grocery' },
-          { query: 'supermarket', type: 'grocery' },
-          { query: 'butcher shop', type: 'butcher' },
-          { query: 'meat market', type: 'butcher' },
-          { query: 'produce market', type: 'produce' },
-          { query: 'farmers market', type: 'produce' },
-          { query: 'dairy farm', type: 'dairy' },
-          { query: 'deli', type: 'deli' },
-          { query: 'farm stand', type: 'farms' },
-          { query: 'seafood market', type: 'seafood' }
+          { query: 'auto parts store', type: 'auto_parts' },
+          { query: 'car parts store', type: 'auto_parts' },
+          { query: 'tire shop', type: 'tire_shop' },
+          { query: 'tire center', type: 'tire_shop' },
+          { query: 'auto salvage yard', type: 'salvage' },
+          { query: 'junkyard', type: 'salvage' },
+          { query: 'car dealership', type: 'dealer' },
+          { query: 'auto tool store', type: 'tools' },
+          { query: 'hardware store', type: 'tools' },
+          { query: 'auto body shop', type: 'body_shop' }
         ];
         
         const allMarkets: Market[] = [];
@@ -450,35 +449,35 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
       } else {
         // Development mode - use mock data for Portland, Maine
         const mockMarkets: Market[] = [
-          // Grocery stores (3)
-          { name: "Hannaford Supermarket", address: "295 Forest Ave, Portland, ME 04101", distance: 2.1, type: "grocery", rating: 4.3, isOpen: true },
-          { name: "Whole Foods Market", address: "87 Marginal Way, Portland, ME 04101", distance: 2.9, type: "grocery", rating: 4.2, isOpen: true },
-          { name: "Rosemont Market & Bakery", address: "580 Brighton Ave, Portland, ME 04102", distance: 1.8, type: "grocery", rating: 4.5, isOpen: true },
+          // Auto Parts Stores (3)
+          { name: "AutoZone", address: "295 Forest Ave, Portland, ME 04101", distance: 2.1, type: "auto_parts", rating: 4.3, isOpen: true },
+          { name: "O'Reilly Auto Parts", address: "87 Marginal Way, Portland, ME 04101", distance: 2.9, type: "auto_parts", rating: 4.2, isOpen: true },
+          { name: "NAPA Auto Parts", address: "580 Brighton Ave, Portland, ME 04102", distance: 1.8, type: "auto_parts", rating: 4.5, isOpen: true },
           
-          // Butcher shops (3)
-          { name: "Pat's Meat Market", address: "428 Forest Ave, Portland, ME 04101", distance: 3.1, type: "butcher", rating: 4.6, isOpen: true },
-          { name: "Browne Trading Company", address: "262 Commercial St, Portland, ME 04101", distance: 2.4, type: "butcher", rating: 4.7, isOpen: true },
-          { name: "The Meat House", address: "1012 Brighton Ave, Portland, ME 04102", distance: 3.8, type: "butcher", rating: 4.4, isOpen: false },
+          // Tire Shops (3)
+          { name: "Discount Tire", address: "428 Forest Ave, Portland, ME 04101", distance: 3.1, type: "tire_shop", rating: 4.6, isOpen: true },
+          { name: "Sullivan Tire", address: "262 Commercial St, Portland, ME 04101", distance: 2.4, type: "tire_shop", rating: 4.7, isOpen: true },
+          { name: "Town Fair Tire", address: "1012 Brighton Ave, Portland, ME 04102", distance: 3.8, type: "tire_shop", rating: 4.4, isOpen: false },
           
-          // Seafood markets (3)
-          { name: "Harbor Fish Market", address: "9 Custom House Wharf, Portland, ME 04101", distance: 2.3, type: "seafood", rating: 4.8, isOpen: true },
-          { name: "Free Range Fish & Lobster", address: "470 Forest Ave, Portland, ME 04101", distance: 2.7, type: "seafood", rating: 4.5, isOpen: true },
-          { name: "Portland Fish Pier", address: "6 Portland Fish Pier, Portland, ME 04101", distance: 3.2, type: "seafood", rating: 4.3, isOpen: true },
+          // Salvage Yards (3)
+          { name: "Portland Auto Salvage", address: "120 Presumpscot St, Portland, ME 04103", distance: 4.3, type: "salvage", rating: 4.1, isOpen: true },
+          { name: "LKQ Pick Your Part", address: "470 Riverside St, Portland, ME 04103", distance: 5.7, type: "salvage", rating: 3.9, isOpen: true },
+          { name: "Maine Auto Recyclers", address: "88 Industrial Way, Portland, ME 04103", distance: 6.2, type: "salvage", rating: 4.0, isOpen: true },
           
-          // Produce markets (3)
-          { name: "Portland Farmers Market", address: "Monument Square, Portland, ME 04101", distance: 1.9, type: "produce", rating: 4.6, isOpen: true },
-          { name: "Deering Oaks Farmers Market", address: "Deering Oaks Park, Portland, ME 04102", distance: 2.8, type: "produce", rating: 4.4, isOpen: false },
-          { name: "Good Shepherd Food Bank", address: "1115 Forest Ave, Portland, ME 04103", distance: 4.1, type: "produce", rating: 4.2, isOpen: true },
+          // Dealers (3)
+          { name: "Rowe Ford", address: "100 Main St, Westbrook, ME 04092", distance: 5.9, type: "dealer", rating: 4.4, isOpen: true },
+          { name: "Lee Toyota", address: "150 Main St, Topsham, ME 04086", distance: 8.8, type: "dealer", rating: 4.3, isOpen: false },
+          { name: "Prime Honda", address: "200 Riverside Dr, Portland, ME 04103", distance: 4.1, type: "dealer", rating: 4.5, isOpen: true },
           
-          // Farms (3)
-          { name: "Pineland Farms", address: "15 Farm View Dr, New Gloucester, ME 04260", distance: 12.4, type: "farms", rating: 4.7, isOpen: true },
-          { name: "Wolfe's Neck Farm", address: "184 Burnett Rd, Freeport, ME 04032", distance: 8.9, type: "farms", rating: 4.5, isOpen: true },
-          { name: "Springdale Farm", address: "41 Springdale Rd, Freeport, ME 04032", distance: 8.7, type: "farms", rating: 4.9, isOpen: true },
+          // Tool Suppliers (3)
+          { name: "Harbor Freight Tools", address: "15 Mallside Dr, South Portland, ME 04106", distance: 3.4, type: "tools", rating: 4.2, isOpen: true },
+          { name: "Portland Tool Library", address: "184 Congress St, Portland, ME 04101", distance: 1.9, type: "tools", rating: 4.6, isOpen: true },
+          { name: "True Value Hardware", address: "41 Main St, Gorham, ME 04038", distance: 9.7, type: "tools", rating: 4.3, isOpen: true },
           
-          // Specialty stores (3) - delis, bakeries, etc.
-          { name: "Holy Donut", address: "194 Park Ave, Portland, ME 04102", distance: 2.1, type: "deli", rating: 4.4, isOpen: false },
-          { name: "Standard Baking Co.", address: "75 Commercial St, Portland, ME 04101", distance: 2.6, type: "deli", rating: 4.6, isOpen: true },
-          { name: "Micucci Grocery Store", address: "45 India St, Portland, ME 04101", distance: 2.2, type: "deli", rating: 4.8, isOpen: true }
+          // Body Shops (3)
+          { name: "Caliber Collision", address: "194 Park Ave, Portland, ME 04102", distance: 2.1, type: "body_shop", rating: 4.4, isOpen: false },
+          { name: "Maaco Auto Body", address: "75 Warren Ave, Portland, ME 04103", distance: 3.6, type: "body_shop", rating: 4.1, isOpen: true },
+          { name: "Portland Collision Center", address: "45 India St, Portland, ME 04101", distance: 2.2, type: "body_shop", rating: 4.7, isOpen: true }
         ];
         
         setMarkets(mockMarkets);
@@ -501,64 +500,64 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
       <div className="bg-white p-6 rounded-lg shadow-xl border-4 border-black max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-4">
           <div></div>
-          <h3 className="text-xl font-bold text-maineBlue text-center">Find Local Markets</h3>
+          <h3 className="text-xl font-bold text-maineBlue text-center">Find Auto Parts Stores</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <CategoryCard 
-            category="grocery" 
-            title="Grocery" 
-            icon="🛒" 
-            description="Regional grocery stores and supermarkets"
-            markets={markets.filter(m => m.type === 'grocery')}
+            category="auto_parts" 
+            title="Auto Parts" 
+            icon="�" 
+            description="Auto parts stores and suppliers"
+            markets={markets.filter(m => m.type === 'auto_parts')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['grocery']}
+            ingredientsForCategory={ingredientsByMarketType['auto_parts']}
           />
           <CategoryCard 
-            category="butcher" 
-            title="Butcher" 
-            icon="🥩" 
-            description="Local butcher shops and meat markets"
-            markets={markets.filter(m => m.type === 'butcher')}
+            category="tire_shop" 
+            title="Tire Shop" 
+            icon="🛞" 
+            description="Tire shops and wheel centers"
+            markets={markets.filter(m => m.type === 'tire_shop')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['butcher']}
+            ingredientsForCategory={ingredientsByMarketType['tire_shop']}
           />
           <CategoryCard 
-            category="seafood" 
-            title="Seafood" 
-            icon="🐟" 
-            description="Fresh seafood markets and fishmongers"
-            markets={markets.filter(m => m.type === 'seafood')}
+            category="salvage" 
+            title="Salvage" 
+            icon="🏗️" 
+            description="Salvage yards and used parts"
+            markets={markets.filter(m => m.type === 'salvage')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['seafood']}
+            ingredientsForCategory={ingredientsByMarketType['salvage']}
           />
           <CategoryCard 
-            category="produce" 
-            title="Produce" 
-            icon="🥦" 
-            description="Fresh produce markets and farm stands"
-            markets={markets.filter(m => m.type === 'produce')}
+            category="dealer" 
+            title="Dealer" 
+            icon="🏢" 
+            description="Dealership parts departments"
+            markets={markets.filter(m => m.type === 'dealer')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['produce']}
+            ingredientsForCategory={ingredientsByMarketType['dealer']}
           />
           <CategoryCard 
-            category="farms" 
-            title="Farms" 
-            icon="🚜" 
-            description="Local farms and farmers markets"
-            markets={markets.filter(m => m.type === 'farms')}
+            category="tools" 
+            title="Tools" 
+            icon="�️" 
+            description="Tool suppliers and hardware stores"
+            markets={markets.filter(m => m.type === 'tools')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['farms']}
+            ingredientsForCategory={ingredientsByMarketType['tools']}
           />
           <CategoryCard 
-            category="specialty" 
-            title="Specialty" 
-            icon="🏦" 
-            description="Delis, bakeries, and specialty food stores"
-            markets={markets.filter(m => ['deli', 'dairy', 'bakery'].includes(m.type))}
+            category="body_shop" 
+            title="Body Shop" 
+            icon="�" 
+            description="Auto body and collision repair shops"
+            markets={markets.filter(m => m.type === 'body_shop')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['deli'] || ingredientsByMarketType['dairy']}
+            ingredientsForCategory={ingredientsByMarketType['body_shop']}
           />
         </div>
 

@@ -1,5 +1,5 @@
-// Ingredient to market type mapping and pricing estimates
-// Used for Build Menu feature to show which ingredients to buy at which markets
+// Part to store type mapping and pricing estimates
+// Used for Build Repair Order feature to show which parts to buy at which stores
 
 export interface IngredientPrice {
   ingredient: string;
@@ -8,286 +8,232 @@ export interface IngredientPrice {
   marketType: string;
 }
 
-// Map ingredient keywords to market types
+// Map part keywords to store types
 export const ingredientToMarketType: Record<string, string> = {
-  // Seafood
-  'lobster': 'seafood',
-  'clam': 'seafood',
-  'clams': 'seafood',
-  'fish': 'seafood',
-  'salmon': 'seafood',
-  'tuna': 'seafood',
-  'shrimp': 'seafood',
-  'crab': 'seafood',
-  'scallop': 'seafood',
-  'oyster': 'seafood',
-  'mussel': 'seafood',
-  'cod': 'seafood',
-  'haddock': 'seafood',
+  // Engine Parts (auto parts store)
+  'spark plug': 'auto_parts',
+  'spark plugs': 'auto_parts',
+  'ignition coil': 'auto_parts',
+  'timing belt': 'auto_parts',
+  'timing chain': 'auto_parts',
+  'serpentine belt': 'auto_parts',
+  'drive belt': 'auto_parts',
+  'valve cover gasket': 'auto_parts',
+  'head gasket': 'auto_parts',
+  'intake manifold gasket': 'auto_parts',
+  'exhaust manifold gasket': 'auto_parts',
+  'piston rings': 'auto_parts',
+  'engine mount': 'auto_parts',
+  'thermostat': 'auto_parts',
+  'water pump': 'auto_parts',
+  'fuel pump': 'auto_parts',
+  'fuel filter': 'auto_parts',
+  'air filter': 'auto_parts',
+  'oil filter': 'auto_parts',
+  'cabin filter': 'auto_parts',
+  'pcv valve': 'auto_parts',
   
-  // Meat/Butcher
-  'beef': 'butcher',
-  'steak': 'butcher',
-  'pork': 'butcher',
-  'chicken': 'butcher',
-  'turkey': 'butcher',
-  'lamb': 'butcher',
-  'bacon': 'butcher',
-  'sausage': 'butcher',
-  'ground beef': 'butcher',
-  'ribs': 'butcher',
+  // Brake Parts (auto parts store)
+  'brake pads': 'auto_parts',
+  'brake pad': 'auto_parts',
+  'brake rotor': 'auto_parts',
+  'brake rotors': 'auto_parts',
+  'brake caliper': 'auto_parts',
+  'brake line': 'auto_parts',
+  'brake fluid': 'auto_parts',
+  'brake drum': 'auto_parts',
+  'brake shoes': 'auto_parts',
+  'master cylinder': 'auto_parts',
   
-  // Produce
-  'lettuce': 'produce',
-  'tomato': 'produce',
-  'potato': 'produce',
-  'potatoes': 'produce',
-  'onion': 'produce',
-  'carrot': 'produce',
-  'celery': 'produce',
-  'bell pepper': 'produce',
-  'cucumber': 'produce',
-  'spinach': 'produce',
-  'kale': 'produce',
-  'broccoli': 'produce',
-  'cauliflower': 'produce',
-  'mushroom': 'produce',
-  'garlic': 'produce',
-  'apple': 'produce',
-  'banana': 'produce',
-  'orange': 'produce',
-  'lemon': 'produce',
-  'lime': 'produce',
+  // Electrical (auto parts store)
+  'battery': 'auto_parts',
+  'alternator': 'auto_parts',
+  'starter motor': 'auto_parts',
+  'starter': 'auto_parts',
+  'fuse': 'auto_parts',
+  'fuses': 'auto_parts',
+  'relay': 'auto_parts',
+  'wiring harness': 'auto_parts',
+  'headlight bulb': 'auto_parts',
+  'tail light bulb': 'auto_parts',
+  'oxygen sensor': 'auto_parts',
+  'o2 sensor': 'auto_parts',
+  'mass air flow sensor': 'auto_parts',
+  'maf sensor': 'auto_parts',
+  'crankshaft position sensor': 'auto_parts',
+  'camshaft position sensor': 'auto_parts',
+  'coolant temperature sensor': 'auto_parts',
+  'knock sensor': 'auto_parts',
+  'throttle position sensor': 'auto_parts',
   
-  // Dairy
-  'milk': 'dairy',
-  'cream': 'dairy',
-  'butter': 'dairy',
-  'cheese': 'dairy',
-  'yogurt': 'dairy',
-  'sour cream': 'dairy',
-  'heavy cream': 'dairy',
+  // Fluids & Chemicals (auto parts store)
+  'motor oil': 'auto_parts',
+  'engine oil': 'auto_parts',
+  'synthetic oil': 'auto_parts',
+  'transmission fluid': 'auto_parts',
+  'coolant': 'auto_parts',
+  'antifreeze': 'auto_parts',
+  'power steering fluid': 'auto_parts',
+  'windshield washer fluid': 'auto_parts',
+  'refrigerant': 'auto_parts',
+  'penetrating oil': 'auto_parts',
+  'wd-40': 'auto_parts',
+  'brake cleaner': 'auto_parts',
+  'carburetor cleaner': 'auto_parts',
+  'gasket maker': 'auto_parts',
+  'thread locker': 'auto_parts',
+  'dielectric grease': 'auto_parts',
   
-  // Bakery/Deli
-  'bread': 'deli',
-  'bun': 'deli',
-  'buns': 'deli',
-  'roll': 'deli',
-  'rolls': 'deli',
-  'bagel': 'deli',
-  'croissant': 'deli',
-  'tortilla': 'deli',
+  // Tires & Wheels (tire shop)
+  'tire': 'tire_shop',
+  'tires': 'tire_shop',
+  'wheel': 'tire_shop',
+  'wheels': 'tire_shop',
+  'rim': 'tire_shop',
+  'rims': 'tire_shop',
+  'valve stem': 'tire_shop',
+  'tpms sensor': 'tire_shop',
+  'wheel bearing': 'tire_shop',
+  'hub assembly': 'tire_shop',
+  'lug nut': 'tire_shop',
+  'lug nuts': 'tire_shop',
   
-  // Grains (typically grocery)
-  'rice': 'grocery',
-  'pasta': 'grocery',
-  'quinoa': 'grocery',
-  'couscous': 'grocery',
-  'barley': 'grocery',
-  'oats': 'grocery',
-  'flour': 'grocery',
-  'cornmeal': 'grocery',
-  'polenta': 'grocery',
-  'noodles': 'grocery',
-  'spaghetti': 'grocery',
+  // Suspension & Steering (auto parts store)
+  'shock absorber': 'auto_parts',
+  'strut': 'auto_parts',
+  'struts': 'auto_parts',
+  'control arm': 'auto_parts',
+  'ball joint': 'auto_parts',
+  'tie rod end': 'auto_parts',
+  'tie rod': 'auto_parts',
+  'sway bar link': 'auto_parts',
+  'cv axle': 'auto_parts',
+  'cv boot': 'auto_parts',
+  'u-joint': 'auto_parts',
+  'coil spring': 'auto_parts',
+  'leaf spring': 'auto_parts',
   
-  // Eggs (dairy section)
-  'egg': 'dairy',
-  'eggs': 'dairy',
+  // Body & Exterior (salvage yard / dealer)
+  'bumper': 'salvage',
+  'fender': 'salvage',
+  'hood': 'salvage',
+  'door panel': 'salvage',
+  'mirror': 'salvage',
+  'side mirror': 'salvage',
+  'headlight assembly': 'salvage',
+  'tail light assembly': 'salvage',
+  'grille': 'salvage',
+  'windshield': 'salvage',
+  'window regulator': 'salvage',
+  'door handle': 'salvage',
   
-  // Oils & Fats (grocery)
-  'oil': 'grocery',
-  'olive oil': 'grocery',
-  'vegetable oil': 'grocery',
-  'canola oil': 'grocery',
-  'coconut oil': 'grocery',
-  'sesame oil': 'grocery',
+  // Dealer / OEM Parts
+  'ecu': 'dealer',
+  'ecm': 'dealer',
+  'tcm': 'dealer',
+  'key fob': 'dealer',
+  'immobilizer': 'dealer',
+  'infotainment': 'dealer',
+  'airbag': 'dealer',
+  'catalytic converter': 'dealer',
   
-  // Condiments (grocery)
-  'mayo': 'grocery',
-  'mayonnaise': 'grocery',
-  'mustard': 'grocery',
-  'ketchup': 'grocery',
-  'soy sauce': 'grocery',
-  'vinegar': 'grocery',
-  'hot sauce': 'grocery',
-  'worcestershire': 'grocery',
-  
-  // Canned/Jarred (grocery)
-  'tomato sauce': 'grocery',
-  'tomato paste': 'grocery',
-  'beans': 'grocery',
-  'chickpeas': 'grocery',
-  'black beans': 'grocery',
-  'kidney beans': 'grocery',
-  'stock': 'grocery',
-  'broth': 'grocery',
-  'chicken stock': 'grocery',
-  'beef stock': 'grocery',
-  'vegetable stock': 'grocery',
-  
-  // Sweeteners (grocery)
-  'sugar': 'grocery',
-  'brown sugar': 'grocery',
-  'honey': 'grocery',
-  'maple syrup': 'grocery',
-  'molasses': 'grocery',
-  
-  // Baking (grocery)
-  'baking powder': 'grocery',
-  'baking soda': 'grocery',
-  'vanilla': 'grocery',
-  'vanilla extract': 'grocery',
-  'yeast': 'grocery',
-  'cocoa powder': 'grocery',
-  'chocolate': 'grocery',
-  
-  // Herbs & Spices (grocery)
-  'salt': 'grocery',
-  'pepper': 'grocery',
-  'basil': 'grocery',
-  'oregano': 'grocery',
-  'thyme': 'grocery',
-  'rosemary': 'grocery',
-  'parsley': 'grocery',
-  'cilantro': 'grocery',
-  'cumin': 'grocery',
-  'paprika': 'grocery',
-  'cinnamon': 'grocery',
-  'nutmeg': 'grocery',
-  'ginger': 'grocery',
-  'chili powder': 'grocery',
-  'cayenne': 'grocery',
-  'turmeric': 'grocery',
-  
-  // Nuts & Seeds (grocery)
-  'almonds': 'grocery',
-  'walnuts': 'grocery',
-  'pecans': 'grocery',
-  'peanuts': 'grocery',
-  'cashews': 'grocery',
-  'sesame seeds': 'grocery',
-  'sunflower seeds': 'grocery',
-  
-  // Beans & Legumes (grocery)
-  'lentils': 'grocery',
-  'split peas': 'grocery',
-  
-  // Frozen (grocery)
-  'peas': 'grocery',
-  'corn': 'grocery',
-  'berries': 'grocery',
+  // Tools (tool supplier)
+  'socket set': 'tools',
+  'torque wrench': 'tools',
+  'impact wrench': 'tools',
+  'jack stands': 'tools',
+  'floor jack': 'tools',
+  'obd scanner': 'tools',
+  'multimeter': 'tools',
+  'brake bleeder': 'tools',
+  'compression tester': 'tools',
+  'timing light': 'tools',
+  'bore gauge': 'tools',
+  'feeler gauge': 'tools',
+  'spring compressor': 'tools',
 };
 
 // Basic price estimates (in USD)
 export const ingredientPriceEstimates: Record<string, { price: number; unit: string }> = {
-  // Seafood (premium pricing)
-  'lobster': { price: 18, unit: 'lb' },
-  'clam': { price: 9, unit: 'lb' },
-  'clams': { price: 9, unit: 'lb' },
-  'salmon': { price: 12, unit: 'lb' },
-  'shrimp': { price: 14, unit: 'lb' },
-  'crab': { price: 15, unit: 'lb' },
-  'scallop': { price: 20, unit: 'lb' },
+  // Engine Parts
+  'spark plug': { price: 8, unit: 'each' },
+  'spark plugs': { price: 32, unit: 'set' },
+  'ignition coil': { price: 45, unit: 'each' },
+  'timing belt': { price: 35, unit: 'each' },
+  'serpentine belt': { price: 25, unit: 'each' },
+  'valve cover gasket': { price: 20, unit: 'each' },
+  'head gasket': { price: 55, unit: 'each' },
+  'thermostat': { price: 15, unit: 'each' },
+  'water pump': { price: 65, unit: 'each' },
+  'fuel pump': { price: 85, unit: 'each' },
+  'engine mount': { price: 50, unit: 'each' },
   
-  // Meat/Butcher
-  'beef': { price: 8, unit: 'lb' },
-  'steak': { price: 12, unit: 'lb' },
-  'chicken': { price: 4, unit: 'lb' },
-  'pork': { price: 5, unit: 'lb' },
-  'bacon': { price: 7, unit: 'lb' },
-  'ground beef': { price: 6, unit: 'lb' },
+  // Filters
+  'air filter': { price: 15, unit: 'each' },
+  'oil filter': { price: 8, unit: 'each' },
+  'fuel filter': { price: 18, unit: 'each' },
+  'cabin filter': { price: 15, unit: 'each' },
   
-  // Produce (cheaper)
-  'lettuce': { price: 2.5, unit: 'head' },
-  'tomato': { price: 3, unit: 'lb' },
-  'potato': { price: 0.75, unit: 'lb' },
-  'potatoes': { price: 0.75, unit: 'lb' },
-  'onion': { price: 1.5, unit: 'lb' },
-  'carrot': { price: 1.5, unit: 'lb' },
-  'celery': { price: 2, unit: 'bunch' },
-  'bell pepper': { price: 1.5, unit: 'each' },
+  // Brake Parts
+  'brake pads': { price: 40, unit: 'set' },
+  'brake pad': { price: 40, unit: 'set' },
+  'brake rotor': { price: 45, unit: 'each' },
+  'brake rotors': { price: 90, unit: 'pair' },
+  'brake caliper': { price: 80, unit: 'each' },
+  'brake fluid': { price: 12, unit: 'bottle' },
+  'master cylinder': { price: 120, unit: 'each' },
   
-  // Dairy
-  'milk': { price: 4, unit: 'gallon' },
-  'cream': { price: 5, unit: 'pint' },
-  'butter': { price: 5, unit: 'lb' },
-  'cheese': { price: 8, unit: 'lb' },
+  // Electrical
+  'battery': { price: 150, unit: 'each' },
+  'alternator': { price: 180, unit: 'each' },
+  'starter motor': { price: 160, unit: 'each' },
+  'starter': { price: 160, unit: 'each' },
+  'fuse': { price: 1, unit: 'each' },
+  'oxygen sensor': { price: 50, unit: 'each' },
+  'headlight bulb': { price: 15, unit: 'each' },
   
-  // Bakery
-  'bread': { price: 3, unit: 'loaf' },
-  'bun': { price: 0.5, unit: 'each' },
-  'buns': { price: 4, unit: 'pack' },
-  'roll': { price: 0.5, unit: 'each' },
+  // Fluids
+  'motor oil': { price: 30, unit: '5qt' },
+  'engine oil': { price: 30, unit: '5qt' },
+  'synthetic oil': { price: 40, unit: '5qt' },
+  'transmission fluid': { price: 12, unit: 'quart' },
+  'coolant': { price: 15, unit: 'gallon' },
+  'antifreeze': { price: 15, unit: 'gallon' },
+  'power steering fluid': { price: 8, unit: 'bottle' },
+  'brake cleaner': { price: 5, unit: 'can' },
   
-  // Grains
-  'rice': { price: 2, unit: 'lb' },
-  'pasta': { price: 1.5, unit: 'lb' },
-  'quinoa': { price: 5, unit: 'lb' },
-  'couscous': { price: 3, unit: 'lb' },
-  'barley': { price: 2, unit: 'lb' },
-  'oats': { price: 3, unit: 'lb' },
-  'flour': { price: 0.5, unit: 'lb' },
-  'cornmeal': { price: 2, unit: 'lb' },
-  'noodles': { price: 2, unit: 'lb' },
-  'spaghetti': { price: 1.5, unit: 'lb' },
+  // Tires
+  'tire': { price: 120, unit: 'each' },
+  'tires': { price: 480, unit: 'set' },
+  'wheel bearing': { price: 45, unit: 'each' },
+  'hub assembly': { price: 85, unit: 'each' },
   
-  // Eggs
-  'egg': { price: 0.25, unit: 'each' },
-  'eggs': { price: 3, unit: 'dozen' },
+  // Suspension
+  'shock absorber': { price: 60, unit: 'each' },
+  'strut': { price: 80, unit: 'each' },
+  'control arm': { price: 70, unit: 'each' },
+  'ball joint': { price: 35, unit: 'each' },
+  'tie rod end': { price: 25, unit: 'each' },
+  'cv axle': { price: 75, unit: 'each' },
   
-  // Oils
-  'olive oil': { price: 8, unit: 'bottle' },
-  'vegetable oil': { price: 4, unit: 'bottle' },
-  'oil': { price: 5, unit: 'bottle' },
+  // Body
+  'bumper': { price: 200, unit: 'each' },
+  'fender': { price: 150, unit: 'each' },
+  'headlight assembly': { price: 120, unit: 'each' },
+  'mirror': { price: 60, unit: 'each' },
+  'windshield': { price: 250, unit: 'each' },
   
-  // Condiments
-  'mayo': { price: 4, unit: 'jar' },
-  'mustard': { price: 3, unit: 'jar' },
-  'ketchup': { price: 3, unit: 'bottle' },
-  'soy sauce': { price: 4, unit: 'bottle' },
-  'vinegar': { price: 3, unit: 'bottle' },
-  
-  // Canned/Jarred
-  'tomato sauce': { price: 2, unit: 'can' },
-  'tomato paste': { price: 1.5, unit: 'can' },
-  'beans': { price: 1.5, unit: 'can' },
-  'chickpeas': { price: 1.5, unit: 'can' },
-  'stock': { price: 3, unit: 'carton' },
-  'broth': { price: 3, unit: 'carton' },
-  
-  // Sweeteners
-  'sugar': { price: 3, unit: 'lb' },
-  'honey': { price: 8, unit: 'jar' },
-  'maple syrup': { price: 12, unit: 'bottle' },
-  
-  // Baking
-  'baking powder': { price: 3, unit: 'container' },
-  'baking soda': { price: 1, unit: 'box' },
-  'vanilla extract': { price: 6, unit: 'bottle' },
-  'yeast': { price: 5, unit: 'jar' },
-  'chocolate': { price: 4, unit: 'bar' },
-  
-  // Herbs & Spices (dried)
-  'salt': { price: 1, unit: 'container' },
-  'pepper': { price: 4, unit: 'container' },
-  'basil': { price: 3, unit: 'jar' },
-  'oregano': { price: 3, unit: 'jar' },
-  'cumin': { price: 4, unit: 'jar' },
-  'paprika': { price: 3, unit: 'jar' },
-  'cinnamon': { price: 4, unit: 'jar' },
-  
-  // Nuts
-  'almonds': { price: 10, unit: 'lb' },
-  'walnuts': { price: 12, unit: 'lb' },
-  'pecans': { price: 14, unit: 'lb' },
-  
-  // Legumes
-  'lentils': { price: 2, unit: 'lb' },
+  // Tools
+  'socket set': { price: 50, unit: 'set' },
+  'torque wrench': { price: 45, unit: 'each' },
+  'obd scanner': { price: 35, unit: 'each' },
+  'multimeter': { price: 30, unit: 'each' },
+  'jack stands': { price: 40, unit: 'pair' },
+  'floor jack': { price: 60, unit: 'each' },
 };
 
 /**
- * Determine which market type an ingredient should be purchased from
+ * Determine which store type a part should be purchased from
  */
 export function getMarketTypeForIngredient(ingredient: string): string {
   const lowerIngredient = ingredient.toLowerCase();
@@ -304,12 +250,12 @@ export function getMarketTypeForIngredient(ingredient: string): string {
     }
   }
   
-  // Default to grocery if no match
-  return 'grocery';
+  // Default to auto_parts if no match
+  return 'auto_parts';
 }
 
 /**
- * Get estimated price for an ingredient
+ * Get estimated price for a part
  */
 export function getEstimatedPrice(ingredient: string): { price: number; unit: string } | null {
   const lowerIngredient = ingredient.toLowerCase();
@@ -330,7 +276,7 @@ export function getEstimatedPrice(ingredient: string): { price: number; unit: st
 }
 
 /**
- * Group ingredients by market type
+ * Group parts by store type
  */
 export function groupIngredientsByMarketType(ingredients: string[]): Record<string, string[]> {
   const grouped: Record<string, string[]> = {};

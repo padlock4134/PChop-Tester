@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import logo from '../images/logo.png';
 import { useNavigate, Link } from 'react-router-dom';
-import { supabase } from '../../culinary/api/supabaseClient';
+import { supabase } from '../../culinary/api/supabaseClient'; // shared supabase client
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [groceryStore, setGroceryStore] = useState('');
+  const [partsStore, setPartsStore] = useState('');
   const [customStore, setCustomStore] = useState('');
   const navigate = useNavigate();
 
@@ -16,14 +16,14 @@ const SignUp = () => {
     setError('');
     
     try {
-      const storeToSave = groceryStore === 'Other' ? customStore : groceryStore;
+      const storeToSave = partsStore === 'Other' ? customStore : partsStore;
       // Add storeToSave to user metadata or a separate table as needed
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
-            grocery_store: storeToSave,
+            parts_store: storeToSave,
           },
         },
       });
@@ -77,24 +77,24 @@ const SignUp = () => {
               className="w-full mb-3 p-2 border rounded"
               required
             />
-            <label className="block mb-2 font-semibold">Preferred Grocery Store</label>
+            <label className="block mb-2 font-semibold">Preferred Auto Parts Store</label>
             <select
               className="w-full mb-3 p-2 border rounded"
-              value={groceryStore}
-              onChange={e => setGroceryStore(e.target.value)}
+              value={partsStore}
+              onChange={e => setPartsStore(e.target.value)}
               required
             >
               <option value="">Select a store...</option>
-              <option value="Stop & Shop">Stop & Shop</option>
-              <option value="Hannaford">Hannaford</option>
-              <option value="Wegmans">Wegmans</option>
-              <option value="Shaw's">Shaw's</option>
-              <option value="Market Basket">Market Basket</option>
-              <option value="Whole Foods">Whole Foods</option>
-              <option value="Trader Joe's">Trader Joe's</option>
+              <option value="AutoZone">AutoZone</option>
+              <option value="O'Reilly Auto Parts">O'Reilly Auto Parts</option>
+              <option value="NAPA Auto Parts">NAPA Auto Parts</option>
+              <option value="Advance Auto Parts">Advance Auto Parts</option>
+              <option value="CarQuest">CarQuest</option>
+              <option value="RockAuto">RockAuto</option>
+              <option value="Amazon Automotive">Amazon Automotive</option>
               <option value="Other">Other</option>
             </select>
-            {groceryStore === 'Other' && (
+            {partsStore === 'Other' && (
               <input
                 type="text"
                 className="w-full mb-4 p-2 border rounded"
