@@ -103,13 +103,12 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     yPos += 8;
 
     const marketTypeLabels: Record<string, string> = {
-      seacargo: '🐟 Seacargo Markets',
-      butcher: '🥩 Butcher',
-      produce: '🥦 Produce',
-      dairy: '🥛 Dairy',
-      grocery: '🛒 Grocery',
-      deli: '🥪 Deli/Bakery',
-      farms: '🚜 Farms'
+      warehouse: '🏭 Warehouses',
+      freight: '🚛 Freight Terminals',
+      cold_storage: '❄️ Cold Storage',
+      equipment: '🔧 Equipment',
+      packing: '� Packing Supply',
+      fuel: '⛽ Fuel & Truck Stops'
     };
 
     Object.entries(itemsByType).forEach(([type, items]) => {
@@ -157,7 +156,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     pdf.text('Prices are estimates only', 105, yPos + 5, { align: 'center' });
 
     // Download
-    pdf.save('my-menu.pdf');
+    pdf.save('route-package.pdf');
   };
 
   if (!open) return null;
@@ -168,7 +167,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
         <div className="p-6 flex-1 overflow-hidden flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-maineBlue font-retro">🍽️ {bt('title')}</h2>
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">📦 {bt('title')}</h2>
             <button 
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -229,7 +228,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
             {/* Right: Your Menu */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">🍽️ {bt('yourMenu')}</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">📦 {bt('yourMenu')}</h3>
               {selectedRouteIds.size === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <p className="text-gray-400 text-sm">{bt('selectToStart')}</p>
@@ -299,7 +298,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                     : 'bg-red-600 text-white hover:bg-red-700 border border-red-600'
                 }`}
               >
-                🛒 {bt('findMarkets')}
+                🏭 {bt('findMarkets')}
               </button>
             </div>
           </div>

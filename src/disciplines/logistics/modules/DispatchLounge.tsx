@@ -222,12 +222,6 @@ const DispatchLounge = () => {
                       >
                         {isLoading ? t('dispatchLounge.loading') : t('dispatchLounge.importFromCookbook')}
                       </button>
-                      <button
-                        onClick={() => setLocalMarketsModalOpen(true)}
-                        className="bg-amber-100 text-amber-800 px-4 py-2 rounded font-bold hover:bg-amber-200 hover:text-amber-900 transition-colors border border-amber-300"
-                      >
-                        🏭 Find Warehouses
-                      </button>
                     </div>
                   </div>
                   <RunbookImportModal
