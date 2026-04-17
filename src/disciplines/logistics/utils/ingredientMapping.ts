@@ -86,7 +86,7 @@ export const itemToMarketType: Record<string, string> = {
   'barley': 'grocery',
   'oats': 'grocery',
   'flour': 'grocery',
-  'cornmeal': 'grocery',
+  'cornshipment': 'grocery',
   'polenta': 'grocery',
   'noodles': 'grocery',
   'spaghetti': 'grocery',
@@ -228,7 +228,7 @@ export const itemPriceEstimates: Record<string, { price: number; unit: string }>
   'barley': { price: 2, unit: 'lb' },
   'oats': { price: 3, unit: 'lb' },
   'flour': { price: 0.5, unit: 'lb' },
-  'cornmeal': { price: 2, unit: 'lb' },
+  'cornshipment': { price: 2, unit: 'lb' },
   'noodles': { price: 2, unit: 'lb' },
   'spaghetti': { price: 1.5, unit: 'lb' },
   
