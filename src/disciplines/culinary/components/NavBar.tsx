@@ -156,10 +156,10 @@ const LastBadge = () => {
 };
 
 const navItems = [
-  { path: '/my-kitchen', label: 'My Kitchen' },
-  { path: '/culinary-school', label: 'Culinary School' },
-  { path: '/my-cookbook', label: 'My Cookbook' },
-  { path: '/chefs-corner', label: 'Chefs Corner' },
+  { path: '/culinary/my-kitchen', label: 'My Kitchen' },
+  { path: '/culinary/culinary-school', label: 'Culinary School' },
+  { path: '/culinary/my-cookbook', label: 'My Cookbook' },
+  { path: '/culinary/chefs-corner', label: 'Chefs Corner' },
 ];
 
 // Language Toggle Button Component
@@ -206,7 +206,7 @@ const AdminToggleButton: React.FC = () => {
       onClick={() => {
         if (isOnAdmin) {
           // Exit admin mode - go back to current discipline dashboard
-          navigate(disciplineConfig.routes.dashboard);
+          navigate(disciplineConfig?.routes.dashboard || '/culinary/dashboard');
         } else {
           // Enter admin mode - go directly to admin dashboard
           navigate('/admin');
@@ -240,7 +240,7 @@ const NavBar: React.FC = () => {
           <div className="flex items-center space-x-2 ml-[5%]">
             {/* PorkChop Text as Smart Dashboard Link */}
             <Link 
-              to={isAdminMode ? "/admin" : disciplineConfig.routes.dashboard} 
+              to={isAdminMode ? "/admin" : (disciplineConfig?.routes.dashboard || '/culinary/dashboard')} 
               className="flex items-center hover:opacity-80 transition-opacity"
             >
               <span className="text-3xl sm:text-4xl font-bold tracking-wider font-retro">PorkChop</span>
@@ -253,7 +253,7 @@ const NavBar: React.FC = () => {
             
             {/* Profile Avatar */}
             <Link
-              to={location.pathname.includes('/profile') ? disciplineConfig.routes.dashboard : disciplineConfig.routes.profile}
+              to={location.pathname.includes('/profile') ? (disciplineConfig?.routes.dashboard || '/culinary/dashboard') : (disciplineConfig?.routes.profile || '/culinary/profile')}
               className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
                 location.pathname === '/profile'
                   ? 'bg-seafoam hover:bg-teal-400'

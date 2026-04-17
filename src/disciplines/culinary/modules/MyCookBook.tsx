@@ -902,7 +902,7 @@ const MyCookBook = () => {
                         ]
                       };
                       setSelectedRecipe(fullRecipe);
-                      navigate('/culinary-school');
+                      navigate('/culinary/culinary-school');
                     }}
                     className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
