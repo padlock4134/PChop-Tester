@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
-import chefFreddiePng from '../images/logo.png';
+import mentorFreddiePng from '../images/logo.png';
 
 export type RecipeCard = {
   id: string;
   title: string;
   image: string;
-  ingredients: string[];
+  materials: string[];
   instructions: string;
   equipment?: string[];
   tutorials?: Array<{
@@ -39,15 +39,15 @@ export type RecipeCard = {
 type Props = {
   open: boolean;
   onClose: () => void;
-  vanIngredients: string[];
-  onLike: (recipe: RecipeCard) => void;
-  saveRecipeToCookbook: (recipe: RecipeCard) => void;
+  vanMaterials: string[];
+  onLike: (fit: RecipeCard) => void;
+  saveRecipeToPipeBook: (fit: RecipeCard) => void;
   recipes: RecipeCard[];
   loading: boolean;
   error: string;
 };
 
-const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
+const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLike, saveRecipeToPipeBook, recipes, loading, error }) => {
   const { t } = useTranslation();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
@@ -83,18 +83,18 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
   const handleLike = async () => {
     try {
       setIsSaving(true);
-      // Save recipe to cookbook
-      await saveRecipeToCookbook(recipes[currentIdx]);
+      // Save fit to pipebook
+      await saveRecipeToPipeBook(recipes[currentIdx]);
       await onLike(recipes[currentIdx]);
       setCurrentIdx(idx => idx + 1);
     } catch (error) {
-      console.error('Error saving recipe:', error);
+      console.error('Error saving fit:', error);
     } finally {
       setIsSaving(false);
     }
   };
   const handleSkip = () => setCurrentIdx(idx => idx + 1);
-  function generateTutorials(recipe: RecipeCard) {
+  function generateTutorials(fit: RecipeCard) {
   return [
     {
       title: `${t('repairMatcher.equipmentUsing')} ${recipe.title}`,
@@ -106,7 +106,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
     },
     {
       title: `${t('repairMatcher.procedure')} ${recipe.title}`,
-      desc: recipe.instructions
+      desc: fit.instructions
     }
   ];
 }
@@ -146,7 +146,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanIngredients, on
         <h2 className="font-retro text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={chefFreddiePng} alt="Pete the Plumber" className="w-12 h-12 rounded-full border-2 border-black" />
+              <img src={mentorFreddiePng} alt="Pete the Plumber" className="w-12 h-12 rounded-full border-2 border-black" />
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 

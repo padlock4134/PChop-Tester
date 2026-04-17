@@ -3,7 +3,7 @@ import type { RecipeCard } from './FitMatcherModal';
 
 type RecipeContextType = {
   selectedRecipe: RecipeCard | null;
-  setSelectedRecipe: (recipe: RecipeCard | null) => void;
+  setSelectedRecipe: (fit: RecipeCard | null) => void;
   recipes: RecipeCard[];
   setRecipes: (recipes: RecipeCard[]) => void;
 };
@@ -22,11 +22,11 @@ export const RecipeProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   return (
     <RecipeContext.Provider value={{ 
       selectedRecipe, 
-      setSelectedRecipe: (recipe) => {
-        console.log('Setting recipe in context with nutrition:', recipe?.nutrition);
-        setSelectedRecipe((prev: any) => recipe ? ({
-          ...recipe,
-          nutrition: recipe.nutrition
+      setSelectedRecipe: (fit) => {
+        console.log('Setting fit in context with nutrition:', fit?.nutrition);
+        setSelectedRecipe((prev: any) => fit ? ({
+          ...fit,
+          nutrition: fit.nutrition
         }) : null);
       }, 
       recipes, 

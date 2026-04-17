@@ -10,5 +10,5 @@ export function getPrimaryMaterial(materials: string[] = []): string | null {
 
 // Backward-compatible alias.
 export function getMainIngredient(ingredients: string[] = []): string | null {
-  return getPrimaryMaterial(ingredients);
+  return getPrimaryMaterial(materials);
 }

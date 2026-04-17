@@ -199,9 +199,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 >
                   <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
                   <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                    <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
+                    <option value="lesson-1-1">Van Safety and Sanitation</option>
                     <option value="lesson-1-2">Food Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
+                    <option value="lesson-1-3">Introduction to Van Equipment</option>
                     <option value="lesson-1-4">Basic Cooking Terminology</option>
                     <option value="lesson-1-5">Weights, Measures, and Conversions</option>
                   </optgroup>
@@ -284,9 +284,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   >
                     <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
                     <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                      <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
+                      <option value="lesson-1-1">Van Safety and Sanitation</option>
                       <option value="lesson-1-2">Food Handling and Storage</option>
-                      <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
+                      <option value="lesson-1-3">Introduction to Van Equipment</option>
                       <option value="lesson-1-4">Basic Cooking Terminology</option>
                       <option value="lesson-1-5">Weights, Measures, and Conversions</option>
                     </optgroup>

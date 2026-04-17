@@ -17,7 +17,7 @@ type UserProfile = {
   experience: string;
   dietary: string[];
   cuisine: string[];
-  kitchenSetup: string;
+  vanSetup: string;
   xp: number;
 };
 
@@ -68,7 +68,7 @@ const EditProfileModal = ({
     name: user?.name || '',
     cuisinePreference: user?.cuisine?.[0] || 'Italian',
     dietPreference: user?.dietary?.[0] || 'None',
-    kitchenSetup: user?.kitchenSetup || 'Professional',
+    vanSetup: user?.vanSetup || 'Professional',
     experienceLevel: user?.experience || 'Beginner',
     program: (user as any)?.program || ''
   });
@@ -84,7 +84,7 @@ const EditProfileModal = ({
           name: formData.name,
           cuisine: [formData.cuisinePreference],
           dietary: [formData.dietPreference],
-          kitchen_setup: formData.kitchenSetup,
+          van_setup: formData.vanSetup,
           cooking_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]],
           program: formData.program
         })
@@ -102,7 +102,7 @@ const EditProfileModal = ({
         name: formData.name,
         cuisine_preference: formData.cuisinePreference,
         diet_preference: formData.dietPreference,
-        kitchen_setup: formData.kitchenSetup,
+        van_setup: formData.vanSetup,
         experience: formData.experienceLevel
       };
 
@@ -205,8 +205,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.workspaceLabel', { defaultValue: 'Workspace Setup' })}</label>
             <select
-              value={formData.kitchenSetup}
-              onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
+              value={formData.vanSetup}
+              onChange={(e) => setFormData({...formData, vanSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="Student Toolkit">🧰 {t('profile.workspaceOptions.studentToolkit', { defaultValue: 'Student Toolkit' })}</option>
@@ -609,7 +609,7 @@ const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [kitchenSetup, setKitchenSetup] = useState<string>('Professional');
+  const [vanSetup, setVanSetup] = useState<string>('Professional');
   const [termsContent, setTermsContent] = useState<string>('Loading terms and conditions...');
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -1332,13 +1332,13 @@ Automated calculations and formulas would be present`;
           xp,
           // Map backend cooking_experience to UI display value
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Professional',
+          vanSetup: profile.van_setup || 'Professional',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
 
-        // Also update the local kitchenSetup state
-        setKitchenSetup(profile.kitchen_setup || 'Professional');
+        // Also update the local vanSetup state
+        setVanSetup(profile.van_setup || 'Professional');
 
         // Load selected talents from database (optional - field might not exist yet)
         if (profile.selected_talents && Array.isArray(profile.selected_talents)) {
@@ -1405,8 +1405,8 @@ Automated calculations and formulas would be present`;
   }, [userProfile]);
 
   useEffect(() => {
-    if (userProfile && userProfile.kitchenSetup) {
-      setKitchenSetup(userProfile.kitchenSetup);
+    if (userProfile && userProfile.vanSetup) {
+      setVanSetup(userProfile.vanSetup);
     }
   }, [userProfile]);
 
@@ -1558,7 +1558,7 @@ Automated calculations and formulas would be present`;
           name: profile.name || 'User',
           xp,
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Professional',
+          vanSetup: profile.van_setup || 'Professional',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
@@ -1783,7 +1783,7 @@ Automated calculations and formulas would be present`;
 
             {/* Baking Warlock Box */}
             <button
-              onClick={() => setSelectedTalentTree('Ingredients')}
+              onClick={() => setSelectedTalentTree('Materials')}
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
               <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
@@ -1923,7 +1923,7 @@ Automated calculations and formulas would be present`;
               <div className="flex items-center gap-2 sm:gap-3">
                 {selectedTalentTree === 'Equipment' && <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-                {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                {selectedTalentTree === 'Materials' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
                   {selectedTalentTree === 'Equipment' ? 'Pipe Systems Master' : 
                    selectedTalentTree === 'Techniques' ? 'Fixture Installation Expert' : 'Drainage Specialist'}

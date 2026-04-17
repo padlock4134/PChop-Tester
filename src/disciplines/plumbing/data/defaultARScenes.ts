@@ -6,7 +6,7 @@ export const copperPipeCutDeburrDryFit = {
   setup: {
     workspace: "Clean, stable bench with copper pipe secured in a virtual vise",
     requiredTools: ["copper pipe", "pipe cutter", "deburring tool", "bench vise", "marker", "fitting"],
-    requiredIngredients: []
+    requiredMaterials: []
   },
   steps: [
     {
@@ -14,7 +14,7 @@ export const copperPipeCutDeburrDryFit = {
       instruction: "Secure the copper pipe in the vise and mark your cut line. Confirm the pipe cannot shift before cutting.",
       duration: "30s",
       tools: ["Copper pipe", "Bench vise", "Marker"],
-      ingredients: [],
+      materials: [],
       overlays: [
         {
           type: "text",
@@ -34,7 +34,7 @@ export const copperPipeCutDeburrDryFit = {
       instruction: "Place the pipe cutter wheel directly on the marked line. Keep the cutter body square to the pipe so the cut stays true.",
       duration: "45s",
       tools: ["Pipe cutter", "Copper pipe"],
-      ingredients: [],
+      materials: [],
       overlays: [
         {
           type: "line",
@@ -60,7 +60,7 @@ export const copperPipeCutDeburrDryFit = {
       instruction: "Rotate the cutter smoothly around the pipe to score the line. Maintain even motion and keep the wheel on track.",
       duration: "60s",
       tools: ["Pipe cutter", "Copper pipe"],
-      ingredients: [],
+      materials: [],
       overlays: [
         {
           type: "arrow",
@@ -87,7 +87,7 @@ export const copperPipeCutDeburrDryFit = {
       instruction: "Continue the tighten-rotate sequence for 8 to 10 turns. Count each turn and keep pressure steady.",
       duration: "90s",
       tools: ["Pipe cutter", "Copper pipe"],
-      ingredients: [],
+      materials: [],
       overlays: [
         {
           type: "text",
@@ -114,7 +114,7 @@ export const copperPipeCutDeburrDryFit = {
       instruction: "Finish the cut with controlled rotations until the pipe separates cleanly. Do not force the final breakthrough.",
       duration: "90s",
       tools: ["Pipe cutter", "Copper pipe"],
-      ingredients: [],
+      materials: [],
       overlays: [
         {
           type: "line",
@@ -141,7 +141,7 @@ export const copperPipeCutDeburrDryFit = {
       instruction: "Inspect the cut edge and carefully feel for burrs on the inner lip before deburring.",
       duration: "45s",
       tools: ["Copper pipe"],
-      ingredients: [],
+      materials: [],
       overlays: [
         {
           type: "text",
@@ -168,7 +168,7 @@ export const copperPipeCutDeburrDryFit = {
       instruction: "Use the deburring tool on the inner edge, then clean the outer edge with lighter finishing passes until smooth.",
       duration: "60s",
       tools: ["Deburring tool", "Copper pipe"],
-      ingredients: [],
+      materials: [],
       overlays: [
         {
           type: "text",
@@ -195,7 +195,7 @@ export const copperPipeCutDeburrDryFit = {
       instruction: "Dry-fit the pipe into the fitting and verify full seating with straight alignment. A full seat confirms success.",
       duration: "30s",
       tools: ["Copper pipe", "Fitting"],
-      ingredients: [],
+      materials: [],
       overlays: [
         {
           type: "text",

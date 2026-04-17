@@ -1,9 +1,9 @@
 // Anthropic (Haiku) API integration for Weekly Challenge
 // Requires VITE_ANTHROPIC_CHALLENGE_KEY in .env
 
-export async function getWeeklyChallengeRecipe(prompt: string): Promise<{ title: string; ingredients: string[]; instructions: string; equipment?: string[]; }> {
+export async function getWeeklyChallengeRecipe(prompt: string): Promise<{ title: string; materials: string[]; instructions: string; equipment?: string[]; }> {
   // System prompt to instruct the AI to return JSON
-  const systemPrompt = "You are an AI assistant. Given a user's request for a weekly challenge in this trade discipline, provide the challenge details as a single JSON object. The JSON object should have the following fields: 'title' (string), 'ingredients' (array of strings that represent required materials/tools/components), 'instructions' (string), and optionally 'equipment' (array of strings). Do not include any other text, explanations, or markdown formatting (like ```json) outside of this JSON object. Ensure the JSON is valid.";
+  const systemPrompt = "You are an AI assistant. Given a user's request for a weekly challenge in this trade discipline, provide the challenge details as a single JSON object. The JSON object should have the following fields: 'title' (string), 'materials' (array of strings that represent required materials/tools/components), 'instructions' (string), and optionally 'equipment' (array of strings). Do not include any other text, explanations, or markdown formatting (like ```json) outside of this JSON object. Ensure the JSON is valid.";
   const userPromptContent = prompt; // User's actual query
 
   const response = await fetch('/.netlify/functions/anthropic-proxy', {
@@ -36,7 +36,7 @@ export async function getWeeklyChallengeRecipe(prompt: string): Promise<{ title:
       const recipeData = JSON.parse(recipeJsonString);
       return {
         title: recipeData.title || 'Weekly Challenge Task (parsed)',
-        ingredients: recipeData.ingredients || [],
+        materials: recipeData.materials || [],
         instructions: recipeData.instructions || '',
         equipment: recipeData.equipment || [],
       };

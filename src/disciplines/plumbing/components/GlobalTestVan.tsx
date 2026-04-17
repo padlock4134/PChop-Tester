@@ -16,7 +16,7 @@ interface LiveSession {
   isEnded?: boolean;
   thumbnail: string;
   description: string;
-  ingredients: string[];
+  materials: string[];
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
   teacherTag?: string;
 }
@@ -32,11 +32,11 @@ interface UpcomingSession {
   teacherTag?: string;
 }
 
-interface GlobalTestKitchenProps {
+interface GlobalTestVanProps {
   showcaseRecipe?: any;
 }
 
-const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) => {
+const GlobalTestVan: React.FC<GlobalTestVanProps> = ({ showcaseRecipe }) => {
   const { t } = useTranslation();
   const { user } = useSupabase();
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'host'>('live');
@@ -49,7 +49,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       await supabase.from('user_activity').insert({
         user_id: user.id,
         action,
-        component: 'global_test_kitchen',
+        component: 'global_test_van',
         metadata: metadata || {},
         timestamp: new Date().toISOString()
       });
@@ -60,7 +60,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   const [goLiveModalOpen, setGoLiveModalOpen] = useState(false);
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   
-  // Recipe Assistant state
+  // Fit Assistant state
   const [recipeAssistantOpen, setRecipeAssistantOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [stepTimer, setStepTimer] = useState(0);
@@ -103,47 +103,47 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '1',
       hostName: 'Maria Santos',
-      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.siteLayout', { defaultValue: 'Site Layout Calibration' }),
-      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureSpanish', { defaultValue: 'Spanish' }),
+      dishName: tr('pipeLounge.globalTestVan.mockSessions.siteLayout', { defaultValue: 'Site Layout Calibration' }),
+      culture: tr('pipeLounge.globalTestVan.mockSessions.cultureSpanish', { defaultValue: 'Spanish' }),
       viewers: 47,
       isLive: false,
       isEnded: true,
       thumbnail: '🥘',
-      description: tr('pipeLounge.globalTestKitchen.mockSessions.siteLayoutDesc', { defaultValue: 'Calibrating layout measurements for residential rough-in' }),
-      ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
+      description: tr('pipeLounge.globalTestVan.mockSessions.siteLayoutDesc', { defaultValue: 'Calibrating layout measurements for residential rough-in' }),
+      materials: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
     },
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.precisionAssembly', { defaultValue: 'Precision Assembly Practice' }),
-      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureJapanese', { defaultValue: 'Japanese' }),
+      dishName: tr('pipeLounge.globalTestVan.mockSessions.precisionAssembly', { defaultValue: 'Precision Assembly Practice' }),
+      culture: tr('pipeLounge.globalTestVan.mockSessions.cultureJapanese', { defaultValue: 'Japanese' }),
       viewers: 23,
       isLive: true,
       thumbnail: '🍜',
-      description: tr('pipeLounge.globalTestKitchen.mockSessions.precisionAssemblyDesc', { defaultValue: 'Practicing precision pipe assembly with copper fittings' }),
-      ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
+      description: tr('pipeLounge.globalTestVan.mockSessions.precisionAssemblyDesc', { defaultValue: 'Practicing precision pipe assembly with copper fittings' }),
+      materials: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.systemFit', { defaultValue: 'System Fit Verification' }),
-      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureLebanese', { defaultValue: 'Lebanese' }),
+      dishName: tr('pipeLounge.globalTestVan.mockSessions.systemFit', { defaultValue: 'System Fit Verification' }),
+      culture: tr('pipeLounge.globalTestVan.mockSessions.cultureLebanese', { defaultValue: 'Lebanese' }),
       viewers: 35,
       isLive: true,
       thumbnail: '🧆',
-      description: tr('pipeLounge.globalTestKitchen.mockSessions.systemFitDesc', { defaultValue: 'Verifying system fit for DWV connections' }),
-      ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
+      description: tr('pipeLounge.globalTestVan.mockSessions.systemFitDesc', { defaultValue: 'Verifying system fit for DWV connections' }),
+      materials: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.blueprintDrill', { defaultValue: 'Blueprint Readthrough Drill' }),
-      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureFrench', { defaultValue: 'French' }),
+      dishName: tr('pipeLounge.globalTestVan.mockSessions.blueprintDrill', { defaultValue: 'Blueprint Readthrough Drill' }),
+      culture: tr('pipeLounge.globalTestVan.mockSessions.cultureFrench', { defaultValue: 'French' }),
       viewers: 62,
       isLive: true,
       thumbnail: '🥐',
-      description: tr('pipeLounge.globalTestKitchen.mockSessions.blueprintDrillDesc', { defaultValue: 'Blueprint readthrough and measurement verification drill' }),
-      ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
+      description: tr('pipeLounge.globalTestVan.mockSessions.blueprintDrillDesc', { defaultValue: 'Blueprint readthrough and measurement verification drill' }),
+      materials: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
     }
   ];
 
@@ -151,34 +151,34 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
     {
       id: '3',
       hostName: 'Priya Sharma',
-      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.workflowTiming', { defaultValue: 'Workflow Timing Challenge' }),
-      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureIndian', { defaultValue: 'Indian' }),
+      dishName: tr('pipeLounge.globalTestVan.mockSessions.workflowTiming', { defaultValue: 'Workflow Timing Challenge' }),
+      culture: tr('pipeLounge.globalTestVan.mockSessions.cultureIndian', { defaultValue: 'Indian' }),
       scheduledTime: '2:00 PM EST',
-      description: tr('pipeLounge.globalTestKitchen.mockSessions.workflowTimingDesc', { defaultValue: 'Timed workflow challenge for residential service calls' })
+      description: tr('pipeLounge.globalTestVan.mockSessions.workflowTimingDesc', { defaultValue: 'Timed workflow challenge for residential service calls' })
     },
     {
       id: '4',
       hostName: 'Ahmed Hassan',
-      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.qualityControl', { defaultValue: 'Quality Control Walkthrough' }),
-      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureMoroccan', { defaultValue: 'Moroccan' }),
+      dishName: tr('pipeLounge.globalTestVan.mockSessions.qualityControl', { defaultValue: 'Quality Control Walkthrough' }),
+      culture: tr('pipeLounge.globalTestVan.mockSessions.cultureMoroccan', { defaultValue: 'Moroccan' }),
       scheduledTime: '4:30 PM EST',
-      description: tr('pipeLounge.globalTestKitchen.mockSessions.qualityControlDesc', { defaultValue: 'Advanced troubleshooting walkthrough for a real-world field issue' })
+      description: tr('pipeLounge.globalTestVan.mockSessions.qualityControlDesc', { defaultValue: 'Advanced troubleshooting walkthrough for a real-world field issue' })
     },
     {
       id: '5',
       hostName: 'Elena Volkov',
-      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.safetyDrill', { defaultValue: 'Safety Compliance Drill' }),
-      culture: tr('pipeLounge.globalTestKitchen.mockSessions.cultureRussian', { defaultValue: 'Russian' }),
+      dishName: tr('pipeLounge.globalTestVan.mockSessions.safetyDrill', { defaultValue: 'Safety Compliance Drill' }),
+      culture: tr('pipeLounge.globalTestVan.mockSessions.cultureRussian', { defaultValue: 'Russian' }),
       scheduledTime: '6:00 PM EST',
-      description: tr('pipeLounge.globalTestKitchen.mockSessions.safetyDrillDesc', { defaultValue: 'Safety compliance drill for confined space entry' })
+      description: tr('pipeLounge.globalTestVan.mockSessions.safetyDrillDesc', { defaultValue: 'Safety compliance drill for confined space entry' })
     },
     {
       id: '6',
       hostName: 'Carlos Mendoza',
-      dishName: tr('pipeLounge.globalTestKitchen.mockSessions.finalInspection', { defaultValue: 'Final Inspection Run' }),
-      culture: tr('pipeLounge.globalTestKitchen.mockSessions.culturePeruvian', { defaultValue: 'Peruvian' }),
+      dishName: tr('pipeLounge.globalTestVan.mockSessions.finalInspection', { defaultValue: 'Final Inspection Run' }),
+      culture: tr('pipeLounge.globalTestVan.mockSessions.culturePeruvian', { defaultValue: 'Peruvian' }),
       scheduledTime: '7:30 PM EST',
-      description: tr('pipeLounge.globalTestKitchen.mockSessions.finalInspectionDesc', { defaultValue: 'Final inspection run for code compliance sign-off' })
+      description: tr('pipeLounge.globalTestVan.mockSessions.finalInspectionDesc', { defaultValue: 'Final inspection run for code compliance sign-off' })
     }
   ];
 
@@ -1463,4 +1463,4 @@ END:VCALENDAR`;
   );
 };
 
-export default GlobalTestKitchen;
+export default GlobalTestVan;

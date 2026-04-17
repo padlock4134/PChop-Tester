@@ -2,11 +2,11 @@
 // Requires VITE_UNSPLASH_ACCESS_KEY in .env
 
 // Helper to build a more specific Unsplash query
-function buildImageQuery(recipeTitle: string, item: string, type: 'ingredient' | 'equipment' | 'recipe' = 'recipe'): string {
+function buildImageQuery(recipeTitle: string, item: string, type: 'material' | 'equipment' | 'fit' = 'fit'): string {
   if (type === 'equipment') {
     return `${recipeTitle} ${item} cooking`;
   }
-  if (type === 'ingredient') {
+  if (type === 'material') {
     return `${item} for ${recipeTitle}`;
   }
   return `${recipeTitle} ${item}`;
@@ -21,7 +21,7 @@ function isRelevantUnsplashResult(result: any, item: string): boolean {
   return true;
 }
 
-export async function getRecipeImage(query: string, recipeTitle?: string, type: 'ingredient' | 'equipment' | 'recipe' = 'recipe'): Promise<string> {
+export async function getRecipeImage(query: string, recipeTitle?: string, type: 'material' | 'equipment' | 'fit' = 'fit'): Promise<string> {
   const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
   if (!accessKey) throw new Error('Unsplash API key missing');
   const searchQuery = recipeTitle ? buildImageQuery(recipeTitle, query, type) : query;

@@ -27,14 +27,14 @@ const PostComposer = () => {
         throw new Error('Not authenticated');
       }
       
-      // Check if this is a recipe share (simplified check for recipe keywords)
+      // Check if this is a fit share (simplified check for fit keywords)
       const isRecipeShare = /recipe|ingredients?|instructions?|method|steps|serves|prep time|cook time/i.test(input);
       
       // In a real app, you would upload the image and create the post here
       // For now, we'll just simulate a successful post
       
       if (isRecipeShare) {
-        // Award XP for sharing a recipe
+        // Award XP for sharing a fit
         const { error } = await supabase.rpc('increment_user_xp', {
           user_id: user.id,
           xp_amount: XP_REWARDS.RECIPE_SHARE
@@ -70,7 +70,7 @@ const PostComposer = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="chefs-corner-composer bg-weatheredWhite p-4 rounded shadow mb-6">
+    <form onSubmit={handleSubmit} className="mentors-corner-composer bg-weatheredWhite p-4 rounded shadow mb-6">
       <textarea
         className="w-full border rounded p-2 mb-2"
         placeholder={t('social.share')}

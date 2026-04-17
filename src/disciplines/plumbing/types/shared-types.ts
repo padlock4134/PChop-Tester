@@ -1,5 +1,5 @@
 // Shared types for the project
-export type Ingredient = {
+export type Material = {
   name: string;
   category: string;
 };

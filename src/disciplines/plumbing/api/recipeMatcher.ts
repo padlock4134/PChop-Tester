@@ -21,15 +21,15 @@ const TALENT_TREE_EQUIPMENT = {
   'Gas Fitting Expert': ['manometer', 'leak detector', 'pipe wrench', 'thread sealant', 'pressure gauge']
 } as const;
 
-type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
+type VanSetup = keyof typeof KITCHEN_EQUIPMENT;
 
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
 const RECIPE_PROMPTS = {
-  new_to_trade: (numRecipes: number, ingredients: string[]) => 
-    `You are a patient trade instructor. Create ${numRecipes} simple beginner projects using available materials/components from: ${ingredients.join(", ")}. 
+  new_to_trade: (numRecipes: number, materials: string[]) => 
+    `You are a patient trade instructor. Create ${numRecipes} simple beginner projects using available materials/components from: ${materials.join(", ")}. 
     RULES:
     1. Use only 2-3 required materials/components per project
     2. Only basic entry-level methods
@@ -38,8 +38,8 @@ const RECIPE_PROMPTS = {
     5. Include necessary tools/equipment for each project
     6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
 
-  apprentice: (numRecipes: number, ingredients: string[]) => 
-    `You are a helpful trade coach. Create ${numRecipes} intermediate projects for someone comfortable with fundamentals using materials/components from: ${ingredients.join(", ")}.
+  apprentice: (numRecipes: number, materials: string[]) => 
+    `You are a helpful trade coach. Create ${numRecipes} intermediate projects for someone comfortable with fundamentals using materials/components from: ${materials.join(", ")}.
     RULES:
     1. Use 3-4 required materials/components per project
     2. Standard trade methods
@@ -48,8 +48,8 @@ const RECIPE_PROMPTS = {
     5. Include necessary tools/equipment for each project
     6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
 
-  journeyman: (numRecipes: number, ingredients: string[]) => 
-    `You are an expert trade mentor. Create ${numRecipes} advanced projects for an experienced learner using materials/components from: ${ingredients.join(", ")}.
+  journeyman: (numRecipes: number, materials: string[]) => 
+    `You are an expert trade mentor. Create ${numRecipes} advanced projects for an experienced learner using materials/components from: ${materials.join(", ")}.
     RULES:
     1. Use 4+ required materials/components per project
     2. Can include advanced trade techniques
@@ -77,18 +77,18 @@ async function getUserProfile(userId: string) {
   return data as {
     dietary: string[];
     cuisine: string[];
-    kitchen_setup?: string;
+    van_setup?: string;
   };
 }
 
-// Helper function for fuzzy matching ingredients
-function fuzzyMatch(ingredient1: string, ingredient2: string): boolean {
+// Helper function for fuzzy matching materials
+function fuzzyMatch(material1: string, material2: string): boolean {
   const normalize = (str: string) => str.toLowerCase().trim()
     .replace(/[^\w\s]/g, '') // Remove special characters
     .replace(/\s+/g, ' ');    // Normalize whitespace
     
-  const norm1 = normalize(ingredient1);
-  const norm2 = normalize(ingredient2);
+  const norm1 = normalize(material1);
+  const norm2 = normalize(material2);
   
   // Check for direct inclusion or common variations
   return norm1.includes(norm2) || 
@@ -97,27 +97,27 @@ function fuzzyMatch(ingredient1: string, ingredient2: string): boolean {
          norm2.split(' ').some(word => norm1.includes(word));
 }
 
-// Score a recipe based on user's cupboard, preferences, kitchen setup, and talent tree
+// Score a fit based on user's locker, preferences, van setup, and talent tree
 function scoreRecipe(
-  recipe: RecipeCard, 
-  cupboard: string[],
-  kitchenSetup?: string,
+  fit: RecipeCard, 
+  locker: string[],
+  vanSetup?: string,
   talentTree?: string | null,
   talentsEnabled: boolean = false
 ): number {
   let score = 0;
   
-  // 1. Score based on matching ingredients (higher weight)
-  const matchingIngredients = recipe.ingredients.filter((recipeIng: string) => 
-    cupboard.some((cupboardIng: string) => fuzzyMatch(recipeIng, cupboardIng))
+  // 1. Score based on matching materials (higher weight)
+  const matchingMaterials = fit.materials.filter((recipeIng: string) => 
+    locker.some((lockerIng: string) => fuzzyMatch(recipeIng, lockerIng))
   ).length;
   
-  score += matchingIngredients * 2;
+  score += matchingMaterials * 2;
   
   // 2. Penalize based on missing equipment
-  if (kitchenSetup && kitchenSetup in KITCHEN_EQUIPMENT) {
-    const availableEquipment = KITCHEN_EQUIPMENT[kitchenSetup as KitchenSetup];
-    const requiredEquipment = recipe.equipment || [];
+  if (vanSetup && vanSetup in KITCHEN_EQUIPMENT) {
+    const availableEquipment = KITCHEN_EQUIPMENT[vanSetup as VanSetup];
+    const requiredEquipment = fit.equipment || [];
     
     const missingEquipment = requiredEquipment.filter((eq: string) => {
       if (availableEquipment[0] === 'all equipment') return false;
@@ -133,7 +133,7 @@ function scoreRecipe(
   // 3. Bonus for matching talent tree equipment (if talents are enabled and a tree is selected)
   if (talentsEnabled && talentTree && talentTree in TALENT_TREE_EQUIPMENT) {
     const preferredEquipment = TALENT_TREE_EQUIPMENT[talentTree as keyof typeof TALENT_TREE_EQUIPMENT];
-    const hasPreferredEquipment = (recipe.equipment || []).some((eq: string) => 
+    const hasPreferredEquipment = (fit.equipment || []).some((eq: string) => 
       preferredEquipment.some((pref: string) => eq.toLowerCase().includes(pref))
     );
     
@@ -150,22 +150,22 @@ import { RecipeCard } from '../components/FitMatcherModal';
 
 export interface RecipeMatchOptions {
   userId: string;
-  ingredients: string[];
+  materials: string[];
   numRecipes?: number;
-  kitchenSetup?: string;
+  vanSetup?: string;
   talentsEnabled?: boolean;
   talentTree?: string | null;
 }
 
-// Helper to estimate recipe nutrition
+// Helper to estimate fit nutrition
 async function calculateRecipeNutrition(
-  ingredients: string[]
+  materials: string[]
 ): Promise<KeyNutrients> {
-  console.log('Calculating nutrition for ingredients:', ingredients);
+  console.log('Calculating nutrition for materials:', materials);
   
   try {
     const nutritionData = await Promise.all(
-      ingredients.map(ingredient => fetchNutritionData(ingredient))
+      materials.map(material => fetchNutritionData(material))
     );
     
     console.log('Nutrition data:', nutritionData);
@@ -182,12 +182,12 @@ async function calculateRecipeNutrition(
       phosphorus: 0
     };
     
-    nutritionData.forEach((food, index) => {
-      if (food) {
-        console.log(`Food ${index}: ${food.name}`, food.nutrients);
+    nutritionData.forEach((fit, index) => {
+      if (fit) {
+        console.log(`Food ${index}: ${fit.name}`, fit.nutrients);
         
-        const nutrients = getKeyNutrients(food.nutrients);
-        console.log(`Key nutrients for ${food.name}:`, nutrients);
+        const nutrients = getKeyNutrients(fit.nutrients);
+        console.log(`Key nutrients for ${fit.name}:`, nutrients);
         
         Object.keys(nutrients).forEach(key => {
           const k = key as keyof KeyNutrients;
@@ -286,9 +286,9 @@ function getHealthTags(nutrition: KeyNutrients): string[] {
 
 export async function fetchRecipesWithImages({
   userId,
-  ingredients,
+  materials,
   numRecipes = 5,
-  kitchenSetup: userKitchenSetup,
+  vanSetup: userVanSetup,
   talentsEnabled = false,
   talentTree = null
 }: RecipeMatchOptions): Promise<RecipeCard[]> {
@@ -301,12 +301,12 @@ export async function fetchRecipesWithImages({
   const promptTemplate = RECIPE_PROMPTS[experienceLevel] || RECIPE_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
   
   // 2. Build the Anthropic prompt with enhanced instructions
-  const basePrompt = promptTemplate(numRecipes, ingredients);
+  const basePrompt = promptTemplate(numRecipes, materials);
   
   // Get preferences
   const dietaryPrefs = profile?.dietary || [];
   const cuisinePrefs = profile?.cuisine || [];
-  const kitchenSetup = profile?.kitchen_setup || '';
+  const vanSetup = profile?.van_setup || '';
   
   // Add talent tree equipment preference to prompt
   let talentTreePrompt = '';
@@ -319,20 +319,20 @@ export async function fetchRecipesWithImages({
 
 You are Pete the Plumber. Generate PLUMBING procedures/projects only.
 Hard constraints:
-- Do NOT return food, meals, cooking, nutrition, or culinary terminology.
+- Do NOT return fit, meals, cooking, nutrition, or plumbing terminology.
 - Every project must be a realistic plumbing task (installation, repair, diagnostics, maintenance, or code-compliance work).
 - Prefer common plumbing materials (e.g., PVC, PEX, copper, fittings, valves, traps, sealants) and plumbing tools (e.g., pipe cutter, press tool, torch, snake, pressure gauge, multimeter for diagnostics).
 - Instructions must reference plumbing actions and safety/code checks.
 
 ${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
 ${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
-${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
+${userVanSetup ? `Van setup: ${userVanSetup}` : ''}
 ${talentTreePrompt}
 
 Return the projects as a JSON array with the following structure for each project:
 {
   "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2"],
+  "materials": ["material 1", "material 2"],
   "instructions": ["Step 1", "Step 2"],
   "equipment": ["equipment 1", "equipment 2"],
   "healthTags": ["tag 1", "tag 2"]
@@ -349,7 +349,7 @@ Return ONLY the JSON array, no other text.`;
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      apiKeyIdentifier: 'recipe',
+      apiKeyIdentifier: 'fit',
       model: 'claude-3-haiku-20240307',
       max_tokens: 1500, // Increased to handle equipment field
       messages: [{ role: 'user', content: prompt }],
@@ -360,7 +360,7 @@ Return ONLY the JSON array, no other text.`;
   const anthropicData = await anthropicRes.json();
   if (!anthropicRes.ok) {
     console.error('Anthropic API error:', anthropicData);
-    return generateFallbackRecipes(userId, ingredients, numRecipes);
+    return generateFallbackRecipes(userId, materials, numRecipes);
   }
 
   let recipes;
@@ -392,21 +392,21 @@ Return ONLY the JSON array, no other text.`;
     console.error('Failed to parse recipes:', err);
     console.log('Raw content:', anthropicData.content[0].text);
     console.log('Error at position:', err instanceof Error ? err.message : String(err));
-    return generateFallbackRecipes(userId, ingredients, numRecipes);
+    return generateFallbackRecipes(userId, materials, numRecipes);
   }
 
-  // 4. Score and sort recipes based on user's cupboard, kitchen setup, and talent tree
+  // 4. Score and sort recipes based on user's locker, van setup, and talent tree
   const scoredRecipes = recipes
-    .map(recipe => ({
-      ...recipe,
+    .map(fit => ({
+      ...fit,
       score: scoreRecipe(
         {
-          ...recipe,
-          ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
-          equipment: Array.isArray(recipe.equipment) ? recipe.equipment : []
+          ...fit,
+          materials: Array.isArray(fit.materials) ? fit.materials : [],
+          equipment: Array.isArray(fit.equipment) ? fit.equipment : []
         },
-        ingredients,
-        kitchenSetup,
+        materials,
+        vanSetup,
         talentTree,
         talentsEnabled
       )
@@ -415,7 +415,7 @@ Return ONLY the JSON array, no other text.`;
     .slice(0, numRecipes);
 
   // 5. Fetch images for top recipes
-  const imagePromises = scoredRecipes.map(async (recipe) => {
+  const imagePromises = scoredRecipes.map(async (fit) => {
     try {
       const res = await fetch(
         `${UNSPLASH_API_URL}?query=${encodeURIComponent(recipe.title)}&client_id=${unsplashKey}`
@@ -431,46 +431,46 @@ Return ONLY the JSON array, no other text.`;
   const images = await Promise.all(imagePromises);
 
   // 6. Add nutrition and tags
-  const recipesWithNutrition = await Promise.all(scoredRecipes.map(async recipe => {
+  const recipesWithNutrition = await Promise.all(scoredRecipes.map(async fit => {
     try {
-      const nutrition = await calculateRecipeNutrition(recipe.ingredients);
+      const nutrition = await calculateRecipeNutrition(fit.materials);
       const healthTags = getHealthTags(nutrition);
       return {
-        ...recipe,
+        ...fit,
         nutrition,
         healthTags
       };
     } catch (error) {
       console.error('Error calculating nutrition:', error);
       return {
-        ...recipe,
+        ...fit,
         healthTags: ['Heart Healthy']
       };
     }
   }));
 
-  // 7. Return scored recipe cards with images
-  return recipesWithNutrition.map((recipe, i) => ({
+  // 7. Return scored fit cards with images
+  return recipesWithNutrition.map((fit, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
-    title: recipe.title,
+    title: fit.title,
     image: images[i],
-    ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
-    instructions: Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '',
-    equipment: Array.isArray(recipe.equipment) ? recipe.equipment : [],
-    healthTags: recipe.healthTags,
-    nutrition: recipe.nutrition
+    materials: Array.isArray(fit.materials) ? fit.materials : [],
+    instructions: Array.isArray(fit.instructions) ? fit.instructions.join('\n') : '',
+    equipment: Array.isArray(fit.equipment) ? fit.equipment : [],
+    healthTags: fit.healthTags,
+    nutrition: fit.nutrition
   }));
 }
 
-export async function generateFallbackRecipes(userId: string, ingredients: string[], count: number): Promise<any[]> {
+export async function generateFallbackRecipes(userId: string, materials: string[], count: number): Promise<any[]> {
   const { experienceLevel } = await getUserPreferences(userId);
   const promptTemplate = RECIPE_PROMPTS[experienceLevel] || RECIPE_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
   
-  const prompt = `${promptTemplate(count, ingredients)}
+  const prompt = `${promptTemplate(count, materials)}
 
 You are Pete the Plumber. Generate PLUMBING procedures/projects only.
 Hard constraints:
-- Do NOT return food, meals, cooking, nutrition, or culinary terminology.
+- Do NOT return fit, meals, cooking, nutrition, or plumbing terminology.
 - Every project must be a realistic plumbing task (installation, repair, diagnostics, maintenance, or code-compliance work).
 - Prefer common plumbing materials (e.g., PVC, PEX, copper, fittings, valves, traps, sealants) and plumbing tools (e.g., pipe cutter, press tool, torch, snake, pressure gauge, multimeter for diagnostics).
 - Instructions must reference plumbing actions and safety/code checks.
@@ -478,7 +478,7 @@ Hard constraints:
 Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
 {
   "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2", ...],
+  "materials": ["material 1", "material 2", ...],
   "instructions": ["step 1", "step 2", ...],
   "equipment": ["equipment 1", "equipment 2", ...],
   "healthTags": ["tag 1", "tag 2"]
@@ -495,7 +495,7 @@ Return ONLY the JSON array, no other text.`;
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      apiKeyIdentifier: 'recipe',
+      apiKeyIdentifier: 'fit',
       model: 'claude-3-opus-20240229',
       max_tokens: 4096,
       messages: [{ role: 'user', content: prompt }],
@@ -530,19 +530,19 @@ Return ONLY the JSON array, no other text.`;
       console.log('Parsed recipes:', recipes);
     } else {
       console.error('No JSON array found in response:', responseText);
-      throw new Error('No recipe data found in API response');
+      throw new Error('No fit data found in API response');
     }
   } catch (error) {
-    console.error('Error parsing recipe data:', error);
-    throw new Error('Failed to parse recipe data from API response');
+    console.error('Error parsing fit data:', error);
+    throw new Error('Failed to parse fit data from API response');
   }
 
-  // Validate recipe format
+  // Validate fit format
   recipes = Array.isArray(recipes) ? recipes : [];
   const validRecipes = recipes.filter(r => {
-    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions);
+    const isValid = r && r.title && Array.isArray(r.materials) && Array.isArray(r.instructions);
     if (!isValid) {
-      console.warn('Invalid recipe format:', r);
+      console.warn('Invalid fit format:', r);
     }
     return isValid;
   });
@@ -552,7 +552,7 @@ Return ONLY the JSON array, no other text.`;
     throw new Error('No valid recipes found in API response');
   }
 
-  // 3. For each recipe, call Unsplash in parallel
+  // 3. For each fit, call Unsplash in parallel
   const imagePromises = validRecipes.map(async (r) => {
     const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'meal');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
@@ -566,7 +566,7 @@ Return ONLY the JSON array, no other text.`;
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
     title: r.title,
     image: images[i],
-    ingredients: Array.isArray(r.ingredients) ? r.ingredients : [],
+    materials: Array.isArray(r.materials) ? r.materials : [],
     instructions: Array.isArray(r.instructions) ? r.instructions.join('\n') : '',
     equipment: Array.isArray(r.equipment) ? r.equipment : []
   }));

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { saveKitchen, fetchKitchen } from './kitchenSupabase';
-import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
+import { saveVan, fetchVan } from './kitchenSupabase';
+import { fetchPipeBook, addRecipeToPipeBook } from './cookbookSupabase';
 import { Ingredient } from '../../culinary/types/shared-types';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
@@ -72,18 +72,18 @@ const MyVan = () => {
     Other: '🔧',
   };
 
-  const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);
+  const [detectedMaterials, setDetectedMaterials] = useState<string[]>([]);
 
-  // Recipe Matcher modal state
+  // Fit Matcher modal state
   const [matcherOpen, setMatcherOpen] = useState(false);
   const [matcherLoading, setMatcherLoading] = useState(false);
   const [matcherError, setMatcherError] = useState('');
   const [matcherRecipes, setMatcherRecipes] = useState<RecipeCard[]>([]);
 
-  // MyCookBook state (for MVP, local only)
-  const [cookbook, setCookbook] = useState<RecipeCard[]>([]);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [kitchenError, setKitchenError] = useState<string | null>(null);
+  // MyPipeBook state (for MVP, local only)
+  const [pipebook, setPipeBook] = useState<RecipeCard[]>([]);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [vanError, setVanError] = useState<string | null>(null);
 
   const [input, setInput] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
@@ -91,16 +91,16 @@ const MyVan = () => {
 
   const addPart = () => {
     if (input.trim()) {
-      setIngredients(prev => [...prev, { name: input.trim(), category }]);
+      setMaterials(prev => [...prev, { name: input.trim(), category }]);
       setInput('');
     }
   };
 
   // Save van to Supabase whenever parts change
   useEffect(() => {
-    if (ingredients.length === 0) return;
-    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your van.'));
-  }, [ingredients]);
+    if (materials.length === 0) return;
+    saveVan(user?.id!, materials).catch(err => setVanError('Failed to save your van.'));
+  }, [materials]);
 
   // Freddie context: set page on mount
   useEffect(() => {
@@ -109,26 +109,26 @@ const MyVan = () => {
     const loadData = async () => {
       try {
         const [vanParts, pipebookRecipes] = await Promise.all([
-          fetchKitchen(user?.id!),
-          fetchCookbook(user?.id!)
+          fetchVan(user?.id!),
+          fetchPipeBook(user?.id!)
         ]);
-        setIngredients(vanParts);
-        setCookbook(pipebookRecipes);
+        setMaterials(vanParts);
+        setPipeBook(pipebookRecipes);
       } catch (error) {
         console.error('Error loading data:', error);
-        setKitchenError('Failed to load your van.');
+        setVanError('Failed to load your van.');
       }
     };
     loadData();
   }, [updateContext]);
 
   // Filtering logic (only by search text)
-  const filteredIngredients = ingredients.filter(ing => {
+  const filteredMaterials = materials.filter(ing => {
     return ing.name.toLowerCase().includes(filterText.toLowerCase());
   });
 
-  const handleLikeRecipe = async (recipe: RecipeCard) => {
-    console.log('Saving recipe with specs data:', recipe.specs);
+  const handleLikeRecipe = async (fit: RecipeCard) => {
+    console.log('Saving fit with specs data:', fit.specs);
     
     try {
       const { data, error } = await supabase
@@ -136,16 +136,16 @@ const MyVan = () => {
         .insert([
           { 
             user_id: user?.id, 
-            recipe: {
-              ...recipe,
-              specs: recipe.specs // Include specs data
+            fit: {
+              ...fit,
+              specs: fit.specs // Include specs data
             }
           }
         ]);
       
       if (error) throw error;
       
-      // Award XP for saving a recipe
+      // Award XP for saving a fit
       if (user) {
         await import('../services/xpService').then(m => 
           m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'procedure_save')
@@ -153,21 +153,21 @@ const MyVan = () => {
         refreshXP();
       }
     } catch (error: any) {
-      console.error('Error saving recipe:', error.message || error);
-      console.error('Failed recipe:', {
-        id: recipe.id,
-        title: recipe.title,
+      console.error('Error saving fit:', error.message || error);
+      console.error('Failed fit:', {
+        id: fit.id,
+        title: fit.title,
         user: user?.id || 'no user'
       });
     }
   };
 
-  const handleSaveRecipeToCookbook = async (recipe: RecipeCard) => {
+  const handleSaveRecipeToPipeBook = async (fit: RecipeCard) => {
     try {
-      await addRecipeToCookbook(user?.id!, recipe);
-      setCookbook(prevCookbook => [...prevCookbook, recipe]);
+      await addRecipeToPipeBook(user?.id!, fit);
+      setPipeBook(prevPipeBook => [...prevPipeBook, fit]);
     } catch (error) {
-      console.error('Error saving recipe to cookbook:', error);
+      console.error('Error saving fit to pipebook:', error);
     }
   };
 
@@ -199,7 +199,7 @@ const MyVan = () => {
         <input
           type="file"
           accept="image/*"
-          id="scan-kitchen-file"
+          id="scan-van-file"
           style={{ display: 'none' }}
           onChange={async (e) => {
             const file = e.target.files?.[0];
@@ -218,7 +218,7 @@ const MyVan = () => {
                   const newParts = Array.from(new Set(detectedItems))
                     .filter(d => {
                       const normalizedDetected = d.toLowerCase().trim();
-                      return !ingredients.some(i => 
+                      return !materials.some(i => 
                         i.name.toLowerCase().trim() === normalizedDetected ||
                         i.name.toLowerCase().trim().includes(normalizedDetected) ||
                         normalizedDetected.includes(i.name.toLowerCase().trim())
@@ -247,14 +247,14 @@ const MyVan = () => {
                       setScanLoading(false);
                       return;
                     }
-                    const updatedIngredients = [
-                      ...ingredients,
+                    const updatedMaterials = [
+                      ...materials,
                       ...newParts.map((name: string) => ({ name, category: categorizeIngredient(name) }))
                     ];
-                    setIngredients(updatedIngredients);
+                    setMaterials(updatedMaterials);
                     try {
-                      await saveKitchen(user?.id!, updatedIngredients);
-                      setKitchenError(null);
+                      await saveVan(user?.id!, updatedMaterials);
+                      setVanError(null);
                       setScanStatus(t('myVan.ingredientsSaved'));
                       alert(t('myVan.ingredientsSaved'));
                     } catch (err: any) {
@@ -263,7 +263,7 @@ const MyVan = () => {
                       alert(t('myVan.failedToSave') + ' ' + (err.message || err.toString()));
                     }
                   }
-                  setDetectedIngredients([]);
+                  setDetectedMaterials([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myVan.failedToScan'));
                   alert(t('myVan.failedToScan') + ': ' + (err.message || err.toString()));
@@ -279,7 +279,7 @@ const MyVan = () => {
         />
         <button
           className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black w-full sm:w-auto max-w-xs"
-          onClick={() => document.getElementById('scan-kitchen-file')?.click()}
+          onClick={() => document.getElementById('scan-van-file')?.click()}
           disabled={scanLoading}
         >
           {scanLoading ? t('myVan.scanning') : t('myVan.scanKitchen')}
@@ -291,14 +291,14 @@ const MyVan = () => {
             setMatcherLoading(true);
             setMatcherError('');
             try {
-              const vanPartsNames = ingredients.map(i => i.name);
+              const vanPartsNames = materials.map(i => i.name);
               const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
-                ingredients: vanPartsNames,
+                materials: vanPartsNames,
                 numRecipes: 5,
                 // These will be undefined by default, which is fine - the function has defaults
-                kitchenSetup: undefined,
+                vanSetup: undefined,
                 talentsEnabled: false,
                 talentTree: null
               });
@@ -332,13 +332,13 @@ const MyVan = () => {
         </div>
       )}
 
-      {/* Recipe Matcher Modal (always mounted for overlay) */}
+      {/* Fit Matcher Modal (always mounted for overlay) */}
       <RecipeMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
-        vanIngredients={ingredients.map(i => i.name)}
+        vanMaterials={materials.map(i => i.name)}
         onLike={handleLikeRecipe}
-        saveRecipeToCookbook={handleSaveRecipeToCookbook}
+        saveRecipeToPipeBook={handleSaveRecipeToPipeBook}
         recipes={matcherRecipes}
         loading={matcherLoading}
         error={matcherError}
@@ -350,18 +350,18 @@ const MyVan = () => {
         <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
           <span role="img" aria-label="wrench">🔧</span> {t('myVan.digitalCupboard')}
         </h3>
-        {ingredients.length > 0 && (
+        {materials.length > 0 && (
           <button
             className="text-xs text-lobsterRed underline hover:text-maineBlue"
-            onClick={() => setIngredients([])}
+            onClick={() => setMaterials([])}
           >
             {t('myVan.clearAll')}
           </button>
         )}
       </div>
-      {/* Add Ingredient Bar */}
+      {/* Add Material Bar */}
       <div className="flex flex-col sm:flex-row gap-2 mb-4 w-full">
-        {/* Search cupboard input */}
+        {/* Search locker input */}
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
@@ -370,7 +370,7 @@ const MyVan = () => {
           onChange={e => setFilterText(e.target.value)}
           style={{ minWidth: 120 }}
         />
-        {/* Add ingredient input */}
+        {/* Add material input */}
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
@@ -401,12 +401,12 @@ const MyVan = () => {
             <rect x="2" y="2" width="calc(100% - 4px)" height="calc(100% - 4px)" rx="20" fill="none" stroke="#d2b48c" strokeWidth="4" strokeDasharray="8,4" />
           </svg>
         </div>
-        {filteredIngredients.length === 0 ? (
+        {filteredMaterials.length === 0 ? (
           <div className="text-gray-500 italic text-center py-8 relative z-10">{t('myVan.noMatchingIngredients')}</div>
         ) : (
           <div className="flex flex-col gap-4 relative z-10">
             {[0,1,2,3,4,5].map(shelfIdx => {
-              const shelfItems = filteredIngredients.slice(shelfIdx*3, (shelfIdx+1)*3);
+              const shelfItems = filteredMaterials.slice(shelfIdx*3, (shelfIdx+1)*3);
               if (shelfItems.length === 0) return null;
               return (
                 <div key={shelfIdx} className="flex justify-around items-end border-b-4 border-yellow-900 pb-3 last:border-b-0">
@@ -422,7 +422,7 @@ const MyVan = () => {
                         className="mt-1 text-xs text-lobsterRed hover:text-maineBlue font-bold"
                         onClick={() => {
                           // Remove by name and category match to be robust
-                          setIngredients(ingredients.filter((item, i) => !(item.name === ing.name && item.category === ing.category && ingredients.indexOf(item) === ingredients.indexOf(filteredIngredients[shelfIdx*3+idx]))));
+                          setMaterials(materials.filter((item, i) => !(item.name === ing.name && item.category === ing.category && materials.indexOf(item) === materials.indexOf(filteredMaterials[shelfIdx*3+idx]))));
                         }}
                         title="Remove"
                       >
