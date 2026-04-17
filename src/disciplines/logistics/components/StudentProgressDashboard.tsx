@@ -15,35 +15,35 @@ const StudentProgressDashboard: React.FC = () => {
   const activeLiveSessions = [
     {
       id: '2',
-      hostName: 'Kenji Nakamura',
-      dishName: 'Precision Pipe Routing',
-      culture: 'Japanese',
+      hostName: 'Mike Torres',
+      dishName: 'FTL Load Planning & Weight Distribution',
+      culture: 'Truckload',
       viewers: 23,
-      thumbnail: '🍜'
+      thumbnail: '🚛'
     },
     {
       id: '3',
-      hostName: 'Fatima Al-Zahra',
-      dishName: 'Panel Wiring Calibration',
-      culture: 'Lebanese',
+      hostName: 'Sarah Chen',
+      dishName: 'Cross-Dock Transfer Operations',
+      culture: 'Warehouse',
       viewers: 35,
-      thumbnail: '🧆'
+      thumbnail: '🏭'
     },
     {
       id: '4',
-      hostName: 'Jean-Luc Dubois',
-      dishName: 'Hydronic System Balance',
-      culture: 'French',
+      hostName: 'James Whitfield',
+      dishName: 'Reefer Load Temp Monitoring',
+      culture: 'Cold Chain',
       viewers: 62,
-      thumbnail: '🥐'
+      thumbnail: '❄️'
     },
     {
       id: '5',
-      hostName: 'Maria Santos',
-      dishName: 'Blueprint Layout Validation',
-      culture: 'Spanish',
+      hostName: 'Maria Gonzalez',
+      dishName: 'Hazmat BOL Documentation',
+      culture: 'Compliance',
       viewers: 28,
-      thumbnail: '🥘'
+      thumbnail: '☣️'
     }
   ];
 
@@ -530,7 +530,7 @@ const StudentProgressDashboard: React.FC = () => {
                   </button>
                 </div>
                 <p className="text-center text-black mt-2 sm:mt-3 text-xs sm:text-sm">
-                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Specialty
                 </p>
               </div>
 
