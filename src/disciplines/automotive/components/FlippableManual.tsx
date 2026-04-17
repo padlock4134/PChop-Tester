@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './FlippableCookbook.css';
+import './FlippableManual.css';
 import { useDeviceDetect } from '../utils/responsiveUtils';
 
 const PAGES = [
@@ -82,9 +82,9 @@ const PAGES = [
           <img src="/logo.png" alt="PorkChop Logo" className="inspiration-logo" />
         </div>
         <p className="page-content-text">
-          We created PorkChop because my grandfather Frederick would always know what to make when he's looking in his fridge. 
-          Everyone loved Pancake Saturdays cause everyone got to eat - even friends we brought with us.
-          He taught us that it's important to always be as nice as you can and help people if you can - food is the best way to make sure no one goes hungry.
+          We created PorkChop because every technician deserves the best training tools.
+          Whether you're turning wrenches in a school lab or rebuilding engines in your home garage,
+          we believe hands-on skills combined with smart technology can help anyone master the automotive trade.
         </p>
       </>
     ),
@@ -99,7 +99,7 @@ const PAGES = [
           Your digital bay tracker that manages your tools and suggests the right approach for any repair job.
         </p>
         <div className="page-image-container page-3-image">
-          <img src="/my-kitchen-screenshot.png" alt="My Garage Screenshot" className="page-screenshot" />
+          <img src="/my-garage-screenshot.png" alt="My Garage Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -114,7 +114,7 @@ const PAGES = [
           Your personal repair order portfolio — service records, diagnostics notes, and completed jobs in one place.
         </p>
         <div className="page-image-container page-4-image">
-          <img src="/my-cookbook-screenshot.png" alt="My Manual Screenshot" className="page-screenshot" />
+          <img src="/my-manual-screenshot.png" alt="My Manual Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -129,7 +129,7 @@ const PAGES = [
           Master automotive techniques with step-by-step video lessons — from engine diagnostics to electrical systems.
         </p>
         <div className="page-image-container page-5-image">
-          <img src="/culinary-school-screenshot.png" alt="Auto School Screenshot" className="page-screenshot" />
+          <img src="/auto-school-screenshot.png" alt="Auto School Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -144,7 +144,7 @@ const PAGES = [
           Connect with peers, find local parts suppliers and dealerships, and share techniques with fellow technicians.
         </p>
         <div className="page-image-container page-6-image">
-          <img src="/chefs-corner-screenshot.png" alt="Gearhead Lounge Screenshot" className="page-screenshot" />
+          <img src="/gearhead-lounge-screenshot.png" alt="Gearhead Lounge Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -159,7 +159,7 @@ const PAGES = [
           Your AI automotive assistant, ready to help with diagnostics, repair guides, OBD codes, and troubleshooting.
         </p>
         <div className="page-image-container page-7-image">
-          <img src="/chef-freddie-screenshot.png" alt="Gus the Mechanic Screenshot" className="page-screenshot" />
+          <img src="/gus-mechanic-screenshot.png" alt="Gus the Mechanic Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -188,7 +188,7 @@ const PAGES = [
   }
 ];
 
-const FlippableCookbook: React.FC = () => {
+const FlippableManual: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [turnedPages, setTurnedPages] = useState<number[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -329,4 +329,4 @@ const FlippableCookbook: React.FC = () => {
   );
 };
 
-export default FlippableCookbook;
+export default FlippableManual;

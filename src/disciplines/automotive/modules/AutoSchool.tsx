@@ -240,7 +240,7 @@ const AutoSchool = () => {
     return equipment[0] || '';
   }
 
-  // Helper to call Chef Freddie backend for a smart search query
+  // Helper to call Gus the Mechanic backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
     
@@ -265,7 +265,7 @@ const AutoSchool = () => {
         return recipe.title;
       }
       
-      // Use Chef Freddie for complex queries
+      // Use Gus the Mechanic for complex queries
       const prompt = `
         Given the following repair and tutorial, generate a concise YouTube search query for a relevant automotive video.\n
         - Only use the equipment and parts listed.\n

@@ -307,7 +307,7 @@ const EditProfileModal = ({
               <option value="ASE Certified">🔧 {t('profile.certificationOptions.aseCertified', { defaultValue: 'ASE Certified' })}</option>
               <option value="EPA 609">🛡️ {t('profile.certificationOptions.epa609', { defaultValue: 'EPA 609' })}</option>
               <option value="Manufacturer Training">🏭️ {t('profile.certificationOptions.manufacturerTraining', { defaultValue: 'Manufacturer Training' })}</option>
-              <option value="None">🍽️ {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
+              <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
             </select>
           </div>
 
@@ -1152,12 +1152,12 @@ const Profile = () => {
       const line5Width = doc.getTextWidth(cleanText('- Consider advanced modules for students achieving 90% proficiency'));
       doc.text(cleanText('- Consider advanced modules for students achieving 90% proficiency'), 105 - line5Width/2, 258);
     } else if (fileName === 'class-performance') {
-      const line1Width = doc.getTextWidth(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'));
-      doc.text(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'), 105 - line1Width/2, 218);
-      const line2Width = doc.getTextWidth(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'));
-      doc.text(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'), 105 - line2Width/2, 228);
-      const line3Width = doc.getTextWidth(cleanText('- Menu Planning and Costing requires curriculum review and support'));
-      doc.text(cleanText('- Menu Planning and Costing requires curriculum review and support'), 105 - line3Width/2, 238);
+      const line1Width = doc.getTextWidth(cleanText('- Engine Diagnostics Fundamentals demonstrates exemplary performance (94%)'));
+      doc.text(cleanText('- Engine Diagnostics Fundamentals demonstrates exemplary performance (94%)'), 105 - line1Width/2, 218);
+      const line2Width = doc.getTextWidth(cleanText('- Brake Systems & Hydraulics shows strong student engagement (91%)'));
+      doc.text(cleanText('- Brake Systems & Hydraulics shows strong student engagement (91%)'), 105 - line2Width/2, 228);
+      const line3Width = doc.getTextWidth(cleanText('- Electrical Systems & Diagnostics requires curriculum review and support'));
+      doc.text(cleanText('- Electrical Systems & Diagnostics requires curriculum review and support'), 105 - line3Width/2, 238);
       const line4Width = doc.getTextWidth(cleanText('- Recommend instructor development for underperforming courses'));
       doc.text(cleanText('- Recommend instructor development for underperforming courses'), 105 - line4Width/2, 248);
       const line5Width = doc.getTextWidth(cleanText('- Implement peer mentoring programs to improve completion rates'));

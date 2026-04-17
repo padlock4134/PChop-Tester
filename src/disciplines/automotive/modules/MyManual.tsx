@@ -216,10 +216,10 @@ const MyManual = () => {
   // Categories for filtering
   const categories = [
     { key: 'All', label: t('myManual.all') },
-    { key: 'Seafood', label: t('myManual.seafood') },
-    { key: 'Meat', label: t('myManual.meat') },
-    { key: 'Vegetarian', label: t('myManual.vegetarian') },
-    { key: 'Dessert', label: t('myManual.dessert') }
+    { key: 'Engine', label: t('myManual.engine', { defaultValue: 'Engine' }) },
+    { key: 'Brakes', label: t('myManual.brakes', { defaultValue: 'Brakes' }) },
+    { key: 'Electrical', label: t('myManual.electrical', { defaultValue: 'Electrical' }) },
+    { key: 'Maintenance', label: t('myManual.maintenance', { defaultValue: 'Maintenance' }) }
   ];
 
   // Handle procedure selection for collections
@@ -415,48 +415,51 @@ const MyManual = () => {
     const matchesSearch = procedure.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('myManual.all')) return matchesSearch;
     
-    // Simple category detection based on ingredients
-    const ingredients = procedure.parts || [];
-    const ingredientsJoined = ingredients.join(' ').toLowerCase();
+    // Simple category detection based on parts/keywords
+    const parts = procedure.parts || [];
+    const partsJoined = parts.join(' ').toLowerCase();
+    const nameJoined = procedure.name.toLowerCase();
+    const combined = partsJoined + ' ' + nameJoined;
     
-    const hasSeafood = ingredientsJoined.includes('fish') || 
-      ingredientsJoined.includes('salmon') || 
-      ingredientsJoined.includes('tuna') || 
-      ingredientsJoined.includes('cod') || 
-      ingredientsJoined.includes('tilapia') || 
-      ingredientsJoined.includes('shrimp') || 
-      ingredientsJoined.includes('lobster') || 
-      ingredientsJoined.includes('crab') || 
-      ingredientsJoined.includes('oyster') || 
-      ingredientsJoined.includes('clam') || 
-      ingredientsJoined.includes('mussel');
+    const hasEngine = combined.includes('engine') || 
+      combined.includes('piston') || 
+      combined.includes('cylinder') || 
+      combined.includes('spark plug') || 
+      combined.includes('timing') || 
+      combined.includes('valve') || 
+      combined.includes('camshaft') || 
+      combined.includes('crankshaft') || 
+      combined.includes('gasket');
     
-    const hasMeat = ingredientsJoined.includes('beef') || 
-      ingredientsJoined.includes('chicken') || 
-      ingredientsJoined.includes('pork') || 
-      ingredientsJoined.includes('turkey') || 
-      ingredientsJoined.includes('bacon') || 
-      ingredientsJoined.includes('sausage') || 
-      ingredientsJoined.includes('lamb');
+    const hasBrakes = combined.includes('brake') || 
+      combined.includes('rotor') || 
+      combined.includes('caliper') || 
+      combined.includes('pad') || 
+      combined.includes('drum') || 
+      combined.includes('hydraulic');
     
-    const hasVegetable = ingredientsJoined.includes('vegetable') || 
-      ingredientsJoined.includes('tomato') || 
-      ingredientsJoined.includes('carrot') || 
-      ingredientsJoined.includes('spinach');
+    const hasElectrical = combined.includes('battery') || 
+      combined.includes('alternator') || 
+      combined.includes('starter') || 
+      combined.includes('wiring') || 
+      combined.includes('fuse') || 
+      combined.includes('sensor') || 
+      combined.includes('electrical') || 
+      combined.includes('obd');
     
-    const hasDessert = ingredientsJoined.includes('sugar') || 
-      ingredientsJoined.includes('chocolate') || 
-      ingredientsJoined.includes('vanilla') || 
-      ingredientsJoined.includes('cream') || 
-      ingredientsJoined.includes('cake') || 
-      ingredientsJoined.includes('cookie') || 
-      ingredientsJoined.includes('pie');
+    const hasMaintenance = combined.includes('oil') || 
+      combined.includes('filter') || 
+      combined.includes('tire') || 
+      combined.includes('fluid') || 
+      combined.includes('coolant') || 
+      combined.includes('belt') || 
+      combined.includes('wiper');
     
     switch (activeCategory) {
-      case 'Seafood': return hasSeafood && matchesSearch;
-      case 'Meat': return hasMeat && matchesSearch;
-      case 'Vegetarian': return hasVegetable && !hasMeat && !hasSeafood && matchesSearch;
-      case 'Dessert': return hasDessert && matchesSearch;
+      case 'Engine': return hasEngine && matchesSearch;
+      case 'Brakes': return hasBrakes && matchesSearch;
+      case 'Electrical': return hasElectrical && matchesSearch;
+      case 'Maintenance': return hasMaintenance && matchesSearch;
       default: return matchesSearch;
     }
   });
