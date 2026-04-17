@@ -104,6 +104,7 @@ import MachiningBenchFreddieWidget from './disciplines/machining/components/Benc
 import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
 import { RouteProvider } from './disciplines/logistics/components/RouteContext';
+import { FreddieProvider as LogisticsFreddieProvider } from './disciplines/logistics/components/DockFreddieContext';
 import DisciplineSupabaseProvider, { useSupabase } from './components/DisciplineSupabaseProvider';
 import type { WristbandSessionMetadata } from './disciplines/culinary/types/session-types';
 import { setSupabaseJwt } from './disciplines/culinary/api/supabaseClient';
@@ -521,11 +522,13 @@ const App = () => {
         <RecipeProvider>
           <RouteProvider>
             <FreddieProvider>
-              <DisciplineProvider>
-                <DisciplineSupabaseProvider>
-                  <AppRoutes />
-                </DisciplineSupabaseProvider>
-              </DisciplineProvider>
+              <LogisticsFreddieProvider>
+                <DisciplineProvider>
+                  <DisciplineSupabaseProvider>
+                    <AppRoutes />
+                  </DisciplineSupabaseProvider>
+                </DisciplineProvider>
+              </LogisticsFreddieProvider>
             </FreddieProvider>
           </RouteProvider>
         </RecipeProvider>
