@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import type { RecipeCard } from './RouteMatcherModal';
+import type { RouteCard } from './RouteMatcherModal';
 import { useState, useRef } from 'react';
 import { supabase } from '../../culinary/api/supabaseClient';
 import { claimWeeklyChallenge } from '../../culinary/api/weeklyChallenge';
@@ -10,10 +10,10 @@ import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from './NavBar';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 
-interface WeeklyChallengeRecipeModalProps {
+interface WeeklyChallengeRouteModalProps {
   open: boolean;
   onClose: () => void;
-  recipe: RecipeCard | null;
+  route: RouteCard | null;
   loading: boolean;
   error: string | null;
   challengeId?: string;
@@ -23,10 +23,10 @@ interface WeeklyChallengeRecipeModalProps {
   onClaimed?: () => void;
 }
 
-const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({ open, onClose, recipe, loading, error, challengeId, weekNumber, xp, badge, onClaimed }) => {
+const WeeklyChallengeRouteModal: React.FC<WeeklyChallengeRouteModalProps> = ({ open, onClose, route, loading, error, challengeId, weekNumber, xp, badge, onClaimed }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'logistics';
   const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [claiming, setClaiming] = useState(false);
   const [claimed, setClaimed] = useState(false);
@@ -94,7 +94,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
       // Then claim the challenge with the photo proof
       const result = await claimWeeklyChallenge({
         userId: user?.id,
-        challengeId: challengeId || recipe?.id || '',
+        challengeId: challengeId || route?.id || '',
         weekNumber: weekNumber || 0,
         xp: xp || 0,
         badge: badge || '',
@@ -139,10 +139,10 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
               <p>{error}</p>
             </div>
           )}
-          {!loading && !error && recipe && (
+          {!loading && !error && route && (
             <>
-              <h2 className="text-2xl font-bold mb-4 text-center text-black">{recipe.title}</h2>
-              {recipe.image && <img src={recipe.image} alt={recipe.title} className="w-full max-h-48 sm:max-h-64 object-cover rounded border border-black mb-6" />}
+              <h2 className="text-2xl font-bold mb-4 text-center text-black">{route.title}</h2>
+              {route.image && <img src={route.image} alt={route.title} className="w-full max-h-48 sm:max-h-64 object-cover rounded border border-black mb-6" />}
               {/* Photo Upload Section */}
               <div className="w-full mt-4 border-t pt-4">
                 <h3 className="font-semibold text-lg mb-2">{ct('submitProof')}</h3>
@@ -198,5 +198,5 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
   );
 };
 
-export default WeeklyChallengeRecipeModal;
+export default WeeklyChallengeRouteModal;
 

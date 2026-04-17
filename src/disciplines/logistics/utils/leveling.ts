@@ -132,12 +132,12 @@ export const XP_ACTIVITY_TABLE = {
   confirm_email: 5,
   complete_profile: 10,
   complete_weekly_challenge: 40,
-  create_recipe: 15,
-  run_recipe: 20,         // "Cook Me"
-  add_to_cookbook: 5,
-  view_recipe: 2,
-  scan_ingredient: 5,
-  save_recipe: 3,
+  create_route: 15,
+  run_route: 20,         // "Run It"
+  add_to_runbook: 5,
+  view_route: 2,
+  scan_item: 5,
+  save_route: 3,
   achieve_streak: 20,
 };
 

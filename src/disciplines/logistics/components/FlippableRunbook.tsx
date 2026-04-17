@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './FlippableCookbook.css';
+import './FlippableRunbook.css';
 import { useDeviceDetect } from '../utils/responsiveUtils';
 
 const PAGES = [
@@ -21,7 +21,7 @@ const PAGES = [
           <h2 className="cover-subtitle" style={{ fontSize: '1.8rem', margin: '0 0 2rem 0', color: '#fff', textAlign: 'center' }}>Your AI Logistics Training Companion</h2>
           <h3 className="cover-body" style={{ fontSize: '1.5rem', textAlign: 'center', margin: '0 auto 2rem', color: '#fff' }}>Open To Learn More</h3>
           <div 
-            className="cookbook-logo"
+            className="runbook-logo"
             style={{ 
               width: '300px',
               height: '300px',
@@ -84,7 +84,7 @@ const PAGES = [
         <p className="page-content-text">
           We created PorkChop because my grandfather Frederick would always know what to make when he's looking in his fridge. 
           Everyone loved Pancake Saturdays cause everyone got to eat - even friends we brought with us.
-          He taught us that it's important to always be as nice as you can and help people if you can - food is the best way to make sure no one goes hungry.
+          He taught us that it's important to always be as nice as you can and help people if you can - cargo is the best way to make sure no one goes hungry.
         </p>
       </>
     ),
@@ -99,7 +99,7 @@ const PAGES = [
           Your digital operations tracker that manages your routes and suggests the best approach for any shipment.
         </p>
         <div className="page-image-container page-3-image">
-          <img src="/my-kitchen-screenshot.png" alt="My Dock Screenshot" className="page-screenshot" />
+          <img src="/my-dock-screenshot.png" alt="My Dock Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -114,7 +114,7 @@ const PAGES = [
           Your personal shipment portfolio — freight records, routing docs, and completed deliveries in one place.
         </p>
         <div className="page-image-container page-4-image">
-          <img src="/my-cookbook-screenshot.png" alt="My Runbook Screenshot" className="page-screenshot" />
+          <img src="/my-runbook-screenshot.png" alt="My Runbook Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -129,7 +129,7 @@ const PAGES = [
           Master logistics techniques with step-by-step video lessons — from supply chain management to DOT compliance.
         </p>
         <div className="page-image-container page-5-image">
-          <img src="/culinary-school-screenshot.png" alt="Logistics School Screenshot" className="page-screenshot" />
+          <img src="/logistics-school-screenshot.png" alt="Logistics School Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -144,7 +144,7 @@ const PAGES = [
           Connect with peers, find local logistics partners and distribution centers, and share best practices with fellow dispatchers.
         </p>
         <div className="page-image-container page-6-image">
-          <img src="/chefs-corner-screenshot.png" alt="Dispatch Lounge Screenshot" className="page-screenshot" />
+          <img src="/dispatchers-corner-screenshot.png" alt="Dispatch Lounge Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -159,7 +159,7 @@ const PAGES = [
           Your AI logistics assistant, ready to help with route planning, DOT compliance, freight classification, and troubleshooting.
         </p>
         <div className="page-image-container page-7-image">
-          <img src="/chef-freddie-screenshot.png" alt="Lou the Dispatcher Screenshot" className="page-screenshot" />
+          <img src="/dispatcher-freddie-screenshot.png" alt="Lou the Dispatcher Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -188,7 +188,7 @@ const PAGES = [
   }
 ];
 
-const FlippableCookbook: React.FC = () => {
+const FlippableRunbook: React.FC = () => {
   const [pageNumber, setPageNumber] = useState(0);
   const [turnedPages, setTurnedPages] = useState<number[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -234,8 +234,8 @@ const FlippableCookbook: React.FC = () => {
 
   // When showing the cover or any page
   return (
-    <div className={`cookbook-container ${pageNumber === 0 ? 'cover-only' : ''} device-${deviceType}`}>
-      <div className="cookbook-spine" />
+    <div className={`runbook-container ${pageNumber === 0 ? 'cover-only' : ''} device-${deviceType}`}>
+      <div className="runbook-spine" />
       
       {/* Turned pages - these are the pages that have been turned and stick */}
       {turnedPages.map((pageNum) => (
@@ -329,4 +329,4 @@ const FlippableCookbook: React.FC = () => {
   );
 };
 
-export default FlippableCookbook;
+export default FlippableRunbook;

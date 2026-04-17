@@ -1,20 +1,20 @@
 import { supabase } from '../../culinary/api/supabaseClient';
 import { isSessionValid } from '../../culinary/api/userSession';
-import type { RecipeCard } from '../components/RouteMatcherModal';
+import type { RouteCard } from '../components/RouteMatcherModal';
 
-export async function saveCookbook(userId: string, recipes: RecipeCard[]) {
+export async function saveRunbook(userId: string, routes: RouteCard[]) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   const { error } = await supabase
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId,
-      recipes: recipes // Stored as JSONB in Supabase
+      routes: routes // Stored as JSONB in Supabase
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }
 
-export async function fetchCookbook(userId: string): Promise<RecipeCard[]> {
+export async function fetchRunbook(userId: string): Promise<RouteCard[]> {
   if (!userId) return [];
 
   const sessionValid = await isSessionValid();
@@ -26,14 +26,14 @@ export async function fetchCookbook(userId: string): Promise<RecipeCard[]> {
     .eq('user_id', userId)
     .single();
   if (error && error.code !== 'PGRST116') throw error; // PGRST116: no rows
-  return (data?.recipes || []) as RecipeCard[];
+  return (data?.routes || []) as RouteCard[];
 }
 
-export async function addRecipeToCookbook(userId: string, recipe: RecipeCard) {
+export async function addRouteToRunbook(userId: string, route: RouteCard) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   
-  // First get existing recipes
+  // First get existing routes
   const { data, error: fetchError } = await supabase
     .from('user_cookbook')
     .select('recipes')
@@ -42,20 +42,20 @@ export async function addRecipeToCookbook(userId: string, recipe: RecipeCard) {
     
   if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
   
-  // Add new recipe if not already present
-  const existingRecipes = (data?.recipes || []) as RecipeCard[];
-  if (!existingRecipes.some(r => r.id === recipe.id)) {
+  // Add new route if not already present
+  const existingRoutes = (data?.routes || []) as RouteCard[];
+  if (!existingRoutes.some(r => r.id === route.id)) {
     const { error } = await supabase
       .from('user_cookbook')
       .upsert([{ 
         user_id: userId, 
-        recipes: [...existingRecipes, recipe] // Stored as JSONB in Supabase
+        routes: [...existingRoutes, route] // Stored as JSONB in Supabase
       }], { onConflict: 'user_id' });
     if (error) throw error;
   }
 }
 
-export async function removeRecipeFromCookbook(userId: string, recipeId: string) {
+export async function removeRouteFromRunbook(userId: string, routeId: string) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   
@@ -67,14 +67,14 @@ export async function removeRecipeFromCookbook(userId: string, recipeId: string)
     
   if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
   
-  const existingRecipes = (data?.recipes || []) as RecipeCard[];
-  const updatedRecipes = existingRecipes.filter(r => r.id !== recipeId);
+  const existingRoutes = (data?.routes || []) as RouteCard[];
+  const updatedRoutes = existingRoutes.filter(r => r.id !== routeId);
   
   const { error } = await supabase
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId, 
-      recipes: updatedRecipes
+      routes: updatedRoutes
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }

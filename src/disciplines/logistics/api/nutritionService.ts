@@ -1,4 +1,4 @@
-import { Food, FoodNutrient } from '../types/nutrition';
+import { __PROTECT_CARGO__, __PROTECT_CARGONUTRIENT__ } from '../types/nutrition';
 
 interface KeyNutrients {
   carbs: number;
@@ -14,26 +14,26 @@ interface KeyNutrients {
   phosphorus: number;
 }
 
-const USDA_API_URL = 'https://api.nal.usda.gov/fdc/v1/foods/search';
+const USDA_API_URL = 'https://api.nal.usda.gov/fdc/v1/cargos/search';
 const API_KEY = (import.meta as any).env.VITE_USDA_API_KEY;
 
-export async function fetchNutritionData(ingredient: string): Promise<Food | null> {
-  console.log(`Fetching nutrition for: ${ingredient}`);
+export async function fetchNutritionData(item: string): Promise<__PROTECT_CARGO__ | null> {
+  console.log(`Fetching nutrition for: ${item}`);
   
   try {
-    const response = await fetch(`${USDA_API_URL}?api_key=${API_KEY}&query=${encodeURIComponent(ingredient)}`);
+    const response = await fetch(`${USDA_API_URL}?api_key=${API_KEY}&query=${encodeURIComponent(item)}`);
     
     console.log(`USDA API status: ${response.status}`);
     
     const data = await response.json();
     console.log('USDA API response:', data);
     
-    if (data.foods && data.foods.length > 0) {
-      const food = data.foods[0];
+    if (data.cargos && data.cargos.length > 0) {
+      const cargo = data.cargos[0];
       return {
-        id: food.fdcId,
-        name: food.description,
-        nutrients: food.foodNutrients.map((nutrient: any) => ({
+        id: cargo.fdcId,
+        name: cargo.description,
+        nutrients: cargo.cargoNutrients.map((nutrient: any) => ({
           name: nutrient.nutrientName,
           unit: nutrient.unitName,
           value: nutrient.value
@@ -48,7 +48,7 @@ export async function fetchNutritionData(ingredient: string): Promise<Food | nul
 }
 
 // Get key nutrients for diabetes management
-export function getKeyNutrients(nutrients: FoodNutrient[]): KeyNutrients {
+export function getKeyNutrients(nutrients: __PROTECT_CARGONUTRIENT__[]): KeyNutrients {
   const result: KeyNutrients = {
     carbs: 0,
     sugars: 0,
@@ -104,8 +104,8 @@ export function getKeyNutrients(nutrients: FoodNutrient[]): KeyNutrients {
   return result;
 }
 
-export async function calculateRecipeNutrition(
-  ingredients: string[]
+export async function calculateRouteNutrition(
+  items: string[]
 ): Promise<{ carbs: number; sugars: number; fiber: number; protein: number; saturatedFat: number; sodium: number; omega3: number; antioxidants: number; cholesterol: number; potassium: number; phosphorus: number }> {
   const totalNutrition: { carbs: number; sugars: number; fiber: number; protein: number; saturatedFat: number; sodium: number; omega3: number; antioxidants: number; cholesterol: number; potassium: number; phosphorus: number } = {
     carbs: 0,
@@ -122,30 +122,30 @@ export async function calculateRecipeNutrition(
   };
   
   const nutritionData = await Promise.all(
-    ingredients.map(ingredient => fetchNutritionData(ingredient))
+    items.map(item => fetchNutritionData(item))
   );
   
   console.log('Fetched nutrition data:', nutritionData);
   
-  nutritionData.forEach((food, index) => {
-    if (food) {
-      console.log(`Food ${index}: ${food.name}`, food.nutrients);
+  nutritionData.forEach((cargo, index) => {
+    if (cargo) {
+      console.log(`__PROTECT_CARGO__ ${index}: ${cargo.name}`, cargo.nutrients);
       
-      const nutrients = getKeyNutrients(food.nutrients);
-      console.log(`Key nutrients for ${food.name}:`, nutrients);
+      const nutrients = getKeyNutrients(cargo.nutrients);
+      console.log(`Key nutrients for ${cargo.name}:`, nutrients);
       
       // Log if any nutrient is zero
-      if (nutrients.carbs === 0) console.warn(`Carbs zero for ${food.name}`);
-      if (nutrients.sugars === 0) console.warn(`Sugars zero for ${food.name}`);
-      if (nutrients.fiber === 0) console.warn(`Fiber zero for ${food.name}`);
-      if (nutrients.protein === 0) console.warn(`Protein zero for ${food.name}`);
-      if (nutrients.saturatedFat === 0) console.warn(`Saturated fat zero for ${food.name}`);
-      if (nutrients.sodium === 0) console.warn(`Sodium zero for ${food.name}`);
-      if (nutrients.omega3 === 0) console.warn(`Omega 3 zero for ${food.name}`);
-      if (nutrients.antioxidants === 0) console.warn(`Antioxidants zero for ${food.name}`);
-      if (nutrients.cholesterol === 0) console.warn(`Cholesterol zero for ${food.name}`);
-      if (nutrients.potassium === 0) console.warn(`Potassium zero for ${food.name}`);
-      if (nutrients.phosphorus === 0) console.warn(`Phosphorus zero for ${food.name}`);
+      if (nutrients.carbs === 0) console.warn(`Carbs zero for ${cargo.name}`);
+      if (nutrients.sugars === 0) console.warn(`Sugars zero for ${cargo.name}`);
+      if (nutrients.fiber === 0) console.warn(`Fiber zero for ${cargo.name}`);
+      if (nutrients.protein === 0) console.warn(`Protein zero for ${cargo.name}`);
+      if (nutrients.saturatedFat === 0) console.warn(`Saturated fat zero for ${cargo.name}`);
+      if (nutrients.sodium === 0) console.warn(`Sodium zero for ${cargo.name}`);
+      if (nutrients.omega3 === 0) console.warn(`Omega 3 zero for ${cargo.name}`);
+      if (nutrients.antioxidants === 0) console.warn(`Antioxidants zero for ${cargo.name}`);
+      if (nutrients.cholesterol === 0) console.warn(`Cholesterol zero for ${cargo.name}`);
+      if (nutrients.potassium === 0) console.warn(`Potassium zero for ${cargo.name}`);
+      if (nutrients.phosphorus === 0) console.warn(`Phosphorus zero for ${cargo.name}`);
       
       Object.keys(nutrients).forEach(key => {
         const k = key as keyof { carbs: number; sugars: number; fiber: number; protein: number; saturatedFat: number; sodium: number; omega3: number; antioxidants: number; cholesterol: number; potassium: number; phosphorus: number };

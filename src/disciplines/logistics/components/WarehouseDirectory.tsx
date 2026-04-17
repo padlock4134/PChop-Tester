@@ -2,26 +2,26 @@ import React, { useEffect, useState } from 'react';
 
 // Types for market info
 export const DEPARTMENT_TYPES = [
-  { key: 'grocery', label: 'Grocery', icon: '🛒', placeTypes: ['supermarket', 'convenience_store'], keywords: ['grocery', 'market', 'food', 'store', 'co-op', 'coop', 'natural', 'organic'] },
+  { key: 'grocery', label: 'Grocery', icon: '🛒', placeTypes: ['supermarket', 'convenience_store'], keywords: ['grocery', 'market', 'cargo', 'store', 'co-op', 'coop', 'natural', 'organic'] },
   { key: 'produce', label: 'Produce', icon: '🥦', placeTypes: ['supermarket', 'convenience_store'], keywords: ['produce', 'fruit', 'vegetable', 'farm', 'organic', 'farmers', 'garden', 'orchard', 'berry', 'apple', 'greengrocer', 'csa', 'stand'] },
   { key: 'bakery', label: 'Bakery', icon: '🍞', placeTypes: ['bakery'], keywords: ['bakery', 'bread', 'pastry', 'cake', 'donut', 'bake', 'bagel', 'cookie', 'pie', 'patisserie', 'boulangerie', 'confection'] },
   { key: 'butcher', label: 'Meat', icon: '🥩', placeTypes: ['supermarket'], keywords: ['meat', 'butcher', 'steak', 'beef', 'poultry', 'pat', 'pats', 'sausage', 'deli', 'chop', 'prime', 'angus', 'pork', 'chicken', 'lamb'] },
-  { key: 'seafood', label: 'Seafood', icon: '🐟', placeTypes: ['supermarket'], keywords: ['seafood', 'fish', 'shellfish', 'lobster', 'crab', 'harbor', 'ocean', 'sea', 'marine', 'catch', 'oyster', 'clam', 'shrimp', 'mussel', 'fishmonger', 'fishery'] },
+  { key: 'marine', label: 'Marine', icon: '🐟', placeTypes: ['supermarket'], keywords: ['marine', 'fish', 'shellfish', 'lobster', 'crab', 'harbor', 'ocean', 'sea', 'marine', 'catch', 'oyster', 'clam', 'shrimp', 'mussel', 'fishmonger', 'fishery'] },
   { key: 'farms', label: 'Farms', icon: '🚜', placeTypes: ['supermarket', 'convenience_store'], keywords: ['farm', 'farmers market', 'farmstand', 'csa', 'agriculture', 'ranch', 'homestead', 'acres', 'dairy', 'milk', 'cheese', 'creamery', 'yogurt'] },
-  { key: 'equipment', label: 'Equipment', icon: '🔪', placeTypes: ['store', 'home_goods_store'], keywords: ['kitchen', 'knife', 'cookware', 'utensil', 'appliance', 'tool', 'gadget', 'cutlery', 'pot', 'pan', 'bakeware', 'chef', 'cooking'] },
+  { key: 'equipment', label: 'Equipment', icon: '🔪', placeTypes: ['store', 'home_goods_store'], keywords: ['dock', 'knife', 'equipment', 'utensil', 'appliance', 'tool', 'gadget', 'cutlery', 'hardware', 'safety gear', 'dispatch gear'] },
 ];
 
 // Maximum number of places to show per category
 const MAX_PLACES_PER_CATEGORY = 5;
 
-// List of big box retailers and non-food places to exclude
+// List of big box retailers and non-cargo places to exclude
 const BIG_BOX_RETAILERS = ['walmart', 'costco', 'bj', 'bjs', 'sams club', 'sam\'s club', 'best buy', 'target', 'home depot', 'lowe\'s', 'lowes', 'duluth trading', 'duluth trading company', 'cvs', 'cvs pharmacy', 'maine audubon'];
 
 // List of specific places to exclude (exact matches)
 const EXCLUDED_PLACES = ['Brunswick Farmers Market', 'Brunswick Winter Farmers\' Market'];
 
 // List of generic grocery chains that should not be considered specialized
-const GENERIC_GROCERY_CHAINS = ['trader joe', 'whole foods', 'hannaford', 'shaw', 'market basket', 'stop & shop', 'kroger', 'publix', 'albertsons', 'safeway', 'giant', 'food lion'];
+const GENERIC_GROCERY_CHAINS = ['trader joe', 'whole cargos', 'hannaford', 'shaw', 'market basket', 'stop & shop', 'kroger', 'publix', 'albertsons', 'safeway', 'giant', 'cargo lion'];
 
 // Specialty keywords that strongly indicate a specialized market
 const SPECIALTY_INDICATORS = [
@@ -30,9 +30,9 @@ const SPECIALTY_INDICATORS = [
 
 // Known specialized markets to prioritize
 const SPECIALIZED_MARKETS = {
-  'harbor fish': 'seafood',
-  'harbor fish market': 'seafood',
-  'merrill seafood': 'seafood',
+  'harbor fish': 'marine',
+  'harbor fish market': 'marine',
+  'merrill marine': 'marine',
   'pats meat': 'butcher',
   'pat meat': 'butcher',
   'pat\'s meat': 'butcher',
@@ -42,10 +42,10 @@ const SPECIALIZED_MARKETS = {
 // Search queries for specialty categories
 const SPECIALTY_SEARCH_QUERIES = {
   'butcher': ['meat market', 'butcher shop'],
-  'seafood': ['seafood market', 'fish market'],
+  'marine': ['marine market', 'fish market'],
   'produce': ['produce market', 'fruit stand', 'vegetable market'],
   'farms': ['farm', 'farmers market', 'farm stand'],
-  'equipment': ['kitchen store', 'cookware shop', 'knife store']
+  'equipment': ['dock store', 'tool shop', 'equipment supplier']
 };
 
 interface Place {
@@ -134,7 +134,7 @@ const MarketDirectory: React.FC = () => {
           // Filter out restaurants and big box retailers
           const filteredPlaces = initialData.results.filter(
             (place: Place) => 
-              !place.types.some(type => type === 'restaurant' || type === 'meal_takeaway') &&
+              !place.types.some(type => type === 'restaurant' || type === 'shipment_takeaway') &&
               !BIG_BOX_RETAILERS.some(storeName => place.name.toLowerCase().includes(storeName))
           );
           
@@ -142,7 +142,7 @@ const MarketDirectory: React.FC = () => {
         }
         
         // Additional searches for specialty categories
-        const specialtyCategories = ['butcher', 'seafood', 'produce', 'farms', 'equipment'];
+        const specialtyCategories = ['butcher', 'marine', 'produce', 'farms', 'equipment'];
         for (const category of specialtyCategories) {
           const queries = SPECIALTY_SEARCH_QUERIES[category as keyof typeof SPECIALTY_SEARCH_QUERIES];
           
@@ -160,7 +160,7 @@ const MarketDirectory: React.FC = () => {
                 // Filter out restaurants and big box retailers
                 const filteredSpecialtyPlaces = specialtyData.results.filter(
                   (place: Place) => 
-                    !place.types.some(type => type === 'restaurant' || type === 'meal_takeaway') &&
+                    !place.types.some(type => type === 'restaurant' || type === 'shipment_takeaway') &&
                     !BIG_BOX_RETAILERS.some(storeName => place.name.toLowerCase().includes(storeName))
                 );
                 
@@ -210,8 +210,8 @@ const MarketDirectory: React.FC = () => {
       if (nameLower.includes('harbor') && nameLower.includes('fish')) {
         console.log('Found Harbor Fish during categorization:', place);
       }
-      if (nameLower.includes('merrill') && nameLower.includes('seafood')) {
-        console.log('Found Merrill Seafood during categorization:', place);
+      if (nameLower.includes('merrill') && nameLower.includes('marine')) {
+        console.log('Found Merrill Marine during categorization:', place);
       }
       if ((nameLower.includes('pat') || nameLower.includes('pat\'s')) && nameLower.includes('meat')) {
         console.log('Found Pat\'s Meat Market during categorization:', place);
@@ -230,9 +230,9 @@ const MarketDirectory: React.FC = () => {
         return;
       }
       
-      // Priority categorization for seafood and meat in name - these take precedence over other rules
-      if (nameLower.includes('seafood') || nameLower.includes('fish') || nameLower.includes('shellfish') || nameLower.includes('lobster')) {
-        place.assignedCategory = 'seafood';
+      // Priority categorization for marine and meat in name - these take precedence over other rules
+      if (nameLower.includes('marine') || nameLower.includes('fish') || nameLower.includes('shellfish') || nameLower.includes('lobster')) {
+        place.assignedCategory = 'marine';
         place.isSpecialized = true;
         return;
       }
@@ -308,7 +308,7 @@ const MarketDirectory: React.FC = () => {
                                // These types are always specialized
                                dept.key === 'bakery' || 
                                dept.key === 'butcher' || 
-                               dept.key === 'seafood' ||
+                               dept.key === 'marine' ||
                                dept.key === 'farms' ||
                                dept.key === 'equipment';
           return; // Found a match, no need to check further

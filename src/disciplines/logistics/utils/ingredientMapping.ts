@@ -1,29 +1,29 @@
-// Ingredient to market type mapping and pricing estimates
-// Used for Build Menu feature to show which ingredients to buy at which markets
+// Item to market type mapping and pricing estimates
+// Used for Build Menu feature to show which items to buy at which markets
 
-export interface IngredientPrice {
-  ingredient: string;
+export interface ItemPrice {
+  item: string;
   estimatedPrice: number;
   unit: string;
   marketType: string;
 }
 
-// Map ingredient keywords to market types
-export const ingredientToMarketType: Record<string, string> = {
-  // Seafood
-  'lobster': 'seafood',
-  'clam': 'seafood',
-  'clams': 'seafood',
-  'fish': 'seafood',
-  'salmon': 'seafood',
-  'tuna': 'seafood',
-  'shrimp': 'seafood',
-  'crab': 'seafood',
-  'scallop': 'seafood',
-  'oyster': 'seafood',
-  'mussel': 'seafood',
-  'cod': 'seafood',
-  'haddock': 'seafood',
+// Map item keywords to market types
+export const itemToMarketType: Record<string, string> = {
+  // Marine
+  'lobster': 'marine',
+  'clam': 'marine',
+  'clams': 'marine',
+  'fish': 'marine',
+  'salmon': 'marine',
+  'tuna': 'marine',
+  'shrimp': 'marine',
+  'crab': 'marine',
+  'scallop': 'marine',
+  'oyster': 'marine',
+  'mussel': 'marine',
+  'cod': 'marine',
+  'haddock': 'marine',
   
   // Meat/Butcher
   'beef': 'butcher',
@@ -180,8 +180,8 @@ export const ingredientToMarketType: Record<string, string> = {
 };
 
 // Basic price estimates (in USD)
-export const ingredientPriceEstimates: Record<string, { price: number; unit: string }> = {
-  // Seafood (premium pricing)
+export const itemPriceEstimates: Record<string, { price: number; unit: string }> = {
+  // Marine (premium pricing)
   'lobster': { price: 18, unit: 'lb' },
   'clam': { price: 9, unit: 'lb' },
   'clams': { price: 9, unit: 'lb' },
@@ -287,19 +287,19 @@ export const ingredientPriceEstimates: Record<string, { price: number; unit: str
 };
 
 /**
- * Determine which market type an ingredient should be purchased from
+ * Determine which market type an item should be purchased from
  */
-export function getMarketTypeForIngredient(ingredient: string): string {
-  const lowerIngredient = ingredient.toLowerCase();
+export function getMarketTypeForItem(item: string): string {
+  const lowerItem = item.toLowerCase();
   
   // Check for exact matches first
-  if (ingredientToMarketType[lowerIngredient]) {
-    return ingredientToMarketType[lowerIngredient];
+  if (itemToMarketType[lowerItem]) {
+    return itemToMarketType[lowerItem];
   }
   
   // Check for partial matches
-  for (const [key, marketType] of Object.entries(ingredientToMarketType)) {
-    if (lowerIngredient.includes(key)) {
+  for (const [key, marketType] of Object.entries(itemToMarketType)) {
+    if (lowerItem.includes(key)) {
       return marketType;
     }
   }
@@ -309,19 +309,19 @@ export function getMarketTypeForIngredient(ingredient: string): string {
 }
 
 /**
- * Get estimated price for an ingredient
+ * Get estimated price for an item
  */
-export function getEstimatedPrice(ingredient: string): { price: number; unit: string } | null {
-  const lowerIngredient = ingredient.toLowerCase();
+export function getEstimatedPrice(item: string): { price: number; unit: string } | null {
+  const lowerItem = item.toLowerCase();
   
   // Check for exact matches first
-  if (ingredientPriceEstimates[lowerIngredient]) {
-    return ingredientPriceEstimates[lowerIngredient];
+  if (itemPriceEstimates[lowerItem]) {
+    return itemPriceEstimates[lowerItem];
   }
   
   // Check for partial matches
-  for (const [key, priceInfo] of Object.entries(ingredientPriceEstimates)) {
-    if (lowerIngredient.includes(key)) {
+  for (const [key, priceInfo] of Object.entries(itemPriceEstimates)) {
+    if (lowerItem.includes(key)) {
       return priceInfo;
     }
   }
@@ -330,17 +330,17 @@ export function getEstimatedPrice(ingredient: string): { price: number; unit: st
 }
 
 /**
- * Group ingredients by market type
+ * Group items by market type
  */
-export function groupIngredientsByMarketType(ingredients: string[]): Record<string, string[]> {
+export function groupItemsByMarketType(items: string[]): Record<string, string[]> {
   const grouped: Record<string, string[]> = {};
   
-  for (const ingredient of ingredients) {
-    const marketType = getMarketTypeForIngredient(ingredient);
+  for (const item of items) {
+    const marketType = getMarketTypeForItem(item);
     if (!grouped[marketType]) {
       grouped[marketType] = [];
     }
-    grouped[marketType].push(ingredient);
+    grouped[marketType].push(item);
   }
   
   return grouped;
