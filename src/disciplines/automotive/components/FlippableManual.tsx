@@ -21,7 +21,7 @@ const PAGES = [
           <h2 className="cover-subtitle" style={{ fontSize: '1.8rem', margin: '0 0 2rem 0', color: '#fff', textAlign: 'center' }}>Your AI Automotive Training Companion</h2>
           <h3 className="cover-body" style={{ fontSize: '1.5rem', textAlign: 'center', margin: '0 auto 2rem', color: '#fff' }}>Open To Learn More</h3>
           <div 
-            className="cookbook-logo"
+            className="manual-logo"
             style={{ 
               width: '300px',
               height: '300px',
@@ -234,8 +234,8 @@ const FlippableManual: React.FC = () => {
 
   // When showing the cover or any page
   return (
-    <div className={`cookbook-container ${pageNumber === 0 ? 'cover-only' : ''} device-${deviceType}`}>
-      <div className="cookbook-spine" />
+    <div className={`manual-container ${pageNumber === 0 ? 'cover-only' : ''} device-${deviceType}`}>
+      <div className="manual-spine" />
       
       {/* Turned pages - these are the pages that have been turned and stick */}
       {turnedPages.map((pageNum) => (

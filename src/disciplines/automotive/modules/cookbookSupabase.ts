@@ -9,7 +9,7 @@ export async function saveCookbook(userId: string, recipes: RecipeCard[]) {
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId,
-      recipes: recipes // Stored as JSONB in Supabase
+      recipes: recipes // Stored as JSONB in Supabase (table: user_cookbook)
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }
@@ -33,7 +33,7 @@ export async function addRecipeToCookbook(userId: string, recipe: RecipeCard) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   
-  // First get existing recipes
+  // First get existing repair guides
   const { data, error: fetchError } = await supabase
     .from('user_cookbook')
     .select('recipes')
@@ -42,14 +42,14 @@ export async function addRecipeToCookbook(userId: string, recipe: RecipeCard) {
     
   if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
   
-  // Add new recipe if not already present
+  // Add new repair guide if not already present
   const existingRecipes = (data?.recipes || []) as RecipeCard[];
   if (!existingRecipes.some(r => r.id === recipe.id)) {
     const { error } = await supabase
       .from('user_cookbook')
       .upsert([{ 
         user_id: userId, 
-        recipes: [...existingRecipes, recipe] // Stored as JSONB in Supabase
+        recipes: [...existingRecipes, recipe] // Stored as JSONB in Supabase (table: user_cookbook)
       }], { onConflict: 'user_id' });
     if (error) throw error;
   }

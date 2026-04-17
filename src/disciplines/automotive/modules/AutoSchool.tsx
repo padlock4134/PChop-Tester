@@ -5,7 +5,7 @@ import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import VideoModal from '../components/VideoModal';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
-import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
+import { getMainEquipment, getMainPart } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
@@ -249,7 +249,7 @@ const AutoSchool = () => {
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
       query = `how to ${tut.techniqueData.title.toLowerCase()} trade technique`;
-    } else if (tut.type === 'cooking_tutorial') {
+    } else if (tut.type === 'repair_tutorial') {
       // For task tutorials, focus on the project
       const mainPart = getMainPart(recipe.ingredients || []);
       const mainEquipment = getMainEquipment(recipe.equipment || []);
@@ -400,7 +400,7 @@ const AutoSchool = () => {
                 </div>
               ))}
             </div>
-            {/* Recipe Card Display at Bottom (matching MyCookBook RecipeCard layout) */}
+            {/* Repair Card Display at Bottom (matching MyManual RepairCard layout) */}
             <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
               <button
                 onClick={() => window.location.reload()}

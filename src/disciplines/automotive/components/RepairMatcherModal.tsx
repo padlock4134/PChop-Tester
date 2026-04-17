@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
-import chefFreddiePng from '../images/logo.png';
+import garageLogo from '../images/logo.png';
 
 export type RecipeCard = {
   id: string;
@@ -42,15 +42,15 @@ export type RecipeCard = {
 type Props = {
   open: boolean;
   onClose: () => void;
-  cupboardIngredients: string[];
+  partsBinItems: string[];
   onLike: (recipe: RecipeCard) => void;
-  saveRecipeToCookbook: (recipe: RecipeCard) => void;
+  saveRepairToManual: (recipe: RecipeCard) => void;
   recipes: RecipeCard[];
   loading: boolean;
   error: string;
 };
 
-const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
+const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, partsBinItems, onLike, saveRepairToManual, recipes, loading, error }) => {
   const { t } = useTranslation();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
@@ -86,12 +86,12 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const handleLike = async () => {
     try {
       setIsSaving(true);
-      // Save recipe to cookbook
-      await saveRecipeToCookbook(recipes[currentIdx]);
+      // Save repair to manual
+      await saveRepairToManual(recipes[currentIdx]);
       await onLike(recipes[currentIdx]);
       setCurrentIdx(idx => idx + 1);
     } catch (error) {
-      console.error('Error saving recipe:', error);
+      console.error('Error saving repair guide:', error);
     } finally {
       setIsSaving(false);
     }
@@ -114,7 +114,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   ];
 }
 
-  const handleCookMe = () => {
+  const handleFixIt = () => {
     const fullRecipe = {
       ...recipes[currentIdx],
       tutorials: recipes[currentIdx].tutorials && recipes[currentIdx].tutorials.length === 3
@@ -149,7 +149,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         <h2 className="font-retro text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={chefFreddiePng} alt="Garage Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
+              <img src={garageLogo} alt="Garage Gus" className="w-12 h-12 rounded-full border-2 border-black" />
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
@@ -202,7 +202,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                   >
                     {isSaving ? '...' : '♥'}
                   </button>
-                  <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
+                  <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleFixIt}>
                     {t('garageMatcher.fixIt')}
                   </button>
                 </div>

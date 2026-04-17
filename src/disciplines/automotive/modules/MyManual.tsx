@@ -347,13 +347,13 @@ const MyManual = () => {
           if (!existingLog) {
             await supabase.rpc('increment_user_xp', {
               user_id: user.id,
-              xp_amount: XP_REWARDS.RECIPE_SHARE
+              xp_amount: XP_REWARDS.REPAIR_SHARE
             });
             
             await supabase.from('xp_activity_log').insert([
               {
                 user_id: user.id,
-                xp_awarded: XP_REWARDS.RECIPE_SHARE,
+                xp_awarded: XP_REWARDS.REPAIR_SHARE,
                 activity: 'manual_share'
               }
             ]);

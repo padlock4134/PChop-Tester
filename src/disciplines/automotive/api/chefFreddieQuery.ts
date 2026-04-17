@@ -1,10 +1,10 @@
-// Netlify Function or API Route for Chef Freddie (Claude Haiku) prompt-to-query
+// Netlify Function or API Route for Gus the Mechanic (Claude Haiku) prompt-to-query
 // TODO: Implement Claude Haiku/AI integration logic for production.
 
-// Netlify/Node API handler for Chef Freddie prompt-to-query
+// Netlify/Node API handler for Gus the Mechanic prompt-to-query
 
-// Netlify Function for Chef Freddie prompt-to-query
-export const askChefFreddie = async (event: any, context: any) => {
+// Netlify Function for Gus the Mechanic prompt-to-query
+export const askGusTheMechanic = async (event: any, context: any) => {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,

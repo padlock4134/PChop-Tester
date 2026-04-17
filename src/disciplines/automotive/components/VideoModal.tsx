@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { XP_REWARDS } from '../../culinary/services/xpService';
+import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from './NavBar';
 import { supabase } from '../../culinary/api/supabaseClient';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
@@ -60,14 +60,14 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
         // Award XP for completing a tutorial
         await supabase.rpc('increment_user_xp', {
           user_id: user.id,
-          xp_amount: repairGuideId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.RECIPE_COMPLETE
+          xp_amount: repairGuideId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.REPAIR_COMPLETE
         });
         
         // Log the XP award
         await supabase.from('xp_activity_log').insert([
           {
             user_id: user.id,
-            xp_awarded: repairGuideId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.RECIPE_COMPLETE,
+            xp_awarded: repairGuideId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.REPAIR_COMPLETE,
             activity: `tutorial_${tutorialId}`
           }
         ]);

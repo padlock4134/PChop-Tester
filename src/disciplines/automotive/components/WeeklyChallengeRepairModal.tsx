@@ -6,7 +6,7 @@ import { useState, useRef } from 'react';
 import { supabase } from '../../culinary/api/supabaseClient';
 import { claimWeeklyChallenge } from '../../culinary/api/weeklyChallenge';
 import { isSessionValid } from '../../culinary/api/userSession';
-import { XP_REWARDS } from '../../culinary/services/xpService';
+import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from './NavBar';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 

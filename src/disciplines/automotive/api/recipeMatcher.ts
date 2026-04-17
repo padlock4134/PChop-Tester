@@ -97,7 +97,7 @@ function fuzzyMatch(ingredient1: string, ingredient2: string): boolean {
          norm2.split(' ').some(word => norm1.includes(word));
 }
 
-// Score a recipe based on user's cupboard, preferences, kitchen setup, and talent tree
+// Score a repair guide based on user's parts bin, preferences, garage setup, and talent tree
 function scoreRecipe(
   recipe: RecipeCard, 
   cupboard: string[],
@@ -182,12 +182,12 @@ async function calculateRecipeNutrition(
       phosphorus: 0
     };
     
-    nutritionData.forEach((food, index) => {
-      if (food) {
-        console.log(`Food ${index}: ${food.name}`, food.nutrients);
+    nutritionData.forEach((item, index) => {
+      if (item) {
+        console.log(`Item ${index}: ${item.name}`, item.nutrients);
         
-        const nutrients = getKeyNutrients(food.nutrients);
-        console.log(`Key nutrients for ${food.name}:`, nutrients);
+        const nutrients = getKeyNutrients(item.nutrients);
+        console.log(`Key nutrients for ${item.name}:`, nutrients);
         
         Object.keys(nutrients).forEach(key => {
           const k = key as keyof KeyNutrients;
@@ -320,7 +320,7 @@ export async function fetchRecipesWithImages({
 ${vehicleType.length > 0 ? `Vehicle type focus: ${vehicleType.join(', ')}. Tailor repair guides to this vehicle type.` : ''}
 ${certifications.length > 0 && certifications[0] !== 'None' ? `Certifications: ${certifications.join(', ')}. Reference relevant certification standards in procedures.` : ''}
 ${garageSetup ? `Garage setup: ${garageSetup}. Only suggest tools/equipment available in this type of setup.` : ''}
-${userKitchenSetup ? `Override garage setup: ${userKitchenSetup}` : ''}
+${userKitchenSetup ? `Override setup: ${userKitchenSetup}` : ''}
 ${talentTreePrompt}
 
 Return the repair guides as a JSON array with the following structure for each guide:

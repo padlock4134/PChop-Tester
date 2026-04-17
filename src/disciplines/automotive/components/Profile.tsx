@@ -1097,9 +1097,9 @@ const Profile = () => {
       
       doc.text(cleanText('Average Skill Proficiency:'), 35, 153);
       doc.text(cleanText(avgProficiency), 130, 153);
-      doc.text(cleanText('Food Safety Certification Rate:'), 35, 163);
+      doc.text(cleanText('Safety Certification Rate:'), 35, 163);
       doc.text(cleanText(safetyRate), 130, 163);
-      doc.text(cleanText('Recipe Completion Success:'), 35, 173);
+      doc.text(cleanText('Repair Completion Success:'), 35, 173);
       doc.text(cleanText(completionRate), 130, 173);
       doc.text(cleanText('Students Requiring Additional Support:'), 35, 183);
       doc.text(cleanText(supportNeeded), 130, 183);
@@ -1109,9 +1109,9 @@ const Profile = () => {
       doc.text(cleanText('Course Completion Rate:'), 35, 163);
       doc.text(cleanText('84.9%'), 130, 163);
       doc.text(cleanText('Highest Performing Course:'), 35, 173);
-      doc.text(cleanText('Food Safety and Sanitation (94%)'), 130, 173);
+      doc.text(cleanText('Shop Safety and Compliance (94%)'), 130, 173);
       doc.text(cleanText('Course Requiring Attention:'), 35, 183);
-      doc.text(cleanText('Menu Planning and Costing (79%)'), 130, 183);
+      doc.text(cleanText('Service Estimating and Costing (79%)'), 130, 183);
     } else {
       doc.text(cleanText('Overall Performance Score:'), 35, 153);
       doc.text(cleanText('85.4%'), 130, 153);
@@ -1193,7 +1193,7 @@ const Profile = () => {
     if (format === 'csv') {
       // Generate CSV content
       if (fileName === 'skill-mastery-tracking') {
-        return `Student ID,Student Name,Blueprint Interpretation Score,Cooking Techniques Score,Food Safety Certification,Recipe Completion Rate,Overall Progress
+        return `Student ID,Student Name,Blueprint Interpretation Score,Repair Techniques Score,Safety Certification,Repair Completion Rate,Overall Progress
 STU001,Alex Johnson,85,78,Certified,80%,81%
 STU002,Maria Garcia,92,88,Certified,95%,92%
 STU003,David Chen,67,72,In Progress,65%,68%

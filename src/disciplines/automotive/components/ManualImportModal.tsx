@@ -3,14 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { RecipeCard } from './RepairMatcherModal';
 
-interface CookBookImportModalProps {
+interface ManualImportModalProps {
   open: boolean;
   onClose: () => void;
   onImport: (recipe: RecipeCard) => void;
   existingIngredients?: string[];
 }
 
-const CookBookImportModal: React.FC<CookBookImportModalProps> = ({ 
+const ManualImportModal: React.FC<ManualImportModalProps> = ({ 
   open, 
   onClose, 
   onImport,
@@ -64,7 +64,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
       
     } catch (error) {
       console.error('Error during import:', error);
-      alert('Failed to import recipe. Please try again.');
+      alert('Failed to import service. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -147,5 +147,5 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
   );
 };
 
-export default CookBookImportModal;
+export default ManualImportModal;
 

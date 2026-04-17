@@ -2,14 +2,14 @@
 // Requires VITE_UNSPLASH_ACCESS_KEY in .env
 
 // Helper to build a more specific Unsplash query
-function buildImageQuery(recipeTitle: string, item: string, type: 'ingredient' | 'equipment' | 'recipe' = 'recipe'): string {
+function buildImageQuery(procedureTitle: string, item: string, type: 'part' | 'equipment' | 'procedure' = 'procedure'): string {
   if (type === 'equipment') {
-    return `${recipeTitle} ${item} cooking`;
+    return `${procedureTitle} ${item} automotive`;
   }
-  if (type === 'ingredient') {
-    return `${item} for ${recipeTitle}`;
+  if (type === 'part') {
+    return `${item} for ${procedureTitle}`;
   }
-  return `${recipeTitle} ${item}`;
+  return `${procedureTitle} ${item}`;
 }
 
 // Helper to filter out irrelevant results (e.g., "plant pot", "garden")
@@ -21,10 +21,10 @@ function isRelevantUnsplashResult(result: any, item: string): boolean {
   return true;
 }
 
-export async function getRecipeImage(query: string, recipeTitle?: string, type: 'ingredient' | 'equipment' | 'recipe' = 'recipe'): Promise<string> {
+export async function getRecipeImage(query: string, procedureTitle?: string, type: 'part' | 'equipment' | 'procedure' = 'procedure'): Promise<string> {
   const accessKey = import.meta.env.VITE_UNSPLASH_ACCESS_KEY;
   if (!accessKey) throw new Error('Unsplash API key missing');
-  const searchQuery = recipeTitle ? buildImageQuery(recipeTitle, query, type) : query;
+  const searchQuery = procedureTitle ? buildImageQuery(procedureTitle, query, type) : query;
   const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchQuery)}&client_id=${accessKey}&orientation=landscape&per_page=5`;
   const res = await fetch(url);
   if (!res.ok) throw new Error('Unsplash API error');

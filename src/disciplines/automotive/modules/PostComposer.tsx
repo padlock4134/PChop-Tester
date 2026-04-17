@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../../culinary/api/supabaseClient';
-import { XP_REWARDS } from '../../culinary/services/xpService';
+import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../../culinary/components/NavBar';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { isSessionValid } from '../../culinary/api/userSession';
@@ -27,17 +27,17 @@ const PostComposer = () => {
         throw new Error('Not authenticated');
       }
       
-      // Check if this is a recipe share (simplified check for recipe keywords)
-      const isRecipeShare = /recipe|ingredients?|instructions?|method|steps|serves|prep time|cook time/i.test(input);
+      // Check if this is a repair share (simplified check for repair keywords)
+      const isRepairShare = /repair|parts?|instructions?|method|steps|service|labor time|procedure/i.test(input);
       
       // In a real app, you would upload the image and create the post here
       // For now, we'll just simulate a successful post
       
-      if (isRecipeShare) {
-        // Award XP for sharing a recipe
+      if (isRepairShare) {
+        // Award XP for sharing a repair guide
         const { error } = await supabase.rpc('increment_user_xp', {
           user_id: user.id,
-          xp_amount: XP_REWARDS.RECIPE_SHARE
+          xp_amount: XP_REWARDS.REPAIR_SHARE
         });
         
         if (!error) {
@@ -45,8 +45,8 @@ const PostComposer = () => {
           await supabase.from('xp_activity_log').insert([
             {
               user_id: user.id,
-              xp_awarded: XP_REWARDS.RECIPE_SHARE,
-              activity: 'recipe_share'
+              xp_awarded: XP_REWARDS.REPAIR_SHARE,
+              activity: 'repair_share'
             }
           ]);
           
@@ -59,7 +59,7 @@ const PostComposer = () => {
       setImage(null);
       
       // Show success message or update UI
-      alert('Post shared successfully!' + (isRecipeShare ? ' +' + XP_REWARDS.RECIPE_SHARE + ' XP for sharing a recipe!' : ''));
+      alert('Post shared successfully!' + (isRepairShare ? ' +' + XP_REWARDS.REPAIR_SHARE + ' XP for sharing a repair guide!' : ''));
       
     } catch (error) {
       console.error('Error sharing post:', error);

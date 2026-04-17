@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 // @ts-ignore
-import chefFreddiePng from '../images/logo.png';
+import garageLogo from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askChefFreddie } from '../api/chefFreddie';
+import { askGus } from '../api/chefFreddie';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
 interface Message {
@@ -41,7 +41,7 @@ const GarageFreddieWidget = () => {
     setMessages(msgs => [...msgs, { sender: 'user', text }]);
     setInput('');
     try {
-      const reply = await askChefFreddie(user?.id!, text);
+      const reply = await askGus(user?.id!, text);
       setMessages(msgs => [...msgs, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
       setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || t('garageFreddie.errorContacting') }]);
@@ -113,7 +113,7 @@ const GarageFreddieWidget = () => {
         aria-label="Open Garage Freddie AI Assistant"
       >
         <img
-          src={chefFreddiePng}
+          src={garageLogo}
           alt="Garage Freddie"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />

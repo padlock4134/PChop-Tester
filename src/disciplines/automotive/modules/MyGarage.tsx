@@ -70,10 +70,10 @@ const MyGarage = () => {
   const [matcherError, setMatcherError] = useState('');
   const [matcherRecipes, setMatcherRecipes] = useState<RecipeCard[]>([]);
 
-  // MyCookBook state (for MVP, local only)
-  const [cookbook, setCookbook] = useState<RecipeCard[]>([]);
+  // MyManual state (for MVP, local only)
+  const [manual, setManual] = useState<RecipeCard[]>([]);
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [kitchenError, setKitchenError] = useState<string | null>(null);
+  const [garageError, setGarageError] = useState<string | null>(null);
 
   const [input, setInput] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
@@ -86,26 +86,26 @@ const MyGarage = () => {
     }
   };
 
-  // Save kitchen to Supabase whenever ingredients change
+  // Save garage inventory to Supabase whenever parts change
   useEffect(() => {
     if (ingredients.length === 0) return;
-    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your workspace.'));
+    saveKitchen(user?.id!, ingredients).catch(err => setGarageError('Failed to save your parts inventory.'));
   }, [ingredients]);
 
   // Freddie context: set page on mount
   useEffect(() => {
-    // Load both kitchen and cookbook data
+    // Load both garage inventory and manual data
     const loadData = async () => {
       try {
-        const [kitchenIngredients, cookbookRecipes] = await Promise.all([
+        const [garageInventory, manualRecipes] = await Promise.all([
           fetchKitchen(user?.id!),
           fetchCookbook(user?.id!)
         ]);
-        setIngredients(kitchenIngredients);
-        setCookbook(cookbookRecipes);
+        setIngredients(garageInventory);
+        setManual(manualRecipes);
       } catch (error) {
         console.error('Error loading data:', error);
-        setKitchenError('Failed to load your workspace.');
+        setGarageError('Failed to load your parts inventory.');
       }
     };
     loadData();
@@ -137,7 +137,7 @@ const MyGarage = () => {
       // Award XP for saving a repair guide
       if (user) {
         await import('../../culinary/services/xpService').then(m => 
-          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'repair_guide_save')
+          m.awardXP(user.id, XP_REWARDS.REPAIR_SAVE, 'repair_guide_save')
         );
         refreshXP();
       }
@@ -154,7 +154,7 @@ const MyGarage = () => {
   const handleSaveRepairGuideToManual = async (recipe: RecipeCard) => {
     try {
       await addRecipeToCookbook(user?.id!, recipe);
-      setCookbook(prevCookbook => [...prevCookbook, recipe]);
+      setManual(prev => [...prev, recipe]);
     } catch (error) {
       console.error('Error saving repair guide to manual:', error);
     }
@@ -163,7 +163,7 @@ const MyGarage = () => {
   return (
     <>
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
-        {/* My Kitchen header - moved back inside the module */}
+        {/* My Garage header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
           <span className="text-5xl mr-2">🏎️</span>
           <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myGarage.title')}</h1>
@@ -176,7 +176,7 @@ const MyGarage = () => {
         
         {/* Scrollable Content */}
         <div className="overflow-y-auto p-6 pt-4">
-      {/* Kitchen, Recipe Matcher, and Upload Photo Action Buttons */}
+      {/* Scan, Service Matcher, and Upload Photo Action Buttons */}
       <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
         {/* Scan status feedback */}
         {scanStatus && (
@@ -243,11 +243,11 @@ const MyGarage = () => {
                     setIngredients(updatedIngredients);
                     try {
                       await saveKitchen(user?.id!, updatedIngredients);
-                      setKitchenError(null);
+                      setGarageError(null);
                       setScanStatus(t('myGarage.ingredientsSaved'));
                       alert(t('myGarage.ingredientsSaved'));
                     } catch (err: any) {
-                      setKitchenError(t('myGarage.failedToSave') + ' ' + (err.message || err.toString()));
+                      setGarageError(t('myGarage.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myGarage.failedToSave') + ' ' + (err.message || err.toString()));
                       alert(t('myGarage.failedToSave') + ' ' + (err.message || err.toString()));
                     }
@@ -325,16 +325,16 @@ const MyGarage = () => {
       <RepairMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
-        cupboardIngredients={ingredients.map(i => i.name)}
+        partsBinItems={ingredients.map(i => i.name)}
         onLike={handleLikeRecipe}
-        saveRecipeToCookbook={handleSaveRepairGuideToManual}
+        saveRepairToManual={handleSaveRepairGuideToManual}
         recipes={matcherRecipes}
         loading={matcherLoading}
         error={matcherError}
       />
 
 
-      {/* Digital Cupboard Section */}
+      {/* Parts Bin Section */}
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
           <span role="img" aria-label="nut-bolt">🔩</span> {t('myGarage.digitalCupboard')}
@@ -348,9 +348,9 @@ const MyGarage = () => {
           </button>
         )}
       </div>
-      {/* Add Ingredient Bar */}
+      {/* Add Part Bar */}
       <div className="flex flex-col sm:flex-row gap-2 mb-4 w-full">
-        {/* Search cupboard input */}
+        {/* Search parts input */}
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"

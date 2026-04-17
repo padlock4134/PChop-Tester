@@ -37,7 +37,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       const savedRecipes = await fetchCookbook(user.id);
       setRecipes(savedRecipes || []);
     } catch (err) {
-      console.error('Error loading cookbook recipes:', err);
+      console.error('Error loading manual procedures:', err);
       setRecipes([]);
     } finally {
       setLoading(false);

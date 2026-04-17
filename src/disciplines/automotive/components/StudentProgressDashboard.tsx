@@ -164,8 +164,8 @@ const StudentProgressDashboard: React.FC = () => {
 
   const getPostBorderColor = (type: string) => {
     switch (type) {
-      case 'recipe': return 'border-blue-400';
-      case 'ingredient': return 'border-green-400';
+      case 'repair': return 'border-blue-400';
+      case 'part': return 'border-green-400';
       case 'live': return 'border-red-400';
       default: return 'border-gray-400';
     }
@@ -173,8 +173,8 @@ const StudentProgressDashboard: React.FC = () => {
 
   const getPostIcon = (type: string) => {
     switch (type) {
-      case 'recipe': return '📝';
-      case 'ingredient': return '🛒';
+      case 'repair': return '📝';
+      case 'part': return '🛒';
       case 'live': return '🔴';
       default: return '💭';
     }

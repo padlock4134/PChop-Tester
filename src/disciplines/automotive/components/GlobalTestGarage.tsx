@@ -48,7 +48,7 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
       await supabase.from('user_activity').insert({
         user_id: user.id,
         action,
-        component: 'global_test_kitchen',
+        component: 'global_test_garage',
         metadata: metadata || {},
         timestamp: new Date().toISOString()
       });

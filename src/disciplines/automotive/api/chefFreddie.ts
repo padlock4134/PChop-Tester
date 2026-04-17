@@ -2,7 +2,7 @@
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
 
-export async function askChefFreddie(userId: string, prompt: string): Promise<string> {
+export async function askGus(userId: string, prompt: string): Promise<string> {
   // --- Chat limit logic ---
   const isValid = await isSessionValid();
   if (!userId || !isValid) {

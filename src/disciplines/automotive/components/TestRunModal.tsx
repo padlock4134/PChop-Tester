@@ -306,7 +306,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const handleRecipeMatcherOpen = () => {
     // Only show if user has added ingredients
     if (ingredients.length === 0) {
-      alert('Please add some ingredients to your cupboard first!');
+      alert('Please add some parts to your parts bin first!');
       return;
     }
     
@@ -332,7 +332,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
     );
   };
 
-  const handleCookMe = () => {
+  const handleFixIt = () => {
     window.location.href = 'https://global-mvp123-porkchop.us.wristband.dev/signup';
   };
 
@@ -424,7 +424,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
         <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
           <input
             type="file"
-            id="scan-kitchen-file"
+            id="scan-garage-file"
             className="hidden"
             accept="image/*"
             onChange={() => {}}
@@ -445,7 +445,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        {/* Digital Cupboard Section */}
+        {/* Parts Bin Section */}
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
             <span role="img" aria-label="toolbox">🧰</span> Parts Bin
@@ -508,7 +508,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           
           {filteredIngredients.length === 0 ? (
             <div className="text-gray-500 italic text-center py-8 relative z-10">
-              No matching ingredients in your digital cupboard!
+              No matching parts in your parts bin!
             </div>
           ) : (
             <div className="flex flex-col gap-4 relative z-10">
@@ -556,7 +556,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
             >
               ✕
             </button>
-            <h2 className="font-retro text-2xl mb-2 text-center">Recipe Matcher</h2>
+            <h2 className="font-retro text-2xl mb-2 text-center">Service Matcher</h2>
             
             <div className="flex flex-col items-center">
               <div className="bg-sand rounded-xl shadow-lg p-4 w-full max-w-md mb-4 relative">
@@ -585,11 +585,11 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
                   })}
                 </div>
                 <div className="text-xs text-gray-600 mb-2 text-center">
-                  <span className="font-bold">Ingredients:</span> {sampleRecipes[currentRecipeIndex].ingredients.join(', ')}
+                  <span className="font-bold">Parts:</span> {sampleRecipes[currentRecipeIndex].ingredients.join(', ')}
                 </div>
                 {sampleRecipes[currentRecipeIndex].equipment && sampleRecipes[currentRecipeIndex].equipment.length > 0 && (
                   <div className="text-xs text-gray-600 mb-2 text-center">
-                    <span className="font-bold">Equipment:</span> {sampleRecipes[currentRecipeIndex].equipment.join(', ')}
+                    <span className="font-bold">Tools:</span> {sampleRecipes[currentRecipeIndex].equipment.join(', ')}
                   </div>
                 )}
               </div>
@@ -610,14 +610,14 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
                 </button>
                 <button 
                   className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" 
-                  onClick={handleCookMe}
+                  onClick={handleFixIt}
                 >
-                  Cook Me
+                  Fix It
                 </button>
               </div>
               
               <div className="text-xs mt-4 text-center text-gray-500">
-                Swipe through AI-powered recipes based on your cupboard!
+                Swipe through AI-powered service guides based on your parts bin!
               </div>
             </div>
           </div>

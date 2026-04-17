@@ -23,7 +23,7 @@ const GearheadLounge = () => {
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
-  const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
+  const [manualModalOpen, setManualModalOpen] = useState(false);
   
   // Automotive quotes rotation (52 quotes for weekly rotation)
   const automotiveQuotes = [
@@ -155,7 +155,7 @@ const GearheadLounge = () => {
       alert(t('gearheadLounge.pleaseSignIn'));
       return;
     }
-    setCookbookModalOpen(true);
+    setManualModalOpen(true);
   };
 
   // Handler for modal import - select a recipe to showcase
@@ -191,7 +191,7 @@ const GearheadLounge = () => {
       console.error('Error importing recipe:', error);
       alert(t('gearheadLounge.failedToImport'));
     } finally {
-      setCookbookModalOpen(false);
+      setManualModalOpen(false);
     }
   };
 
@@ -276,8 +276,8 @@ const GearheadLounge = () => {
                     </div>
                   </div>
                   <ManualImportModal
-                    open={cookbookModalOpen}
-                    onClose={() => setCookbookModalOpen(false)}
+                    open={manualModalOpen}
+                    onClose={() => setManualModalOpen(false)}
                     onImport={handleManualImport}
                     existingIngredients={[]}
                   />
