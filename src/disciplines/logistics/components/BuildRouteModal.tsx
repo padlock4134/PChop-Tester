@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
+import { fetchRunbook } from '../modules/cookbookSupabase';
 import { RouteCard } from './RouteMatcherModal';
 import jsPDF from 'jspdf';
 import { groupItemsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
@@ -310,4 +310,3 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 };
 
 export default BuildMenuModal;
-
