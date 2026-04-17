@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
+import { supabase } from '../api/supabaseClient';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
+import { isSessionValid } from '../api/userSession';
 
 const constructionQuoteOfTheDay = {
   chef: 'Norm Abram',
@@ -191,10 +191,10 @@ const MyBlueprints = () => {
   // Categories for filtering
   const categories = [
     { key: 'All', label: t('myBlueprints.all') },
-    { key: 'Seafood', label: t('myBlueprints.seafood') },
-    { key: 'Meat', label: t('myBlueprints.meat') },
-    { key: 'Vegetarian', label: t('myBlueprints.vegetarian') },
-    { key: 'Dessert', label: t('myBlueprints.dessert') }
+    { key: 'Structural', label: t('myBlueprints.structural', { defaultValue: 'Structural' }) },
+    { key: 'Electrical', label: t('myBlueprints.electrical', { defaultValue: 'Electrical' }) },
+    { key: 'Plumbing', label: t('myBlueprints.plumbing', { defaultValue: 'Plumbing' }) },
+    { key: 'Finishing', label: t('myBlueprints.finishing', { defaultValue: 'Finishing' }) }
   ];
 
   // Handle recipe selection for collections
@@ -253,11 +253,11 @@ const MyBlueprints = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: recipeToShare ? `${recipeToShare.name} Recipe on Porkchop` : 'My Cookbook on Porkchop',
+      title: recipeToShare ? `${recipeToShare.name} Build Plan on Porkchop` : 'My Blueprints on Porkchop',
       text: recipeToShare 
-        ? `Check out this amazing recipe for ${recipeToShare.name} on Porkchop!` 
-        : 'Check out my digital cookbook on Porkchop! I\'ve been collecting amazing recipes and would love to share them with you.',
-      url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
+        ? `Check out this build plan for ${recipeToShare.name} on Porkchop!` 
+        : 'Check out my digital blueprints on Porkchop! I\'ve been collecting build plans and would love to share them with you.',
+      url: window.location.href + (recipeToShare ? `?blueprint=${encodeURIComponent(recipeToShare.id)}` : ''),
     };
 
     try {
@@ -282,7 +282,7 @@ const MyBlueprints = () => {
           break;
         case 'instagram':
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
-          const instagramMessage = `Check out my cookbook! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
+          const instagramMessage = `Check out my blueprints! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
           alert(t('myBlueprints.sharingInstructions'));
           shared = true;
@@ -345,7 +345,7 @@ const MyBlueprints = () => {
     }
   };
   useEffect(() => {
-    updateContext({ page: 'MyCookBook' });
+    updateContext({ page: 'MyBlueprints' });
     const loadRecipes = async () => {
       try {
         setLoading(true);
@@ -363,8 +363,8 @@ const MyBlueprints = () => {
         }));
         setLocalRecipes(converted);
       } catch (err) {
-        console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        console.error('Error loading blueprints:', err);
+        setError('Failed to load your blueprints');
       } finally {
         setLoading(false);
       }
@@ -372,53 +372,54 @@ const MyBlueprints = () => {
     loadRecipes();
   }, [updateContext]);
 
-  // Filter recipes based on search term and category
+  // Filter blueprints based on search term and category
   const filteredRecipes = recipes.filter(recipe => {
     const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('myBlueprints.all')) return matchesSearch;
     
-    // Simple category detection based on ingredients
-    const ingredients = recipe.ingredients || [];
-    const ingredientsJoined = ingredients.join(' ').toLowerCase();
+    // Simple category detection based on materials
+    const materials = recipe.ingredients || [];
+    const materialsJoined = materials.join(' ').toLowerCase();
     
-    const hasSeafood = ingredientsJoined.includes('fish') || 
-      ingredientsJoined.includes('salmon') || 
-      ingredientsJoined.includes('tuna') || 
-      ingredientsJoined.includes('cod') || 
-      ingredientsJoined.includes('tilapia') || 
-      ingredientsJoined.includes('shrimp') || 
-      ingredientsJoined.includes('lobster') || 
-      ingredientsJoined.includes('crab') || 
-      ingredientsJoined.includes('oyster') || 
-      ingredientsJoined.includes('clam') || 
-      ingredientsJoined.includes('mussel');
+    const hasStructural = materialsJoined.includes('lumber') || 
+      materialsJoined.includes('2x4') || 
+      materialsJoined.includes('stud') || 
+      materialsJoined.includes('beam') || 
+      materialsJoined.includes('concrete') || 
+      materialsJoined.includes('block') || 
+      materialsJoined.includes('rebar') || 
+      materialsJoined.includes('framing') || 
+      materialsJoined.includes('joist') || 
+      materialsJoined.includes('plywood');
     
-    const hasMeat = ingredientsJoined.includes('beef') || 
-      ingredientsJoined.includes('chicken') || 
-      ingredientsJoined.includes('pork') || 
-      ingredientsJoined.includes('turkey') || 
-      ingredientsJoined.includes('bacon') || 
-      ingredientsJoined.includes('sausage') || 
-      ingredientsJoined.includes('lamb');
+    const hasElectrical = materialsJoined.includes('wire') || 
+      materialsJoined.includes('conduit') || 
+      materialsJoined.includes('breaker') || 
+      materialsJoined.includes('outlet') || 
+      materialsJoined.includes('switch') || 
+      materialsJoined.includes('panel') || 
+      materialsJoined.includes('electrical');
     
-    const hasVegetable = ingredientsJoined.includes('vegetable') || 
-      ingredientsJoined.includes('tomato') || 
-      ingredientsJoined.includes('carrot') || 
-      ingredientsJoined.includes('spinach');
+    const hasPlumbing = materialsJoined.includes('pipe') || 
+      materialsJoined.includes('pvc') || 
+      materialsJoined.includes('pex') || 
+      materialsJoined.includes('valve') || 
+      materialsJoined.includes('fitting') || 
+      materialsJoined.includes('plumbing');
     
-    const hasDessert = ingredientsJoined.includes('sugar') || 
-      ingredientsJoined.includes('chocolate') || 
-      ingredientsJoined.includes('vanilla') || 
-      ingredientsJoined.includes('cream') || 
-      ingredientsJoined.includes('cake') || 
-      ingredientsJoined.includes('cookie') || 
-      ingredientsJoined.includes('pie');
+    const hasFinishing = materialsJoined.includes('drywall') || 
+      materialsJoined.includes('paint') || 
+      materialsJoined.includes('trim') || 
+      materialsJoined.includes('tile') || 
+      materialsJoined.includes('flooring') || 
+      materialsJoined.includes('sealant') || 
+      materialsJoined.includes('finish');
     
     switch (activeCategory) {
-      case 'Seafood': return hasSeafood && matchesSearch;
-      case 'Meat': return hasMeat && matchesSearch;
-      case 'Vegetarian': return hasVegetable && !hasMeat && !hasSeafood && matchesSearch;
-      case 'Dessert': return hasDessert && matchesSearch;
+      case 'Structural': return hasStructural && matchesSearch;
+      case 'Electrical': return hasElectrical && matchesSearch;
+      case 'Plumbing': return hasPlumbing && matchesSearch;
+      case 'Finishing': return hasFinishing && matchesSearch;
       default: return matchesSearch;
     }
   });
@@ -428,7 +429,7 @@ const MyBlueprints = () => {
       <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">Loading your cookbook...</div>
+          <div className="text-lg font-retro mb-2">Loading your blueprints...</div>
         </div>
       </div>
     );
@@ -871,24 +872,24 @@ const MyBlueprints = () => {
                         tutorials: [
                           {
                             title: `Equipment: Using the right tools for ${filteredRecipes[currentIndex].name}`,
-                            desc: `Learn how to use the main equipment needed for this dish.`
+                            desc: `Learn how to use the main equipment needed for this project.`
                           },
                           {
-                            title: `Protein Prep: Preparing the main ingredient`,
-                            desc: `How to prep the primary material and tools for this project.`
+                            title: `Material Prep: Preparing the primary materials`,
+                            desc: `How to prep the primary materials and tools for this project.`
                           },
                           {
-                            title: `Recipe: ${filteredRecipes[currentIndex].name}`,
+                            title: `Procedure: ${filteredRecipes[currentIndex].name}`,
                             desc: filteredRecipes[currentIndex].instructions || ''
                           }
                         ]
                       };
                       setSelectedRecipe(fullRecipe);
-                      navigate('/culinary-school');
+                      navigate('/construction/build-school');
                     }}
                     className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
-                    Cook This
+                    Build This
                   </button>
                   <button
                     onClick={() => {

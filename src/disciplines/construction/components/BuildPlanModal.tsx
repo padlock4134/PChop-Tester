@@ -99,17 +99,17 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     // Shopping List by Market Type
     pdf.setFontSize(14);
     pdf.setFont('helvetica', 'bold');
-    pdf.text('SHOPPING LIST', 20, yPos);
+    pdf.text('MATERIALS LIST', 20, yPos);
     yPos += 8;
 
     const marketTypeLabels: Record<string, string> = {
-      seafood: '🐟 Seafood Markets',
-      butcher: '🥩 Butcher',
-      produce: '🥦 Produce',
-      dairy: '🥛 Dairy',
-      grocery: '🛒 Grocery',
-      deli: '🥪 Deli/Bakery',
-      farms: '🚜 Farms'
+      seafood: '🧱 Masonry Supply',
+      butcher: '� Lumber Yard',
+      produce: '🔩 Hardware Store',
+      dairy: '🔌 Electrical Supply',
+      grocery: '🛒 General Supply',
+      deli: '🛠️ Tool Rental',
+      farms: '� Specialty Supplier'
     };
 
     Object.entries(ingredientsByType).forEach(([type, ingredients]) => {
@@ -168,7 +168,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
         <div className="p-6 flex-1 overflow-hidden flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold text-maineBlue font-retro">🍽️ {bt('title')}</h2>
+            <h2 className="text-2xl font-bold text-maineBlue font-retro">📋 {bt('title')}</h2>
             <button 
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -229,7 +229,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
             {/* Right: Your Menu */}
             <div className="flex flex-col overflow-hidden">
-              <h3 className="text-sm font-semibold text-gray-700 mb-2">🍽️ {bt('yourMenu')}</h3>
+              <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 {bt('yourMenu')}</h3>
               {selectedRecipeIds.size === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <p className="text-gray-400 text-sm">{bt('selectToStart')}</p>

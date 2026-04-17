@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-dom';
 import { useLevelProgressContext } from './NavBar';
 import WeeklyChallengeTaskModal from './WeeklyChallengeTaskModal';
 import type { RecipeCard } from './TaskMatcherModal';
-import { getWeeklyChallengeRecipe } from '../../culinary/api/anthropicChallenge';
-import { getRecipeImage } from '../../culinary/api/unsplash';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { getWeeklyChallengeRecipe } from '../api/anthropicChallenge';
+import { getRecipeImage } from '../api/unsplash';
+import { supabase } from '../api/supabaseClient';
+import { isSessionValid } from '../api/userSession';
+import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
 // Pool of weekly challenges
 export const WEEKLY_CHALLENGES = [
@@ -93,7 +93,7 @@ function getCurrentWeeklyChallenge() {
 const ChallengeOfTheWeek: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'construction';
   const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [open, setOpen] = useState(false);
   const [recipeModalOpen, setRecipeModalOpen] = useState(false);

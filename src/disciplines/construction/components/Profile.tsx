@@ -23,11 +23,11 @@ type UserProfile = {
 
 // Level titles and icons
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Novice Cook", icon: "🥄", level: 1 },
-  { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
-  { title: "Home Chef", icon: "🍳", level: 3 },
+  { title: "Apprentice", icon: "🏗️", level: 1 },
+  { title: "Journeyman", icon: "🔨", level: 2 },
+  { title: "Skilled Builder", icon: "🧱", level: 3 },
   { title: "Trade Expert", icon: "🧠", level: 4 },
-  { title: "Master Chef", icon: "🏆", level: 5 }
+  { title: "Master Builder", icon: "🏆", level: 5 }
 ];
 
 // WoW Classic XP table
@@ -41,7 +41,7 @@ const EXPERIENCE_LEVEL_MAPPING = {
   'Beginner': 'new_to_cooking',
   'Intermediate': 'home_cook', 
   'Advanced': 'kitchen_confident',
-  'Professional': 'kitchen_confident' // Both Advanced and Professional map to kitchen_confident
+  'Professional': 'kitchen_confident'
 } as const;
 
 // Reverse mapping for displaying in UI
@@ -170,34 +170,34 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisine}
-              onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
+              value={formData.cuisinePreference}
+              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
-              <option value="Automotive">🚗 {t('profile.manufacturingFocusOptions.automotive', { defaultValue: 'Automotive' })}</option>
-              <option value="Electronics">🔌 {t('profile.manufacturingFocusOptions.electronics', { defaultValue: 'Electronics' })}</option>
-              <option value="Medical Devices">🏥 {t('profile.manufacturingFocusOptions.medicalDevices', { defaultValue: 'Medical Devices' })}</option>
-              <option value="Precision Machining">⚙️ {t('profile.manufacturingFocusOptions.precisionMachining', { defaultValue: 'Precision Machining' })}</option>
-              <option value="Plastics">🧪 {t('profile.manufacturingFocusOptions.plastics', { defaultValue: 'Plastics' })}</option>
-              <option value="Metal Fabrication">🔧 {t('profile.manufacturingFocusOptions.metalFabrication', { defaultValue: 'Metal Fabrication' })}</option>
+              <option value="Residential">🏠 {t('profile.constructionFocusOptions.residential', { defaultValue: 'Residential' })}</option>
+              <option value="Commercial">🏢 {t('profile.constructionFocusOptions.commercial', { defaultValue: 'Commercial' })}</option>
+              <option value="Heavy Civil">🌉 {t('profile.constructionFocusOptions.heavyCivil', { defaultValue: 'Heavy Civil' })}</option>
+              <option value="Framing & Carpentry">🪵 {t('profile.constructionFocusOptions.framingCarpentry', { defaultValue: 'Framing & Carpentry' })}</option>
+              <option value="Concrete & Masonry">🧱 {t('profile.constructionFocusOptions.concreteMasonry', { defaultValue: 'Concrete & Masonry' })}</option>
+              <option value="Site Work">🚧 {t('profile.constructionFocusOptions.siteWork', { defaultValue: 'Site Work' })}</option>
+              <option value="Finishing">🎨 {t('profile.constructionFocusOptions.finishing', { defaultValue: 'Finishing' })}</option>
             </select>
           </div>
           {/* Certification Preference */}
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certificationPreference', { defaultValue: 'Certifications' })}</label>
             <select
-              value={formData.diet}
-              onChange={(e) => setFormData({...formData, diet: e.target.value})}
+              value={formData.dietPreference}
+              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
               <option value="OSHA-10">🦺 {t('profile.certificationOptions.osha10', { defaultValue: 'OSHA-10' })}</option>
-              <option value="Six Sigma Green Belt">📊 {t('profile.certificationOptions.sixSigmaGreenBelt', { defaultValue: 'Six Sigma Green Belt' })}</option>
-              <option value="Lean Manufacturing">⚡ {t('profile.certificationOptions.leanManufacturing', { defaultValue: 'Lean Manufacturing' })}</option>
-              <option value="ISO 9001">✅ {t('profile.certificationOptions.iso9001', { defaultValue: 'ISO 9001' })}</option>
-              <option value="CNC Programming">💻 {t('profile.certificationOptions.cncProgramming', { defaultValue: 'CNC Programming' })}</option>
-              <option value="Quality Inspector">🔍 {t('profile.certificationOptions.qualityInspector', { defaultValue: 'Quality Inspector' })}</option>
+              <option value="OSHA-30">🛡️ {t('profile.certificationOptions.osha30', { defaultValue: 'OSHA-30' })}</option>
+              <option value="First Aid/CPR">🏥 {t('profile.certificationOptions.firstAidCpr', { defaultValue: 'First Aid/CPR' })}</option>
+              <option value="Forklift Operator">🏗️ {t('profile.certificationOptions.forkliftOperator', { defaultValue: 'Forklift Operator' })}</option>
+              <option value="Scaffolding">🪜 {t('profile.certificationOptions.scaffolding', { defaultValue: 'Scaffolding' })}</option>
+              <option value="Confined Space">🔍 {t('profile.certificationOptions.confinedSpace', { defaultValue: 'Confined Space' })}</option>
             </select>
           </div>
 
@@ -228,7 +228,7 @@ const EditProfileModal = ({
               <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
               <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
               <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
-              <option value="Professional">👨‍🍳 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
+              <option value="Professional">🏗️ {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -545,9 +545,9 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
   const availableClasses = [
     { name: 'Advanced Blueprint Interpretation', instructor: 'Instructor Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
     { name: 'Systems Integration', instructor: 'Instructor Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
-    { name: 'Pastry Fundamentals', instructor: 'Instructor Anderson', time: 'Fri 3:00 PM', spots: 6 },
-    { name: 'Safety Certification', instructor: 'Instructor Thompson', time: 'Sat 9:00 AM', spots: 15 },
-    { name: 'Restaurant Management', instructor: 'Instructor Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
+    { name: 'Concrete & Formwork', instructor: 'Instructor Anderson', time: 'Fri 3:00 PM', spots: 6 },
+    { name: 'OSHA Safety Certification', instructor: 'Instructor Thompson', time: 'Sat 9:00 AM', spots: 15 },
+    { name: 'Project Management', instructor: 'Instructor Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
   ];
   
   return (
@@ -659,19 +659,19 @@ const Profile = () => {
     ],
     departments: [
       { value: 'all', label: t('profile.filterOptions.departments.all', { defaultValue: 'All Departments' }) },
-      { value: 'precision_machining', label: t('profile.filterOptions.departments.precisionMachining', { defaultValue: 'Precision Machining' }) },
-      { value: 'welding_fabrication', label: t('profile.filterOptions.departments.weldingFabrication', { defaultValue: 'Welding & Fabrication' }) },
-      { value: 'industrial_automation', label: t('profile.filterOptions.departments.industrialAutomation', { defaultValue: 'Industrial Automation' }) },
-      { value: 'quality_control', label: t('profile.filterOptions.departments.qualityControl', { defaultValue: 'Quality Control' }) },
-      { value: 'assembly_production', label: t('profile.filterOptions.departments.assemblyProduction', { defaultValue: 'Assembly & Production' }) }
+      { value: 'framing_carpentry', label: t('profile.filterOptions.departments.framingCarpentry', { defaultValue: 'Framing & Carpentry' }) },
+      { value: 'concrete_masonry', label: t('profile.filterOptions.departments.concreteMasonry', { defaultValue: 'Concrete & Masonry' }) },
+      { value: 'electrical_plumbing', label: t('profile.filterOptions.departments.electricalPlumbing', { defaultValue: 'Electrical & Plumbing' }) },
+      { value: 'site_safety', label: t('profile.filterOptions.departments.siteSafety', { defaultValue: 'Site Safety' }) },
+      { value: 'finishing_trades', label: t('profile.filterOptions.departments.finishingTrades', { defaultValue: 'Finishing Trades' }) }
     ],
     classes: [
       { value: 'all', label: t('profile.filterOptions.classes.all', { defaultValue: 'All Classes' }) },
-      { value: 'fundamentals_engineering', label: t('profile.filterOptions.classes.fundamentalsEngineering', { defaultValue: 'Fundamentals of Engineering' }) },
-      { value: 'advanced_engineering_techniques', label: t('profile.filterOptions.classes.advancedEngineeringTechniques', { defaultValue: 'Advanced Engineering Techniques' }) },
-      { value: 'cnc_programming', label: t('profile.filterOptions.classes.cncProgramming', { defaultValue: 'CNC Programming' }) },
-      { value: 'process_optimization', label: t('profile.filterOptions.classes.processOptimization', { defaultValue: 'Process Optimization' }) },
-      { value: 'quality_assurance', label: t('profile.filterOptions.classes.qualityAssurance', { defaultValue: 'Quality Assurance' }) },
+      { value: 'blueprint_reading', label: t('profile.filterOptions.classes.blueprintReading', { defaultValue: 'Blueprint Reading & Layout' }) },
+      { value: 'framing_systems', label: t('profile.filterOptions.classes.framingSystems', { defaultValue: 'Framing Systems' }) },
+      { value: 'concrete_formwork', label: t('profile.filterOptions.classes.concreteFormwork', { defaultValue: 'Concrete & Formwork' }) },
+      { value: 'site_management', label: t('profile.filterOptions.classes.siteManagement', { defaultValue: 'Site Management' }) },
+      { value: 'inspection_code', label: t('profile.filterOptions.classes.inspectionCode', { defaultValue: 'Inspection & Code' }) },
       { value: 'safety_compliance', label: t('profile.filterOptions.classes.safetyCompliance', { defaultValue: 'Safety Compliance' }) }
     ],
     timeRanges: [

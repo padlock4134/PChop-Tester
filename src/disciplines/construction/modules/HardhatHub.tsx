@@ -5,12 +5,12 @@ import { fetchCookbook } from './cookbookSupabase';
 import BlueprintImportModal from '../components/BlueprintImportModal';
 import LocalYardsModal from '../components/LocalYardsModal';
 import BuildPlanModal from '../components/BuildPlanModal';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext'; // shared context
 import { RecipeCard } from '../components/TaskMatcherModal';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import GlobalTestSite from '../components/GlobalTestSite';
-import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../../culinary/types/nutrition';
+import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
+import { KeyNutrients } from '../../culinary/types/nutrition'; // shared type
 
 const HardhatHub = () => {
   const { t } = useTranslation();

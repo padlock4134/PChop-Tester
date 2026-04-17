@@ -17,33 +17,33 @@ const StudentProgressDashboard: React.FC = () => {
       id: '2',
       hostName: 'Kenji Nakamura',
       dishName: 'Precision Pipe Routing',
-      culture: 'Japanese',
+      culture: 'Plumbing',
       viewers: 23,
-      thumbnail: '🍜'
+      thumbnail: '🔧'
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
       dishName: 'Panel Wiring Calibration',
-      culture: 'Lebanese',
+      culture: 'Electrical',
       viewers: 35,
-      thumbnail: '🧆'
+      thumbnail: '🔌'
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
       dishName: 'Hydronic System Balance',
-      culture: 'French',
+      culture: 'HVAC',
       viewers: 62,
-      thumbnail: '🥐'
+      thumbnail: '🌡️'
     },
     {
       id: '5',
       hostName: 'Maria Santos',
       dishName: 'Blueprint Layout Validation',
-      culture: 'Spanish',
+      culture: 'Framing',
       viewers: 28,
-      thumbnail: '🥘'
+      thumbnail: '📐'
     }
   ];
 
@@ -530,7 +530,7 @@ const StudentProgressDashboard: React.FC = () => {
                   </button>
                 </div>
                 <p className="text-center text-black mt-2 sm:mt-3 text-xs sm:text-sm">
-                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Track
                 </p>
               </div>
 

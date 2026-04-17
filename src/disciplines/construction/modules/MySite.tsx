@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../api/vision';
 import TaskMatcherModal, { RecipeCard } from '../components/TaskMatcherModal';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext'; // shared context
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 import { supabase } from '../api/supabaseClient';
@@ -63,7 +63,7 @@ const MySite = () => {
     Finishes: '🎨',
     Safety: '🦺',
     'Tools/Equipment': '🛠️',
-    Other: '🍽️',
+    Other: '📦',
   };
 
   const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);

@@ -4,21 +4,20 @@ import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
 import { RecipeCard } from '../components/TaskMatcherModal';
 
-// Define equipment available for each kitchen setup
+// Define equipment available for each workspace setup
 const KITCHEN_EQUIPMENT = {
-  'Dorm Life': ['microwave', 'kettle', 'toaster', 'mini-fridge'],
-  'Minimalist': ['pot', 'pan', 'knife', 'cutting board', 'stove'],
-  'Apartment Kitchen': ['oven', 'stove', 'basic utensils', 'baking sheets'],
-  'Outdoor Grilling': ['grill', 'tongs', 'grill brush', 'meat thermometer'],
-  'Home Chef': ['blender', 'food processor', 'mixer', 'knives', 'oven', 'stove'],
-  'Full Chef\'s Kitchen': ['all equipment']
+  'Minimal Setup': ['tape measure', 'hammer', 'hand saw', 'utility knife'],
+  'Apartment Workspace': ['drill', 'level', 'tape measure', 'hand tools', 'workbench'],
+  'Full Workspace': ['circular saw', 'drill', 'level', 'sawhorses', 'clamps', 'workbench'],
+  'Field Workspace': ['generator', 'extension cords', 'portable tools', 'safety cones'],
+  'Professional Workspace': ['all equipment']
 } as const;
 
 // Define equipment associated with each talent tree
 const TALENT_TREE_EQUIPMENT = {
-  'Cast Iron Champion': ['cast iron', 'dutch oven', 'skillet'],
-  'Grilling Heavy Weight': ['grill', 'smoker', 'charcoal', 'gas grill'],
-  'Baking Warlock': ['stand mixer', 'baking sheet', 'pastry brush', 'rolling pin']
+  'Framing Foreman': ['framing nailer', 'speed square', 'chalk line', 'circular saw'],
+  'Concrete Commander': ['concrete mixer', 'trowel', 'float', 'vibrator'],
+  'Finish Specialist': ['miter saw', 'brad nailer', 'coping saw', 'sanding block']
 } as const;
 
 type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
