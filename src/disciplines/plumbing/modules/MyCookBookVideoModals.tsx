@@ -2,33 +2,33 @@ import React, { useEffect, useState } from 'react';
 import { getVideoQueriesForRecipe } from './MyPipeBook';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 
-import type { Recipe } from './MyPipeBook';
+import type { Fit } from './MyPipeBook';
 
 interface Props {
-  recipe: Recipe;
+  fit: Fit;
   open: boolean;
   onClose: () => void;
 }
 
-const MyCookBookVideoModals: React.FC<Props> = ({ recipe, open, onClose }) => {
+const MyPipeBookVideoModals: React.FC<Props> = ({ fit, open, onClose }) => {
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!open) return;
     setLoading(true);
-    const queries = getVideoQueriesForRecipe(recipe);
+    const queries = getVideoQueriesForRecipe(fit);
     Promise.all(queries.map((q: string) => getTutorialVideo(q)))
       .then(results => setVideoUrls(results.map((r: TutorialVideoResult | undefined) => r?.url || null)))
       .finally(() => setLoading(false));
-  }, [open, recipe]);
+  }, [open, fit]);
 
   return (
     <div>
       {loading && <div>Loading videos...</div>}
       {!loading && videoUrls.map((url, idx) => (
         <div key={idx} style={{ marginBottom: 24 }}>
-          <h3>{idx === 0 ? `How to complete ${recipe.name}` : `How to prepare primary material`}</h3>
+          <h3>{idx === 0 ? `How to complete ${fit.name}` : `How to prepare primary material`}</h3>
           {url ? (
             <iframe
               width="100%"
@@ -49,5 +49,5 @@ const MyCookBookVideoModals: React.FC<Props> = ({ recipe, open, onClose }) => {
   );
 };
 
-export default MyCookBookVideoModals;
+export default MyPipeBookVideoModals;
 

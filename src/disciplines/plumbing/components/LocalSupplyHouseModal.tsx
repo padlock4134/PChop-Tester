@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
+import { groupMaterialsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
 
 // TypeScript declarations for Google Maps API (will be available at runtime)
 declare global {
@@ -23,12 +23,12 @@ interface Market {
 interface LocalMarketsModalProps {
   open: boolean;
   onClose: () => void;
-  selectedRecipes?: any[]; // Optional: recipes from Build Menu feature
+  selectedRecipes?: any[]; // Optional: fits from Build Menu feature
 }
 
 interface MarketCardProps {
   market: Market;
-  ingredientsForMarket?: string[]; // Optional: ingredients to buy at this market
+  materialsForMarket?: string[]; // Optional: materials to buy at this market
 }
 
 interface CategoryCardProps {
@@ -38,10 +38,10 @@ interface CategoryCardProps {
   description: string;
   markets: Market[];
   loading: boolean;
-  ingredientsForCategory?: string[]; // Optional: ingredients to buy at this market type
+  materialsForCategory?: string[]; // Optional: materials to buy at this market type
 }
 
-const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket }) => {
+const MarketCard: React.FC<MarketCardProps> = ({ market, materialsForMarket }) => {
   const { t } = useTranslation();
   const [flipped, setFlipped] = useState(false);
 
@@ -100,12 +100,12 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
           <div>
             <h4 className="font-bold text-maineBlue text-lg mb-3">{market.name}</h4>
             
-            {/* Show ingredients if in menu mode */}
-            {ingredientsForMarket && ingredientsForMarket.length > 0 && (
+            {/* Show materials if in menu mode */}
+            {materialsForMarket && materialsForMarket.length > 0 && (
               <div className="mb-3 pb-3 border-b border-gray-200">
                 <div className="text-xs font-semibold text-gray-600 mb-1">{t('markets.pickUpHere', { defaultValue: 'Pick up here:' })}</div>
                 <div className="space-y-1 max-h-20 overflow-y-auto">
-                  {ingredientsForMarket.map((ing, idx) => {
+                  {materialsForMarket.map((ing, idx) => {
                     const priceInfo = getEstimatedPrice(ing);
                     return (
                       <div key={idx} className="text-xs text-gray-700 flex justify-between items-center">
@@ -199,7 +199,7 @@ const EmptyCard: React.FC = () => {
   );
 };
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, description, markets, loading, ingredientsForCategory }) => {
+const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, description, markets, loading, materialsForCategory }) => {
   const { t } = useTranslation();
   const [flipped, setFlipped] = useState(false);
 
@@ -255,12 +255,12 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
             </div>
           ) : (
             <div className="space-y-2">
-              {/* Show ingredients if in menu mode */}
-              {ingredientsForCategory && ingredientsForCategory.length > 0 && (
+              {/* Show materials if in menu mode */}
+              {materialsForCategory && materialsForCategory.length > 0 && (
                 <div className="mb-2 pb-2 border-b border-gray-200">
                   <div className="text-xs font-semibold text-gray-600 mb-1">{t('markets.buyHere')}</div>
                   <div className="space-y-0.5 max-h-16 overflow-y-auto">
-                    {ingredientsForCategory.map((ing, idx) => {
+                    {materialsForCategory.map((ing, idx) => {
                       const priceInfo = getEstimatedPrice(ing);
                       return (
                         <div key={idx} className="text-xs text-gray-700 flex justify-between items-center">
@@ -306,26 +306,26 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  // Extract and group ingredients from selected recipes
-  const ingredientsByMarketType = React.useMemo(() => {
+  // Extract and group materials from selected fits
+  const materialsByMarketType = React.useMemo(() => {
     if (!selectedRecipes || selectedRecipes.length === 0) return {};
     
-    const allIngredients: string[] = [];
-    selectedRecipes.forEach(recipe => {
-      if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
-        allIngredients.push(...recipe.ingredients);
+    const allMaterials: string[] = [];
+    selectedRecipes.forEach(fit => {
+      if (fit.materials && Array.isArray(fit.materials)) {
+        allMaterials.push(...fit.materials);
       }
     });
     
-    // Deduplicate ingredients (case-insensitive)
+    // Deduplicate materials (case-insensitive)
     const uniqueIngredients = Array.from(
       new Set(allIngredients.map(ing => ing.toLowerCase()))
     ).map(ing => {
-      // Find the original casing from allIngredients
-      return allIngredients.find(original => original.toLowerCase() === ing) || ing;
+      // Find the original casing from allMaterials
+      return allMaterials.find(original => original.toLowerCase() === ing) || ing;
     });
     
-    return groupIngredientsByMarketType(uniqueIngredients);
+    return groupMaterialsByMarketType(uniqueMaterials);
   }, [selectedRecipes]);
 
   const marketCategories = [
@@ -510,7 +510,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description={t('markets.supplyHousesDesc', { defaultValue: 'Regional plumbing supply houses and distributors' })}
             markets={markets.filter(m => m.type === 'grocery')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['grocery']}
+            materialsForCategory={materialsByMarketType['grocery']}
           />
           <CategoryCard 
             category="butcher" 
@@ -519,7 +519,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description={t('markets.pipeFittingsDesc', { defaultValue: 'Pipe, fittings, and connection suppliers' })}
             markets={markets.filter(m => m.type === 'butcher')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['butcher']}
+            materialsForCategory={materialsByMarketType['butcher']}
           />
           <CategoryCard 
             category="seafood" 
@@ -528,7 +528,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description={t('markets.drainSewerDesc', { defaultValue: 'Drain cleaning and sewer system suppliers' })}
             markets={markets.filter(m => m.type === 'seafood')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['seafood']}
+            materialsForCategory={materialsByMarketType['seafood']}
           />
           <CategoryCard 
             category="produce" 
@@ -537,7 +537,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description={t('markets.pumpsValvesDesc', { defaultValue: 'Pump, valve, and control component suppliers' })}
             markets={markets.filter(m => m.type === 'produce')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['produce']}
+            materialsForCategory={materialsByMarketType['produce']}
           />
           <CategoryCard 
             category="farms" 
@@ -546,7 +546,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description={t('markets.waterHeatersDesc', { defaultValue: 'Water heater and mechanical equipment distributors' })}
             markets={markets.filter(m => m.type === 'farms')}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['farms']}
+            materialsForCategory={materialsByMarketType['farms']}
           />
           <CategoryCard 
             category="specialty" 
@@ -555,7 +555,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
             description={t('markets.toolsRentalsDesc', { defaultValue: 'Specialty tools, rentals, and diagnostics equipment' })}
             markets={markets.filter(m => ['deli', 'dairy', 'bakery'].includes(m.type))}
             loading={loading}
-            ingredientsForCategory={ingredientsByMarketType['deli'] || ingredientsByMarketType['dairy']}
+            materialsForCategory={materialsByMarketType['deli'] || materialsByMarketType['dairy']}
           />
         </div>
 

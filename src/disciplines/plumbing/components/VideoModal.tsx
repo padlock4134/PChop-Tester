@@ -12,7 +12,7 @@ interface VideoModalProps {
   title: string;
   videoUrl: string; // YouTube/Vimeo embed URL
   tutorialId?: string; // Unique ID for the tutorial
-  recipeId?: string;   // Optional recipe ID if this is a recipe tutorial
+  recipeId?: string;   // Optional fit ID if this is a fit tutorial
 }
 
 const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl, tutorialId, recipeId }) => {

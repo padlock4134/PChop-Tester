@@ -13,7 +13,7 @@ import { useSupabase } from '../../culinary/components/SupabaseProvider';
 interface WeeklyChallengeRecipeModalProps {
   open: boolean;
   onClose: () => void;
-  recipe: RecipeCard | null;
+  fit: RecipeCard | null;
   loading: boolean;
   error: string | null;
   challengeId?: string;
@@ -23,7 +23,7 @@ interface WeeklyChallengeRecipeModalProps {
   onClaimed?: () => void;
 }
 
-const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({ open, onClose, recipe, loading, error, challengeId, weekNumber, xp, badge, onClaimed }) => {
+const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({ open, onClose, fit, loading, error, challengeId, weekNumber, xp, badge, onClaimed }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const discipline = location.pathname.split('/').filter(Boolean)[0] || 'plumbing';
@@ -94,7 +94,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
       // Then claim the challenge with the photo proof
       const result = await claimWeeklyChallenge({
         userId: user?.id,
-        challengeId: challengeId || recipe?.id || '',
+        challengeId: challengeId || fit?.id || '',
         weekNumber: weekNumber || 0,
         xp: xp || 0,
         badge: badge || '',
@@ -139,10 +139,10 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
               <p>{error}</p>
             </div>
           )}
-          {!loading && !error && recipe && (
+          {!loading && !error && fit && (
             <>
-              <h2 className="text-2xl font-bold mb-4 text-center text-black">{recipe.title}</h2>
-              {recipe.image && <img src={recipe.image} alt={recipe.title} className="w-full max-h-48 sm:max-h-64 object-cover rounded border border-black mb-6" />}
+              <h2 className="text-2xl font-bold mb-4 text-center text-black">{fit.title}</h2>
+              {fit.image && <img src={fit.image} alt={fit.title} className="w-full max-h-48 sm:max-h-64 object-cover rounded border border-black mb-6" />}
               {/* Photo Upload Section */}
               <div className="w-full mt-4 border-t pt-4">
                 <h3 className="font-semibold text-lg mb-2">{ct('submitProof')}</h3>

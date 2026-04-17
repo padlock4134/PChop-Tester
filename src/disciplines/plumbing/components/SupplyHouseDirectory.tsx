@@ -2,26 +2,26 @@ import React, { useEffect, useState } from 'react';
 
 // Types for market info
 export const DEPARTMENT_TYPES = [
-  { key: 'grocery', label: 'Grocery', icon: '🛒', placeTypes: ['supermarket', 'convenience_store'], keywords: ['grocery', 'market', 'food', 'store', 'co-op', 'coop', 'natural', 'organic'] },
+  { key: 'grocery', label: 'Grocery', icon: '🛒', placeTypes: ['supermarket', 'convenience_store'], keywords: ['grocery', 'market', 'fit', 'store', 'co-op', 'coop', 'natural', 'organic'] },
   { key: 'produce', label: 'Produce', icon: '🥦', placeTypes: ['supermarket', 'convenience_store'], keywords: ['produce', 'fruit', 'vegetable', 'farm', 'organic', 'farmers', 'garden', 'orchard', 'berry', 'apple', 'greengrocer', 'csa', 'stand'] },
   { key: 'bakery', label: 'Bakery', icon: '🍞', placeTypes: ['bakery'], keywords: ['bakery', 'bread', 'pastry', 'cake', 'donut', 'bake', 'bagel', 'cookie', 'pie', 'patisserie', 'boulangerie', 'confection'] },
   { key: 'butcher', label: 'Meat', icon: '🥩', placeTypes: ['supermarket'], keywords: ['meat', 'butcher', 'steak', 'beef', 'poultry', 'pat', 'pats', 'sausage', 'deli', 'chop', 'prime', 'angus', 'pork', 'chicken', 'lamb'] },
   { key: 'seafood', label: 'Seafood', icon: '🐟', placeTypes: ['supermarket'], keywords: ['seafood', 'fish', 'shellfish', 'lobster', 'crab', 'harbor', 'ocean', 'sea', 'marine', 'catch', 'oyster', 'clam', 'shrimp', 'mussel', 'fishmonger', 'fishery'] },
   { key: 'farms', label: 'Farms', icon: '🚜', placeTypes: ['supermarket', 'convenience_store'], keywords: ['farm', 'farmers market', 'farmstand', 'csa', 'agriculture', 'ranch', 'homestead', 'acres', 'dairy', 'milk', 'cheese', 'creamery', 'yogurt'] },
-  { key: 'equipment', label: 'Equipment', icon: '🔪', placeTypes: ['store', 'home_goods_store'], keywords: ['kitchen', 'knife', 'cookware', 'utensil', 'appliance', 'tool', 'gadget', 'cutlery', 'pot', 'pan', 'bakeware', 'chef', 'cooking'] },
+  { key: 'equipment', label: 'Equipment', icon: '🔪', placeTypes: ['store', 'home_goods_store'], keywords: ['van', 'knife', 'cookware', 'utensil', 'appliance', 'tool', 'gadget', 'cutlery', 'pot', 'pan', 'bakeware', 'mentor', 'cooking'] },
 ];
 
 // Maximum number of places to show per category
 const MAX_PLACES_PER_CATEGORY = 5;
 
-// List of big box retailers and non-food places to exclude
+// List of big box retailers and non-fit places to exclude
 const BIG_BOX_RETAILERS = ['walmart', 'costco', 'bj', 'bjs', 'sams club', 'sam\'s club', 'best buy', 'target', 'home depot', 'lowe\'s', 'lowes', 'duluth trading', 'duluth trading company', 'cvs', 'cvs pharmacy', 'maine audubon'];
 
 // List of specific places to exclude (exact matches)
 const EXCLUDED_PLACES = ['Brunswick Farmers Market', 'Brunswick Winter Farmers\' Market'];
 
 // List of generic grocery chains that should not be considered specialized
-const GENERIC_GROCERY_CHAINS = ['trader joe', 'whole foods', 'hannaford', 'shaw', 'market basket', 'stop & shop', 'kroger', 'publix', 'albertsons', 'safeway', 'giant', 'food lion'];
+const GENERIC_GROCERY_CHAINS = ['trader joe', 'whole foods', 'hannaford', 'shaw', 'market basket', 'stop & shop', 'kroger', 'publix', 'albertsons', 'safeway', 'giant', 'fit lion'];
 
 // Specialty keywords that strongly indicate a specialized market
 const SPECIALTY_INDICATORS = [
@@ -45,7 +45,7 @@ const SPECIALTY_SEARCH_QUERIES = {
   'seafood': ['seafood market', 'fish market'],
   'produce': ['produce market', 'fruit stand', 'vegetable market'],
   'farms': ['farm', 'farmers market', 'farm stand'],
-  'equipment': ['kitchen store', 'cookware shop', 'knife store']
+  'equipment': ['van store', 'cookware shop', 'knife store']
 };
 
 interface Place {

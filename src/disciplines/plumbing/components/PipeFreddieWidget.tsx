@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 // @ts-ignore
-import chefFreddiePng from '../images/logo.png';
+import mentorFreddiePng from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askChefFreddie } from '../api/chefFreddie';
+import { askMentorFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
 interface Message {
@@ -28,7 +28,7 @@ const getProactiveMessage = (page: string, t: any) => {
 };
 
 
-const ChefFreddieWidget = () => {
+const MentorFreddieWidget = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { context } = useFreddieContext();
@@ -42,7 +42,7 @@ const ChefFreddieWidget = () => {
     setMessages(msgs => [...msgs, { sender: 'user', text }]);
     setInput('');
     try {
-      const reply = await askChefFreddie(user?.id!, text, i18n.language || 'en');
+      const reply = await askMentorFreddie(user?.id!, text, i18n.language || 'en');
       setMessages(msgs => [...msgs, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
       setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || t('chefFreddie.errorContacting') }]);
@@ -132,7 +132,7 @@ const ChefFreddieWidget = () => {
         aria-label="Open Pete the Plumber AI Assistant"
       >
         <img
-          src={chefFreddiePng}
+          src={mentorFreddiePng}
           alt="Pete the Plumber"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />
@@ -173,5 +173,5 @@ const ChefFreddieWidget = () => {
   );
 };
 
-export default ChefFreddieWidget;
+export default MentorFreddieWidget;
 

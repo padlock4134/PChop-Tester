@@ -5,7 +5,7 @@ import { useSupabase } from '../../culinary/components/SupabaseProvider';
 import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
 import { RecipeCard } from './FitMatcherModal';
 import jsPDF from 'jspdf';
-import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
+import { groupMaterialsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
 
 interface BuildMenuModalProps {
   open: boolean;
@@ -19,7 +19,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
   const discipline = location.pathname.split('/').filter(Boolean)[0] || 'plumbing';
   const bt = (key: string) => t(`buildMenu.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`buildMenu.${key}`) });
   const { user } = useSupabase();
-  const [recipes, setRecipes] = useState<RecipeCard[]>([]);
+  const [fits, setRecipes] = useState<RecipeCard[]>([]);
   const [selectedRecipeIds, setSelectedRecipeIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
 
@@ -34,10 +34,10 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     
     try {
       setLoading(true);
-      const savedRecipes = await fetchCookbook(user.id);
+      const savedRecipes = await fetchPipeBook(user.id);
       setRecipes(savedRecipes || []);
     } catch (err) {
-      console.error('Error loading cookbook recipes:', err);
+      console.error('Error loading pipebook fits:', err);
       setRecipes([]);
     } finally {
       setLoading(false);
@@ -55,12 +55,12 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
   };
 
   const handleFindMarkets = () => {
-    const selected = recipes.filter(r => selectedRecipeIds.has(r.id));
+    const selected = fits.filter(r => selectedRecipeIds.has(r.id));
     onFindMarkets(selected);
   };
 
   const handleCreateMenuPDF = () => {
-    const selected = recipes.filter(r => selectedRecipeIds.has(r.id));
+    const selected = fits.filter(r => selectedRecipeIds.has(r.id));
     if (selected.length === 0) return;
 
     const pdf = new jsPDF();
@@ -78,23 +78,23 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     yPos += 8;
     pdf.setFontSize(11);
     pdf.setFont('helvetica', 'normal');
-    selected.forEach((recipe, idx) => {
-      pdf.text(`${idx + 1}. ${recipe.title}`, 25, yPos);
+    selected.forEach((fit, idx) => {
+      pdf.text(`${idx + 1}. ${fit.title}`, 25, yPos);
       yPos += 6;
     });
     yPos += 5;
 
-    // Extract and deduplicate ingredients
-    const allIngredients: string[] = [];
-    selected.forEach(recipe => {
-      if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
-        allIngredients.push(...recipe.ingredients);
+    // Extract and deduplicate materials
+    const allMaterials: string[] = [];
+    selected.forEach(fit => {
+      if (fit.materials && Array.isArray(fit.materials)) {
+        allMaterials.push(...fit.materials);
       }
     });
     const uniqueIngredients = Array.from(
       new Set(allIngredients.map(ing => ing.toLowerCase()))
-    ).map(ing => allIngredients.find(original => original.toLowerCase() === ing) || ing);
-    const ingredientsByType = groupIngredientsByMarketType(uniqueIngredients);
+    ).map(ing => allMaterials.find(original => original.toLowerCase() === ing) || ing);
+    const materialsByType = groupMaterialsByMarketType(uniqueMaterials);
 
     // Shopping List by Market Type
     pdf.setFontSize(14);
@@ -112,8 +112,8 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       farms: '🚜 Farms'
     };
 
-    Object.entries(ingredientsByType).forEach(([type, ingredients]) => {
-      if (ingredients.length === 0) return;
+    Object.entries(materialsByType).forEach(([type, materials]) => {
+      if (materials.length === 0) return;
       
       // Check if we need a new page
       if (yPos > 250) {
@@ -129,7 +129,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'normal');
       let subtotal = 0;
-      ingredients.forEach(ing => {
+      materials.forEach(ing => {
         const priceInfo = getEstimatedPrice(ing);
         const priceText = priceInfo ? ` ~$${priceInfo.price}/${priceInfo.unit}` : '';
         pdf.text(`• ${ing}${priceText}`, 25, yPos);
@@ -184,7 +184,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
           {/* Two Column Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 flex-1 overflow-hidden">
-            {/* Left: Recipe Picklist */}
+            {/* Left: Fit Picklist */}
             <div className="flex flex-col overflow-hidden">
               <h3 className="text-sm font-semibold text-gray-700 mb-2">📋 {bt('availableItems')}</h3>
               {loading ? (
@@ -192,30 +192,30 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
                   <p className="text-gray-500 mt-2">{bt('loading')}</p>
                 </div>
-              ) : recipes.length === 0 ? (
+              ) : fits.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-gray-500 text-sm">{bt('noItems')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
-                  {recipes.map((recipe) => (
+                  {fits.map((fit) => (
                     <label
-                      key={recipe.id}
+                      key={fit.id}
                       className={`flex items-center p-2 rounded-lg border cursor-pointer transition-colors ${
-                        selectedRecipeIds.has(recipe.id)
+                        selectedRecipeIds.has(fit.id)
                           ? 'border-maineBlue bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
                       <input
                         type="checkbox"
-                        checked={selectedRecipeIds.has(recipe.id)}
-                        onChange={() => toggleRecipe(recipe.id)}
+                        checked={selectedRecipeIds.has(fit.id)}
+                        onChange={() => toggleRecipe(fit.id)}
                         className="mr-2 h-4 w-4 text-maineBlue"
                       />
                       <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm text-gray-900 truncate">{recipe.title}</div>
-                        {recipe.ingredients && (
+                        <div className="font-medium text-sm text-gray-900 truncate">{fit.title}</div>
+                        {fit.materials && (
                           <div className="text-xs text-gray-400">
                             {bt('itemsCount').replace('{count}', recipe.ingredients.length.toString())}
                           </div>
@@ -236,24 +236,24 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
-                  {recipes
+                  {fits
                     .filter(r => selectedRecipeIds.has(r.id))
-                    .map((recipe, idx) => (
+                    .map((fit, idx) => (
                       <div
-                        key={recipe.id}
+                        key={fit.id}
                         className="p-3 bg-sand rounded-lg border border-maineBlue"
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <div className="font-medium text-gray-900">{idx + 1}. {recipe.title}</div>
-                            {recipe.ingredients && (
+                            <div className="font-medium text-gray-900">{idx + 1}. {fit.title}</div>
+                            {fit.materials && (
                               <div className="text-xs text-gray-500 mt-1">
                                 {bt('itemsCountNeeded').replace('{count}', recipe.ingredients.length.toString())}
                               </div>
                             )}
                           </div>
                           <button
-                            onClick={() => toggleRecipe(recipe.id)}
+                            onClick={() => toggleRecipe(fit.id)}
                             className="text-red-500 hover:text-red-700 ml-2"
                             title={bt('removeFromMenu')}
                           >

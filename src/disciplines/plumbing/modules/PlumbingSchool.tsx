@@ -5,7 +5,7 @@ import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import VideoModal from '../components/VideoModal';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
-import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
+import { getMainEquipment, getMainMaterial } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
 import { KeyNutrients } from '../../culinary/types/nutrition';
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
@@ -84,7 +84,7 @@ const WEEKLY_TECHNIQUES = [
   { title: "Toilet Rough-In", desc: "Flange height, wax ring selection, and closet bolt placement" },
   { title: "Sink Drain Assembly", desc: "Pop-up assemblies, basket strainers, and P-trap alignment" },
   { title: "Drain Camera Inspection", desc: "Using a scope camera to locate blockages and root intrusion" },
-  { title: "Grease Trap Basics", desc: "Sizing, installation, and maintenance for commercial kitchens" },
+  { title: "Grease Trap Basics", desc: "Sizing, installation, and maintenance for commercial vans" },
 
   // Code, Safety & Professional Skills (Weeks 40-52)
   { title: "Reading the IPC", desc: "How to navigate the International Plumbing Code efficiently" },
@@ -111,8 +111,8 @@ function getCurrentWeekTechnique() {
   return WEEKLY_TECHNIQUES[techniqueIndex];
 }
 
-function getTwoTutorials(recipe: any, t: (key: string, options?: any) => string) {
-  if (!recipe) return [];
+function getTwoTutorials(fit: any, t: (key: string, options?: any) => string) {
+  if (!fit) return [];
   
   const weeklyTechnique = getCurrentWeekTechnique();
   
@@ -139,7 +139,7 @@ const PlumbingSchool = () => {
   console.log('Plumbing School - Project data:', selectedRecipe?.nutrition);
   console.log('Plumbing School - Full Project:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
+  const [fitNutrition, setFitNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
@@ -203,15 +203,15 @@ const PlumbingSchool = () => {
   useEffect(() => {
     if (selectedRecipe && !selectedRecipe.nutrition) {
       // Calculate nutrition if missing
-      calculateRecipeNutrition(selectedRecipe.ingredients)
+      calculateRecipeNutrition(selectedRecipe.materials)
         .then(nutrition => {
-          setRecipeNutrition(nutrition);
+          setFitNutrition(nutrition);
         })
         .catch(error => {
           console.error('Error calculating nutrition:', error);
         });
     } else {
-      setRecipeNutrition(selectedRecipe?.nutrition || null);
+      setFitNutrition(selectedRecipe?.nutrition || null);
     }
   }, [selectedRecipe]);
 
@@ -220,13 +220,13 @@ const PlumbingSchool = () => {
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
   // Helper: extract primary material from components
-  function getMainProtein(ingredients: string[] = []) {
+  function getMainProtein(materials: string[] = []) {
     const proteins = [
       'chicken', 'beef', 'pork', 'fish', 'salmon', 'shrimp', 'clam', 'crab', 'lobster',
       'tofu', 'turkey', 'duck', 'lamb', 'egg', 'eggs', 'scallop', 'scallops', 'mussels', 'steak',
       'bacon', 'sausage', 'ham', 'vegan', 'tempeh', 'seitan', 'octopus', 'squid', 'anchovy', 'anchovies'
     ];
-    return ingredients.find(ing => proteins.some(p => ing.toLowerCase().includes(p)));
+    return materials.find(ing => proteins.some(p => ing.toLowerCase().includes(p)));
   }
   // Helper: extract main equipment from equipment array
   function getMainEquipment(equipment: string[] = []) {
@@ -240,8 +240,8 @@ const PlumbingSchool = () => {
     return equipment[0] || '';
   }
 
-  // Helper to call Chef Freddie backend for a smart search query
-  async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
+  // Helper to call Mentor Freddie backend for a smart search query
+  async function getVideoQueryFromFreddie(fit: any, tut: any, idx: any) {
     let query = '';
     
     // Handle different tutorial types
@@ -250,19 +250,19 @@ const PlumbingSchool = () => {
       query = `how to ${tut.techniqueData.title.toLowerCase()} plumbing technique`;
     } else if (tut.type === 'cooking_tutorial') {
       // For job tutorials, focus on the plumbing project
-      const mainMaterial = getMainProtein(recipe.ingredients || []);
-      const mainTool = getMainEquipment(recipe.equipment || []);
+      const mainMaterial = getMainProtein(fit.materials || []);
+      const mainTool = getMainEquipment(fit.equipment || []);
       if (mainMaterial && mainTool) {
         query = `How to install ${mainMaterial} using ${mainTool} plumbing`;
       } else if (mainMaterial) {
         query = `How to work with ${mainMaterial} plumbing`;
       } else {
-        query = `how to do ${recipe.title} plumbing`;
+        query = `how to do ${fit.title} plumbing`;
       }
     } else {
       // Legacy fallback for older tutorial formats
-      if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
-        return recipe.title;
+      if (typeof idx === 'number' && idx === 2 && fit && fit.title) {
+        return fit.title;
       }
       
       // Use Pete the Plumber for complex queries
@@ -271,9 +271,9 @@ const PlumbingSchool = () => {
         - Only use the tools and materials listed.\n
         - Do NOT include unrelated tools or techniques.\n
         - The query should be specific to the step and project.\n
-        Project: ${recipe.title}\n
-        Materials: ${recipe.ingredients?.join(', ')}\n
-        Tools: ${recipe.equipment?.join(', ') || 'N/A'}\n
+        Project: ${fit.title}\n
+        Materials: ${fit.materials?.join(', ')}\n
+        Tools: ${fit.equipment?.join(', ') || 'N/A'}\n
         Step Title: ${tut.title}\n
         Step Description: ${tut.desc}\n
         Query:
@@ -285,9 +285,9 @@ const PlumbingSchool = () => {
           body: JSON.stringify({ prompt })
         });
         const data = await res.json();
-        query = data.query || tut.title + ' ' + (recipe.title || '');
+        query = data.query || tut.title + ' ' + (fit.title || '');
       } catch {
-        query = tut.title + ' ' + (recipe.title || '');
+        query = tut.title + ' ' + (fit.title || '');
       }
     }
     
@@ -307,7 +307,7 @@ const PlumbingSchool = () => {
         try {
           // Use the improved video query generation that handles different tutorial types
           const query = await getVideoQueryFromFreddie(
-            selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
+            selectedRecipe || { title: '', materials: [], equipment: [] }, 
             tut, 
             idx
           );
@@ -363,7 +363,7 @@ const PlumbingSchool = () => {
         <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
           activeMobileTab === 'school' ? 'block' : 'hidden lg:block'
         }`}>
-          {/* Culinary School header - moved back inside the module */}
+          {/* Plumbing School header - moved back inside the module */}
           <div className="flex items-center justify-center mb-4">
             <span className="text-5xl mr-2">🪠</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('plumbingSchool.title')}</h1>
@@ -400,7 +400,7 @@ const PlumbingSchool = () => {
                 </li>
               ))}
             </ol>
-            {/* Recipe Card Display at Bottom (matching MyCookBook RecipeCard layout) */}
+            {/* Fit Card Display at Bottom (matching MyPipeBook fit layout) */}
             <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
               <button
                 onClick={() => window.location.reload()}
@@ -420,24 +420,24 @@ const PlumbingSchool = () => {
                   />
                 )}
                 <h3 className="font-bold text-xl mb-1 text-maineBlue">{selectedRecipe.title}</h3>
-                {/* No description on RecipeCard, but add if needed: */}
+                {/* No description on fit card, but add if needed: */}
                 {/* <div className="text-gray-600 mb-2 text-base">{selectedRecipe.description}</div> */}
                 <div className="font-semibold mb-1 mt-2">{t('plumbingSchool.ingredients')}</div>
                 <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                  {selectedRecipe.ingredients?.length ? (
-                    selectedRecipe.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
+                  {selectedRecipe.materials?.length ? (
+                    selectedRecipe.materials.map((ing: string, i: number) => <li key={i}>{ing}</li>)
                   ) : (
                     <li className="italic text-gray-400">{t('plumbingSchool.noIngredientsListed')}</li>
                   )}
                 </ul>
-                {recipeNutrition && (
+                {fitNutrition && (
                   <div className="mt-2">
                     <div className="font-semibold mb-1">{t('plumbingSchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
                     <div className="text-sm">
-                      <div>{t('plumbingSchool.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('plumbingSchool.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('plumbingSchool.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('plumbingSchool.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
+                      <div>{t('plumbingSchool.carbs')}: {(fitNutrition.carbs * servingSize).toFixed(1)}g</div>
+                      <div>{t('plumbingSchool.sugars')}: {(fitNutrition.sugars * servingSize).toFixed(1)}g</div>
+                      <div>{t('plumbingSchool.fiber')}: {(fitNutrition.fiber * servingSize).toFixed(1)}g</div>
+                      <div>{t('plumbingSchool.protein')}: {(fitNutrition.protein * servingSize).toFixed(1)}g</div>
                     </div>
                   </div>
                 )}

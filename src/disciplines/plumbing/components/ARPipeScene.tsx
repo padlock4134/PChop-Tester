@@ -17,7 +17,7 @@ interface ARStep {
   duration: string;
   overlays: AROverlay[];
   tools: string[];
-  ingredients: string[];
+  materials: string[];
   keyPoints: string[];
 }
 
@@ -26,7 +26,7 @@ interface ARPracticeScene {
   setup: {
     workspace: string;
     requiredTools: string[];
-    requiredIngredients: string[];
+    requiredMaterials: string[];
   };
   steps: ARStep[];
   tips: string[];

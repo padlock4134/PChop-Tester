@@ -15,6 +15,6 @@ export function getMealVideoQuery(recipeTitle: string) {
   return getTaskVideoQuery(recipeTitle);
 }
 
-export function getMainIngredientPrepQuery(mainIngredient: string, recipeTitle: string) {
-  return getPrimaryMaterialPrepQuery(mainIngredient, recipeTitle);
+export function getMainMaterialPrepQuery(mainMaterial: string, recipeTitle: string) {
+  return getPrimaryMaterialPrepQuery(mainMaterial, recipeTitle);
 }

@@ -1,19 +1,19 @@
-/* Cookbook Logo */
-.cookbook-logo {
+/* PipeBook Logo */
+.pipebook-logo {
   width: 300px;
   height: 300px;
   margin: 0 auto 1rem;
 }
 
 @media (max-width: 768px) {
-  .cookbook-logo {
+  .pipebook-logo {
     width: 200px;
     height: 200px;
   }
 }
 
-/* Cookbook Container */
-.cookbook-container {
+/* PipeBook Container */
+.pipebook-container {
   position: relative;
   width: 550px;
   height: 650px;
@@ -22,13 +22,13 @@
   z-index: 10;
 }
 
-.device-mobile .cookbook-container {
+.device-mobile .pipebook-container {
   width: 480px;
   height: 580px;
 }
 
-/* Cookbook Spine */
-.cookbook-spine {
+/* PipeBook Spine */
+.pipebook-spine {
   position: absolute;
   left: 0;
   top: 0;
@@ -824,8 +824,8 @@
   margin-bottom: 20px;
 }
 
-/* Mobile responsive styles for the cookbook logo */
-.device-mobile .cookbook-logo {
+/* Mobile responsive styles for the pipebook logo */
+.device-mobile .pipebook-logo {
   width: 200px !important;
   height: 200px !important;
 }

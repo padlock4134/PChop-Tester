@@ -21,7 +21,7 @@ const PAGES = [
           <h2 className="cover-subtitle" style={{ fontSize: '1.8rem', margin: '0 0 2rem 0', color: '#fff', textAlign: 'center' }}>Your AI Plumbing Training Companion</h2>
           <h3 className="cover-body" style={{ fontSize: '1.5rem', textAlign: 'center', margin: '0 auto 2rem', color: '#fff' }}>Open To Learn More</h3>
           <div 
-            className="cookbook-logo"
+            className="pipebook-logo"
             style={{ 
               width: '300px',
               height: '300px',
@@ -99,7 +99,7 @@ const PAGES = [
           Your digital inventory tracker that manages your materials and suggests the right supplies for any job.
         </p>
         <div className="page-image-container page-3-image">
-          <img src="/my-kitchen-screenshot.png" alt="My Van Screenshot" className="page-screenshot" />
+          <img src="/my-van-screenshot.png" alt="My Van Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -114,7 +114,7 @@ const PAGES = [
           Your personal project portfolio that grows with you — job tickets, service records, and build plans in one place.
         </p>
         <div className="page-image-container page-4-image">
-          <img src="/my-cookbook-screenshot.png" alt="My Pipebook Screenshot" className="page-screenshot" />
+          <img src="/my-pipebook-screenshot.png" alt="My Pipebook Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -129,7 +129,7 @@ const PAGES = [
           Master plumbing techniques with step-by-step video lessons — from pipe fitting to code compliance.
         </p>
         <div className="page-image-container page-5-image">
-          <img src="/culinary-school-screenshot.png" alt="Plumbing School Screenshot" className="page-screenshot" />
+          <img src="/plumbing-school-screenshot.png" alt="Plumbing School Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -144,7 +144,7 @@ const PAGES = [
           Connect with peers, find local supply houses and wholesale distributors, and share techniques with fellow plumbers.
         </p>
         <div className="page-image-container page-6-image">
-          <img src="/chefs-corner-screenshot.png" alt="Pipe Lounge Screenshot" className="page-screenshot" />
+          <img src="/mentors-corner-screenshot.png" alt="Pipe Lounge Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -159,7 +159,7 @@ const PAGES = [
           Your AI plumbing assistant, ready to help with code lookups, job planning, material estimates, and troubleshooting.
         </p>
         <div className="page-image-container page-7-image">
-          <img src="/chef-freddie-screenshot.png" alt="Pete the Plumber Screenshot" className="page-screenshot" />
+          <img src="/mentor-freddie-screenshot.png" alt="Pete the Plumber Screenshot" className="page-screenshot" />
         </div>
       </>
     ),
@@ -234,8 +234,8 @@ const FlippablePipeBook: React.FC = () => {
 
   // When showing the cover or any page
   return (
-    <div className={`cookbook-container ${pageNumber === 0 ? 'cover-only' : ''} device-${deviceType}`}>
-      <div className="cookbook-spine" />
+    <div className={`pipebook-container ${pageNumber === 0 ? 'cover-only' : ''} device-${deviceType}`}>
+      <div className="pipebook-spine" />
       
       {/* Turned pages - these are the pages that have been turned and stick */}
       {turnedPages.map((pageNum) => (

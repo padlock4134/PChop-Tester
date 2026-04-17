@@ -2,19 +2,19 @@ import { supabase } from '../../culinary/api/supabaseClient';
 import { isSessionValid } from '../../culinary/api/userSession';
 import type { RecipeCard } from '../components/FitMatcherModal';
 
-export async function saveCookbook(userId: string, recipes: RecipeCard[]) {
+export async function savePipeBook(userId: string, fits: RecipeCard[]) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   const { error } = await supabase
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId,
-      recipes: recipes // Stored as JSONB in Supabase
+      recipes: fits // Stored as JSONB in Supabase
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }
 
-export async function fetchCookbook(userId: string): Promise<RecipeCard[]> {
+export async function fetchPipeBook(userId: string): Promise<RecipeCard[]> {
   if (!userId) return [];
 
   const sessionValid = await isSessionValid();
@@ -29,11 +29,11 @@ export async function fetchCookbook(userId: string): Promise<RecipeCard[]> {
   return (data?.recipes || []) as RecipeCard[];
 }
 
-export async function addRecipeToCookbook(userId: string, recipe: RecipeCard) {
+export async function addRecipeToPipeBook(userId: string, fit: RecipeCard) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   
-  // First get existing recipes
+  // First get existing fits
   const { data, error: fetchError } = await supabase
     .from('user_cookbook')
     .select('recipes')
@@ -42,20 +42,20 @@ export async function addRecipeToCookbook(userId: string, recipe: RecipeCard) {
     
   if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
   
-  // Add new recipe if not already present
+  // Add new fit if not already present
   const existingRecipes = (data?.recipes || []) as RecipeCard[];
-  if (!existingRecipes.some(r => r.id === recipe.id)) {
+  if (!existingRecipes.some(r => r.id === fit.id)) {
     const { error } = await supabase
       .from('user_cookbook')
       .upsert([{ 
         user_id: userId, 
-        recipes: [...existingRecipes, recipe] // Stored as JSONB in Supabase
+        recipes: [...existingRecipes, fit] // Stored as JSONB in Supabase
       }], { onConflict: 'user_id' });
     if (error) throw error;
   }
 }
 
-export async function removeRecipeFromCookbook(userId: string, recipeId: string) {
+export async function removeRecipeFromPipeBook(userId: string, recipeId: string) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   

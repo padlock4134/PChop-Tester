@@ -17,70 +17,70 @@ const WEEKLY_CHALLENGES = [
     defaultTitle: 'Leak Locator',
     defaultDescription: 'Complete a leak detection/repair task.',
     defaultBadge: 'Leak Locator',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['leak','seal','pressure'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['leak','seal','pressure'].includes(i.toLowerCase())),
   },
   {
     id: 'pipefitPro',
     defaultTitle: 'Pipefit Pro',
     defaultDescription: 'Submit a pipe fitting/connection task.',
     defaultBadge: 'Pipefit Pro',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['pipe','fitting','joint'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['pipe','fitting','joint'].includes(i.toLowerCase())),
   },
   {
     id: 'drainDoctor',
     defaultTitle: 'Drain Doctor',
     defaultDescription: 'Complete drainage or flow troubleshooting.',
     defaultBadge: 'Drain Doctor',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['drain','clog','flow'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['drain','clog','flow'].includes(i.toLowerCase())),
   },
   {
     id: 'fixtureFinish',
     defaultTitle: 'Fixture Finish',
     defaultDescription: 'Log a fixture install/trim-out task.',
     defaultBadge: 'Fixture Finish',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['fixture','trim','install'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['fixture','trim','install'].includes(i.toLowerCase())),
   },
   {
     id: 'codeCheck',
     defaultTitle: 'Code Check',
     defaultDescription: 'Submit plumbing code compliance work.',
     defaultBadge: 'Code Checked',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['code','inspection','permit'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['code','inspection','permit'].includes(i.toLowerCase())),
   },
   {
     id: 'pressureTest',
     defaultTitle: 'Pressure Test',
     defaultDescription: 'Complete pressure testing/validation.',
     defaultBadge: 'Pressure Pro',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['pressure','test','gauge'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['pressure','test','gauge'].includes(i.toLowerCase())),
   },
   {
     id: 'solderStation',
     defaultTitle: 'Solder Station',
     defaultDescription: 'Log solder/press connection work.',
     defaultBadge: 'Connection Specialist',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['solder','press','braze'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['solder','press','braze'].includes(i.toLowerCase())),
   },
   {
     id: 'ventVerify',
     defaultTitle: 'Vent Verify',
     defaultDescription: 'Complete venting system verification.',
     defaultBadge: 'Vent Verifier',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['vent','trap','dwv'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['vent','trap','dwv'].includes(i.toLowerCase())),
   },
   {
     id: 'serviceSaver',
     defaultTitle: 'Service Saver',
     defaultDescription: 'Submit maintenance/service workflow task.',
     defaultBadge: 'Service Saver',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['service','maintenance','repair'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['service','maintenance','repair'].includes(i.toLowerCase())),
   },
   {
     id: 'systemReliability',
     defaultTitle: 'System Reliability',
     defaultDescription: 'Complete reliability improvement work.',
     defaultBadge: 'System Guardian',
-    criteria: (recipe: { ingredients: string[] }) => recipe.ingredients.some(i => ['reliability','system','performance'].includes(i.toLowerCase())),
+    criteria: (fit: { materials: string[] }) => fit.materials.some(i => ['reliability','system','performance'].includes(i.toLowerCase())),
   }
 ];
 
@@ -146,16 +146,16 @@ const ChallengeOfTheWeek: React.FC = () => {
       try {
         const prompt = `${challenge.title}: ${challenge.description}`;
         const recipeData = await getWeeklyChallengeRecipe(prompt);
-        const image = await getRecipeImage(recipeData.title || challenge.title, recipeData.title || challenge.title, 'recipe');
-        const recipe: RecipeCard = {
+        const image = await getRecipeImage(recipeData.title || challenge.title, recipeData.title || challenge.title, 'fit');
+        const fit: RecipeCard = {
           id: `weekly-${challenge.title.replace(/\s+/g, '-').toLowerCase()}`,
           title: recipeData.title || challenge.title,
           image,
-          ingredients: recipeData.ingredients || [],
+          materials: recipeData.materials || [],
           instructions: recipeData.instructions || '',
           equipment: recipeData.equipment || [],
         };
-        setModalRecipe(recipe);
+        setModalRecipe(fit);
       } catch (e: any) {
         setError(e.message || 'Failed to generate challenge');
       } finally {
@@ -225,7 +225,7 @@ const ChallengeOfTheWeek: React.FC = () => {
       <WeeklyChallengeFitModal
         open={recipeModalOpen}
         onClose={() => setRecipeModalOpen(false)}
-        recipe={modalRecipe}
+        fit={modalRecipe}
         loading={loading}
         error={error}
         challengeId={modalRecipe?.id || ''}

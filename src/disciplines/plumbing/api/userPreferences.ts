@@ -33,7 +33,7 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
     experienceLevel: (data.cooking_experience as ExperienceLevel) || DEFAULT_EXPERIENCE_LEVEL,
     certifications: data.dietary || [],
     specialization: data.cuisine || [],
-    workspaceSetup: data.kitchen_setup || 'Student Toolkit',
+    workspaceSetup: data.van_setup || 'Student Toolkit',
     talentTree: (data.level >= 10 && data.selected_talent_tree) ? data.selected_talent_tree : null,
     level: data.level || 1
   };

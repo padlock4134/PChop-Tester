@@ -17,14 +17,14 @@ import { KeyNutrients } from '../../culinary/types/nutrition';
 const PipeLounge = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
-  const { recipes, setRecipes } = useRecipeContext();
+  const { fits, setRecipes } = useRecipeContext();
   const { user } = useSupabase();
   
-  // Showcase recipe state
+  // Showcase fit state
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
   const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
-  const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
+  const [pipebookModalOpen, setPipeBookModalOpen] = useState(false);
   
   // Localized plumber quote of the day (reuses MyPipeBook's localized quotes)
   const currentQuote = getPlumberQuoteOfTheDay(i18n.language);
@@ -37,7 +37,7 @@ const PipeLounge = () => {
   useEffect(() => {
     updateContext({ page: 'ChefsCorner' });
     
-    // Load recipes from cookbook when Chef's Corner loads
+    // Load fits from pipebook when Mentor's Corner loads
     const loadRecipes = async () => {
       if (!user?.id) {
         setIsLoading(false);
@@ -46,10 +46,10 @@ const PipeLounge = () => {
       
       try {
         setIsLoading(true);
-        const savedRecipes = await fetchCookbook(user.id);
+        const savedRecipes = await fetchPipeBook(user.id);
         setRecipes(savedRecipes || []);
       } catch (err) {
-        console.error('Error loading cookbook recipes:', err);
+        console.error('Error loading pipebook fits:', err);
         // Initialize with empty array if there's an error
         setRecipes([]);
       } finally {
@@ -60,33 +60,33 @@ const PipeLounge = () => {
     loadRecipes();
   }, [updateContext, setRecipes, user?.id]);
 
-  // Open modal for My CookBook import
-  const importFromCookBook = () => {
+  // Open modal for My PipeBook import
+  const importFromPipeBook = () => {
     if (!user) {
       alert(t('pipeLounge.pleaseSignIn'));
       return;
     }
-    setCookbookModalOpen(true);
+    setPipeBookModalOpen(true);
   };
 
-  // Handler for modal import - select a recipe to showcase
-  const handleCookBookImport = async (selectedRecipe: any) => {
-    console.log('Importing recipe:', selectedRecipe);
+  // Handler for modal import - select a fit to showcase
+  const handlePipeBookImport = async (selectedRecipe: any) => {
+    console.log('Importing fit:', selectedRecipe);
     
     if (!selectedRecipe) {
-      console.error('No recipe selected');
+      console.error('No fit selected');
       alert(t('pipeLounge.errorNoRecipe'));
       return;
     }
 
     try {
-      // Set the selected recipe as the showcase recipe
+      // Set the selected fit as the showcase fit
       setShowcaseRecipe(selectedRecipe);
       
-      // Calculate nutrition for the recipe
-      if (selectedRecipe.ingredients && Array.isArray(selectedRecipe.ingredients)) {
+      // Calculate nutrition for the fit
+      if (selectedRecipe.materials && Array.isArray(selectedRecipe.materials)) {
         try {
-          const nutrition = await calculateRecipeNutrition(selectedRecipe.ingredients);
+          const nutrition = await calculateRecipeNutrition(selectedRecipe.materials);
           setRecipeNutrition(nutrition);
         } catch (error) {
           console.error('Error calculating nutrition:', error);
@@ -99,10 +99,10 @@ const PipeLounge = () => {
       alert(t('pipeLounge.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
-      console.error('Error importing recipe:', error);
+      console.error('Error importing fit:', error);
       alert(t('pipeLounge.failedToImport'));
     } finally {
-      setCookbookModalOpen(false);
+      setPipeBookModalOpen(false);
     }
   };
 
@@ -111,8 +111,8 @@ const PipeLounge = () => {
       <BuildLayoutModal
         open={buildMenuModalOpen}
         onClose={() => setBuildMenuModalOpen(false)}
-        onFindMarkets={(recipes: RecipeCard[]) => {
-          setSelectedMenuRecipes(recipes);
+        onFindMarkets={(fits: RecipeCard[]) => {
+          setSelectedMenuRecipes(fits);
           setBuildMenuModalOpen(false);
           setLocalMarketsModalOpen(true);
         }}
@@ -150,11 +150,11 @@ const PipeLounge = () => {
         </div>
         
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* Main Content - Chef's Corner Tab */}
+          {/* Main Content - Mentor's Corner Tab */}
           <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
             activeMobileTab === 'corner' ? 'block' : 'hidden lg:block'
           }`}>
-            {/* Chef's Corner header - moved back inside the module */}
+            {/* Mentor's Corner header - moved back inside the module */}
             <div className="flex items-center justify-center mb-4">
               <span className="text-5xl mr-2">🔩</span>
               <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('pipeLounge.title')}</h1>
@@ -178,7 +178,7 @@ const PipeLounge = () => {
                         📋 {t('pipeLounge.buildMenu')}
                       </button>
                       <button 
-                        onClick={importFromCookBook} 
+                        onClick={importFromPipeBook} 
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
                         disabled={isLoading}
                       >
@@ -187,10 +187,10 @@ const PipeLounge = () => {
                     </div>
                   </div>
                   <PipeBookImportModal
-                    open={cookbookModalOpen}
-                    onClose={() => setCookbookModalOpen(false)}
-                    onImport={handleCookBookImport}
-                    existingIngredients={[]}
+                    open={pipebookModalOpen}
+                    onClose={() => setPipeBookModalOpen(false)}
+                    onImport={handlePipeBookImport}
+                    existingMaterials={[]}
                   />
                   {showcaseRecipe ? (
                     <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-4 mx-auto relative">
@@ -214,8 +214,8 @@ const PipeLounge = () => {
                         <h3 className="font-bold text-xl mb-1 text-maineBlue">{showcaseRecipe.title}</h3>
                         <div className="font-semibold mb-1 mt-2">{t('pipeLounge.ingredients')}</div>
                         <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                          {showcaseRecipe.ingredients?.length ? (
-                            showcaseRecipe.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
+                          {showcaseRecipe.materials?.length ? (
+                            showcaseRecipe.materials.map((ing: string, i: number) => <li key={i}>{ing}</li>)
                           ) : (
                             <li className="italic text-gray-400">{t('pipeLounge.noIngredientsListed')}</li>
                           )}
@@ -261,7 +261,7 @@ const PipeLounge = () => {
                 </div>
               </section>
 
-              {/* Chef Quote of the Week */}
+              {/* Mentor Quote of the Week */}
               <p className="text-center text-gray-600 italic mb-6">
                 "{currentQuote.quote}" — {currentQuote.professional}
               </p>
