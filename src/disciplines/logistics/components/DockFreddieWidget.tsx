@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 // @ts-ignore
-import chefFreddiePng from '../images/logo.png';
+import dispatcherFreddiePng from '../images/logo.png';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askChefFreddie } from '../api/chefFreddie';
+import { askDispatcherFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
 interface Message {
@@ -41,7 +41,7 @@ const DockFreddieWidget = () => {
     setMessages(msgs => [...msgs, { sender: 'user', text }]);
     setInput('');
     try {
-      const reply = await askChefFreddie(user?.id!, text);
+      const reply = await askDispatcherFreddie(user?.id!, text);
       setMessages(msgs => [...msgs, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
       setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || t('dockFreddie.errorContacting') }]);
@@ -113,7 +113,7 @@ const DockFreddieWidget = () => {
         aria-label="Open Lou the Dispatcher AI Assistant"
       >
         <img
-          src={chefFreddiePng}
+          src={dispatcherFreddiePng}
           alt="Lou the Dispatcher"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />

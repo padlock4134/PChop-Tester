@@ -15,7 +15,7 @@ interface LiveSession {
   isEnded?: boolean;
   thumbnail: string;
   description: string;
-  ingredients: string[];
+  items: string[];
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
   teacherTag?: string;
 }
@@ -31,11 +31,11 @@ interface UpcomingSession {
   teacherTag?: string;
 }
 
-interface GlobalTestKitchenProps {
-  showcaseRecipe?: any;
+interface GlobalTestDockProps {
+  showcaseRoute?: any;
 }
 
-const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) => {
+const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
   const { t } = useTranslation();
   const { user } = useSupabase();
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'host'>('live');
@@ -48,7 +48,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       await supabase.from('user_activity').insert({
         user_id: user.id,
         action,
-        component: 'global_test_kitchen',
+        component: 'global_test_dock',
         metadata: metadata || {},
         timestamp: new Date().toISOString()
       });
@@ -59,8 +59,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   const [goLiveModalOpen, setGoLiveModalOpen] = useState(false);
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   
-  // Recipe Assistant state
-  const [recipeAssistantOpen, setRecipeAssistantOpen] = useState(false);
+  // Route Assistant state
+  const [routeAssistantOpen, setRouteAssistantOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [stepTimer, setStepTimer] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
@@ -109,7 +109,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       isEnded: true,
       thumbnail: '🥘',
       description: 'Traditional paella from Valencia with saffron and bomba rice',
-      ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
+      items: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
     },
     {
       id: '2',
@@ -120,7 +120,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       isLive: true,
       thumbnail: '🍜',
       description: 'Making ramen noodles from scratch with tonkotsu broth',
-      ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
+      items: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
     },
     {
       id: '3',
@@ -131,7 +131,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       isLive: true,
       thumbnail: '🧆',
       description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
-      ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
+      items: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
     },
     {
       id: '4',
@@ -142,7 +142,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       isLive: true,
       thumbnail: '🥐',
       description: 'Mastering the art of laminated dough and butter layers',
-      ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
+      items: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
     }
   ]);
   const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
@@ -1446,5 +1446,5 @@ END:VCALENDAR`;
   );
 };
 
-export default GlobalTestKitchen;
+export default GlobalTestDock;
 

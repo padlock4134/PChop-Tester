@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRouteContext } from './RouteContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
-import chefFreddiePng from '../images/logo.png';
+import dispatcherFreddiePng from '../images/logo.png';
 
-export type RecipeCard = {
+export type RouteCard = {
   id: string;
   title: string;
   image: string;
-  ingredients: string[];
+  items: string[];
   instructions: string;
   equipment?: string[];
   tutorials?: Array<{
@@ -42,20 +42,20 @@ export type RecipeCard = {
 type Props = {
   open: boolean;
   onClose: () => void;
-  cupboardIngredients: string[];
-  onLike: (recipe: RecipeCard) => void;
-  saveRecipeToCookbook: (recipe: RecipeCard) => void;
-  recipes: RecipeCard[];
+  inventoryItems: string[];
+  onLike: (route: RouteCard) => void;
+  saveRouteToRunbook: (route: RouteCard) => void;
+  routes: RouteCard[];
   loading: boolean;
   error: string;
 };
 
-const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
+const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onLike, saveRouteToRunbook, routes, loading, error }) => {
   const { t } = useTranslation();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
-  const { setSelectedRecipe } = useRecipeContext();
+  const { setSelectedRoute } = useRouteContext();
   const navigate = useNavigate();
 
   const loadingMessages = [
@@ -86,21 +86,21 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const handleLike = async () => {
     try {
       setIsSaving(true);
-      // Save recipe to cookbook
-      await saveRecipeToCookbook(recipes[currentIdx]);
-      await onLike(recipes[currentIdx]);
+      // Save route to runbook
+      await saveRouteToRunbook(routes[currentIdx]);
+      await onLike(routes[currentIdx]);
       setCurrentIdx(idx => idx + 1);
     } catch (error) {
-      console.error('Error saving recipe:', error);
+      console.error('Error saving route:', error);
     } finally {
       setIsSaving(false);
     }
   };
   const handleSkip = () => setCurrentIdx(idx => idx + 1);
-  function generateTutorials(recipe: RecipeCard) {
+  function generateTutorials(route: RouteCard) {
   return [
     {
-      title: `${t('recipeMatcher.equipmentUsing')} ${recipe.title}`,
+      title: `${t('recipeMatcher.equipmentUsing')} ${route.title}`,
       desc: t('recipeMatcher.learnEquipment')
     },
     {
@@ -108,21 +108,21 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
       desc: t('recipeMatcher.howToPrepProtein', { defaultValue: 'How to prep primary materials for this project.' })
     },
     {
-      title: `${t('recipeMatcher.recipe', { defaultValue: 'Procedure' })} ${recipe.title}`,
-      desc: recipe.instructions
+      title: `${t('recipeMatcher.recipe', { defaultValue: 'Procedure' })} ${route.title}`,
+      desc: route.instructions
     }
   ];
 }
 
   const handleCookMe = () => {
-    const fullRecipe = {
-      ...recipes[currentIdx],
-      tutorials: recipes[currentIdx].tutorials && recipes[currentIdx].tutorials.length === 3
-        ? recipes[currentIdx].tutorials
-        : generateTutorials(recipes[currentIdx])
+    const fullRoute = {
+      ...routes[currentIdx],
+      tutorials: routes[currentIdx].tutorials && routes[currentIdx].tutorials.length === 3
+        ? routes[currentIdx].tutorials
+        : generateTutorials(routes[currentIdx])
     };
-    setSelectedRecipe(fullRecipe);
-    navigate('/culinary-school');
+    setSelectedRoute(fullRoute);
+    navigate('/logistics-school');
   };
 
   const DIETARY_TAGS = [
@@ -149,11 +149,11 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         <h2 className="font-retro text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={chefFreddiePng} alt="Chef Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
+              <img src={dispatcherFreddiePng} alt="Dispatcher Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('recipeMatcher.recipeMatcher'))}
+           (routes.length > 0 && currentIdx < routes.length ? routes[currentIdx].title : t('recipeMatcher.recipeMatcher'))}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
@@ -162,18 +162,18 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
-        ) : recipes.length === 0 || currentIdx >= recipes.length ? (
+        ) : routes.length === 0 || currentIdx >= routes.length ? (
           <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions')}<br/>{t('recipeMatcher.tryUpdatingCupboard')}</div>
         ) : (
           (() => {
-            console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
+            console.log('Route healthTags:', routes[currentIdx].healthTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
-                  <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
+                  <img src={routes[currentIdx].image} alt={routes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
                     {DIETARY_TAGS.map(tag => {
-                      const isMatch = recipes[currentIdx].healthTags?.includes(tag.key);
+                      const isMatch = routes[currentIdx].healthTags?.includes(tag.key);
                       return (
                         <span 
                           key={tag.key}
@@ -186,9 +186,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Materials' })}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
-                  {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Tools/Equipment' })}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Materials' })}:</span> {routes[currentIdx].items.join(', ')}</div>
+                  {routes[currentIdx].equipment && routes[currentIdx].equipment!.length > 0 && (
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Tools/Equipment' })}:</span> {routes[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">
@@ -216,5 +216,5 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   );
 };
 
-export default RecipeMatcherModal;
+export default RouteMatcherModal;
 

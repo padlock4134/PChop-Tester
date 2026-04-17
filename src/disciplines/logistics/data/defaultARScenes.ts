@@ -5,8 +5,8 @@ export const whetstoneSharpening = {
   lesson: "Traditional Whetstone Knife Sharpening",
   setup: {
     workspace: "Clean, stable surface with damp towel underneath whetstone",
-    requiredTools: ["8-inch chef's knife", "1000/6000 grit whetstone", "bowl of water", "damp towel"],
-    requiredIngredients: []
+    requiredTools: ["8-inch dispatcher's knife", "1000/6000 grit whetstone", "bowl of water", "damp towel"],
+    requiredItems: []
   },
   steps: [
     {
@@ -14,7 +14,7 @@ export const whetstoneSharpening = {
       instruction: "Soak your whetstone in water for 10 minutes. The stone should feel heavy and fully saturated. Place a damp towel under the stone to prevent slipping.",
       duration: "30s",
       tools: ["Whetstone", "Bowl of water", "Damp towel"],
-      ingredients: [],
+      items: [],
       overlays: [
         {
           type: "text",
@@ -33,8 +33,8 @@ export const whetstoneSharpening = {
       id: 2,
       instruction: "Hold the knife with your dominant hand. Place the blade against the stone at a 20-degree angle. This is critical—visualize a matchbook under the spine of the blade.",
       duration: "45s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Dispatcher's knife", "Whetstone"],
+      items: [],
       overlays: [
         {
           type: "line",
@@ -59,8 +59,8 @@ export const whetstoneSharpening = {
       id: 3,
       instruction: "Using light to moderate pressure, sweep the blade from heel to tip across the stone. Imagine you're trying to shave a thin layer off the stone. Keep the angle consistent.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Dispatcher's knife", "Whetstone"],
+      items: [],
       overlays: [
         {
           type: "arrow",
@@ -86,8 +86,8 @@ export const whetstoneSharpening = {
       id: 4,
       instruction: "Complete 10 strokes on this side. Count them out loud. Listen to the sound—it should be consistent, like a whisper across the stone.",
       duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Dispatcher's knife", "Whetstone"],
+      items: [],
       overlays: [
         {
           type: "text",
@@ -113,8 +113,8 @@ export const whetstoneSharpening = {
       id: 5,
       instruction: "Flip the knife over. Maintain the same 20-degree angle on the opposite side. Your hand position will feel different—that's normal. 10 more strokes, same motion.",
       duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Dispatcher's knife", "Whetstone"],
+      items: [],
       overlays: [
         {
           type: "line",
@@ -140,8 +140,8 @@ export const whetstoneSharpening = {
       id: 6,
       instruction: "Feel for the burr. Run your thumb CAREFULLY perpendicular to the edge on the side you just sharpened. You should feel a tiny metal ridge—that's the burr. It means you've sharpened through to the edge.",
       duration: "45s",
-      tools: ["Chef's knife"],
-      ingredients: [],
+      tools: ["Dispatcher's knife"],
+      items: [],
       overlays: [
         {
           type: "text",
@@ -167,8 +167,8 @@ export const whetstoneSharpening = {
       id: 7,
       instruction: "Alternate sides with lighter pressure—5 strokes per side, then 3, then 1. This removes the burr and polishes the edge. The blade should now feel razor-sharp.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Dispatcher's knife", "Whetstone"],
+      items: [],
       overlays: [
         {
           type: "text",
@@ -194,8 +194,8 @@ export const whetstoneSharpening = {
       id: 8,
       instruction: "Rinse the blade and test on paper. A sharp knife will slice through paper cleanly with no tearing. You've just mastered a centuries-old technique.",
       duration: "30s",
-      tools: ["Chef's knife"],
-      ingredients: [],
+      tools: ["Dispatcher's knife"],
+      items: [],
       overlays: [
         {
           type: "text",
