@@ -42,12 +42,12 @@ type Props = {
   vanMaterials: string[];
   onLike: (fit: RecipeCard) => void;
   saveRecipeToPipeBook: (fit: RecipeCard) => void;
-  recipes: RecipeCard[];
+  fits: RecipeCard[];
   loading: boolean;
   error: string;
 };
 
-const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLike, saveRecipeToPipeBook, recipes, loading, error }) => {
+const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLike, saveRecipeToPipeBook, fits, loading, error }) => {
   const { t } = useTranslation();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
@@ -84,8 +84,8 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
     try {
       setIsSaving(true);
       // Save fit to pipebook
-      await saveRecipeToPipeBook(recipes[currentIdx]);
-      await onLike(recipes[currentIdx]);
+      await saveRecipeToPipeBook(fits[currentIdx]);
+      await onLike(fits[currentIdx]);
       setCurrentIdx(idx => idx + 1);
     } catch (error) {
       console.error('Error saving fit:', error);
@@ -113,10 +113,10 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
 
   const handleCookMe = () => {
     const fullRecipe = {
-      ...recipes[currentIdx],
-      tutorials: recipes[currentIdx].tutorials && recipes[currentIdx].tutorials.length === 3
-        ? recipes[currentIdx].tutorials
-        : generateTutorials(recipes[currentIdx])
+      ...fits[currentIdx],
+      tutorials: fits[currentIdx].tutorials && fits[currentIdx].tutorials.length === 3
+        ? fits[currentIdx].tutorials
+        : generateTutorials(fits[currentIdx])
     };
     setSelectedRecipe(fullRecipe);
     navigate('/plumbing/plumbing-school');
@@ -159,16 +159,16 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
-        ) : recipes.length === 0 || currentIdx >= recipes.length ? (
+        ) : fits.length === 0 || currentIdx >= fits.length ? (
           <div className="text-center text-maineBlue font-bold py-10">{t('repairMatcher.noMoreSuggestions')}<br/>{t('repairMatcher.tryUpdatingVan')}</div>
         ) : (
           (() => {
-            const activeTags = recipes[currentIdx].complianceTags ?? recipes[currentIdx].healthTags ?? [];
+            const activeTags = fits[currentIdx].complianceTags ?? fits[currentIdx].healthTags ?? [];
             console.log('Procedure tags:', activeTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
-                  <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
+                  <img src={fits[currentIdx].image} alt={fits[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
                     {COMPLIANCE_TAGS.map((tag: any) => {
                       const isMatch = activeTags.includes(tag.key);
@@ -185,7 +185,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
                     })}
                   </div>
                   <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
-                  {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
+                  {fits[currentIdx].equipment && fits[currentIdx].equipment!.length > 0 && (
                     <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>

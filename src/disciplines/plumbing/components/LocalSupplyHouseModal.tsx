@@ -23,7 +23,7 @@ interface Market {
 interface LocalMarketsModalProps {
   open: boolean;
   onClose: () => void;
-  selectedRecipes?: any[]; // Optional: recipes from Build Menu feature
+  selectedRecipes?: any[]; // Optional: fits from Build Menu feature
 }
 
 interface MarketCardProps {
@@ -306,7 +306,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  // Extract and group materials from selected recipes
+  // Extract and group materials from selected fits
   const materialsByMarketType = React.useMemo(() => {
     if (!selectedRecipes || selectedRecipes.length === 0) return {};
     

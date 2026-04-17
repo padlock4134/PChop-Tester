@@ -293,7 +293,7 @@ const MyVan = () => {
             try {
               const vanPartsNames = materials.map(i => i.name);
               const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
-              const recipes = await fetchRecipesWithImages({
+              const fits = await fetchRecipesWithImages({
                 userId: user?.id!,
                 materials: vanPartsNames,
                 numRecipes: 5,
@@ -302,7 +302,7 @@ const MyVan = () => {
                 talentsEnabled: false,
                 talentTree: null
               });
-              setMatcherRecipes(recipes);
+              setMatcherRecipes(fits);
             } catch (err: any) {
               setMatcherError('Failed to fetch procedures.');
             } finally {
@@ -339,7 +339,7 @@ const MyVan = () => {
         vanMaterials={materials.map(i => i.name)}
         onLike={handleLikeRecipe}
         saveRecipeToPipeBook={handleSaveRecipeToPipeBook}
-        recipes={matcherRecipes}
+        fits={matcherRecipes}
         loading={matcherLoading}
         error={matcherError}
       />

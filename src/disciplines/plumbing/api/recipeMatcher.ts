@@ -319,7 +319,7 @@ export async function fetchRecipesWithImages({
 
 You are Pete the Plumber. Generate PLUMBING procedures/projects only.
 Hard constraints:
-- Do NOT return fit, meals, cooking, nutrition, or plumbing terminology.
+- Do NOT return fit, jobs, cooking, nutrition, or plumbing terminology.
 - Every project must be a realistic plumbing task (installation, repair, diagnostics, maintenance, or code-compliance work).
 - Prefer common plumbing materials (e.g., PVC, PEX, copper, fittings, valves, traps, sealants) and plumbing tools (e.g., pipe cutter, press tool, torch, snake, pressure gauge, multimeter for diagnostics).
 - Instructions must reference plumbing actions and safety/code checks.
@@ -363,7 +363,7 @@ Return ONLY the JSON array, no other text.`;
     return generateFallbackRecipes(userId, materials, numRecipes);
   }
 
-  let recipes;
+  let fits;
   try {
     const content = anthropicData.content[0].text;
     
@@ -385,18 +385,18 @@ Return ONLY the JSON array, no other text.`;
     
     console.log('Cleaned JSON text length:', jsonText.length);
     
-    recipes = JSON.parse(jsonText);
+    fits = JSON.parse(jsonText);
     
-    if (!Array.isArray(recipes)) throw new Error('Response not an array');
+    if (!Array.isArray(fits)) throw new Error('Response not an array');
   } catch (err: unknown) {
-    console.error('Failed to parse recipes:', err);
+    console.error('Failed to parse fits:', err);
     console.log('Raw content:', anthropicData.content[0].text);
     console.log('Error at position:', err instanceof Error ? err.message : String(err));
     return generateFallbackRecipes(userId, materials, numRecipes);
   }
 
-  // 4. Score and sort recipes based on user's locker, van setup, and talent tree
-  const scoredRecipes = recipes
+  // 4. Score and sort fits based on user's locker, van setup, and talent tree
+  const scoredRecipes = fits
     .map(fit => ({
       ...fit,
       score: scoreRecipe(
@@ -414,11 +414,11 @@ Return ONLY the JSON array, no other text.`;
     .sort((a, b) => b.score - a.score)
     .slice(0, numRecipes);
 
-  // 5. Fetch images for top recipes
+  // 5. Fetch images for top fits
   const imagePromises = scoredRecipes.map(async (fit) => {
     try {
       const res = await fetch(
-        `${UNSPLASH_API_URL}?query=${encodeURIComponent(recipe.title)}&client_id=${unsplashKey}`
+        `${UNSPLASH_API_URL}?query=${encodeURIComponent(fit.title)}&client_id=${unsplashKey}`
       );
       const data = await res.json();
       return data.results?.[0]?.urls?.small || '';
@@ -470,7 +470,7 @@ export async function generateFallbackRecipes(userId: string, materials: string[
 
 You are Pete the Plumber. Generate PLUMBING procedures/projects only.
 Hard constraints:
-- Do NOT return fit, meals, cooking, nutrition, or plumbing terminology.
+- Do NOT return fit, jobs, cooking, nutrition, or plumbing terminology.
 - Every project must be a realistic plumbing task (installation, repair, diagnostics, maintenance, or code-compliance work).
 - Prefer common plumbing materials (e.g., PVC, PEX, copper, fittings, valves, traps, sealants) and plumbing tools (e.g., pipe cutter, press tool, torch, snake, pressure gauge, multimeter for diagnostics).
 - Instructions must reference plumbing actions and safety/code checks.
@@ -514,7 +514,7 @@ Return ONLY the JSON array, no other text.`;
   const anthropicData = await anthropicRes.json();
   
   // Try to extract JSON from Claude's response
-  let recipes: any[] = [];
+  let fits: any[] = [];
   try {
     if (!anthropicData.content?.[0]?.text) {
       console.error('Invalid Anthropic response format:', anthropicData);
@@ -526,8 +526,8 @@ Return ONLY the JSON array, no other text.`;
     // More robust JSON extraction
     const match = responseText.match(/\[\s*\{[\s\S]*\}\s*\]/);
     if (match) {
-      recipes = JSON.parse(match[0]);
-      console.log('Parsed recipes:', recipes);
+      fits = JSON.parse(match[0]);
+      console.log('Parsed fits:', fits);
     } else {
       console.error('No JSON array found in response:', responseText);
       throw new Error('No fit data found in API response');
@@ -538,8 +538,8 @@ Return ONLY the JSON array, no other text.`;
   }
 
   // Validate fit format
-  recipes = Array.isArray(recipes) ? recipes : [];
-  const validRecipes = recipes.filter(r => {
+  fits = Array.isArray(fits) ? fits : [];
+  const validRecipes = fits.filter(r => {
     const isValid = r && r.title && Array.isArray(r.materials) && Array.isArray(r.instructions);
     if (!isValid) {
       console.warn('Invalid fit format:', r);
@@ -548,13 +548,13 @@ Return ONLY the JSON array, no other text.`;
   });
 
   if (validRecipes.length === 0) {
-    console.error('No valid recipes found in response');
-    throw new Error('No valid recipes found in API response');
+    console.error('No valid fits found in response');
+    throw new Error('No valid fits found in API response');
   }
 
   // 3. For each fit, call Unsplash in parallel
   const imagePromises = validRecipes.map(async (r) => {
-    const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'meal');
+    const q = encodeURIComponent(r.title || r.materials?.[0] || 'job');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
     return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836';

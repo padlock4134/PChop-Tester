@@ -19,7 +19,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
   const discipline = location.pathname.split('/').filter(Boolean)[0] || 'plumbing';
   const bt = (key: string) => t(`buildMenu.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`buildMenu.${key}`) });
   const { user } = useSupabase();
-  const [recipes, setRecipes] = useState<RecipeCard[]>([]);
+  const [fits, setRecipes] = useState<RecipeCard[]>([]);
   const [selectedRecipeIds, setSelectedRecipeIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
 
@@ -37,7 +37,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       const savedRecipes = await fetchPipeBook(user.id);
       setRecipes(savedRecipes || []);
     } catch (err) {
-      console.error('Error loading pipebook recipes:', err);
+      console.error('Error loading pipebook fits:', err);
       setRecipes([]);
     } finally {
       setLoading(false);
@@ -55,12 +55,12 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
   };
 
   const handleFindMarkets = () => {
-    const selected = recipes.filter(r => selectedRecipeIds.has(r.id));
+    const selected = fits.filter(r => selectedRecipeIds.has(r.id));
     onFindMarkets(selected);
   };
 
   const handleCreateMenuPDF = () => {
-    const selected = recipes.filter(r => selectedRecipeIds.has(r.id));
+    const selected = fits.filter(r => selectedRecipeIds.has(r.id));
     if (selected.length === 0) return;
 
     const pdf = new jsPDF();
@@ -79,7 +79,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     pdf.setFontSize(11);
     pdf.setFont('helvetica', 'normal');
     selected.forEach((fit, idx) => {
-      pdf.text(`${idx + 1}. ${recipe.title}`, 25, yPos);
+      pdf.text(`${idx + 1}. ${fit.title}`, 25, yPos);
       yPos += 6;
     });
     yPos += 5;
@@ -192,13 +192,13 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
                   <p className="text-gray-500 mt-2">{bt('loading')}</p>
                 </div>
-              ) : recipes.length === 0 ? (
+              ) : fits.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-gray-500 text-sm">{bt('noItems')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
-                  {recipes.map((fit) => (
+                  {fits.map((fit) => (
                     <label
                       key={fit.id}
                       className={`flex items-center p-2 rounded-lg border cursor-pointer transition-colors ${
@@ -236,7 +236,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
-                  {recipes
+                  {fits
                     .filter(r => selectedRecipeIds.has(r.id))
                     .map((fit, idx) => (
                       <div

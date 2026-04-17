@@ -28,7 +28,7 @@ const PostComposer = () => {
       }
       
       // Check if this is a fit share (simplified check for fit keywords)
-      const isRecipeShare = /recipe|ingredients?|instructions?|method|steps|serves|prep time|cook time/i.test(input);
+      const isRecipeShare = /fit|materials?|instructions?|method|steps|serves|prep time|cook time/i.test(input);
       
       // In a real app, you would upload the image and create the post here
       // For now, we'll just simulate a successful post

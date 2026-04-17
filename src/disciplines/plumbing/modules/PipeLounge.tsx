@@ -17,7 +17,7 @@ import { KeyNutrients } from '../../culinary/types/nutrition';
 const PipeLounge = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
-  const { recipes, setRecipes } = useRecipeContext();
+  const { fits, setRecipes } = useRecipeContext();
   const { user } = useSupabase();
   
   // Showcase fit state
@@ -37,7 +37,7 @@ const PipeLounge = () => {
   useEffect(() => {
     updateContext({ page: 'ChefsCorner' });
     
-    // Load recipes from pipebook when Mentor's Corner loads
+    // Load fits from pipebook when Mentor's Corner loads
     const loadRecipes = async () => {
       if (!user?.id) {
         setIsLoading(false);
@@ -49,7 +49,7 @@ const PipeLounge = () => {
         const savedRecipes = await fetchPipeBook(user.id);
         setRecipes(savedRecipes || []);
       } catch (err) {
-        console.error('Error loading pipebook recipes:', err);
+        console.error('Error loading pipebook fits:', err);
         // Initialize with empty array if there's an error
         setRecipes([]);
       } finally {
@@ -111,8 +111,8 @@ const PipeLounge = () => {
       <BuildLayoutModal
         open={buildMenuModalOpen}
         onClose={() => setBuildMenuModalOpen(false)}
-        onFindMarkets={(recipes: RecipeCard[]) => {
-          setSelectedMenuRecipes(recipes);
+        onFindMarkets={(fits: RecipeCard[]) => {
+          setSelectedMenuRecipes(fits);
           setBuildMenuModalOpen(false);
           setLocalMarketsModalOpen(true);
         }}

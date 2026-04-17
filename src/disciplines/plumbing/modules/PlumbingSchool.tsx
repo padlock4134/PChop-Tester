@@ -251,7 +251,7 @@ const PlumbingSchool = () => {
     } else if (tut.type === 'cooking_tutorial') {
       // For job tutorials, focus on the plumbing project
       const mainMaterial = getMainProtein(fit.materials || []);
-      const mainTool = getMainEquipment(recipe.equipment || []);
+      const mainTool = getMainEquipment(fit.equipment || []);
       if (mainMaterial && mainTool) {
         query = `How to install ${mainMaterial} using ${mainTool} plumbing`;
       } else if (mainMaterial) {

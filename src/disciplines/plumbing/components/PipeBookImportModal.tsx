@@ -16,7 +16,7 @@ const PipeBookImportModal: React.FC<PipeBookImportModalProps> = ({
   existingMaterials = []
 }) => {
   const { t } = useTranslation();
-  const { recipes } = useRecipeContext();
+  const { fits } = useRecipeContext();
   const [selectedRecipe, setSelectedRecipe] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -87,13 +87,13 @@ const PipeBookImportModal: React.FC<PipeBookImportModalProps> = ({
         </div>
         
         <div className="flex-1 overflow-y-auto p-6 pt-2">
-          {recipes.length === 0 ? (
+          {fits.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               {t('pipeLounge.importModal.noProcedures', { defaultValue: 'No procedures found in your Pipe Book.' })}
             </div>
           ) : (
             <div className="space-y-3">
-              {recipes.map((fit: any) => (
+              {fits.map((fit: any) => (
                 <div 
                   key={fit.id} 
                   className={`border rounded-lg overflow-hidden cursor-pointer transition-colors ${

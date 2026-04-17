@@ -289,7 +289,7 @@ export const materialPriceEstimates: Record<string, { price: number; unit: strin
 /**
  * Determine which market type an material should be purchased from
  */
-export function getMarketTypeForIngredient(ingredient: string): string {
+export function getMarketTypeForIngredient(material: string): string {
   const lowerMaterial = material.toLowerCase();
   
   // Check for exact matches first
@@ -336,7 +336,7 @@ export function groupMaterialsByMarketType(materials: string[]): Record<string, 
   const grouped: Record<string, string[]> = {};
   
   for (const material of materials) {
-    const marketType = getMarketTypeForIngredient(ingredient);
+    const marketType = getMarketTypeForIngredient(material);
     if (!grouped[marketType]) {
       grouped[marketType] = [];
     }

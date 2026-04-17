@@ -2,14 +2,14 @@ import { supabase } from '../../culinary/api/supabaseClient';
 import { isSessionValid } from '../../culinary/api/userSession';
 import type { RecipeCard } from '../components/FitMatcherModal';
 
-export async function savePipeBook(userId: string, recipes: RecipeCard[]) {
+export async function savePipeBook(userId: string, fits: RecipeCard[]) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   const { error } = await supabase
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId,
-      recipes: recipes // Stored as JSONB in Supabase
+      recipes: fits // Stored as JSONB in Supabase
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }
@@ -33,7 +33,7 @@ export async function addRecipeToPipeBook(userId: string, fit: RecipeCard) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   
-  // First get existing recipes
+  // First get existing fits
   const { data, error: fetchError } = await supabase
     .from('user_cookbook')
     .select('recipes')

@@ -21,7 +21,7 @@ export async function fetchNutritionData(material: string): Promise<Food | null>
   console.log(`Fetching nutrition for: ${material}`);
   
   try {
-    const response = await fetch(`${USDA_API_URL}?api_key=${API_KEY}&query=${encodeURIComponent(ingredient)}`);
+    const response = await fetch(`${USDA_API_URL}?api_key=${API_KEY}&query=${encodeURIComponent(material)}`);
     
     console.log(`USDA API status: ${response.status}`);
     

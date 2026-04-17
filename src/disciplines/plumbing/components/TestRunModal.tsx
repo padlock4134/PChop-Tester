@@ -624,7 +624,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
             <p className="text-sm mb-2">This is our My Van Module (1 of 5).</p>
             <ul className="text-xs space-y-1 list-disc pl-4 text-left inline-block">
               <li><span className="font-semibold">Scan Van</span> - Scans your fit, works in app!</li>
-              <li>Click the <span className="font-semibold">Fit Matcher</span> Builds Recipes!</li>
+              <li>Click the <span className="font-semibold">Fit Matcher</span> Builds Fits!</li>
               <li>Add, sort and search your digital locker.</li>
             </ul>
             <p className="text-xs mt-2 italic">Feel free to hit <span className="font-semibold">Full Demo</span> to see everything in action.</p>
@@ -842,7 +842,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
               </div>
               
               <div className="text-xs mt-4 text-center text-gray-500">
-                Swipe through AI-powered recipes based on your locker!
+                Swipe through AI-powered fits based on your locker!
               </div>
             </div>
           </div>

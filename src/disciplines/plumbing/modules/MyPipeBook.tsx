@@ -110,7 +110,7 @@ const MyPipeBook = () => {
     'en';
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
-  const [recipes, setLocalRecipes] = useState<Fit[]>([]);
+  const [fits, setLocalRecipes] = useState<Fit[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -235,7 +235,7 @@ const MyPipeBook = () => {
     }
   };
 
-  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
+  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, fits: string[]} | null>(null);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
@@ -246,7 +246,7 @@ const MyPipeBook = () => {
 
   const { user } = useSupabase();
 
-  // Load recipes and set page context on mount
+  // Load fits and set page context on mount
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
   
@@ -284,7 +284,7 @@ const MyPipeBook = () => {
         id: Date.now().toString(),
         name: newCollectionName.trim(),
         emoji: '📁',
-        recipes: [...selectedRecipes]
+        fits: [...selectedRecipes]
       };
       setCollections(prev => [...prev, newCollection]);
       setNewCollectionName('');
@@ -328,7 +328,7 @@ const MyPipeBook = () => {
       text: recipeToShare 
         ? `Check out this plumbing procedure for ${recipeToShare.name} on Porkchop!` 
         : 'Check out my digital pipe book on Porkchop! I’ve been collecting useful plumbing procedures and would love to share them with you.',
-      url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
+      url: window.location.href + (recipeToShare ? `?fit=${encodeURIComponent(recipeToShare.id)}` : ''),
     };
 
     try {
@@ -450,8 +450,8 @@ const MyPipeBook = () => {
     loadRecipes();
   }, [updateContext, user?.id]);
 
-  // Filter recipes based on search term and category
-  const filteredRecipes = recipes.filter(fit => {
+  // Filter fits based on search term and category
+  const filteredRecipes = fits.filter(fit => {
     const matchesSearch = fit.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('myPipeBook.all')) return matchesSearch;
     
@@ -722,8 +722,8 @@ const MyPipeBook = () => {
               </p>
               
               <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                {selectedCollection.recipes.map((recipeId, index) => {
-                  const fit = recipes.find(r => r.id === recipeId);
+                {selectedCollection.fits.map((recipeId, index) => {
+                  const fit = fits.find(r => r.id === recipeId);
                   return (
                     <div key={recipeId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
                       <div className="flex items-center">
@@ -738,7 +738,7 @@ const MyPipeBook = () => {
                     </div>
                   );
                 })}
-                {selectedCollection.recipes.length === 0 && (
+                {selectedCollection.fits.length === 0 && (
                   <div className="py-4 text-center text-gray-500 text-sm italic">
                     {t('myPipeBook.noRecipesInCollection')}
                   </div>
@@ -847,9 +847,9 @@ const MyPipeBook = () => {
       <div className="mt-4">
         {filteredRecipes.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
-            {recipes.length === 0 
+            {fits.length === 0 
               ? t('myPipeBook.noRecipesYet')
-              : 'No recipes match your search criteria.'}
+              : 'No fits match your search criteria.'}
           </div>
         ) : (
           <div 
@@ -933,7 +933,7 @@ const MyPipeBook = () => {
                       try {
                         const recipeId = filteredRecipes[currentIndex].id;
                         await removeRecipeFromPipeBook(user?.id!, recipeId);
-                        setLocalRecipes(recipes.filter(r => r.id !== recipeId));
+                        setLocalRecipes(fits.filter(r => r.id !== recipeId));
                         setCurrentIndex(0);
                       } catch (err) {
                         console.error('Error deleting fit:', err);
@@ -1037,7 +1037,7 @@ const MyPipeBook = () => {
                         <span className="text-sm">{collection.name}</span>
                       </div>
                       <span className="text-xs text-gray-500 bg-seafoam px-2 py-1 rounded-full">
-                        {collection.recipes.length}
+                        {collection.fits.length}
                       </span>
                     </div>
                   ))}
@@ -1052,19 +1052,19 @@ const MyPipeBook = () => {
               {/* Create Collection Section */}
               <div className="mb-6">
                 <div className="space-y-2">
-                  {recipes.length > 0 ? (
+                  {fits.length > 0 ? (
                     <>
                     <p className="text-sm text-gray-600 mb-3">{t('myPipeBook.selectRecipesToAdd')}</p>
                     
                     <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                      {recipes.map((fit) => (
+                      {fits.map((fit) => (
                         <div key={fit.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
                           <div className="flex items-center">
                             <input
                               type="checkbox"
                               id={`fit-${fit.id}`}
                               checked={selectedRecipes.includes(fit.id)}
-                              onChange={() => handleRecipeSelect(recipe.id)}
+                              onChange={() => handleRecipeSelect(fit.id)}
                               className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
                             />
                             <label htmlFor={`fit-${fit.id}`} className="text-sm cursor-pointer">
