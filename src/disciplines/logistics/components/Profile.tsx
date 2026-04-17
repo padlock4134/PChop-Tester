@@ -23,10 +23,10 @@ type UserProfile = {
 
 // Level titles and icons
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Novice Cook", icon: "🥄", level: 1 },
-  { title: "Dock Helper", icon: "👨‍🍳", level: 2 },
-  { title: "Home Dispatcher", icon: "🍳", level: 3 },
-  { title: "Trade Expert", icon: "🧠", level: 4 },
+  { title: "Dock Trainee", icon: "📦", level: 1 },
+  { title: "Dock Helper", icon: "🚚", level: 2 },
+  { title: "Freight Handler", icon: "🚛", level: 3 },
+  { title: "Lead Dispatcher", icon: "🧠", level: 4 },
   { title: "Master Dispatcher", icon: "🏆", level: 5 }
 ];
 
@@ -170,34 +170,35 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisine}
-              onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
+              value={formData.cuisinePreference}
+              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
-              <option value="Automotive">🚗 {t('profile.manufacturingFocusOptions.automotive', { defaultValue: 'Automotive' })}</option>
-              <option value="Electronics">🔌 {t('profile.manufacturingFocusOptions.electronics', { defaultValue: 'Electronics' })}</option>
-              <option value="Medical Devices">🏥 {t('profile.manufacturingFocusOptions.medicalDevices', { defaultValue: 'Medical Devices' })}</option>
-              <option value="Precision Machining">⚙️ {t('profile.manufacturingFocusOptions.precisionMachining', { defaultValue: 'Precision Machining' })}</option>
-              <option value="Plastics">🧪 {t('profile.manufacturingFocusOptions.plastics', { defaultValue: 'Plastics' })}</option>
-              <option value="Metal Fabrication">🔧 {t('profile.manufacturingFocusOptions.metalFabrication', { defaultValue: 'Metal Fabrication' })}</option>
+              <option value="LTL Freight">📦 LTL Freight</option>
+              <option value="FTL / Truckload">🚛 FTL / Truckload</option>
+              <option value="Warehouse Ops">🏭 Warehouse Operations</option>
+              <option value="Cold Chain">❄️ Cold Chain / Reefer</option>
+              <option value="Last Mile">🚩 Last-Mile Delivery</option>
+              <option value="Intermodal">🚢 Intermodal (Rail/Sea)</option>
+              <option value="Hazmat">☣️ Hazmat Shipping</option>
             </select>
           </div>
           {/* Certification Preference */}
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certificationPreference', { defaultValue: 'Certifications' })}</label>
             <select
-              value={formData.diet}
-              onChange={(e) => setFormData({...formData, diet: e.target.value})}
+              value={formData.dietPreference}
+              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
-              <option value="OSHA-10">🦺 {t('profile.certificationOptions.osha10', { defaultValue: 'OSHA-10' })}</option>
-              <option value="Six Sigma Green Belt">📊 {t('profile.certificationOptions.sixSigmaGreenBelt', { defaultValue: 'Six Sigma Green Belt' })}</option>
-              <option value="Lean Manufacturing">⚡ {t('profile.certificationOptions.leanManufacturing', { defaultValue: 'Lean Manufacturing' })}</option>
-              <option value="ISO 9001">✅ {t('profile.certificationOptions.iso9001', { defaultValue: 'ISO 9001' })}</option>
-              <option value="CNC Programming">💻 {t('profile.certificationOptions.cncProgramming', { defaultValue: 'CNC Programming' })}</option>
-              <option value="Quality Inspector">🔍 {t('profile.certificationOptions.qualityInspector', { defaultValue: 'Quality Inspector' })}</option>
+              <option value="None">📋 None</option>
+              <option value="CDL Class A">🚛 CDL Class A</option>
+              <option value="CDL Class B">🚚 CDL Class B</option>
+              <option value="Forklift Certified">📦 Forklift Certified</option>
+              <option value="OSHA-10">🪺 OSHA-10</option>
+              <option value="Hazmat Endorsement">☣️ Hazmat Endorsement</option>
+              <option value="TWIC Card">🌊 TWIC Card</option>
+              <option value="Customs Broker">🗂️ Customs Broker License</option>
             </select>
           </div>
 
@@ -209,11 +210,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, dockSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Dock">🏠 {t('profile.workspaceOptions.apartment', { defaultValue: 'Apartment Workspace' })}</option>
-              <option value="Full Dock">🏡 {t('profile.workspaceOptions.full', { defaultValue: 'Full Workspace' })}</option>
-              <option value="Minimal Setup">📦 {t('profile.workspaceOptions.minimal', { defaultValue: 'Minimal Setup' })}</option>
-              <option value="Outdoor Dock">🔥 {t('profile.workspaceOptions.field', { defaultValue: 'Field Workspace' })}</option>
-              <option value="Professional Dock">🏭 {t('profile.workspaceOptions.professional', { defaultValue: 'Professional Workspace' })}</option>
+              <option value="Entry Level">📦 Entry Level</option>
+              <option value="Small Warehouse">🏠 Small Warehouse</option>
+              <option value="Mid-Size Facility">🏭 Mid-Size Facility</option>
+              <option value="Cross-Dock Terminal">🚛 Cross-Dock Terminal</option>
+              <option value="Full Distribution Center">🏢 Full Distribution Center</option>
             </select>
           </div>
 
@@ -228,7 +229,7 @@ const EditProfileModal = ({
               <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
               <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
               <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
-              <option value="Professional">👨‍🍳 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
+              <option value="Professional">🏆 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -543,11 +544,11 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
   if (!open) return null;
   
   const availableClasses = [
-    { name: 'Advanced Blueprint Interpretation', instructor: 'Instructor Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
-    { name: 'Systems Integration', instructor: 'Instructor Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
-    { name: 'Pastry Fundamentals', instructor: 'Instructor Anderson', time: 'Fri 3:00 PM', spots: 6 },
-    { name: 'Safety Certification', instructor: 'Instructor Thompson', time: 'Sat 9:00 AM', spots: 15 },
-    { name: 'Restaurant Management', instructor: 'Instructor Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
+    { name: 'CDL Class A Prep', instructor: 'Instructor Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
+    { name: 'Forklift Certification', instructor: 'Instructor Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
+    { name: 'Freight Documentation & BOL', instructor: 'Instructor Anderson', time: 'Fri 3:00 PM', spots: 6 },
+    { name: 'OSHA Dock Safety', instructor: 'Instructor Thompson', time: 'Sat 9:00 AM', spots: 15 },
+    { name: 'TMS & Dispatch Operations', instructor: 'Instructor Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
   ];
   
   return (

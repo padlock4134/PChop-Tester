@@ -7,19 +7,18 @@ import { KeyNutrients } from '../types/nutrition';
 
 // Define equipment available for each dock setup
 const DOCK_EQUIPMENT = {
-  'Dorm Life': ['microwave', 'kettle', 'toaster', 'mini-fridge'],
-  'Minimalist': ['pot', 'pan', 'knife', 'cutting board', 'stove'],
-  'Apartment Dock': ['oven', 'stove', 'basic utensils', 'baking sheets'],
-  'Outdoor Grilling': ['grill', 'tongs', 'grill brush', 'meat thermometer'],
-  'Home Dispatcher': ['blender', 'industrial processor', 'mixer', 'knives', 'oven', 'stove'],
-  'Full Dispatcher\'s Dock': ['all equipment']
+  'Entry Level': ['hand truck', 'pallet jack', 'shrink wrap', 'tape gun'],
+  'Small Warehouse': ['pallet jack', 'hand truck', 'dock plate', 'strapping tool', 'scale'],
+  'Mid-Size Facility': ['sit-down forklift', 'pallet jack', 'dock leveler', 'RF scanner', 'stretch wrapper'],
+  'Cross-Dock Terminal': ['reach truck', 'conveyor', 'RF scanner', 'dock leveler', 'yard jockey'],
+  'Full Distribution Center': ['all equipment']
 } as const;
 
 // Define equipment associated with each talent tree
 const TALENT_TREE_EQUIPMENT = {
-  'Cast Iron Champion': ['cast iron', 'dutch oven', 'skillet'],
-  'Grilling Heavy Weight': ['grill', 'smoker', 'charcoal', 'gas grill'],
-  'Baking Warlock': ['stand mixer', 'baking sheet', 'pastry brush', 'rolling pin']
+  'Freight Handler': ['pallet jack', 'hand truck', 'dock plate', 'strapping tool'],
+  'Forklift Operator': ['sit-down forklift', 'reach truck', 'order picker', 'clamp truck'],
+  'Dispatch Coordinator': ['TMS software', 'RF scanner', 'route planner', 'load board']
 } as const;
 
 type DockSetup = keyof typeof DOCK_EQUIPMENT;
@@ -30,34 +29,37 @@ const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
 const ROUTE_PROMPTS = {
   new_to_logistics: (numRoutes: number, items: string[]) => 
-    `You are a patient trade instructor. Create ${numRoutes} simple beginner projects using available materials/components from: ${items.join(", ")}. 
+    `You are a patient logistics instructor specializing in TRUCKING, FREIGHT, and WAREHOUSE operations. Create ${numRoutes} simple beginner shipping/freight procedures using these available cargo items or materials: ${items.join(", ")}.
+    IMPORTANT: All results MUST be about trucking, freight shipping, warehouse operations, or supply chain logistics. Do NOT create cooking recipes, construction projects, or anything outside of logistics.
     RULES:
-    1. Use only 2-3 required materials/components per project
-    2. Only basic entry-level methods
-    3. Very detailed step-by-step instructions
-    4. Keep completion time under 20 minutes when possible
-    5. Include necessary tools/equipment for each project
-    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
+    1. Use only 2-3 cargo items per shipment procedure
+    2. Only basic entry-level freight handling methods (e.g., LTL shipment, basic palletizing, dock receiving)
+    3. Very detailed step-by-step instructions covering BOL prep, freight class, loading, and documentation
+    4. Keep estimated dock time under 20 minutes when possible
+    5. Include necessary dock equipment for each procedure (e.g., pallet jack, hand truck, dock plate, strapping tool)
+    6. Add relevant skill tags from: Safety, DOT Compliance, Load Planning, Documentation, Freight Class, Temperature Control`,
 
   apprentice_dispatcher: (numRoutes: number, items: string[]) => 
-    `You are a helpful trade coach. Create ${numRoutes} intermediate projects for someone comfortable with fundamentals using materials/components from: ${items.join(", ")}.
+    `You are a helpful logistics coach specializing in TRUCKING, FREIGHT, and WAREHOUSE operations. Create ${numRoutes} intermediate shipping/freight procedures for someone comfortable with dock fundamentals using these cargo items or materials: ${items.join(", ")}.
+    IMPORTANT: All results MUST be about trucking, freight shipping, warehouse operations, or supply chain logistics. Do NOT create cooking recipes, construction projects, or anything outside of logistics.
     RULES:
-    1. Use 3-4 required materials/components per project
-    2. Standard trade methods
-    3. Clear instructions
-    4. Keep completion time under 30 minutes when possible
-    5. Include necessary tools/equipment for each project
-    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
+    1. Use 3-4 cargo items per shipment procedure
+    2. Standard freight methods (e.g., FTL routing, cross-dock transfer, multi-stop consolidation)
+    3. Clear instructions covering carrier selection, route optimization, and freight documentation
+    4. Keep estimated dock time under 30 minutes when possible
+    5. Include necessary equipment for each procedure (e.g., forklift, RF scanner, dock leveler, stretch wrapper)
+    6. Add relevant skill tags from: Safety, DOT Compliance, Load Planning, Documentation, Freight Class, Temperature Control`,
 
   dock_confident: (numRoutes: number, items: string[]) => 
-    `You are an expert trade mentor. Create ${numRoutes} advanced projects for an experienced learner using materials/components from: ${items.join(", ")}.
+    `You are an expert logistics mentor specializing in TRUCKING, FREIGHT, and WAREHOUSE operations. Create ${numRoutes} advanced shipping/freight procedures for an experienced dock worker using these cargo items or materials: ${items.join(", ")}.
+    IMPORTANT: All results MUST be about trucking, freight shipping, warehouse operations, or supply chain logistics. Do NOT create cooking recipes, construction projects, or anything outside of logistics.
     RULES:
-    1. Use 4+ required materials/components per project
-    2. Can include advanced trade techniques
-    3. Professional-style instructions
-    4. Focus on quality and technique
-    5. Include necessary tools/equipment for each project
-    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`
+    1. Use 4+ cargo items per shipment procedure
+    2. Can include advanced logistics techniques (e.g., hazmat routing, reefer load planning, intermodal transfer, cross-border customs)
+    3. Professional-style instructions with industry terminology
+    4. Focus on efficiency, compliance, and cost optimization
+    5. Include necessary equipment for each procedure (e.g., reach truck, yard jockey, TMS software, load board)
+    6. Add relevant skill tags from: Safety, DOT Compliance, Load Planning, Documentation, Freight Class, Temperature Control`
 };
 
 async function getUserProfile(userId: string) {
@@ -323,16 +325,16 @@ ${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : 
 ${userDockSetup ? `Dock setup: ${userDockSetup}` : ''}
 ${talentTreePrompt}
 
-Return the projects as a JSON array with the following structure for each project:
+Return the procedures as a JSON array with the following structure for each procedure:
 {
-  "title": "Project Name",
-  "items": ["item 1", "item 2"],
-  "instructions": ["Step 1", "Step 2"],
-  "equipment": ["equipment 1", "equipment 2"],
-  "healthTags": ["tag 1", "tag 2"]
+  "title": "Procedure Name (e.g., 'LTL Palletized Shipment - Northeast Corridor')",
+  "items": ["cargo item 1", "cargo item 2"],
+  "instructions": ["Step 1: ...", "Step 2: ..."],
+  "equipment": ["pallet jack", "strapping tool", "dock plate"],
+  "healthTags": ["Safety", "DOT Compliance"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary dock and warehouse equipment needed (e.g., "pallet jack", "forklift", "RF scanner", "dock leveler", "stretch wrapper").
 Return ONLY the JSON array, no other text.`;
 
   // 3. Call Anthropic API
@@ -412,10 +414,10 @@ Return ONLY the JSON array, no other text.`;
   const imagePromises = scoredRoutes.map(async (route) => {
     try {
       const res = await fetch(
-        `${UNSPLASH_API_URL}?query=${encodeURIComponent(route.title)}&client_id=${unsplashKey}`
+        `${UNSPLASH_API_URL}?query=${encodeURIComponent(route.title + ' warehouse logistics')}&client_id=${unsplashKey}`
       );
       const data = await res.json();
-      return data.results?.[0]?.urls?.small || '';
+      return data.results?.[0]?.urls?.small || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d';
     } catch (err) {
       console.error('Failed to fetch image:', err);
       return '';
@@ -462,16 +464,16 @@ export async function generateFallbackRoutes(userId: string, items: string[], co
   
   const prompt = `${promptTemplate(count, items)}
 
-Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
+Format your response as a JSON array of shipping procedure objects. Each object MUST have these exact fields:
 {
-  "title": "Project Name",
-  "items": ["item 1", "item 2", ...],
+  "title": "Procedure Name (e.g., 'FTL Reefer Load - Cold Chain Compliance')",
+  "items": ["cargo item 1", "cargo item 2", ...],
   "instructions": ["step 1", "step 2", ...],
-  "equipment": ["equipment 1", "equipment 2", ...],
-  "healthTags": ["tag 1", "tag 2"]
+  "equipment": ["pallet jack", "forklift", ...],
+  "healthTags": ["Safety", "DOT Compliance"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary dock and warehouse equipment needed (e.g., "pallet jack", "forklift", "RF scanner", "dock leveler", "stretch wrapper").
 Return ONLY the JSON array, no other text.`;
 
   // 2. Call Anthropic API
@@ -541,10 +543,10 @@ Return ONLY the JSON array, no other text.`;
 
   // 3. For each route, call Unsplash in parallel
   const imagePromises = validRoutes.map(async (r) => {
-    const q = encodeURIComponent(r.title || r.items?.[0] || 'shipment');
+    const q = encodeURIComponent(r.title || r.items?.[0] || 'freight truck loading dock');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836';
+    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d';
   });
   const images = await Promise.all(imagePromises);
 
