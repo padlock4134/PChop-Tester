@@ -47,13 +47,12 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, itemsForMarket }) => {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'grocery': return '🛒';
-      case 'butcher': return '🥩';
-      case 'produce': return '🥦';
-      case 'dairy': return '🥛';
-      case 'deli': return '🥪';
-      case 'farms': return '🚜';
-      case 'marine': return '🐟';
+      case 'warehouse': return '🏭';
+      case 'freight': return '🚛';
+      case 'cold_storage': return '❄️';
+      case 'equipment': return '🔧';
+      case 'packing': return '�';
+      case 'fuel': return '⛽';
       default: return '🏪';
     }
   };
@@ -328,13 +327,13 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
   }, [selectedRoutes]);
 
   const marketCategories = [
-    { key: 'all', label: 'All Markets', icon: '🏪' },
-    { key: 'grocery', label: 'Regional Grocery', icon: '🛒' },
-    { key: 'butcher', label: 'Butcher', icon: '🥩' },
-    { key: 'produce', label: 'Produce', icon: '🥦' },
-    { key: 'dairy', label: 'Dairy', icon: '🥛' },
-    { key: 'deli', label: 'Deli', icon: '🥪' },
-    { key: 'farms', label: 'Farms', icon: '🚜' }
+    { key: 'all', label: 'All Locations', icon: '🏪' },
+    { key: 'warehouse', label: 'Warehouses', icon: '🏭' },
+    { key: 'freight', label: 'Freight Terminals', icon: '🚛' },
+    { key: 'cold_storage', label: 'Cold Storage', icon: '❄️' },
+    { key: 'equipment', label: 'Equipment', icon: '🔧' },
+    { key: 'packing', label: 'Packing Supply', icon: '📦' },
+    { key: 'fuel', label: 'Fuel & Truck Stops', icon: '⛽' }
   ];
 
   // Get user location when modal opens
@@ -388,16 +387,18 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         const location = new google.maps.LatLng(lat, lng);
         
         const searchQueries = [
-          { query: 'grocery store', type: 'grocery' },
-          { query: 'supermarket', type: 'grocery' },
-          { query: 'butcher shop', type: 'butcher' },
-          { query: 'meat market', type: 'butcher' },
-          { query: 'produce market', type: 'produce' },
-          { query: 'farmers market', type: 'produce' },
-          { query: 'dairy farm', type: 'dairy' },
-          { query: 'deli', type: 'deli' },
-          { query: 'farm stand', type: 'farms' },
-          { query: 'marine market', type: 'marine' }
+          { query: 'warehouse', type: 'warehouse' },
+          { query: 'distribution center', type: 'warehouse' },
+          { query: 'freight terminal', type: 'freight' },
+          { query: 'trucking company', type: 'freight' },
+          { query: 'cold storage facility', type: 'cold_storage' },
+          { query: 'refrigerated warehouse', type: 'cold_storage' },
+          { query: 'forklift dealer', type: 'equipment' },
+          { query: 'material handling equipment', type: 'equipment' },
+          { query: 'packing supply store', type: 'packing' },
+          { query: 'shipping supply', type: 'packing' },
+          { query: 'truck stop', type: 'fuel' },
+          { query: 'fuel station diesel', type: 'fuel' }
         ];
         
         const allMarkets: Market[] = [];
@@ -448,37 +449,37 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         
         setMarkets(uniqueMarkets);
       } else {
-        // Development mode - use mock data for Portland, Maine
+        // Development mode - use mock data for Portland, Maine area
         const mockMarkets: Market[] = [
-          // Grocery stores (3)
-          { name: "Hannaford Supermarket", address: "295 Forest Ave, Portland, ME 04101", distance: 2.1, type: "grocery", rating: 4.3, isOpen: true },
-          { name: "Whole __PROTECT_CARGO__s Market", address: "87 Marginal Way, Portland, ME 04101", distance: 2.9, type: "grocery", rating: 4.2, isOpen: true },
-          { name: "Rosemont Market & Bakery", address: "580 Brighton Ave, Portland, ME 04102", distance: 1.8, type: "grocery", rating: 4.5, isOpen: true },
+          // Warehouses & Distribution (3)
+          { name: "Portland Distribution Center", address: "120 Presumpscot St, Portland, ME 04103", distance: 3.2, type: "warehouse", rating: 4.3, isOpen: true },
+          { name: "MainePort Logistics Hub", address: "58 Commercial St, Portland, ME 04101", distance: 2.1, type: "warehouse", rating: 4.5, isOpen: true },
+          { name: "Scarborough Fulfillment Center", address: "400 Payne Rd, Scarborough, ME 04074", distance: 7.8, type: "warehouse", rating: 4.1, isOpen: true },
           
-          // Butcher shops (3)
-          { name: "Pat's Meat Market", address: "428 Forest Ave, Portland, ME 04101", distance: 3.1, type: "butcher", rating: 4.6, isOpen: true },
-          { name: "Browne Trading Company", address: "262 Commercial St, Portland, ME 04101", distance: 2.4, type: "butcher", rating: 4.7, isOpen: true },
-          { name: "The Meat House", address: "1012 Brighton Ave, Portland, ME 04102", distance: 3.8, type: "butcher", rating: 4.4, isOpen: false },
+          // Freight Terminals (3)
+          { name: "FedEx Freight Terminal", address: "10 Saunders Way, Westbrook, ME 04092", distance: 5.4, type: "freight", rating: 4.2, isOpen: true },
+          { name: "Old Dominion Freight Line", address: "25 Jetport Blvd, Portland, ME 04102", distance: 4.1, type: "freight", rating: 4.0, isOpen: true },
+          { name: "XPO Logistics", address: "80 Industrial Park Rd, Saco, ME 04072", distance: 9.6, type: "freight", rating: 3.9, isOpen: false },
           
-          // Marine markets (3)
-          { name: "Harbor Fish Market", address: "9 Custom House Wharf, Portland, ME 04101", distance: 2.3, type: "marine", rating: 4.8, isOpen: true },
-          { name: "Free Range Fish & Lobster", address: "470 Forest Ave, Portland, ME 04101", distance: 2.7, type: "marine", rating: 4.5, isOpen: true },
-          { name: "Portland Fish Pier", address: "6 Portland Fish Pier, Portland, ME 04101", distance: 3.2, type: "marine", rating: 4.3, isOpen: true },
+          // Cold Storage (3)
+          { name: "Portland Cold Storage Co", address: "88 Fore St, Portland, ME 04101", distance: 2.4, type: "cold_storage", rating: 4.6, isOpen: true },
+          { name: "Atlantic Refrigerated Warehouse", address: "315 Marginal Way, Portland, ME 04101", distance: 3.0, type: "cold_storage", rating: 4.4, isOpen: true },
+          { name: "Northeast Cold Chain Solutions", address: "200 Running Hill Rd, South Portland, ME 04106", distance: 6.2, type: "cold_storage", rating: 4.7, isOpen: true },
           
-          // Produce markets (3)
-          { name: "Portland Farmers Market", address: "Monument Square, Portland, ME 04101", distance: 1.9, type: "produce", rating: 4.6, isOpen: true },
-          { name: "Deering Oaks Farmers Market", address: "Deering Oaks Park, Portland, ME 04102", distance: 2.8, type: "produce", rating: 4.4, isOpen: false },
-          { name: "Good Shepherd __PROTECT_CARGO__ Bank", address: "1115 Forest Ave, Portland, ME 04103", distance: 4.1, type: "produce", rating: 4.2, isOpen: true },
+          // Equipment Suppliers (3)
+          { name: "Maine Forklift & Equipment", address: "150 Warren Ave, Portland, ME 04103", distance: 3.8, type: "equipment", rating: 4.5, isOpen: true },
+          { name: "Crown Lift Trucks", address: "75 John Roberts Rd, South Portland, ME 04106", distance: 5.1, type: "equipment", rating: 4.3, isOpen: true },
+          { name: "Portland Pallet Rack Supply", address: "42 Industrial Way, Westbrook, ME 04092", distance: 6.7, type: "equipment", rating: 4.1, isOpen: false },
           
-          // Farms (3)
-          { name: "Pineland Farms", address: "15 Farm View Dr, New Gloucester, ME 04260", distance: 12.4, type: "farms", rating: 4.7, isOpen: true },
-          { name: "Wolfe's Neck Farm", address: "184 Burnett Rd, Freeport, ME 04032", distance: 8.9, type: "farms", rating: 4.5, isOpen: true },
-          { name: "Springdale Farm", address: "41 Springdale Rd, Freeport, ME 04032", distance: 8.7, type: "farms", rating: 4.9, isOpen: true },
+          // Packing & Shipping Supply (3)
+          { name: "Uline Portland", address: "500 Riverside St, Portland, ME 04103", distance: 4.5, type: "packing", rating: 4.4, isOpen: true },
+          { name: "Pack & Ship Supply Co", address: "22 Cove St, Portland, ME 04101", distance: 2.8, type: "packing", rating: 4.2, isOpen: true },
+          { name: "Maine Packaging Solutions", address: "60 Industrial Park, Scarborough, ME 04074", distance: 8.3, type: "packing", rating: 4.6, isOpen: true },
           
-          // Specialty stores (3) - delis, bakeries, etc.
-          { name: "Holy Donut", address: "194 Park Ave, Portland, ME 04102", distance: 2.1, type: "deli", rating: 4.4, isOpen: false },
-          { name: "Standard Baking Co.", address: "75 Commercial St, Portland, ME 04101", distance: 2.6, type: "deli", rating: 4.6, isOpen: true },
-          { name: "Micucci Grocery Store", address: "45 India St, Portland, ME 04101", distance: 2.2, type: "deli", rating: 4.8, isOpen: true }
+          // Fuel & Truck Stops (3)
+          { name: "Pilot Travel Center", address: "1 Haigis Pkwy, Scarborough, ME 04074", distance: 7.1, type: "fuel", rating: 4.0, isOpen: true },
+          { name: "Irving Maineway", address: "340 Riverside St, Portland, ME 04103", distance: 3.9, type: "fuel", rating: 4.2, isOpen: true },
+          { name: "Dysart's Truck Stop", address: "530 Coldbrook Rd, Hermon, ME 04401", distance: 12.5, type: "fuel", rating: 4.5, isOpen: true }
         ];
         
         setMarkets(mockMarkets);
@@ -501,64 +502,64 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
       <div className="bg-white p-6 rounded-lg shadow-xl border-4 border-black max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-4">
           <div></div>
-          <h3 className="text-xl font-bold text-maineBlue text-center">Find Local Markets</h3>
+          <h3 className="text-xl font-bold text-maineBlue text-center">🏭 Find Local Warehouses & Suppliers</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <CategoryCard 
-            category="grocery" 
-            title="Grocery" 
-            icon="🛒" 
-            description="Regional grocery stores and supermarkets"
-            markets={markets.filter(m => m.type === 'grocery')}
+            category="warehouse" 
+            title="Warehouses" 
+            icon="🏭" 
+            description="Distribution centers and warehouses"
+            markets={markets.filter(m => m.type === 'warehouse')}
             loading={loading}
-            itemsForCategory={itemsByMarketType['grocery']}
+            itemsForCategory={itemsByMarketType['warehouse']}
           />
           <CategoryCard 
-            category="butcher" 
-            title="Butcher" 
-            icon="🥩" 
-            description="Local butcher shops and meat markets"
-            markets={markets.filter(m => m.type === 'butcher')}
+            category="freight" 
+            title="Freight Terminals" 
+            icon="🚛" 
+            description="LTL and FTL freight terminals"
+            markets={markets.filter(m => m.type === 'freight')}
             loading={loading}
-            itemsForCategory={itemsByMarketType['butcher']}
+            itemsForCategory={itemsByMarketType['freight']}
           />
           <CategoryCard 
-            category="marine" 
-            title="Marine" 
-            icon="🐟" 
-            description="Fresh marine markets and fishmongers"
-            markets={markets.filter(m => m.type === 'marine')}
+            category="cold_storage" 
+            title="Cold Storage" 
+            icon="❄️" 
+            description="Refrigerated and frozen storage facilities"
+            markets={markets.filter(m => m.type === 'cold_storage')}
             loading={loading}
-            itemsForCategory={itemsByMarketType['marine']}
+            itemsForCategory={itemsByMarketType['cold_storage']}
           />
           <CategoryCard 
-            category="produce" 
-            title="Produce" 
-            icon="🥦" 
-            description="Fresh produce markets and farm stands"
-            markets={markets.filter(m => m.type === 'produce')}
+            category="equipment" 
+            title="Equipment" 
+            icon="🔧" 
+            description="Forklifts, pallet racks, and MHE suppliers"
+            markets={markets.filter(m => m.type === 'equipment')}
             loading={loading}
-            itemsForCategory={itemsByMarketType['produce']}
+            itemsForCategory={itemsByMarketType['equipment']}
           />
           <CategoryCard 
-            category="farms" 
-            title="Farms" 
-            icon="🚜" 
-            description="Local farms and farmers markets"
-            markets={markets.filter(m => m.type === 'farms')}
+            category="packing" 
+            title="Packing Supply" 
+            icon="�" 
+            description="Boxes, pallets, wrap, and shipping materials"
+            markets={markets.filter(m => m.type === 'packing')}
             loading={loading}
-            itemsForCategory={itemsByMarketType['farms']}
+            itemsForCategory={itemsByMarketType['packing']}
           />
           <CategoryCard 
-            category="specialty" 
-            title="Specialty" 
-            icon="🏦" 
-            description="Delis, bakeries, and specialty cargo stores"
-            markets={markets.filter(m => ['deli', 'dairy', 'bakery'].includes(m.type))}
+            category="fuel" 
+            title="Fuel & Truck Stops" 
+            icon="⛽" 
+            description="Diesel, truck stops, and rest areas"
+            markets={markets.filter(m => m.type === 'fuel')}
             loading={loading}
-            itemsForCategory={itemsByMarketType['deli'] || itemsByMarketType['dairy']}
+            itemsForCategory={itemsByMarketType['fuel']}
           />
         </div>
 

@@ -208,7 +208,7 @@ const DispatchLounge = () => {
                     <label className="text-sm font-semibold text-gray-700">
                       {t('dispatchLounge.showcaseRecipe')}
                     </label>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 flex-wrap">
                       <button
                         onClick={() => setBuildMenuModalOpen(true)}
                         className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
@@ -221,6 +221,12 @@ const DispatchLounge = () => {
                         disabled={isLoading}
                       >
                         {isLoading ? t('dispatchLounge.loading') : t('dispatchLounge.importFromCookbook')}
+                      </button>
+                      <button
+                        onClick={() => setLocalMarketsModalOpen(true)}
+                        className="bg-amber-100 text-amber-800 px-4 py-2 rounded font-bold hover:bg-amber-200 hover:text-amber-900 transition-colors border border-amber-300"
+                      >
+                        🏭 Find Warehouses
                       </button>
                     </div>
                   </div>
