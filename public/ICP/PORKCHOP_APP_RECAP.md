@@ -174,14 +174,14 @@ Social hub with live streaming, local market discovery, and business skill devel
 A contextual AI assistant available on every page, customized to each discipline through the dynamic skin system:
 
 - **Chef Freddie** (Culinary) — recipes, techniques, nutrition
-- **Sparky** (Welding) — weld types, safety, equipment  
-- **Gearhead Gary** (Automotive) — diagnostics, repairs, maintenance
-- **Constructor Carl** (Construction) — blueprints, materials, safety
-- **Volt Victor** (Electrical) — circuits, codes, troubleshooting
-- **Frosty Frank** (HVAC) — systems, refrigeration, diagnostics
-- **Logistics Larry** — (Logistics) — supply chain, routing, inventory
-- **Machining Mike** (Machining) — CNC, materials, precision
-- **Plumber Pete** (Plumbing) — systems, codes, troubleshooting
+- **Pete the Plumber** (Plumbing) — systems, codes, troubleshooting
+- **Gus the Mechanic** (Automotive) — diagnostics, repairs, maintenance
+- **Foreman Frank** (Construction) — blueprints, materials, safety
+- **Sparky** (Electrical) — circuits, codes, troubleshooting
+- **Cool Cal** (HVAC) — systems, refrigeration, diagnostics
+- **Mac the Manufacturer** (Manufacturing) — quality control, process optimization, safety
+- **Lou the Dispatcher** (Logistics) — supply chain, routing, inventory
+- **Max the Machinist** (Machining) — CNC, materials, precision
 
 Each assistant is trained on discipline-specific knowledge, adapts its persona to the trade, and maintains conversation history for institutional analytics.
 
