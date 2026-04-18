@@ -307,7 +307,7 @@ const MyShop = () => {
             }
           }}
         >
-          {t('myShop.matchRecipes')}
+          {t('myShop.matchRecipes', { defaultValue: 'Match Spec Sheets' })}
         </button>
       </div>
 
@@ -329,7 +329,7 @@ const MyShop = () => {
         </div>
       )}
 
-      {/* Recipe Matcher Modal (always mounted for overlay) */}
+      {/* Spec Sheet Matcher Modal (always mounted for overlay) */}
       <SystemMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}

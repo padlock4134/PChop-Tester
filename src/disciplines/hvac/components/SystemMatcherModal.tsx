@@ -122,7 +122,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         : generateTutorials(recipes[currentIdx])
     };
     setSelectedRecipe(fullRecipe);
-    navigate('/culinary-school');
+    navigate('/hvac-school');
   };
 
   const DIETARY_TAGS = [
@@ -149,11 +149,11 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         <h2 className="font-retro text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={chefFreddiePng} alt="Chef Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
+              <img src={chefFreddiePng} alt="HVAC Assistant" className="w-12 h-12 rounded-full border-2 border-black" />
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('recipeMatcher.recipeMatcher'))}
+           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('recipeMatcher.recipeMatcher', { defaultValue: 'Spec Sheet Matcher' }))}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
@@ -163,7 +163,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
         ) : recipes.length === 0 || currentIdx >= recipes.length ? (
-          <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions')}<br/>{t('recipeMatcher.tryUpdatingCupboard')}</div>
+          <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions', { defaultValue: 'No more matches right now.' })}<br/>{t('recipeMatcher.tryUpdatingCupboard', { defaultValue: 'Try updating your shop inventory or adding more materials.' })}</div>
         ) : (
           (() => {
             console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
@@ -203,10 +203,10 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                     {isSaving ? '...' : '♥'}
                   </button>
                   <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {t('recipeMatcher.cookMe', { defaultValue: 'Run It' })}
+                    {t('recipeMatcher.cookMe', { defaultValue: 'Open in HVAC School' })}
                   </button>
                 </div>
-                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough', { defaultValue: 'Swipe through project options' })}</div>
+                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough', { defaultValue: 'Review additional spec sheet matches' })}</div>
               </div>
             );
           })()

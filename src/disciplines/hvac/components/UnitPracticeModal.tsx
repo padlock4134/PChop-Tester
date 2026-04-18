@@ -36,7 +36,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
     try {
       // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      const demoLesson = 'Static Pressure Measurement Fundamentals';
       
       // Check if we have a default scene
       if (defaultARScenes[demoLesson]) {
@@ -54,7 +54,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           lessonTitle: demoLesson,
-          lessonContent: 'Traditional Japanese water stone sharpening technique. Includes stone preparation, proper angle maintenance (20 degrees), stroke technique, and burr detection. Old-school method using only water and stone.',
+          lessonContent: 'Static pressure testing workflow for HVAC systems. Includes gauge setup, reference pressure checks, duct traverse technique, and airflow balancing validation.',
         }),
       });
 
@@ -126,7 +126,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-sm sm:text-lg font-bold mb-1 text-center text-amber-800">
-                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'Knife Skills'}
+                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'HVAC Fundamentals'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-1">
                 {t('culinarySchool.charcuterieBoard.arDemonstration')}
@@ -195,29 +195,29 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 >
                   <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
                   <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                    <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                    <option value="lesson-1-2">Food Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                    <option value="lesson-1-4">Basic Cooking Terminology</option>
-                    <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                    <option value="lesson-1-1">HVAC Safety and Lockout/Tagout</option>
+                    <option value="lesson-1-2">Refrigerant Handling and Recovery Basics</option>
+                    <option value="lesson-1-3">Introduction to HVAC Tools and Instruments</option>
+                    <option value="lesson-1-4">HVAC Terminology and System Components</option>
+                    <option value="lesson-1-5">BTU, CFM, and Pressure Conversions</option>
                   </optgroup>
                   <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                    <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                    <option value="lesson-2-2">Basic Knife Cuts</option>
-                    <option value="lesson-2-3">Vegetable Fabrication</option>
-                    <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                    <option value="lesson-2-1">Manifold Gauge Setup and Care</option>
+                    <option value="lesson-2-2">Basic Duct Layout and Cutting Techniques</option>
+                    <option value="lesson-2-3">Duct Fitting and Transitions</option>
+                    <option value="lesson-2-4">Copper Tube Preparation and Brazing Basics</option>
                   </optgroup>
                   <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                    <option value="lesson-3-1">Egg Cookery</option>
-                    <option value="lesson-3-2">Breakfast Preparations</option>
-                    <option value="lesson-3-3">Cold Food Preparation</option>
-                    <option value="lesson-3-4">Salads and Dressings</option>
+                    <option value="lesson-3-1">Electrical Fundamentals for HVAC</option>
+                    <option value="lesson-3-2">Thermostat Setup and Calibration</option>
+                    <option value="lesson-3-3">Airflow Balancing Fundamentals</option>
+                    <option value="lesson-3-4">Filter Service and Indoor Air Quality Checks</option>
                   </optgroup>
                   <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                    <option value="lesson-4-1">Basic Dough and Batters</option>
-                    <option value="lesson-4-2">Quick Breads and Muffins</option>
-                    <option value="lesson-4-3">Yeast Breads</option>
-                    <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                    <option value="lesson-4-1">Heat Pump Operation Fundamentals</option>
+                    <option value="lesson-4-2">Troubleshooting No-Cool Calls</option>
+                    <option value="lesson-4-3">Troubleshooting No-Heat Calls</option>
+                    <option value="lesson-4-4">System Commissioning Checklist</option>
                   </optgroup>
                 </select>
               </>
@@ -234,7 +234,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="whetstone">Static Pressure Measurement Fundamentals</option>
                 </select>
               </>
             )}
@@ -297,29 +297,29 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   >
                     <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
                     <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                      <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                      <option value="lesson-1-2">Food Handling and Storage</option>
-                      <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                      <option value="lesson-1-4">Basic Cooking Terminology</option>
-                      <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                      <option value="lesson-1-1">HVAC Safety and Lockout/Tagout</option>
+                      <option value="lesson-1-2">Refrigerant Handling and Recovery Basics</option>
+                      <option value="lesson-1-3">Introduction to HVAC Tools and Instruments</option>
+                      <option value="lesson-1-4">HVAC Terminology and System Components</option>
+                      <option value="lesson-1-5">BTU, CFM, and Pressure Conversions</option>
                     </optgroup>
                     <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                      <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                      <option value="lesson-2-2">Basic Knife Cuts</option>
-                      <option value="lesson-2-3">Vegetable Fabrication</option>
-                      <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                      <option value="lesson-2-1">Manifold Gauge Setup and Care</option>
+                      <option value="lesson-2-2">Basic Duct Layout and Cutting Techniques</option>
+                      <option value="lesson-2-3">Duct Fitting and Transitions</option>
+                      <option value="lesson-2-4">Copper Tube Preparation and Brazing Basics</option>
                     </optgroup>
                     <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                      <option value="lesson-3-1">Egg Cookery</option>
-                      <option value="lesson-3-2">Breakfast Preparations</option>
-                      <option value="lesson-3-3">Cold Food Preparation</option>
-                      <option value="lesson-3-4">Salads and Dressings</option>
+                      <option value="lesson-3-1">Electrical Fundamentals for HVAC</option>
+                      <option value="lesson-3-2">Thermostat Setup and Calibration</option>
+                      <option value="lesson-3-3">Airflow Balancing Fundamentals</option>
+                      <option value="lesson-3-4">Filter Service and Indoor Air Quality Checks</option>
                     </optgroup>
                     <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                      <option value="lesson-4-1">Basic Dough and Batters</option>
-                      <option value="lesson-4-2">Quick Breads and Muffins</option>
-                      <option value="lesson-4-3">Yeast Breads</option>
-                      <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                      <option value="lesson-4-1">Heat Pump Operation Fundamentals</option>
+                      <option value="lesson-4-2">Troubleshooting No-Cool Calls</option>
+                      <option value="lesson-4-3">Troubleshooting No-Heat Calls</option>
+                      <option value="lesson-4-4">System Commissioning Checklist</option>
                     </optgroup>
                   </select>
                 </div>
@@ -405,22 +405,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
               <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
-              <p className="text-xs text-gray-700">Position your cutting board and gather ingredients</p>
+              <p className="text-xs text-gray-700">Stage your tools and gather required HVAC materials</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Knife Grip</div>
-              <p className="text-xs text-gray-700">Hold knife with proper pinch grip technique</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Tool Control</div>
+              <p className="text-xs text-gray-700">Use steady instrument handling and maintain consistent probe contact</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
               <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Cuts</div>
-              <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
+              <p className="text-xs text-gray-700">Capture and log pressure readings across each test point</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
               <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Validation</div>
-              <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
+              <p className="text-xs text-gray-600">AI will validate your readings for consistency and tolerance</p>
             </div>
           </div>
           
