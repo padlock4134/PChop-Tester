@@ -15,33 +15,30 @@ import { supabase } from '../../culinary/api/supabaseClient';
 import SystemCard from '../components/SystemCard';
 
 const CATEGORIES = [
-  "Vegetable",
-  "Fruit",
-  "Protein",
-  "Dairy",
-  "Grain",
-  "Spice",
-  "Canned/Preserved",
-  "Condiment/Sauce",
-  "Frozen",
+  "Airflow",
+  "Refrigeration",
+  "Electrical",
+  "Controls",
+  "Ductwork",
+  "Hydronics",
+  "Tools",
+  "Safety",
+  "Consumables",
   "Other"
 ];
 
 // Categorize ingredient names to best-fit category
 function categorizeIngredient(name: string): string {
   const n = name.toLowerCase();
-  // Enhanced detection for loose produce and specific food items
-  if (/(green bean|string bean|snap bean|haricot vert|french bean)/.test(n)) return "Vegetable";
-  if (/(loose|raw|fresh|unpackaged|bulk) (vegetable|produce|bean|legume)/.test(n)) return "Vegetable";
-  if (/(lettuce|spinach|carrot|broccoli|onion|pepper|cabbage|kale|tomato|bean|pea|potato|corn|mushroom|zucchini|cucumber|asparagus|squash|celery|radish|beet|turnip|eggplant|avocado)/.test(n)) return "Vegetable";
-  if (/(apple|banana|orange|lemon|lime|berry|grape|melon|peach|pear|plum|kiwi|mango|pineapple|apricot|cherry|fig|date|papaya|guava|coconut)/.test(n)) return "Fruit";
-  if (/(chicken|beef|pork|lamb|turkey|fish|salmon|shrimp|egg|duck|bacon|ham|sausage|steak|tofu|tempeh|seitan|crab|lobster|clam|mussel|scallop|oyster)/.test(n)) return "Protein";
-  if (/(milk|cheese|yogurt|cream|butter|ghee|custard|paneer|ricotta|mozzarella|parmesan|brie|feta|goat cheese)/.test(n)) return "Dairy";
-  if (/(rice|bread|pasta|noodle|quinoa|barley|oat|wheat|cornmeal|tortilla|cracker|bun|roll|bagel|cereal)/.test(n)) return "Grain";
-  if (/(salt|pepper|cumin|coriander|turmeric|saffron|paprika|chili|cinnamon|nutmeg|clove|ginger|garlic|herb|basil|oregano|thyme|rosemary|sage|dill|parsley|mint|bay)/.test(n)) return "Spice";
-  if (/(can|canned|jar|preserve|pickle|jam|jelly|sardine|anchovy|soup|beans|olives|sauerkraut)/.test(n)) return "Canned/Preserved";
-  if (/(ketchup|mustard|mayo|mayonnaise|sauce|dressing|vinegar|soy sauce|hot sauce|bbq|aioli|salsa|chutney|relish|gravy|honey)/.test(n)) return "Condiment/Sauce";
-  if (/(frozen|ice cream|ice|peas|spinach|pizza|waffle|fries|nugget|berries|corn|broccoli|shrimp|fish stick)/.test(n)) return "Frozen";
+  if (/(duct|register|diffuser|grille|plenum|cfm|airflow|damper|flex)/.test(n)) return "Airflow";
+  if (/(refrigerant|txv|evaporator|condenser|compressor|superheat|subcool|r-\d+)/.test(n)) return "Refrigeration";
+  if (/(wire|breaker|contactor|capacitor|transformer|relay|voltage|amp)/.test(n)) return "Electrical";
+  if (/(thermostat|sensor|controller|setpoint|bms|automation|module)/.test(n)) return "Controls";
+  if (/(sheet metal|duct|elbow|transition|takeoff|hanger|sealant|mastic)/.test(n)) return "Ductwork";
+  if (/(pump|boiler|valve|zone|hydronic|manifold|pex)/.test(n)) return "Hydronics";
+  if (/(manifold gauge|multimeter|vacuum pump|recovery machine|torch|sniffer|scale|drill)/.test(n)) return "Tools";
+  if (/(ppe|gloves|goggles|lockout|tagout|harness|respirator|fire extinguisher)/.test(n)) return "Safety";
+  if (/(filter|tape|screws|fastener|insulation|sealant|nitrogen|cleaner|coil cleaner)/.test(n)) return "Consumables";
   return "Other";
 }
 
@@ -57,16 +54,16 @@ const MyShop = () => {
   const [scanStatus, setScanStatus] = useState<string | null>(null); // persistent feedback
   // Optionally, map category to emoji for pills
   const CATEGORY_ICONS: Record<string, string> = {
-    Vegetable: '🥦',
-    Fruit: '🍎',
-    Protein: '🍗',
-    Dairy: '🧀',
-    Grain: '🌾',
-    Spice: '🌶️',
-    'Canned/Preserved': '🥫',
-    'Condiment/Sauce': '🥄',
-    Frozen: '🧊',
-    Other: '🍽️',
+    Airflow: '🌬️',
+    Refrigeration: '❄️',
+    Electrical: '⚡',
+    Controls: '🎛️',
+    Ductwork: '🛠️',
+    Hydronics: '💧',
+    Tools: '🔧',
+    Safety: '🦺',
+    Consumables: '📦',
+    Other: '📋',
   };
 
   const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);
@@ -101,7 +98,7 @@ const MyShop = () => {
 
   // Freddie context: set page on mount
   useEffect(() => {
-    updateContext({ page: 'MyKitchen' });
+    updateContext({ page: 'MyShop' });
     // Load both kitchen and cookbook data
     const loadData = async () => {
       try {
@@ -171,10 +168,10 @@ const MyShop = () => {
   return (
     <>
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
-        {/* My Kitchen header - moved back inside the module */}
+        {/* My Shop header */}
         <div className="flex items-center justify-center p-6 pb-4">
           <span className="text-5xl mr-2">❄️</span>
-          <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myShop.title')}</h1>
+          <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myShop.title', { defaultValue: 'My Shop' })}</h1>
         </div>
         
         {/* Sticky Separation line */}
@@ -279,7 +276,7 @@ const MyShop = () => {
           onClick={() => document.getElementById('scan-kitchen-file')?.click()}
           disabled={scanLoading}
         >
-          {scanLoading ? t('myShop.scanning') : t('myShop.scanKitchen')}
+          {scanLoading ? t('myShop.scanning', { defaultValue: 'Scanning inventory...' }) : t('myShop.scanKitchen', { defaultValue: 'Scan Workbench' })}
         </button>
         <button
           className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black w-full sm:w-auto max-w-xs"
@@ -289,7 +286,7 @@ const MyShop = () => {
             setMatcherError('');
             try {
               const cupboardNames = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
+              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
                 ingredients: cupboardNames,
@@ -301,13 +298,13 @@ const MyShop = () => {
               });
               setMatcherRecipes(recipes);
             } catch (err: any) {
-              setMatcherError('Failed to fetch recipes.');
+              setMatcherError('Failed to fetch HVAC spec sheet matches.');
             } finally {
               setMatcherLoading(false);
             }
           }}
         >
-          {t('myShop.matchRecipes')}
+          {t('myShop.matchRecipes', { defaultValue: 'Match Spec Sheets' })}
         </button>
       </div>
 
@@ -329,7 +326,7 @@ const MyShop = () => {
         </div>
       )}
 
-      {/* Recipe Matcher Modal (always mounted for overlay) */}
+      {/* Spec Sheet Matcher Modal (always mounted for overlay) */}
       <SystemMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
@@ -345,7 +342,7 @@ const MyShop = () => {
       {/* Digital Cupboard Section */}
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
-          <span role="img" aria-label="thermometer">🌡️</span> {t('myShop.digitalCupboard')}
+          <span role="img" aria-label="thermometer">🌡️</span> {t('myShop.digitalCupboard', { defaultValue: 'Shop Inventory' })}
         </h3>
         {ingredients.length > 0 && (
           <button
@@ -362,7 +359,7 @@ const MyShop = () => {
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
-          placeholder={t('myShop.searchCupboard')}
+          placeholder={t('myShop.searchCupboard', { defaultValue: 'Search inventory...' })}
           value={filterText}
           onChange={e => setFilterText(e.target.value)}
           style={{ minWidth: 120 }}
@@ -371,7 +368,7 @@ const MyShop = () => {
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
-          placeholder={t('myShop.addAnIngredient')}
+          placeholder={t('myShop.addAnIngredient', { defaultValue: 'Add a part, tool, or material' })}
           value={input}
           onChange={e => setInput(e.target.value)}
         />
@@ -399,7 +396,7 @@ const MyShop = () => {
           </svg>
         </div>
         {filteredIngredients.length === 0 ? (
-          <div className="text-gray-500 italic text-center py-8 relative z-10">{t('myShop.noMatchingIngredients')}</div>
+          <div className="text-gray-500 italic text-center py-8 relative z-10">{t('myShop.noMatchingIngredients', { defaultValue: 'No matching items found in inventory.' })}</div>
         ) : (
           <div className="flex flex-col gap-4 relative z-10">
             {[0,1,2,3,4,5].map(shelfIdx => {

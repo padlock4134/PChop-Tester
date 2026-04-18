@@ -23,11 +23,11 @@ type UserProfile = {
 
 // Level titles and icons
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Novice Cook", icon: "🥄", level: 1 },
-  { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
-  { title: "Home Chef", icon: "🍳", level: 3 },
+  { title: "HVAC Trainee", icon: "🥄", level: 1 },
+  { title: "Service Apprentice", icon: "👨‍🍳", level: 2 },
+  { title: "Field Technician", icon: "🍳", level: 3 },
   { title: "Trade Expert", icon: "🧠", level: 4 },
-  { title: "Master Chef", icon: "🏆", level: 5 }
+  { title: "Master HVAC Tech", icon: "🏆", level: 5 }
 ];
 
 // WoW Classic XP table
@@ -66,9 +66,9 @@ const EditProfileModal = ({
   const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState({
     name: user?.name || '',
-    cuisinePreference: user?.cuisine?.[0] || 'Italian',
+    cuisinePreference: user?.cuisine?.[0] || 'Residential Service',
     dietPreference: user?.dietary?.[0] || 'None',
-    kitchenSetup: user?.kitchenSetup || 'Professional',
+    kitchenSetup: user?.kitchenSetup || 'Van Kit',
     experienceLevel: user?.experience || 'Beginner',
     program: (user as any)?.program || ''
   });
@@ -100,9 +100,9 @@ const EditProfileModal = ({
       const updatedUser = {
         ...user,
         name: formData.name,
-        cuisine_preference: formData.cuisinePreference,
-        diet_preference: formData.dietPreference,
-        kitchen_setup: formData.kitchenSetup,
+        cuisine: [formData.cuisinePreference],
+        dietary: [formData.dietPreference],
+        kitchenSetup: formData.kitchenSetup,
         experience: formData.experienceLevel
       };
 
@@ -170,25 +170,25 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisine}
-              onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
+              value={formData.cuisinePreference}
+              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
-              <option value="Automotive">🚗 {t('profile.manufacturingFocusOptions.automotive', { defaultValue: 'Automotive' })}</option>
-              <option value="Electronics">🔌 {t('profile.manufacturingFocusOptions.electronics', { defaultValue: 'Electronics' })}</option>
-              <option value="Medical Devices">🏥 {t('profile.manufacturingFocusOptions.medicalDevices', { defaultValue: 'Medical Devices' })}</option>
-              <option value="Precision Machining">⚙️ {t('profile.manufacturingFocusOptions.precisionMachining', { defaultValue: 'Precision Machining' })}</option>
-              <option value="Plastics">🧪 {t('profile.manufacturingFocusOptions.plastics', { defaultValue: 'Plastics' })}</option>
-              <option value="Metal Fabrication">🔧 {t('profile.manufacturingFocusOptions.metalFabrication', { defaultValue: 'Metal Fabrication' })}</option>
+              <option value="Residential Service">🏠 {t('profile.hvacFocusOptions.residentialService', { defaultValue: 'Residential Service' })}</option>
+              <option value="Commercial Systems">🏢 {t('profile.hvacFocusOptions.commercialSystems', { defaultValue: 'Commercial Systems' })}</option>
+              <option value="Refrigeration">🧊 {t('profile.hvacFocusOptions.refrigeration', { defaultValue: 'Refrigeration' })}</option>
+              <option value="Controls & Automation">🧠 {t('profile.hvacFocusOptions.controlsAutomation', { defaultValue: 'Controls & Automation' })}</option>
+              <option value="Sheet Metal & Ductwork">🛠️ {t('profile.hvacFocusOptions.sheetMetalDuctwork', { defaultValue: 'Sheet Metal & Ductwork' })}</option>
+              <option value="Hydronics">💧 {t('profile.hvacFocusOptions.hydronics', { defaultValue: 'Hydronics' })}</option>
+              <option value="Commissioning">✅ {t('profile.hvacFocusOptions.commissioning', { defaultValue: 'Commissioning' })}</option>
             </select>
           </div>
           {/* Certification Preference */}
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certificationPreference', { defaultValue: 'Certifications' })}</label>
             <select
-              value={formData.diet}
-              onChange={(e) => setFormData({...formData, diet: e.target.value})}
+              value={formData.dietPreference}
+              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
@@ -209,11 +209,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Kitchen">🏠 {t('profile.workspaceOptions.apartment', { defaultValue: 'Apartment Workspace' })}</option>
-              <option value="Full Kitchen">🏡 {t('profile.workspaceOptions.full', { defaultValue: 'Full Workspace' })}</option>
+              <option value="Van Kit">🚐 {t('profile.workspaceOptions.vanKit', { defaultValue: 'Van Kit' })}</option>
+              <option value="Home Shop">🏠 {t('profile.workspaceOptions.homeShop', { defaultValue: 'Home Shop' })}</option>
               <option value="Minimal Setup">📦 {t('profile.workspaceOptions.minimal', { defaultValue: 'Minimal Setup' })}</option>
-              <option value="Outdoor Kitchen">🔥 {t('profile.workspaceOptions.field', { defaultValue: 'Field Workspace' })}</option>
-              <option value="Professional Kitchen">🏭 {t('profile.workspaceOptions.professional', { defaultValue: 'Professional Workspace' })}</option>
+              <option value="Rooftop / Field">🏗️ {t('profile.workspaceOptions.rooftopField', { defaultValue: 'Rooftop / Field' })}</option>
+              <option value="Full Commercial Rig">🏭 {t('profile.workspaceOptions.commercialRig', { defaultValue: 'Full Commercial Rig' })}</option>
             </select>
           </div>
 
@@ -228,7 +228,7 @@ const EditProfileModal = ({
               <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
               <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
               <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
-              <option value="Professional">👨‍🍳 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
+              <option value="Professional">🧰 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -545,7 +545,7 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
   const availableClasses = [
     { name: 'Advanced Blueprint Interpretation', instructor: 'Instructor Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
     { name: 'Systems Integration', instructor: 'Instructor Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
-    { name: 'Pastry Fundamentals', instructor: 'Instructor Anderson', time: 'Fri 3:00 PM', spots: 6 },
+    { name: 'Controls Fundamentals', instructor: 'Instructor Anderson', time: 'Fri 3:00 PM', spots: 6 },
     { name: 'Safety Certification', instructor: 'Instructor Thompson', time: 'Sat 9:00 AM', spots: 15 },
     { name: 'Restaurant Management', instructor: 'Instructor Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
   ];
@@ -991,7 +991,7 @@ const Profile = () => {
       doc.text(cleanText(avgProficiency), 130, 153);
       doc.text(cleanText('Safety Certification Rate:'), 35, 163);
       doc.text(cleanText(safetyRate), 130, 163);
-      doc.text(cleanText('Recipe Completion Success:'), 35, 173);
+      doc.text(cleanText('Work Order Completion Success:'), 35, 173);
       doc.text(cleanText(completionRate), 130, 173);
       doc.text(cleanText('Students Requiring Additional Support:'), 35, 183);
       doc.text(cleanText(supportNeeded), 130, 183);
@@ -1001,7 +1001,7 @@ const Profile = () => {
       doc.text(cleanText('Course Completion Rate:'), 35, 163);
       doc.text(cleanText('84.9%'), 130, 163);
       doc.text(cleanText('Highest Performing Course:'), 35, 173);
-      doc.text(cleanText('Food Safety and Sanitation (94%)'), 130, 173);
+      doc.text(cleanText('HVAC Safety and Procedure Compliance (94%)'), 130, 173);
       doc.text(cleanText('Course Requiring Attention:'), 35, 183);
       doc.text(cleanText('Menu Planning and Costing (79%)'), 130, 183);
     } else {
@@ -1044,10 +1044,10 @@ const Profile = () => {
       const line5Width = doc.getTextWidth(cleanText('- Consider advanced modules for students achieving 90% proficiency'));
       doc.text(cleanText('- Consider advanced modules for students achieving 90% proficiency'), 105 - line5Width/2, 258);
     } else if (fileName === 'class-performance') {
-      const line1Width = doc.getTextWidth(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'));
-      doc.text(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'), 105 - line1Width/2, 218);
-      const line2Width = doc.getTextWidth(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'));
-      doc.text(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'), 105 - line2Width/2, 228);
+      const line1Width = doc.getTextWidth(cleanText('- HVAC Safety and Procedure Compliance demonstrates exemplary performance (94%)'));
+      doc.text(cleanText('- HVAC Safety and Procedure Compliance demonstrates exemplary performance (94%)'), 105 - line1Width/2, 218);
+      const line2Width = doc.getTextWidth(cleanText('- HVAC Controls Lab shows strong student engagement (91%)'));
+      doc.text(cleanText('- HVAC Controls Lab shows strong student engagement (91%)'), 105 - line2Width/2, 228);
       const line3Width = doc.getTextWidth(cleanText('- Menu Planning and Costing requires curriculum review and support'));
       doc.text(cleanText('- Menu Planning and Costing requires curriculum review and support'), 105 - line3Width/2, 238);
       const line4Width = doc.getTextWidth(cleanText('- Recommend instructor development for underperforming courses'));
@@ -1332,13 +1332,13 @@ Automated calculations and formulas would be present`;
           xp,
           // Map backend cooking_experience to UI display value
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Professional',
+          kitchenSetup: profile.kitchen_setup || 'Van Kit',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
 
         // Also update the local kitchenSetup state
-        setKitchenSetup(profile.kitchen_setup || 'Professional');
+        setKitchenSetup(profile.kitchen_setup || 'Van Kit');
 
         // Load selected talents from database (optional - field might not exist yet)
         if (profile.selected_talents && Array.isArray(profile.selected_talents)) {
@@ -1557,7 +1557,7 @@ Automated calculations and formulas would be present`;
           name: profile.name || 'User',
           xp,
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Professional',
+          kitchenSetup: profile.kitchen_setup || 'Van Kit',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });

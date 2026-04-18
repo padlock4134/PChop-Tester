@@ -163,10 +163,10 @@ const LastBadge = () => {
 };
 
 const navItems = [
-  { path: '/my-kitchen', label: 'My Kitchen' },
-  { path: '/culinary-school', label: 'Culinary School' },
-  { path: '/my-cookbook', label: 'My Cookbook' },
-  { path: '/chefs-corner', label: 'Chefs Corner' },
+  { path: '/my-shop', label: 'My Shop' },
+  { path: '/hvac-school', label: 'HVAC School' },
+  { path: '/my-specsheets', label: 'My Spec Sheets' },
+  { path: '/tech-talk', label: 'Tech Talk' },
 ];
 
 // Language Toggle Button Component
