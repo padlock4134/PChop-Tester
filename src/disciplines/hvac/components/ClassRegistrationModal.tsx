@@ -62,23 +62,23 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
         )}
         
         <div className="space-y-3 mb-6">
-          {/* CUL 101 - Knife Skills & Safety */}
+          {/* HVAC 101 - HVAC Safety, EPA & Core Fundamentals */}
           <div className="p-4 bg-sand rounded border border-black">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
-                  id="cul101"
-                  checked={selectedClasses.includes('cul101')}
-                  onChange={() => toggleClass('cul101')}
+                  id="hvac101"
+                  checked={selectedClasses.includes('hvac101')}
+                  onChange={() => toggleClass('hvac101')}
                   className="mt-1 h-4 w-4 text-maineBlue"
                 />
                 <div>
-                  <label htmlFor="cul101" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 101 - Knife Skills & Safety
+                  <label htmlFor="hvac101" className="font-semibold text-maineBlue cursor-pointer">
+                    HVAC 101 - HVAC Safety, EPA & Core Fundamentals
                   </label>
-                  <div className="text-sm text-gray-600">Monday 9:00 AM - 11:00 AM • Lab Kitchen A</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Martinez</div>
+                  <div className="text-sm text-gray-600">Monday 9:00 AM - 11:00 AM • HVAC Lab A</div>
+                  <div className="text-xs text-gray-500">Instructor: Instructor Martinez</div>
                 </div>
               </div>
               <div className="text-right">
@@ -89,23 +89,23 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
             <div className="text-xs text-green-600 ml-7">✓ Prerequisites met</div>
           </div>
 
-          {/* CUL 205 - Seafood Preparation (Full) */}
+          {/* HVAC 205 - Air Distribution & Duct Design (Full) */}
           <div className="p-4 bg-sand rounded border border-black">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
-                  id="cul205"
-                  checked={selectedClasses.includes('cul205')}
-                  onChange={() => toggleClass('cul205')}
+                  id="hvac205"
+                  checked={selectedClasses.includes('hvac205')}
+                  onChange={() => toggleClass('hvac205')}
                   className="mt-1 h-4 w-4 text-maineBlue"
                 />
                 <div>
-                  <label htmlFor="cul205" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 205 - Seafood Preparation
+                  <label htmlFor="hvac205" className="font-semibold text-maineBlue cursor-pointer">
+                    HVAC 205 - Air Distribution & Duct Design
                   </label>
-                  <div className="text-sm text-gray-600">Wednesday 1:00 PM - 4:00 PM • Lab Kitchen B</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Thompson</div>
+                  <div className="text-sm text-gray-600">Wednesday 1:00 PM - 4:00 PM • HVAC Lab B</div>
+                  <div className="text-xs text-gray-500">Instructor: Instructor Thompson</div>
                 </div>
               </div>
               <div className="text-right">
@@ -116,23 +116,23 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
             <div className="text-xs text-green-600 ml-7">✓ Prerequisites met • Will join waitlist</div>
           </div>
 
-          {/* CUL 150 - Pastry Fundamentals */}
+          {/* HVAC 150 - Controls & Thermostat Wiring */}
           <div className="p-4 bg-sand rounded border border-black">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
-                  id="cul150"
-                  checked={selectedClasses.includes('cul150')}
-                  onChange={() => toggleClass('cul150')}
+                  id="hvac150"
+                  checked={selectedClasses.includes('hvac150')}
+                  onChange={() => toggleClass('hvac150')}
                   className="mt-1 h-4 w-4 text-maineBlue"
                 />
                 <div>
-                  <label htmlFor="cul150" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 150 - Pastry Fundamentals
+                  <label htmlFor="hvac150" className="font-semibold text-maineBlue cursor-pointer">
+                    HVAC 150 - Controls & Thermostat Wiring
                   </label>
-                  <div className="text-sm text-gray-600">Friday 10:00 AM - 12:00 PM • Baking Lab</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Rodriguez</div>
+                  <div className="text-sm text-gray-600">Friday 10:00 AM - 12:00 PM • Controls Lab</div>
+                  <div className="text-xs text-gray-500">Instructor: Instructor Rodriguez</div>
                 </div>
               </div>
               <div className="text-right">
@@ -143,22 +143,22 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
             <div className="text-xs text-green-600 ml-7">✓ Prerequisites met</div>
           </div>
 
-          {/* CUL 301 - Advanced Sauce Making (Prerequisites not met) */}
+          {/* HVAC 301 - Heat Pump Diagnostics (Prerequisites not met) */}
           <div className="p-4 bg-gray-100 rounded border border-gray-400 opacity-75">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-3">
                 <input
                   type="checkbox"
-                  id="cul301"
+                  id="hvac301"
                   disabled
                   className="mt-1 h-4 w-4 text-gray-400 cursor-not-allowed"
                 />
                 <div>
                   <label className="font-semibold text-gray-600 cursor-not-allowed">
-                    CUL 301 - Advanced Sauce Making
+                    HVAC 301 - Heat Pump Diagnostics
                   </label>
-                  <div className="text-sm text-gray-500">Tuesday 2:00 PM - 5:00 PM • Lab Kitchen C</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Williams</div>
+                  <div className="text-sm text-gray-500">Tuesday 2:00 PM - 5:00 PM • HVAC Lab C</div>
+                  <div className="text-xs text-gray-500">Instructor: Instructor Williams</div>
                 </div>
               </div>
               <div className="text-right">
@@ -166,7 +166,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 <div className="text-xs text-gray-500">4 available</div>
               </div>
             </div>
-            <div className="text-xs text-red-600 ml-7">✗ {t('registration.requires')} CUL 201 (Basic Sauces)</div>
+            <div className="text-xs text-red-600 ml-7">✗ {t('registration.requires')} HVAC 201 (Refrigeration Fundamentals)</div>
           </div>
         </div>
 
