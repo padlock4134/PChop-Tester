@@ -930,7 +930,7 @@ END:VCALENDAR`;
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder="e.g., Live refrigerant diagnostics walkthrough"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
@@ -1162,14 +1162,14 @@ END:VCALENDAR`;
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Dish Name
+                  Session Title
                 </label>
                 <input
                   type="text"
                   value={scheduledDishName}
                   onChange={(e) => setScheduledDishName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder="e.g., Live refrigerant diagnostics walkthrough"
                 />
               </div>
               
@@ -1309,7 +1309,7 @@ END:VCALENDAR`;
                     type="text"
                     value={videoTitle}
                     onChange={(e) => setVideoTitle(e.target.value)}
-                    placeholder="e.g., Perfect Pasta Technique Demo"
+                    placeholder="e.g., Superheat & Subcooling Demo"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   />
@@ -1317,7 +1317,7 @@ END:VCALENDAR`;
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cuisine Type
+                    Skill Category
                   </label>
                   <select 
                     value={videoCuisine}
@@ -1325,13 +1325,13 @@ END:VCALENDAR`;
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   >
-                    <option value="">Select cuisine type</option>
+                    <option value="">Select skill category</option>
                     <option value="Diagnostics">Diagnostics</option>
                     <option value="Safety">Safety</option>
                     <option value="Installation">Installation</option>
-                    <option value="Asian">Asian</option>
-                    <option value="American">American</option>
-                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Commissioning">Commissioning</option>
+                    <option value="Airflow">Airflow</option>
+                    <option value="Refrigeration">Refrigeration</option>
                     <option value="Troubleshooting">Troubleshooting</option>
                     <option value="Other">Other</option>
                   </select>
