@@ -170,17 +170,21 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
                   <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
-                    {(MATCH_TAGS.filter(tag => tag.check(recipes[currentIdx])).map(tag => tag.label).slice(0, 4).length > 0
-                      ? MATCH_TAGS.filter(tag => tag.check(recipes[currentIdx])).map(tag => tag.label).slice(0, 4)
-                      : ['General HVAC']
-                    ).map((tagLabel) => (
-                      <span
-                        key={tagLabel}
-                        className="px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800 border border-blue-300"
-                      >
-                        {tagLabel}
-                      </span>
-                    ))}
+                    {MATCH_TAGS.map((tag) => {
+                      const isMatch = tag.check(recipes[currentIdx]);
+                      return (
+                        <span
+                          key={tag.label}
+                          className={`px-2 py-1 rounded-full text-xs border ${
+                            isMatch
+                              ? 'bg-green-500 text-white border-green-600'
+                              : 'bg-gray-100 text-gray-500 border-gray-300'
+                          }`}
+                        >
+                          {tag.label}
+                        </span>
+                      );
+                    })}
                   </div>
                   <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">Materials:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
                   {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (

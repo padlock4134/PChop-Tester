@@ -60,6 +60,55 @@ const RECIPE_PROMPTS = {
     6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`
 };
 
+const HVAC_DOMAIN_TERMS = [
+  'hvac', 'airflow', 'duct', 'static pressure', 'cfm', 'register', 'diffuser',
+  'refrigerant', 'superheat', 'subcool', 'compressor', 'evaporator', 'condenser',
+  'thermostat', 'controls', 'sensor', 'setpoint', 'contactor', 'capacitor', 'breaker',
+  'heat pump', 'furnace', 'boiler', 'iaq', 'ventilation', 'commissioning', 'service',
+  'maintenance', 'diagnostic', 'manifold', 'vacuum pump', 'recovery machine', 'nitrogen'
+];
+
+function isHVACProject(recipe: any): boolean {
+  const text = `${recipe?.title || ''} ${(recipe?.ingredients || []).join(' ')} ${(recipe?.equipment || []).join(' ')} ${Array.isArray(recipe?.instructions) ? recipe.instructions.join(' ') : recipe?.instructions || ''}`.toLowerCase();
+  return HVAC_DOMAIN_TERMS.some(term => text.includes(term));
+}
+
+function buildDefaultHvacProjects(seedIngredients: string[], count: number) {
+  const safe = seedIngredients.length > 0 ? seedIngredients : ['air filter', 'manifold gauge', 'thermostat wire', 'refrigerant line'];
+  const defaults = [
+    {
+      title: 'Airflow Verification & Filter Service',
+      ingredients: [safe[0] || 'air filter', 'manometer', 'return grille'],
+      instructions: ['Inspect filter condition and fitment.', 'Measure return and supply static pressure.', 'Replace filter and confirm airflow improvement.'],
+      equipment: ['manometer', 'screwdriver', 'flashlight'],
+      healthTags: ['Safety', 'Maintenance']
+    },
+    {
+      title: 'Thermostat Control Circuit Check',
+      ingredients: [safe[1] || 'thermostat wire', 'thermostat', 'control board'],
+      instructions: ['Verify R/C power at thermostat terminals.', 'Check call signals for Y, G, and W.', 'Confirm system response and correct setpoint operation.'],
+      equipment: ['multimeter', 'insulated screwdriver'],
+      healthTags: ['Controls', 'Electrical']
+    },
+    {
+      title: 'Refrigerant Charge Diagnostic',
+      ingredients: [safe[2] || 'refrigerant line', 'service port caps', 'coil'],
+      instructions: ['Connect gauges and record operating pressures.', 'Measure line temperatures to calculate superheat/subcooling.', 'Document findings and recommended charge adjustment.'],
+      equipment: ['manifold gauge set', 'temperature clamps', 'PPE'],
+      healthTags: ['Refrigeration', 'Safety']
+    },
+    {
+      title: 'Duct Leakage Quick Audit',
+      ingredients: [safe[3] || 'duct section', 'mastic', 'foil tape'],
+      instructions: ['Inspect joints and seams for visible leakage.', 'Seal key leakage points with approved materials.', 'Re-check airflow balance at main branches.'],
+      equipment: ['smoke pen', 'duct tape measure', 'PPE'],
+      healthTags: ['Airflow', 'Quality']
+    }
+  ];
+
+  return defaults.slice(0, Math.max(1, count));
+}
+
 async function getUserProfile(userId: string) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) return null;
@@ -300,9 +349,12 @@ export async function fetchRecipesWithImages({
   ]);
 
   const promptTemplate = RECIPE_PROMPTS[experienceLevel] || RECIPE_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
-  
+  const normalizedIngredients = ingredients.length > 0
+    ? ingredients
+    : ['air filter', 'thermostat wire', 'refrigerant line', 'duct section', 'contactor'];
+
   // 2. Build the Anthropic prompt with enhanced instructions
-  const basePrompt = promptTemplate(numRecipes, ingredients);
+  const basePrompt = promptTemplate(numRecipes, normalizedIngredients);
   
   // Get preferences
   const dietaryPrefs = profile?.dietary || [];
@@ -318,9 +370,9 @@ export async function fetchRecipesWithImages({
 
   const prompt = `${basePrompt}
 
-${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
-${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
-${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
+${dietaryPrefs.length > 0 ? `Certification preferences: ${dietaryPrefs.join(', ')}` : ''}
+${cuisinePrefs.length > 0 ? `Specialization focus: ${cuisinePrefs.join(', ')}` : ''}
+${userKitchenSetup ? `Work setup: ${userKitchenSetup}` : ''}
 ${talentTreePrompt}
 
 Return the projects as a JSON array with the following structure for each project:
@@ -332,7 +384,8 @@ Return the projects as a JSON array with the following structure for each projec
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "manifold gauge", "vacuum pump", "recovery machine").
+ABSOLUTE CONSTRAINTS: Results must be HVAC-specific only. Never return cooking, food prep, woodworking, generic DIY crafts, or carpentry projects.
 Return ONLY the JSON array, no other text.`;
 
   // 3. Call Anthropic API
@@ -354,7 +407,7 @@ Return ONLY the JSON array, no other text.`;
   const anthropicData = await anthropicRes.json();
   if (!anthropicRes.ok) {
     console.error('Anthropic API error:', anthropicData);
-    return generateFallbackRecipes(userId, ingredients, numRecipes);
+    return generateFallbackRecipes(userId, normalizedIngredients, numRecipes);
   }
 
   let recipes;
@@ -386,11 +439,14 @@ Return ONLY the JSON array, no other text.`;
     console.error('Failed to parse recipes:', err);
     console.log('Raw content:', anthropicData.content[0].text);
     console.log('Error at position:', err instanceof Error ? err.message : String(err));
-    return generateFallbackRecipes(userId, ingredients, numRecipes);
+    return generateFallbackRecipes(userId, normalizedIngredients, numRecipes);
   }
 
+  const hvacRecipes = recipes.filter(isHVACProject);
+  const candidateRecipes = hvacRecipes.length > 0 ? hvacRecipes : buildDefaultHvacProjects(normalizedIngredients, numRecipes);
+
   // 4. Score and sort recipes based on user's cupboard, kitchen setup, and talent tree
-  const scoredRecipes = recipes
+  const scoredRecipes = candidateRecipes
     .map(recipe => ({
       ...recipe,
       score: scoreRecipe(
@@ -399,7 +455,7 @@ Return ONLY the JSON array, no other text.`;
           ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
           equipment: Array.isArray(recipe.equipment) ? recipe.equipment : []
         },
-        ingredients,
+        normalizedIngredients,
         kitchenSetup,
         talentTree,
         talentsEnabled
@@ -471,7 +527,8 @@ Format your response as a JSON array of project objects. Each project object MUS
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "manifold gauge", "vacuum pump", "recovery machine").
+ABSOLUTE CONSTRAINTS: Results must be HVAC-specific only. Never return cooking, food prep, woodworking, generic DIY crafts, or carpentry projects.
 Return ONLY the JSON array, no other text.`;
 
   // 2. Call Anthropic API
@@ -527,29 +584,26 @@ Return ONLY the JSON array, no other text.`;
   // Validate recipe format
   recipes = Array.isArray(recipes) ? recipes : [];
   const validRecipes = recipes.filter(r => {
-    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions);
+    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions) && isHVACProject(r);
     if (!isValid) {
       console.warn('Invalid recipe format:', r);
     }
     return isValid;
   });
 
-  if (validRecipes.length === 0) {
-    console.error('No valid recipes found in response');
-    throw new Error('No valid recipes found in API response');
-  }
+  const finalRecipes = validRecipes.length > 0 ? validRecipes : buildDefaultHvacProjects(ingredients, count);
 
   // 3. For each recipe, call Unsplash in parallel
-  const imagePromises = validRecipes.map(async (r) => {
-    const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'meal');
+  const imagePromises = finalRecipes.map(async (r) => {
+    const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'hvac service');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836';
+    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758';
   });
   const images = await Promise.all(imagePromises);
 
   // 4. Return RecipeCards
-  return validRecipes.slice(0, count).map((r, i) => ({
+  return finalRecipes.slice(0, count).map((r, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
     title: r.title,
     image: images[i],
