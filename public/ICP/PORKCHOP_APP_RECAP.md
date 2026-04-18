@@ -11,7 +11,7 @@ PorkChop is a vertical SaaS Learning Management System built specifically for tr
 
 The platform supports 9 trade disciplines with a dynamic skin system that adapts module names, AI assistant personas, terminology, and branding per discipline. Each discipline includes discipline-specific AI assistants with daily chat limits, computer vision scanning, practical project management with nutritional analysis, video recording capabilities, and live streaming sessions.
 
-PorkChop is a Maine based LLC with a utility patent pending.
+PorkChop is a U.S.-based company focused on modernizing trade education infrastructure.
 
 ---
 
@@ -29,12 +29,12 @@ PorkChop is a Maine based LLC with a utility patent pending.
 
 PorkChop provides trade-specific tools through a multi-discipline platform:
 
-1. **Computer Vision Scanning** — students photograph ingredients/parts/materials, Google Vision API identifies and categorizes them into 10+ categories
-2. **AI Project Matching** — generates relevant projects/recipes/procedures with equipment requirements, health tags, and nutritional analysis using Anthropic Claude
+1. **Computer Vision Scanning** — students photograph ingredients/parts/materials and receive automatic identification and category organization
+2. **AI Project Matching** — generates relevant projects/recipes/procedures with equipment requirements, health tags, and nutritional analysis
 3. **Discipline-Specific AI Assistants** — expert personas with 15 daily chat limits, conversation logging, and curriculum creation capabilities
 4. **Video Skill Tracking** — in-app video recording, submission, grading with rubrics, and video library management
 5. **Live Streaming Sessions** — Global Test Kitchen with scheduling, recording, and classroom integration
-6. **Nutritional Analysis** — USDA Food Data Central API integration with real-time nutritional data and health tagging (Heart Healthy, Anti Inflammatory, Low Glycemic, etc.)
+6. **Nutritional Analysis** — real-time nutritional data and health tagging (Heart Healthy, Anti Inflammatory, Low Glycemic, etc.)
 7. **AR Practice Scenes** — interactive augmented reality practice with camera-based pose tracking, guided overlays, and step-by-step technique feedback
 8. **Integrity Monitoring System** — comprehensive academic integrity tracking with plagiarism detection, completion pattern analysis, and activity anomaly monitoring
 9. **Administrative Dashboard** — user management, analytics, content approval, AI discipline generation, integrity alert management, and multi-discipline oversight
@@ -54,15 +54,15 @@ PorkChop provides trade-specific tools through a multi-discipline platform:
 23. **Social Sharing Suite** — share content across Facebook, Twitter, Instagram, WhatsApp, Pinterest, and Slack
 24. **Talent Tree System** — skill specialization trees with 9 talents per tree, unlockable at specific levels (10, 14, 25, 30, 36, 42, 48, 55, 60)
 25. **WoW-Style Leveling** — 60-level progression system with XP table, level titles, icons, and milestone achievements
-26. **YouTube API Rotator** — multi-key rotation system for video tutorial sourcing with quota management and error handling
+26. **Video Source Reliability Layer** — resilient sourcing controls for tutorial content with quota/error protection
 27. **Messaging Framework** — in-app messaging center infrastructure (coming soon feature)
-28. **MediaPipe Pose Tracking** — Google MediaPipe integration for real-time pose detection with wrist tracking and smoothing algorithms
-29. **AI Weekly Challenge Generator** — Anthropic Claude Haiku generates discipline-specific weekly challenges with JSON parsing and error handling
+28. **Pose Tracking Engine** — real-time pose detection with wrist tracking and smoothing algorithms
+29. **AI Weekly Challenge Generator** — generates discipline-specific weekly challenges with structured parsing and error handling
 30. **Discipline-Specific Challenge Pool** — curated weekly challenges per discipline with criteria matching and badge rewards
-31. **Netlify Serverless Functions** — comprehensive serverless backend with 15+ functions for vision proxy, USDA nutrition, authentication, and API routing
-32. **Google Vision API Proxy** — secure server-side proxy for ingredient/object detection with confidence thresholds and manufacturing term enhancement
-33. **USDA Nutrition Integration** — real-time USDA Food Data Central API integration for nutritional analysis and health tagging
-34. **Multi-Key Anthropic Proxy** — separate API keys for different use cases (recipe, challenge, chef) with timeout and error handling
+31. **Serverless Backend Functions** — comprehensive serverless backend for vision processing, nutrition services, authentication, and API routing
+32. **Secure Vision Proxy Layer** — server-side proxy for ingredient/object detection with confidence thresholds and domain-term enhancement
+33. **Nutrition Data Integration** — real-time nutrition analysis and health tagging
+34. **AI Service Routing Layer** — dedicated AI routing for different use cases with timeout and error handling
 35. **Service Worker Caching** — PWA service worker with cache management and network fallback strategy
 36. **AI Curriculum Processor** — advanced content extraction from PDF/DOCX/TXT files with AI-powered module mapping and confidence scoring
 37. **Google Places API Integration** — location-based discovery of trade suppliers with radius search and type filtering
@@ -117,9 +117,9 @@ PorkChop uses a sophisticated skin system that adapts the entire platform experi
 
 Students photograph their available ingredients. Computer vision identifies and categorizes items. AI generates recipes matched to what they actually have.
 
-- **AI-powered scanning** — photograph ingredients/parts/materials for automatic identification and categorization via Google Vision API proxy
+- **AI-powered scanning** — photograph ingredients/parts/materials for automatic identification and categorization
 - **Digital inventory** — persistent storage organized by categories (10 culinary categories, discipline-specific for others)
-- **Intelligent matching** — AI generates projects/recipes/procedures adapted to skill level and available materials using Anthropic Claude
+- **Intelligent matching** — AI generates projects/recipes/procedures adapted to skill level and available materials
 - **Category management** — organized storage with search and filtering capabilities
 
 ### 2. Notebook Module — Project Portfolio & Academic Gradebook
@@ -143,11 +143,11 @@ A digital recipe portfolio that doubles as a grading system for culinary program
 Structured learning with techniques, tutorials, and hands-on practice.
 
 - **Educational techniques** — fundamental skills organized across domains appropriate to each discipline
-- **Automatic tutorial sourcing** — matched video content for projects and techniques with YouTube API integration
+- **Automatic tutorial sourcing** — matched video content for projects and techniques
 - **Built-in timing tools** — for practice sessions and timed exercises
-- **AR Practice Integration** — interactive augmented reality scenes with MediaPipe pose tracking and guided overlays
+- **AR Practice Integration** — interactive augmented reality scenes with pose tracking and guided overlays
 - **Job Timer Suite** — multi-timer system with preset options, serving size calculations, and audio notifications
-- **AI Weekly Challenge Generator** — discipline-specific challenges generated by Anthropic Claude with JSON parsing
+- **AI Weekly Challenge Generator** — discipline-specific challenges generated with structured parsing
 - **Educational content display** — structured course content and lessons
 
 ### 4. Community Module — Live Streaming & Local Resources
@@ -160,7 +160,7 @@ Social hub with live streaming, local market discovery, and business skill devel
 - **Market Directory** — discover nearby grocery stores, markets, and specialty shops with mapping
 - **Build Menu** — create menus from saved recipes with serving size adjustments, PDF export with jsPDF, and social sharing
 - **Recipe Showcase** — feature dishes with full nutritional breakdown, serving adjustments, and social media sharing
-- **Local Resources** — location-based discovery of trade-specific suppliers and services with GPS geolocation, pricing estimates, and Google Places API integration
+- **Local Resources** — location-based discovery of trade-specific suppliers and services with GPS geolocation and pricing estimates
 - **Import/Export System** — comprehensive data import/export for recipes, procedures, and manual content with modal interfaces
 - **Skeuomorphic Digital Manuals** — flippable page-turning interfaces for digital cookbooks with realistic book styling
 - **Social Timeline** — community feed with posts, likes, comments, live session announcements, and marketplace discoveries
@@ -174,14 +174,14 @@ Social hub with live streaming, local market discovery, and business skill devel
 A contextual AI assistant available on every page, customized to each discipline through the dynamic skin system:
 
 - **Chef Freddie** (Culinary) — recipes, techniques, nutrition
-- **Sparky** (Welding) — weld types, safety, equipment  
-- **Gearhead Gary** (Automotive) — diagnostics, repairs, maintenance
-- **Constructor Carl** (Construction) — blueprints, materials, safety
-- **Volt Victor** (Electrical) — circuits, codes, troubleshooting
-- **Frosty Frank** (HVAC) — systems, refrigeration, diagnostics
-- **Logistics Larry** — (Logistics) — supply chain, routing, inventory
-- **Machining Mike** (Machining) — CNC, materials, precision
-- **Plumber Pete** (Plumbing) — systems, codes, troubleshooting
+- **Pete the Plumber** (Plumbing) — systems, codes, troubleshooting
+- **Gus the Mechanic** (Automotive) — diagnostics, repairs, maintenance
+- **Foreman Frank** (Construction) — blueprints, materials, safety
+- **Sparky** (Electrical) — circuits, codes, troubleshooting
+- **Cool Cal** (HVAC) — systems, refrigeration, diagnostics
+- **Mac the Manufacturer** (Manufacturing) — quality control, process optimization, safety
+- **Lou the Dispatcher** (Logistics) — supply chain, routing, inventory
+- **Max the Machinist** (Machining) — CNC, materials, precision
 
 Each assistant is trained on discipline-specific knowledge, adapts its persona to the trade, and maintains conversation history for institutional analytics.
 
@@ -206,7 +206,7 @@ A comprehensive administration panel for school administrators and instructors:
 - **Branding & configuration** — school-specific customization and module toggling
 - **Job placement tracking** — post-graduation employment data
 - **Data export** — institutional reporting tools
-- **Enterprise SSO Integration** — Wristband OAuth 2.0 authentication with session management
+- **Enterprise SSO Integration** — OAuth 2.0 authentication with session management
 
 ### Student Progress Dashboard
 - Curriculum progress tracking
@@ -246,34 +246,8 @@ A comprehensive administration panel for school administrators and instructors:
 | Gamification | Basic badges | 60-level progression + 120 badges |
 | Interactive practice | No | Guided technique practice scenes |
 | Resource discovery | No | Nearby resource finder with mapping |
-| Curriculum auto-mapping | No | AI content processor (utility patent pending) |
+| Curriculum auto-mapping | No | AI content processor |
 | Multi-tenant white-label | Limited | Full school branding + tenant isolation |
-
----
-
-## Ideal Investor Profile
-
-### Best Fit
-- **Ed-tech focused funds** — understanding of LMS market dynamics, institutional sales cycles, and the shift from horizontal to vertical SaaS in education
-- **Trade/vocational education advocates** — investors who see the underserved gap between white-collar ed-tech (Coursera, 2U) and the 16M+ US trade students with no purpose-built tools
-- **Vertical SaaS specialists** — funds that have backed industry-specific platforms (Veeva for pharma, Procore for construction, Toast for restaurants) and understand the playbook of starting narrow and expanding
-- **AI-forward investors** — those excited by applied AI (not foundational models) — PorkChop uses AI pragmatically across 8+ features, including dynamic skin system and program generation
-- **Seed to Series A stage** — product is built and functional, multi-tenant architecture is in place, multi-discipline support live, utility patent pending
-
-### Why Now
-- Legacy LMS contracts are up for renewal across hundreds of institutions
-- AI capabilities (vision, language models) just crossed the quality threshold to make these features viable at low cost
-- **Platform now supports 9 disciplines with dynamic skin system + unlimited custom programs** — schools can launch any trade program instantly
-- Trade education is expanding rapidly — schools need flexible platforms that can scale with new program offerings
-- 508 compliance audit completed — ready for institutional procurement
-
-### What They'd Be Investing In
-- **Proven product** — not a prototype; fully functional multi-tenant platform with enterprise auth, 4 core modules, comprehensive admin tooling, dynamic skin system, and 9+ discipline support
-- **Infinite scalability** — dynamic skin system and discipline generation means schools can launch unlimited programs without vendor involvement
-- **Content-agnostic moat** — schools bring their own curriculum, so PorkChop isn't competing on content — it's competing on infrastructure
-- **Multi-discipline architecture** — built from day one with dynamic skin system to support any trade, not retrofitted from a single-discipline product
-- **IP protection** — utility patent pending
-- **GTM-ready** — one-pager, demo script, outreach playbook, and vendor submittals already prepared
 
 ---
 
