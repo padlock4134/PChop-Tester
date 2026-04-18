@@ -286,7 +286,7 @@ const MyShop = () => {
             setMatcherError('');
             try {
               const cupboardNames = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
+              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
                 ingredients: cupboardNames,
@@ -298,7 +298,7 @@ const MyShop = () => {
               });
               setMatcherRecipes(recipes);
             } catch (err: any) {
-              setMatcherError('Failed to fetch recipes.');
+              setMatcherError('Failed to fetch HVAC spec sheet matches.');
             } finally {
               setMatcherLoading(false);
             }

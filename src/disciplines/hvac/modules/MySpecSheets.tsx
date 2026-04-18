@@ -884,7 +884,7 @@ const MySpecSheets = () => {
                         ]
                       };
                       setSelectedRecipe(fullRecipe);
-                      navigate('/hvac-school');
+                      navigate('/hvac/hvac-school');
                     }}
                     className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
