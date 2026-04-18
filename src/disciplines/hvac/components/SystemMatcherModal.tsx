@@ -177,7 +177,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                           key={tag.label}
                           className={`px-2 py-1 rounded-full text-xs border ${
                             isMatch
-                              ? 'bg-blue-100 text-blue-800 border-blue-300'
+                              ? 'bg-green-500 text-white border-green-600'
                               : 'bg-gray-100 text-gray-500 border-gray-300'
                           }`}
                         >
