@@ -59,9 +59,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const navigate = useNavigate();
 
   const loadingMessages = [
-    t('recipeMatcher.loadingMessage1'),
-    t('recipeMatcher.loadingMessage2'),
-    t('recipeMatcher.loadingMessage3')
+    'Scanning your shop inventory…',
+    'Matching HVAC procedures…',
+    'Building spec sheet recommendations…'
   ];
 
   // Timer effect for loading steps
@@ -125,15 +125,13 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
     navigate('/hvac-school');
   };
 
-  const DIETARY_TAGS = [
-    { key: 'Heart Healthy', label: t('recipeMatcher.heartHealthy') },
-    { key: 'Anti Inflammatory', label: t('recipeMatcher.antiInflammatory') },
-    { key: 'Low Glycemic', label: t('recipeMatcher.lowGlycemic') },
-    { key: 'Low Cholesterol', label: t('recipeMatcher.lowCholesterol') },
-    { key: 'Renal Friendly', label: t('recipeMatcher.renalFriendly') },
-    { key: 'DASH Diet', label: t('recipeMatcher.dashDiet') },
-    { key: 'Low Sodium', label: t('recipeMatcher.lowSodium') },
-    { key: 'High Fiber', label: t('recipeMatcher.highFiber') }
+  const MATCH_TAGS = [
+    { label: 'Airflow', check: (r: RecipeCard) => /airflow|cfm|duct|static pressure/i.test(`${r.title} ${r.instructions} ${(r.ingredients || []).join(' ')} ${(r.equipment || []).join(' ')}`) },
+    { label: 'Refrigeration', check: (r: RecipeCard) => /refrigerant|superheat|subcool|compressor|evaporator|condenser/i.test(`${r.title} ${r.instructions} ${(r.ingredients || []).join(' ')}`) },
+    { label: 'Controls', check: (r: RecipeCard) => /thermostat|sensor|control|setpoint|automation/i.test(`${r.title} ${r.instructions} ${(r.ingredients || []).join(' ')}`) },
+    { label: 'Electrical', check: (r: RecipeCard) => /voltage|amp|breaker|wiring|contactor|capacitor/i.test(`${r.title} ${r.instructions} ${(r.ingredients || []).join(' ')}`) },
+    { label: 'Maintenance', check: (r: RecipeCard) => /maintenance|inspection|service|checklist|filter/i.test(`${r.title} ${r.instructions}`) },
+    { label: 'Safety', check: (r: RecipeCard) => /safety|lockout|tagout|ppe|hazard/i.test(`${r.title} ${r.instructions}`) }
   ];
 
   return (
@@ -158,7 +156,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes', { defaultValue: 'Finding matching projects...' })}</div>
+            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes', { defaultValue: 'Finding matching HVAC spec sheets...' })}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
@@ -172,19 +170,17 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
                   <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
-                    {DIETARY_TAGS.map(tag => {
-                      const isMatch = recipes[currentIdx].healthTags?.includes(tag.key);
-                      return (
-                        <span 
-                          key={tag.key}
-                          className={`px-2 py-1 rounded-full text-xs ${
-                            isMatch ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-600'
-                          }`}
-                        >
-                          {tag.label}
-                        </span>
-                      );
-                    })}
+                    {(MATCH_TAGS.filter(tag => tag.check(recipes[currentIdx])).map(tag => tag.label).slice(0, 4).length > 0
+                      ? MATCH_TAGS.filter(tag => tag.check(recipes[currentIdx])).map(tag => tag.label).slice(0, 4)
+                      : ['General HVAC']
+                    ).map((tagLabel) => (
+                      <span
+                        key={tagLabel}
+                        className="px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-800 border border-blue-300"
+                      >
+                        {tagLabel}
+                      </span>
+                    ))}
                   </div>
                   <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Materials' })}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
                   {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
