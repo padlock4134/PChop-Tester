@@ -142,7 +142,7 @@ const MyShop = () => {
       // Award XP for saving a recipe
       if (user) {
         await import('../../culinary/services/xpService').then(m => 
-          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
+          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'spec_save')
         );
         refreshXP();
       }

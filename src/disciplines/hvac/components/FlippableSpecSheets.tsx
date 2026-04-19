@@ -82,9 +82,9 @@ const PAGES = [
           <img src="/logo.png" alt="PorkChop Logo" className="inspiration-logo" />
         </div>
         <p className="page-content-text">
-          We created PorkChop because my grandfather Frederick would always know what to make when he's looking in his fridge. 
-          Everyone loved Pancake Saturdays cause everyone got to eat - even friends we brought with us.
-          He taught us that it's important to always be as nice as you can and help people if you can - food is the best way to make sure no one goes hungry.
+          We created PorkChop because training the next generation of HVAC technicians shouldn't feel outdated. 
+          Every great tech started as an apprentice who needed a mentor, the right tools, and hands-on practice.
+          We built this platform to give every student that foundation — AI-powered, trade-specific, and built by people who respect the craft.
         </p>
       </>
     ),

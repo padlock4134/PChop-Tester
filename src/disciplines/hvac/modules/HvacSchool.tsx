@@ -126,7 +126,7 @@ function getTwoTutorials(recipe: any) {
     {
       title: `Let\'s Service This System!`,
       desc: `Step-by-step service walkthrough for ${recipe.title}.`,
-      type: 'cooking_tutorial'
+      type: 'service_tutorial'
     }
   ];
 }
@@ -219,19 +219,22 @@ const HvacSchool = () => {
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
-  // Helper: extract primary material from components
+  // Helper: extract primary component from materials list
   function getMainProtein(ingredients: string[] = []) {
-    const proteins = [
-      'chicken', 'beef', 'pork', 'fish', 'salmon', 'shrimp', 'clam', 'crab', 'lobster',
-      'tofu', 'turkey', 'duck', 'lamb', 'egg', 'eggs', 'scallop', 'scallops', 'mussels', 'steak',
-      'bacon', 'sausage', 'ham', 'vegan', 'tempeh', 'seitan', 'octopus', 'squid', 'anchovy', 'anchovies'
+    const primaryComponents = [
+      'compressor', 'condenser', 'evaporator', 'blower motor', 'contactor', 'capacitor',
+      'thermostat', 'control board', 'heat exchanger', 'expansion valve', 'txv', 'reversing valve',
+      'refrigerant', 'line set', 'filter', 'ductwork', 'damper', 'zone board', 'transformer',
+      'relay', 'sensor', 'pressure switch', 'limit switch', 'ignitor', 'gas valve'
     ];
-    return ingredients.find(ing => proteins.some(p => ing.toLowerCase().includes(p)));
+    return ingredients.find(ing => primaryComponents.some(p => ing.toLowerCase().includes(p)));
   }
-  // Helper: extract main equipment from equipment array
+  // Helper: extract main tool from equipment array
   function getMainEquipment(equipment: string[] = []) {
     const priorities = [
-      'pan', 'pot', 'oven', 'grill', 'skillet', 'wok', 'baking sheet', 'slow cooker', 'pressure cooker', 'air fryer', 'broiler', 'deep fryer', 'steamer', 'microwave', 'toaster oven'
+      'manifold gauge', 'multimeter', 'vacuum pump', 'recovery machine', 'torch', 'manometer',
+      'combustion analyzer', 'leak detector', 'anemometer', 'megohmmeter', 'thermometer',
+      'temperature clamps', 'psychrometer', 'micron gauge', 'scale'
     ];
     for (const p of priorities) {
       const found = equipment.find(eq => eq.toLowerCase().includes(p));
@@ -248,16 +251,16 @@ const HvacSchool = () => {
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
       query = `how to ${tut.techniqueData.title.toLowerCase()} trade technique`;
-    } else if (tut.type === 'cooking_tutorial') {
-      // For task tutorials, focus on the project
-      const mainProtein = getMainProtein(recipe.ingredients || []);
-      const mainEquipment = getMainEquipment(recipe.equipment || []);
-      if (mainProtein && mainEquipment) {
-        query = `How to cook ${mainProtein} using ${mainEquipment}`;
-      } else if (mainProtein) {
-        query = `How to cook ${mainProtein}`;
+    } else if (tut.type === 'service_tutorial') {
+      // For service tutorials, focus on the project
+      const mainComponent = getMainProtein(recipe.ingredients || []);
+      const mainTool = getMainEquipment(recipe.equipment || []);
+      if (mainComponent && mainTool) {
+        query = `HVAC how to service ${mainComponent} using ${mainTool}`;
+      } else if (mainComponent) {
+        query = `HVAC ${mainComponent} service tutorial`;
       } else {
-        query = `how to complete ${recipe.title}`;
+        query = `HVAC how to ${recipe.title}`;
       }
     } else {
       // Legacy fallback for older tutorial formats
@@ -265,15 +268,15 @@ const HvacSchool = () => {
         return recipe.title;
       }
       
-      // Use Chef Freddie for complex queries
+      // Use Cool Cal for complex queries
       const prompt = `
-        Given the following project and tutorial step, generate a concise YouTube search query for a relevant trade training video.\n
-        - Only use the equipment and ingredients listed.\n
+        Given the following HVAC project and tutorial step, generate a concise YouTube search query for a relevant HVAC training video.\n
+        - Only use the tools and components listed.\n
         - Do NOT include unrelated tools or techniques.\n
-        - The query should be specific to the step and recipe.\n
-        Recipe: ${recipe.title}\n
-        Ingredients: ${recipe.ingredients?.join(', ')}\n
-        Equipment: ${recipe.equipment?.join(', ') || 'N/A'}\n
+        - The query should be specific to the step and project.\n
+        Project: ${recipe.title}\n
+        Components: ${recipe.ingredients?.join(', ')}\n
+        Tools: ${recipe.equipment?.join(', ') || 'N/A'}\n
         Step Title: ${tut.title}\n
         Step Description: ${tut.desc}\n
         Query:

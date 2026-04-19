@@ -9,7 +9,7 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
       experienceLevel: DEFAULT_EXPERIENCE_LEVEL,
       dietary: [],
       cuisine: [],
-      kitchenSetup: 'Apartment Kitchen'
+      kitchenSetup: 'Basic Service'
     };
   }
 
@@ -25,7 +25,7 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
       experienceLevel: DEFAULT_EXPERIENCE_LEVEL,
       dietary: [],
       cuisine: [],
-      kitchenSetup: 'Apartment Kitchen'
+      kitchenSetup: 'Basic Service'
     };
   }
 
@@ -33,7 +33,7 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
     experienceLevel: (data.cooking_experience as ExperienceLevel) || DEFAULT_EXPERIENCE_LEVEL,
     dietary: data.dietary || [],
     cuisine: data.cuisine || [],
-    kitchenSetup: data.kitchen_setup || 'Apartment Kitchen',
+    kitchenSetup: data.kitchen_setup || 'Basic Service',
     talentTree: (data.level >= 10 && data.selected_talent_tree) ? data.selected_talent_tree : null,
     level: data.level || 1
   };

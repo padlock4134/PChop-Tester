@@ -1,5 +1,9 @@
 import { Food, FoodNutrient } from '../types/nutrition';
 
+// HVAC system spec metrics (field names kept for backward compat with shared infrastructure)
+// In HVAC context: carbs→complexity, sugars→precision, fiber→durability,
+// protein→capacity, saturatedFat→energyDraw, omega3→efficiency,
+// cholesterol→maintenanceFreq, sodium→costFactor, phosphorus→weight
 interface KeyNutrients {
   carbs: number;
   sugars: number;
@@ -14,40 +18,27 @@ interface KeyNutrients {
   phosphorus: number;
 }
 
-const USDA_API_URL = 'https://api.nal.usda.gov/fdc/v1/foods/search';
-const API_KEY = (import.meta as any).env.VITE_USDA_API_KEY;
-
-export async function fetchNutritionData(ingredient: string): Promise<Food | null> {
-  console.log(`Fetching nutrition for: ${ingredient}`);
-  
-  try {
-    const response = await fetch(`${USDA_API_URL}?api_key=${API_KEY}&query=${encodeURIComponent(ingredient)}`);
-    
-    console.log(`USDA API status: ${response.status}`);
-    
-    const data = await response.json();
-    console.log('USDA API response:', data);
-    
-    if (data.foods && data.foods.length > 0) {
-      const food = data.foods[0];
-      return {
-        id: food.fdcId,
-        name: food.description,
-        nutrients: food.foodNutrients.map((nutrient: any) => ({
-          name: nutrient.nutrientName,
-          unit: nutrient.unitName,
-          value: nutrient.value
-        }))
-      };
-    }
-    return null;
-  } catch (error) {
-    console.error('Error fetching nutrition data:', error);
-    return null;
-  }
+// Static spec lookup for HVAC components (no external API needed)
+export async function fetchNutritionData(component: string): Promise<Food | null> {
+  // Return static baseline specs for HVAC components
+  return {
+    id: Math.floor(Math.random() * 10000),
+    name: component,
+    nutrients: [
+      { name: 'complexity', unit: 'rating', value: 3 },
+      { name: 'precision', unit: 'rating', value: 2 },
+      { name: 'durability', unit: 'rating', value: 4 },
+      { name: 'capacity', unit: 'BTU', value: 5 },
+      { name: 'energy_draw', unit: 'amps', value: 1 },
+      { name: 'efficiency', unit: 'SEER', value: 4 },
+      { name: 'maintenance_freq', unit: 'months', value: 1 },
+      { name: 'cost_factor', unit: 'USD', value: 2 },
+      { name: 'weight', unit: 'lbs', value: 1 }
+    ]
+  };
 }
 
-// Get key nutrients for diabetes management
+// Extract key spec metrics from component data
 export function getKeyNutrients(nutrients: FoodNutrient[]): KeyNutrients {
   const result: KeyNutrients = {
     carbs: 0,
@@ -65,38 +56,32 @@ export function getKeyNutrients(nutrients: FoodNutrient[]): KeyNutrients {
 
   nutrients.forEach(nutrient => {
     switch (nutrient.name.toLowerCase()) {
-      case 'carbohydrate, by difference':
+      case 'complexity':
         result.carbs = nutrient.value;
         break;
-      case 'sugars, total including nlea':
+      case 'precision':
         result.sugars = nutrient.value;
         break;
-      case 'fiber, total dietary':
+      case 'durability':
         result.fiber = nutrient.value;
         break;
-      case 'protein':
+      case 'capacity':
         result.protein = nutrient.value;
         break;
-      case 'fatty acids, total saturated':
+      case 'energy_draw':
         result.saturatedFat = nutrient.value;
         break;
-      case 'cholesterol':
-        result.cholesterol = nutrient.value;
-        break;
-      case 'sodium, na':
-        result.sodium = nutrient.value;
-        break;
-      case 'phosphorus, p':
-        result.phosphorus = nutrient.value;
-        break;
-      case 'omega-3 fatty acids':
+      case 'efficiency':
         result.omega3 = nutrient.value;
         break;
-      case 'total antioxidant capacity':
-        result.antioxidants = nutrient.value;
+      case 'maintenance_freq':
+        result.cholesterol = nutrient.value;
         break;
-      case 'potassium, k':
-        result.potassium = nutrient.value;
+      case 'cost_factor':
+        result.sodium = nutrient.value;
+        break;
+      case 'weight':
+        result.phosphorus = nutrient.value;
         break;
     }
   });
@@ -104,10 +89,11 @@ export function getKeyNutrients(nutrients: FoodNutrient[]): KeyNutrients {
   return result;
 }
 
+// Calculate aggregate system specs for a project's component list
 export async function calculateRecipeNutrition(
-  ingredients: string[]
+  components: string[]
 ): Promise<{ carbs: number; sugars: number; fiber: number; protein: number; saturatedFat: number; sodium: number; omega3: number; antioxidants: number; cholesterol: number; potassium: number; phosphorus: number }> {
-  const totalNutrition: { carbs: number; sugars: number; fiber: number; protein: number; saturatedFat: number; sodium: number; omega3: number; antioxidants: number; cholesterol: number; potassium: number; phosphorus: number } = {
+  const totalSpecs = {
     carbs: 0,
     sugars: 0,
     fiber: 0,
@@ -121,38 +107,19 @@ export async function calculateRecipeNutrition(
     phosphorus: 0
   };
   
-  const nutritionData = await Promise.all(
-    ingredients.map(ingredient => fetchNutritionData(ingredient))
+  const specData = await Promise.all(
+    components.map(component => fetchNutritionData(component))
   );
   
-  console.log('Fetched nutrition data:', nutritionData);
-  
-  nutritionData.forEach((food, index) => {
-    if (food) {
-      console.log(`Food ${index}: ${food.name}`, food.nutrients);
-      
-      const nutrients = getKeyNutrients(food.nutrients);
-      console.log(`Key nutrients for ${food.name}:`, nutrients);
-      
-      // Log if any nutrient is zero
-      if (nutrients.carbs === 0) console.warn(`Carbs zero for ${food.name}`);
-      if (nutrients.sugars === 0) console.warn(`Sugars zero for ${food.name}`);
-      if (nutrients.fiber === 0) console.warn(`Fiber zero for ${food.name}`);
-      if (nutrients.protein === 0) console.warn(`Protein zero for ${food.name}`);
-      if (nutrients.saturatedFat === 0) console.warn(`Saturated fat zero for ${food.name}`);
-      if (nutrients.sodium === 0) console.warn(`Sodium zero for ${food.name}`);
-      if (nutrients.omega3 === 0) console.warn(`Omega 3 zero for ${food.name}`);
-      if (nutrients.antioxidants === 0) console.warn(`Antioxidants zero for ${food.name}`);
-      if (nutrients.cholesterol === 0) console.warn(`Cholesterol zero for ${food.name}`);
-      if (nutrients.potassium === 0) console.warn(`Potassium zero for ${food.name}`);
-      if (nutrients.phosphorus === 0) console.warn(`Phosphorus zero for ${food.name}`);
-      
-      Object.keys(nutrients).forEach(key => {
-        const k = key as keyof { carbs: number; sugars: number; fiber: number; protein: number; saturatedFat: number; sodium: number; omega3: number; antioxidants: number; cholesterol: number; potassium: number; phosphorus: number };
-        totalNutrition[k] += nutrients[k];
+  specData.forEach((item) => {
+    if (item) {
+      const specs = getKeyNutrients(item.nutrients);
+      Object.keys(specs).forEach(key => {
+        const k = key as keyof typeof totalSpecs;
+        totalSpecs[k] += specs[k];
       });
     }
   });
   
-  return totalNutrition;
+  return totalSpecs;
 }

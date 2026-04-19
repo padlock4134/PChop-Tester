@@ -27,14 +27,14 @@ const PostComposer = () => {
         throw new Error('Not authenticated');
       }
       
-      // Check if this is a recipe share (simplified check for recipe keywords)
-      const isRecipeShare = /recipe|ingredients?|instructions?|method|steps|serves|prep time|cook time/i.test(input);
+      // Check if this is a project share (simplified check for HVAC keywords)
+      const isRecipeShare = /project|components?|materials?|procedure|steps|diagnostic|service call|install/i.test(input);
       
       // In a real app, you would upload the image and create the post here
       // For now, we'll just simulate a successful post
       
       if (isRecipeShare) {
-        // Award XP for sharing a recipe
+        // Award XP for sharing a project
         const { error } = await supabase.rpc('increment_user_xp', {
           user_id: user.id,
           xp_amount: XP_REWARDS.RECIPE_SHARE
@@ -46,7 +46,7 @@ const PostComposer = () => {
             {
               user_id: user.id,
               xp_awarded: XP_REWARDS.RECIPE_SHARE,
-              activity: 'recipe_share'
+              activity: 'project_share'
             }
           ]);
           
@@ -59,7 +59,7 @@ const PostComposer = () => {
       setImage(null);
       
       // Show success message or update UI
-      alert('Post shared successfully!' + (isRecipeShare ? ' +' + XP_REWARDS.RECIPE_SHARE + ' XP for sharing a recipe!' : ''));
+      alert('Post shared successfully!' + (isRecipeShare ? ' +' + XP_REWARDS.RECIPE_SHARE + ' XP for sharing a project!' : ''));
       
     } catch (error) {
       console.error('Error sharing post:', error);

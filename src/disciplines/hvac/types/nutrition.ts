@@ -1,3 +1,6 @@
+// System specification data types for HVAC components
+// Field names kept for backward compatibility with shared infrastructure
+
 export interface FoodNutrient {
   name: string;
   unit: string;
@@ -10,6 +13,10 @@ export interface Food {
   nutrients: FoodNutrient[];
 }
 
+// KeyNutrients maps to HVAC system metrics in this discipline:
+// carbs → complexity rating, sugars → precision required, fiber → durability,
+// protein → capacity/BTU, saturatedFat → energy draw, omega3 → efficiency,
+// cholesterol → maintenance freq, sodium → cost factor, phosphorus → weight
 export interface KeyNutrients {
   carbs: number;
   sugars: number;

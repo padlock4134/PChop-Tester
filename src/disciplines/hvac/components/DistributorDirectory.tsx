@@ -2,50 +2,50 @@ import React, { useEffect, useState } from 'react';
 
 // Types for market info
 export const DEPARTMENT_TYPES = [
-  { key: 'grocery', label: 'Grocery', icon: '🛒', placeTypes: ['supermarket', 'convenience_store'], keywords: ['grocery', 'market', 'food', 'store', 'co-op', 'coop', 'natural', 'organic'] },
-  { key: 'produce', label: 'Produce', icon: '🥦', placeTypes: ['supermarket', 'convenience_store'], keywords: ['produce', 'fruit', 'vegetable', 'farm', 'organic', 'farmers', 'garden', 'orchard', 'berry', 'apple', 'greengrocer', 'csa', 'stand'] },
-  { key: 'bakery', label: 'Bakery', icon: '🍞', placeTypes: ['bakery'], keywords: ['bakery', 'bread', 'pastry', 'cake', 'donut', 'bake', 'bagel', 'cookie', 'pie', 'patisserie', 'boulangerie', 'confection'] },
-  { key: 'butcher', label: 'Meat', icon: '🥩', placeTypes: ['supermarket'], keywords: ['meat', 'butcher', 'steak', 'beef', 'poultry', 'pat', 'pats', 'sausage', 'deli', 'chop', 'prime', 'angus', 'pork', 'chicken', 'lamb'] },
-  { key: 'seafood', label: 'Seafood', icon: '🐟', placeTypes: ['supermarket'], keywords: ['seafood', 'fish', 'shellfish', 'lobster', 'crab', 'harbor', 'ocean', 'sea', 'marine', 'catch', 'oyster', 'clam', 'shrimp', 'mussel', 'fishmonger', 'fishery'] },
-  { key: 'farms', label: 'Farms', icon: '🚜', placeTypes: ['supermarket', 'convenience_store'], keywords: ['farm', 'farmers market', 'farmstand', 'csa', 'agriculture', 'ranch', 'homestead', 'acres', 'dairy', 'milk', 'cheese', 'creamery', 'yogurt'] },
-  { key: 'equipment', label: 'Equipment', icon: '🔪', placeTypes: ['store', 'home_goods_store'], keywords: ['kitchen', 'knife', 'cookware', 'utensil', 'appliance', 'tool', 'gadget', 'cutlery', 'pot', 'pan', 'bakeware', 'chef', 'cooking'] },
+  { key: 'grocery', label: 'General Supply', icon: '�', placeTypes: ['store', 'hardware_store'], keywords: ['hvac', 'supply', 'wholesale', 'distributor', 'heating', 'cooling', 'air conditioning'] },
+  { key: 'produce', label: 'Tools & Install', icon: '�', placeTypes: ['store', 'hardware_store'], keywords: ['tool', 'hardware', 'grainger', 'fastener', 'install', 'equipment', 'rental'] },
+  { key: 'bakery', label: 'Electrical & Controls', icon: '⚡', placeTypes: ['store', 'electrician'], keywords: ['electrical', 'supply', 'controls', 'automation', 'wire', 'panel', 'breaker', 'sensor'] },
+  { key: 'butcher', label: 'Mechanical Supply', icon: '🔧', placeTypes: ['store', 'plumber'], keywords: ['plumbing', 'pipe', 'mechanical', 'valve', 'fitting', 'copper', 'pex', 'solder'] },
+  { key: 'seafood', label: 'Specialty Supply', icon: '🏪', placeTypes: ['store'], keywords: ['carrier', 'lennox', 'trane', 'daikin', 'mitsubishi', 'rheem', 'goodman', 'york'] },
+  { key: 'farms', label: 'Manufacturer Direct', icon: '🏭', placeTypes: ['store'], keywords: ['manufacturer', 'factory', 'direct', 'oem', 'distributor', 'warehouse'] },
+  { key: 'equipment', label: 'Chemicals & Consumables', icon: '🧪', placeTypes: ['store'], keywords: ['refrigerant', 'chemical', 'cleaner', 'sealant', 'nitrogen', 'brazing', 'flux', 'insulation'] },
 ];
 
 // Maximum number of places to show per category
 const MAX_PLACES_PER_CATEGORY = 5;
 
-// List of big box retailers and non-food places to exclude
-const BIG_BOX_RETAILERS = ['walmart', 'costco', 'bj', 'bjs', 'sams club', 'sam\'s club', 'best buy', 'target', 'home depot', 'lowe\'s', 'lowes', 'duluth trading', 'duluth trading company', 'cvs', 'cvs pharmacy', 'maine audubon'];
+// List of big box retailers and non-trade places to exclude
+const BIG_BOX_RETAILERS = ['walmart', 'costco', 'bj', 'bjs', 'sams club', 'sam\'s club', 'best buy', 'target', 'cvs', 'cvs pharmacy', 'dollar tree', 'dollar general'];
 
 // List of specific places to exclude (exact matches)
-const EXCLUDED_PLACES = ['Brunswick Farmers Market', 'Brunswick Winter Farmers\' Market'];
+const EXCLUDED_PLACES: string[] = [];
 
-// List of generic grocery chains that should not be considered specialized
-const GENERIC_GROCERY_CHAINS = ['trader joe', 'whole foods', 'hannaford', 'shaw', 'market basket', 'stop & shop', 'kroger', 'publix', 'albertsons', 'safeway', 'giant', 'food lion'];
+// List of generic chains that should not be considered specialized supply houses
+const GENERIC_GROCERY_CHAINS = ['home depot', 'lowes', 'lowe\'s', 'menards', 'ace hardware'];
 
-// Specialty keywords that strongly indicate a specialized market
+// Specialty keywords that strongly indicate a specialized supply house
 const SPECIALTY_INDICATORS = [
-  'specialty', 'artisan', 'gourmet', 'local', 'fresh', 'organic', 'market', 'shop', 'farm', 'stand'
+  'hvac', 'supply', 'mechanical', 'plumbing', 'refrigeration', 'heating', 'cooling', 'controls', 'electrical'
 ];
 
-// Known specialized markets to prioritize
+// Known specialized supply houses to prioritize
 const SPECIALIZED_MARKETS = {
-  'harbor fish': 'seafood',
-  'harbor fish market': 'seafood',
-  'merrill seafood': 'seafood',
-  'pats meat': 'butcher',
-  'pat meat': 'butcher',
-  'pat\'s meat': 'butcher',
-  'pat\'s meat market': 'butcher'
+  'johnstone supply': 'grocery',
+  'ferguson': 'butcher',
+  'f.w. webb': 'butcher',
+  'carrier enterprise': 'seafood',
+  'lennox stores': 'seafood',
+  'trane supply': 'seafood',
+  'grainger': 'produce'
 };
 
 // Search queries for specialty categories
 const SPECIALTY_SEARCH_QUERIES = {
-  'butcher': ['meat market', 'butcher shop'],
-  'seafood': ['seafood market', 'fish market'],
-  'produce': ['produce market', 'fruit stand', 'vegetable market'],
-  'farms': ['farm', 'farmers market', 'farm stand'],
-  'equipment': ['kitchen store', 'cookware shop', 'knife store']
+  'butcher': ['plumbing supply', 'mechanical supply'],
+  'seafood': ['hvac supply', 'heating supply'],
+  'produce': ['tool supply', 'hardware store'],
+  'farms': ['hvac manufacturer', 'hvac distributor'],
+  'equipment': ['refrigerant supply', 'hvac chemical supply']
 };
 
 interface Place {
@@ -118,9 +118,9 @@ const MarketDirectory: React.FC = () => {
         const radius = 24140; // 15 miles in meters
         let allPlaces: Place[] = [];
         
-        // Initial fetch for supermarkets, convenience stores, and bakeries
+        // Initial fetch for hardware stores, plumbers, electricians (supply houses)
         const initialResponse = await fetch(
-          `/.netlify/functions/get-places?lat=${coordinates.lat}&lng=${coordinates.lng}&radius=${radius}&type=supermarket,convenience_store,bakery`
+          `/.netlify/functions/get-places?lat=${coordinates.lat}&lng=${coordinates.lng}&radius=${radius}&type=hardware_store,plumber,electrician`
         );
         
         const initialData = await initialResponse.json();
@@ -131,10 +131,10 @@ const MarketDirectory: React.FC = () => {
         }
         
         if (initialData.status === 'OK' && initialData.results) {
-          // Filter out restaurants and big box retailers
+          // Filter out non-trade places and big box retailers
           const filteredPlaces = initialData.results.filter(
             (place: Place) => 
-              !place.types.some(type => type === 'restaurant' || type === 'meal_takeaway') &&
+              !place.types.some(type => type === 'restaurant' || type === 'meal_takeaway' || type === 'food') &&
               !BIG_BOX_RETAILERS.some(storeName => place.name.toLowerCase().includes(storeName))
           );
           
@@ -230,69 +230,56 @@ const MarketDirectory: React.FC = () => {
         return;
       }
       
-      // Priority categorization for seafood and meat in name - these take precedence over other rules
-      if (nameLower.includes('seafood') || nameLower.includes('fish') || nameLower.includes('shellfish') || nameLower.includes('lobster')) {
-        place.assignedCategory = 'seafood';
+      // Priority categorization for HVAC-specific supply house names
+      if (nameLower.includes('hvac') || nameLower.includes('heating') || nameLower.includes('cooling') || nameLower.includes('air conditioning')) {
+        place.assignedCategory = 'grocery';
         place.isSpecialized = true;
         return;
       }
       
-      if (nameLower.includes('meat') || nameLower.includes('butcher')) {
+      if (nameLower.includes('plumbing') || nameLower.includes('pipe') || nameLower.includes('mechanical')) {
         place.assignedCategory = 'butcher';
         place.isSpecialized = true;
         return;
       }
       
-      // Special handling for bakeries - make sure they're properly categorized
-      if (nameLower.includes('bakery') || nameLower.includes('bakeries') || nameLower.includes('bread') || 
-          nameLower.includes('pastry') || nameLower.includes('cake') || 
-          (place.types && place.types.includes('bakery'))) {
+      // Electrical supply categorization
+      if (nameLower.includes('electrical') || nameLower.includes('controls') || nameLower.includes('automation')) {
         place.assignedCategory = 'bakery';
         place.isSpecialized = true;
         return;
       }
       
-      // Special handling for farms
-      if (nameLower.includes('farm') || nameLower.includes('farmers market')) {
+      // Manufacturer/distributor categorization
+      if (nameLower.includes('manufacturer') || nameLower.includes('factory') || nameLower.includes('warehouse')) {
         place.assignedCategory = 'farms';
         place.isSpecialized = true;
         return;
       }
       
-      // Check if it's a generic grocery chain
+      // Check if it's a generic chain
       const isGenericChain = GENERIC_GROCERY_CHAINS.some(chain => nameLower.includes(chain));
       if (isGenericChain) {
-        // Generic chains always go to grocery and are not specialized
+        // Generic chains go to general supply and are not specialized
         place.assignedCategory = 'grocery';
         place.isSpecialized = false;
         return;
       }
       
-      // First check for known specialized markets we want to explicitly categorize
+      // Check for known specialized supply houses
       for (const [marketName, category] of Object.entries(SPECIALIZED_MARKETS)) {
         if (nameLower.includes(marketName)) {
           place.assignedCategory = category;
           place.isSpecialized = true;
-          return; // Skip further processing for this place
+          return;
         }
       }
       
-      // Special handling for farms - farms are typically specialized
-      if (nameLower.includes('farm')) {
-        if (nameLower.includes('beef') || nameLower.includes('poultry')) {
-          place.assignedCategory = 'butcher';
-          place.isSpecialized = true;
-          return;
-        } else if (nameLower.includes('dairy') || nameLower.includes('milk') || nameLower.includes('cheese')) {
-          place.assignedCategory = 'farms';
-          place.isSpecialized = true;
-          return;
-        } else {
-          // Default farm to farms category if not specified
-          place.assignedCategory = 'farms';
-          place.isSpecialized = true;
-          return;
-        }
+      // Refrigerant/chemical categorization
+      if (nameLower.includes('refrigerant') || nameLower.includes('chemical') || nameLower.includes('gas')) {
+        place.assignedCategory = 'equipment';
+        place.isSpecialized = true;
+        return;
       }
       
       // Check for specialty keywords in each department

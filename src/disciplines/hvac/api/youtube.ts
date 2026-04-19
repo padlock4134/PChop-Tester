@@ -1,27 +1,26 @@
-// YouTube Data API integration for PorkChop tutorial videos
+// YouTube Data API integration for HVAC tutorial videos
 // Requires VITE_YOUTUBE_API_KEY in .env
 
 // Helper to build a more specific YouTube query
-// type can be 'main_ingredient', 'equipment', or 'recipe'
-function buildVideoQuery(recipeTitle: string, item: string, type: 'main_ingredient' | 'equipment' | 'recipe' = 'recipe'): string {
+// type can be 'main_ingredient' (primary component), 'equipment', or 'recipe' (project)
+function buildVideoQuery(projectTitle: string, item: string, type: 'main_ingredient' | 'equipment' | 'recipe' = 'recipe'): string {
   if (type === 'equipment') {
-    // Equipment tutorial: 'Recipe Name with Equipment'
-    return `${recipeTitle} with a ${item}`;
+    // Equipment tutorial: 'Project using Tool'
+    return `HVAC ${projectTitle} using ${item}`;
   }
   if (type === 'main_ingredient') {
-    // Main ingredient prep: 'Main Ingredient for Recipe Name'
-    return `${item} for ${recipeTitle}`;
+    // Primary component tutorial: 'Component for Project'
+    return `HVAC ${item} tutorial ${projectTitle}`;
   }
-  // Default: 'Recipe Name' (possibly with other context)
-  return `${recipeTitle}${item ? ' ' + item : ''}`;
+  // Default: project title with HVAC context
+  return `HVAC ${projectTitle}${item ? ' ' + item : ''} tutorial`;
 }
 
-// Helper to filter out irrelevant results (e.g., "plant pot", "garden")
+// Helper to filter out irrelevant results
 function isRelevantYouTubeResult(result: any, item: string): boolean {
-  const badWords = ['plant', 'garden', 'flower', 'decor', 'ornament'];
+  const badWords = ['cooking', 'recipe', 'food', 'kitchen', 'baking', 'chef'];
   const desc = `${result.snippet.title || ''} ${result.snippet.description || ''}`.toLowerCase();
   if (badWords.some(word => desc.includes(word))) return false;
-  if (item === 'pot' && desc.includes('plant')) return false;
   return true;
 }
 

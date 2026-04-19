@@ -62,82 +62,77 @@ export const WOW_CLASSIC_XP_TABLE = [
   170900, // Level 60
 ];
 
-// Level titles and icons (milestones and in-betweens)
+// Level titles and icons (HVAC career progression)
 export const LEVEL_TITLES_AND_ICONS = [
-  { title: "Dishwasher", icon: "\uD83E\uDDF9" }, // 🧽
-  { title: "Dishwasher II", icon: "\uD83E\uDDF9" },
-  { title: "Dishwasher III", icon: "\uD83E\uDDF9" },
-  { title: "Dishwasher IV", icon: "\uD83E\uDDF9" },
-  { title: "Prep Builder", icon: "\uD83E\uDDC8" }, // 🥄
-  { title: "Prep Builder II", icon: "\uD83E\uDDC8" },
-  { title: "Prep Builder III", icon: "\uD83E\uDDC8" },
-  { title: "Prep Builder IV", icon: "\uD83E\uDDC8" },
-  { title: "Line Builder", icon: "\uD83C\uDF73" }, // 🍳
-  { title: "Line Builder II", icon: "\uD83C\uDF73" },
-  { title: "Line Builder III", icon: "\uD83C\uDF73" },
-  { title: "Line Builder IV", icon: "\uD83C\uDF73" },
-  { title: "Apprentice Builder", icon: "\uD83D\uDD2A" }, // 🔪
-  { title: "Apprentice Builder II", icon: "\uD83D\uDD2A" },
-  { title: "Apprentice Builder III", icon: "\uD83D\uDD2A" },
-  { title: "Team Builder", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" }, // 🧑‍🍳
-  { title: "Team Builder II", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
-  { title: "Team Builder III", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
-  { title: "Specialist Builder", icon: "\uD83C\uDF7D\uFE0F" }, // 🍽️
-  { title: "Specialist Builder II", icon: "\uD83C\uDF7D\uFE0F" },
-  { title: "Specialist Builder III", icon: "\uD83C\uDF7D\uFE0F" },
-  { title: "Pastry Builder", icon: "\uD83E\uDDC1" }, // 🧁
-  { title: "Pastry Builder II", icon: "\uD83E\uDDC1" },
-  { title: "Pastry Builder III", icon: "\uD83E\uDDC1" },
-  { title: "Process Specialist", icon: "\uD83E\uDD63" }, // 🥣
-  { title: "Process Specialist II", icon: "\uD83E\uDD63" },
-  { title: "Process Specialist III", icon: "\uD83E\uDD63" },
-  { title: "Quality Specialist", icon: "\uD83C\uDF77" }, // 🍷
-  { title: "Quality Specialist II", icon: "\uD83C\uDF77" },
-  { title: "Quality Specialist III", icon: "\uD83C\uDF77" },
-  { title: "Field Specialist", icon: "\uD83C\uDF56" }, // 🍖
-  { title: "Field Specialist II", icon: "\uD83C\uDF56" },
-  { title: "Field Specialist III", icon: "\uD83C\uDF56" },
-  { title: "Inventory Specialist", icon: "\uD83E\uDD57" }, // 🥗
-  { title: "Inventory Specialist II", icon: "\uD83E\uDD57" },
-  { title: "Inventory Specialist III", icon: "\uD83E\uDD57" },
-  { title: "Executive Builder", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" }, // 👨‍🍳
-  { title: "Executive Builder II", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
-  { title: "Executive Builder III", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
-  { title: "Head Builder", icon: "\uD83C\uDF93" }, // 🎓
-  { title: "Head Builder II", icon: "\uD83C\uDF93" },
-  { title: "Head Builder III", icon: "\uD83C\uDF93" },
-  { title: "Master Builder", icon: "\uD83C\uDFC5" }, // 🏅
-  { title: "Master Builder II", icon: "\uD83C\uDFC5" },
-  { title: "Master Builder III", icon: "\uD83C\uDFC5" },
-  { title: "Program Director", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" }, // 👨‍💼
-  { title: "Program Director II", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
-  { title: "Program Director III", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
-  { title: "Celebrity Builder", icon: "\u2B50" }, // ⭐
-  { title: "Celebrity Builder II", icon: "\u2B50" },
-  { title: "Celebrity Builder III", icon: "\u2B50" },
-  { title: "Iron Builder", icon: "\uD83E\uDDBE" }, // 🦾
-  { title: "Iron Builder II", icon: "\uD83E\uDDBE" },
-  { title: "Iron Builder III", icon: "\uD83E\uDDBE" },
-  { title: "Legendary Builder", icon: "\uD83D\uDC09" }, // 🐉
-  { title: "Legendary Builder II", icon: "\uD83D\uDC09" },
-  { title: "Legendary Builder III", icon: "\uD83D\uDC09" },
-  { title: "Legendary Builder IV", icon: "\uD83D\uDC09" },
-  { title: "Legendary Builder V", icon: "\uD83D\uDC09" },
-  { title: "Craft Master", icon: "\uD83C\uDF76" }, // 🍶
+  { title: "Filter Changer", icon: "\uD83E\uDDF9" }, // �
+  { title: "Filter Changer II", icon: "\uD83E\uDDF9" },
+  { title: "Filter Changer III", icon: "\uD83E\uDDF9" },
+  { title: "Filter Changer IV", icon: "\uD83E\uDDF9" },
+  { title: "Helper Tech", icon: "\uD83D\uDD27" }, // 🔧
+  { title: "Helper Tech II", icon: "\uD83D\uDD27" },
+  { title: "Helper Tech III", icon: "\uD83D\uDD27" },
+  { title: "Helper Tech IV", icon: "\uD83D\uDD27" },
+  { title: "Apprentice Tech", icon: "\uD83D\uDEE0\uFE0F" }, // 🛠️
+  { title: "Apprentice Tech II", icon: "\uD83D\uDEE0\uFE0F" },
+  { title: "Apprentice Tech III", icon: "\uD83D\uDEE0\uFE0F" },
+  { title: "Apprentice Tech IV", icon: "\uD83D\uDEE0\uFE0F" },
+  { title: "Install Tech", icon: "\u2699\uFE0F" }, // ⚙️
+  { title: "Install Tech II", icon: "\u2699\uFE0F" },
+  { title: "Install Tech III", icon: "\u2699\uFE0F" },
+  { title: "Service Tech", icon: "\u2744\uFE0F" }, // ❄️
+  { title: "Service Tech II", icon: "\u2744\uFE0F" },
+  { title: "Service Tech III", icon: "\u2744\uFE0F" },
+  { title: "Journeyman", icon: "\u26A1" }, // ⚡
+  { title: "Journeyman II", icon: "\u26A1" },
+  { title: "Journeyman III", icon: "\u26A1" },
+  { title: "Refrigeration Tech", icon: "\uD83C\uDF21\uFE0F" }, // 🌡️
+  { title: "Refrigeration Tech II", icon: "\uD83C\uDF21\uFE0F" },
+  { title: "Refrigeration Tech III", icon: "\uD83C\uDF21\uFE0F" },
+  { title: "Controls Tech", icon: "\uD83C\uDF9B\uFE0F" }, // �️
+  { title: "Controls Tech II", icon: "\uD83C\uDF9B\uFE0F" },
+  { title: "Controls Tech III", icon: "\uD83C\uDF9B\uFE0F" },
+  { title: "Lead Tech", icon: "\uD83D\uDCCB" }, // 📋
+  { title: "Lead Tech II", icon: "\uD83D\uDCCB" },
+  { title: "Lead Tech III", icon: "\uD83D\uDCCB" },
+  { title: "Field Supervisor", icon: "\uD83D\uDC77" }, // 👷
+  { title: "Field Supervisor II", icon: "\uD83D\uDC77" },
+  { title: "Field Supervisor III", icon: "\uD83D\uDC77" },
+  { title: "Service Manager", icon: "\uD83D\uDCCA" }, // �
+  { title: "Service Manager II", icon: "\uD83D\uDCCA" },
+  { title: "Service Manager III", icon: "\uD83D\uDCCA" },
+  { title: "System Designer", icon: "\uD83D\uDCD0" }, // 📐
+  { title: "System Designer II", icon: "\uD83D\uDCD0" },
+  { title: "System Designer III", icon: "\uD83D\uDCD0" },
+  { title: "Master Tech", icon: "\uD83C\uDFC5" }, // 🏅
+  { title: "Master Tech II", icon: "\uD83C\uDFC5" },
+  { title: "Master Tech III", icon: "\uD83C\uDFC5" },
+  { title: "Project Engineer", icon: "\uD83C\uDFD7\uFE0F" }, // 🏗️
+  { title: "Project Engineer II", icon: "\uD83C\uDFD7\uFE0F" },
+  { title: "Project Engineer III", icon: "\uD83C\uDFD7\uFE0F" },
+  { title: "Chief Engineer", icon: "\u2B50" }, // ⭐
+  { title: "Chief Engineer II", icon: "\u2B50" },
+  { title: "Chief Engineer III", icon: "\u2B50" },
+  { title: "HVAC Legend", icon: "\uD83E\uDDBE" }, // 🦾
+  { title: "HVAC Legend II", icon: "\uD83E\uDDBE" },
+  { title: "HVAC Legend III", icon: "\uD83E\uDDBE" },
+  { title: "HVAC Legend IV", icon: "\uD83E\uDDBE" },
+  { title: "HVAC Legend V", icon: "\uD83E\uDDBE" },
+  { title: "HVAC Legend VI", icon: "\uD83E\uDDBE" },
+  { title: "Grand Master", icon: "\uD83C\uDFC6" }, // �
 ];
 
-// XP per activity (example)
+// XP per activity
 export const XP_ACTIVITY_TABLE = {
   create_account: 10,
   confirm_email: 5,
   complete_profile: 10,
   complete_weekly_challenge: 40,
-  create_recipe: 15,
-  run_recipe: 20,         // "Cook Me"
-  add_to_cookbook: 5,
-  view_recipe: 2,
-  scan_ingredient: 5,
-  save_recipe: 3,
+  log_service_call: 15,
+  complete_diagnostic: 20,   // "Run Diagnostic"
+  save_spec_sheet: 5,
+  view_spec: 2,
+  scan_component: 5,
+  save_project: 3,
   achieve_streak: 20,
 };
 

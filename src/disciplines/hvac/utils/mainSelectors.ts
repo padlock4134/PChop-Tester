@@ -1,4 +1,4 @@
-// Utility functions for passively identifying main equipment and main ingredient
+// Utility functions for identifying primary tool and primary component from a project
 
 export function getMainEquipment(equipment: string[] = []): string | null {
   return equipment.length > 0 ? equipment[0] : null;

@@ -24,82 +24,68 @@ const TechTalk = () => {
   const [servingSize, setServingSize] = useState(2);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
-  // Chef quotes rotation (52 quotes for weekly rotation)
+  // Trade wisdom quotes rotation (52 quotes for weekly rotation)
   const chefQuotes = [
-    // Julia Child (11 quotes)
-    "Cooking is not about convenience. It's about love, patience, and bringing people together around the table.",
-    "Never apologize for learning your trade.",
-    "A party without cake is just a meeting.",
-    "The secret of mastering a trade is to love the process.",
-    "Learn your trade - try new projects, learn from mistakes, be fearless, and have fun improving.",
-    "You'll never know everything about anything, especially something you love.",
-    "The only bad training day is the one where you stop learning.",
-    "I started late, but consistent practice changed everything.",
-    "Cooking is one of the great pleasures of life.",
-    "Find something you're passionate about and keep tremendously interested in it.",
-    "Life itself is the proper binge.",
+    // Willis Carrier & HVAC Pioneers (11 quotes)
+    "I fish only for edible fish, and hunt only for edible game — even in the laboratory.",
+    "The impossible is often the untried.",
+    "Comfort cooling is not a luxury — it's a productivity multiplier.",
+    "Every system tells a story. Learn to read the gauges and they'll tell you everything.",
+    "The best diagnostic tool is the one between your ears.",
+    "Master the fundamentals. Superheat and subcooling never lie.",
+    "A well-maintained system is a safe system. Never skip the checklist.",
+    "Airflow is king. Without proper airflow, nothing else matters.",
+    "The trades built this country, and they'll carry it into the future.",
+    "Precision in measurement leads to confidence in diagnosis.",
+    "Good refrigeration practice is good environmental practice.",
     
-    // Anthony Bourdain (11 quotes)
-    "Your body is not a temple, it's an amusement park. Enjoy the ride.",
-    "Travel changes you. As you move through this life and this world you change things slightly.",
-    "Skills can be taught. Character you either have or you don't have.",
-    "Good food is very often, even most often, simple food.",
-    "Context and memory play powerful roles in all the truly great meals in one's life.",
-    "I'm not afraid to look like an idiot.",
-    "The way you make an omelet reveals your character.",
-    "Assume the worst. About everybody. But don't let this poisoned outlook affect your job performance.",
-    "Food is everything we are. It's an extension of nationalist feeling, ethnic feeling, your personal history.",
-    "I don't have to agree with you to like you or respect you.",
-    "Poor work happens without pride; craftsmanship starts with ownership and care.",
+    // Trade Wisdom (11 quotes)
+    "The best technicians never stop being students.",
+    "Your reputation is built one service call at a time.",
+    "Safety isn't a priority — it's a prerequisite.",
+    "A clean install is a professional install. Details matter.",
+    "Measure twice, braze once.",
+    "The customer doesn't care how much you know until they know how much you care.",
+    "Troubleshooting is just organized curiosity.",
+    "Every callback is a lesson. Every lesson makes you better.",
+    "The difference between a tech and a great tech is five minutes of thinking before turning a wrench.",
+    "Don't chase symptoms. Find the root cause.",
+    "Your tools are an investment in your future. Treat them that way.",
     
-    // David Chang (10 quotes)
-    "Cooking is an expression of the land where you are and the culture of that place.",
-    "The greatest dishes are very simple.",
-    "I'm grasping with how you do something on a large scale with multiple operations.",
-    "Great work is built by collaborating with people you trust and respect.",
-    "I constantly think about what it means to be Asian-American.",
-    "Rage or fear... It oscillates. Rage I can handle. Fear is the problem.",
-    "Contemporary ramen is totally different than what most Americans think ramen should be.",
-    "I love the masochistic aspect of eating seething, spicy food and being tortured by it.",
-    "We're hoping to succeed; we're okay with failure. We just don't want to land in between.",
-    "I think the basic thing every learner can master is solid process and standards.",
+    // Leadership & Growth (10 quotes)
+    "The skilled trades shortage is an opportunity for those willing to learn.",
+    "A journeyman license is a beginning, not a destination.",
+    "Teach what you know. The trade grows when knowledge is shared.",
+    "Every building you work on becomes part of your legacy.",
+    "Comfort is invisible when it works. That's the mark of excellence.",
+    "The best systems are designed, not assembled.",
+    "Code compliance is the floor, not the ceiling.",
+    "Energy efficiency isn't just green — it's good business.",
+    "A great technician sees what others overlook.",
+    "The fundamentals don't change. Master them first.",
     
-    // Martha Stewart (10 quotes)
-    "Life is too complicated not to be orderly.",
-    "I find that when you have a real interest in life and a curious life, that sleep is not the most important thing.",
-    "I catnap now and then, but I think while I nap, so it's not a waste of time.",
-    "Getting over those times and overcoming those difficulties really makes you appreciate the good times.",
-    "I am always asking myself how I can improve the lives of my customers, my colleagues, my shareholders.",
-    "The ultimate goal is to be an interesting, useful, wholesome person.",
-    "Small repeatable tasks build the discipline needed for big outcomes.",
-    "Without an open-minded mind, you can never be a great success.",
-    "I love the challenge of starting at zero every day and seeing how much I can accomplish.",
-    "Never make a big decision without sleeping on it.",
-    
-    // Emeril Lagasse (10 quotes)
-    "Technical work is more than steps and tools; it's about focus and pride.",
-    "My philosophy is: If you can't have fun, there's no sense in doing it.",
-    "The cool thing about being famous is traveling. I have always wanted to travel across seas.",
-    "I think you've got to keep it simple, keep it fresh. Stay away from all that processed stuff.",
-    "Spice is life. It depends upon what you like... have fun with it. Yes, food is serious, but you should have fun with it.",
-    "I wouldn't ask any of my employees to do anything I wouldn't do. And I work very hard.",
-    "You know, for 300 years it's been kind of the same. There are restaurants in New Orleans that the menu hasn't changed in 125 years.",
-    "I think preparing food and feeding people brings nourishment not only to our bodies but to our spirits.",
-    "We'll be going to the fish market and a farmer's market this afternoon to get what we need to make 13 fish dishes.",
-    "Everyone needs a mentor."
+    // Mentorship & Craft (10 quotes)
+    "An apprentice who asks questions will outpace one who stays silent.",
+    "Your first year in the field teaches more than any textbook.",
+    "The trades offer something rare: visible, tangible results from your own hands.",
+    "Indoor air quality affects every person in every building. That's the weight of what we do.",
+    "A vacuum pump doesn't lie. Neither should your work.",
+    "Preventive maintenance is cheaper than emergency service — every single time.",
+    "The best HVAC techs are part detective, part engineer, part diplomat.",
+    "Commission every system like your family will live with it.",
+    "Respect the refrigerant. Respect the voltage. Respect the craft.",
+    "Everyone needs a mentor. Be one when you can, find one when you need to."
   ];
   
   const chefNames = [
-    // Julia Child (11)
-    "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child",
-    // Anthony Bourdain (11)
-    "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain",
-    // David Chang (10)
-    "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang",
-    // Martha Stewart (10)
-    "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart",
-    // Emeril Lagasse (10)
-    "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse"
+    // Willis Carrier & HVAC Pioneers (11)
+    "Willis Carrier", "Willis Carrier", "Willis Carrier", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom",
+    // Trade Wisdom (11)
+    "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom",
+    // Leadership & Growth (10)
+    "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom",
+    // Mentorship & Craft (10)
+    "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom", "Trade Wisdom"
   ];
   
   // Get current week of year (0-51) to rotate through 52 quotes

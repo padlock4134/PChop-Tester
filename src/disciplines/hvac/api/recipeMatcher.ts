@@ -5,21 +5,20 @@ import { isSessionValid } from './userSession';
 import { fetchNutritionData, getKeyNutrients } from './nutritionService';
 import { KeyNutrients } from '../types/nutrition';
 
-// Define equipment available for each kitchen setup
+// Define equipment available for each workspace setup
 const KITCHEN_EQUIPMENT = {
-  'Dorm Life': ['microwave', 'kettle', 'toaster', 'mini-fridge'],
-  'Minimalist': ['pot', 'pan', 'knife', 'cutting board', 'stove'],
-  'Apartment Kitchen': ['oven', 'stove', 'basic utensils', 'baking sheets'],
-  'Outdoor Grilling': ['grill', 'tongs', 'grill brush', 'meat thermometer'],
-  'Home Chef': ['blender', 'food processor', 'mixer', 'knives', 'oven', 'stove'],
-  'Full Chef\'s Kitchen': ['all equipment']
+  'Van Kit': ['multimeter', 'screwdriver set', 'adjustable wrench', 'flashlight'],
+  'Basic Service': ['multimeter', 'manifold gauges', 'screwdriver set', 'wrench set', 'flashlight'],
+  'Residential Service': ['multimeter', 'manifold gauges', 'vacuum pump', 'recovery machine', 'torch kit', 'hand tools'],
+  'Commercial Service': ['multimeter', 'manifold gauges', 'vacuum pump', 'recovery machine', 'torch kit', 'hand tools', 'megohmmeter', 'combustion analyzer'],
+  'Full Shop': ['all equipment']
 } as const;
 
-// Define equipment associated with each talent tree
+// Define equipment associated with each talent/specialization tree
 const TALENT_TREE_EQUIPMENT = {
-  'Cast Iron Champion': ['cast iron', 'dutch oven', 'skillet'],
-  'Grilling Heavy Weight': ['grill', 'smoker', 'charcoal', 'gas grill'],
-  'Baking Warlock': ['stand mixer', 'baking sheet', 'pastry brush', 'rolling pin']
+  'Climate Systems Master': ['manifold gauges', 'vacuum pump', 'recovery machine', 'torch kit'],
+  'Refrigeration Expert': ['manifold gauges', 'temperature clamps', 'superheat calculator', 'leak detector'],
+  'Airflow Specialist': ['manometer', 'anemometer', 'duct blaster', 'smoke pen']
 } as const;
 
 type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
@@ -267,70 +266,33 @@ async function calculateRecipeNutrition(
   }
 }
 
-// Define ideal nutrition profiles for each health tag
-const HEALTH_TAG_IDEALS = {
-  'Heart Healthy': { saturatedFat: 0, cholesterol: 0, sodium: 0 },
-  'Anti Inflammatory': { omega3: 10, saturatedFat: 0 },
-  'Low Glycemic': { carbs: 30, sugars: 5, fiber: 10 },
-  'Low Cholesterol': { cholesterol: 0, saturatedFat: 0 },
-  'Renal Friendly': { phosphorus: 100, sodium: 500 },
-  'DASH Diet': { sodium: 500, saturatedFat: 0 },
-  'Low Sodium': { sodium: 500 },
-  'High Fiber': { fiber: 10 }
+// HVAC skill tag classification based on project spec metrics
+const SKILL_TAG_THRESHOLDS = {
+  'Safety': { saturatedFat: 0 },        // energy draw awareness
+  'Precision': { sugars: 0 },            // precision requirement
+  'Efficiency': { omega3: 0 },           // system efficiency focus
+  'Quality': { fiber: 0 },              // durability/quality focus
+  'Compliance': { cholesterol: 0 },      // regulatory/maintenance compliance
+  'Diagnostics': { carbs: 0 },           // complexity/diagnostic skill
+  'Documentation': { sodium: 0 },        // cost documentation
+  'Maintenance': { phosphorus: 0 }       // weight/physical maintenance
 };
 
-function getHealthTags(nutrition: KeyNutrients): string[] {
-  console.log('Nutrition data for health tags:', nutrition);
+function getHealthTags(specs: KeyNutrients): string[] {
   const tags: string[] = [];
   
-  const satFat = nutrition.saturatedFat || 0;
-  if (satFat < 5) {
-    console.log(`Qualifies for Heart Healthy: saturatedFat=${satFat} < 5`);
-    tags.push('Heart Healthy');
-  }
-  
-  const omega3 = nutrition.omega3 || 0;
-  if (omega3 > 0.5) {
-    console.log(`Qualifies for Anti Inflammatory: omega3=${omega3} > 0.5`);
-    tags.push('Anti Inflammatory');
-  }
-  
-  const cholesterol = nutrition.cholesterol || 0;
-  if (cholesterol < 100) {
-    console.log(`Qualifies for Low Cholesterol: cholesterol=${cholesterol} < 100`);
-    tags.push('Low Cholesterol');
-  }
-  
-  const phosphorus = nutrition.phosphorus || 0;
-  if (phosphorus < 100) {
-    console.log(`Qualifies for Renal Friendly: phosphorus=${phosphorus} < 100`);
-    tags.push('Renal Friendly');
-  }
-  
-  const sodium = nutrition.sodium || 0;
-  if (sodium < 500) {
-    console.log(`Qualifies for DASH Diet and Low Sodium: sodium=${sodium} < 500`);
-    tags.push('DASH Diet');
-    tags.push('Low Sodium');
-  }
-  
-  if (nutrition.fiber > 10) {
-    console.log(`Qualifies for High Fiber: fiber=${nutrition.fiber} > 10`);
-    tags.push('High Fiber');
-  }
-  
-  const netCarbs = nutrition.carbs - nutrition.fiber;
-  if (netCarbs < 20 && nutrition.sugars < 10) {
-    console.log(`Qualifies for Low Glycemic: netCarbs=${netCarbs} < 20 and sugars=${nutrition.sugars} < 10`);
-    tags.push('Low Glycemic');
-  }
+  // Assign HVAC skill tags based on project spec metrics
+  if ((specs.saturatedFat || 0) > 0) tags.push('Safety');
+  if ((specs.sugars || 0) > 0) tags.push('Precision');
+  if ((specs.omega3 || 0) > 0) tags.push('Efficiency');
+  if ((specs.fiber || 0) > 0) tags.push('Quality');
+  if ((specs.cholesterol || 0) > 0) tags.push('Compliance');
+  if ((specs.carbs || 0) > 2) tags.push('Diagnostics');
   
   if (tags.length === 0) {
-    console.log('No tags qualified, using fallback: Heart Healthy');
-    tags.push('Heart Healthy');
+    tags.push('Safety');
   }
   
-  console.log('Selected health tags:', tags);
   return tags;
 }
 
@@ -494,7 +456,7 @@ Return ONLY the JSON array, no other text.`;
       console.error('Error calculating nutrition:', error);
       return {
         ...recipe,
-        healthTags: ['Heart Healthy']
+        healthTags: ['Safety']
       };
     }
   }));

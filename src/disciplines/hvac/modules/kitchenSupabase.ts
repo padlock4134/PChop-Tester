@@ -1,3 +1,5 @@
+// HVAC Shop inventory persistence (uses shared user_kitchen table for components)
+// kitchen → shop/inventory, ingredient → component/part
 import { supabase } from '../api/supabaseClient';
 import { isSessionValid } from '../api/userSession';
 import { Ingredient } from '../types/shared-types';

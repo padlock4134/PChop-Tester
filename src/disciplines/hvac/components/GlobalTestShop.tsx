@@ -101,82 +101,82 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
     {
       id: '1',
-      hostName: 'Maria Santos',
-      dishName: 'Site Layout Calibration',
-      culture: 'Spanish',
+      hostName: 'Mike Torres',
+      dishName: 'Mini-Split Installation',
+      culture: 'Residential',
       viewers: 47,
       isLive: false,
       isEnded: true,
-      thumbnail: '🥘',
-      description: 'Traditional paella from Valencia with saffron and bomba rice',
-      ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
+      thumbnail: '❄️',
+      description: 'Complete ductless mini-split install — line set routing, flaring, vacuum, and commissioning',
+      ingredients: ['Mini-split unit', 'Line set', 'Flare fittings', 'Mounting bracket', 'Drain line']
     },
     {
       id: '2',
-      hostName: 'Kenji Nakamura',
-      dishName: 'Precision Assembly Practice',
-      culture: 'Japanese',
+      hostName: 'Sarah Chen',
+      dishName: 'Heat Pump Troubleshooting',
+      culture: 'Residential',
       viewers: 23,
       isLive: true,
-      thumbnail: '🍜',
-      description: 'Making ramen noodles from scratch with tonkotsu broth',
-      ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
+      thumbnail: '🔥',
+      description: 'Diagnosing a heat pump stuck in defrost — reversing valve and defrost board testing',
+      ingredients: ['Multimeter', 'Manifold gauges', 'Thermocouple', 'Wiring diagram']
     },
     {
       id: '3',
-      hostName: 'Fatima Al-Zahra',
-      dishName: 'System Fit Verification',
-      culture: 'Lebanese',
+      hostName: 'James Washington',
+      dishName: 'Combustion Analysis',
+      culture: 'Commercial',
       viewers: 35,
       isLive: true,
-      thumbnail: '🧆',
-      description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
-      ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
+      thumbnail: '🔧',
+      description: 'Using a combustion analyzer to tune a commercial gas furnace for peak efficiency',
+      ingredients: ['Combustion analyzer', 'Manometer', 'Temperature probe', 'CO detector']
     },
     {
       id: '4',
-      hostName: 'Jean-Luc Dubois',
-      dishName: 'Blueprint Readthrough Drill',
-      culture: 'French',
+      hostName: 'Lisa Martinez',
+      dishName: 'Brazing Fundamentals',
+      culture: 'Service',
       viewers: 62,
       isLive: true,
-      thumbnail: '🥐',
-      description: 'Mastering the art of laminated dough and butter layers',
-      ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
+      thumbnail: '🔥',
+      description: 'Proper nitrogen purge brazing technique for copper-to-copper and copper-to-brass joints',
+      ingredients: ['Nitrogen regulator', 'Silver brazing alloy', 'Oxy-acetylene torch', 'Flux']
     }
   ]);
   const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
     {
       id: '3',
-      hostName: 'Priya Sharma',
-      dishName: 'Workflow Timing Challenge',
-      culture: 'Indian',
+      hostName: 'David Kim',
+      dishName: 'Duct Static Pressure Testing',
+      culture: 'Residential',
       scheduledTime: '2:00 PM EST',
-      description: 'Layered biryani with aromatic spices and basmati rice'
+      description: 'Hands-on manometer readings and duct system diagnostics'
     },
     {
       id: '4',
       hostName: 'Ahmed Hassan',
-      dishName: 'Quality Control Walkthrough',
-      culture: 'Moroccan',
+      dishName: 'VRF System Commissioning',
+      culture: 'Commercial',
       scheduledTime: '4:30 PM EST',
-      description: 'Advanced troubleshooting walkthrough for a real-world field issue'
+      description: 'Setting up a multi-zone VRF system with branch controller programming'
     },
     {
       id: '5',
       hostName: 'Elena Volkov',
-      dishName: 'Safety Compliance Drill',
-      culture: 'Russian',
+      dishName: 'EPA 608 Study Session',
+      culture: 'Certification',
       scheduledTime: '6:00 PM EST',
-      description: 'Traditional beetroot soup with sour cream and fresh dill'
+      description: 'Group study covering Type I, II, and Universal exam prep questions'
     },
     {
       id: '6',
       hostName: 'Carlos Mendoza',
-      dishName: 'Final Inspection Run',
-      culture: 'Peruvian',
+      dishName: 'Refrigerant Recovery Demo',
+      culture: 'Service',
       scheduledTime: '7:30 PM EST',
-      description: 'Fresh fish cured in lime juice with red onions and aji peppers'
+      description: 'Live push-pull recovery demonstration on a 5-ton rooftop unit'
     }
   ]);
   

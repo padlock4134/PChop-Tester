@@ -191,10 +191,10 @@ const MySpecSheets = () => {
   // Categories for filtering
   const categories = [
     { key: 'All', label: t('mySpecSheets.all') },
-    { key: 'Seafood', label: t('mySpecSheets.seafood') },
-    { key: 'Meat', label: t('mySpecSheets.meat') },
-    { key: 'Vegetarian', label: t('mySpecSheets.vegetarian') },
-    { key: 'Dessert', label: t('mySpecSheets.dessert') }
+    { key: 'Refrigeration', label: t('mySpecSheets.refrigeration', { defaultValue: 'Refrigeration' }) },
+    { key: 'Airflow', label: t('mySpecSheets.airflow', { defaultValue: 'Airflow' }) },
+    { key: 'Electrical', label: t('mySpecSheets.electrical', { defaultValue: 'Electrical' }) },
+    { key: 'Maintenance', label: t('mySpecSheets.maintenance', { defaultValue: 'Maintenance' }) }
   ];
 
   // Handle recipe selection for collections
@@ -253,10 +253,10 @@ const MySpecSheets = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: recipeToShare ? `${recipeToShare.name} Recipe on Porkchop` : 'My Cookbook on Porkchop',
+      title: recipeToShare ? `${recipeToShare.name} Spec Sheet on PorkChop` : 'My Spec Sheets on PorkChop',
       text: recipeToShare 
-        ? `Check out this amazing recipe for ${recipeToShare.name} on Porkchop!` 
-        : 'Check out my digital cookbook on Porkchop! I\'ve been collecting amazing recipes and would love to share them with you.',
+        ? `Check out this HVAC spec sheet for ${recipeToShare.name} on PorkChop!` 
+        : 'Check out my HVAC spec sheet collection on PorkChop! I\'ve been building my reference library and would love to share it with you.',
       url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
     };
 
@@ -312,7 +312,7 @@ const MySpecSheets = () => {
             .from('xp_activity_log')
             .select('id')
             .eq('user_id', user.id)
-            .eq('activity', 'cookbook_share')
+            .eq('activity', 'spec_sheet_share')
             .gte('created_at', `${today}T00:00:00`)
             .lte('created_at', `${today}T23:59:59`)
             .maybeSingle();
@@ -327,7 +327,7 @@ const MySpecSheets = () => {
               {
                 user_id: user.id,
                 xp_awarded: XP_REWARDS.RECIPE_SHARE,
-                activity: 'cookbook_share'
+                activity: 'spec_sheet_share'
               }
             ]);
             
@@ -377,48 +377,51 @@ const MySpecSheets = () => {
     const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('mySpecSheets.all')) return matchesSearch;
     
-    // Simple category detection based on ingredients
+    // Simple category detection based on components/materials
     const ingredients = recipe.ingredients || [];
     const ingredientsJoined = ingredients.join(' ').toLowerCase();
     
-    const hasSeafood = ingredientsJoined.includes('fish') || 
-      ingredientsJoined.includes('salmon') || 
-      ingredientsJoined.includes('tuna') || 
-      ingredientsJoined.includes('cod') || 
-      ingredientsJoined.includes('tilapia') || 
-      ingredientsJoined.includes('shrimp') || 
-      ingredientsJoined.includes('lobster') || 
-      ingredientsJoined.includes('crab') || 
-      ingredientsJoined.includes('oyster') || 
-      ingredientsJoined.includes('clam') || 
-      ingredientsJoined.includes('mussel');
+    const hasRefrigeration = ingredientsJoined.includes('refrigerant') || 
+      ingredientsJoined.includes('compressor') || 
+      ingredientsJoined.includes('condenser') || 
+      ingredientsJoined.includes('evaporator') || 
+      ingredientsJoined.includes('txv') || 
+      ingredientsJoined.includes('superheat') || 
+      ingredientsJoined.includes('subcool') || 
+      ingredientsJoined.includes('line set') || 
+      ingredientsJoined.includes('r-410a') || 
+      ingredientsJoined.includes('r-22');
     
-    const hasMeat = ingredientsJoined.includes('beef') || 
-      ingredientsJoined.includes('chicken') || 
-      ingredientsJoined.includes('pork') || 
-      ingredientsJoined.includes('turkey') || 
-      ingredientsJoined.includes('bacon') || 
-      ingredientsJoined.includes('sausage') || 
-      ingredientsJoined.includes('lamb');
+    const hasAirflow = ingredientsJoined.includes('duct') || 
+      ingredientsJoined.includes('blower') || 
+      ingredientsJoined.includes('damper') || 
+      ingredientsJoined.includes('register') || 
+      ingredientsJoined.includes('grille') || 
+      ingredientsJoined.includes('filter') || 
+      ingredientsJoined.includes('cfm') || 
+      ingredientsJoined.includes('static pressure');
     
-    const hasVegetable = ingredientsJoined.includes('vegetable') || 
-      ingredientsJoined.includes('tomato') || 
-      ingredientsJoined.includes('carrot') || 
-      ingredientsJoined.includes('spinach');
+    const hasElectrical = ingredientsJoined.includes('contactor') || 
+      ingredientsJoined.includes('capacitor') || 
+      ingredientsJoined.includes('transformer') || 
+      ingredientsJoined.includes('relay') || 
+      ingredientsJoined.includes('wire') || 
+      ingredientsJoined.includes('breaker') || 
+      ingredientsJoined.includes('voltage') || 
+      ingredientsJoined.includes('thermostat');
     
-    const hasDessert = ingredientsJoined.includes('sugar') || 
-      ingredientsJoined.includes('chocolate') || 
-      ingredientsJoined.includes('vanilla') || 
-      ingredientsJoined.includes('cream') || 
-      ingredientsJoined.includes('cake') || 
-      ingredientsJoined.includes('cookie') || 
-      ingredientsJoined.includes('pie');
+    const hasMaintenance = ingredientsJoined.includes('coil cleaner') || 
+      ingredientsJoined.includes('lubricant') || 
+      ingredientsJoined.includes('fin comb') || 
+      ingredientsJoined.includes('inspection') || 
+      ingredientsJoined.includes('checklist') || 
+      ingredientsJoined.includes('service');
     
     switch (activeCategory) {
-      case 'Seafood': return hasSeafood && matchesSearch;
-      case 'Meat': return hasMeat && matchesSearch;
-      case 'Vegetarian': return hasVegetable && !hasMeat && !hasSeafood && matchesSearch;
-      case 'Dessert': return hasDessert && matchesSearch;
+      case 'Refrigeration': return hasRefrigeration && matchesSearch;
+      case 'Airflow': return hasAirflow && matchesSearch;
+      case 'Electrical': return hasElectrical && matchesSearch;
+      case 'Maintenance': return hasMaintenance && matchesSearch;
       default: return matchesSearch;
     }
   });
@@ -428,7 +431,7 @@ const MySpecSheets = () => {
       <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">Loading your cookbook...</div>
+          <div className="text-lg font-retro mb-2">Loading your spec sheets...</div>
         </div>
       </div>
     );

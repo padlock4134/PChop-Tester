@@ -1,12 +1,12 @@
 // Centralized logic for sourcing tutorial videos for a task/process.
 
 export function getTaskVideoQuery(taskTitle: string) {
-  return taskTitle ? `how to complete ${taskTitle}` : '';
+  return taskTitle ? `HVAC how to ${taskTitle}` : '';
 }
 
 export function getPrimaryMaterialPrepQuery(primaryMaterial: string, taskTitle: string) {
   return primaryMaterial && taskTitle
-    ? `how to prepare ${primaryMaterial} for ${taskTitle}`
+    ? `HVAC ${primaryMaterial} for ${taskTitle} tutorial`
     : '';
 }
 

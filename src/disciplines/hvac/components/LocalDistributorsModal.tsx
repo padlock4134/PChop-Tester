@@ -47,13 +47,13 @@ const MarketCard: React.FC<MarketCardProps> = ({ market, ingredientsForMarket })
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'grocery': return '🛒';
-      case 'butcher': return '🥩';
-      case 'produce': return '🥦';
-      case 'dairy': return '🥛';
-      case 'deli': return '🥪';
-      case 'farms': return '🚜';
-      case 'seafood': return '🐟';
+      case 'grocery': return '�';
+      case 'butcher': return '🔧';
+      case 'produce': return '�';
+      case 'dairy': return '⚡';
+      case 'deli': return '�';
+      case 'farms': return '🏭';
+      case 'seafood': return '🏪';
       default: return '🏪';
     }
   };
@@ -328,13 +328,13 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
   }, [selectedRecipes]);
 
   const marketCategories = [
-    { key: 'all', label: 'All Markets', icon: '🏪' },
-    { key: 'grocery', label: 'Regional Grocery', icon: '🛒' },
-    { key: 'butcher', label: 'Butcher', icon: '🥩' },
-    { key: 'produce', label: 'Produce', icon: '🥦' },
-    { key: 'dairy', label: 'Dairy', icon: '🥛' },
-    { key: 'deli', label: 'Deli', icon: '🥪' },
-    { key: 'farms', label: 'Farms', icon: '🚜' }
+    { key: 'all', label: 'All Distributors', icon: '🏪' },
+    { key: 'grocery', label: 'General Supply', icon: '�' },
+    { key: 'butcher', label: 'Mechanical Supply', icon: '🔧' },
+    { key: 'produce', label: 'Tools & Install', icon: '�' },
+    { key: 'dairy', label: 'Electrical & Controls', icon: '⚡' },
+    { key: 'deli', label: 'Chemicals & Consumables', icon: '�' },
+    { key: 'farms', label: 'Manufacturer Direct', icon: '🏭' }
   ];
 
   // Get user location when modal opens
@@ -388,16 +388,16 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         const location = new google.maps.LatLng(lat, lng);
         
         const searchQueries = [
-          { query: 'grocery store', type: 'grocery' },
-          { query: 'supermarket', type: 'grocery' },
-          { query: 'butcher shop', type: 'butcher' },
-          { query: 'meat market', type: 'butcher' },
-          { query: 'produce market', type: 'produce' },
-          { query: 'farmers market', type: 'produce' },
-          { query: 'dairy farm', type: 'dairy' },
-          { query: 'deli', type: 'deli' },
-          { query: 'farm stand', type: 'farms' },
-          { query: 'seafood market', type: 'seafood' }
+          { query: 'HVAC supply', type: 'grocery' },
+          { query: 'HVAC wholesale', type: 'grocery' },
+          { query: 'plumbing supply', type: 'butcher' },
+          { query: 'mechanical supply', type: 'butcher' },
+          { query: 'tool supply store', type: 'produce' },
+          { query: 'hardware store', type: 'produce' },
+          { query: 'electrical supply', type: 'dairy' },
+          { query: 'refrigerant supply', type: 'deli' },
+          { query: 'HVAC manufacturer distributor', type: 'farms' },
+          { query: 'heating supply', type: 'seafood' }
         ];
         
         const allMarkets: Market[] = [];
@@ -448,37 +448,37 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         
         setMarkets(uniqueMarkets);
       } else {
-        // Development mode - use mock data for Portland, Maine
+        // Development mode - use mock data for Portland, Maine area
         const mockMarkets: Market[] = [
-          // Grocery stores (3)
-          { name: "Hannaford Supermarket", address: "295 Forest Ave, Portland, ME 04101", distance: 2.1, type: "grocery", rating: 4.3, isOpen: true },
-          { name: "Whole Foods Market", address: "87 Marginal Way, Portland, ME 04101", distance: 2.9, type: "grocery", rating: 4.2, isOpen: true },
-          { name: "Rosemont Market & Bakery", address: "580 Brighton Ave, Portland, ME 04102", distance: 1.8, type: "grocery", rating: 4.5, isOpen: true },
+          // General Supply (3)
+          { name: "Johnstone Supply", address: "295 Warren Ave, Portland, ME 04101", distance: 2.1, type: "grocery", rating: 4.3, isOpen: true },
+          { name: "Ferguson Enterprises", address: "87 Marginal Way, Portland, ME 04101", distance: 2.9, type: "grocery", rating: 4.2, isOpen: true },
+          { name: "R.E. Michel Company", address: "580 Brighton Ave, Portland, ME 04102", distance: 1.8, type: "grocery", rating: 4.5, isOpen: true },
           
-          // Butcher shops (3)
-          { name: "Pat's Meat Market", address: "428 Forest Ave, Portland, ME 04101", distance: 3.1, type: "butcher", rating: 4.6, isOpen: true },
-          { name: "Browne Trading Company", address: "262 Commercial St, Portland, ME 04101", distance: 2.4, type: "butcher", rating: 4.7, isOpen: true },
-          { name: "The Meat House", address: "1012 Brighton Ave, Portland, ME 04102", distance: 3.8, type: "butcher", rating: 4.4, isOpen: false },
+          // Mechanical Supply (3)
+          { name: "Winslow Supply", address: "428 Forest Ave, Portland, ME 04101", distance: 3.1, type: "butcher", rating: 4.6, isOpen: true },
+          { name: "F.W. Webb Company", address: "262 Commercial St, Portland, ME 04101", distance: 2.4, type: "butcher", rating: 4.7, isOpen: true },
+          { name: "Maine Pipe & Supply", address: "1012 Brighton Ave, Portland, ME 04102", distance: 3.8, type: "butcher", rating: 4.4, isOpen: false },
           
-          // Seafood markets (3)
-          { name: "Harbor Fish Market", address: "9 Custom House Wharf, Portland, ME 04101", distance: 2.3, type: "seafood", rating: 4.8, isOpen: true },
-          { name: "Free Range Fish & Lobster", address: "470 Forest Ave, Portland, ME 04101", distance: 2.7, type: "seafood", rating: 4.5, isOpen: true },
-          { name: "Portland Fish Pier", address: "6 Portland Fish Pier, Portland, ME 04101", distance: 3.2, type: "seafood", rating: 4.3, isOpen: true },
+          // Specialty Supply (3)
+          { name: "Carrier Enterprise", address: "9 Industrial Way, Portland, ME 04101", distance: 2.3, type: "seafood", rating: 4.8, isOpen: true },
+          { name: "Lennox Stores", address: "470 Forest Ave, Portland, ME 04101", distance: 2.7, type: "seafood", rating: 4.5, isOpen: true },
+          { name: "Trane Supply", address: "6 Commerce Dr, Portland, ME 04101", distance: 3.2, type: "seafood", rating: 4.3, isOpen: true },
           
-          // Produce markets (3)
-          { name: "Portland Farmers Market", address: "Monument Square, Portland, ME 04101", distance: 1.9, type: "produce", rating: 4.6, isOpen: true },
-          { name: "Deering Oaks Farmers Market", address: "Deering Oaks Park, Portland, ME 04102", distance: 2.8, type: "produce", rating: 4.4, isOpen: false },
-          { name: "Good Shepherd Food Bank", address: "1115 Forest Ave, Portland, ME 04103", distance: 4.1, type: "produce", rating: 4.2, isOpen: true },
+          // Tools & Install (3)
+          { name: "Grainger", address: "Monument Square, Portland, ME 04101", distance: 1.9, type: "produce", rating: 4.6, isOpen: true },
+          { name: "TruTech Tools", address: "Industrial Park, Portland, ME 04102", distance: 2.8, type: "produce", rating: 4.4, isOpen: false },
+          { name: "Home Depot Pro", address: "1115 Forest Ave, Portland, ME 04103", distance: 4.1, type: "produce", rating: 4.2, isOpen: true },
           
-          // Farms (3)
-          { name: "Pineland Farms", address: "15 Farm View Dr, New Gloucester, ME 04260", distance: 12.4, type: "farms", rating: 4.7, isOpen: true },
-          { name: "Wolfe's Neck Farm", address: "184 Burnett Rd, Freeport, ME 04032", distance: 8.9, type: "farms", rating: 4.5, isOpen: true },
-          { name: "Springdale Farm", address: "41 Springdale Rd, Freeport, ME 04032", distance: 8.7, type: "farms", rating: 4.9, isOpen: true },
+          // Manufacturer Direct (3)
+          { name: "Daikin Comfort Technologies", address: "15 Commerce Dr, New Gloucester, ME 04260", distance: 12.4, type: "farms", rating: 4.7, isOpen: true },
+          { name: "Mitsubishi Electric Distributor", address: "184 Industrial Rd, Freeport, ME 04032", distance: 8.9, type: "farms", rating: 4.5, isOpen: true },
+          { name: "Bosch Thermotechnology", address: "41 Springdale Rd, Freeport, ME 04032", distance: 8.7, type: "farms", rating: 4.9, isOpen: true },
           
-          // Specialty stores (3) - delis, bakeries, etc.
-          { name: "Holy Donut", address: "194 Park Ave, Portland, ME 04102", distance: 2.1, type: "deli", rating: 4.4, isOpen: false },
-          { name: "Standard Baking Co.", address: "75 Commercial St, Portland, ME 04101", distance: 2.6, type: "deli", rating: 4.6, isOpen: true },
-          { name: "Micucci Grocery Store", address: "45 India St, Portland, ME 04101", distance: 2.2, type: "deli", rating: 4.8, isOpen: true }
+          // Chemicals & Consumables (3)
+          { name: "National Refrigerants", address: "194 Park Ave, Portland, ME 04102", distance: 2.1, type: "deli", rating: 4.4, isOpen: false },
+          { name: "Nu-Calgon Distributor", address: "75 Commercial St, Portland, ME 04101", distance: 2.6, type: "deli", rating: 4.6, isOpen: true },
+          { name: "A-Gas Refrigerant Supply", address: "45 India St, Portland, ME 04101", distance: 2.2, type: "deli", rating: 4.8, isOpen: true }
         ];
         
         setMarkets(mockMarkets);
@@ -501,61 +501,61 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
       <div className="bg-white p-6 rounded-lg shadow-xl border-4 border-black max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-4">
           <div></div>
-          <h3 className="text-xl font-bold text-maineBlue text-center">Find Local Markets</h3>
+          <h3 className="text-xl font-bold text-maineBlue text-center">Find Local Distributors</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <CategoryCard 
             category="grocery" 
-            title="Grocery" 
-            icon="🛒" 
-            description="Regional grocery stores and supermarkets"
+            title="General Supply" 
+            icon="�" 
+            description="Full-line HVAC supply houses and wholesalers"
             markets={markets.filter(m => m.type === 'grocery')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['grocery']}
           />
           <CategoryCard 
             category="butcher" 
-            title="Butcher" 
-            icon="🥩" 
-            description="Local butcher shops and meat markets"
+            title="Mechanical Supply" 
+            icon="🔧" 
+            description="Plumbing, piping, and mechanical supply distributors"
             markets={markets.filter(m => m.type === 'butcher')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['butcher']}
           />
           <CategoryCard 
             category="seafood" 
-            title="Seafood" 
-            icon="🐟" 
-            description="Fresh seafood markets and fishmongers"
+            title="Specialty Supply" 
+            icon="🏪" 
+            description="Brand-specific distributors and specialty HVAC parts"
             markets={markets.filter(m => m.type === 'seafood')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['seafood']}
           />
           <CategoryCard 
             category="produce" 
-            title="Produce" 
-            icon="🥦" 
-            description="Fresh produce markets and farm stands"
+            title="Tools & Install" 
+            icon="�" 
+            description="Tools, hardware, and installation materials"
             markets={markets.filter(m => m.type === 'produce')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['produce']}
           />
           <CategoryCard 
             category="farms" 
-            title="Farms" 
-            icon="🚜" 
-            description="Local farms and farmers markets"
+            title="Manufacturer Direct" 
+            icon="🏭" 
+            description="OEM manufacturer distributors and direct sales"
             markets={markets.filter(m => m.type === 'farms')}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['farms']}
           />
           <CategoryCard 
             category="specialty" 
-            title="Specialty" 
-            icon="🏦" 
-            description="Delis, bakeries, and specialty food stores"
+            title="Chemicals & Consumables" 
+            icon="🧪" 
+            description="Refrigerants, coil cleaners, sealants, and consumable supplies"
             markets={markets.filter(m => ['deli', 'dairy', 'bakery'].includes(m.type))}
             loading={loading}
             ingredientsForCategory={ingredientsByMarketType['deli'] || ingredientsByMarketType['dairy']}

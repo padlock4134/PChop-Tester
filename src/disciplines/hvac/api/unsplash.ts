@@ -1,23 +1,22 @@
-// Unsplash API integration for PorkChop
+// Unsplash API integration for HVAC image search
 // Requires VITE_UNSPLASH_ACCESS_KEY in .env
 
 // Helper to build a more specific Unsplash query
-function buildImageQuery(recipeTitle: string, item: string, type: 'ingredient' | 'equipment' | 'recipe' = 'recipe'): string {
+function buildImageQuery(projectTitle: string, item: string, type: 'ingredient' | 'equipment' | 'recipe' = 'recipe'): string {
   if (type === 'equipment') {
-    return `${recipeTitle} ${item} cooking`;
+    return `${projectTitle} ${item} HVAC`;
   }
   if (type === 'ingredient') {
-    return `${item} for ${recipeTitle}`;
+    return `${item} HVAC component`;
   }
-  return `${recipeTitle} ${item}`;
+  return `${projectTitle} ${item} HVAC`;
 }
 
-// Helper to filter out irrelevant results (e.g., "plant pot", "garden")
+// Helper to filter out irrelevant results
 function isRelevantUnsplashResult(result: any, item: string): boolean {
-  const badWords = ['plant', 'garden', 'flower', 'decor', 'ornament'];
+  const badWords = ['cooking', 'recipe', 'food', 'kitchen', 'restaurant', 'meal'];
   const desc = `${result.description || ''} ${result.alt_description || ''}`.toLowerCase();
   if (badWords.some(word => desc.includes(word))) return false;
-  if (item === 'pot' && desc.includes('plant')) return false;
   return true;
 }
 

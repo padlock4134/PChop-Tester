@@ -3,13 +3,13 @@ import { supabase } from '../api/supabaseClient';
 // Standard XP rewards
 export const XP_REWARDS = {
   DAILY_LOGIN: 10,
-  RECIPE_SAVE: 20,
-  RECIPE_COMPLETE: 50,
+  SPEC_SAVE: 20,
+  PROJECT_COMPLETE: 50,
   LESSON_COMPLETE: 30,
-  RECIPE_SHARE: 20,
+  PROJECT_SHARE: 20,
   CHALLENGE_COMPLETE: 100,
-  MEAL_PLAN_CREATE: 25,
-  RECIPE_REVIEW: 15,
+  SERVICE_PLAN_CREATE: 25,
+  PROJECT_REVIEW: 15,
   PROFILE_COMPLETE: 20
 } as const;
 
