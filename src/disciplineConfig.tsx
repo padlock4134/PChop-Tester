@@ -100,7 +100,7 @@ export const BASE_DISCIPLINE_CONFIG = {
   },
   machining: {
     key: 'machining',
-    name: 'Machining',
+    name: 'Welding',
     routes: {
       kitchen: '/machining/my-bench',
       cookbook: '/machining/my-specbook',
