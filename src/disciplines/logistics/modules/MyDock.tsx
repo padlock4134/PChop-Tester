@@ -220,8 +220,8 @@ const MyDock = () => {
                   
                   console.log('New items to add:', newItems);
                   if (newItems.length === 0) {
-                    setScanStatus(t('myDock.noNewIngredients'));
-                    alert(t('myDock.noNewIngredients'));
+                    setScanStatus(t('myDock.noNewIngredients', { defaultValue: 'No new items detected.' }));
+                    alert(t('myDock.noNewIngredients', { defaultValue: 'No new items detected.' }));
                   } else {
                     // Check user before saving
                     try {
@@ -248,8 +248,8 @@ const MyDock = () => {
                     try {
                       await saveDock(user?.id!, updatedItems);
                       setDockError(null);
-                      setScanStatus(t('myDock.ingredientsSaved'));
-                      alert(t('myDock.ingredientsSaved'));
+                      setScanStatus(t('myDock.ingredientsSaved', { defaultValue: 'Items saved to inventory!' }));
+                      alert(t('myDock.ingredientsSaved', { defaultValue: 'Items saved to inventory!' }));
                     } catch (err: any) {
                       setDockError(t('myDock.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myDock.failedToSave') + ' ' + (err.message || err.toString()));
@@ -275,7 +275,7 @@ const MyDock = () => {
           onClick={() => document.getElementById('scan-dock-file')?.click()}
           disabled={scanLoading}
         >
-          {scanLoading ? t('myDock.scanning') : t('myDock.scanKitchen')}
+          {scanLoading ? t('myDock.scanning') : t('myDock.scanDock', { defaultValue: 'Scan Dock' })}
         </button>
         <button
           className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black w-full sm:w-auto max-w-xs"
@@ -303,7 +303,7 @@ const MyDock = () => {
             }
           }}
         >
-          {t('myDock.matchRecipes')}
+          {t('myDock.matchRecipes', { defaultValue: 'Match Routes' })}
         </button>
       </div>
 
@@ -341,7 +341,7 @@ const MyDock = () => {
       {/* Digital Inventory Section */}
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
-          <span role="img" aria-label="package">📦</span> {t('myDock.digitalCupboard')}
+          <span role="img" aria-label="package">📦</span> {t('myDock.digitalCupboard', { defaultValue: 'Digital Inventory' })}
         </h3>
         {items.length > 0 && (
           <button
@@ -358,7 +358,7 @@ const MyDock = () => {
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
-          placeholder={t('myDock.searchCupboard')}
+          placeholder={t('myDock.searchCupboard', { defaultValue: 'Search inventory...' })}
           value={filterText}
           onChange={e => setFilterText(e.target.value)}
           style={{ minWidth: 120 }}
@@ -367,7 +367,7 @@ const MyDock = () => {
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
-          placeholder={t('myDock.addAnIngredient')}
+          placeholder={t('myDock.addAnIngredient', { defaultValue: 'Add a cargo item...' })}
           value={input}
           onChange={e => setInput(e.target.value)}
         />
@@ -395,7 +395,7 @@ const MyDock = () => {
           </svg>
         </div>
         {filteredItems.length === 0 ? (
-          <div className="text-gray-500 italic text-center py-8 relative z-10">{t('myDock.noMatchingIngredients')}</div>
+          <div className="text-gray-500 italic text-center py-8 relative z-10">{t('myDock.noMatchingIngredients', { defaultValue: 'No matching items. Add cargo to your inventory!' })}</div>
         ) : (
           <div className="flex flex-col gap-4 relative z-10">
             {[0,1,2,3,4,5].map(shelfIdx => {

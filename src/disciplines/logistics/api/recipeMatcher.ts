@@ -208,9 +208,7 @@ export async function fetchRoutesWithImages({
   // 2. Build the Anthropic prompt with enhanced instructions
   const basePrompt = promptTemplate(numRoutes, items);
   
-  // Get preferences
-  const dietaryPrefs = profile?.dietary || [];
-  const cuisinePrefs = profile?.cuisine || [];
+  // Get dock setup from profile
   const dockSetup = profile?.dock_setup || '';
   
   // Add talent tree equipment preference to prompt
@@ -222,8 +220,6 @@ export async function fetchRoutesWithImages({
 
   const prompt = `${basePrompt}
 
-${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
-${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
 ${userDockSetup ? `Dock setup: ${userDockSetup}` : ''}
 ${talentTreePrompt}
 

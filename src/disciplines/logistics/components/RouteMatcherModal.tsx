@@ -24,19 +24,6 @@ export type RouteCard = {
     image: string;
   }>;
   healthTags?: string[];
-  nutrition?: {
-    carbs: number;
-    sugars: number;
-    fiber: number;
-    protein: number;
-    saturatedFat?: number;
-    sodium?: number;
-    omega3?: number;
-    antioxidants?: number;
-    cholesterol?: number;
-    potassium?: number;
-    phosphorus?: number;
-  };
 };
 
 type Props = {
@@ -125,15 +112,14 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
     navigate('/logistics-school');
   };
 
-  const DIETARY_TAGS = [
-    { key: 'Heart Healthy', label: t('recipeMatcher.heartHealthy') },
-    { key: 'Anti Inflammatory', label: t('recipeMatcher.antiInflammatory') },
-    { key: 'Low Glycemic', label: t('recipeMatcher.lowGlycemic') },
-    { key: 'Low Cholesterol', label: t('recipeMatcher.lowCholesterol') },
-    { key: 'Renal Friendly', label: t('recipeMatcher.renalFriendly') },
-    { key: 'DASH Diet', label: t('recipeMatcher.dashDiet') },
-    { key: 'Low Sodium', label: t('recipeMatcher.lowSodium') },
-    { key: 'High Fiber', label: t('recipeMatcher.highFiber') }
+  const SKILL_TAGS = [
+    { key: 'Safety', label: t('recipeMatcher.safety', { defaultValue: 'Safety' }) },
+    { key: 'DOT Compliance', label: t('recipeMatcher.dotCompliance', { defaultValue: 'DOT Compliance' }) },
+    { key: 'Load Planning', label: t('recipeMatcher.loadPlanning', { defaultValue: 'Load Planning' }) },
+    { key: 'Documentation', label: t('recipeMatcher.documentation', { defaultValue: 'Documentation' }) },
+    { key: 'Freight Class', label: t('recipeMatcher.freightClass', { defaultValue: 'Freight Class' }) },
+    { key: 'Temperature Control', label: t('recipeMatcher.temperatureControl', { defaultValue: 'Temperature Control' }) },
+    { key: 'Hazmat', label: t('recipeMatcher.hazmat', { defaultValue: 'Hazmat' }) }
   ];
 
   return (
@@ -172,7 +158,7 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
                   <img src={routes[currentIdx].image} alt={routes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
-                    {DIETARY_TAGS.map(tag => {
+                    {SKILL_TAGS.map(tag => {
                       const isMatch = routes[currentIdx].healthTags?.includes(tag.key);
                       return (
                         <span 
