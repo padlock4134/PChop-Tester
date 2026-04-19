@@ -8,7 +8,7 @@ const StudentProgressDashboard: React.FC = () => {
   const location = useLocation();
   const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
-  const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
+  const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: 'is demonstrating' });
   
   // Mock student progress data
   // Mock live session data
@@ -17,33 +17,33 @@ const StudentProgressDashboard: React.FC = () => {
       id: '2',
       hostName: 'Kenji Nakamura',
       dishName: 'Precision Pipe Routing',
-      culture: 'Japanese',
+      culture: 'Refrigeration',
       viewers: 23,
-      thumbnail: '🍜'
+      thumbnail: '🔧'
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
       dishName: 'Panel Wiring Calibration',
-      culture: 'Lebanese',
+      culture: 'Electrical',
       viewers: 35,
-      thumbnail: '🧆'
+      thumbnail: '⚡'
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
       dishName: 'Hydronic System Balance',
-      culture: 'French',
+      culture: 'Hydronic',
       viewers: 62,
-      thumbnail: '🥐'
+      thumbnail: '💧'
     },
     {
       id: '5',
       hostName: 'Maria Santos',
       dishName: 'Blueprint Layout Validation',
-      culture: 'Spanish',
+      culture: 'Design',
       viewers: 28,
-      thumbnail: '🥘'
+      thumbnail: '📐'
     }
   ];
 
@@ -449,7 +449,7 @@ const StudentProgressDashboard: React.FC = () => {
                 <p className="text-center text-green-800 font-medium mt-2">{t('dashboard.currentSkillLevel')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
-                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.recipesCompleted')}</h3>
+                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.projectsCompleted', { defaultValue: 'Projects Completed' })}</h3>
                 <p className="text-gray-700">{progressData.skills.projectsCompleted} {t('dashboard.outOf')} {progressData.skills.projectsAttempted} {t('dashboard.attempted')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
