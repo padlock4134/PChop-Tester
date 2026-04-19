@@ -7,15 +7,15 @@ interface TestRunModalProps {
 
 const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const CATEGORIES = [
-    "Vegetable",
-    "Fruit",
-    "Protein",
-    "Dairy",
-    "Grain",
-    "Spice",
-    "Canned/Preserved",
-    "Condiment/Sauce",
-    "Frozen",
+    "Palletized Freight",
+    "Parcels",
+    "Hazmat",
+    "Temperature-Controlled",
+    "Oversized/Heavy",
+    "Documents & BOLs",
+    "PPE & Safety Gear",
+    "Packing Materials",
+    "Fuel & Fluid",
     "Other"
   ];
 
@@ -23,11 +23,11 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [filterText, setFilterText] = useState('');
   const [items, setItems] = useState([
-    { name: 'Chicken Breast', category: 'Protein' },
-    { name: 'Broccoli', category: 'Vegetable' },
-    { name: 'Rice', category: 'Grain' },
-    { name: 'Garlic', category: 'Spice'},
-    { name: 'Cheese', category: 'Dairy'}
+    { name: 'Standard Pallets', category: 'Palletized Freight' },
+    { name: 'Shrink Wrap', category: 'Packing Materials' },
+    { name: 'BOL Forms', category: 'Documents & BOLs' },
+    { name: 'Safety Vest', category: 'PPE & Safety Gear' },
+    { name: 'Barcode Labels', category: 'Documents & BOLs' }
   ]);
   const [scanLoading, setScanLoading] = useState(false);
   const [matcherOpen, setMatcherOpen] = useState(false);
@@ -42,243 +42,127 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const [currentRouteIndex, setCurrentRouteIndex] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
 
-  const allRoutes = [
+  const logisticsRoutes = [
     {
       id: '1',
-      title: 'Avocado Toast',
-      image: '/Preview Images/Avacado Toast.png',
-      items: ['Bread', 'Avocado', 'Salt', 'Pepper', 'Red Pepper Flakes', 'Olive Oil'],
-      instructions: 'Toast bread. Mash avocado with salt, pepper, and a drizzle of olive oil. Spread on toast and sprinkle with red pepper flakes.',
-      equipment: ['Toaster', 'Knife', 'Bowl'],
-      healthTags: ['Heart Healthy', 'High Fiber']
+      title: 'LTL Palletized Shipment',
+      image: '/Preview Images/ltl-palletized-shipment.png',
+      items: ['Standard Pallets', 'Shrink Wrap', 'Strapping', 'BOL Forms'],
+      instructions: 'Verify pallet dimensions and freight class. Wrap and strap each pallet, attach BOL paperwork, and stage for carrier pickup.',
+      equipment: ['Pallet Jack', 'Scale', 'Strapping Tool'],
+      healthTags: ['DOT Compliance', 'Safety', 'Freight Class']
     },
     {
       id: '2',
-      title: 'Baked Salmon',
-      image: '/Preview Images/Baked Salmon.png',
-      items: ['Salmon fillet', 'Lemon', 'Dill', 'Olive Oil', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Preheat oven to 375°F. Place salmon on baking sheet, drizzle with olive oil, and season with salt, pepper, dill, and garlic. Add lemon slices on top. Bake for 12-15 minutes.',
-      equipment: ['Baking Sheet', 'Oven'],
-      healthTags: ['Heart Healthy', 'High in Omega-3']
+      title: 'Cross-Dock Transfer',
+      image: '/Preview Images/cross-dock-transfer.png',
+      items: ['Inbound Manifest', 'Barcode Labels', 'Dock Door Tags'],
+      instructions: 'Scan inbound freight, reconcile against manifest, relabel by outbound lane, and move freight directly to departure staging.',
+      equipment: ['RF Scanner', 'Pallet Jack', 'Dock Leveler'],
+      healthTags: ['Load Planning', 'Documentation']
     },
     {
       id: '3',
-      title: 'Breakfast Burrito',
-      image: '/Preview Images/Breakfast Burrito.png',
-      items: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Bell Peppers', 'Onion', 'Salt', 'Pepper', 'Butter'],
-      instructions: 'Cook sausage, then sauté onions and bell peppers. Scramble eggs with salt and pepper. Warm tortilla and assemble with eggs, sausage, veggies, and cheese.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Hazmat Drum Handling',
+      image: '/Preview Images/hazmat-drum-handling.png',
+      items: ['Hazmat Placards', 'Absorbent Pads', 'Drum Seals', 'BOL Forms'],
+      instructions: 'Confirm UN markings, apply placards, inspect seals, and complete hazmat documentation before loading into designated trailer zone.',
+      equipment: ['Drum Dolly', 'Spill Kit', 'PPE Kit'],
+      healthTags: ['Hazmat', 'Safety', 'DOT Compliance']
     },
     {
       id: '4',
-      title: 'Breakfast Tacos',
-      image: '/Preview Images/Breakfast Tacos.png',
-      items: ['Corn Tortillas', 'Eggs', 'Black Beans', 'Avocado', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Warm tortillas. Scramble eggs with salt and pepper. Heat black beans. Assemble tacos with eggs, beans, avocado, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Mixing Bowl'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Reefer Pre-Trip Setup',
+      image: '/Preview Images/reefer-pre-trip-setup.png',
+      items: ['Temp Logger', 'Reefer Fuel', 'Seal Tags'],
+      instructions: 'Pre-cool trailer to required setpoint, verify logger calibration, and secure seal tags before loading temperature-sensitive freight.',
+      equipment: ['Reefer Unit', 'Thermometer Probe', 'Forklift'],
+      healthTags: ['Temperature Control', 'Documentation']
     },
     {
       id: '5',
-      title: 'Chicken Fajitas',
-      image: '/Preview Images/Chicken Fajitas.png',
-      items: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Tortilla', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Sauté chicken, bell peppers, and onions. Warm tortillas. Assemble fajitas with chicken, veggies, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Parcel Sort and Lane Build',
+      image: '/Preview Images/parcel-sort-lane-build.png',
+      items: ['Parcels', 'Barcode Labels', 'Sorting Totes'],
+      instructions: 'Scan each parcel, assign to route lane, and build outbound totes by delivery zone while flagging exception codes.',
+      equipment: ['Scanner', 'Conveyor', 'Rolling Cart'],
+      healthTags: ['Load Planning', 'Documentation']
     },
     {
       id: '6',
-      title: 'Chicken Quesadillas',
-      image: '/Preview Images/Chicken Quesadillas.png',
-      items: ['Chicken Breast', 'Tortilla', 'Cheese', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Shred chicken and mix with cheese. Place mixture on tortilla and top with another tortilla. Cook in skillet until cheese is melted and tortillas are crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Flatbed Securement Check',
+      image: '/Preview Images/flatbed-securement-check.png',
+      items: ['Ratchet Straps', 'Corner Protectors', 'Load Bars'],
+      instructions: 'Distribute weight across axles, apply tie-downs at required intervals, and record securement inspection in dispatch notes.',
+      equipment: ['Forklift', 'Strap Winder', 'Load Gauge'],
+      healthTags: ['Safety', 'DOT Compliance', 'Load Planning']
     },
     {
       id: '7',
-      title: 'Chicken and Rice Bowls',
-      image: '/Preview Images/Chicken and Rice Bowls.png',
-      items: ['Chicken Breast', 'Rice', 'Vegetable Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with vegetable oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Warehouse Putaway Cycle',
+      image: '/Preview Images/warehouse-putaway-cycle.png',
+      items: ['Inbound Pallets', 'Rack Labels', 'Bin Map'],
+      instructions: 'Receive scans at dock, validate SKU and quantity, then put away inventory to mapped bin locations for replenishment accuracy.',
+      equipment: ['Reach Truck', 'RF Scanner', 'Safety Harness'],
+      healthTags: ['Documentation', 'Safety']
     },
     {
       id: '8',
-      title: 'Chicken and Vegetable Kabobs',
-      image: '/Preview Images/Chicken and Vegetable Kabobs.png',
-      items: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Zucchini', 'Cherry Tomatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Alternate chicken and vegetables on skewers. Brush with olive oil and season with salt and pepper. Grill or bake until cooked through.',
-      equipment: ['Grill', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Outbound Wave Picking',
+      image: '/Preview Images/outbound-wave-picking.png',
+      items: ['Pick List', 'Shipping Cartons', 'Packing Slip'],
+      instructions: 'Release wave by cut-off time, pick by optimized path, verify quantities, and pack with slips for outbound dock handoff.',
+      equipment: ['Cart', 'Scanner', 'Label Printer'],
+      healthTags: ['Load Planning', 'Documentation']
     },
     {
       id: '9',
-      title: 'Chickpea and Avocado Salad',
-      image: '/Preview Images/Chickpea and Avocado Salad.png',
-      items: ['Chickpeas', 'Avocado', 'Red Onion', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Mash avocado and mix with chickpeas, red onion, and cilantro. Squeeze lime on top and season with salt and pepper.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Fuel and Fluid Audit',
+      image: '/Preview Images/fuel-fluid-audit.png',
+      items: ['DEF Fluid', 'Fuel Receipts', 'Inspection Log'],
+      instructions: 'Validate fuel levels and DEF inventory, reconcile receipts, and log variances for fleet maintenance follow-up.',
+      equipment: ['Fleet Tablet', 'Dip Gauge', 'Safety Gloves'],
+      healthTags: ['Safety', 'Documentation']
     },
     {
       id: '10',
-      title: 'Classic Beef Burger',
-      image: '/Preview Images/Classic Beef Burger.png',
-      items: ['Ground Beef', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Ketchup', 'Mayonnaise', 'Mustard'],
-      instructions: 'Grill or pan-fry burger. Assemble with lettuce, tomato, cheese, ketchup, mayonnaise, and mustard.',
-      equipment: ['Grill', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'BOL Documentation Packet',
+      image: '/Preview Images/bol-documentation-packet.png',
+      items: ['BOL Forms', 'POD Sheets', 'Carrier Rate Confirmation'],
+      instructions: 'Assemble shipping packet, validate shipper/consignee details, and confirm signatures before trailer release.',
+      equipment: ['Printer', 'Clipboards', 'Scanner'],
+      healthTags: ['Documentation', 'Freight Class']
     },
     {
       id: '11',
-      title: 'Garlic Butter Chicken with Rice',
-      image: '/Preview Images/Garlic Butter Chicken with Rice.png',
-      items: ['Chicken Breast', 'Rice', 'Butter', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with butter and garlic. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
+      title: 'Yard Check-In and Dock Assignment',
+      image: '/Preview Images/yard-checkin-dock-assignment.png',
+      items: ['Driver IDs', 'Gate Passes', 'Dock Schedule'],
+      instructions: 'Check driver credentials at gate, assign dock doors by load priority, and update yard board for live visibility.',
+      equipment: ['Yard Management Tablet', 'Radio', 'Dock Light System'],
+      healthTags: ['Load Planning', 'Safety']
     },
     {
       id: '12',
-      title: 'Greek Salad',
-      image: '/Preview Images/Greek Salad.png',
-      items: ['Lettuce', 'Tomato', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Olives', 'Greek Vinaigrette'],
-      instructions: 'Combine lettuce, tomato, cucumber, red onion, feta cheese, and olives in bowl. Drizzle with Greek vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '13',
-      title: 'Grilled Cheese',
-      image: '/Preview Images/Grilled Cheese.png',
-      items: ['Bread', 'Cheese', 'Butter'],
-      instructions: 'Butter bread and place cheese in between. Grill in skillet until cheese is melted and bread is crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Calcium']
-    },
-    {
-      id: '14',
-      title: 'Lemon Garlic Chicken with Roasted Broccoli',
-      image: '/Preview Images/Lemon Garlic Chicken with Roasted Broccoli.png',
-      items: ['Chicken Breast', 'Broccoli', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and broccoli in skillet with lemon, garlic, and olive oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '15',
-      title: 'Lemon Herb Roasted Chicken',
-      image: '/Preview Images/Lemon Herb Roasted Chicken.png',
-      items: ['Chicken Breast', 'Lemon', 'Herbs', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Rub chicken with lemon, herbs, and olive oil. Season with salt and pepper. Roast in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '16',
-      title: 'Lentil Soup',
-      image: '/Preview Images/Lentil Soup.png',
-      items: ['Lentils', 'Vegetable Broth', 'Onion', 'Carrot', 'Celery', 'Tomato', 'Cumin', 'Paprika'],
-      instructions: 'Saute onion, carrot, and celery in pot. Add lentils, vegetable broth, tomato, cumin, and paprika. Simmer until lentils are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '17',
-      title: 'Pasta Carbonara',
-      image: '/Preview Images/Pasta Carbonara.png',
-      items: ['Pasta', 'Bacon', 'Eggs', 'Parmesan Cheese', 'Black Pepper'],
-      instructions: 'Cook pasta in pot. Whisk eggs, parmesan cheese, and black pepper in bowl. Add cooked bacon to bowl and mix. Combine with cooked pasta.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '18',
-      title: 'Quinoa Salad Bowl',
-      image: '/Preview Images/Quinoa Salad Bowl.png',
-      items: ['Quinoa', 'Mixed Greens', 'Cherry Tomatoes', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Lemon Vinaigrette'],
-      instructions: 'Combine quinoa, mixed greens, cherry tomatoes, cucumber, red onion, and feta cheese in bowl. Drizzle with lemon vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '19',
-      title: 'Roasted Brussel Sprouts',
-      image: '/Preview Images/Roasted Brussel Sprouts.png',
-      items: ['Brussel Sprouts', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss brussel sprouts with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '20',
-      title: 'Roasted Sweet Potatoes',
-      image: '/Preview Images/Roasted Sweet Potatoes.png',
-      items: ['Sweet Potatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss sweet potatoes with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '21',
-      title: 'Spaghetti Squash with Meat Sauce',
-      image: '/Preview Images/Spaghetti Squash with Meat Sauce.png',
-      items: ['Spaghetti Squash', 'Ground Beef', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook spaghetti squash in oven. Cook ground beef and tomato sauce in skillet. Combine with cooked spaghetti squash.',
-      equipment: ['Oven', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '22',
-      title: 'Spinach and Feta Stuffed Chicken',
-      image: '/Preview Images/Spinach and Feta Stuffed Chicken.png',
-      items: ['Chicken Breast', 'Spinach', 'Feta Cheese', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Stuff chicken breast with spinach, feta cheese, and garlic. Drizzle with olive oil and season with salt and pepper. Bake in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '23',
-      title: 'Vegetable Curry',
-      image: '/Preview Images/Vegetable Curry.png',
-      items: ['Mixed Vegetables', 'Coconut Milk', 'Curry Powder', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in pot. Add coconut milk, curry powder, and olive oil. Simmer until vegetables are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '24',
-      title: 'Vegetable Stir Fry',
-      image: '/Preview Images/Vegetable Stir Fry.png',
-      items: ['Mixed Vegetables', 'Olive Oil', 'Soy Sauce', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in skillet with olive oil and soy sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '25',
-      title: 'Zucchini Noodles with Tomato Sauce',
-      image: '/Preview Images/Zucchini Noodles with Tomato Sauce.png',
-      items: ['Zucchini', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute zucchini noodles in skillet with olive oil and tomato sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
+      title: 'Return Freight Processing',
+      image: '/Preview Images/return-freight-processing.png',
+      items: ['Return Labels', 'Inspection Checklist', 'Disposition Form'],
+      instructions: 'Receive return freight, inspect condition, classify disposition, and route to restock, repair, or recycle areas.',
+      equipment: ['Inspection Bench', 'Scanner', 'Pallet Jack'],
+      healthTags: ['Documentation', 'Safety']
     }
   ];
 
+  const allRoutes = [...logisticsRoutes];
+
   const DIETARY_TAGS = [
-    'Heart Healthy',
-    'Anti Inflammatory',
-    'Low Glycemic',
-    'Low Cholesterol',
-    'Renal Friendly',
-    'DASH Diet',
-    'Low Sodium',
-    'High Fiber'
+    'Safety',
+    'DOT Compliance',
+    'Load Planning',
+    'Documentation',
+    'Freight Class',
+    'Temperature Control',
+    'Hazmat'
   ];
 
   const findMatchingRoutes = (userItems: string[]) => {
@@ -306,7 +190,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   const handleRouteMatcherOpen = () => {
     // Only show if user has added items
     if (items.length === 0) {
-      alert('Please add some ingredients to your cupboard first!');
+      alert('Please add some logistics items to your dock inventory first!');
       return;
     }
     
@@ -348,260 +232,21 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   );
 
   const routeImages = [
-    'Avacado Toast.png',
-    'Baked Salmon.png',
-    'Breakfast Burrito.png',
-    'Breakfast Tacos.png',
-    'Chicken Fajitas.png',
-    'Chicken Feta Phyllo Triangles.png',
-    'Chicken Quesadillas.png',
-    'Chicken and Rice Bowls.png',
-    'Chicken and Vegetable Kabobs.png',
-    'Chickpea and Avocado Salad.png',
-    'Classic Beef Burger.png',
-    'Garlic Butter Chicken with Rice.png',
-    'Greek Salad.png',
-    'Grilled Cheese.png',
-    'Lemon Garlic Chicken with Roasted Broccoli.png',
-    'Lemon Herb Roasted Chicken.png',
-    'Lentil Soup.png',
-    'Pasta Carbonara.png',
-    'Quinoa Salad Bowl.png',
-    'Roasted Brussel Sprouts.png',
-    'Roasted Sweet Potatoes.png',
-    'Spaghetti Squash with Meat Sauce.png',
-    'Spinach and Feta Stuffed Chicken.png',
-    'Vegetable Curry.png',
-    'Vegetable Stir Fry.png'
+    'ltl-palletized-shipment.png',
+    'cross-dock-transfer.png',
+    'hazmat-drum-handling.png',
+    'reefer-pre-trip-setup.png',
+    'parcel-sort-lane-build.png',
+    'flatbed-securement-check.png',
+    'warehouse-putaway-cycle.png',
+    'outbound-wave-picking.png',
+    'fuel-fluid-audit.png',
+    'bol-documentation-packet.png',
+    'yard-checkin-dock-assignment.png',
+    'return-freight-processing.png'
   ];
 
-  const sampleRoutes = [
-    {
-      id: '1',
-      title: 'Avocado Toast',
-      image: '/Preview Images/Avacado Toast.png',
-      items: ['Bread', 'Avocado', 'Salt', 'Pepper', 'Red Pepper Flakes', 'Olive Oil'],
-      instructions: 'Toast bread. Mash avocado with salt, pepper, and a drizzle of olive oil. Spread on toast and sprinkle with red pepper flakes.',
-      equipment: ['Toaster', 'Knife', 'Bowl'],
-      healthTags: ['Heart Healthy', 'High Fiber']
-    },
-    {
-      id: '2',
-      title: 'Baked Salmon',
-      image: '/Preview Images/Baked Salmon.png',
-      items: ['Salmon fillet', 'Lemon', 'Dill', 'Olive Oil', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Preheat oven to 375°F. Place salmon on baking sheet, drizzle with olive oil, and season with salt, pepper, dill, and garlic. Add lemon slices on top. Bake for 12-15 minutes.',
-      equipment: ['Baking Sheet', 'Oven'],
-      healthTags: ['Heart Healthy', 'High in Omega-3']
-    },
-    {
-      id: '3',
-      title: 'Breakfast Burrito',
-      image: '/Preview Images/Breakfast Burrito.png',
-      items: ['Tortilla', 'Eggs', 'Cheese', 'Sausage', 'Bell Peppers', 'Onion', 'Salt', 'Pepper', 'Butter'],
-      instructions: 'Cook sausage, then sauté onions and bell peppers. Scramble eggs with salt and pepper. Warm tortilla and assemble with eggs, sausage, veggies, and cheese.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '4',
-      title: 'Breakfast Tacos',
-      image: '/Preview Images/Breakfast Tacos.png',
-      items: ['Corn Tortillas', 'Eggs', 'Black Beans', 'Avocado', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Warm tortillas. Scramble eggs with salt and pepper. Heat black beans. Assemble tacos with eggs, beans, avocado, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Mixing Bowl'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '5',
-      title: 'Chicken Fajitas',
-      image: '/Preview Images/Chicken Fajitas.png',
-      items: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Tortilla', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Sauté chicken, bell peppers, and onions. Warm tortillas. Assemble fajitas with chicken, veggies, salsa, and cilantro. Squeeze lime on top.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '6',
-      title: 'Chicken Quesadillas',
-      image: '/Preview Images/Chicken Quesadillas.png',
-      items: ['Chicken Breast', 'Tortilla', 'Cheese', 'Salsa', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Shred chicken and mix with cheese. Place mixture on tortilla and top with another tortilla. Cook in skillet until cheese is melted and tortillas are crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '7',
-      title: 'Chicken and Rice Bowls',
-      image: '/Preview Images/Chicken and Rice Bowls.png',
-      items: ['Chicken Breast', 'Rice', 'Vegetable Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with vegetable oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '8',
-      title: 'Chicken and Vegetable Kabobs',
-      image: '/Preview Images/Chicken and Vegetable Kabobs.png',
-      items: ['Chicken Breast', 'Bell Peppers', 'Onion', 'Zucchini', 'Cherry Tomatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Alternate chicken and vegetables on skewers. Brush with olive oil and season with salt and pepper. Grill or bake until cooked through.',
-      equipment: ['Grill', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '9',
-      title: 'Chickpea and Avocado Salad',
-      image: '/Preview Images/Chickpea and Avocado Salad.png',
-      items: ['Chickpeas', 'Avocado', 'Red Onion', 'Cilantro', 'Lime', 'Salt', 'Pepper'],
-      instructions: 'Mash avocado and mix with chickpeas, red onion, and cilantro. Squeeze lime on top and season with salt and pepper.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '10',
-      title: 'Classic Beef Burger',
-      image: '/Preview Images/Classic Beef Burger.png',
-      items: ['Ground Beef', 'Bun', 'Lettuce', 'Tomato', 'Cheese', 'Ketchup', 'Mayonnaise', 'Mustard'],
-      instructions: 'Grill or pan-fry burger. Assemble with lettuce, tomato, cheese, ketchup, mayonnaise, and mustard.',
-      equipment: ['Grill', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '11',
-      title: 'Garlic Butter Chicken with Rice',
-      image: '/Preview Images/Garlic Butter Chicken with Rice.png',
-      items: ['Chicken Breast', 'Rice', 'Butter', 'Garlic', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and rice in skillet with butter and garlic. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '12',
-      title: 'Greek Salad',
-      image: '/Preview Images/Greek Salad.png',
-      items: ['Lettuce', 'Tomato', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Olives', 'Greek Vinaigrette'],
-      instructions: 'Combine lettuce, tomato, cucumber, red onion, feta cheese, and olives in bowl. Drizzle with Greek vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '13',
-      title: 'Grilled Cheese',
-      image: '/Preview Images/Grilled Cheese.png',
-      items: ['Bread', 'Cheese', 'Butter'],
-      instructions: 'Butter bread and place cheese in between. Grill in skillet until cheese is melted and bread is crispy.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Calcium']
-    },
-    {
-      id: '14',
-      title: 'Lemon Garlic Chicken with Roasted Broccoli',
-      image: '/Preview Images/Lemon Garlic Chicken with Roasted Broccoli.png',
-      items: ['Chicken Breast', 'Broccoli', 'Lemon', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook chicken and broccoli in skillet with lemon, garlic, and olive oil. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '15',
-      title: 'Lemon Herb Roasted Chicken',
-      image: '/Preview Images/Lemon Herb Roasted Chicken.png',
-      items: ['Chicken Breast', 'Lemon', 'Herbs', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Rub chicken with lemon, herbs, and olive oil. Season with salt and pepper. Roast in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '16',
-      title: 'Lentil Soup',
-      image: '/Preview Images/Lentil Soup.png',
-      items: ['Lentils', 'Vegetable Broth', 'Onion', 'Carrot', 'Celery', 'Tomato', 'Cumin', 'Paprika'],
-      instructions: 'Saute onion, carrot, and celery in pot. Add lentils, vegetable broth, tomato, cumin, and paprika. Simmer until lentils are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '17',
-      title: 'Pasta Carbonara',
-      image: '/Preview Images/Pasta Carbonara.png',
-      items: ['Pasta', 'Bacon', 'Eggs', 'Parmesan Cheese', 'Black Pepper'],
-      instructions: 'Cook pasta in pot. Whisk eggs, parmesan cheese, and black pepper in bowl. Add cooked bacon to bowl and mix. Combine with cooked pasta.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '18',
-      title: 'Quinoa Salad Bowl',
-      image: '/Preview Images/Quinoa Salad Bowl.png',
-      items: ['Quinoa', 'Mixed Greens', 'Cherry Tomatoes', 'Cucumber', 'Red Onion', 'Feta Cheese', 'Lemon Vinaigrette'],
-      instructions: 'Combine quinoa, mixed greens, cherry tomatoes, cucumber, red onion, and feta cheese in bowl. Drizzle with lemon vinaigrette.',
-      equipment: ['Mixing Bowl', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '19',
-      title: 'Roasted Brussel Sprouts',
-      image: '/Preview Images/Roasted Brussel Sprouts.png',
-      items: ['Brussel Sprouts', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss brussel sprouts with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '20',
-      title: 'Roasted Sweet Potatoes',
-      image: '/Preview Images/Roasted Sweet Potatoes.png',
-      items: ['Sweet Potatoes', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Toss sweet potatoes with olive oil, salt, and pepper. Roast in oven until tender and caramelized.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '21',
-      title: 'Spaghetti Squash with Meat Sauce',
-      image: '/Preview Images/Spaghetti Squash with Meat Sauce.png',
-      items: ['Spaghetti Squash', 'Ground Beef', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Cook spaghetti squash in oven. Cook ground beef and tomato sauce in skillet. Combine with cooked spaghetti squash.',
-      equipment: ['Oven', 'Skillet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '22',
-      title: 'Spinach and Feta Stuffed Chicken',
-      image: '/Preview Images/Spinach and Feta Stuffed Chicken.png',
-      items: ['Chicken Breast', 'Spinach', 'Feta Cheese', 'Garlic', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Stuff chicken breast with spinach, feta cheese, and garlic. Drizzle with olive oil and season with salt and pepper. Bake in oven until cooked through.',
-      equipment: ['Oven', 'Baking Sheet'],
-      healthTags: ['High Protein', 'Low Glycemic']
-    },
-    {
-      id: '23',
-      title: 'Vegetable Curry',
-      image: '/Preview Images/Vegetable Curry.png',
-      items: ['Mixed Vegetables', 'Coconut Milk', 'Curry Powder', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in pot. Add coconut milk, curry powder, and olive oil. Simmer until vegetables are tender.',
-      equipment: ['Pot', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '24',
-      title: 'Vegetable Stir Fry',
-      image: '/Preview Images/Vegetable Stir Fry.png',
-      items: ['Mixed Vegetables', 'Olive Oil', 'Soy Sauce', 'Salt', 'Pepper'],
-      instructions: 'Saute mixed vegetables in skillet with olive oil and soy sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    },
-    {
-      id: '25',
-      title: 'Zucchini Noodles with Tomato Sauce',
-      image: '/Preview Images/Zucchini Noodles with Tomato Sauce.png',
-      items: ['Zucchini', 'Tomato Sauce', 'Olive Oil', 'Salt', 'Pepper'],
-      instructions: 'Saute zucchini noodles in skillet with olive oil and tomato sauce. Season with salt and pepper.',
-      equipment: ['Skillet', 'Spatula'],
-      healthTags: ['Vegetarian', 'High Fiber', 'Heart Healthy']
-    }
-  ];
+  const sampleRoutes = [...logisticsRoutes];
 
   if (!isOpen) return null;
 

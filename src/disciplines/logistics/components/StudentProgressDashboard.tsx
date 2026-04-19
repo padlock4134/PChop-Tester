@@ -8,7 +8,7 @@ const StudentProgressDashboard: React.FC = () => {
   const location = useLocation();
   const discipline = location.pathname.split('/').filter(Boolean)[0] || 'logistics';
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
-  const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
+  const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: 'is demonstrating' });
   
   // Mock student progress data
   // Mock live session data
@@ -449,7 +449,7 @@ const StudentProgressDashboard: React.FC = () => {
                 <p className="text-center text-green-800 font-medium mt-2">{t('dashboard.currentSkillLevel')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
-                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.recipesCompleted')}</h3>
+                <h3 className="font-bold text-green-800 mb-2">{t('dashboard.routesCompleted', { defaultValue: 'Routes Completed' })}</h3>
                 <p className="text-gray-700">{progressData.skills.routesCompleted} {t('dashboard.outOf')} {progressData.skills.routesAttempted} {t('dashboard.attempted')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">

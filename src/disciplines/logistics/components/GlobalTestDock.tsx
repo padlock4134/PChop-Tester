@@ -103,7 +103,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       id: '1',
       hostName: 'Maria Santos',
       dishName: 'Site Layout Calibration',
-      culture: 'Spanish',
+      culture: 'Truckload',
       viewers: 47,
       isLive: false,
       isEnded: true,
@@ -115,7 +115,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       id: '2',
       hostName: 'Kenji Nakamura',
       dishName: 'Precision Assembly Practice',
-      culture: 'Japanese',
+      culture: 'Warehousing',
       viewers: 23,
       isLive: true,
       thumbnail: '🔧',
@@ -126,7 +126,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       id: '3',
       hostName: 'Fatima Al-Zahra',
       dishName: 'System Fit Verification',
-      culture: 'Lebanese',
+      culture: 'Cold Chain',
       viewers: 35,
       isLive: true,
       thumbnail: '✅',
@@ -137,7 +137,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       id: '4',
       hostName: 'Jean-Luc Dubois',
       dishName: 'Blueprint Readthrough Drill',
-      culture: 'French',
+      culture: 'Compliance',
       viewers: 62,
       isLive: true,
       thumbnail: '📋',
@@ -150,7 +150,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       id: '3',
       hostName: 'Priya Sharma',
       dishName: 'Workflow Timing Challenge',
-      culture: 'Indian',
+      culture: 'Intermodal',
       scheduledTime: '2:00 PM EST',
       description: 'Timed workflow drill for multi-step packing and staging operations'
     },
@@ -158,7 +158,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       id: '4',
       hostName: 'Ahmed Hassan',
       dishName: 'Quality Control Walkthrough',
-      culture: 'Moroccan',
+      culture: 'Hazmat',
       scheduledTime: '4:30 PM EST',
       description: 'Advanced troubleshooting walkthrough for a real-world field issue'
     },
@@ -166,7 +166,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       id: '5',
       hostName: 'Elena Volkov',
       dishName: 'Safety Compliance Drill',
-      culture: 'Russian',
+      culture: 'Last Mile',
       scheduledTime: '6:00 PM EST',
       description: 'OSHA-focused safety compliance drill covering PPE and lockout/tagout'
     },
@@ -174,7 +174,7 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
       id: '6',
       hostName: 'Carlos Mendoza',
       dishName: 'Final Inspection Run',
-      culture: 'Peruvian',
+      culture: 'Fleet Management',
       scheduledTime: '7:30 PM EST',
       description: 'Final walkthrough inspection of a completed shipment before dispatch'
     }
@@ -1053,7 +1053,7 @@ END:VCALENDAR`;
                     </h2>
                     {isViewer && currentLiveSession && (
                       <p className="text-sm sm:text-base mt-1">
-                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Track
+                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Specialty
                       </p>
                     )}
                   </div>
@@ -1317,7 +1317,7 @@ END:VCALENDAR`;
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cuisine Type
+                    Focus Area
                   </label>
                   <select 
                     value={videoCuisine}
@@ -1325,7 +1325,7 @@ END:VCALENDAR`;
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   >
-                    <option value="">Select cuisine type</option>
+                    <option value="">Select focus area</option>
                     <option value="Diagnostics">Diagnostics</option>
                     <option value="Safety">Safety</option>
                     <option value="Installation">Installation</option>

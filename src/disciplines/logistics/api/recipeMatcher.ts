@@ -2,8 +2,6 @@ import { ExperienceLevel, DEFAULT_EXPERIENCE_LEVEL } from '../types/userPreferen
 import { getUserPreferences } from './userPreferences';
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
-import { fetchNutritionData, getKeyNutrients } from './nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 
 // Define equipment available for each dock setup
 const DOCK_EQUIPMENT = {
@@ -160,131 +158,35 @@ export interface RouteMatchOptions {
   talentTree?: string | null;
 }
 
-// Helper to estimate route nutrition
-async function calculateRouteNutrition(
-  items: string[]
-): Promise<KeyNutrients> {
-  console.log('Calculating nutrition for items:', items);
-  
-  try {
-    const nutritionData = await Promise.all(
-      items.map(item => fetchNutritionData(item))
-    );
-    
-    console.log('Nutrition data:', nutritionData);
-    
-    const totalNutrition: KeyNutrients = {
-      carbs: 0,
-      sugars: 0,
-      fiber: 0,
-      protein: 0,
-      saturatedFat: 0,
-      omega3: 0,
-      cholesterol: 0,
-      sodium: 0,
-      phosphorus: 0
-    };
-    
-    nutritionData.forEach((cargo, index) => {
-      if (cargo) {
-        console.log(`__PROTECT_CARGO__ ${index}: ${cargo.name}`, cargo.nutrients);
-        
-        const nutrients = getKeyNutrients(cargo.nutrients);
-        console.log(`Key nutrients for ${cargo.name}:`, nutrients);
-        
-        Object.keys(nutrients).forEach(key => {
-          const k = key as keyof KeyNutrients;
-          totalNutrition[k] += nutrients[k];
-        });
-        
-        console.log('Updated total nutrition:', totalNutrition);
-      }
-    });
-    
-    console.log('Total nutrition:', totalNutrition);
-    return totalNutrition;
-  } catch (error) {
-    console.error('Error in calculateRouteNutrition:', error);
-    // Return default nutrition data to avoid breaking health tags
-    return {
-      carbs: 0,
-      sugars: 0,
-      fiber: 0,
-      protein: 0,
-      saturatedFat: 0,
-      omega3: 0,
-      cholesterol: 0,
-      sodium: 0,
-      phosphorus: 0
-    };
-  }
-}
+function getHealthTags(items: string[]): string[] {
+  const normalized = items.map(item => item.toLowerCase());
+  const tags = new Set<string>();
 
-// Define ideal nutrition profiles for each health tag
-const HEALTH_TAG_IDEALS = {
-  'Heart Healthy': { saturatedFat: 0, cholesterol: 0, sodium: 0 },
-  'Anti Inflammatory': { omega3: 10, saturatedFat: 0 },
-  'Low Glycemic': { carbs: 30, sugars: 5, fiber: 10 },
-  'Low Cholesterol': { cholesterol: 0, saturatedFat: 0 },
-  'Renal Friendly': { phosphorus: 100, sodium: 500 },
-  'DASH Diet': { sodium: 500, saturatedFat: 0 },
-  'Low Sodium': { sodium: 500 },
-  'High Fiber': { fiber: 10 }
-};
+  if (normalized.some(item => ['hazmat', 'placard', 'spill'].some(k => item.includes(k)))) {
+    tags.add('Hazmat');
+    tags.add('Safety');
+    tags.add('DOT Compliance');
+  }
 
-function getHealthTags(nutrition: KeyNutrients): string[] {
-  console.log('Nutrition data for health tags:', nutrition);
-  const tags: string[] = [];
-  
-  const satFat = nutrition.saturatedFat || 0;
-  if (satFat < 5) {
-    console.log(`Qualifies for Heart Healthy: saturatedFat=${satFat} < 5`);
-    tags.push('Heart Healthy');
+  if (normalized.some(item => ['reefer', 'cold', 'temperature', 'insulated'].some(k => item.includes(k)))) {
+    tags.add('Temperature Control');
   }
-  
-  const omega3 = nutrition.omega3 || 0;
-  if (omega3 > 0.5) {
-    console.log(`Qualifies for Anti Inflammatory: omega3=${omega3} > 0.5`);
-    tags.push('Anti Inflammatory');
+
+  if (normalized.some(item => ['bol', 'bill of lading', 'manifest', 'pod', 'label'].some(k => item.includes(k)))) {
+    tags.add('Documentation');
   }
-  
-  const cholesterol = nutrition.cholesterol || 0;
-  if (cholesterol < 100) {
-    console.log(`Qualifies for Low Cholesterol: cholesterol=${cholesterol} < 100`);
-    tags.push('Low Cholesterol');
+
+  if (normalized.some(item => ['pallet', 'load', 'strapping', 'dock'].some(k => item.includes(k)))) {
+    tags.add('Load Planning');
+    tags.add('Freight Class');
   }
-  
-  const phosphorus = nutrition.phosphorus || 0;
-  if (phosphorus < 100) {
-    console.log(`Qualifies for Renal Friendly: phosphorus=${phosphorus} < 100`);
-    tags.push('Renal Friendly');
+
+  if (!tags.size) {
+    tags.add('Safety');
+    tags.add('Documentation');
   }
-  
-  const sodium = nutrition.sodium || 0;
-  if (sodium < 500) {
-    console.log(`Qualifies for DASH Diet and Low Sodium: sodium=${sodium} < 500`);
-    tags.push('DASH Diet');
-    tags.push('Low Sodium');
-  }
-  
-  if (nutrition.fiber > 10) {
-    console.log(`Qualifies for High Fiber: fiber=${nutrition.fiber} > 10`);
-    tags.push('High Fiber');
-  }
-  
-  const netCarbs = nutrition.carbs - nutrition.fiber;
-  if (netCarbs < 20 && nutrition.sugars < 10) {
-    console.log(`Qualifies for Low Glycemic: netCarbs=${netCarbs} < 20 and sugars=${nutrition.sugars} < 10`);
-    tags.push('Low Glycemic');
-  }
-  
-  if (tags.length === 0) {
-    console.log('No tags qualified, using fallback: Heart Healthy');
-    tags.push('Heart Healthy');
-  }
-  
-  console.log('Selected health tags:', tags);
-  return tags;
+
+  return Array.from(tags);
 }
 
 export async function fetchRoutesWithImages({
@@ -426,35 +328,21 @@ Return ONLY the JSON array, no other text.`;
 
   const images = await Promise.all(imagePromises);
 
-  // 6. Add nutrition and tags
-  const routesWithNutrition = await Promise.all(scoredRoutes.map(async route => {
-    try {
-      const nutrition = await calculateRouteNutrition(route.items);
-      const healthTags = getHealthTags(nutrition);
-      return {
-        ...route,
-        nutrition,
-        healthTags
-      };
-    } catch (error) {
-      console.error('Error calculating nutrition:', error);
-      return {
-        ...route,
-        healthTags: ['Heart Healthy']
-      };
-    }
+  // 6. Add logistics tags
+  const routesWithTags = scoredRoutes.map(route => ({
+    ...route,
+    healthTags: getHealthTags(Array.isArray(route.items) ? route.items : [])
   }));
 
   // 7. Return scored route cards with images
-  return routesWithNutrition.map((route, i) => ({
+  return routesWithTags.map((route, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
     title: route.title,
     image: images[i],
     items: Array.isArray(route.items) ? route.items : [],
     instructions: Array.isArray(route.instructions) ? route.instructions.join('\n') : '',
     equipment: Array.isArray(route.equipment) ? route.equipment : [],
-    healthTags: route.healthTags,
-    nutrition: route.nutrition
+    healthTags: route.healthTags
   }));
 }
 
