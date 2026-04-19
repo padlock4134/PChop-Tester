@@ -100,14 +100,14 @@ export const BASE_DISCIPLINE_CONFIG = {
   },
   machining: {
     key: 'machining',
-    name: 'Machining',
+    name: 'Welding',
     routes: {
-      kitchen: '/machining/my-bench',
-      cookbook: '/machining/my-specbook',
-      corner: '/machining/machinist-corner',
-      school: '/machining/machining-school',
-      dashboard: '/machining/dashboard',
-      profile: '/machining/profile'
+      kitchen: '/welding/my-bench',
+      cookbook: '/welding/my-specbook',
+      corner: '/welding/machinist-corner',
+      school: '/welding/machining-school',
+      dashboard: '/welding/dashboard',
+      profile: '/welding/profile'
     }
   }
 } as const;
@@ -242,6 +242,11 @@ export const getDisciplineFromPath = (pathname: string): DisciplineKey | null =>
   const routeSegment = pathParts[1];
 
   if (!disciplineFromPath) return null;
+
+  // Alias welding routes to machining discipline components/data
+  if (disciplineFromPath === 'welding') {
+    return 'machining';
+  }
 
   // Check base disciplines
   if (BASE_DISCIPLINE_CONFIG[disciplineFromPath as BaseDisciplineKey]) {

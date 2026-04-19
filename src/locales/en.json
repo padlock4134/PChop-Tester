@@ -144,9 +144,6 @@
     "loadingVideos": "Loading videos...",
     "noVideosSaved": "No videos saved yet",
     "recordInTestKitchen": "Record a session in Global Workspace to see it here!",
-    "allUsers": "All Users",
-    "myVideosOnly": "My Videos Only",
-    "publicVideosOnly": "Public Videos Only",
     "public": "Public",
     "private": "Private",
     "playVideo": "Play Video",
@@ -334,8 +331,8 @@
         "isCooking": "is dispatching"
       },
       "machining": {
-        "clickModule": "Click a module to begin your machining journey!",
-        "isCooking": "is machining"
+        "clickModule": "Click a module to begin your welding journey!",
+        "isCooking": "is welding"
       }
     }
   },
@@ -368,7 +365,7 @@
       "aiGuidedPractice": "AI-Guided Practice Session",
       "arDemonstration": "AR Demonstration • Old-School Technique",
       "aiGeneratingPractice": "AI Generating Your Practice...",
-      "creatingVirtualKitchen": "Creating virtual machining workspace",
+      "creatingVirtualKitchen": "Creating virtual welding workspace",
       "aiGuidedPracticeLabel": "AI-Guided Practice",
       "selectLessonStart": "Select a lesson and start practicing",
       "practicing": "PRACTICING",
@@ -381,7 +378,7 @@
       "practiceInstructions": "Practice Instructions",
       "selectLessonToPractice": "Select Lesson to Practice:",
       "chooseLesson": "Choose a lesson...",
-      "term1Foundations": "Term 1: Machining Foundations",
+      "term1Foundations": "Term 1: Welding Foundations",
       "term1KnifeSkills": "Term 1: Cutting Skills",
       "term2Breakfast": "Term 2: Lathe Systems",
       "term2Baking": "Term 2: Mill Systems",
@@ -389,7 +386,7 @@
       "closeGuide": "Close Guide",
       "practiceGuide": "Practice Guide",
       "knifeTechnique": "Cutting Technique",
-      "knifeTechniqueDesc": "Use precise motions with the machining tools. Keep your guide hand in a safe position to protect your fingertips.",
+      "knifeTechniqueDesc": "Use precise motions with the welding tools. Keep your guide hand in a safe position to protect your fingertips.",
       "consistency": "Consistency",
       "consistencyDesc": "Aim for uniform cuts. This ensures even dimensions and professional presentation. Practice makes perfect!",
       "safetyFirst": "Safety First",
@@ -397,7 +394,7 @@
       "focusPoints": "Focus Points",
       "focusPointsDesc": "Watch your cutting tool, maintain steady rhythm, and keep materials stable. The AI will provide real-time feedback on your technique.",
       "step1Setup": "Step 1: Setup",
-      "step1Desc": "Position your machining workspace and gather tools and specs",
+      "step1Desc": "Position your welding workspace and gather tools and specs",
       "step2KnifeGrip": "Step 2: Tool Grip",
       "step2Desc": "Hold tools with proper grip technique",
       "step3FirstCuts": "Step 3: First Cuts",
@@ -662,7 +659,7 @@
     "studentDirectory": "Student Directory",
     "addStudent": "Add Student",
     "program": "Program",
-    "culinaryArts": "Machining Technology",
+    "culinaryArts": "Welding Technology",
     "edit": "Edit",
     "remove": "Remove",
     "noCohortsAssigned": "No cohorts assigned",
@@ -890,7 +887,7 @@
       "medicalDevices": "Medical Devices",
       "metalFabrication": "Metal Fabrication",
       "plastics": "Plastics",
-      "precisionMachining": "Precision Machining"
+      "precisionMachining": "Welding & Fabrication"
     },
     "vehicleOptions": {
       "cars": "Cars",
@@ -901,7 +898,7 @@
     },
     "certificationOptions": {
       "aseCertified": "ASE Certified",
-      "cncProgramming": "CNC Programming Cert",
+      "cncProgramming": "Welding Certification Prep",
       "epa609": "EPA 609",
       "iso9001": "ISO 9001",
       "leanManufacturing": "Lean Manufacturing",
@@ -941,7 +938,7 @@
         "bakingPastry": "Baking & Pastry",
         "nutrition": "Nutrition",
         "business": "Business",
-        "precisionMachining": "Precision Machining",
+        "precisionMachining": "Welding & Fabrication",
         "weldingFabrication": "Welding & Fabrication",
         "industrialAutomation": "Industrial Automation",
         "qualityControl": "Quality Control",
@@ -957,7 +954,7 @@
         "pastryArts": "Pastry Arts",
         "fundamentalsEngineering": "Fundamentals of Engineering",
         "advancedEngineeringTechniques": "Advanced Engineering Techniques",
-        "cncProgramming": "CNC Programming",
+        "cncProgramming": "Welding Certification",
         "processOptimization": "Process Optimization",
         "qualityAssurance": "Quality Assurance",
         "safetyCompliance": "Safety Compliance"
@@ -1163,7 +1160,7 @@
       "machining": {
         "challengeOfTheWeek": "Part Challenge of the Week",
         "submitProof": "Submit Part Proof",
-        "uploadPhoto": "Click to add a photo of your machining work"
+        "uploadPhoto": "Click to add a photo of your welding work"
       }
     }
   },
@@ -1803,11 +1800,11 @@
     "chatWithFreddie": "Chat with Dock Freddie"
   },
   "benchFreddie": {
-    "welcomeMyKitchen": "Welcome to My Bench! Need help finding the right tooling and stock for your job?",
-    "welcomeMyCookbook": "Looking to organize your spec sheets or find a new machining approach? I'm here to help!",
-    "welcomeChefsCorner": "Ready to connect with fellow machinists or share your latest piece? Ask me anything!",
-    "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through Machining School!",
-    "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you machine it right!",
+    "welcomeMyKitchen": "Welcome to My Booth! Need help finding the right process and materials for your weld job?",
+    "welcomeMyCookbook": "Looking to organize your weld specs or find a new welding approach? I'm here to help!",
+    "welcomeChefsCorner": "Ready to connect with fellow welders or share your latest piece? Ask me anything!",
+    "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through Welding School!",
+    "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you weld it right!",
     "errorContacting": "Error contacting Bench Freddie.",
     "askChefFreddie": "Ask Bench Freddie...",
     "chatWithFreddie": "Chat with Bench Freddie"
@@ -2007,7 +2004,7 @@
     "letsCookThisMeal": "Let's Do This!"
   },
   "machiningSchool": {
-    "title": "Machining School",
+    "title": "Welding School",
     "syllabus": "Syllabus",
     "step": "Step",
     "closeRecipe": "Close Spec",
@@ -2022,9 +2019,9 @@
     "noInstructionsProvided": "No steps provided.",
     "equipmentNeeded": "Tools Needed:",
     "noEquipmentListed": "No tools listed.",
-    "getStarted": "Get started by selecting a spec from My Bench or My Spec Book!",
-    "goToMyKitchen": "Go to My Bench",
-    "goToMyCookbook": "Go to My Spec Book",
+    "getStarted": "Get started by selecting a spec from My Booth or My Weldbook!",
+    "goToMyKitchen": "Go to My Booth",
+    "goToMyCookbook": "Go to My Weldbook",
     "techniqueOfTheWeek": "Technique of the Week:",
     "letsCookThisMeal": "Let's Do This!"
   },
@@ -2661,10 +2658,10 @@
     }
   },
   "machinistCorner": {
-    "title": "Machinist Corner",
+    "title": "Welders Hub",
     "showcaseRecipe": "Showcase Spec:",
     "buildMenu": "Build Work Order",
-    "importFromCookbook": "Import from Spec Book",
+    "importFromCookbook": "Import from Weldbook",
     "shoppingList": "Tooling List",
     "pleaseSignIn": "Please sign in to access your spec book",
     "errorNoRecipe": "Error: No spec selected",
@@ -2683,9 +2680,9 @@
     "noInstructionsProvided": "No steps provided.",
     "equipmentNeeded": "Tools Needed:",
     "noRecipeSelected": "No spec selected. Import a spec to showcase!",
-    "globalTestKitchenTab": "The Car Lift",
+    "globalTestKitchenTab": "Global Weld Lab",
     "globalTestKitchen": {
-      "title": "The Car Lift",
+      "title": "Global Weld Lab",
       "subtitle": "Share your work and learn from fellow students worldwide",
       "live": "Live",
       "upcoming": "Upcoming",
@@ -3594,13 +3591,13 @@
     "objectives": "Objectives",
     "selectVideo": "Select Video",
     "clickToPlay": "Click to play video submission",
-    "submittedVia": "Submitted via The Car Lift",
+    "submittedVia": "Submitted via Global Weld Lab",
     "assignment": "Assignment",
     "due": "Due",
     "videoLibrary": "Video Library",
     "loadingVideos": "Loading videos...",
     "noVideosSaved": "No videos saved yet",
-    "recordInTestKitchen": "Record a session in The Car Lift to see it here!",
+    "recordInTestKitchen": "Record a session in Global Weld Lab to see it here!",
     "allUsers": "All Users",
     "myVideosOnly": "My Videos Only",
     "publicVideosOnly": "Public Videos Only",
@@ -3609,7 +3606,7 @@
     "playVideo": "Play Video",
     "deleteVideo": "Delete Video",
     "myTestKitchenVideos": "My Machine Lab Videos",
-    "reviewSavedVideos": "Review your saved machining sessions",
+    "reviewSavedVideos": "Review your saved welding sessions",
     "category": "Category",
     "user": "User",
     "allVideos": "All Videos",
@@ -3617,7 +3614,7 @@
     "assignmentSubmissions": "Assignment Submissions",
     "demoRecordings": "Demo Recordings",
     "loadingYourVideos": "Loading your videos...",
-    "recordedInWorkspace": "Recorded in The Car Lift"
+    "recordedInWorkspace": "Recorded in Global Weld Lab"
   },
   "levels": {
     "automotive": {
@@ -3958,10 +3955,10 @@
         "14": "Mill Technician II",
         "15": "Mill Technician III",
         "16": "Mill Technician IV",
-        "17": "CNC Operator",
-        "18": "CNC Operator II",
-        "19": "CNC Operator III",
-        "20": "CNC Operator IV",
+        "17": "Welding Operator",
+        "18": "Welding Operator II",
+        "19": "Welding Operator III",
+        "20": "Welding Operator IV",
         "21": "Setup Technician",
         "22": "Setup Technician II",
         "23": "Setup Technician III",
@@ -3978,10 +3975,10 @@
         "34": "Quality Machinist II",
         "35": "Quality Machinist III",
         "36": "Quality Machinist IV",
-        "37": "CNC Programmer",
-        "38": "CNC Programmer II",
-        "39": "CNC Programmer III",
-        "40": "CNC Programmer IV",
+        "37": "Welding Programmer",
+        "38": "Welding Programmer II",
+        "39": "Welding Programmer III",
+        "40": "Welding Programmer IV",
         "41": "Tooling Specialist",
         "42": "Tooling Specialist II",
         "43": "Tooling Specialist III",
@@ -3994,10 +3991,10 @@
         "50": "Lead Machinist II",
         "51": "Lead Machinist III",
         "52": "Lead Machinist IV",
-        "53": "Master Machinist",
-        "54": "Master Machinist II",
-        "55": "Master Machinist III",
-        "56": "Master Machinist IV",
+        "53": "Master Welder",
+        "54": "Master Welder II",
+        "55": "Master Welder III",
+        "56": "Master Welder IV",
         "57": "Chief Precision Engineer",
         "58": "Chief Precision Engineer II",
         "59": "Chief Precision Engineer III",

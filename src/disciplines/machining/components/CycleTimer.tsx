@@ -20,7 +20,8 @@ interface CookingTimerProps {
 const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = disciplineFromPath === 'welding' ? 'machining' : disciplineFromPath;
   const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [timers, setTimers] = useState<Timer[]>([]);
   const [newTimerMinutes, setNewTimerMinutes] = useState(5);

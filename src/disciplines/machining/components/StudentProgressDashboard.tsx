@@ -6,7 +6,8 @@ import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon
 const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = disciplineFromPath === 'welding' ? 'machining' : disciplineFromPath;
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
@@ -16,7 +17,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Precision Pipe Routing',
+      sessionTopic: 'Root Pass Control',
       culture: 'Japanese',
       viewers: 23,
       thumbnail: '🍜'
@@ -24,7 +25,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'Panel Wiring Calibration',
+      sessionTopic: 'MIG Weld Parameter Setup',
       culture: 'Lebanese',
       viewers: 35,
       thumbnail: '🧆'
@@ -32,7 +33,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'Hydronic System Balance',
+      sessionTopic: 'Vertical-Up Fillet Technique',
       culture: 'French',
       viewers: 62,
       thumbnail: '🥐'
@@ -40,7 +41,7 @@ const StudentProgressDashboard: React.FC = () => {
     {
       id: '5',
       hostName: 'Maria Santos',
-      dishName: 'Blueprint Layout Validation',
+      sessionTopic: 'Weld Symbols Walkthrough',
       culture: 'Spanish',
       viewers: 28,
       thumbnail: '🥘'
@@ -71,14 +72,14 @@ const StudentProgressDashboard: React.FC = () => {
     curriculum: {
       completedLessons: 12,
       totalLessons: 24,
-      currentLesson: "CNC Setup & Tool Offsets",
+      currentLesson: "Welding Setup & Joint Fit-Up",
       timeSpent: "18.5 hours"
     },
     skills: {
       recipesAttempted: 8,
       recipesCompleted: 6,
       currentLevel: "Intermediate",
-      nextMilestone: "Advanced G-Code Optimization"
+      nextMilestone: "Advanced Weld Inspection"
     },
     engagement: {
       appUsage: "5 days this week",
@@ -87,10 +88,10 @@ const StudentProgressDashboard: React.FC = () => {
       recipesSaved: 15
     },
     insights: {
-      strongestArea: "Precision Measurement",
-      improvementArea: "Cycle Time Optimization",
+      strongestArea: "Weld Bead Consistency",
+      improvementArea: "Heat Control",
       learningVelocity: "Above Average",
-      achievements: ["Shop Safety Certified", "Precision Operator", "Team Collaborator"]
+      achievements: ["Welding Safety Certified", "Weld Quality Specialist", "Team Collaborator"]
     }
   };
 
@@ -149,7 +150,7 @@ const StudentProgressDashboard: React.FC = () => {
   // Debug current session changes
   useEffect(() => {
     if (activeLiveSessions[currentSessionIndex]) {
-      console.log('Current session changed to:', currentSessionIndex, '-', activeLiveSessions[currentSessionIndex].hostName, activeLiveSessions[currentSessionIndex].dishName);
+      console.log('Current session changed to:', currentSessionIndex, '-', activeLiveSessions[currentSessionIndex].hostName, activeLiveSessions[currentSessionIndex].sessionTopic);
     }
   }, [currentSessionIndex]);
 
@@ -222,7 +223,7 @@ const StudentProgressDashboard: React.FC = () => {
         <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
           {/* Dashboard header */}
           <div className="text-center mb-6">
-            <h1 className="text-4xl font-retro text-maineBlue mb-2">Precision Operator Dashboard</h1>
+            <h1 className="text-4xl font-retro text-maineBlue mb-2">Welding Student Dashboard</h1>
             <p className="text-gray-600 italic">{clickModuleLabel}</p>
           </div>
           
@@ -233,7 +234,7 @@ const StudentProgressDashboard: React.FC = () => {
           <div className="mb-4 p-3">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <Link
-              to="/machining/my-bench"
+              to="/welding/my-bench"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">🛠️</div>
@@ -241,7 +242,7 @@ const StudentProgressDashboard: React.FC = () => {
             </Link>
             
             <Link
-              to="/machining/my-specbook"
+              to="/welding/my-specbook"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-blue-400 bg-blue-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">📖</div>
@@ -249,7 +250,7 @@ const StudentProgressDashboard: React.FC = () => {
             </Link>
             
             <Link
-              to="/machining/machinist-corner"
+              to="/welding/machinist-corner"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-red-400 bg-red-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">🔨</div>
@@ -257,7 +258,7 @@ const StudentProgressDashboard: React.FC = () => {
             </Link>
             
             <Link
-              to="/machining/machining-school"
+              to="/welding/machining-school"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">🎓</div>
@@ -290,7 +291,7 @@ const StudentProgressDashboard: React.FC = () => {
                         <span className="text-3xl">{session.thumbnail}</span>
                         <div className="flex-1">
                           <div className="font-bold text-red-900 text-sm">{session.hostName}</div>
-                          <div className="text-red-800 text-xs">{session.dishName}</div>
+                          <div className="text-red-800 text-xs">{session.sessionTopic}</div>
                           <div className="text-red-600 text-xs mt-1">{session.viewers} {t('dashboard.watching')}</div>
                         </div>
                       </div>
@@ -323,7 +324,7 @@ const StudentProgressDashboard: React.FC = () => {
                     <div className="text-sm text-red-800 transition-all duration-500">
                       <span>
                         <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {liveVerbLabel}{' '}
-                        <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
+                        <strong>{activeLiveSessions[currentSessionIndex].sessionTopic}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
                       </span>
                     </div>
                   </div>
@@ -516,7 +517,7 @@ const StudentProgressDashboard: React.FC = () => {
             <div className="flex-1 flex flex-col overflow-hidden">
               <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
                 <div className="text-center relative">
-                  <h2 className="text-xl sm:text-2xl font-bold">🔴 LIVE: {currentLiveSession.dishName}</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold">🔴 LIVE: {currentLiveSession.sessionTopic}</h2>
                   <button
                     onClick={() => {
                       setLiveSessionModalOpen(false);
