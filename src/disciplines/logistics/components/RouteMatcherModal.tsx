@@ -46,9 +46,9 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
   const navigate = useNavigate();
 
   const loadingMessages = [
-    t('recipeMatcher.loadingMessage1'),
-    t('recipeMatcher.loadingMessage2'),
-    t('recipeMatcher.loadingMessage3')
+    'Dispatcher Freddie checking your inventory...',
+    'Building your shipping procedures...',
+    'Almost ready...'
   ];
 
   // Timer effect for loading steps
@@ -87,15 +87,15 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
   function generateTutorials(route: RouteCard) {
   return [
     {
-      title: `${t('recipeMatcher.equipmentUsing')} ${route.title}`,
-      desc: t('recipeMatcher.learnEquipment')
+      title: `Equipment needed for ${route.title}`,
+      desc: 'Learn how to use the main equipment needed for this procedure.'
     },
     {
-      title: t('recipeMatcher.proteinPrep', { defaultValue: 'Material Prep' }),
-      desc: t('recipeMatcher.howToPrepProtein', { defaultValue: 'How to prep primary materials for this project.' })
+      title: 'Material Prep',
+      desc: 'How to prep primary materials for this procedure.'
     },
     {
-      title: `${t('recipeMatcher.recipe', { defaultValue: 'Procedure' })} ${route.title}`,
+      title: `Procedure: ${route.title}`,
       desc: route.instructions
     }
   ];
@@ -139,17 +139,17 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (routes.length > 0 && currentIdx < routes.length ? routes[currentIdx].title : t('recipeMatcher.recipeMatcher'))}
+           (routes.length > 0 && currentIdx < routes.length ? routes[currentIdx].title : 'Route Matcher')}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes', { defaultValue: 'Finding matching projects...' })}</div>
+            <div className="text-lg font-retro mb-2">{'Finding matching routes...'}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
         ) : routes.length === 0 || currentIdx >= routes.length ? (
-          <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions')}<br/>{t('recipeMatcher.tryUpdatingCupboard')}</div>
+          <div className="text-center text-maineBlue font-bold py-10">{'No more suggestions.'}<br/>{'Try updating your dock inventory!'}</div>
         ) : (
           (() => {
             console.log('Route healthTags:', routes[currentIdx].healthTags);
@@ -189,10 +189,10 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
                     {isSaving ? '...' : '♥'}
                   </button>
                   <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {t('recipeMatcher.cookMe', { defaultValue: 'Run It' })}
+                    {'Run It'}
                   </button>
                 </div>
-                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough', { defaultValue: 'Swipe through project options' })}</div>
+                <div className="text-xs mt-4 text-center text-gray-500">{'Swipe through route options'}</div>
               </div>
             );
           })()
