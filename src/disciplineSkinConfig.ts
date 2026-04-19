@@ -347,24 +347,24 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
 
   machining: {
     key: 'machining',
-    name: 'Machining',
+    name: 'Welding',
     icon: '⚙️',
     modules: {
-      workspace: 'My Bench',
-      notebook: 'My Specbook',
-      community: 'Machinist Corner',
-      school: 'Machining School',
+      workspace: 'My Booth',
+      notebook: 'My Weldbook',
+      community: 'Welders Hub',
+      school: 'Welding School',
     },
     assistant: {
-      name: 'Max the Machinist',
+      name: 'Weld Coach Max',
       greeting:
-        "Hey! I'm Max, your curriculum assistant for machining programs. I can help you create assignments, precision rubrics, and lesson plans. Try asking: 'Create a lathe operation assessment' or 'Write a G-code programming lesson plan'",
+        "Hey! I'm Max, your curriculum assistant for welding programs. I can help you create assignments, precision rubrics, and lesson plans. Try asking: 'Create a weld quality assessment' or 'Write a MIG welding lesson plan'",
       systemPrompt:
-        'You are Max the Machinist, a curriculum assistant for machining trade schools. Help create educational content, assignments, lesson plans, and rubrics for machining education. Focus on lathe and mill operation, G-code programming, precision measurement, safety, and professional machining techniques.',
+        'You are Weld Coach Max, a curriculum assistant for welding trade schools. Help create educational content, assignments, lesson plans, and rubrics for welding education. Focus on welding safety, joint preparation, weld symbols, process selection (SMAW, GMAW, GTAW, FCAW), inspection, and professional welding techniques.',
       quickActions: [
-        'Create a lathe operation rubric',
-        'Write a G-code programming lesson plan',
-        'Design a precision measurement quiz',
+        'Create a weld quality rubric',
+        'Write a MIG welding lesson plan',
+        'Design a welding safety quiz',
       ],
     },
     content: {
@@ -373,14 +373,14 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
       approvalLabel: 'Job Ticket Approval',
     },
     people: {
-      facultyTitle: 'Master Machinist',
-      defaultProgram: 'Precision Machining',
+      facultyTitle: 'Welding Instructor',
+      defaultProgram: 'Welding Technology',
       mockFaculty: [
-        { name: 'Master Machinist Phil Grant', role: 'Head of Precision Machining', courses: 'Lathe Operations, CNC Milling' },
-        { name: 'Master Machinist Ana Flores', role: 'CNC Programming Instructor', courses: 'G-code, CAD/CAM Basics' },
+        { name: 'Instructor Phil Grant', role: 'Head of Welding Technology', courses: 'SMAW Foundations, Blueprint Reading' },
+        { name: 'Instructor Ana Flores', role: 'Welding Processes Instructor', courses: 'GMAW, GTAW, FCAW' },
       ],
-      mockAlumniTitles: ['CNC Machinist', 'Tool & Die Maker', 'Quality Inspector', 'Manufacturing Engineer'],
-      emailDomain: 'machiningschool.edu',
+      mockAlumniTitles: ['Certified Welder', 'Welding Fabricator', 'Welding Inspector', 'Welding Engineer'],
+      emailDomain: 'weldingschool.edu',
     },
   },
 };

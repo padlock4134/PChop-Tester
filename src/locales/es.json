@@ -1,7 +1,7 @@
 {
   "nav": {
     "myKitchen": "Mi Taller Mecánico",
-    "culinarySchool": "Escuela de Mecanizado",
+    "culinarySchool": "Escuela de Soldadura",
     "myCookbook": "Mi Guía de Mecanizado",
     "chefsCorner": "Taller Mecánico",
     "profile": "Perfil",
@@ -144,9 +144,6 @@
     "loadingVideos": "Cargando videos...",
     "noVideosSaved": "Aún no hay videos guardados",
     "recordInTestKitchen": "Graba una sesión en el Espacio de Trabajo Global para verla aquí.",
-    "allUsers": "Todos los Usuarios",
-    "myVideosOnly": "Solo Mis Videos",
-    "publicVideosOnly": "Solo Videos Públicos",
     "public": "Público",
     "private": "Privado",
     "playVideo": "Reproducir Video",
@@ -366,13 +363,13 @@
         "isCooking": "está despachando"
       },
       "machining": {
-        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido de mecanizado!",
-        "isCooking": "está maquinando"
+        "clickModule": "¡Haz clic en un módulo para comenzar tu recorrido de soldadura!",
+        "isCooking": "está soldando"
       }
     }
   },
   "culinarySchool": {
-    "title": "Escuela de Mecanizado",
+    "title": "Escuela de Soldadura",
     "syllabus": "Plan de Estudios",
     "step": "Paso",
     "closeRecipe": "Cerrar Método",
@@ -1197,7 +1194,7 @@
       "medicalDevices": "Dispositivos médicos",
       "metalFabrication": "Fabricación de metal",
       "plastics": "Plásticos",
-      "precisionMachining": "Mecanizado de precisión"
+      "precisionMachining": "Soldadura y Fabricación"
     },
     "vehicleOptions": {
       "cars": "Autos",
@@ -1208,7 +1205,7 @@
     },
     "certificationOptions": {
       "aseCertified": "Certificación ASE",
-      "cncProgramming": "Cert. de programación CNC",
+      "cncProgramming": "Preparación para Certificación de Soldadura",
       "epa609": "EPA 609",
       "iso9001": "ISO 9001",
       "leanManufacturing": "Manufactura esbelta",
@@ -1248,7 +1245,7 @@
         "bakingPastry": "Panadería y pastelería",
         "nutrition": "Nutrición",
         "business": "Negocios",
-        "precisionMachining": "Mecanizado de precisión",
+        "precisionMachining": "Soldadura y Fabricación",
         "weldingFabrication": "Soldadura y fabricación",
         "industrialAutomation": "Automatización industrial",
         "qualityControl": "Control de calidad",
@@ -1264,7 +1261,7 @@
         "pastryArts": "Artes de pastelería",
         "fundamentalsEngineering": "Fundamentos de ingeniería",
         "advancedEngineeringTechniques": "Técnicas avanzadas de ingeniería",
-        "cncProgramming": "Programación CNC",
+        "cncProgramming": "Certificación de Soldadura",
         "processOptimization": "Optimización de procesos",
         "qualityAssurance": "Aseguramiento de calidad",
         "safetyCompliance": "Cumplimiento de seguridad"
@@ -1510,7 +1507,7 @@
     "cancel": "Cancelar",
     "loading": "Cargando...",
     "availableItems": "Elementos disponibles",
-    "noItems": "Aún no hay elementos.",
+    "noItems": "Aún no hay elementos disponibles.",
     "itemsCount": "{count} elementos",
     "itemsCountNeeded": "{count} elementos necesarios",
     "disciplineCopy": {
@@ -1658,13 +1655,7 @@
         "itemsCount": "{count} operaciones",
         "itemsCountNeeded": "{count} operaciones necesarias"
       }
-    },
-    "availableItems": "Elementos disponibles",
-    "loading": "Cargando...",
-    "noItems": "Aún no hay elementos disponibles.",
-    "itemsCount": "{count} elementos",
-    "itemsCountNeeded": "{count} elementos necesarios",
-    "cancel": "Cancelar"
+    }
   },
   "practice": {
     "benchPractice": "Tu Tabla de Charcutería",
@@ -2008,7 +1999,7 @@
     "close": "Cerrar"
   },
   "myBench": {
-    "title": "Mi Banco",
+    "title": "Mi Cabina",
     "scanKitchen": "Escanear Banco",
     "uploadPhoto": "Subir Foto",
     "recipeMatch": "Buscar Especificaciones",
@@ -2111,11 +2102,11 @@
     "chatWithFreddie": "Chatear con Dock Freddie"
   },
   "benchFreddie": {
-    "welcomeMyKitchen": "¡Bienvenido a Mi Banco! ¿Necesitas ayuda para encontrar el herramental y material correcto para tu trabajo?",
-    "welcomeMyCookbook": "¿Buscas organizar tus hojas de especificaciones o encontrar un nuevo enfoque de mecanizado? ¡Estoy aquí para ayudar!",
-    "welcomeChefsCorner": "¿Listo para conectar con otros maquinistas o compartir tu última pieza? ¡Pregúntame lo que quieras!",
-    "welcomeCulinarySchool": "¿Curioso por aprender nuevas habilidades o ganar insignias? ¡Puedo guiarte a través de la Escuela de Mecanizado!",
-    "welcomeDefault": "¿Necesitas ayuda con algo en PorkChop? ¡Siempre estoy aquí para ayudarte a mecanizar correctamente!",
+    "welcomeMyKitchen": "¡Bienvenido a Mi Cabina! ¿Necesitas ayuda para encontrar el herramental y material correcto para tu trabajo?",
+    "welcomeMyCookbook": "¿Buscas organizar tus especificaciones de soldadura o encontrar un nuevo enfoque de soldadura? ¡Estoy aquí para ayudar!",
+    "welcomeChefsCorner": "¿Listo para conectar con otros soldadores o compartir tu último trabajo? ¡Pregúntame lo que quieras!",
+    "welcomeCulinarySchool": "¿Curioso por aprender nuevas habilidades o ganar insignias? ¡Puedo guiarte a través de la Escuela de Soldadura!",
+    "welcomeDefault": "¿Necesitas ayuda con algo en PorkChop? ¡Siempre estoy aquí para ayudarte a soldar correctamente!",
     "errorContacting": "Error al contactar a Bench Freddie.",
     "askChefFreddie": "Pregúntale a Bench Freddie...",
     "chatWithFreddie": "Chatear con Bench Freddie"
@@ -2301,7 +2292,7 @@
     "letsCookThisMeal": "¡Hagámoslo!"
   },
   "machiningSchool": {
-    "title": "Escuela de Mecanizado",
+    "title": "Escuela de Soldadura",
     "syllabus": "Plan de Estudios",
     "step": "Paso",
     "closeRecipe": "Cerrar Especificación",
@@ -2316,9 +2307,9 @@
     "noInstructionsProvided": "No se proporcionaron pasos.",
     "equipmentNeeded": "Herramientas Necesarias:",
     "noEquipmentListed": "No hay herramientas listadas.",
-    "getStarted": "¡Comienza seleccionando una especificación de Mi Banco o Mi Libro de Especificaciones!",
-    "goToMyKitchen": "Ir a Mi Banco",
-    "goToMyCookbook": "Ir a Mi Libro de Especificaciones",
+    "getStarted": "¡Comienza seleccionando una especificación de Mi Cabina o Mi Libro de Soldadura!",
+    "goToMyKitchen": "Ir a Mi Cabina",
+    "goToMyCookbook": "Ir a Mi Libro de Soldadura",
     "techniqueOfTheWeek": "Técnica de la Semana:",
     "letsCookThisMeal": "¡Hagámoslo!"
   },
@@ -2992,10 +2983,10 @@
     }
   },
   "machinistCorner": {
-    "title": "Rincón del Maquinista",
+    "title": "Centro de Soldadores",
     "showcaseRecipe": "Especificación Destacada:",
     "buildMenu": "Crear Orden de Trabajo",
-    "importFromCookbook": "Importar del Libro de Especificaciones",
+    "importFromCookbook": "Importar del Libro de Soldadura",
     "shoppingList": "Lista de Herramental",
     "pleaseSignIn": "Por favor inicia sesión para acceder a tu libro de especificaciones",
     "errorNoRecipe": "Error: No se seleccionó ninguna especificación",
@@ -3014,9 +3005,9 @@
     "noInstructionsProvided": "No se proporcionaron pasos.",
     "equipmentNeeded": "Herramientas Necesarias:",
     "noRecipeSelected": "No se seleccionó ninguna especificación. ¡Importa una especificación para destacar!",
-    "globalTestKitchenTab": "Laboratorio Global de Mecanizado",
+    "globalTestKitchenTab": "Laboratorio Global de Soldadura",
     "globalTestKitchen": {
-      "title": "Laboratorio Global de Mecanizado",
+      "title": "Laboratorio Global de Soldadura",
       "subtitle": "Comparte tu trabajo y aprende de estudiantes de todo el mundo",
       "live": "En Vivo",
       "upcoming": "Próximos",
@@ -3821,7 +3812,7 @@
     "recordedInWorkspace": "Grabado en el Laboratorio Global de Despacho"
   },
   "mySpecBook": {
-    "title": "Mi Libro de Especificaciones",
+    "title": "Mi Libro de Soldadura",
     "collections": "Conjuntos de Trabajo",
     "addRecipe": "Agregar Especificación",
     "importRecipe": "Importar Especificación",
