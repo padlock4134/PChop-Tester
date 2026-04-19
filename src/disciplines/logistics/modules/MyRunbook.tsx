@@ -191,10 +191,10 @@ const MyRunbook = () => {
   // Categories for filtering
   const categories = [
     { key: 'All', label: t('myRunbook.all') },
-    { key: 'Seacargo', label: t('myRunbook.seafood') },
-    { key: 'Meat', label: t('myRunbook.meat') },
-    { key: 'Vegetarian', label: t('myRunbook.vegetarian') },
-    { key: 'Dessert', label: t('myRunbook.dessert') }
+    { key: 'Truckload', label: 'Truckload' },
+    { key: 'LTL', label: 'LTL' },
+    { key: 'Cold Chain', label: 'Cold Chain' },
+    { key: 'Hazmat', label: 'Hazmat' }
   ];
 
   // Handle route selection for collections
@@ -253,7 +253,7 @@ const MyRunbook = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: routeToShare ? `${routeToShare.name} Route on Porkchop` : 'My Runbook on Porkchop',
+      title: routeToShare ? t('myRunbook.shareRouteTitle', { defaultValue: 'Share Route' }) : t('myRunbook.shareYourRunbook', { defaultValue: 'Share Your Runbook' }),
       text: routeToShare 
         ? `Check out this amazing route for ${routeToShare.name} on Porkchop!` 
         : 'Check out my digital runbook on Porkchop! I\'ve been collecting amazing routes and would love to share them with you.',
@@ -381,44 +381,16 @@ const MyRunbook = () => {
     const items = route.items || [];
     const itemsJoined = items.join(' ').toLowerCase();
     
-    const hasSeacargo = itemsJoined.includes('fish') || 
-      itemsJoined.includes('salmon') || 
-      itemsJoined.includes('tuna') || 
-      itemsJoined.includes('cod') || 
-      itemsJoined.includes('tilapia') || 
-      itemsJoined.includes('shrimp') || 
-      itemsJoined.includes('lobster') || 
-      itemsJoined.includes('crab') || 
-      itemsJoined.includes('oyster') || 
-      itemsJoined.includes('clam') || 
-      itemsJoined.includes('mussel');
-    
-    const hasMeat = itemsJoined.includes('beef') || 
-      itemsJoined.includes('chicken') || 
-      itemsJoined.includes('pork') || 
-      itemsJoined.includes('turkey') || 
-      itemsJoined.includes('bacon') || 
-      itemsJoined.includes('sausage') || 
-      itemsJoined.includes('lamb');
-    
-    const hasVegetable = itemsJoined.includes('vegetable') || 
-      itemsJoined.includes('tomato') || 
-      itemsJoined.includes('carrot') || 
-      itemsJoined.includes('spinach');
-    
-    const hasDessert = itemsJoined.includes('sugar') || 
-      itemsJoined.includes('chocolate') || 
-      itemsJoined.includes('vanilla') || 
-      itemsJoined.includes('cream') || 
-      itemsJoined.includes('cake') || 
-      itemsJoined.includes('cookie') || 
-      itemsJoined.includes('pie');
-    
+    const hasTruckload = itemsJoined.includes('truckload') || itemsJoined.includes('freight') || itemsJoined.includes('dock');
+    const hasLTL = itemsJoined.includes('ltl') || itemsJoined.includes('pallet') || itemsJoined.includes('barcode');
+    const hasColdChain = itemsJoined.includes('reefer') || itemsJoined.includes('cold') || itemsJoined.includes('temperature');
+    const hasHazmat = itemsJoined.includes('hazmat') || itemsJoined.includes('placard') || itemsJoined.includes('spill') || itemsJoined.includes('safety');
+
     switch (activeCategory) {
-      case 'Seacargo': return hasSeacargo && matchesSearch;
-      case 'Meat': return hasMeat && matchesSearch;
-      case 'Vegetarian': return hasVegetable && !hasMeat && !hasSeacargo && matchesSearch;
-      case 'Dessert': return hasDessert && matchesSearch;
+      case 'Truckload': return hasTruckload && matchesSearch;
+      case 'LTL': return hasLTL && matchesSearch;
+      case 'Cold Chain': return hasColdChain && matchesSearch;
+      case 'Hazmat': return hasHazmat && matchesSearch;
       default: return matchesSearch;
     }
   });
@@ -495,7 +467,7 @@ const MyRunbook = () => {
       }}>
         <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
-            {routeToShare ? `${t('myRunbook.shareRecipeTitle')} "${routeToShare.name}"` : t('myRunbook.shareYourCookbook')}
+            {routeToShare ? `${t('myRunbook.shareRouteTitle', { defaultValue: 'Share Route' })} "${routeToShare.name}"` : t('myRunbook.shareYourRunbook', { defaultValue: 'Share Your Runbook' })}
           </h3>
           <div className="flex justify-around mb-4">
             <button 
