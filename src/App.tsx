@@ -449,12 +449,20 @@ const AppRoutes = () => {
           <Route path="/logistics/profile" element={<LogisticsProfile />} />
           
           {/* Machining routes */}
-          <Route path="/machining/dashboard" element={<MachiningBenchDashboard />} />
-          <Route path="/machining/my-bench" element={<MachiningMyBench />} />
-          <Route path="/machining/my-specbook" element={<MachiningMySpecBook />} />
-          <Route path="/machining/machinist-corner" element={<MachiningMachinistCorner />} />
-          <Route path="/machining/machining-school" element={<MachiningMachiningSchool />} />
-          <Route path="/machining/profile" element={<MachiningProfile />} />
+          <Route path="/welding/dashboard" element={<MachiningBenchDashboard />} />
+          <Route path="/welding/my-bench" element={<MachiningMyBench />} />
+          <Route path="/welding/my-specbook" element={<MachiningMySpecBook />} />
+          <Route path="/welding/machinist-corner" element={<MachiningMachinistCorner />} />
+          <Route path="/welding/machining-school" element={<MachiningMachiningSchool />} />
+          <Route path="/welding/profile" element={<MachiningProfile />} />
+
+          {/* Backward-compatible redirects for legacy machining URLs */}
+          <Route path="/machining/dashboard" element={<Navigate to="/welding/dashboard" replace />} />
+          <Route path="/machining/my-bench" element={<Navigate to="/welding/my-bench" replace />} />
+          <Route path="/machining/my-specbook" element={<Navigate to="/welding/my-specbook" replace />} />
+          <Route path="/machining/machinist-corner" element={<Navigate to="/welding/machinist-corner" replace />} />
+          <Route path="/machining/machining-school" element={<Navigate to="/welding/machining-school" replace />} />
+          <Route path="/machining/profile" element={<Navigate to="/welding/profile" replace />} />
 
           {/* Dynamic custom discipline routes */}
           <Route path="/:discipline/dashboard" element={<DynamicDisciplineRoute page="dashboard" />} />

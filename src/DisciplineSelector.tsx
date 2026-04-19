@@ -15,7 +15,7 @@ const disciplines = [
   { key: 'electrical', label: 'Electrical', icon: '⚡' },
   { key: 'hvac', label: 'HVAC', icon: '❄️' },
   { key: 'logistics', label: 'Logistics', icon: '📦' },
-  { key: 'machining', label: 'Machining', icon: '⚙️' },
+  { key: 'machining', label: 'Welding', icon: '⚙️' },
   { key: 'plumbing', label: 'Plumbing', icon: '🔩' },
 ];
 

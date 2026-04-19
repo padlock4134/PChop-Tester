@@ -6,7 +6,8 @@ import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon
 const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const discipline = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const discipline = disciplineFromPath === 'welding' ? 'machining' : disciplineFromPath;
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
@@ -233,7 +234,7 @@ const StudentProgressDashboard: React.FC = () => {
           <div className="mb-4 p-3">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <Link
-              to="/machining/my-bench"
+              to="/welding/my-bench"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">🛠️</div>
@@ -241,7 +242,7 @@ const StudentProgressDashboard: React.FC = () => {
             </Link>
             
             <Link
-              to="/machining/my-specbook"
+              to="/welding/my-specbook"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-blue-400 bg-blue-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">📖</div>
@@ -249,7 +250,7 @@ const StudentProgressDashboard: React.FC = () => {
             </Link>
             
             <Link
-              to="/machining/machinist-corner"
+              to="/welding/machinist-corner"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-red-400 bg-red-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">🔨</div>
@@ -257,7 +258,7 @@ const StudentProgressDashboard: React.FC = () => {
             </Link>
             
             <Link
-              to="/machining/machining-school"
+              to="/welding/machining-school"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-yellow-300 bg-yellow-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">🎓</div>
