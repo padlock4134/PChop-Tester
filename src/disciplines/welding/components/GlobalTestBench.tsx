@@ -926,38 +926,40 @@ END:VCALENDAR`;
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  What are you demonstrating today?
+                  What welding skill are you demonstrating today?
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder="e.g., 3G vertical-up SMAW root pass walkthrough"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Focus Area
+                  Process / Focus Area
                 </label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
                   <option>Select</option>
-                  <option>Diagnostics</option>
-                  <option>Installation</option>
-                  <option>Maintenance</option>
+                  <option>SMAW (Stick)</option>
+                  <option>GMAW (MIG)</option>
+                  <option>GTAW (TIG)</option>
+                  <option>FCAW (Flux-Cored)</option>
+                  <option>Fit-Up</option>
+                  <option>Blueprint Reading</option>
+                  <option>Weld Inspection</option>
+                  <option>Heat Control</option>
                   <option>Safety</option>
-                  <option>Troubleshooting</option>
-                  <option>Planning</option>
-                  <option>Quality Control</option>
                   <option>Other</option>
                 </select>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Session Description
+                  Session Scope
                 </label>
                 <textarea
-                  placeholder="Tell everyone what skills and outcomes this session covers..."
+                  placeholder="Describe joint type, material, position, settings, and key QC checkpoints learners should watch for."
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
