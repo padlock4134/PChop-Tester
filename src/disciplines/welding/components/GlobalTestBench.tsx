@@ -35,7 +35,7 @@ interface GlobalTestKitchenProps {
   showcaseRecipe?: any;
 }
 
-const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) => {
+const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) => {
   const { t } = useTranslation();
   const { user } = useSupabase();
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'host'>('live');
@@ -107,9 +107,9 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       viewers: 47,
       isLive: false,
       isEnded: true,
-      thumbnail: '🥘',
-      description: 'Traditional paella from Valencia with saffron and bomba rice',
-      ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
+      thumbnail: '🧰',
+      description: 'Fixture alignment and setup checklist for repeatable weld prep',
+      ingredients: ['Fixture clamps', 'Layout square', 'Scribe', 'Feeler gauges', 'Weld map']
     },
     {
       id: '2',
@@ -118,9 +118,9 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       culture: 'Japanese',
       viewers: 23,
       isLive: true,
-      thumbnail: '🍜',
-      description: 'Making ramen noodles from scratch with tonkotsu broth',
-      ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
+      thumbnail: '⚙️',
+      description: 'Dialing in feed speed, voltage, and travel angle for clean beads',
+      ingredients: ['MIG machine', 'ER70S-6 wire', 'Shielding gas', 'Practice coupons']
     },
     {
       id: '3',
@@ -129,9 +129,9 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       culture: 'Lebanese',
       viewers: 35,
       isLive: true,
-      thumbnail: '🧆',
-      description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
-      ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
+      thumbnail: '🔥',
+      description: 'Fit-up verification sequence to reduce distortion and rework',
+      ingredients: ['Tape measure', 'Level', 'Welding magnets', 'Tack plan']
     },
     {
       id: '4',
@@ -140,9 +140,9 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       culture: 'French',
       viewers: 62,
       isLive: true,
-      thumbnail: '🥐',
-      description: 'Mastering the art of laminated dough and butter layers',
-      ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
+      thumbnail: '📐',
+      description: 'Reading symbols, weld callouts, and tolerances before striking an arc',
+      ingredients: ['Blueprint set', 'Weld symbol chart', 'Inspection notes']
     }
   ]);
   const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
@@ -152,7 +152,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       dishName: 'Workflow Timing Challenge',
       culture: 'Indian',
       scheduledTime: '2:00 PM EST',
-      description: 'Layered biryani with aromatic spices and basmati rice'
+      description: 'Cycle-time drill for fitting, tacking, and final pass sequencing'
     },
     {
       id: '4',
@@ -168,7 +168,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       dishName: 'Safety Compliance Drill',
       culture: 'Russian',
       scheduledTime: '6:00 PM EST',
-      description: 'Traditional beetroot soup with sour cream and fresh dill'
+      description: 'PPE checks and hazard walkthrough for high-heat fabrication bays'
     },
     {
       id: '6',
@@ -176,7 +176,7 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
       dishName: 'Final Inspection Run',
       culture: 'Peruvian',
       scheduledTime: '7:30 PM EST',
-      description: 'Fresh fish cured in lime juice with red onions and aji peppers'
+      description: 'Final QA pass using visual criteria and acceptance standards'
     }
   ]);
   
@@ -716,13 +716,13 @@ END:VCALENDAR`;
       <div className="p-4 bg-red-500 text-white font-retro text-center">
         <h2 className="text-xl flex items-center justify-center">
           <span className="text-2xl mr-2">🌍</span>
-          {t('machinistCorner.globalTestKitchen.title')}
+          {t('machinistCorner.globalTestKitchen.title', { defaultValue: 'Global Weld Lab' })}
         </h2>
       </div>
       
       <div className="p-4">
         <p className="text-sm text-gray-600 text-center mb-4">
-          {t('machinistCorner.globalTestKitchen.subtitle')}
+          {t('machinistCorner.globalTestKitchen.subtitle', { defaultValue: 'Join live weld sessions, schedule upcoming labs, or host your own trade stream.' })}
         </p>
 
         {/* Tab Navigation */}
@@ -735,7 +735,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🔴 {t('machinistCorner.globalTestKitchen.live')}
+            🔴 {t('machinistCorner.globalTestKitchen.live', { defaultValue: 'Live' })}
           </button>
           <button
             onClick={() => setActiveTab('upcoming')}
@@ -745,7 +745,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            📅 {t('machinistCorner.globalTestKitchen.upcoming')}
+            📅 {t('machinistCorner.globalTestKitchen.upcoming', { defaultValue: 'Upcoming' })}
           </button>
           <button
             onClick={() => setActiveTab('host')}
@@ -755,7 +755,7 @@ END:VCALENDAR`;
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
-            🎥 {t('machinistCorner.globalTestKitchen.host')}
+            🎥 {t('machinistCorner.globalTestKitchen.host', { defaultValue: 'Host' })}
           </button>
         </div>
 
@@ -765,8 +765,8 @@ END:VCALENDAR`;
           {liveSessions.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <VideoCameraIcon className="h-12 w-12 mx-auto mb-2 text-gray-300" />
-              <p>{t('machinistCorner.globalTestKitchen.noLiveSessions')}</p>
-              <p className="text-sm">{t('machinistCorner.globalTestKitchen.checkBackLater')}</p>
+              <p>{t('machinistCorner.globalTestKitchen.noLiveSessions', { defaultValue: 'No live weld labs right now.' })}</p>
+              <p className="text-sm">{t('machinistCorner.globalTestKitchen.checkBackLater', { defaultValue: 'Check back soon for active sessions.' })}</p>
             </div>
           ) : (
             liveSessions.map((session) => (
@@ -783,7 +783,7 @@ END:VCALENDAR`;
                     {session.isEnded ? (
                       <>
                         <div className="w-2 h-2 bg-gray-400 rounded-full mr-1"></div>
-                        {t('machinistCorner.globalTestKitchen.ended')}
+                        {t('machinistCorner.globalTestKitchen.ended', { defaultValue: 'Ended' })}
                       </>
                     ) : (
                       <>
@@ -799,7 +799,7 @@ END:VCALENDAR`;
                   <div className="flex items-center gap-2">
                     <div className="flex items-center text-xs text-gray-500">
                       <UserGroupIcon className="h-3 w-3 mr-1" />
-                      {session.viewers} {t('machinistCorner.globalTestKitchen.watching')}
+                      {session.viewers} {t('machinistCorner.globalTestKitchen.watching', { defaultValue: 'watching' })}
                     </div>
                     <button
                       onClick={() => !session.isEnded && joinLiveSession(session)}
@@ -812,7 +812,7 @@ END:VCALENDAR`;
                       }`}
                       disabled={session.isEnded}
                     >
-                      {session.isEnded ? t('machinistCorner.globalTestKitchen.ended') : t('machinistCorner.globalTestKitchen.join')}
+                      {session.isEnded ? t('machinistCorner.globalTestKitchen.ended', { defaultValue: 'Ended' }) : t('machinistCorner.globalTestKitchen.join', { defaultValue: 'Join' })}
                     </button>
                   </div>
                 </div>
@@ -840,10 +840,10 @@ END:VCALENDAR`;
                   <span className="text-xs text-gray-500">🌍 {session.culture}</span>
                   {session.sessionType && (
                     <span className="text-xs bg-maineBlue text-white px-2 py-0.5 rounded-full">
-                      {session.sessionType === 'practice' && `🎯 ${t('machinistCorner.globalTestKitchen.practice')}`}
-                      {session.sessionType === 'assignment' && `📚 ${t('machinistCorner.globalTestKitchen.assignment')}`}
-                      {session.sessionType === 'demo' && `👨‍🏫 ${t('machinistCorner.globalTestKitchen.demo')}`}
-                      {session.sessionType === 'showcase' && `🏆 ${t('machinistCorner.globalTestKitchen.showcase')}`}
+                      {session.sessionType === 'practice' && `🎯 ${t('machinistCorner.globalTestKitchen.practice', { defaultValue: 'Practice' })}`}
+                      {session.sessionType === 'assignment' && `📚 ${t('machinistCorner.globalTestKitchen.assignment', { defaultValue: 'Assignment' })}`}
+                      {session.sessionType === 'demo' && `👨‍🏫 ${t('machinistCorner.globalTestKitchen.demo', { defaultValue: 'Demo' })}`}
+                      {session.sessionType === 'showcase' && `🏆 ${t('machinistCorner.globalTestKitchen.showcase', { defaultValue: 'Showcase' })}`}
                     </span>
                   )}
                 </div>
@@ -851,7 +851,7 @@ END:VCALENDAR`;
                   onClick={() => addToCalendar(session)}
                   className="text-xs text-maineBlue hover:underline flex items-center"
                 >
-                  📅 {t('machinistCorner.globalTestKitchen.addToCalendar')}
+                  📅 {t('machinistCorner.globalTestKitchen.addToCalendar', { defaultValue: 'Add to calendar' })}
                 </button>
               </div>
               {session.teacherTag && (
@@ -883,13 +883,13 @@ END:VCALENDAR`;
               }}
               className="w-full bg-maineBlue text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
             >
-              🔴 {t('machinistCorner.globalTestKitchen.goLiveNow')}
+              🔴 {t('machinistCorner.globalTestKitchen.goLiveNow', { defaultValue: 'Go Live Now' })}
             </button>
             <button 
               onClick={() => setScheduleModalOpen(true)}
               className="w-full border border-maineBlue text-maineBlue py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
             >
-              📅 {t('machinistCorner.globalTestKitchen.scheduleSession')}
+              📅 {t('machinistCorner.globalTestKitchen.scheduleSession', { defaultValue: 'Schedule Session' })}
             </button>
           </div>
 
@@ -920,44 +920,46 @@ END:VCALENDAR`;
             </button>
             
             <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              🔴 {t('machinistCorner.globalTestKitchen.goLiveNow')}
+              🔴 {t('machinistCorner.globalTestKitchen.goLiveNow', { defaultValue: 'Go Live Now' })}
             </h2>
             
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  What are you demonstrating today?
+                  What welding skill are you demonstrating today?
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder="e.g., 3G vertical-up SMAW root pass walkthrough"
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Focus Area
+                  Process / Focus Area
                 </label>
                 <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue">
                   <option>Select</option>
-                  <option>Diagnostics</option>
-                  <option>Installation</option>
-                  <option>Maintenance</option>
+                  <option>SMAW (Stick)</option>
+                  <option>GMAW (MIG)</option>
+                  <option>GTAW (TIG)</option>
+                  <option>FCAW (Flux-Cored)</option>
+                  <option>Fit-Up</option>
+                  <option>Blueprint Reading</option>
+                  <option>Weld Inspection</option>
+                  <option>Heat Control</option>
                   <option>Safety</option>
-                  <option>Troubleshooting</option>
-                  <option>Planning</option>
-                  <option>Quality Control</option>
                   <option>Other</option>
                 </select>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Session Description
+                  Session Scope
                 </label>
                 <textarea
-                  placeholder="Tell everyone what skills and outcomes this session covers..."
+                  placeholder="Describe joint type, material, position, settings, and key QC checkpoints learners should watch for."
                   rows={3}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 />
@@ -968,7 +970,7 @@ END:VCALENDAR`;
                   onClick={() => setGoLiveModalOpen(false)}
                   className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                 >
-                  {t('machinistCorner.globalTestKitchen.cancel')}
+                  {t('machinistCorner.globalTestKitchen.cancel', { defaultValue: 'Cancel' })}
                 </button>
                 <button
                   onClick={() => {
@@ -1162,14 +1164,14 @@ END:VCALENDAR`;
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Dish Name
+                  Session Title
                 </label>
                 <input
                   type="text"
                   value={scheduledDishName}
                   onChange={(e) => setScheduledDishName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                  placeholder="e.g., Live service workflow walkthrough"
+                  placeholder="e.g., Vertical-up fillet troubleshooting walkthrough"
                 />
               </div>
               
@@ -1277,7 +1279,7 @@ END:VCALENDAR`;
                   disabled={!scheduledDishName.trim() || !scheduledCuisine || !scheduledDescription.trim() || !scheduledDate || !scheduledTime}
                   className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  📅 Schedule Session
+                  📅 {t('machinistCorner.globalTestKitchen.scheduleSession', { defaultValue: 'Schedule Session' })}
                 </button>
               </div>
             </div>
@@ -1309,7 +1311,7 @@ END:VCALENDAR`;
                     type="text"
                     value={videoTitle}
                     onChange={(e) => setVideoTitle(e.target.value)}
-                    placeholder="e.g., Perfect Pasta Technique Demo"
+                    placeholder="e.g., TIG root pass consistency demo"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   />
@@ -1317,7 +1319,7 @@ END:VCALENDAR`;
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Cuisine Type
+                    Focus Area
                   </label>
                   <select 
                     value={videoCuisine}
@@ -1325,13 +1327,13 @@ END:VCALENDAR`;
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   >
-                    <option value="">Select cuisine type</option>
+                    <option value="">Select focus area</option>
                     <option value="Diagnostics">Diagnostics</option>
                     <option value="Safety">Safety</option>
                     <option value="Installation">Installation</option>
-                    <option value="Asian">Asian</option>
-                    <option value="American">American</option>
-                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Maintenance">Maintenance</option>
+                    <option value="Planning">Planning</option>
+                    <option value="QualityControl">Quality Control</option>
                     <option value="Troubleshooting">Troubleshooting</option>
                     <option value="Other">Other</option>
                   </select>
@@ -1446,5 +1448,4 @@ END:VCALENDAR`;
   );
 };
 
-export default GlobalTestKitchen;
-
+export default GlobalTestBench;
