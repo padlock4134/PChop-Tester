@@ -12,7 +12,7 @@ import ElectricalSupabaseProvider, { useSupabase as useElectricalSupabase } from
 import HvacSupabaseProvider, { useSupabase as useHvacSupabase } from '../disciplines/hvac/components/SupabaseProvider';
 import ManufacturingSupabaseProvider, { useSupabase as useManufacturingSupabase } from '../disciplines/manufacturing/components/SupabaseProvider';
 import LogisticsSupabaseProvider, { useSupabase as useLogisticsSupabase } from '../disciplines/logistics/components/SupabaseProvider';
-import MachiningSupabaseProvider, { useSupabase as useMachiningSupabase } from '../disciplines/machining/components/SupabaseProvider';
+import MachiningSupabaseProvider, { useSupabase as useMachiningSupabase } from '../disciplines/welding/components/SupabaseProvider';
 
 // Export a discipline-aware useSupabase hook
 export const useSupabase = () => {

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from './NavBar';
 import { supabase } from '../api/supabaseClient';
-import { useSupabase } from '../components/SupabaseProvider';
+import { useSupabase } from './SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 
 interface VideoModalProps {

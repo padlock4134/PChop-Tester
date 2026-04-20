@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FireIcon, ShieldCheckIcon, StarIcon, TrophyIcon, SparklesIcon, WrenchScrewdriverIcon, AcademicCapIcon } from '@heroicons/react/24/solid';
 import { redirectToLogout } from '@wristband/react-client-auth';
-import { useSupabase } from '../components/SupabaseProvider';
+import { useSupabase } from './SupabaseProvider';
 import { supabase } from '../api/supabaseClient';
 // Removed external imports that don't exist
 import ReactMarkdown from 'react-markdown';

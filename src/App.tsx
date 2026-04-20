@@ -93,14 +93,14 @@ import LogisticsDockDashboard from './disciplines/logistics/components/DockDashb
 import LogisticsDockFreddieWidget from './disciplines/logistics/components/DockFreddieWidget';
 
 // Machining imports
-import MachiningNavBar from './disciplines/machining/components/NavBar';
-import MachiningMyTorch from './disciplines/machining/modules/MyBench';
-import MachiningMySpecBook from './disciplines/machining/modules/MySpecBook';
-import MachiningWeldersHub from './disciplines/machining/modules/MachinistCorner';
-import MachiningWeldingSchool from './disciplines/machining/modules/MachiningSchool';
-import MachiningProfile from './disciplines/machining/components/Profile';
-import MachiningBenchDashboard from './disciplines/machining/components/BenchDashboard';
-import MachiningBenchFreddieWidget from './disciplines/machining/components/BenchFreddieWidget';
+import MachiningNavBar from './disciplines/welding/components/NavBar';
+import MachiningMyTorch from './disciplines/welding/modules/MyBench';
+import MachiningMySpecBook from './disciplines/welding/modules/MySpecBook';
+import MachiningWeldersHub from './disciplines/welding/modules/MachinistCorner';
+import MachiningWeldingSchool from './disciplines/welding/modules/MachiningSchool';
+import MachiningProfile from './disciplines/welding/components/Profile';
+import MachiningBenchDashboard from './disciplines/welding/components/BenchDashboard';
+import MachiningBenchFreddieWidget from './disciplines/welding/components/BenchFreddieWidget';
 import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
 import { RouteProvider } from './disciplines/logistics/components/RouteContext';
@@ -115,7 +115,7 @@ import { setSupabaseJwt as setElectricalSupabaseJwt } from './disciplines/electr
 import { setSupabaseJwt as setHvacSupabaseJwt } from './disciplines/hvac/api/supabaseClient';
 import { setSupabaseJwt as setManufacturingSupabaseJwt } from './disciplines/manufacturing/api/supabaseClient';
 import { setSupabaseJwt as setLogisticsSupabaseJwt } from './disciplines/logistics/api/supabaseClient';
-import { setSupabaseJwt as setMachiningSupabaseJwt } from './disciplines/machining/api/supabaseClient';
+import { setSupabaseJwt as setMachiningSupabaseJwt } from './disciplines/welding/api/supabaseClient';
 import { useDeviceDetect, getResponsiveClasses } from './disciplines/culinary/utils/responsiveUtils';
 import InactivityWarningModal from './disciplines/culinary/components/InactivityWarningModal';
 import { useAutoLogout } from './disciplines/culinary/hooks/useAutoLogout';

@@ -9,7 +9,7 @@ import ChallengeOfTheWeek from './ChallengeOfTheWeek';
 import { getUserBadges, BADGES } from '../utils/badges';
 // @ts-ignore
 import logo from '../images/logo.png';
-import { useSupabase } from '../components/SupabaseProvider';
+import { useSupabase } from './SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 import { useAdminToggle } from '../../../App';
 import { useDiscipline } from '../../../DisciplineContext';

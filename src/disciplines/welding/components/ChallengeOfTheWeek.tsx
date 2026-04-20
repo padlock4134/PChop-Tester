@@ -8,7 +8,7 @@ import { getWeeklyChallengeRecipe } from '../api/anthropicChallenge';
 import { getRecipeImage } from '../api/unsplash';
 import { supabase } from '../api/supabaseClient';
 import { isSessionValid } from '../api/userSession';
-import { useSupabase } from '../components/SupabaseProvider';
+import { useSupabase } from './SupabaseProvider';
 
 // Pool of weekly challenges
 export const WEEKLY_CHALLENGES = [
