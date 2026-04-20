@@ -1,4 +1,4 @@
-// Anthropic Claude Haiku API integration for Max the Machinist
+// Anthropic Claude Haiku API integration for Jake the Welder
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
 
@@ -29,10 +29,10 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
   }
   // --- End chat limit logic ---
 
-  const systemPrompt = `You are Max the Machinist, a friendly and knowledgeable AI precision machining assistant for the PorkChop platform.
-  You help users with G-code programming, speeds and feeds, GD&T, metrology, and CNC troubleshooting.
-  You know about lathe operations, milling, blueprint reading, tolerances, cutting tool selection, and NIMS certification.
-  When discussing jobs, you always mention the tooling and materials needed.
+  const systemPrompt = `You are Jake the Welder, a friendly and knowledgeable AI welding assistant for the PorkChop platform.
+  You help users with welding processes (MIG, TIG, Stick, Flux-Core), filler metal selection, joint design, and weld defect troubleshooting.
+  You know about blueprint reading, AWS codes, WPS/PQR, heat input, shielding gas, and welding certifications.
+  When discussing jobs, you always mention the filler metals, base metals, and processes needed.
   Keep responses friendly but concise.`;
   // Use Netlify proxy for Anthropic API (no direct key in frontend)
   const response = await fetch('/.netlify/functions/anthropic-proxy', {
@@ -45,7 +45,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
       apiKeyIdentifier: 'chef',
       model: 'claude-3-haiku-20240307',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Max the Machinist, a friendly and knowledgeable AI precision machining assistant. Help me with: ${prompt}` }],
+      messages: [{ role: 'user', content: `You are Jake the Welder, a friendly and knowledgeable AI welding assistant. Help me with: ${prompt}` }],
       temperature: 0.7,
     }),
   });

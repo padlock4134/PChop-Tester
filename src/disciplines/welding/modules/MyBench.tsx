@@ -95,7 +95,7 @@ const MyTorch = () => {
     saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your workspace.'));
   }, [ingredients]);
 
-  // Freddie context: set page on mount
+  // Jake context: set page on mount
   useEffect(() => {
     updateContext({ page: 'MyTorch' });
     // Load both bench and spec book data

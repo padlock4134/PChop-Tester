@@ -65,7 +65,7 @@ const PAGES = [
           <li>My Specbook (Page 4)</li>
           <li>Machining School (Page 5)</li>
           <li>Machinist Corner (Page 6)</li>
-          <li>Max the Machinist (Page 7)</li>
+          <li>Jake the Welder (Page 7)</li>
           <li>Common Questions (Page 8)</li>
           <li>Pricing (Page 9)</li>
         </ul>
@@ -150,16 +150,16 @@ const PAGES = [
     ),
     pageNumber: 6
   },
-  // Page 7 - Max the Machinist
+  // Page 7 - Jake the Welder
   {
-    title: "Max the Machinist",
+    title: "Jake the Welder",
     content: (
       <>
         <p className="page-content-text">
-          Your AI machining assistant, ready to help with G-code programming, tolerances, speeds and feeds, and troubleshooting.
+          Your AI welding assistant, ready to help with weld processes, filler metals, joint design, and troubleshooting.
         </p>
         <div className="page-image-container page-7-image">
-          <img src="/chef-freddie-screenshot.png" alt="Max the Machinist Screenshot" className="page-screenshot" />
+          <img src="/chef-freddie-screenshot.png" alt="Jake the Welder Screenshot" className="page-screenshot" />
         </div>
       </>
     ),

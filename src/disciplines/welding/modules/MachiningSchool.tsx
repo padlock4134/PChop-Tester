@@ -5,19 +5,18 @@ import { useFreddieContext } from '../components/BenchFreddieContext';
 import VideoModal from '../components/VideoModal';
 import { useRecipeContext } from '../components/PartContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
-import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
-// Nutrition removed - not applicable for welding discipline
+// mainSelectors not used - welding helpers defined locally
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
 import CycleTimer from '../components/CycleTimer';
 import SetupPracticeModal from '../components/SetupPracticeModal';
 
 const generalLessons = [
-  { title: 'Blueprint & GD&T Reading', desc: 'How to read engineering drawings, tolerances, and geometric dimensioning.' },
-  { title: 'Manual Lathe Operation', desc: 'Turning, facing, boring, and threading on a manual lathe.' },
-  { title: 'Milling Machine Basics', desc: 'Face milling, slot milling, and workpiece setup on a knee mill.' },
-  { title: 'CNC Programming Fundamentals', desc: 'G-code and M-code basics — writing and running your first program.' },
-  { title: 'Metrology & Inspection', desc: 'Using calipers, micrometers, and CMMs to verify part dimensions.' },
-  { title: 'Cutting Tool & Machine Care', desc: 'Selecting, setting, and maintaining tooling and machine components.' }
+  { title: 'Welding Safety & PPE', desc: 'Proper use of helmets, gloves, jackets, respirators, and shop ventilation.' },
+  { title: 'SMAW (Stick) Fundamentals', desc: 'Electrode selection, arc striking, bead placement, and slag removal.' },
+  { title: 'GMAW (MIG) Basics', desc: 'Wire feed setup, shielding gas selection, and flat/horizontal welding.' },
+  { title: 'GTAW (TIG) Fundamentals', desc: 'Tungsten selection, torch angle, filler rod feeding, and gas coverage.' },
+  { title: 'Blueprint Reading for Welders', desc: 'Weld symbols, joint types, and reading fabrication drawings.' },
+  { title: 'Weld Inspection & Testing', desc: 'Visual inspection, bend tests, and understanding AWS D1.1 acceptance criteria.' }
 ];
 
 // Generate default tutorials including the weekly technique
@@ -32,73 +31,75 @@ function getDefaultTutorials() {
       techniqueData: weeklyTechnique
     },
     {
-      title: 'Let\'s Machine This Part!',
-      desc: 'How to approach the main task for this machining job.'
+      title: 'Let\'s Weld This Joint!',
+      desc: 'How to approach the main weld for this project.'
     }
   ];
 }
 
-// 52 Fundamental Machining Techniques (one for each week of the year)
+// 52 Fundamental Welding Techniques (one for each week of the year)
 const WEEKLY_TECHNIQUES = [
-  // Blueprint, Metrology & Safety (Weeks 1-13)
-  { title: "Blueprint Reading Basics", desc: "Orthographic views, title blocks, and revision levels" },
-  { title: "GD&T Symbols", desc: "Flatness, circularity, perpendicularity, and true position" },
-  { title: "Reading Tolerances", desc: "Plus/minus tolerances, fit classes, and tolerance stacks" },
-  { title: "Caliper Use", desc: "Inside, outside, depth, and step measurements with a vernier caliper" },
-  { title: "Micrometer Use", desc: "Outside mic technique, thimble reading, and anvil care" },
-  { title: "Dial Indicator Setup", desc: "Mounting, zeroing, and sweeping a part on a surface plate" },
-  { title: "Surface Plate & V-Block Use", desc: "Checking roundness and parallelism on a granite surface plate" },
-  { title: "Thread Gauge Use", desc: "Thread pitch gauge, go/no-go gauge, and thread measurement" },
-  { title: "Gage Block Fundamentals", desc: "Building stacks and using blocks for precision setup" },
-  { title: "Machine Safety Basics", desc: "Lockout/tagout, guarding, and proper work attire" },
-  { title: "Speeds & Feeds Overview", desc: "Surface footage, RPM, and feed rate relationships" },
-  { title: "Cutting Tool Materials", desc: "HSS vs. carbide vs. ceramic — applications and comparisons" },
-  { title: "Coolant Selection", desc: "Flood coolant, mist, and dry cutting — when to use each" },
+  // Safety & Fundamentals (Weeks 1-13)
+  { title: "Welding Safety & PPE", desc: "Helmet auto-darkening, leather gloves, FR jackets, and ventilation" },
+  { title: "Arc Welding Principles", desc: "How the electric arc melts base metal and filler to form a weld" },
+  { title: "Joint Types & Fit-Up", desc: "Butt, lap, tee, corner, and edge joints — preparation and alignment" },
+  { title: "Weld Symbols", desc: "Reading AWS weld symbols on fabrication drawings" },
+  { title: "Electrode Classification", desc: "Understanding E6010, E6013, E7018, and their applications" },
+  { title: "Shielding Gas Basics", desc: "Argon, CO2, 75/25 mix, and tri-mix — when to use each" },
+  { title: "Base Metal ID", desc: "Spark test, magnet test, and identifying mild steel, stainless, and aluminum" },
+  { title: "Filler Metal Selection", desc: "Matching filler to base metal — ER70S-6, ER308L, ER4043" },
+  { title: "Welding Positions", desc: "Flat (1G/1F), horizontal (2G/2F), vertical (3G/3F), overhead (4G/4F)" },
+  { title: "Tack Welding", desc: "Proper tack size, spacing, and sequence to prevent distortion" },
+  { title: "Distortion Control", desc: "Pre-setting, back-stepping, and clamping to manage weld shrinkage" },
+  { title: "Heat Input Basics", desc: "Amps × volts ÷ travel speed — why it matters for weld quality" },
+  { title: "Shop Math for Welders", desc: "Angles, area, volume, and weight calculations for fabrication" },
 
-  // Manual Lathe Operations (Weeks 14-26)
-  { title: "Lathe Component ID", desc: "Headstock, saddle, cross slide, tailstock, and compound" },
-  { title: "Workholding on the Lathe", desc: "3-jaw, 4-jaw, collet, and between-centers setups" },
-  { title: "Facing Operation", desc: "Squaring the end of stock to a flat, perpendicular surface" },
-  { title: "Straight Turning", desc: "Reducing diameter to size with controlled depth of cut" },
-  { title: "Taper Turning", desc: "Compound angle method and tailstock offset method" },
-  { title: "Boring on the Lathe", desc: "Using a boring bar to enlarge an existing hole" },
-  { title: "Drilling on the Lathe", desc: "Center drilling, drill selection, and tailstock feed" },
-  { title: "Threading on the Lathe", desc: "External thread cutting — chasing threads and compound angle" },
-  { title: "Knurling", desc: "Diamond and straight knurl setup and feed rates" },
-  { title: "Parting Off", desc: "Using a parting tool to cut stock to length" },
-  { title: "Grooving", desc: "Internal and external groove cutting for O-rings and snap rings" },
-  { title: "Lathe Maintenance", desc: "Way lubrication, chuck jaw maintenance, and alignment checks" },
-  { title: "Material Turning Properties", desc: "Chip control and insert selection for steel, aluminum, and titanium" },
+  // SMAW / Stick Welding (Weeks 14-20)
+  { title: "SMAW Machine Setup", desc: "Polarity selection (DCEP/DCEN), amperage range, and lead connections" },
+  { title: "Arc Striking & Control", desc: "Scratch start vs. tap start, arc length, and travel angle" },
+  { title: "Stringer Beads (Flat)", desc: "Running consistent flat-position beads with E7018" },
+  { title: "Weave Patterns", desc: "C-weave, Z-weave, and figure-8 for wider passes" },
+  { title: "Vertical Up (3G Stick)", desc: "Shelf technique and keyhole method for vertical welding" },
+  { title: "Overhead Stick (4G)", desc: "Short arc, tight weave, and body positioning for overhead" },
+  { title: "Open Root with 6010", desc: "Keyhole technique, root penetration, and hot pass" },
 
-  // CNC & Milling Operations (Weeks 27-39)
-  { title: "Mill Component ID", desc: "Column, knee, table, spindle, and quill functions" },
-  { title: "Workholding on the Mill", desc: "Vise setup, parallels, edge finding, and clamping" },
-  { title: "Face Milling", desc: "Squaring a block and achieving a consistent surface finish" },
-  { title: "Slot and Pocket Milling", desc: "End mill selection, depth per pass, and corner compensation" },
-  { title: "Drilling on the Mill", desc: "Center drilling, spot drilling, and peck drilling cycles" },
-  { title: "Boring Head Use", desc: "Setting a boring head for tight tolerance hole making" },
-  { title: "CNC Machine Startup", desc: "Controller startup, home position, and tool offset loading" },
-  { title: "G-Code Basics (G00, G01, G02, G03)", desc: "Rapid travel, linear feed, and circular interpolation" },
-  { title: "M-Code Functions", desc: "Spindle, coolant, tool change, and program stop codes" },
-  { title: "Work Coordinate Systems", desc: "G54-G59 fixture offsets and probing for work zero" },
-  { title: "Tool Length Offsets", desc: "Setting H offsets and checking tool lengths" },
-  { title: "Canned Drilling Cycles", desc: "G81, G83 peck drill, G84 tapping, and G85 boring" },
-  { title: "CNC Program Verification", desc: "Dry run, single block, and air-cutting a new program" },
+  // GMAW / MIG Welding (Weeks 21-28)
+  { title: "MIG Machine Setup", desc: "Wire speed, voltage, gas flow rate, and contact tip selection" },
+  { title: "MIG Flat & Horizontal", desc: "Push vs. drag technique, travel speed, and bead appearance" },
+  { title: "MIG Vertical Up", desc: "Triangle weave and proper heat management climbing vertical" },
+  { title: "Short Circuit vs. Spray Transfer", desc: "When to use each transfer mode and parameter ranges" },
+  { title: "Flux-Core (FCAW)", desc: "Self-shielded vs. dual-shield, slag removal, and applications" },
+  { title: "MIG Aluminum", desc: "Spool gun setup, push technique, and cleaning requirements" },
+  { title: "MIG Stainless Steel", desc: "Tri-mix gas, heat control, and avoiding sugaring" },
+  { title: "MIG Troubleshooting", desc: "Porosity, bird-nesting, burn-through, and lack of fusion fixes" },
 
-  // Advanced Techniques & Professional Skills (Weeks 40-52)
-  { title: "Grinding Basics", desc: "Surface grinding wheel selection, dressing, and depth of cut" },
-  { title: "EDM Fundamentals", desc: "Wire and sinker EDM — how electrical discharge removes material" },
-  { title: "5-Axis Machining Concepts", desc: "Trunnion vs. swivel head — applications and programming basics" },
-  { title: "Fixturing & Jig Design", desc: "Designing repeatable, accurate workholding for production" },
-  { title: "Statistical Process Control (SPC)", desc: "Cpk, control charts, and monitoring process capability" },
-  { title: "First Article Inspection", desc: "Completing a PPAP/FAIR report for a new part" },
-  { title: "Material Properties", desc: "Hardness, machinability ratings, and heat treatment effects" },
-  { title: "Toolpath Simulation (CAM)", desc: "Verifying a CAM toolpath before posting code" },
-  { title: "Scrap Reduction Strategies", desc: "Root cause analysis and corrective actions for out-of-tolerance parts" },
-  { title: "Job Setup Documentation", desc: "Writing a setup sheet for the next shift operator" },
-  { title: "Lean Manufacturing Basics", desc: "5S, waste identification, and value stream mapping" },
-  { title: "NIMS Certification Prep", desc: "Study strategies for NIMS machining credentials" },
-  { title: "Career Pathways", desc: "Apprentice to journeyman to master machinist — the roadmap" }
+  // GTAW / TIG Welding (Weeks 29-38)
+  { title: "TIG Machine Setup", desc: "Tungsten selection, cup size, gas flow, and AC/DC settings" },
+  { title: "TIG Flat Beads (Steel)", desc: "Torch angle, filler dipping rhythm, and puddle control" },
+  { title: "TIG Fillet Welds", desc: "Equal-leg fillets on tee joints with proper tie-in" },
+  { title: "TIG Walking the Cup", desc: "Pipe welding technique for consistent root and fill passes" },
+  { title: "TIG Aluminum (AC)", desc: "Cleaning action, balance control, and crater fill" },
+  { title: "TIG Stainless Steel", desc: "Back purging, heat control, and maintaining color" },
+  { title: "TIG Pipe — 2G Roll", desc: "Root, hot, fill, and cap passes on rolled pipe" },
+  { title: "TIG Pipe — 6G Fixed", desc: "Open root technique on 6G fixed-position pipe" },
+  { title: "Tungsten Prep & Grinding", desc: "Proper taper, point angle, and avoiding contamination" },
+  { title: "TIG Troubleshooting", desc: "Tungsten inclusions, porosity, underfill, and gas coverage issues" },
+
+  // Advanced & Professional (Weeks 39-52)
+  { title: "Oxy-Fuel Cutting", desc: "Torch setup, preheat, and cutting mild steel plate and pipe" },
+  { title: "Plasma Cutting", desc: "Machine setup, consumables, and cutting various thicknesses" },
+  { title: "Weld Inspection (Visual)", desc: "Undercut, porosity, overlap, incomplete fusion — what to look for" },
+  { title: "Destructive Testing", desc: "Bend tests, break tests, and macro etch procedures" },
+  { title: "Non-Destructive Testing Intro", desc: "PT, MT, UT, RT — overview of NDE methods" },
+  { title: "WPS & PQR", desc: "Understanding Welding Procedure Specifications and qualification records" },
+  { title: "AWS D1.1 Overview", desc: "Structural steel welding code — scope, prequalified joints, and acceptance" },
+  { title: "Pipe Welding Codes", desc: "ASME Section IX, API 1104, and qualification requirements" },
+  { title: "Preheating & PWHT", desc: "When and why to preheat, interpass temps, and post-weld heat treatment" },
+  { title: "Welding Metallurgy Basics", desc: "HAZ, grain structure, and how heat affects base metal properties" },
+  { title: "Fabrication Layout", desc: "Measuring, marking, and fitting structural members for welding" },
+  { title: "AWS Certification Prep", desc: "Study strategies for AWS CW, CWI, and performance qualifications" },
+  { title: "Welder Career Pathways", desc: "Apprentice to journeyman to CWI — the roadmap" },
+  { title: "Specialty Processes", desc: "SAW, ESW, brazing, soldering — niche processes and applications" }
 ];
 
 // Get the technique for current week (1-52)
@@ -123,9 +124,9 @@ function getTwoTutorials(recipe: any) {
       techniqueData: weeklyTechnique
     },
     {
-      title: `Let\'s Machine This Part!`,
-      desc: `Step-by-step machining walkthrough for ${recipe.title}.`,
-      type: 'cooking_tutorial'
+      title: `Let\'s Weld This Joint!`,
+      desc: `Step-by-step welding walkthrough for ${recipe.title}.`,
+      type: 'welding_tutorial'
     }
   ];
 }
@@ -135,7 +136,7 @@ const WeldingSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Machining School - Full Job Ticket:', selectedRecipe);
+  console.log('Welding School - Full Job Ticket:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
@@ -143,47 +144,47 @@ const WeldingSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Precision Machining Technology Curriculum",
+    title: "Welding Technology Curriculum",
     courses: [
       {
         id: "course-1",
-        title: "Term 1: Machining Fundamentals",
+        title: "Term 1: Welding Fundamentals",
         lessons: [
-          { id: "lesson-1-1", title: "Machine Shop Safety and OSHA Basics", completed: true, current: false },
-          { id: "lesson-1-2", title: "Measuring Tools and Metrology", completed: true, current: false },
-          { id: "lesson-1-3", title: "Blueprint Reading and GD&T", completed: true, current: false },
-          { id: "lesson-1-4", title: "Cutting Tools, Materials, and Speeds & Feeds", completed: false, current: true },
-          { id: "lesson-1-5", title: "Workholding and Setup Procedures", completed: false, current: false },
+          { id: "lesson-1-1", title: "Welding Safety, PPE, and OSHA Basics", completed: true, current: false },
+          { id: "lesson-1-2", title: "Arc Welding Principles and Joint Types", completed: true, current: false },
+          { id: "lesson-1-3", title: "Blueprint Reading and Weld Symbols", completed: true, current: false },
+          { id: "lesson-1-4", title: "Base Metals, Filler Metals, and Shielding Gases", completed: false, current: true },
+          { id: "lesson-1-5", title: "Fit-Up, Tack Welding, and Distortion Control", completed: false, current: false },
         ]
       },
       {
         id: "course-2",
-        title: "Term 1: Manual Lathe & Mill Operations",
+        title: "Term 1: SMAW & GMAW Operations",
         lessons: [
-          { id: "lesson-2-1", title: "Lathe Operations: Facing, Turning, and Boring", completed: false, current: false },
-          { id: "lesson-2-2", title: "Lathe Operations: Threading and Taper Turning", completed: false, current: false },
-          { id: "lesson-2-3", title: "Milling Operations: Face Milling and Slots", completed: false, current: false },
-          { id: "lesson-2-4", title: "Milling Operations: Drilling and Boring", completed: false, current: false },
+          { id: "lesson-2-1", title: "SMAW: Machine Setup, Electrodes, and Flat Position", completed: false, current: false },
+          { id: "lesson-2-2", title: "SMAW: Vertical, Overhead, and Open Root Techniques", completed: false, current: false },
+          { id: "lesson-2-3", title: "GMAW: Machine Setup, Transfer Modes, and Flat/Horizontal", completed: false, current: false },
+          { id: "lesson-2-4", title: "GMAW: Vertical, Aluminum, Stainless, and Troubleshooting", completed: false, current: false },
         ]
       },
       {
         id: "course-3",
-        title: "Term 2: CNC Programming & Operations",
+        title: "Term 2: GTAW & Cutting Processes",
         lessons: [
-          { id: "lesson-3-1", title: "CNC Machine Startup and G-Code Basics", completed: false, current: false },
-          { id: "lesson-3-2", title: "Work Coordinate Systems and Tool Offsets", completed: false, current: false },
-          { id: "lesson-3-3", title: "Canned Cycles and Program Verification", completed: false, current: false },
-          { id: "lesson-3-4", title: "CAM Software and Toolpath Simulation", completed: false, current: false },
+          { id: "lesson-3-1", title: "GTAW: Machine Setup, Tungsten Prep, and Steel Beads", completed: false, current: false },
+          { id: "lesson-3-2", title: "GTAW: Aluminum, Stainless, and Pipe Welding", completed: false, current: false },
+          { id: "lesson-3-3", title: "Oxy-Fuel Cutting and Plasma Cutting", completed: false, current: false },
+          { id: "lesson-3-4", title: "FCAW: Self-Shielded and Dual-Shield Applications", completed: false, current: false },
         ]
       },
       {
         id: "course-4",
-        title: "Term 2: Quality, Inspection & Professional Practice",
+        title: "Term 2: Inspection, Codes & Professional Practice",
         lessons: [
-          { id: "lesson-4-1", title: "SPC, Cpk, and First Article Inspection", completed: false, current: false },
-          { id: "lesson-4-2", title: "Grinding, EDM, and Advanced Processes", completed: false, current: false },
-          { id: "lesson-4-3", title: "Lean Manufacturing and 5S", completed: false, current: false },
-          { id: "lesson-4-4", title: "NIMS Certification and Career Pathways", completed: false, current: false },
+          { id: "lesson-4-1", title: "Weld Inspection: Visual, Destructive, and NDE Methods", completed: false, current: false },
+          { id: "lesson-4-2", title: "WPS, PQR, and Welding Codes (AWS D1.1, ASME IX)", completed: false, current: false },
+          { id: "lesson-4-3", title: "Welding Metallurgy, Preheating, and PWHT", completed: false, current: false },
+          { id: "lesson-4-4", title: "AWS Certification Prep and Career Pathways", completed: false, current: false },
         ]
       }
     ] as SyllabusCourse[]
@@ -202,45 +203,46 @@ const WeldingSchool = () => {
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
-  // Helper: extract primary material from components
-  function getMainProtein(ingredients: string[] = []) {
-    const proteins = [
-      'chicken', 'beef', 'pork', 'fish', 'salmon', 'shrimp', 'clam', 'crab', 'lobster',
-      'tofu', 'turkey', 'duck', 'lamb', 'egg', 'eggs', 'scallop', 'scallops', 'mussels', 'steak',
-      'bacon', 'sausage', 'ham', 'vegan', 'tempeh', 'seitan', 'octopus', 'squid', 'anchovy', 'anchovies'
+  // Helper: extract primary base metal from materials list
+  function getMainMaterial(ingredients: string[] = []) {
+    const metals = [
+      'mild steel', 'carbon steel', 'stainless steel', 'aluminum', 'chromoly',
+      'inconel', 'titanium', 'copper', 'brass', 'cast iron', 'galvanized',
+      'duplex', 'nickel alloy', 'low alloy steel', 'high strength steel'
     ];
-    return ingredients.find(ing => proteins.some(p => ing.toLowerCase().includes(p)));
+    return ingredients.find(ing => metals.some(m => ing.toLowerCase().includes(m)));
   }
-  // Helper: extract main equipment from equipment array
-  function getMainEquipment(equipment: string[] = []) {
+  // Helper: extract main welding process from equipment array
+  function getMainProcess(equipment: string[] = []) {
     const priorities = [
-      'pan', 'pot', 'oven', 'grill', 'skillet', 'wok', 'baking sheet', 'slow cooker', 'pressure cooker', 'air fryer', 'broiler', 'deep fryer', 'steamer', 'microwave', 'toaster oven'
+      'TIG', 'GTAW', 'MIG', 'GMAW', 'stick', 'SMAW', 'flux-core', 'FCAW',
+      'oxy-fuel', 'plasma', 'SAW', 'spot weld', 'brazing'
     ];
     for (const p of priorities) {
-      const found = equipment.find(eq => eq.toLowerCase().includes(p));
+      const found = equipment.find(eq => eq.toLowerCase().includes(p.toLowerCase()));
       if (found) return found;
     }
     return equipment[0] || '';
   }
 
-  // Helper to call Chef Freddie backend for a smart search query
-  async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
+  // Helper to call Jake the Welder backend for a smart search query
+  async function getVideoQueryFromJake(recipe: any, tut: any, idx: any) {
     let query = '';
     
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
       query = `how to ${tut.techniqueData.title.toLowerCase()} trade technique`;
-    } else if (tut.type === 'cooking_tutorial') {
-      // For task tutorials, focus on the project
-      const mainProtein = getMainProtein(recipe.ingredients || []);
-      const mainEquipment = getMainEquipment(recipe.equipment || []);
-      if (mainProtein && mainEquipment) {
-        query = `How to cook ${mainProtein} using ${mainEquipment}`;
-      } else if (mainProtein) {
-        query = `How to cook ${mainProtein}`;
+    } else if (tut.type === 'welding_tutorial') {
+      // For weld tutorials, focus on the project
+      const mainMaterial = getMainMaterial(recipe.ingredients || []);
+      const mainProcess = getMainProcess(recipe.equipment || []);
+      if (mainMaterial && mainProcess) {
+        query = `How to weld ${mainMaterial} using ${mainProcess}`;
+      } else if (mainMaterial) {
+        query = `How to weld ${mainMaterial}`;
       } else {
-        query = `how to complete ${recipe.title}`;
+        query = `how to complete ${recipe.title} welding`;
       }
     } else {
       // Legacy fallback for older tutorial formats
@@ -248,7 +250,7 @@ const WeldingSchool = () => {
         return recipe.title;
       }
       
-      // Use Chef Freddie for complex queries
+      // Use Jake the Welder for complex queries
       const prompt = `
         Given the following project and tutorial step, generate a concise YouTube search query for a relevant trade training video.\n
         - Only use the equipment and ingredients listed.\n
@@ -262,7 +264,7 @@ const WeldingSchool = () => {
         Query:
       `;
       try {
-        const res = await fetch('/api/chefFreddieQuery', {
+        const res = await fetch('/api/chefFreddieQuery', { // endpoint name kept for API compat
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ prompt })
@@ -281,30 +283,30 @@ const WeldingSchool = () => {
     let cancelled = false;
     async function fetchVideos() {
       // Now using API key rotation system for better quota management
-      console.log('[MachiningSchool] Fetching videos with API key rotation');
-      console.log('[MachiningSchool] Tutorials to fetch:', tutorials);
-      console.log('[MachiningSchool] Selected job ticket:', selectedRecipe);
+      console.log('[WeldingSchool] Fetching videos with API key rotation');
+      console.log('[WeldingSchool] Tutorials to fetch:', tutorials);
+      console.log('[WeldingSchool] Selected job ticket:', selectedRecipe);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
         try {
           // Use the improved video query generation that handles different tutorial types
-          const query = await getVideoQueryFromFreddie(
+          const query = await getVideoQueryFromJake(
             selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
             tut, 
             idx
           );
           
-          console.log(`[MachiningSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
+          console.log(`[WeldingSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
           
           const result: TutorialVideoResult = await getTutorialVideo(query);
-          console.log(`[MachiningSchool] Tutorial ${idx} result:`, result);
+          console.log(`[WeldingSchool] Tutorial ${idx} result:`, result);
           
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
         } catch (error) {
-          console.error(`[MachiningSchool] Error fetching video for tutorial ${idx}:`, error);
+          console.error(`[WeldingSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
       
@@ -346,7 +348,7 @@ const WeldingSchool = () => {
         <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
           activeMobileTab === 'school' ? 'block' : 'hidden lg:block'
         }`}>
-          {/* Culinary School header - moved back inside the module */}
+          {/* Welding School header */}
           <div className="flex items-center justify-center mb-4">
             <span className="text-5xl mr-2">🔩</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('machiningSchool.title')}</h1>
@@ -383,7 +385,7 @@ const WeldingSchool = () => {
                 </li>
               ))}
             </ol>
-            {/* Recipe Card Display at Bottom (matching MyCookBook RecipeCard layout) */}
+            {/* Job Ticket Display at Bottom */}
             <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
               <button
                 onClick={() => window.location.reload()}

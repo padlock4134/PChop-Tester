@@ -1,9 +1,9 @@
-// Netlify Function or API Route for Chef Freddie (Claude Haiku) prompt-to-query
+// Netlify Function or API Route for Jake the Welder (Claude Haiku) prompt-to-query
 // TODO: Implement Claude Haiku/AI integration logic for production.
 
-// Netlify/Node API handler for Chef Freddie prompt-to-query
+// Netlify/Node API handler for Jake the Welder prompt-to-query
 
-// Netlify Function for Chef Freddie prompt-to-query
+// Netlify Function for Jake the Welder prompt-to-query
 export async function handler(event: any, context: any) {
   if (event.httpMethod !== 'POST') {
     return {

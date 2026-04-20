@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useRecipeContext } from './PartContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
-import benchFreddiePng from '../images/logo.png';
+import jakeWelderPng from '../images/logo.png';
 
 export type RecipeCard = {
   id: string;
@@ -46,7 +46,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const navigate = useNavigate();
 
   const loadingMessages = [
-    'Bench Freddie checking your materials...',
+    'Jake the Welder checking your materials...',
     'Building your welding projects...',
     'Almost ready...'
   ];
@@ -134,7 +134,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         <h2 className="font-retro text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={benchFreddiePng} alt="Bench Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
+              <img src={jakeWelderPng} alt="Jake the Welder" className="w-12 h-12 rounded-full border-2 border-black" />
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
