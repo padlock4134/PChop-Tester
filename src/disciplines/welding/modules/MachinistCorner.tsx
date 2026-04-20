@@ -216,7 +216,7 @@ const WeldersHub = () => {
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            🧪 {t('machinistCorner.globalTestKitchenTab')}
+            🧪 {t('machinistCorner.globalTestKitchenTab', { defaultValue: 'Global Weld Lab' })}
           </button>
         </div>
         
@@ -355,5 +355,4 @@ const WeldersHub = () => {
 };
 
 export default WeldersHub;
-
 
