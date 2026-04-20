@@ -101,6 +101,8 @@ import MachiningWeldingSchool from './disciplines/welding/modules/MachiningSchoo
 import MachiningProfile from './disciplines/welding/components/Profile';
 import MachiningBenchDashboard from './disciplines/welding/components/BenchDashboard';
 import MachiningBenchFreddieWidget from './disciplines/welding/components/BenchFreddieWidget';
+import { FreddieProvider as WeldingFreddieProvider } from './disciplines/welding/components/BenchFreddieContext';
+import { RecipeProvider as WeldingRecipeProvider } from './disciplines/welding/components/PartContext';
 import { FreddieProvider } from './disciplines/culinary/components/FreddieContext';
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
 import { RouteProvider } from './disciplines/logistics/components/RouteContext';
@@ -534,11 +536,15 @@ const App = () => {
           <RouteProvider>
             <FreddieProvider>
               <LogisticsFreddieProvider>
-                <DisciplineProvider>
-                  <DisciplineSupabaseProvider>
-                    <AppRoutes />
-                  </DisciplineSupabaseProvider>
-                </DisciplineProvider>
+                <WeldingFreddieProvider>
+                  <WeldingRecipeProvider>
+                    <DisciplineProvider>
+                      <DisciplineSupabaseProvider>
+                        <AppRoutes />
+                      </DisciplineSupabaseProvider>
+                    </DisciplineProvider>
+                  </WeldingRecipeProvider>
+                </WeldingFreddieProvider>
               </LogisticsFreddieProvider>
             </FreddieProvider>
           </RouteProvider>
