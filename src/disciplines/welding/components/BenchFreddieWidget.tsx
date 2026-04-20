@@ -15,8 +15,8 @@ const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
     case 'MyTorch':
       return "Welcome to My Torch — I can help you look up filler metals, check welding parameters, and plan your setup.";
-    case 'MySpecbook':
-      return "Welcome to My Specbook — need help writing a G-code program or reviewing a job ticket?";
+    case 'MyWeldBook':
+      return "Welcome to My WeldBook — need help reviewing a WPS or looking up a job ticket?";
     case 'WeldersHub':
       return "Welcome to the Welders Hub — want tips on finding local welding suppliers or connecting with fellow welders?";
     case 'WeldingSchool':

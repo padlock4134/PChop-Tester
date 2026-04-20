@@ -95,7 +95,7 @@ import LogisticsDockFreddieWidget from './disciplines/logistics/components/DockF
 // Machining imports
 import MachiningNavBar from './disciplines/welding/components/NavBar';
 import MachiningMyTorch from './disciplines/welding/modules/MyBench';
-import MachiningMySpecBook from './disciplines/welding/modules/MySpecBook';
+import MachiningMyWeldBook from './disciplines/welding/modules/MySpecBook';
 import MachiningWeldersHub from './disciplines/welding/modules/MachinistCorner';
 import MachiningWeldingSchool from './disciplines/welding/modules/MachiningSchool';
 import MachiningProfile from './disciplines/welding/components/Profile';
@@ -261,7 +261,7 @@ const getDisciplineComponents = (discipline: string) => {
     machining: {
       NavBar: MachiningNavBar,
       Kitchen: MachiningMyTorch,
-      Cookbook: MachiningMySpecBook,
+      Cookbook: MachiningMyWeldBook,
       Corner: MachiningWeldersHub,
       School: MachiningWeldingSchool,
       Profile: MachiningProfile,
@@ -453,7 +453,7 @@ const AppRoutes = () => {
           {/* Machining routes */}
           <Route path="/welding/dashboard" element={<MachiningBenchDashboard />} />
           <Route path="/welding/my-torch" element={<MachiningMyTorch />} />
-          <Route path="/welding/my-specbook" element={<MachiningMySpecBook />} />
+          <Route path="/welding/my-weldbook" element={<MachiningMyWeldBook />} />
           <Route path="/welding/welders-hub" element={<MachiningWeldersHub />} />
           <Route path="/welding/welding-school" element={<MachiningWeldingSchool />} />
           <Route path="/welding/profile" element={<MachiningProfile />} />
@@ -462,7 +462,8 @@ const AppRoutes = () => {
           <Route path="/machining/dashboard" element={<Navigate to="/welding/dashboard" replace />} />
           <Route path="/welding/my-bench" element={<Navigate to="/welding/my-torch" replace />} />
           <Route path="/machining/my-bench" element={<Navigate to="/welding/my-torch" replace />} />
-          <Route path="/machining/my-specbook" element={<Navigate to="/welding/my-specbook" replace />} />
+          <Route path="/welding/my-specbook" element={<Navigate to="/welding/my-weldbook" replace />} />
+          <Route path="/machining/my-specbook" element={<Navigate to="/welding/my-weldbook" replace />} />
           <Route path="/welding/machinist-corner" element={<Navigate to="/welding/welders-hub" replace />} />
           <Route path="/machining/machinist-corner" element={<Navigate to="/welding/welders-hub" replace />} />
           <Route path="/welding/machining-school" element={<Navigate to="/welding/welding-school" replace />} />

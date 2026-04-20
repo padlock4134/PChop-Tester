@@ -338,7 +338,7 @@ const MySpecBook = () => {
     }
   };
   useEffect(() => {
-    updateContext({ page: 'MyCookBook' });
+    updateContext({ page: 'MyWeldBook' });
     const loadRecipes = async () => {
       try {
         setLoading(true);

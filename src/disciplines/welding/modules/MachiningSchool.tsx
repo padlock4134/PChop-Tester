@@ -459,7 +459,7 @@ const WeldingSchool = () => {
               <div className="text-gray-700 mb-4">{t('machiningSchool.getStarted')}</div>
               <div className="flex justify-center space-x-4">
                 <Link to="/welding/my-torch" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyKitchen')}</Link>
-                <Link to="/welding/my-specbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyCookbook')}</Link>
+                <Link to="/welding/my-weldbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyCookbook')}</Link>
               </div>
             </div>
           </>

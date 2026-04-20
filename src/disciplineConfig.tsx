@@ -103,7 +103,7 @@ export const BASE_DISCIPLINE_CONFIG = {
     name: 'Welding',
     routes: {
       kitchen: '/welding/my-torch',
-      cookbook: '/welding/my-specbook',
+      cookbook: '/welding/my-weldbook',
       corner: '/welding/welders-hub',
       school: '/welding/welding-school',
       dashboard: '/welding/dashboard',
@@ -226,7 +226,7 @@ const DISCIPLINE_ROUTE_SEGMENTS = new Set([
   'dispatch-lounge',
   'logistics-school',
   'my-torch',
-  'my-specbook',
+  'my-weldbook',
   'welders-hub',
   'welding-school',
   // Generic/custom discipline pages

@@ -116,8 +116,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Banner Header - Left Side Only */}
           <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
-              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🧀</span>
-              {t('culinarySchool.charcuterieBoard.title')}
+              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🔥</span>
+              The Foundry
             </h2>
           </div>
           
