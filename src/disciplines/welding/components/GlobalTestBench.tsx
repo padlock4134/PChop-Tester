@@ -1158,7 +1158,7 @@ END:VCALENDAR`;
             </button>
             
             <h2 className="text-2xl font-bold mb-4 text-center text-maineBlue">
-              📅 Schedule Live Session
+              📅 Schedule Live Weld Session
             </h2>
             
             <div className="space-y-4">
@@ -1171,41 +1171,45 @@ END:VCALENDAR`;
                   value={scheduledDishName}
                   onChange={(e) => setScheduledDishName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
-                  placeholder="e.g., Vertical-up fillet troubleshooting walkthrough"
+                  placeholder="e.g., 4G overhead weld bead control walkthrough"
                 />
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Focus Area
+                  Weld Process / Focus Area
                 </label>
                 <select 
                   value={scheduledCuisine}
                   onChange={(e) => setScheduledCuisine(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
-                  <option value="">Select</option>
-                  <option value="Diagnostics">Diagnostics</option>
-                  <option value="Installation">Installation</option>
-                  <option value="Maintenance">Maintenance</option>
+                  <option value="">Select weld focus</option>
+                  <option value="SMAW">SMAW (Stick)</option>
+                  <option value="GMAW">GMAW (MIG)</option>
+                  <option value="GTAW">GTAW (TIG)</option>
+                  <option value="FCAW">FCAW (Flux-Cored)</option>
+                  <option value="FitUp">Fit-Up</option>
+                  <option value="BlueprintReading">Blueprint Reading</option>
+                  <option value="WeldInspection">Weld Inspection</option>
+                  <option value="HeatControl">Heat Control</option>
                   <option value="Safety">Safety</option>
                   <option value="Troubleshooting">Troubleshooting</option>
-                  <option value="Planning">Planning</option>
-                  <option value="QualityControl">Quality Control</option>
+                  <option value="CodeCompliance">Code Compliance</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Description
+                  Session Scope
                 </label>
                 <textarea
                   value={scheduledDescription}
                   onChange={(e) => setScheduledDescription(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                   rows={3}
-                  placeholder="Tell us about this session and what students will practice..."
+                  placeholder="Include material type/thickness, weld position, machine settings, and what QA checkpoints students should follow."
                 />
               </div>
               
