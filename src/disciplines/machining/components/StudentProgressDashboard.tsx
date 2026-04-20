@@ -234,7 +234,7 @@ const StudentProgressDashboard: React.FC = () => {
           <div className="mb-4 p-3">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
             <Link
-              to="/welding/my-bench"
+              to="/welding/my-torch"
               className="flex flex-col items-center p-6 rounded-lg border-4 border-seafoam bg-teal-50 text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]"
             >
               <div className="mb-3 text-4xl">🛠️</div>

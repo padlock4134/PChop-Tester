@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FireIcon, ShieldCheckIcon, StarIcon, TrophyIcon, SparklesIcon, CakeIcon, AcademicCapIcon } from '@heroicons/react/24/solid';
+import { FireIcon, ShieldCheckIcon, StarIcon, TrophyIcon, SparklesIcon, WrenchScrewdriverIcon, AcademicCapIcon } from '@heroicons/react/24/solid';
 import { redirectToLogout } from '@wristband/react-client-auth';
 import { useSupabase } from '../components/SupabaseProvider';
 import { supabase } from '../api/supabaseClient';
@@ -23,11 +23,11 @@ type UserProfile = {
 
 // Level titles and icons
 const LEVEL_TITLES_AND_ICONS = [
-  { title: "Novice Cook", icon: "🥄", level: 1 },
-  { title: "Kitchen Helper", icon: "👨‍🍳", level: 2 },
-  { title: "Home Chef", icon: "🍳", level: 3 },
-  { title: "Trade Expert", icon: "🧠", level: 4 },
-  { title: "Master Chef", icon: "🏆", level: 5 }
+  { title: "Apprentice Welder", icon: "🔩", level: 1 },
+  { title: "Shop Hand", icon: "🔧", level: 2 },
+  { title: "Journeyman Welder", icon: "⚙️", level: 3 },
+  { title: "Certified Welder", icon: "🛡️", level: 4 },
+  { title: "Master Fabricator", icon: "🏆", level: 5 }
 ];
 
 // WoW Classic XP table
@@ -66,9 +66,9 @@ const EditProfileModal = ({
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: user?.name || '',
-    cuisinePreference: user?.cuisine?.[0] || 'Italian',
+    cuisinePreference: user?.cuisine?.[0] || 'Aerospace',
     dietPreference: user?.dietary?.[0] || 'None',
-    kitchenSetup: user?.kitchenSetup || 'Professional',
+    kitchenSetup: user?.kitchenSetup || 'Fabrication Shop',
     experienceLevel: user?.experience || 'Beginner',
     program: (user as any)?.program || ''
   });
@@ -170,8 +170,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisine}
-              onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
+              value={formData.cuisinePreference}
+              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
@@ -187,8 +187,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certificationPreference', { defaultValue: 'Certifications' })}</label>
             <select
-              value={formData.diet}
-              onChange={(e) => setFormData({...formData, diet: e.target.value})}
+              value={formData.dietPreference}
+              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
@@ -209,11 +209,11 @@ const EditProfileModal = ({
               onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
-              <option value="Apartment Kitchen">🏠 {t('profile.workspaceOptions.apartment', { defaultValue: 'Apartment Workspace' })}</option>
-              <option value="Full Kitchen">🏡 {t('profile.workspaceOptions.full', { defaultValue: 'Full Workspace' })}</option>
-              <option value="Minimal Setup">📦 {t('profile.workspaceOptions.minimal', { defaultValue: 'Minimal Setup' })}</option>
-              <option value="Outdoor Kitchen">🔥 {t('profile.workspaceOptions.field', { defaultValue: 'Field Workspace' })}</option>
-              <option value="Professional Kitchen">🏭 {t('profile.workspaceOptions.professional', { defaultValue: 'Professional Workspace' })}</option>
+              <option value="Student Booth">🎓 {t('profile.workspaceOptions.studentBooth', { defaultValue: 'Student Booth' })}</option>
+              <option value="Home Garage">🏠 {t('profile.workspaceOptions.homeGarage', { defaultValue: 'Home Garage' })}</option>
+              <option value="Fabrication Shop">🏭 {t('profile.workspaceOptions.fabShop', { defaultValue: 'Fabrication Shop' })}</option>
+              <option value="Pipe Welding">🔧 {t('profile.workspaceOptions.pipeWelding', { defaultValue: 'Pipe Welding Rig' })}</option>
+              <option value="Full Production Shop">⚙️ {t('profile.workspaceOptions.fullShop', { defaultValue: 'Full Production Shop' })}</option>
             </select>
           </div>
 
@@ -228,7 +228,7 @@ const EditProfileModal = ({
               <option value="Advanced">⭐ {t('profile.experienceOptions.advanced', { defaultValue: 'Advanced' })}</option>
               <option value="Beginner">🌱 {t('profile.experienceOptions.beginner', { defaultValue: 'Beginner' })}</option>
               <option value="Intermediate">📈 {t('profile.experienceOptions.intermediate', { defaultValue: 'Intermediate' })}</option>
-              <option value="Professional">👨‍🍳 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
+              <option value="Professional">🏭 {t('profile.experienceOptions.professional', { defaultValue: 'Professional' })}</option>
             </select>
           </div>
         </div>
@@ -544,10 +544,10 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
   
   const availableClasses = [
     { name: 'Advanced Blueprint Interpretation', instructor: 'Instructor Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
-    { name: 'Systems Integration', instructor: 'Instructor Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
-    { name: 'Pastry Fundamentals', instructor: 'Instructor Anderson', time: 'Fri 3:00 PM', spots: 6 },
-    { name: 'Safety Certification', instructor: 'Instructor Thompson', time: 'Sat 9:00 AM', spots: 15 },
-    { name: 'Restaurant Management', instructor: 'Instructor Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
+    { name: 'TIG Welding Certification', instructor: 'Instructor Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
+    { name: 'Pipe Welding Fundamentals', instructor: 'Instructor Anderson', time: 'Fri 3:00 PM', spots: 6 },
+    { name: 'OSHA Safety Certification', instructor: 'Instructor Thompson', time: 'Sat 9:00 AM', spots: 15 },
+    { name: 'Shop Management & Estimating', instructor: 'Instructor Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
   ];
   
   return (
@@ -609,7 +609,7 @@ const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [kitchenSetup, setKitchenSetup] = useState<string>('Professional');
+  const [kitchenSetup, setKitchenSetup] = useState<string>('Fabrication Shop');
   const [termsContent, setTermsContent] = useState<string>('Loading terms and conditions...');
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -721,7 +721,7 @@ const Profile = () => {
       { name: 'Tooling Strategist', icon: StarIcon, unlockLevel: 25, description: 'Select tooling for stability, life, and finish quality' },
       { name: 'Cut Dynamics', icon: StarIcon, unlockLevel: 30, description: 'Balance speed, feed, and depth for stable cutting' },
       { name: 'Material Whisperer', icon: SparklesIcon, unlockLevel: 36, description: 'Adapt processes quickly by material behavior' },
-      { name: 'Fixturing Expert', icon: CakeIcon, unlockLevel: 42, description: 'Design secure workholding to reduce variation' },
+      { name: 'Fixturing Expert', icon: WrenchScrewdriverIcon, unlockLevel: 42, description: 'Design secure workholding to reduce variation' },
       { name: 'Surface Finish Pro', icon: StarIcon, unlockLevel: 48, description: 'Deliver improved surface finish and dimensional confidence' },
       { name: 'Process Stabilizer', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Reduce variability across batches and runs' },
       { name: 'Master Machinist', icon: TrophyIcon, unlockLevel: 60, description: 'Complete mastery of precision machining' },
@@ -732,7 +732,7 @@ const Profile = () => {
       { name: 'Cycle Time Reducer', icon: StarIcon, unlockLevel: 25, description: 'Cut cycle times while maintaining quality' },
       { name: 'Adaptive Strategy', icon: StarIcon, unlockLevel: 30, description: 'Apply adaptive clearing and modern roughing methods' },
       { name: 'Macro Builder', icon: SparklesIcon, unlockLevel: 36, description: 'Use CNC macros for scalable process automation' },
-      { name: 'Simulation Specialist', icon: CakeIcon, unlockLevel: 42, description: 'Catch programming risks before machining' },
+      { name: 'Simulation Specialist', icon: WrenchScrewdriverIcon, unlockLevel: 42, description: 'Catch programming risks before machining' },
       { name: 'Changeover Optimizer', icon: StarIcon, unlockLevel: 48, description: 'Reduce setup-to-cutover time between jobs' },
       { name: 'Program Validator', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Validate code for safety and repeatability' },
       { name: 'CNC Master', icon: TrophyIcon, unlockLevel: 60, description: 'Ultimate mastery of CNC programming' },
@@ -743,7 +743,7 @@ const Profile = () => {
       { name: 'GD&T Interpreter', icon: StarIcon, unlockLevel: 25, description: 'Apply GD&T correctly during inspection and feedback' },
       { name: 'Data Analyst', icon: StarIcon, unlockLevel: 30, description: 'Turn measurement data into process improvements' },
       { name: 'Inspection Planner', icon: SparklesIcon, unlockLevel: 36, description: 'Build efficient inspection plans by risk and tolerance' },
-      { name: 'Calibration Discipline', icon: CakeIcon, unlockLevel: 42, description: 'Maintain calibrated tools and traceable standards' },
+      { name: 'Calibration Discipline', icon: WrenchScrewdriverIcon, unlockLevel: 42, description: 'Maintain calibrated tools and traceable standards' },
       { name: 'Nonconformance Resolver', icon: StarIcon, unlockLevel: 48, description: 'Drive faster containment and corrective response' },
       { name: 'Quality Reporter', icon: ShieldCheckIcon, unlockLevel: 55, description: 'Communicate measurement outcomes clearly to production' },
       { name: 'Metrology Master', icon: TrophyIcon, unlockLevel: 60, description: 'Peak mastery of machining metrology' },
@@ -991,7 +991,7 @@ const Profile = () => {
       doc.text(cleanText(avgProficiency), 130, 153);
       doc.text(cleanText('Safety Certification Rate:'), 35, 163);
       doc.text(cleanText(safetyRate), 130, 163);
-      doc.text(cleanText('Recipe Completion Success:'), 35, 173);
+      doc.text(cleanText('Project Completion Success:'), 35, 173);
       doc.text(cleanText(completionRate), 130, 173);
       doc.text(cleanText('Students Requiring Additional Support:'), 35, 183);
       doc.text(cleanText(supportNeeded), 130, 183);
@@ -1001,9 +1001,9 @@ const Profile = () => {
       doc.text(cleanText('Course Completion Rate:'), 35, 163);
       doc.text(cleanText('84.9%'), 130, 163);
       doc.text(cleanText('Highest Performing Course:'), 35, 173);
-      doc.text(cleanText('Food Safety and Sanitation (94%)'), 130, 173);
+      doc.text(cleanText('Welding Safety & Codes (94%)'), 130, 173);
       doc.text(cleanText('Course Requiring Attention:'), 35, 183);
-      doc.text(cleanText('Menu Planning and Costing (79%)'), 130, 183);
+      doc.text(cleanText('Blueprint Reading & GD&T (79%)'), 130, 183);
     } else {
       doc.text(cleanText('Overall Performance Score:'), 35, 153);
       doc.text(cleanText('85.4%'), 130, 153);
@@ -1044,12 +1044,12 @@ const Profile = () => {
       const line5Width = doc.getTextWidth(cleanText('- Consider advanced modules for students achieving 90% proficiency'));
       doc.text(cleanText('- Consider advanced modules for students achieving 90% proficiency'), 105 - line5Width/2, 258);
     } else if (fileName === 'class-performance') {
-      const line1Width = doc.getTextWidth(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'));
-      doc.text(cleanText('- Food Safety and Sanitation demonstrates exemplary performance (94%)'), 105 - line1Width/2, 218);
-      const line2Width = doc.getTextWidth(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'));
-      doc.text(cleanText('- Baking and Pastry Arts shows strong student engagement (91%)'), 105 - line2Width/2, 228);
-      const line3Width = doc.getTextWidth(cleanText('- Menu Planning and Costing requires curriculum review and support'));
-      doc.text(cleanText('- Menu Planning and Costing requires curriculum review and support'), 105 - line3Width/2, 238);
+      const line1Width = doc.getTextWidth(cleanText('- Welding Safety & Codes demonstrates exemplary performance (94%)'));
+      doc.text(cleanText('- Welding Safety & Codes demonstrates exemplary performance (94%)'), 105 - line1Width/2, 218);
+      const line2Width = doc.getTextWidth(cleanText('- TIG Welding Techniques shows strong student engagement (91%)'));
+      doc.text(cleanText('- TIG Welding Techniques shows strong student engagement (91%)'), 105 - line2Width/2, 228);
+      const line3Width = doc.getTextWidth(cleanText('- Blueprint Reading & GD&T requires curriculum review and support'));
+      doc.text(cleanText('- Blueprint Reading & GD&T requires curriculum review and support'), 105 - line3Width/2, 238);
       const line4Width = doc.getTextWidth(cleanText('- Recommend instructor development for underperforming courses'));
       doc.text(cleanText('- Recommend instructor development for underperforming courses'), 105 - line4Width/2, 248);
       const line5Width = doc.getTextWidth(cleanText('- Implement peer mentoring programs to improve completion rates'));
@@ -1332,13 +1332,13 @@ Automated calculations and formulas would be present`;
           xp,
           // Map backend cooking_experience to UI display value
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Professional',
+          kitchenSetup: profile.kitchen_setup || 'Fabrication Shop',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
 
         // Also update the local kitchenSetup state
-        setKitchenSetup(profile.kitchen_setup || 'Professional');
+        setKitchenSetup(profile.kitchen_setup || 'Fabrication Shop');
 
         // Load selected talents from database (optional - field might not exist yet)
         if (profile.selected_talents && Array.isArray(profile.selected_talents)) {
@@ -1558,7 +1558,7 @@ Automated calculations and formulas would be present`;
           name: profile.name || 'User',
           xp,
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Professional',
+          kitchenSetup: profile.kitchen_setup || 'Fabrication Shop',
           dietary: profile.dietary || [],
           cuisine: profile.cuisine || []
         });
@@ -1751,7 +1751,7 @@ Automated calculations and formulas would be present`;
           {/* Left side - Talent Tree Boxes */}
           {showTalents && (
           <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-            {/* Cast Iron Champion Box */}
+            {/* Precision Machinist Box */}
             <button
               onClick={() => setSelectedTalentTree('Equipment')}
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
@@ -1766,7 +1766,7 @@ Automated calculations and formulas would be present`;
               </div>
             </button>
 
-            {/* Grilling Heavyweight Box */}
+            {/* CNC Programming Box */}
             <button
               onClick={() => setSelectedTalentTree('Techniques')}
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
@@ -1781,12 +1781,12 @@ Automated calculations and formulas would be present`;
               </div>
             </button>
 
-            {/* Baking Warlock Box */}
+            {/* Metrology Specialist Box */}
             <button
               onClick={() => setSelectedTalentTree('Ingredients')}
               className="w-full sm:w-28 sm:h-28 lg:w-32 lg:h-32 bg-seafoam text-maineBlue rounded-lg border border-gray-600 hover:bg-maineBlue hover:text-seafoam transition-colors font-bold text-xs sm:text-sm relative group flex flex-col items-center justify-center text-center p-3"
             >
-              <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
+              <WrenchScrewdriverIcon className="w-6 h-6 sm:w-8 sm:h-8 mb-2" />
               <div>Metrology</div>
               <div>Specialist</div>
               {/* Mobile-friendly tooltip */}
@@ -1923,7 +1923,7 @@ Automated calculations and formulas would be present`;
               <div className="flex items-center gap-2 sm:gap-3">
                 {selectedTalentTree === 'Equipment' && <FireIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 {selectedTalentTree === 'Techniques' && <ShieldCheckIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
-                {selectedTalentTree === 'Ingredients' && <CakeIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
+                {selectedTalentTree === 'Ingredients' && <WrenchScrewdriverIcon className="w-6 h-6 sm:w-8 sm:h-8 text-maineBlue" />}
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue text-center">
                   {selectedTalentTree === 'Equipment' ? 'Precision Machinist' : 
                    selectedTalentTree === 'Techniques' ? 'CNC Programming Expert' : 'Metrology Specialist'}

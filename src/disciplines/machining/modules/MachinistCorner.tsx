@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
+import { useFreddieContext } from '../components/BenchFreddieContext';
+import { fetchCookbook } from './cookbookSupabase';
 import SpecBookImportModal from '../components/SpecBookImportModal';
 import LocalToolingModal from '../components/LocalToolingModal';
 import BuildPartModal from '../components/BuildPartModal';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from '../components/PartContext';
 import { RecipeCard } from '../components/PartMatcherModal';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from '../components/SupabaseProvider';
 import GlobalTestBench from '../components/GlobalTestBench';
-import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../../culinary/types/nutrition';
 
 const MachinistCorner = () => {
   const { t } = useTranslation();
@@ -18,88 +16,86 @@ const MachinistCorner = () => {
   const { recipes, setRecipes } = useRecipeContext();
   const { user } = useSupabase();
   
-  // Showcase recipe state
+  // Showcase project state
   const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
-  const [servingSize, setServingSize] = useState(2);
   const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
   
-  // Chef quotes rotation (52 quotes for weekly rotation)
-  const chefQuotes = [
-    // Julia Child (11 quotes)
-    "Cooking is not about convenience. It's about love, patience, and bringing people together around the table.",
-    "Never apologize for learning your trade.",
-    "A party without cake is just a meeting.",
-    "The secret of mastering a trade is to love the process.",
-    "Learn your trade - try new projects, learn from mistakes, be fearless, and have fun improving.",
-    "You'll never know everything about anything, especially something you love.",
-    "The only bad training day is the one where you stop learning.",
-    "I started late, but consistent practice changed everything.",
-    "Cooking is one of the great pleasures of life.",
-    "Find something you're passionate about and keep tremendously interested in it.",
-    "Life itself is the proper binge.",
+  // Welding quotes rotation (52 quotes for weekly rotation)
+  const weldingQuotes = [
+    // Lincoln Electric / General Welding Wisdom (11)
+    "A good weld starts with good preparation.",
+    "The bead tells the story — learn to read it.",
+    "Safety isn't a shortcut you can afford to skip.",
+    "Practice doesn't make perfect; perfect practice makes perfect welds.",
+    "Measure twice, cut once, weld right the first time.",
+    "A clean joint is half the weld.",
+    "Consistency in technique builds consistency in results.",
+    "Every welder was once a beginner who refused to quit.",
+    "The best welders never stop learning new processes.",
+    "Respect the arc — it will teach you if you let it.",
+    "Fit-up is everything. If the joint isn't right, the weld won't be either.",
     
-    // Anthony Bourdain (11 quotes)
-    "Your body is not a temple, it's an amusement park. Enjoy the ride.",
-    "Travel changes you. As you move through this life and this world you change things slightly.",
-    "Skills can be taught. Character you either have or you don't have.",
-    "Good food is very often, even most often, simple food.",
-    "Context and memory play powerful roles in all the truly great meals in one's life.",
-    "I'm not afraid to look like an idiot.",
-    "The way you make an omelet reveals your character.",
-    "Assume the worst. About everybody. But don't let this poisoned outlook affect your job performance.",
-    "Food is everything we are. It's an extension of nationalist feeling, ethnic feeling, your personal history.",
-    "I don't have to agree with you to like you or respect you.",
-    "Poor work happens without pride; craftsmanship starts with ownership and care.",
+    // Fabrication & Shop Wisdom (11)
+    "In fabrication, precision is the difference between scrap and product.",
+    "A grinder and paint make a welder what he ain't — but quality work stands on its own.",
+    "The shop floor is where theory meets reality.",
+    "Good fabricators think three steps ahead.",
+    "Blueprints are the language of the trade — learn to speak it fluently.",
+    "Every burn, every spark, every bead is a lesson.",
+    "Heat control separates a welder from a torch holder.",
+    "Your PPE is your lifeline. Wear it every time.",
+    "The difference between a tack and a weld is commitment.",
+    "Code work demands discipline; discipline builds careers.",
+    "A skilled welder can join any two metals — given the right process.",
     
-    // David Chang (10 quotes)
-    "Cooking is an expression of the land where you are and the culture of that place.",
-    "The greatest dishes are very simple.",
-    "I'm grasping with how you do something on a large scale with multiple operations.",
-    "Great work is built by collaborating with people you trust and respect.",
-    "I constantly think about what it means to be Asian-American.",
-    "Rage or fear... It oscillates. Rage I can handle. Fear is the problem.",
-    "Contemporary ramen is totally different than what most Americans think ramen should be.",
-    "I love the masochistic aspect of eating seething, spicy food and being tortured by it.",
-    "We're hoping to succeed; we're okay with failure. We just don't want to land in between.",
-    "I think the basic thing every learner can master is solid process and standards.",
+    // Pipe Welding & Structural (10)
+    "Walking the cup is an art form that takes years to master.",
+    "Root, fill, cap — each pass matters as much as the last.",
+    "Pipe welders see the world from every angle.",
+    "Structural integrity depends on the integrity of the welder.",
+    "X-ray doesn't lie — put your best work under the lens.",
+    "Overhead welding builds character and skill simultaneously.",
+    "A 6G certification opens doors that nothing else can.",
+    "In pipeline work, every weld is a test of skill and nerve.",
+    "The hardest positions produce the best welders.",
+    "Purge your pipes and purge your doubts — precision wins.",
     
-    // Martha Stewart (10 quotes)
-    "Life is too complicated not to be orderly.",
-    "I find that when you have a real interest in life and a curious life, that sleep is not the most important thing.",
-    "I catnap now and then, but I think while I nap, so it's not a waste of time.",
-    "Getting over those times and overcoming those difficulties really makes you appreciate the good times.",
-    "I am always asking myself how I can improve the lives of my customers, my colleagues, my shareholders.",
-    "The ultimate goal is to be an interesting, useful, wholesome person.",
-    "Small repeatable tasks build the discipline needed for big outcomes.",
-    "Without an open-minded mind, you can never be a great success.",
-    "I love the challenge of starting at zero every day and seeing how much I can accomplish.",
-    "Never make a big decision without sleeping on it.",
+    // Career & Mindset (10)
+    "Welding is one of the few trades where your work outlives you.",
+    "Certifications prove competence; craftsmanship proves passion.",
+    "The demand for skilled welders never goes away.",
+    "A trade skill is something no one can take from you.",
+    "Mentorship in the trades is how knowledge survives.",
+    "Your first year welding teaches you the basics; your tenth teaches you the nuance.",
+    "The torch doesn't care about your bad day — focus or walk away.",
+    "Every great structure started with a welder and a plan.",
+    "AWS codes exist to protect lives — take them seriously.",
+    "The best investment a welder makes is in their own training.",
     
-    // Emeril Lagasse (10 quotes)
-    "Technical work is more than steps and tools; it's about focus and pride.",
-    "My philosophy is: If you can't have fun, there's no sense in doing it.",
-    "The cool thing about being famous is traveling. I have always wanted to travel across seas.",
-    "I think you've got to keep it simple, keep it fresh. Stay away from all that processed stuff.",
-    "Spice is life. It depends upon what you like... have fun with it. Yes, food is serious, but you should have fun with it.",
-    "I wouldn't ask any of my employees to do anything I wouldn't do. And I work very hard.",
-    "You know, for 300 years it's been kind of the same. There are restaurants in New Orleans that the menu hasn't changed in 125 years.",
-    "I think preparing food and feeding people brings nourishment not only to our bodies but to our spirits.",
-    "We'll be going to the fish market and a farmer's market this afternoon to get what we need to make 13 fish dishes.",
-    "Everyone needs a mentor."
+    // Safety & Professionalism (10)
+    "No weld is worth your eyesight — always wear your hood.",
+    "Fume extraction isn't optional; your lungs don't regenerate.",
+    "A professional welder leaves a clean workspace.",
+    "Inspect your own work before anyone else does.",
+    "The mark of a journeyman is knowing when to slow down.",
+    "Quality control starts at the welder's hands.",
+    "If you're not willing to grind it out, weld it right the first time.",
+    "Patience with preheat saves money on repairs.",
+    "A true craftsman takes pride in every inch of weld.",
+    "The arc is your teacher, the puddle is your canvas."
   ];
   
-  const chefNames = [
-    // Julia Child (11)
-    "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child", "Julia Child",
-    // Anthony Bourdain (11)
-    "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain", "Anthony Bourdain",
-    // David Chang (10)
-    "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang", "David Chang",
-    // Martha Stewart (10)
-    "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart", "Martha Stewart",
-    // Emeril Lagasse (10)
-    "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse", "Emeril Lagasse"
+  const weldingNames = [
+    // Lincoln Electric / General (11)
+    "Shop Proverb", "Shop Proverb", "Shop Proverb", "Shop Proverb", "Shop Proverb", "Shop Proverb", "Shop Proverb", "Shop Proverb", "Shop Proverb", "Shop Proverb", "Shop Proverb",
+    // Fabrication (11)
+    "Fabricator's Creed", "Fabricator's Creed", "Fabricator's Creed", "Fabricator's Creed", "Fabricator's Creed", "Fabricator's Creed", "Fabricator's Creed", "Fabricator's Creed", "Fabricator's Creed", "Fabricator's Creed", "Fabricator's Creed",
+    // Pipe & Structural (10)
+    "Pipe Welder's Code", "Pipe Welder's Code", "Pipe Welder's Code", "Pipe Welder's Code", "Pipe Welder's Code", "Pipe Welder's Code", "Pipe Welder's Code", "Pipe Welder's Code", "Pipe Welder's Code", "Pipe Welder's Code",
+    // Career & Mindset (10)
+    "Welder's Wisdom", "Welder's Wisdom", "Welder's Wisdom", "Welder's Wisdom", "Welder's Wisdom", "Welder's Wisdom", "Welder's Wisdom", "Welder's Wisdom", "Welder's Wisdom", "Welder's Wisdom",
+    // Safety & Professionalism (10)
+    "Safety First", "Safety First", "Safety First", "Safety First", "Safety First", "Safety First", "Safety First", "Safety First", "Safety First", "Safety First"
   ];
   
   // Get current week of year (0-51) to rotate through 52 quotes
@@ -110,8 +106,8 @@ const MachinistCorner = () => {
     const oneWeek = 1000 * 60 * 60 * 24 * 7;
     const weekNumber = Math.floor(diff / oneWeek) % 52;
     return {
-      quote: chefQuotes[weekNumber],
-      chef: chefNames[weekNumber]
+      quote: weldingQuotes[weekNumber],
+      name: weldingNames[weekNumber]
     };
   };
   
@@ -123,9 +119,9 @@ const MachinistCorner = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'corner' | 'lab'>('corner');
 
   useEffect(() => {
-    updateContext({ page: 'ChefsCorner' });
+    updateContext({ page: 'MachinistCorner' });
     
-    // Load recipes from cookbook when Chef's Corner loads
+    // Load projects from spec book when Machinist's Corner loads
     const loadRecipes = async () => {
       if (!user?.id) {
         setIsLoading(false);
@@ -137,7 +133,7 @@ const MachinistCorner = () => {
         const savedRecipes = await fetchCookbook(user.id);
         setRecipes(savedRecipes || []);
       } catch (err) {
-        console.error('Error loading cookbook recipes:', err);
+        console.error('Error loading spec book projects:', err);
         // Initialize with empty array if there's an error
         setRecipes([]);
       } finally {
@@ -148,7 +144,7 @@ const MachinistCorner = () => {
     loadRecipes();
   }, [updateContext, setRecipes, user?.id]);
 
-  // Open modal for My CookBook import
+  // Open modal for My Spec Book import
   const importFromCookBook = () => {
     if (!user) {
       alert(t('machinistCorner.pleaseSignIn'));
@@ -157,37 +153,24 @@ const MachinistCorner = () => {
     setCookbookModalOpen(true);
   };
 
-  // Handler for modal import - select a recipe to showcase
+  // Handler for modal import - select a project to showcase
   const handleCookBookImport = async (selectedRecipe: any) => {
-    console.log('Importing recipe:', selectedRecipe);
+    console.log('Importing project:', selectedRecipe);
     
     if (!selectedRecipe) {
-      console.error('No recipe selected');
+      console.error('No project selected');
       alert(t('machinistCorner.errorNoRecipe'));
       return;
     }
 
     try {
-      // Set the selected recipe as the showcase recipe
+      // Set the selected project as the showcase project
       setShowcaseRecipe(selectedRecipe);
-      
-      // Calculate nutrition for the recipe
-      if (selectedRecipe.ingredients && Array.isArray(selectedRecipe.ingredients)) {
-        try {
-          const nutrition = await calculateRecipeNutrition(selectedRecipe.ingredients);
-          setRecipeNutrition(nutrition);
-        } catch (error) {
-          console.error('Error calculating nutrition:', error);
-          setRecipeNutrition(null);
-        }
-      } else {
-        setRecipeNutrition(null);
-      }
       
       alert(t('machinistCorner.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
       
     } catch (error) {
-      console.error('Error importing recipe:', error);
+      console.error('Error importing project:', error);
       alert(t('machinistCorner.failedToImport'));
     } finally {
       setCookbookModalOpen(false);
@@ -308,17 +291,6 @@ const MachinistCorner = () => {
                             <li className="italic text-gray-400">{t('machinistCorner.noIngredientsListed')}</li>
                           )}
                         </ul>
-                        {recipeNutrition && (
-                          <div className="mt-2">
-                            <div className="font-semibold mb-1">{t('machinistCorner.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                            <div className="text-sm">
-                              <div>{t('machinistCorner.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                              <div>{t('machinistCorner.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                              <div>{t('machinistCorner.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                              <div>{t('machinistCorner.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-                            </div>
-                          </div>
-                        )}
                       </div>
                       {/* Right Page */}
                       <div className="flex-1 p-6 bg-white flex flex-col">
@@ -349,9 +321,9 @@ const MachinistCorner = () => {
                 </div>
               </section>
 
-              {/* Chef Quote of the Week */}
+              {/* Welding Quote of the Week */}
               <p className="text-center text-gray-600 italic mb-6">
-                "{currentQuote.quote}" — {currentQuote.chef}
+                "{currentQuote.quote}" — {currentQuote.name}
               </p>
 
 

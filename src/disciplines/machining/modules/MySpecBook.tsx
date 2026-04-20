@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useFreddieContext } from '../components/BenchFreddieContext';
+import { useRecipeContext } from '../components/PartContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
+import { supabase } from '../api/supabaseClient';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
+import { useSupabase } from '../components/SupabaseProvider';
+import { isSessionValid } from '../api/userSession';
 
 const machiningQuoteOfTheDay = {
   chef: 'Henry Maudslay',
@@ -34,13 +34,6 @@ export interface Recipe {
   ingredients?: string[];
   instructions?: string;
   equipment?: string[];
-  nutrition?: {
-    carbs: number;
-    sugars: number;
-    fiber: number;
-    protein: number;
-    saturatedFat?: number;
-  };
   healthTags?: string[];
 }
 
@@ -358,7 +351,6 @@ const MySpecBook = () => {
           ingredients: r.ingredients,
           instructions: r.instructions,
           equipment: r.equipment,
-          nutrition: r.nutrition,
           healthTags: r.healthTags
         }));
         setLocalRecipes(converted);

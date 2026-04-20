@@ -2,27 +2,24 @@ import { ExperienceLevel, DEFAULT_EXPERIENCE_LEVEL } from '../types/userPreferen
 import { getUserPreferences } from './userPreferences';
 import { supabase } from './supabaseClient';
 import { isSessionValid } from './userSession';
-import { fetchNutritionData, getKeyNutrients } from './nutritionService';
-import { KeyNutrients } from '../types/nutrition';
 
-// Define equipment available for each kitchen setup
-const KITCHEN_EQUIPMENT = {
-  'Dorm Life': ['microwave', 'kettle', 'toaster', 'mini-fridge'],
-  'Minimalist': ['pot', 'pan', 'knife', 'cutting board', 'stove'],
-  'Apartment Kitchen': ['oven', 'stove', 'basic utensils', 'baking sheets'],
-  'Outdoor Grilling': ['grill', 'tongs', 'grill brush', 'meat thermometer'],
-  'Home Chef': ['blender', 'food processor', 'mixer', 'knives', 'oven', 'stove'],
-  'Full Chef\'s Kitchen': ['all equipment']
+// Define equipment available for each shop setup
+const SHOP_EQUIPMENT = {
+  'Student Booth': ['stick welder', 'welding helmet', 'chipping hammer', 'wire brush'],
+  'Home Garage': ['MIG welder', 'angle grinder', 'clamps', 'welding table', 'helmet'],
+  'Fabrication Shop': ['MIG welder', 'TIG welder', 'plasma cutter', 'band saw', 'press brake'],
+  'Pipe Welding': ['TIG welder', 'pipe stands', 'beveling machine', 'purge dam', 'pipe clamps'],
+  'Full Production Shop': ['all equipment']
 } as const;
 
 // Define equipment associated with each talent tree
 const TALENT_TREE_EQUIPMENT = {
-  'Cast Iron Champion': ['cast iron', 'dutch oven', 'skillet'],
-  'Grilling Heavy Weight': ['grill', 'smoker', 'charcoal', 'gas grill'],
-  'Baking Warlock': ['stand mixer', 'baking sheet', 'pastry brush', 'rolling pin']
+  'MIG Specialist': ['MIG welder', 'wire feeder', 'shielding gas', 'spatter guard'],
+  'TIG Master': ['TIG welder', 'filler rod', 'argon gas', 'tungsten electrode'],
+  'Stick Welder': ['stick welder', 'electrode holder', 'welding rods', 'slag hammer']
 } as const;
 
-type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
+type ShopSetup = keyof typeof SHOP_EQUIPMENT;
 
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
@@ -30,34 +27,34 @@ const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
 const RECIPE_PROMPTS = {
   new_to_cooking: (numRecipes: number, ingredients: string[]) => 
-    `You are a patient trade instructor. Create ${numRecipes} simple beginner projects using available materials/components from: ${ingredients.join(", ")}. 
+    `You are a patient welding instructor. Create ${numRecipes} simple beginner welding projects using available materials from: ${ingredients.join(", ")}. 
     RULES:
-    1. Use only 2-3 required materials/components per project
-    2. Only basic entry-level methods
-    3. Very detailed step-by-step instructions
-    4. Keep completion time under 20 minutes when possible
-    5. Include necessary tools/equipment for each project
-    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
+    1. Use only 2-3 required materials per project
+    2. Only basic welding methods (stick welding, simple MIG)
+    3. Very detailed step-by-step instructions including safety
+    4. Keep completion time under 30 minutes when possible
+    5. Include necessary welding tools/equipment for each project
+    6. Add relevant skill tags from: Safety, AWS Compliance, Weld Quality, Joint Prep, Heat Control, Inspection`,
 
   home_cook: (numRecipes: number, ingredients: string[]) => 
-    `You are a helpful trade coach. Create ${numRecipes} intermediate projects for someone comfortable with fundamentals using materials/components from: ${ingredients.join(", ")}.
+    `You are a helpful welding coach. Create ${numRecipes} intermediate welding projects for someone comfortable with fundamentals using materials from: ${ingredients.join(", ")}.
     RULES:
-    1. Use 3-4 required materials/components per project
-    2. Standard trade methods
-    3. Clear instructions
-    4. Keep completion time under 30 minutes when possible
-    5. Include necessary tools/equipment for each project
-    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`,
+    1. Use 3-4 required materials per project
+    2. Standard welding methods (MIG, TIG, flux-core)
+    3. Clear instructions with weld specifications
+    4. Keep completion time under 45 minutes when possible
+    5. Include necessary welding tools/equipment for each project
+    6. Add relevant skill tags from: Safety, AWS Compliance, Weld Quality, Joint Prep, Heat Control, Inspection`,
 
   kitchen_confident: (numRecipes: number, ingredients: string[]) => 
-    `You are an expert trade mentor. Create ${numRecipes} advanced projects for an experienced learner using materials/components from: ${ingredients.join(", ")}.
+    `You are an expert welding mentor. Create ${numRecipes} advanced welding projects for an experienced welder using materials from: ${ingredients.join(", ")}.
     RULES:
-    1. Use 4+ required materials/components per project
-    2. Can include advanced trade techniques
-    3. Professional-style instructions
-    4. Focus on quality and technique
-    5. Include necessary tools/equipment for each project
-    6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`
+    1. Use 4+ required materials per project
+    2. Can include advanced techniques (TIG walking the cup, multi-pass, pipe welding)
+    3. Professional-style instructions with WPS references
+    4. Focus on weld quality and technique
+    5. Include necessary welding tools/equipment for each project
+    6. Add relevant skill tags from: Safety, AWS Compliance, Weld Quality, Joint Prep, Heat Control, Inspection`
 };
 
 async function getUserProfile(userId: string) {
@@ -98,17 +95,17 @@ function fuzzyMatch(ingredient1: string, ingredient2: string): boolean {
          norm2.split(' ').some(word => norm1.includes(word));
 }
 
-// Score a recipe based on user's cupboard, preferences, kitchen setup, and talent tree
+// Score a project based on user's inventory, shop setup, and talent tree
 function scoreRecipe(
   recipe: RecipeCard, 
   cupboard: string[],
-  kitchenSetup?: string,
+  shopSetup?: string,
   talentTree?: string | null,
   talentsEnabled: boolean = false
 ): number {
   let score = 0;
   
-  // 1. Score based on matching ingredients (higher weight)
+  // 1. Score based on matching materials (higher weight)
   const matchingIngredients = recipe.ingredients.filter(recipeIng => 
     cupboard.some(cupboardIng => fuzzyMatch(recipeIng, cupboardIng))
   ).length;
@@ -116,8 +113,8 @@ function scoreRecipe(
   score += matchingIngredients * 2;
   
   // 2. Penalize based on missing equipment
-  if (kitchenSetup && kitchenSetup in KITCHEN_EQUIPMENT) {
-    const availableEquipment = KITCHEN_EQUIPMENT[kitchenSetup as KitchenSetup];
+  if (shopSetup && shopSetup in SHOP_EQUIPMENT) {
+    const availableEquipment = SHOP_EQUIPMENT[shopSetup as ShopSetup];
     const requiredEquipment = recipe.equipment || [];
     
     const missingEquipment = requiredEquipment.filter(eq => {
@@ -158,130 +155,20 @@ export interface RecipeMatchOptions {
   talentTree?: string | null;
 }
 
-// Helper to estimate recipe nutrition
-async function calculateRecipeNutrition(
-  ingredients: string[]
-): Promise<KeyNutrients> {
-  console.log('Calculating nutrition for ingredients:', ingredients);
-  
-  try {
-    const nutritionData = await Promise.all(
-      ingredients.map(ingredient => fetchNutritionData(ingredient))
-    );
-    
-    console.log('Nutrition data:', nutritionData);
-    
-    const totalNutrition: KeyNutrients = {
-      carbs: 0,
-      sugars: 0,
-      fiber: 0,
-      protein: 0,
-      saturatedFat: 0,
-      omega3: 0,
-      cholesterol: 0,
-      sodium: 0,
-      phosphorus: 0
-    };
-    
-    nutritionData.forEach((food, index) => {
-      if (food) {
-        console.log(`Food ${index}: ${food.name}`, food.nutrients);
-        
-        const nutrients = getKeyNutrients(food.nutrients);
-        console.log(`Key nutrients for ${food.name}:`, nutrients);
-        
-        Object.keys(nutrients).forEach(key => {
-          const k = key as keyof KeyNutrients;
-          totalNutrition[k] += nutrients[k];
-        });
-        
-        console.log('Updated total nutrition:', totalNutrition);
-      }
-    });
-    
-    console.log('Total nutrition:', totalNutrition);
-    return totalNutrition;
-  } catch (error) {
-    console.error('Error in calculateRecipeNutrition:', error);
-    // Return default nutrition data to avoid breaking health tags
-    return {
-      carbs: 0,
-      sugars: 0,
-      fiber: 0,
-      protein: 0,
-      saturatedFat: 0,
-      omega3: 0,
-      cholesterol: 0,
-      sodium: 0,
-      phosphorus: 0
-    };
-  }
-}
-
-// Define ideal nutrition profiles for each health tag
-const HEALTH_TAG_IDEALS = {
-  'Heart Healthy': { saturatedFat: 0, cholesterol: 0, sodium: 0 },
-  'Anti Inflammatory': { omega3: 10, saturatedFat: 0 },
-  'Low Glycemic': { carbs: 30, sugars: 5, fiber: 10 },
-  'Low Cholesterol': { cholesterol: 0, saturatedFat: 0 },
-  'Renal Friendly': { phosphorus: 100, sodium: 500 },
-  'DASH Diet': { sodium: 500, saturatedFat: 0 },
-  'Low Sodium': { sodium: 500 },
-  'High Fiber': { fiber: 10 }
-};
-
-function getHealthTags(nutrition: KeyNutrients): string[] {
-  console.log('Nutrition data for health tags:', nutrition);
+// Assign welding skill tags based on material/project keywords
+function getHealthTags(ingredients: string[]): string[] {
   const tags: string[] = [];
-  
-  const satFat = nutrition.saturatedFat || 0;
-  if (satFat < 5) {
-    console.log(`Qualifies for Heart Healthy: saturatedFat=${satFat} < 5`);
-    tags.push('Heart Healthy');
-  }
-  
-  const omega3 = nutrition.omega3 || 0;
-  if (omega3 > 0.5) {
-    console.log(`Qualifies for Anti Inflammatory: omega3=${omega3} > 0.5`);
-    tags.push('Anti Inflammatory');
-  }
-  
-  const cholesterol = nutrition.cholesterol || 0;
-  if (cholesterol < 100) {
-    console.log(`Qualifies for Low Cholesterol: cholesterol=${cholesterol} < 100`);
-    tags.push('Low Cholesterol');
-  }
-  
-  const phosphorus = nutrition.phosphorus || 0;
-  if (phosphorus < 100) {
-    console.log(`Qualifies for Renal Friendly: phosphorus=${phosphorus} < 100`);
-    tags.push('Renal Friendly');
-  }
-  
-  const sodium = nutrition.sodium || 0;
-  if (sodium < 500) {
-    console.log(`Qualifies for DASH Diet and Low Sodium: sodium=${sodium} < 500`);
-    tags.push('DASH Diet');
-    tags.push('Low Sodium');
-  }
-  
-  if (nutrition.fiber > 10) {
-    console.log(`Qualifies for High Fiber: fiber=${nutrition.fiber} > 10`);
-    tags.push('High Fiber');
-  }
-  
-  const netCarbs = nutrition.carbs - nutrition.fiber;
-  if (netCarbs < 20 && nutrition.sugars < 10) {
-    console.log(`Qualifies for Low Glycemic: netCarbs=${netCarbs} < 20 and sugars=${nutrition.sugars} < 10`);
-    tags.push('Low Glycemic');
-  }
-  
-  if (tags.length === 0) {
-    console.log('No tags qualified, using fallback: Heart Healthy');
-    tags.push('Heart Healthy');
-  }
-  
-  console.log('Selected health tags:', tags);
+  const joined = ingredients.join(' ').toLowerCase();
+
+  // Safety - always relevant for welding
+  tags.push('Safety');
+
+  if (/code|aws|certified|spec|wps|pqr|standard/.test(joined)) tags.push('AWS Compliance');
+  if (/bead|penetration|undercut|porosity|fusion|pass|cap|root/.test(joined)) tags.push('Weld Quality');
+  if (/bevel|chamfer|prep|fit.?up|tack|gap|root opening|joint/.test(joined)) tags.push('Joint Prep');
+  if (/preheat|interpass|heat.?input|cool|temper|stress.?relief/.test(joined)) tags.push('Heat Control');
+  if (/inspect|visual|dye.?penetrant|x.?ray|ultrasonic|mag.?particle|ndt/.test(joined)) tags.push('Inspection');
+
   return tags;
 }
 
@@ -304,10 +191,8 @@ export async function fetchRecipesWithImages({
   // 2. Build the Anthropic prompt with enhanced instructions
   const basePrompt = promptTemplate(numRecipes, ingredients);
   
-  // Get preferences
-  const dietaryPrefs = profile?.dietary || [];
-  const cuisinePrefs = profile?.cuisine || [];
-  const kitchenSetup = profile?.kitchen_setup || '';
+  // Get shop setup from profile
+  const shopSetup = profile?.kitchen_setup || '';
   
   // Add talent tree equipment preference to prompt
   let talentTreePrompt = '';
@@ -318,21 +203,19 @@ export async function fetchRecipesWithImages({
 
   const prompt = `${basePrompt}
 
-${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
-${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
-${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
+${userKitchenSetup ? `Shop setup: ${userKitchenSetup}` : ''}
 ${talentTreePrompt}
 
 Return the projects as a JSON array with the following structure for each project:
 {
-  "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2"],
+  "title": "Project Name (e.g., 'T-Joint Fillet Weld - 1/4 Mild Steel')",
+  "ingredients": ["material 1", "material 2"],
   "instructions": ["Step 1", "Step 2"],
-  "equipment": ["equipment 1", "equipment 2"],
-  "healthTags": ["tag 1", "tag 2"]
+  "equipment": ["MIG welder", "angle grinder", "welding helmet"],
+  "healthTags": ["Safety", "Weld Quality"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary welding tools and equipment needed (e.g., "MIG welder", "TIG torch", "angle grinder", "welding helmet", "clamps").
 Return ONLY the JSON array, no other text.`;
 
   // 3. Call Anthropic API
@@ -389,7 +272,7 @@ Return ONLY the JSON array, no other text.`;
     return generateFallbackRecipes(userId, ingredients, numRecipes);
   }
 
-  // 4. Score and sort recipes based on user's cupboard, kitchen setup, and talent tree
+  // 4. Score and sort projects based on user's inventory, shop setup, and talent tree
   const scoredRecipes = recipes
     .map(recipe => ({
       ...recipe,
@@ -400,7 +283,7 @@ Return ONLY the JSON array, no other text.`;
           equipment: Array.isArray(recipe.equipment) ? recipe.equipment : []
         },
         ingredients,
-        kitchenSetup,
+        shopSetup,
         talentTree,
         talentsEnabled
       )
@@ -424,35 +307,24 @@ Return ONLY the JSON array, no other text.`;
 
   const images = await Promise.all(imagePromises);
 
-  // 6. Add nutrition and tags
-  const recipesWithNutrition = await Promise.all(scoredRecipes.map(async recipe => {
-    try {
-      const nutrition = await calculateRecipeNutrition(recipe.ingredients);
-      const healthTags = getHealthTags(nutrition);
-      return {
-        ...recipe,
-        nutrition,
-        healthTags
-      };
-    } catch (error) {
-      console.error('Error calculating nutrition:', error);
-      return {
-        ...recipe,
-        healthTags: ['Heart Healthy']
-      };
-    }
-  }));
+  // 6. Add skill tags based on project keywords
+  const recipesWithTags = scoredRecipes.map(recipe => {
+    const healthTags = getHealthTags(Array.isArray(recipe.ingredients) ? recipe.ingredients : []);
+    return {
+      ...recipe,
+      healthTags
+    };
+  });
 
-  // 7. Return scored recipe cards with images
-  return recipesWithNutrition.map((recipe, i) => ({
+  // 7. Return scored project cards with images
+  return recipesWithTags.map((recipe, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
     title: recipe.title,
     image: images[i],
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     instructions: Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '',
     equipment: Array.isArray(recipe.equipment) ? recipe.equipment : [],
-    healthTags: recipe.healthTags,
-    nutrition: recipe.nutrition
+    healthTags: recipe.healthTags
   }));
 }
 
@@ -471,7 +343,7 @@ Format your response as a JSON array of project objects. Each project object MUS
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary welding tools and equipment needed (e.g., "MIG welder", "TIG torch", "angle grinder", "welding helmet", "clamps").
 Return ONLY the JSON array, no other text.`;
 
   // 2. Call Anthropic API
@@ -541,10 +413,10 @@ Return ONLY the JSON array, no other text.`;
 
   // 3. For each recipe, call Unsplash in parallel
   const imagePromises = validRecipes.map(async (r) => {
-    const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'meal');
+    const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'welding');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836';
+    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1';
   });
   const images = await Promise.all(imagePromises);
 

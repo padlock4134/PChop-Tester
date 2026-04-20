@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from './PartContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
-import chefFreddiePng from '../images/logo.png';
+import benchFreddiePng from '../images/logo.png';
 
 export type RecipeCard = {
   id: string;
@@ -24,19 +24,6 @@ export type RecipeCard = {
     image: string;
   }>;
   healthTags?: string[];
-  nutrition?: {
-    carbs: number;
-    sugars: number;
-    fiber: number;
-    protein: number;
-    saturatedFat?: number;
-    sodium?: number;
-    omega3?: number;
-    antioxidants?: number;
-    cholesterol?: number;
-    potassium?: number;
-    phosphorus?: number;
-  };
 };
 
 type Props = {
@@ -59,9 +46,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const navigate = useNavigate();
 
   const loadingMessages = [
-    t('recipeMatcher.loadingMessage1'),
-    t('recipeMatcher.loadingMessage2'),
-    t('recipeMatcher.loadingMessage3')
+    'Bench Freddie checking your materials...',
+    'Building your welding projects...',
+    'Almost ready...'
   ];
 
   // Timer effect for loading steps
@@ -100,15 +87,15 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   function generateTutorials(recipe: RecipeCard) {
   return [
     {
-      title: `${t('recipeMatcher.equipmentUsing')} ${recipe.title}`,
-      desc: t('recipeMatcher.learnEquipment')
+      title: `Equipment needed for ${recipe.title}`,
+      desc: 'Learn how to use the main equipment needed for this project.'
     },
     {
-      title: t('recipeMatcher.proteinPrep', { defaultValue: 'Material Prep' }),
-      desc: t('recipeMatcher.howToPrepProtein', { defaultValue: 'How to prep primary materials for this project.' })
+      title: 'Material Prep',
+      desc: 'How to prep primary materials for this welding project.'
     },
     {
-      title: `${t('recipeMatcher.recipe', { defaultValue: 'Procedure' })} ${recipe.title}`,
+      title: `Procedure: ${recipe.title}`,
       desc: recipe.instructions
     }
   ];
@@ -122,18 +109,16 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         : generateTutorials(recipes[currentIdx])
     };
     setSelectedRecipe(fullRecipe);
-    navigate('/culinary-school');
+    navigate('/welding/machining-school');
   };
 
-  const DIETARY_TAGS = [
-    { key: 'Heart Healthy', label: t('recipeMatcher.heartHealthy') },
-    { key: 'Anti Inflammatory', label: t('recipeMatcher.antiInflammatory') },
-    { key: 'Low Glycemic', label: t('recipeMatcher.lowGlycemic') },
-    { key: 'Low Cholesterol', label: t('recipeMatcher.lowCholesterol') },
-    { key: 'Renal Friendly', label: t('recipeMatcher.renalFriendly') },
-    { key: 'DASH Diet', label: t('recipeMatcher.dashDiet') },
-    { key: 'Low Sodium', label: t('recipeMatcher.lowSodium') },
-    { key: 'High Fiber', label: t('recipeMatcher.highFiber') }
+  const SKILL_TAGS = [
+    { key: 'Safety', label: 'Safety' },
+    { key: 'AWS Compliance', label: 'AWS Compliance' },
+    { key: 'Weld Quality', label: 'Weld Quality' },
+    { key: 'Joint Prep', label: 'Joint Prep' },
+    { key: 'Heat Control', label: 'Heat Control' },
+    { key: 'Inspection', label: 'Inspection' }
   ];
 
   return (
@@ -149,21 +134,21 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         <h2 className="font-retro text-2xl mb-2 text-center flex items-center justify-center">
           {loading ? (
             <div className="flex items-center gap-3">
-              <img src={chefFreddiePng} alt="Chef Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
+              <img src={benchFreddiePng} alt="Bench Freddie" className="w-12 h-12 rounded-full border-2 border-black" />
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('recipeMatcher.recipeMatcher'))}
+           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : 'Project Matcher')}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-            <div className="text-lg font-retro mb-2">{t('recipeMatcher.findingRecipes', { defaultValue: 'Finding matching projects...' })}</div>
+            <div className="text-lg font-retro mb-2">{'Finding matching projects...'}</div>
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
         ) : recipes.length === 0 || currentIdx >= recipes.length ? (
-          <div className="text-center text-maineBlue font-bold py-10">{t('recipeMatcher.noMoreSuggestions')}<br/>{t('recipeMatcher.tryUpdatingCupboard')}</div>
+          <div className="text-center text-maineBlue font-bold py-10">{'No more suggestions.'}<br/>{'Try updating your bench inventory!'}</div>
         ) : (
           (() => {
             console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
@@ -172,7 +157,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
                   <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
-                    {DIETARY_TAGS.map(tag => {
+                    {SKILL_TAGS.map(tag => {
                       const isMatch = recipes[currentIdx].healthTags?.includes(tag.key);
                       return (
                         <span 
@@ -203,10 +188,10 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                     {isSaving ? '...' : '♥'}
                   </button>
                   <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {t('recipeMatcher.cookMe', { defaultValue: 'Run It' })}
+                    {'Run It'}
                   </button>
                 </div>
-                <div className="text-xs mt-4 text-center text-gray-500">{t('recipeMatcher.swipeThrough', { defaultValue: 'Swipe through project options' })}</div>
+                <div className="text-xs mt-4 text-center text-gray-500">{'Swipe through welding project options'}</div>
               </div>
             );
           })()

@@ -23,11 +23,8 @@ export const RecipeProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     <RecipeContext.Provider value={{ 
       selectedRecipe, 
       setSelectedRecipe: (recipe) => {
-        console.log('Setting recipe in context with nutrition:', recipe?.nutrition);
-        setSelectedRecipe((prev: any) => recipe ? ({
-          ...recipe,
-          nutrition: recipe.nutrition
-        }) : null);
+        console.log('Setting project in context:', recipe?.title);
+        setSelectedRecipe(recipe);
       }, 
       recipes, 
       setRecipes 

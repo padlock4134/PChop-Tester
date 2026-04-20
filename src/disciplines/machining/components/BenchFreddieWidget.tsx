@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import chefFreddiePng from '../images/logo.png';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useFreddieContext } from '../components/BenchFreddieContext';
 import { askChefFreddie } from '../api/chefFreddie';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
@@ -13,8 +13,8 @@ interface Message {
 
 const getProactiveMessage = (page: string, t: any) => {
   switch (page) {
-    case 'MyBench':
-      return "Welcome to My Bench — I can help you look up tooling specs, check cutting parameters, and plan your setup.";
+    case 'MyTorch':
+      return "Welcome to My Torch — I can help you look up filler metals, check welding parameters, and plan your setup.";
     case 'MySpecbook':
       return "Welcome to My Specbook — need help writing a G-code program or reviewing a job ticket?";
     case 'MachinistCorner':

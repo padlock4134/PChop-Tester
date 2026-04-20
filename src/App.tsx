@@ -94,7 +94,7 @@ import LogisticsDockFreddieWidget from './disciplines/logistics/components/DockF
 
 // Machining imports
 import MachiningNavBar from './disciplines/machining/components/NavBar';
-import MachiningMyBench from './disciplines/machining/modules/MyBench';
+import MachiningMyTorch from './disciplines/machining/modules/MyBench';
 import MachiningMySpecBook from './disciplines/machining/modules/MySpecBook';
 import MachiningMachinistCorner from './disciplines/machining/modules/MachinistCorner';
 import MachiningMachiningSchool from './disciplines/machining/modules/MachiningSchool';
@@ -258,7 +258,7 @@ const getDisciplineComponents = (discipline: string) => {
     },
     machining: {
       NavBar: MachiningNavBar,
-      Kitchen: MachiningMyBench,
+      Kitchen: MachiningMyTorch,
       Cookbook: MachiningMySpecBook,
       Corner: MachiningMachinistCorner,
       School: MachiningMachiningSchool,
@@ -450,7 +450,7 @@ const AppRoutes = () => {
           
           {/* Machining routes */}
           <Route path="/welding/dashboard" element={<MachiningBenchDashboard />} />
-          <Route path="/welding/my-bench" element={<MachiningMyBench />} />
+          <Route path="/welding/my-torch" element={<MachiningMyTorch />} />
           <Route path="/welding/my-specbook" element={<MachiningMySpecBook />} />
           <Route path="/welding/machinist-corner" element={<MachiningMachinistCorner />} />
           <Route path="/welding/machining-school" element={<MachiningMachiningSchool />} />
@@ -458,7 +458,8 @@ const AppRoutes = () => {
 
           {/* Backward-compatible redirects for legacy machining URLs */}
           <Route path="/machining/dashboard" element={<Navigate to="/welding/dashboard" replace />} />
-          <Route path="/machining/my-bench" element={<Navigate to="/welding/my-bench" replace />} />
+          <Route path="/welding/my-bench" element={<Navigate to="/welding/my-torch" replace />} />
+          <Route path="/machining/my-bench" element={<Navigate to="/welding/my-torch" replace />} />
           <Route path="/machining/my-specbook" element={<Navigate to="/welding/my-specbook" replace />} />
           <Route path="/machining/machinist-corner" element={<Navigate to="/welding/machinist-corner" replace />} />
           <Route path="/machining/machining-school" element={<Navigate to="/welding/machining-school" replace />} />

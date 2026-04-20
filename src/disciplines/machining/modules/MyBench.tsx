@@ -1,51 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { saveKitchen, fetchKitchen } from './kitchenSupabase';
-import { fetchCookbook, addRecipeToCookbook } from '../../culinary/modules/cookbookSupabase';
-import { Ingredient } from '../../culinary/types/shared-types';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
+import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
+import { Ingredient } from '../types/shared-types';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
-import { scanImage } from '../../culinary/api/vision';
+import { scanImage } from '../api/vision';
 import PartMatcherModal, { RecipeCard } from '../components/PartMatcherModal';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { supabase } from '../../culinary/api/supabaseClient';
-import PartCard from '../components/PartCard';
+import { useFreddieContext } from '../components/BenchFreddieContext';
+import { useSupabase } from '../components/SupabaseProvider';
+import { isSessionValid } from '../api/userSession';
+import { supabase } from '../api/supabaseClient';
 
 const CATEGORIES = [
-  "Vegetable",
-  "Fruit",
-  "Protein",
-  "Dairy",
-  "Grain",
-  "Spice",
-  "Canned/Preserved",
-  "Condiment/Sauce",
-  "Frozen",
+  "Base Metals",
+  "Filler Materials",
+  "Shielding Gas",
+  "Flux/Consumables",
+  "Fasteners/Hardware",
+  "Abrasives",
+  "Safety Gear",
+  "Structural",
+  "Pipe/Tube",
   "Other"
 ];
 
-// Categorize ingredient names to best-fit category
-function categorizeIngredient(name: string): string {
+// Categorize material names to best-fit welding category
+function categorizeMaterial(name: string): string {
   const n = name.toLowerCase();
-  // Enhanced detection for loose produce and specific food items
-  if (/(green bean|string bean|snap bean|haricot vert|french bean)/.test(n)) return "Vegetable";
-  if (/(loose|raw|fresh|unpackaged|bulk) (vegetable|produce|bean|legume)/.test(n)) return "Vegetable";
-  if (/(lettuce|spinach|carrot|broccoli|onion|pepper|cabbage|kale|tomato|bean|pea|potato|corn|mushroom|zucchini|cucumber|asparagus|squash|celery|radish|beet|turnip|eggplant|avocado)/.test(n)) return "Vegetable";
-  if (/(apple|banana|orange|lemon|lime|berry|grape|melon|peach|pear|plum|kiwi|mango|pineapple|apricot|cherry|fig|date|papaya|guava|coconut)/.test(n)) return "Fruit";
-  if (/(chicken|beef|pork|lamb|turkey|fish|salmon|shrimp|egg|duck|bacon|ham|sausage|steak|tofu|tempeh|seitan|crab|lobster|clam|mussel|scallop|oyster)/.test(n)) return "Protein";
-  if (/(milk|cheese|yogurt|cream|butter|ghee|custard|paneer|ricotta|mozzarella|parmesan|brie|feta|goat cheese)/.test(n)) return "Dairy";
-  if (/(rice|bread|pasta|noodle|quinoa|barley|oat|wheat|cornmeal|tortilla|cracker|bun|roll|bagel|cereal)/.test(n)) return "Grain";
-  if (/(salt|pepper|cumin|coriander|turmeric|saffron|paprika|chili|cinnamon|nutmeg|clove|ginger|garlic|herb|basil|oregano|thyme|rosemary|sage|dill|parsley|mint|bay)/.test(n)) return "Spice";
-  if (/(can|canned|jar|preserve|pickle|jam|jelly|sardine|anchovy|soup|beans|olives|sauerkraut)/.test(n)) return "Canned/Preserved";
-  if (/(ketchup|mustard|mayo|mayonnaise|sauce|dressing|vinegar|soy sauce|hot sauce|bbq|aioli|salsa|chutney|relish|gravy|honey)/.test(n)) return "Condiment/Sauce";
-  if (/(frozen|ice cream|ice|peas|spinach|pizza|waffle|fries|nugget|berries|corn|broccoli|shrimp|fish stick)/.test(n)) return "Frozen";
+  if (/(mild steel|stainless|aluminum|carbon steel|plate|sheet|flat bar|angle iron|channel|i.?beam|base metal|a36|304|316|4130|chromoly)/.test(n)) return "Base Metals";
+  if (/(filler|rod|wire|electrode|er70|er308|e6010|e6013|e7018|tig rod|mig wire|flux.?core)/.test(n)) return "Filler Materials";
+  if (/(argon|co2|helium|shielding gas|75.?25|c25|tri.?mix|gas cylinder|regulator)/.test(n)) return "Shielding Gas";
+  if (/(flux|borax|anti.?spatter|tip dip|nozzle gel|contact tip|diffuser|liner|consumable)/.test(n)) return "Flux/Consumables";
+  if (/(bolt|nut|washer|screw|rivet|clamp|magnet|fixture|jig|tack)/.test(n)) return "Fasteners/Hardware";
+  if (/(grind|disc|flap|cut.?off|wire wheel|sand|deburr|abrasive|scotch.?brite)/.test(n)) return "Abrasives";
+  if (/(helmet|glove|jacket|apron|safety glass|respirator|ear plug|boot|shield|lens)/.test(n)) return "Safety Gear";
+  if (/(tube|tubing|pipe|round|square tube|rectangular|dom|erw|schedule)/.test(n)) return "Pipe/Tube";
+  if (/(beam|column|gusset|bracket|brace|frame|weldment|assembly|structure)/.test(n)) return "Structural";
   return "Other";
 }
 
-const MyBench = () => {
+const MyTorch = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
@@ -57,16 +53,16 @@ const MyBench = () => {
   const [scanStatus, setScanStatus] = useState<string | null>(null); // persistent feedback
   // Optionally, map category to emoji for pills
   const CATEGORY_ICONS: Record<string, string> = {
-    Vegetable: '🥦',
-    Fruit: '🍎',
-    Protein: '🍗',
-    Dairy: '🧀',
-    Grain: '🌾',
-    Spice: '🌶️',
-    'Canned/Preserved': '🥫',
-    'Condiment/Sauce': '🥄',
-    Frozen: '🧊',
-    Other: '🍽️',
+    'Base Metals': '🔩',
+    'Filler Materials': '🪡',
+    'Shielding Gas': '💨',
+    'Flux/Consumables': '🔥',
+    'Fasteners/Hardware': '🔧',
+    'Abrasives': '💎',
+    'Safety Gear': '�',
+    'Structural': '🏗️',
+    'Pipe/Tube': '🔲',
+    'Other': '⚙️',
   };
 
   const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);
@@ -101,8 +97,8 @@ const MyBench = () => {
 
   // Freddie context: set page on mount
   useEffect(() => {
-    updateContext({ page: 'MyKitchen' });
-    // Load both kitchen and cookbook data
+    updateContext({ page: 'MyTorch' });
+    // Load both bench and spec book data
     const loadData = async () => {
       try {
         const [kitchenIngredients, cookbookRecipes] = await Promise.all([
@@ -125,7 +121,7 @@ const MyBench = () => {
   });
 
   const handleLikeRecipe = async (recipe: RecipeCard) => {
-    console.log('Saving recipe with nutrition data:', recipe.nutrition);
+    console.log('Saving project:', recipe.title);
     
     try {
       const { data, error } = await supabase
@@ -134,17 +130,16 @@ const MyBench = () => {
           { 
             user_id: user?.id, 
             recipe: {
-              ...recipe,
-              nutrition: recipe.nutrition // Include nutrition data
+              ...recipe
             }
           }
         ]);
       
       if (error) throw error;
       
-      // Award XP for saving a recipe
+      // Award XP for saving a project
       if (user) {
-        await import('../../culinary/services/xpService').then(m => 
+        await import('../services/xpService').then(m => 
           m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
         );
         refreshXP();
@@ -246,7 +241,7 @@ const MyBench = () => {
                     }
                     const updatedIngredients = [
                       ...ingredients,
-                      ...newIngredients.map(name => ({ name, category: categorizeIngredient(name) }))
+                      ...newIngredients.map(name => ({ name, category: categorizeMaterial(name) }))
                     ];
                     setIngredients(updatedIngredients);
                     try {
@@ -289,7 +284,7 @@ const MyBench = () => {
             setMatcherError('');
             try {
               const cupboardNames = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../../culinary/api/recipeMatcher');
+              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
                 ingredients: cupboardNames,
@@ -439,6 +434,6 @@ const MyBench = () => {
   );
 };
 
-export default MyBench;
+export default MyTorch;
 
 

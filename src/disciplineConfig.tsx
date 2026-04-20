@@ -102,7 +102,7 @@ export const BASE_DISCIPLINE_CONFIG = {
     key: 'machining',
     name: 'Welding',
     routes: {
-      kitchen: '/welding/my-bench',
+      kitchen: '/welding/my-torch',
       cookbook: '/welding/my-specbook',
       corner: '/welding/machinist-corner',
       school: '/welding/machining-school',
@@ -225,7 +225,7 @@ const DISCIPLINE_ROUTE_SEGMENTS = new Set([
   'my-runbook',
   'dispatch-lounge',
   'logistics-school',
-  'my-bench',
+  'my-torch',
   'my-specbook',
   'machinist-corner',
   'machining-school',

@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PlayIcon, VideoCameraIcon, UserGroupIcon, GlobeAltIcon } from '@heroicons/react/24/outline';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { supabase } from '../api/supabaseClient';
+import { useSupabase } from '../components/SupabaseProvider';
 // Removed RecordRTC import to improve performance
 
 interface LiveSession {

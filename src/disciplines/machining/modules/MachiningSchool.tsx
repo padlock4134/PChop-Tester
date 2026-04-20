@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useFreddieContext } from '../components/BenchFreddieContext';
 import VideoModal from '../components/VideoModal';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from '../components/PartContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
-import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../../culinary/types/nutrition';
+// Nutrition removed - not applicable for welding discipline
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
 import CycleTimer from '../components/CycleTimer';
 import SetupPracticeModal from '../components/SetupPracticeModal';
@@ -136,10 +135,8 @@ const MachiningSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
-  console.log('Machining School - Job data:', selectedRecipe?.nutrition);
   console.log('Machining School - Full Job Ticket:', selectedRecipe);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
-  const [recipeNutrition, setRecipeNutrition] = useState<KeyNutrients | null>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
@@ -200,20 +197,6 @@ const MachiningSchool = () => {
     updateContext({ page: 'MachiningSchool' });
   }, [updateContext]);
 
-  useEffect(() => {
-    if (selectedRecipe && !selectedRecipe.nutrition) {
-      // Calculate nutrition if missing
-      calculateRecipeNutrition(selectedRecipe.ingredients)
-        .then(nutrition => {
-          setRecipeNutrition(nutrition);
-        })
-        .catch(error => {
-          console.error('Error calculating nutrition:', error);
-        });
-    } else {
-      setRecipeNutrition(selectedRecipe?.nutrition || null);
-    }
-  }, [selectedRecipe]);
 
   const isRecipeSelected = !!selectedRecipe;
   const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
@@ -430,17 +413,6 @@ const MachiningSchool = () => {
                     <li className="italic text-gray-400">{t('machiningSchool.noIngredientsListed')}</li>
                   )}
                 </ul>
-                {recipeNutrition && (
-                  <div className="mt-2">
-                    <div className="font-semibold mb-1">{t('machiningSchool.nutritionTotal').replace('{servings}', servingSize.toString())}:</div>
-                    <div className="text-sm">
-                      <div>{t('machiningSchool.carbs')}: {(recipeNutrition.carbs * servingSize).toFixed(1)}g</div>
-                      <div>{t('machiningSchool.sugars')}: {(recipeNutrition.sugars * servingSize).toFixed(1)}g</div>
-                      <div>{t('machiningSchool.fiber')}: {(recipeNutrition.fiber * servingSize).toFixed(1)}g</div>
-                      <div>{t('machiningSchool.protein')}: {(recipeNutrition.protein * servingSize).toFixed(1)}g</div>
-                    </div>
-                  </div>
-                )}
               </div>
               {/* Right Page */}
               <div className="flex-1 p-6 bg-white flex flex-col">
@@ -484,7 +456,7 @@ const MachiningSchool = () => {
             <div className="mt-8 text-center">
               <div className="text-gray-700 mb-4">{t('machiningSchool.getStarted')}</div>
               <div className="flex justify-center space-x-4">
-                <Link to="/welding/my-bench" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyKitchen')}</Link>
+                <Link to="/welding/my-torch" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyKitchen')}</Link>
                 <Link to="/welding/my-specbook" className="inline-block bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue font-bold transition-colors">{t('machiningSchool.goToMyCookbook')}</Link>
               </div>
             </div>
