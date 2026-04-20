@@ -131,7 +131,7 @@ function getTwoTutorials(recipe: any) {
 }
 
 
-const MachiningSchool = () => {
+const WeldingSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { selectedRecipe } = useRecipeContext();
@@ -194,7 +194,7 @@ const MachiningSchool = () => {
   };
 
   useEffect(() => {
-    updateContext({ page: 'MachiningSchool' });
+    updateContext({ page: 'WeldingSchool' });
   }, [updateContext]);
 
 
@@ -486,6 +486,6 @@ const MachiningSchool = () => {
   );
 };
 
-export default MachiningSchool;
+export default WeldingSchool;
 
 

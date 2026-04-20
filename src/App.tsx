@@ -96,8 +96,8 @@ import LogisticsDockFreddieWidget from './disciplines/logistics/components/DockF
 import MachiningNavBar from './disciplines/machining/components/NavBar';
 import MachiningMyTorch from './disciplines/machining/modules/MyBench';
 import MachiningMySpecBook from './disciplines/machining/modules/MySpecBook';
-import MachiningMachinistCorner from './disciplines/machining/modules/MachinistCorner';
-import MachiningMachiningSchool from './disciplines/machining/modules/MachiningSchool';
+import MachiningWeldersHub from './disciplines/machining/modules/MachinistCorner';
+import MachiningWeldingSchool from './disciplines/machining/modules/MachiningSchool';
 import MachiningProfile from './disciplines/machining/components/Profile';
 import MachiningBenchDashboard from './disciplines/machining/components/BenchDashboard';
 import MachiningBenchFreddieWidget from './disciplines/machining/components/BenchFreddieWidget';
@@ -260,8 +260,8 @@ const getDisciplineComponents = (discipline: string) => {
       NavBar: MachiningNavBar,
       Kitchen: MachiningMyTorch,
       Cookbook: MachiningMySpecBook,
-      Corner: MachiningMachinistCorner,
-      School: MachiningMachiningSchool,
+      Corner: MachiningWeldersHub,
+      School: MachiningWeldingSchool,
       Profile: MachiningProfile,
       Dashboard: MachiningBenchDashboard,
       FreddieWidget: MachiningBenchFreddieWidget
@@ -452,8 +452,8 @@ const AppRoutes = () => {
           <Route path="/welding/dashboard" element={<MachiningBenchDashboard />} />
           <Route path="/welding/my-torch" element={<MachiningMyTorch />} />
           <Route path="/welding/my-specbook" element={<MachiningMySpecBook />} />
-          <Route path="/welding/machinist-corner" element={<MachiningMachinistCorner />} />
-          <Route path="/welding/machining-school" element={<MachiningMachiningSchool />} />
+          <Route path="/welding/welders-hub" element={<MachiningWeldersHub />} />
+          <Route path="/welding/welding-school" element={<MachiningWeldingSchool />} />
           <Route path="/welding/profile" element={<MachiningProfile />} />
 
           {/* Backward-compatible redirects for legacy machining URLs */}
@@ -461,8 +461,10 @@ const AppRoutes = () => {
           <Route path="/welding/my-bench" element={<Navigate to="/welding/my-torch" replace />} />
           <Route path="/machining/my-bench" element={<Navigate to="/welding/my-torch" replace />} />
           <Route path="/machining/my-specbook" element={<Navigate to="/welding/my-specbook" replace />} />
-          <Route path="/machining/machinist-corner" element={<Navigate to="/welding/machinist-corner" replace />} />
-          <Route path="/machining/machining-school" element={<Navigate to="/welding/machining-school" replace />} />
+          <Route path="/welding/machinist-corner" element={<Navigate to="/welding/welders-hub" replace />} />
+          <Route path="/machining/machinist-corner" element={<Navigate to="/welding/welders-hub" replace />} />
+          <Route path="/welding/machining-school" element={<Navigate to="/welding/welding-school" replace />} />
+          <Route path="/machining/machining-school" element={<Navigate to="/welding/welding-school" replace />} />
           <Route path="/machining/profile" element={<Navigate to="/welding/profile" replace />} />
 
           {/* Dynamic custom discipline routes */}

@@ -10,7 +10,7 @@ import { RecipeCard } from '../components/PartMatcherModal';
 import { useSupabase } from '../components/SupabaseProvider';
 import GlobalTestBench from '../components/GlobalTestBench';
 
-const MachinistCorner = () => {
+const WeldersHub = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { recipes, setRecipes } = useRecipeContext();
@@ -119,7 +119,7 @@ const MachinistCorner = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'corner' | 'lab'>('corner');
 
   useEffect(() => {
-    updateContext({ page: 'MachinistCorner' });
+    updateContext({ page: 'WeldersHub' });
     
     // Load projects from spec book when Machinist's Corner loads
     const loadRecipes = async () => {
@@ -354,6 +354,6 @@ const MachinistCorner = () => {
   );
 };
 
-export default MachinistCorner;
+export default WeldersHub;
 
 

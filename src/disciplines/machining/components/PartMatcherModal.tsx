@@ -109,7 +109,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
         : generateTutorials(recipes[currentIdx])
     };
     setSelectedRecipe(fullRecipe);
-    navigate('/welding/machining-school');
+    navigate('/welding/welding-school');
   };
 
   const SKILL_TAGS = [

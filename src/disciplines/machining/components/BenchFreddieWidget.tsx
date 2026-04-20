@@ -17,10 +17,10 @@ const getProactiveMessage = (page: string, t: any) => {
       return "Welcome to My Torch — I can help you look up filler metals, check welding parameters, and plan your setup.";
     case 'MySpecbook':
       return "Welcome to My Specbook — need help writing a G-code program or reviewing a job ticket?";
-    case 'MachinistCorner':
-      return "Welcome to the Machinist Corner — want tips on finding local tooling suppliers or connecting with fellow machinists?";
-    case 'MachiningSchool':
-      return "Welcome to Machining School — I can help you prep for precision machining certifications or find CNC technique videos.";
+    case 'WeldersHub':
+      return "Welcome to the Welders Hub — want tips on finding local welding suppliers or connecting with fellow welders?";
+    case 'WeldingSchool':
+      return "Welcome to Welding School — I can help you prep for AWS certifications or find welding technique videos.";
     default:
       return "Hey! I'm Max the Machinist, your AI machining assistant. Ask me anything about G-code, speeds and feeds, or precision tolerances.";
   }
