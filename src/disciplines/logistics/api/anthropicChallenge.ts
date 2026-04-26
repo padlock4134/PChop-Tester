@@ -13,7 +13,7 @@ export async function getWeeklyChallengeRoute(prompt: string): Promise<{ title: 
     },
     body: JSON.stringify({
       apiKeyIdentifier: 'challenge',
-      model: 'claude-3-haiku-20240307', // Using a model compatible with Messages API
+      model: 'claude-3-5-haiku-20241022',
       system: systemPrompt,
       messages: [{ role: 'user', content: userPromptContent }],
       max_tokens: 1024, // Increased tokens for JSON output

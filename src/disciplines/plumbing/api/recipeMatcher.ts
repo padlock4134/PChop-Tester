@@ -350,7 +350,7 @@ Return ONLY the JSON array, no other text.`;
     },
     body: JSON.stringify({
       apiKeyIdentifier: 'fit',
-      model: 'claude-3-haiku-20240307',
+      model: 'claude-3-5-haiku-20241022',
       max_tokens: 1500, // Increased to handle equipment field
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
@@ -496,7 +496,7 @@ Return ONLY the JSON array, no other text.`;
     },
     body: JSON.stringify({
       apiKeyIdentifier: 'fit',
-      model: 'claude-3-opus-20240229',
+      model: 'claude-3-5-sonnet-20241022',
       max_tokens: 4096,
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.5,

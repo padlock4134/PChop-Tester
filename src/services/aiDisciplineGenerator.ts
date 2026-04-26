@@ -210,7 +210,7 @@ export async function generateDisciplineSkin(
           disciplineName,
           additionalContext: additionalContext || '',
         },
-        model: 'claude-3-haiku-20240307',
+        model: 'claude-3-5-haiku-20241022',
         system: 'You are a curriculum design expert. Return only valid JSON, no markdown formatting.',
         messages: [
           {
