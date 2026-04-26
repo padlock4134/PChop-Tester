@@ -1697,7 +1697,7 @@
     "close": "Close"
   },
   "myBench": {
-    "title": "My Bench",
+    "title": "My Torch",
     "scanKitchen": "Scan Bench",
     "uploadPhoto": "Upload Photo",
     "recipeMatch": "Spec Match",
@@ -3605,7 +3605,7 @@
     "private": "Private",
     "playVideo": "Play Video",
     "deleteVideo": "Delete Video",
-    "myTestKitchenVideos": "My Machine Lab Videos",
+    "myTestKitchenVideos": "My Weld Shop Videos",
     "reviewSavedVideos": "Review your saved welding sessions",
     "category": "Category",
     "user": "User",

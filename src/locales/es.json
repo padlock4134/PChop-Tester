@@ -1999,7 +1999,7 @@
     "close": "Cerrar"
   },
   "myBench": {
-    "title": "Mi Cabina",
+    "title": "Mi Antorcha",
     "scanKitchen": "Escanear Banco",
     "uploadPhoto": "Subir Foto",
     "recipeMatch": "Buscar Especificaciones",
@@ -3905,7 +3905,7 @@
     "private": "Privado",
     "playVideo": "Reproducir Video",
     "deleteVideo": "Eliminar Video",
-    "myTestKitchenVideos": "Mis Videos del Laboratorio de Maquinado",
+    "myTestKitchenVideos": "Mis Videos del Taller de Soldadura",
     "reviewSavedVideos": "Revisa tus sesiones de mecanizado guardadas",
     "category": "Categoría",
     "user": "Usuario",
