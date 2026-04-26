@@ -54,6 +54,8 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
   const [loadingStep, setLoadingStep] = useState(0);
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
+  const getFallbackImage = (title: string) =>
+    `https://source.unsplash.com/1200x800/?plumbing,${encodeURIComponent(title || 'pipe repair')}`;
 
   const loadingMessages = [
     t('repairMatcher.loadingMessage1', { defaultValue: 'Pete the Plumber is looking at your van inventory…' }),
@@ -94,10 +96,10 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
     }
   };
   const handleSkip = () => setCurrentIdx(idx => idx + 1);
-  function generateTutorials(fit: RecipeCard) {
+function generateTutorials(fit: RecipeCard) {
   return [
     {
-      title: `${t('repairMatcher.equipmentUsing')} ${recipe.title}`,
+      title: `${t('repairMatcher.equipmentUsing')} ${fit.title}`,
       desc: t('repairMatcher.learnEquipment')
     },
     {
@@ -105,7 +107,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
       desc: t('repairMatcher.howToPrepParts')
     },
     {
-      title: `${t('repairMatcher.procedure')} ${recipe.title}`,
+      title: `${t('repairMatcher.procedure')} ${fit.title}`,
       desc: fit.instructions
     }
   ];
@@ -150,7 +152,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('repairMatcher.repairMatcher'))}
+           (fits.length > 0 && currentIdx < fits.length ? fits[currentIdx].title : t('repairMatcher.repairMatcher'))}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
@@ -168,7 +170,24 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
-                  <img src={fits[currentIdx].image} alt={fits[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
+                  <img
+                    src={fits[currentIdx].image || getFallbackImage(fits[currentIdx].title)}
+                    alt={fits[currentIdx].title}
+                    className="w-full h-48 object-cover rounded mb-2"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.dataset.fallbackApplied === 'true') {
+                        target.src =
+                          "data:image/svg+xml;utf8," +
+                          encodeURIComponent(
+                            `<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='800'><rect width='100%' height='100%' fill='#e8dece'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='#1f3f5b' font-size='36' font-family='Arial,sans-serif'>Plumbing Procedure</text></svg>`
+                          );
+                        return;
+                      }
+                      target.dataset.fallbackApplied = 'true';
+                      target.src = getFallbackImage(fits[currentIdx].title);
+                    }}
+                  />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
                     {COMPLIANCE_TAGS.map((tag: any) => {
                       const isMatch = activeTags.includes(tag.key);
@@ -184,9 +203,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {fits[currentIdx].materials.join(', ')}</div>
                   {fits[currentIdx].equipment && fits[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {fits[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">

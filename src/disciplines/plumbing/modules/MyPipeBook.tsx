@@ -239,9 +239,9 @@ const MyPipeBook = () => {
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
-    { id: '1', name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }), emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '3', name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }), emoji: '⚡', recipes: ['1', '2'] },
-    { id: '4', name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }), emoji: '🔧', recipes: ['1', '2', '3', '4', '5'] }
+    { id: '1', name: t('myPipeBook.defaultCollections.favorites', { defaultValue: 'Favorites' }), emoji: '⭐', fits: ['1', '2', '3'] },
+    { id: '3', name: t('myPipeBook.defaultCollections.quickRepairs', { defaultValue: 'Quick Repairs' }), emoji: '⚡', fits: ['1', '2'] },
+    { id: '4', name: t('myPipeBook.defaultCollections.safetyFirst', { defaultValue: 'Safety First' }), emoji: '🔧', fits: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
@@ -718,7 +718,7 @@ const MyPipeBook = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600 mb-3">
-                {t('myPipeBook.recipesInCollection')} ({selectedCollection.recipes.length}):
+                {t('myPipeBook.recipesInCollection')} ({selectedCollection.fits.length}):
               </p>
               
               <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
