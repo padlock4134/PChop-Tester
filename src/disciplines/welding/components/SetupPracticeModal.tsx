@@ -240,22 +240,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             )}
           </div>
 
-          {/* Technique Feedback - below controls */}
-          <div className="mb-2 mx-2 sm:mx-4">
-            <div className="bg-blue-50 border border-blue-200 rounded p-3">
-              <div className="flex items-start space-x-2">
-                <span className="text-lg">🤖</span>
-                <div className="flex-1">
-                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
-                  <p className="text-xs text-blue-800">
-                    {isPracticing 
-                      ? "Great start! Keep your travel speed consistent and watch the puddle..."
-                      : "Start practicing to receive real-time AI guidance"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
           
           {modeNotice && (
             <div className="mx-2 sm:mx-0 mb-2 rounded-lg border-2 border-maineBlue bg-sand px-3 py-2 text-xs sm:text-sm text-maineBlue text-center font-semibold">
@@ -400,6 +384,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <span className="text-lg">📋</span>
             <span className="text-sm font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
           </button>
+
+          {/* Technique Feedback */}
+          <div className="mb-4">
+            <div className="bg-blue-50 border border-blue-200 rounded p-3">
+              <div className="flex items-start space-x-2">
+                <span className="text-lg">🤖</span>
+                <div className="flex-1">
+                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
+                  <p className="text-xs text-blue-800">
+                    {isPracticing 
+                      ? "Great start! Keep your travel speed consistent and watch the puddle..."
+                      : "Start practicing to receive real-time AI guidance"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
