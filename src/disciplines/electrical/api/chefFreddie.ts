@@ -43,7 +43,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
     },
     body: JSON.stringify({
       apiKeyIdentifier: 'chef',
-      model: 'claude-3-5-haiku-20241022',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
       messages: [{ role: 'user', content: `You are Sparky, a friendly and knowledgeable AI electrical assistant. Help me with: ${prompt}` }],
       temperature: 0.7,

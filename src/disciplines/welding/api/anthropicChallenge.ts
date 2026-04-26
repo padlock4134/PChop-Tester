@@ -13,7 +13,7 @@ export async function getWeeklyChallengeProject(prompt: string): Promise<{ title
     },
     body: JSON.stringify({
       apiKeyIdentifier: 'challenge',
-      model: 'claude-3-5-haiku-20241022',
+      model: 'claude-haiku-4-5-20251001',
       system: systemPrompt,
       messages: [{ role: 'user', content: userPromptContent }],
       max_tokens: 1024, // Increased tokens for JSON output

@@ -343,7 +343,7 @@ Return ONLY the JSON array, no other text.`;
     },
     body: JSON.stringify({
       apiKeyIdentifier: 'recipe',
-      model: 'claude-3-5-haiku-20241022',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 1500, // Increased to handle equipment field
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
@@ -482,7 +482,7 @@ Return ONLY the JSON array, no other text.`;
     },
     body: JSON.stringify({
       apiKeyIdentifier: 'recipe',
-      model: 'claude-3-5-sonnet-20241022',
+      model: 'claude-sonnet-4-5-20250929',
       max_tokens: 4096,
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.5,

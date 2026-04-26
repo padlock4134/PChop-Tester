@@ -48,7 +48,7 @@ export async function askMentorFreddie(userId: string, prompt: string, language:
     },
     body: JSON.stringify({
       apiKeyIdentifier: 'mentor',
-      model: 'claude-3-5-haiku-20241022',
+      model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
       system: systemPrompt,
       messages: [{ role: 'user', content: prompt }],
