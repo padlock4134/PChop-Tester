@@ -32,7 +32,8 @@ export async function getWeeklyChallengeRecipe(prompt: string): Promise<{ title:
   try {
     // Anthropic Messages API returns content in data.content[0].text
     if (data.content && data.content[0] && data.content[0].text) {
-      const recipeJsonString = data.content[0].text;
+      let recipeJsonString = data.content[0].text;
+      recipeJsonString = recipeJsonString.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/,'').trim();
       const recipeData = JSON.parse(recipeJsonString);
       return {
         title: recipeData.title || 'Weekly Challenge Task (parsed)',

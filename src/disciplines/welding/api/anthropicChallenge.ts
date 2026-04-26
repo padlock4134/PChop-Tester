@@ -32,7 +32,8 @@ export async function getWeeklyChallengeProject(prompt: string): Promise<{ title
   try {
     // Anthropic Messages API returns content in data.content[0].text
     if (data.content && data.content[0] && data.content[0].text) {
-      const projectJsonString = data.content[0].text;
+      let projectJsonString = data.content[0].text;
+      projectJsonString = projectJsonString.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/,'').trim();
       const projectData = JSON.parse(projectJsonString);
       return {
         title: projectData.title || 'Weekly Challenge Task (parsed)',
