@@ -94,10 +94,10 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
     }
   };
   const handleSkip = () => setCurrentIdx(idx => idx + 1);
-  function generateTutorials(fit: RecipeCard) {
+function generateTutorials(fit: RecipeCard) {
   return [
     {
-      title: `${t('repairMatcher.equipmentUsing')} ${recipe.title}`,
+      title: `${t('repairMatcher.equipmentUsing')} ${fit.title}`,
       desc: t('repairMatcher.learnEquipment')
     },
     {
@@ -105,7 +105,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
       desc: t('repairMatcher.howToPrepParts')
     },
     {
-      title: `${t('repairMatcher.procedure')} ${recipe.title}`,
+      title: `${t('repairMatcher.procedure')} ${fit.title}`,
       desc: fit.instructions
     }
   ];
@@ -150,7 +150,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : t('repairMatcher.repairMatcher'))}
+           (fits.length > 0 && currentIdx < fits.length ? fits[currentIdx].title : t('repairMatcher.repairMatcher'))}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
@@ -184,9 +184,9 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLi
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {fits[currentIdx].materials.join(', ')}</div>
                   {fits[currentIdx].equipment && fits[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('myVan.ingredients')}:</span> {fits[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">
