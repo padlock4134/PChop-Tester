@@ -405,22 +405,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Setup</div>
               <p className="text-xs text-gray-700">Set up your welding booth and inspect PPE</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Joint Prep</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Joint Prep</div>
               <p className="text-xs text-gray-700">Clean and fit up your workpieces at the correct angle</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Beads</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">First Beads</div>
               <p className="text-xs text-gray-700">Strike the arc and run your first weld bead</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Inspection</div>
+              <div className="font-semibold text-sm text-gray-600 mb-1">Inspection</div>
               <p className="text-xs text-gray-600">AI will check your weld for defects</p>
             </div>
           </div>
