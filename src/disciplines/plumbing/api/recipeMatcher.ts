@@ -26,6 +26,8 @@ type VanSetup = keyof typeof KITCHEN_EQUIPMENT;
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
+const getFallbackFitImageUrl = (title: string) =>
+  `https://source.unsplash.com/1200x800/?plumbing,${encodeURIComponent(title || 'pipe repair')}`;
 
 const RECIPE_PROMPTS = {
   new_to_trade: (numRecipes: number, materials: string[]) => 
@@ -420,14 +422,16 @@ Return ONLY the JSON array, no other text.`;
   // 5. Fetch images for top fits
   const imagePromises = scoredRecipes.map(async (fit) => {
     try {
+      if (!unsplashKey) return getFallbackFitImageUrl(fit.title);
       const res = await fetch(
         `${UNSPLASH_API_URL}?query=${encodeURIComponent(fit.title)}&client_id=${unsplashKey}`
       );
+      if (!res.ok) return getFallbackFitImageUrl(fit.title);
       const data = await res.json();
-      return data.results?.[0]?.urls?.small || '';
+      return data.results?.[0]?.urls?.small || getFallbackFitImageUrl(fit.title);
     } catch (err) {
       console.error('Failed to fetch image:', err);
-      return '';
+      return getFallbackFitImageUrl(fit.title);
     }
   });
 
