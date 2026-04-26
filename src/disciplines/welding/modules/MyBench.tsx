@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { saveKitchen, fetchKitchen } from './kitchenSupabase';
-import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
-import { Ingredient } from '../types/shared-types';
+import { saveBench, fetchBench } from './kitchenSupabase';
+import { fetchSpecBook, addProjectToSpecBook } from './cookbookSupabase';
+import { Material } from '../types/shared-types';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../api/vision';
-import PartMatcherModal, { RecipeCard } from '../components/PartMatcherModal';
+import PartMatcherModal, { ProjectCard } from '../components/PartMatcherModal';
 import { useFreddieContext } from '../components/BenchFreddieContext';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
@@ -67,16 +67,16 @@ const MyTorch = () => {
 
   const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);
 
-  // Recipe Matcher modal state
+  // Project Matcher modal state
   const [matcherOpen, setMatcherOpen] = useState(false);
   const [matcherLoading, setMatcherLoading] = useState(false);
   const [matcherError, setMatcherError] = useState('');
-  const [matcherRecipes, setMatcherRecipes] = useState<RecipeCard[]>([]);
+  const [matcherProjects, setMatcherProjects] = useState<ProjectCard[]>([]);
 
-  // MyCookBook state (for MVP, local only)
-  const [cookbook, setCookbook] = useState<RecipeCard[]>([]);
-  const [ingredients, setIngredients] = useState<Ingredient[]>([]);
-  const [kitchenError, setKitchenError] = useState<string | null>(null);
+  // MySpecBook state (for MVP, local only)
+  const [specbook, setSpecbook] = useState<ProjectCard[]>([]);
+  const [ingredients, setIngredients] = useState<Material[]>([]);
+  const [benchError, setBenchError] = useState<string | null>(null);
 
   const [input, setInput] = useState('');
   const [category, setCategory] = useState(CATEGORIES[0]);
@@ -89,10 +89,10 @@ const MyTorch = () => {
     }
   };
 
-  // Save kitchen to Supabase whenever ingredients change
+  // Save bench to Supabase whenever ingredients change
   useEffect(() => {
     if (ingredients.length === 0) return;
-    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your workspace.'));
+    saveBench(user?.id!, ingredients).catch(err => setBenchError('Failed to save your workspace.'));
   }, [ingredients]);
 
   // Jake context: set page on mount
@@ -101,15 +101,15 @@ const MyTorch = () => {
     // Load both bench and spec book data
     const loadData = async () => {
       try {
-        const [kitchenIngredients, cookbookRecipes] = await Promise.all([
-          fetchKitchen(user?.id!),
-          fetchCookbook(user?.id!)
+        const [benchMaterials, specbookProjects] = await Promise.all([
+          fetchBench(user?.id!),
+          fetchSpecBook(user?.id!)
         ]);
-        setIngredients(kitchenIngredients);
-        setCookbook(cookbookRecipes);
+        setIngredients(benchMaterials);
+        setSpecbook(specbookProjects);
       } catch (error) {
         console.error('Error loading data:', error);
-        setKitchenError('Failed to load your workspace.');
+        setBenchError('Failed to load your workspace.');
       }
     };
     loadData();
@@ -120,8 +120,8 @@ const MyTorch = () => {
     return ing.name.toLowerCase().includes(filterText.toLowerCase());
   });
 
-  const handleLikeRecipe = async (recipe: RecipeCard) => {
-    console.log('Saving project:', recipe.title);
+  const handleLikeProject = async (project: ProjectCard) => {
+    console.log('Saving project:', project.title);
     
     try {
       const { data, error } = await supabase
@@ -130,7 +130,7 @@ const MyTorch = () => {
           { 
             user_id: user?.id, 
             recipe: {
-              ...recipe
+              ...project
             }
           }
         ]);
@@ -140,26 +140,26 @@ const MyTorch = () => {
       // Award XP for saving a project
       if (user) {
         await import('../services/xpService').then(m => 
-          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
+          m.awardXP(user.id, XP_REWARDS.PROJECT_SAVE, 'project_save')
         );
         refreshXP();
       }
     } catch (error: any) {
-      console.error('Error saving recipe:', error.message || error);
-      console.error('Failed recipe:', {
-        id: recipe.id,
-        title: recipe.title,
+      console.error('Error saving project:', error.message || error);
+      console.error('Failed project:', {
+        id: project.id,
+        title: project.title,
         user: user?.id || 'no user'
       });
     }
   };
 
-  const handleSaveRecipeToCookbook = async (recipe: RecipeCard) => {
+  const handleSaveProjectToSpecBook = async (project: ProjectCard) => {
     try {
-      await addRecipeToCookbook(user?.id!, recipe);
-      setCookbook(prevCookbook => [...prevCookbook, recipe]);
+      await addProjectToSpecBook(user?.id!, project);
+      setSpecbook(prev => [...prev, project]);
     } catch (error) {
-      console.error('Error saving recipe to cookbook:', error);
+      console.error('Error saving project to spec book:', error);
     }
   };
 
@@ -245,12 +245,12 @@ const MyTorch = () => {
                     ];
                     setIngredients(updatedIngredients);
                     try {
-                      await saveKitchen(user?.id!, updatedIngredients);
-                      setKitchenError(null);
+                      await saveBench(user?.id!, updatedIngredients);
+                      setBenchError(null);
                       setScanStatus(t('myBench.ingredientsSaved'));
                       alert(t('myBench.ingredientsSaved'));
                     } catch (err: any) {
-                      setKitchenError(t('myBench.failedToSave') + ' ' + (err.message || err.toString()));
+                      setBenchError(t('myBench.failedToSave') + ' ' + (err.message || err.toString()));
                       setScanStatus(t('myBench.failedToSave') + ' ' + (err.message || err.toString()));
                       alert(t('myBench.failedToSave') + ' ' + (err.message || err.toString()));
                     }
@@ -283,20 +283,20 @@ const MyTorch = () => {
             setMatcherLoading(true);
             setMatcherError('');
             try {
-              const cupboardNames = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
-              const recipes = await fetchRecipesWithImages({
+              const materialNames = ingredients.map(i => i.name);
+              const { fetchProjectsWithImages } = await import('../api/recipeMatcher');
+              const projects = await fetchProjectsWithImages({
                 userId: user?.id!,
-                ingredients: cupboardNames,
-                numRecipes: 5,
+                materials: materialNames,
+                numProjects: 5,
                 // These will be undefined by default, which is fine - the function has defaults
-                kitchenSetup: undefined,
+                shopSetup: undefined,
                 talentsEnabled: false,
                 talentTree: null
               });
-              setMatcherRecipes(recipes);
+              setMatcherProjects(projects);
             } catch (err: any) {
-              setMatcherError('Failed to fetch recipes.');
+              setMatcherError('Failed to fetch projects.');
             } finally {
               setMatcherLoading(false);
             }
@@ -329,9 +329,9 @@ const MyTorch = () => {
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
         cupboardIngredients={ingredients.map(i => i.name)}
-        onLike={handleLikeRecipe}
-        saveRecipeToCookbook={handleSaveRecipeToCookbook}
-        recipes={matcherRecipes}
+        onLike={handleLikeProject}
+        saveRecipeToCookbook={handleSaveProjectToSpecBook}
+        recipes={matcherProjects}
         loading={matcherLoading}
         error={matcherError}
       />

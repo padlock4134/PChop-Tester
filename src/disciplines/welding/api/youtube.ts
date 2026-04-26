@@ -2,18 +2,18 @@
 // Requires VITE_YOUTUBE_API_KEY in .env
 
 // Helper to build a more specific YouTube query
-// type can be 'main_ingredient', 'equipment', or 'recipe'
-function buildVideoQuery(recipeTitle: string, item: string, type: 'main_ingredient' | 'equipment' | 'recipe' = 'recipe'): string {
+// type can be 'primary_material', 'equipment', or 'project'
+function buildVideoQuery(projectTitle: string, item: string, type: 'primary_material' | 'equipment' | 'project' = 'project'): string {
   if (type === 'equipment') {
-    // Equipment tutorial: 'Recipe Name with Equipment'
-    return `${recipeTitle} with a ${item}`;
+    // Equipment tutorial: 'Project Name with Equipment'
+    return `${projectTitle} with a ${item}`;
   }
-  if (type === 'main_ingredient') {
-    // Main ingredient prep: 'Main Ingredient for Recipe Name'
-    return `${item} for ${recipeTitle}`;
+  if (type === 'primary_material') {
+    // Material prep: 'Material for Project Name'
+    return `${item} for ${projectTitle}`;
   }
-  // Default: 'Recipe Name' (possibly with other context)
-  return `${recipeTitle}${item ? ' ' + item : ''}`;
+  // Default: 'Project Name' (possibly with other context)
+  return `${projectTitle}${item ? ' ' + item : ''}`;
 }
 
 // Helper to filter out irrelevant results (e.g., "plant pot", "garden")
@@ -25,8 +25,8 @@ function isRelevantYouTubeResult(result: any, item: string): boolean {
   return true;
 }
 
-export async function getTutorialVideoUrl(query: string, recipeTitle?: string, type: 'main_ingredient' | 'equipment' | 'recipe' = 'recipe'): Promise<string | null> {
+export async function getTutorialVideoUrl(query: string, projectTitle?: string, type: 'primary_material' | 'equipment' | 'project' = 'project'): Promise<string | null> {
   // YouTube API disabled to prevent quota issues affecting user's personal account
-  console.log(`[YouTube API] Disabled. Query was: ${query}, Recipe: ${recipeTitle}, Type: ${type}`);
+  console.log(`[YouTube API] Disabled. Query was: ${query}, Project: ${projectTitle}, Type: ${type}`);
   return null;
 }

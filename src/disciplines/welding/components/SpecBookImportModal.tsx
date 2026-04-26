@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from './PartContext';
+import { useProjectContext } from './PartContext';
 
-interface CookBookImportModalProps {
+interface SpecBookImportModalProps {
   open: boolean;
   onClose: () => void;
-  onImport: (recipe: any) => void;
+  onImport: (project: any) => void;
   existingIngredients?: string[];
 }
 
-const CookBookImportModal: React.FC<CookBookImportModalProps> = ({ 
+const SpecBookImportModal: React.FC<SpecBookImportModalProps> = ({ 
   open, 
   onClose, 
   onImport,
@@ -18,14 +18,14 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
   const { t } = useTranslation();
   const wt = (key: string, defaultValue: string) =>
     t(`machinistCorner.${key}`, { defaultValue });
-  const { recipes } = useRecipeContext();
-  const [selectedRecipe, setSelectedRecipe] = useState<any>(null);
+  const { projects } = useProjectContext();
+  const [selectedProject, setSelectedProject] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
 
   // Reset selection when modal opens/closes
   useEffect(() => {
-    setSelectedRecipe(null);
+    setSelectedProject(null);
     setIsLoading(false);
   }, [open]);
 
@@ -51,17 +51,17 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open, onClose]);
 
-  const handleSelectRecipe = (recipe: any) => {
-    setSelectedRecipe(recipe);
+  const handleSelectProject = (project: any) => {
+    setSelectedProject(project);
   };
 
   const handleImport = async () => {
-    if (!selectedRecipe) return;
+    if (!selectedProject) return;
     
     setIsLoading(true);
     try {
-      // Call the import function with the selected recipe
-      onImport(selectedRecipe);
+      // Call the import function with the selected project
+      onImport(selectedProject);
       
     } catch (error) {
       console.error('Error during import:', error);
@@ -89,21 +89,21 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
         </div>
         
         <div className="flex-1 overflow-y-auto p-6 pt-2">
-          {recipes.length === 0 ? (
+          {projects.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               {wt('noSpecs', 'No specs found in your Spec Book.')}
             </div>
           ) : (
             <div className="space-y-3">
-              {recipes.map((spec: any) => (
+              {projects.map((spec: any) => (
                 <div 
                   key={spec.id} 
                   className={`border rounded-lg overflow-hidden cursor-pointer transition-colors ${
-                    selectedRecipe?.id === spec.id 
+                    selectedProject?.id === spec.id 
                       ? 'border-maineBlue bg-blue-50' 
                       : 'border-gray-300 hover:border-gray-400'
                   }`}
-                  onClick={() => handleSelectRecipe(spec)}
+                  onClick={() => handleSelectProject(spec)}
                 >
                   <div className="flex items-center p-4">
                     <div className="flex-1">
@@ -113,7 +113,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
                         {spec.instructions && ' • ' + wt('stepsIncluded', 'steps included')}
                       </p>
                     </div>
-                    {selectedRecipe?.id === spec.id && (
+                    {selectedProject?.id === spec.id && (
                       <div className="text-maineBlue">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -140,7 +140,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
             className={`px-4 py-2 text-sm font-medium text-white bg-maineBlue border border-black rounded-md shadow-sm hover:bg-seafoam hover:text-maineBlue transition-colors ${
               isLoading ? 'opacity-70 cursor-not-allowed' : ''
             }`}
-            disabled={isLoading || !selectedRecipe}
+            disabled={isLoading || !selectedProject}
           >
             {isLoading ? wt('importingSpec', 'Importing Spec...') : wt('showcaseSpecButton', 'Showcase Spec')}
           </button>
@@ -150,4 +150,7 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
   );
 };
 
-export default CookBookImportModal;
+export default SpecBookImportModal;
+
+// Backward-compatible alias
+export { SpecBookImportModal as CookBookImportModal };

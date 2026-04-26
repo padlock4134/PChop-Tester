@@ -27,17 +27,17 @@ const PostComposer = () => {
         throw new Error('Not authenticated');
       }
       
-      // Check if this is a recipe share (simplified check for recipe keywords)
-      const isRecipeShare = /recipe|ingredients?|instructions?|method|steps|serves|prep time|cook time/i.test(input);
+      // Check if this is a project share (simplified check for project keywords)
+      const isProjectShare = /project|materials?|instructions?|method|steps|specs|setup time|weld time/i.test(input);
       
       // In a real app, you would upload the image and create the post here
       // For now, we'll just simulate a successful post
       
-      if (isRecipeShare) {
-        // Award XP for sharing a recipe
+      if (isProjectShare) {
+        // Award XP for sharing a project
         const { error } = await supabase.rpc('increment_user_xp', {
           user_id: user.id,
-          xp_amount: XP_REWARDS.RECIPE_SHARE
+          xp_amount: XP_REWARDS.PROJECT_SHARE
         });
         
         if (!error) {
@@ -45,8 +45,8 @@ const PostComposer = () => {
           await supabase.from('xp_activity_log').insert([
             {
               user_id: user.id,
-              xp_awarded: XP_REWARDS.RECIPE_SHARE,
-              activity: 'recipe_share'
+              xp_awarded: XP_REWARDS.PROJECT_SHARE,
+              activity: 'project_share'
             }
           ]);
           
@@ -59,7 +59,7 @@ const PostComposer = () => {
       setImage(null);
       
       // Show success message or update UI
-      alert('Post shared successfully!' + (isRecipeShare ? ' +' + XP_REWARDS.RECIPE_SHARE + ' XP for sharing a recipe!' : ''));
+      alert('Post shared successfully!' + (isProjectShare ? ' +' + XP_REWARDS.PROJECT_SHARE + ' XP for sharing a project!' : ''));
       
     } catch (error) {
       console.error('Error sharing post:', error);
@@ -70,7 +70,7 @@ const PostComposer = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="chefs-corner-composer bg-weatheredWhite p-4 rounded shadow mb-6">
+    <form onSubmit={handleSubmit} className="welders-corner-composer bg-weatheredWhite p-4 rounded shadow mb-6">
       <textarea
         className="w-full border rounded p-2 mb-2"
         placeholder={t('social.share')}

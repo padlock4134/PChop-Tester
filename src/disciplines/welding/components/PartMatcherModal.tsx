@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from './PartContext';
+import { useProjectContext } from './PartContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import jakeWelderPng from '../images/logo.png';
 
-export type RecipeCard = {
+export type ProjectCard = {
   id: string;
   title: string;
   image: string;
@@ -26,23 +26,26 @@ export type RecipeCard = {
   healthTags?: string[];
 };
 
+// Backward-compatible alias
+export type RecipeCard = ProjectCard;
+
 type Props = {
   open: boolean;
   onClose: () => void;
   cupboardIngredients: string[];
-  onLike: (recipe: RecipeCard) => void;
-  saveRecipeToCookbook: (recipe: RecipeCard) => void;
-  recipes: RecipeCard[];
+  onLike: (project: ProjectCard) => void;
+  saveRecipeToCookbook: (project: ProjectCard) => void;
+  recipes: ProjectCard[];
   loading: boolean;
   error: string;
 };
 
-const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
+const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
   const { t } = useTranslation();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
-  const { setSelectedRecipe } = useRecipeContext();
+  const { setSelectedProject } = useProjectContext();
   const navigate = useNavigate();
 
   const loadingMessages = [
@@ -73,21 +76,21 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const handleLike = async () => {
     try {
       setIsSaving(true);
-      // Save recipe to cookbook
+      // Save project to spec book
       await saveRecipeToCookbook(recipes[currentIdx]);
       await onLike(recipes[currentIdx]);
       setCurrentIdx(idx => idx + 1);
     } catch (error) {
-      console.error('Error saving recipe:', error);
+      console.error('Error saving project:', error);
     } finally {
       setIsSaving(false);
     }
   };
   const handleSkip = () => setCurrentIdx(idx => idx + 1);
-  function generateTutorials(recipe: RecipeCard) {
+  function generateTutorials(project: ProjectCard) {
   return [
     {
-      title: `Equipment needed for ${recipe.title}`,
+      title: `Equipment needed for ${project.title}`,
       desc: 'Learn how to use the main equipment needed for this project.'
     },
     {
@@ -95,20 +98,20 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
       desc: 'How to prep primary materials for this welding project.'
     },
     {
-      title: `Procedure: ${recipe.title}`,
-      desc: recipe.instructions
+      title: `Procedure: ${project.title}`,
+      desc: project.instructions
     }
   ];
 }
 
-  const handleCookMe = () => {
-    const fullRecipe = {
+  const handleRunIt = () => {
+    const fullProject = {
       ...recipes[currentIdx],
       tutorials: recipes[currentIdx].tutorials && recipes[currentIdx].tutorials.length === 3
         ? recipes[currentIdx].tutorials
         : generateTutorials(recipes[currentIdx])
     };
-    setSelectedRecipe(fullRecipe);
+    setSelectedProject(fullProject);
     navigate('/welding/welding-school');
   };
 
@@ -151,7 +154,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
           <div className="text-center text-maineBlue font-bold py-10">{'No more suggestions.'}<br/>{'Try updating your bench inventory!'}</div>
         ) : (
           (() => {
-            console.log('Recipe healthTags:', recipes[currentIdx].healthTags);
+            console.log('Project healthTags:', recipes[currentIdx].healthTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
@@ -187,7 +190,7 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                   >
                     {isSaving ? '...' : '♥'}
                   </button>
-                  <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
+                  <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleRunIt}>
                     {'Run It'}
                   </button>
                 </div>
@@ -201,5 +204,8 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   );
 };
 
-export default RecipeMatcherModal;
+export default ProjectMatcherModal;
+
+// Backward-compatible alias
+export { ProjectMatcherModal as RecipeMatcherModal };
 

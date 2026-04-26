@@ -4,8 +4,8 @@ import { useLocation } from 'react-router-dom';
 import { useLevelProgressContext } from './NavBar';
 import WeeklyChallengePartModal from './WeeklyChallengePartModal';
 import type { RecipeCard } from './PartMatcherModal';
-import { getWeeklyChallengeRecipe } from '../api/anthropicChallenge';
-import { getRecipeImage } from '../api/unsplash';
+import { getWeeklyChallengeProject } from '../api/anthropicChallenge';
+import { getProjectImage } from '../api/unsplash';
 import { supabase } from '../api/supabaseClient';
 import { isSessionValid } from '../api/userSession';
 import { useSupabase } from './SupabaseProvider';
@@ -93,12 +93,12 @@ function getCurrentWeeklyChallenge() {
 const ChallengeOfTheWeek: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'welding';
   const discipline = disciplineFromPath === 'welding' ? 'machining' : disciplineFromPath;
   const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [open, setOpen] = useState(false);
-  const [recipeModalOpen, setRecipeModalOpen] = useState(false);
-  const [modalRecipe, setModalRecipe] = useState<RecipeCard | null>(null);
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+  const [modalProject, setModalProject] = useState<RecipeCard | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [weekNumber, setWeekNumber] = useState(getWeekNumber(new Date()));
@@ -126,32 +126,32 @@ const ChallengeOfTheWeek: React.FC = () => {
   }, [weekNumber]);
 
   useEffect(() => {
-    const fetchRecipeAndImage = async () => {
+    const fetchProjectAndImage = async () => {
       try {
         const challenge = getCurrentWeeklyChallenge();
         const prompt = `${challenge.title}: ${challenge.description}`;
-        const recipeData = await getWeeklyChallengeRecipe(prompt);
-        const image = await getRecipeImage(recipeData.title || challenge.title, recipeData.title || challenge.title, 'recipe');
-        const recipe: RecipeCard = {
+        const projectData = await getWeeklyChallengeProject(prompt);
+        const image = await getProjectImage(projectData.title || challenge.title, projectData.title || challenge.title, 'project');
+        const project: RecipeCard = {
           id: `weekly-${challenge.title.replace(/\s+/g, '-').toLowerCase()}`,
-          title: recipeData.title || challenge.title,
+          title: projectData.title || challenge.title,
           image,
-          ingredients: recipeData.ingredients || [],
-          instructions: recipeData.instructions || '',
-          equipment: recipeData.equipment || [],
+          ingredients: projectData.ingredients || [],
+          instructions: projectData.instructions || '',
+          equipment: projectData.equipment || [],
         };
-        setModalRecipe(recipe);
+        setModalProject(project);
       } catch (e: any) {
         setError(e.message || 'Failed to generate challenge');
       } finally {
         setLoading(false);
       }
     };
-    fetchRecipeAndImage();
+    fetchProjectAndImage();
   }, [weekNumber]);
 
-  function handleCookMe() {
-    setRecipeModalOpen(true);
+  function handleRunIt() {
+    setProjectModalOpen(true);
     setOpen(false);
   }
 
@@ -192,10 +192,10 @@ const ChallengeOfTheWeek: React.FC = () => {
             <span className="text-sm text-gray-500">{ct('viewDetails')}: <b>{challenge.reward.xp} XP</b> and <b>{challenge.reward.badge}</b> badge</span>
             <button
               className="mt-4 px-4 py-2 rounded bg-maineBlue hover:bg-seafoam text-seafoam hover:text-maineBlue font-bold shadow border border-black w-full"
-              onClick={handleCookMe}
+              onClick={handleRunIt}
               disabled={loading}
             >
-              {loading ? t('common.loading') : t('myKitchen.cookMe', { defaultValue: 'Generate Challenge' })}
+              {loading ? t('common.loading') : t('myBench.runIt', { defaultValue: 'Generate Challenge' })}
             </button>
             {error && <div className="text-red-600 mt-2">{error}</div>}
             <button
@@ -206,12 +206,12 @@ const ChallengeOfTheWeek: React.FC = () => {
         </div>
       )}
       <WeeklyChallengePartModal
-        open={recipeModalOpen}
-        onClose={() => setRecipeModalOpen(false)}
-        recipe={modalRecipe}
+        open={projectModalOpen}
+        onClose={() => setProjectModalOpen(false)}
+        recipe={modalProject}
         loading={loading}
         error={error}
-        challengeId={modalRecipe?.id || ''}
+        challengeId={modalProject?.id || ''}
         weekNumber={getWeekNumber(new Date())}
         xp={challenge.reward.xp}
         badge={challenge.reward.badge}

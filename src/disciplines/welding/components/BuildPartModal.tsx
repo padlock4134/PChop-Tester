@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useSupabase } from './SupabaseProvider';
-import { fetchCookbook } from '../modules/cookbookSupabase';
+import { fetchSpecBook } from '../modules/cookbookSupabase';
 import { RecipeCard } from './PartMatcherModal';
 import jsPDF from 'jspdf';
 import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
@@ -23,48 +23,48 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       defaultValue: t(`buildMenu.${key}`, { defaultValue })
     });
   const { user } = useSupabase();
-  const [recipes, setRecipes] = useState<RecipeCard[]>([]);
-  const [selectedRecipeIds, setSelectedRecipeIds] = useState<Set<string>>(new Set());
+  const [projects, setProjects] = useState<RecipeCard[]>([]);
+  const [selectedProjectIds, setSelectedProjectIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (open && user?.id) {
-      loadRecipes();
+      loadProjects();
     }
   }, [open, user?.id]);
 
-  const loadRecipes = async () => {
+  const loadProjects = async () => {
     if (!user?.id) return;
     
     try {
       setLoading(true);
-      const savedRecipes = await fetchCookbook(user.id);
-      setRecipes(savedRecipes || []);
+      const savedProjects = await fetchSpecBook(user.id);
+      setProjects(savedProjects || []);
     } catch (err) {
-      console.error('Error loading cookbook recipes:', err);
-      setRecipes([]);
+      console.error('Error loading spec book projects:', err);
+      setProjects([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const toggleRecipe = (recipeId: string) => {
-    const newSelected = new Set(selectedRecipeIds);
-    if (newSelected.has(recipeId)) {
-      newSelected.delete(recipeId);
+  const toggleProject = (projectId: string) => {
+    const newSelected = new Set(selectedProjectIds);
+    if (newSelected.has(projectId)) {
+      newSelected.delete(projectId);
     } else {
-      newSelected.add(recipeId);
+      newSelected.add(projectId);
     }
-    setSelectedRecipeIds(newSelected);
+    setSelectedProjectIds(newSelected);
   };
 
   const handleFindMarkets = () => {
-    const selected = recipes.filter(r => selectedRecipeIds.has(r.id));
+    const selected = projects.filter(r => selectedProjectIds.has(r.id));
     onFindMarkets(selected);
   };
 
   const handleCreateMenuPDF = () => {
-    const selected = recipes.filter(r => selectedRecipeIds.has(r.id));
+    const selected = projects.filter(r => selectedProjectIds.has(r.id));
     if (selected.length === 0) return;
 
     const pdf = new jsPDF();
@@ -82,17 +82,17 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     yPos += 8;
     pdf.setFontSize(11);
     pdf.setFont('helvetica', 'normal');
-    selected.forEach((recipe, idx) => {
-      pdf.text(`${idx + 1}. ${recipe.title}`, 25, yPos);
+    selected.forEach((project, idx) => {
+      pdf.text(`${idx + 1}. ${project.title}`, 25, yPos);
       yPos += 6;
     });
     yPos += 5;
 
-    // Extract and deduplicate ingredients
+    // Extract and deduplicate materials
     const allIngredients: string[] = [];
-    selected.forEach(recipe => {
-      if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
-        allIngredients.push(...recipe.ingredients);
+    selected.forEach(project => {
+      if (project.ingredients && Array.isArray(project.ingredients)) {
+        allIngredients.push(...project.ingredients);
       }
     });
     const uniqueIngredients = Array.from(
@@ -196,32 +196,32 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-maineBlue mx-auto"></div>
                   <p className="text-gray-500 mt-2">{bt('loading', 'Loading jobs...')}</p>
                 </div>
-              ) : recipes.length === 0 ? (
+              ) : projects.length === 0 ? (
                 <div className="text-center py-8">
                   <p className="text-gray-500 text-sm">{bt('noItems', 'No jobs found in your Weldbook yet.')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
-                  {recipes.map((recipe) => (
+                  {projects.map((project) => (
                     <label
-                      key={recipe.id}
+                      key={project.id}
                       className={`flex items-center p-2 rounded-lg border cursor-pointer transition-colors ${
-                        selectedRecipeIds.has(recipe.id)
+                        selectedProjectIds.has(project.id)
                           ? 'border-maineBlue bg-blue-50'
                           : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
                       <input
                         type="checkbox"
-                        checked={selectedRecipeIds.has(recipe.id)}
-                        onChange={() => toggleRecipe(recipe.id)}
+                        checked={selectedProjectIds.has(project.id)}
+                        onChange={() => toggleProject(project.id)}
                         className="mr-2 h-4 w-4 text-maineBlue"
                       />
                       <div className="flex-1 min-w-0">
-                        <div className="font-medium text-sm text-gray-900 truncate">{recipe.title}</div>
-                        {recipe.ingredients && (
+                        <div className="font-medium text-sm text-gray-900 truncate">{project.title}</div>
+                        {project.ingredients && (
                           <div className="text-xs text-gray-400">
-                            {bt('itemsCount', '{count} materials').replace('{count}', recipe.ingredients.length.toString())}
+                            {bt('itemsCount', '{count} materials').replace('{count}', project.ingredients.length.toString())}
                           </div>
                         )}
                       </div>
@@ -234,30 +234,30 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
             {/* Right: Your Menu */}
             <div className="flex flex-col overflow-hidden">
               <h3 className="text-sm font-semibold text-gray-700 mb-2">🧰 {bt('yourMenu', 'Your Job Package')}</h3>
-              {selectedRecipeIds.size === 0 ? (
+              {selectedProjectIds.size === 0 ? (
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
                   <p className="text-gray-400 text-sm">{bt('selectToStart', 'Select one or more jobs to start your package.')}</p>
                 </div>
               ) : (
                 <div className="space-y-2 overflow-y-auto pr-2" style={{maxHeight: '280px'}}>
-                  {recipes
-                    .filter(r => selectedRecipeIds.has(r.id))
-                    .map((recipe, idx) => (
+                  {projects
+                    .filter(r => selectedProjectIds.has(r.id))
+                    .map((project, idx) => (
                       <div
-                        key={recipe.id}
+                        key={project.id}
                         className="p-3 bg-sand rounded-lg border border-maineBlue"
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <div className="font-medium text-gray-900">{idx + 1}. {recipe.title}</div>
-                            {recipe.ingredients && (
+                            <div className="font-medium text-gray-900">{idx + 1}. {project.title}</div>
+                            {project.ingredients && (
                               <div className="text-xs text-gray-500 mt-1">
-                                {bt('itemsCountNeeded', '{count} materials needed').replace('{count}', recipe.ingredients.length.toString())}
+                                {bt('itemsCountNeeded', '{count} materials needed').replace('{count}', project.ingredients.length.toString())}
                               </div>
                             )}
                           </div>
                           <button
-                            onClick={() => toggleRecipe(recipe.id)}
+                            onClick={() => toggleProject(project.id)}
                             className="text-red-500 hover:text-red-700 ml-2"
                             title={bt('removeFromMenu', 'Remove from package')}
                           >
@@ -274,7 +274,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 border-t flex-shrink-0">
             <div className="text-sm text-gray-600">
-              {selectedRecipeIds.size} {bt('recipesSelected', 'jobs selected')}
+              {selectedProjectIds.size} {bt('projectsSelected', 'jobs selected')}
             </div>
             <div className="flex gap-2">
               <button
@@ -285,9 +285,9 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
               </button>
               <button
                 onClick={handleCreateMenuPDF}
-                disabled={selectedRecipeIds.size === 0}
+                disabled={selectedProjectIds.size === 0}
                 className={`px-4 py-2 rounded font-bold transition-colors ${
-                  selectedRecipeIds.size === 0
+                  selectedProjectIds.size === 0
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam border border-maineBlue'
                 }`}

@@ -1,234 +1,237 @@
 // Default AR practice scenes for instant demo loading
 // AI can still generate custom scenes, but these load instantly
 
-export const whetstoneSharpening = {
-  lesson: "Traditional Whetstone Knife Sharpening",
+export const teeJointSMAW = {
+  lesson: "Basic Tee Joint — Stick Welding (SMAW)",
   setup: {
-    workspace: "Clean, stable surface with damp towel underneath whetstone",
-    requiredTools: ["8-inch chef's knife", "1000/6000 grit whetstone", "bowl of water", "damp towel"],
-    requiredIngredients: []
+    workspace: "Welding booth with proper ventilation, welding table, and fire-safe area",
+    requiredTools: ["Stick welder (SMAW)", "E7018 electrodes (1/8\")", "Welding helmet (auto-darkening)", "Leather gloves", "Chipping hammer", "Wire brush", "C-clamps", "Framing square"],
+    requiredMaterials: ["Two pieces 3/16\" mild steel plate (A36)", "Soapstone"]
   },
   steps: [
     {
       id: 1,
-      instruction: "Soak your whetstone in water for 10 minutes. The stone should feel heavy and fully saturated. Place a damp towel under the stone to prevent slipping.",
+      instruction: "Inspect your PPE: auto-darkening helmet, leather gloves, welding jacket, safety glasses underneath, and steel-toe boots. Check that your welding area is clear of flammables and your fire extinguisher is accessible.",
       duration: "30s",
-      tools: ["Whetstone", "Bowl of water", "Damp towel"],
-      ingredients: [],
+      tools: ["Welding helmet", "Gloves", "Jacket"],
+      materials: [],
       overlays: [
         {
           type: "text",
-          label: "Stone fully saturated",
+          label: "PPE Check Complete",
           color: "#3B82F6",
           position: "center"
         }
       ],
       keyPoints: [
-        "Stone should be completely wet",
-        "Damp towel prevents sliding",
-        "Stable, comfortable workspace height"
+        "Helmet lens shade 10–12 for SMAW",
+        "No exposed skin — sparks cause burns",
+        "Fire extinguisher within arm's reach",
+        "Ventilation on and flowing"
       ]
     },
     {
       id: 2,
-      instruction: "Hold the knife with your dominant hand. Place the blade against the stone at a 20-degree angle. This is critical—visualize a matchbook under the spine of the blade.",
+      instruction: "Prepare your joint. Clean both steel plates with a wire brush to remove mill scale and contaminants. Use soapstone to mark a straight line along the base plate where the vertical piece will sit.",
       duration: "45s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Wire brush", "Soapstone", "Framing square"],
+      materials: ["3/16\" mild steel plates"],
       overlays: [
         {
           type: "line",
-          label: "20° angle",
+          label: "Soapstone line",
           color: "#F59E0B",
-          angle: 20
+          angle: 0
         },
         {
           type: "text",
-          label: "Matchbook thickness",
+          label: "Clean to bright metal",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "20-degree angle is crucial",
-        "Consistent angle throughout",
-        "Firm but not white-knuckle grip"
+        "Clean 1\" on each side of the joint",
+        "Remove all mill scale and rust",
+        "Square the vertical piece to 90°",
+        "Mark placement with soapstone"
       ]
     },
     {
       id: 3,
-      instruction: "Using light to moderate pressure, sweep the blade from heel to tip across the stone. Imagine you're trying to shave a thin layer off the stone. Keep the angle consistent.",
+      instruction: "Fit up the tee joint. Stand the vertical plate on edge against the base plate at 90 degrees. Use your framing square to verify the angle. Clamp both pieces securely to the table.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Framing square", "C-clamps"],
+      materials: ["3/16\" mild steel plates"],
       overlays: [
         {
-          type: "arrow",
-          label: "Heel to tip motion",
+          type: "line",
+          label: "90° angle",
           color: "#3B82F6",
-          direction: "forward"
+          angle: 90
         },
         {
-          type: "line",
-          label: "Sweeping path",
+          type: "text",
+          label: "Tight fit-up, no gap",
           color: "#3B82F6",
-          angle: 0
+          position: "center"
         }
       ],
       keyPoints: [
-        "Smooth, controlled motion",
-        "Let the stone do the work",
-        "Maintain 20° angle throughout stroke",
-        "Full blade contact—heel to tip"
+        "90-degree angle is critical",
+        "No gap between plates",
+        "Clamp firmly — parts must not move",
+        "Verify square on both ends"
       ]
     },
     {
       id: 4,
-      instruction: "Complete 10 strokes on this side. Count them out loud. Listen to the sound—it should be consistent, like a whisper across the stone.",
-      duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      instruction: "Set your machine. For 1/8\" E7018 on 3/16\" plate, set amperage to 115–125 amps DCEP (reverse polarity). Insert the electrode into the stinger at a comfortable angle.",
+      duration: "45s",
+      tools: ["Stick welder", "E7018 electrode"],
+      materials: [],
       overlays: [
         {
           type: "text",
-          label: "10 strokes",
+          label: "115–125 amps DCEP",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Listen for consistency",
+          label: "Electrode in stinger",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Count each stroke",
-        "Consistent pressure",
-        "Consistent sound = consistent angle",
-        "Smooth, rhythmic motion"
+        "DCEP (electrode positive) for E7018",
+        "115–125A range for 1/8\" rod",
+        "Check ground clamp connection",
+        "Electrode angle: 45° into the joint"
       ]
     },
     {
       id: 5,
-      instruction: "Flip the knife over. Maintain the same 20-degree angle on the opposite side. Your hand position will feel different—that's normal. 10 more strokes, same motion.",
-      duration: "90s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      instruction: "Tack weld both ends. Strike the arc by scratching the electrode on the plate, then place small tacks (about 1/2\" long) at each end of the joint. These hold the pieces in position during welding.",
+      duration: "60s",
+      tools: ["Stick welder", "E7018 electrode"],
+      materials: [],
       overlays: [
         {
-          type: "line",
-          label: "20° opposite side",
+          type: "arrow",
+          label: "Scratch to strike",
           color: "#F59E0B",
-          angle: -20
+          direction: "forward"
         },
         {
           type: "text",
-          label: "Mirror the angle",
+          label: "Tack both ends",
           color: "#F59E0B",
           position: "top"
         }
       ],
       keyPoints: [
-        "Same angle, opposite side",
-        "Same pressure and motion",
-        "10 strokes to match first side",
-        "Symmetry is key"
+        "Scratch start — like striking a match",
+        "Tacks are 1/2\" long max",
+        "One tack each end",
+        "Recheck 90° after tacking"
       ]
     },
     {
       id: 6,
-      instruction: "Feel for the burr. Run your thumb CAREFULLY perpendicular to the edge on the side you just sharpened. You should feel a tiny metal ridge—that's the burr. It means you've sharpened through to the edge.",
-      duration: "45s",
-      tools: ["Chef's knife"],
-      ingredients: [],
+      instruction: "Run the fillet weld. Hold the electrode at 45° into the joint and 10–15° drag angle. Travel speed should produce a bead about 3/8\" wide. Listen for a steady crackle — that's your arc length telling you it's right.",
+      duration: "90s",
+      tools: ["Stick welder", "E7018 electrode"],
+      materials: [],
       overlays: [
         {
-          type: "text",
-          label: "Feel for burr",
+          type: "line",
+          label: "45° work angle",
           color: "#EF4444",
-          position: "center"
+          angle: 45
         },
         {
-          type: "arrow",
-          label: "Thumb perpendicular to edge",
+          type: "line",
+          label: "10–15° drag angle",
           color: "#EF4444",
-          direction: "across"
+          angle: 12
         }
       ],
       keyPoints: [
-        "Move thumb AWAY from edge",
-        "Tiny ridge = success",
-        "Should feel it on opposite side",
-        "Be careful—edge is sharp"
+        "45° work angle splits the joint evenly",
+        "10–15° drag angle (push the puddle slightly)",
+        "Steady crackle = correct arc length",
+        "Consistent travel speed — don't rush"
       ]
     },
     {
       id: 7,
-      instruction: "Alternate sides with lighter pressure—5 strokes per side, then 3, then 1. This removes the burr and polishes the edge. The blade should now feel razor-sharp.",
+      instruction: "Clean the weld. Use your chipping hammer to remove the slag, then wire brush the bead clean. Inspect visually: look for uniform width, consistent ripple pattern, and no undercut or porosity.",
       duration: "60s",
-      tools: ["Chef's knife", "Whetstone"],
-      ingredients: [],
+      tools: ["Chipping hammer", "Wire brush"],
+      materials: [],
       overlays: [
         {
           type: "text",
-          label: "5-3-1 pattern",
+          label: "Chip slag → Wire brush",
           color: "#8B5CF6",
           position: "center"
         },
         {
           type: "text",
-          label: "Lighter pressure",
+          label: "Visual inspection",
           color: "#8B5CF6",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Decreasing strokes: 5, 3, 1",
-        "Lighter pressure each round",
-        "Removes the burr",
-        "Final polish"
+        "Chip all slag before inspecting",
+        "Wire brush for final clean",
+        "Look for even bead width (~3/8\")",
+        "No undercut, porosity, or overlap"
       ]
     },
     {
       id: 8,
-      instruction: "Rinse the blade and test on paper. A sharp knife will slice through paper cleanly with no tearing. You've just mastered a centuries-old technique.",
-      duration: "30s",
-      tools: ["Chef's knife"],
-      ingredients: [],
+      instruction: "Flip the assembly and weld the other side. Same settings, same technique. When both fillets are done, you've completed a sound tee joint — the foundation of structural welding.",
+      duration: "90s",
+      tools: ["Stick welder", "E7018 electrode", "Chipping hammer", "Wire brush"],
+      materials: [],
       overlays: [
         {
           type: "text",
-          label: "Paper test",
+          label: "Weld second side",
           color: "#10B981",
           position: "center"
         },
         {
           type: "text",
-          label: "Clean slice = success",
+          label: "Tee joint complete",
           color: "#10B981",
           position: "bottom"
         }
       ],
       keyPoints: [
-        "Clean, smooth cut through paper",
-        "No tearing or catching",
-        "Blade should feel razor-sharp",
-        "Old-school skill mastered"
+        "Same 45° work angle, opposite side",
+        "Same amperage and travel speed",
+        "Clean and inspect second bead",
+        "Structural tee joint mastered"
       ]
     }
   ],
   tips: [
-    "Close your eyes between steps and visualize the motion",
-    "Practice the 20-degree angle in the air before touching the stone",
-    "The sound tells you everything—listen for consistency",
-    "Most people press too hard—let the stone do the work",
-    "This is a meditation. Slow down and feel the process."
+    "Listen to the arc — a steady crackle means correct arc length",
+    "Practice striking the arc on scrap before your real joint",
+    "If the rod sticks, twist and pull quickly to break free",
+    "Watch the puddle, not the arc — your eyes follow the weld pool",
+    "Welding is a rhythm. Find yours and stay consistent."
   ]
 };
 
-export const defaultARScenes = {
-  "Traditional Whetstone Knife Sharpening": whetstoneSharpening,
-  "whetstone": whetstoneSharpening,
-  "knife sharpening": whetstoneSharpening
+export const defaultARScenes: Record<string, typeof teeJointSMAW> = {
+  "Basic Tee Joint — Stick Welding (SMAW)": teeJointSMAW,
+  "tee joint": teeJointSMAW,
+  "stick welding": teeJointSMAW,
+  "smaw": teeJointSMAW
 };

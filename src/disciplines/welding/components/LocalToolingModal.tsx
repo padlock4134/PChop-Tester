@@ -23,7 +23,7 @@ interface Market {
 interface LocalMarketsModalProps {
   open: boolean;
   onClose: () => void;
-  selectedRecipes?: any[]; // Optional: recipes from Build Menu feature
+  selectedRecipes?: any[]; // Optional: projects from Build Part feature (prop name kept for caller compat)
 }
 
 interface MarketCardProps {
@@ -298,21 +298,21 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
   );
 };
 
-const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, selectedRecipes }) => {
+const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, selectedRecipes: selectedProjects }) => {
   const { t } = useTranslation();
   const [markets, setMarkets] = useState<Market[]>([]);
   const [loading, setLoading] = useState(false);
   const [userLocation, setUserLocation] = useState<{lat: number, lng: number} | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  // Extract and group ingredients from selected recipes
+  // Extract and group materials from selected projects
   const ingredientsByMarketType = React.useMemo(() => {
-    if (!selectedRecipes || selectedRecipes.length === 0) return {};
+    if (!selectedProjects || selectedProjects.length === 0) return {};
     
     const allIngredients: string[] = [];
-    selectedRecipes.forEach(recipe => {
-      if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
-        allIngredients.push(...recipe.ingredients);
+    selectedProjects.forEach((project: any) => {
+      if (project.ingredients && Array.isArray(project.ingredients)) {
+        allIngredients.push(...project.ingredients);
       }
     });
     
@@ -325,7 +325,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
     });
     
     return groupIngredientsByMarketType(uniqueIngredients);
-  }, [selectedRecipes]);
+  }, [selectedProjects]);
 
   const marketCategories = [
     { key: 'all', label: 'All Markets', icon: '🏪' },

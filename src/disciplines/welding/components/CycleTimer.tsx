@@ -12,15 +12,15 @@ interface Timer {
   isFinished: boolean;
 }
 
-interface CookingTimerProps {
+interface CycleTimerProps {
   servingSize: number;
   setServingSize: (size: number) => void;
 }
 
-const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize }) => {
+const CycleTimer: React.FC<CycleTimerProps> = ({ servingSize, setServingSize }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'welding';
   const discipline = disciplineFromPath === 'welding' ? 'machining' : disciplineFromPath;
   const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [timers, setTimers] = useState<Timer[]>([]);
@@ -86,7 +86,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
 
   const calculateAdjustedTime = (baseMinutes: number) => {
     // Simple scaling: more servings = slightly more time
-    const scaleFactor = Math.sqrt(servingSize / 2); // Square root scaling for cooking
+    const scaleFactor = Math.sqrt(servingSize / 2); // Square root scaling for batch size
     return Math.round(baseMinutes * scaleFactor);
   };
 
@@ -236,7 +236,7 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
 
       {timers.length === 0 && (
         <div className="bg-sand p-4 rounded-lg border border-black">
-          <h4 className="text-sm font-semibold mb-2 text-gray-700">{t('cookingTimer.title')}:</h4>
+          <h4 className="text-sm font-semibold mb-2 text-gray-700">{t('cycleTimer.title')}:</h4>
           <div className="flex flex-wrap gap-2">
             {presetTimers.map((preset, index) => (
               <button
@@ -254,4 +254,4 @@ const CookingTimer: React.FC<CookingTimerProps> = ({ servingSize, setServingSize
   );
 };
 
-export default CookingTimer;
+export default CycleTimer;

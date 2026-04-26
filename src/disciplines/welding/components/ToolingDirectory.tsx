@@ -8,7 +8,7 @@ export const DEPARTMENT_TYPES = [
   { key: 'butcher', label: 'Meat', icon: '🥩', placeTypes: ['supermarket'], keywords: ['meat', 'butcher', 'steak', 'beef', 'poultry', 'pat', 'pats', 'sausage', 'deli', 'chop', 'prime', 'angus', 'pork', 'chicken', 'lamb'] },
   { key: 'seafood', label: 'Seafood', icon: '🐟', placeTypes: ['supermarket'], keywords: ['seafood', 'fish', 'shellfish', 'lobster', 'crab', 'harbor', 'ocean', 'sea', 'marine', 'catch', 'oyster', 'clam', 'shrimp', 'mussel', 'fishmonger', 'fishery'] },
   { key: 'farms', label: 'Farms', icon: '🚜', placeTypes: ['supermarket', 'convenience_store'], keywords: ['farm', 'farmers market', 'farmstand', 'csa', 'agriculture', 'ranch', 'homestead', 'acres', 'dairy', 'milk', 'cheese', 'creamery', 'yogurt'] },
-  { key: 'equipment', label: 'Equipment', icon: '🔪', placeTypes: ['store', 'home_goods_store'], keywords: ['kitchen', 'knife', 'cookware', 'utensil', 'appliance', 'tool', 'gadget', 'cutlery', 'pot', 'pan', 'bakeware', 'chef', 'cooking'] },
+  { key: 'equipment', label: 'Equipment', icon: '�', placeTypes: ['store', 'home_goods_store'], keywords: ['welding', 'welder', 'fabrication', 'tool', 'safety', 'equipment', 'supply', 'industrial', 'metalwork', 'torch', 'helmet', 'electrode', 'filler'] },
 ];
 
 // Maximum number of places to show per category
@@ -45,7 +45,7 @@ const SPECIALTY_SEARCH_QUERIES = {
   'seafood': ['seafood market', 'fish market'],
   'produce': ['produce market', 'fruit stand', 'vegetable market'],
   'farms': ['farm', 'farmers market', 'farm stand'],
-  'equipment': ['kitchen store', 'cookware shop', 'knife store']
+  'equipment': ['welding supply', 'industrial supply', 'metalwork shop']
 };
 
 interface Place {

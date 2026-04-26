@@ -1,42 +1,46 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { RecipeCard } from './PartMatcherModal';
+import type { ProjectCard } from './PartMatcherModal';
 
-type RecipeContextType = {
-  selectedRecipe: RecipeCard | null;
-  setSelectedRecipe: (recipe: RecipeCard | null) => void;
-  recipes: RecipeCard[];
-  setRecipes: (recipes: RecipeCard[]) => void;
+type ProjectContextType = {
+  selectedProject: ProjectCard | null;
+  setSelectedProject: (project: ProjectCard | null) => void;
+  projects: ProjectCard[];
+  setProjects: (projects: ProjectCard[]) => void;
 };
 
-const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
+const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 
-export const RecipeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [selectedRecipe, setSelectedRecipe] = useState<RecipeCard | null>(null);
-  const [recipes, setRecipes] = useState<RecipeCard[]>([]);
+export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [selectedProject, setSelectedProject] = useState<ProjectCard | null>(null);
+  const [projects, setProjects] = useState<ProjectCard[]>([]);
 
-  // Log when selectedRecipe changes
+  // Log when selectedProject changes
   useEffect(() => {
-    console.log('RecipeContext - selectedRecipe updated:', selectedRecipe);
-  }, [selectedRecipe]);
+    console.log('ProjectContext - selectedProject updated:', selectedProject);
+  }, [selectedProject]);
 
   return (
-    <RecipeContext.Provider value={{ 
-      selectedRecipe, 
-      setSelectedRecipe: (recipe) => {
-        console.log('Setting project in context:', recipe?.title);
-        setSelectedRecipe(recipe);
+    <ProjectContext.Provider value={{ 
+      selectedProject, 
+      setSelectedProject: (project) => {
+        console.log('Setting project in context:', project?.title);
+        setSelectedProject(project);
       }, 
-      recipes, 
-      setRecipes 
+      projects, 
+      setProjects 
     }}>
       {children}
-    </RecipeContext.Provider>
+    </ProjectContext.Provider>
   );
 };
 
-export const useRecipeContext = () => {
-  const ctx = useContext(RecipeContext);
-  if (!ctx) throw new Error('useRecipeContext must be used within a RecipeProvider');
+export const useProjectContext = () => {
+  const ctx = useContext(ProjectContext);
+  if (!ctx) throw new Error('useProjectContext must be used within a ProjectProvider');
   return ctx;
 };
+
+// Backward-compatible aliases
+export const RecipeProvider = ProjectProvider;
+export const useRecipeContext = useProjectContext;
 

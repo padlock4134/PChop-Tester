@@ -21,76 +21,76 @@ const SocialTimeline: React.FC = () => {
     {
       id: '1',
       author: 'Sofia Rodriguez',
-      avatar: '👩🏽‍🍳',
+      avatar: '👩🏽‍🔧',
       timestamp: '2m',
       content: 'Just finished a full troubleshooting runbook for a recurring equipment fault. Root cause nailed and documented. 🛠️✅',
-      image: '🍛',
+      image: '🔥',
       type: 'project',
       likes: 12,
       comments: 3,
       isLiked: false,
-      tags: ['Mexican', 'FamilyRecipe', 'Mole']
+      tags: ['SMAW', 'FilletWeld', 'TeeJoint']
     },
     {
       id: '2',
       author: 'Marcus Chen',
-      avatar: '👨🏻‍🍳',
+      avatar: '👨🏻‍🔧',
       timestamp: '15m',
       content: 'Found an excellent local supplier for replacement fittings and calibration tools. Huge win for this week\'s jobs. 📦',
       type: 'material',
       likes: 8,
       comments: 1,
       isLiked: true,
-      tags: ['BlackGarlic', 'Portland', 'Korean']
+      tags: ['FillerMetal', 'Portland', 'Supply']
     },
     {
       id: '3',
       author: 'Amara Okafor',
-      avatar: '👩🏿‍🍳',
+      avatar: '👩🏿‍🔧',
       timestamp: '32m',
       content: 'Going LIVE in 30 minutes! Teaching a preventive maintenance workflow and proper tool setup. Join in and run it with me! 🛠️📋',
       type: 'live',
       likes: 23,
       comments: 7,
       isLiked: false,
-      tags: ['Nigerian', 'JollofRice', 'GoingLive']
+      tags: ['PipeFitting', 'LiveDemo', 'GoingLive']
     },
     {
       id: '4',
       author: 'Giuseppe Rossi',
-      avatar: '👨🏻‍🍳',
+      avatar: '👨🏻‍🔧',
       timestamp: '1h',
       content: 'Today\'s lab finally made sequencing click: inspect, isolate, test, verify. The workflow just clicked. 🔧',
       type: 'story',
       likes: 15,
       comments: 4,
       isLiked: true,
-      tags: ['Italian', 'Pasta', 'Nonna']
+      tags: ['TIG', 'Aluminum', 'Practice']
     },
     {
       id: '5',
       author: 'Priya Patel',
-      avatar: '👩🏽‍🍳',
+      avatar: '👩🏽‍🔧',
       timestamp: '2h',
       content: 'SUCCESS! Finally nailed this diagnostic workflow after dozens of attempts 😅 Persistence and repeatable checks paid off!',
-      image: '🥞',
+      image: '⚡',
       type: 'success',
       likes: 31,
       comments: 9,
       isLiked: false,
-      tags: ['Indian', 'Dosa', 'Success']
+      tags: ['Overhead', 'Certification', 'Success']
     },
     {
       id: '6',
       author: 'Ahmed Hassan',
-      avatar: '👨🏽‍🍳',
+      avatar: '👨🏽‍🔧',
       timestamp: '3h',
       content: 'PSA: Local vendor has fresh stock of fasteners, seals, and meters. New shipment lands every Tuesday. 📦',
       type: 'market',
       likes: 19,
       comments: 5,
       isLiked: true,
-      tags: ['Zaatar', 'Sumac', 'EasternMarket']
+      tags: ['Consumables', 'LocalSupplier', 'Restock']
     }
   ]);
 

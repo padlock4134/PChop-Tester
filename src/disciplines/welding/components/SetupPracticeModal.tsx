@@ -35,8 +35,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built tee joint SMAW AR scene (instant load)
+      const demoLesson = 'Basic Tee Joint — Stick Welding (SMAW)';
       
       // Check if we have a default scene
       if (defaultARScenes[demoLesson]) {
@@ -54,7 +54,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           lessonTitle: demoLesson,
-          lessonContent: 'Traditional Japanese water stone sharpening technique. Includes stone preparation, proper angle maintenance (20 degrees), stroke technique, and burr detection. Old-school method using only water and stone.',
+          lessonContent: 'Basic tee joint with SMAW (stick welding). Includes PPE inspection, joint preparation, fit-up and tacking, machine setup for E7018, running a fillet weld, slag removal, and visual inspection.',
         }),
       });
 
@@ -126,7 +126,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-sm sm:text-lg font-bold mb-1 text-center text-amber-800">
-                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'Knife Skills'}
+                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'Welding Practice'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-1">
                 {t('culinarySchool.charcuterieBoard.arDemonstration')}
@@ -141,7 +141,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <div className="text-amber-900 text-center">
                 <div className="text-6xl mb-4 animate-pulse">🧠</div>
                 <p className="text-lg font-bold">{t('culinarySchool.charcuterieBoard.aiGeneratingPractice')}</p>
-                <p className="text-sm opacity-75 mt-2">{t('culinarySchool.charcuterieBoard.creatingVirtualKitchen')}</p>
+                <p className="text-sm opacity-75 mt-2">{t('culinarySchool.charcuterieBoard.creatingVirtualBooth')}</p>
               </div>
             ) : isPracticing && arScene ? (
               // Virtual practice mode - show AR scene
@@ -158,7 +158,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             ) : (
               // Not practicing - show placeholder
               <div className="text-amber-900 text-center">
-                <div className="text-4xl mb-2">👨‍🍳</div>
+                <div className="text-4xl mb-2">�</div>
                 <p className="text-sm font-bold">{t('culinarySchool.charcuterieBoard.aiGuidedPracticeLabel')}</p>
                 <p className="text-xs opacity-75">{t('culinarySchool.charcuterieBoard.selectLessonStart')}</p>
               </div>
@@ -194,30 +194,30 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
                   <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                    <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                    <option value="lesson-1-2">Food Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                    <option value="lesson-1-4">Basic Cooking Terminology</option>
-                    <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                  <optgroup label="Term 1: Welding Foundations">
+                    <option value="lesson-1-1">Shop Safety and PPE</option>
+                    <option value="lesson-1-2">Welding Equipment Setup</option>
+                    <option value="lesson-1-3">Reading Welding Symbols</option>
+                    <option value="lesson-1-4">Joint Types and Preparation</option>
+                    <option value="lesson-1-5">Fit-Up and Tacking</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                    <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                    <option value="lesson-2-2">Basic Knife Cuts</option>
-                    <option value="lesson-2-3">Vegetable Fabrication</option>
-                    <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                  <optgroup label="Term 1: SMAW (Stick)">
+                    <option value="lesson-2-1">Electrode Selection and Storage</option>
+                    <option value="lesson-2-2">Striking the Arc</option>
+                    <option value="lesson-2-3">Running Flat Beads</option>
+                    <option value="lesson-2-4">Fillet Welds — Tee and Lap Joints</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                    <option value="lesson-3-1">Egg Cookery</option>
-                    <option value="lesson-3-2">Breakfast Preparations</option>
-                    <option value="lesson-3-3">Cold Food Preparation</option>
-                    <option value="lesson-3-4">Salads and Dressings</option>
+                  <optgroup label="Term 2: GMAW (MIG)">
+                    <option value="lesson-3-1">MIG Machine Setup and Gas Flow</option>
+                    <option value="lesson-3-2">Wire Feed and Voltage Settings</option>
+                    <option value="lesson-3-3">MIG Flat and Horizontal Welds</option>
+                    <option value="lesson-3-4">MIG Vertical and Overhead Welds</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                    <option value="lesson-4-1">Basic Dough and Batters</option>
-                    <option value="lesson-4-2">Quick Breads and Muffins</option>
-                    <option value="lesson-4-3">Yeast Breads</option>
-                    <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                  <optgroup label="Term 2: GTAW (TIG)">
+                    <option value="lesson-4-1">TIG Torch and Tungsten Prep</option>
+                    <option value="lesson-4-2">TIG Bead on Plate</option>
+                    <option value="lesson-4-3">TIG Filler Rod Technique</option>
+                    <option value="lesson-4-4">TIG Aluminum Basics</option>
                   </optgroup>
                 </select>
               </>
@@ -234,7 +234,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="tee-joint-smaw">Basic Tee Joint — Stick Welding (SMAW)</option>
                 </select>
               </>
             )}
@@ -249,7 +249,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
                   <p className="text-xs text-blue-800">
                     {isPracticing 
-                      ? "Great start! Keep your knife angle consistent..."
+                      ? "Great start! Keep your travel speed consistent and watch the puddle..."
                       : "Start practicing to receive real-time AI guidance"}
                   </p>
                 </div>
@@ -296,30 +296,30 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                     className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   >
                     <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                      <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                      <option value="lesson-1-2">Food Handling and Storage</option>
-                      <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                      <option value="lesson-1-4">Basic Cooking Terminology</option>
-                      <option value="lesson-1-5">Weights, Measures, and Conversions</option>
+                    <optgroup label="Term 1: Welding Foundations">
+                      <option value="lesson-1-1">Shop Safety and PPE</option>
+                      <option value="lesson-1-2">Welding Equipment Setup</option>
+                      <option value="lesson-1-3">Reading Welding Symbols</option>
+                      <option value="lesson-1-4">Joint Types and Preparation</option>
+                      <option value="lesson-1-5">Fit-Up and Tacking</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                      <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                      <option value="lesson-2-2">Basic Knife Cuts</option>
-                      <option value="lesson-2-3">Vegetable Fabrication</option>
-                      <option value="lesson-2-4">Meat and Fish Fabrication</option>
+                    <optgroup label="Term 1: SMAW (Stick)">
+                      <option value="lesson-2-1">Electrode Selection and Storage</option>
+                      <option value="lesson-2-2">Striking the Arc</option>
+                      <option value="lesson-2-3">Running Flat Beads</option>
+                      <option value="lesson-2-4">Fillet Welds — Tee and Lap Joints</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                      <option value="lesson-3-1">Egg Cookery</option>
-                      <option value="lesson-3-2">Breakfast Preparations</option>
-                      <option value="lesson-3-3">Cold Food Preparation</option>
-                      <option value="lesson-3-4">Salads and Dressings</option>
+                    <optgroup label="Term 2: GMAW (MIG)">
+                      <option value="lesson-3-1">MIG Machine Setup and Gas Flow</option>
+                      <option value="lesson-3-2">Wire Feed and Voltage Settings</option>
+                      <option value="lesson-3-3">MIG Flat and Horizontal Welds</option>
+                      <option value="lesson-3-4">MIG Vertical and Overhead Welds</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                      <option value="lesson-4-1">Basic Dough and Batters</option>
-                      <option value="lesson-4-2">Quick Breads and Muffins</option>
-                      <option value="lesson-4-3">Yeast Breads</option>
-                      <option value="lesson-4-4">Basic Pastry and Desserts</option>
+                    <optgroup label="Term 2: GTAW (TIG)">
+                      <option value="lesson-4-1">TIG Torch and Tungsten Prep</option>
+                      <option value="lesson-4-2">TIG Bead on Plate</option>
+                      <option value="lesson-4-3">TIG Filler Rod Technique</option>
+                      <option value="lesson-4-4">TIG Aluminum Basics</option>
                     </optgroup>
                   </select>
                 </div>
@@ -405,22 +405,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
               <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
-              <p className="text-xs text-gray-700">Position your cutting board and gather ingredients</p>
+              <p className="text-xs text-gray-700">Set up your welding booth and inspect PPE</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Knife Grip</div>
-              <p className="text-xs text-gray-700">Hold knife with proper pinch grip technique</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Joint Prep</div>
+              <p className="text-xs text-gray-700">Clean and fit up your workpieces at the correct angle</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Cuts</div>
-              <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Beads</div>
+              <p className="text-xs text-gray-700">Strike the arc and run your first weld bead</p>
             </div>
 
             <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Validation</div>
-              <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
+              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Inspection</div>
+              <p className="text-xs text-gray-600">AI will check your weld for defects</p>
             </div>
           </div>
           
@@ -455,8 +455,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="space-y-4">
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
-                  <span>🔪</span>
-                  <span>{t('culinarySchool.charcuterieBoard.knifeTechnique')}</span>
+                  <span>�</span>
+                  <span>{t('culinarySchool.charcuterieBoard.weldingTechnique')}</span>
                 </p>
                 <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.knifeTechniqueDesc')}</p>
               </div>

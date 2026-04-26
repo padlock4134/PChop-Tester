@@ -75,10 +75,10 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 />
                 <div>
                   <label htmlFor="cul101" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 101 - Knife Skills & Safety
+                    WLD 101 - Shop Safety & PPE
                   </label>
-                  <div className="text-sm text-gray-600">Monday 9:00 AM - 11:00 AM • Lab Kitchen A</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Martinez</div>
+                  <div className="text-sm text-gray-600">Monday 9:00 AM - 11:00 AM • Welding Lab A</div>
+                  <div className="text-xs text-gray-500">Instructor: Mr. Martinez</div>
                 </div>
               </div>
               <div className="text-right">
@@ -89,7 +89,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
             <div className="text-xs text-green-600 ml-7">✓ Prerequisites met</div>
           </div>
 
-          {/* CUL 205 - Seafood Preparation (Full) */}
+          {/* WLD 205 - GMAW/MIG Welding (Full) */}
           <div className="p-4 bg-sand rounded border border-black">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-3">
@@ -102,10 +102,10 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 />
                 <div>
                   <label htmlFor="cul205" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 205 - Seafood Preparation
+                    WLD 205 - GMAW/MIG Welding
                   </label>
-                  <div className="text-sm text-gray-600">Wednesday 1:00 PM - 4:00 PM • Lab Kitchen B</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Thompson</div>
+                  <div className="text-sm text-gray-600">Wednesday 1:00 PM - 4:00 PM • Welding Lab B</div>
+                  <div className="text-xs text-gray-500">Instructor: Mr. Thompson</div>
                 </div>
               </div>
               <div className="text-right">
@@ -116,7 +116,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
             <div className="text-xs text-green-600 ml-7">✓ Prerequisites met • Will join waitlist</div>
           </div>
 
-          {/* CUL 150 - Pastry Fundamentals */}
+          {/* WLD 150 - SMAW/Stick Fundamentals */}
           <div className="p-4 bg-sand rounded border border-black">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-3">
@@ -129,10 +129,10 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 />
                 <div>
                   <label htmlFor="cul150" className="font-semibold text-maineBlue cursor-pointer">
-                    CUL 150 - Pastry Fundamentals
+                    WLD 150 - SMAW/Stick Fundamentals
                   </label>
-                  <div className="text-sm text-gray-600">Friday 10:00 AM - 12:00 PM • Baking Lab</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Rodriguez</div>
+                  <div className="text-sm text-gray-600">Friday 10:00 AM - 12:00 PM • Welding Lab C</div>
+                  <div className="text-xs text-gray-500">Instructor: Mr. Rodriguez</div>
                 </div>
               </div>
               <div className="text-right">
@@ -143,7 +143,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
             <div className="text-xs text-green-600 ml-7">✓ Prerequisites met</div>
           </div>
 
-          {/* CUL 301 - Advanced Sauce Making (Prerequisites not met) */}
+          {/* WLD 301 - Pipe Welding (Prerequisites not met) */}
           <div className="p-4 bg-gray-100 rounded border border-gray-400 opacity-75">
             <div className="flex justify-between items-start mb-2">
               <div className="flex items-start gap-3">
@@ -155,10 +155,10 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 />
                 <div>
                   <label className="font-semibold text-gray-600 cursor-not-allowed">
-                    CUL 301 - Advanced Sauce Making
+                    WLD 301 - Pipe Welding
                   </label>
-                  <div className="text-sm text-gray-500">Tuesday 2:00 PM - 5:00 PM • Lab Kitchen C</div>
-                  <div className="text-xs text-gray-500">Instructor: Chef Williams</div>
+                  <div className="text-sm text-gray-500">Tuesday 2:00 PM - 5:00 PM • Pipe Welding Lab</div>
+                  <div className="text-xs text-gray-500">Instructor: Mr. Williams</div>
                 </div>
               </div>
               <div className="text-right">
@@ -166,7 +166,7 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
                 <div className="text-xs text-gray-500">4 available</div>
               </div>
             </div>
-            <div className="text-xs text-red-600 ml-7">✗ {t('registration.requires')} CUL 201 (Basic Sauces)</div>
+            <div className="text-xs text-red-600 ml-7">✗ {t('registration.requires')} WLD 201 (GTAW/TIG Basics)</div>
           </div>
         </div>
 

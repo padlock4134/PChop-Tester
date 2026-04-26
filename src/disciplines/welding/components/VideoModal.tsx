@@ -12,10 +12,10 @@ interface VideoModalProps {
   title: string;
   videoUrl: string; // YouTube/Vimeo embed URL
   tutorialId?: string; // Unique ID for the tutorial
-  recipeId?: string;   // Optional recipe ID if this is a recipe tutorial
+  projectId?: string;   // Optional project ID if this is a project tutorial
 }
 
-const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl, tutorialId, recipeId }) => {
+const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl, tutorialId, projectId }) => {
   const { t } = useTranslation();
   const [hasAwardedXP, setHasAwardedXP] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -60,14 +60,14 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
         // Award XP for completing a tutorial
         await supabase.rpc('increment_user_xp', {
           user_id: user.id,
-          xp_amount: recipeId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.RECIPE_COMPLETE
+          xp_amount: projectId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.PROJECT_COMPLETE
         });
         
         // Log the XP award
         await supabase.from('xp_activity_log').insert([
           {
             user_id: user.id,
-            xp_awarded: recipeId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.RECIPE_COMPLETE,
+            xp_awarded: projectId ? XP_REWARDS.LESSON_COMPLETE : XP_REWARDS.PROJECT_COMPLETE,
             activity: `tutorial_${tutorialId}`
           }
         ]);

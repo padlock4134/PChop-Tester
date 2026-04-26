@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import type { RecipeCard } from './PartMatcherModal';
+import type { ProjectCard } from './PartMatcherModal';
 import { useState, useRef } from 'react';
 import { supabase } from '../api/supabaseClient';
 import { claimWeeklyChallenge } from '../api/weeklyChallenge';
@@ -10,10 +10,10 @@ import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from './NavBar';
 import { useSupabase } from './SupabaseProvider';
 
-interface WeeklyChallengeRecipeModalProps {
+interface WeeklyChallengeProjectModalProps {
   open: boolean;
   onClose: () => void;
-  recipe: RecipeCard | null;
+  recipe: ProjectCard | null; // prop name kept for caller compat
   loading: boolean;
   error: string | null;
   challengeId?: string;
@@ -23,10 +23,10 @@ interface WeeklyChallengeRecipeModalProps {
   onClaimed?: () => void;
 }
 
-const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({ open, onClose, recipe, loading, error, challengeId, weekNumber, xp, badge, onClaimed }) => {
+const WeeklyChallengeProjectModal: React.FC<WeeklyChallengeProjectModalProps> = ({ open, onClose, recipe, loading, error, challengeId, weekNumber, xp, badge, onClaimed }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'welding';
   const discipline = disciplineFromPath === 'welding' ? 'machining' : disciplineFromPath;
   const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [claiming, setClaiming] = useState(false);
@@ -199,4 +199,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
   );
 };
 
-export default WeeklyChallengeRecipeModal;
+export default WeeklyChallengeProjectModal;
+
+// Backward-compatible alias
+export { WeeklyChallengeProjectModal as WeeklyChallengeRecipeModal };

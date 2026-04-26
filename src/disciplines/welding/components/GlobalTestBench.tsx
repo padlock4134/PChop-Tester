@@ -8,14 +8,14 @@ import { useSupabase } from './SupabaseProvider';
 interface LiveSession {
   id: string;
   hostName: string;
-  dishName: string;
-  culture: string;
+  sessionName: string;
+  focusArea: string;
   viewers: number;
   isLive: boolean;
   isEnded?: boolean;
   thumbnail: string;
   description: string;
-  ingredients: string[];
+  materials: string[];
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
   teacherTag?: string;
 }
@@ -23,19 +23,19 @@ interface LiveSession {
 interface UpcomingSession {
   id: string;
   hostName: string;
-  dishName: string;
-  culture: string;
+  sessionName: string;
+  focusArea: string;
   scheduledTime: string;
   description: string;
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
   teacherTag?: string;
 }
 
-interface GlobalTestKitchenProps {
-  showcaseRecipe?: any;
+interface GlobalTestBenchProps {
+  showcaseProject?: any;
 }
 
-const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) => {
+const GlobalTestBench: React.FC<GlobalTestBenchProps> = ({ showcaseProject }) => {
   const { t } = useTranslation();
   const { user } = useSupabase();
   const [activeTab, setActiveTab] = useState<'live' | 'upcoming' | 'host'>('live');
@@ -48,7 +48,7 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
       await supabase.from('user_activity').insert({
         user_id: user.id,
         action,
-        component: 'global_test_kitchen',
+        component: 'global_test_bench',
         metadata: metadata || {},
         timestamp: new Date().toISOString()
       });
@@ -59,8 +59,8 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
   const [goLiveModalOpen, setGoLiveModalOpen] = useState(false);
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   
-  // Recipe Assistant state
-  const [recipeAssistantOpen, setRecipeAssistantOpen] = useState(false);
+  // Project Assistant state
+  const [projectAssistantOpen, setProjectAssistantOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [stepTimer, setStepTimer] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
@@ -84,12 +84,12 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
   // Video metadata for saving
   const [videoTitle, setVideoTitle] = useState('');
   const [videoDescription, setVideoDescription] = useState('');
-  const [videoCuisine, setVideoCuisine] = useState('');
+  const [videoFocusArea, setVideoFocusArea] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   
   // Schedule form states
-  const [scheduledDishName, setScheduledDishName] = useState('');
-  const [scheduledCuisine, setScheduledCuisine] = useState('');
+  const [scheduledSessionName, setScheduledSessionName] = useState('');
+  const [scheduledFocusArea, setScheduledFocusArea] = useState('');
   const [scheduledDescription, setScheduledDescription] = useState('');
   const [scheduledDate, setScheduledDate] = useState('');
   const [scheduledTime, setScheduledTime] = useState('');
@@ -102,79 +102,79 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
     {
       id: '1',
       hostName: 'Maria Santos',
-      dishName: 'Site Layout Calibration',
-      culture: 'Spanish',
+      sessionName: 'Site Layout Calibration',
+      focusArea: 'Spanish',
       viewers: 47,
       isLive: false,
       isEnded: true,
       thumbnail: '🧰',
       description: 'Fixture alignment and setup checklist for repeatable weld prep',
-      ingredients: ['Fixture clamps', 'Layout square', 'Scribe', 'Feeler gauges', 'Weld map']
+      materials: ['Fixture clamps', 'Layout square', 'Scribe', 'Feeler gauges', 'Weld map']
     },
     {
       id: '2',
       hostName: 'Kenji Nakamura',
-      dishName: 'Precision Assembly Practice',
-      culture: 'Japanese',
+      sessionName: 'Precision Assembly Practice',
+      focusArea: 'Japanese',
       viewers: 23,
       isLive: true,
       thumbnail: '⚙️',
       description: 'Dialing in feed speed, voltage, and travel angle for clean beads',
-      ingredients: ['MIG machine', 'ER70S-6 wire', 'Shielding gas', 'Practice coupons']
+      materials: ['MIG machine', 'ER70S-6 wire', 'Shielding gas', 'Practice coupons']
     },
     {
       id: '3',
       hostName: 'Fatima Al-Zahra',
-      dishName: 'System Fit Verification',
-      culture: 'Lebanese',
+      sessionName: 'System Fit Verification',
+      focusArea: 'Lebanese',
       viewers: 35,
       isLive: true,
       thumbnail: '🔥',
       description: 'Fit-up verification sequence to reduce distortion and rework',
-      ingredients: ['Tape measure', 'Level', 'Welding magnets', 'Tack plan']
+      materials: ['Tape measure', 'Level', 'Welding magnets', 'Tack plan']
     },
     {
       id: '4',
       hostName: 'Jean-Luc Dubois',
-      dishName: 'Blueprint Readthrough Drill',
-      culture: 'French',
+      sessionName: 'Blueprint Readthrough Drill',
+      focusArea: 'French',
       viewers: 62,
       isLive: true,
       thumbnail: '📐',
       description: 'Reading symbols, weld callouts, and tolerances before striking an arc',
-      ingredients: ['Blueprint set', 'Weld symbol chart', 'Inspection notes']
+      materials: ['Blueprint set', 'Weld symbol chart', 'Inspection notes']
     }
   ]);
   const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
     {
       id: '3',
       hostName: 'Priya Sharma',
-      dishName: 'Workflow Timing Challenge',
-      culture: 'Indian',
+      sessionName: 'Workflow Timing Challenge',
+      focusArea: 'Indian',
       scheduledTime: '2:00 PM EST',
       description: 'Cycle-time drill for fitting, tacking, and final pass sequencing'
     },
     {
       id: '4',
       hostName: 'Ahmed Hassan',
-      dishName: 'Quality Control Walkthrough',
-      culture: 'Moroccan',
+      sessionName: 'Quality Control Walkthrough',
+      focusArea: 'Moroccan',
       scheduledTime: '4:30 PM EST',
       description: 'Advanced troubleshooting walkthrough for a real-world field issue'
     },
     {
       id: '5',
       hostName: 'Elena Volkov',
-      dishName: 'Safety Compliance Drill',
-      culture: 'Russian',
+      sessionName: 'Safety Compliance Drill',
+      focusArea: 'Russian',
       scheduledTime: '6:00 PM EST',
       description: 'PPE checks and hazard walkthrough for high-heat fabrication bays'
     },
     {
       id: '6',
       hostName: 'Carlos Mendoza',
-      dishName: 'Final Inspection Run',
-      culture: 'Peruvian',
+      sessionName: 'Final Inspection Run',
+      focusArea: 'Peruvian',
       scheduledTime: '7:30 PM EST',
       description: 'Final QA pass using visual criteria and acceptance standards'
     }
@@ -226,15 +226,15 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
       return;
     }
 
-    if (scheduledDishName.trim() && scheduledCuisine && scheduledDescription.trim() && scheduledDate && scheduledTime) {
+    if (scheduledSessionName.trim() && scheduledFocusArea && scheduledDescription.trim() && scheduledDate && scheduledTime) {
       try {
         // Save to proper schedule_sessions table for admin dashboard reporting
         const { data, error } = await supabase
           .from('schedule_sessions')
           .insert({
             user_id: user.id,
-            dish_name: scheduledDishName,
-            cuisine: scheduledCuisine,
+            dish_name: scheduledSessionName,
+            cuisine: scheduledFocusArea,
             description: scheduledDescription,
             scheduled_date: scheduledDate,
             scheduled_time: scheduledTime,
@@ -254,8 +254,8 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
         
         // Log the scheduling activity for admin dashboard
         logUserActivity('session_scheduled', {
-          dish_name: scheduledDishName,
-          cuisine: scheduledCuisine,
+          dish_name: scheduledSessionName,
+          cuisine: scheduledFocusArea,
           session_type: scheduledSessionType,
           scheduled_date: scheduledDate
         });
@@ -264,8 +264,8 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
         const newSession: UpcomingSession = {
           id: data.id,
           hostName: t('machinistCorner.globalTestKitchen.you'),
-          dishName: scheduledDishName,
-          culture: scheduledCuisine,
+          sessionName: scheduledSessionName,
+          focusArea: scheduledFocusArea,
           scheduledTime: `${scheduledDate} at ${scheduledTime}`,
           description: scheduledDescription,
           sessionType: scheduledSessionType,
@@ -275,8 +275,8 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
         setUpcomingSessions(prev => [newSession, ...prev]);
         
         // Clear form
-        setScheduledDishName('');
-        setScheduledCuisine('');
+        setScheduledSessionName('');
+        setScheduledFocusArea('');
         setScheduledDescription('');
         setScheduledDate('');
         setScheduledTime('');
@@ -351,8 +351,8 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
         const sessions: UpcomingSession[] = data.map((session: any) => ({
           id: session.id,
           hostName: t('machinistCorner.globalTestKitchen.you'),
-          dishName: session.dish_name,
-          culture: session.cuisine,
+          sessionName: session.dish_name,
+          focusArea: session.cuisine,
           scheduledTime: `${session.scheduled_date} at ${session.scheduled_time}`,
           description: session.description,
           sessionType: session.session_type,
@@ -491,7 +491,7 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
           metadata: {
             title: videoTitle,
             description: videoDescription,
-            cuisine: videoCuisine,
+            cuisine: videoFocusArea,
             isPublic: isPublic.toString(),
             userId: user?.id || ''
           }
@@ -513,7 +513,7 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
       // Clear form data
       setVideoTitle('');
       setVideoDescription('');
-      setVideoCuisine('');
+      setVideoFocusArea('');
       setIsPublic(false);
       
     } catch (error) {
@@ -546,7 +546,7 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
     // Clear video metadata
     setVideoTitle('');
     setVideoDescription('');
-    setVideoCuisine('');
+    setVideoFocusArea('');
   };
 
   const handleEndSession = () => {
@@ -626,7 +626,7 @@ const GlobalTestBench: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe }) =
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Practice Session`);
+    const title = encodeURIComponent(`${session.sessionName} - Practice Session`);
     const description = encodeURIComponent(`Join ${session.hostName} for a live skills demonstration: ${session.description}`);
     const location = encodeURIComponent('Global Skill Lab - Online');
 
@@ -682,7 +682,7 @@ END:VCALENDAR`;
       return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     };
 
-    const title = encodeURIComponent(`${session.dishName} - Practice Session`);
+    const title = encodeURIComponent(`${session.sessionName} - Practice Session`);
     const description = encodeURIComponent(`Join ${session.hostName} for a live skills demonstration: ${session.description}`);
     const location = encodeURIComponent('Global Skill Lab - Online');
 
@@ -775,7 +775,7 @@ END:VCALENDAR`;
                   <div className="flex items-center">
                     <span className="text-2xl mr-2">{session.thumbnail}</span>
                     <div>
-                      <h3 className="font-semibold text-sm text-gray-900">{session.dishName}</h3>
+                      <h3 className="font-semibold text-sm text-gray-900">{session.sessionName}</h3>
                       <p className="text-xs text-gray-600">{t('machinistCorner.globalTestKitchen.by')} {session.hostName}</p>
                     </div>
                   </div>
@@ -795,7 +795,7 @@ END:VCALENDAR`;
                 </div>
                 <p className="text-xs text-gray-700 mb-2">{session.description}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs text-gray-500">🌍 {session.culture}</span>
+                  <span className="text-xs text-gray-500">🌍 {session.focusArea}</span>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center text-xs text-gray-500">
                       <UserGroupIcon className="h-3 w-3 mr-1" />
@@ -829,7 +829,7 @@ END:VCALENDAR`;
             <div key={session.id} className="border border-gray-200 rounded-lg p-3">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <h3 className="font-semibold text-sm text-gray-900">{session.dishName}</h3>
+                  <h3 className="font-semibold text-sm text-gray-900">{session.sessionName}</h3>
                   <p className="text-xs text-gray-600">{t('machinistCorner.globalTestKitchen.by')} {session.hostName}</p>
                 </div>
                 <span className="text-xs text-maineBlue font-medium">{session.scheduledTime}</span>
@@ -837,7 +837,7 @@ END:VCALENDAR`;
               <p className="text-xs text-gray-700 mb-2">{session.description}</p>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-500">🌍 {session.culture}</span>
+                  <span className="text-xs text-gray-500">🌍 {session.focusArea}</span>
                   {session.sessionType && (
                     <span className="text-xs bg-maineBlue text-white px-2 py-0.5 rounded-full">
                       {session.sessionType === 'practice' && `🎯 ${t('machinistCorner.globalTestKitchen.practice', { defaultValue: 'Practice' })}`}
@@ -1049,13 +1049,13 @@ END:VCALENDAR`;
                   <div className="flex flex-col items-center text-center">
                     <h2 className="text-xl sm:text-2xl font-bold">
                       {isViewer && currentLiveSession ? 
-                        `🔴 LIVE: ${currentLiveSession.dishName}` : 
+                        `🔴 LIVE: ${currentLiveSession.sessionName}` : 
                         '🔴 LIVE: Practice Session'
                       }
                     </h2>
                     {isViewer && currentLiveSession && (
                       <p className="text-sm sm:text-base mt-1">
-                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Track
+                        Hosted by {currentLiveSession.hostName} • {currentLiveSession.focusArea} Track
                       </p>
                     )}
                   </div>
@@ -1168,8 +1168,8 @@ END:VCALENDAR`;
                 </label>
                 <input
                   type="text"
-                  value={scheduledDishName}
-                  onChange={(e) => setScheduledDishName(e.target.value)}
+                  value={scheduledSessionName}
+                  onChange={(e) => setScheduledSessionName(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                   placeholder="e.g., 4G overhead weld bead control walkthrough"
                 />
@@ -1180,8 +1180,8 @@ END:VCALENDAR`;
                   Weld Process / Focus Area
                 </label>
                 <select 
-                  value={scheduledCuisine}
-                  onChange={(e) => setScheduledCuisine(e.target.value)}
+                  value={scheduledFocusArea}
+                  onChange={(e) => setScheduledFocusArea(e.target.value)}
                   className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                 >
                   <option value="">Select weld focus</option>
@@ -1280,7 +1280,7 @@ END:VCALENDAR`;
                 </button>
                 <button
                   onClick={handleScheduleSession}
-                  disabled={!scheduledDishName.trim() || !scheduledCuisine || !scheduledDescription.trim() || !scheduledDate || !scheduledTime}
+                  disabled={!scheduledSessionName.trim() || !scheduledFocusArea || !scheduledDescription.trim() || !scheduledDate || !scheduledTime}
                   className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   📅 {t('machinistCorner.globalTestKitchen.scheduleSession', { defaultValue: 'Schedule Session' })}
@@ -1326,8 +1326,8 @@ END:VCALENDAR`;
                     Focus Area
                   </label>
                   <select 
-                    value={videoCuisine}
-                    onChange={(e) => setVideoCuisine(e.target.value)}
+                    value={videoFocusArea}
+                    onChange={(e) => setVideoFocusArea(e.target.value)}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-maineBlue"
                     disabled={isSaving}
                   >

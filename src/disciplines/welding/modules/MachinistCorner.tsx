@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/BenchFreddieContext';
-import { fetchCookbook } from './cookbookSupabase';
+import { fetchSpecBook } from './cookbookSupabase';
 import SpecBookImportModal from '../components/SpecBookImportModal';
 import LocalToolingModal from '../components/LocalToolingModal';
 import BuildPartModal from '../components/BuildPartModal';
-import { useRecipeContext } from '../components/PartContext';
-import { RecipeCard } from '../components/PartMatcherModal';
+import { useProjectContext } from '../components/PartContext';
+import { ProjectCard } from '../components/PartMatcherModal';
 import { useSupabase } from '../components/SupabaseProvider';
 import GlobalTestBench from '../components/GlobalTestBench';
 
 const WeldersHub = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
-  const { recipes, setRecipes } = useRecipeContext();
+  const { projects, setProjects } = useProjectContext();
   const { user } = useSupabase();
   
   // Showcase project state
-  const [showcaseRecipe, setShowcaseRecipe] = useState<any>(null);
-  const [cookbookModalOpen, setCookbookModalOpen] = useState(false);
+  const [showcaseProject, setShowcaseProject] = useState<any>(null);
+  const [specbookModalOpen, setSpecbookModalOpen] = useState(false);
   
   // Welding quotes rotation (52 quotes for weekly rotation)
   const weldingQuotes = [
@@ -114,7 +114,7 @@ const WeldersHub = () => {
   const currentQuote = getCurrentWeekQuote();
   const [localMarketsModalOpen, setLocalMarketsModalOpen] = useState(false);
   const [buildMenuModalOpen, setBuildMenuModalOpen] = useState(false);
-  const [selectedMenuRecipes, setSelectedMenuRecipes] = useState<RecipeCard[]>([]);
+  const [selectedMenuProjects, setSelectedMenuProjects] = useState<ProjectCard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeMobileTab, setActiveMobileTab] = useState<'corner' | 'lab'>('corner');
 
@@ -122,7 +122,7 @@ const WeldersHub = () => {
     updateContext({ page: 'WeldersHub' });
     
     // Load projects from spec book when Machinist's Corner loads
-    const loadRecipes = async () => {
+    const loadProjects = async () => {
       if (!user?.id) {
         setIsLoading(false);
         return;
@@ -130,50 +130,50 @@ const WeldersHub = () => {
       
       try {
         setIsLoading(true);
-        const savedRecipes = await fetchCookbook(user.id);
-        setRecipes(savedRecipes || []);
+        const savedProjects = await fetchSpecBook(user.id);
+        setProjects(savedProjects || []);
       } catch (err) {
         console.error('Error loading spec book projects:', err);
         // Initialize with empty array if there's an error
-        setRecipes([]);
+        setProjects([]);
       } finally {
         setIsLoading(false);
       }
     };
     
-    loadRecipes();
-  }, [updateContext, setRecipes, user?.id]);
+    loadProjects();
+  }, [updateContext, setProjects, user?.id]);
 
   // Open modal for My Spec Book import
-  const importFromCookBook = () => {
+  const importFromSpecBook = () => {
     if (!user) {
       alert(t('machinistCorner.pleaseSignIn'));
       return;
     }
-    setCookbookModalOpen(true);
+    setSpecbookModalOpen(true);
   };
 
   // Handler for modal import - select a project to showcase
-  const handleCookBookImport = async (selectedRecipe: any) => {
-    console.log('Importing project:', selectedRecipe);
+  const handleSpecBookImport = async (selectedProject: any) => {
+    console.log('Importing project:', selectedProject);
     
-    if (!selectedRecipe) {
+    if (!selectedProject) {
       console.error('No project selected');
-      alert(t('machinistCorner.errorNoRecipe'));
+      alert(t('machinistCorner.errorNoProject'));
       return;
     }
 
     try {
       // Set the selected project as the showcase project
-      setShowcaseRecipe(selectedRecipe);
+      setShowcaseProject(selectedProject);
       
-      alert(t('machinistCorner.recipeSetToShowcase').replace('{title}', selectedRecipe.title));
+      alert(t('machinistCorner.projectSetToShowcase').replace('{title}', selectedProject.title));
       
     } catch (error) {
       console.error('Error importing project:', error);
       alert(t('machinistCorner.failedToImport'));
     } finally {
-      setCookbookModalOpen(false);
+      setSpecbookModalOpen(false);
     }
   };
 
@@ -182,8 +182,8 @@ const WeldersHub = () => {
       <BuildPartModal
         open={buildMenuModalOpen}
         onClose={() => setBuildMenuModalOpen(false)}
-        onFindMarkets={(recipes: RecipeCard[]) => {
-          setSelectedMenuRecipes(recipes);
+        onFindMarkets={(projects: ProjectCard[]) => {
+          setSelectedMenuProjects(projects);
           setBuildMenuModalOpen(false);
           setLocalMarketsModalOpen(true);
         }}
@@ -192,7 +192,7 @@ const WeldersHub = () => {
       <LocalToolingModal
         open={localMarketsModalOpen}
         onClose={() => setLocalMarketsModalOpen(false)}
-        selectedRecipes={selectedMenuRecipes}
+        selectedRecipes={selectedMenuProjects}
       />
       
       <div className="max-w-6xl mx-auto mt-8">
@@ -239,7 +239,7 @@ const WeldersHub = () => {
                 <div className="bg-sand p-4 rounded-lg border border-black">
                   <div className="flex items-center justify-between mb-3">
                     <label className="text-sm font-semibold text-gray-700">
-                      {t('machinistCorner.showcaseRecipe')}
+                      {t('machinistCorner.showcaseProject')}
                     </label>
                     <div className="flex gap-2">
                       <button
@@ -249,24 +249,24 @@ const WeldersHub = () => {
                         📋 {t('machinistCorner.buildMenu')}
                       </button>
                       <button 
-                        onClick={importFromCookBook} 
+                        onClick={importFromSpecBook} 
                         className="bg-maineBlue text-seafoam px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-gray-300"
                         disabled={isLoading}
                       >
-                        {isLoading ? t('machinistCorner.loading') : t('machinistCorner.importFromCookbook')}
+                        {isLoading ? t('machinistCorner.loading') : t('machinistCorner.importFromSpecbook')}
                       </button>
                     </div>
                   </div>
                   <SpecBookImportModal
-                    open={cookbookModalOpen}
-                    onClose={() => setCookbookModalOpen(false)}
-                    onImport={handleCookBookImport}
+                    open={specbookModalOpen}
+                    onClose={() => setSpecbookModalOpen(false)}
+                    onImport={handleSpecBookImport}
                     existingIngredients={[]}
                   />
-                  {showcaseRecipe ? (
+                  {showcaseProject ? (
                     <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-4 mx-auto relative">
                       <button
-                        onClick={() => setShowcaseRecipe(null)}
+                        onClick={() => setShowcaseProject(null)}
                         className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
                         title={t('machinistCorner.removeShowcaseRecipe')}
                       >
@@ -274,19 +274,19 @@ const WeldersHub = () => {
                       </button>
                       {/* Left Page */}
                       <div className="flex-1 p-6 bg-weatheredWhite border-r border-gray-200 flex flex-col">
-                        {showcaseRecipe.image && (
+                        {showcaseProject.image && (
                           <img
-                            src={showcaseRecipe.image}
-                            alt={showcaseRecipe.title}
+                            src={showcaseProject.image}
+                            alt={showcaseProject.title}
                             className="rounded-lg w-full h-32 object-cover mb-4"
                             style={{ objectFit: 'cover' }}
                           />
                         )}
-                        <h3 className="font-bold text-xl mb-1 text-maineBlue">{showcaseRecipe.title}</h3>
+                        <h3 className="font-bold text-xl mb-1 text-maineBlue">{showcaseProject.title}</h3>
                         <div className="font-semibold mb-1 mt-2">{t('machinistCorner.ingredients')}</div>
                         <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                          {showcaseRecipe.ingredients?.length ? (
-                            showcaseRecipe.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
+                          {showcaseProject.ingredients?.length ? (
+                            showcaseProject.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
                           ) : (
                             <li className="italic text-gray-400">{t('machinistCorner.noIngredientsListed')}</li>
                           )}
@@ -296,16 +296,16 @@ const WeldersHub = () => {
                       <div className="flex-1 p-6 bg-white flex flex-col">
                         <h3 className="font-bold text-xl mb-2 text-maineBlue">{t('machinistCorner.instructions')}</h3>
                         <div className="text-gray-700 whitespace-pre-line text-[15px] leading-7 flex-1">
-                          {showcaseRecipe.instructions || (
+                          {showcaseProject.instructions || (
                             <span className="italic text-gray-400">{t('machinistCorner.noInstructionsProvided')}</span>
                           )}
                         </div>
                         {/* Equipment Section */}
-                        {showcaseRecipe.equipment && showcaseRecipe.equipment.length > 0 && (
+                        {showcaseProject.equipment && showcaseProject.equipment.length > 0 && (
                           <>
                             <div className="font-semibold mt-4 mb-1">{t('machinistCorner.equipmentNeeded')}</div>
                             <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                              {showcaseRecipe.equipment.map((eq: string, i: number) => (
+                              {showcaseProject.equipment.map((eq: string, i: number) => (
                                 <li key={i}>{eq}</li>
                               ))}
                             </ul>
@@ -341,12 +341,12 @@ const WeldersHub = () => {
         <div className={`lg:hidden ${
           activeMobileTab === 'lab' ? 'block' : 'hidden'
         }`}>
-          <GlobalTestBench showcaseRecipe={showcaseRecipe} />
+          <GlobalTestBench showcaseProject={showcaseProject} />
         </div>
         
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-1/3 space-y-6">
-          <GlobalTestBench showcaseRecipe={showcaseRecipe} />
+          <GlobalTestBench showcaseProject={showcaseProject} />
         </div>
       </div>
     </div>

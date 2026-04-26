@@ -62,68 +62,68 @@ export const WOW_CLASSIC_XP_TABLE = [
   170900, // Level 60
 ];
 
-// Level titles and icons (milestones and in-betweens)
+// Level titles and icons — welding career progression
 export const LEVEL_TITLES_AND_ICONS = [
-  { title: "Dishwasher", icon: "\uD83E\uDDF9" }, // 🧽
-  { title: "Dishwasher II", icon: "\uD83E\uDDF9" },
-  { title: "Dishwasher III", icon: "\uD83E\uDDF9" },
-  { title: "Dishwasher IV", icon: "\uD83E\uDDF9" },
-  { title: "Prep Builder", icon: "\uD83E\uDDC8" }, // 🥄
-  { title: "Prep Builder II", icon: "\uD83E\uDDC8" },
-  { title: "Prep Builder III", icon: "\uD83E\uDDC8" },
-  { title: "Prep Builder IV", icon: "\uD83E\uDDC8" },
-  { title: "Line Builder", icon: "\uD83C\uDF73" }, // 🍳
-  { title: "Line Builder II", icon: "\uD83C\uDF73" },
-  { title: "Line Builder III", icon: "\uD83C\uDF73" },
-  { title: "Line Builder IV", icon: "\uD83C\uDF73" },
-  { title: "Apprentice Builder", icon: "\uD83D\uDD2A" }, // 🔪
-  { title: "Apprentice Builder II", icon: "\uD83D\uDD2A" },
-  { title: "Apprentice Builder III", icon: "\uD83D\uDD2A" },
-  { title: "Team Builder", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" }, // 🧑‍🍳
-  { title: "Team Builder II", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
-  { title: "Team Builder III", icon: "\uD83E\uDDD1\u200D\uD83C\uDF73" },
-  { title: "Specialist Builder", icon: "\uD83C\uDF7D\uFE0F" }, // 🍽️
-  { title: "Specialist Builder II", icon: "\uD83C\uDF7D\uFE0F" },
-  { title: "Specialist Builder III", icon: "\uD83C\uDF7D\uFE0F" },
-  { title: "Pastry Builder", icon: "\uD83E\uDDC1" }, // 🧁
-  { title: "Pastry Builder II", icon: "\uD83E\uDDC1" },
-  { title: "Pastry Builder III", icon: "\uD83E\uDDC1" },
-  { title: "Process Specialist", icon: "\uD83E\uDD63" }, // 🥣
-  { title: "Process Specialist II", icon: "\uD83E\uDD63" },
-  { title: "Process Specialist III", icon: "\uD83E\uDD63" },
-  { title: "Quality Specialist", icon: "\uD83C\uDF77" }, // 🍷
-  { title: "Quality Specialist II", icon: "\uD83C\uDF77" },
-  { title: "Quality Specialist III", icon: "\uD83C\uDF77" },
-  { title: "Field Specialist", icon: "\uD83C\uDF56" }, // 🍖
-  { title: "Field Specialist II", icon: "\uD83C\uDF56" },
-  { title: "Field Specialist III", icon: "\uD83C\uDF56" },
-  { title: "Inventory Specialist", icon: "\uD83E\uDD57" }, // 🥗
-  { title: "Inventory Specialist II", icon: "\uD83E\uDD57" },
-  { title: "Inventory Specialist III", icon: "\uD83E\uDD57" },
-  { title: "Executive Builder", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" }, // 👨‍🍳
-  { title: "Executive Builder II", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
-  { title: "Executive Builder III", icon: "\uD83D\uDC68\u200D\uD83C\uDF73" },
-  { title: "Head Builder", icon: "\uD83C\uDF93" }, // 🎓
-  { title: "Head Builder II", icon: "\uD83C\uDF93" },
-  { title: "Head Builder III", icon: "\uD83C\uDF93" },
-  { title: "Master Builder", icon: "\uD83C\uDFC5" }, // 🏅
-  { title: "Master Builder II", icon: "\uD83C\uDFC5" },
-  { title: "Master Builder III", icon: "\uD83C\uDFC5" },
-  { title: "Program Director", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" }, // 👨‍💼
-  { title: "Program Director II", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
-  { title: "Program Director III", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
-  { title: "Celebrity Builder", icon: "\u2B50" }, // ⭐
-  { title: "Celebrity Builder II", icon: "\u2B50" },
-  { title: "Celebrity Builder III", icon: "\u2B50" },
-  { title: "Iron Builder", icon: "\uD83E\uDDBE" }, // 🦾
-  { title: "Iron Builder II", icon: "\uD83E\uDDBE" },
-  { title: "Iron Builder III", icon: "\uD83E\uDDBE" },
-  { title: "Legendary Builder", icon: "\uD83D\uDC09" }, // 🐉
-  { title: "Legendary Builder II", icon: "\uD83D\uDC09" },
-  { title: "Legendary Builder III", icon: "\uD83D\uDC09" },
-  { title: "Legendary Builder IV", icon: "\uD83D\uDC09" },
-  { title: "Legendary Builder V", icon: "\uD83D\uDC09" },
-  { title: "Craft Master", icon: "\uD83C\uDF76" }, // 🍶
+  { title: "Shop Sweeper", icon: "\uD83E\uDDF9" },       // � Levels 1-4
+  { title: "Shop Sweeper II", icon: "\uD83E\uDDF9" },
+  { title: "Shop Sweeper III", icon: "\uD83E\uDDF9" },
+  { title: "Shop Sweeper IV", icon: "\uD83E\uDDF9" },
+  { title: "Tack Welder", icon: "\u26A1" },               // ⚡ Levels 5-8
+  { title: "Tack Welder II", icon: "\u26A1" },
+  { title: "Tack Welder III", icon: "\u26A1" },
+  { title: "Tack Welder IV", icon: "\u26A1" },
+  { title: "Stick Welder", icon: "\uD83D\uDD25" },        // 🔥 Levels 9-12
+  { title: "Stick Welder II", icon: "\uD83D\uDD25" },
+  { title: "Stick Welder III", icon: "\uD83D\uDD25" },
+  { title: "Stick Welder IV", icon: "\uD83D\uDD25" },
+  { title: "MIG Welder", icon: "\u2699\uFE0F" },          // ⚙️ Levels 13-15
+  { title: "MIG Welder II", icon: "\u2699\uFE0F" },
+  { title: "MIG Welder III", icon: "\u2699\uFE0F" },
+  { title: "TIG Welder", icon: "\u2728" },                 // ✨ Levels 16-18
+  { title: "TIG Welder II", icon: "\u2728" },
+  { title: "TIG Welder III", icon: "\u2728" },
+  { title: "Combo Welder", icon: "\uD83D\uDD29" },        // 🔩 Levels 19-21
+  { title: "Combo Welder II", icon: "\uD83D\uDD29" },
+  { title: "Combo Welder III", icon: "\uD83D\uDD29" },
+  { title: "Pipe Welder", icon: "\uD83C\uDFD7\uFE0F" },  // 🏗️ Levels 22-24
+  { title: "Pipe Welder II", icon: "\uD83C\uDFD7\uFE0F" },
+  { title: "Pipe Welder III", icon: "\uD83C\uDFD7\uFE0F" },
+  { title: "Structural Welder", icon: "\uD83C\uDFE2" },   // 🏢 Levels 25-27
+  { title: "Structural Welder II", icon: "\uD83C\uDFE2" },
+  { title: "Structural Welder III", icon: "\uD83C\uDFE2" },
+  { title: "Fabricator", icon: "\uD83C\uDFED" },           // � Levels 28-30
+  { title: "Fabricator II", icon: "\uD83C\uDFED" },
+  { title: "Fabricator III", icon: "\uD83C\uDFED" },
+  { title: "Weld Inspector", icon: "\uD83D\uDD0D" },      // 🔍 Levels 31-33
+  { title: "Weld Inspector II", icon: "\uD83D\uDD0D" },
+  { title: "Weld Inspector III", icon: "\uD83D\uDD0D" },
+  { title: "Certified Welder", icon: "\uD83D\uDCCB" },    // 📋 Levels 34-36
+  { title: "Certified Welder II", icon: "\uD83D\uDCCB" },
+  { title: "Certified Welder III", icon: "\uD83D\uDCCB" },
+  { title: "Shop Foreman", icon: "\uD83D\uDC68\u200D\uD83D\uDD27" }, // 👨‍🔧 Levels 37-39
+  { title: "Shop Foreman II", icon: "\uD83D\uDC68\u200D\uD83D\uDD27" },
+  { title: "Shop Foreman III", icon: "\uD83D\uDC68\u200D\uD83D\uDD27" },
+  { title: "Lead Welder", icon: "\uD83C\uDF93" },          // 🎓 Levels 40-42
+  { title: "Lead Welder II", icon: "\uD83C\uDF93" },
+  { title: "Lead Welder III", icon: "\uD83C\uDF93" },
+  { title: "Master Welder", icon: "\uD83C\uDFC5" },        // 🏅 Levels 43-45
+  { title: "Master Welder II", icon: "\uD83C\uDFC5" },
+  { title: "Master Welder III", icon: "\uD83C\uDFC5" },
+  { title: "Welding Engineer", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" }, // 👨‍💼 Levels 46-48
+  { title: "Welding Engineer II", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
+  { title: "Welding Engineer III", icon: "\uD83D\uDC68\u200D\uD83D\uDCBC" },
+  { title: "Elite Welder", icon: "\u2B50" },                // ⭐ Levels 49-51
+  { title: "Elite Welder II", icon: "\u2B50" },
+  { title: "Elite Welder III", icon: "\u2B50" },
+  { title: "Iron Worker", icon: "\uD83E\uDDBE" },          // 🦾 Levels 52-54
+  { title: "Iron Worker II", icon: "\uD83E\uDDBE" },
+  { title: "Iron Worker III", icon: "\uD83E\uDDBE" },
+  { title: "Legendary Welder", icon: "\uD83D\uDC09" },     // 🐉 Levels 55-59
+  { title: "Legendary Welder II", icon: "\uD83D\uDC09" },
+  { title: "Legendary Welder III", icon: "\uD83D\uDC09" },
+  { title: "Legendary Welder IV", icon: "\uD83D\uDC09" },
+  { title: "Legendary Welder V", icon: "\uD83D\uDC09" },
+  { title: "Welding God", icon: "\uD83D\uDD25" },          // 🔥 Level 60
 ];
 
 // XP per activity (example)
@@ -132,12 +132,12 @@ export const XP_ACTIVITY_TABLE = {
   confirm_email: 5,
   complete_profile: 10,
   complete_weekly_challenge: 40,
-  create_recipe: 15,
-  run_recipe: 20,         // "Cook Me"
-  add_to_cookbook: 5,
-  view_recipe: 2,
-  scan_ingredient: 5,
-  save_recipe: 3,
+  create_project: 15,
+  run_project: 20,        // "Build It"
+  add_to_specbook: 5,
+  view_project: 2,
+  scan_material: 5,
+  save_project: 3,
   achieve_streak: 20,
 };
 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/BenchFreddieContext';
-import { useRecipeContext } from '../components/PartContext';
+import { useProjectContext } from '../components/PartContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
+import { fetchSpecBook, removeProjectFromSpecBook } from './cookbookSupabase';
 import { supabase } from '../api/supabaseClient';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
@@ -11,22 +11,25 @@ import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 
 const machiningQuoteOfTheDay = {
-  chef: 'Henry Maudslay',
+  pioneer: 'Henry Maudslay',
   quote: 'Precision is earned one careful cut at a time.'
 };
 
-export function getChefQuoteOfTheDay() {
+export function getQuoteOfTheDay() {
   return machiningQuoteOfTheDay;
 }
 
-export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
+export function getVideoQueriesForProject(project: Project): string[] {
   return [
-    `how to ${recipe.name} machining tutorial`,
-    `${recipe.name} cnc guide`
+    `how to ${project.name} welding tutorial`,
+    `${project.name} welding guide`
   ];
 }
 
-export interface Recipe {
+// Backward-compatible alias
+export const getVideoQueriesForRecipe = getVideoQueriesForProject;
+
+export interface Project {
   id: string;
   name: string;
   description: string;
@@ -37,18 +40,21 @@ export interface Recipe {
   healthTags?: string[];
 }
 
+// Backward-compatible alias
+export type Recipe = Project;
+
 const MySpecBook = () => {
   const { t } = useTranslation();
-  const { setSelectedRecipe } = useRecipeContext();
+  const { setSelectedProject } = useProjectContext();
   const navigate = useNavigate();
-  const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
+  const [projects, setLocalProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [showShareModal, setShowShareModal] = useState(false);
-  const [recipeToShare, setRecipeToShare] = useState<Recipe | null>(null);
+  const [projectToShare, setProjectToShare] = useState<Project | null>(null);
   const [flipped, setFlipped] = useState(false);
   const [showCreateCollectionModal, setShowCreateCollectionModal] = useState(false);
   const [showViewCollectionModal, setShowViewCollectionModal] = useState(false);
@@ -66,7 +72,7 @@ const MySpecBook = () => {
   const [userFilter, setUserFilter] = useState('all');
   const [selectedLibraryVideo, setSelectedLibraryVideo] = useState<{name: string, url: string, created_at: string, userId: string, isPublic: boolean} | null>(null);
   const [showLibraryVideoModal, setShowLibraryVideoModal] = useState(false);
-  const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
+  const [activeMobileTab, setActiveMobileTab] = useState<'specbook' | 'collections'>('specbook');
   
   // Assignment data
   const assignments = [
@@ -166,51 +172,51 @@ const MySpecBook = () => {
     }
   };
 
-  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
-  const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
+  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, projects: string[]} | null>(null);
+  const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Cook', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '3', name: 'Healthy Options', emoji: '🥗', recipes: ['1', '2', '3', '4', '5'] }
+    { id: '1', name: 'Favorites', emoji: '⭐', projects: ['1', '2', '3'] },
+    { id: '2', name: 'Quick Welds', emoji: '⚡', projects: ['1', '2'] },
+    { id: '3', name: 'Certification Prep', emoji: '📋', projects: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
 
-  // Load recipes and set page context on mount
+  // Load projects and set page context on mount
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
   
   // Categories for filtering
   const categories = [
-    { key: 'All', label: t('mySpecBook.all') },
-    { key: 'Seafood', label: t('mySpecBook.seafood') },
-    { key: 'Meat', label: t('mySpecBook.meat') },
-    { key: 'Vegetarian', label: t('mySpecBook.vegetarian') },
-    { key: 'Dessert', label: t('mySpecBook.dessert') }
+    { key: 'All', label: t('mySpecBook.all', { defaultValue: 'All' }) },
+    { key: 'SMAW', label: t('mySpecBook.smaw', { defaultValue: 'SMAW' }) },
+    { key: 'MIG', label: t('mySpecBook.mig', { defaultValue: 'MIG/GMAW' }) },
+    { key: 'TIG', label: t('mySpecBook.tig', { defaultValue: 'TIG/GTAW' }) },
+    { key: 'Pipe', label: t('mySpecBook.pipe', { defaultValue: 'Pipe' }) }
   ];
 
-  // Handle recipe selection for collections
-  const handleRecipeSelect = (recipeId: string) => {
-    setSelectedRecipes(prev => 
-      prev.includes(recipeId) 
-        ? prev.filter(id => id !== recipeId)
-        : [...prev, recipeId]
+  // Handle project selection for collections
+  const handleProjectSelect = (projectId: string) => {
+    setSelectedProjectIds(prev => 
+      prev.includes(projectId) 
+        ? prev.filter(id => id !== projectId)
+        : [...prev, projectId]
     );
   };
 
   // Handle creating a new collection
   const handleCreateCollection = () => {
-    if (newCollectionName.trim() && selectedRecipes.length > 0) {
+    if (newCollectionName.trim() && selectedProjectIds.length > 0) {
       const newCollection = {
         id: Date.now().toString(),
         name: newCollectionName.trim(),
         emoji: '📁',
-        recipes: [...selectedRecipes]
+        projects: [...selectedProjectIds]
       };
       setCollections(prev => [...prev, newCollection]);
       setNewCollectionName('');
-      setSelectedRecipes([]);
+      setSelectedProjectIds([]);
       setShowCreateCollectionModal(false);
     }
   };
@@ -246,11 +252,11 @@ const MySpecBook = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: recipeToShare ? `${recipeToShare.name} Recipe on Porkchop` : 'My Cookbook on Porkchop',
-      text: recipeToShare 
-        ? `Check out this amazing recipe for ${recipeToShare.name} on Porkchop!` 
-        : 'Check out my digital cookbook on Porkchop! I\'ve been collecting amazing recipes and would love to share them with you.',
-      url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
+      title: projectToShare ? `${projectToShare.name} Project on Porkchop` : 'My Spec Book on Porkchop',
+      text: projectToShare 
+        ? `Check out this welding project for ${projectToShare.name} on Porkchop!` 
+        : 'Check out my digital spec book on Porkchop! I\'ve been collecting welding projects and would love to share them with you.',
+      url: window.location.href + (projectToShare ? `?project=${encodeURIComponent(projectToShare.id)}` : ''),
     };
 
     try {
@@ -275,7 +281,7 @@ const MySpecBook = () => {
           break;
         case 'instagram':
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
-          const instagramMessage = `Check out my cookbook! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
+          const instagramMessage = `Check out my spec book! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
           alert(t('mySpecBook.sharingInstructions'));
           shared = true;
@@ -305,7 +311,7 @@ const MySpecBook = () => {
             .from('xp_activity_log')
             .select('id')
             .eq('user_id', user.id)
-            .eq('activity', 'cookbook_share')
+            .eq('activity', 'specbook_share')
             .gte('created_at', `${today}T00:00:00`)
             .lte('created_at', `${today}T23:59:59`)
             .maybeSingle();
@@ -313,14 +319,14 @@ const MySpecBook = () => {
           if (!existingLog) {
             await supabase.rpc('increment_user_xp', {
               user_id: user.id,
-              xp_amount: XP_REWARDS.RECIPE_SHARE
+              xp_amount: XP_REWARDS.PROJECT_SHARE
             });
             
             await supabase.from('xp_activity_log').insert([
               {
                 user_id: user.id,
-                xp_awarded: XP_REWARDS.RECIPE_SHARE,
-                activity: 'cookbook_share'
+                xp_awarded: XP_REWARDS.PROJECT_SHARE,
+                activity: 'specbook_share'
               }
             ]);
             
@@ -339,11 +345,11 @@ const MySpecBook = () => {
   };
   useEffect(() => {
     updateContext({ page: 'MyWeldBook' });
-    const loadRecipes = async () => {
+    const loadProjects = async () => {
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
-        const converted = savedRecipes.map(r => ({
+        const savedProjects = await fetchSpecBook(user?.id!);
+        const converted = savedProjects.map(r => ({
           id: r.id,
           name: r.title,
           description: r.instructions,
@@ -353,64 +359,60 @@ const MySpecBook = () => {
           equipment: r.equipment,
           healthTags: r.healthTags
         }));
-        setLocalRecipes(converted);
+        setLocalProjects(converted);
       } catch (err) {
-        console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        console.error('Error loading spec book:', err);
+        setError('Failed to load your spec book');
       } finally {
         setLoading(false);
       }
     };
-    loadRecipes();
+    loadProjects();
   }, [updateContext]);
 
-  // Filter recipes based on search term and category
-  const filteredRecipes = recipes.filter(recipe => {
-    const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
+  // Filter projects based on search term and category
+  const filteredProjects = projects.filter(project => {
+    const matchesSearch = project.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('mySpecBook.all')) return matchesSearch;
     
-    // Simple category detection based on ingredients
-    const ingredients = recipe.ingredients || [];
-    const ingredientsJoined = ingredients.join(' ').toLowerCase();
+    // Simple category detection based on materials and equipment
+    const materials = project.ingredients || [];
+    const equipment = project.equipment || [];
+    const allText = [...materials, ...equipment, project.name, project.description].join(' ').toLowerCase();
     
-    const hasSeafood = ingredientsJoined.includes('fish') || 
-      ingredientsJoined.includes('salmon') || 
-      ingredientsJoined.includes('tuna') || 
-      ingredientsJoined.includes('cod') || 
-      ingredientsJoined.includes('tilapia') || 
-      ingredientsJoined.includes('shrimp') || 
-      ingredientsJoined.includes('lobster') || 
-      ingredientsJoined.includes('crab') || 
-      ingredientsJoined.includes('oyster') || 
-      ingredientsJoined.includes('clam') || 
-      ingredientsJoined.includes('mussel');
+    const hasSMAW = allText.includes('stick') || 
+      allText.includes('smaw') || 
+      allText.includes('electrode') || 
+      allText.includes('6010') || 
+      allText.includes('6011') || 
+      allText.includes('7018') || 
+      allText.includes('7024');
     
-    const hasMeat = ingredientsJoined.includes('beef') || 
-      ingredientsJoined.includes('chicken') || 
-      ingredientsJoined.includes('pork') || 
-      ingredientsJoined.includes('turkey') || 
-      ingredientsJoined.includes('bacon') || 
-      ingredientsJoined.includes('sausage') || 
-      ingredientsJoined.includes('lamb');
+    const hasMIG = allText.includes('mig') || 
+      allText.includes('gmaw') || 
+      allText.includes('wire feed') || 
+      allText.includes('flux core') || 
+      allText.includes('fcaw');
     
-    const hasVegetable = ingredientsJoined.includes('vegetable') || 
-      ingredientsJoined.includes('tomato') || 
-      ingredientsJoined.includes('carrot') || 
-      ingredientsJoined.includes('spinach');
+    const hasTIG = allText.includes('tig') || 
+      allText.includes('gtaw') || 
+      allText.includes('tungsten') || 
+      allText.includes('filler rod') || 
+      allText.includes('argon');
     
-    const hasDessert = ingredientsJoined.includes('sugar') || 
-      ingredientsJoined.includes('chocolate') || 
-      ingredientsJoined.includes('vanilla') || 
-      ingredientsJoined.includes('cream') || 
-      ingredientsJoined.includes('cake') || 
-      ingredientsJoined.includes('cookie') || 
-      ingredientsJoined.includes('pie');
+    const hasPipe = allText.includes('pipe') || 
+      allText.includes('tube') || 
+      allText.includes('purge') || 
+      allText.includes('root pass') || 
+      allText.includes('6g') || 
+      allText.includes('5g') || 
+      allText.includes('2g');
     
     switch (activeCategory) {
-      case 'Seafood': return hasSeafood && matchesSearch;
-      case 'Meat': return hasMeat && matchesSearch;
-      case 'Vegetarian': return hasVegetable && !hasMeat && !hasSeafood && matchesSearch;
-      case 'Dessert': return hasDessert && matchesSearch;
+      case 'SMAW': return hasSMAW && matchesSearch;
+      case 'MIG': return hasMIG && matchesSearch;
+      case 'TIG': return hasTIG && matchesSearch;
+      case 'Pipe': return hasPipe && matchesSearch;
       default: return matchesSearch;
     }
   });
@@ -420,7 +422,7 @@ const MySpecBook = () => {
       <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">Loading your cookbook...</div>
+          <div className="text-lg font-retro mb-2">Loading your spec book...</div>
         </div>
       </div>
     );
@@ -442,9 +444,9 @@ const MySpecBook = () => {
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
-          onClick={() => setActiveMobileTab('cookbook')}
+          onClick={() => setActiveMobileTab('specbook')}
           className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
-            activeMobileTab === 'cookbook'
+            activeMobileTab === 'specbook'
               ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
@@ -465,7 +467,7 @@ const MySpecBook = () => {
       
       <div className="flex flex-col lg:flex-row gap-6">
         <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
-          activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
+          activeMobileTab === 'specbook' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
           <div className="flex items-center justify-center p-6 pb-4">
@@ -483,11 +485,11 @@ const MySpecBook = () => {
       {showShareModal && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => {
         setShowShareModal(false);
-        setRecipeToShare(null);
+        setProjectToShare(null);
       }}>
         <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
-            {recipeToShare ? `${t('mySpecBook.shareRecipeTitle')} "${recipeToShare.name}"` : t('mySpecBook.shareYourCookbook')}
+            {projectToShare ? `${t('mySpecBook.shareRecipeTitle')} "${projectToShare.name}"` : t('mySpecBook.shareYourCookbook')}
           </h3>
           <div className="flex justify-around mb-4">
             <button 
@@ -543,7 +545,7 @@ const MySpecBook = () => {
             <button
               onClick={() => {
                 setShowShareModal(false);
-                setRecipeToShare(null);
+                setProjectToShare(null);
               }}
               className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
             >
@@ -579,7 +581,7 @@ const MySpecBook = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600">
-                {t('mySpecBook.selectedRecipes')} {selectedRecipes.length}
+                {t('mySpecBook.selectedProjectIds')} {selectedProjectIds.length}
               </p>
             </div>
             
@@ -623,29 +625,29 @@ const MySpecBook = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600 mb-3">
-                {t('mySpecBook.recipesInCollection')} ({selectedCollection.recipes.length}):
+                {t('mySpecBook.projectsInCollection', { defaultValue: 'Projects in collection' })} ({selectedCollection.projects.length}):
               </p>
               
               <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                {selectedCollection.recipes.map((recipeId, index) => {
-                  const recipe = recipes.find(r => r.id === recipeId);
+                {selectedCollection.projects.map((projectId: string, index: number) => {
+                  const project = projects.find((r: Project) => r.id === projectId);
                   return (
-                    <div key={recipeId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
+                    <div key={projectId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
                       <div className="flex items-center">
-                        <span className="mr-2">🍽️</span>
-                        <span className="text-sm">{recipe ? recipe.name : `Recipe ${index + 1}`}</span>
+                        <span className="mr-2">📝</span>
+                        <span className="text-sm">{project ? project.name : `Project ${index + 1}`}</span>
                       </div>
-                      {recipe && recipe.healthTags && recipe.healthTags.length > 0 && (
+                      {project && project.healthTags && project.healthTags.length > 0 && (
                         <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                          🥗
+                            📝
                         </span>
                       )}
                     </div>
                   );
                 })}
-                {selectedCollection.recipes.length === 0 && (
+                {selectedCollection.projects.length === 0 && (
                   <div className="py-4 text-center text-gray-500 text-sm italic">
-                    {t('mySpecBook.noRecipesInCollection')}
+                    {t('mySpecBook.noProjectsInCollection', { defaultValue: 'No projects in this collection' })}
                   </div>
                 )}
               </div>
@@ -693,7 +695,7 @@ const MySpecBook = () => {
             value={activeCategory}
             onChange={(e) => {
               setActiveCategory(e.target.value);
-              setCurrentIndex(0); // Reset to first recipe on category change
+              setCurrentIndex(0); // Reset to first project on category change
             }}
             className="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam bg-white text-sm w-full sm:w-auto sm:min-w-[120px]"
           >
@@ -713,7 +715,7 @@ const MySpecBook = () => {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentIndex(0); // Reset to first recipe on search
+                setCurrentIndex(0); // Reset to first project on search
               }}
             />
             <div className="absolute left-2 top-2.5 text-gray-400">🔍</div>
@@ -731,30 +733,30 @@ const MySpecBook = () => {
             <span className="sm:hidden">{t('mySpecBook.prev')}</span>
           </button>
           <button
-            onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
-            disabled={currentIndex === filteredRecipes.length - 1}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+            onClick={() => setCurrentIndex(prev => Math.min(filteredProjects.length - 1, prev + 1))}
+            disabled={currentIndex === filteredProjects.length - 1}
+            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredProjects.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
           >
             <span className="hidden sm:inline">{t('mySpecBook.next')}</span>
             <span className="sm:hidden">{t('mySpecBook.next')} →</span>
           </button>
         </div>
       </div>
-      {/* Recipe Count */}
+      {/* Project Count */}
       <div className="text-sm text-gray-500 mb-4">
-        {filteredRecipes.length === 0 
+        {filteredProjects.length === 0 
           ? t('mySpecBook.noRecipes') 
-          : `${t('mySpecBook.recipe')} ${currentIndex + 1} ${t('mySpecBook.of')} ${filteredRecipes.length}`}
+          : `${t('mySpecBook.recipe')} ${currentIndex + 1} ${t('mySpecBook.of')} ${filteredProjects.length}`}
       </div>
 
 
-      {/* Digital Cookbook - Single Recipe */}
+      {/* Digital Spec Book - Single Project */}
       <div className="mt-4">
-        {filteredRecipes.length === 0 ? (
+        {filteredProjects.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
-            {recipes.length === 0 
-              ? t('mySpecBook.noRecipesYet')
-              : 'No recipes match your search criteria.'}
+            {projects.length === 0 
+              ? t('mySpecBook.noProjectsYet', { defaultValue: 'No projects yet' })
+              : t('mySpecBook.noMatchingProjects', { defaultValue: 'No projects match your search criteria.' })}
           </div>
         ) : (
           <div 
@@ -766,25 +768,25 @@ const MySpecBook = () => {
             >
               {/* Front */}
               <div className="absolute inset-0 bg-white p-4 sm:p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col items-center [backface-visibility:hidden]">
-                {filteredRecipes[currentIndex].photo && (
+                {filteredProjects[currentIndex].photo && (
                   <img 
-                    src={filteredRecipes[currentIndex].photo} 
-                    alt={filteredRecipes[currentIndex].name} 
+                    src={filteredProjects[currentIndex].photo} 
+                    alt={filteredProjects[currentIndex].name} 
                     className="w-full h-32 sm:h-40 object-cover rounded-lg mb-4 border-2 border-gray-200"
                   />
                 )}
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-center text-maineBlue">{filteredRecipes[currentIndex].name}</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-center text-maineBlue">{filteredProjects[currentIndex].name}</h3>
                 <div className="flex-1 flex flex-col justify-center w-full px-2">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
                     {/* Ingredients */}
                     <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 {t('mySpecBook.ingredients')}</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🔩 {t('mySpecBook.materials', { defaultValue: 'Materials' })}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredRecipes[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
-                          <li key={i} className="line-clamp-1">{ingredient}</li>
+                        {filteredProjects[currentIndex].ingredients?.slice(0, 6).map((material, i) => (
+                          <li key={i} className="line-clamp-1">{material}</li>
                         ))}
-                        {(filteredRecipes[currentIndex].ingredients?.length || 0) > 6 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].ingredients?.length || 0) - 6} {t('mySpecBook.more')}</li>
+                        {(filteredProjects[currentIndex].ingredients?.length || 0) > 6 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredProjects[currentIndex].ingredients?.length || 0) - 6} {t('mySpecBook.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -793,28 +795,28 @@ const MySpecBook = () => {
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">🧲 {t('mySpecBook.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
+                        {filteredProjects[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
                         ))}
-                        {(filteredRecipes[currentIndex].equipment?.length || 0) > 4 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].equipment?.length || 0) - 4} {t('mySpecBook.more')}</li>
+                        {(filteredProjects[currentIndex].equipment?.length || 0) > 4 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredProjects[currentIndex].equipment?.length || 0) - 4} {t('mySpecBook.more')}</li>
                         )}
                       </ul>
                     </div>
                     
                     {/* Health Tags */}
                     <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 {t('mySpecBook.healthTags')}</h4>
+                      <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🏅 {t('mySpecBook.skillTags', { defaultValue: 'Skill Tags' })}</h4>
                       <div className="flex flex-wrap gap-1.5 justify-center max-h-[80px] sm:max-h-[100px] overflow-y-auto">
-                        {filteredRecipes[currentIndex].healthTags?.slice(0, 4).map(tag => (
+                        {filteredProjects[currentIndex].healthTags?.slice(0, 4).map(tag => (
                           <span key={tag} className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">
                             {tag}
                           </span>
                         )) || (
-                          <span className="text-xs text-gray-500">{t('mySpecBook.noHealthTags')}</span>
+                          <span className="text-xs text-gray-500">{t('mySpecBook.noSkillTags', { defaultValue: 'No skill tags' })}</span>
                         )}
-                        {(filteredRecipes[currentIndex].healthTags?.length || 0) > 4 && (
-                          <span className="text-xs text-gray-600 font-semibold">+{(filteredRecipes[currentIndex].healthTags?.length || 0) - 4}</span>
+                        {(filteredProjects[currentIndex].healthTags?.length || 0) > 4 && (
+                          <span className="text-xs text-gray-600 font-semibold">+{(filteredProjects[currentIndex].healthTags?.length || 0) - 4}</span>
                         )}
                       </div>
                     </div>
@@ -827,22 +829,22 @@ const MySpecBook = () => {
               
               {/* Back */}
               <div className="absolute inset-0 h-full w-full rounded-lg bg-white p-4 sm:p-6 shadow-lg border-4 border-lobsterRed [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredRecipes[currentIndex].name}</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredProjects[currentIndex].name}</h3>
                 <div className="flex-grow overflow-y-auto mb-16 sm:mb-20 px-2">
                   <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('mySpecBook.instructions')}</h4>
-                  <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredRecipes[currentIndex].instructions}</p>
+                  <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredProjects[currentIndex].instructions}</p>
                 </div>
                 <div className="flex justify-between items-center absolute bottom-4 left-4 right-4 gap-2">
                   <button
                     onClick={async () => {
                       try {
-                        const recipeId = filteredRecipes[currentIndex].id;
-                        await removeRecipeFromCookbook(user?.id!, recipeId);
-                        setLocalRecipes(recipes.filter(r => r.id !== recipeId));
+                        const projectId = filteredProjects[currentIndex].id;
+                        await removeProjectFromSpecBook(user?.id!, projectId);
+                        setLocalProjects(projects.filter((r: Project) => r.id !== projectId));
                         setCurrentIndex(0);
                       } catch (err) {
-                        console.error('Error deleting recipe:', err);
-                        setError('Failed to delete recipe');
+                        console.error('Error deleting project:', err);
+                        setError('Failed to delete project');
                       }
                     }}
                     className="text-lobsterRed hover:text-maineBlue transition-colors"
@@ -853,38 +855,38 @@ const MySpecBook = () => {
                   
                   <button
                     onClick={() => {
-                      const fullRecipe = {
-                        id: `${filteredRecipes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                        title: filteredRecipes[currentIndex].name,
-                        image: filteredRecipes[currentIndex].photo || '',
-                        ingredients: filteredRecipes[currentIndex].ingredients || [],
-                        instructions: filteredRecipes[currentIndex].instructions || '',
-                        equipment: filteredRecipes[currentIndex].equipment || [],
+                      const fullProject = {
+                        id: `${filteredProjects[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                        title: filteredProjects[currentIndex].name,
+                        image: filteredProjects[currentIndex].photo || '',
+                        ingredients: filteredProjects[currentIndex].ingredients || [],
+                        instructions: filteredProjects[currentIndex].instructions || '',
+                        equipment: filteredProjects[currentIndex].equipment || [],
                         tutorials: [
                           {
-                            title: `Equipment: Using the right tools for ${filteredRecipes[currentIndex].name}`,
-                            desc: `Learn how to use the main equipment needed for this dish.`
+                            title: `Equipment: Setting up tools for ${filteredProjects[currentIndex].name}`,
+                            desc: `Learn how to use the main equipment needed for this project.`
                           },
                           {
-                            title: `Protein Prep: Preparing the main ingredient`,
-                            desc: `How to prep the primary material and tools for this project.`
+                            title: `Material Prep: Preparing the base materials`,
+                            desc: `How to prep the primary materials and tools for this project.`
                           },
                           {
-                            title: `Recipe: ${filteredRecipes[currentIndex].name}`,
-                            desc: filteredRecipes[currentIndex].instructions || ''
+                            title: `Procedure: ${filteredProjects[currentIndex].name}`,
+                            desc: filteredProjects[currentIndex].instructions || ''
                           }
                         ]
                       };
-                      setSelectedRecipe(fullRecipe);
-                      navigate('/culinary-school');
+                      setSelectedProject(fullProject);
+                      navigate('/welding/welding-school');
                     }}
                     className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
-                    Cook This
+                    Run This
                   </button>
                   <button
                     onClick={() => {
-                      setRecipeToShare(filteredRecipes[currentIndex]);
+                      setProjectToShare(filteredProjects[currentIndex]);
                       setShowShareModal(true);
                     }}
                     className="bg-maineBlue text-seafoam px-4 py-2 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
@@ -901,14 +903,14 @@ const MySpecBook = () => {
         {t('mySpecBook.scrollToSeeMore')}
       </div>
       
-      {/* Chef of the Day Quote - simplified text only */}
+      {/* Quote of the Day - simplified text only */}
       <div className="mt-6 text-center">
         {(() => {
-          const quoteOfDay = getChefQuoteOfTheDay();
+          const quoteOfDay = getQuoteOfTheDay();
           return (
             <>
               <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
-              <div className="text-gray-600">— {quoteOfDay.chef}</div>
+              <div className="text-gray-600">— {quoteOfDay.pioneer}</div>
             </>
           );
         })()}
@@ -942,7 +944,7 @@ const MySpecBook = () => {
                         <span className="text-sm">{collection.name}</span>
                       </div>
                       <span className="text-xs text-gray-500 bg-seafoam px-2 py-1 rounded-full">
-                        {collection.recipes.length}
+                        {collection.projects.length}
                       </span>
                     </div>
                   ))}
@@ -961,24 +963,24 @@ const MySpecBook = () => {
                     <p className="text-sm text-gray-600 mb-3">{t('mySpecBook.selectRecipesToAdd')}</p>
                     
                     <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                      {recipes.map((recipe) => (
-                        <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
+                      {projects.map((project: Project) => (
+                        <div key={project.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
                           <div className="flex items-center">
                             <input
                               type="checkbox"
-                              id={`recipe-${recipe.id}`}
-                              checked={selectedRecipes.includes(recipe.id)}
-                              onChange={() => handleRecipeSelect(recipe.id)}
+                              id={`project-${project.id}`}
+                              checked={selectedProjectIds.includes(project.id)}
+                              onChange={() => handleProjectSelect(project.id)}
                               className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
                             />
-                            <label htmlFor={`recipe-${recipe.id}`} className="text-sm cursor-pointer">
-                              {recipe.name}
+                            <label htmlFor={`project-${project.id}`} className="text-sm cursor-pointer">
+                              {project.name}
                             </label>
                           </div>
                           <div className="flex gap-1">
-                            {recipe.healthTags && recipe.healthTags.length > 0 && (
+                            {project.healthTags && project.healthTags.length > 0 && (
                               <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                                🥗
+                                🏅
                               </span>
                             )}
                           </div>
@@ -991,7 +993,7 @@ const MySpecBook = () => {
                       onClick={() => setShowCreateCollectionModal(true)}
                       className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
                     >
-                      {t('mySpecBook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
+                      {t('mySpecBook.createCollectionSelected', { count: selectedProjectIds.length }).replace('{count}', selectedProjectIds.length.toString())}
                     </button>
 
                     {/* View Gradebook Button */}
@@ -1235,9 +1237,9 @@ const MySpecBook = () => {
                   </div>
                   </div>
 
-                  {/* Right Page - Assignment Recipe Card */}
+                  {/* Right Page - Assignment Project Card */}
                   <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 flex flex-col">
-                    {/* Assignment Recipe Card (matching CulinarySchool layout) */}
+                    {/* Assignment Project Card */}
                     <div className="flex flex-col bg-white w-full h-full overflow-hidden rounded-lg border-4 border-maineBlue">
                       {/* Assignment Image */}
                       <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b-2 border-amber-300 flex-shrink-0">

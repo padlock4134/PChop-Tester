@@ -1,7 +1,7 @@
 // Anthropic (Haiku) API integration for Weekly Challenge
 // Requires VITE_ANTHROPIC_CHALLENGE_KEY in .env
 
-export async function getWeeklyChallengeRecipe(prompt: string): Promise<{ title: string; ingredients: string[]; instructions: string; equipment?: string[]; }> {
+export async function getWeeklyChallengeProject(prompt: string): Promise<{ title: string; ingredients: string[]; instructions: string; equipment?: string[]; }> {
   // System prompt to instruct the AI to return JSON
   const systemPrompt = "You are an AI assistant. Given a user's request for a weekly challenge in this trade discipline, provide the challenge details as a single JSON object. The JSON object should have the following fields: 'title' (string), 'ingredients' (array of strings that represent required materials/tools/components), 'instructions' (string), and optionally 'equipment' (array of strings). Do not include any other text, explanations, or markdown formatting (like ```json) outside of this JSON object. Ensure the JSON is valid.";
   const userPromptContent = prompt; // User's actual query
@@ -23,7 +23,7 @@ export async function getWeeklyChallengeRecipe(prompt: string): Promise<{ title:
 
   if (!response.ok) {
     const errorText = await response.text();
-    console.error('Anthropic API error in getWeeklyChallengeRecipe:', errorText);
+    console.error('Anthropic API error in getWeeklyChallengeProject:', errorText);
     throw new Error(`Anthropic API error (${response.status}): ${errorText}`);
   }
 
@@ -32,20 +32,20 @@ export async function getWeeklyChallengeRecipe(prompt: string): Promise<{ title:
   try {
     // Anthropic Messages API returns content in data.content[0].text
     if (data.content && data.content[0] && data.content[0].text) {
-      const recipeJsonString = data.content[0].text;
-      const recipeData = JSON.parse(recipeJsonString);
+      const projectJsonString = data.content[0].text;
+      const projectData = JSON.parse(projectJsonString);
       return {
-        title: recipeData.title || 'Weekly Challenge Task (parsed)',
-        ingredients: recipeData.ingredients || [],
-        instructions: recipeData.instructions || '',
-        equipment: recipeData.equipment || [],
+        title: projectData.title || 'Weekly Challenge Task (parsed)',
+        ingredients: projectData.ingredients || [],
+        instructions: projectData.instructions || '',
+        equipment: projectData.equipment || [],
       };
     } else {
-      console.warn('Unexpected Anthropic response structure in getWeeklyChallengeRecipe:', data);
+      console.warn('Unexpected Anthropic response structure in getWeeklyChallengeProject:', data);
       throw new Error('Unexpected response structure from AI.');
     }
   } catch (e: unknown) {
-    console.error('Failed to parse JSON challenge from Anthropic response in getWeeklyChallengeRecipe:', e, data.content?.[0]?.text);
+    console.error('Failed to parse JSON challenge from Anthropic response in getWeeklyChallengeProject:', e, data.content?.[0]?.text);
     throw new Error(`Failed to parse challenge from AI: ${e instanceof Error ? e.message : String(e)}`);
   }
 }

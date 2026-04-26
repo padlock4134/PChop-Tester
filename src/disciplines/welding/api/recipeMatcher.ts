@@ -25,8 +25,8 @@ const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 
-const RECIPE_PROMPTS = {
-  new_to_cooking: (numRecipes: number, ingredients: string[]) => 
+const PROJECT_PROMPTS = {
+  new_to_welding: (numRecipes: number, ingredients: string[]) => 
     `You are a patient welding instructor. Create ${numRecipes} simple beginner welding projects using available materials from: ${ingredients.join(", ")}. 
     RULES:
     1. Use only 2-3 required materials per project
@@ -36,7 +36,7 @@ const RECIPE_PROMPTS = {
     5. Include necessary welding tools/equipment for each project
     6. Add relevant skill tags from: Safety, AWS Compliance, Weld Quality, Joint Prep, Heat Control, Inspection`,
 
-  home_cook: (numRecipes: number, ingredients: string[]) => 
+  hobbyist_welder: (numRecipes: number, ingredients: string[]) => 
     `You are a helpful welding coach. Create ${numRecipes} intermediate welding projects for someone comfortable with fundamentals using materials from: ${ingredients.join(", ")}.
     RULES:
     1. Use 3-4 required materials per project
@@ -46,7 +46,7 @@ const RECIPE_PROMPTS = {
     5. Include necessary welding tools/equipment for each project
     6. Add relevant skill tags from: Safety, AWS Compliance, Weld Quality, Joint Prep, Heat Control, Inspection`,
 
-  kitchen_confident: (numRecipes: number, ingredients: string[]) => 
+  shop_confident: (numRecipes: number, ingredients: string[]) => 
     `You are an expert welding mentor. Create ${numRecipes} advanced welding projects for an experienced welder using materials from: ${ingredients.join(", ")}.
     RULES:
     1. Use 4+ required materials per project
@@ -63,7 +63,7 @@ async function getUserProfile(userId: string) {
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('dietary, cuisine, kitchen_setup')
+    .select('certifications, processes, shop_setup')
     .eq('id', userId)
     .single();
 
@@ -73,20 +73,20 @@ async function getUserProfile(userId: string) {
   }
 
   return data as {
-    dietary: string[];
-    cuisine: string[];
-    kitchen_setup?: string;
+    certifications: string[];
+    processes: string[];
+    shop_setup?: string;
   };
 }
 
-// Helper function for fuzzy matching ingredients
-function fuzzyMatch(ingredient1: string, ingredient2: string): boolean {
+// Helper function for fuzzy matching materials
+function fuzzyMatch(material1: string, material2: string): boolean {
   const normalize = (str: string) => str.toLowerCase().trim()
     .replace(/[^\w\s]/g, '') // Remove special characters
     .replace(/\s+/g, ' ');    // Normalize whitespace
     
-  const norm1 = normalize(ingredient1);
-  const norm2 = normalize(ingredient2);
+  const norm1 = normalize(material1);
+  const norm2 = normalize(material2);
   
   // Check for direct inclusion or common variations
   return norm1.includes(norm2) || 
@@ -96,9 +96,9 @@ function fuzzyMatch(ingredient1: string, ingredient2: string): boolean {
 }
 
 // Score a project based on user's inventory, shop setup, and talent tree
-function scoreRecipe(
-  recipe: RecipeCard, 
-  cupboard: string[],
+function scoreProject(
+  project: RecipeCard, 
+  materials: string[],
   shopSetup?: string,
   talentTree?: string | null,
   talentsEnabled: boolean = false
@@ -106,16 +106,16 @@ function scoreRecipe(
   let score = 0;
   
   // 1. Score based on matching materials (higher weight)
-  const matchingIngredients = recipe.ingredients.filter(recipeIng => 
-    cupboard.some(cupboardIng => fuzzyMatch(recipeIng, cupboardIng))
+  const matchingMaterials = project.ingredients.filter(projMat => 
+    materials.some(benchMat => fuzzyMatch(projMat, benchMat))
   ).length;
   
-  score += matchingIngredients * 2;
+  score += matchingMaterials * 2;
   
   // 2. Penalize based on missing equipment
   if (shopSetup && shopSetup in SHOP_EQUIPMENT) {
     const availableEquipment = SHOP_EQUIPMENT[shopSetup as ShopSetup];
-    const requiredEquipment = recipe.equipment || [];
+    const requiredEquipment = project.equipment || [];
     
     const missingEquipment = requiredEquipment.filter(eq => {
       if (availableEquipment[0] === 'all equipment') return false;
@@ -131,7 +131,7 @@ function scoreRecipe(
   // 3. Bonus for matching talent tree equipment (if talents are enabled and a tree is selected)
   if (talentsEnabled && talentTree && talentTree in TALENT_TREE_EQUIPMENT) {
     const preferredEquipment = TALENT_TREE_EQUIPMENT[talentTree as keyof typeof TALENT_TREE_EQUIPMENT];
-    const hasPreferredEquipment = (recipe.equipment || []).some(eq => 
+    const hasPreferredEquipment = (project.equipment || []).some(eq => 
       preferredEquipment.some(pref => eq.toLowerCase().includes(pref))
     );
     
@@ -146,11 +146,11 @@ function scoreRecipe(
 
 import { RecipeCard } from '../components/PartMatcherModal';
 
-export interface RecipeMatchOptions {
+export interface ProjectMatchOptions {
   userId: string;
-  ingredients: string[];
-  numRecipes?: number;
-  kitchenSetup?: string;
+  materials: string[];
+  numProjects?: number;
+  shopSetup?: string;
   talentsEnabled?: boolean;
   talentTree?: string | null;
 }
@@ -172,27 +172,27 @@ function getHealthTags(ingredients: string[]): string[] {
   return tags;
 }
 
-export async function fetchRecipesWithImages({
+export async function fetchProjectsWithImages({
   userId,
-  ingredients,
-  numRecipes = 5,
-  kitchenSetup: userKitchenSetup,
+  materials,
+  numProjects = 5,
+  shopSetup: userShopSetup,
   talentsEnabled = false,
   talentTree = null
-}: RecipeMatchOptions): Promise<RecipeCard[]> {
+}: ProjectMatchOptions): Promise<RecipeCard[]> {
   // 1. Get user preferences and profile
   const [{ experienceLevel }, profile] = await Promise.all([
     getUserPreferences(userId),
     getUserProfile(userId)
   ]);
 
-  const promptTemplate = RECIPE_PROMPTS[experienceLevel] || RECIPE_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
+  const promptTemplate = PROJECT_PROMPTS[experienceLevel] || PROJECT_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
   
   // 2. Build the Anthropic prompt with enhanced instructions
-  const basePrompt = promptTemplate(numRecipes, ingredients);
+  const basePrompt = promptTemplate(numProjects, materials);
   
   // Get shop setup from profile
-  const shopSetup = profile?.kitchen_setup || '';
+  const shopSetup = profile?.shop_setup || '';
   
   // Add talent tree equipment preference to prompt
   let talentTreePrompt = '';
@@ -203,7 +203,7 @@ export async function fetchRecipesWithImages({
 
   const prompt = `${basePrompt}
 
-${userKitchenSetup ? `Shop setup: ${userKitchenSetup}` : ''}
+${userShopSetup ? `Shop setup: ${userShopSetup}` : ''}
 ${talentTreePrompt}
 
 Return the projects as a JSON array with the following structure for each project:
@@ -237,10 +237,10 @@ Return ONLY the JSON array, no other text.`;
   const anthropicData = await anthropicRes.json();
   if (!anthropicRes.ok) {
     console.error('Anthropic API error:', anthropicData);
-    return generateFallbackRecipes(userId, ingredients, numRecipes);
+    return generateFallbackProjects(userId, materials, numProjects);
   }
 
-  let recipes;
+  let projects;
   try {
     const content = anthropicData.content[0].text;
     
@@ -262,40 +262,40 @@ Return ONLY the JSON array, no other text.`;
     
     console.log('Cleaned JSON text length:', jsonText.length);
     
-    recipes = JSON.parse(jsonText);
+    projects = JSON.parse(jsonText);
     
-    if (!Array.isArray(recipes)) throw new Error('Response not an array');
+    if (!Array.isArray(projects)) throw new Error('Response not an array');
   } catch (err: unknown) {
-    console.error('Failed to parse recipes:', err);
+    console.error('Failed to parse projects:', err);
     console.log('Raw content:', anthropicData.content[0].text);
     console.log('Error at position:', err instanceof Error ? err.message : String(err));
-    return generateFallbackRecipes(userId, ingredients, numRecipes);
+    return generateFallbackProjects(userId, materials, numProjects);
   }
 
   // 4. Score and sort projects based on user's inventory, shop setup, and talent tree
-  const scoredRecipes = recipes
-    .map(recipe => ({
-      ...recipe,
-      score: scoreRecipe(
+  const scoredProjects = projects
+    .map((proj: any) => ({
+      ...proj,
+      score: scoreProject(
         {
-          ...recipe,
-          ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
-          equipment: Array.isArray(recipe.equipment) ? recipe.equipment : []
+          ...proj,
+          ingredients: Array.isArray(proj.ingredients) ? proj.ingredients : [],
+          equipment: Array.isArray(proj.equipment) ? proj.equipment : []
         },
-        ingredients,
+        materials,
         shopSetup,
         talentTree,
         talentsEnabled
       )
     }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, numRecipes);
+    .sort((a: any, b: any) => b.score - a.score)
+    .slice(0, numProjects);
 
-  // 5. Fetch images for top recipes
-  const imagePromises = scoredRecipes.map(async (recipe) => {
+  // 5. Fetch images for top projects
+  const imagePromises = scoredProjects.map(async (proj: any) => {
     try {
       const res = await fetch(
-        `${UNSPLASH_API_URL}?query=${encodeURIComponent(recipe.title)}&client_id=${unsplashKey}`
+        `${UNSPLASH_API_URL}?query=${encodeURIComponent(proj.title)}&client_id=${unsplashKey}`
       );
       const data = await res.json();
       return data.results?.[0]?.urls?.small || '';
@@ -308,36 +308,36 @@ Return ONLY the JSON array, no other text.`;
   const images = await Promise.all(imagePromises);
 
   // 6. Add skill tags based on project keywords
-  const recipesWithTags = scoredRecipes.map(recipe => {
-    const healthTags = getHealthTags(Array.isArray(recipe.ingredients) ? recipe.ingredients : []);
+  const projectsWithTags = scoredProjects.map((proj: any) => {
+    const healthTags = getHealthTags(Array.isArray(proj.ingredients) ? proj.ingredients : []);
     return {
-      ...recipe,
+      ...proj,
       healthTags
     };
   });
 
   // 7. Return scored project cards with images
-  return recipesWithTags.map((recipe, i) => ({
+  return projectsWithTags.map((proj: any, i: number) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
-    title: recipe.title,
+    title: proj.title,
     image: images[i],
-    ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
-    instructions: Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '',
-    equipment: Array.isArray(recipe.equipment) ? recipe.equipment : [],
-    healthTags: recipe.healthTags
+    ingredients: Array.isArray(proj.ingredients) ? proj.ingredients : [],
+    instructions: Array.isArray(proj.instructions) ? proj.instructions.join('\n') : '',
+    equipment: Array.isArray(proj.equipment) ? proj.equipment : [],
+    healthTags: proj.healthTags
   }));
 }
 
-export async function generateFallbackRecipes(userId: string, ingredients: string[], count: number): Promise<any[]> {
+export async function generateFallbackProjects(userId: string, materials: string[], count: number): Promise<any[]> {
   const { experienceLevel } = await getUserPreferences(userId);
-  const promptTemplate = RECIPE_PROMPTS[experienceLevel] || RECIPE_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
+  const promptTemplate = PROJECT_PROMPTS[experienceLevel] || PROJECT_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
   
-  const prompt = `${promptTemplate(count, ingredients)}
+  const prompt = `${promptTemplate(count, materials)}
 
 Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
 {
   "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2", ...],
+  "ingredients": ["material 1", "material 2", ...],
   "instructions": ["step 1", "step 2", ...],
   "equipment": ["equipment 1", "equipment 2", ...],
   "healthTags": ["tag 1", "tag 2"]
@@ -373,7 +373,7 @@ Return ONLY the JSON array, no other text.`;
   const anthropicData = await anthropicRes.json();
   
   // Try to extract JSON from Claude's response
-  let recipes: any[] = [];
+  let parsedProjects: any[] = [];
   try {
     if (!anthropicData.content?.[0]?.text) {
       console.error('Invalid Anthropic response format:', anthropicData);
@@ -385,34 +385,34 @@ Return ONLY the JSON array, no other text.`;
     // More robust JSON extraction
     const match = responseText.match(/\[\s*\{[\s\S]*\}\s*\]/);
     if (match) {
-      recipes = JSON.parse(match[0]);
-      console.log('Parsed recipes:', recipes);
+      parsedProjects = JSON.parse(match[0]);
+      console.log('Parsed projects:', parsedProjects);
     } else {
       console.error('No JSON array found in response:', responseText);
-      throw new Error('No recipe data found in API response');
+      throw new Error('No project data found in API response');
     }
   } catch (error) {
-    console.error('Error parsing recipe data:', error);
-    throw new Error('Failed to parse recipe data from API response');
+    console.error('Error parsing project data:', error);
+    throw new Error('Failed to parse project data from API response');
   }
 
-  // Validate recipe format
-  recipes = Array.isArray(recipes) ? recipes : [];
-  const validRecipes = recipes.filter(r => {
+  // Validate project format
+  parsedProjects = Array.isArray(parsedProjects) ? parsedProjects : [];
+  const validProjects = parsedProjects.filter(r => {
     const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions);
     if (!isValid) {
-      console.warn('Invalid recipe format:', r);
+      console.warn('Invalid project format:', r);
     }
     return isValid;
   });
 
-  if (validRecipes.length === 0) {
-    console.error('No valid recipes found in response');
-    throw new Error('No valid recipes found in API response');
+  if (validProjects.length === 0) {
+    console.error('No valid projects found in response');
+    throw new Error('No valid projects found in API response');
   }
 
-  // 3. For each recipe, call Unsplash in parallel
-  const imagePromises = validRecipes.map(async (r) => {
+  // 3. For each project, call Unsplash in parallel
+  const imagePromises = validProjects.map(async (r) => {
     const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'welding');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
@@ -420,8 +420,8 @@ Return ONLY the JSON array, no other text.`;
   });
   const images = await Promise.all(imagePromises);
 
-  // 4. Return RecipeCards
-  return validRecipes.slice(0, count).map((r, i) => ({
+  // 4. Return ProjectCards
+  return validProjects.slice(0, count).map((r, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,
     title: r.title,
     image: images[i],

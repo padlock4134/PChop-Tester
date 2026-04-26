@@ -1,10 +1,10 @@
 // Shared types for the project
-export type Ingredient = {
+export type Material = {
   name: string;
   category: string;
 };
 
-export interface RecipeCard {
+export interface ProjectCard {
   equipment?: string[];
   name: string;
   category: string;

@@ -6,7 +6,7 @@ import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon
 const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'culinary';
+  const disciplineFromPath = location.pathname.split('/').filter(Boolean)[0] || 'welding';
   const discipline = disciplineFromPath === 'welding' ? 'machining' : disciplineFromPath;
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
@@ -76,8 +76,8 @@ const StudentProgressDashboard: React.FC = () => {
       timeSpent: "18.5 hours"
     },
     skills: {
-      recipesAttempted: 8,
-      recipesCompleted: 6,
+      projectsAttempted: 8,
+      projectsCompleted: 6,
       currentLevel: "Intermediate",
       nextMilestone: "Advanced Weld Inspection"
     },
@@ -85,7 +85,7 @@ const StudentProgressDashboard: React.FC = () => {
       appUsage: "5 days this week",
       liveSessionsAttended: 3,
       communityPosts: 7,
-      recipesSaved: 15
+      projectsSaved: 15
     },
     insights: {
       strongestArea: "Weld Bead Consistency",
@@ -165,7 +165,7 @@ const StudentProgressDashboard: React.FC = () => {
 
   const getPostBorderColor = (type: string) => {
     switch (type) {
-      case 'recipe': return 'border-blue-400';
+      case 'project': return 'border-blue-400';
       case 'ingredient': return 'border-green-400';
       case 'live': return 'border-red-400';
       default: return 'border-gray-400';
@@ -174,7 +174,7 @@ const StudentProgressDashboard: React.FC = () => {
 
   const getPostIcon = (type: string) => {
     switch (type) {
-      case 'recipe': return '📝';
+      case 'project': return '📝';
       case 'ingredient': return '🛒';
       case 'live': return '🔴';
       default: return '💭';
@@ -451,7 +451,7 @@ const StudentProgressDashboard: React.FC = () => {
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.recipesCompleted')}</h3>
-                <p className="text-gray-700">{progressData.skills.recipesCompleted} {t('dashboard.outOf')} {progressData.skills.recipesAttempted} {t('dashboard.attempted')}</p>
+                <p className="text-gray-700">{progressData.skills.projectsCompleted} {t('dashboard.outOf')} {progressData.skills.projectsAttempted} {t('dashboard.attempted')}</p>
               </div>
               <div className="border-4 border-green-400 rounded-lg p-4">
                 <h3 className="font-bold text-green-800 mb-2">{t('dashboard.nextMilestone')}</h3>
@@ -531,7 +531,7 @@ const StudentProgressDashboard: React.FC = () => {
                   </button>
                 </div>
                 <p className="text-center text-black mt-2 sm:mt-3 text-xs sm:text-sm">
-                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.culture} Cuisine
+                  Hosted by {currentLiveSession.hostName} • {currentLiveSession.focusArea}
                 </p>
               </div>
 

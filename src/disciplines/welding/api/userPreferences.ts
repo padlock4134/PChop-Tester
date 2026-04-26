@@ -7,15 +7,15 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
   if (!sessionValid || !userId) {
     return { 
       experienceLevel: DEFAULT_EXPERIENCE_LEVEL,
-      dietary: [],
-      cuisine: [],
-      kitchenSetup: 'Apartment Kitchen'
+      certifications: [],
+      processes: [],
+      shopSetup: 'Garage Shop'
     };
   }
 
   const { data, error } = await supabase
     .from('profiles')
-    .select('cooking_experience, dietary, cuisine, kitchen_setup, level, selected_talent_tree')
+    .select('welding_experience, certifications, processes, shop_setup, level, selected_talent_tree')
     .eq('id', userId)
     .single();
 
@@ -23,17 +23,17 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
     console.warn('Failed to fetch user preferences:', error);
     return { 
       experienceLevel: DEFAULT_EXPERIENCE_LEVEL,
-      dietary: [],
-      cuisine: [],
-      kitchenSetup: 'Apartment Kitchen'
+      certifications: [],
+      processes: [],
+      shopSetup: 'Garage Shop'
     };
   }
 
   return {
-    experienceLevel: (data.cooking_experience as ExperienceLevel) || DEFAULT_EXPERIENCE_LEVEL,
-    dietary: data.dietary || [],
-    cuisine: data.cuisine || [],
-    kitchenSetup: data.kitchen_setup || 'Apartment Kitchen',
+    experienceLevel: (data.welding_experience as ExperienceLevel) || DEFAULT_EXPERIENCE_LEVEL,
+    certifications: data.certifications || [],
+    processes: data.processes || [],
+    shopSetup: data.shop_setup || 'Garage Shop',
     talentTree: (data.level >= 10 && data.selected_talent_tree) ? data.selected_talent_tree : null,
     level: data.level || 1
   };
@@ -49,7 +49,7 @@ export async function updateExperienceLevel(userId: string, level: ExperienceLev
   const { error } = await supabase
     .from('profiles')
     .update({
-      cooking_experience: level,
+      welding_experience: level,
       updated_at: new Date().toISOString()
     })
     .eq('id', userId);

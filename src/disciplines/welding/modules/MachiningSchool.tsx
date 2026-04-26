@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/BenchFreddieContext';
 import VideoModal from '../components/VideoModal';
-import { useRecipeContext } from '../components/PartContext';
+import { useProjectContext } from '../components/PartContext';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 // mainSelectors not used - welding helpers defined locally
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
@@ -111,8 +111,8 @@ function getCurrentWeekTechnique() {
   return WEEKLY_TECHNIQUES[techniqueIndex];
 }
 
-function getTwoTutorials(recipe: any) {
-  if (!recipe) return [];
+function getTwoTutorials(project: any) {
+  if (!project) return [];
   
   const weeklyTechnique = getCurrentWeekTechnique();
   
@@ -125,7 +125,7 @@ function getTwoTutorials(recipe: any) {
     },
     {
       title: `Let\'s Weld This Joint!`,
-      desc: `Step-by-step welding walkthrough for ${recipe.title}.`,
+      desc: `Step-by-step welding walkthrough for ${project.title}.`,
       type: 'welding_tutorial'
     }
   ];
@@ -135,8 +135,8 @@ function getTwoTutorials(recipe: any) {
 const WeldingSchool = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
-  const { selectedRecipe } = useRecipeContext();
-  console.log('Welding School - Full Job Ticket:', selectedRecipe);
+  const { selectedProject } = useProjectContext();
+  console.log('Welding School - Full Job Ticket:', selectedProject);
   const [modalIdx, setModalIdx] = useState<null | number>(null);
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
@@ -199,8 +199,8 @@ const WeldingSchool = () => {
   }, [updateContext]);
 
 
-  const isRecipeSelected = !!selectedRecipe;
-  const tutorials = isRecipeSelected ? getTwoTutorials(selectedRecipe) : getDefaultTutorials();
+  const isProjectSelected = !!selectedProject;
+  const tutorials = isProjectSelected ? getTwoTutorials(selectedProject) : getDefaultTutorials();
   const [videoUrls, setVideoUrls] = useState<(string | null)[]>([null, null]);
 
   // Helper: extract primary base metal from materials list
@@ -226,7 +226,7 @@ const WeldingSchool = () => {
   }
 
   // Helper to call Jake the Welder backend for a smart search query
-  async function getVideoQueryFromJake(recipe: any, tut: any, idx: any) {
+  async function getVideoQueryFromJake(project: any, tut: any, idx: any) {
     let query = '';
     
     // Handle different tutorial types
@@ -235,19 +235,19 @@ const WeldingSchool = () => {
       query = `how to ${tut.techniqueData.title.toLowerCase()} trade technique`;
     } else if (tut.type === 'welding_tutorial') {
       // For weld tutorials, focus on the project
-      const mainMaterial = getMainMaterial(recipe.ingredients || []);
-      const mainProcess = getMainProcess(recipe.equipment || []);
+      const mainMaterial = getMainMaterial(project.ingredients || []);
+      const mainProcess = getMainProcess(project.equipment || []);
       if (mainMaterial && mainProcess) {
         query = `How to weld ${mainMaterial} using ${mainProcess}`;
       } else if (mainMaterial) {
         query = `How to weld ${mainMaterial}`;
       } else {
-        query = `how to complete ${recipe.title} welding`;
+        query = `how to complete ${project.title} welding`;
       }
     } else {
       // Legacy fallback for older tutorial formats
-      if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
-        return recipe.title;
+      if (typeof idx === 'number' && idx === 2 && project && project.title) {
+        return project.title;
       }
       
       // Use Jake the Welder for complex queries
@@ -255,10 +255,10 @@ const WeldingSchool = () => {
         Given the following project and tutorial step, generate a concise YouTube search query for a relevant trade training video.\n
         - Only use the equipment and ingredients listed.\n
         - Do NOT include unrelated tools or techniques.\n
-        - The query should be specific to the step and recipe.\n
-        Recipe: ${recipe.title}\n
-        Ingredients: ${recipe.ingredients?.join(', ')}\n
-        Equipment: ${recipe.equipment?.join(', ') || 'N/A'}\n
+        - The query should be specific to the step and project.\n
+        Project: ${project.title}\n
+        Materials: ${project.ingredients?.join(', ')}\n
+        Equipment: ${project.equipment?.join(', ') || 'N/A'}\n
         Step Title: ${tut.title}\n
         Step Description: ${tut.desc}\n
         Query:
@@ -270,9 +270,9 @@ const WeldingSchool = () => {
           body: JSON.stringify({ prompt })
         });
         const data = await res.json();
-        query = data.query || tut.title + ' ' + (recipe.title || '');
+        query = data.query || tut.title + ' ' + (project.title || '');
       } catch {
-        query = tut.title + ' ' + (recipe.title || '');
+        query = tut.title + ' ' + (project.title || '');
       }
     }
     
@@ -285,14 +285,14 @@ const WeldingSchool = () => {
       // Now using API key rotation system for better quota management
       console.log('[WeldingSchool] Fetching videos with API key rotation');
       console.log('[WeldingSchool] Tutorials to fetch:', tutorials);
-      console.log('[WeldingSchool] Selected job ticket:', selectedRecipe);
+      console.log('[WeldingSchool] Selected job ticket:', selectedProject);
 
       const newUrls: (string | null)[] = [null, null];
       await Promise.all(tutorials.map(async (tut, idx) => {
         try {
           // Use the improved video query generation that handles different tutorial types
           const query = await getVideoQueryFromJake(
-            selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
+            selectedProject || { title: '', ingredients: [], equipment: [] }, 
             tut, 
             idx
           );
@@ -316,7 +316,7 @@ const WeldingSchool = () => {
     fetchVideos();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isRecipeSelected, selectedRecipe?.id]);
+  }, [isProjectSelected, selectedProject?.id]);
 
   return (
     <div className="max-w-6xl mx-auto mt-8">
@@ -366,11 +366,11 @@ const WeldingSchool = () => {
             onClose={() => setModalIdx(null)}
             title={tut.title}
             videoUrl={videoUrls[idx] || ''}
-            tutorialId={`${selectedRecipe?.id || 'general'}_${idx}`}
-            recipeId={selectedRecipe?.id}
+            tutorialId={`${selectedProject?.id || 'general'}_${idx}`}
+            projectId={selectedProject?.id}
           />
         ))}
-        {isRecipeSelected && selectedRecipe ? (
+        {isProjectSelected && selectedProject ? (
           <div className="mb-6 mt-8">
             {/* Tutorials Section */}
             <ol className="space-y-4">
@@ -390,27 +390,27 @@ const WeldingSchool = () => {
               <button
                 onClick={() => window.location.reload()}
                 className="absolute top-2 right-2 p-1 hover:bg-red-100 rounded-full transition-colors z-10"
-                title={t('machiningSchool.closeRecipe')}
+                title={t('machiningSchool.closeProject')}
               >
                 <span className="text-red-500 font-bold text-lg">✕</span>
               </button>
               {/* Left Page */}
               <div className="flex-1 p-6 bg-weatheredWhite border-r border-gray-200 flex flex-col">
-                {selectedRecipe.image && (
+                {selectedProject.image && (
                   <img
-                    src={selectedRecipe.image}
-                    alt={selectedRecipe.title}
+                    src={selectedProject.image}
+                    alt={selectedProject.title}
                     className="rounded-lg w-full h-32 object-cover mb-4"
                     style={{ objectFit: 'cover' }}
                   />
                 )}
-                <h3 className="font-bold text-xl mb-1 text-maineBlue">{selectedRecipe.title}</h3>
+                <h3 className="font-bold text-xl mb-1 text-maineBlue">{selectedProject.title}</h3>
                 {/* No description on RecipeCard, but add if needed: */}
                 {/* <div className="text-gray-600 mb-2 text-base">{selectedRecipe.description}</div> */}
                 <div className="font-semibold mb-1 mt-2">{t('machiningSchool.ingredients')}</div>
                 <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                  {selectedRecipe.ingredients?.length ? (
-                    selectedRecipe.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
+                  {selectedProject.ingredients?.length ? (
+                    selectedProject.ingredients.map((ing: string, i: number) => <li key={i}>{ing}</li>)
                   ) : (
                     <li className="italic text-gray-400">{t('machiningSchool.noIngredientsListed')}</li>
                   )}
@@ -420,22 +420,22 @@ const WeldingSchool = () => {
               <div className="flex-1 p-6 bg-white flex flex-col">
                 <h3 className="font-bold text-xl mb-2 text-maineBlue">{t('machiningSchool.instructions')}</h3>
                 <div className="text-gray-700 whitespace-pre-line text-[15px] leading-7 flex-1">
-                  {selectedRecipe.instructions || (
+                  {selectedProject.instructions || (
                     <span className="italic text-gray-400">{t('machiningSchool.noInstructionsProvided')}</span>
                   )}
                 </div>
                 {/* Equipment Section */}
-                {selectedRecipe.equipment && selectedRecipe.equipment.length > 0 && (
+                {selectedProject.equipment && selectedProject.equipment.length > 0 && (
                   <>
                     <div className="font-semibold mt-4 mb-1">{t('machiningSchool.equipmentNeeded')}</div>
                     <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
-                      {selectedRecipe.equipment.map((eq: string, i: number) => (
+                      {selectedProject.equipment.map((eq: string, i: number) => (
                         <li key={i}>{eq}</li>
                       ))}
                     </ul>
                   </>
                 )}
-                {(!selectedRecipe.equipment || selectedRecipe.equipment.length === 0) && (
+                {(!selectedProject.equipment || selectedProject.equipment.length === 0) && (
                   <div className="italic text-gray-400 mt-2">{t('machiningSchool.noEquipmentListed')}</div>
                 )}
               </div>

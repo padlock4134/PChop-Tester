@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 // @ts-ignore
-import chefFreddiePng from '../images/logo.png';
+import jakeWelderPng from '../images/logo.png';
 import { useFreddieContext } from './BenchFreddieContext';
-import { askChefFreddie } from '../api/chefFreddie';
+import { askChefFreddie as askJakeTheWelder } from '../api/chefFreddie';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
 interface Message {
@@ -41,7 +41,7 @@ const BenchFreddieWidget = () => {
     setMessages(msgs => [...msgs, { sender: 'user', text }]);
     setInput('');
     try {
-      const reply = await askChefFreddie(user?.id!, text);
+      const reply = await askJakeTheWelder(user?.id!, text);
       setMessages(msgs => [...msgs, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
       setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || t('benchFreddie.errorContacting') }]);
@@ -113,7 +113,7 @@ const BenchFreddieWidget = () => {
         aria-label="Open Jake the Welder AI Assistant"
       >
         <img
-          src={chefFreddiePng}
+          src={jakeWelderPng}
           alt="Jake the Welder"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />

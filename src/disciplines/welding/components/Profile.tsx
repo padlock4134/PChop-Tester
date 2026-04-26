@@ -16,8 +16,8 @@ type UserProfile = {
   avatar: string | null;
   experience: string;
   dietary: string[];
-  cuisine: string[];
-  kitchenSetup: string;
+  specialization: string[];
+  workspaceSetup: string;
   xp: number;
 };
 
@@ -66,9 +66,9 @@ const EditProfileModal = ({
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: user?.name || '',
-    cuisinePreference: user?.cuisine?.[0] || 'Aerospace',
+    specializationPreference: user?.specialization?.[0] || 'Aerospace',
     dietPreference: user?.dietary?.[0] || 'None',
-    kitchenSetup: user?.kitchenSetup || 'Fabrication Shop',
+    workspaceSetup: user?.workspaceSetup || 'Fabrication Shop',
     experienceLevel: user?.experience || 'Beginner',
     program: (user as any)?.program || ''
   });
@@ -82,9 +82,9 @@ const EditProfileModal = ({
         .from('profiles')
         .update({
           name: formData.name,
-          cuisine: [formData.cuisinePreference],
+          cuisine: [formData.specializationPreference],
           dietary: [formData.dietPreference],
-          kitchen_setup: formData.kitchenSetup,
+          kitchen_setup: formData.workspaceSetup,
           cooking_experience: [EXPERIENCE_LEVEL_MAPPING[formData.experienceLevel as keyof typeof EXPERIENCE_LEVEL_MAPPING]],
           program: formData.program
         })
@@ -100,9 +100,9 @@ const EditProfileModal = ({
       const updatedUser = {
         ...user,
         name: formData.name,
-        cuisine_preference: formData.cuisinePreference,
+        specialization_preference: formData.specializationPreference,
         diet_preference: formData.dietPreference,
-        kitchen_setup: formData.kitchenSetup,
+        workspace_setup: formData.workspaceSetup,
         experience: formData.experienceLevel
       };
 
@@ -170,8 +170,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisinePreference}
-              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
+              value={formData.specializationPreference}
+              onChange={(e) => setFormData({...formData, specializationPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="Aerospace">✈️ {t('profile.manufacturingFocusOptions.aerospace', { defaultValue: 'Aerospace' })}</option>
@@ -205,8 +205,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.workspaceLabel', { defaultValue: 'Workspace Setup' })}</label>
             <select
-              value={formData.kitchenSetup}
-              onChange={(e) => setFormData({...formData, kitchenSetup: e.target.value})}
+              value={formData.workspaceSetup}
+              onChange={(e) => setFormData({...formData, workspaceSetup: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="Student Booth">🎓 {t('profile.workspaceOptions.studentBooth', { defaultValue: 'Student Booth' })}</option>
@@ -609,7 +609,7 @@ const Profile = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [kitchenSetup, setKitchenSetup] = useState<string>('Fabrication Shop');
+  const [workspaceSetup, setWorkspaceSetup] = useState<string>('Fabrication Shop');
   const [termsContent, setTermsContent] = useState<string>('Loading terms and conditions...');
   const [termsModalOpen, setTermsModalOpen] = useState(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -1332,13 +1332,13 @@ Automated calculations and formulas would be present`;
           xp,
           // Map backend cooking_experience to UI display value
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Fabrication Shop',
+          workspaceSetup: profile.kitchen_setup || 'Fabrication Shop',
           dietary: profile.dietary || [],
-          cuisine: profile.cuisine || []
+          specialization: profile.cuisine || []
         });
 
-        // Also update the local kitchenSetup state
-        setKitchenSetup(profile.kitchen_setup || 'Fabrication Shop');
+        // Also update the local workspaceSetup state
+        setWorkspaceSetup(profile.kitchen_setup || 'Fabrication Shop');
 
         // Load selected talents from database (optional - field might not exist yet)
         if (profile.selected_talents && Array.isArray(profile.selected_talents)) {
@@ -1405,8 +1405,8 @@ Automated calculations and formulas would be present`;
   }, [userProfile]);
 
   useEffect(() => {
-    if (userProfile && userProfile.kitchenSetup) {
-      setKitchenSetup(userProfile.kitchenSetup);
+    if (userProfile && userProfile.workspaceSetup) {
+      setWorkspaceSetup(userProfile.workspaceSetup);
     }
   }, [userProfile]);
 
@@ -1558,9 +1558,9 @@ Automated calculations and formulas would be present`;
           name: profile.name || 'User',
           xp,
           experience: EXPERIENCE_LEVEL_DISPLAY[profile.cooking_experience as keyof typeof EXPERIENCE_LEVEL_DISPLAY] || 'Beginner',
-          kitchenSetup: profile.kitchen_setup || 'Fabrication Shop',
+          workspaceSetup: profile.kitchen_setup || 'Fabrication Shop',
           dietary: profile.dietary || [],
-          cuisine: profile.cuisine || []
+          specialization: profile.cuisine || []
         });
 
         // Use corrected level calculation
