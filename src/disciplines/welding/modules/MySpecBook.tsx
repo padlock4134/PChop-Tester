@@ -79,44 +79,44 @@ const MySpecBook = () => {
     {
       id: 1,
       week: "Week 3",
-      title: "Blueprint Interpretation & Setup Basics",
-      emoji: "🧲",
+      title: "SMAW Pad Beads & Joint Fit-Up",
+      emoji: "🔥",
       dueDate: "Oct 15, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Blueprint tolerance interpretation", "Workholding setup", "Tool offset entry", "Safe chuck key handling"],
-      submission: ["Setup demo (3-5 min)", "Setup photos", "Machining reflection", "Upload to specbook"],
-      objectives: ["Machine safety protocols", "Dimensional consistency", "Cycle efficiency", "Tool crib preparation"],
+      techniques: ["Electrode angle control", "Arc length consistency", "Joint fit-up & gap setting", "Slag removal technique"],
+      submission: ["Welding demo (3-5 min)", "Bead photos", "Welding reflection", "Upload to specbook"],
+      objectives: ["Welding safety protocols", "Bead consistency", "Proper PPE usage", "Workstation preparation"],
       studentName: "Sarah Chen",
-      videoTitle: "Setup Basics Demo"
+      videoTitle: "SMAW Pad Beads Demo"
     },
     {
       id: 2,
       week: "Week 5",
-      title: "Turning Operations & Surface Finish",
-      emoji: "⚙️",
+      title: "MIG Fillet Welds & Parameter Setup",
+      emoji: "⚡",
       dueDate: "Oct 29, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Facing and turning passes", "Feed/speed optimization", "Surface finish measurement", "Tool wear tracking"],
-      submission: ["Video demonstration", "Part photos", "Machine parameter logs", "Setup notes"],
-      objectives: ["Heat management", "Process stability", "Chip load balance", "Traveler-ready documentation"],
+      techniques: ["Wire feed speed adjustment", "Voltage & travel speed optimization", "Fillet weld sizing", "Gas flow rate setting"],
+      submission: ["Video demonstration", "Weld photos", "Parameter logs", "Setup notes"],
+      objectives: ["Heat input management", "Weld penetration control", "Shielding gas coverage", "AWS code compliance"],
       studentName: "Sarah Chen",
-      videoTitle: "Turning Operations Demo"
+      videoTitle: "MIG Fillet Welds Demo"
     },
     {
       id: 3,
       week: "Week 7",
-      title: "CNC Program Verification & First Article",
-      emoji: "🧪",
+      title: "TIG Root Pass & Visual Inspection",
+      emoji: "🔧",
       dueDate: "Nov 12, 2024",
       points: 100,
       weight: "15%",
-      techniques: ["Program verification checks", "Metrology standards", "Machine interlock checks", "First article verification"],
-      submission: ["Verification video", "Temperature readings", "First article report", "Nonconformance review"],
-      objectives: ["Machine shop safety", "GD&T standards", "Tolerance control plan", "Cycle refinement"],
+      techniques: ["Tungsten preparation & selection", "Root pass technique", "Filler rod feeding rhythm", "Visual weld inspection"],
+      submission: ["Root pass video", "Weld cross-section photos", "Inspection report", "Defect analysis notes"],
+      objectives: ["TIG torch safety", "AWS D1.1 standards", "Weld quality acceptance criteria", "Distortion control"],
       studentName: "Sarah Chen",
-      videoTitle: "First Article Demo"
+      videoTitle: "TIG Root Pass Demo"
     }
   ];
 
@@ -125,26 +125,26 @@ const MySpecBook = () => {
     {
       id: 1,
       name: "Sarah Chen",
-      email: "sarah.chen@machininglab.edu",
-      submittedVideos: {1: "setup-basics-demo", 2: "turning-operations-demo"}
+      email: "sarah.chen@weldinglab.edu",
+      submittedVideos: {1: "smaw-pad-beads-demo", 2: "mig-fillet-welds-demo"}
     },
     {
       id: 2,
       name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@machininglab.edu", 
-      submittedVideos: {1: "setup-basics-demo", 3: "first-article-demo"}
+      email: "marcus.rodriguez@weldinglab.edu", 
+      submittedVideos: {1: "smaw-pad-beads-demo", 3: "tig-root-pass-demo"}
     },
     {
       id: 3,
       name: "Emma Thompson",
-      email: "emma.thompson@machininglab.edu",
-      submittedVideos: {2: "turning-operations-demo"}
+      email: "emma.thompson@weldinglab.edu",
+      submittedVideos: {2: "mig-fillet-welds-demo"}
     },
     {
       id: 4,
       name: "David Kim",
-      email: "david.kim@machininglab.edu",
-      submittedVideos: {1: "setup-basics-demo", 2: "turning-operations-demo", 3: "first-article-demo"}
+      email: "david.kim@weldinglab.edu",
+      submittedVideos: {1: "smaw-pad-beads-demo", 2: "mig-fillet-welds-demo", 3: "tig-root-pass-demo"}
     }
   ];
 
@@ -1212,24 +1212,24 @@ const MySpecBook = () => {
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 28, 2024 - 2:15 PM</div>
                           <div className="text-gray-600">
-                            "Great improvement on tool setup and indicator use. Your initial dimensions were much more consistent than last week. 
-                            Focus on recording offsets immediately after each touch-off. Overall excellent progress."
+                            "Great improvement on electrode angle and arc length control. Your bead consistency was much better than last week. 
+                            Focus on maintaining travel speed through the full joint. Overall excellent progress."
                           </div>
                         </div>
                         
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 21, 2024 - 1:45 PM</div>
                           <div className="text-gray-600">
-                            "Good spindle and pinch-point awareness throughout the demo. Work on verifying spindle stop more consistently 
-                            before gauging parts. Your tool prep organization was excellent."
+                            "Good arc flash awareness and PPE compliance throughout the demo. Work on maintaining shielding gas coverage more consistently 
+                            at the end of each pass. Your workstation prep and material staging was excellent."
                           </div>
                         </div>
 
                         <div className="border-b border-gray-200 pb-2">
                           <div className="font-medium text-gray-700 mb-1">Oct 14, 2024 - 3:20 PM</div>
                           <div className="text-gray-600">
-                            "First setup assessment - showing natural talent! Remember to indicate the vise jaw before 
-                            running the first part for better repeatability. Practice the setup-cut-measure flow we discussed."
+                            "First weld assessment - showing natural talent! Remember to check your joint fit-up gap before 
+                            striking the arc for better root penetration. Practice the tack-weld-inspect flow we discussed."
                           </div>
                         </div>
                       </div>
@@ -1305,10 +1305,10 @@ const MySpecBook = () => {
                               disabled={!!(students[currentStudentIndex].submittedVideos as any)[assignments[currentAssignmentPage].id]}
                             >
                               <option value="">{t('mySpecBook.selectVideo')}</option>
-                              <option value="setup-basics-demo">Setup Basics Demo.mp4</option>
-                              <option value="turning-operations-demo">Turning Operations Demo.mp4</option>
-                              <option value="first-article-demo">Protein Cookery.mp4</option>
-                              <option value="plating-final">First Article Review.mp4</option>
+                              <option value="smaw-pad-beads-demo">SMAW Pad Beads Demo.mp4</option>
+                              <option value="mig-fillet-welds-demo">MIG Fillet Welds Demo.mp4</option>
+                              <option value="tig-root-pass-demo">TIG Root Pass Demo.mp4</option>
+                              <option value="weld-inspection-final">Weld Inspection Final.mp4</option>
                             </select>
                           </div>
                           <div className="bg-gray-900 rounded-lg overflow-hidden border border-amber-300 relative flex-1 min-h-[150px]">
@@ -1428,10 +1428,10 @@ const MySpecBook = () => {
               <div className="text-4xl mb-4">📹</div>
               <p className="text-gray-700 mb-2">Are you sure you want to submit:</p>
               <p className="font-bold text-maineBlue mb-4">
-                {selectedVideoOption === 'setup-basics-demo' && 'Setup Basics Demo.mp4'}
-                {selectedVideoOption === 'turning-operations-demo' && 'Turning Operations Demo.mp4'}
-                {selectedVideoOption === 'first-article-demo' && 'Protein Cookery.mp4'}
-                {selectedVideoOption === 'plating-final' && 'First Article Review.mp4'}
+                {selectedVideoOption === 'smaw-pad-beads-demo' && 'SMAW Pad Beads Demo.mp4'}
+                {selectedVideoOption === 'mig-fillet-welds-demo' && 'MIG Fillet Welds Demo.mp4'}
+                {selectedVideoOption === 'tig-root-pass-demo' && 'TIG Root Pass Demo.mp4'}
+                {selectedVideoOption === 'weld-inspection-final' && 'Weld Inspection Final.mp4'}
               </p>
               <p className="text-sm text-gray-600 mb-6">
                 For: {assignments[currentAssignmentPage].week} - {assignments[currentAssignmentPage].title}
@@ -1537,22 +1537,22 @@ const MySpecBook = () => {
                 <div className="space-y-4">
                   {(savedVideos.length > 0 ? savedVideos : [
                     {
-                      name: 'Setup Basics Practice Session.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Setup+Basics+Demo',
+                      name: 'SMAW Pad Beads Practice Session.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=SMAW+Pad+Beads+Demo',
                       created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true
                     },
                     {
-                      name: 'Setup Basics Assignment.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=Turning+Operations+Demo',
+                      name: 'MIG Fillet Welds Assignment.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=MIG+Fillet+Welds+Demo',
                       created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: false
                     },
                     {
-                      name: 'First Article Final.webm',
-                      url: 'https://placehold.co/640x360/1e293b/white?text=First+Article+Review',
+                      name: 'TIG Root Pass Final.webm',
+                      url: 'https://placehold.co/640x360/1e293b/white?text=TIG+Root+Pass+Demo',
                       created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
                       userId: user?.id || 'demo-user',
                       isPublic: true

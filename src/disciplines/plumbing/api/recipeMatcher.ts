@@ -349,9 +349,9 @@ Return ONLY the JSON array, no other text.`;
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      apiKeyIdentifier: 'fit',
+      apiKeyIdentifier: 'recipe',
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1500, // Increased to handle equipment field
+      max_tokens: 4096, // Generous token limit for full project JSONs
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
     }),
@@ -365,7 +365,10 @@ Return ONLY the JSON array, no other text.`;
 
   let fits;
   try {
-    const content = anthropicData.content[0].text;
+    let content = anthropicData.content[0].text;
+    
+    // Strip markdown code fences if present
+    content = content.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim();
     
     // Extract JSON array using regex in case there's additional text
     let jsonText = '';
@@ -495,7 +498,7 @@ Return ONLY the JSON array, no other text.`;
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      apiKeyIdentifier: 'fit',
+      apiKeyIdentifier: 'recipe',
       model: 'claude-sonnet-4-5-20250929',
       max_tokens: 4096,
       messages: [{ role: 'user', content: prompt }],

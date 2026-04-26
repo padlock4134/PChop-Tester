@@ -20,7 +20,7 @@ const StudentProgressDashboard: React.FC = () => {
       sessionTopic: 'Root Pass Control',
       culture: 'Japanese',
       viewers: 23,
-      thumbnail: '🍜'
+      thumbnail: '🔥'
     },
     {
       id: '3',
@@ -28,7 +28,7 @@ const StudentProgressDashboard: React.FC = () => {
       sessionTopic: 'MIG Weld Parameter Setup',
       culture: 'Lebanese',
       viewers: 35,
-      thumbnail: '🧆'
+      thumbnail: '⚡'
     },
     {
       id: '4',
@@ -36,7 +36,7 @@ const StudentProgressDashboard: React.FC = () => {
       sessionTopic: 'Vertical-Up Fillet Technique',
       culture: 'French',
       viewers: 62,
-      thumbnail: '🥐'
+      thumbnail: '🔧'
     },
     {
       id: '5',
@@ -44,7 +44,7 @@ const StudentProgressDashboard: React.FC = () => {
       sessionTopic: 'Weld Symbols Walkthrough',
       culture: 'Spanish',
       viewers: 28,
-      thumbnail: '🥘'
+      thumbnail: '🛡️'
     }
   ];
 
