@@ -163,7 +163,7 @@ const LastBadge = () => {
 };
 
 const navItems = [
-  { path: '/my-kitchen', label: 'My Bench' },
+  { path: '/my-kitchen', label: 'My Torch' },
   { path: '/culinary-school', label: 'Welding School' },
   { path: '/my-cookbook', label: 'My Spec Book' },
   { path: '/chefs-corner', label: 'Welders Corner' },

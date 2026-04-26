@@ -61,7 +61,7 @@ const PAGES = [
       <div className="toc-content">
         <ul className="toc-list">
           <li>Inspiration (Page 2)</li>
-          <li>My Bench (Page 3)</li>
+          <li>My Torch (Page 3)</li>
           <li>My Specbook (Page 4)</li>
           <li>Machining School (Page 5)</li>
           <li>Machinist Corner (Page 6)</li>
@@ -90,16 +90,16 @@ const PAGES = [
     ),
     pageNumber: 2
   },
-  // Page 3 - My Bench
+  // Page 3 - My Torch
   {
-    title: "My Bench",
+    title: "My Torch",
     content: (
       <>
         <p className="page-content-text">
           Your digital workbench tracker that manages your tooling and suggests the right setup for any machining job.
         </p>
         <div className="page-image-container page-3-image">
-          <img src="/my-kitchen-screenshot.png" alt="My Bench Screenshot" className="page-screenshot" /> {/* image filename kept for compat */}
+          <img src="/my-kitchen-screenshot.png" alt="My Torch Screenshot" className="page-screenshot" /> {/* image filename kept for compat */}
         </div>
       </>
     ),

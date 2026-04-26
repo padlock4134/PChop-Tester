@@ -215,7 +215,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
               ✕
             </button>
             <h3 className="font-retro text-lg mb-2">Your PorkChop Preview!</h3>
-            <p className="text-sm mb-2">This is our My Bench Module (1 of 5).</p>
+            <p className="text-sm mb-2">This is our My Torch Module (1 of 5).</p>
             <ul className="text-xs space-y-1 list-disc pl-4 text-left inline-block">
               <li><span className="font-semibold">Scan Bench</span> - Scans your materials, works in app!</li>
               <li>Click the <span className="font-semibold">Project Matcher</span> to find projects!</li>
@@ -236,7 +236,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
         </button>
         <div className="flex items-center justify-center mb-2">
           <span className="text-5xl mr-2">�</span>
-          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Bench</h1>
+          <h1 className="text-3xl font-retro text-maineBlue mb-0">My Torch</h1>
         </div>
 
         {/* Action Buttons */}
