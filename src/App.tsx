@@ -107,6 +107,18 @@ import { FreddieProvider } from './disciplines/culinary/components/FreddieContex
 import { RecipeProvider } from './disciplines/culinary/components/RecipeContext';
 import { RouteProvider } from './disciplines/logistics/components/RouteContext';
 import { FreddieProvider as LogisticsFreddieProvider } from './disciplines/logistics/components/DockFreddieContext';
+import { FreddieProvider as PlumbingFreddieProvider } from './disciplines/plumbing/components/PipeFreddieContext';
+import { RecipeProvider as PlumbingRecipeProvider } from './disciplines/plumbing/components/FitContext';
+import { FreddieProvider as AutomotiveFreddieProvider } from './disciplines/automotive/components/GarageFreddieContext';
+import { RecipeProvider as AutomotiveRecipeProvider } from './disciplines/automotive/components/RepairContext';
+import { FreddieProvider as ConstructionFreddieProvider } from './disciplines/construction/components/SiteFreddieContext';
+import { RecipeProvider as ConstructionRecipeProvider } from './disciplines/construction/components/TaskContext';
+import { FreddieProvider as ElectricalFreddieProvider } from './disciplines/electrical/components/SparkFreddieContext';
+import { RecipeProvider as ElectricalRecipeProvider } from './disciplines/electrical/components/CircuitContext';
+import { FreddieProvider as HvacFreddieProvider } from './disciplines/hvac/components/ShopFreddieContext';
+import { RecipeProvider as HvacRecipeProvider } from './disciplines/hvac/components/SystemContext';
+import { FreddieProvider as ManufacturingFreddieProvider } from './disciplines/manufacturing/components/FloorFreddieContext';
+import { RecipeProvider as ManufacturingRecipeProvider } from './disciplines/manufacturing/components/ProcessContext';
 import DisciplineSupabaseProvider, { useSupabase } from './components/DisciplineSupabaseProvider';
 import type { WristbandSessionMetadata } from './disciplines/culinary/types/session-types';
 import { setSupabaseJwt } from './disciplines/culinary/api/supabaseClient';
@@ -534,21 +546,45 @@ const App = () => {
         }}
       >
         <RecipeProvider>
-          <RouteProvider>
-            <FreddieProvider>
-              <LogisticsFreddieProvider>
-                <WeldingFreddieProvider>
-                  <WeldingRecipeProvider>
-                    <DisciplineProvider>
-                      <DisciplineSupabaseProvider>
-                        <AppRoutes />
-                      </DisciplineSupabaseProvider>
-                    </DisciplineProvider>
-                  </WeldingRecipeProvider>
-                </WeldingFreddieProvider>
-              </LogisticsFreddieProvider>
-            </FreddieProvider>
-          </RouteProvider>
+          <PlumbingRecipeProvider>
+            <AutomotiveRecipeProvider>
+              <ConstructionRecipeProvider>
+                <ElectricalRecipeProvider>
+                  <HvacRecipeProvider>
+                    <ManufacturingRecipeProvider>
+                      <WeldingRecipeProvider>
+                        <RouteProvider>
+                          <FreddieProvider>
+                            <PlumbingFreddieProvider>
+                              <AutomotiveFreddieProvider>
+                                <ConstructionFreddieProvider>
+                                  <ElectricalFreddieProvider>
+                                    <HvacFreddieProvider>
+                                      <ManufacturingFreddieProvider>
+                                        <LogisticsFreddieProvider>
+                                          <WeldingFreddieProvider>
+                                            <DisciplineProvider>
+                                              <DisciplineSupabaseProvider>
+                                                <AppRoutes />
+                                              </DisciplineSupabaseProvider>
+                                            </DisciplineProvider>
+                                          </WeldingFreddieProvider>
+                                        </LogisticsFreddieProvider>
+                                      </ManufacturingFreddieProvider>
+                                    </HvacFreddieProvider>
+                                  </ElectricalFreddieProvider>
+                                </ConstructionFreddieProvider>
+                              </AutomotiveFreddieProvider>
+                            </PlumbingFreddieProvider>
+                          </FreddieProvider>
+                        </RouteProvider>
+                      </WeldingRecipeProvider>
+                    </ManufacturingRecipeProvider>
+                  </HvacRecipeProvider>
+                </ElectricalRecipeProvider>
+              </ConstructionRecipeProvider>
+            </AutomotiveRecipeProvider>
+          </PlumbingRecipeProvider>
         </RecipeProvider>
       </WristbandAuthProvider>
     </AdminToggleProvider>
