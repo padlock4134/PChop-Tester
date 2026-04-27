@@ -8,7 +8,7 @@ import garageLogo from '../images/logo.png';
 
 import { useFreddieContext } from './GarageFreddieContext';
 
-import { askGus } from '../api/chefFreddie';
+import { askGus } from '../api/gusAI';
 
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
