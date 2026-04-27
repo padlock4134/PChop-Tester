@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 
 import { useSupabase } from './SupabaseProvider';
 
-import { fetchSpecBook } from '../modules/cookbookSupabase';
+import { fetchSpecBook } from '../modules/specbookSupabase';
 
 import { ProjectCard } from './PartMatcherModal';
 
