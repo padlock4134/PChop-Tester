@@ -45,6 +45,4 @@ const ProjectCardComponent: React.FC<Props> = ({ project }) => {
 
 export default ProjectCardComponent;
 
-// Backward-compatible alias
-export { ProjectCardComponent as RecipeCardComponent };
 

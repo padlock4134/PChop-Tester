@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-dom';
 import { useLevelProgressContext } from './NavBar';
 import WeeklyChallengeRepairModal from './WeeklyChallengeRepairModal';
 import type { RecipeCard } from './RepairMatcherModal';
-import { getWeeklyChallengeRecipe } from '../../culinary/api/anthropicChallenge';
-import { getRecipeImage } from '../../culinary/api/unsplash';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { getWeeklyChallengeRecipe } from '../api/anthropicChallenge';
+import { getRecipeImage } from '../api/unsplash';
+import { supabase } from '../api/supabaseClient';
+import { isSessionValid } from '../api/userSession';
+import { useSupabase } from './SupabaseProvider';
 
 // Pool of weekly challenges
 export const WEEKLY_CHALLENGES = [
@@ -352,7 +352,7 @@ const ChallengeOfTheWeek: React.FC = () => {
         const challenge = getCurrentWeeklyChallenge();
         const prompt = `${challenge.title}: ${challenge.description}`;
         const recipeData = await getWeeklyChallengeRecipe(prompt);
-        const image = await getRecipeImage(recipeData.title || challenge.title, recipeData.title || challenge.title, 'recipe');
+        const image = await getRecipeImage(recipeData.title || challenge.title, recipeData.title || challenge.title, 'procedure');
         const recipe: RecipeCard = {
           id: `weekly-${challenge.title.replace(/\s+/g, '-').toLowerCase()}`,
           title: recipeData.title || challenge.title,

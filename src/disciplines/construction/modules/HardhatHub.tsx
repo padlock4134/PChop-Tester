@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useFreddieContext } from '../components/SiteFreddieContext';
 import { fetchCookbook } from './cookbookSupabase';
 import BlueprintImportModal from '../components/BlueprintImportModal';
 import LocalYardsModal from '../components/LocalYardsModal';
 import BuildPlanModal from '../components/BuildPlanModal';
-import { useRecipeContext } from '../../culinary/components/RecipeContext'; // shared context
+import { useRecipeContext } from '../components/TaskContext';
 import { RecipeCard } from '../components/TaskMatcherModal';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import GlobalTestSite from '../components/GlobalTestSite';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
-import { KeyNutrients } from '../../culinary/types/nutrition'; // shared type
+import { KeyNutrients } from '../types/nutrition';
 
 const HardhatHub = () => {
   const { t } = useTranslation();

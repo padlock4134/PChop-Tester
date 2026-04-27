@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
+import { groupMaterialsBySupplierType, getEstimatedPrice } from '../utils/materialMapping';
 
 // TypeScript declarations for Google Maps API (will be available at runtime)
 declare global {
@@ -23,7 +23,7 @@ interface Market {
 interface LocalMarketsModalProps {
   open: boolean;
   onClose: () => void;
-  selectedRecipes?: any[]; // Optional: projects from Build Part feature (prop name kept for caller compat)
+  selectedProjects?: any[];
 }
 
 interface MarketCardProps {
@@ -298,7 +298,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ category, title, icon, desc
   );
 };
 
-const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, selectedRecipes: selectedProjects }) => {
+const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, selectedProjects }) => {
   const { t } = useTranslation();
   const [markets, setMarkets] = useState<Market[]>([]);
   const [loading, setLoading] = useState(false);
@@ -324,7 +324,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
       return allIngredients.find(original => original.toLowerCase() === ing) || ing;
     });
     
-    return groupIngredientsByMarketType(uniqueIngredients);
+    return groupMaterialsBySupplierType(uniqueIngredients);
   }, [selectedProjects]);
 
   const marketCategories = [

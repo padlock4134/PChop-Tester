@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from './FitContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import mentorFreddiePng from '../images/logo.png';
@@ -47,7 +47,7 @@ type Props = {
   error: string;
 };
 
-const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLike, saveRecipeToPipeBook, fits, loading, error }) => {
+const FitMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLike, saveRecipeToPipeBook, fits, loading, error }) => {
   const { t } = useTranslation();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
@@ -233,4 +233,4 @@ function generateTutorials(fit: RecipeCard) {
   );
 };
 
-export default RecipeMatcherModal;
+export default FitMatcherModal;

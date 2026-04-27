@@ -1,20 +1,20 @@
-import { supabase } from '../../culinary/api/supabaseClient';
-import { isSessionValid } from '../../culinary/api/userSession';
-import type { RecipeCard } from '../components/FitMatcherModal';
+import { supabase } from '../api/supabaseClient';
+import { isSessionValid } from '../api/userSession';
+import type { ProjectCard } from '../components/PartMatcherModal';
 
-export async function savePipeBook(userId: string, fits: RecipeCard[]) {
+export async function saveSpecBook(userId: string, projects: ProjectCard[]) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   const { error } = await supabase
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId,
-      recipes: fits // Stored as JSONB in Supabase
+      recipes: projects // Stored as JSONB in Supabase
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }
 
-export async function fetchPipeBook(userId: string): Promise<RecipeCard[]> {
+export async function fetchSpecBook(userId: string): Promise<ProjectCard[]> {
   if (!userId) return [];
 
   const sessionValid = await isSessionValid();
@@ -26,14 +26,14 @@ export async function fetchPipeBook(userId: string): Promise<RecipeCard[]> {
     .eq('user_id', userId)
     .single();
   if (error && error.code !== 'PGRST116') throw error; // PGRST116: no rows
-  return (data?.recipes || []) as RecipeCard[];
+  return (data?.recipes || []) as ProjectCard[];
 }
 
-export async function addRecipeToPipeBook(userId: string, fit: RecipeCard) {
+export async function addProjectToSpecBook(userId: string, project: ProjectCard) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   
-  // First get existing fits
+  // First get existing projects
   const { data, error: fetchError } = await supabase
     .from('user_cookbook')
     .select('recipes')
@@ -42,20 +42,20 @@ export async function addRecipeToPipeBook(userId: string, fit: RecipeCard) {
     
   if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
   
-  // Add new fit if not already present
-  const existingRecipes = (data?.recipes || []) as RecipeCard[];
-  if (!existingRecipes.some(r => r.id === fit.id)) {
+  // Add new project if not already present
+  const existingProjects = (data?.recipes || []) as ProjectCard[];
+  if (!existingProjects.some(r => r.id === project.id)) {
     const { error } = await supabase
       .from('user_cookbook')
       .upsert([{ 
         user_id: userId, 
-        recipes: [...existingRecipes, fit] // Stored as JSONB in Supabase
+        recipes: [...existingProjects, project] // Stored as JSONB in Supabase
       }], { onConflict: 'user_id' });
     if (error) throw error;
   }
 }
 
-export async function removeRecipeFromPipeBook(userId: string, recipeId: string) {
+export async function removeProjectFromSpecBook(userId: string, projectId: string) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   
@@ -67,14 +67,15 @@ export async function removeRecipeFromPipeBook(userId: string, recipeId: string)
     
   if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
   
-  const existingRecipes = (data?.recipes || []) as RecipeCard[];
-  const updatedRecipes = existingRecipes.filter(r => r.id !== recipeId);
+  const existingProjects = (data?.recipes || []) as ProjectCard[];
+  const updatedProjects = existingProjects.filter(r => r.id !== projectId);
   
   const { error } = await supabase
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId, 
-      recipes: updatedRecipes
+      recipes: updatedProjects
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }
+

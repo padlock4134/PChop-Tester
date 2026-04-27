@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 // @ts-ignore
 import mentorFreddiePng from '../images/logo.png';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askMentorFreddie } from '../api/chefFreddie';
+import { useFreddieContext } from './PipeFreddieContext';
+import { askMentorFreddie } from '../api/peteAI';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
 interface Message {

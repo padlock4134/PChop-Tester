@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { scanImage } from '../api/vision';
 import CircuitMatcherModal, { RecipeCard } from '../components/CircuitMatcherModal';
-import { useFreddieContext } from '../../culinary/components/FreddieContext'; // shared context
+import { useFreddieContext } from '../components/SparkFreddieContext';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 import { supabase } from '../api/supabaseClient';

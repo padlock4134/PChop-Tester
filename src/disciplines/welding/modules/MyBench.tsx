@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { saveBench, fetchBench } from './kitchenSupabase';
-import { fetchSpecBook, addProjectToSpecBook } from './cookbookSupabase';
+import { saveBench, fetchBench } from './benchSupabase';
+import { fetchSpecBook, addProjectToSpecBook } from './specbookSupabase';
 import { Material } from '../types/shared-types';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
@@ -65,7 +65,7 @@ const MyTorch = () => {
     'Other': '⚙️',
   };
 
-  const [detectedIngredients, setDetectedIngredients] = useState<string[]>([]);
+  const [detectedMaterials, setDetectedMaterials] = useState<string[]>([]);
 
   // Project Matcher modal state
   const [matcherOpen, setMatcherOpen] = useState(false);
@@ -82,7 +82,7 @@ const MyTorch = () => {
   const [category, setCategory] = useState(CATEGORIES[0]);
   const [filterText, setFilterText] = useState('');
 
-  const addIngredient = () => {
+  const addMaterial = () => {
     if (input.trim()) {
       setIngredients(prev => [...prev, { name: input.trim(), category }]);
       setInput('');
@@ -166,7 +166,7 @@ const MyTorch = () => {
   return (
     <>
       <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
-        {/* My Kitchen header - moved back inside the module */}
+        {/* My Bench header */}
         <div className="flex items-center justify-center p-6 pb-4">
           <span className="text-5xl mr-2">🔥</span>
           <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('myBench.title')}</h1>
@@ -179,7 +179,7 @@ const MyTorch = () => {
         
         {/* Scrollable Content */}
         <div className="overflow-y-auto p-6 pt-4">
-      {/* Kitchen, Recipe Matcher, and Upload Photo Action Buttons */}
+      {/* Bench, Project Matcher, and Upload Photo Action Buttons */}
       <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
         {/* Scan status feedback */}
         {scanStatus && (
@@ -191,7 +191,7 @@ const MyTorch = () => {
         <input
           type="file"
           accept="image/*"
-          id="scan-kitchen-file"
+          id="scan-bench-file"
           style={{ display: 'none' }}
           onChange={async (e) => {
             const file = e.target.files?.[0];
@@ -207,7 +207,7 @@ const MyTorch = () => {
                   const detectedItems = await scanImage(base64);
                   console.log('Detected items:', detectedItems);
                   
-                  const newIngredients = Array.from(new Set(detectedItems))
+                  const newMaterials = Array.from(new Set(detectedItems))
                     .filter(d => {
                       const normalizedDetected = d.toLowerCase().trim();
                       return !ingredients.some(i => 
@@ -217,8 +217,8 @@ const MyTorch = () => {
                       );
                     });
                   
-                  console.log('New ingredients to add:', newIngredients);
-                  if (newIngredients.length === 0) {
+                  console.log('New materials to add:', newMaterials);
+                  if (newMaterials.length === 0) {
                     setScanStatus(t('myBench.noNewIngredients'));
                     alert(t('myBench.noNewIngredients'));
                   } else {
@@ -239,13 +239,13 @@ const MyTorch = () => {
                       setScanLoading(false);
                       return;
                     }
-                    const updatedIngredients = [
+                    const updatedMaterials = [
                       ...ingredients,
-                      ...newIngredients.map(name => ({ name, category: categorizeMaterial(name) }))
+                      ...newMaterials.map(name => ({ name, category: categorizeMaterial(name) }))
                     ];
-                    setIngredients(updatedIngredients);
+                    setIngredients(updatedMaterials);
                     try {
-                      await saveBench(user?.id!, updatedIngredients);
+                      await saveBench(user?.id!, updatedMaterials);
                       setBenchError(null);
                       setScanStatus(t('myBench.ingredientsSaved'));
                       alert(t('myBench.ingredientsSaved'));
@@ -255,7 +255,7 @@ const MyTorch = () => {
                       alert(t('myBench.failedToSave') + ' ' + (err.message || err.toString()));
                     }
                   }
-                  setDetectedIngredients([]);
+                  setDetectedMaterials([]);
                 } catch (err: any) {
                   setScanError(err.message || t('myBench.failedToScan'));
                   alert(t('myBench.failedToScan') + ': ' + (err.message || err.toString()));
@@ -271,7 +271,7 @@ const MyTorch = () => {
         />
         <button
           className="bg-lobsterRed text-weatheredWhite px-4 py-2 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black w-full sm:w-auto max-w-xs"
-          onClick={() => document.getElementById('scan-kitchen-file')?.click()}
+          onClick={() => document.getElementById('scan-bench-file')?.click()}
           disabled={scanLoading}
         >
           {scanLoading ? t('myBench.scanning') : t('myBench.scanKitchen')}
@@ -284,7 +284,7 @@ const MyTorch = () => {
             setMatcherError('');
             try {
               const materialNames = ingredients.map(i => i.name);
-              const { fetchProjectsWithImages } = await import('../api/recipeMatcher');
+              const { fetchProjectsWithImages } = await import('../api/projectMatcher');
               const projects = await fetchProjectsWithImages({
                 userId: user?.id!,
                 materials: materialNames,
@@ -324,20 +324,20 @@ const MyTorch = () => {
         </div>
       )}
 
-      {/* Recipe Matcher Modal (always mounted for overlay) */}
+      {/* Project Matcher Modal (always mounted for overlay) */}
       <PartMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
-        cupboardIngredients={ingredients.map(i => i.name)}
+        benchMaterials={ingredients.map(i => i.name)}
         onLike={handleLikeProject}
-        saveRecipeToCookbook={handleSaveProjectToSpecBook}
-        recipes={matcherProjects}
+        saveProjectToSpecBook={handleSaveProjectToSpecBook}
+        projects={matcherProjects}
         loading={matcherLoading}
         error={matcherError}
       />
 
 
-      {/* Digital Cupboard Section */}
+      {/* Material Rack Section */}
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-lg font-retro text-maineBlue flex items-center gap-2">
           <span role="img" aria-label="gear">⚙️</span> {t('myBench.digitalCupboard')}
@@ -351,9 +351,9 @@ const MyTorch = () => {
           </button>
         )}
       </div>
-      {/* Add Ingredient Bar */}
+      {/* Add Material Bar */}
       <div className="flex flex-col sm:flex-row gap-2 mb-4 w-full">
-        {/* Search cupboard input */}
+        {/* Search materials input */}
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
@@ -362,7 +362,7 @@ const MyTorch = () => {
           onChange={e => setFilterText(e.target.value)}
           style={{ minWidth: 120 }}
         />
-        {/* Add ingredient input */}
+        {/* Add material input */}
         <input
           type="text"
           className="border px-3 py-2 rounded w-full sm:w-1/3"
@@ -381,7 +381,7 @@ const MyTorch = () => {
         </select>
         <button
           className="bg-seafoam text-maineBlue px-4 py-2 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
-          onClick={addIngredient}
+          onClick={addMaterial}
         >
           {t('myBench.add')}
         </button>

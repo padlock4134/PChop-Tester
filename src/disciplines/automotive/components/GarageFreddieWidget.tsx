@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import garageLogo from '../images/logo.png';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { askGus } from '../api/chefFreddie';
+import { useFreddieContext } from './GarageFreddieContext';
+import { askGus } from '../api/gusAI';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
 interface Message {

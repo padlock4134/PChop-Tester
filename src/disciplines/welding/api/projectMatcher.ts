@@ -97,7 +97,7 @@ function fuzzyMatch(material1: string, material2: string): boolean {
 
 // Score a project based on user's inventory, shop setup, and talent tree
 function scoreProject(
-  project: RecipeCard, 
+  project: ProjectCard, 
   materials: string[],
   shopSetup?: string,
   talentTree?: string | null,
@@ -144,7 +144,7 @@ function scoreProject(
   return score;
 }
 
-import { RecipeCard } from '../components/PartMatcherModal';
+import { ProjectCard } from '../components/PartMatcherModal';
 
 export interface ProjectMatchOptions {
   userId: string;
@@ -179,7 +179,7 @@ export async function fetchProjectsWithImages({
   shopSetup: userShopSetup,
   talentsEnabled = false,
   talentTree = null
-}: ProjectMatchOptions): Promise<RecipeCard[]> {
+}: ProjectMatchOptions): Promise<ProjectCard[]> {
   // 1. Get user preferences and profile
   const [{ experienceLevel }, profile] = await Promise.all([
     getUserPreferences(userId),

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useFreddieContext } from '../components/PipeFreddieContext';
+import { useRecipeContext } from '../components/FitContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchPipeBook, removeRecipeFromPipeBook } from './cookbookSupabase';
-import { supabase } from '../../culinary/api/supabaseClient';
+import { fetchPipeBook, removeRecipeFromPipeBook } from './pipebookSupabase';
+import { supabase } from '../api/supabaseClient';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
 import { useSupabase } from '../components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { isSessionValid } from '../api/userSession';
 
 type PlumberQuote = {
   professional: string;

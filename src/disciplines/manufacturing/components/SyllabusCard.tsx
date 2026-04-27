@@ -5,7 +5,7 @@ import { CheckCircleIcon as CheckCircleSolidIcon } from '@heroicons/react/24/sol
 
 export interface SyllabusLesson {
   id: string;
-  title: "Manufacturing Academy",
+  title: string;
   completed: boolean;
   current: boolean;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from './TaskContext';
 
 interface CookBookImportModalProps {
   open: boolean;

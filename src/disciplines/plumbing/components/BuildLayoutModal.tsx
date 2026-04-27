@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
+import { useSupabase } from './SupabaseProvider';
+import { fetchPipeBook } from '../modules/pipebookSupabase';
 import { RecipeCard } from './FitMatcherModal';
 import jsPDF from 'jspdf';
-import { groupMaterialsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
+import { groupMaterialsByMarketType, getEstimatedPrice } from '../utils/materialMapping';
 
 interface BuildMenuModalProps {
   open: boolean;

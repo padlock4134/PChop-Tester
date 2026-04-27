@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { saveVan, fetchVan } from './kitchenSupabase';
-import { fetchPipeBook, addRecipeToPipeBook } from './cookbookSupabase';
-import { Ingredient } from '../../culinary/types/shared-types';
+import { saveVan, fetchVan } from './vanSupabase';
+import { fetchPipeBook, addRecipeToPipeBook } from './pipebookSupabase';
+import { Material } from '../types/shared-types';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
 import { useTranslation } from 'react-i18next';
 
-import { scanImage } from '../../culinary/api/vision';
-import RecipeMatcherModal, { RecipeCard } from '../components/FitMatcherModal';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { scanImage } from '../api/vision';
+import FitMatcherModal, { RecipeCard } from '../components/FitMatcherModal';
+import { useFreddieContext } from '../components/PipeFreddieContext';
 import { useSupabase } from '../components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
-import { supabase } from '../../culinary/api/supabaseClient';
+import { isSessionValid } from '../api/userSession';
+import { supabase } from '../api/supabaseClient';
 import FitCard from '../components/FitCard';
 
 const CATEGORIES = [
@@ -292,7 +292,7 @@ const MyVan = () => {
             setMatcherError('');
             try {
               const vanPartsNames = materials.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
+              const { fetchRecipesWithImages } = await import('../api/fitMatcher');
               const fits = await fetchRecipesWithImages({
                 userId: user?.id!,
                 materials: vanPartsNames,
@@ -333,7 +333,7 @@ const MyVan = () => {
       )}
 
       {/* Fit Matcher Modal (always mounted for overlay) */}
-      <RecipeMatcherModal
+      <FitMatcherModal
         open={matcherOpen}
         onClose={() => setMatcherOpen(false)}
         vanMaterials={materials.map(i => i.name)}

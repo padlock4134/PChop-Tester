@@ -1,15 +1,15 @@
 // Material to supplier type mapping and pricing estimates
 // Used for Build Package feature to show which materials to source from which suppliers
 
-export interface IngredientPrice {
-  ingredient: string;
+export interface MaterialPrice {
+  material: string;
   estimatedPrice: number;
   unit: string;
   marketType: string;
 }
 
 // Map material keywords to supplier types
-export const ingredientToMarketType: Record<string, string> = {
+export const materialToSupplierType: Record<string, string> = {
   // Base Metals → Metal Supplier
   'mild steel': 'metal_supplier',
   'carbon steel': 'metal_supplier',
@@ -123,7 +123,7 @@ export const ingredientToMarketType: Record<string, string> = {
 };
 
 // Basic price estimates (in USD)
-export const ingredientPriceEstimates: Record<string, { price: number; unit: string }> = {
+export const materialPriceEstimates: Record<string, { price: number; unit: string }> = {
   // Base Metals
   'mild steel': { price: 2, unit: 'lb' },
   'carbon steel': { price: 2.50, unit: 'lb' },
@@ -212,16 +212,16 @@ export const ingredientPriceEstimates: Record<string, { price: number; unit: str
 /**
  * Determine which supplier type a material should be sourced from
  */
-export function getMarketTypeForIngredient(ingredient: string): string {
-  const lowerItem = ingredient.toLowerCase();
+export function getSupplierTypeForMaterial(material: string): string {
+  const lowerItem = material.toLowerCase();
 
   // Check for exact matches first
-  if (ingredientToMarketType[lowerItem]) {
-    return ingredientToMarketType[lowerItem];
+  if (materialToSupplierType[lowerItem]) {
+    return materialToSupplierType[lowerItem];
   }
 
   // Check for partial matches
-  for (const [key, supplierType] of Object.entries(ingredientToMarketType)) {
+  for (const [key, supplierType] of Object.entries(materialToSupplierType)) {
     if (lowerItem.includes(key)) {
       return supplierType;
     }
@@ -234,16 +234,16 @@ export function getMarketTypeForIngredient(ingredient: string): string {
 /**
  * Get estimated price for a material or consumable
  */
-export function getEstimatedPrice(ingredient: string): { price: number; unit: string } | null {
-  const lowerItem = ingredient.toLowerCase();
+export function getEstimatedPrice(material: string): { price: number; unit: string } | null {
+  const lowerItem = material.toLowerCase();
 
   // Check for exact matches first
-  if (ingredientPriceEstimates[lowerItem]) {
-    return ingredientPriceEstimates[lowerItem];
+  if (materialPriceEstimates[lowerItem]) {
+    return materialPriceEstimates[lowerItem];
   }
 
   // Check for partial matches
-  for (const [key, priceInfo] of Object.entries(ingredientPriceEstimates)) {
+  for (const [key, priceInfo] of Object.entries(materialPriceEstimates)) {
     if (lowerItem.includes(key)) {
       return priceInfo;
     }
@@ -255,11 +255,11 @@ export function getEstimatedPrice(ingredient: string): { price: number; unit: st
 /**
  * Group materials by supplier type
  */
-export function groupIngredientsByMarketType(ingredients: string[]): Record<string, string[]> {
+export function groupMaterialsBySupplierType(materials: string[]): Record<string, string[]> {
   const grouped: Record<string, string[]> = {};
 
-  for (const item of ingredients) {
-    const supplierType = getMarketTypeForIngredient(item);
+  for (const item of materials) {
+    const supplierType = getSupplierTypeForMaterial(item);
     if (!grouped[supplierType]) {
       grouped[supplierType] = [];
     }

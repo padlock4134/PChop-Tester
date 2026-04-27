@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 // @ts-ignore
 import jakeWelderPng from '../images/logo.png';
 import { useFreddieContext } from './BenchFreddieContext';
-import { askChefFreddie as askJakeTheWelder } from '../api/chefFreddie';
+import { askJake } from '../api/jakeAI';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 
 interface Message {
@@ -41,7 +41,7 @@ const BenchFreddieWidget = () => {
     setMessages(msgs => [...msgs, { sender: 'user', text }]);
     setInput('');
     try {
-      const reply = await askJakeTheWelder(user?.id!, text);
+      const reply = await askJake(user?.id!, text);
       setMessages(msgs => [...msgs, { sender: 'freddie', text: reply }]);
     } catch (err: any) {
       setMessages(msgs => [...msgs, { sender: 'freddie', text: err.message || t('benchFreddie.errorContacting') }]);

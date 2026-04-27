@@ -1,4 +1,4 @@
-import { supabase } from '../../culinary/api/supabaseClient';
+import { supabase } from '../api/supabaseClient';
 
 export type BadgeCategory =
   | 'Weekly Challenge'

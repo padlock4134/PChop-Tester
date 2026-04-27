@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from './TaskContext';
 import { useNavigate } from 'react-router-dom';
 
 export type RecipeCard = {

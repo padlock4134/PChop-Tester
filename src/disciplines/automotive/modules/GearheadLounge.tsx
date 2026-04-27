@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
+import { useFreddieContext } from '../components/GarageFreddieContext';
+import { fetchCookbook } from './manualSupabase';
 import ManualImportModal from '../components/ManualImportModal';
 import PartsDirectory from '../components/PartsDirectory';
 import LocalPartsModal from '../components/LocalPartsModal';
 import BuildDiagModal from '../components/BuildDiagModal';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from '../components/RepairContext';
 import { RecipeCard } from '../components/RepairMatcherModal';
 import { useSupabase } from '../../../components/DisciplineSupabaseProvider';
 import TheCarLift from '../components/GlobalTestGarage';
-import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../../culinary/types/nutrition';
+import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
+import { KeyNutrients } from '../types/nutrition';
 
 const GearheadLounge = () => {
   const { t } = useTranslation();

@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useSupabase } from './SupabaseProvider';
-import { fetchSpecBook } from '../modules/cookbookSupabase';
-import { RecipeCard } from './PartMatcherModal';
+import { fetchSpecBook } from '../modules/specbookSupabase';
+import { ProjectCard } from './PartMatcherModal';
 import jsPDF from 'jspdf';
-import { groupIngredientsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
+import { groupMaterialsBySupplierType, getEstimatedPrice } from '../utils/materialMapping';
 
 interface BuildMenuModalProps {
   open: boolean;
   onClose: () => void;
-  onFindMarkets: (selectedRecipes: RecipeCard[]) => void;
+  onFindMarkets: (selectedProjects: ProjectCard[]) => void;
 }
 
 const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMarkets }) => {
@@ -23,7 +23,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       defaultValue: t(`buildMenu.${key}`, { defaultValue })
     });
   const { user } = useSupabase();
-  const [projects, setProjects] = useState<RecipeCard[]>([]);
+  const [projects, setProjects] = useState<ProjectCard[]>([]);
   const [selectedProjectIds, setSelectedProjectIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
 
@@ -78,7 +78,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
     // Menu Items
     pdf.setFontSize(14);
-    pdf.text(bt('selectedRecipes', 'Selected Jobs'), 20, yPos);
+    pdf.text(bt('selectedProjects', 'Selected Jobs'), 20, yPos);
     yPos += 8;
     pdf.setFontSize(11);
     pdf.setFont('helvetica', 'normal');
@@ -98,7 +98,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
     const uniqueIngredients = Array.from(
       new Set(allIngredients.map(ing => ing.toLowerCase()))
     ).map(ing => allIngredients.find(original => original.toLowerCase() === ing) || ing);
-    const ingredientsByType = groupIngredientsByMarketType(uniqueIngredients);
+    const materialsByType = groupMaterialsBySupplierType(uniqueIngredients);
 
     // Shopping List by Market Type
     pdf.setFontSize(14);
@@ -116,8 +116,8 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       farms: '🏭 Fabrication Yard'
     };
 
-    Object.entries(ingredientsByType).forEach(([type, ingredients]) => {
-      if (ingredients.length === 0) return;
+    Object.entries(materialsByType).forEach(([type, materials]) => {
+      if (materials.length === 0) return;
       
       // Check if we need a new page
       if (yPos > 250) {
@@ -133,7 +133,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'normal');
       let subtotal = 0;
-      ingredients.forEach(ing => {
+      (materials as string[]).forEach(ing => {
         const priceInfo = getEstimatedPrice(ing);
         const priceText = priceInfo ? ` ~$${priceInfo.price}/${priceInfo.unit}` : '';
         pdf.text(`• ${ing}${priceText}`, 25, yPos);

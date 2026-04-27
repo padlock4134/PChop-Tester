@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useFreddieContext } from '../components/PipeFreddieContext';
 import { getPlumberQuoteOfTheDay } from './MyPipeBook';
-import { fetchCookbook } from '../../culinary/modules/cookbookSupabase';
+import { fetchPipeBook } from './pipebookSupabase';
 import PipeBookImportModal from '../components/PipeBookImportModal';
 import LocalSupplyHouseModal from '../components/LocalSupplyHouseModal';
 import BuildLayoutModal from '../components/BuildLayoutModal';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from '../components/FitContext';
 import { RecipeCard } from '../components/FitMatcherModal';
 import GlobalTestVan from '../components/GlobalTestVan';
 import { useSupabase } from '../components/SupabaseProvider';
-import { fetchNutritionData, calculateRecipeNutrition } from '../../culinary/api/nutritionService';
-import { KeyNutrients } from '../../culinary/types/nutrition';
+import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
+import { KeyNutrients } from '../types/nutrition';
 
 const PipeLounge = () => {
   const { t } = useTranslation();

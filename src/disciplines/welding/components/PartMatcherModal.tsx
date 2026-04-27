@@ -26,21 +26,19 @@ export type ProjectCard = {
   healthTags?: string[];
 };
 
-// Backward-compatible alias
-export type RecipeCard = ProjectCard;
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  cupboardIngredients: string[];
+  benchMaterials: string[];
   onLike: (project: ProjectCard) => void;
-  saveRecipeToCookbook: (project: ProjectCard) => void;
-  recipes: ProjectCard[];
+  saveProjectToSpecBook: (project: ProjectCard) => void;
+  projects: ProjectCard[];
   loading: boolean;
   error: string;
 };
 
-const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredients, onLike, saveRecipeToCookbook, recipes, loading, error }) => {
+const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, benchMaterials, onLike, saveProjectToSpecBook, projects, loading, error }) => {
   const { t } = useTranslation();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
@@ -77,8 +75,8 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredien
     try {
       setIsSaving(true);
       // Save project to spec book
-      await saveRecipeToCookbook(recipes[currentIdx]);
-      await onLike(recipes[currentIdx]);
+      await saveProjectToSpecBook(projects[currentIdx]);
+      await onLike(projects[currentIdx]);
       setCurrentIdx(idx => idx + 1);
     } catch (error) {
       console.error('Error saving project:', error);
@@ -106,10 +104,10 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredien
 
   const handleRunIt = () => {
     const fullProject = {
-      ...recipes[currentIdx],
-      tutorials: recipes[currentIdx].tutorials && recipes[currentIdx].tutorials.length === 3
-        ? recipes[currentIdx].tutorials
-        : generateTutorials(recipes[currentIdx])
+      ...projects[currentIdx],
+      tutorials: projects[currentIdx].tutorials && projects[currentIdx].tutorials.length === 3
+        ? projects[currentIdx].tutorials
+        : generateTutorials(projects[currentIdx])
     };
     setSelectedProject(fullProject);
     navigate('/welding/welding-school');
@@ -141,7 +139,7 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredien
               <span>{loadingMessages[loadingStep]}</span>
             </div>
           ) : 
-           (recipes.length > 0 && currentIdx < recipes.length ? recipes[currentIdx].title : 'Project Matcher')}
+           (projects.length > 0 && currentIdx < projects.length ? projects[currentIdx].title : 'Project Matcher')}
         </h2>
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-[200px]">
@@ -150,18 +148,18 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredien
           </div>
         ) : error ? (
           <div className="text-lobsterRed text-center">{error}</div>
-        ) : recipes.length === 0 || currentIdx >= recipes.length ? (
+        ) : projects.length === 0 || currentIdx >= projects.length ? (
           <div className="text-center text-maineBlue font-bold py-10">{'No more suggestions.'}<br/>{'Try updating your bench inventory!'}</div>
         ) : (
           (() => {
-            console.log('Project healthTags:', recipes[currentIdx].healthTags);
+            console.log('Project healthTags:', projects[currentIdx].healthTags);
             return (
               <div className="flex flex-col items-center">
                 <div className="bg-sand rounded-xl shadow-lg border border-black p-4 w-full max-w-md mb-4 relative">
-                  <img src={recipes[currentIdx].image} alt={recipes[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
+                  <img src={projects[currentIdx].image} alt={projects[currentIdx].title} className="w-full h-48 object-cover rounded mb-2" />
                   <div className="flex flex-wrap gap-1 mb-3 justify-center">
                     {SKILL_TAGS.map(tag => {
-                      const isMatch = recipes[currentIdx].healthTags?.includes(tag.key);
+                      const isMatch = projects[currentIdx].healthTags?.includes(tag.key);
                       return (
                         <span 
                           key={tag.key}
@@ -174,9 +172,9 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredien
                       );
                     })}
                   </div>
-                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.ingredients', { defaultValue: 'Materials' })}:</span> {recipes[currentIdx].ingredients.join(', ')}</div>
-                  {recipes[currentIdx].equipment && recipes[currentIdx].equipment!.length > 0 && (
-                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('recipeCard.equipment', { defaultValue: 'Tools/Equipment' })}:</span> {recipes[currentIdx].equipment!.join(', ')}</div>
+                  <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('projectCard.materials', { defaultValue: 'Materials' })}:</span> {projects[currentIdx].ingredients.join(', ')}</div>
+                  {projects[currentIdx].equipment && projects[currentIdx].equipment!.length > 0 && (
+                    <div className="text-xs text-gray-600 mb-2 text-center"><span className="font-bold">{t('projectCard.equipment', { defaultValue: 'Tools/Equipment' })}:</span> {projects[currentIdx].equipment!.join(', ')}</div>
                   )}
                 </div>
                 <div className="flex gap-8 mt-2">
@@ -206,6 +204,4 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredien
 
 export default ProjectMatcherModal;
 
-// Backward-compatible alias
-export { ProjectMatcherModal as RecipeMatcherModal };
 

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useLevelProgressContext } from './NavBar';
 import WeeklyChallengePartModal from './WeeklyChallengePartModal';
-import type { RecipeCard } from './PartMatcherModal';
+import type { ProjectCard } from './PartMatcherModal';
 import { getWeeklyChallengeProject } from '../api/anthropicChallenge';
 import { getProjectImage } from '../api/unsplash';
 import { supabase } from '../api/supabaseClient';
@@ -98,7 +98,7 @@ const ChallengeOfTheWeek: React.FC = () => {
   const ct = (key: string) => t(`challenge.disciplineCopy.${discipline}.${key}`, { defaultValue: t(`challenge.${key}`) });
   const [open, setOpen] = useState(false);
   const [projectModalOpen, setProjectModalOpen] = useState(false);
-  const [modalProject, setModalProject] = useState<RecipeCard | null>(null);
+  const [modalProject, setModalProject] = useState<ProjectCard | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [weekNumber, setWeekNumber] = useState(getWeekNumber(new Date()));
@@ -132,7 +132,7 @@ const ChallengeOfTheWeek: React.FC = () => {
         const prompt = `${challenge.title}: ${challenge.description}`;
         const projectData = await getWeeklyChallengeProject(prompt);
         const image = await getProjectImage(projectData.title || challenge.title, projectData.title || challenge.title, 'project');
-        const project: RecipeCard = {
+        const project: ProjectCard = {
           id: `weekly-${challenge.title.replace(/\s+/g, '-').toLowerCase()}`,
           title: projectData.title || challenge.title,
           image,

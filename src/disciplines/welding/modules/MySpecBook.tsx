@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/BenchFreddieContext';
 import { useProjectContext } from '../components/PartContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchSpecBook, removeProjectFromSpecBook } from './cookbookSupabase';
+import { fetchSpecBook, removeProjectFromSpecBook } from './specbookSupabase';
 import { supabase } from '../api/supabaseClient';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
@@ -26,8 +26,6 @@ export function getVideoQueriesForProject(project: Project): string[] {
   ];
 }
 
-// Backward-compatible alias
-export const getVideoQueriesForRecipe = getVideoQueriesForProject;
 
 export interface Project {
   id: string;
@@ -40,8 +38,6 @@ export interface Project {
   healthTags?: string[];
 }
 
-// Backward-compatible alias
-export type Recipe = Project;
 
 const MySpecBook = () => {
   const { t } = useTranslation();

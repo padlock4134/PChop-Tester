@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import type { RecipeCard } from './RepairMatcherModal';
 import { useState, useRef } from 'react';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { claimWeeklyChallenge } from '../../culinary/api/weeklyChallenge';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { supabase } from '../api/supabaseClient';
+import { claimWeeklyChallenge } from '../api/weeklyChallenge';
+import { isSessionValid } from '../api/userSession';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from './NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { useSupabase } from './SupabaseProvider';
 
 interface WeeklyChallengeRecipeModalProps {
   open: boolean;

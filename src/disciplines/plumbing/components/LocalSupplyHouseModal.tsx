@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { groupMaterialsByMarketType, getEstimatedPrice } from '../utils/ingredientMapping';
+import { groupMaterialsByMarketType, getEstimatedPrice } from '../utils/materialMapping';
 
 // TypeScript declarations for Google Maps API (will be available at runtime)
 declare global {

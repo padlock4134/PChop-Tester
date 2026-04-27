@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { saveKitchen, fetchKitchen } from './kitchenSupabase';
-import { fetchCookbook, addRecipeToCookbook } from './cookbookSupabase';
+import { saveKitchen, fetchKitchen } from './garageSupabase';
+import { fetchCookbook, addRecipeToCookbook } from './manualSupabase';
 import { Ingredient } from '../types/shared-types';
 import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
@@ -281,7 +281,7 @@ const MyGarage = () => {
             setMatcherError('');
             try {
               const garageParts = ingredients.map(i => i.name);
-              const { fetchRecipesWithImages } = await import('../api/recipeMatcher');
+              const { fetchRecipesWithImages } = await import('../api/repairMatcher');
               const recipes = await fetchRecipesWithImages({
                 userId: user?.id!,
                 ingredients: garageParts,

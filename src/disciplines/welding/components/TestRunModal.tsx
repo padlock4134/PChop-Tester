@@ -243,7 +243,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
         <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
           <input
             type="file"
-            id="scan-kitchen-file"
+            id="scan-bench-file"
             className="hidden"
             accept="image/*"
             onChange={() => {}}

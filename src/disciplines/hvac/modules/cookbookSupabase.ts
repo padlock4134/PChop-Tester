@@ -1,7 +1,7 @@
 // HVAC Spec Sheet persistence (uses shared user_cookbook table for project cards)
 // cookbook → spec sheets collection, recipe → project/system card
-import { supabase } from '../../culinary/api/supabaseClient';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { supabase } from '../api/supabaseClient';
+import { isSessionValid } from '../api/userSession';
 import type { RecipeCard } from '../components/SystemMatcherModal';
 
 export async function saveCookbook(userId: string, recipes: RecipeCard[]) {

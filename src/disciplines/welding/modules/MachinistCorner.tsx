@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../components/BenchFreddieContext';
-import { fetchSpecBook } from './cookbookSupabase';
+import { fetchSpecBook } from './specbookSupabase';
 import SpecBookImportModal from '../components/SpecBookImportModal';
 import LocalToolingModal from '../components/LocalToolingModal';
 import BuildPartModal from '../components/BuildPartModal';
@@ -192,7 +192,7 @@ const WeldersHub = () => {
       <LocalToolingModal
         open={localMarketsModalOpen}
         onClose={() => setLocalMarketsModalOpen(false)}
-        selectedRecipes={selectedMenuProjects}
+        selectedProjects={selectedMenuProjects}
       />
       
       <div className="max-w-6xl mx-auto mt-8">

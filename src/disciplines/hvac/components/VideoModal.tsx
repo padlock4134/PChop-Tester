@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { XP_REWARDS } from '../../culinary/services/xpService';
+import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from './NavBar';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { supabase } from '../api/supabaseClient';
+import { useSupabase } from './SupabaseProvider';
+import { isSessionValid } from '../api/userSession';
 
 interface VideoModalProps {
   open: boolean;

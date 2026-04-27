@@ -405,8 +405,8 @@ const WeldingSchool = () => {
                   />
                 )}
                 <h3 className="font-bold text-xl mb-1 text-maineBlue">{selectedProject.title}</h3>
-                {/* No description on RecipeCard, but add if needed: */}
-                {/* <div className="text-gray-600 mb-2 text-base">{selectedRecipe.description}</div> */}
+                {/* No description on ProjectCard, but add if needed: */}
+                {/* <div className="text-gray-600 mb-2 text-base">{selectedProject.description}</div> */}
                 <div className="font-semibold mb-1 mt-2">{t('machiningSchool.ingredients')}</div>
                 <ul className="list-disc list-inside text-[15px] leading-6 text-gray-700 mb-2">
                   {selectedProject.ingredients?.length ? (

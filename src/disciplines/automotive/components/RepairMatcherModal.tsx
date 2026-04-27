@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useRecipeContext } from './RepairContext';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import garageLogo from '../images/logo.png';
