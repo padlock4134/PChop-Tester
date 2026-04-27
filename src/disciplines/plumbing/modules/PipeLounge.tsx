@@ -8,7 +8,7 @@ import { useFreddieContext } from '../components/PipeFreddieContext';
 
 import { getPlumberQuoteOfTheDay } from './MyPipeBook';
 
-import { fetchPipeBook } from './cookbookSupabase';
+import { fetchPipeBook } from './pipebookSupabase';
 
 import PipeBookImportModal from '../components/PipeBookImportModal';
 
