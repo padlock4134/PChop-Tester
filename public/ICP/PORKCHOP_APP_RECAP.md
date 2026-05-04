@@ -1,15 +1,17 @@
 # PorkChop — Complete App Recap
-**The First Purpose-Built LMS for Trade Education**
+**Purpose-Built LMS for Trade Education**
 
-*Last Updated: March 2026 (v2)*
+*Last Updated: May 4, 2026 (public-safe recap)*
 
 ---
 
 ## Executive Summary
 
+> This document is a public-safe overview and intentionally omits proprietary implementation details, internal model logic, and sensitive operational specifics.
+
 PorkChop is a vertical SaaS Learning Management System built specifically for trade education institutions. It replaces generic platforms (Canvas, Blackboard) that were designed for lecture halls — not hands-on skill training. The platform combines AI-powered assistance, computer vision, practical skill tracking, gamification, video submission, nutritional analysis, and administrative tools into a single product purpose-built for trade school workflows.
 
-The platform supports 9 trade disciplines with a dynamic skin system that adapts module names, AI assistant personas, terminology, and branding per discipline. Each discipline includes discipline-specific AI assistants with daily chat limits, computer vision scanning, practical project management with nutritional analysis, video recording capabilities, and live streaming sessions.
+The platform supports multiple trade disciplines through a dynamic skin system that adapts module names, assistant personas, terminology, and branding per discipline. Each discipline includes contextual AI assistance, visual scanning workflows, practical project management, video capabilities, and live session features.
 
 PorkChop is a U.S.-based company focused on modernizing trade education infrastructure.
 
@@ -82,13 +84,13 @@ PorkChop provides trade-specific tools through a multi-discipline platform:
 
 PorkChop uses a sophisticated skin system that adapts the entire platform experience per discipline:
 
-1. **9 Built-in Disciplines** — Culinary, Plumbing, Automotive, Construction, Electrical, HVAC, Manufacturing, Logistics, Machining
+1. **Built-in Trade Disciplines** — includes core career pathways such as culinary, skilled trades, transportation/logistics, and advanced manufacturing tracks
 2. **Dynamic UI Adaptation** — module names, assistant personas, terminology, and branding automatically adjust per discipline
 3. **Discipline-Specific AI Assistants** — Chef Freddie (Culinary), Pete the Plumber, Gus the Mechanic, Foreman Frank, Sparky, Cool Cal, Mac the Manufacturer, Lou the Dispatcher, Max the Machinist
 4. **Custom Program Creation** — admins can instantly generate new trade disciplines using AI with custom names and context
 5. **Administrative Tools** — comprehensive dashboard for user management, analytics, content approval, and multi-discipline oversight
 
-**Result:** What used to require weeks of custom development now takes seconds. Schools can respond to market demand and launch new programs instantly.
+**Result:** Programs that once required significant custom setup can be launched much faster, helping schools respond to workforce demand with less technical overhead.
 
 ---
 
