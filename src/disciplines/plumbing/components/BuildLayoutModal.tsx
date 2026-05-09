@@ -91,9 +91,9 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
         allMaterials.push(...fit.materials);
       }
     });
-    const uniqueIngredients = Array.from(
-      new Set(allIngredients.map(ing => ing.toLowerCase()))
-    ).map(ing => allMaterials.find(original => original.toLowerCase() === ing) || ing);
+    const uniqueMaterials = Array.from(
+      new Set(allMaterials.map((ing: string) => ing.toLowerCase()))
+    ).map((ing: string) => allMaterials.find((original: string) => original.toLowerCase() === ing) || ing);
     const materialsByType = groupMaterialsByMarketType(uniqueMaterials);
 
     // Shopping List by Market Type
@@ -217,7 +217,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                         <div className="font-medium text-sm text-gray-900 truncate">{fit.title}</div>
                         {fit.materials && (
                           <div className="text-xs text-gray-400">
-                            {bt('itemsCount').replace('{count}', recipe.ingredients.length.toString())}
+                            {bt('itemsCount').replace('{count}', fit.materials.length.toString())}
                           </div>
                         )}
                       </div>
@@ -248,7 +248,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
                             <div className="font-medium text-gray-900">{idx + 1}. {fit.title}</div>
                             {fit.materials && (
                               <div className="text-xs text-gray-500 mt-1">
-                                {bt('itemsCountNeeded').replace('{count}', recipe.ingredients.length.toString())}
+                                {bt('itemsCountNeeded').replace('{count}', fit.materials.length.toString())}
                               </div>
                             )}
                           </div>
@@ -268,11 +268,11 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between pt-4 border-t flex-shrink-0">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-4 border-t flex-shrink-0 gap-3">
             <div className="text-sm text-gray-600">
               {selectedRecipeIds.size} {bt('recipesSelected')}
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
               <button
                 onClick={onClose}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"

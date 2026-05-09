@@ -290,11 +290,11 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
           </div>
 
           {/* Footer */}
-          <div className="flex items-center justify-between pt-4 border-t flex-shrink-0">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pt-4 border-t flex-shrink-0 gap-3">
             <div className="text-sm text-gray-600">
               {selectedRecipeIds.size} {bt('recipesSelected')}
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
               <button
                 onClick={onClose}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
