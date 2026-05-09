@@ -271,17 +271,17 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
             <div className="text-sm text-gray-600">
               {selectedRecipeIds.size} {bt('recipesSelected')}
             </div>
-            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
               <button
                 onClick={onClose}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium min-h-[44px]"
+                className="w-full sm:w-auto px-4 py-2 text-gray-600 hover:text-gray-800 font-medium min-h-[44px]"
               >
                 {bt('cancel')}
               </button>
               <button
                 onClick={handleCreateMenuPDF}
                 disabled={selectedRecipeIds.size === 0}
-                className={`px-4 py-2 rounded font-bold transition-colors min-h-[44px] ${
+                className={`w-full sm:w-auto px-4 py-2 rounded font-bold transition-colors min-h-[44px] ${
                   selectedRecipeIds.size === 0
                     ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam border border-maineBlue'
@@ -291,7 +291,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
               </button>
               <button
                 onClick={handleFindMarkets}
-                className="px-4 py-2 rounded font-bold transition-colors bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue border border-maineBlue min-h-[44px]"
+                className="w-full sm:w-auto px-4 py-2 rounded font-bold transition-colors bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue border border-maineBlue min-h-[44px]"
               >
                 🔎 {bt('findMarkets')}
               </button>

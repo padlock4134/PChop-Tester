@@ -142,7 +142,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
           {!loading && !error && recipe && (
             <>
               <h2 className="text-2xl font-bold mb-4 text-center text-black">{recipe.title}</h2>
-              {recipe.image && <img src={recipe.image} alt={recipe.title} className="w-full max-h-48 sm:max-h-64 object-cover rounded border border-black mb-6" />}
+              {recipe.image && <img src={recipe.image} alt={recipe.title} className="w-full max-h-32 sm:max-h-48 lg:max-h-64 object-cover rounded border border-black mb-4" />}
               {/* Photo Upload Section */}
               <div className="w-full mt-4 border-t pt-4">
                 <h3 className="font-semibold text-lg mb-2">{ct('submitProof')}</h3>
@@ -163,7 +163,7 @@ const WeeklyChallengeRecipeModal: React.FC<WeeklyChallengeRecipeModalProps> = ({
                   ) : (
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="w-full h-48 border-2 border-dashed border-gray-300 rounded flex flex-col items-center justify-center hover:border-maineBlue transition-colors"
+                      className="w-full h-28 sm:h-48 border-2 border-dashed border-gray-300 rounded flex flex-col items-center justify-center hover:border-maineBlue transition-colors"
                     >
                       📸
                       <span className="mt-2 text-gray-600">{ct('uploadPhoto')}</span>

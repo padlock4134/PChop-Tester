@@ -554,13 +554,13 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
             </div>
 
-            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
 
               <button
 
                 onClick={onClose}
 
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                className="w-full sm:w-auto px-4 py-2 text-gray-600 hover:text-gray-800 font-medium min-h-[44px]"
 
               >
 
@@ -574,7 +574,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
                 disabled={selectedProjectIds.size === 0}
 
-                className={`px-4 py-2 rounded font-bold transition-colors ${
+                className={`w-full sm:w-auto px-4 py-2 rounded font-bold transition-colors min-h-[44px] ${
 
                   selectedProjectIds.size === 0
 
@@ -594,7 +594,7 @@ const BuildMenuModal: React.FC<BuildMenuModalProps> = ({ open, onClose, onFindMa
 
                 onClick={handleFindMarkets}
 
-                className="px-6 py-2 rounded font-bold transition-colors bg-red-600 text-white hover:bg-red-700 border border-red-600"
+                className="w-full sm:w-auto px-6 py-2 rounded font-bold transition-colors bg-red-600 text-white hover:bg-red-700 border border-red-600 min-h-[44px]"
 
               >
 

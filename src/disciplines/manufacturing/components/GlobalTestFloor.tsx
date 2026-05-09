@@ -1140,7 +1140,7 @@ END:VCALENDAR`;
       {/* Schedule Session Modal */}
       {scheduleModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-md w-full mx-4 relative">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-md w-full mx-4 relative max-h-[85vh] lg:max-h-[80vh] overflow-y-auto">
             <button
               onClick={() => setScheduleModalOpen(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
