@@ -241,7 +241,7 @@ const DisciplineSelector: React.FC = () => {
       {/* Add Discipline Modal */}
       {showAddDisciplineModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start sm:items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-2xl max-h-[92vh] flex flex-col p-4 sm:p-6">
+          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-2xl max-h-[85vh] lg:max-h-[80vh] flex flex-col p-4 sm:p-6">
             <div className="flex justify-between items-center mb-4 shrink-0">
               <h2 className="text-2xl font-bold text-maineBlue font-retro">Create New Discipline</h2>
               <button
@@ -444,7 +444,7 @@ const DisciplineSelector: React.FC = () => {
         ];
         return (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-start sm:items-center justify-center z-[60] p-2 sm:p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-4xl max-h-[92vh] flex flex-col p-4 sm:p-6">
+          <div className="bg-white rounded-lg shadow-xl border-4 border-maineBlue w-full max-w-4xl max-h-[85vh] lg:max-h-[80vh] flex flex-col p-4 sm:p-6">
             <div className="flex justify-between items-center mb-3 shrink-0">
               <h3 className="text-lg sm:text-2xl font-retro text-maineBlue">Live Preview</h3>
               <button
