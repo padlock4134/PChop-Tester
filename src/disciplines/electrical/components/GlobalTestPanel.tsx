@@ -963,10 +963,10 @@ END:VCALENDAR`;
                 />
               </div>
               
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button
                   onClick={() => setGoLiveModalOpen(false)}
-                  className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
+                  className="w-full sm:flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black min-h-[44px]"
                 >
                   {t('wireLounge.globalTestKitchen.cancel')}
                 </button>
@@ -975,7 +975,7 @@ END:VCALENDAR`;
                     setGoLiveModalOpen(false);
                     setLiveSessionModalOpen(true);
                   }}
-                  className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
+                  className="w-full sm:flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black min-h-[44px]"
                 >
                   🔴 {t('wireLounge.globalTestKitchen.startRecording')}
                 </button>
@@ -1096,7 +1096,7 @@ END:VCALENDAR`;
                   {isViewer && currentLiveSession ? (
                     // Viewer mode - watching someone else's stream
                     <div className="text-white text-center">
-                      <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">{currentLiveSession.thumbnail}</div>
+                      <div className="text-4xl sm:text-6xl mb-2">{currentLiveSession.thumbnail}</div>
                       <p className="text-sm sm:text-lg">Watching {currentLiveSession.hostName}'s live session</p>
                       <p className="text-xs sm:text-sm opacity-75">Live video stream would appear here</p>
                     </div>
@@ -1265,17 +1265,17 @@ END:VCALENDAR`;
                 </div>
               </div>
               
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button
                   onClick={() => setScheduleModalOpen(false)}
-                  className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
+                  className="w-full sm:flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black min-h-[44px]"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleScheduleSession}
                   disabled={!scheduledDishName.trim() || !scheduledCuisine || !scheduledDescription.trim() || !scheduledDate || !scheduledTime}
-                  className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
                 >
                   📅 Schedule Session
                 </button>

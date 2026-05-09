@@ -980,10 +980,10 @@ END:VCALENDAR`;
                 />
               </div>
               
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button
                   onClick={() => setGoLiveModalOpen(false)}
-                  className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
+                  className="w-full sm:flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black min-h-[44px]"
                 >
                   {t('pipeLounge.globalTestKitchen.cancel')}
                 </button>
@@ -992,7 +992,7 @@ END:VCALENDAR`;
                     setGoLiveModalOpen(false);
                     setLiveSessionModalOpen(true);
                   }}
-                  className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
+                  className="w-full sm:flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black min-h-[44px]"
                 >
                   🔴 {t('pipeLounge.globalTestKitchen.startRecording')}
                 </button>
@@ -1282,17 +1282,17 @@ END:VCALENDAR`;
                 </div>
               </div>
               
-              <div className="flex gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button
                   onClick={() => setScheduleModalOpen(false)}
-                  className="flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
+                  className="w-full sm:flex-1 bg-seafoam text-maineBlue py-2 px-4 rounded font-bold hover:bg-maineBlue hover:text-seafoam transition-colors border border-black min-h-[44px]"
                 >
                   {t('pipeLounge.globalTestKitchen.cancel', { defaultValue: 'Cancel' })}
                 </button>
                 <button
                   onClick={handleScheduleSession}
                   disabled={!scheduledDishName.trim() || !scheduledCuisine || !scheduledDescription.trim() || !scheduledDate || !scheduledTime}
-                  className="flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:flex-1 bg-lobsterRed text-weatheredWhite py-2 px-4 rounded font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border border-black disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
                 >
                   📅 {t('pipeLounge.globalTestKitchen.scheduleSession', { defaultValue: 'Schedule Session' })}
                 </button>
