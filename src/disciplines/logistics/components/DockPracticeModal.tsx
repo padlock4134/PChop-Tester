@@ -105,7 +105,7 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
             setShowDeviceSelection(false);
             onClose();
           }}
-          className="absolute top-2 right-2 text-amber-800 hover:text-amber-900 text-2xl z-10"
+          className="absolute top-2 right-2 w-11 h-11 flex items-center justify-center text-amber-800 hover:text-amber-900 text-2xl z-10"
           aria-label="Close"
         >
           ×
@@ -423,7 +423,7 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
     {/* Practice Guide Modal */}
     {guideOpen && (
       <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-60 flex items-center justify-center z-[60] p-4">
-        <div className="bg-white rounded-lg shadow-lg border-4 border-amber-600 max-w-2xl w-full mx-4 relative max-h-[90vh] flex flex-col overflow-hidden">
+        <div className="bg-white rounded-lg shadow-lg border-4 border-amber-600 max-w-2xl w-full mx-4 relative max-h-[85vh] lg:max-h-[80vh] flex flex-col overflow-hidden">
           {/* Sticky Header */}
           <div className="bg-white p-6 pb-4 border-b-2 border-amber-300 rounded-t-lg flex justify-between items-center">
             <div className="flex-1"></div>

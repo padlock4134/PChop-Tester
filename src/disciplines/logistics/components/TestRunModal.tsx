@@ -277,10 +277,10 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full w-0 h-0 border-l-8 border-r-8 border-t-8 border-l-transparent border-r-transparent border-t-maineBlue" />
         </div>
       )}
-      <div className="bg-weatheredWhite border-4 border-black rounded-lg shadow-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+      <div className="bg-weatheredWhite border-4 border-black rounded-lg shadow-lg p-4 lg:p-6 max-w-2xl w-full mx-4 max-h-[85vh] lg:max-h-[80vh] overflow-y-auto relative">
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-2xl text-gray-600 hover:text-gray-800 focus:outline-none"
+          className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-2xl text-gray-600 hover:text-gray-800 focus:outline-none"
           aria-label="Close modal"
         >
           &times;
@@ -418,10 +418,10 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
         </div>
       </div>
       {showRouteMatcher && (
-        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-weatheredWhite rounded-lg shadow-lg p-6 max-w-xl w-full relative">
+        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-weatheredWhite rounded-lg shadow-lg p-4 lg:p-6 max-w-xl w-full mx-4 max-h-[85vh] lg:max-h-[80vh] overflow-y-auto relative">
             <button 
-              className="absolute top-2 right-2 text-lobsterRed font-bold text-xl" 
+              className="absolute top-2 right-2 w-11 h-11 flex items-center justify-center text-lobsterRed font-bold text-xl" 
               onClick={() => setShowRouteMatcher(false)}
             >
               ✕

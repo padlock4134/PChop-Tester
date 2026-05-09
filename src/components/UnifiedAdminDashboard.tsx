@@ -2280,8 +2280,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         {/* Review Alert Modal - Global, not tied to specific tab */}
         {selectedAlert && (
           <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full p-6">
-              <h3 className="text-xl font-bold text-maineBlue mb-4">Review Alert</h3>
+            <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full mx-4 p-4 lg:p-6 max-h-[85vh] lg:max-h-[80vh] overflow-y-auto">
+              <h3 className="text-lg lg:text-xl font-bold text-maineBlue mb-4">Review Alert</h3>
               <div className="mb-4">
                 <p className="text-sm text-gray-700 mb-2">
                   <strong>Type:</strong> {formatAlertTypeLabel(selectedAlert.alert_type)}
@@ -2329,7 +2329,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Export Modal */}
       {showExportModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -2411,7 +2411,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Job Placement Modal */}
       {showJobPlacementModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -2503,7 +2503,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* School Branding Modal */}
       {showBrandingModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -2739,7 +2739,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Module Integration Modal */}
       {showModuleIntegrationModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -3263,7 +3263,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Student Management Modal */}
       {showStudentManagementModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
@@ -3456,7 +3456,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Faculty Management Modal */}
       {showFacultyManagementModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
@@ -3618,7 +3618,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Alumni Management Modal */}
       {showAlumniManagementModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
@@ -3861,7 +3861,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* User Activity Modal */}
       {showUserActivityModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
@@ -4039,7 +4039,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Program Performance Modal */}
       {showProgramPerformanceModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
@@ -4157,7 +4157,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Enrollment Health Modal */}
       {showEnrollmentHealthModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center mb-3 sm:mb-4 relative">
@@ -4362,7 +4362,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Content Analytics Modal */}
       {showContentAnalyticsModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-6xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -4666,7 +4666,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Cross-Platform Configuration Modal */}
       {showConfigurationModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-5xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-5xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -5140,7 +5140,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Browse Files Modal */}
       {showBrowseFilesModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -5287,7 +5287,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* LTI Integration Modal */}
       {showLtiIntegrationModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">🔗 LTI 1.3 / Advantage Integration</h2>
@@ -5359,7 +5359,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* LTI Field Mapping Modal */}
       {showLtiMappingModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
                 <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">🗺️ {selectedLtiProvider} Field Mapping</h2>
@@ -5434,7 +5434,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* API Key Modal */}
       {showApiKeyModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-2xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-2xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -5525,7 +5525,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Chef Freddie Modal */}
       {showChefFreddieModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-red-400 max-w-4xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-red-400 max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -5870,7 +5870,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* CSV Import Modal */}
       {showCsvImportModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-4xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -6029,7 +6029,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Send Announcement Modal */}
       {showAnnouncementModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-2xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -6132,7 +6132,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Export Student Data Modal */}
       {showExportDataModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 w-full max-w-2xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -6261,7 +6261,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Add New Faculty Modal */}
       {showAddFacultyModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-2xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -6578,7 +6578,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Edit Student Modal */}
       {showEditStudentModal && editingStudent && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-md max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-md max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -6810,7 +6810,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Manage Permissions Modal */}
       {showManagePermissionsModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 w-full max-w-3xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 w-full max-w-3xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -6919,7 +6919,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Faculty Reports Modal */}
       {showFacultyReportsModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 w-full max-w-3xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 w-full max-w-3xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -7057,7 +7057,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Alumni Newsletter Modal */}
       {showAlumniNewsletterModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 w-full max-w-2xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -7185,7 +7185,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Edit Alumni Modal */}
       {showEditAlumniModal && editingAlumni && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-2xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-2xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -7284,7 +7284,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Edit Faculty Modal */}
       {showEditFacultyModal && editingFaculty && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-2xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue w-full max-w-2xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -7378,7 +7378,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Plan Alumni Event Modal */}
       {showPlanEventModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 w-full max-w-2xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 w-full max-w-2xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -7548,7 +7548,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Gifting & Donations Modal */}
       {showGiftingDonationsModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 w-full max-w-3xl max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 w-full max-w-3xl max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -7720,7 +7720,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* View Employment Data Modal */}
       {showEmploymentDataModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-4xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -7856,7 +7856,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Manage Partners Modal */}
       {showManagePartnersModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 max-w-4xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-blue-400 max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -8200,7 +8200,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Career Services Modal */}
       {showCareerServicesModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 max-w-3xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 max-w-3xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -8366,7 +8366,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Alumni Database Modal */}
       {showAlumniDatabaseModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 p-6 w-full max-w-4xl max-h-[85vh] lg:max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-orange-600 font-retro">🎓 Alumni Database</h2>
               <button
@@ -8494,7 +8494,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Add Alumni Modal */}
       {showAddAlumniModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 max-w-2xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 max-w-2xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -8657,7 +8657,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* View Event Details Modal */}
       {showViewEventModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-3xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-green-400 max-w-3xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -8926,7 +8926,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* View Career Event Details Modal */}
       {showViewCareerEventModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 max-w-3xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-purple-400 max-w-3xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">
@@ -9109,7 +9109,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       {/* Credentialing & Certifications Modal */}
       {showCredentialingModal && (
         <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 max-w-5xl w-full max-h-[90vh] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-orange-400 max-w-5xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
             {/* Sticky Header */}
             <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
               <div className="text-center relative">

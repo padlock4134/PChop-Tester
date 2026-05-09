@@ -431,7 +431,7 @@ const MarketDirectory: React.FC = () => {
       </div>
       {modalOpen && selectedDept && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-8 max-w-2xl w-full relative flex flex-col items-center max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-8 max-w-2xl w-full relative flex flex-col items-center max-h-[85vh] lg:max-h-[80vh] overflow-y-auto">
             <button
               className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl font-bold"
               onClick={closeModal}

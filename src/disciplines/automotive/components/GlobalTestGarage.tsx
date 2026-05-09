@@ -1029,7 +1029,7 @@ END:VCALENDAR`;
       {/* Live Session Modal */}
       {liveSessionModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-5/6 sm:h-auto sm:max-h-[95vh] lg:w-2/3 lg:max-h-[90vh] min-h-[680px] relative flex flex-col lg:flex-row">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black overflow-hidden w-full h-full sm:w-5/6 sm:h-auto sm:max-h-[95vh] lg:w-2/3 lg:max-h-[85vh] lg:max-h-[80vh] min-h-[680px] relative flex flex-col lg:flex-row">
             <button
               onClick={() => setLiveSessionModalOpen(false)}
               className="absolute top-2 right-2 text-white hover:text-white/80 text-2xl font-bold z-30 drop-shadow"
@@ -1286,7 +1286,7 @@ END:VCALENDAR`;
       {/* Save Confirmation Modal */}
       {saveConfirmModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-lg w-full mx-4 relative max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-6 max-w-lg w-full mx-4 relative max-h-[85vh] lg:max-h-[80vh] overflow-y-auto">
             <div className="text-center">
               <div className="text-4xl mb-4">🎥</div>
               <h2 className="text-2xl font-bold mb-4 text-maineBlue font-retro">

@@ -43,11 +43,11 @@ const ClassRegistrationModal: React.FC<ClassRegistrationModalProps> = ({ open, o
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center bg-black bg-opacity-40">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+    <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center bg-black bg-opacity-40 p-4">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 lg:p-6 max-w-2xl w-full mx-4 max-h-[85vh] lg:max-h-[80vh] overflow-y-auto relative">
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl"
+          className="absolute top-2 right-2 w-11 h-11 flex items-center justify-center text-gray-500 hover:text-gray-800 text-2xl"
           aria-label="Close"
         >
           ×

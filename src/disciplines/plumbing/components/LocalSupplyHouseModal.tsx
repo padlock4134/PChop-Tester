@@ -494,12 +494,12 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
-      <div className="bg-white p-6 rounded-lg shadow-xl border-4 border-black max-w-4xl w-full mx-4 max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+    <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={onClose}>
+      <div className="bg-white p-4 lg:p-6 rounded-lg shadow-xl border-4 border-black max-w-4xl w-full mx-4 max-h-[85vh] lg:max-h-[80vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center mb-4">
           <div></div>
-          <h3 className="text-xl font-bold text-maineBlue text-center">{t('markets.findSupplyHouses', { defaultValue: 'Find Supply Houses' })}</h3>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+          <h3 className="text-lg lg:text-xl font-bold text-maineBlue text-center">{t('markets.findSupplyHouses', { defaultValue: 'Find Supply Houses' })}</h3>
+          <button onClick={onClose} className="w-11 h-11 flex items-center justify-center text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

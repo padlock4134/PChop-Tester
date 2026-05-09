@@ -75,16 +75,16 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
     <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div 
         ref={modalRef} 
-        className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-2xl max-h-[90vh] flex flex-col"
+        className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-2xl mx-4 max-h-[85vh] lg:max-h-[80vh] flex flex-col"
       >
-        <div className="p-6 pb-0">
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('cookbook.selectRecipe')}</h2>
-          <p className="text-gray-600 mb-4">
+        <div className="p-4 lg:p-6 pb-0">
+          <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mb-2">{t('cookbook.selectRecipe')}</h2>
+          <p className="text-sm lg:text-base text-gray-600 mb-4">
             {t('cookbook.chooseRecipe')}
           </p>
         </div>
         
-        <div className="flex-1 overflow-y-auto p-6 pt-2">
+        <div className="flex-1 overflow-y-auto p-4 lg:p-6 pt-2">
           {recipes.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               {t('cookbook.noRecipes')}
@@ -94,17 +94,17 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
               {recipes.map((recipe) => (
                 <div 
                   key={recipe.id} 
-                  className={`border rounded-lg overflow-hidden cursor-pointer transition-colors ${
+                  className={`border-2 border rounded-lg overflow-hidden cursor-pointer transition-colors min-h-[44px] ${
                     selectedRecipe?.id === recipe.id 
                       ? 'border-maineBlue bg-blue-50' 
                       : 'border-gray-300 hover:border-gray-400'
                   }`}
                   onClick={() => handleSelectRecipe(recipe)}
                 >
-                  <div className="flex items-center p-4">
+                  <div className="flex items-center p-3 lg:p-4">
                     <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{recipe.title}</h3>
-                      <p className="text-sm text-gray-500 mt-1">
+                      <h3 className="text-sm lg:text-base font-medium text-gray-900">{recipe.title}</h3>
+                      <p className="text-xs lg:text-sm text-gray-500 mt-1">
                         {Array.isArray(recipe.ingredients) ? recipe.ingredients.length : 0} {t('cookbook.ingredients')}
                         {recipe.instructions && ' • ' + t('cookbook.instructionsIncluded')}
                       </p>
@@ -123,17 +123,17 @@ const CookBookImportModal: React.FC<CookBookImportModalProps> = ({
           )}
         </div>
         
-        <div className="p-4 bg-gray-50 border-t flex justify-end space-x-3">
+        <div className="p-4 lg:p-6 bg-gray-50 border-t flex justify-end space-x-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-black rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="min-h-[44px] px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-black rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             disabled={isLoading}
           >
             Cancel
           </button>
           <button
             onClick={handleImport}
-            className={`px-4 py-2 text-sm font-medium text-white bg-maineBlue border border-black rounded-md shadow-sm hover:bg-seafoam hover:text-maineBlue transition-colors ${
+            className={`min-h-[44px] px-4 py-2 text-sm font-medium text-white bg-maineBlue border border-black rounded-md shadow-sm hover:bg-seafoam hover:text-maineBlue transition-colors ${
               isLoading ? 'opacity-70 cursor-not-allowed' : ''
             }`}
             disabled={isLoading || !selectedRecipe}

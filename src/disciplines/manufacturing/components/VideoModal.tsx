@@ -165,89 +165,49 @@ const VideoModal: React.FC<VideoModalProps> = ({ open, onClose, title, videoUrl,
   if (!open) return null;
 
   return (
-
-    <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center bg-black bg-opacity-60">
-
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-2xl w-full p-4 relative">
-
+    <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center bg-black bg-opacity-60 p-4">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full max-w-2xl mx-4 max-h-[85vh] lg:max-h-[80vh] flex flex-col relative">
         <button
-
           onClick={onClose}
-
-          className="absolute top-2 right-2 text-gray-500 hover:text-maineBlue text-2xl"
-
+          className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-gray-500 hover:text-maineBlue text-2xl"
           aria-label={t('modals.close')}
-
         >
-
           ×
-
         </button>
-
-        <h2 className="text-lg font-bold mb-4 text-maineBlue">{title}</h2>
-
-        <div className="aspect-w-16 aspect-h-9 w-full">
-
-          {videoUrl ? (
-
-            <iframe
-
-              ref={iframeRef}
-
-              src={videoUrl}
-
-              title={title}
-
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-
-              allowFullScreen
-
-              className="w-full h-72 rounded border border-black"
-
-              onLoad={checkVideoProgress}
-
-            />
-
-          ) : (
-
-            <div className="flex flex-col items-center justify-center w-full h-72 bg-gray-100 rounded border border-black text-gray-500 p-6">
-
-              <div className="text-lg font-semibold text-gray-700 mb-2">🎥 {t('common.loading')}</div>
-
-              <div className="text-center text-gray-600 mb-4">
-
-                Video tutorials are temporarily unavailable to prevent API rate limits.
-
+        <div className="p-4 lg:p-6">
+          <h2 className="text-base lg:text-lg font-bold mb-4 text-maineBlue">{title}</h2>
+          <div className="aspect-video w-full">
+            {videoUrl ? (
+              <iframe
+                ref={iframeRef}
+                src={videoUrl}
+                title={title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-[200px] lg:h-[300px] rounded border border-black"
+                onLoad={checkVideoProgress}
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center w-full h-[200px] lg:h-[300px] bg-gray-100 rounded border border-black text-gray-500 p-4 lg:p-6">
+                <div className="text-base lg:text-lg font-semibold text-gray-700 mb-2">🎥 {t('common.loading')}</div>
+                <div className="text-center text-sm lg:text-base text-gray-600 mb-4">
+                  Video tutorials are temporarily unavailable to prevent API rate limits.
+                </div>
+                <div className="text-xs lg:text-sm text-gray-500 text-center">
+                  This feature will be re-enabled with better caching soon!
+                </div>
               </div>
-
-              <div className="text-sm text-gray-500 text-center">
-
-                This feature will be re-enabled with better caching soon!
-
-              </div>
-
-            </div>
-
-          )}
-
-        </div>
-
-        {/* Debug: show the raw videoUrl value */}
-
-        {process.env.NODE_ENV === 'development' && (
-
-          <div className="mt-2 text-xs text-gray-400 break-all">
-
-            <span className="font-semibold">Debug videoUrl:</span> {videoUrl ? videoUrl : '(empty)'}
-
+            )}
           </div>
-
-        )}
-
+          {/* Debug: show the raw videoUrl value */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mt-2 text-xs text-gray-400 break-all">
+              <span className="font-semibold">Debug videoUrl:</span> {videoUrl ? videoUrl : '(empty)'}
+            </div>
+          )}
+        </div>
       </div>
-
     </div>
-
   );
 
 };

@@ -229,7 +229,7 @@ const EditProfileModal = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] border-4 border-black flex flex-col">
+      <div className="bg-white rounded-lg max-w-md w-full max-h-[85vh] lg:max-h-[80vh] border-4 border-black flex flex-col">
         {/* Sticky Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
@@ -370,7 +370,7 @@ const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => 
   if (!open) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
         {/* Fixed Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
@@ -573,7 +573,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[90vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200 bg-gray-50">
           <div></div>
           <div className="text-center">
@@ -1973,7 +1973,7 @@ Automated calculations and formulas would be present`;
       {/* Talent Tutorial Modal */}
       {tutorialModalOpen && currentTutorial && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto relative">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-6 max-w-4xl w-full mx-4 max-h-[85vh] lg:max-h-[80vh] overflow-y-auto relative">
             <button
               onClick={() => {
                 setTutorialModalOpen(false);
@@ -2020,7 +2020,7 @@ Automated calculations and formulas would be present`;
       {/* Talent Tree Modal - Responsive */}
       {selectedTalentTree && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 sm:p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 sm:p-6 w-full max-w-4xl max-h-[85vh] lg:max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4 sm:mb-6">
               <div className="flex-1"></div>
               <div className="flex items-center gap-2 sm:gap-3">

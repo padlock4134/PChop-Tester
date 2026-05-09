@@ -126,8 +126,8 @@ const WeeklyChallengeProjectModal: React.FC<WeeklyChallengeProjectModalProps> = 
   if (!open) return null;
   return (
     <div className="fixed inset-0 overflow-y-auto z-50 flex items-center justify-center bg-black bg-opacity-40 p-2 sm:p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full h-full sm:h-auto max-w-lg p-3 sm:p-6 relative max-h-[95vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-        <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={onClose} aria-label="Close">✕</button>
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full sm:h-auto max-w-lg p-3 sm:p-6 relative max-h-[85vh] lg:max-h-[80vh] overflow-y-auto mx-4" onClick={e => e.stopPropagation()}>
+        <button className="absolute top-2 right-2 w-11 h-11 flex items-center justify-center text-gray-500 hover:text-gray-800" onClick={onClose} aria-label="Close">✕</button>
         <div className="flex flex-col items-center min-h-[200px] justify-center">
           {loading && (
             <div className="flex flex-col items-center justify-center w-full h-full">
