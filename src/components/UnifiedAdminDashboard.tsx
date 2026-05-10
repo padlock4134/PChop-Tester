@@ -1835,7 +1835,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           
           {/* Admin Module Navigation - matching student dashboard grid */}
           <div className="mb-4 p-3">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2 admin-module-grid">
             <button
               onClick={() => {
                 setActiveTab('overview');

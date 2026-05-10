@@ -113,8 +113,12 @@ body > #arjsDebugUIContainer {
     margin-right: auto;
   }
 
+  .admin-dashboard-frame .admin-dashboard-content .admin-module-grid {
+    gap: 1.25rem !important;
+  }
+
   .admin-dashboard-frame .admin-dashboard-content .admin-module-card {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 
   .admin-dashboard-frame .admin-dashboard-content .shadow-md.border-maineBlue > .grid > div {
