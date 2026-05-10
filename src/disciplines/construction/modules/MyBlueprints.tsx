@@ -934,7 +934,7 @@ const MyBlueprints = () => {
               <h3 className="text-xl">📚 {t('myBlueprints.collectionsLibrary')}</h3>
             </div>
             
-            <div className="p-4 overflow-y-auto">
+            <div className="p-4">
               {/* Existing Collections Section */}
               <div className="mb-6">
                 <h4 className="font-bold text-maineBlue mb-3">📋 {t('myBlueprints.myCollections')}</h4>
