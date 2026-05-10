@@ -738,10 +738,6 @@ END:VCALENDAR`;
       </div>
       
       <div className="p-4">
-        <p className="text-sm text-gray-600 text-center mb-4">
-          {t('pipeLounge.globalTestKitchen.subtitle')}
-        </p>
-
         {/* Tab Navigation */}
         <div className="flex mb-4 bg-gray-100 rounded-lg p-1">
           <button
