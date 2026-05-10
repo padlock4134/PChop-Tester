@@ -248,3 +248,23 @@ body > #arjsDebugUIContainer {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
+
+
+@media (min-width: 1024px) {
+  .culinary-frame-lock {
+    /* legacy class intentionally neutralized */
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .desktop-frame-match {
+    width: min(96.3vw, 1400px);
+    max-width: min(96.3vw, 1400px);
+    margin-left: auto;
+    margin-right: auto;
+    height: min(90vh, calc(100vh - 10rem));
+    max-height: min(90vh, calc(100vh - 10rem));
+    overflow-y: auto;
+  }
+}
