@@ -426,7 +426,7 @@
     }
   },
   "admin": {
-    "adminDashboard": "Admin Dashboard",
+    "adminDashboard": "Educator's Dashboard",
     "overview": "Overview",
     "users": "Users",
     "analytics": "Analytics",
@@ -448,7 +448,6 @@
     "schoolBranding": "School Branding",
     "moduleIntegration": "Module Integration",
     "jobPlacement": "Job Placement & Career Services",
-    "subtitle": "Manage your school's curriculum delivery and student engagement!",
     "curriculumContent": "Curriculum & Content",
     "schoolSettings": "School Settings",
     "events": "Events",
