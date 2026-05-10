@@ -1683,9 +1683,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       </div>
       
       {/* Main Admin Dashboard - matching student dashboard style */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full desktop-dashboard-frame admin-dashboard-frame">
         {/* Home Tab Content */}
-        <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
+        <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block admin-dashboard-content`}>
           {/* Dashboard header - matching student dashboard */}
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('admin.adminDashboard')}</h1>
@@ -1762,7 +1762,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         </div>
 
         {/* Events Tab Content */}
-        <div className={`${activeMobileTab === 'events' ? 'block' : 'hidden'} lg:block`}>
+        <div className={`${activeMobileTab === 'events' ? 'block' : 'hidden'} lg:block admin-dashboard-content`}>
           {/* Separation line */}
           <hr className="border-t-2 border-maineBlue mb-6 lg:hidden" />
 
