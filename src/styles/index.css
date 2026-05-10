@@ -96,8 +96,13 @@ body > #arjsDebugUIContainer {
   }
 
   .admin-dashboard-frame {
-    height: min(90vh, calc(100vh - 14rem));
-    max-height: min(90vh, calc(100vh - 14rem));
+    width: 107%;
+    max-width: 107%;
+    margin-left: -3.5%;
+    margin-right: -3.5%;
+    height: min(96.3vh, calc((100vh - 14rem) * 1.07));
+    max-height: min(96.3vh, calc((100vh - 14rem) * 1.07));
+    overflow-y: hidden;
   }
 
 
