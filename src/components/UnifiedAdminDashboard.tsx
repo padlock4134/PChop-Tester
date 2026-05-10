@@ -1651,7 +1651,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       </div>
 
       {/* Admin Context Bar */}
-      <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-4 w-full grid grid-cols-1 sm:grid-cols-3 items-center gap-3">
+      <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-2 w-full grid grid-cols-1 sm:grid-cols-3 items-center gap-3">
         <p className="text-maineBlue font-retro text-sm sm:text-base text-center sm:text-left">
           Your School Name Here
         </p>
@@ -1681,6 +1681,144 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           Viewing: <span className="font-semibold text-maineBlue">{selectedDisciplineLabel}</span>
         </p>
       </div>
+
+      {/* Desktop Upcoming Events Ticker - placed between context bar and dashboard frame */}
+      <div className="hidden lg:block mb-2">
+        {upcomingEvents.length > 0 && (
+          <div 
+            className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 cursor-pointer"
+            onMouseEnter={() => setIsEventsPaused(true)}
+            onMouseLeave={() => setIsEventsPaused(false)}
+            onClick={() => {
+              const event = upcomingEvents[currentEventIndex];
+              if (event.type === 'alumni') {
+                setSelectedEventId(event.id);
+                setShowViewEventModal(true);
+              } else if (event.type === 'career') {
+                setSelectedCareerEventId(event.id);
+                setShowViewCareerEventModal(true);
+              }
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center mr-3">
+                <div className="w-3 h-3 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
+                <span className="font-bold text-blue-700 text-sm">📅 {t('admin.upcoming')}</span>
+              </div>
+              <div className="flex-1 text-center">
+                <div className="text-sm text-blue-800 transition-all duration-500">
+                  <span>
+                    <strong>{upcomingEvents[currentEventIndex].name}</strong> •{' '}
+                    {upcomingEvents[currentEventIndex].date} {t('admin.at')} {upcomingEvents[currentEventIndex].time} •{' '}
+                    {upcomingEvents[currentEventIndex].registered} {t('admin.registered')}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{upcomingEvents[currentEventIndex].emoji}</span>
+                <div className={`bg-${upcomingEvents[currentEventIndex].color}-500 text-white text-xs px-4 py-2 rounded-full font-medium`}>
+                  {t('admin.viewDetails')}
+                </div>
+              </div>
+            </div>
+            
+            {/* Progress dots */}
+            {upcomingEvents.length > 1 && (
+              <div className="flex justify-center mt-3 gap-1">
+                {upcomingEvents.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentEventIndex ? 'bg-blue-500' : 'bg-blue-200'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Integrity Alerts Ticker - placed between event ticker and dashboard frame */}
+      <div className="hidden lg:block mb-2">
+        {(() => {
+          const unreviewedAlerts = integrityAlerts.filter(a => !a.reviewed);
+          
+          if (unreviewedAlerts.length === 0) {
+            return (
+              <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center mr-3">
+                    <div className="w-3 h-3 bg-orange-500 rounded-full mr-2 animate-pulse"></div>
+                    <span className="font-bold text-orange-700 text-sm">🛡️ Integrity Alerts</span>
+                  </div>
+                  <div className="flex-1 text-center">
+                    <div className="text-sm text-orange-800">
+                      <span>No integrity alerts • All systems running smoothly</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">✅</span>
+                    <div className="bg-green-500 text-white text-xs px-4 py-2 rounded-full font-medium">
+                      All Clear
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          }
+          
+          const currentAlert = unreviewedAlerts[currentAlertIndex];
+          
+          return (
+            <div 
+              className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 cursor-pointer"
+              onMouseEnter={() => setIsAlertsPaused(true)}
+              onMouseLeave={() => setIsAlertsPaused(false)}
+              onClick={() => setSelectedAlert(currentAlert)}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center mr-3">
+                  <div className="w-3 h-3 bg-orange-500 rounded-full mr-2 animate-pulse"></div>
+                  <span className="font-bold text-orange-700 text-sm">🛡️ Integrity Alert</span>
+                </div>
+                <div className="flex-1 text-center">
+                  <div className="text-sm text-orange-800 transition-all duration-500">
+                    <span>
+                      <strong>{formatAlertTypeLabel(currentAlert.alert_type)}</strong> •{' '}
+                      {currentAlert.description} •{' '}
+                      {currentAlert.discipline || 'System'}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">
+                    {currentAlert.alert_type === 'fast_completion' ? '⚡' : 
+                     currentAlert.alert_type === 'plagiarism' ? '📝' : '🚨'}
+                  </span>
+                  <div className="bg-orange-500 text-white text-xs px-4 py-2 rounded-full font-medium">
+                    Review
+                  </div>
+                </div>
+              </div>
+              
+              {/* Progress dots */}
+              {unreviewedAlerts.length > 1 && (
+                <div className="flex justify-center mt-3 gap-1">
+                  {unreviewedAlerts.map((_, index) => (
+                    <div
+                      key={index}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        index === currentAlertIndex ? 'bg-orange-500' : 'bg-orange-200'
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })()}
+      </div>
       
       {/* Main Admin Dashboard - matching student dashboard style */}
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full desktop-dashboard-frame admin-dashboard-frame">
@@ -1697,7 +1835,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           
           {/* Admin Module Navigation - matching student dashboard grid */}
           <div className="mb-4 p-3">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 px-2 admin-module-grid">
             <button
               onClick={() => {
                 setActiveTab('overview');
@@ -1707,7 +1845,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 activeTab === 'overview' 
                   ? 'border-seafoam bg-teal-50 scale-105 ring-4 ring-maineBlue' 
                   : 'border-seafoam bg-teal-50'
-              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
+              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px] admin-module-card`}
             >
               <div className="mb-3 text-4xl">🌡️</div>
               <h3 className="text-sm font-bold font-retro">{t('admin.overview')}</h3>
@@ -1722,7 +1860,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 activeTab === 'users' 
                   ? 'border-blue-400 bg-blue-50 scale-105 ring-4 ring-maineBlue' 
                   : 'border-blue-400 bg-blue-50'
-              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
+              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px] admin-module-card`}
             >
               <div className="mb-3 text-4xl">🎓</div>
               <h3 className="text-sm font-bold font-retro">{t('admin.users')}</h3>
@@ -1737,7 +1875,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 activeTab === 'content' 
                   ? 'border-red-400 bg-red-50 scale-105 ring-4 ring-maineBlue' 
                   : 'border-red-400 bg-red-50'
-              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
+              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px] admin-module-card`}
             >
               <div className="mb-3 text-4xl">📚</div>
               <h3 className="text-sm font-bold font-retro">{t('admin.curriculumContent')}</h3>
@@ -1752,7 +1890,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 activeTab === 'system' 
                   ? 'border-yellow-300 bg-yellow-50 scale-105 ring-4 ring-maineBlue' 
                   : 'border-yellow-300 bg-yellow-50'
-              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px]`}
+              } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[120px] admin-module-card`}
             >
               <div className="mb-3 text-4xl">🏫</div>
               <h3 className="text-sm font-bold font-retro">{t('admin.schoolSettings')}</h3>
@@ -1804,86 +1942,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </div>
               </div>
 
-              {/* Desktop: Horizontal Carousel */}
-              <div className="hidden lg:block">
-                {(() => {
-                  const unreviewedAlerts = integrityAlerts.filter(a => !a.reviewed);
-                  
-                  if (unreviewedAlerts.length === 0) {
-                    return (
-                      <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 mb-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center mr-3">
-                            <div className="w-3 h-3 bg-orange-500 rounded-full mr-2 animate-pulse"></div>
-                            <span className="font-bold text-orange-700 text-sm">🛡️ Integrity Alerts</span>
-                          </div>
-                          <div className="flex-1 text-center">
-                            <div className="text-sm text-orange-800">
-                              <span>No integrity alerts • All systems running smoothly</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-2xl">✅</span>
-                            <div className="bg-green-500 text-white text-xs px-4 py-2 rounded-full font-medium">
-                              All Clear
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  }
-                  
-                  const currentAlert = unreviewedAlerts[currentAlertIndex];
-                  
-                  return (
-                    <div 
-                      className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 mb-4 cursor-pointer"
-                      onMouseEnter={() => setIsAlertsPaused(true)}
-                      onMouseLeave={() => setIsAlertsPaused(false)}
-                      onClick={() => setSelectedAlert(currentAlert)}
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center mr-3">
-                          <div className="w-3 h-3 bg-orange-500 rounded-full mr-2 animate-pulse"></div>
-                          <span className="font-bold text-orange-700 text-sm">🛡️ Integrity Alert</span>
-                        </div>
-                        <div className="flex-1 text-center">
-                          <div className="text-sm text-orange-800 transition-all duration-500">
-                            <span>
-                              <strong>{formatAlertTypeLabel(currentAlert.alert_type)}</strong> •{' '}
-                              {currentAlert.description} •{' '}
-                              {currentAlert.discipline || 'System'}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl">
-                            {currentAlert.alert_type === 'fast_completion' ? '⚡' : 
-                             currentAlert.alert_type === 'plagiarism' ? '📝' : '🚨'}
-                          </span>
-                          <div className="bg-orange-500 text-white text-xs px-4 py-2 rounded-full font-medium">
-                            Review
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Progress dots */}
-                      {unreviewedAlerts.length > 1 && (
-                        <div className="flex justify-center mt-3 gap-1">
-                          {unreviewedAlerts.map((_, index) => (
-                            <div
-                              key={index}
-                              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                index === currentAlertIndex ? 'bg-orange-500' : 'bg-orange-200'
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })()}
-              </div>
             </>
           )}
 
@@ -1929,62 +1987,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             )}
           </div>
 
-          {/* Desktop: Horizontal Carousel */}
-          <div className="hidden lg:block">
-            {upcomingEvents.length > 0 && (
-              <div 
-                className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 mb-4 cursor-pointer"
-                onMouseEnter={() => setIsEventsPaused(true)}
-                onMouseLeave={() => setIsEventsPaused(false)}
-                onClick={() => {
-                  const event = upcomingEvents[currentEventIndex];
-                  if (event.type === 'alumni') {
-                    setSelectedEventId(event.id);
-                    setShowViewEventModal(true);
-                  } else if (event.type === 'career') {
-                    setSelectedCareerEventId(event.id);
-                    setShowViewCareerEventModal(true);
-                  }
-                }}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center mr-3">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
-                    <span className="font-bold text-blue-700 text-sm">📅 {t('admin.upcoming')}</span>
-                  </div>
-                  <div className="flex-1 text-center">
-                    <div className="text-sm text-blue-800 transition-all duration-500">
-                      <span>
-                        <strong>{upcomingEvents[currentEventIndex].name}</strong> •{' '}
-                        {upcomingEvents[currentEventIndex].date} {t('admin.at')} {upcomingEvents[currentEventIndex].time} •{' '}
-                        {upcomingEvents[currentEventIndex].registered} {t('admin.registered')}
-                      </span>
-                      </div>
-                    </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{upcomingEvents[currentEventIndex].emoji}</span>
-                    <div className={`bg-${upcomingEvents[currentEventIndex].color}-500 text-white text-xs px-4 py-2 rounded-full font-medium`}>
-                      {t('admin.viewDetails')}
-                      </div>
-                    </div>
-                </div>
-                
-                {/* Progress dots */}
-                {upcomingEvents.length > 1 && (
-                  <div className="flex justify-center mt-3 gap-1">
-                    {upcomingEvents.map((_, index) => (
-                      <div
-                        key={index}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          index === currentEventIndex ? 'bg-blue-500' : 'bg-blue-200'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Quick Actions Tab Content */}
