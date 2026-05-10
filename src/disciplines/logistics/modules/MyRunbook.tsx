@@ -1,37 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../components/DockFreddieContext';
-import { useRouteContext } from '../components/RouteContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchRunbook, removeRouteFromRunbook } from './cookbookSupabase';
-import { supabase } from '../api/supabaseClient';
-import { XP_REWARDS } from '../services/xpService';
-import { useLevelProgressContext } from '../components/NavBar';
-import { useSupabase } from '../components/SupabaseProvider';
-import { isSessionValid } from '../api/userSession';
+import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
+import { supabase } from '../../culinary/api/supabaseClient';
+import { XP_REWARDS } from '../../culinary/services/xpService';
+import { useLevelProgressContext } from '../../culinary/components/NavBar';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { isSessionValid } from '../../culinary/api/userSession';
 
 const logisticsQuoteOfTheDay = {
-  dispatcher: 'W. Edwards Deming',
+  chef: 'W. Edwards Deming',
   quote: 'Quality and reliability in every handoff keep the whole system moving.'
 };
 
-export function getDispatcherQuoteOfTheDay() {
+export function getChefQuoteOfTheDay() {
   return logisticsQuoteOfTheDay;
 }
 
-export function getVideoQueriesForRoute(route: Route): string[] {
+export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
   return [
-    `how to ${route.name} logistics tutorial`,
-    `${route.name} supply chain guide`
+    `how to ${recipe.name} logistics tutorial`,
+    `${recipe.name} supply chain guide`
   ];
 }
 
-export interface Route {
+export interface Recipe {
   id: string;
   name: string;
   description: string;
   photo?: string;
-  items?: string[];
+  ingredients?: string[];
   instructions?: string;
   equipment?: string[];
   nutrition?: {
@@ -46,16 +46,18 @@ export interface Route {
 
 const MyRunbook = () => {
   const { t } = useTranslation();
-  const { setSelectedRoute } = useRouteContext();
+  const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
-  const [routes, setLocalRoutes] = useState<Route[]>([]);
+  const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
+  // Back-compat alias for older JSX/data paths that still reference `routes`.
+  const routes = recipes;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [showShareModal, setShowShareModal] = useState(false);
-  const [routeToShare, setRouteToShare] = useState<Route | null>(null);
+  const [recipeToShare, setRecipeToShare] = useState<Recipe | null>(null);
   const [flipped, setFlipped] = useState(false);
   const [showCreateCollectionModal, setShowCreateCollectionModal] = useState(false);
   const [showViewCollectionModal, setShowViewCollectionModal] = useState(false);
@@ -73,7 +75,7 @@ const MyRunbook = () => {
   const [userFilter, setUserFilter] = useState('all');
   const [selectedLibraryVideo, setSelectedLibraryVideo] = useState<{name: string, url: string, created_at: string, userId: string, isPublic: boolean} | null>(null);
   const [showLibraryVideoModal, setShowLibraryVideoModal] = useState(false);
-  const [activeMobileTab, setActiveMobileTab] = useState<'runbook' | 'collections'>('runbook');
+  const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
   
   // Assignment data
   const assignments = [
@@ -173,51 +175,51 @@ const MyRunbook = () => {
     }
   };
 
-  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, routes: string[]} | null>(null);
-  const [selectedRoutes, setSelectedRoutes] = useState<string[]>([]);
+  const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
+  const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', routes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Routes', emoji: '⚡', routes: ['1', '2'] },
-    { id: '3', name: 'Healthy Options', emoji: '🥗', routes: ['1', '2', '3', '4', '5'] }
+    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
+    { id: '2', name: 'Quick Cook', emoji: '⚡', recipes: ['1', '2'] },
+    { id: '3', name: 'Healthy Options', emoji: '🥗', recipes: ['1', '2', '3', '4', '5'] }
   ]);
 
   const { user } = useSupabase();
 
-  // Load routes and set page context on mount
+  // Load recipes and set page context on mount
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
   
   // Categories for filtering
   const categories = [
     { key: 'All', label: t('myRunbook.all') },
-    { key: 'Truckload', label: 'Truckload' },
-    { key: 'LTL', label: 'LTL' },
-    { key: 'Cold Chain', label: 'Cold Chain' },
-    { key: 'Hazmat', label: 'Hazmat' }
+    { key: 'Seafood', label: t('myRunbook.seafood') },
+    { key: 'Meat', label: t('myRunbook.meat') },
+    { key: 'Vegetarian', label: t('myRunbook.vegetarian') },
+    { key: 'Dessert', label: t('myRunbook.dessert') }
   ];
 
-  // Handle route selection for collections
-  const handleRouteSelect = (routeId: string) => {
-    setSelectedRoutes(prev => 
-      prev.includes(routeId) 
-        ? prev.filter(id => id !== routeId)
-        : [...prev, routeId]
+  // Handle recipe selection for collections
+  const handleRecipeSelect = (recipeId: string) => {
+    setSelectedRecipes(prev => 
+      prev.includes(recipeId) 
+        ? prev.filter(id => id !== recipeId)
+        : [...prev, recipeId]
     );
   };
 
   // Handle creating a new collection
   const handleCreateCollection = () => {
-    if (newCollectionName.trim() && selectedRoutes.length > 0) {
+    if (newCollectionName.trim() && selectedRecipes.length > 0) {
       const newCollection = {
         id: Date.now().toString(),
         name: newCollectionName.trim(),
         emoji: '📁',
-        routes: [...selectedRoutes]
+        recipes: [...selectedRecipes]
       };
       setCollections(prev => [...prev, newCollection]);
       setNewCollectionName('');
-      setSelectedRoutes([]);
+      setSelectedRecipes([]);
       setShowCreateCollectionModal(false);
     }
   };
@@ -253,11 +255,11 @@ const MyRunbook = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: routeToShare ? t('myRunbook.shareRouteTitle', { defaultValue: 'Share Route' }) : t('myRunbook.shareYourRunbook', { defaultValue: 'Share Your Runbook' }),
-      text: routeToShare 
-        ? `Check out this amazing route for ${routeToShare.name} on Porkchop!` 
-        : 'Check out my digital runbook on Porkchop! I\'ve been collecting amazing routes and would love to share them with you.',
-      url: window.location.href + (routeToShare ? `?route=${encodeURIComponent(routeToShare.id)}` : ''),
+      title: recipeToShare ? `${recipeToShare.name} Recipe on Porkchop` : 'My Cookbook on Porkchop',
+      text: recipeToShare 
+        ? `Check out this amazing recipe for ${recipeToShare.name} on Porkchop!` 
+        : 'Check out my digital cookbook on Porkchop! I\'ve been collecting amazing recipes and would love to share them with you.',
+      url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
     };
 
     try {
@@ -282,7 +284,7 @@ const MyRunbook = () => {
           break;
         case 'instagram':
           // Instagram doesn't support direct sharing via URL, so we'll copy to clipboard with instructions
-          const instagramMessage = `Check out my runbook! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
+          const instagramMessage = `Check out my cookbook! ${shareData.url}\n\nTo share on Instagram:\n1. Open Instagram\n2. Create a new post\n3. Paste this link in your caption`;
           await navigator.clipboard.writeText(instagramMessage);
           alert(t('myRunbook.sharingInstructions'));
           shared = true;
@@ -312,7 +314,7 @@ const MyRunbook = () => {
             .from('xp_activity_log')
             .select('id')
             .eq('user_id', user.id)
-            .eq('activity', 'runbook_share')
+            .eq('activity', 'cookbook_share')
             .gte('created_at', `${today}T00:00:00`)
             .lte('created_at', `${today}T23:59:59`)
             .maybeSingle();
@@ -320,14 +322,14 @@ const MyRunbook = () => {
           if (!existingLog) {
             await supabase.rpc('increment_user_xp', {
               user_id: user.id,
-              xp_amount: XP_REWARDS.ROUTE_SHARE
+              xp_amount: XP_REWARDS.RECIPE_SHARE
             });
             
             await supabase.from('xp_activity_log').insert([
               {
                 user_id: user.id,
-                xp_awarded: XP_REWARDS.ROUTE_SHARE,
-                activity: 'runbook_share'
+                xp_awarded: XP_REWARDS.RECIPE_SHARE,
+                activity: 'cookbook_share'
               }
             ]);
             
@@ -345,62 +347,90 @@ const MyRunbook = () => {
     }
   };
   useEffect(() => {
-    updateContext({ page: 'MyRunbook' });
-    const loadRoutes = async () => {
+    updateContext({ page: 'MyCookBook' });
+    const loadRecipes = async () => {
       try {
         setLoading(true);
-        const savedRoutes = await fetchRunbook(user?.id!);
-        const converted = savedRoutes.map(r => ({
+        const savedRecipes = await fetchCookbook(user?.id!);
+        const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
           description: r.instructions,
           photo: r.image,
-          items: r.items,
+          ingredients: r.ingredients,
           instructions: r.instructions,
           equipment: r.equipment,
           nutrition: r.nutrition,
           healthTags: r.healthTags
         }));
-        setLocalRoutes(converted);
+        setLocalRecipes(converted);
       } catch (err) {
-        console.error('Error loading runbook:', err);
-        setError('Failed to load your runbook');
+        console.error('Error loading cookbook:', err);
+        setError('Failed to load your cookbook');
       } finally {
         setLoading(false);
       }
     };
-    loadRoutes();
+    loadRecipes();
   }, [updateContext]);
 
-  // Filter routes based on search term and category
-  const filteredRoutes = routes.filter(route => {
-    const matchesSearch = route.name.toLowerCase().includes(searchTerm.toLowerCase());
+  // Filter recipes based on search term and category
+  const filteredRecipes = recipes.filter(recipe => {
+    const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('myRunbook.all')) return matchesSearch;
     
-    // Simple category detection based on items
-    const items = route.items || [];
-    const itemsJoined = items.join(' ').toLowerCase();
+    // Simple category detection based on ingredients
+    const ingredients = recipe.ingredients || [];
+    const ingredientsJoined = ingredients.join(' ').toLowerCase();
     
-    const hasTruckload = itemsJoined.includes('truckload') || itemsJoined.includes('freight') || itemsJoined.includes('dock');
-    const hasLTL = itemsJoined.includes('ltl') || itemsJoined.includes('pallet') || itemsJoined.includes('barcode');
-    const hasColdChain = itemsJoined.includes('reefer') || itemsJoined.includes('cold') || itemsJoined.includes('temperature');
-    const hasHazmat = itemsJoined.includes('hazmat') || itemsJoined.includes('placard') || itemsJoined.includes('spill') || itemsJoined.includes('safety');
-
+    const hasSeafood = ingredientsJoined.includes('fish') || 
+      ingredientsJoined.includes('salmon') || 
+      ingredientsJoined.includes('tuna') || 
+      ingredientsJoined.includes('cod') || 
+      ingredientsJoined.includes('tilapia') || 
+      ingredientsJoined.includes('shrimp') || 
+      ingredientsJoined.includes('lobster') || 
+      ingredientsJoined.includes('crab') || 
+      ingredientsJoined.includes('oyster') || 
+      ingredientsJoined.includes('clam') || 
+      ingredientsJoined.includes('mussel');
+    
+    const hasMeat = ingredientsJoined.includes('beef') || 
+      ingredientsJoined.includes('chicken') || 
+      ingredientsJoined.includes('pork') || 
+      ingredientsJoined.includes('turkey') || 
+      ingredientsJoined.includes('bacon') || 
+      ingredientsJoined.includes('sausage') || 
+      ingredientsJoined.includes('lamb');
+    
+    const hasVegetable = ingredientsJoined.includes('vegetable') || 
+      ingredientsJoined.includes('tomato') || 
+      ingredientsJoined.includes('carrot') || 
+      ingredientsJoined.includes('spinach');
+    
+    const hasDessert = ingredientsJoined.includes('sugar') || 
+      ingredientsJoined.includes('chocolate') || 
+      ingredientsJoined.includes('vanilla') || 
+      ingredientsJoined.includes('cream') || 
+      ingredientsJoined.includes('cake') || 
+      ingredientsJoined.includes('cookie') || 
+      ingredientsJoined.includes('pie');
+    
     switch (activeCategory) {
-      case 'Truckload': return hasTruckload && matchesSearch;
-      case 'LTL': return hasLTL && matchesSearch;
-      case 'Cold Chain': return hasColdChain && matchesSearch;
-      case 'Hazmat': return hasHazmat && matchesSearch;
+      case 'Seafood': return hasSeafood && matchesSearch;
+      case 'Meat': return hasMeat && matchesSearch;
+      case 'Vegetarian': return hasVegetable && !hasMeat && !hasSeafood && matchesSearch;
+      case 'Dessert': return hasDessert && matchesSearch;
       default: return matchesSearch;
     }
   });
 
   if (loading) {
     return (
-      <div className="w-full mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">Loading your runbook...</div>
+          <div className="text-lg font-retro mb-2">Loading your cookbook...</div>
         </div>
       </div>
     );
@@ -408,7 +438,7 @@ const MyRunbook = () => {
 
   if (error) {
     return (
-      <div className="w-full mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="text-xl text-red-600 mb-4">⚠️</div>
           <div className="text-lg font-retro mb-2">{error}</div>
@@ -418,13 +448,13 @@ const MyRunbook = () => {
   }
 
   return (
-    <div className="w-[90%] mx-auto mt-4 student-dashboard-height-lock">
+    <div className="max-w-6xl mx-auto mt-8">
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
-          onClick={() => setActiveMobileTab('runbook')}
+          onClick={() => setActiveMobileTab('cookbook')}
           className={`flex-1 py-3 px-4 font-bold text-sm transition-colors rounded-t-lg ${
-            activeMobileTab === 'runbook'
+            activeMobileTab === 'cookbook'
               ? 'bg-maineBlue text-white border-b-4 border-lobsterRed'
               : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
           }`}
@@ -443,9 +473,9 @@ const MyRunbook = () => {
         </button>
       </div>
       
-      <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
-        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full ${
-          activeMobileTab === 'runbook' ? 'flex' : 'hidden lg:flex'
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
+          activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
           <div className="flex items-center justify-center p-6 pb-4">
@@ -463,11 +493,11 @@ const MyRunbook = () => {
       {showShareModal && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => {
         setShowShareModal(false);
-        setRouteToShare(null);
+        setRecipeToShare(null);
       }}>
         <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
-            {routeToShare ? `${t('myRunbook.shareRouteTitle', { defaultValue: 'Share Route' })} "${routeToShare.name}"` : t('myRunbook.shareYourRunbook', { defaultValue: 'Share Your Runbook' })}
+            {recipeToShare ? `${t('myRunbook.shareRecipeTitle')} "${recipeToShare.name}"` : t('myRunbook.shareYourCookbook')}
           </h3>
           <div className="flex justify-around mb-4">
             <button 
@@ -523,7 +553,7 @@ const MyRunbook = () => {
             <button
               onClick={() => {
                 setShowShareModal(false);
-                setRouteToShare(null);
+                setRecipeToShare(null);
               }}
               className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors"
             >
@@ -559,7 +589,7 @@ const MyRunbook = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600">
-                {t('myRunbook.selectedRecipes')} {selectedRoutes.length}
+                {t('myRunbook.selectedRecipes')} {selectedRecipes.length}
               </p>
             </div>
             
@@ -603,19 +633,19 @@ const MyRunbook = () => {
             
             <div className="mb-4">
               <p className="text-sm text-gray-600 mb-3">
-                {t('myRunbook.recipesInCollection')} ({selectedCollection.routes.length}):
+                {t('myRunbook.recipesInCollection')} ({selectedCollection.recipes.length}):
               </p>
               
               <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                {selectedCollection.routes.map((routeId, index) => {
-                  const route = routes.find(r => r.id === routeId);
+                {selectedCollection.recipes.map((recipeId, index) => {
+                  const recipe = recipes.find(r => r.id === recipeId);
                   return (
-                    <div key={routeId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
+                    <div key={recipeId} className="py-2 px-2 hover:bg-sand rounded flex items-center justify-between">
                       <div className="flex items-center">
                         <span className="mr-2">🍽️</span>
-                        <span className="text-sm">{route ? route.name : `Route ${index + 1}`}</span>
+                        <span className="text-sm">{recipe ? recipe.name : `Recipe ${index + 1}`}</span>
                       </div>
-                      {route && route.healthTags && route.healthTags.length > 0 && (
+                      {recipe && recipe.healthTags && recipe.healthTags.length > 0 && (
                         <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
                           🥗
                         </span>
@@ -623,7 +653,7 @@ const MyRunbook = () => {
                     </div>
                   );
                 })}
-                {selectedCollection.routes.length === 0 && (
+                {selectedCollection.recipes.length === 0 && (
                   <div className="py-4 text-center text-gray-500 text-sm italic">
                     {t('myRunbook.noRecipesInCollection')}
                   </div>
@@ -673,7 +703,7 @@ const MyRunbook = () => {
             value={activeCategory}
             onChange={(e) => {
               setActiveCategory(e.target.value);
-              setCurrentIndex(0); // Reset to first route on category change
+              setCurrentIndex(0); // Reset to first recipe on category change
             }}
             className="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-seafoam bg-white text-sm w-full sm:w-auto sm:min-w-[120px]"
           >
@@ -693,7 +723,7 @@ const MyRunbook = () => {
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentIndex(0); // Reset to first route on search
+                setCurrentIndex(0); // Reset to first recipe on search
               }}
             />
             <div className="absolute left-2 top-2.5 text-gray-400">🔍</div>
@@ -711,30 +741,30 @@ const MyRunbook = () => {
             <span className="sm:hidden">{t('myRunbook.prev')}</span>
           </button>
           <button
-            onClick={() => setCurrentIndex(prev => Math.min(filteredRoutes.length - 1, prev + 1))}
-            disabled={currentIndex === filteredRoutes.length - 1}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredRoutes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+            onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
+            disabled={currentIndex === filteredRecipes.length - 1}
+            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
           >
             <span className="hidden sm:inline">{t('myRunbook.next')}</span>
             <span className="sm:hidden">{t('myRunbook.next')} →</span>
           </button>
         </div>
       </div>
-      {/* Route Count */}
-      {filteredRoutes.length > 0 && (
-        <div className="text-sm text-gray-500 mb-4">
-          {`${t('myRunbook.recipe')} ${currentIndex + 1} ${t('myRunbook.of')} ${filteredRoutes.length}`}
-        </div>
-      )}
+      {/* Recipe Count */}
+      <div className="text-sm text-gray-500 mb-4">
+        {filteredRecipes.length === 0 
+          ? t('myRunbook.noRecipes') 
+          : `${t('myRunbook.recipe')} ${currentIndex + 1} ${t('myRunbook.of')} ${filteredRecipes.length}`}
+      </div>
 
 
-      {/* Digital Runbook - Single Route */}
+      {/* Digital Cookbook - Single Recipe */}
       <div className="mt-4">
-        {filteredRoutes.length === 0 ? (
+        {filteredRecipes.length === 0 ? (
           <div className="col-span-2 text-gray-400 italic text-center py-8">
-            {routes.length === 0 
+            {recipes.length === 0 
               ? t('myRunbook.noRecipesYet')
-              : 'No routes match your search criteria.'}
+              : 'No recipes match your search criteria.'}
           </div>
         ) : (
           <div 
@@ -746,25 +776,25 @@ const MyRunbook = () => {
             >
               {/* Front */}
               <div className="absolute inset-0 bg-white p-4 sm:p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col items-center [backface-visibility:hidden]">
-                {filteredRoutes[currentIndex].photo && (
+                {filteredRecipes[currentIndex].photo && (
                   <img 
-                    src={filteredRoutes[currentIndex].photo} 
-                    alt={filteredRoutes[currentIndex].name} 
+                    src={filteredRecipes[currentIndex].photo} 
+                    alt={filteredRecipes[currentIndex].name} 
                     className="w-full h-32 sm:h-40 object-cover rounded-lg mb-4 border-2 border-gray-200"
                   />
                 )}
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-center text-maineBlue">{filteredRoutes[currentIndex].name}</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-center text-maineBlue">{filteredRecipes[currentIndex].name}</h3>
                 <div className="flex-1 flex flex-col justify-center w-full px-2">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
-                    {/* Items */}
+                    {/* Ingredients */}
                     <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 {t('myRunbook.ingredients')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredRoutes[currentIndex].items?.slice(0, 6).map((item, i) => (
-                          <li key={i} className="line-clamp-1">{item}</li>
+                        {filteredRecipes[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
+                          <li key={i} className="line-clamp-1">{ingredient}</li>
                         ))}
-                        {(filteredRoutes[currentIndex].items?.length || 0) > 6 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRoutes[currentIndex].items?.length || 0) - 6} {t('myRunbook.more')}</li>
+                        {(filteredRecipes[currentIndex].ingredients?.length || 0) > 6 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].ingredients?.length || 0) - 6} {t('myRunbook.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -773,11 +803,11 @@ const MyRunbook = () => {
                     <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">📦 {t('myRunbook.equipment')}</h4>
                       <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
-                        {filteredRoutes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
+                        {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
                         ))}
-                        {(filteredRoutes[currentIndex].equipment?.length || 0) > 4 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRoutes[currentIndex].equipment?.length || 0) - 4} {t('myRunbook.more')}</li>
+                        {(filteredRecipes[currentIndex].equipment?.length || 0) > 4 && (
+                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].equipment?.length || 0) - 4} {t('myRunbook.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -786,15 +816,15 @@ const MyRunbook = () => {
                     <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
                       <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 {t('myRunbook.healthTags')}</h4>
                       <div className="flex flex-wrap gap-1.5 justify-center max-h-[80px] sm:max-h-[100px] overflow-y-auto">
-                        {filteredRoutes[currentIndex].healthTags?.slice(0, 4).map(tag => (
+                        {filteredRecipes[currentIndex].healthTags?.slice(0, 4).map(tag => (
                           <span key={tag} className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">
                             {tag}
                           </span>
                         )) || (
                           <span className="text-xs text-gray-500">{t('myRunbook.noHealthTags')}</span>
                         )}
-                        {(filteredRoutes[currentIndex].healthTags?.length || 0) > 4 && (
-                          <span className="text-xs text-gray-600 font-semibold">+{(filteredRoutes[currentIndex].healthTags?.length || 0) - 4}</span>
+                        {(filteredRecipes[currentIndex].healthTags?.length || 0) > 4 && (
+                          <span className="text-xs text-gray-600 font-semibold">+{(filteredRecipes[currentIndex].healthTags?.length || 0) - 4}</span>
                         )}
                       </div>
                     </div>
@@ -807,22 +837,22 @@ const MyRunbook = () => {
               
               {/* Back */}
               <div className="absolute inset-0 h-full w-full rounded-lg bg-white p-4 sm:p-6 shadow-lg border-4 border-lobsterRed [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredRoutes[currentIndex].name}</h3>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredRecipes[currentIndex].name}</h3>
                 <div className="flex-grow overflow-y-auto mb-16 sm:mb-20 px-2">
                   <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('myRunbook.instructions')}</h4>
-                  <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredRoutes[currentIndex].instructions}</p>
+                  <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredRecipes[currentIndex].instructions}</p>
                 </div>
                 <div className="flex justify-between items-center absolute bottom-4 left-4 right-4 gap-2">
                   <button
                     onClick={async () => {
                       try {
-                        const routeId = filteredRoutes[currentIndex].id;
-                        await removeRouteFromRunbook(user?.id!, routeId);
-                        setLocalRoutes(routes.filter(r => r.id !== routeId));
+                        const recipeId = filteredRecipes[currentIndex].id;
+                        await removeRecipeFromCookbook(user?.id!, recipeId);
+                        setLocalRecipes(recipes.filter(r => r.id !== recipeId));
                         setCurrentIndex(0);
                       } catch (err) {
-                        console.error('Error deleting route:', err);
-                        setError('Failed to delete route');
+                        console.error('Error deleting recipe:', err);
+                        setError('Failed to delete recipe');
                       }
                     }}
                     className="text-lobsterRed hover:text-maineBlue transition-colors"
@@ -833,30 +863,30 @@ const MyRunbook = () => {
                   
                   <button
                     onClick={() => {
-                      const fullRoute = {
-                        id: `${filteredRoutes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                        title: filteredRoutes[currentIndex].name,
-                        image: filteredRoutes[currentIndex].photo || '',
-                        items: filteredRoutes[currentIndex].items || [],
-                        instructions: filteredRoutes[currentIndex].instructions || '',
-                        equipment: filteredRoutes[currentIndex].equipment || [],
+                      const fullRecipe = {
+                        id: `${filteredRecipes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                        title: filteredRecipes[currentIndex].name,
+                        image: filteredRecipes[currentIndex].photo || '',
+                        ingredients: filteredRecipes[currentIndex].ingredients || [],
+                        instructions: filteredRecipes[currentIndex].instructions || '',
+                        equipment: filteredRecipes[currentIndex].equipment || [],
                         tutorials: [
                           {
-                            title: `Equipment: Using the right tools for ${filteredRoutes[currentIndex].name}`,
+                            title: `Equipment: Using the right tools for ${filteredRecipes[currentIndex].name}`,
                             desc: `Learn how to use the main equipment needed for this dish.`
                           },
                           {
-                            title: `Protein Prep: Preparing the main item`,
+                            title: `Protein Prep: Preparing the main ingredient`,
                             desc: `How to prep the primary material and tools for this project.`
                           },
                           {
-                            title: `Route: ${filteredRoutes[currentIndex].name}`,
-                            desc: filteredRoutes[currentIndex].instructions || ''
+                            title: `Recipe: ${filteredRecipes[currentIndex].name}`,
+                            desc: filteredRecipes[currentIndex].instructions || ''
                           }
                         ]
                       };
-                      setSelectedRoute(fullRoute);
-                      navigate('/logistics-school');
+                      setSelectedRecipe(fullRecipe);
+                      navigate('/culinary-school');
                     }}
                     className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
@@ -864,7 +894,7 @@ const MyRunbook = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setRouteToShare(filteredRoutes[currentIndex]);
+                      setRecipeToShare(filteredRecipes[currentIndex]);
                       setShowShareModal(true);
                     }}
                     className="bg-maineBlue text-seafoam px-4 py-2 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
@@ -881,14 +911,14 @@ const MyRunbook = () => {
         {t('myRunbook.scrollToSeeMore')}
       </div>
       
-      {/* Dispatcher of the Day Quote - simplified text only */}
+      {/* Chef of the Day Quote - simplified text only */}
       <div className="mt-6 text-center">
         {(() => {
-          const quoteOfDay = getDispatcherQuoteOfTheDay();
+          const quoteOfDay = getChefQuoteOfTheDay();
           return (
             <>
               <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
-              <div className="text-gray-600">— {quoteOfDay.dispatcher}</div>
+              <div className="text-gray-600">— {quoteOfDay.chef}</div>
             </>
           );
         })()}
@@ -897,7 +927,7 @@ const MyRunbook = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className={`lg:w-1/3 lg:h-full ${
+        <div className={`lg:w-1/3 ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
@@ -922,7 +952,7 @@ const MyRunbook = () => {
                         <span className="text-sm">{collection.name}</span>
                       </div>
                       <span className="text-xs text-gray-500 bg-seafoam px-2 py-1 rounded-full">
-                        {collection.routes.length}
+                        {collection.recipes.length}
                       </span>
                     </div>
                   ))}
@@ -941,22 +971,22 @@ const MyRunbook = () => {
                     <p className="text-sm text-gray-600 mb-3">{t('myRunbook.selectRecipesToAdd')}</p>
                     
                     <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                      {routes.map((route) => (
-                        <div key={route.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
+                      {recipes.map((recipe) => (
+                        <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
                           <div className="flex items-center">
                             <input
                               type="checkbox"
-                              id={`route-${route.id}`}
-                              checked={selectedRoutes.includes(route.id)}
-                              onChange={() => handleRouteSelect(route.id)}
+                              id={`recipe-${recipe.id}`}
+                              checked={selectedRecipes.includes(recipe.id)}
+                              onChange={() => handleRecipeSelect(recipe.id)}
                               className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
                             />
-                            <label htmlFor={`route-${route.id}`} className="text-sm cursor-pointer">
-                              {route.name}
+                            <label htmlFor={`recipe-${recipe.id}`} className="text-sm cursor-pointer">
+                              {recipe.name}
                             </label>
                           </div>
                           <div className="flex gap-1">
-                            {route.healthTags && route.healthTags.length > 0 && (
+                            {recipe.healthTags && recipe.healthTags.length > 0 && (
                               <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
                                 🥗
                               </span>
@@ -971,7 +1001,7 @@ const MyRunbook = () => {
                       onClick={() => setShowCreateCollectionModal(true)}
                       className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
                     >
-                      {t('myRunbook.createCollectionSelected', { count: selectedRoutes.length }).replace('{count}', selectedRoutes.length.toString())}
+                      {t('myRunbook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
                     </button>
 
                     {/* View Gradebook Button */}
@@ -1215,9 +1245,9 @@ const MyRunbook = () => {
                   </div>
                   </div>
 
-                  {/* Right Page - Assignment Route Card */}
+                  {/* Right Page - Assignment Recipe Card */}
                   <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-white rounded-b-lg lg:rounded-b-none lg:rounded-r-lg p-3 lg:p-4 flex flex-col">
-                    {/* Assignment Route Card (matching LogisticsSchool layout) */}
+                    {/* Assignment Recipe Card (matching CulinarySchool layout) */}
                     <div className="flex flex-col bg-white w-full h-full overflow-hidden rounded-lg border-4 border-maineBlue">
                       {/* Assignment Image */}
                       <div className="w-full h-20 lg:h-24 bg-gray-100 flex items-center justify-center border-b-2 border-amber-300 flex-shrink-0">
@@ -1451,7 +1481,7 @@ const MyRunbook = () => {
       {/* Video Library Modal */}
       {showVideoLibraryModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowVideoLibraryModal(false)}>
-          <div className="bg-white rounded-lg shadow-2xl border-4 border-black w-full max-w-4xl max-h-[85vh] lg:max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
               <div className="flex justify-between items-center mb-4">

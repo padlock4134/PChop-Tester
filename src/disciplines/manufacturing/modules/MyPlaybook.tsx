@@ -985,7 +985,7 @@ const MyPlaybook = () => {
                             <div className="flex gap-1">
                               {process.safetyTags && process.safetyTags.length > 0 && (
                                 <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                                  🥗
+                                  🔧
                                 </span>
                               )}
                             </div>
@@ -1003,10 +1003,10 @@ const MyPlaybook = () => {
                     </div>
                   )}
                   
-                  {/* Create Collection Button - Always visible */}
+                  {/* Create Collection Button */}
                   <button
                     onClick={() => setShowCreateCollectionModal(true)}
-                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 hover:text-blue-800"
+                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
                   >
                     {t('myPlaybook.createCollectionSelected', { count: selectedProcesses.length }).replace('{count}', selectedProcesses.length.toString())}
                   </button>
