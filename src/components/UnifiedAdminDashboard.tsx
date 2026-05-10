@@ -1847,8 +1847,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   : 'border-seafoam bg-teal-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[130px] admin-module-card`}
             >
-              <div className="mb-3 text-4xl">🌡️</div>
-              <h3 className="text-sm font-bold font-retro">{t('admin.overview')}</h3>
+              <div className="mb-3 text-5xl leading-none">🌡️</div>
+              <h3 className="text-base font-bold font-retro tracking-wide">{t('admin.overview')}</h3>
             </button>
             
             <button
@@ -1862,8 +1862,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   : 'border-blue-400 bg-blue-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[130px] admin-module-card`}
             >
-              <div className="mb-3 text-4xl">🎓</div>
-              <h3 className="text-sm font-bold font-retro">{t('admin.users')}</h3>
+              <div className="mb-3 text-5xl leading-none">🎓</div>
+              <h3 className="text-base font-bold font-retro tracking-wide">{t('admin.users')}</h3>
             </button>
             
             <button
@@ -1877,8 +1877,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   : 'border-red-400 bg-red-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[130px] admin-module-card`}
             >
-              <div className="mb-3 text-4xl">📚</div>
-              <h3 className="text-sm font-bold font-retro">{t('admin.curriculumContent')}</h3>
+              <div className="mb-3 text-5xl leading-none">📚</div>
+              <h3 className="text-base font-bold font-retro tracking-wide">{t('admin.curriculumContent')}</h3>
             </button>
             
             <button
@@ -1892,8 +1892,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   : 'border-yellow-300 bg-yellow-50'
               } text-black hover:scale-105 transition-transform duration-200 text-center min-h-[130px] admin-module-card`}
             >
-              <div className="mb-3 text-4xl">🏫</div>
-              <h3 className="text-sm font-bold font-retro">{t('admin.schoolSettings')}</h3>
+              <div className="mb-3 text-5xl leading-none">🏫</div>
+              <h3 className="text-base font-bold font-retro tracking-wide">{t('admin.schoolSettings')}</h3>
             </button>
           </div>
           </div>
