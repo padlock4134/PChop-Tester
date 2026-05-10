@@ -1681,6 +1681,63 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           Viewing: <span className="font-semibold text-maineBlue">{selectedDisciplineLabel}</span>
         </p>
       </div>
+
+      {/* Desktop Upcoming Events Ticker - placed between context bar and dashboard frame */}
+      <div className="hidden lg:block mb-4">
+        {upcomingEvents.length > 0 && (
+          <div 
+            className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 cursor-pointer"
+            onMouseEnter={() => setIsEventsPaused(true)}
+            onMouseLeave={() => setIsEventsPaused(false)}
+            onClick={() => {
+              const event = upcomingEvents[currentEventIndex];
+              if (event.type === 'alumni') {
+                setSelectedEventId(event.id);
+                setShowViewEventModal(true);
+              } else if (event.type === 'career') {
+                setSelectedCareerEventId(event.id);
+                setShowViewCareerEventModal(true);
+              }
+            }}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center mr-3">
+                <div className="w-3 h-3 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
+                <span className="font-bold text-blue-700 text-sm">📅 {t('admin.upcoming')}</span>
+              </div>
+              <div className="flex-1 text-center">
+                <div className="text-sm text-blue-800 transition-all duration-500">
+                  <span>
+                    <strong>{upcomingEvents[currentEventIndex].name}</strong> •{' '}
+                    {upcomingEvents[currentEventIndex].date} {t('admin.at')} {upcomingEvents[currentEventIndex].time} •{' '}
+                    {upcomingEvents[currentEventIndex].registered} {t('admin.registered')}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{upcomingEvents[currentEventIndex].emoji}</span>
+                <div className={`bg-${upcomingEvents[currentEventIndex].color}-500 text-white text-xs px-4 py-2 rounded-full font-medium`}>
+                  {t('admin.viewDetails')}
+                </div>
+              </div>
+            </div>
+            
+            {/* Progress dots */}
+            {upcomingEvents.length > 1 && (
+              <div className="flex justify-center mt-3 gap-1">
+                {upcomingEvents.map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      index === currentEventIndex ? 'bg-blue-500' : 'bg-blue-200'
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       
       {/* Main Admin Dashboard - matching student dashboard style */}
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full desktop-dashboard-frame admin-dashboard-frame">
@@ -1929,62 +1986,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             )}
           </div>
 
-          {/* Desktop: Horizontal Carousel */}
-          <div className="hidden lg:block">
-            {upcomingEvents.length > 0 && (
-              <div 
-                className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 mb-4 cursor-pointer"
-                onMouseEnter={() => setIsEventsPaused(true)}
-                onMouseLeave={() => setIsEventsPaused(false)}
-                onClick={() => {
-                  const event = upcomingEvents[currentEventIndex];
-                  if (event.type === 'alumni') {
-                    setSelectedEventId(event.id);
-                    setShowViewEventModal(true);
-                  } else if (event.type === 'career') {
-                    setSelectedCareerEventId(event.id);
-                    setShowViewCareerEventModal(true);
-                  }
-                }}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center mr-3">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
-                    <span className="font-bold text-blue-700 text-sm">📅 {t('admin.upcoming')}</span>
-                  </div>
-                  <div className="flex-1 text-center">
-                    <div className="text-sm text-blue-800 transition-all duration-500">
-                      <span>
-                        <strong>{upcomingEvents[currentEventIndex].name}</strong> •{' '}
-                        {upcomingEvents[currentEventIndex].date} {t('admin.at')} {upcomingEvents[currentEventIndex].time} •{' '}
-                        {upcomingEvents[currentEventIndex].registered} {t('admin.registered')}
-                      </span>
-                      </div>
-                    </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-2xl">{upcomingEvents[currentEventIndex].emoji}</span>
-                    <div className={`bg-${upcomingEvents[currentEventIndex].color}-500 text-white text-xs px-4 py-2 rounded-full font-medium`}>
-                      {t('admin.viewDetails')}
-                      </div>
-                    </div>
-                </div>
-                
-                {/* Progress dots */}
-                {upcomingEvents.length > 1 && (
-                  <div className="flex justify-center mt-3 gap-1">
-                    {upcomingEvents.map((_, index) => (
-                      <div
-                        key={index}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                          index === currentEventIndex ? 'bg-blue-500' : 'bg-blue-200'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
         </div>
 
         {/* Quick Actions Tab Content */}
