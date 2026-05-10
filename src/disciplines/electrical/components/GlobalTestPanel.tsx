@@ -721,6 +721,25 @@ END:VCALENDAR`;
       </div>
       
       <div className="p-4">
+        {/* Action Buttons */}
+        <div className="space-y-3 mb-4">
+          <button 
+            onClick={() => {
+              startHostSession();
+              setGoLiveModalOpen(true);
+            }}
+            className="w-full bg-maineBlue text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            🔴 {t('wireLounge.globalTestKitchen.goLiveNow')}
+          </button>
+          <button 
+            onClick={() => setScheduleModalOpen(true)}
+            className="w-full border border-maineBlue text-maineBlue py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
+          >
+            📅 {t('wireLounge.globalTestKitchen.scheduleSession')}
+          </button>
+        </div>
+
         {/* Tab Navigation */}
         <div className="flex mb-4 bg-gray-100 rounded-lg p-1">
           <button
@@ -871,24 +890,6 @@ END:VCALENDAR`;
             </p>
           </div>
           
-          <div className="space-y-3">
-            <button 
-              onClick={() => {
-                startHostSession();
-                setGoLiveModalOpen(true);
-              }}
-              className="w-full bg-maineBlue text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              🔴 {t('wireLounge.globalTestKitchen.goLiveNow')}
-            </button>
-            <button 
-              onClick={() => setScheduleModalOpen(true)}
-              className="w-full border border-maineBlue text-maineBlue py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
-            >
-              📅 {t('wireLounge.globalTestKitchen.scheduleSession')}
-            </button>
-          </div>
-
           <div className="bg-sand p-3 rounded-lg">
             <h4 className="font-semibold text-sm text-gray-900 mb-2">💡 Tips for Success:</h4>
             <ul className="text-xs text-gray-700 space-y-1">
