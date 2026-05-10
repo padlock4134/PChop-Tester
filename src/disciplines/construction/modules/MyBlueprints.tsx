@@ -473,7 +473,7 @@ const MyBlueprints = () => {
       </div>
       
       <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
-        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full ${
+        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
@@ -929,7 +929,7 @@ const MyBlueprints = () => {
         <div className={`lg:w-1/3 lg:h-full ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px]">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
               <h3 className="text-xl">📚 {t('myBlueprints.collectionsLibrary')}</h3>
             </div>
