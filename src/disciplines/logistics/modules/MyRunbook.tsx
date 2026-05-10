@@ -49,6 +49,8 @@ const MyRunbook = () => {
   const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
   const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
+  // Back-compat alias for older JSX/data paths that still reference `routes`.
+  const routes = recipes;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
