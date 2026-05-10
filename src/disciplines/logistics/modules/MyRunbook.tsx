@@ -721,11 +721,11 @@ const MyRunbook = () => {
         </div>
       </div>
       {/* Route Count */}
-      <div className="text-sm text-gray-500 mb-4">
-        {filteredRoutes.length === 0 
-          ? t('myRunbook.noRecipes') 
-          : `${t('myRunbook.recipe')} ${currentIndex + 1} ${t('myRunbook.of')} ${filteredRoutes.length}`}
-      </div>
+      {filteredRoutes.length > 0 && (
+        <div className="text-sm text-gray-500 mb-4">
+          {`${t('myRunbook.recipe')} ${currentIndex + 1} ${t('myRunbook.of')} ${filteredRoutes.length}`}
+        </div>
+      )}
 
 
       {/* Digital Runbook - Single Route */}

@@ -803,11 +803,11 @@ const MyManual = () => {
         </div>
       </div>
       {/* Recipe Count */}
-      <div className="text-sm text-gray-500 mb-4">
-        {filteredProcedures.length === 0 
-          ? t('myManual.noRecipes') 
-          : `${t('myManual.recipe')} ${currentIndex + 1} ${t('myManual.of')} ${filteredProcedures.length}`}
-      </div>
+      {filteredProcedures.length > 0 && (
+        <div className="text-sm text-gray-500 mb-4">
+          {`${t('myManual.recipe')} ${currentIndex + 1} ${t('myManual.of')} ${filteredProcedures.length}`}
+        </div>
+      )}
 
 
       {/* Digital Manual - Single Recipe */}

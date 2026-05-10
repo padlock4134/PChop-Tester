@@ -739,11 +739,11 @@ const MySpecBook = () => {
         </div>
       </div>
       {/* Project Count */}
-      <div className="text-sm text-gray-500 mb-4">
-        {filteredProjects.length === 0 
-          ? t('mySpecBook.noRecipes') 
-          : `${t('mySpecBook.recipe')} ${currentIndex + 1} ${t('mySpecBook.of')} ${filteredProjects.length}`}
-      </div>
+      {filteredProjects.length > 0 && (
+        <div className="text-sm text-gray-500 mb-4">
+          {`${t('mySpecBook.recipe')} ${currentIndex + 1} ${t('mySpecBook.of')} ${filteredProjects.length}`}
+        </div>
+      )}
 
 
       {/* Digital Spec Book - Single Project */}

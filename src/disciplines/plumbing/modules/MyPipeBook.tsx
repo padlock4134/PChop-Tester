@@ -836,11 +836,11 @@ const MyPipeBook = () => {
         </div>
       </div>
       {/* Fit Count */}
-      <div className="text-sm text-gray-500 mb-4">
-        {filteredRecipes.length === 0 
-          ? t('myPipeBook.noRecipes') 
-          : `${t('myPipeBook.recipe')} ${currentIndex + 1} ${t('myPipeBook.of')} ${filteredRecipes.length}`}
-      </div>
+      {filteredRecipes.length > 0 && (
+        <div className="text-sm text-gray-500 mb-4">
+          {`${t('myPipeBook.recipe')} ${currentIndex + 1} ${t('myPipeBook.of')} ${filteredRecipes.length}`}
+        </div>
+      )}
 
 
       {/* Digital PipeBook - Single Fit */}

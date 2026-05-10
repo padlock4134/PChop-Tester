@@ -749,11 +749,11 @@ const MyCodeBook = () => {
         </div>
       </div>
       {/* Recipe Count */}
-      <div className="text-sm text-gray-500 mb-4">
-        {filteredRecipes.length === 0 
-          ? t('myCodeBook.noRecipes') 
-          : `${t('myCodeBook.recipe')} ${currentIndex + 1} ${t('myCodeBook.of')} ${filteredRecipes.length}`}
-      </div>
+      {filteredRecipes.length > 0 && (
+        <div className="text-sm text-gray-500 mb-4">
+          {`${t('myCodeBook.recipe')} ${currentIndex + 1} ${t('myCodeBook.of')} ${filteredRecipes.length}`}
+        </div>
+      )}
 
 
       {/* Digital Cookbook - Single Recipe */}

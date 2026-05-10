@@ -320,13 +320,13 @@ const MySpecSheets = () => {
           if (!existingLog) {
             await supabase.rpc('increment_user_xp', {
               user_id: user.id,
-              xp_amount: XP_REWARDS.RECIPE_SHARE
+              xp_amount: XP_REWARDS.PROJECT_SHARE
             });
             
             await supabase.from('xp_activity_log').insert([
               {
                 user_id: user.id,
-                xp_awarded: XP_REWARDS.RECIPE_SHARE,
+                xp_awarded: XP_REWARDS.PROJECT_SHARE,
                 activity: 'spec_sheet_share'
               }
             ]);
@@ -752,11 +752,11 @@ const MySpecSheets = () => {
         </div>
       </div>
       {/* Recipe Count */}
-      <div className="text-sm text-gray-500 mb-4">
-        {filteredRecipes.length === 0 
-          ? t('mySpecSheets.noRecipes') 
-          : `${t('mySpecSheets.recipe')} ${currentIndex + 1} ${t('mySpecSheets.of')} ${filteredRecipes.length}`}
-      </div>
+      {filteredRecipes.length > 0 && (
+        <div className="text-sm text-gray-500 mb-4">
+          {`${t('mySpecSheets.recipe')} ${currentIndex + 1} ${t('mySpecSheets.of')} ${filteredRecipes.length}`}
+        </div>
+      )}
 
 
       {/* Digital Cookbook - Single Recipe */}
@@ -1057,7 +1057,7 @@ const MySpecSheets = () => {
                                     allVideos.push({
                                       name: file.name,
                                       url: urlData.publicUrl,
-                                      created_at: file.created_at,
+                                      created_at: file.created_at ?? '',
                                       userId: folder.name,
                                       isPublic: isPublic
                                     });

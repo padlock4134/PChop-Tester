@@ -747,11 +747,11 @@ const MyPlaybook = () => {
         </div>
       </div>
       {/* Recipe Count */}
-      <div className="text-sm text-gray-500 mb-4">
-        {filteredProcesses.length === 0 
-          ? t('myPlaybook.noRecipes') 
-          : `${t('myPlaybook.recipe')} ${currentIndex + 1} ${t('myPlaybook.of')} ${filteredProcesses.length}`}
-      </div>
+      {filteredProcesses.length > 0 && (
+        <div className="text-sm text-gray-500 mb-4">
+          {`${t('myPlaybook.recipe')} ${currentIndex + 1} ${t('myPlaybook.of')} ${filteredProcesses.length}`}
+        </div>
+      )}
 
 
       {/* Digital Cookbook - Single Recipe */}

@@ -750,11 +750,11 @@ const MyBlueprints = () => {
         </div>
       </div>
       {/* Recipe Count */}
-      <div className="text-sm text-gray-500 mb-4">
-        {filteredRecipes.length === 0 
-          ? t('myBlueprints.noRecipes') 
-          : `${t('myBlueprints.recipe')} ${currentIndex + 1} ${t('myBlueprints.of')} ${filteredRecipes.length}`}
-      </div>
+      {filteredRecipes.length > 0 && (
+        <div className="text-sm text-gray-500 mb-4">
+          {`${t('myBlueprints.recipe')} ${currentIndex + 1} ${t('myBlueprints.of')} ${filteredRecipes.length}`}
+        </div>
+      )}
 
 
       {/* Digital Cookbook - Single Recipe */}
