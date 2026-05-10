@@ -965,7 +965,7 @@ const MyBlueprints = () => {
 
               {/* Create Collection Section */}
               <div className="mb-6">
-                {true ? (
+                {recipes.length > 0 ? (
                   <div className="space-y-2">
                     <p className="text-sm text-gray-600 mb-3">{t('myBlueprints.selectRecipesToAdd')}</p>
                     
