@@ -894,7 +894,7 @@ const MyManual = () => {
                   <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('myManual.instructions')}</h4>
                   <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredProcedures[currentIndex].instructions}</p>
                 </div>
-                <div className="flex justify-between items-center absolute bottom-4 left-4 right-4 gap-2">
+                <div className="flex flex-wrap sm:flex-nowrap justify-between items-center absolute bottom-4 left-4 right-4 gap-2 z-20">
                   <button
                     onClick={async () => {
                       try {
