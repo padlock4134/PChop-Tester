@@ -1,3 +1,3 @@
-import FlippableSpecBook from '../../welding/components/FlippableSpecBook';
+import FlippablePipeBook from '../../plumbing/components/FlippablePipeBook';
 
-export default FlippableSpecBook;
+export default FlippablePipeBook;
