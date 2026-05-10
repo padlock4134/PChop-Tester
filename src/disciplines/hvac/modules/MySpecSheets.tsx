@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../components/ShopFreddieContext';
-import { useRecipeContext } from '../components/SystemContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
-import { supabase } from '../api/supabaseClient';
-import { XP_REWARDS } from '../services/xpService';
-import { useLevelProgressContext } from '../components/NavBar';
-import { useSupabase } from '../components/SupabaseProvider';
-import { isSessionValid } from '../api/userSession';
+import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
+import { supabase } from '../../culinary/api/supabaseClient';
+import { XP_REWARDS } from '../../culinary/services/xpService';
+import { useLevelProgressContext } from '../../culinary/components/NavBar';
+import { useSupabase } from '../../culinary/components/SupabaseProvider';
+import { isSessionValid } from '../../culinary/api/userSession';
 
 const hvacQuoteOfTheDay = {
   chef: 'Willis Carrier',
@@ -191,10 +191,10 @@ const MySpecSheets = () => {
   // Categories for filtering
   const categories = [
     { key: 'All', label: t('mySpecSheets.all') },
-    { key: 'Refrigeration', label: t('mySpecSheets.refrigeration', { defaultValue: 'Refrigeration' }) },
-    { key: 'Airflow', label: t('mySpecSheets.airflow', { defaultValue: 'Airflow' }) },
-    { key: 'Electrical', label: t('mySpecSheets.electrical', { defaultValue: 'Electrical' }) },
-    { key: 'Maintenance', label: t('mySpecSheets.maintenance', { defaultValue: 'Maintenance' }) }
+    { key: 'Seafood', label: t('mySpecSheets.seafood') },
+    { key: 'Meat', label: t('mySpecSheets.meat') },
+    { key: 'Vegetarian', label: t('mySpecSheets.vegetarian') },
+    { key: 'Dessert', label: t('mySpecSheets.dessert') }
   ];
 
   // Handle recipe selection for collections
@@ -253,10 +253,10 @@ const MySpecSheets = () => {
 
   const handleShare = async (platform: string = 'native') => {
     const shareData = {
-      title: recipeToShare ? `${recipeToShare.name} Spec Sheet on PorkChop` : 'My Spec Sheets on PorkChop',
+      title: recipeToShare ? `${recipeToShare.name} Recipe on Porkchop` : 'My Cookbook on Porkchop',
       text: recipeToShare 
-        ? `Check out this HVAC spec sheet for ${recipeToShare.name} on PorkChop!` 
-        : 'Check out my HVAC spec sheet collection on PorkChop! I\'ve been building my reference library and would love to share it with you.',
+        ? `Check out this amazing recipe for ${recipeToShare.name} on Porkchop!` 
+        : 'Check out my digital cookbook on Porkchop! I\'ve been collecting amazing recipes and would love to share them with you.',
       url: window.location.href + (recipeToShare ? `?recipe=${encodeURIComponent(recipeToShare.id)}` : ''),
     };
 
@@ -312,7 +312,7 @@ const MySpecSheets = () => {
             .from('xp_activity_log')
             .select('id')
             .eq('user_id', user.id)
-            .eq('activity', 'spec_sheet_share')
+            .eq('activity', 'cookbook_share')
             .gte('created_at', `${today}T00:00:00`)
             .lte('created_at', `${today}T23:59:59`)
             .maybeSingle();
@@ -320,14 +320,14 @@ const MySpecSheets = () => {
           if (!existingLog) {
             await supabase.rpc('increment_user_xp', {
               user_id: user.id,
-              xp_amount: XP_REWARDS.PROJECT_SHARE
+              xp_amount: XP_REWARDS.RECIPE_SHARE
             });
             
             await supabase.from('xp_activity_log').insert([
               {
                 user_id: user.id,
-                xp_awarded: XP_REWARDS.PROJECT_SHARE,
-                activity: 'spec_sheet_share'
+                xp_awarded: XP_REWARDS.RECIPE_SHARE,
+                activity: 'cookbook_share'
               }
             ]);
             
@@ -377,61 +377,58 @@ const MySpecSheets = () => {
     const matchesSearch = recipe.name.toLowerCase().includes(searchTerm.toLowerCase());
     if (activeCategory === 'All' || activeCategory === t('mySpecSheets.all')) return matchesSearch;
     
-    // Simple category detection based on components/materials
+    // Simple category detection based on ingredients
     const ingredients = recipe.ingredients || [];
     const ingredientsJoined = ingredients.join(' ').toLowerCase();
     
-    const hasRefrigeration = ingredientsJoined.includes('refrigerant') || 
-      ingredientsJoined.includes('compressor') || 
-      ingredientsJoined.includes('condenser') || 
-      ingredientsJoined.includes('evaporator') || 
-      ingredientsJoined.includes('txv') || 
-      ingredientsJoined.includes('superheat') || 
-      ingredientsJoined.includes('subcool') || 
-      ingredientsJoined.includes('line set') || 
-      ingredientsJoined.includes('r-410a') || 
-      ingredientsJoined.includes('r-22');
+    const hasSeafood = ingredientsJoined.includes('fish') || 
+      ingredientsJoined.includes('salmon') || 
+      ingredientsJoined.includes('tuna') || 
+      ingredientsJoined.includes('cod') || 
+      ingredientsJoined.includes('tilapia') || 
+      ingredientsJoined.includes('shrimp') || 
+      ingredientsJoined.includes('lobster') || 
+      ingredientsJoined.includes('crab') || 
+      ingredientsJoined.includes('oyster') || 
+      ingredientsJoined.includes('clam') || 
+      ingredientsJoined.includes('mussel');
     
-    const hasAirflow = ingredientsJoined.includes('duct') || 
-      ingredientsJoined.includes('blower') || 
-      ingredientsJoined.includes('damper') || 
-      ingredientsJoined.includes('register') || 
-      ingredientsJoined.includes('grille') || 
-      ingredientsJoined.includes('filter') || 
-      ingredientsJoined.includes('cfm') || 
-      ingredientsJoined.includes('static pressure');
+    const hasMeat = ingredientsJoined.includes('beef') || 
+      ingredientsJoined.includes('chicken') || 
+      ingredientsJoined.includes('pork') || 
+      ingredientsJoined.includes('turkey') || 
+      ingredientsJoined.includes('bacon') || 
+      ingredientsJoined.includes('sausage') || 
+      ingredientsJoined.includes('lamb');
     
-    const hasElectrical = ingredientsJoined.includes('contactor') || 
-      ingredientsJoined.includes('capacitor') || 
-      ingredientsJoined.includes('transformer') || 
-      ingredientsJoined.includes('relay') || 
-      ingredientsJoined.includes('wire') || 
-      ingredientsJoined.includes('breaker') || 
-      ingredientsJoined.includes('voltage') || 
-      ingredientsJoined.includes('thermostat');
+    const hasVegetable = ingredientsJoined.includes('vegetable') || 
+      ingredientsJoined.includes('tomato') || 
+      ingredientsJoined.includes('carrot') || 
+      ingredientsJoined.includes('spinach');
     
-    const hasMaintenance = ingredientsJoined.includes('coil cleaner') || 
-      ingredientsJoined.includes('lubricant') || 
-      ingredientsJoined.includes('fin comb') || 
-      ingredientsJoined.includes('inspection') || 
-      ingredientsJoined.includes('checklist') || 
-      ingredientsJoined.includes('service');
+    const hasDessert = ingredientsJoined.includes('sugar') || 
+      ingredientsJoined.includes('chocolate') || 
+      ingredientsJoined.includes('vanilla') || 
+      ingredientsJoined.includes('cream') || 
+      ingredientsJoined.includes('cake') || 
+      ingredientsJoined.includes('cookie') || 
+      ingredientsJoined.includes('pie');
     
     switch (activeCategory) {
-      case 'Refrigeration': return hasRefrigeration && matchesSearch;
-      case 'Airflow': return hasAirflow && matchesSearch;
-      case 'Electrical': return hasElectrical && matchesSearch;
-      case 'Maintenance': return hasMaintenance && matchesSearch;
+      case 'Seafood': return hasSeafood && matchesSearch;
+      case 'Meat': return hasMeat && matchesSearch;
+      case 'Vegetarian': return hasVegetable && !hasMeat && !hasSeafood && matchesSearch;
+      case 'Dessert': return hasDessert && matchesSearch;
       default: return matchesSearch;
     }
   });
 
   if (loading) {
     return (
-      <div className="w-full mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
-          <div className="text-lg font-retro mb-2">Loading your spec sheets...</div>
+          <div className="text-lg font-retro mb-2">Loading your cookbook...</div>
         </div>
       </div>
     );
@@ -439,7 +436,7 @@ const MySpecSheets = () => {
 
   if (error) {
     return (
-      <div className="w-full mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="text-xl text-red-600 mb-4">⚠️</div>
           <div className="text-lg font-retro mb-2">{error}</div>
@@ -449,7 +446,7 @@ const MySpecSheets = () => {
   }
 
   return (
-    <div className="w-[90%] mx-auto mt-4 student-dashboard-height-lock">
+    <div className="max-w-6xl mx-auto mt-8">
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
@@ -474,8 +471,8 @@ const MySpecSheets = () => {
         </button>
       </div>
       
-      <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
-        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full ${
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
           activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
@@ -752,11 +749,11 @@ const MySpecSheets = () => {
         </div>
       </div>
       {/* Recipe Count */}
-      {filteredRecipes.length > 0 && (
-        <div className="text-sm text-gray-500 mb-4">
-          {`${t('mySpecSheets.recipe')} ${currentIndex + 1} ${t('mySpecSheets.of')} ${filteredRecipes.length}`}
-        </div>
-      )}
+      <div className="text-sm text-gray-500 mb-4">
+        {filteredRecipes.length === 0 
+          ? t('mySpecSheets.noRecipes') 
+          : `${t('mySpecSheets.recipe')} ${currentIndex + 1} ${t('mySpecSheets.of')} ${filteredRecipes.length}`}
+      </div>
 
 
       {/* Digital Cookbook - Single Recipe */}
@@ -887,7 +884,7 @@ const MySpecSheets = () => {
                         ]
                       };
                       setSelectedRecipe(fullRecipe);
-                      navigate('/hvac/hvac-school');
+                      navigate('/culinary-school');
                     }}
                     className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
                   >
@@ -928,7 +925,7 @@ const MySpecSheets = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className={`lg:w-1/3 lg:h-full ${
+        <div className={`lg:w-1/3 ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
@@ -1057,7 +1054,7 @@ const MySpecSheets = () => {
                                     allVideos.push({
                                       name: file.name,
                                       url: urlData.publicUrl,
-                                      created_at: file.created_at ?? '',
+                                      created_at: file.created_at,
                                       userId: folder.name,
                                       isPublic: isPublic
                                     });
@@ -1482,7 +1479,7 @@ const MySpecSheets = () => {
       {/* Video Library Modal */}
       {showVideoLibraryModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowVideoLibraryModal(false)}>
-          <div className="bg-white rounded-lg shadow-2xl border-4 border-black w-full max-w-4xl max-h-[85vh] lg:max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
               <div className="flex justify-between items-center mb-4">
