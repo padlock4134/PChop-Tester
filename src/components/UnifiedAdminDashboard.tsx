@@ -1789,7 +1789,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       </div>
 
       {/* Admin Context Bar */}
-      <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-2 w-full grid grid-cols-1 sm:grid-cols-3 items-center gap-3">
+      <div className="bg-white border-4 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-2 w-full grid grid-cols-1 sm:grid-cols-3 items-center gap-3">
         <p className="text-maineBlue font-retro text-sm sm:text-base text-center sm:text-left">
           Your School Name Here
         </p>
