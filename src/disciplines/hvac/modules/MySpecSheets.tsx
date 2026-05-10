@@ -471,8 +471,8 @@ const MySpecSheets = () => {
         </button>
       </div>
       
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
+      <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
+        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full ${
           activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
@@ -840,7 +840,7 @@ const MySpecSheets = () => {
                   <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('mySpecSheets.instructions')}</h4>
                   <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredRecipes[currentIndex].instructions}</p>
                 </div>
-                <div className="flex justify-between items-center absolute bottom-4 left-4 right-4 gap-2">
+                <div className="flex flex-wrap sm:flex-nowrap justify-between items-center absolute bottom-4 left-4 right-4 gap-2 z-20">
                   <button
                     onClick={async () => {
                       try {
@@ -925,7 +925,7 @@ const MySpecSheets = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className={`lg:w-1/3 ${
+        <div className={`lg:w-1/3 lg:h-full ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
