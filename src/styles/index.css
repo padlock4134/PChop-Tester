@@ -77,3 +77,56 @@ body > .arjs-loader,
 body > #arjsDebugUIContainer {
   display: none !important;
 }
+
+@media (min-width: 1024px) {
+  .desktop-dashboard-frame {
+    height: min(90vh, calc(100vh - 10rem));
+    max-height: min(90vh, calc(100vh - 10rem));
+    overflow-y: auto;
+  }
+
+
+  .student-dashboard-frame {
+    width: 107%;
+    max-width: 107%;
+    margin-left: -3.5%;
+    margin-right: -3.5%;
+    height: min(96.3vh, calc((100vh - 10rem) * 1.07));
+    max-height: min(96.3vh, calc((100vh - 10rem) * 1.07));
+  }
+
+  .admin-dashboard-frame {
+    height: min(90vh, calc(100vh - 14rem));
+    max-height: min(90vh, calc(100vh - 14rem));
+  }
+
+
+  .desktop-dashboard-frame h1 {
+    font-size: clamp(2rem, 3.4vh, 3rem);
+    line-height: 1.1;
+  }
+
+  .desktop-dashboard-frame .min-h-\[120px\] {
+    min-height: clamp(88px, 12vh, 120px);
+    padding-top: clamp(0.75rem, 1.6vh, 1.5rem);
+    padding-bottom: clamp(0.75rem, 1.6vh, 1.5rem);
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 900px) {
+  .desktop-dashboard-frame {
+    padding: 1rem;
+  }
+
+  .desktop-dashboard-frame .mb-6 {
+    margin-bottom: 1rem;
+  }
+
+  .desktop-dashboard-frame .p-6 {
+    padding: 1rem;
+  }
+
+  .desktop-dashboard-frame .text-4xl {
+    font-size: 1.75rem;
+  }
+}
