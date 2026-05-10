@@ -1683,7 +1683,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       </div>
       
       {/* Main Admin Dashboard - matching student dashboard style */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full desktop-dashboard-frame">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full desktop-dashboard-frame admin-dashboard-frame">
         {/* Home Tab Content */}
         <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
           {/* Dashboard header - matching student dashboard */}

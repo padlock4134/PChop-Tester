@@ -80,9 +80,14 @@ body > #arjsDebugUIContainer {
 
 @media (min-width: 1024px) {
   .desktop-dashboard-frame {
-    height: 90vh;
-    max-height: 90vh;
+    height: min(90vh, calc(100vh - 10rem));
+    max-height: min(90vh, calc(100vh - 10rem));
     overflow-y: auto;
+  }
+
+  .admin-dashboard-frame {
+    height: min(90vh, calc(100vh - 14rem));
+    max-height: min(90vh, calc(100vh - 14rem));
   }
 
   .desktop-dashboard-frame h1 {
