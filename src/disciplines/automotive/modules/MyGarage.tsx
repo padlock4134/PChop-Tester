@@ -176,7 +176,7 @@ const MyGarage = () => {
         </div>
         
         {/* Scrollable Content */}
-        <div className="overflow-y-auto p-6 pt-4">
+        <div className="p-6 pt-4">
       {/* Scan, Service Matcher, and Upload Photo Action Buttons */}
       <div className="mb-6 flex flex-col sm:flex-row gap-4 items-center justify-center">
         {/* Scan status feedback */}
