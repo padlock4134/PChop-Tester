@@ -252,12 +252,19 @@ body > #arjsDebugUIContainer {
 
 @media (min-width: 1024px) {
   .culinary-frame-lock {
-    width: 107% !important;
-    max-width: 107% !important;
-    margin-left: -3.5% !important;
-    margin-right: -3.5% !important;
-    height: min(96.3vh, calc((100vh - 10rem) * 1.07)) !important;
-    max-height: min(96.3vh, calc((100vh - 10rem) * 1.07)) !important;
-    overflow-y: auto !important;
+    /* legacy class intentionally neutralized */
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .desktop-frame-match {
+    width: min(96.3vw, 1400px);
+    max-width: min(96.3vw, 1400px);
+    margin-left: auto;
+    margin-right: auto;
+    height: min(90vh, calc(100vh - 10rem));
+    max-height: min(90vh, calc(100vh - 10rem));
+    overflow-y: auto;
   }
 }
