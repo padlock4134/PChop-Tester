@@ -1017,9 +1017,11 @@ const MyManual = () => {
               {/* Create Collection Section */}
               <div className="mb-6">
                 <div className="space-y-2">
-                  <p className="text-sm text-gray-600 mb-3">{t('myManual.selectRecipesToAdd')}</p>
+                  {procedures.length > 0 ? (
+                    <>
+                    <p className="text-sm text-gray-600 mb-3">{t('myManual.selectRecipesToAdd')}</p>
 
-                  <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+                    <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
                     {procedures.map((procedure: Procedure) => (
                       <div key={procedure.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
                         <div className="flex items-center">
@@ -1037,7 +1039,7 @@ const MyManual = () => {
                         <div className="flex gap-1">
                           {procedure.systemTags && procedure.systemTags.length > 0 && (
                             <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                              🥗
+                              🔧
                             </span>
                           )}
                           {procedure.photo && (
@@ -1048,22 +1050,29 @@ const MyManual = () => {
                         </div>
                       </div>
                     ))}
-                  </div>
+                    </div>
+                    </>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-4xl mb-2">📝</div>
+                      <p className="text-gray-500 text-sm">{t('myManual.noRecipesYet')}</p>
+                      <p className="text-gray-500 text-sm">{t('myManual.addRecipesFirst')}</p>
+                    </div>
+                  )}
                 </div>
 
                 <button
                   onClick={() => setShowCreateCollectionModal(true)}
-                  className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 hover:text-blue-800"
+                  className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
                 >
                   {t('myManual.createCollectionSelected', { count: selectedProcedures.length }).replace('{count}', selectedProcedures.length.toString())}
                 </button>
                 
-                {/* Always Visible Bottom Buttons */}
-                <div className="mt-6 space-y-3">
+                <div className="space-y-3">
                   {/* View Gradebook Button */}
                   <button
                     onClick={handleOpenGradebook}
-                    className="w-full px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
+                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
                   >
                     📊 {t('myManual.viewGradebook')}
                   </button>
@@ -1132,7 +1141,7 @@ const MyManual = () => {
                         setLoadingVideos(false);
                       }
                     }}
-                    className="w-full px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
+                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
                   >
                     🎥 {t('myManual.viewVideos')}
                   </button>
