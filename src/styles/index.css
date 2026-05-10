@@ -107,10 +107,21 @@ body > #arjsDebugUIContainer {
 
   .admin-dashboard-frame .admin-dashboard-content {
     width: 100%;
-    transform: scale(0.9);
+    transform: scale(0.85);
     transform-origin: top center;
     margin-left: auto;
     margin-right: auto;
+  }
+
+
+  .admin-dashboard-frame .admin-dashboard-content .min-h-\[120px\] {
+    min-height: 84px;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content .text-4xl {
+    font-size: 2rem;
   }
 
   .admin-dashboard-frame .mb-6 {
