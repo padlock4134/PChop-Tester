@@ -172,7 +172,7 @@ const MyKitchen = () => {
   return (
     <div className="w-[90%] mx-auto mt-4">
       <div className="mb-8 mx-auto">
-        <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-[1400px] mx-auto desktop-frame-match">
+        <div className={STANDARD_DASHBOARD_FRAME_CLASSES}>
         {/* My Kitchen header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
           <span className="text-5xl mr-2">🐟</span>
