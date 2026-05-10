@@ -172,8 +172,8 @@ const MyVan = () => {
   };
 
   return (
-    <>
-      <div className="w-full bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
+    <div className="mb-8 mx-auto">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full desktop-dashboard-frame student-dashboard-frame">
         {/* My Van header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
           <span className="text-5xl mr-2">🚐</span>
@@ -438,7 +438,7 @@ const MyVan = () => {
       </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

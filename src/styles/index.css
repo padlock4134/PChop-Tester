@@ -248,3 +248,16 @@ body > #arjsDebugUIContainer {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
+
+
+@media (min-width: 1024px) {
+  .culinary-frame-lock {
+    width: 107% !important;
+    max-width: 107% !important;
+    margin-left: -3.5% !important;
+    margin-right: -3.5% !important;
+    height: min(96.3vh, calc((100vh - 10rem) * 1.07)) !important;
+    max-height: min(96.3vh, calc((100vh - 10rem) * 1.07)) !important;
+    overflow-y: auto !important;
+  }
+}
