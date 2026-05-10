@@ -219,7 +219,7 @@ const StudentProgressDashboard: React.FC = () => {
       {/* Main Dashboard */}
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full desktop-dashboard-frame">
         {/* Home Tab Content */}
-        <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
+        <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block student-dashboard-content`}>
           {/* Dashboard header */}
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">Lineworker Dashboard</h1>
