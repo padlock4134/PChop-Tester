@@ -882,21 +882,57 @@ END:VCALENDAR`;
       {/* Host Your Own Tab */}
       {activeTab === 'host' && (
         <div className="space-y-4">
-          <div className="text-center py-4">
-            <VideoCameraIcon className="h-12 w-12 mx-auto mb-3 text-maineBlue" />
-            <h3 className="font-semibold text-gray-900 mb-2">Share Your Automotive Expertise</h3>
-            <p className="text-sm text-gray-600 mb-4">
-              Teach others a service from your vehicleType and build your technical leadership skills
-            </p>
+          {/* Your Scheduled Sessions */}
+          <div>
+            <h4 className="font-semibold text-sm text-gray-900 mb-2">📅 Your Scheduled Sessions</h4>
+            {upcomingSessions.filter(s => s.hostName === (user?.user_metadata?.full_name || user?.email || '')).length === 0 ? (
+              <div className="bg-gray-50 rounded-lg p-3 text-center">
+                <p className="text-xs text-gray-500">No sessions scheduled yet.</p>
+                <p className="text-xs text-gray-400 mt-1">Use "Schedule Session" above to plan your next stream.</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {upcomingSessions
+                  .filter(s => s.hostName === (user?.user_metadata?.full_name || user?.email || ''))
+                  .map(session => (
+                    <div key={session.id} className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">{session.dishName}</p>
+                          <p className="text-xs text-gray-600">{session.culture} • {session.scheduledTime}</p>
+                        </div>
+                        <button
+                          onClick={() => {
+                            startHostSession();
+                            setGoLiveModalOpen(true);
+                          }}
+                          className="text-xs bg-maineBlue text-white px-2 py-1 rounded hover:bg-blue-700 transition-colors"
+                        >
+                          Start Early
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
           </div>
-          
+
+          {/* Session Readiness Checklist */}
           <div className="bg-sand p-3 rounded-lg">
-            <h4 className="font-semibold text-sm text-gray-900 mb-2 text-center">💡 Tips for Success:</h4>
-            <ul className="text-xs text-gray-700 space-y-1 text-center">
-              <li>• Share the story behind your service</li>
-              <li>• Highlight unique parts & where to source them</li>
-              <li>• Engage with viewers and answer questions</li>
-              <li>• Practice your service procedure beforehand</li>
+            <h4 className="font-semibold text-sm text-gray-900 mb-2">✅ Session Readiness</h4>
+            <ul className="text-xs text-gray-700 space-y-2">
+              <li className="flex items-center gap-2">
+                <span className="text-green-500">●</span> Camera & microphone access
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-green-500">●</span> Good lighting setup
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-yellow-500">●</span> Topic or procedure prepared
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="text-yellow-500">●</span> Tools/materials ready
+              </li>
             </ul>
           </div>
         </div>
