@@ -113,6 +113,15 @@ body > #arjsDebugUIContainer {
     margin-right: auto;
   }
 
+  .admin-dashboard-frame .admin-dashboard-content .admin-module-card {
+    transform: scale(1.05);
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content .shadow-md.border-maineBlue > .grid > div {
+    transform: scale(0.95);
+    transform-origin: top center;
+  }
+
 
 
   .admin-dashboard-frame .admin-dashboard-content .mb-6 {
