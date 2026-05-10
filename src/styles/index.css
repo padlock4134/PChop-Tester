@@ -100,15 +100,17 @@ body > #arjsDebugUIContainer {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
-    height: min(88vh, calc(100dvh - 8rem));
-    max-height: min(88vh, calc(100dvh - 8rem));
+    height: min(84vh, calc(100dvh - 10rem));
+    max-height: min(84vh, calc(100dvh - 10rem));
     overflow: hidden;
   }
 
   .admin-dashboard-frame .admin-dashboard-content {
-    width: 111.12%;
+    width: 100%;
     transform: scale(0.9);
     transform-origin: top center;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .admin-dashboard-frame .mb-6 {
