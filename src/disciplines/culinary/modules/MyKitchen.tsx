@@ -13,6 +13,7 @@ import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
 import { supabase } from '../api/supabaseClient';
 import RecipeCardComponent from '../components/RecipeCard';
+import { STANDARD_DASHBOARD_FRAME_CLASSES } from '../../../constants/dashboardFrameClasses';
 
 const CATEGORIES = [
   "Vegetable",
