@@ -77,3 +77,10 @@ body > .arjs-loader,
 body > #arjsDebugUIContainer {
   display: none !important;
 }
+
+@media (min-width: 1024px) {
+  .desktop-dashboard-frame {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
