@@ -2,7 +2,7 @@ import React from 'react';
 import StudentProgressDashboard from './StudentProgressDashboard';
 
 const FloorDashboard = () => (
-  <div className="max-w-4xl mx-auto mt-6">
+  <div className="w-[90%] mx-auto mt-4">
     <StudentProgressDashboard />
   </div>
 );

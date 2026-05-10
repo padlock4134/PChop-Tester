@@ -162,7 +162,7 @@ const DispatchLounge = () => {
         selectedRoutes={selectedMenuRoutes}
       />
       
-      <div className="max-w-6xl mx-auto mt-8">
+      <div className="w-full mt-4">
         {/* Mobile Tab Bar - Only visible on mobile */}
         <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
           <button

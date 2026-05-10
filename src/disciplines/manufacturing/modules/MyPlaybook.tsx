@@ -423,7 +423,7 @@ const MyPlaybook = () => {
 
   if (loading) {
     return (
-      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="w-full mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
           <div className="text-lg font-retro mb-2">{t('common.loading')}</div>
@@ -434,7 +434,7 @@ const MyPlaybook = () => {
 
   if (error) {
     return (
-      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="w-full mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="text-xl text-red-600 mb-4">⚠️</div>
           <div className="text-lg font-retro mb-2">{error}</div>
@@ -444,7 +444,7 @@ const MyPlaybook = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto mt-8">
+    <div className="w-full mt-4">
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button

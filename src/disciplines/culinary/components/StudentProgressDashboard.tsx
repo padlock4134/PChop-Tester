@@ -183,7 +183,7 @@ const StudentProgressDashboard: React.FC = () => {
   return (
     <div className="mb-8 mx-auto">
       {/* Mobile Tab Bar - Only visible on mobile */}
-      <div className="lg:hidden mb-4 flex gap-1 border-b-2 border-maineBlue max-w-6xl mx-auto">
+      <div className="lg:hidden mb-4 flex gap-1 border-b-2 border-maineBlue w-full">
         <button
           onClick={() => setActiveMobileTab('home')}
           className={`flex-1 py-3 px-2 font-bold text-xs sm:text-sm transition-colors rounded-t-lg ${
@@ -217,7 +217,7 @@ const StudentProgressDashboard: React.FC = () => {
       </div>
       
       {/* Main Dashboard */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-6xl mx-auto">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full">
         {/* Home Tab Content */}
         <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block`}>
           {/* Dashboard header */}

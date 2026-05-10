@@ -640,7 +640,7 @@ const WeldingSchool = () => {
 
   return (
 
-    <div className="max-w-6xl mx-auto mt-8">
+    <div className="w-full mt-4">
 
       {/* Mobile Tab Bar - Only visible on mobile */}
 

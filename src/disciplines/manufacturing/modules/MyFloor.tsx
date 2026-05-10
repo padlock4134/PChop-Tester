@@ -178,7 +178,7 @@ const MyFloor = () => {
       // Award XP for saving a recipe
       if (user) {
         await import('../../culinary/services/xpService').then(m => 
-          m.awardXP(user.id, XP_REWARDS.RECIPE_SAVE, 'recipe_save')
+          m.awardXP(user.id, XP_REWARDS.PROCESS_SAVE, 'process_save')
         );
         refreshXP();
       }
@@ -203,7 +203,7 @@ const MyFloor = () => {
 
   return (
     <>
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
+      <div className="w-full bg-white rounded-lg shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)]">
         {/* My Floor header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
           <span className="text-5xl mr-2">🔥</span>
