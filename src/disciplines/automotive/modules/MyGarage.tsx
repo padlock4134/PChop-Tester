@@ -162,8 +162,9 @@ const MyGarage = () => {
   };
 
   return (
-    <div className="mb-8 mx-auto">
-      <div className={STANDARD_DASHBOARD_FRAME_CLASSES}>
+    <div className="w-[90%] mx-auto mt-4">
+      <div className="mb-8 mx-auto">
+        <div className={STANDARD_DASHBOARD_FRAME_CLASSES}>
         {/* My Garage header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
           <span className="text-5xl mr-2">🏎️</span>
@@ -426,6 +427,7 @@ const MyGarage = () => {
           </div>
         )}
       </div>
+        </div>
         </div>
       </div>
     </div>
