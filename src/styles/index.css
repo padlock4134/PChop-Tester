@@ -95,22 +95,35 @@ body > #arjsDebugUIContainer {
     max-height: min(96.3vh, calc((100vh - 10rem) * 1.07));
   }
 
-   .admin-dashboard-frame {
+  .admin-dashboard-frame {
     width: 100%;
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
-    height: min(84vh, calc(100dvh - 10rem));
-    max-height: min(84vh, calc(100dvh - 10rem));
-    overflow: hidden;
+    height: auto;
+    max-height: none;
+    overflow: visible;
   }
 
   .admin-dashboard-frame .admin-dashboard-content {
     width: 100%;
-    transform: scale(1);
-    transform-origin: top center;
+    zoom: 0.8;
+    transform: none;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content .admin-module-grid {
+    gap: 1.25rem !important;
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content .admin-module-card {
+    transform: scale(1.03);
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content .shadow-md.border-maineBlue > .grid > div {
+    transform: scale(0.95);
+    transform-origin: top center;
   }
 
 
