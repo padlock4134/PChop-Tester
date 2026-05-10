@@ -1651,7 +1651,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       </div>
 
       {/* Admin Context Bar */}
-      <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-4 w-full grid grid-cols-1 sm:grid-cols-3 items-center gap-3">
+      <div className="bg-white border-2 border-maineBlue rounded-lg shadow-sm px-4 py-3 mb-2 w-full grid grid-cols-1 sm:grid-cols-3 items-center gap-3">
         <p className="text-maineBlue font-retro text-sm sm:text-base text-center sm:text-left">
           Your School Name Here
         </p>
@@ -1683,7 +1683,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       </div>
 
       {/* Desktop Upcoming Events Ticker - placed between context bar and dashboard frame */}
-      <div className="hidden lg:block mb-4">
+      <div className="hidden lg:block mb-2">
         {upcomingEvents.length > 0 && (
           <div 
             className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 cursor-pointer"
@@ -1740,7 +1740,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
       </div>
 
       {/* Desktop Integrity Alerts Ticker - placed between event ticker and dashboard frame */}
-      <div className="hidden lg:block mb-4">
+      <div className="hidden lg:block mb-2">
         {(() => {
           const unreviewedAlerts = integrityAlerts.filter(a => !a.reviewed);
           
