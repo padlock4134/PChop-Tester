@@ -95,15 +95,19 @@ body > #arjsDebugUIContainer {
     max-height: min(96.3vh, calc((100vh - 10rem) * 1.07));
   }
 
-  .admin-dashboard-frame {
-    width: 105.263%;
-    max-width: 105.263%;
-    margin-left: -2.6315%;
-    margin-right: -2.6315%;
-    height: min(94.05vh, calc((100vh - 4rem) * 0.95));
-    max-height: min(94.05vh, calc((100vh - 4rem) * 0.95));
-    overflow-y: hidden;
-    transform: scale(0.95);
+   .admin-dashboard-frame {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    height: min(92vh, calc(100vh - 7rem));
+    max-height: min(92vh, calc(100vh - 7rem));
+    overflow: hidden;
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content {
+    width: 106%;
+    transform: scale(0.94);
     transform-origin: top center;
   }
 
