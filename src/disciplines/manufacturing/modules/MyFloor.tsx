@@ -202,7 +202,7 @@ const MyFloor = () => {
   };
 
   return (
-    <>
+    <div className="mb-8 mx-auto">
       <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full desktop-dashboard-frame student-dashboard-frame flex flex-col">
         {/* My Floor header - moved back inside the module */}
         <div className="flex items-center justify-center p-6 pb-4">
@@ -476,7 +476,7 @@ const MyFloor = () => {
       </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
