@@ -472,7 +472,7 @@ const MyBlueprints = () => {
         </button>
       </div>
       
-      <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
+      <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
         <div className={`lg:w-[61.666%] bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
         }`}>
