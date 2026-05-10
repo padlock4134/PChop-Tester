@@ -965,8 +965,9 @@ const MyBlueprints = () => {
 
               {/* Create Collection Section */}
               <div className="mb-6">
-                {recipes.length > 0 ? (
-                  <div className="space-y-2">
+                <div className="space-y-2">
+                  {recipes.length > 0 ? (
+                    <>
                     <p className="text-sm text-gray-600 mb-3">{t('myBlueprints.selectRecipesToAdd')}</p>
                     
                     <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
@@ -994,8 +995,16 @@ const MyBlueprints = () => {
                         </div>
                       ))}
                     </div>
-                    
-                    {/* Create Collection Button */}
+                    </>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-4xl mb-2">📝</div>
+                      <p className="text-gray-500 text-sm">{t('myBlueprints.noRecipesYet')}</p>
+                      <p className="text-gray-500 text-sm">{t('myBlueprints.addRecipesFirst')}</p>
+                    </div>
+                  )}
+
+                  {/* Create Collection Button */}
                     <button
                       onClick={() => setShowCreateCollectionModal(true)}
                       className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
@@ -1080,13 +1089,6 @@ const MyBlueprints = () => {
                       🎥 {t('myBlueprints.viewVideos')}
                     </button>
                   </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="text-4xl mb-2">📝</div>
-                    <p className="text-gray-500 text-sm">{t('myBlueprints.noRecipesYet')}</p>
-                    <p className="text-gray-500 text-sm">{t('myBlueprints.addRecipesFirst')}</p>
-                  </div>
-                )}
               </div>
             </div>
           </div>
