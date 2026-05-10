@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AcademicCapIcon, ChartBarIcon, FireIcon, LightBulbIcon, VideoCameraIcon, UserGroupIcon } from '@heroicons/react/24/outline';
+import { STANDARD_DASHBOARD_FRAME_CLASSES } from '../../../constants/dashboardFrameClasses';
 
 const StudentProgressDashboard: React.FC = () => {
   const { t } = useTranslation();
@@ -217,7 +218,7 @@ const StudentProgressDashboard: React.FC = () => {
       </div>
       
       {/* Main Dashboard */}
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue p-4 lg:p-6 w-full max-w-[1400px] mx-auto desktop-frame-match">
+      <div className={STANDARD_DASHBOARD_FRAME_CLASSES}>
         {/* Home Tab Content */}
         <div className={`${activeMobileTab === 'home' ? 'block' : 'hidden'} lg:block student-dashboard-content`}>
           {/* Dashboard header */}

@@ -446,7 +446,7 @@ const MyCodeBook = () => {
   }
 
   return (
-    <div className="w-full mt-4">
+    <div className="w-[90%] mx-auto mt-4 student-dashboard-height-lock">
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
@@ -471,8 +471,8 @@ const MyCodeBook = () => {
         </button>
       </div>
       
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
+      <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
+        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full ${
           activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
@@ -925,7 +925,7 @@ const MyCodeBook = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className={`lg:w-1/3 ${
+        <div className={`lg:w-1/3 lg:h-full ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">

@@ -95,6 +95,13 @@ body > #arjsDebugUIContainer {
     max-height: min(96.3vh, calc((100vh - 10rem) * 1.07));
   }
 
+
+  .student-dashboard-height-lock {
+    height: min(96.3vh, calc((100vh - 10rem) * 1.07));
+    max-height: min(96.3vh, calc((100vh - 10rem) * 1.07));
+    overflow-y: auto;
+  }
+
   .admin-dashboard-frame {
     width: 100%;
     max-width: 100%;

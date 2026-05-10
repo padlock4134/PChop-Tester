@@ -213,7 +213,7 @@ const HardhatHub = () => {
         selectedRecipes={selectedMenuRecipes}
       />
       
-      <div className="w-full mt-4">
+      <div className="w-[90%] mx-auto mt-4 student-dashboard-height-lock">
         {/* Mobile Tab Bar - Only visible on mobile */}
         <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
           <button
@@ -238,9 +238,9 @@ const HardhatHub = () => {
           </button>
         </div>
         
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
           {/* Main Content - Chef's Corner Tab */}
-          <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
+          <div className={`lg:w-2/3 lg:h-full bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
             activeMobileTab === 'corner' ? 'block' : 'hidden lg:block'
           }`}>
             {/* Chef's Corner header - moved back inside the module */}
@@ -374,7 +374,7 @@ const HardhatHub = () => {
         </div>
         
         {/* Right Sidebar - Desktop Only */}
-        <div className="hidden lg:block lg:w-1/3 space-y-6">
+        <div className="hidden lg:block lg:w-1/3 lg:h-full space-y-6">
           <GlobalTestSite showcaseRecipe={showcaseRecipe} />
         </div>
       </div>
