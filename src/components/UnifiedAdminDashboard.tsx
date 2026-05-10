@@ -1827,7 +1827,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           {/* Dashboard header - matching student dashboard */}
           <div className="text-center mb-6">
             <h1 className="text-4xl font-retro text-maineBlue mb-2">{t('admin.adminDashboard')}</h1>
-            <p className="text-gray-600 italic">{t('admin.subtitle')}</p>
           </div>
           
           {/* Separation line */}
