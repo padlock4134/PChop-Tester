@@ -100,8 +100,8 @@ body > #arjsDebugUIContainer {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
-    height: min(84vh, calc(100dvh - 10rem));
-    max-height: min(84vh, calc(100dvh - 10rem));
+    height: min(76vh, calc(100dvh - 16rem));
+    max-height: min(76vh, calc(100dvh - 16rem));
     overflow: hidden;
   }
 
