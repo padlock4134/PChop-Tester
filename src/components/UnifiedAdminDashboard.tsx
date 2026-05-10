@@ -1999,7 +1999,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             {/* Program Health */}
             <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 text-center hover:scale-105 transition-transform duration-200">
+                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 text-center lg:scale-90 lg:origin-top hover:scale-105 transition-transform duration-200">
                   <div className="mb-2 text-3xl">👥</div>
                   <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.userActivity')}</h4>
                   <p className="text-sm text-gray-600 mb-3 italic">{t('admin.monitorEngagement')}</p>
@@ -2010,7 +2010,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     {t('admin.viewActivity')}
                   </button>
                 </div>
-                <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 text-center hover:scale-105 transition-transform duration-200">
+                <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 text-center lg:scale-90 lg:origin-top hover:scale-105 transition-transform duration-200">
                   <div className="mb-2 text-3xl">📊</div>
                   <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.programPerformance')}</h4>
                   <p className="text-sm text-gray-600 mb-3 italic">{t('admin.trackCompletion')}</p>
@@ -2021,7 +2021,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     {t('admin.viewPerformance')}
                   </button>
                 </div>
-                <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 text-center hover:scale-105 transition-transform duration-200">
+                <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 text-center lg:scale-90 lg:origin-top hover:scale-105 transition-transform duration-200">
                   <div className="mb-2 text-3xl">📈</div>
                   <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.enrollmentHealth')}</h4>
                   <p className="text-sm text-gray-600 mb-3 italic">{t('admin.monitorEnrollment')}</p>
