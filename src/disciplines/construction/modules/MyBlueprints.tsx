@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../components/SiteFreddieContext';
-import { useRecipeContext } from '../components/TaskContext';
+import { useFreddieContext } from '../../culinary/components/FreddieContext';
+import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
 import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
 import { supabase } from '../api/supabaseClient';
@@ -426,7 +426,7 @@ const MyBlueprints = () => {
 
   if (loading) {
     return (
-      <div className="w-full mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
           <div className="text-lg font-retro mb-2">Loading your blueprints...</div>
@@ -437,7 +437,7 @@ const MyBlueprints = () => {
 
   if (error) {
     return (
-      <div className="w-full mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="text-xl text-red-600 mb-4">⚠️</div>
           <div className="text-lg font-retro mb-2">{error}</div>
@@ -447,7 +447,7 @@ const MyBlueprints = () => {
   }
 
   return (
-    <div className="w-[90%] mx-auto mt-4 student-dashboard-height-lock">
+    <div className="max-w-6xl mx-auto mt-8">
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
@@ -472,8 +472,8 @@ const MyBlueprints = () => {
         </button>
       </div>
       
-      <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
-        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full ${
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
           activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
@@ -750,11 +750,11 @@ const MyBlueprints = () => {
         </div>
       </div>
       {/* Recipe Count */}
-      {filteredRecipes.length > 0 && (
-        <div className="text-sm text-gray-500 mb-4">
-          {`${t('myBlueprints.recipe')} ${currentIndex + 1} ${t('myBlueprints.of')} ${filteredRecipes.length}`}
-        </div>
-      )}
+      <div className="text-sm text-gray-500 mb-4">
+        {filteredRecipes.length === 0 
+          ? t('myBlueprints.noRecipes') 
+          : `${t('myBlueprints.recipe')} ${currentIndex + 1} ${t('myBlueprints.of')} ${filteredRecipes.length}`}
+      </div>
 
 
       {/* Digital Cookbook - Single Recipe */}
@@ -926,7 +926,7 @@ const MyBlueprints = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className={`lg:w-1/3 lg:h-full ${
+        <div className={`lg:w-1/3 ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
@@ -1480,7 +1480,7 @@ const MyBlueprints = () => {
       {/* Video Library Modal */}
       {showVideoLibraryModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowVideoLibraryModal(false)}>
-          <div className="bg-white rounded-lg shadow-2xl border-4 border-black w-full max-w-4xl max-h-[85vh] lg:max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
               <div className="flex justify-between items-center mb-4">
