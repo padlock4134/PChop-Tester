@@ -841,7 +841,7 @@ const MyBlueprints = () => {
                   <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('myBlueprints.instructions')}</h4>
                   <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredRecipes[currentIndex].instructions}</p>
                 </div>
-                <div className="flex justify-between items-center absolute bottom-4 left-4 right-4 gap-2">
+                <div className="flex flex-wrap sm:flex-nowrap justify-between items-center absolute bottom-4 left-4 right-4 gap-2 z-20">
                   <button
                     onClick={async () => {
                       try {
@@ -929,12 +929,12 @@ const MyBlueprints = () => {
         <div className={`lg:w-1/3 ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full max-h-[calc(100vh-100px)] flex flex-col">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
               <h3 className="text-xl">📚 {t('myBlueprints.collectionsLibrary')}</h3>
             </div>
             
-            <div className="p-4">
+            <div className="p-4 overflow-y-auto">
               {/* Existing Collections Section */}
               <div className="mb-6">
                 <h4 className="font-bold text-maineBlue mb-3">📋 {t('myBlueprints.myCollections')}</h4>
