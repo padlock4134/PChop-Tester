@@ -525,8 +525,8 @@ const MyManual = () => {
         </button>
       </div>
       
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col max-h-[calc(100vh-100px)] ${
+      <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
+        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full ${
           activeMobileTab === 'manual' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Manual header */}
@@ -979,7 +979,7 @@ const MyManual = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className="lg:w-1/3 block">
+        <div className="lg:w-1/3 lg:h-full block">
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
               <h3 className="text-xl">📚 {t('myManual.collectionsLibrary')}</h3>
