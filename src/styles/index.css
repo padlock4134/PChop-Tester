@@ -191,3 +191,25 @@ body > #arjsDebugUIContainer {
     font-size: 1.75rem;
   }
 }
+
+
+  .admin-dashboard-frame .admin-dashboard-content .shadow-md.border-maineBlue {
+    padding: 0.55rem !important;
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content .shadow-md.border-maineBlue .gap-6 {
+    gap: 0.55rem !important;
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content .shadow-md.border-maineBlue .rounded-lg.p-6 {
+    padding: 0.65rem !important;
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content .shadow-md.border-maineBlue p {
+    margin-bottom: 0.35rem !important;
+  }
+
+  .admin-dashboard-frame .admin-dashboard-content .shadow-md.border-maineBlue button {
+    padding-top: 0.35rem !important;
+    padding-bottom: 0.35rem !important;
+  }
