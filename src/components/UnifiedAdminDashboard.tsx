@@ -2040,8 +2040,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         {activeTab === 'users' && (
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🎓</div>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 text-center lg:scale-80 lg:origin-top hover:scale-105 transition-transform duration-200">
+                <div className="mb-2 text-3xl">🎓</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.studentManagement')}</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">{t('admin.trackProgress')}</p>
                 <button 
@@ -2051,8 +2051,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   {t('admin.manageStudents')}
                 </button>
               </div>
-              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">👩‍🏫</div>
+              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 text-center lg:scale-80 lg:origin-top hover:scale-105 transition-transform duration-200">
+                <div className="mb-2 text-3xl">👩‍🏫</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.facultyManagement')}</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">{t('admin.instructorAccess')}</p>
                 <button 
@@ -2062,8 +2062,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   {t('admin.manageFaculty')}
                 </button>
               </div>
-              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📜</div>
+              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 text-center lg:scale-80 lg:origin-top hover:scale-105 transition-transform duration-200">
+                <div className="mb-2 text-3xl">📜</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.alumniManagement')}</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">{t('admin.trackAlumniSuccess')}</p>
                 <button 
@@ -2080,8 +2080,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         {activeTab === 'content' && (
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🤖</div>
+              <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 text-center lg:scale-80 lg:origin-top hover:scale-105 transition-transform duration-200">
+                <div className="mb-2 text-3xl">🤖</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.moduleIntegrationTitle')}</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">{t('admin.connectModules')}</p>
                 <button 
@@ -2091,8 +2091,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   {t('admin.manageConnections')}
                 </button>
               </div>
-              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🔍</div>
+              <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 text-center lg:scale-80 lg:origin-top hover:scale-105 transition-transform duration-200">
+                <div className="mb-2 text-3xl">🔍</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.contentAnalyticsTitle')}</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">{t('admin.monitorContent')}</p>
                 <button 
@@ -2102,8 +2102,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   {t('admin.viewAnalytics')}
                 </button>
               </div>
-              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">⚙️</div>
+              <div className="border-4 border-purple-400 bg-purple-50 rounded-lg p-3 text-center lg:scale-80 lg:origin-top hover:scale-105 transition-transform duration-200">
+                <div className="mb-2 text-3xl">⚙️</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.crossPlatformConfig')}</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">{t('admin.configureContent')}</p>
                 <button 
@@ -2120,8 +2120,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         {activeTab === 'system' && (
           <div className="bg-white rounded-lg shadow-md p-6 border-4 border-maineBlue">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🎨</div>
+              <div className="border-4 border-blue-300 bg-blue-50 rounded-lg p-3 text-center lg:scale-80 lg:origin-top hover:scale-105 transition-transform duration-200">
+                <div className="mb-2 text-3xl">🎨</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.schoolBrandingTitle')}</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">{t('admin.customizePlatform')}</p>
                 <button 
@@ -2132,8 +2132,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
               </div>
               
-              <div className="border-4 border-green-300 bg-green-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">🎯</div>
+              <div className="border-4 border-green-300 bg-green-50 rounded-lg p-3 text-center lg:scale-80 lg:origin-top hover:scale-105 transition-transform duration-200">
+                <div className="mb-2 text-3xl">🎯</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.jobPlacementServices')}</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">{t('admin.trackEmployment')}</p>
                 <button 
@@ -2144,8 +2144,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
               </div>
 
-              <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-6 text-center hover:scale-105 transition-transform duration-200">
-                <div className="mb-3 text-4xl">📊</div>
+              <div className="border-4 border-purple-300 bg-purple-50 rounded-lg p-3 text-center lg:scale-80 lg:origin-top hover:scale-105 transition-transform duration-200">
+                <div className="mb-2 text-3xl">📊</div>
                 <h4 className="font-semibold text-gray-900 mb-2 font-retro">{t('admin.exportReports')}</h4>
                 <p className="text-sm text-gray-600 mb-3 italic">{t('admin.generateReports')}</p>
                 <button
