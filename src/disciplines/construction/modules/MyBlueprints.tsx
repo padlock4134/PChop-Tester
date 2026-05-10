@@ -929,12 +929,12 @@ const MyBlueprints = () => {
         <div className={`lg:w-1/3 ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full max-h-[calc(100vh-100px)] flex flex-col">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
               <h3 className="text-xl">📚 {t('myBlueprints.collectionsLibrary')}</h3>
             </div>
             
-            <div className="p-4">
+            <div className="p-4 overflow-y-auto">
               {/* Existing Collections Section */}
               <div className="mb-6">
                 <h4 className="font-bold text-maineBlue mb-3">📋 {t('myBlueprints.myCollections')}</h4>
