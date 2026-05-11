@@ -729,7 +729,7 @@ END:VCALENDAR`;
   // Removed cleanup useEffect to improve performance
 
   return (
-    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full min-h-[800px]">
+    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px]">
       <div className="p-4 bg-red-500 text-white font-retro text-center">
         <h2 className="text-xl flex items-center justify-center">
           <span className="text-2xl mr-2">🌍</span>
