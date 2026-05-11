@@ -1083,7 +1083,7 @@ const MyPipeBook = () => {
                     </div>
                     </>
                   ) : (
-                    <div className="text-center py-8">
+                    <div className="text-center py-4 mb-3">
                       <div className="text-4xl mb-2">📝</div>
                       <p className="text-gray-500 text-sm">{t('myPipeBook.noRecipesYet')}</p>
                       <p className="text-gray-500 text-sm">{t('myPipeBook.addRecipesFirst')}</p>

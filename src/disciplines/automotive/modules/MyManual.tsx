@@ -979,7 +979,7 @@ const MyManual = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className="lg:w-[28.333%] lg:h-full block">
+        <div className={`lg:w-[28.333%] lg:h-full ${activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'}`}>
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px]">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
               <h3 className="text-xl">📚 {t('myManual.collectionsLibrary')}</h3>
@@ -1016,136 +1016,133 @@ const MyManual = () => {
 
               {/* Create Collection Section */}
               <div className="mb-6">
-                <div className="space-y-2">
-                  {procedures.length > 0 ? (
-                    <>
+                {procedures.length > 0 ? (
+                  <div className="space-y-2">
                     <p className="text-sm text-gray-600 mb-3">{t('myManual.selectRecipesToAdd')}</p>
-
+                    
                     <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
-                    {procedures.map((procedure: Procedure) => (
-                      <div key={procedure.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
-                        <div className="flex items-center">
-                          <input
-                            type="checkbox"
-                            id={`procedure-${procedure.id}`}
-                            checked={selectedProcedures.includes(procedure.id)}
-                            onChange={() => handleProcedureSelect(procedure.id)}
-                            className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
-                          />
-                          <label htmlFor={`procedure-${procedure.id}`} className="text-sm cursor-pointer">
-                            {procedure.name}
-                          </label>
+                      {procedures.map((procedure: Procedure) => (
+                        <div key={procedure.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              id={`procedure-${procedure.id}`}
+                              checked={selectedProcedures.includes(procedure.id)}
+                              onChange={() => handleProcedureSelect(procedure.id)}
+                              className="mr-3 w-4 h-4 text-maineBlue bg-gray-100 border-gray-300 rounded focus:ring-maineBlue focus:ring-2"
+                            />
+                            <label htmlFor={`procedure-${procedure.id}`} className="text-sm cursor-pointer">
+                              {procedure.name}
+                            </label>
+                          </div>
+                          <div className="flex gap-1">
+                            {procedure.systemTags && procedure.systemTags.length > 0 && (
+                              <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
+                                🔧
+                              </span>
+                            )}
+                            {procedure.photo && (
+                              <span className="text-xs bg-blue-100 text-blue-800 px-1 py-0.5 rounded">
+                                📷
+                              </span>
+                            )}
+                          </div>
                         </div>
-                        <div className="flex gap-1">
-                          {procedure.systemTags && procedure.systemTags.length > 0 && (
-                            <span className="text-xs bg-green-100 text-green-800 px-1 py-0.5 rounded">
-                              🔧
-                            </span>
-                          )}
-                          {procedure.photo && (
-                            <span className="text-xs bg-blue-100 text-blue-800 px-1 py-0.5 rounded">
-                              📷
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                     </div>
-                    </>
-                  ) : (
-                    <div className="text-center py-8">
-                      <div className="text-4xl mb-2">📝</div>
-                      <p className="text-gray-500 text-sm">{t('myManual.noRecipesYet')}</p>
-                      <p className="text-gray-500 text-sm">{t('myManual.addRecipesFirst')}</p>
-                    </div>
-                  )}
-                </div>
+                    
+                    {/* Create Collection Button */}
+                    <button
+                      onClick={() => setShowCreateCollectionModal(true)}
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
+                    >
+                      {t('myManual.createCollectionSelected', { count: selectedProcedures.length }).replace('{count}', selectedProcedures.length.toString())}
+                    </button>
 
-                <button
-                  onClick={() => setShowCreateCollectionModal(true)}
-                  className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
-                >
-                  {t('myManual.createCollectionSelected', { count: selectedProcedures.length }).replace('{count}', selectedProcedures.length.toString())}
-                </button>
-                
-                <div className="space-y-3">
-                  {/* View Gradebook Button */}
-                  <button
-                    onClick={handleOpenGradebook}
-                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
-                  >
-                    📊 {t('myManual.viewGradebook')}
-                  </button>
+                    {/* View Gradebook Button */}
+                    <button
+                      onClick={handleOpenGradebook}
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
+                    >
+                      📊 {t('myManual.viewGradebook')}
+                    </button>
 
-                  {/* View Videos Button */}
-                  <button
-                    onClick={async () => {
-                      setShowVideoLibraryModal(true);
-                      setLoadingVideos(true);
-                      try {
-                        // Get list of all user folders (to find all users with videos)
-                        const { data: folders, error: foldersError } = await supabase.storage
-                          .from('Practice Videos')
-                          .list('', {
-                            limit: 1000,
-                            offset: 0
-                          });
-                        
-                        if (foldersError) throw foldersError;
-                        
-                        // For each user folder, get their videos
-                        const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
-                        
-                        for (const folder of folders || []) {
-                          if (folder.name) {
-                            const { data: userVideos, error: videosError } = await supabase.storage
-                              .from('Practice Videos')
-                              .list(folder.name, {
-                                limit: 100,
-                                offset: 0,
-                                sortBy: { column: 'created_at', order: 'desc' }
-                              });
-                            
-                            if (!videosError && userVideos) {
-                              for (const file of userVideos) {
-                                // Get file metadata to check if public
-                                const isPublic = file.metadata?.isPublic === 'true';
-                                const isMyVideo = folder.name === user?.id;
-                                
-                                // Show if: public OR it's my video
-                                if (isPublic || isMyVideo) {
-                                  const { data: urlData } = supabase.storage
-                                    .from('Practice Videos')
-                                    .getPublicUrl(`${folder.name}/${file.name}`);
+                    {/* View Videos Button */}
+                    <button
+                      onClick={async () => {
+                        setShowVideoLibraryModal(true);
+                        setLoadingVideos(true);
+                        try {
+                          // Get list of all user folders (to find all users with videos)
+                          const { data: folders, error: foldersError } = await supabase.storage
+                            .from('Practice Videos')
+                            .list('', {
+                              limit: 1000,
+                              offset: 0
+                            });
+                          
+                          if (foldersError) throw foldersError;
+                          
+                          // For each user folder, get their videos
+                          const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
+                          
+                          for (const folder of folders || []) {
+                            if (folder.name) {
+                              const { data: userVideos, error: videosError } = await supabase.storage
+                                .from('Practice Videos')
+                                .list(folder.name, {
+                                  limit: 100,
+                                  offset: 0,
+                                  sortBy: { column: 'created_at', order: 'desc' }
+                                });
+                              
+                              if (!videosError && userVideos) {
+                                for (const file of userVideos) {
+                                  // Get file metadata to check if public
+                                  const isPublic = file.metadata?.isPublic === 'true';
+                                  const isMyVideo = folder.name === user?.id;
                                   
-                                  allVideos.push({
-                                    name: file.name,
-                                    url: urlData.publicUrl,
-                                    created_at: file.created_at,
-                                    userId: folder.name,
-                                    isPublic: isPublic
-                                  });
+                                  // Show if: public OR it's my video
+                                  if (isPublic || isMyVideo) {
+                                    const { data: urlData } = supabase.storage
+                                      .from('Practice Videos')
+                                      .getPublicUrl(`${folder.name}/${file.name}`);
+                                    
+                                    allVideos.push({
+                                      name: file.name,
+                                      url: urlData.publicUrl,
+                                      created_at: file.created_at,
+                                      userId: folder.name,
+                                      isPublic: isPublic
+                                    });
+                                  }
                                 }
                               }
                             }
                           }
+                          
+                          // Sort by date
+                          allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                          setSavedVideos(allVideos);
+                        } catch (error) {
+                          console.error('Error loading videos:', error);
+                          alert('Failed to load videos');
+                        } finally {
+                          setLoadingVideos(false);
                         }
-                        
-                        // Sort by date
-                        allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-                        setSavedVideos(allVideos);
-                      } catch (error) {
-                        console.error('Error loading videos:', error);
-                        alert('Failed to load videos');
-                      } finally {
-                        setLoadingVideos(false);
-                      }
-                    }}
-                    className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
-                  >
-                    🎥 {t('myManual.viewVideos')}
-                  </button>
-                </div>
+                      }}
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
+                    >
+                      🎥 {t('myManual.viewVideos')}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="text-4xl mb-2">📝</div>
+                    <p className="text-gray-500 text-sm">{t('myManual.noRecipesYet')}</p>
+                    <p className="text-gray-500 text-sm">{t('myManual.addRecipesFirst')}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
