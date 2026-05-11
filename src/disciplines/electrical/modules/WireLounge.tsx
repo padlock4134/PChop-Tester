@@ -373,7 +373,7 @@ const WireLounge = () => {
         </div>
         
         {/* Right Sidebar - Desktop Only */}
-        <div className="hidden lg:block lg:w-[28.333%] lg:h-full">
+        <div className="hidden lg:block lg:w-[28.333%] lg:h-full lg:min-h-0 overflow-y-auto space-y-6 pr-1">
           <GlobalTestPanel showcaseRecipe={showcaseRecipe} />
         </div>
       </div>

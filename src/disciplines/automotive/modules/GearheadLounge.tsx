@@ -241,7 +241,7 @@ const GearheadLounge = () => {
         <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
           {/* Main Content - Gearhead Lounge Tab */}
           <div className={`lg:w-[66.666%] bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
-            activeMobileTab === 'corner' ? 'flex' : 'hidden lg:flex'
+            activeMobileTab === 'corner' ? 'block' : 'hidden lg:block'
           }`}>
             {/* Gearhead Lounge header - moved back inside the module */}
             <div className="flex items-center justify-center mb-4">
@@ -358,24 +358,16 @@ const GearheadLounge = () => {
 
             </div>
             </div>
-          {/* Desktop Layout - Parts Directory */}
-          <div className="hidden lg:block">
-            <div className="mb-6 mt-8">
-              {/* Parts content can be added here if needed */}
-            </div>
+          {/* Right Sidebar - Desktop Only */}
+          <div className="hidden lg:block lg:w-[28.333%] lg:h-full lg:min-h-0 overflow-y-auto space-y-6 pr-1">
+            <TheCarLift showcaseRecipe={showcaseRecipe} />
           </div>
-
         </div>
 
         {/* The Car Lift Tab - Mobile Only */}
         <div className={`lg:hidden ${
           activeMobileTab === 'garage' ? 'block' : 'hidden'
         }`}>
-          <TheCarLift showcaseRecipe={showcaseRecipe} />
-        </div>
-        
-        {/* Right Sidebar - Desktop Only */}
-        <div className="hidden lg:block lg:w-[28.333%] lg:h-full">
           <TheCarLift showcaseRecipe={showcaseRecipe} />
         </div>
       </div>
