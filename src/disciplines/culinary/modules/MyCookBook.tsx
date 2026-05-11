@@ -981,7 +981,6 @@ const MyCookBook = () => {
               <div className="mb-6">
                 {recipes.length > 0 ? (
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-600 mb-3">{t('myCookbook.selectRecipesToAdd')}</p>
                     
                     <div className="h-40 overflow-y-scroll border border-gray-300 rounded p-2">
                       {recipes.map((recipe) => (

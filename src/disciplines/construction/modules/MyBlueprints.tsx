@@ -965,7 +965,6 @@ const MyBlueprints = () => {
                 <div className="space-y-2">
                   {recipes.length > 0 ? (
                     <>
-                    <p className="text-sm text-gray-600 mb-3">{t('myBlueprints.selectRecipesToAdd')}</p>
                     
                     <div className="h-40 overflow-y-scroll border border-gray-300 rounded p-2">
                       {recipes.map((recipe) => (
