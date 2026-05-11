@@ -933,7 +933,6 @@ const MyCodeBook = () => {
             <div className="p-4 flex-1 min-h-0 overflow-y-auto">
               {/* Existing Collections Section */}
               <div className="mb-6">
-                <h4 className="font-bold text-maineBlue mb-3">📋 {t('myCodeBook.myCollections')}</h4>
                 
                 <div className="max-h-32 overflow-y-auto border border-gray-300 rounded p-2 bg-gray-50">
                   {collections.map(collection => (
