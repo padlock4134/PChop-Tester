@@ -238,9 +238,9 @@ const GearheadLounge = () => {
           </button>
         </div>
         
-        <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
+        <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
           {/* Main Content - Gearhead Lounge Tab */}
-          <div className={`lg:w-2/3 lg:h-full bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
+          <div className={`lg:w-[66.666%] h-full lg:min-h-[620px] bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col ${
             activeMobileTab === 'corner' ? 'block' : 'hidden lg:block'
           }`}>
             {/* Gearhead Lounge header - moved back inside the module */}
@@ -374,7 +374,7 @@ const GearheadLounge = () => {
         </div>
         
         {/* Right Sidebar - Desktop Only */}
-        <div className="hidden lg:block lg:w-1/3 lg:h-full space-y-6">
+        <div className="hidden lg:block lg:w-[28.333%] lg:h-full lg:min-h-0 overflow-y-auto space-y-6 pr-1">
           <TheCarLift showcaseRecipe={showcaseRecipe} />
         </div>
       </div>

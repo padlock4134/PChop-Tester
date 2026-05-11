@@ -240,9 +240,9 @@ const ChefsCorner = () => {
           </button>
         </div>
         
-        <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
+        <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
           {/* Main Content - Chef's Corner Tab */}
-          <div className={`lg:w-2/3 lg:h-full bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
+          <div className={`lg:w-[66.666%] bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
             activeMobileTab === 'corner' ? 'block' : 'hidden lg:block'
           }`}>
             {/* Chef's Corner header - moved back inside the module */}
@@ -376,7 +376,7 @@ const ChefsCorner = () => {
         </div>
         
         {/* Right Sidebar - Desktop Only */}
-        <div className="hidden lg:block lg:w-1/3 lg:h-full space-y-6">
+        <div className="hidden lg:block lg:w-[28.333%] lg:h-full lg:min-h-0 overflow-y-auto space-y-6 pr-1">
           <GlobalTestKitchen showcaseRecipe={showcaseRecipe} />
           <ChefFreddieWidget />
         </div>
