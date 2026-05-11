@@ -334,7 +334,7 @@ const BuildSchool = () => {
   }, [isRecipeSelected, selectedRecipe?.id]);
 
   return (
-    <div className="w-full mt-4">
+    <div className="w-[90%] mx-auto mt-4 student-dashboard-height-lock">
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
@@ -359,18 +359,23 @@ const BuildSchool = () => {
         </button>
       </div>
       
-      <div className="flex flex-col lg:flex-row gap-6">
-        <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
-          activeMobileTab === 'school' ? 'block' : 'hidden lg:block'
+      <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
+        <div className={`lg:w-[66.666%] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
+          activeMobileTab === 'school' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* Culinary School header - moved back inside the module */}
-          <div className="flex items-center justify-center mb-4">
+          <div className="flex items-center justify-center p-6 pb-4">
             <span className="text-5xl mr-2">🛠️</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('buildSchool.title')}</h1>
           </div>
           
-          {/* Separation line */}
-          <hr className="border-t-2 border-maineBlue mb-6" />
+          {/* Sticky Separation line */}
+          <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
+            <hr className="border-t-2 border-maineBlue" />
+          </div>
+
+          {/* Scrollable Content */}
+          <div className="overflow-y-auto p-6 pt-4">
         <div className="w-full mx-auto">
         <JobTimer servingSize={servingSize} setServingSize={setServingSize} />
         {/* Always render a VideoModal for the currently displayed tutorial list */}
@@ -491,9 +496,10 @@ const BuildSchool = () => {
           </>
         )}
       </div>
+          </div>
         </div>
         
-        <div className={`lg:w-1/3 ${
+        <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
         }`}>
           <SyllabusCard 
