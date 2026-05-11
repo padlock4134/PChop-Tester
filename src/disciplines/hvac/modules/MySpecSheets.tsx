@@ -836,21 +836,21 @@ const MySpecSheets = () => {
               className={`relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] ${flipped ? '[transform:rotateY(180deg)]' : ''}`}
             >
               {/* Front */}
-              <div className="absolute inset-0 bg-white p-4 sm:p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col items-center [backface-visibility:hidden]">
+              <div className="absolute inset-0 bg-white p-2 sm:p-3 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col items-center [backface-visibility:hidden]">
                 {filteredRecipes[currentIndex].photo && (
                   <img 
                     src={filteredRecipes[currentIndex].photo} 
                     alt={filteredRecipes[currentIndex].name} 
-                    className="w-full h-32 sm:h-40 object-cover rounded-lg mb-4 border-2 border-gray-200"
+                    className="w-full h-20 sm:h-24 object-cover rounded-lg mb-1 border-2 border-gray-200"
                   />
                 )}
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-4 text-center text-maineBlue">{filteredRecipes[currentIndex].name}</h3>
+                <h3 className="text-sm sm:text-base md:text-lg font-bold mb-1 text-center text-maineBlue">{filteredRecipes[currentIndex].name}</h3>
                 <div className="flex-1 flex flex-col justify-center w-full px-2">
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 w-full">
                     {/* Ingredients */}
-                    <div className="bg-seafoam/20 p-3 rounded-lg text-center border-2 border-seafoam">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-maineBlue">🥘 {t('mySpecSheets.ingredients')}</h4>
-                      <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
+                    <div className="bg-seafoam/20 p-1.5 rounded-lg text-center border-2 border-seafoam">
+                      <h4 className="font-bold mb-0.5 text-xs sm:text-sm text-maineBlue">🥘 {t('mySpecSheets.ingredients')}</h4>
+                      <ul className="list-disc pl-3 max-h-[50px] sm:max-h-[60px] overflow-y-auto text-left text-[10px] sm:text-xs space-y-0">
                         {filteredRecipes[currentIndex].ingredients?.slice(0, 6).map((ingredient, i) => (
                           <li key={i} className="line-clamp-1">{ingredient}</li>
                         ))}
@@ -861,9 +861,9 @@ const MySpecSheets = () => {
                     </div>
                     
                     {/* Equipment */}
-                    <div className="bg-amber-50 p-3 rounded-lg text-center border-2 border-amber-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-amber-900">❄️ {t('mySpecSheets.equipment')}</h4>
-                      <ul className="list-disc pl-4 max-h-[80px] sm:max-h-[100px] overflow-y-auto text-left text-xs sm:text-sm space-y-0.5">
+                    <div className="bg-amber-50 p-1.5 rounded-lg text-center border-2 border-amber-300">
+                      <h4 className="font-bold mb-0.5 text-xs sm:text-sm text-amber-900">🔪❄️ {t('mySpecSheets.equipment')}</h4>
+                      <ul className="list-disc pl-3 max-h-[50px] sm:max-h-[60px] overflow-y-auto text-left text-[10px] sm:text-xs space-y-0">
                         {filteredRecipes[currentIndex].equipment?.slice(0, 4).map((item, i) => (
                           <li key={i} className="line-clamp-1">{item}</li>
                         ))}
@@ -874,9 +874,9 @@ const MySpecSheets = () => {
                     </div>
                     
                     {/* Health Tags */}
-                    <div className="bg-green-50 p-3 rounded-lg text-center border-2 border-green-300">
-                      <h4 className="font-bold mb-2 text-sm sm:text-base text-green-900">🥗 {t('mySpecSheets.healthTags')}</h4>
-                      <div className="flex flex-wrap gap-1.5 justify-center max-h-[80px] sm:max-h-[100px] overflow-y-auto">
+                    <div className="bg-green-50 p-1.5 rounded-lg text-center border-2 border-green-300">
+                      <h4 className="font-bold mb-0.5 text-xs sm:text-sm text-green-900">🥗 {t('mySpecSheets.healthTags')}</h4>
+                      <div className="flex flex-wrap gap-1 justify-center max-h-[50px] sm:max-h-[60px] overflow-y-auto">
                         {filteredRecipes[currentIndex].healthTags?.slice(0, 4).map(tag => (
                           <span key={tag} className="bg-green-200 text-green-900 px-2 py-1 rounded-full text-xs font-semibold border border-green-400">
                             {tag}
@@ -891,7 +891,7 @@ const MySpecSheets = () => {
                     </div>
                   </div>
                 </div>
-                <div className="mt-4 text-xs sm:text-sm text-gray-600 text-center font-semibold bg-gray-100 px-4 py-2 rounded-full border border-gray-300">
+                <div className="mt-1 text-[10px] sm:text-xs text-gray-600 text-center font-semibold bg-gray-100 px-3 py-1 rounded-full border border-gray-300">
                   {t('mySpecSheets.tapToFlip')}
                 </div>
               </div>
