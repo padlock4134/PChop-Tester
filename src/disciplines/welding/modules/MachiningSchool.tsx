@@ -640,7 +640,7 @@ const WeldingSchool = () => {
 
   return (
 
-    <div className="w-full mt-4">
+    <div className="w-[90%] mx-auto mt-4 student-dashboard-height-lock">
 
       {/* Mobile Tab Bar - Only visible on mobile */}
 
@@ -690,17 +690,17 @@ const WeldingSchool = () => {
 
       
 
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
 
-        <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
+        <div className={`lg:w-[66.666%] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
 
-          activeMobileTab === 'school' ? 'block' : 'hidden lg:block'
+          activeMobileTab === 'school' ? 'flex' : 'hidden lg:flex'
 
         }`}>
 
           {/* Welding School header */}
 
-          <div className="flex items-center justify-center mb-4">
+          <div className="flex items-center justify-center p-6 pb-4">
 
             <span className="text-5xl mr-2">🔩</span>
 
