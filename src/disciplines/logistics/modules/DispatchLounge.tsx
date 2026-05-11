@@ -189,8 +189,8 @@ const DispatchLounge = () => {
         
         <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
           {/* Main Content - Dispatcher's Corner Tab */}
-          <div className={`lg:w-[66.666%] h-full lg:min-h-[620px] bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col ${
-            activeMobileTab === 'corner' ? 'block' : 'hidden lg:block'
+          <div className={`lg:w-[66.666%] h-full lg:min-h-[620px] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col ${
+            activeMobileTab === 'corner' ? 'flex' : 'hidden lg:flex'
           }`}>
             {/* Dispatcher's Corner header - moved back inside the module */}
             <div className="flex items-center justify-center mb-4">
@@ -323,8 +323,12 @@ const DispatchLounge = () => {
         </div>
         
         {/* Right Sidebar - Desktop Only */}
-        <div className="hidden lg:block lg:w-[28.333%] lg:h-full lg:min-h-0 overflow-y-auto space-y-6 pr-1">
-          <GlobalTestDock showcaseRoute={showcaseRoute} />
+        <div className="hidden lg:block lg:w-[28.333%] lg:h-full">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px] flex flex-col">
+            <div className="p-4 flex-1 min-h-0 overflow-y-auto">
+              <GlobalTestDock showcaseRoute={showcaseRoute} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
