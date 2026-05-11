@@ -70,14 +70,14 @@ const GroupFinder: React.FC = () => {
 
   return (
     <>
-      <button className="relative flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 hover:bg-blue-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black" title={t('groupFinder.title', { defaultValue: 'Group Finder' })} aria-label={t('groupFinder.title', { defaultValue: 'Group Finder' })} onClick={() => setOpen(true)}>
+      <button className="relative flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 hover:bg-blue-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black" title={t('groupFinder.title', { defaultValue: 'Crew Finder' })} aria-label={t('groupFinder.title', { defaultValue: 'Crew Finder' })} onClick={() => setOpen(true)}>
         <span role="img" aria-label="Group">👥</span>
         {groups.filter(g => g.currentMembers < g.maxMembers).length > 0 && (<span className="absolute -top-1 -right-1 bg-lobsterRed text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">{groups.filter(g => g.currentMembers < g.maxMembers).length}</span>)}
       </button>
       {open && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-40" onClick={() => { setOpen(false); setShowCreate(false); }}>
           <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-lg w-full mx-4 max-h-[80vh] flex flex-col relative z-50" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center justify-between p-4 pb-3 border-b-2 border-gray-200"><div className="flex items-center gap-2"><span className="text-2xl">📋</span><h2 className="text-xl font-retro text-maineBlue">{t('groupFinder.title', { defaultValue: 'Group Finder' })}</h2></div><button onClick={() => { setOpen(false); setShowCreate(false); }} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"><span className="text-gray-500 font-bold text-lg">✕</span></button></div>
+            <div className="flex items-center justify-between p-4 pb-3 border-b-2 border-gray-200"><div className="flex items-center gap-2"><span className="text-2xl">📋</span><h2 className="text-xl font-retro text-maineBlue">{t('groupFinder.title', { defaultValue: 'Crew Finder' })}</h2></div><button onClick={() => { setOpen(false); setShowCreate(false); }} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"><span className="text-gray-500 font-bold text-lg">✕</span></button></div>
             <div className="flex border-b-2 border-gray-200">
               <button onClick={() => setActiveTab('find')} className={`flex-1 py-2 px-4 font-bold text-sm transition-colors ${activeTab === 'find' ? 'bg-maineBlue text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>🔍 {t('groupFinder.findGroup', { defaultValue: 'Find a Group' })}</button>
               <button onClick={() => setActiveTab('my')} className={`flex-1 py-2 px-4 font-bold text-sm transition-colors ${activeTab === 'my' ? 'bg-maineBlue text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}>📌 {t('groupFinder.myGroups', { defaultValue: 'My Groups' })} {myGroups.length > 0 && `(${myGroups.length})`}</button>

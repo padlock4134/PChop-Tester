@@ -231,8 +231,8 @@ const GroupFinder: React.FC = () => {
     <>
       <button
         className="relative flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 hover:bg-blue-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black"
-        title={t('groupFinder.title', { defaultValue: 'Group Finder' })}
-        aria-label={t('groupFinder.title', { defaultValue: 'Group Finder' })}
+        title={t('groupFinder.title', { defaultValue: 'Crew Finder' })}
+        aria-label={t('groupFinder.title', { defaultValue: 'Crew Finder' })}
         onClick={() => setOpen(true)}
       >
         <span role="img" aria-label="Group">👥</span>
@@ -255,7 +255,7 @@ const GroupFinder: React.FC = () => {
             <div className="flex items-center justify-between p-4 pb-3 border-b-2 border-gray-200">
               <div className="flex items-center gap-2">
                 <span className="text-2xl">📋</span>
-                <h2 className="text-xl font-retro text-maineBlue">{t('groupFinder.title', { defaultValue: 'Group Finder' })}</h2>
+                <h2 className="text-xl font-retro text-maineBlue">{t('groupFinder.title', { defaultValue: 'Crew Finder' })}</h2>
               </div>
               <button
                 onClick={() => { setOpen(false); setShowCreate(false); }}
