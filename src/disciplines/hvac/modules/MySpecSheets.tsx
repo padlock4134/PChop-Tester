@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useFreddieContext } from '../components/ShopFreddieContext';
+import { useRecipeContext } from '../components/SystemContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
+import { supabase } from '../api/supabaseClient';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
+import { useSupabase } from '../components/SupabaseProvider';
+import { isSessionValid } from '../api/userSession';
 
 const hvacQuoteOfTheDay = {
   chef: 'Willis Carrier',
@@ -347,9 +347,15 @@ const MySpecSheets = () => {
   useEffect(() => {
     updateContext({ page: 'MyCookBook' });
     const loadRecipes = async () => {
+      if (!user?.id) {
+        setLocalRecipes([]);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        const savedRecipes = await fetchCookbook(user.id);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
@@ -364,13 +370,13 @@ const MySpecSheets = () => {
         setLocalRecipes(converted);
       } catch (err) {
         console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        setError('Failed to load your spec sheet book');
       } finally {
         setLoading(false);
       }
     };
     loadRecipes();
-  }, [updateContext]);
+  }, [updateContext, user?.id]);
 
   // Filter recipes based on search term and category
   const filteredRecipes = recipes.filter(recipe => {
@@ -1077,10 +1083,80 @@ const MySpecSheets = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="text-center py-8">
-                    <div className="text-4xl mb-2">📝</div>
-                    <p className="text-gray-500 text-sm">{t('mySpecSheets.noRecipesYet')}</p>
-                    <p className="text-gray-500 text-sm">{t('mySpecSheets.addRecipesFirst')}</p>
+                  <div className="space-y-3">
+                    <div className="text-center py-8">
+                      <div className="text-4xl mb-2">📝</div>
+                      <p className="text-gray-500 text-sm">{t('mySpecSheets.noRecipesYet')}</p>
+                      <p className="text-gray-500 text-sm">{t('mySpecSheets.addRecipesFirst')}</p>
+                    </div>
+
+                    <button
+                      onClick={() => setShowCreateCollectionModal(true)}
+                      disabled
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue opacity-50 cursor-not-allowed"
+                    >
+                      {t('mySpecSheets.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
+                    </button>
+
+                    <button
+                      onClick={handleOpenGradebook}
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
+                    >
+                      📊 {t('mySpecSheets.viewGradebook')}
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        setShowVideoLibraryModal(true);
+                        setLoadingVideos(true);
+                        try {
+                          const { data: folders, error: foldersError } = await supabase.storage
+                            .from('Practice Videos')
+                            .list('', { limit: 1000, offset: 0 });
+
+                          if (foldersError) throw foldersError;
+
+                          const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
+                          for (const folder of folders || []) {
+                            if (!folder.name) continue;
+                            const { data: userVideos, error: videosError } = await supabase.storage
+                              .from('Practice Videos')
+                              .list(folder.name, {
+                                limit: 100,
+                                offset: 0,
+                                sortBy: { column: 'created_at', order: 'desc' }
+                              });
+                            if (videosError || !userVideos) continue;
+                            for (const file of userVideos) {
+                              const isPublic = file.metadata?.isPublic === 'true';
+                              const isMyVideo = folder.name === user?.id;
+                              if (!isPublic && !isMyVideo) continue;
+                              const { data: urlData } = supabase.storage
+                                .from('Practice Videos')
+                                .getPublicUrl(`${folder.name}/${file.name}`);
+                              allVideos.push({
+                                name: file.name,
+                                url: urlData.publicUrl,
+                                created_at: file.created_at ?? '',
+                                userId: folder.name,
+                                isPublic
+                              });
+                            }
+                          }
+
+                          allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                          setSavedVideos(allVideos);
+                        } catch (error) {
+                          console.error('Error loading videos:', error);
+                          alert('Failed to load videos');
+                        } finally {
+                          setLoadingVideos(false);
+                        }
+                      }}
+                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
+                    >
+                      🎥 {t('mySpecSheets.viewVideos')}
+                    </button>
                   </div>
                 )}
               </div>
