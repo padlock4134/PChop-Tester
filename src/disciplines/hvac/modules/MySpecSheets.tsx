@@ -347,9 +347,15 @@ const MySpecSheets = () => {
   useEffect(() => {
     updateContext({ page: 'MyCookBook' });
     const loadRecipes = async () => {
+      if (!user?.id) {
+        setLocalRecipes([]);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        const savedRecipes = await fetchCookbook(user.id);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
@@ -364,13 +370,13 @@ const MySpecSheets = () => {
         setLocalRecipes(converted);
       } catch (err) {
         console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        setError('Failed to load your spec sheet book');
       } finally {
         setLoading(false);
       }
     };
     loadRecipes();
-  }, [updateContext]);
+  }, [updateContext, user?.id]);
 
   // Filter recipes based on search term and category
   const filteredRecipes = recipes.filter(recipe => {
