@@ -365,17 +365,16 @@ const GearheadLounge = () => {
             </div>
           </div>
 
+          {/* Right Sidebar - Desktop Only */}
+          <div className="hidden lg:block lg:w-[28.333%] lg:h-full lg:min-h-0 overflow-y-auto pr-1">
+            <TheCarLift showcaseRecipe={showcaseRecipe} />
+          </div>
         </div>
 
         {/* The Car Lift Tab - Mobile Only */}
         <div className={`lg:hidden ${
           activeMobileTab === 'garage' ? 'block' : 'hidden'
         }`}>
-          <TheCarLift showcaseRecipe={showcaseRecipe} />
-        </div>
-        
-        {/* Right Sidebar - Desktop Only */}
-        <div className="hidden lg:block lg:w-[28.333%] lg:h-full">
           <TheCarLift showcaseRecipe={showcaseRecipe} />
         </div>
       </div>
