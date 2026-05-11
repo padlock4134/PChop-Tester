@@ -374,9 +374,7 @@ const WireLounge = () => {
         
         {/* Right Sidebar - Desktop Only */}
         <div className="hidden lg:block lg:w-[28.333%] lg:h-full">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px] flex flex-col">
-            <GlobalTestPanel showcaseRecipe={showcaseRecipe} />
-          </div>
+          <GlobalTestPanel showcaseRecipe={showcaseRecipe} />
         </div>
       </div>
     </div>
