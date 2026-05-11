@@ -340,7 +340,7 @@ const CulinarySchool = () => {
   }, [isRecipeSelected, selectedRecipe?.id]);
 
   return (
-    <div className="w-full mt-4">
+    <div className="w-[90%] mx-auto mt-4">
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
@@ -366,7 +366,7 @@ const CulinarySchool = () => {
       </div>
       
       <div className="flex flex-col lg:flex-row gap-6">
-        <div className={`lg:w-2/3 bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue ${
+        <div className={`lg:w-[66.666%] bg-weatheredWhite p-6 rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'school' ? 'block' : 'hidden lg:block'
         }`}>
           {/* Culinary School header - moved back inside the module */}
@@ -499,7 +499,7 @@ const CulinarySchool = () => {
       </div>
         </div>
         
-        <div className={`lg:w-1/3 ${
+        <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
         }`}>
           <SyllabusCard 
