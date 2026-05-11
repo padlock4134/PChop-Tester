@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
 import { supabase } from '../api/supabaseClient';
 import ChallengeOfTheWeek from './ChallengeOfTheWeek';
+import GroupFinder from './GroupFinder';
 import { getUserBadges, BADGES } from '../utils/badges';
 // @ts-ignore
 import logo from '../images/logo.png';
@@ -255,6 +256,8 @@ const NavBar: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-2">
+            {/* Group Finder */}
+            <GroupFinder />
             {/* Weekly Challenge */}
             <ChallengeOfTheWeek />
             
