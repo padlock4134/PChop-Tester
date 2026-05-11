@@ -721,7 +721,7 @@ const MyPipeBook = () => {
                 {t('myPipeBook.recipesInCollection')} ({selectedCollection.fits.length}):
               </p>
               
-              <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+              <div className="h-40 overflow-y-scroll border border-gray-300 rounded p-2">
                 {selectedCollection.fits.map((recipeId, index) => {
                   const fit = fits.find(r => r.id === recipeId);
                   return (
@@ -1053,7 +1053,7 @@ const MyPipeBook = () => {
                     <>
                     <p className="text-sm text-gray-600 mb-3">{t('myPipeBook.selectRecipesToAdd')}</p>
                     
-                    <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+                    <div className="h-40 overflow-y-scroll border border-gray-300 rounded p-2">
                       {fits.map((fit) => (
                         <div key={fit.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
                           <div className="flex items-center">
