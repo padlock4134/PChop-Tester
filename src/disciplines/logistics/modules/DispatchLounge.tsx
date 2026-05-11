@@ -198,13 +198,8 @@ const DispatchLounge = () => {
               <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('dispatchLounge.title')}</h1>
             </div>
             
-            {/* Sticky Separation line */}
-            <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
-              <hr className="border-t-2 border-maineBlue" />
-            </div>
-
-            {/* Scrollable Content */}
-            <div className="overflow-y-auto p-6 pt-4">
+            {/* Separation line */}
+            <hr className="border-t-2 border-maineBlue mb-6" />
             <div className="w-full mx-auto">
               {/* Shopping List - now at the top */}
               <section className="mb-8">
@@ -310,7 +305,6 @@ const DispatchLounge = () => {
               </p>
 
 
-            </div>
             </div>
           {/* Desktop Layout - Markets Directory */}
           <div className="hidden lg:block">
