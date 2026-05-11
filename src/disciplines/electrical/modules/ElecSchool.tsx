@@ -393,18 +393,18 @@ const ElecSchool = () => {
         {isRecipeSelected && selectedRecipe ? (
           <div className="mb-6 mt-8">
             {/* Tutorials Section */}
-            <ol className="space-y-4">
+            <div className="space-y-4">
               {tutorials.map((tut, idx) => (
-                <li
+                <div
                   key={idx}
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
                   <div className="font-bold mb-1">{tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
-                </li>
+                </div>
               ))}
-            </ol>
+            </div>
             {/* Recipe Card Display at Bottom (matching MyCookBook RecipeCard layout) */}
             <div className="flex flex-col md:flex-row bg-white rounded-2xl shadow-lg border border-black overflow-hidden w-full min-h-[350px] mt-8 mx-auto relative">
               <button
@@ -474,18 +474,18 @@ const ElecSchool = () => {
           </div>
         ) : (
           <>
-            <ol className="space-y-4 mt-8">
+            <div className="space-y-4 mt-8">
               {tutorials.map((tut, idx) => (
-                <li
+                <div
                   key={idx}
                   className="bg-sand p-4 rounded shadow-inner border border-black relative cursor-pointer hover:bg-sky-300 hover:text-maineBlue transition-colors"
                   onClick={() => setModalIdx(idx)}
                 >
                   <div className="font-bold mb-1">{tut.title}</div>
                   <div className="text-sm text-gray-700">{tut.desc}</div>
-                </li>
+                </div>
               ))}
-            </ol>
+            </div>
             <div className="mt-8 text-center">
               <div className="text-gray-700 mb-4">{t('elecSchool.getStarted')}</div>
               <div className="flex justify-center space-x-4">

@@ -12,6 +12,12 @@ export type RecipeCard = {
   materials: string[];
   instructions: string;
   equipment?: string[];
+  nutrition?: {
+    carbs: number;
+    sugars: number;
+    fiber: number;
+    protein: number;
+  };
   tutorials?: Array<{
     title: string;
     desc: string;

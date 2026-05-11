@@ -8,7 +8,11 @@ export function getPrimaryMaterial(materials: string[] = []): string | null {
   return materials.length > 0 ? materials[0] : null;
 }
 
-// Backward-compatible alias.
+// Backward-compatible aliases.
 export function getMainIngredient(materials: string[] = []): string | null {
+  return getPrimaryMaterial(materials);
+}
+
+export function getMainMaterial(materials: string[] = []): string | null {
   return getPrimaryMaterial(materials);
 }

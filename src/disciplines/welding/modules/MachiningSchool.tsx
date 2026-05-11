@@ -710,9 +710,19 @@ const WeldingSchool = () => {
 
           
 
-          {/* Separation line */}
+          {/* Sticky Separation line */}
 
-          <hr className="border-t-2 border-maineBlue mb-6" />
+          <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
+
+            <hr className="border-t-2 border-maineBlue" />
+
+          </div>
+
+
+
+          {/* Scrollable Content */}
+
+          <div className="overflow-y-auto p-6 pt-4">
 
         <div className="w-full mx-auto">
 
@@ -748,11 +758,11 @@ const WeldingSchool = () => {
 
             {/* Tutorials Section */}
 
-            <ol className="space-y-4">
+            <div className="space-y-4">
 
               {tutorials.map((tut, idx) => (
 
-                <li
+                <div
 
                   key={idx}
 
@@ -766,11 +776,11 @@ const WeldingSchool = () => {
 
                   <div className="text-sm text-gray-700">{tut.desc}</div>
 
-                </li>
+                </div>
 
               ))}
 
-            </ol>
+            </div>
 
             {/* Job Ticket Display at Bottom */}
 
@@ -888,11 +898,11 @@ const WeldingSchool = () => {
 
           <>
 
-            <ol className="space-y-4 mt-8">
+            <div className="space-y-4 mt-8">
 
               {tutorials.map((tut, idx) => (
 
-                <li
+                <div
 
                   key={idx}
 
@@ -906,11 +916,11 @@ const WeldingSchool = () => {
 
                   <div className="text-sm text-gray-700">{tut.desc}</div>
 
-                </li>
+                </div>
 
               ))}
 
-            </ol>
+            </div>
 
             <div className="mt-8 text-center">
 
@@ -931,6 +941,8 @@ const WeldingSchool = () => {
         )}
 
       </div>
+
+          </div>
 
         </div>
 
