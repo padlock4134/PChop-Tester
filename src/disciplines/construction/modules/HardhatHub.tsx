@@ -244,13 +244,18 @@ const HardhatHub = () => {
             activeMobileTab === 'corner' ? 'flex' : 'hidden lg:flex'
           }`}>
             {/* Chef's Corner header - moved back inside the module */}
-            <div className="flex items-center justify-center mb-4">
+            <div className="flex items-center justify-center p-6 pb-4">
               <span className="text-5xl mr-2">⛑️</span>
               <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('hardhatHub.title')}</h1>
             </div>
             
-            {/* Separation line */}
-            <hr className="border-t-2 border-maineBlue mb-6" />
+            {/* Sticky Separation line */}
+            <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
+              <hr className="border-t-2 border-maineBlue" />
+            </div>
+
+            {/* Scrollable Content */}
+            <div className="overflow-y-auto p-6 pt-4">
             <div className="w-full mx-auto">
               {/* Shopping List - now at the top */}
               <section className="mb-8">
@@ -356,6 +361,7 @@ const HardhatHub = () => {
               </p>
 
 
+            </div>
             </div>
           {/* Desktop Layout - Markets Directory */}
           <div className="hidden lg:block">

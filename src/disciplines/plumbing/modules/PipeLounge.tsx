@@ -312,7 +312,7 @@ const PipeLounge = () => {
 
             {/* Mentor's Corner header - moved back inside the module */}
 
-            <div className="flex items-center justify-center mb-4">
+            <div className="flex items-center justify-center p-6 pb-4">
 
               <span className="text-5xl mr-2">🔩</span>
 
