@@ -640,7 +640,7 @@ const MySpecSheets = () => {
                 {t('mySpecSheets.recipesInCollection')} ({selectedCollection.recipes.length}):
               </p>
               
-              <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+              <div className="h-40 overflow-y-scroll border border-gray-300 rounded p-2">
                 {selectedCollection.recipes.map((recipeId, index) => {
                   const recipe = recipes.find(r => r.id === recipeId);
                   return (
@@ -971,7 +971,7 @@ const MySpecSheets = () => {
                   <div className="space-y-2">
                     <p className="text-sm text-gray-600 mb-3">{t('mySpecSheets.selectRecipesToAdd')}</p>
                     
-                    <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+                    <div className="h-40 overflow-y-scroll border border-gray-300 rounded p-2">
                       {recipes.map((recipe) => (
                         <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
                           <div className="flex items-center">
