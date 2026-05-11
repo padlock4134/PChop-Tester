@@ -304,7 +304,7 @@ const PipeLounge = () => {
 
           {/* Main Content - Mentor's Corner Tab */}
 
-          <div className={`lg:w-[66.666%] h-full lg:min-h-[620px] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col ${
+          <div className={`lg:w-[66.666%] bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
 
             activeMobileTab === 'corner' ? 'flex' : 'hidden lg:flex'
 
@@ -312,7 +312,7 @@ const PipeLounge = () => {
 
             {/* Mentor's Corner header - moved back inside the module */}
 
-            <div className="flex items-center justify-center p-6 pb-4">
+            <div className="flex items-center justify-center mb-4">
 
               <span className="text-5xl mr-2">🔩</span>
 
