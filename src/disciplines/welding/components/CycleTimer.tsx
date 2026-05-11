@@ -141,7 +141,7 @@ const CycleTimer: React.FC<CycleTimerProps> = ({ servingSize, setServingSize }) 
       <div className="bg-sand p-4 rounded-lg border border-black">
         <div className="flex items-center justify-between mb-3">
           <label className="text-sm font-semibold text-gray-700">
-            Machine Team:
+            Servings:
           </label>
           <div className="flex items-center space-x-2">
             <input
@@ -152,7 +152,7 @@ const CycleTimer: React.FC<CycleTimerProps> = ({ servingSize, setServingSize }) 
               onChange={(e) => setServingSize(parseInt(e.target.value) || 1)}
               className="w-16 px-2 py-1 border border-gray-300 rounded text-sm text-center font-bold"
             />
-            <span className="text-sm text-gray-600">operators</span>
+            <span className="text-sm text-gray-600">servings</span>
           </div>
         </div>
         
@@ -167,21 +167,21 @@ const CycleTimer: React.FC<CycleTimerProps> = ({ servingSize, setServingSize }) 
                   : 'bg-gray-200 text-gray-400'
               }`}
             >
-              ⚙️
+              👤
             </div>
           ))}
         </div>
         
         <div className="text-xs text-gray-500">
-          *1 operator represents one learner on the machining cell.
+          *1 serving = ~400-600 calories or 1 cup portions
         </div>
         <div className="text-xs text-gray-400 mt-1">
-          Time recommendations scale by team size for realistic cycle planning.
+          Recommended nutritional values and numbers provided by the USDA
         </div>
       </div>
 
       <div className="bg-sand p-4 rounded-lg border border-black">
-        <h4 className="text-sm font-semibold mb-2 text-gray-700">{t('cycleTimer.title')}: </h4>
+        <h4 className="text-sm font-semibold mb-2 text-gray-700">Service Timer:</h4>
         <div className="flex flex-wrap gap-2">
           {presetTimers.map((preset, index) => (
             <button
