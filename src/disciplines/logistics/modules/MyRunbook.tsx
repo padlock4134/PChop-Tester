@@ -831,7 +831,7 @@ const MyRunbook = () => {
           </div>
         ) : (
           <div 
-            className="relative h-[550px] sm:h-[500px] md:h-[450px] w-full [perspective:1000px] cursor-pointer"
+            className="relative h-[385px] sm:h-[350px] md:h-[315px] w-full [perspective:1000px] cursor-pointer"
             onClick={() => setFlipped(!flipped)}
           >
             <div 
