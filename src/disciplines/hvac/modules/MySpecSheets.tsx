@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
+import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
 import { supabase } from '../../culinary/api/supabaseClient';
 import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from '../../culinary/components/NavBar';
@@ -347,9 +347,15 @@ const MySpecSheets = () => {
   useEffect(() => {
     updateContext({ page: 'MyCookBook' });
     const loadRecipes = async () => {
+      if (!user?.id) {
+        setLocalRecipes([]);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        const savedRecipes = await fetchCookbook(user.id);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
@@ -364,13 +370,13 @@ const MySpecSheets = () => {
         setLocalRecipes(converted);
       } catch (err) {
         console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        setError('Failed to load your spec sheet book');
       } finally {
         setLoading(false);
       }
     };
     loadRecipes();
-  }, [updateContext]);
+  }, [updateContext, user?.id]);
 
   // Filter recipes based on search term and category
   const filteredRecipes = recipes.filter(recipe => {
