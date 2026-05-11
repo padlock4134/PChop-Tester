@@ -313,7 +313,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   }, [selectedDiscipline]);
 
   // Admin-route navbar control swap:
-  // Replace Weekly Challenge/Profile slots with Exit Admin Mode/WorkBench Connector
+  // Hide student controls (GroupFinder, Weekly Challenge, Profile) and inject admin controls
   useEffect(() => {
     const navbar = document.querySelector('nav.navbar') as HTMLElement | null;
     if (!navbar) return;
@@ -322,25 +322,29 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     const navActions = navActionContainers[navActionContainers.length - 1] as HTMLElement | undefined;
     if (!navActions) return;
 
-    const weeklyChallengeControl = navActions.children[0] as HTMLElement | undefined;
-    const profileControl = navActions.children[1] as HTMLElement | undefined;
-    if (!weeklyChallengeControl || !profileControl) return;
+    // children[0]=GroupFinder, children[1]=ChallengeOfTheWeek, children[2]=Profile
+    const groupFinderControl = navActions.children[0] as HTMLElement | undefined;
+    const weeklyChallengeControl = navActions.children[1] as HTMLElement | undefined;
+    const profileControl = navActions.children[2] as HTMLElement | undefined;
+    if (!groupFinderControl || !weeklyChallengeControl || !profileControl) return;
 
-    const originalWeeklyDisplay = weeklyChallengeControl.style.display;
-    const originalProfileDisplay = profileControl.style.display;
+    const origGroupFinderDisplay = groupFinderControl.style.display;
+    const origWeeklyDisplay = weeklyChallengeControl.style.display;
+    const origProfileDisplay = profileControl.style.display;
+    groupFinderControl.style.display = 'none';
     weeklyChallengeControl.style.display = 'none';
     profileControl.style.display = 'none';
 
-    const exitAdminButton = document.createElement('button');
-    exitAdminButton.type = 'button';
-    exitAdminButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-lobsterRed hover:bg-red-700 text-white text-lg';
-    exitAdminButton.setAttribute('aria-label', 'Exit Admin Mode');
-    exitAdminButton.title = 'Exit Admin Mode';
-    exitAdminButton.textContent = '🚪';
-    exitAdminButton.onclick = () => {
-      setShowExitAdminModal(true);
-    };
+    // Study Groups Monitor icon
+    const studyGroupsButton = document.createElement('button');
+    studyGroupsButton.type = 'button';
+    studyGroupsButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-blue-100 hover:bg-blue-200 text-2xl';
+    studyGroupsButton.setAttribute('aria-label', 'Study Groups Monitor');
+    studyGroupsButton.title = 'Study Groups Monitor';
+    studyGroupsButton.textContent = '👥';
+    studyGroupsButton.onclick = () => setShowStudyGroupMonitorModal(true);
 
+    // WorkBench Connector icon
     const connectorButton = document.createElement('button');
     connectorButton.type = 'button';
     connectorButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-seafoam hover:bg-teal-400 text-black text-lg';
@@ -349,14 +353,26 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     connectorButton.textContent = '🔗';
     connectorButton.onclick = () => setShowLtiIntegrationModal(true);
 
-    navActions.insertBefore(exitAdminButton, weeklyChallengeControl);
-    navActions.insertBefore(connectorButton, profileControl);
+    // Exit Admin Mode icon
+    const exitAdminButton = document.createElement('button');
+    exitAdminButton.type = 'button';
+    exitAdminButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-lobsterRed hover:bg-red-700 text-white text-lg';
+    exitAdminButton.setAttribute('aria-label', 'Exit Admin Mode');
+    exitAdminButton.title = 'Exit Admin Mode';
+    exitAdminButton.textContent = '🚪';
+    exitAdminButton.onclick = () => setShowExitAdminModal(true);
+
+    navActions.insertBefore(studyGroupsButton, groupFinderControl);
+    navActions.insertBefore(connectorButton, groupFinderControl);
+    navActions.insertBefore(exitAdminButton, groupFinderControl);
 
     return () => {
-      exitAdminButton.remove();
+      studyGroupsButton.remove();
       connectorButton.remove();
-      weeklyChallengeControl.style.display = originalWeeklyDisplay;
-      profileControl.style.display = originalProfileDisplay;
+      exitAdminButton.remove();
+      groupFinderControl.style.display = origGroupFinderDisplay;
+      weeklyChallengeControl.style.display = origWeeklyDisplay;
+      profileControl.style.display = origProfileDisplay;
     };
   }, [navigate]);
   
@@ -409,6 +425,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [showLtiIntegrationModal, setShowLtiIntegrationModal] = useState(false);
   const [showExitAdminModal, setShowExitAdminModal] = useState(false);
+  const [showStudyGroupMonitorModal, setShowStudyGroupMonitorModal] = useState(false);
   const [showLtiMappingModal, setShowLtiMappingModal] = useState(false);
   const [generatedApiKey, setGeneratedApiKey] = useState('');
   const [selectedLtiProvider, setSelectedLtiProvider] = useState('Canvas');
@@ -9647,6 +9664,70 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               >
                 Close
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Study Groups Monitor Modal */}
+      {showStudyGroupMonitorModal && (
+        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4" onClick={() => setShowStudyGroupMonitorModal(false)}>
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-2xl w-full max-h-[85vh] flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white p-4 pb-3 border-b-2 border-gray-200 rounded-t-lg z-10">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">👥</span>
+                  <h2 className="text-xl font-retro text-maineBlue">Study Groups Monitor</h2>
+                </div>
+                <button onClick={() => setShowStudyGroupMonitorModal(false)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors">
+                  <span className="text-gray-500 font-bold text-lg">✕</span>
+                </button>
+              </div>
+              <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
+                <span className="font-bold text-maineBlue">12 Active Groups</span>
+                <span>•</span>
+                <span>34 Students Participating</span>
+                <span>•</span>
+                <span className="text-green-600 font-semibold">● Live</span>
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              {[
+                { lesson: 'Kitchen Safety and Sanitation', course: 'Culinary Foundations', leader: 'Sarah J.', members: ['Sarah J.', 'Marcus C.', 'Devon T.'], max: 4, time: '3m ago' },
+                { lesson: 'Conduit Bending and Installation', course: 'Wiring Methods & Devices', leader: 'James L.', members: ['James L.', 'Priya K.'], max: 3, time: '5m ago' },
+                { lesson: 'Brake System Fundamentals', course: 'Brakes, Suspension & Steering', leader: 'Chen W.', members: ['Chen W.', 'Luna V.', 'Riley S.', 'Aaliyah M.'], max: 5, time: '8m ago' },
+                { lesson: 'Blueprint Reading and Site Plans', course: 'Construction Fundamentals', leader: 'Devon T.', members: ['Devon T.', 'Sofia R.', 'Kenji O.', 'Marcus C.'], max: 4, time: '12m ago' },
+                { lesson: 'EPA 608 Certification Prep', course: 'HVAC Fundamentals', leader: 'Aaliyah M.', members: ['Aaliyah M.', 'James L.', 'Chen W.'], max: 4, time: '15m ago' },
+                { lesson: 'Freight Classification and Rates', course: 'Logistics Fundamentals', leader: 'Sofia R.', members: ['Sofia R.'], max: 3, time: '18m ago' },
+                { lesson: 'Quality Control Procedures', course: 'Assembly & Quality Control', leader: 'Priya K.', members: ['Priya K.', 'Riley S.', 'Luna V.'], max: 5, time: '22m ago' },
+                { lesson: 'DWV System Design', course: 'Drain, Waste & Vent', leader: 'Kenji O.', members: ['Kenji O.', 'Marcus C.'], max: 4, time: '25m ago' },
+                { lesson: 'GTAW: Machine Setup', course: 'GTAW & Cutting Processes', leader: 'Riley S.', members: ['Riley S.', 'Devon T.', 'Sofia R.'], max: 5, time: '30m ago' },
+                { lesson: 'Residential Load Calculations', course: 'Load Calculations & Code', leader: 'Luna V.', members: ['Luna V.', 'Aaliyah M.'], max: 3, time: '35m ago' },
+                { lesson: 'Lean Manufacturing', course: 'Advanced Manufacturing', leader: 'Marcus C.', members: ['Marcus C.'], max: 4, time: '40m ago' },
+                { lesson: 'Thermostat Wiring and Controls', course: 'Ductwork, Airflow & Controls', leader: 'James L.', members: ['James L.', 'Chen W.', 'Priya K.', 'Kenji O.'], max: 4, time: '45m ago' },
+              ].map((group, idx) => (
+                <div key={idx} className="bg-sand border border-black rounded-lg p-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-maineBlue text-sm truncate">{group.lesson}</div>
+                      <div className="text-xs text-gray-500">{group.course}</div>
+                      <div className="flex items-center gap-1 mt-1 flex-wrap">
+                        {group.members.map((m, i) => (
+                          <span key={i} className={`text-xs px-2 py-0.5 rounded-full ${m === group.leader ? 'bg-maineBlue text-white font-bold' : 'bg-gray-200 text-gray-700'}`}>
+                            {m}{m === group.leader ? ' ★' : ''}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end gap-1 shrink-0">
+                      <span className={`text-xs font-bold px-2 py-1 rounded-full ${group.members.length >= group.max ? 'bg-gray-300 text-gray-600' : 'bg-seafoam text-maineBlue'}`}>
+                        👥 {group.members.length}/{group.max}
+                      </span>
+                      <span className="text-xs text-gray-400">{group.time}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
