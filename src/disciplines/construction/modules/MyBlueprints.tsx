@@ -426,7 +426,7 @@ const MyBlueprints = () => {
 
   if (loading) {
     return (
-      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="max-w-2xl mx-auto mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-maineBlue mb-4"></div>
           <div className="text-lg font-retro mb-2">Loading your blueprints...</div>
@@ -437,7 +437,7 @@ const MyBlueprints = () => {
 
   if (error) {
     return (
-      <div className="max-w-2xl mx-auto mt-8 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
+      <div className="max-w-2xl mx-auto mt-4 bg-weatheredWhite p-6 rounded shadow-lg border-4 border-maineBlue">
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <div className="text-xl text-red-600 mb-4">⚠️</div>
           <div className="text-lg font-retro mb-2">{error}</div>
@@ -447,7 +447,7 @@ const MyBlueprints = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto mt-8">
+    <div className="max-w-6xl mx-auto mt-4">
       {/* Mobile Tab Bar - Only visible on mobile */}
       <div className="lg:hidden mb-4 flex gap-2 border-b-2 border-maineBlue">
         <button
@@ -472,8 +472,8 @@ const MyBlueprints = () => {
         </button>
       </div>
       
-      <div className="flex flex-col lg:flex-row gap-6 lg:h-full">
-        <div className={`lg:w-2/3 bg-weatheredWhite rounded shadow-lg border-4 border-maineBlue flex flex-col h-full ${
+      <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
+        <div className={`lg:w-[61.666%] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'cookbook' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* My Cook Book header */}
@@ -926,15 +926,15 @@ const MyBlueprints = () => {
         </div>
         
         {/* Collections Library - Right Side */}
-        <div className={`lg:w-1/3 lg:h-full ${
+        <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full max-h-[calc(100vh-100px)] flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px]">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
               <h3 className="text-xl">📚 {t('myBlueprints.collectionsLibrary')}</h3>
             </div>
             
-            <div className="p-4 overflow-y-auto">
+            <div className="p-4">
               {/* Existing Collections Section */}
               <div className="mb-6">
                 <h4 className="font-bold text-maineBlue mb-3">📋 {t('myBlueprints.myCollections')}</h4>
@@ -965,8 +965,9 @@ const MyBlueprints = () => {
 
               {/* Create Collection Section */}
               <div className="mb-6">
-                {recipes.length > 0 ? (
-                  <div className="space-y-2">
+                <div className="space-y-2">
+                  {recipes.length > 0 ? (
+                    <>
                     <p className="text-sm text-gray-600 mb-3">{t('myBlueprints.selectRecipesToAdd')}</p>
                     
                     <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
@@ -994,8 +995,16 @@ const MyBlueprints = () => {
                         </div>
                       ))}
                     </div>
-                    
-                    {/* Create Collection Button */}
+                    </>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="text-4xl mb-2">📝</div>
+                      <p className="text-gray-500 text-sm">{t('myBlueprints.noRecipesYet')}</p>
+                      <p className="text-gray-500 text-sm">{t('myBlueprints.addRecipesFirst')}</p>
+                    </div>
+                  )}
+
+                  {/* Create Collection Button */}
                     <button
                       onClick={() => setShowCreateCollectionModal(true)}
                       className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
@@ -1080,13 +1089,6 @@ const MyBlueprints = () => {
                       🎥 {t('myBlueprints.viewVideos')}
                     </button>
                   </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="text-4xl mb-2">📝</div>
-                    <p className="text-gray-500 text-sm">{t('myBlueprints.noRecipesYet')}</p>
-                    <p className="text-gray-500 text-sm">{t('myBlueprints.addRecipesFirst')}</p>
-                  </div>
-                )}
               </div>
             </div>
           </div>
