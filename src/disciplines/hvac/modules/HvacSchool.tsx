@@ -372,8 +372,13 @@ const HvacSchool = () => {
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('hvacSchool.title')}</h1>
           </div>
           
-          {/* Separation line */}
-          <hr className="border-t-2 border-maineBlue mb-6" />
+          {/* Sticky Separation line */}
+          <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
+            <hr className="border-t-2 border-maineBlue" />
+          </div>
+
+          {/* Scrollable Content */}
+          <div className="overflow-y-auto p-6 pt-4">
         <div className="w-full mx-auto">
         <ServiceTimer servingSize={servingSize} setServingSize={setServingSize} />
         {/* Always render a VideoModal for the currently displayed tutorial list */}
@@ -494,6 +499,7 @@ const HvacSchool = () => {
           </>
         )}
       </div>
+          </div>
         </div>
         
         <div className={`lg:w-[28.333%] lg:h-full ${
