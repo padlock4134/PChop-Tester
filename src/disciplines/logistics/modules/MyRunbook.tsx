@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
+import { fetchRunbook, removeRouteFromRunbook } from './cookbookSupabase';
 import { supabase } from '../../culinary/api/supabaseClient';
 import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from '../../culinary/components/NavBar';
@@ -347,17 +347,17 @@ const MyRunbook = () => {
     }
   };
   useEffect(() => {
-    updateContext({ page: 'MyCookBook' });
+    updateContext({ page: 'MyRunbook' });
     const loadRecipes = async () => {
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        const savedRecipes = await fetchRunbook(user?.id!);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
           description: r.instructions,
           photo: r.image,
-          ingredients: r.ingredients,
+          ingredients: r.items,
           instructions: r.instructions,
           equipment: r.equipment,
           nutrition: r.nutrition,
@@ -365,8 +365,8 @@ const MyRunbook = () => {
         }));
         setLocalRecipes(converted);
       } catch (err) {
-        console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        console.error('Error loading runbook:', err);
+        setError('Failed to load your runbook');
       } finally {
         setLoading(false);
       }
@@ -753,7 +753,7 @@ const MyRunbook = () => {
               if (filteredRecipes.length === 0) return;
               try {
                 const recipeId = filteredRecipes[currentIndex].id;
-                await removeRecipeFromCookbook(user?.id!, recipeId);
+                await removeRouteFromRunbook(user?.id!, recipeId);
                 setLocalRecipes(recipes.filter(r => r.id !== recipeId));
                 setCurrentIndex(0);
               } catch (err) {
