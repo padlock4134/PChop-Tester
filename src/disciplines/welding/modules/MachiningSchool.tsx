@@ -936,7 +936,7 @@ const WeldingSchool = () => {
 
         
 
-        <div className={`lg:w-1/3 ${
+        <div className={`lg:w-[28.333%] lg:h-full ${
 
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
 
