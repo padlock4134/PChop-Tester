@@ -383,7 +383,6 @@ const GearheadLounge = () => {
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 };
