@@ -348,10 +348,18 @@ const MyRunbook = () => {
   };
   useEffect(() => {
     updateContext({ page: 'MyRunbook' });
+
+    if (!user?.id) {
+      setLocalRecipes([]);
+      setLoading(false);
+      return;
+    }
+
     const loadRecipes = async () => {
       try {
         setLoading(true);
-        const savedRecipes = await fetchRunbook(user?.id!);
+        setError(null);
+        const savedRecipes = await fetchRunbook(user.id);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
@@ -371,8 +379,9 @@ const MyRunbook = () => {
         setLoading(false);
       }
     };
+
     loadRecipes();
-  }, [updateContext]);
+  }, [updateContext, user?.id]);
 
   // Filter recipes based on search term and category
   const filteredRecipes = recipes.filter(recipe => {
