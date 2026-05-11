@@ -495,7 +495,7 @@ const MyRunbook = () => {
         setShowShareModal(false);
         setRecipeToShare(null);
       }}>
-        <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
+        <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 border-4 border-black" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
             {recipeToShare ? `${t('myRunbook.shareRecipeTitle')} "${recipeToShare.name}"` : t('myRunbook.shareYourCookbook')}
           </h3>
