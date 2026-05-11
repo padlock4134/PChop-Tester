@@ -374,7 +374,7 @@ const GearheadLounge = () => {
         </div>
         
         {/* Right Sidebar - Desktop Only */}
-        <div className="hidden lg:block lg:w-[28.333%] lg:h-full space-y-6">
+        <div className="hidden lg:block lg:w-[28.333%] lg:h-full lg:min-h-0 overflow-y-auto space-y-6 pr-1">
           <TheCarLift showcaseRecipe={showcaseRecipe} />
         </div>
       </div>

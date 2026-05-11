@@ -712,7 +712,7 @@ END:VCALENDAR`;
   // Removed cleanup useEffect to improve performance
 
   return (
-    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px]">
+    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px] flex flex-col">
       <div className="p-4 bg-red-500 text-white font-retro text-center">
         <h2 className="text-xl flex items-center justify-center">
           <span className="text-2xl mr-2">🌍</span>
@@ -720,7 +720,7 @@ END:VCALENDAR`;
         </h2>
       </div>
       
-      <div className="p-4">
+      <div className="p-4 flex-1 min-h-0 overflow-y-auto">
         {/* Action Buttons */}
         <div className="space-y-3 mb-4">
           <button 
