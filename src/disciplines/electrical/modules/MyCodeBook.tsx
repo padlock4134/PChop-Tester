@@ -634,7 +634,7 @@ const MyCodeBook = () => {
                 {t('myCodeBook.recipesInCollection')} ({selectedCollection.recipes.length}):
               </p>
               
-              <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+              <div className="h-40 overflow-y-scroll border border-gray-300 rounded p-2">
                 {selectedCollection.recipes.map((recipeId, index) => {
                   const recipe = recipes.find(r => r.id === recipeId);
                   return (
@@ -925,12 +925,12 @@ const MyCodeBook = () => {
         <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'collections' ? 'block' : 'hidden lg:block'
         }`}>
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px]">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px] flex flex-col">
             <div className="p-4 bg-seafoam text-maineBlue font-retro text-center">
               <h3 className="text-xl">📚 {t('myCodeBook.collectionsLibrary')}</h3>
             </div>
             
-            <div className="p-4">
+            <div className="p-4 flex-1 min-h-0 overflow-y-auto">
               {/* Existing Collections Section */}
               <div className="mb-6">
                 <h4 className="font-bold text-maineBlue mb-3">📋 {t('myCodeBook.myCollections')}</h4>
@@ -963,9 +963,8 @@ const MyCodeBook = () => {
               <div className="mb-6">
                 {recipes.length > 0 ? (
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-600 mb-3">{t('myCodeBook.selectRecipesToAdd')}</p>
                     
-                    <div className="max-h-64 overflow-y-auto border border-gray-300 rounded p-2">
+                    <div className="h-40 overflow-y-scroll border border-gray-300 rounded p-2">
                       {recipes.map((recipe) => (
                         <div key={recipe.id} className="flex items-center justify-between p-2 hover:bg-sand rounded">
                           <div className="flex items-center">
@@ -994,7 +993,7 @@ const MyCodeBook = () => {
                     {/* Create Collection Button */}
                     <button
                       onClick={() => setShowCreateCollectionModal(true)}
-                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
+                      className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
                     >
                       {t('myCodeBook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
                     </button>
@@ -1002,7 +1001,7 @@ const MyCodeBook = () => {
                     {/* View Gradebook Button */}
                     <button
                       onClick={handleOpenGradebook}
-                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
+                      className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
                     >
                       📊 {t('myCodeBook.viewGradebook')}
                     </button>
@@ -1071,7 +1070,7 @@ const MyCodeBook = () => {
                           setLoadingVideos(false);
                         }
                       }}
-                      className="w-full mt-3 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
+                      className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
                     >
                       🎥 {t('myCodeBook.viewVideos')}
                     </button>
