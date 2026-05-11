@@ -726,8 +726,8 @@ const MyPlaybook = () => {
           </div>
         </div>
         
-        {/* Bottom Row: Navigation Buttons */}
-        <div className="flex gap-2 justify-center sm:justify-start">
+        {/* Bottom Row: Navigation + Action Buttons */}
+        <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
           <button
             onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
@@ -744,6 +744,69 @@ const MyPlaybook = () => {
             <span className="hidden sm:inline">{t('myPlaybook.next')}</span>
             <span className="sm:hidden">{t('myPlaybook.next')} →</span>
           </button>
+
+          {filteredProcesses.length > 0 && (
+            <>
+              <div className="hidden sm:block w-px h-6 bg-gray-300 mx-1" />
+              <button
+                onClick={async () => {
+                  try {
+                    const recipeId = filteredProcesses[currentIndex].id;
+                    await removeRecipeFromCookbook(user?.id!, recipeId);
+                    setLocalProcesses(processes.filter(p => p.id !== recipeId));
+                    setCurrentIndex(0);
+                  } catch (err) {
+                    console.error('Error deleting recipe:', err);
+                    setError('Failed to delete recipe');
+                  }
+                }}
+                className="text-lobsterRed hover:text-maineBlue transition-colors text-sm font-bold"
+                title={t('myPlaybook.deleteRecipe')}
+              >
+                🗑️ {t('myPlaybook.remove')}
+              </button>
+              <button
+                onClick={() => {
+                  const fullRecipe = {
+                    id: `${filteredProcesses[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                    title: filteredProcesses[currentIndex].name,
+                    image: filteredProcesses[currentIndex].photo || '',
+                    ingredients: filteredProcesses[currentIndex].materials || [],
+                    instructions: filteredProcesses[currentIndex].instructions || '',
+                    equipment: filteredProcesses[currentIndex].tools || [],
+                    tutorials: [
+                      {
+                        title: `Equipment: Using the right tools for ${filteredProcesses[currentIndex].name}`,
+                        desc: `Learn how to use the main equipment needed for this dish.`
+                      },
+                      {
+                        title: `Protein Prep: Preparing the main ingredient`,
+                        desc: `How to prep the primary material and tools for this project.`
+                      },
+                      {
+                        title: `Recipe: ${filteredProcesses[currentIndex].name}`,
+                        desc: filteredProcesses[currentIndex].instructions || ''
+                      }
+                    ]
+                  };
+                  setSelectedRecipe(fullRecipe);
+                  navigate('/culinary-school');
+                }}
+                className="bg-seafoam text-maineBlue px-3 py-1.5 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black text-sm font-bold"
+              >
+                Cook This
+              </button>
+              <button
+                onClick={() => {
+                  setProcessToShare(filteredProcesses[currentIndex]);
+                  setShowShareModal(true);
+                }}
+                className="bg-maineBlue text-seafoam px-3 py-1.5 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black text-sm font-bold"
+              >
+                Share
+              </button>
+            </>
+          )}
         </div>
       </div>
       {/* Recipe Count */}
@@ -834,77 +897,14 @@ const MyPlaybook = () => {
               {/* Back */}
               <div className="absolute inset-0 h-full w-full rounded-lg bg-white p-4 sm:p-6 shadow-lg border-4 border-lobsterRed [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredProcesses[currentIndex].name}</h3>
-                <div className="flex-grow overflow-y-auto mb-16 sm:mb-20 px-2">
+                <div className="flex-grow overflow-y-auto px-2">
                   <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('myPlaybook.instructions')}</h4>
                   <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredProcesses[currentIndex].instructions}</p>
-                </div>
-                <div className="flex flex-wrap sm:flex-nowrap justify-between items-center absolute bottom-4 left-4 right-4 gap-2 z-20">
-                  <button
-                    onClick={async () => {
-                      try {
-                        const recipeId = filteredProcesses[currentIndex].id;
-                        await removeRecipeFromCookbook(user?.id!, recipeId);
-                        setLocalProcesses(processes.filter(p => p.id !== recipeId));
-                        setCurrentIndex(0);
-                      } catch (err) {
-                        console.error('Error deleting recipe:', err);
-                        setError('Failed to delete recipe');
-                      }
-                    }}
-                    className="text-lobsterRed hover:text-maineBlue transition-colors"
-                    title={t('myPlaybook.deleteRecipe')}
-                  >
-                    🗑️ {t('myPlaybook.remove')}
-                  </button>
-                  
-                  <button
-                    onClick={() => {
-                      const fullRecipe = {
-                        id: `${filteredProcesses[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                        title: filteredProcesses[currentIndex].name,
-                        image: filteredProcesses[currentIndex].photo || '',
-                        ingredients: filteredProcesses[currentIndex].materials || [],
-                        instructions: filteredProcesses[currentIndex].instructions || '',
-                        equipment: filteredProcesses[currentIndex].tools || [],
-                        tutorials: [
-                          {
-                            title: `Equipment: Using the right tools for ${filteredProcesses[currentIndex].name}`,
-                            desc: `Learn how to use the main equipment needed for this dish.`
-                          },
-                          {
-                            title: `Protein Prep: Preparing the main ingredient`,
-                            desc: `How to prep the primary material and tools for this project.`
-                          },
-                          {
-                            title: `Recipe: ${filteredProcesses[currentIndex].name}`,
-                            desc: filteredProcesses[currentIndex].instructions || ''
-                          }
-                        ]
-                      };
-                      setSelectedRecipe(fullRecipe);
-                      navigate('/culinary-school');
-                    }}
-                    className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
-                  >
-                    Cook This
-                  </button>
-                  <button
-                    onClick={() => {
-                      setProcessToShare(filteredProcesses[currentIndex]);
-                      setShowShareModal(true);
-                    }}
-                    className="bg-maineBlue text-seafoam px-4 py-2 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
-                  >
-                    Share
-                  </button>
                 </div>
               </div>
             </div>
           </div>
         )}
-      </div>
-      <div className="mt-2 text-xs text-gray-500 text-center w-full italic">
-        {t('myPlaybook.scrollToSeeMore')}
       </div>
       
       {/* Chef of the Day Quote - simplified text only */}

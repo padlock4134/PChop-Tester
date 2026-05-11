@@ -718,8 +718,8 @@ const MySpecBook = () => {
           </div>
         </div>
         
-        {/* Bottom Row: Navigation Buttons */}
-        <div className="flex gap-2 justify-center sm:justify-start">
+        {/* Bottom Row: Navigation + Action Buttons */}
+        <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
           <button
             onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
@@ -736,6 +736,69 @@ const MySpecBook = () => {
             <span className="hidden sm:inline">{t('mySpecBook.next')}</span>
             <span className="sm:hidden">{t('mySpecBook.next')} →</span>
           </button>
+
+          {filteredProjects.length > 0 && (
+            <>
+              <div className="hidden sm:block w-px h-6 bg-gray-300 mx-1" />
+              <button
+                onClick={async () => {
+                  try {
+                    const projectId = filteredProjects[currentIndex].id;
+                    await removeProjectFromSpecBook(user?.id!, projectId);
+                    setLocalProjects(projects.filter((r: Project) => r.id !== projectId));
+                    setCurrentIndex(0);
+                  } catch (err) {
+                    console.error('Error deleting project:', err);
+                    setError('Failed to delete project');
+                  }
+                }}
+                className="text-lobsterRed hover:text-maineBlue transition-colors text-sm font-bold"
+                title={t('mySpecBook.deleteRecipe')}
+              >
+                🗑️ {t('mySpecBook.remove')}
+              </button>
+              <button
+                onClick={() => {
+                  const fullProject = {
+                    id: `${filteredProjects[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                    title: filteredProjects[currentIndex].name,
+                    image: filteredProjects[currentIndex].photo || '',
+                    ingredients: filteredProjects[currentIndex].ingredients || [],
+                    instructions: filteredProjects[currentIndex].instructions || '',
+                    equipment: filteredProjects[currentIndex].equipment || [],
+                    tutorials: [
+                      {
+                        title: `Equipment: Setting up tools for ${filteredProjects[currentIndex].name}`,
+                        desc: `Learn how to use the main equipment needed for this project.`
+                      },
+                      {
+                        title: `Material Prep: Preparing the base materials`,
+                        desc: `How to prep the primary materials and tools for this project.`
+                      },
+                      {
+                        title: `Procedure: ${filteredProjects[currentIndex].name}`,
+                        desc: filteredProjects[currentIndex].instructions || ''
+                      }
+                    ]
+                  };
+                  setSelectedProject(fullProject);
+                  navigate('/welding/welding-school');
+                }}
+                className="bg-seafoam text-maineBlue px-3 py-1.5 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black text-sm font-bold"
+              >
+                Run This
+              </button>
+              <button
+                onClick={() => {
+                  setProjectToShare(filteredProjects[currentIndex]);
+                  setShowShareModal(true);
+                }}
+                className="bg-maineBlue text-seafoam px-3 py-1.5 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black text-sm font-bold"
+              >
+                Share
+              </button>
+            </>
+          )}
         </div>
       </div>
       {/* Project Count */}
@@ -826,77 +889,14 @@ const MySpecBook = () => {
               {/* Back */}
               <div className="absolute inset-0 h-full w-full rounded-lg bg-white p-4 sm:p-6 shadow-lg border-4 border-lobsterRed [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredProjects[currentIndex].name}</h3>
-                <div className="flex-grow overflow-y-auto mb-16 sm:mb-20 px-2">
+                <div className="flex-grow overflow-y-auto px-2">
                   <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('mySpecBook.instructions')}</h4>
                   <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredProjects[currentIndex].instructions}</p>
-                </div>
-                <div className="flex flex-wrap sm:flex-nowrap justify-between items-center absolute bottom-4 left-4 right-4 gap-2 z-20">
-                  <button
-                    onClick={async () => {
-                      try {
-                        const projectId = filteredProjects[currentIndex].id;
-                        await removeProjectFromSpecBook(user?.id!, projectId);
-                        setLocalProjects(projects.filter((r: Project) => r.id !== projectId));
-                        setCurrentIndex(0);
-                      } catch (err) {
-                        console.error('Error deleting project:', err);
-                        setError('Failed to delete project');
-                      }
-                    }}
-                    className="text-lobsterRed hover:text-maineBlue transition-colors"
-                    title={t('mySpecBook.deleteRecipe')}
-                  >
-                    🗑️ {t('mySpecBook.remove')}
-                  </button>
-                  
-                  <button
-                    onClick={() => {
-                      const fullProject = {
-                        id: `${filteredProjects[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                        title: filteredProjects[currentIndex].name,
-                        image: filteredProjects[currentIndex].photo || '',
-                        ingredients: filteredProjects[currentIndex].ingredients || [],
-                        instructions: filteredProjects[currentIndex].instructions || '',
-                        equipment: filteredProjects[currentIndex].equipment || [],
-                        tutorials: [
-                          {
-                            title: `Equipment: Setting up tools for ${filteredProjects[currentIndex].name}`,
-                            desc: `Learn how to use the main equipment needed for this project.`
-                          },
-                          {
-                            title: `Material Prep: Preparing the base materials`,
-                            desc: `How to prep the primary materials and tools for this project.`
-                          },
-                          {
-                            title: `Procedure: ${filteredProjects[currentIndex].name}`,
-                            desc: filteredProjects[currentIndex].instructions || ''
-                          }
-                        ]
-                      };
-                      setSelectedProject(fullProject);
-                      navigate('/welding/welding-school');
-                    }}
-                    className="bg-seafoam text-maineBlue px-4 py-2 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black"
-                  >
-                    Run This
-                  </button>
-                  <button
-                    onClick={() => {
-                      setProjectToShare(filteredProjects[currentIndex]);
-                      setShowShareModal(true);
-                    }}
-                    className="bg-maineBlue text-seafoam px-4 py-2 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black"
-                  >
-                    Share
-                  </button>
                 </div>
               </div>
             </div>
           </div>
         )}
-      </div>
-      <div className="mt-2 text-xs text-gray-500 text-center w-full italic">
-        {t('mySpecBook.scrollToSeeMore')}
       </div>
       
       {/* Quote of the Day - simplified text only */}
