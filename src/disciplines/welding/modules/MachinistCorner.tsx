@@ -222,22 +222,17 @@ const WeldersHub = () => {
         
         <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
           {/* Main Content - Chef's Corner Tab */}
-          <div className={`lg:w-[66.666%] h-full lg:min-h-[620px] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col ${
+          <div className={`lg:w-[66.666%] bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
             activeMobileTab === 'corner' ? 'flex' : 'hidden lg:flex'
           }`}>
             {/* Chef's Corner header - moved back inside the module */}
-            <div className="flex items-center justify-center p-6 pb-4">
+            <div className="flex items-center justify-center mb-4">
               <span className="text-5xl mr-2">⚙️</span>
               <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('machinistCorner.title')}</h1>
             </div>
             
-            {/* Sticky Separation line */}
-            <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
-              <hr className="border-t-2 border-maineBlue" />
-            </div>
-
-            {/* Scrollable Content */}
-            <div className="overflow-y-auto p-6 pt-4">
+            {/* Separation line */}
+            <hr className="border-t-2 border-maineBlue mb-6" />
             <div className="w-full mx-auto">
               {/* Shopping List - now at the top */}
               <section className="mb-8">
@@ -332,7 +327,6 @@ const WeldersHub = () => {
               </p>
 
 
-            </div>
             </div>
           {/* Desktop Layout - Markets Directory */}
           <div className="hidden lg:block">
