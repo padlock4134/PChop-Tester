@@ -2,79 +2,75 @@ import { supabase } from '../api/supabaseClient';
 import { isSessionValid } from '../api/userSession';
 import type { RouteCard } from '../components/RouteMatcherModal';
 
+const RUNBOOK_TABLES = ['user_runbook', 'user_cookbook'] as const;
+
+type RunbookTable = (typeof RUNBOOK_TABLES)[number];
+
+function isMissingTableError(error: any) {
+  return error?.code === '42P01' || /relation .* does not exist/i.test(error?.message || '');
+}
+
+async function selectRecipes(userId: string) {
+  let lastError: any = null;
+  for (const table of RUNBOOK_TABLES) {
+    const result = await supabase.from(table).select('recipes').eq('user_id', userId).single();
+    if (!result.error || result.error.code === 'PGRST116') return { ...result, table };
+    if (isMissingTableError(result.error)) {
+      lastError = result.error;
+      continue;
+    }
+    throw result.error;
+  }
+  throw lastError || new Error('No runbook table available');
+}
+
+async function upsertRecipes(userId: string, recipes: RouteCard[]) {
+  let lastError: any = null;
+  for (const table of RUNBOOK_TABLES) {
+    const result = await supabase
+      .from(table)
+      .upsert([{ user_id: userId, recipes }], { onConflict: 'user_id' });
+    if (!result.error) return;
+    if (isMissingTableError(result.error)) {
+      lastError = result.error;
+      continue;
+    }
+    throw result.error;
+  }
+  throw lastError || new Error('No runbook table available');
+}
+
 export async function saveRunbook(userId: string, routes: RouteCard[]) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
-  const { error } = await supabase
-    .from('user_cookbook')
-    .upsert([{ 
-      user_id: userId,
-      recipes: routes // DB column is 'recipes', stores route data as JSONB
-    }], { onConflict: 'user_id' });
-  if (error) throw error;
+  await upsertRecipes(userId, routes);
 }
 
 export async function fetchRunbook(userId: string): Promise<RouteCard[]> {
   if (!userId) return [];
-
   const sessionValid = await isSessionValid();
   if (!sessionValid) return [];
-
-  const { data, error } = await supabase
-    .from('user_cookbook')
-    .select('recipes')
-    .eq('user_id', userId)
-    .single();
-  if (error && error.code !== 'PGRST116') throw error; // PGRST116: no rows
+  const { data } = await selectRecipes(userId);
   return (data?.recipes || []) as RouteCard[];
 }
 
 export async function addRouteToRunbook(userId: string, route: RouteCard) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
-  
-  // First get existing routes
-  const { data, error: fetchError } = await supabase
-    .from('user_cookbook')
-    .select('recipes')
-    .eq('user_id', userId)
-    .single();
-    
-  if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
-  
-  // Add new route if not already present
+
+  const { data } = await selectRecipes(userId);
   const existingRoutes = (data?.recipes || []) as RouteCard[];
   if (!existingRoutes.some(r => r.id === route.id)) {
-    const { error } = await supabase
-      .from('user_cookbook')
-      .upsert([{ 
-        user_id: userId, 
-        recipes: [...existingRoutes, route] // DB column is 'recipes'
-      }], { onConflict: 'user_id' });
-    if (error) throw error;
+    await upsertRecipes(userId, [...existingRoutes, route]);
   }
 }
 
 export async function removeRouteFromRunbook(userId: string, routeId: string) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
-  
-  const { data, error: fetchError } = await supabase
-    .from('user_cookbook')
-    .select('recipes')
-    .eq('user_id', userId)
-    .single();
-    
-  if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
-  
+
+  const { data } = await selectRecipes(userId);
   const existingRoutes = (data?.recipes || []) as RouteCard[];
   const updatedRoutes = existingRoutes.filter(r => r.id !== routeId);
-  
-  const { error } = await supabase
-    .from('user_cookbook')
-    .upsert([{ 
-      user_id: userId, 
-      recipes: updatedRoutes // DB column is 'recipes'
-    }], { onConflict: 'user_id' });
-  if (error) throw error;
+  await upsertRecipes(userId, updatedRoutes);
 }

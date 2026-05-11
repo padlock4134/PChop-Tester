@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useFreddieContext } from '../components/DockFreddieContext';
+import { useRouteContext } from '../components/RouteContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { fetchRunbook, removeRouteFromRunbook } from './cookbookSupabase';
+import { supabase } from '../api/supabaseClient';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
+import { useSupabase } from '../components/SupabaseProvider';
+import { isSessionValid } from '../api/userSession';
 
 const logisticsQuoteOfTheDay = {
   chef: 'W. Edwards Deming',
@@ -19,7 +19,7 @@ export function getChefQuoteOfTheDay() {
   return logisticsQuoteOfTheDay;
 }
 
-export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
+export function getVideoQueriesForRoute(recipe: Recipe): string[] {
   return [
     `how to ${recipe.name} logistics tutorial`,
     `${recipe.name} supply chain guide`
@@ -46,7 +46,7 @@ export interface Recipe {
 
 const MyRunbook = () => {
   const { t } = useTranslation();
-  const { setSelectedRecipe } = useRecipeContext();
+  const { setSelectedRoute } = useRouteContext();
   const navigate = useNavigate();
   const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
   // Back-compat alias for older JSX/data paths that still reference `routes`.
@@ -347,17 +347,25 @@ const MyRunbook = () => {
     }
   };
   useEffect(() => {
-    updateContext({ page: 'MyCookBook' });
+    updateContext({ page: 'MyRunbook' });
+
+    if (!user?.id) {
+      setLocalRecipes([]);
+      setLoading(false);
+      return;
+    }
+
     const loadRecipes = async () => {
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        setError(null);
+        const savedRecipes = await fetchRunbook(user.id);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
           description: r.instructions,
           photo: r.image,
-          ingredients: r.ingredients,
+          ingredients: r.items || (r as any).ingredients || [],
           instructions: r.instructions,
           equipment: r.equipment,
           nutrition: r.nutrition,
@@ -365,14 +373,15 @@ const MyRunbook = () => {
         }));
         setLocalRecipes(converted);
       } catch (err) {
-        console.error('Error loading cookbook:', err);
-        setError('Failed to load your cookbook');
+        console.error('Error loading runbook:', err);
+        setError('Failed to load your runbook');
       } finally {
         setLoading(false);
       }
     };
+
     loadRecipes();
-  }, [updateContext]);
+  }, [updateContext, user?.id]);
 
   // Filter recipes based on search term and category
   const filteredRecipes = recipes.filter(recipe => {
@@ -753,7 +762,7 @@ const MyRunbook = () => {
               if (filteredRecipes.length === 0) return;
               try {
                 const recipeId = filteredRecipes[currentIndex].id;
-                await removeRecipeFromCookbook(user?.id!, recipeId);
+                await removeRouteFromRunbook(user?.id!, recipeId);
                 setLocalRecipes(recipes.filter(r => r.id !== recipeId));
                 setCurrentIndex(0);
               } catch (err) {
@@ -792,7 +801,7 @@ const MyRunbook = () => {
                   }
                 ]
               };
-              setSelectedRecipe(fullRecipe);
+              setSelectedRoute(fullRecipe);
               navigate('/culinary-school');
             }}
             disabled={filteredRecipes.length === 0}
