@@ -135,6 +135,7 @@ const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSi
 
   return (
     <div className="space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
       {/* Order Size Input */}
       <div className="bg-sand p-4 rounded-lg border border-black">
         <div className="flex items-center justify-between mb-3">
@@ -176,6 +177,22 @@ const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSi
         <div className="text-xs text-gray-400 mt-1">
           Production times scale with order size for accurate scheduling
         </div>
+      </div>
+
+      <div className="bg-sand p-4 rounded-lg border border-black">
+        <h4 className="text-sm font-semibold mb-2 text-gray-700">{t('productionTimer.title')}: </h4>
+        <div className="flex flex-wrap gap-2">
+          {presetTimers.map((preset, index) => (
+            <button
+              key={index}
+              onClick={() => addTimer(preset.minutes, preset.label)}
+              className="px-3 py-1 bg-seafoam text-maineBlue rounded-full text-xs font-medium hover:bg-maineBlue hover:text-seafoam transition-colors"
+            >
+              {preset.label} ({calculateAdjustedTime(preset.minutes)}m)
+            </button>
+          ))}
+        </div>
+      </div>
       </div>
 
       {/* Active Timers */}
@@ -233,22 +250,6 @@ const ProductionTimer: React.FC<ProductionTimerProps> = ({ orderSize, setOrderSi
         ))}
       </div>
 
-      {timers.length === 0 && (
-        <div className="bg-sand p-4 rounded-lg border border-black">
-          <h4 className="text-sm font-semibold mb-2 text-gray-700">Production Timers:</h4>
-          <div className="flex flex-wrap gap-2">
-            {presetTimers.map((preset, index) => (
-              <button
-                key={index}
-                onClick={() => addTimer(preset.minutes, preset.label)}
-                className="px-3 py-1 bg-seafoam text-maineBlue rounded-full text-xs font-medium hover:bg-maineBlue hover:text-seafoam transition-colors"
-              >
-                {preset.label} ({calculateAdjustedTime(preset.minutes)}m)
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

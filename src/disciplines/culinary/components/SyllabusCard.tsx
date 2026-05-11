@@ -38,7 +38,7 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full">
+    <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px] flex flex-col">
       <div className="p-4 bg-yellow-400 text-maineBlue font-retro">
         <h3 className="text-xl">✏️ {title}</h3>
       </div>
@@ -53,7 +53,7 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
         </button>
       </div>
       
-      <div className="p-4">
+      <div className="p-4 flex-1 min-h-0 overflow-y-auto">
         {courses.map(course => (
           <div key={course.id} className="mb-4 last:mb-0">
             <div 
