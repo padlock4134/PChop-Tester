@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useFreddieContext } from '../../culinary/components/FreddieContext';
-import { useRecipeContext } from '../../culinary/components/RecipeContext';
+import { useFreddieContext } from '../components/DockFreddieContext';
+import { useRouteContext } from '../components/RouteContext';
 import { useNavigate } from 'react-router-dom';
 import { fetchRunbook, removeRouteFromRunbook } from './cookbookSupabase';
-import { supabase } from '../../culinary/api/supabaseClient';
-import { XP_REWARDS } from '../../culinary/services/xpService';
-import { useLevelProgressContext } from '../../culinary/components/NavBar';
-import { useSupabase } from '../../culinary/components/SupabaseProvider';
-import { isSessionValid } from '../../culinary/api/userSession';
+import { supabase } from '../api/supabaseClient';
+import { XP_REWARDS } from '../services/xpService';
+import { useLevelProgressContext } from '../components/NavBar';
+import { useSupabase } from '../components/SupabaseProvider';
+import { isSessionValid } from '../api/userSession';
 
 const logisticsQuoteOfTheDay = {
   chef: 'W. Edwards Deming',
@@ -19,7 +19,7 @@ export function getChefQuoteOfTheDay() {
   return logisticsQuoteOfTheDay;
 }
 
-export function getVideoQueriesForRecipe(recipe: Recipe): string[] {
+export function getVideoQueriesForRoute(recipe: Recipe): string[] {
   return [
     `how to ${recipe.name} logistics tutorial`,
     `${recipe.name} supply chain guide`
@@ -46,7 +46,7 @@ export interface Recipe {
 
 const MyRunbook = () => {
   const { t } = useTranslation();
-  const { setSelectedRecipe } = useRecipeContext();
+  const { setSelectedRoute } = useRouteContext();
   const navigate = useNavigate();
   const [recipes, setLocalRecipes] = useState<Recipe[]>([]);
   // Back-compat alias for older JSX/data paths that still reference `routes`.
@@ -801,7 +801,7 @@ const MyRunbook = () => {
                   }
                 ]
               };
-              setSelectedRecipe(fullRecipe);
+              setSelectedRoute(fullRecipe);
               navigate('/culinary-school');
             }}
             disabled={filteredRecipes.length === 0}
