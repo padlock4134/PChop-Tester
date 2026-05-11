@@ -816,11 +816,11 @@ const MyPipeBook = () => {
         </div>
         
         {/* Bottom Row: Navigation + Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2 justify-center">
+        <div className="flex items-center gap-1 w-full">
           <button
             onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
           >
             <span className="hidden sm:inline">{t('myPipeBook.previous')}</span>
             <span className="sm:hidden">{t('myPipeBook.prev')}</span>
@@ -828,74 +828,74 @@ const MyPipeBook = () => {
           <button
             onClick={() => setCurrentIndex(prev => Math.min(filteredRecipes.length - 1, prev + 1))}
             disabled={currentIndex === filteredRecipes.length - 1}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${currentIndex === filteredRecipes.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
           >
             <span className="hidden sm:inline">{t('myPipeBook.next')}</span>
             <span className="sm:hidden">{t('myPipeBook.next')} →</span>
           </button>
-
-          {filteredRecipes.length > 0 && (
-            <>
-              <div className="hidden sm:block w-px h-6 bg-gray-300 mx-1" />
-              <button
-                onClick={async () => {
-                  try {
-                    const recipeId = filteredRecipes[currentIndex].id;
-                    await removeRecipeFromPipeBook(user?.id!, recipeId);
-                    setLocalRecipes(fits.filter(r => r.id !== recipeId));
-                    setCurrentIndex(0);
-                  } catch (err) {
-                    console.error('Error deleting fit:', err);
-                    setError('Failed to delete fit');
+          <button
+            onClick={async () => {
+              if (filteredRecipes.length === 0) return;
+              try {
+                const recipeId = filteredRecipes[currentIndex].id;
+                await removeRecipeFromPipeBook(user?.id!, recipeId);
+                setLocalRecipes(fits.filter(r => r.id !== recipeId));
+                setCurrentIndex(0);
+              } catch (err) {
+                console.error('Error deleting fit:', err);
+                setError('Failed to delete fit');
+              }
+            }}
+            disabled={filteredRecipes.length === 0}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredRecipes.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-red-800'}`}
+            title={t('myPipeBook.deleteRecipe')}
+          >
+            🗑️ {t('myPipeBook.remove')}
+          </button>
+          <button
+            onClick={() => {
+              if (filteredRecipes.length === 0) return;
+              const fullRecipe = {
+                id: `${filteredRecipes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                title: filteredRecipes[currentIndex].name,
+                image: filteredRecipes[currentIndex].photo || '',
+                materials: filteredRecipes[currentIndex].materials || [],
+                instructions: filteredRecipes[currentIndex].instructions || '',
+                equipment: filteredRecipes[currentIndex].equipment || [],
+                tutorials: [
+                  {
+                    title: `Equipment: Using the right tools for ${filteredRecipes[currentIndex].name}`,
+                    desc: `Learn how to use the main equipment needed for this dish.`
+                  },
+                  {
+                    title: `Protein Prep: Preparing the main material`,
+                    desc: `How to prep the primary material and tools for this project.`
+                  },
+                  {
+                    title: `Fit: ${filteredRecipes[currentIndex].name}`,
+                    desc: filteredRecipes[currentIndex].instructions || ''
                   }
-                }}
-                className="bg-lobsterRed text-weatheredWhite px-3 py-1.5 rounded hover:bg-red-800 transition-colors border border-black text-sm font-bold"
-                title={t('myPipeBook.deleteRecipe')}
-              >
-                🗑️ {t('myPipeBook.remove')}
-              </button>
-              <button
-                onClick={() => {
-                  const fullRecipe = {
-                    id: `${filteredRecipes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                    title: filteredRecipes[currentIndex].name,
-                    image: filteredRecipes[currentIndex].photo || '',
-                    materials: filteredRecipes[currentIndex].materials || [],
-                    instructions: filteredRecipes[currentIndex].instructions || '',
-                    equipment: filteredRecipes[currentIndex].equipment || [],
-                    tutorials: [
-                      {
-                        title: `Equipment: Using the right tools for ${filteredRecipes[currentIndex].name}`,
-                        desc: `Learn how to use the main equipment needed for this dish.`
-                      },
-                      {
-                        title: `Protein Prep: Preparing the main material`,
-                        desc: `How to prep the primary material and tools for this project.`
-                      },
-                      {
-                        title: `Fit: ${filteredRecipes[currentIndex].name}`,
-                        desc: filteredRecipes[currentIndex].instructions || ''
-                      }
-                    ]
-                  };
-                  setSelectedRecipe(fullRecipe);
-                  navigate('/plumbing/plumbing-school');
-                }}
-                className="bg-seafoam text-maineBlue px-3 py-1.5 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black text-sm font-bold"
-              >
-                Fix It
-              </button>
-              <button
-                onClick={() => {
-                  setRecipeToShare(filteredRecipes[currentIndex]);
-                  setShowShareModal(true);
-                }}
-                className="bg-maineBlue text-seafoam px-3 py-1.5 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black text-sm font-bold"
-              >
-                Share
-              </button>
-            </>
-          )}
+                ]
+              };
+              setSelectedRecipe(fullRecipe);
+              navigate('/plumbing/plumbing-school');
+            }}
+            disabled={filteredRecipes.length === 0}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredRecipes.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+          >
+            Fix It
+          </button>
+          <button
+            onClick={() => {
+              if (filteredRecipes.length === 0) return;
+              setRecipeToShare(filteredRecipes[currentIndex]);
+              setShowShareModal(true);
+            }}
+            disabled={filteredRecipes.length === 0}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredRecipes.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue'}`}
+          >
+            Share
+          </button>
         </div>
       </div>
       {/* Fit Count */}

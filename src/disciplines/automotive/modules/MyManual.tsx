@@ -783,11 +783,11 @@ const MyManual = () => {
         </div>
         
         {/* Bottom Row: Navigation + Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2 justify-center">
+        <div className="flex items-center gap-1 w-full">
           <button
             onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
           >
             <span className="hidden sm:inline">{t('myManual.previous')}</span>
             <span className="sm:hidden">{t('myManual.prev')}</span>
@@ -795,74 +795,74 @@ const MyManual = () => {
           <button
             onClick={() => setCurrentIndex(prev => Math.min(filteredProcedures.length - 1, prev + 1))}
             disabled={currentIndex === filteredProcedures.length - 1}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredProcedures.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${currentIndex === filteredProcedures.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
           >
             <span className="hidden sm:inline">{t('myManual.next')}</span>
             <span className="sm:hidden">{t('myManual.next')} →</span>
           </button>
-
-          {filteredProcedures.length > 0 && (
-            <>
-              <div className="hidden sm:block w-px h-6 bg-gray-300 mx-1" />
-              <button
-                onClick={async () => {
-                  try {
-                    const recipeId = filteredProcedures[currentIndex].id;
-                    await removeRecipeFromCookbook(user?.id!, recipeId);
-                    setLocalProcedures(procedures.filter(r => r.id !== recipeId));
-                    setCurrentIndex(0);
-                  } catch (err) {
-                    console.error('Error deleting recipe:', err);
-                    setError('Failed to delete recipe');
+          <button
+            onClick={async () => {
+              if (filteredProcedures.length === 0) return;
+              try {
+                const recipeId = filteredProcedures[currentIndex].id;
+                await removeRecipeFromCookbook(user?.id!, recipeId);
+                setLocalProcedures(procedures.filter(r => r.id !== recipeId));
+                setCurrentIndex(0);
+              } catch (err) {
+                console.error('Error deleting recipe:', err);
+                setError('Failed to delete recipe');
+              }
+            }}
+            disabled={filteredProcedures.length === 0}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredProcedures.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-red-800'}`}
+            title={t('myManual.deleteRecipe')}
+          >
+            🗑️ {t('myManual.remove')}
+          </button>
+          <button
+            onClick={() => {
+              if (filteredProcedures.length === 0) return;
+              const fullRecipe = {
+                id: `${filteredProcedures[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                title: filteredProcedures[currentIndex].name,
+                image: filteredProcedures[currentIndex].photo || '',
+                ingredients: filteredProcedures[currentIndex].parts || [],
+                instructions: filteredProcedures[currentIndex].instructions || '',
+                equipment: filteredProcedures[currentIndex].tools || [],
+                tutorials: [
+                  {
+                    title: `Equipment: Using the right tools for ${filteredProcedures[currentIndex].name}`,
+                    desc: `Learn how to use the main equipment needed for this job.`
+                  },
+                  {
+                    title: `Parts Prep: Preparing the primary components`,
+                    desc: `How to prep the primary material and tools for this project.`
+                  },
+                  {
+                    title: `Procedure: ${filteredProcedures[currentIndex].name}`,
+                    desc: filteredProcedures[currentIndex].instructions || ''
                   }
-                }}
-                className="bg-lobsterRed text-weatheredWhite px-3 py-1.5 rounded hover:bg-red-800 transition-colors border border-black text-sm font-bold"
-                title={t('myManual.deleteRecipe')}
-              >
-                🗑️ {t('myManual.remove')}
-              </button>
-              <button
-                onClick={() => {
-                  const fullRecipe = {
-                    id: `${filteredProcedures[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                    title: filteredProcedures[currentIndex].name,
-                    image: filteredProcedures[currentIndex].photo || '',
-                    ingredients: filteredProcedures[currentIndex].parts || [],
-                    instructions: filteredProcedures[currentIndex].instructions || '',
-                    equipment: filteredProcedures[currentIndex].tools || [],
-                    tutorials: [
-                      {
-                        title: `Equipment: Using the right tools for ${filteredProcedures[currentIndex].name}`,
-                        desc: `Learn how to use the main equipment needed for this job.`
-                      },
-                      {
-                        title: `Parts Prep: Preparing the primary components`,
-                        desc: `How to prep the primary material and tools for this project.`
-                      },
-                      {
-                        title: `Procedure: ${filteredProcedures[currentIndex].name}`,
-                        desc: filteredProcedures[currentIndex].instructions || ''
-                      }
-                    ]
-                  };
-                  setSelectedRecipe(fullRecipe);
-                  navigate('/auto-school');
-                }}
-                className="bg-seafoam text-maineBlue px-3 py-1.5 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black text-sm font-bold"
-              >
-                Start Repair
-              </button>
-              <button
-                onClick={() => {
-                  setProcedureToShare(filteredProcedures[currentIndex]);
-                  setShowShareModal(true);
-                }}
-                className="bg-maineBlue text-seafoam px-3 py-1.5 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black text-sm font-bold"
-              >
-                Share
-              </button>
-            </>
-          )}
+                ]
+              };
+              setSelectedRecipe(fullRecipe);
+              navigate('/auto-school');
+            }}
+            disabled={filteredProcedures.length === 0}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredProcedures.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+          >
+            Start Repair
+          </button>
+          <button
+            onClick={() => {
+              if (filteredProcedures.length === 0) return;
+              setProcedureToShare(filteredProcedures[currentIndex]);
+              setShowShareModal(true);
+            }}
+            disabled={filteredProcedures.length === 0}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredProcedures.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue'}`}
+          >
+            Share
+          </button>
         </div>
       </div>
       {/* Recipe Count */}

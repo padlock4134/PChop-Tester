@@ -719,11 +719,11 @@ const MySpecBook = () => {
         </div>
         
         {/* Bottom Row: Navigation + Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2 justify-center">
+        <div className="flex items-center gap-1 w-full">
           <button
             onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${currentIndex === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-seafoam hover:text-maineBlue'}`}
           >
             <span className="hidden sm:inline">{t('mySpecBook.previous')}</span>
             <span className="sm:hidden">{t('mySpecBook.prev')}</span>
@@ -731,74 +731,74 @@ const MySpecBook = () => {
           <button
             onClick={() => setCurrentIndex(prev => Math.min(filteredProjects.length - 1, prev + 1))}
             disabled={currentIndex === filteredProjects.length - 1}
-            className={`px-4 py-2 rounded border border-black text-sm font-bold transition-colors min-w-[100px] ${currentIndex === filteredProjects.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${currentIndex === filteredProjects.length - 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
           >
             <span className="hidden sm:inline">{t('mySpecBook.next')}</span>
             <span className="sm:hidden">{t('mySpecBook.next')} →</span>
           </button>
-
-          {filteredProjects.length > 0 && (
-            <>
-              <div className="hidden sm:block w-px h-6 bg-gray-300 mx-1" />
-              <button
-                onClick={async () => {
-                  try {
-                    const projectId = filteredProjects[currentIndex].id;
-                    await removeProjectFromSpecBook(user?.id!, projectId);
-                    setLocalProjects(projects.filter((r: Project) => r.id !== projectId));
-                    setCurrentIndex(0);
-                  } catch (err) {
-                    console.error('Error deleting project:', err);
-                    setError('Failed to delete project');
+          <button
+            onClick={async () => {
+              if (filteredProjects.length === 0) return;
+              try {
+                const projectId = filteredProjects[currentIndex].id;
+                await removeProjectFromSpecBook(user?.id!, projectId);
+                setLocalProjects(projects.filter((r: Project) => r.id !== projectId));
+                setCurrentIndex(0);
+              } catch (err) {
+                console.error('Error deleting project:', err);
+                setError('Failed to delete project');
+              }
+            }}
+            disabled={filteredProjects.length === 0}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredProjects.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-lobsterRed text-weatheredWhite hover:bg-red-800'}`}
+            title={t('mySpecBook.deleteRecipe')}
+          >
+            🗑️ {t('mySpecBook.remove')}
+          </button>
+          <button
+            onClick={() => {
+              if (filteredProjects.length === 0) return;
+              const fullProject = {
+                id: `${filteredProjects[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
+                title: filteredProjects[currentIndex].name,
+                image: filteredProjects[currentIndex].photo || '',
+                ingredients: filteredProjects[currentIndex].ingredients || [],
+                instructions: filteredProjects[currentIndex].instructions || '',
+                equipment: filteredProjects[currentIndex].equipment || [],
+                tutorials: [
+                  {
+                    title: `Equipment: Setting up tools for ${filteredProjects[currentIndex].name}`,
+                    desc: `Learn how to use the main equipment needed for this project.`
+                  },
+                  {
+                    title: `Material Prep: Preparing the base materials`,
+                    desc: `How to prep the primary materials and tools for this project.`
+                  },
+                  {
+                    title: `Procedure: ${filteredProjects[currentIndex].name}`,
+                    desc: filteredProjects[currentIndex].instructions || ''
                   }
-                }}
-                className="bg-lobsterRed text-weatheredWhite px-3 py-1.5 rounded hover:bg-red-800 transition-colors border border-black text-sm font-bold"
-                title={t('mySpecBook.deleteRecipe')}
-              >
-                🗑️ {t('mySpecBook.remove')}
-              </button>
-              <button
-                onClick={() => {
-                  const fullProject = {
-                    id: `${filteredProjects[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                    title: filteredProjects[currentIndex].name,
-                    image: filteredProjects[currentIndex].photo || '',
-                    ingredients: filteredProjects[currentIndex].ingredients || [],
-                    instructions: filteredProjects[currentIndex].instructions || '',
-                    equipment: filteredProjects[currentIndex].equipment || [],
-                    tutorials: [
-                      {
-                        title: `Equipment: Setting up tools for ${filteredProjects[currentIndex].name}`,
-                        desc: `Learn how to use the main equipment needed for this project.`
-                      },
-                      {
-                        title: `Material Prep: Preparing the base materials`,
-                        desc: `How to prep the primary materials and tools for this project.`
-                      },
-                      {
-                        title: `Procedure: ${filteredProjects[currentIndex].name}`,
-                        desc: filteredProjects[currentIndex].instructions || ''
-                      }
-                    ]
-                  };
-                  setSelectedProject(fullProject);
-                  navigate('/welding/welding-school');
-                }}
-                className="bg-seafoam text-maineBlue px-3 py-1.5 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black text-sm font-bold"
-              >
-                Run This
-              </button>
-              <button
-                onClick={() => {
-                  setProjectToShare(filteredProjects[currentIndex]);
-                  setShowShareModal(true);
-                }}
-                className="bg-maineBlue text-seafoam px-3 py-1.5 rounded hover:bg-seafoam hover:text-maineBlue transition-colors border border-black text-sm font-bold"
-              >
-                Share
-              </button>
-            </>
-          )}
+                ]
+              };
+              setSelectedProject(fullProject);
+              navigate('/welding/welding-school');
+            }}
+            disabled={filteredProjects.length === 0}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredProjects.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
+          >
+            Run This
+          </button>
+          <button
+            onClick={() => {
+              if (filteredProjects.length === 0) return;
+              setProjectToShare(filteredProjects[currentIndex]);
+              setShowShareModal(true);
+            }}
+            disabled={filteredProjects.length === 0}
+            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredProjects.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-maineBlue text-seafoam hover:bg-seafoam hover:text-maineBlue'}`}
+          >
+            Share
+          </button>
         </div>
       </div>
       {/* Project Count */}
