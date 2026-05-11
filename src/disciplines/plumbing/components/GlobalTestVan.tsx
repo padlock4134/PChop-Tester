@@ -737,7 +737,7 @@ END:VCALENDAR`;
         </h2>
       </div>
       
-      <div className="p-4 flex-1 min-h-0 overflow-y-auto">
+      <div className="p-4 flex-1 min-h-0 flex flex-col">
         {/* Action Buttons */}
         <div className="space-y-3 mb-4">
           <button 
@@ -793,7 +793,7 @@ END:VCALENDAR`;
 
       {/* Live Sessions Tab */}
       {activeTab === 'live' && (
-        <div className="space-y-3">
+        <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-3">
           {liveSessions.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <VideoCameraIcon className="h-12 w-12 mx-auto mb-2 text-gray-300" />
@@ -856,7 +856,7 @@ END:VCALENDAR`;
 
       {/* Upcoming Sessions Tab */}
       {activeTab === 'upcoming' && (
-        <div className="space-y-3">
+        <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-3">
           {upcomingSessions.map((session) => (
             <div key={session.id} className="border border-gray-200 rounded-lg p-3">
               <div className="flex items-start justify-between mb-2">
@@ -898,7 +898,7 @@ END:VCALENDAR`;
 
       {/* Host Your Own Tab */}
       {activeTab === 'host' && (
-        <div className="space-y-4">
+        <div className="flex-1 min-h-0 overflow-y-auto pr-1 space-y-4">
           {/* Your Scheduled Sessions */}
           <div>
             <h4 className="font-semibold text-sm text-gray-900 mb-2">📅 Your Scheduled Sessions</h4>
