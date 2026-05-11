@@ -243,7 +243,7 @@ const ChefsCorner = () => {
         <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
           {/* Main Content - Chef's Corner Tab */}
           <div className={`lg:w-[66.666%] bg-white p-6 rounded-lg shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
-            activeMobileTab === 'corner' ? 'block' : 'hidden lg:block'
+            activeMobileTab === 'corner' ? 'flex' : 'hidden lg:flex'
           }`}>
             {/* Chef's Corner header - moved back inside the module */}
             <div className="flex items-center justify-center mb-4">

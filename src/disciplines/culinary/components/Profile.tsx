@@ -1732,7 +1732,7 @@ Automated calculations and formulas would be present`;
   } 
 
   return (
-    <div className="w-full bg-weatheredWhite rounded-lg shadow-lg border-4 border-maineBlue max-h-[calc(100vh-80px)] flex flex-col">
+    <div className="w-[90%] lg:w-[60%] mx-auto mt-4 bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue max-h-[calc(100vh-80px)] flex flex-col student-dashboard-height-lock">
       {/* Header: Responsive grid layout - FIXED */}
       <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 items-center mb-6 p-4 sm:p-6 pb-0">
         {/* Column 1: Avatar */}

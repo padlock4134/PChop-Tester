@@ -170,8 +170,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.specializationPreference', { defaultValue: 'Specialization Focus' })}</label>
             <select
-              value={formData.cuisine}
-              onChange={(e) => setFormData({...formData, cuisine: e.target.value})}
+              value={formData.cuisinePreference}
+              onChange={(e) => setFormData({...formData, cuisinePreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="Residential">🏠 {t('profile.plumbingFocusOptions.residential', { defaultValue: 'Residential' })}</option>
@@ -187,8 +187,8 @@ const EditProfileModal = ({
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-2 text-center">{t('profile.certificationPreference', { defaultValue: 'Certifications' })}</label>
             <select
-              value={formData.diet}
-              onChange={(e) => setFormData({...formData, diet: e.target.value})}
+              value={formData.dietPreference}
+              onChange={(e) => setFormData({...formData, dietPreference: e.target.value})}
               className="w-full border-2 border-gray-300 rounded-lg px-4 py-2 focus:border-maineBlue focus:outline-none text-center"
             >
               <option value="None">📋 {t('profile.certificationOptions.none', { defaultValue: 'None' })}</option>
@@ -1629,7 +1629,7 @@ Automated calculations and formulas would be present`;
   } 
 
   return (
-    <div className="w-full bg-weatheredWhite rounded-lg shadow-lg border-4 border-maineBlue max-h-[calc(100vh-80px)] flex flex-col">
+    <div className="w-[90%] lg:w-[60%] mx-auto mt-4 bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue max-h-[calc(100vh-80px)] flex flex-col student-dashboard-height-lock">
       {/* Header: Responsive grid layout - FIXED */}
       <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 items-center mb-6 p-4 sm:p-6 pb-0">
         {/* Column 1: Avatar */}
