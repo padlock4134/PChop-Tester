@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useFreddieContext } from '../../culinary/components/FreddieContext';
 import { useRecipeContext } from '../../culinary/components/RecipeContext';
 import { useNavigate } from 'react-router-dom';
-import { fetchCookbook, removeRecipeFromCookbook } from '../../culinary/modules/cookbookSupabase';
+import { fetchCookbook, removeRecipeFromCookbook } from './cookbookSupabase';
 import { supabase } from '../../culinary/api/supabaseClient';
 import { XP_REWARDS } from '../../culinary/services/xpService';
 import { useLevelProgressContext } from '../../culinary/components/NavBar';
