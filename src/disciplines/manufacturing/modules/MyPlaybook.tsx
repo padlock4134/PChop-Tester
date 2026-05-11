@@ -491,7 +491,7 @@ const MyPlaybook = () => {
         setShowShareModal(false);
         setProcessToShare(null);
       }}>
-        <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4" onClick={e => e.stopPropagation()}>
+        <div className="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full mx-4 border-4 border-black" onClick={e => e.stopPropagation()}>
           <h3 className="text-lg font-bold mb-4">
             {processToShare ? `${t('myPlaybook.shareRecipeTitle')} "${processToShare.name}"` : t('myPlaybook.shareYourCookbook')}
           </h3>
@@ -727,7 +727,7 @@ const MyPlaybook = () => {
         </div>
         
         {/* Bottom Row: Navigation + Action Buttons */}
-        <div className="flex items-center gap-1 w-full">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-1 w-full">
           <button
             onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
