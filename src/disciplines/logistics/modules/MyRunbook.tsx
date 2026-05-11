@@ -365,7 +365,7 @@ const MyRunbook = () => {
           name: r.title,
           description: r.instructions,
           photo: r.image,
-          ingredients: r.items,
+          ingredients: r.items || (r as any).ingredients || [],
           instructions: r.instructions,
           equipment: r.equipment,
           nutrition: r.nutrition,

@@ -9,7 +9,7 @@ export async function saveRunbook(userId: string, routes: RouteCard[]) {
     .from('user_runbook')
     .upsert([{ 
       user_id: userId,
-      recipes: routes // DB column is 'recipes', stores route data as JSONB
+      recipes: routes // DB column is 'recipes', stores route data as JSONB (shared cookbook table)
     }], { onConflict: 'user_id' });
   if (error) throw error;
 }
