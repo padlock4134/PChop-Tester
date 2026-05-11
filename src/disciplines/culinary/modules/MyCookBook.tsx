@@ -915,11 +915,11 @@ const MyCookBook = () => {
               </div>
               
               {/* Back */}
-              <div className="absolute inset-0 h-full w-full rounded-lg bg-white p-4 sm:p-6 shadow-lg border-4 border-lobsterRed [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3 text-center text-lobsterRed border-b-2 border-lobsterRed pb-2">{filteredRecipes[currentIndex].name}</h3>
-                <div className="flex-grow overflow-y-auto px-2">
-                  <h4 className="font-bold mb-2 text-base sm:text-lg text-maineBlue">📋 {t('myCookbook.instructions')}</h4>
-                  <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{filteredRecipes[currentIndex].instructions}</p>
+              <div className="absolute inset-0 h-full w-full rounded-lg bg-white p-2 sm:p-3 shadow-lg border-4 border-lobsterRed [transform:rotateY(180deg)] [backface-visibility:hidden] flex flex-col">
+                <h3 className="text-sm sm:text-base md:text-lg font-bold mb-1 text-center text-lobsterRed border-b-2 border-lobsterRed pb-1">{filteredRecipes[currentIndex].name}</h3>
+                <div className="flex-grow overflow-y-auto px-1">
+                  <h4 className="font-bold mb-1 text-xs sm:text-sm text-maineBlue">📋 {t('myCookbook.instructions')}</h4>
+                  <p className="whitespace-pre-wrap text-[10px] sm:text-xs leading-snug">{filteredRecipes[currentIndex].instructions}</p>
                 </div>
               </div>
             </div>
@@ -928,14 +928,11 @@ const MyCookBook = () => {
       </div>
       
       {/* Chef of the Day Quote - simplified text only */}
-      <div className="mt-6 text-center">
+      <div className="mt-3 text-center text-sm">
         {(() => {
           const quoteOfDay = getChefQuoteOfTheDay();
           return (
-            <>
-              <div className="italic text-lg mb-1">"{quoteOfDay.quote}"</div>
-              <div className="text-gray-600">— {quoteOfDay.chef}</div>
-            </>
+            <span className="italic">"{quoteOfDay.quote}" <span className="not-italic text-gray-600">— {quoteOfDay.chef}</span></span>
           );
         })()}
       </div>
