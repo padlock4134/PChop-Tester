@@ -816,7 +816,7 @@ const MyPipeBook = () => {
         </div>
         
         {/* Bottom Row: Navigation + Action Buttons */}
-        <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
+        <div className="flex flex-wrap items-center gap-2 justify-center">
           <button
             onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
@@ -849,7 +849,7 @@ const MyPipeBook = () => {
                     setError('Failed to delete fit');
                   }
                 }}
-                className="text-lobsterRed hover:text-maineBlue transition-colors text-sm font-bold"
+                className="bg-lobsterRed text-weatheredWhite px-3 py-1.5 rounded hover:bg-red-800 transition-colors border border-black text-sm font-bold"
                 title={t('myPipeBook.deleteRecipe')}
               >
                 🗑️ {t('myPipeBook.remove')}
