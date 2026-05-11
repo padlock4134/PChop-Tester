@@ -6,7 +6,7 @@ export async function saveRunbook(userId: string, routes: RouteCard[]) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
   const { error } = await supabase
-    .from('user_cookbook')
+    .from('user_runbook')
     .upsert([{ 
       user_id: userId,
       recipes: routes // DB column is 'recipes', stores route data as JSONB
@@ -21,7 +21,7 @@ export async function fetchRunbook(userId: string): Promise<RouteCard[]> {
   if (!sessionValid) return [];
 
   const { data, error } = await supabase
-    .from('user_cookbook')
+    .from('user_runbook')
     .select('recipes')
     .eq('user_id', userId)
     .single();
@@ -35,7 +35,7 @@ export async function addRouteToRunbook(userId: string, route: RouteCard) {
   
   // First get existing routes
   const { data, error: fetchError } = await supabase
-    .from('user_cookbook')
+    .from('user_runbook')
     .select('recipes')
     .eq('user_id', userId)
     .single();
@@ -46,7 +46,7 @@ export async function addRouteToRunbook(userId: string, route: RouteCard) {
   const existingRoutes = (data?.recipes || []) as RouteCard[];
   if (!existingRoutes.some(r => r.id === route.id)) {
     const { error } = await supabase
-      .from('user_cookbook')
+      .from('user_runbook')
       .upsert([{ 
         user_id: userId, 
         recipes: [...existingRoutes, route] // DB column is 'recipes'
@@ -60,7 +60,7 @@ export async function removeRouteFromRunbook(userId: string, routeId: string) {
   if (!sessionValid || !userId) throw new Error('Not signed in');
   
   const { data, error: fetchError } = await supabase
-    .from('user_cookbook')
+    .from('user_runbook')
     .select('recipes')
     .eq('user_id', userId)
     .single();
@@ -71,7 +71,7 @@ export async function removeRouteFromRunbook(userId: string, routeId: string) {
   const updatedRoutes = existingRoutes.filter(r => r.id !== routeId);
   
   const { error } = await supabase
-    .from('user_cookbook')
+    .from('user_runbook')
     .upsert([{ 
       user_id: userId, 
       recipes: updatedRoutes // DB column is 'recipes'
