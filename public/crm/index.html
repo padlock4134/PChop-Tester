@@ -121,10 +121,24 @@
         </div>
         <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button><button id="addOppBtn" class="btn" type="button">+ Add Opp</button></div>
         <table class="table">
-          <thead><tr><th>Account</th><th>Type</th><th>Owner</th><th>Contacts</th></tr></thead>
+          <thead><tr><th>Account</th><th>Type</th><th>Owner</th><th>Open</th><th>Contacts</th></tr></thead>
           <tbody id="accountsRows"></tbody>
         </table>
         <p class="subtle">Click “Contacts” to open second-level contact information for an account.</p>
+      </div>
+    </div>
+
+
+
+    <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="accountDetailTitle" class="modal-title">Account Details</h2>
+          <button class="close" type="button" data-close="accountDetailModal">×</button>
+        </div>
+        <table class="table">
+          <tbody id="accountDetailRows"></tbody>
+        </table>
       </div>
     </div>
 
@@ -208,10 +222,9 @@
             <input name="name" placeholder="Account name" required />
             <select name="type" required>
               <option value="">Select account type</option>
-              <option>individual_college</option>
-              <option>state_system</option>
-              <option>whale_institute</option>
-              <option>other</option>
+              <option>Community College</option>
+              <option>K-12 Secondary</option>
+              <option>Industry</option>
             </select>
             <input name="owner" placeholder="Owner" required />
             <input name="website" placeholder="Website" />
@@ -233,11 +246,11 @@
       ];
 
       const accounts = [
-        { name: 'SUNY Culinary', type: 'state_system', owner: 'Chris', contacts: [
+        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', contacts: [
           { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
           { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
         ]},
-        { name: 'CIA Hyde Park', type: 'whale_institute', owner: 'Chris', contacts: [
+        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', contacts: [
           { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
         ]}
       ];
@@ -245,6 +258,7 @@
       const accountsCard = document.getElementById('accountsCard');
       const accountsModal = document.getElementById('accountsModal');
       const oppsModal = document.getElementById('oppsModal');
+      const accountDetailModal = document.getElementById('accountDetailModal');
       const oppContactsModal = document.getElementById('oppContactsModal');
       const contactsModal = document.getElementById('contactsModal');
       const addAccountModal = document.getElementById('addAccountModal');
@@ -253,6 +267,8 @@
       const oppsRows = document.getElementById('oppsRows');
       const oppContactsRows = document.getElementById('oppContactsRows');
       const contactsRows = document.getElementById('contactsRows');
+      const accountDetailRows = document.getElementById('accountDetailRows');
+      const accountDetailTitle = document.getElementById('accountDetailTitle');
       const contactsTitle = document.getElementById('contactsTitle');
       const accountsCount = document.getElementById('accountsCount');
       const oppsCount = document.getElementById('oppsCount');
@@ -273,6 +289,7 @@
             <td>${a.name}</td>
             <td>${a.type}</td>
             <td>${a.owner}</td>
+            <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
             <td><button class="btn" type="button" data-contact-index="${idx}">View Contacts (${a.contacts.length})</button></td>
           </tr>`).join('');
 
@@ -284,6 +301,22 @@
               <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
             `).join('');
             openModal(contactsModal);
+          });
+        });
+
+        accountsRows.querySelectorAll('[data-account-open-index]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const account = accounts[Number(btn.dataset.accountOpenIndex)];
+            accountDetailTitle.textContent = `${account.name} Details`;
+            accountDetailRows.innerHTML = `
+              <tr><th>Account Name</th><td>${account.name}</td></tr>
+              <tr><th>Type</th><td>${account.type || '—'}</td></tr>
+              <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
+              <tr><th>Website</th><td>${account.website || '—'}</td></tr>
+              <tr><th>State/Region</th><td>${account.state || '—'}</td></tr>
+              <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
+            `;
+            openModal(accountDetailModal);
           });
         });
       }
@@ -328,6 +361,7 @@
           type: fd.get('type'),
           owner: fd.get('owner'),
           website: fd.get('website'),
+          state: '',
           contacts: []
         });
         e.target.reset();
@@ -350,7 +384,7 @@
         renderOpps();
       });
 
-      [accountsModal, contactsModal, addAccountModal, addOppModal, oppsModal, oppContactsModal].forEach(backdrop => {
+      [accountsModal, accountDetailModal, contactsModal, addAccountModal, addOppModal, oppsModal, oppContactsModal].forEach(backdrop => {
         backdrop.addEventListener('click', (e) => {
           if (e.target === backdrop) closeModal(backdrop);
         });
