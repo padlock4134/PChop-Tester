@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Chop Shop</title>
+    <style>
+      :root {
+        --maine-blue: #1f3a5f;
+        --seafoam: #9fe3d0;
+        --sand: #f8f2e6;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--sand);
+        color: #1f2937;
+      }
+      .wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+      .card { width: 100%; max-width: 980px; background: #fff; border: 4px solid var(--maine-blue); border-radius: 16px; box-shadow: 0 12px 30px rgba(31,58,95,.18); overflow: hidden; }
+      .top { background: linear-gradient(135deg, var(--maine-blue), #2b4f7f); color: #fff; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; }
+      .brand { display: flex; gap: 14px; align-items: center; }
+      .brand img { width: 48px; height: 48px; border-radius: 8px; background: #fff; padding: 3px; }
+      .brand h1 { margin: 0; font-size: 24px; }
+      .brand p { margin: 2px 0 0; opacity: .9; font-size: 14px; }
+      .pill { background: var(--seafoam); color: var(--maine-blue); font-weight: 700; padding: 6px 12px; border-radius: 999px; font-size: 12px; }
+      .content { padding: 24px; }
+      .grid { display: grid; grid-template-columns: repeat(5, minmax(140px, 1fr)); gap: 14px; margin-bottom: 20px; }
+      .kpi { border: 2px solid #d1d5db; border-radius: 12px; padding: 14px; }
+      .kpi b { color: var(--maine-blue); font-size: 22px; display: block; }
+      .kpi.clickable { cursor: pointer; }
+      .kpi.clickable:hover { border-color: var(--maine-blue); }
+      .sections { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+      .panel { border: 2px solid #e5e7eb; border-radius: 12px; padding: 14px; }
+      .panel h3 { margin: 0 0 10px; color: var(--maine-blue); }
+      .list { margin: 0; padding-left: 18px; line-height: 1.6; }
+      .footer { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+      .btn { border: 2px solid var(--maine-blue); background: #fff; color: var(--maine-blue); text-decoration: none; font-weight: 700; border-radius: 10px; padding: 10px 14px; cursor: pointer; }
+      .btn.primary { background: var(--maine-blue); color: #fff; }
+
+      .modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,.55); display: none; align-items: center; justify-content: center; padding: 18px; z-index: 1000; }
+      .modal-backdrop.open { display: flex; }
+      .modal { width: 100%; max-width: 880px; background: #fff; border: 4px solid var(--maine-blue); border-radius: 14px; padding: 16px; max-height: 88vh; overflow: auto; }
+      .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+      .modal-title { margin: 0; color: var(--maine-blue); }
+      .close { border: 0; background: transparent; font-size: 24px; cursor: pointer; color: #334155; }
+      .table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      .table th, .table td { text-align: left; border-bottom: 1px solid #e5e7eb; padding: 10px 8px; }
+      .table th { color: var(--maine-blue); }
+      .right { text-align: right; }
+      .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+      .form-grid input, .form-grid select { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px 10px; }
+      .subtle { color: #64748b; font-size: 13px; margin: 8px 0 0; }
+
+      @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); } }
+      @media (max-width: 760px) {
+        .sections { grid-template-columns: 1fr; }
+        .grid { grid-template-columns: 1fr; }
+        .form-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <main class="card">
+        <section class="top">
+          <div class="brand">
+            <img src="/logo.png" alt="The Chop Shop" />
+            <div>
+              <h1>The Chop Shop</h1>
+              <p>Direct Sales + Tasks Dashboard</p>
+            </div>
+          </div>
+          <span class="pill">The Chop Shop CRM</span>
+        </section>
+        <section class="content">
+          <div class="grid">
+            <button id="accountsCard" class="kpi clickable" type="button" style="all:unset; display:block; border:2px solid #d1d5db; border-radius:12px; padding:14px; cursor:pointer;">
+              <span>Accounts</span><b id="accountsCount">42</b>
+            </button>
+            <button id="oppsCard" class="kpi clickable" type="button" style="all:unset; display:block; border:2px solid #d1d5db; border-radius:12px; padding:14px; cursor:pointer;"><span>Open Opportunities</span><b id="oppsCount">14</b></button>
+            <div class="kpi"><span>Pipeline Value</span><b>$428K</b></div>
+            <div class="kpi"><span>Overdue Tasks</span><b>6</b></div>
+            <div class="kpi"><span>Won This Month</span><b>3</b></div>
+          </div>
+
+          <div class="sections">
+            <article class="panel">
+              <h3>Today’s Focus</h3>
+              <ul class="list">
+                <li>Follow up on SUNY pilot proposal.</li>
+                <li>Complete discovery notes for 2 new colleges.</li>
+                <li>Close blocked tasks and update next steps.</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <h3>Stage Mix</h3>
+              <ul class="list">
+                <li>Discovery: 4</li>
+                <li>Demo Delivered: 5</li>
+                <li>Pilot Active: 3</li>
+                <li>Procurement: 2</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="footer">
+            <a class="btn primary" href="/select-discipline">Back to Demo Site</a>
+            <a class="btn" href="https://supabase.com/dashboard/project/_/sql/new" target="_blank" rel="noopener noreferrer">Open Supabase SQL Editor</a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="accountsModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountsTitle">
+        <div class="modal-header">
+          <h2 id="accountsTitle" class="modal-title">Accounts</h2>
+          <button class="close" type="button" data-close="accountsModal">×</button>
+        </div>
+        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
+        <table class="table">
+          <thead><tr><th>Account</th><th>Type</th><th>Owner</th><th>Open</th><th>Contacts</th></tr></thead>
+          <tbody id="accountsRows"></tbody>
+        </table>
+        <p class="subtle">Click “Contacts” to open second-level contact information for an account.</p>
+      </div>
+    </div>
+
+
+
+    <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="accountDetailTitle" class="modal-title">Account Details</h2>
+          <button class="close" type="button" data-close="accountDetailModal">×</button>
+        </div>
+        <div class="right" style="margin-bottom:10px;"><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button></div>
+        <table class="table">
+          <tbody id="accountDetailRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="contactsModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contactsTitle" style="max-width:700px;">
+        <div class="modal-header">
+          <h2 id="contactsTitle" class="modal-title">Contacts</h2>
+          <button class="close" type="button" data-close="contactsModal">×</button>
+        </div>
+        <table class="table">
+          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
+          <tbody id="contactsRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="oppsModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppsTitle">
+        <div class="modal-header">
+          <h2 id="oppsTitle" class="modal-title">Open Opportunities</h2>
+          <button class="close" type="button" data-close="oppsModal">×</button>
+        </div>
+        <table class="table">
+          <thead><tr><th>Opportunity</th><th>Account</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
+          <tbody id="oppsRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="oppContactsModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppContactsTitle" style="max-width:700px;">
+        <div class="modal-header">
+          <h2 id="oppContactsTitle" class="modal-title">Opportunity Contacts</h2>
+          <button class="close" type="button" data-close="oppContactsModal">×</button>
+        </div>
+        <table class="table">
+          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
+          <tbody id="oppContactsRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="addOppModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addOppTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="addOppTitle" class="modal-title">Add Opportunity</h2>
+          <button class="close" type="button" data-close="addOppModal">×</button>
+        </div>
+        <form id="addOppForm">
+          <div class="form-grid">
+            <input name="name" placeholder="Opportunity name" required />
+            <select name="account" id="oppAccountSelect" required></select>
+            <select name="stage" required>
+              <option value="">Select stage</option>
+              <option>lead_identified</option>
+              <option>discovery_scheduled</option>
+              <option>discovery_complete</option>
+              <option>demo_delivered</option>
+              <option>pilot_active</option>
+              <option>procurement_security</option>
+            </select>
+            <input name="amount" placeholder="$ Amount" required />
+          </div>
+          <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Opportunity</button></div>
+        </form>
+      </div>
+    </div>
+
+    <div id="addAccountModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addAccountTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="addAccountTitle" class="modal-title">Add Account</h2>
+          <button class="close" type="button" data-close="addAccountModal">×</button>
+        </div>
+        <form id="addAccountForm">
+          <div class="form-grid">
+            <input name="name" placeholder="Account name" required />
+            <select name="type" required>
+              <option value="">Select account type</option>
+              <option>Community College</option>
+              <option>K-12 Secondary</option>
+              <option>Industry</option>
+            </select>
+            <input name="owner" placeholder="Owner" required />
+            <input name="website" placeholder="Website" />
+          </div>
+          <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Account</button></div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const opportunities = [
+        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', contacts: [
+          { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
+          { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
+        ]},
+        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', contacts: [
+          { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
+        ]}
+      ];
+
+      const accounts = [
+        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', contacts: [
+          { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
+          { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
+        ]},
+        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', contacts: [
+          { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
+        ]}
+      ];
+
+      const accountsCard = document.getElementById('accountsCard');
+      const accountsModal = document.getElementById('accountsModal');
+      const oppsModal = document.getElementById('oppsModal');
+      const accountDetailModal = document.getElementById('accountDetailModal');
+      const oppContactsModal = document.getElementById('oppContactsModal');
+      const contactsModal = document.getElementById('contactsModal');
+      const addAccountModal = document.getElementById('addAccountModal');
+      const addOppModal = document.getElementById('addOppModal');
+      const accountsRows = document.getElementById('accountsRows');
+      const oppsRows = document.getElementById('oppsRows');
+      const oppContactsRows = document.getElementById('oppContactsRows');
+      const contactsRows = document.getElementById('contactsRows');
+      const accountDetailRows = document.getElementById('accountDetailRows');
+      const accountDetailTitle = document.getElementById('accountDetailTitle');
+      const contactsTitle = document.getElementById('contactsTitle');
+      const accountsCount = document.getElementById('accountsCount');
+      const oppsCount = document.getElementById('oppsCount');
+      const oppContactsTitle = document.getElementById('oppContactsTitle');
+      const oppAccountSelect = document.getElementById('oppAccountSelect');
+      const addOppFromAccountBtn = document.getElementById('addOppFromAccountBtn');
+      let selectedAccountName = null;
+
+      const openModal = (el) => el.classList.add('open');
+      const closeModal = (el) => el.classList.remove('open');
+
+      document.querySelectorAll('[data-close]').forEach(btn => {
+        btn.addEventListener('click', () => closeModal(document.getElementById(btn.dataset.close)));
+      });
+
+      function renderAccounts() {
+        accountsCount.textContent = String(accounts.length);
+        accountsRows.innerHTML = accounts.map((a, idx) => `
+          <tr>
+            <td>${a.name}</td>
+            <td>${a.type}</td>
+            <td>${a.owner}</td>
+            <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
+            <td><button class="btn" type="button" data-contact-index="${idx}">View Contacts (${a.contacts.length})</button></td>
+          </tr>`).join('');
+
+        accountsRows.querySelectorAll('[data-contact-index]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const account = accounts[Number(btn.dataset.contactIndex)];
+            contactsTitle.textContent = `${account.name} Contacts`;
+            contactsRows.innerHTML = account.contacts.map(c => `
+              <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+            `).join('');
+            openModal(contactsModal);
+          });
+        });
+
+        accountsRows.querySelectorAll('[data-account-open-index]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const account = accounts[Number(btn.dataset.accountOpenIndex)];
+            selectedAccountName = account.name;
+            accountDetailTitle.textContent = `${account.name} Details`;
+            accountDetailRows.innerHTML = `
+              <tr><th>Account Name</th><td>${account.name}</td></tr>
+              <tr><th>Type</th><td>${account.type || '—'}</td></tr>
+              <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
+              <tr><th>Website</th><td>${account.website || '—'}</td></tr>
+              <tr><th>State/Region</th><td>${account.state || '—'}</td></tr>
+              <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
+            `;
+            openModal(accountDetailModal);
+          });
+        });
+      }
+
+      function renderOpps() {
+        oppsCount.textContent = String(opportunities.length);
+        oppsRows.innerHTML = opportunities.map((o, idx) => `
+          <tr>
+            <td>${o.name}</td>
+            <td>${o.account || "—"}</td>
+            <td>${o.stage}</td>
+            <td>${o.amount}</td>
+            <td><button class="btn" type="button" data-opp-contact-index="${idx}">View Contacts (${o.contacts.length})</button></td>
+          </tr>`).join('');
+
+        oppsRows.querySelectorAll('[data-opp-contact-index]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const opp = opportunities[Number(btn.dataset.oppContactIndex)];
+            oppContactsTitle.textContent = `${opp.name} Contacts`;
+            oppContactsRows.innerHTML = opp.contacts.map(c => `
+              <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+            `).join('');
+            openModal(oppContactsModal);
+          });
+        });
+      }
+
+      function populateOppAccountOptions() {
+        oppAccountSelect.innerHTML = '<option value="">Select account</option>' + accounts.map(a => `<option value="${a.name}">${a.name}</option>`).join('');
+      }
+
+      document.getElementById('oppsCard').addEventListener('click', () => { renderOpps(); openModal(oppsModal); });
+      accountsCard.addEventListener('click', () => { renderAccounts(); openModal(accountsModal); });
+      document.getElementById('addAccountBtn').addEventListener('click', () => openModal(addAccountModal));
+
+      addOppFromAccountBtn.addEventListener('click', () => {
+        populateOppAccountOptions();
+        if (selectedAccountName) {
+          oppAccountSelect.value = selectedAccountName;
+        }
+        openModal(addOppModal);
+      });
+
+      document.getElementById('addAccountForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        accounts.push({
+          name: fd.get('name'),
+          type: fd.get('type'),
+          owner: fd.get('owner'),
+          website: fd.get('website'),
+          state: '',
+          contacts: []
+        });
+        e.target.reset();
+        closeModal(addAccountModal);
+        renderAccounts();
+      });
+
+      document.getElementById('addOppForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        opportunities.push({
+          name: fd.get('name'),
+          account: fd.get('account'),
+          stage: fd.get('stage'),
+          amount: fd.get('amount'),
+          contacts: []
+        });
+        e.target.reset();
+        closeModal(addOppModal);
+        renderOpps();
+      });
+
+      [accountsModal, accountDetailModal, contactsModal, addAccountModal, addOppModal, oppsModal, oppContactsModal].forEach(backdrop => {
+        backdrop.addEventListener('click', (e) => {
+          if (e.target === backdrop) closeModal(backdrop);
+        });
+      });
+    </script>
+  </body>
+</html>
