@@ -119,7 +119,7 @@
           <h2 id="accountsTitle" class="modal-title">Accounts</h2>
           <button class="close" type="button" data-close="accountsModal">×</button>
         </div>
-        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button><button id="addOppBtn" class="btn" type="button">+ Add Opp</button></div>
+        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
         <table class="table">
           <thead><tr><th>Account</th><th>Type</th><th>Owner</th><th>Open</th><th>Contacts</th></tr></thead>
           <tbody id="accountsRows"></tbody>
@@ -136,6 +136,7 @@
           <h2 id="accountDetailTitle" class="modal-title">Account Details</h2>
           <button class="close" type="button" data-close="accountDetailModal">×</button>
         </div>
+        <div class="right" style="margin-bottom:10px;"><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button></div>
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
@@ -274,6 +275,8 @@
       const oppsCount = document.getElementById('oppsCount');
       const oppContactsTitle = document.getElementById('oppContactsTitle');
       const oppAccountSelect = document.getElementById('oppAccountSelect');
+      const addOppFromAccountBtn = document.getElementById('addOppFromAccountBtn');
+      let selectedAccountName = null;
 
       const openModal = (el) => el.classList.add('open');
       const closeModal = (el) => el.classList.remove('open');
@@ -307,6 +310,7 @@
         accountsRows.querySelectorAll('[data-account-open-index]').forEach(btn => {
           btn.addEventListener('click', () => {
             const account = accounts[Number(btn.dataset.accountOpenIndex)];
+            selectedAccountName = account.name;
             accountDetailTitle.textContent = `${account.name} Details`;
             accountDetailRows.innerHTML = `
               <tr><th>Account Name</th><td>${account.name}</td></tr>
@@ -351,7 +355,14 @@
       document.getElementById('oppsCard').addEventListener('click', () => { renderOpps(); openModal(oppsModal); });
       accountsCard.addEventListener('click', () => { renderAccounts(); openModal(accountsModal); });
       document.getElementById('addAccountBtn').addEventListener('click', () => openModal(addAccountModal));
-      document.getElementById('addOppBtn').addEventListener('click', () => { populateOppAccountOptions(); openModal(addOppModal); });
+
+      addOppFromAccountBtn.addEventListener('click', () => {
+        populateOppAccountOptions();
+        if (selectedAccountName) {
+          oppAccountSelect.value = selectedAccountName;
+        }
+        openModal(addOppModal);
+      });
 
       document.getElementById('addAccountForm').addEventListener('submit', (e) => {
         e.preventDefault();
