@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Chop Shop</title>
+    <style>
+      :root {
+        --maine-blue: #1f3a5f;
+        --seafoam: #9fe3d0;
+        --sand: #f8f2e6;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--sand);
+        color: #1f2937;
+      }
+      .wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .card {
+        width: 100%;
+        max-width: 980px;
+        background: #fff;
+        border: 4px solid var(--maine-blue);
+        border-radius: 16px;
+        box-shadow: 0 12px 30px rgba(31,58,95,.18);
+        overflow: hidden;
+      }
+      .top {
+        background: linear-gradient(135deg, var(--maine-blue), #2b4f7f);
+        color: #fff;
+        padding: 20px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+      }
+      .brand img { width: 48px; height: 48px; border-radius: 8px; background: #fff; padding: 3px; }
+      .brand h1 { margin: 0; font-size: 24px; }
+      .brand p { margin: 2px 0 0; opacity: .9; font-size: 14px; }
+      .pill {
+        background: var(--seafoam);
+        color: var(--maine-blue);
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+      }
+      .content { padding: 24px; }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+      .kpi {
+        border: 2px solid #d1d5db;
+        border-radius: 12px;
+        padding: 14px;
+      }
+      .kpi b { color: var(--maine-blue); font-size: 22px; display: block; }
+      .sections {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr;
+        gap: 16px;
+      }
+      .panel {
+        border: 2px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 14px;
+      }
+      .panel h3 { margin: 0 0 10px; color: var(--maine-blue); }
+      .list { margin: 0; padding-left: 18px; line-height: 1.6; }
+      .footer {
+        margin-top: 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        border: 2px solid var(--maine-blue);
+        color: var(--maine-blue);
+        text-decoration: none;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 10px 14px;
+      }
+      .btn.primary { background: var(--maine-blue); color: #fff; }
+      @media (max-width: 760px) { .sections { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <main class="card">
+        <section class="top">
+          <div class="brand">
+            <img src="/logo.png" alt="The Chop Shop" />
+            <div>
+              <h1>The Chop Shop</h1>
+              <p>Direct Sales + Tasks Dashboard</p>
+            </div>
+          </div>
+          <span class="pill">The Chop Shop CRM</span>
+        </section>
+        <section class="content">
+          <div class="grid">
+            <div class="kpi"><span>Open Opportunities</span><b>14</b></div>
+            <div class="kpi"><span>Pipeline Value</span><b>$428K</b></div>
+            <div class="kpi"><span>Overdue Tasks</span><b>6</b></div>
+            <div class="kpi"><span>Won This Month</span><b>3</b></div>
+          </div>
+
+          <div class="sections">
+            <article class="panel">
+              <h3>Today’s Focus</h3>
+              <ul class="list">
+                <li>Follow up on SUNY pilot proposal.</li>
+                <li>Complete discovery notes for 2 new colleges.</li>
+                <li>Close blocked tasks and update next steps.</li>
+              </ul>
+            </article>
+            <article class="panel">
+              <h3>Stage Mix</h3>
+              <ul class="list">
+                <li>Discovery: 4</li>
+                <li>Demo Delivered: 5</li>
+                <li>Pilot Active: 3</li>
+                <li>Procurement: 2</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="footer">
+            <a class="btn primary" href="/select-discipline">Back to Demo Site</a>
+            <a class="btn" href="https://supabase.com/dashboard/project/_/sql/new" target="_blank" rel="noopener noreferrer">Open Supabase SQL Editor</a>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
