@@ -121,7 +121,7 @@
         </div>
         <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
         <table class="table">
-          <thead><tr><th>Account</th><th>Type</th><th>Owner</th><th>Open</th><th>Contacts</th></tr></thead>
+          <thead><tr><th>Account</th><th>Type</th><th>Owner</th><th>Open</th></tr></thead>
           <tbody id="accountsRows"></tbody>
         </table>
         <p class="subtle">Click “Contacts” to open second-level contact information for an account.</p>
@@ -140,22 +140,15 @@
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
-      </div>
-    </div>
-
-    <div id="contactsModal" class="modal-backdrop" aria-hidden="true">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contactsTitle" style="max-width:700px;">
-        <div class="modal-header">
-          <h2 id="contactsTitle" class="modal-title">Contacts</h2>
-          <button class="close" type="button" data-close="contactsModal">×</button>
-        </div>
+        <h3 style="color: var(--maine-blue); margin: 12px 0 8px;">Contacts</h3>
         <table class="table">
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
-          <tbody id="contactsRows"></tbody>
+          <tbody id="accountDetailContactsRows"></tbody>
         </table>
       </div>
     </div>
 
+    
 
 
     <div id="oppsModal" class="modal-backdrop" aria-hidden="true">
@@ -261,17 +254,15 @@
       const oppsModal = document.getElementById('oppsModal');
       const accountDetailModal = document.getElementById('accountDetailModal');
       const oppContactsModal = document.getElementById('oppContactsModal');
-      const contactsModal = document.getElementById('contactsModal');
-      const addAccountModal = document.getElementById('addAccountModal');
+            const addAccountModal = document.getElementById('addAccountModal');
       const addOppModal = document.getElementById('addOppModal');
       const accountsRows = document.getElementById('accountsRows');
       const oppsRows = document.getElementById('oppsRows');
       const oppContactsRows = document.getElementById('oppContactsRows');
-      const contactsRows = document.getElementById('contactsRows');
-      const accountDetailRows = document.getElementById('accountDetailRows');
+            const accountDetailRows = document.getElementById('accountDetailRows');
       const accountDetailTitle = document.getElementById('accountDetailTitle');
-      const contactsTitle = document.getElementById('contactsTitle');
-      const accountsCount = document.getElementById('accountsCount');
+      const accountDetailContactsRows = document.getElementById('accountDetailContactsRows');
+            const accountsCount = document.getElementById('accountsCount');
       const oppsCount = document.getElementById('oppsCount');
       const oppContactsTitle = document.getElementById('oppContactsTitle');
       const oppAccountSelect = document.getElementById('oppAccountSelect');
@@ -293,19 +284,7 @@
             <td>${a.type}</td>
             <td>${a.owner}</td>
             <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
-            <td><button class="btn" type="button" data-contact-index="${idx}">View Contacts (${a.contacts.length})</button></td>
           </tr>`).join('');
-
-        accountsRows.querySelectorAll('[data-contact-index]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const account = accounts[Number(btn.dataset.contactIndex)];
-            contactsTitle.textContent = `${account.name} Contacts`;
-            contactsRows.innerHTML = account.contacts.map(c => `
-              <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
-            `).join('');
-            openModal(contactsModal);
-          });
-        });
 
         accountsRows.querySelectorAll('[data-account-open-index]').forEach(btn => {
           btn.addEventListener('click', () => {
@@ -320,6 +299,9 @@
               <tr><th>State/Region</th><td>${account.state || '—'}</td></tr>
               <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
             `;
+            accountDetailContactsRows.innerHTML = account.contacts.map(c => `
+              <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+            `).join('');
             openModal(accountDetailModal);
           });
         });
@@ -395,7 +377,7 @@
         renderOpps();
       });
 
-      [accountsModal, accountDetailModal, contactsModal, addAccountModal, addOppModal, oppsModal, oppContactsModal].forEach(backdrop => {
+      [accountsModal, accountDetailModal, addAccountModal, addOppModal, oppsModal, oppContactsModal].forEach(backdrop => {
         backdrop.addEventListener('click', (e) => {
           if (e.target === backdrop) closeModal(backdrop);
         });
