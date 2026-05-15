@@ -229,6 +229,15 @@ const DisciplineSelector: React.FC = () => {
             >
               Continue
             </button>
+
+            <a
+              href="/crm/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 block w-full text-center bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-maineBlue hover:text-white transition-colors"
+            >
+              Open The Chop Shop (New Tab)
+            </a>
           </form>
 
           {/* Footer text */}
