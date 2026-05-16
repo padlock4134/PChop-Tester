@@ -200,7 +200,7 @@
     <div id="oppContactsModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppContactsTitle" style="max-width:700px;">
         <div class="modal-header">
-          <h2 id="oppContactsTitle" class="modal-title">Opportunity Contacts</h2>
+          <h2 id="oppContactsTitle" class="modal-title"></h2>
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
         <table class="table">
@@ -223,7 +223,7 @@
           <div class="form-grid" style="grid-template-columns:1fr;">
             <textarea name="note" placeholder="Enter opportunity note" required style="width:100%; min-height:100px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
           </div>
-          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="closeOppNoteEditorBtn" class="btn" type="button">Close</button><button class="btn primary" type="submit">Save Note</button></div>
+          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="editOppModalBtn" class="btn" type="button">Edit Modal</button><button class="btn primary" type="submit">Edit/Add Note</button><button id="closeOppNoteEditorBtn" class="btn" type="button">Close</button></div>
         </form>
       </div>
     </div>
@@ -401,6 +401,7 @@
       const closeNoteEditorBtn = document.getElementById('closeNoteEditorBtn');
       const oppNoteForm = document.getElementById('oppNoteForm');
       const closeOppNoteEditorBtn = document.getElementById('closeOppNoteEditorBtn');
+      const editOppModalBtn = document.getElementById('editOppModalBtn');
       const uploadAssetBtn = document.getElementById('uploadAssetBtn');
       const assetFileInput = document.getElementById('assetFileInput');
       const assetsRows = document.getElementById('assetsRows');
@@ -642,7 +643,7 @@
       function openOpportunityContactsModal(opp) {
         if (!opp) return;
         selectedOppIndex = opportunities.indexOf(opp);
-        oppContactsTitle.textContent = `${opp.name}`;
+        oppContactsTitle.textContent = "";
         oppDetailRows.innerHTML = `
           <tr><th>Opportunity</th><td>${opp.name || '—'}</td></tr>
           <tr><th>Account</th><td>${opp.account || '—'}</td></tr>
@@ -654,6 +655,7 @@
           <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
         `).join('');
         renderOppNotesManager(opp);
+        editOppModalBtn.textContent = "Edit Modal";
         openModal(oppContactsModal);
       }
 
@@ -685,6 +687,7 @@
             if (Number.isNaN(idx)) return;
             rows.splice(idx, 1);
             renderOppNotesManager(opp);
+        editOppModalBtn.textContent = "Edit Modal";
             oppNoteForm.reset();
             oppNoteForm.elements.namedItem('editIndex').value = '-1';
           });
@@ -850,6 +853,38 @@
       });
 
 
+
+      editOppModalBtn.addEventListener('click', () => {
+        if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+        const opp = opportunities[selectedOppIndex];
+        const isEditing = oppDetailRows.querySelector('[data-opp-edit-field="name"]');
+        if (!isEditing) {
+          oppDetailRows.innerHTML = `
+            <tr><th>Opportunity</th><td><input data-opp-edit-field="name" value="${opp.name || ''}" style="width:100%;" /></td></tr>
+            <tr><th>Account</th><td><input data-opp-edit-field="account" value="${opp.account || ''}" style="width:100%;" /></td></tr>
+            <tr><th>Stage</th><td><input data-opp-edit-field="stage" value="${opp.stage || ''}" style="width:100%;" /></td></tr>
+            <tr><th>Amount</th><td><input data-opp-edit-field="amount" value="${opp.amount || ''}" style="width:100%;" /></td></tr>
+            <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
+          `;
+          editOppModalBtn.textContent = 'Save Modal';
+          return;
+        }
+        opp.name = oppDetailRows.querySelector('[data-opp-edit-field="name"]').value.trim() || opp.name;
+        opp.account = oppDetailRows.querySelector('[data-opp-edit-field="account"]').value.trim() || opp.account;
+        opp.stage = oppDetailRows.querySelector('[data-opp-edit-field="stage"]').value.trim() || opp.stage;
+        opp.amount = oppDetailRows.querySelector('[data-opp-edit-field="amount"]').value.trim() || opp.amount;
+        oppDetailRows.innerHTML = `
+          <tr><th>Opportunity</th><td>${opp.name || '—'}</td></tr>
+          <tr><th>Account</th><td>${opp.account || '—'}</td></tr>
+          <tr><th>Stage</th><td>${opp.stage || '—'}</td></tr>
+          <tr><th>Amount</th><td>${opp.amount || '—'}</td></tr>
+          <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
+        `;
+        editOppModalBtn.textContent = 'Edit Modal';
+        renderOpps();
+        if (selectedAccountIndex !== null) renderAccountOpportunities(accounts[selectedAccountIndex]);
+      });
+
       closeOppNoteEditorBtn.addEventListener('click', () => {
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
@@ -870,6 +905,7 @@
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
         renderOppNotesManager(opp);
+        editOppModalBtn.textContent = "Edit Modal";
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
       });
