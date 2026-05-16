@@ -147,7 +147,7 @@
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
         <table class="table">
-          <thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Contacts</th><th>Open</th></tr></thead>
+          <thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
           <tbody id="accountDetailOppRows"></tbody>
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
@@ -627,16 +627,9 @@
 
       function renderAccountOpportunities(account) {
         const related = opportunities.filter(o => String(o.account || '').trim().toLowerCase() === String(account.name || '').trim().toLowerCase());
-        accountDetailOppRows.innerHTML = related.length ? related.map((o, idx) => `
-          <tr><td>${o.name}</td><td>${o.stage}</td><td>${o.amount}</td><td>${o.contacts.length}</td><td><button class="btn" type="button" data-related-opp-index="${idx}">Open Opp</button></td></tr>
-        `).join('') : '<tr><td colspan="5">No related opportunities for this account.</td></tr>';
-
-        accountDetailOppRows.querySelectorAll('[data-related-opp-index]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const opp = related[Number(btn.dataset.relatedOppIndex)];
-            openOpportunityContactsModal(opp);
-          });
-        });
+        accountDetailOppRows.innerHTML = related.length ? related.map((o) => `
+          <tr><td>${o.name}</td><td>${o.stage}</td><td>${o.amount}</td><td>${o.contacts.length}</td></tr>
+        `).join('') : '<tr><td colspan="4">No related opportunities for this account.</td></tr>';
       }
 
       function renderOpps() {
@@ -647,7 +640,7 @@
             <td>${o.account || "—"}</td>
             <td>${o.stage}</td>
             <td>${o.amount}</td>
-            <td><button class="btn" type="button" data-opp-contact-index="${idx}">View Contacts (${o.contacts.length})</button></td>
+            <td><button class="btn" type="button" data-opp-contact-index="${idx}">Open Opp</button></td>
           </tr>`).join('');
 
         oppsRows.querySelectorAll('[data-opp-contact-index]').forEach(btn => {
