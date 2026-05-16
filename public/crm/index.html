@@ -119,7 +119,7 @@
           <h2 id="accountsTitle" class="modal-title">Accounts</h2>
           <button class="close" type="button" data-close="accountsModal">×</button>
         </div>
-        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
+        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="importAccountsBtn" class="btn" type="button">Import Accounts</button><input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" /><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
         <table class="table">
           <thead><tr><th>Account</th><th>Type</th><th>Owner</th><th>Open</th></tr></thead>
           <tbody id="accountsRows"></tbody>
@@ -140,20 +140,6 @@
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
-        <form id="editAccountForm" style="margin-top:12px; display:none;">
-          <h3 style="color: var(--maine-blue); margin: 0 0 8px;">Edit Account</h3>
-          <div class="form-grid">
-            <input name="name" placeholder="Account name" required />
-            <select name="type" required>
-              <option>Community College</option>
-              <option>K-12 Secondary</option>
-              <option>Industry</option>
-            </select>
-            <input name="owner" placeholder="Owner" required />
-            <input name="website" placeholder="Website" />
-          </div>
-          <div class="right" style="margin-top:10px;"><button class="btn primary" type="submit">Save Changes</button></div>
-        </form>
         <h3 style="color: var(--maine-blue); margin: 12px 0 8px;">Contacts</h3>
         <table class="table">
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
@@ -242,6 +228,7 @@
       </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
       const opportunities = [
         { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', contacts: [
@@ -282,20 +269,82 @@
       const oppAccountSelect = document.getElementById('oppAccountSelect');
       const addOppFromAccountBtn = document.getElementById('addOppFromAccountBtn');
       const editAccountBtn = document.getElementById('editAccountBtn');
-      const editAccountForm = document.getElementById('editAccountForm');
+      const importAccountsBtn = document.getElementById('importAccountsBtn');
+      const importAccountsFileInput = document.getElementById('importAccountsFileInput');
       let selectedAccountName = null;
       let selectedAccountIndex = null;
+      let isEditingAccount = false;
 
       const openModal = (el) => el.classList.add('open');
       const closeModal = (el) => el.classList.remove('open');
-      const setFormValue = (form, key, value) => {
-        const field = form?.elements?.namedItem(key);
-        if (field && 'value' in field) field.value = value ?? '';
-      };
-
       document.querySelectorAll('[data-close]').forEach(btn => {
         btn.addEventListener('click', () => closeModal(document.getElementById(btn.dataset.close)));
       });
+
+      function renderAccountDetails(account) {
+        if (!account) return;
+        accountDetailRows.innerHTML = isEditingAccount ? `
+          <tr><th>Account Name</th><td><input data-inline-account-field="name" value="${account.name || ''}" style="width:100%;" /></td></tr>
+          <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option ${account.type === 'Community College' ? 'selected' : ''}>Community College</option><option ${account.type === 'K-12 Secondary' ? 'selected' : ''}>K-12 Secondary</option><option ${account.type === 'Industry' ? 'selected' : ''}>Industry</option></select></td></tr>
+          <tr><th>Owner</th><td><input data-inline-account-field="owner" value="${account.owner || ''}" style="width:100%;" /></td></tr>
+          <tr><th>Website</th><td><input data-inline-account-field="website" value="${account.website || ''}" style="width:100%;" /></td></tr>
+          <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
+        ` : `
+          <tr><th>Account Name</th><td>${account.name}</td></tr>
+          <tr><th>Type</th><td>${account.type || '—'}</td></tr>
+          <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
+          <tr><th>Website</th><td>${account.website || '—'}</td></tr>
+          <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
+        `;
+      }
+
+      function normalizeHeader(value) {
+        return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+      }
+
+      function mapAccountRow(row) {
+        const normalized = Object.fromEntries(Object.entries(row || {}).map(([k, v]) => [normalizeHeader(k), String(v || '').trim()]));
+        return {
+          name: normalized.account || normalized.accountname || normalized.name || normalized.company || '',
+          type: normalized.type || normalized.accounttype || 'Community College',
+          owner: normalized.owner || normalized.accountowner || normalized.rep || '',
+          website: normalized.website || normalized.url || normalized.domain || '',
+          state: normalized.state || '',
+          contacts: []
+        };
+      }
+
+      function parseDelimited(text) {
+        const lines = String(text || '').split(/\r?\n/).filter(Boolean);
+        if (!lines.length) return [];
+        const delimiter = lines[0].includes('\t') ? '\t' : ',';
+        const headers = lines[0].split(delimiter).map(h => h.trim());
+        return lines.slice(1).map(line => {
+          const cells = line.split(delimiter);
+          const row = {};
+          headers.forEach((h, i) => row[h] = cells[i] ?? '');
+          return row;
+        });
+      }
+
+      function applyImportedAccounts(rows) {
+        let importedCount = 0;
+        const existing = new Set(accounts.map(a => String(a.name || '').trim().toLowerCase()));
+
+        rows.forEach((raw) => {
+          const mapped = mapAccountRow(raw);
+          if (!mapped.name) return;
+          const key = mapped.name.toLowerCase();
+          if (existing.has(key)) return;
+          accounts.push(mapped);
+          existing.add(key);
+          importedCount += 1;
+        });
+
+        renderAccounts();
+        populateOppAccountOptions();
+        alert(importedCount ? `Imported ${importedCount} accounts.` : 'No accounts were imported. Check required columns like Account Name.');
+      }
 
       function renderAccounts() {
         accountsCount.textContent = String(accounts.length);
@@ -313,21 +362,12 @@
             selectedAccountIndex = Number(btn.dataset.accountOpenIndex);
             selectedAccountName = account.name;
             accountDetailTitle.textContent = `${account.name} Details`;
-            accountDetailRows.innerHTML = `
-              <tr><th>Account Name</th><td>${account.name}</td></tr>
-              <tr><th>Type</th><td>${account.type || '—'}</td></tr>
-              <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
-              <tr><th>Website</th><td>${account.website || '—'}</td></tr>
-              <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
-            `;
+            isEditingAccount = false;
+            editAccountBtn.textContent = 'Edit Account';
+            renderAccountDetails(account);
             accountDetailContactsRows.innerHTML = account.contacts.map(c => `
               <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
             `).join('');
-            setFormValue(editAccountForm, 'name', account.name || '');
-            setFormValue(editAccountForm, 'type', account.type || 'Community College');
-            setFormValue(editAccountForm, 'owner', account.owner || '');
-            setFormValue(editAccountForm, 'website', account.website || '');
-            editAccountForm.style.display = 'none';
             openModal(accountDetailModal);
           });
         });
@@ -358,33 +398,68 @@
 
 
       editAccountBtn.addEventListener('click', () => {
-        editAccountForm.style.display = editAccountForm.style.display === 'none' ? 'block' : 'none';
-      });
-
-      editAccountForm.addEventListener('submit', (e) => {
-        e.preventDefault();
         if (selectedAccountIndex === null) return;
         const account = accounts[selectedAccountIndex];
-        const nameField = editAccountForm?.elements?.namedItem('name');
-        const typeField = editAccountForm?.elements?.namedItem('type');
-        const ownerField = editAccountForm?.elements?.namedItem('owner');
-        const websiteField = editAccountForm?.elements?.namedItem('website');
-        account.name = (nameField && 'value' in nameField) ? nameField.value : account.name;
-        account.type = (typeField && 'value' in typeField) ? typeField.value : account.type;
-        account.owner = (ownerField && 'value' in ownerField) ? ownerField.value : account.owner;
-        account.website = (websiteField && 'value' in websiteField) ? websiteField.value : account.website;
+
+        if (!isEditingAccount) {
+          isEditingAccount = true;
+          editAccountBtn.textContent = 'Save Account';
+          renderAccountDetails(account);
+          return;
+        }
+
+        const nameField = accountDetailRows.querySelector('[data-inline-account-field="name"]');
+        const typeField = accountDetailRows.querySelector('[data-inline-account-field="type"]');
+        const ownerField = accountDetailRows.querySelector('[data-inline-account-field="owner"]');
+        const websiteField = accountDetailRows.querySelector('[data-inline-account-field="website"]');
+
+        account.name = nameField?.value?.trim() || account.name;
+        account.type = typeField?.value || account.type;
+        account.owner = ownerField?.value?.trim() || account.owner;
+        account.website = websiteField?.value?.trim() || account.website;
         selectedAccountName = account.name;
 
+        isEditingAccount = false;
+        editAccountBtn.textContent = 'Edit Account';
         accountDetailTitle.textContent = `${account.name} Details`;
-        accountDetailRows.innerHTML = `
-          <tr><th>Account Name</th><td>${account.name}</td></tr>
-          <tr><th>Type</th><td>${account.type || '—'}</td></tr>
-          <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
-          <tr><th>Website</th><td>${account.website || '—'}</td></tr>
-          <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
-        `;
+        renderAccountDetails(account);
         renderAccounts();
-        editAccountForm.style.display = 'none';
+      });
+
+      importAccountsBtn.addEventListener('click', () => {
+        importAccountsFileInput.value = '';
+        importAccountsFileInput.click();
+      });
+
+      importAccountsFileInput.addEventListener('change', async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const ext = (file.name.split('.').pop() || '').toLowerCase();
+        try {
+          if (ext === 'csv' || ext === 'tsv' || ext === 'txt') {
+            const text = await file.text();
+            applyImportedAccounts(parseDelimited(text));
+            return;
+          }
+
+          if (ext === 'xlsx' || ext === 'xls') {
+            if (typeof XLSX === 'undefined') {
+              alert('Excel parser failed to load. Please try CSV.');
+              return;
+            }
+            const buffer = await file.arrayBuffer();
+            const workbook = XLSX.read(buffer, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            const rows = XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
+            applyImportedAccounts(rows);
+            return;
+          }
+
+          alert('Unsupported file type. Use CSV, TSV, XLSX, or XLS.');
+        } catch (error) {
+          alert('Import failed. Please check your file format and account headers.');
+        }
       });
 
       function populateOppAccountOptions() {
