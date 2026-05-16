@@ -288,6 +288,10 @@
 
       const openModal = (el) => el.classList.add('open');
       const closeModal = (el) => el.classList.remove('open');
+      const setFormValue = (form, key, value) => {
+        const field = form?.elements?.namedItem(key);
+        if (field && 'value' in field) field.value = value ?? '';
+      };
 
       document.querySelectorAll('[data-close]').forEach(btn => {
         btn.addEventListener('click', () => closeModal(document.getElementById(btn.dataset.close)));
@@ -319,10 +323,10 @@
             accountDetailContactsRows.innerHTML = account.contacts.map(c => `
               <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
             `).join('');
-            editAccountForm.elements.namedItem('name').value = account.name || '';
-            editAccountForm.elements.namedItem('type').value = account.type || 'Community College';
-            editAccountForm.elements.namedItem('owner').value = account.owner || '';
-            editAccountForm.elements.namedItem('website').value = account.website || '';
+            setFormValue(editAccountForm, 'name', account.name || '');
+            setFormValue(editAccountForm, 'type', account.type || 'Community College');
+            setFormValue(editAccountForm, 'owner', account.owner || '');
+            setFormValue(editAccountForm, 'website', account.website || '');
             editAccountForm.state.value = account.state || '';
             editAccountForm.style.display = 'none';
             openModal(accountDetailModal);
@@ -362,10 +366,14 @@
         e.preventDefault();
         if (selectedAccountIndex === null) return;
         const account = accounts[selectedAccountIndex];
-        account.name = editAccountForm.elements.namedItem('name').value;
-        account.type = editAccountForm.elements.namedItem('type').value;
-        account.owner = editAccountForm.elements.namedItem('owner').value;
-        account.website = editAccountForm.elements.namedItem('website').value;
+        const nameField = editAccountForm?.elements?.namedItem('name');
+        const typeField = editAccountForm?.elements?.namedItem('type');
+        const ownerField = editAccountForm?.elements?.namedItem('owner');
+        const websiteField = editAccountForm?.elements?.namedItem('website');
+        account.name = (nameField && 'value' in nameField) ? nameField.value : account.name;
+        account.type = (typeField && 'value' in typeField) ? typeField.value : account.type;
+        account.owner = (ownerField && 'value' in ownerField) ? ownerField.value : account.owner;
+        account.website = (websiteField && 'value' in websiteField) ? websiteField.value : account.website;
         selectedAccountName = account.name;
 
         accountDetailTitle.textContent = `${account.name} Details`;
