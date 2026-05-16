@@ -140,15 +140,18 @@
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
-                <table class="table">
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <table class="table">
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
           <tbody id="accountDetailContactsRows"></tbody>
         </table>
-                <table class="table">
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <table class="table">
           <thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
           <tbody id="accountDetailOppRows"></tbody>
         </table>
-                <table class="table">
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <table class="table">
           <thead><tr><th>When</th><th>Note</th></tr></thead>
           <tbody id="accountNotesRows"></tbody>
         </table>
@@ -402,7 +405,6 @@
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
         ` : `
           <tr><th></th><td>${account.name}</td></tr>
-
           <tr><th>Type</th><td>${account.type || '—'}</td></tr>
           <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
           <tr><th>Website</th><td>${account.website || '—'}</td></tr>
