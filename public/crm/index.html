@@ -191,7 +191,7 @@
           <button class="close" type="button" data-close="oppsModal">×</button>
         </div>
         <table class="table">
-          <thead><tr><th>Opportunity</th><th>Account</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
+          <thead><tr><th>Open</th><th>Opportunity</th><th>Account</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
           <tbody id="oppsRows"></tbody>
         </table>
       </div>
@@ -636,11 +636,12 @@
         oppsCount.textContent = String(opportunities.length);
         oppsRows.innerHTML = opportunities.map((o, idx) => `
           <tr>
+            <td><button class="btn" type="button" data-opp-contact-index="${idx}">Open Opp</button></td>
             <td>${o.name}</td>
             <td>${o.account || "—"}</td>
             <td>${o.stage}</td>
             <td>${o.amount}</td>
-            <td><button class="btn" type="button" data-opp-contact-index="${idx}">Open Opp</button></td>
+            <td>${o.contacts.length}</td>
           </tr>`).join('');
 
         oppsRows.querySelectorAll('[data-opp-contact-index]').forEach(btn => {
