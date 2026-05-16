@@ -327,7 +327,6 @@
             setFormValue(editAccountForm, 'type', account.type || 'Community College');
             setFormValue(editAccountForm, 'owner', account.owner || '');
             setFormValue(editAccountForm, 'website', account.website || '');
-            editAccountForm.state.value = account.state || '';
             editAccountForm.style.display = 'none';
             openModal(accountDetailModal);
           });
