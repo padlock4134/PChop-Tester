@@ -203,6 +203,16 @@
           <h2 id="oppContactsTitle" class="modal-title"></h2>
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
+        <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
+          <button id="editOppModalBtn" class="btn" type="button">Edit Modal</button>
+          <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm">Edit/Add Note</button>
+          <button id="closeOppNoteEditorBtn" class="btn" type="button">Close</button>
+        </div>
+        <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 12px;" />
+        <table class="table">
+          <tbody id="oppDetailRows"></tbody>
+        </table>
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
         <table class="table">
           <tbody id="oppDetailRows"></tbody>
         </table>
@@ -223,7 +233,6 @@
           <div class="form-grid" style="grid-template-columns:1fr;">
             <textarea name="note" placeholder="Enter opportunity note" required style="width:100%; min-height:100px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
           </div>
-          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="editOppModalBtn" class="btn" type="button">Edit Modal</button><button class="btn primary" type="submit">Edit/Add Note</button><button id="closeOppNoteEditorBtn" class="btn" type="button">Close</button></div>
         </form>
       </div>
     </div>
