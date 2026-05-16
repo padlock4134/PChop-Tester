@@ -211,6 +211,20 @@
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
           <tbody id="oppContactsRows"></tbody>
         </table>
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <div style="max-height:180px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px;">
+          <table class="table" style="margin:0;">
+            <thead><tr><th>When</th><th>Note</th><th>Actions</th></tr></thead>
+            <tbody id="oppNotesRows"></tbody>
+          </table>
+        </div>
+        <form id="oppNoteForm">
+          <input type="hidden" name="editIndex" value="-1" />
+          <div class="form-grid" style="grid-template-columns:1fr;">
+            <textarea name="note" placeholder="Enter opportunity note" required style="width:100%; min-height:100px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+          </div>
+          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="closeOppNoteEditorBtn" class="btn" type="button">Close</button><button class="btn primary" type="submit">Save Note</button></div>
+        </form>
       </div>
     </div>
 
@@ -328,11 +342,11 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
       const opportunities = [
-        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', contacts: [
+        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', notes: [], contacts: [
           { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
           { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
         ]},
-        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', contacts: [
+        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', notes: [], contacts: [
           { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
         ]}
       ];
@@ -362,6 +376,7 @@
       const oppsRows = document.getElementById('oppsRows');
       const oppContactsRows = document.getElementById('oppContactsRows');
       const oppDetailRows = document.getElementById('oppDetailRows');
+      const oppNotesRows = document.getElementById('oppNotesRows');
             const accountDetailRows = document.getElementById('accountDetailRows');
       const accountDetailTitle = document.getElementById('accountDetailTitle');
       const accountDetailContactsRows = document.getElementById('accountDetailContactsRows');
@@ -384,11 +399,14 @@
       const addNoteForm = document.getElementById('addNoteForm');
       const notesManagerRows = document.getElementById('notesManagerRows');
       const closeNoteEditorBtn = document.getElementById('closeNoteEditorBtn');
+      const oppNoteForm = document.getElementById('oppNoteForm');
+      const closeOppNoteEditorBtn = document.getElementById('closeOppNoteEditorBtn');
       const uploadAssetBtn = document.getElementById('uploadAssetBtn');
       const assetFileInput = document.getElementById('assetFileInput');
       const assetsRows = document.getElementById('assetsRows');
       let selectedAccountName = null;
       let selectedAccountIndex = null;
+      let selectedOppIndex = null;
       let isEditingAccount = false;
       let pendingImportRows = [];
       let pendingImportHeaders = [];
@@ -623,6 +641,7 @@
 
       function openOpportunityContactsModal(opp) {
         if (!opp) return;
+        selectedOppIndex = opportunities.indexOf(opp);
         oppContactsTitle.textContent = `${opp.name}`;
         oppDetailRows.innerHTML = `
           <tr><th>Opportunity</th><td>${opp.name || '—'}</td></tr>
@@ -634,7 +653,42 @@
         oppContactsRows.innerHTML = opp.contacts.map(c => `
           <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
         `).join('');
+        renderOppNotesManager(opp);
         openModal(oppContactsModal);
+      }
+
+      function renderOppNotesManager(opp) {
+        const rows = opp.notes || [];
+        oppNotesRows.innerHTML = rows.length ? rows.map((n, idx) => `
+          <tr>
+            <td>${n.when}</td><td>${n.text}</td>
+            <td>
+              <button class="btn" type="button" data-opp-note-edit-index="${idx}">Edit</button>
+              <button class="btn" type="button" data-opp-note-delete-index="${idx}">Delete</button>
+            </td>
+          </tr>
+        `).join('') : '<tr><td colspan="3">No notes yet.</td></tr>';
+
+        oppNotesRows.querySelectorAll('[data-opp-note-edit-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.oppNoteEditIndex);
+            const note = rows[idx];
+            if (!note) return;
+            oppNoteForm.elements.namedItem('editIndex').value = String(idx);
+            oppNoteForm.elements.namedItem('note').value = note.text || '';
+            oppNoteForm.elements.namedItem('note').focus();
+          });
+        });
+        oppNotesRows.querySelectorAll('[data-opp-note-delete-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.oppNoteDeleteIndex);
+            if (Number.isNaN(idx)) return;
+            rows.splice(idx, 1);
+            renderOppNotesManager(opp);
+            oppNoteForm.reset();
+            oppNoteForm.elements.namedItem('editIndex').value = '-1';
+          });
+        });
       }
 
       function renderAccountOpportunities(account) {
@@ -795,6 +849,31 @@
         closeModal(editContactModal);
       });
 
+
+      closeOppNoteEditorBtn.addEventListener('click', () => {
+        oppNoteForm.reset();
+        oppNoteForm.elements.namedItem('editIndex').value = '-1';
+      });
+
+      oppNoteForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+        const opp = opportunities[selectedOppIndex];
+        if (!Array.isArray(opp.notes)) opp.notes = [];
+        const noteText = oppNoteForm.elements.namedItem('note').value.trim();
+        if (!noteText) return;
+        const editIndex = Number(oppNoteForm.elements.namedItem('editIndex').value || '-1');
+        if (editIndex >= 0 && opp.notes[editIndex]) {
+          opp.notes[editIndex].text = noteText;
+          opp.notes[editIndex].when = new Date().toLocaleString();
+        } else {
+          opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+        }
+        renderOppNotesManager(opp);
+        oppNoteForm.reset();
+        oppNoteForm.elements.namedItem('editIndex').value = '-1';
+      });
+
       function populateOppAccountOptions() {
 
         oppAccountSelect.innerHTML = '<option value="">Select account</option>' + accounts.map(a => `<option value="${a.name}">${a.name}</option>`).join('');
@@ -859,7 +938,8 @@
           owner: fd.get('owner'),
           website: fd.get('website'),
           state: '',
-          notes: [], contacts: []
+          notes: [],
+          contacts: []
         });
         e.target.reset();
         closeModal(addAccountModal);
@@ -874,7 +954,8 @@
           account: fd.get('account'),
           stage: fd.get('stage'),
           amount: fd.get('amount'),
-          notes: [], contacts: []
+          notes: [],
+          contacts: []
         });
         e.target.reset();
         closeModal(addOppModal);
