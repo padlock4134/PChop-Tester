@@ -133,10 +133,11 @@
     <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px;">
         <div class="modal-header">
-          <h2 id="accountDetailTitle" class="modal-title">Account Details</h2>
+          <h2 class="modal-title">Account Details</h2>
           <button class="close" type="button" data-close="accountDetailModal">×</button>
         </div>
-        <div class="right" style="margin-bottom:10px; display:flex; gap:8px; justify-content:flex-end;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="editContactBtn" class="btn" type="button">Add/Edit Contact</button><button id="addNoteBtn" class="btn primary" type="button">+ Add Note</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button></div>
+        <div class="right" style="margin-bottom:10px; display:flex; gap:8px; justify-content:center;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="editContactBtn" class="btn" type="button">Add/Edit Contact</button><button id="addNoteBtn" class="btn primary" type="button">+ Add Note</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button></div>
+        <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
@@ -398,14 +399,12 @@
       function renderAccountDetails(account) {
         if (!account) return;
         accountDetailRows.innerHTML = isEditingAccount ? `
-          <tr><th></th><td><input data-inline-account-field="name" value="${account.name || ''}" style="width:100%;" /></td></tr>
-          <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option ${account.type === 'Community College' ? 'selected' : ''}>Community College</option><option ${account.type === 'K-12 Secondary' ? 'selected' : ''}>K-12 Secondary</option><option ${account.type === 'Industry' ? 'selected' : ''}>Industry</option></select></td></tr>
+                    <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option ${account.type === 'Community College' ? 'selected' : ''}>Community College</option><option ${account.type === 'K-12 Secondary' ? 'selected' : ''}>K-12 Secondary</option><option ${account.type === 'Industry' ? 'selected' : ''}>Industry</option></select></td></tr>
           <tr><th>Owner</th><td><input data-inline-account-field="owner" value="${account.owner || ''}" style="width:100%;" /></td></tr>
           <tr><th>Website</th><td><input data-inline-account-field="website" value="${account.website || ''}" style="width:100%;" /></td></tr>
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
         ` : `
-          <tr><th></th><td>${account.name}</td></tr>
-          <tr><th>Type</th><td>${account.type || '—'}</td></tr>
+                    <tr><th>Type</th><td>${account.type || '—'}</td></tr>
           <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
           <tr><th>Website</th><td>${account.website || '—'}</td></tr>
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
@@ -509,7 +508,7 @@
             const account = accounts[Number(btn.dataset.accountOpenIndex)];
             selectedAccountIndex = Number(btn.dataset.accountOpenIndex);
             selectedAccountName = account.name;
-            accountDetailTitle.textContent = `${account.name} Details`;
+            accountDetailTitle.textContent = account.name;
             isEditingAccount = false;
             editAccountBtn.textContent = 'Edit Account';
             renderAccountDetails(account);
@@ -673,7 +672,7 @@
 
         isEditingAccount = false;
         editAccountBtn.textContent = 'Edit Account';
-        accountDetailTitle.textContent = `${account.name} Details`;
+        accountDetailTitle.textContent = account.name;
         renderAccountDetails(account);
         renderAccountOpportunities(account);
         renderAccounts();
