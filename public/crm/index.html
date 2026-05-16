@@ -136,7 +136,7 @@
           <h2 id="accountDetailTitle" class="modal-title">Account Details</h2>
           <button class="close" type="button" data-close="accountDetailModal">×</button>
         </div>
-        <div class="right" style="margin-bottom:10px; display:flex; gap:8px; justify-content:flex-end;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="editContactBtn" class="btn" type="button">Add/Edit Contact</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button></div>
+        <div class="right" style="margin-bottom:10px; display:flex; gap:8px; justify-content:flex-end;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="editContactBtn" class="btn" type="button">Add/Edit Contact</button><button id="addNoteBtn" class="btn primary" type="button">+ Add Note</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button></div>
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
@@ -150,11 +150,32 @@
           <thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
           <tbody id="accountDetailOppRows"></tbody>
         </table>
+        <h3 style="color: var(--maine-blue); margin: 12px 0 8px;">Notes</h3>
+        <table class="table">
+          <thead><tr><th>When</th><th>Note</th></tr></thead>
+          <tbody id="accountNotesRows"></tbody>
+        </table>
       </div>
     </div>
 
     
 
+
+
+    <div id="addNoteModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addNoteTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="addNoteTitle" class="modal-title">Add Account Note</h2>
+          <button class="close" type="button" data-close="addNoteModal">×</button>
+        </div>
+        <form id="addNoteForm">
+          <div class="form-grid" style="grid-template-columns:1fr;">
+            <textarea name="note" placeholder="Enter account note" required style="width:100%; min-height:120px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+          </div>
+          <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Note</button></div>
+        </form>
+      </div>
+    </div>
 
     <div id="oppsModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppsTitle">
@@ -306,11 +327,11 @@
       ];
 
       const accounts = [
-        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', contacts: [
+        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', notes: [], contacts: [
           { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
           { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
         ]},
-        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', contacts: [
+        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', notes: [], contacts: [
           { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
         ]}
       ];
@@ -318,6 +339,7 @@
       const accountsCard = document.getElementById('accountsCard');
       const accountsModal = document.getElementById('accountsModal');
       const oppsModal = document.getElementById('oppsModal');
+      const addNoteModal = document.getElementById('addNoteModal');
       const accountDetailModal = document.getElementById('accountDetailModal');
       const oppContactsModal = document.getElementById('oppContactsModal');
             const addAccountModal = document.getElementById('addAccountModal');
@@ -332,11 +354,13 @@
       const accountDetailTitle = document.getElementById('accountDetailTitle');
       const accountDetailContactsRows = document.getElementById('accountDetailContactsRows');
       const accountDetailOppRows = document.getElementById('accountDetailOppRows');
+      const accountNotesRows = document.getElementById('accountNotesRows');
             const accountsCount = document.getElementById('accountsCount');
       const oppsCount = document.getElementById('oppsCount');
       const oppContactsTitle = document.getElementById('oppContactsTitle');
       const oppAccountSelect = document.getElementById('oppAccountSelect');
       const addOppFromAccountBtn = document.getElementById('addOppFromAccountBtn');
+      const addNoteBtn = document.getElementById('addNoteBtn');
       const editAccountBtn = document.getElementById('editAccountBtn');
       const assetsBtn = document.getElementById('assetsBtn');
       const importAccountsBtn = document.getElementById('importAccountsBtn');
@@ -345,6 +369,7 @@
       const editContactBtn = document.getElementById('editContactBtn');
       const editContactForm = document.getElementById('editContactForm');
       const contactPicker = document.getElementById('contactPicker');
+      const addNoteForm = document.getElementById('addNoteForm');
       const uploadAssetBtn = document.getElementById('uploadAssetBtn');
       const assetFileInput = document.getElementById('assetFileInput');
       const assetsRows = document.getElementById('assetsRows');
@@ -390,7 +415,7 @@
           owner: read('owner'),
           website: read('website'),
           state: read('state'),
-          contacts: []
+          notes: [], contacts: []
         };
       }
 
@@ -481,6 +506,7 @@
             renderAccountDetails(account);
             renderAccountContacts(account);
             renderAccountOpportunities(account);
+            renderAccountNotes(account);
             openModal(accountDetailModal);
           });
         });
@@ -526,6 +552,13 @@
         assetsRows.innerHTML = assetsBucket.length ? assetsBucket.map(item => `
           <tr><td>${item.name}</td><td>${item.size}</td><td>${item.addedAt}</td></tr>
         `).join('') : '<tr><td colspan="3">No materials uploaded yet.</td></tr>';
+      }
+
+      function renderAccountNotes(account) {
+        const rows = account.notes || [];
+        accountNotesRows.innerHTML = rows.length ? rows.map(n => `
+          <tr><td>${n.when}</td><td>${n.text}</td></tr>
+        `).join('') : '<tr><td colspan="2">No notes yet.</td></tr>';
       }
 
       function renderAccountOpportunities(account) {
@@ -698,7 +731,29 @@
       accountsCard.addEventListener('click', () => { renderAccounts(); openModal(accountsModal); });
       document.getElementById('addAccountBtn').addEventListener('click', () => openModal(addAccountModal));
 
+      addNoteBtn.addEventListener('click', () => {
+        if (selectedAccountIndex === null) {
+          alert('Open an account first.');
+          return;
+        }
+        addNoteForm.reset();
+        openModal(addNoteModal);
+      });
+
+      addNoteForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (selectedAccountIndex === null) return;
+        const noteText = addNoteForm.elements.namedItem('note').value.trim();
+        if (!noteText) return;
+        const account = accounts[selectedAccountIndex];
+        if (!Array.isArray(account.notes)) account.notes = [];
+        account.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+        renderAccountNotes(account);
+        closeModal(addNoteModal);
+      });
+
       addOppFromAccountBtn.addEventListener('click', () => {
+
         populateOppAccountOptions();
         if (selectedAccountName) {
           oppAccountSelect.value = selectedAccountName;
@@ -715,7 +770,7 @@
           owner: fd.get('owner'),
           website: fd.get('website'),
           state: '',
-          contacts: []
+          notes: [], contacts: []
         });
         e.target.reset();
         closeModal(addAccountModal);
@@ -730,7 +785,7 @@
           account: fd.get('account'),
           stage: fd.get('stage'),
           amount: fd.get('amount'),
-          contacts: []
+          notes: [], contacts: []
         });
         e.target.reset();
         closeModal(addOppModal);
@@ -740,7 +795,7 @@
         }
       });
 
-      [accountsModal, accountDetailModal, addAccountModal, addOppModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal].forEach(backdrop => {
+      [accountsModal, accountDetailModal, addAccountModal, addOppModal, addNoteModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal].forEach(backdrop => {
         backdrop.addEventListener('click', (e) => {
           if (e.target === backdrop) closeModal(backdrop);
         });
