@@ -151,7 +151,6 @@
             </select>
             <input name="owner" placeholder="Owner" required />
             <input name="website" placeholder="Website" />
-            <input name="state" placeholder="State / Region" />
           </div>
           <div class="right" style="margin-top:10px;"><button class="btn primary" type="submit">Save Changes</button></div>
         </form>
@@ -315,7 +314,6 @@
               <tr><th>Type</th><td>${account.type || '—'}</td></tr>
               <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
               <tr><th>Website</th><td>${account.website || '—'}</td></tr>
-              <tr><th>State/Region</th><td>${account.state || '—'}</td></tr>
               <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
             `;
             accountDetailContactsRows.innerHTML = account.contacts.map(c => `
@@ -368,7 +366,6 @@
         account.type = editAccountForm.type.value;
         account.owner = editAccountForm.owner.value;
         account.website = editAccountForm.website.value;
-        account.state = editAccountForm.state.value;
         selectedAccountName = account.name;
 
         accountDetailTitle.textContent = `${account.name} Details`;
@@ -377,7 +374,6 @@
           <tr><th>Type</th><td>${account.type || '—'}</td></tr>
           <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
           <tr><th>Website</th><td>${account.website || '—'}</td></tr>
-          <tr><th>State/Region</th><td>${account.state || '—'}</td></tr>
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
         `;
         renderAccounts();
