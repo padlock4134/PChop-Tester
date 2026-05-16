@@ -168,11 +168,18 @@
           <h2 id="addNoteTitle" class="modal-title">Add Account Note</h2>
           <button class="close" type="button" data-close="addNoteModal">×</button>
         </div>
+        <div style="max-height:180px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px;">
+          <table class="table" style="margin:0;">
+            <thead><tr><th>When</th><th>Note</th><th>Actions</th></tr></thead>
+            <tbody id="notesManagerRows"></tbody>
+          </table>
+        </div>
         <form id="addNoteForm">
+          <input type="hidden" name="editIndex" value="-1" />
           <div class="form-grid" style="grid-template-columns:1fr;">
             <textarea name="note" placeholder="Enter account note" required style="width:100%; min-height:120px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
           </div>
-          <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Note</button></div>
+          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="closeNoteEditorBtn" class="btn" type="button">Close</button><button class="btn primary" type="submit">Save Note</button></div>
         </form>
       </div>
     </div>
@@ -370,6 +377,8 @@
       const editContactForm = document.getElementById('editContactForm');
       const contactPicker = document.getElementById('contactPicker');
       const addNoteForm = document.getElementById('addNoteForm');
+      const notesManagerRows = document.getElementById('notesManagerRows');
+      const closeNoteEditorBtn = document.getElementById('closeNoteEditorBtn');
       const uploadAssetBtn = document.getElementById('uploadAssetBtn');
       const assetFileInput = document.getElementById('assetFileInput');
       const assetsRows = document.getElementById('assetsRows');
@@ -561,6 +570,54 @@
         `).join('') : '<tr><td colspan="2">No notes yet.</td></tr>';
       }
 
+      function renderNotesManager(account) {
+        const rows = account.notes || [];
+        notesManagerRows.innerHTML = rows.length ? rows.map((n, idx) => `
+          <tr>
+            <td>${n.when}</td>
+            <td>${n.text}</td>
+            <td>
+              <button class="btn" type="button" data-note-open-index="${idx}">Open</button>
+              <button class="btn" type="button" data-note-edit-index="${idx}">Edit</button>
+              <button class="btn" type="button" data-note-close-index="${idx}">Close</button>
+            </td>
+          </tr>
+        `).join('') : '<tr><td colspan="3">No saved notes yet.</td></tr>';
+
+        notesManagerRows.querySelectorAll('[data-note-open-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.noteOpenIndex);
+            const note = rows[idx];
+            if (!note) return;
+            addNoteForm.elements.namedItem('editIndex').value = String(idx);
+            addNoteForm.elements.namedItem('note').value = note.text || '';
+          });
+        });
+
+        notesManagerRows.querySelectorAll('[data-note-edit-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.noteEditIndex);
+            const note = rows[idx];
+            if (!note) return;
+            addNoteForm.elements.namedItem('editIndex').value = String(idx);
+            addNoteForm.elements.namedItem('note').value = note.text || '';
+            addNoteForm.elements.namedItem('note').focus();
+          });
+        });
+
+        notesManagerRows.querySelectorAll('[data-note-close-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.noteCloseIndex);
+            if (Number.isNaN(idx)) return;
+            rows.splice(idx, 1);
+            renderAccountNotes(account);
+            renderNotesManager(account);
+            addNoteForm.reset();
+            addNoteForm.elements.namedItem('editIndex').value = '-1';
+          });
+        });
+      }
+
       function renderAccountOpportunities(account) {
         const related = opportunities.filter(o => String(o.account || '').trim().toLowerCase() === String(account.name || '').trim().toLowerCase());
         accountDetailOppRows.innerHTML = related.length ? related.map(o => `
@@ -736,8 +793,16 @@
           alert('Open an account first.');
           return;
         }
+        const account = accounts[selectedAccountIndex];
         addNoteForm.reset();
+        addNoteForm.elements.namedItem('editIndex').value = '-1';
+        renderNotesManager(account);
         openModal(addNoteModal);
+      });
+
+      closeNoteEditorBtn.addEventListener('click', () => {
+        addNoteForm.reset();
+        addNoteForm.elements.namedItem('editIndex').value = '-1';
       });
 
       addNoteForm.addEventListener('submit', (e) => {
@@ -745,11 +810,19 @@
         if (selectedAccountIndex === null) return;
         const noteText = addNoteForm.elements.namedItem('note').value.trim();
         if (!noteText) return;
+        const editIndex = Number(addNoteForm.elements.namedItem('editIndex').value || '-1');
         const account = accounts[selectedAccountIndex];
         if (!Array.isArray(account.notes)) account.notes = [];
-        account.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+        if (editIndex >= 0 && account.notes[editIndex]) {
+          account.notes[editIndex].text = noteText;
+          account.notes[editIndex].when = new Date().toLocaleString();
+        } else {
+          account.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+        }
         renderAccountNotes(account);
-        closeModal(addNoteModal);
+        renderNotesManager(account);
+        addNoteForm.reset();
+        addNoteForm.elements.namedItem('editIndex').value = '-1';
       });
 
       addOppFromAccountBtn.addEventListener('click', () => {
