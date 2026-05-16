@@ -136,7 +136,7 @@
           <h2 id="accountDetailTitle" class="modal-title">Account Details</h2>
           <button class="close" type="button" data-close="accountDetailModal">×</button>
         </div>
-        <div class="right" style="margin-bottom:10px; display:flex; gap:8px; justify-content:flex-end;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button></div>
+        <div class="right" style="margin-bottom:10px; display:flex; gap:8px; justify-content:flex-end;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="editContactBtn" class="btn" type="button">Add/Edit Contact</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button></div>
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
@@ -249,6 +249,26 @@
       </div>
     </div>
 
+
+    <div id="editContactModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editContactTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="editContactTitle" class="modal-title">Add/Edit Contact</h2>
+          <button class="close" type="button" data-close="editContactModal">×</button>
+        </div>
+        <form id="editContactForm">
+          <div class="form-grid">
+            <select id="contactPicker" name="contactIndex"></select>
+            <input name="name" placeholder="Contact name" required />
+            <input name="title" placeholder="Title" />
+            <input name="email" placeholder="Email" required />
+            <input name="role" placeholder="Role" />
+          </div>
+          <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Contact</button></div>
+        </form>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
       const opportunities = [
@@ -279,6 +299,7 @@
             const addAccountModal = document.getElementById('addAccountModal');
       const addOppModal = document.getElementById('addOppModal');
       const importAccountsMapModal = document.getElementById('importAccountsMapModal');
+      const editContactModal = document.getElementById('editContactModal');
       const accountsRows = document.getElementById('accountsRows');
       const oppsRows = document.getElementById('oppsRows');
       const oppContactsRows = document.getElementById('oppContactsRows');
@@ -294,6 +315,9 @@
       const importAccountsBtn = document.getElementById('importAccountsBtn');
       const importAccountsFileInput = document.getElementById('importAccountsFileInput');
       const importAccountsMapForm = document.getElementById('importAccountsMapForm');
+      const editContactBtn = document.getElementById('editContactBtn');
+      const editContactForm = document.getElementById('editContactForm');
+      const contactPicker = document.getElementById('contactPicker');
       let selectedAccountName = null;
       let selectedAccountIndex = null;
       let isEditingAccount = false;
@@ -424,12 +448,46 @@
             isEditingAccount = false;
             editAccountBtn.textContent = 'Edit Account';
             renderAccountDetails(account);
-            accountDetailContactsRows.innerHTML = account.contacts.map(c => `
-              <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
-            `).join('');
+            renderAccountContacts(account);
             openModal(accountDetailModal);
           });
         });
+      }
+
+
+      function renderAccountContacts(account) {
+        accountDetailContactsRows.innerHTML = account.contacts.map(c => `
+          <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+        `).join('');
+      }
+
+      function openContactEditor() {
+        if (selectedAccountIndex === null) {
+          alert('Open an account first.');
+          return;
+        }
+        const account = accounts[selectedAccountIndex];
+        const options = ['<option value="-1">+ Add New Contact</option>'].concat(
+          account.contacts.map((c, idx) => `<option value="${idx}">${c.name || `Contact ${idx + 1}`}</option>`)
+        );
+        contactPicker.innerHTML = options.join('');
+        editContactForm.reset();
+        openModal(editContactModal);
+      }
+
+      function fillContactFormFromSelection() {
+        if (selectedAccountIndex === null) return;
+        const idx = Number(contactPicker.value);
+        if (idx < 0) {
+          editContactForm.reset();
+          return;
+        }
+        const contact = accounts[selectedAccountIndex].contacts[idx];
+        if (!contact) return;
+        editContactForm.elements.namedItem('name').value = contact.name || '';
+        editContactForm.elements.namedItem('title').value = contact.title || '';
+        editContactForm.elements.namedItem('email').value = contact.email || '';
+        editContactForm.elements.namedItem('role').value = contact.role || '';
       }
 
       function renderOpps() {
@@ -535,7 +593,35 @@
         closeModal(importAccountsMapModal);
       });
 
+
+      editContactBtn.addEventListener('click', openContactEditor);
+
+      contactPicker.addEventListener('change', fillContactFormFromSelection);
+
+      editContactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (selectedAccountIndex === null) return;
+        const account = accounts[selectedAccountIndex];
+        const idx = Number(contactPicker.value);
+        const updated = {
+          name: editContactForm.elements.namedItem('name').value.trim(),
+          title: editContactForm.elements.namedItem('title').value.trim() || '—',
+          email: editContactForm.elements.namedItem('email').value.trim(),
+          role: editContactForm.elements.namedItem('role').value.trim() || 'champion'
+        };
+        if (!updated.name || !updated.email) {
+          alert('Name and Email are required.');
+          return;
+        }
+        if (idx >= 0 && account.contacts[idx]) account.contacts[idx] = updated;
+        else account.contacts.push(updated);
+        renderAccountDetails(account);
+        renderAccountContacts(account);
+        closeModal(editContactModal);
+      });
+
       function populateOppAccountOptions() {
+
         oppAccountSelect.innerHTML = '<option value="">Select account</option>' + accounts.map(a => `<option value="${a.name}">${a.name}</option>`).join('');
       }
 
@@ -582,7 +668,7 @@
         renderOpps();
       });
 
-      [accountsModal, accountDetailModal, addAccountModal, addOppModal, oppsModal, oppContactsModal, importAccountsMapModal].forEach(backdrop => {
+      [accountsModal, accountDetailModal, addAccountModal, addOppModal, oppsModal, oppContactsModal, importAccountsMapModal, editContactModal].forEach(backdrop => {
         backdrop.addEventListener('click', (e) => {
           if (e.target === backdrop) closeModal(backdrop);
         });
