@@ -204,6 +204,10 @@
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
         <table class="table">
+          <tbody id="oppDetailRows"></tbody>
+        </table>
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <table class="table">
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
           <tbody id="oppContactsRows"></tbody>
         </table>
@@ -357,6 +361,7 @@
       const accountsRows = document.getElementById('accountsRows');
       const oppsRows = document.getElementById('oppsRows');
       const oppContactsRows = document.getElementById('oppContactsRows');
+      const oppDetailRows = document.getElementById('oppDetailRows');
             const accountDetailRows = document.getElementById('accountDetailRows');
       const accountDetailTitle = document.getElementById('accountDetailTitle');
       const accountDetailContactsRows = document.getElementById('accountDetailContactsRows');
@@ -618,7 +623,14 @@
 
       function openOpportunityContactsModal(opp) {
         if (!opp) return;
-        oppContactsTitle.textContent = `${opp.name} Contacts`;
+        oppContactsTitle.textContent = `${opp.name}`;
+        oppDetailRows.innerHTML = `
+          <tr><th>Opportunity</th><td>${opp.name || '—'}</td></tr>
+          <tr><th>Account</th><td>${opp.account || '—'}</td></tr>
+          <tr><th>Stage</th><td>${opp.stage || '—'}</td></tr>
+          <tr><th>Amount</th><td>${opp.amount || '—'}</td></tr>
+          <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
+        `;
         oppContactsRows.innerHTML = opp.contacts.map(c => `
           <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
         `).join('');
