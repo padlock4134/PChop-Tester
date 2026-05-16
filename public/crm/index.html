@@ -140,18 +140,15 @@
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
-        <h3 style="color: var(--maine-blue); margin: 12px 0 8px;">Contacts</h3>
-        <table class="table">
+                <table class="table">
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
           <tbody id="accountDetailContactsRows"></tbody>
         </table>
-        <h3 style="color: var(--maine-blue); margin: 12px 0 8px;">Related Opportunities</h3>
-        <table class="table">
+                <table class="table">
           <thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
           <tbody id="accountDetailOppRows"></tbody>
         </table>
-        <h3 style="color: var(--maine-blue); margin: 12px 0 8px;">Notes</h3>
-        <table class="table">
+                <table class="table">
           <thead><tr><th>When</th><th>Note</th></tr></thead>
           <tbody id="accountNotesRows"></tbody>
         </table>
@@ -398,13 +395,14 @@
       function renderAccountDetails(account) {
         if (!account) return;
         accountDetailRows.innerHTML = isEditingAccount ? `
-          <tr><th>Account Name</th><td><input data-inline-account-field="name" value="${account.name || ''}" style="width:100%;" /></td></tr>
+          <tr><th></th><td><input data-inline-account-field="name" value="${account.name || ''}" style="width:100%;" /></td></tr>
           <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option ${account.type === 'Community College' ? 'selected' : ''}>Community College</option><option ${account.type === 'K-12 Secondary' ? 'selected' : ''}>K-12 Secondary</option><option ${account.type === 'Industry' ? 'selected' : ''}>Industry</option></select></td></tr>
           <tr><th>Owner</th><td><input data-inline-account-field="owner" value="${account.owner || ''}" style="width:100%;" /></td></tr>
           <tr><th>Website</th><td><input data-inline-account-field="website" value="${account.website || ''}" style="width:100%;" /></td></tr>
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
         ` : `
-          <tr><th>Account Name</th><td>${account.name}</td></tr>
+          <tr><th></th><td>${account.name}</td></tr>
+
           <tr><th>Type</th><td>${account.type || '—'}</td></tr>
           <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
           <tr><th>Website</th><td>${account.website || '—'}</td></tr>
