@@ -319,10 +319,10 @@
             accountDetailContactsRows.innerHTML = account.contacts.map(c => `
               <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
             `).join('');
-            editAccountForm.name.value = account.name || '';
-            editAccountForm.type.value = account.type || 'Community College';
-            editAccountForm.owner.value = account.owner || '';
-            editAccountForm.website.value = account.website || '';
+            editAccountForm.elements.namedItem('name').value = account.name || '';
+            editAccountForm.elements.namedItem('type').value = account.type || 'Community College';
+            editAccountForm.elements.namedItem('owner').value = account.owner || '';
+            editAccountForm.elements.namedItem('website').value = account.website || '';
             editAccountForm.state.value = account.state || '';
             editAccountForm.style.display = 'none';
             openModal(accountDetailModal);
@@ -362,10 +362,10 @@
         e.preventDefault();
         if (selectedAccountIndex === null) return;
         const account = accounts[selectedAccountIndex];
-        account.name = editAccountForm.name.value;
-        account.type = editAccountForm.type.value;
-        account.owner = editAccountForm.owner.value;
-        account.website = editAccountForm.website.value;
+        account.name = editAccountForm.elements.namedItem('name').value;
+        account.type = editAccountForm.elements.namedItem('type').value;
+        account.owner = editAccountForm.elements.namedItem('owner').value;
+        account.website = editAccountForm.elements.namedItem('website').value;
         selectedAccountName = account.name;
 
         accountDetailTitle.textContent = `${account.name} Details`;
