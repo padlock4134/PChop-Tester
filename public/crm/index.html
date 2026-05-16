@@ -119,9 +119,9 @@
           <h2 id="accountsTitle" class="modal-title">Accounts</h2>
           <button class="close" type="button" data-close="accountsModal">×</button>
         </div>
-        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
+        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="assetsBtn" class="btn" type="button">Assets</button><button id="importAccountsBtn" class="btn" type="button">Import Accounts</button><input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" /><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
         <table class="table">
-          <thead><tr><th>Account</th><th>Type</th><th>Owner</th><th>Open</th></tr></thead>
+          <thead><tr><th>Open</th><th>Account</th><th>Type</th><th>Owner</th></tr></thead>
           <tbody id="accountsRows"></tbody>
         </table>
         <p class="subtle">Click “Contacts” to open second-level contact information for an account.</p>
@@ -132,38 +132,57 @@
 
     <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px;">
-        <div class="modal-header">
-          <h2 id="accountDetailTitle" class="modal-title">Account Details</h2>
-          <button class="close" type="button" data-close="accountDetailModal">×</button>
+        <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
+          <div class="right" style="display:flex; gap:8px; justify-content:center; margin:0;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="editContactBtn" class="btn" type="button">Add/Edit Contact</button><button id="addNoteBtn" class="btn primary" type="button">+ Add Note</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button><button class="close" type="button" data-close="accountDetailModal">×</button></div>
+          <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 0;" />
         </div>
-        <div class="right" style="margin-bottom:10px; display:flex; gap:8px; justify-content:flex-end;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button></div>
+        <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
-        <form id="editAccountForm" style="margin-top:12px; display:none;">
-          <h3 style="color: var(--maine-blue); margin: 0 0 8px;">Edit Account</h3>
-          <div class="form-grid">
-            <input name="name" placeholder="Account name" required />
-            <select name="type" required>
-              <option>Community College</option>
-              <option>K-12 Secondary</option>
-              <option>Industry</option>
-            </select>
-            <input name="owner" placeholder="Owner" required />
-            <input name="website" placeholder="Website" />
-          </div>
-          <div class="right" style="margin-top:10px;"><button class="btn primary" type="submit">Save Changes</button></div>
-        </form>
-        <h3 style="color: var(--maine-blue); margin: 12px 0 8px;">Contacts</h3>
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
         <table class="table">
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
           <tbody id="accountDetailContactsRows"></tbody>
+        </table>
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <table class="table">
+          <thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
+          <tbody id="accountDetailOppRows"></tbody>
+        </table>
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <table class="table">
+          <thead><tr><th>When</th><th>Note</th></tr></thead>
+          <tbody id="accountNotesRows"></tbody>
         </table>
       </div>
     </div>
 
     
 
+
+
+    <div id="addNoteModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addNoteTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="addNoteTitle" class="modal-title">Add Account Note</h2>
+          <button class="close" type="button" data-close="addNoteModal">×</button>
+        </div>
+        <div style="max-height:180px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px;">
+          <table class="table" style="margin:0;">
+            <thead><tr><th>When</th><th>Note</th><th>Actions</th></tr></thead>
+            <tbody id="notesManagerRows"></tbody>
+          </table>
+        </div>
+        <form id="addNoteForm">
+          <input type="hidden" name="editIndex" value="-1" />
+          <div class="form-grid" style="grid-template-columns:1fr;">
+            <textarea name="note" placeholder="Enter account note" required style="width:100%; min-height:120px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+          </div>
+          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="closeNoteEditorBtn" class="btn" type="button">Close</button><button class="btn primary" type="submit">Save Note</button></div>
+        </form>
+      </div>
+    </div>
 
     <div id="oppsModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppsTitle">
@@ -172,7 +191,7 @@
           <button class="close" type="button" data-close="oppsModal">×</button>
         </div>
         <table class="table">
-          <thead><tr><th>Opportunity</th><th>Account</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
+          <thead><tr><th>Open</th><th>Opportunity</th><th>Account</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
           <tbody id="oppsRows"></tbody>
         </table>
       </div>
@@ -185,9 +204,27 @@
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
         <table class="table">
+          <tbody id="oppDetailRows"></tbody>
+        </table>
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <table class="table">
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
           <tbody id="oppContactsRows"></tbody>
         </table>
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <div style="max-height:180px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px;">
+          <table class="table" style="margin:0;">
+            <thead><tr><th>When</th><th>Note</th><th>Actions</th></tr></thead>
+            <tbody id="oppNotesRows"></tbody>
+          </table>
+        </div>
+        <form id="oppNoteForm">
+          <input type="hidden" name="editIndex" value="-1" />
+          <div class="form-grid" style="grid-template-columns:1fr;">
+            <textarea name="note" placeholder="Enter opportunity note" required style="width:100%; min-height:100px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+          </div>
+          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="closeOppNoteEditorBtn" class="btn" type="button">Close</button><button class="btn primary" type="submit">Save Note</button></div>
+        </form>
       </div>
     </div>
 
@@ -242,23 +279,84 @@
       </div>
     </div>
 
+
+
+    <div id="assetsModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="assetsTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="assetsTitle" class="modal-title">Assets Bucket</h2>
+          <button class="close" type="button" data-close="assetsModal">×</button>
+        </div>
+        <p class="subtle" style="margin-bottom:10px;">Store sales materials and files for quick access.</p>
+        <div class="right" style="display:flex; gap:8px; justify-content:flex-end; margin-bottom:10px;">
+          <button id="uploadAssetBtn" class="btn" type="button">Upload Material</button>
+          <input id="assetFileInput" type="file" multiple style="display:none;" />
+        </div>
+        <table class="table">
+          <thead><tr><th>File</th><th>Size</th><th>Added</th></tr></thead>
+          <tbody id="assetsRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="importAccountsMapModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="importAccountsMapTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="importAccountsMapTitle" class="modal-title">Import Accounts: Map Fields</h2>
+          <button class="close" type="button" data-close="importAccountsMapModal">×</button>
+        </div>
+        <p class="subtle" style="margin-bottom:10px;">Map your file columns to CRM account fields, then import.</p>
+        <form id="importAccountsMapForm">
+          <div class="form-grid">
+            <label>Account Name<select id="mapAccountName" required></select></label>
+            <label>Type<select id="mapAccountType"></select></label>
+            <label>Owner<select id="mapAccountOwner"></select></label>
+            <label>Website<select id="mapAccountWebsite"></select></label>
+            <label>State<select id="mapAccountState"></select></label>
+          </div>
+          <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Import Accounts</button></div>
+        </form>
+      </div>
+    </div>
+
+
+    <div id="editContactModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editContactTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="editContactTitle" class="modal-title">Add/Edit Contact</h2>
+          <button class="close" type="button" data-close="editContactModal">×</button>
+        </div>
+        <form id="editContactForm">
+          <div class="form-grid">
+            <select id="contactPicker" name="contactIndex"></select>
+            <input name="name" placeholder="Contact name" required />
+            <input name="title" placeholder="Title" />
+            <input name="email" placeholder="Email" required />
+            <input name="role" placeholder="Role" />
+          </div>
+          <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Contact</button></div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
       const opportunities = [
-        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', contacts: [
+        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', notes: [], contacts: [
           { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
           { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
         ]},
-        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', contacts: [
+        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', notes: [], contacts: [
           { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
         ]}
       ];
 
       const accounts = [
-        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', contacts: [
+        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', notes: [], contacts: [
           { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
           { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
         ]},
-        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', contacts: [
+        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', notes: [], contacts: [
           { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
         ]}
       ];
@@ -266,45 +364,165 @@
       const accountsCard = document.getElementById('accountsCard');
       const accountsModal = document.getElementById('accountsModal');
       const oppsModal = document.getElementById('oppsModal');
+      const addNoteModal = document.getElementById('addNoteModal');
       const accountDetailModal = document.getElementById('accountDetailModal');
       const oppContactsModal = document.getElementById('oppContactsModal');
             const addAccountModal = document.getElementById('addAccountModal');
       const addOppModal = document.getElementById('addOppModal');
+      const assetsModal = document.getElementById('assetsModal');
+      const importAccountsMapModal = document.getElementById('importAccountsMapModal');
+      const editContactModal = document.getElementById('editContactModal');
       const accountsRows = document.getElementById('accountsRows');
       const oppsRows = document.getElementById('oppsRows');
       const oppContactsRows = document.getElementById('oppContactsRows');
+      const oppDetailRows = document.getElementById('oppDetailRows');
+      const oppNotesRows = document.getElementById('oppNotesRows');
             const accountDetailRows = document.getElementById('accountDetailRows');
       const accountDetailTitle = document.getElementById('accountDetailTitle');
       const accountDetailContactsRows = document.getElementById('accountDetailContactsRows');
+      const accountDetailOppRows = document.getElementById('accountDetailOppRows');
+      const accountNotesRows = document.getElementById('accountNotesRows');
             const accountsCount = document.getElementById('accountsCount');
       const oppsCount = document.getElementById('oppsCount');
       const oppContactsTitle = document.getElementById('oppContactsTitle');
       const oppAccountSelect = document.getElementById('oppAccountSelect');
       const addOppFromAccountBtn = document.getElementById('addOppFromAccountBtn');
+      const addNoteBtn = document.getElementById('addNoteBtn');
       const editAccountBtn = document.getElementById('editAccountBtn');
-      const editAccountForm = document.getElementById('editAccountForm');
+      const assetsBtn = document.getElementById('assetsBtn');
+      const importAccountsBtn = document.getElementById('importAccountsBtn');
+      const importAccountsFileInput = document.getElementById('importAccountsFileInput');
+      const importAccountsMapForm = document.getElementById('importAccountsMapForm');
+      const editContactBtn = document.getElementById('editContactBtn');
+      const editContactForm = document.getElementById('editContactForm');
+      const contactPicker = document.getElementById('contactPicker');
+      const addNoteForm = document.getElementById('addNoteForm');
+      const notesManagerRows = document.getElementById('notesManagerRows');
+      const closeNoteEditorBtn = document.getElementById('closeNoteEditorBtn');
+      const oppNoteForm = document.getElementById('oppNoteForm');
+      const closeOppNoteEditorBtn = document.getElementById('closeOppNoteEditorBtn');
+      const uploadAssetBtn = document.getElementById('uploadAssetBtn');
+      const assetFileInput = document.getElementById('assetFileInput');
+      const assetsRows = document.getElementById('assetsRows');
       let selectedAccountName = null;
       let selectedAccountIndex = null;
+      let selectedOppIndex = null;
+      let isEditingAccount = false;
+      let pendingImportRows = [];
+      let pendingImportHeaders = [];
+      const assetsBucket = [];
 
       const openModal = (el) => el.classList.add('open');
       const closeModal = (el) => el.classList.remove('open');
-      const setFormValue = (form, key, value) => {
-        const field = form?.elements?.namedItem(key);
-        if (field && 'value' in field) field.value = value ?? '';
-      };
-
       document.querySelectorAll('[data-close]').forEach(btn => {
         btn.addEventListener('click', () => closeModal(document.getElementById(btn.dataset.close)));
       });
+
+      function renderAccountDetails(account) {
+        if (!account) return;
+        accountDetailRows.innerHTML = isEditingAccount ? `
+                    <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option ${account.type === 'Community College' ? 'selected' : ''}>Community College</option><option ${account.type === 'K-12 Secondary' ? 'selected' : ''}>K-12 Secondary</option><option ${account.type === 'Industry' ? 'selected' : ''}>Industry</option></select></td></tr>
+          <tr><th>Owner</th><td><input data-inline-account-field="owner" value="${account.owner || ''}" style="width:100%;" /></td></tr>
+          <tr><th>Website</th><td><input data-inline-account-field="website" value="${account.website || ''}" style="width:100%;" /></td></tr>
+          <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
+        ` : `
+                    <tr><th>Type</th><td>${account.type || '—'}</td></tr>
+          <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
+          <tr><th>Website</th><td>${account.website || '—'}</td></tr>
+          <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
+        `;
+      }
+
+      function normalizeHeader(value) {
+        return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+      }
+
+      function mapAccountRow(row, mapping) {
+        const read = (key) => String(row?.[mapping[key]] || '').trim();
+        return {
+          name: read('name'),
+          type: read('type') || 'Community College',
+          owner: read('owner'),
+          website: read('website'),
+          state: read('state'),
+          notes: [], contacts: []
+        };
+      }
+
+      function parseDelimited(text) {
+        const lines = String(text || '').split(/\r?\n/).filter(Boolean);
+        if (!lines.length) return [];
+        const delimiter = lines[0].includes('\t') ? '\t' : ',';
+        const headers = lines[0].split(delimiter).map(h => h.trim());
+        return lines.slice(1).map(line => {
+          const cells = line.split(delimiter);
+          const row = {};
+          headers.forEach((h, i) => row[h] = cells[i] ?? '');
+          return row;
+        });
+      }
+
+
+      function parseImportRowsFromFile(file, ext) {
+        if (ext === 'csv' || ext === 'tsv' || ext === 'txt') {
+          return file.text().then(parseDelimited);
+        }
+        if (ext === 'xlsx' || ext === 'xls') {
+          if (typeof XLSX === 'undefined') throw new Error('xlsx_missing');
+          return file.arrayBuffer().then((buffer) => {
+            const workbook = XLSX.read(buffer, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            return XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
+          });
+        }
+        throw new Error('unsupported_type');
+      }
+
+      function renderImportMappingOptions(headers) {
+        const defaults = {
+          mapAccountName: ['account', 'account name', 'name', 'company'],
+          mapAccountType: ['type', 'account type'],
+          mapAccountOwner: ['owner', 'account owner', 'rep'],
+          mapAccountWebsite: ['website', 'url', 'domain'],
+          mapAccountState: ['state']
+        };
+        ['mapAccountName','mapAccountType','mapAccountOwner','mapAccountWebsite','mapAccountState'].forEach((id) => {
+          const el = document.getElementById(id);
+          el.innerHTML = '<option value="">-- Skip --</option>' + headers.map(h => `<option value="${h}">${h}</option>`).join('');
+          const normalizedHeaders = headers.map(h => normalizeHeader(h));
+          const desired = defaults[id].map(normalizeHeader);
+          const hitIndex = normalizedHeaders.findIndex(h => desired.includes(h));
+          if (hitIndex >= 0) el.value = headers[hitIndex];
+        });
+      }
+
+      function applyImportedAccounts(rows, mapping) {
+        let importedCount = 0;
+        const existing = new Set(accounts.map(a => String(a.name || '').trim().toLowerCase()));
+
+        rows.forEach((raw) => {
+          const mapped = mapAccountRow(raw, mapping);
+          if (!mapped.name) return;
+          const key = mapped.name.toLowerCase();
+          if (existing.has(key)) return;
+          accounts.push(mapped);
+          existing.add(key);
+          importedCount += 1;
+        });
+
+        renderAccounts();
+        populateOppAccountOptions();
+        alert(importedCount ? `Imported ${importedCount} accounts.` : 'No accounts were imported. Check required columns like Account Name.');
+      }
 
       function renderAccounts() {
         accountsCount.textContent = String(accounts.length);
         accountsRows.innerHTML = accounts.map((a, idx) => `
           <tr>
+            <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
             <td>${a.name}</td>
             <td>${a.type}</td>
             <td>${a.owner}</td>
-            <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
           </tr>`).join('');
 
         accountsRows.querySelectorAll('[data-account-open-index]').forEach(btn => {
@@ -312,82 +530,352 @@
             const account = accounts[Number(btn.dataset.accountOpenIndex)];
             selectedAccountIndex = Number(btn.dataset.accountOpenIndex);
             selectedAccountName = account.name;
-            accountDetailTitle.textContent = `${account.name} Details`;
-            accountDetailRows.innerHTML = `
-              <tr><th>Account Name</th><td>${account.name}</td></tr>
-              <tr><th>Type</th><td>${account.type || '—'}</td></tr>
-              <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
-              <tr><th>Website</th><td>${account.website || '—'}</td></tr>
-              <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
-            `;
-            accountDetailContactsRows.innerHTML = account.contacts.map(c => `
-              <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
-            `).join('');
-            setFormValue(editAccountForm, 'name', account.name || '');
-            setFormValue(editAccountForm, 'type', account.type || 'Community College');
-            setFormValue(editAccountForm, 'owner', account.owner || '');
-            setFormValue(editAccountForm, 'website', account.website || '');
-            editAccountForm.style.display = 'none';
+            accountDetailTitle.textContent = account.name;
+            isEditingAccount = false;
+            editAccountBtn.textContent = 'Edit Account';
+            renderAccountDetails(account);
+            renderAccountContacts(account);
+            renderAccountOpportunities(account);
+            renderAccountNotes(account);
             openModal(accountDetailModal);
           });
         });
+      }
+
+
+      function renderAccountContacts(account) {
+        accountDetailContactsRows.innerHTML = account.contacts.map(c => `
+          <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+        `).join('');
+      }
+
+      function openContactEditor() {
+        if (selectedAccountIndex === null) {
+          alert('Open an account first.');
+          return;
+        }
+        const account = accounts[selectedAccountIndex];
+        const options = ['<option value="-1">+ Add New Contact</option>'].concat(
+          account.contacts.map((c, idx) => `<option value="${idx}">${c.name || `Contact ${idx + 1}`}</option>`)
+        );
+        contactPicker.innerHTML = options.join('');
+        editContactForm.reset();
+        openModal(editContactModal);
+      }
+
+      function fillContactFormFromSelection() {
+        if (selectedAccountIndex === null) return;
+        const idx = Number(contactPicker.value);
+        if (idx < 0) {
+          editContactForm.reset();
+          return;
+        }
+        const contact = accounts[selectedAccountIndex].contacts[idx];
+        if (!contact) return;
+        editContactForm.elements.namedItem('name').value = contact.name || '';
+        editContactForm.elements.namedItem('title').value = contact.title || '';
+        editContactForm.elements.namedItem('email').value = contact.email || '';
+        editContactForm.elements.namedItem('role').value = contact.role || '';
+      }
+
+      function renderAssets() {
+        assetsRows.innerHTML = assetsBucket.length ? assetsBucket.map(item => `
+          <tr><td>${item.name}</td><td>${item.size}</td><td>${item.addedAt}</td></tr>
+        `).join('') : '<tr><td colspan="3">No materials uploaded yet.</td></tr>';
+      }
+
+      function renderAccountNotes(account) {
+        const rows = account.notes || [];
+        accountNotesRows.innerHTML = rows.length ? rows.map(n => `
+          <tr><td>${n.when}</td><td>${n.text}</td></tr>
+        `).join('') : '<tr><td colspan="2">No notes yet.</td></tr>';
+      }
+
+      function renderNotesManager(account) {
+        const rows = account.notes || [];
+        notesManagerRows.innerHTML = rows.length ? rows.map((n, idx) => `
+          <tr>
+            <td>${n.when}</td>
+            <td>${n.text}</td>
+            <td>
+              <button class="btn" type="button" data-note-open-index="${idx}">Open</button>
+              <button class="btn" type="button" data-note-edit-index="${idx}">Edit</button>
+              <button class="btn" type="button" data-note-close-index="${idx}">Close</button>
+            </td>
+          </tr>
+        `).join('') : '<tr><td colspan="3">No saved notes yet.</td></tr>';
+
+        notesManagerRows.querySelectorAll('[data-note-open-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.noteOpenIndex);
+            const note = rows[idx];
+            if (!note) return;
+            addNoteForm.elements.namedItem('editIndex').value = String(idx);
+            addNoteForm.elements.namedItem('note').value = note.text || '';
+          });
+        });
+
+        notesManagerRows.querySelectorAll('[data-note-edit-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.noteEditIndex);
+            const note = rows[idx];
+            if (!note) return;
+            addNoteForm.elements.namedItem('editIndex').value = String(idx);
+            addNoteForm.elements.namedItem('note').value = note.text || '';
+            addNoteForm.elements.namedItem('note').focus();
+          });
+        });
+
+        notesManagerRows.querySelectorAll('[data-note-close-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.noteCloseIndex);
+            if (Number.isNaN(idx)) return;
+            rows.splice(idx, 1);
+            renderAccountNotes(account);
+            renderNotesManager(account);
+            addNoteForm.reset();
+            addNoteForm.elements.namedItem('editIndex').value = '-1';
+          });
+        });
+      }
+
+      function openOpportunityContactsModal(opp) {
+        if (!opp) return;
+        selectedOppIndex = opportunities.indexOf(opp);
+        oppContactsTitle.textContent = `${opp.name}`;
+        oppDetailRows.innerHTML = `
+          <tr><th>Opportunity</th><td>${opp.name || '—'}</td></tr>
+          <tr><th>Account</th><td>${opp.account || '—'}</td></tr>
+          <tr><th>Stage</th><td>${opp.stage || '—'}</td></tr>
+          <tr><th>Amount</th><td>${opp.amount || '—'}</td></tr>
+          <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
+        `;
+        oppContactsRows.innerHTML = opp.contacts.map(c => `
+          <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+        `).join('');
+        renderOppNotesManager(opp);
+        openModal(oppContactsModal);
+      }
+
+      function renderOppNotesManager(opp) {
+        const rows = opp.notes || [];
+        oppNotesRows.innerHTML = rows.length ? rows.map((n, idx) => `
+          <tr>
+            <td>${n.when}</td><td>${n.text}</td>
+            <td>
+              <button class="btn" type="button" data-opp-note-edit-index="${idx}">Edit</button>
+              <button class="btn" type="button" data-opp-note-delete-index="${idx}">Delete</button>
+            </td>
+          </tr>
+        `).join('') : '<tr><td colspan="3">No notes yet.</td></tr>';
+
+        oppNotesRows.querySelectorAll('[data-opp-note-edit-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.oppNoteEditIndex);
+            const note = rows[idx];
+            if (!note) return;
+            oppNoteForm.elements.namedItem('editIndex').value = String(idx);
+            oppNoteForm.elements.namedItem('note').value = note.text || '';
+            oppNoteForm.elements.namedItem('note').focus();
+          });
+        });
+        oppNotesRows.querySelectorAll('[data-opp-note-delete-index]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.dataset.oppNoteDeleteIndex);
+            if (Number.isNaN(idx)) return;
+            rows.splice(idx, 1);
+            renderOppNotesManager(opp);
+            oppNoteForm.reset();
+            oppNoteForm.elements.namedItem('editIndex').value = '-1';
+          });
+        });
+      }
+
+      function renderAccountOpportunities(account) {
+        const related = opportunities.filter(o => String(o.account || '').trim().toLowerCase() === String(account.name || '').trim().toLowerCase());
+        accountDetailOppRows.innerHTML = related.length ? related.map((o) => `
+          <tr><td>${o.name}</td><td>${o.stage}</td><td>${o.amount}</td><td>${o.contacts.length}</td></tr>
+        `).join('') : '<tr><td colspan="4">No related opportunities for this account.</td></tr>';
       }
 
       function renderOpps() {
         oppsCount.textContent = String(opportunities.length);
         oppsRows.innerHTML = opportunities.map((o, idx) => `
           <tr>
+            <td><button class="btn" type="button" data-opp-contact-index="${idx}">Open Opp</button></td>
             <td>${o.name}</td>
             <td>${o.account || "—"}</td>
             <td>${o.stage}</td>
             <td>${o.amount}</td>
-            <td><button class="btn" type="button" data-opp-contact-index="${idx}">View Contacts (${o.contacts.length})</button></td>
+            <td>${o.contacts.length}</td>
           </tr>`).join('');
 
         oppsRows.querySelectorAll('[data-opp-contact-index]').forEach(btn => {
           btn.addEventListener('click', () => {
             const opp = opportunities[Number(btn.dataset.oppContactIndex)];
-            oppContactsTitle.textContent = `${opp.name} Contacts`;
-            oppContactsRows.innerHTML = opp.contacts.map(c => `
-              <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
-            `).join('');
-            openModal(oppContactsModal);
+            openOpportunityContactsModal(opp);
           });
         });
       }
 
 
       editAccountBtn.addEventListener('click', () => {
-        editAccountForm.style.display = editAccountForm.style.display === 'none' ? 'block' : 'none';
+        if (selectedAccountIndex === null) return;
+        const account = accounts[selectedAccountIndex];
+
+        if (!isEditingAccount) {
+          isEditingAccount = true;
+          editAccountBtn.textContent = 'Save Account';
+          renderAccountDetails(account);
+          return;
+        }
+
+        const nameField = accountDetailRows.querySelector('[data-inline-account-field="name"]');
+        const typeField = accountDetailRows.querySelector('[data-inline-account-field="type"]');
+        const ownerField = accountDetailRows.querySelector('[data-inline-account-field="owner"]');
+        const websiteField = accountDetailRows.querySelector('[data-inline-account-field="website"]');
+
+        account.name = nameField?.value?.trim() || account.name;
+        account.type = typeField?.value || account.type;
+        account.owner = ownerField?.value?.trim() || account.owner;
+        account.website = websiteField?.value?.trim() || account.website;
+        selectedAccountName = account.name;
+
+        isEditingAccount = false;
+        editAccountBtn.textContent = 'Edit Account';
+        accountDetailTitle.textContent = account.name;
+        renderAccountDetails(account);
+        renderAccountOpportunities(account);
+        renderAccounts();
       });
 
-      editAccountForm.addEventListener('submit', (e) => {
+      assetsBtn.addEventListener('click', () => {
+        renderAssets();
+        openModal(assetsModal);
+      });
+
+      uploadAssetBtn.addEventListener('click', () => {
+        assetFileInput.value = '';
+        assetFileInput.click();
+      });
+
+      assetFileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files || []);
+        files.forEach((file) => {
+          assetsBucket.push({
+            name: file.name,
+            size: `${Math.max(1, Math.round(file.size / 1024))} KB`,
+            addedAt: new Date().toLocaleString()
+          });
+        });
+        renderAssets();
+      });
+
+      importAccountsBtn.addEventListener('click', () => {
+
+        importAccountsFileInput.value = '';
+        importAccountsFileInput.click();
+      });
+
+      importAccountsFileInput.addEventListener('change', async (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const ext = (file.name.split('.').pop() || '').toLowerCase();
+        try {
+          const rows = await parseImportRowsFromFile(file, ext);
+          if (!rows.length) {
+            alert('No rows found in import file.');
+            return;
+          }
+          pendingImportRows = rows;
+          pendingImportHeaders = Object.keys(rows[0] || {});
+          renderImportMappingOptions(pendingImportHeaders);
+          openModal(importAccountsMapModal);
+        } catch (error) {
+          if (error.message === 'xlsx_missing') {
+            alert('Excel parser failed to load. Please try CSV.');
+            return;
+          }
+          if (error.message === 'unsupported_type') {
+            alert('Unsupported file type. Use CSV, TSV, XLSX, or XLS.');
+            return;
+          }
+          alert('Import failed. Please check your file format and account headers.');
+        }
+      });
+
+      importAccountsMapForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const mapping = {
+          name: document.getElementById('mapAccountName').value,
+          type: document.getElementById('mapAccountType').value,
+          owner: document.getElementById('mapAccountOwner').value,
+          website: document.getElementById('mapAccountWebsite').value,
+          state: document.getElementById('mapAccountState').value
+        };
+        if (!mapping.name) {
+          alert('Please map Account Name before importing.');
+          return;
+        }
+        applyImportedAccounts(pendingImportRows, mapping);
+        closeModal(importAccountsMapModal);
+      });
+
+
+      editContactBtn.addEventListener('click', openContactEditor);
+
+      contactPicker.addEventListener('change', fillContactFormFromSelection);
+
+      editContactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         if (selectedAccountIndex === null) return;
         const account = accounts[selectedAccountIndex];
-        const nameField = editAccountForm?.elements?.namedItem('name');
-        const typeField = editAccountForm?.elements?.namedItem('type');
-        const ownerField = editAccountForm?.elements?.namedItem('owner');
-        const websiteField = editAccountForm?.elements?.namedItem('website');
-        account.name = (nameField && 'value' in nameField) ? nameField.value : account.name;
-        account.type = (typeField && 'value' in typeField) ? typeField.value : account.type;
-        account.owner = (ownerField && 'value' in ownerField) ? ownerField.value : account.owner;
-        account.website = (websiteField && 'value' in websiteField) ? websiteField.value : account.website;
-        selectedAccountName = account.name;
+        const idx = Number(contactPicker.value);
+        const updated = {
+          name: editContactForm.elements.namedItem('name').value.trim(),
+          title: editContactForm.elements.namedItem('title').value.trim() || '—',
+          email: editContactForm.elements.namedItem('email').value.trim(),
+          role: editContactForm.elements.namedItem('role').value.trim() || 'champion'
+        };
+        if (!updated.name || !updated.email) {
+          alert('Name and Email are required.');
+          return;
+        }
+        if (idx >= 0 && account.contacts[idx]) account.contacts[idx] = updated;
+        else account.contacts.push(updated);
+        renderAccountDetails(account);
+        renderAccountContacts(account);
+        closeModal(editContactModal);
+      });
 
-        accountDetailTitle.textContent = `${account.name} Details`;
-        accountDetailRows.innerHTML = `
-          <tr><th>Account Name</th><td>${account.name}</td></tr>
-          <tr><th>Type</th><td>${account.type || '—'}</td></tr>
-          <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
-          <tr><th>Website</th><td>${account.website || '—'}</td></tr>
-          <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
-        `;
-        renderAccounts();
-        editAccountForm.style.display = 'none';
+
+      closeOppNoteEditorBtn.addEventListener('click', () => {
+        oppNoteForm.reset();
+        oppNoteForm.elements.namedItem('editIndex').value = '-1';
+      });
+
+      oppNoteForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+        const opp = opportunities[selectedOppIndex];
+        if (!Array.isArray(opp.notes)) opp.notes = [];
+        const noteText = oppNoteForm.elements.namedItem('note').value.trim();
+        if (!noteText) return;
+        const editIndex = Number(oppNoteForm.elements.namedItem('editIndex').value || '-1');
+        if (editIndex >= 0 && opp.notes[editIndex]) {
+          opp.notes[editIndex].text = noteText;
+          opp.notes[editIndex].when = new Date().toLocaleString();
+        } else {
+          opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+        }
+        renderOppNotesManager(opp);
+        oppNoteForm.reset();
+        oppNoteForm.elements.namedItem('editIndex').value = '-1';
       });
 
       function populateOppAccountOptions() {
+
         oppAccountSelect.innerHTML = '<option value="">Select account</option>' + accounts.map(a => `<option value="${a.name}">${a.name}</option>`).join('');
       }
 
@@ -395,7 +883,45 @@
       accountsCard.addEventListener('click', () => { renderAccounts(); openModal(accountsModal); });
       document.getElementById('addAccountBtn').addEventListener('click', () => openModal(addAccountModal));
 
+      addNoteBtn.addEventListener('click', () => {
+        if (selectedAccountIndex === null) {
+          alert('Open an account first.');
+          return;
+        }
+        const account = accounts[selectedAccountIndex];
+        addNoteForm.reset();
+        addNoteForm.elements.namedItem('editIndex').value = '-1';
+        renderNotesManager(account);
+        openModal(addNoteModal);
+      });
+
+      closeNoteEditorBtn.addEventListener('click', () => {
+        addNoteForm.reset();
+        addNoteForm.elements.namedItem('editIndex').value = '-1';
+      });
+
+      addNoteForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (selectedAccountIndex === null) return;
+        const noteText = addNoteForm.elements.namedItem('note').value.trim();
+        if (!noteText) return;
+        const editIndex = Number(addNoteForm.elements.namedItem('editIndex').value || '-1');
+        const account = accounts[selectedAccountIndex];
+        if (!Array.isArray(account.notes)) account.notes = [];
+        if (editIndex >= 0 && account.notes[editIndex]) {
+          account.notes[editIndex].text = noteText;
+          account.notes[editIndex].when = new Date().toLocaleString();
+        } else {
+          account.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+        }
+        renderAccountNotes(account);
+        renderNotesManager(account);
+        addNoteForm.reset();
+        addNoteForm.elements.namedItem('editIndex').value = '-1';
+      });
+
       addOppFromAccountBtn.addEventListener('click', () => {
+
         populateOppAccountOptions();
         if (selectedAccountName) {
           oppAccountSelect.value = selectedAccountName;
@@ -412,6 +938,7 @@
           owner: fd.get('owner'),
           website: fd.get('website'),
           state: '',
+          notes: [],
           contacts: []
         });
         e.target.reset();
@@ -427,14 +954,18 @@
           account: fd.get('account'),
           stage: fd.get('stage'),
           amount: fd.get('amount'),
+          notes: [],
           contacts: []
         });
         e.target.reset();
         closeModal(addOppModal);
         renderOpps();
+        if (selectedAccountIndex !== null) {
+          renderAccountOpportunities(accounts[selectedAccountIndex]);
+        }
       });
 
-      [accountsModal, accountDetailModal, addAccountModal, addOppModal, oppsModal, oppContactsModal].forEach(backdrop => {
+      [accountsModal, accountDetailModal, addAccountModal, addOppModal, addNoteModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal].forEach(backdrop => {
         backdrop.addEventListener('click', (e) => {
           if (e.target === backdrop) closeModal(backdrop);
         });
