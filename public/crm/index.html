@@ -121,7 +121,7 @@
         </div>
         <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="importAccountsBtn" class="btn" type="button">Import Accounts</button><input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" /><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
         <table class="table">
-          <thead><tr><th>Account</th><th>Type</th><th>Owner</th><th>Open</th></tr></thead>
+          <thead><tr><th>Open</th><th>Account</th><th>Type</th><th>Owner</th></tr></thead>
           <tbody id="accountsRows"></tbody>
         </table>
         <p class="subtle">Click “Contacts” to open second-level contact information for an account.</p>
@@ -228,6 +228,27 @@
       </div>
     </div>
 
+
+    <div id="importAccountsMapModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="importAccountsMapTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="importAccountsMapTitle" class="modal-title">Import Accounts: Map Fields</h2>
+          <button class="close" type="button" data-close="importAccountsMapModal">×</button>
+        </div>
+        <p class="subtle" style="margin-bottom:10px;">Map your file columns to CRM account fields, then import.</p>
+        <form id="importAccountsMapForm">
+          <div class="form-grid">
+            <label>Account Name<select id="mapAccountName" required></select></label>
+            <label>Type<select id="mapAccountType"></select></label>
+            <label>Owner<select id="mapAccountOwner"></select></label>
+            <label>Website<select id="mapAccountWebsite"></select></label>
+            <label>State<select id="mapAccountState"></select></label>
+          </div>
+          <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Import Accounts</button></div>
+        </form>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
       const opportunities = [
@@ -257,6 +278,7 @@
       const oppContactsModal = document.getElementById('oppContactsModal');
             const addAccountModal = document.getElementById('addAccountModal');
       const addOppModal = document.getElementById('addOppModal');
+      const importAccountsMapModal = document.getElementById('importAccountsMapModal');
       const accountsRows = document.getElementById('accountsRows');
       const oppsRows = document.getElementById('oppsRows');
       const oppContactsRows = document.getElementById('oppContactsRows');
@@ -271,9 +293,12 @@
       const editAccountBtn = document.getElementById('editAccountBtn');
       const importAccountsBtn = document.getElementById('importAccountsBtn');
       const importAccountsFileInput = document.getElementById('importAccountsFileInput');
+      const importAccountsMapForm = document.getElementById('importAccountsMapForm');
       let selectedAccountName = null;
       let selectedAccountIndex = null;
       let isEditingAccount = false;
+      let pendingImportRows = [];
+      let pendingImportHeaders = [];
 
       const openModal = (el) => el.classList.add('open');
       const closeModal = (el) => el.classList.remove('open');
@@ -302,14 +327,14 @@
         return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
       }
 
-      function mapAccountRow(row) {
-        const normalized = Object.fromEntries(Object.entries(row || {}).map(([k, v]) => [normalizeHeader(k), String(v || '').trim()]));
+      function mapAccountRow(row, mapping) {
+        const read = (key) => String(row?.[mapping[key]] || '').trim();
         return {
-          name: normalized.account || normalized.accountname || normalized.name || normalized.company || '',
-          type: normalized.type || normalized.accounttype || 'Community College',
-          owner: normalized.owner || normalized.accountowner || normalized.rep || '',
-          website: normalized.website || normalized.url || normalized.domain || '',
-          state: normalized.state || '',
+          name: read('name'),
+          type: read('type') || 'Community College',
+          owner: read('owner'),
+          website: read('website'),
+          state: read('state'),
           contacts: []
         };
       }
@@ -327,12 +352,46 @@
         });
       }
 
-      function applyImportedAccounts(rows) {
+
+      function parseImportRowsFromFile(file, ext) {
+        if (ext === 'csv' || ext === 'tsv' || ext === 'txt') {
+          return file.text().then(parseDelimited);
+        }
+        if (ext === 'xlsx' || ext === 'xls') {
+          if (typeof XLSX === 'undefined') throw new Error('xlsx_missing');
+          return file.arrayBuffer().then((buffer) => {
+            const workbook = XLSX.read(buffer, { type: 'array' });
+            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+            return XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
+          });
+        }
+        throw new Error('unsupported_type');
+      }
+
+      function renderImportMappingOptions(headers) {
+        const defaults = {
+          mapAccountName: ['account', 'account name', 'name', 'company'],
+          mapAccountType: ['type', 'account type'],
+          mapAccountOwner: ['owner', 'account owner', 'rep'],
+          mapAccountWebsite: ['website', 'url', 'domain'],
+          mapAccountState: ['state']
+        };
+        ['mapAccountName','mapAccountType','mapAccountOwner','mapAccountWebsite','mapAccountState'].forEach((id) => {
+          const el = document.getElementById(id);
+          el.innerHTML = '<option value="">-- Skip --</option>' + headers.map(h => `<option value="${h}">${h}</option>`).join('');
+          const normalizedHeaders = headers.map(h => normalizeHeader(h));
+          const desired = defaults[id].map(normalizeHeader);
+          const hitIndex = normalizedHeaders.findIndex(h => desired.includes(h));
+          if (hitIndex >= 0) el.value = headers[hitIndex];
+        });
+      }
+
+      function applyImportedAccounts(rows, mapping) {
         let importedCount = 0;
         const existing = new Set(accounts.map(a => String(a.name || '').trim().toLowerCase()));
 
         rows.forEach((raw) => {
-          const mapped = mapAccountRow(raw);
+          const mapped = mapAccountRow(raw, mapping);
           if (!mapped.name) return;
           const key = mapped.name.toLowerCase();
           if (existing.has(key)) return;
@@ -350,10 +409,10 @@
         accountsCount.textContent = String(accounts.length);
         accountsRows.innerHTML = accounts.map((a, idx) => `
           <tr>
+            <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
             <td>${a.name}</td>
             <td>${a.type}</td>
             <td>${a.owner}</td>
-            <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
           </tr>`).join('');
 
         accountsRows.querySelectorAll('[data-account-open-index]').forEach(btn => {
@@ -437,29 +496,43 @@
 
         const ext = (file.name.split('.').pop() || '').toLowerCase();
         try {
-          if (ext === 'csv' || ext === 'tsv' || ext === 'txt') {
-            const text = await file.text();
-            applyImportedAccounts(parseDelimited(text));
+          const rows = await parseImportRowsFromFile(file, ext);
+          if (!rows.length) {
+            alert('No rows found in import file.');
             return;
           }
-
-          if (ext === 'xlsx' || ext === 'xls') {
-            if (typeof XLSX === 'undefined') {
-              alert('Excel parser failed to load. Please try CSV.');
-              return;
-            }
-            const buffer = await file.arrayBuffer();
-            const workbook = XLSX.read(buffer, { type: 'array' });
-            const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-            const rows = XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
-            applyImportedAccounts(rows);
-            return;
-          }
-
-          alert('Unsupported file type. Use CSV, TSV, XLSX, or XLS.');
+          pendingImportRows = rows;
+          pendingImportHeaders = Object.keys(rows[0] || {});
+          renderImportMappingOptions(pendingImportHeaders);
+          openModal(importAccountsMapModal);
         } catch (error) {
+          if (error.message === 'xlsx_missing') {
+            alert('Excel parser failed to load. Please try CSV.');
+            return;
+          }
+          if (error.message === 'unsupported_type') {
+            alert('Unsupported file type. Use CSV, TSV, XLSX, or XLS.');
+            return;
+          }
           alert('Import failed. Please check your file format and account headers.');
         }
+      });
+
+      importAccountsMapForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const mapping = {
+          name: document.getElementById('mapAccountName').value,
+          type: document.getElementById('mapAccountType').value,
+          owner: document.getElementById('mapAccountOwner').value,
+          website: document.getElementById('mapAccountWebsite').value,
+          state: document.getElementById('mapAccountState').value
+        };
+        if (!mapping.name) {
+          alert('Please map Account Name before importing.');
+          return;
+        }
+        applyImportedAccounts(pendingImportRows, mapping);
+        closeModal(importAccountsMapModal);
       });
 
       function populateOppAccountOptions() {
@@ -509,7 +582,7 @@
         renderOpps();
       });
 
-      [accountsModal, accountDetailModal, addAccountModal, addOppModal, oppsModal, oppContactsModal].forEach(backdrop => {
+      [accountsModal, accountDetailModal, addAccountModal, addOppModal, oppsModal, oppContactsModal, importAccountsMapModal].forEach(backdrop => {
         backdrop.addEventListener('click', (e) => {
           if (e.target === backdrop) closeModal(backdrop);
         });
