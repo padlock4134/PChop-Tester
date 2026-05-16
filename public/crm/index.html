@@ -145,6 +145,11 @@
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
           <tbody id="accountDetailContactsRows"></tbody>
         </table>
+        <h3 style="color: var(--maine-blue); margin: 12px 0 8px;">Related Opportunities</h3>
+        <table class="table">
+          <thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
+          <tbody id="accountDetailOppRows"></tbody>
+        </table>
       </div>
     </div>
 
@@ -326,6 +331,7 @@
             const accountDetailRows = document.getElementById('accountDetailRows');
       const accountDetailTitle = document.getElementById('accountDetailTitle');
       const accountDetailContactsRows = document.getElementById('accountDetailContactsRows');
+      const accountDetailOppRows = document.getElementById('accountDetailOppRows');
             const accountsCount = document.getElementById('accountsCount');
       const oppsCount = document.getElementById('oppsCount');
       const oppContactsTitle = document.getElementById('oppContactsTitle');
@@ -474,6 +480,7 @@
             editAccountBtn.textContent = 'Edit Account';
             renderAccountDetails(account);
             renderAccountContacts(account);
+            renderAccountOpportunities(account);
             openModal(accountDetailModal);
           });
         });
@@ -519,6 +526,13 @@
         assetsRows.innerHTML = assetsBucket.length ? assetsBucket.map(item => `
           <tr><td>${item.name}</td><td>${item.size}</td><td>${item.addedAt}</td></tr>
         `).join('') : '<tr><td colspan="3">No materials uploaded yet.</td></tr>';
+      }
+
+      function renderAccountOpportunities(account) {
+        const related = opportunities.filter(o => String(o.account || '').trim().toLowerCase() === String(account.name || '').trim().toLowerCase());
+        accountDetailOppRows.innerHTML = related.length ? related.map(o => `
+          <tr><td>${o.name}</td><td>${o.stage}</td><td>${o.amount}</td><td>${o.contacts.length}</td></tr>
+        `).join('') : '<tr><td colspan="4">No related opportunities for this account.</td></tr>';
       }
 
       function renderOpps() {
@@ -571,6 +585,7 @@
         editAccountBtn.textContent = 'Edit Account';
         accountDetailTitle.textContent = `${account.name} Details`;
         renderAccountDetails(account);
+        renderAccountOpportunities(account);
         renderAccounts();
       });
 
@@ -720,6 +735,9 @@
         e.target.reset();
         closeModal(addOppModal);
         renderOpps();
+        if (selectedAccountIndex !== null) {
+          renderAccountOpportunities(accounts[selectedAccountIndex]);
+        }
       });
 
       [accountsModal, accountDetailModal, addAccountModal, addOppModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal].forEach(backdrop => {
