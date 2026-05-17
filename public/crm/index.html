@@ -204,15 +204,13 @@
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
         <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
-          <button id="editOppModalBtn" class="btn" type="button">Edit Modal</button>
+          <button id="uploadOppAssetBtn" class="btn" type="button">Upload Asset</button>
+          <input id="oppAssetFileInput" type="file" multiple style="display:none;" />
+          <button id="editOppModalBtn" class="btn" type="button">Edit Opp (contacts, etc)</button>
           <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm">Edit/Add Note</button>
           <button id="closeOppNoteEditorBtn" class="btn" type="button">Close</button>
         </div>
         <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 12px;" />
-        <table class="table">
-          <tbody id="oppDetailRows"></tbody>
-        </table>
-        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
         <table class="table">
           <tbody id="oppDetailRows"></tbody>
         </table>
@@ -234,6 +232,12 @@
             <textarea name="note" placeholder="Enter opportunity note" required style="width:100%; min-height:100px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
           </div>
         </form>
+        <div style="max-height:140px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-top:10px;">
+          <table class="table" style="margin:0;">
+            <thead><tr><th>Uploaded Assets</th><th>Size</th><th>Added</th></tr></thead>
+            <tbody id="oppAssetRows"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -351,21 +355,21 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
       const opportunities = [
-        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', notes: [], contacts: [
+        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', notes: [], assets: [], contacts: [
           { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
           { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
         ]},
-        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', notes: [], contacts: [
+        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', notes: [], assets: [], contacts: [
           { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
         ]}
       ];
 
       const accounts = [
-        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', notes: [], contacts: [
+        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', notes: [], assets: [], contacts: [
           { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
           { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
         ]},
-        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', notes: [], contacts: [
+        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', notes: [], assets: [], contacts: [
           { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
         ]}
       ];
@@ -386,6 +390,7 @@
       const oppContactsRows = document.getElementById('oppContactsRows');
       const oppDetailRows = document.getElementById('oppDetailRows');
       const oppNotesRows = document.getElementById('oppNotesRows');
+      const oppAssetRows = document.getElementById('oppAssetRows');
             const accountDetailRows = document.getElementById('accountDetailRows');
       const accountDetailTitle = document.getElementById('accountDetailTitle');
       const accountDetailContactsRows = document.getElementById('accountDetailContactsRows');
@@ -411,6 +416,8 @@
       const oppNoteForm = document.getElementById('oppNoteForm');
       const closeOppNoteEditorBtn = document.getElementById('closeOppNoteEditorBtn');
       const editOppModalBtn = document.getElementById('editOppModalBtn');
+      const uploadOppAssetBtn = document.getElementById('uploadOppAssetBtn');
+      const oppAssetFileInput = document.getElementById('oppAssetFileInput');
       const uploadAssetBtn = document.getElementById('uploadAssetBtn');
       const assetFileInput = document.getElementById('assetFileInput');
       const assetsRows = document.getElementById('assetsRows');
@@ -455,7 +462,7 @@
           owner: read('owner'),
           website: read('website'),
           state: read('state'),
-          notes: [], contacts: []
+          notes: [], assets: [], contacts: []
         };
       }
 
@@ -664,8 +671,16 @@
           <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
         `).join('');
         renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "Edit Modal";
+        renderOppAssets(opp);
+        editOppModalBtn.textContent = "Edit Opp (contacts, etc)";
         openModal(oppContactsModal);
+      }
+
+      function renderOppAssets(opp) {
+        const rows = opp.assets || [];
+        oppAssetRows.innerHTML = rows.length ? rows.map(a => `
+          <tr><td>${a.name}</td><td>${a.size}</td><td>${a.addedAt}</td></tr>
+        `).join('') : '<tr><td colspan="3">No assets uploaded yet.</td></tr>';
       }
 
       function renderOppNotesManager(opp) {
@@ -696,7 +711,7 @@
             if (Number.isNaN(idx)) return;
             rows.splice(idx, 1);
             renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "Edit Modal";
+        editOppModalBtn.textContent = "Edit Opp (contacts, etc)";
             oppNoteForm.reset();
             oppNoteForm.elements.namedItem('editIndex').value = '-1';
           });
@@ -875,7 +890,7 @@
             <tr><th>Amount</th><td><input data-opp-edit-field="amount" value="${opp.amount || ''}" style="width:100%;" /></td></tr>
             <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
           `;
-          editOppModalBtn.textContent = 'Save Modal';
+          editOppModalBtn.textContent = 'Save Opp';
           return;
         }
         opp.name = oppDetailRows.querySelector('[data-opp-edit-field="name"]').value.trim() || opp.name;
@@ -889,7 +904,7 @@
           <tr><th>Amount</th><td>${opp.amount || '—'}</td></tr>
           <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
         `;
-        editOppModalBtn.textContent = 'Edit Modal';
+        editOppModalBtn.textContent = 'Edit Opp (contacts, etc)';
         renderOpps();
         if (selectedAccountIndex !== null) renderAccountOpportunities(accounts[selectedAccountIndex]);
       });
@@ -897,6 +912,27 @@
       closeOppNoteEditorBtn.addEventListener('click', () => {
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
+      });
+
+      uploadOppAssetBtn.addEventListener('click', () => {
+        if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+        oppAssetFileInput.value = '';
+        oppAssetFileInput.click();
+      });
+
+      oppAssetFileInput.addEventListener('change', (e) => {
+        if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+        const opp = opportunities[selectedOppIndex];
+        if (!Array.isArray(opp.assets)) opp.assets = [];
+        const files = Array.from(e.target.files || []);
+        files.forEach((file) => {
+          opp.assets.push({
+            name: file.name,
+            size: `${Math.max(1, Math.round(file.size / 1024))} KB`,
+            addedAt: new Date().toLocaleString()
+          });
+        });
+        renderOppAssets(opp);
       });
 
       oppNoteForm.addEventListener('submit', (e) => {
@@ -914,7 +950,7 @@
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
         renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "Edit Modal";
+        editOppModalBtn.textContent = "Edit Opp (contacts, etc)";
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
       });
