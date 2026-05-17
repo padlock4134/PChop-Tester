@@ -200,15 +200,15 @@
     <div id="oppContactsModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppContactsTitle" style="max-width:700px;">
         <div class="modal-header">
-          <h2 id="oppContactsTitle" class="modal-title"></h2>
+          <h2 id="oppContactsTitle" class="modal-title">Opportunity Details</h2>
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
         <div style="display:flex; justify-content:center; gap:8px; margin-bottom:10px;">
           <button id="uploadOppAssetBtn" class="btn" type="button">Upload Asset</button>
           <input id="oppAssetFileInput" type="file" multiple style="display:none;" />
-          <button id="editOppModalBtn" class="btn" type="button">Edit Opp (contacts, etc)</button>
+          <button id="editOppModalBtn" class="btn" type="button">Edit Opportunity</button>
           <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm">Edit/Add Note</button>
-          <button id="closeOppNoteEditorBtn" class="btn" type="button">Close</button>
+          <button id="closeOppNoteEditorBtn" class="btn" type="button">Clear Note</button>
         </div>
         <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 12px;" />
         <table class="table">
@@ -656,10 +656,11 @@
         });
       }
 
-      function openOpportunityContactsModal(opp) {
+      function openOpportunityContactsModal(oppIndex) {
+        const opp = opportunities[oppIndex];
         if (!opp) return;
-        selectedOppIndex = opportunities.indexOf(opp);
-        oppContactsTitle.textContent = "";
+        selectedOppIndex = oppIndex;
+        oppContactsTitle.textContent = `${opp.name} Opportunity`;
         oppDetailRows.innerHTML = `
           <tr><th>Opportunity</th><td>${opp.name || '—'}</td></tr>
           <tr><th>Account</th><td>${opp.account || '—'}</td></tr>
@@ -672,7 +673,7 @@
         `).join('');
         renderOppNotesManager(opp);
         renderOppAssets(opp);
-        editOppModalBtn.textContent = "Edit Opp (contacts, etc)";
+        editOppModalBtn.textContent = "Edit Opportunity";
         openModal(oppContactsModal);
       }
 
@@ -711,7 +712,7 @@
             if (Number.isNaN(idx)) return;
             rows.splice(idx, 1);
             renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "Edit Opp (contacts, etc)";
+        editOppModalBtn.textContent = "Edit Opportunity";
             oppNoteForm.reset();
             oppNoteForm.elements.namedItem('editIndex').value = '-1';
           });
@@ -740,7 +741,7 @@
         oppsRows.querySelectorAll('[data-opp-contact-index]').forEach(btn => {
           btn.addEventListener('click', () => {
             const opp = opportunities[Number(btn.dataset.oppContactIndex)];
-            openOpportunityContactsModal(opp);
+            openOpportunityContactsModal(Number(btn.dataset.oppContactIndex));
           });
         });
       }
@@ -890,7 +891,7 @@
             <tr><th>Amount</th><td><input data-opp-edit-field="amount" value="${opp.amount || ''}" style="width:100%;" /></td></tr>
             <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
           `;
-          editOppModalBtn.textContent = 'Save Opp';
+          editOppModalBtn.textContent = 'Save Opportunity';
           return;
         }
         opp.name = oppDetailRows.querySelector('[data-opp-edit-field="name"]').value.trim() || opp.name;
@@ -904,7 +905,7 @@
           <tr><th>Amount</th><td>${opp.amount || '—'}</td></tr>
           <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
         `;
-        editOppModalBtn.textContent = 'Edit Opp (contacts, etc)';
+        editOppModalBtn.textContent = 'Edit Opportunity';
         renderOpps();
         if (selectedAccountIndex !== null) renderAccountOpportunities(accounts[selectedAccountIndex]);
       });
@@ -950,7 +951,7 @@
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
         renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "Edit Opp (contacts, etc)";
+        editOppModalBtn.textContent = "Edit Opportunity";
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
       });
