@@ -87,12 +87,8 @@
 
           <div class="sections">
             <article class="panel">
-              <h3>Today’s Focus</h3>
-              <ul class="list">
-                <li>Follow up on SUNY pilot proposal.</li>
-                <li>Complete discovery notes for 2 new colleges.</li>
-                <li>Close blocked tasks and update next steps.</li>
-              </ul>
+              <h3>Task List</h3>
+              <ul id="dashboardTaskList" class="list"></ul>
             </article>
             <article class="panel">
               <h3>Stage Mix</h3>
@@ -133,7 +129,7 @@
     <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px;">
         <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
-          <div class="right" style="display:flex; gap:8px; justify-content:center; margin:0;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="editContactBtn" class="btn" type="button">Add/Edit Contact</button><button id="addNoteBtn" class="btn primary" type="button">+ Add Note</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button><button class="close" type="button" data-close="accountDetailModal">×</button></div>
+          <div class="right" style="display:flex; gap:8px; justify-content:center; margin:0;"><button id="editAccountBtn" class="btn" type="button">Edit Account</button><button id="editContactBtn" class="btn" type="button">Add/Edit Contact</button><button id="addTaskBtn" class="btn primary" type="button">+ Add Task</button><button id="addNoteBtn" class="btn primary" type="button">+ Add Note</button><button id="addOppFromAccountBtn" class="btn primary" type="button">+ Add Opp for this Account</button><button class="close" type="button" data-close="accountDetailModal">×</button></div>
           <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 0;" />
         </div>
         <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
@@ -155,6 +151,34 @@
           <thead><tr><th>When</th><th>Note</th></tr></thead>
           <tbody id="accountNotesRows"></tbody>
         </table>
+        <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+        <table class="table">
+          <thead><tr><th>Task</th><th>Due</th><th>Status</th></tr></thead>
+          <tbody id="accountTaskRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="addTaskModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addTaskTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="addTaskTitle" class="modal-title">Add Account Task</h2>
+          <button class="close" type="button" data-close="addTaskModal">×</button>
+        </div>
+        <form id="addTaskForm">
+          <div class="form-grid">
+            <input name="title" placeholder="Task title" required />
+            <input name="dueDate" type="date" required />
+            <select name="status" required>
+              <option value="">Select status</option>
+              <option>open</option>
+              <option>in_progress</option>
+              <option>blocked</option>
+              <option>done</option>
+            </select>
+          </div>
+          <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Task</button></div>
+        </form>
       </div>
     </div>
 
@@ -355,21 +379,21 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
       const opportunities = [
-        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', notes: [], assets: [], contacts: [
+        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', notes: [], tasks: [], assets: [], contacts: [
           { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
           { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
         ]},
-        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', notes: [], assets: [], contacts: [
+        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', notes: [], tasks: [], assets: [], contacts: [
           { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
         ]}
       ];
 
       const accounts = [
-        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', notes: [], assets: [], contacts: [
+        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', notes: [], tasks: [], assets: [], contacts: [
           { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
           { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
         ]},
-        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', notes: [], assets: [], contacts: [
+        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', notes: [], tasks: [], assets: [], contacts: [
           { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
         ]}
       ];
@@ -379,6 +403,7 @@
       const oppsModal = document.getElementById('oppsModal');
       const addNoteModal = document.getElementById('addNoteModal');
       const accountDetailModal = document.getElementById('accountDetailModal');
+      const addTaskModal = document.getElementById('addTaskModal');
       const oppContactsModal = document.getElementById('oppContactsModal');
             const addAccountModal = document.getElementById('addAccountModal');
       const addOppModal = document.getElementById('addOppModal');
@@ -396,11 +421,13 @@
       const accountDetailContactsRows = document.getElementById('accountDetailContactsRows');
       const accountDetailOppRows = document.getElementById('accountDetailOppRows');
       const accountNotesRows = document.getElementById('accountNotesRows');
+      const accountTaskRows = document.getElementById('accountTaskRows');
             const accountsCount = document.getElementById('accountsCount');
       const oppsCount = document.getElementById('oppsCount');
       const oppContactsTitle = document.getElementById('oppContactsTitle');
       const oppAccountSelect = document.getElementById('oppAccountSelect');
       const addOppFromAccountBtn = document.getElementById('addOppFromAccountBtn');
+      const addTaskBtn = document.getElementById('addTaskBtn');
       const addNoteBtn = document.getElementById('addNoteBtn');
       const editAccountBtn = document.getElementById('editAccountBtn');
       const assetsBtn = document.getElementById('assetsBtn');
@@ -410,6 +437,7 @@
       const editContactBtn = document.getElementById('editContactBtn');
       const editContactForm = document.getElementById('editContactForm');
       const contactPicker = document.getElementById('contactPicker');
+      const addTaskForm = document.getElementById('addTaskForm');
       const addNoteForm = document.getElementById('addNoteForm');
       const notesManagerRows = document.getElementById('notesManagerRows');
       const closeNoteEditorBtn = document.getElementById('closeNoteEditorBtn');
@@ -462,7 +490,7 @@
           owner: read('owner'),
           website: read('website'),
           state: read('state'),
-          notes: [], assets: [], contacts: []
+          notes: [], tasks: [], assets: [], contacts: []
         };
       }
 
@@ -528,8 +556,28 @@
         });
 
         renderAccounts();
+        renderDashboardTasks();
         populateOppAccountOptions();
         alert(importedCount ? `Imported ${importedCount} accounts.` : 'No accounts were imported. Check required columns like Account Name.');
+      }
+
+      function renderDashboardTasks() {
+        const dashboardTaskList = document.getElementById('dashboardTaskList');
+        if (!dashboardTaskList) return;
+        const taskItems = [];
+        accounts.forEach((account) => {
+          (account.tasks || []).forEach((task) => {
+            taskItems.push({ account: account.name, title: task.title, dueDate: task.dueDate, status: task.status });
+          });
+        });
+
+        if (!taskItems.length) {
+          dashboardTaskList.innerHTML = '<li>No tasks yet. Add tasks from an account.</li>';
+          return;
+        }
+
+        const sorted = taskItems.sort((a, b) => String(a.dueDate || '').localeCompare(String(b.dueDate || '')));
+        dashboardTaskList.innerHTML = sorted.map((t) => `<li><b>${t.title}</b> — ${t.account} · ${t.dueDate || 'No due date'} · ${t.status || 'open'}</li>`).join('');
       }
 
       function renderAccounts() {
@@ -554,6 +602,7 @@
             renderAccountContacts(account);
             renderAccountOpportunities(account);
             renderAccountNotes(account);
+            renderAccountTasks(account);
             openModal(accountDetailModal);
           });
         });
@@ -599,6 +648,13 @@
         assetsRows.innerHTML = assetsBucket.length ? assetsBucket.map(item => `
           <tr><td>${item.name}</td><td>${item.size}</td><td>${item.addedAt}</td></tr>
         `).join('') : '<tr><td colspan="3">No materials uploaded yet.</td></tr>';
+      }
+
+      function renderAccountTasks(account) {
+        const rows = account.tasks || [];
+        accountTaskRows.innerHTML = rows.length ? rows.map(t => `
+          <tr><td>${t.title}</td><td>${t.dueDate}</td><td>${t.status}</td></tr>
+        `).join('') : '<tr><td colspan="3">No tasks yet.</td></tr>';
       }
 
       function renderAccountNotes(account) {
@@ -775,6 +831,7 @@
         renderAccountDetails(account);
         renderAccountOpportunities(account);
         renderAccounts();
+        renderDashboardTasks();
       });
 
       assetsBtn.addEventListener('click', () => {
@@ -961,9 +1018,34 @@
         oppAccountSelect.innerHTML = '<option value="">Select account</option>' + accounts.map(a => `<option value="${a.name}">${a.name}</option>`).join('');
       }
 
+      renderDashboardTasks();
       document.getElementById('oppsCard').addEventListener('click', () => { renderOpps(); openModal(oppsModal); });
       accountsCard.addEventListener('click', () => { renderAccounts(); openModal(accountsModal); });
       document.getElementById('addAccountBtn').addEventListener('click', () => openModal(addAccountModal));
+
+      addTaskBtn.addEventListener('click', () => {
+        if (selectedAccountIndex === null) {
+          alert('Open an account first.');
+          return;
+        }
+        addTaskForm.reset();
+        openModal(addTaskModal);
+      });
+
+      addTaskForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (selectedAccountIndex === null) return;
+        const account = accounts[selectedAccountIndex];
+        if (!Array.isArray(account.tasks)) account.tasks = [];
+        const fd = new FormData(addTaskForm);
+        account.tasks.unshift({
+          title: String(fd.get('title') || '').trim(),
+          dueDate: String(fd.get('dueDate') || ''),
+          status: String(fd.get('status') || '')
+        });
+        renderAccountTasks(account);
+        closeModal(addTaskModal);
+      });
 
       addNoteBtn.addEventListener('click', () => {
         if (selectedAccountIndex === null) {
@@ -1026,6 +1108,7 @@
         e.target.reset();
         closeModal(addAccountModal);
         renderAccounts();
+        renderDashboardTasks();
       });
 
       document.getElementById('addOppForm').addEventListener('submit', (e) => {
@@ -1047,7 +1130,7 @@
         }
       });
 
-      [accountsModal, accountDetailModal, addAccountModal, addOppModal, addNoteModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal].forEach(backdrop => {
+      [accountsModal, accountDetailModal, addAccountModal, addOppModal, addNoteModal, addTaskModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal].forEach(backdrop => {
         backdrop.addEventListener('click', (e) => {
           if (e.target === backdrop) closeModal(backdrop);
         });
