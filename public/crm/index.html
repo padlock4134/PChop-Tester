@@ -42,7 +42,7 @@
       .modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,.55); display: none; align-items: center; justify-content: center; padding: 18px; z-index: 1000; }
       .modal-backdrop.open { display: flex; }
       .modal { width: 100%; max-width: 880px; background: #fff; border: 4px solid var(--maine-blue); border-radius: 14px; padding: 16px; max-height: 88vh; overflow: auto; }
-      .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+      .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; position: sticky; top: 0; z-index: 3; background: #fff; padding: 0 0 10px; border-bottom: 2px solid #cbd5e1; }
       .modal-title { margin: 0; color: var(--maine-blue); }
       .close { border: 0; background: transparent; font-size: 24px; cursor: pointer; color: #334155; }
       .table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -115,7 +115,12 @@
           <h2 id="accountsTitle" class="modal-title">Accounts</h2>
           <button class="close" type="button" data-close="accountsModal">×</button>
         </div>
-        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="assetsBtn" class="btn" type="button">Assets</button><button id="importAccountsBtn" class="btn" type="button">Import Accounts</button><input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" /><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
+        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;">
+          <button id="assetsBtn" class="btn" type="button" aria-label="Assets" title="Assets">🏷️</button>
+          <button id="importAccountsBtn" class="btn" type="button" aria-label="Import Accounts" title="Import Accounts">📥</button>
+          <input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" />
+          <button id="addAccountBtn" class="btn primary" type="button" aria-label="Add Account" title="Add Account">➕</button>
+        </div>
         <table class="table">
           <thead><tr><th>Open</th><th>Account</th><th>Type</th><th>Owner</th></tr></thead>
           <tbody id="accountsRows"></tbody>
@@ -128,21 +133,24 @@
 
     <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px; overflow:visible;">
-        <div style="position:sticky; top:0; z-index:3; width:0; height:0;">
-          <div style="transform:translateX(-178px); border-left:3px solid #1f3a5f; background:#fff; padding:8px 8px 8px 8px; width:170px; box-shadow:0 2px 8px rgba(15,23,42,.12); border-radius:0 10px 10px 0;">
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <button id="editAccountBtn" class="btn" type="button">Edit Account</button>
-              <button id="addTaskBtn" class="btn" type="button">Add/Edit Task</button>
-              <button id="addNoteBtn" class="btn" type="button">Add/Edit Note</button>
-              <button id="addOppFromAccountBtn" class="btn" type="button">Add/Edit Opp</button>
+        <div style="display:flex; justify-content:flex-end; position:sticky; top:0; z-index:4; background:#fff; padding-top:4px;">
+          <button class="close" type="button" data-close="accountDetailModal">×</button>
+        </div>
+        <div style="position:sticky; top:10px; z-index:5; width:0; height:0;">
+          <div style="transform:translateX(-66px); border:2px solid #1f3a5f; border-left-width:0; border-right-width:0; background:linear-gradient(180deg,#f8fafc 0%, #ffffff 85%); padding:4px; width:64px; box-shadow:none; border-radius:0;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <button id="editAccountBtn" class="btn" type="button" aria-label="Edit Account" style="padding:6px 0; min-height:32px;">👤</button>
+              <button id="addTaskBtn" class="btn" type="button" aria-label="Add/Edit Task" style="padding:6px 0; min-height:32px;">🗓️</button>
+              <button id="addNoteBtn" class="btn" type="button" aria-label="Add/Edit Note" style="padding:6px 0; min-height:32px;">📝</button>
+              <button id="addOppFromAccountBtn" class="btn" type="button" aria-label="Add/Edit Opportunity" style="padding:6px 0; min-height:32px;">🎯</button>
             </div>
           </div>
-          <div style="transform:translateX(0); display:flex; justify-content:flex-end; padding-top:8px;"><button class="close" type="button" data-close="accountDetailModal">×</button></div>
         </div>
         <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
+          <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
           <hr style="border:0; border-top:3px solid #cbd5e1; margin:0 0 12px;" />
         </div>
-        <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
+        <div style="max-height:72vh; overflow:auto; padding-right:4px;">
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
@@ -166,6 +174,7 @@
           <thead><tr><th>Task</th><th>Due</th><th>Status</th></tr></thead>
           <tbody id="accountTaskRows"></tbody>
         </table>
+        </div>
       </div>
     </div>
 
@@ -237,15 +246,16 @@
           <h2 id="oppContactsTitle" class="modal-title">Opportunity Details</h2>
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
-        <div style="position:sticky; top:0; z-index:3; width:0; height:0;">
-          <div style="transform:translateX(-178px); border-left:3px solid #1f3a5f; background:#fff; padding:8px; width:170px; box-shadow:0 2px 8px rgba(15,23,42,.12); border-radius:0 10px 10px 0; display:flex; flex-direction:column; gap:8px;">
-            <button id="uploadOppAssetBtn" class="btn" type="button">Upload Asset</button>
+        <div style="position:sticky; top:10px; z-index:5; width:0; height:0;">
+          <div style="transform:translateX(-66px); border:2px solid #1f3a5f; border-left-width:0; border-right-width:0; background:linear-gradient(180deg,#f8fafc 0%, #ffffff 85%); padding:4px; width:64px; box-shadow:none; border-radius:0; display:flex; flex-direction:column; gap:4px;">
+            <button id="uploadOppAssetBtn" class="btn" type="button" aria-label="Upload Asset" style="padding:6px 0; min-height:32px;">📎</button>
             <input id="oppAssetFileInput" type="file" multiple style="display:none;" />
-            <button id="editOppModalBtn" class="btn" type="button">Edit Opportunity</button>
-            <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm">Edit/Add Note</button>
-            <button id="closeOppNoteEditorBtn" class="btn" type="button">Clear Note</button>
+            <button id="editOppModalBtn" class="btn" type="button" aria-label="Edit Opportunity" style="padding:6px 0; min-height:32px;">✏️</button>
+            <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm" aria-label="Edit/Add Note" style="padding:6px 0; min-height:32px;">📝</button>
+            <button id="closeOppNoteEditorBtn" class="btn" type="button" aria-label="Clear Note" style="padding:6px 0; min-height:32px;">🧹</button>
           </div>
         </div>
+        <div style="max-height:72vh; overflow:auto; padding-right:4px;">
         <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 12px;" />
         <table class="table">
           <tbody id="oppDetailRows"></tbody>
@@ -273,6 +283,7 @@
             <thead><tr><th>Uploaded Assets</th><th>Size</th><th>Added</th></tr></thead>
             <tbody id="oppAssetRows"></tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>
@@ -608,7 +619,7 @@
             selectedAccountName = account.name;
             accountDetailTitle.textContent = account.name;
             isEditingAccount = false;
-            editAccountBtn.textContent = 'Edit Account';
+            editAccountBtn.textContent = '👤';
             renderAccountDetails(account);
             renderAccountContacts(account);
             renderAccountOpportunities(account);
@@ -1005,7 +1016,7 @@
 
         if (!isEditingAccount) {
           isEditingAccount = true;
-          editAccountBtn.textContent = 'Save Account';
+          editAccountBtn.textContent = '💾';
           renderAccountDetails(account);
           return;
         }
@@ -1022,7 +1033,7 @@
         selectedAccountName = account.name;
 
         isEditingAccount = false;
-        editAccountBtn.textContent = 'Edit Account';
+        editAccountBtn.textContent = '👤';
         accountDetailTitle.textContent = account.name;
         renderAccountDetails(account);
         renderAccounts();
