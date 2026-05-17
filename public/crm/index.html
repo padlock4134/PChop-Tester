@@ -127,7 +127,7 @@
 
 
     <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px; overflow:auto;">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px; overflow:visible;">
         <div style="display:flex; justify-content:flex-end; position:sticky; top:0; z-index:4; background:#fff; padding-top:4px;">
           <button class="close" type="button" data-close="accountDetailModal">×</button>
         </div>
@@ -144,6 +144,7 @@
         <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
           <hr style="border:0; border-top:3px solid #cbd5e1; margin:0 0 12px;" />
         </div>
+        <div style="max-height:72vh; overflow:auto; padding-right:4px;">
         <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
@@ -168,6 +169,7 @@
           <thead><tr><th>Task</th><th>Due</th><th>Status</th></tr></thead>
           <tbody id="accountTaskRows"></tbody>
         </table>
+        </div>
       </div>
     </div>
 
@@ -248,6 +250,7 @@
             <button id="closeOppNoteEditorBtn" class="btn" type="button">🧹 Clear Note</button>
           </div>
         </div>
+        <div style="max-height:72vh; overflow:auto; padding-right:4px;">
         <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 12px;" />
         <table class="table">
           <tbody id="oppDetailRows"></tbody>
@@ -275,6 +278,7 @@
             <thead><tr><th>Uploaded Assets</th><th>Size</th><th>Added</th></tr></thead>
             <tbody id="oppAssetRows"></tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>
