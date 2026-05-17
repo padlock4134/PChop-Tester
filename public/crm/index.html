@@ -129,8 +129,9 @@
     <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px;">
         <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
-          <div style="position:sticky; top:0; z-index:2; background:#fff; display:flex; align-items:stretch; margin:0 0 10px; border-left:3px solid #cbd5e1; padding-left:8px;">
-            <div style="display:flex; flex-direction:column; gap:8px; padding:8px 0; min-width:170px;">
+          <div style="display:flex; align-items:stretch; margin:0 0 10px; border-left:3px solid #cbd5e1;">
+            <div style="display:flex; flex-direction:column; gap:8px; padding:8px 0 8px 8px; min-width:170px;">
+              <button id="editAccountBtn" class="btn" type="button">Edit Account</button>
               <button id="addTaskBtn" class="btn" type="button">Add/Edit Task</button>
               <button id="addNoteBtn" class="btn" type="button">Add/Edit Note</button>
               <button id="addOppFromAccountBtn" class="btn" type="button">Add/Edit Opp</button>
@@ -434,6 +435,7 @@
       const oppContactsTitle = document.getElementById('oppContactsTitle');
       const oppAccountSelect = document.getElementById('oppAccountSelect');
       const addOppFromAccountBtn = document.getElementById('addOppFromAccountBtn');
+      const editAccountBtn = document.getElementById('editAccountBtn');
       const addTaskBtn = document.getElementById('addTaskBtn');
       const addNoteBtn = document.getElementById('addNoteBtn');
             const assetsBtn = document.getElementById('assetsBtn');
@@ -602,6 +604,7 @@
             selectedAccountName = account.name;
             accountDetailTitle.textContent = account.name;
             isEditingAccount = false;
+            editAccountBtn.textContent = 'Edit Account';
             renderAccountDetails(account);
             renderAccountContacts(account);
             renderAccountOpportunities(account);
@@ -991,6 +994,35 @@
       document.getElementById('oppsCard').addEventListener('click', () => { renderOpps(); openModal(oppsModal); });
       accountsCard.addEventListener('click', () => { renderAccounts(); openModal(accountsModal); });
       document.getElementById('addAccountBtn').addEventListener('click', () => openModal(addAccountModal));
+
+      editAccountBtn.addEventListener('click', () => {
+        if (selectedAccountIndex === null) return;
+        const account = accounts[selectedAccountIndex];
+
+        if (!isEditingAccount) {
+          isEditingAccount = true;
+          editAccountBtn.textContent = 'Save Account';
+          renderAccountDetails(account);
+          return;
+        }
+
+        const nameField = accountDetailRows.querySelector('[data-inline-account-field="name"]');
+        const typeField = accountDetailRows.querySelector('[data-inline-account-field="type"]');
+        const ownerField = accountDetailRows.querySelector('[data-inline-account-field="owner"]');
+        const websiteField = accountDetailRows.querySelector('[data-inline-account-field="website"]');
+
+        account.name = nameField?.value?.trim() || account.name;
+        account.type = typeField?.value || account.type;
+        account.owner = ownerField?.value?.trim() || account.owner;
+        account.website = websiteField?.value?.trim() || account.website;
+        selectedAccountName = account.name;
+
+        isEditingAccount = false;
+        editAccountBtn.textContent = 'Edit Account';
+        accountDetailTitle.textContent = account.name;
+        renderAccountDetails(account);
+        renderAccounts();
+      });
 
       addTaskBtn.addEventListener('click', () => {
         if (selectedAccountIndex === null) {
