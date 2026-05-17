@@ -128,20 +128,23 @@
 
     <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px; overflow:visible;">
+        <div style="display:flex; justify-content:flex-end; position:sticky; top:0; z-index:4; background:#fff; padding-top:4px;">
+          <button class="close" type="button" data-close="accountDetailModal">×</button>
+        </div>
         <div style="position:sticky; top:0; z-index:3; width:0; height:0;">
-          <div style="transform:translateX(-178px); border-left:3px solid #1f3a5f; background:#fff; padding:8px 8px 8px 8px; width:170px; box-shadow:0 2px 8px rgba(15,23,42,.12); border-radius:0 10px 10px 0;">
+          <div style="transform:translateX(-178px); border:2px solid #1f3a5f; border-left-width:0; border-right-width:0; background:linear-gradient(180deg,#f8fafc 0%, #ffffff 85%); padding:8px; width:170px; box-shadow:none; border-radius:0;">
             <div style="display:flex; flex-direction:column; gap:8px;">
-              <button id="editAccountBtn" class="btn" type="button">Edit Account</button>
-              <button id="addTaskBtn" class="btn" type="button">Add/Edit Task</button>
-              <button id="addNoteBtn" class="btn" type="button">Add/Edit Note</button>
-              <button id="addOppFromAccountBtn" class="btn" type="button">Add/Edit Opp</button>
+              <button id="editAccountBtn" class="btn" type="button" aria-label="Edit Account">✏️</button>
+              <button id="addTaskBtn" class="btn" type="button" aria-label="Add/Edit Task">🗓️</button>
+              <button id="addNoteBtn" class="btn" type="button" aria-label="Add/Edit Note">📝</button>
+              <button id="addOppFromAccountBtn" class="btn" type="button" aria-label="Add/Edit Opportunity">🎯</button>
             </div>
           </div>
-          <div style="transform:translateX(0); display:flex; justify-content:flex-end; padding-top:8px;"><button class="close" type="button" data-close="accountDetailModal">×</button></div>
         </div>
         <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
           <hr style="border:0; border-top:3px solid #cbd5e1; margin:0 0 12px;" />
         </div>
+        <div style="max-height:72vh; overflow:auto; padding-right:4px;">
         <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
@@ -166,6 +169,7 @@
           <thead><tr><th>Task</th><th>Due</th><th>Status</th></tr></thead>
           <tbody id="accountTaskRows"></tbody>
         </table>
+        </div>
       </div>
     </div>
 
@@ -238,14 +242,15 @@
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
         <div style="position:sticky; top:0; z-index:3; width:0; height:0;">
-          <div style="transform:translateX(-178px); border-left:3px solid #1f3a5f; background:#fff; padding:8px; width:170px; box-shadow:0 2px 8px rgba(15,23,42,.12); border-radius:0 10px 10px 0; display:flex; flex-direction:column; gap:8px;">
-            <button id="uploadOppAssetBtn" class="btn" type="button">Upload Asset</button>
+          <div style="transform:translateX(-178px); border:2px solid #1f3a5f; border-left-width:0; border-right-width:0; background:linear-gradient(180deg,#f8fafc 0%, #ffffff 85%); padding:8px; width:170px; box-shadow:none; border-radius:0; display:flex; flex-direction:column; gap:8px;">
+            <button id="uploadOppAssetBtn" class="btn" type="button" aria-label="Upload Asset">📎</button>
             <input id="oppAssetFileInput" type="file" multiple style="display:none;" />
-            <button id="editOppModalBtn" class="btn" type="button">Edit Opportunity</button>
-            <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm">Edit/Add Note</button>
-            <button id="closeOppNoteEditorBtn" class="btn" type="button">Clear Note</button>
+            <button id="editOppModalBtn" class="btn" type="button" aria-label="Edit Opportunity">✏️</button>
+            <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm" aria-label="Edit/Add Note">📝</button>
+            <button id="closeOppNoteEditorBtn" class="btn" type="button" aria-label="Clear Note">🧹</button>
           </div>
         </div>
+        <div style="max-height:72vh; overflow:auto; padding-right:4px;">
         <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 12px;" />
         <table class="table">
           <tbody id="oppDetailRows"></tbody>
@@ -273,6 +278,7 @@
             <thead><tr><th>Uploaded Assets</th><th>Size</th><th>Added</th></tr></thead>
             <tbody id="oppAssetRows"></tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>
