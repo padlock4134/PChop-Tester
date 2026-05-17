@@ -115,7 +115,12 @@
           <h2 id="accountsTitle" class="modal-title">Accounts</h2>
           <button class="close" type="button" data-close="accountsModal">×</button>
         </div>
-        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="assetsBtn" class="btn" type="button">Assets</button><button id="importAccountsBtn" class="btn" type="button">Import Accounts</button><input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" /><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
+        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;">
+          <button id="assetsBtn" class="btn" type="button" aria-label="Assets" title="Assets">🏷️</button>
+          <button id="importAccountsBtn" class="btn" type="button" aria-label="Import Accounts" title="Import Accounts">📥</button>
+          <input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" />
+          <button id="addAccountBtn" class="btn primary" type="button" aria-label="Add Account" title="Add Account">➕</button>
+        </div>
         <table class="table">
           <thead><tr><th>Open</th><th>Account</th><th>Type</th><th>Owner</th></tr></thead>
           <tbody id="accountsRows"></tbody>
