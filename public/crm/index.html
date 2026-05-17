@@ -614,7 +614,7 @@
             selectedAccountName = account.name;
             accountDetailTitle.textContent = account.name;
             isEditingAccount = false;
-            editAccountBtn.textContent = 'Edit Account';
+            editAccountBtn.textContent = '👤';
             renderAccountDetails(account);
             renderAccountContacts(account);
             renderAccountOpportunities(account);
@@ -1011,7 +1011,7 @@
 
         if (!isEditingAccount) {
           isEditingAccount = true;
-          editAccountBtn.textContent = 'Save Account';
+          editAccountBtn.textContent = '💾';
           renderAccountDetails(account);
           return;
         }
@@ -1028,7 +1028,7 @@
         selectedAccountName = account.name;
 
         isEditingAccount = false;
-        editAccountBtn.textContent = 'Edit Account';
+        editAccountBtn.textContent = '👤';
         accountDetailTitle.textContent = account.name;
         renderAccountDetails(account);
         renderAccounts();
