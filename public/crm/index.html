@@ -117,7 +117,7 @@
           <button id="addAccountBtn" class="btn primary" type="button" aria-label="Add Account" title="Add Account">➕</button>
         </div>
         <table class="table">
-          <thead><tr><th>Open</th><th>Account</th><th>Type</th><th>Owner</th></tr></thead>
+          <thead><tr><th>Open</th><th>Account</th><th>Type</th><th>Lead Status</th><th>Owner</th></tr></thead>
           <tbody id="accountsRows"></tbody>
         </table>
         <p class="subtle">Click “Contacts” to open second-level contact information for an account.</p>
@@ -480,6 +480,7 @@
             _id: row.id,
             name: row.name,
             type: row.account_type || '',
+            lead_status: row.lead_status || 'new',
             owner: row.owner_user_id || '',
             website: row.website || '',
             state: row.state_region || '',
@@ -628,11 +629,13 @@
         if (!account) return;
         accountDetailRows.innerHTML = isEditingAccount ? `
                     <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option ${account.type === 'Community College' ? 'selected' : ''}>Community College</option><option ${account.type === 'K-12 Secondary' ? 'selected' : ''}>K-12 Secondary</option><option ${account.type === 'Industry' ? 'selected' : ''}>Industry</option></select></td></tr>
+          <tr><th>Lead Status</th><td><select data-inline-account-field="lead_status" style="width:100%;"><option value="new" ${account.lead_status === 'new' ? 'selected' : ''}>New</option><option value="contacted" ${account.lead_status === 'contacted' ? 'selected' : ''}>Contacted</option><option value="qualified" ${account.lead_status === 'qualified' ? 'selected' : ''}>Qualified</option><option value="demo_scheduled" ${account.lead_status === 'demo_scheduled' ? 'selected' : ''}>Demo Scheduled</option><option value="proposal_sent" ${account.lead_status === 'proposal_sent' ? 'selected' : ''}>Proposal Sent</option><option value="nurturing" ${account.lead_status === 'nurturing' ? 'selected' : ''}>Nurturing</option><option value="lost" ${account.lead_status === 'lost' ? 'selected' : ''}>Lost</option></select></td></tr>
           <tr><th>Owner</th><td><input data-inline-account-field="owner" value="${account.owner || ''}" style="width:100%;" /></td></tr>
           <tr><th>Website</th><td><input data-inline-account-field="website" value="${account.website || ''}" style="width:100%;" /></td></tr>
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
         ` : `
                     <tr><th>Type</th><td>${account.type || '—'}</td></tr>
+          <tr><th>Lead Status</th><td>${account.lead_status || 'New'}</td></tr>
           <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
           <tr><th>Website</th><td>${account.website || '—'}</td></tr>
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
@@ -792,6 +795,7 @@
             <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
             <td>${a.name}</td>
             <td>${a.type}</td>
+            <td>${a.lead_status || 'new'}</td>
             <td>${a.owner}</td>
           </tr>`).join('');
 
@@ -1275,18 +1279,20 @@
 
         const nameField = accountDetailRows.querySelector('[data-inline-account-field="name"]');
         const typeField = accountDetailRows.querySelector('[data-inline-account-field="type"]');
+        const leadStatusField = accountDetailRows.querySelector('[data-inline-account-field="lead_status"]');
         const ownerField = accountDetailRows.querySelector('[data-inline-account-field="owner"]');
         const websiteField = accountDetailRows.querySelector('[data-inline-account-field="website"]');
 
         account.name = nameField?.value?.trim() || account.name;
         account.type = typeField?.value || account.type;
+        account.lead_status = leadStatusField?.value || account.lead_status || 'new';
         account.owner = ownerField?.value?.trim() || account.owner;
         account.website = websiteField?.value?.trim() || account.website;
         selectedAccountName = account.name;
 
         if (sb && account._id) {
           const typeMap = { 'Community College': 'individual_college', 'K-12 Secondary': 'other', 'Industry': 'whale_institute' };
-          await sb.from('sales_accounts').update({ name: account.name, account_type: typeMap[account.type] || account.type, website: account.website }).eq('id', account._id);
+          await sb.from('sales_accounts').update({ name: account.name, account_type: typeMap[account.type] || account.type, lead_status: account.lead_status, website: account.website }).eq('id', account._id);
         }
 
         isEditingAccount = false;
