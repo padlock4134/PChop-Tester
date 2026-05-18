@@ -154,7 +154,7 @@
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
         <table class="table">
-          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
+          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Phone</th></tr></thead>
           <tbody id="accountDetailContactsRows"></tbody>
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
@@ -264,7 +264,7 @@
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
         <table class="table">
-          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
+          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Phone</th></tr></thead>
           <tbody id="oppContactsRows"></tbody>
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
@@ -329,9 +329,11 @@
             <input name="name" placeholder="Account name" required />
             <select name="type" required>
               <option value="">Select account type</option>
-              <option>Community College</option>
-              <option>K-12 Secondary</option>
-              <option>Industry</option>
+              <option value="individual_college">Community College</option>
+              <option value="other">K-12 Secondary</option>
+              <option value="whale_institute">Industry</option>
+              <option value="state_system">Association</option>
+              <option value="partner">Partner</option>
             </select>
             <input name="owner" placeholder="Owner" required />
             <input name="website" placeholder="Website" />
@@ -394,7 +396,7 @@
             <input name="name" placeholder="Contact name" required />
             <input name="title" placeholder="Title" />
             <input name="email" placeholder="Email" required />
-            <input name="role" placeholder="Role" />
+            <input name="phone" placeholder="Phone" />
           </div>
           <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Contact</button></div>
         </form>
@@ -432,7 +434,7 @@
       let currentUserId = null;
       let currentUserName = 'You';
 
-      const TYPE_LABELS = { individual_college: 'Community College', state_system: 'State System', whale_institute: 'Industry', other: 'K-12 Secondary' };
+      const TYPE_LABELS = { individual_college: 'Community College', state_system: 'Association', whale_institute: 'Industry', partner: 'Partner', other: 'K-12 Secondary' };
       const STATUS_LABELS = { new: 'New', contacted: 'Contacted', qualified: 'Qualified', demo_scheduled: 'Demo Scheduled', proposal_sent: 'Proposal Sent', nurturing: 'Nurturing', lost: 'Lost' };
       const ownerNames = {};
 
@@ -499,7 +501,7 @@
             notes: tryParseJson(row.notes, []),
             tasks: myTasks.map(t => ({ _id: t.id, title: t.title, dueDate: t.due_date, status: t.status, priority: t.priority || 'medium' })),
             assets: [],
-            contacts: myContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', role: c.role_in_deal || '' }))
+            contacts: myContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', phone: c.phone || '' }))
           });
         }
       }
@@ -525,7 +527,7 @@
             notes: tryParseJson(row.notes, []),
             tasks: [],
             assets: [],
-            contacts: oppContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', role: c.role_in_deal || '' }))
+            contacts: oppContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', phone: c.phone || '' }))
           });
         }
       }
@@ -641,7 +643,7 @@
       function renderAccountDetails(account) {
         if (!account) return;
         accountDetailRows.innerHTML = isEditingAccount ? `
-                    <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option ${account.type === 'Community College' ? 'selected' : ''}>Community College</option><option ${account.type === 'K-12 Secondary' ? 'selected' : ''}>K-12 Secondary</option><option ${account.type === 'Industry' ? 'selected' : ''}>Industry</option></select></td></tr>
+                    <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option value="individual_college" ${account.type === 'individual_college' ? 'selected' : ''}>Community College</option><option value="other" ${account.type === 'other' ? 'selected' : ''}>K-12 Secondary</option><option value="whale_institute" ${account.type === 'whale_institute' ? 'selected' : ''}>Industry</option><option value="state_system" ${account.type === 'state_system' ? 'selected' : ''}>Association</option><option value="partner" ${account.type === 'partner' ? 'selected' : ''}>Partner</option></select></td></tr>
           <tr><th>Lead Status</th><td><select data-inline-account-field="lead_status" style="width:100%;"><option value="new" ${account.lead_status === 'new' ? 'selected' : ''}>New</option><option value="contacted" ${account.lead_status === 'contacted' ? 'selected' : ''}>Contacted</option><option value="qualified" ${account.lead_status === 'qualified' ? 'selected' : ''}>Qualified</option><option value="demo_scheduled" ${account.lead_status === 'demo_scheduled' ? 'selected' : ''}>Demo Scheduled</option><option value="proposal_sent" ${account.lead_status === 'proposal_sent' ? 'selected' : ''}>Proposal Sent</option><option value="nurturing" ${account.lead_status === 'nurturing' ? 'selected' : ''}>Nurturing</option><option value="lost" ${account.lead_status === 'lost' ? 'selected' : ''}>Lost</option></select></td></tr>
           <tr><th>Owner</th><td><input data-inline-account-field="owner" value="${account.owner || ''}" style="width:100%;" /></td></tr>
           <tr><th>Website</th><td><input data-inline-account-field="website" value="${account.website || ''}" style="width:100%;" /></td></tr>
@@ -834,7 +836,7 @@
 
       function renderAccountContacts(account) {
         accountDetailContactsRows.innerHTML = account.contacts.map(c => `
-          <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+          <tr><td>${c.name}</td><td>${c.title || '—'}</td><td>${c.email}</td><td>${c.phone || '—'}</td></tr>
         `).join('');
       }
 
@@ -864,7 +866,7 @@
         editContactForm.elements.namedItem('name').value = contact.name || '';
         editContactForm.elements.namedItem('title').value = contact.title || '';
         editContactForm.elements.namedItem('email').value = contact.email || '';
-        editContactForm.elements.namedItem('role').value = contact.role || '';
+        editContactForm.elements.namedItem('phone').value = contact.phone || '';
       }
 
       function renderAssets() {
@@ -951,7 +953,7 @@
           <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
         `;
         oppContactsRows.innerHTML = opp.contacts.map(c => `
-          <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+          <tr><td>${c.name}</td><td>${c.title || '—'}</td><td>${c.email}</td><td>${c.phone || '—'}</td></tr>
         `).join('');
         renderOppNotesManager(opp);
         renderOppAssets(opp);
@@ -1122,22 +1124,20 @@
         const lastName = nameParts.slice(1).join(' ') || '—';
         const updated = {
           name: fullName,
-          title: editContactForm.elements.namedItem('title').value.trim() || '—',
+          title: editContactForm.elements.namedItem('title').value.trim(),
           email: editContactForm.elements.namedItem('email').value.trim(),
-          role: editContactForm.elements.namedItem('role').value.trim() || 'champion'
+          phone: editContactForm.elements.namedItem('phone').value.trim()
         };
         if (!updated.name || !updated.email) {
           alert('Name and Email are required.');
           return;
         }
         if (sb && account._id) {
-          const roleMap = { 'champion': 'champion', 'decision_maker': 'decision_maker', 'influencer': 'influencer', 'procurement': 'procurement', 'legal': 'legal', 'finance': 'finance', 'technical_reviewer': 'technical_reviewer' };
-          const dbRole = roleMap[updated.role] || 'champion';
           if (idx >= 0 && account.contacts[idx] && account.contacts[idx]._id) {
-            const { error } = await sb.from('sales_contacts').update({ first_name: firstName, last_name: lastName, title: updated.title, email: updated.email, role_in_deal: dbRole }).eq('id', account.contacts[idx]._id);
+            const { error } = await sb.from('sales_contacts').update({ first_name: firstName, last_name: lastName, title: updated.title || '—', email: updated.email, phone: updated.phone || null, role_in_deal: 'champion' }).eq('id', account.contacts[idx]._id);
             if (error) { alert('Update failed: ' + error.message); return; }
           } else {
-            const { error } = await sb.from('sales_contacts').insert({ account_id: account._id, first_name: firstName, last_name: lastName, title: updated.title, email: updated.email, role_in_deal: dbRole, owner_user_id: currentUserId });
+            const { error } = await sb.from('sales_contacts').insert({ account_id: account._id, first_name: firstName, last_name: lastName, title: updated.title || '—', email: updated.email, phone: updated.phone || null, role_in_deal: 'champion', owner_user_id: currentUserId });
             if (error) { alert('Save failed: ' + error.message); return; }
           }
           await loadAccounts();
@@ -1160,7 +1160,7 @@
           oppDetailRows.innerHTML = `
             <tr><th>Opportunity</th><td><input data-opp-edit-field="name" value="${opp.name || ''}" style="width:100%;" /></td></tr>
             <tr><th>Account</th><td><input data-opp-edit-field="account" value="${opp.account || ''}" style="width:100%;" /></td></tr>
-            <tr><th>Stage</th><td><input data-opp-edit-field="stage" value="${opp.stage || ''}" style="width:100%;" /></td></tr>
+            <tr><th>Stage</th><td><select data-opp-edit-field="stage" style="width:100%;"><option value="lead_identified" ${opp.stage === 'lead_identified' ? 'selected' : ''}>lead_identified</option><option value="discovery_scheduled" ${opp.stage === 'discovery_scheduled' ? 'selected' : ''}>discovery_scheduled</option><option value="discovery_complete" ${opp.stage === 'discovery_complete' ? 'selected' : ''}>discovery_complete</option><option value="demo_delivered" ${opp.stage === 'demo_delivered' ? 'selected' : ''}>demo_delivered</option><option value="pilot_active" ${opp.stage === 'pilot_active' ? 'selected' : ''}>pilot_active</option><option value="procurement_security" ${opp.stage === 'procurement_security' ? 'selected' : ''}>procurement_security</option><option value="closed_won" ${opp.stage === 'closed_won' ? 'selected' : ''}>closed_won</option><option value="closed_lost" ${opp.stage === 'closed_lost' ? 'selected' : ''}>closed_lost</option></select></td></tr>
             <tr><th>Amount</th><td><input data-opp-edit-field="amount" value="${opp.amount || ''}" style="width:100%;" /></td></tr>
             <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
           `;
@@ -1245,9 +1245,15 @@
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
         if (sb && opp._id) {
-          await sb.from('sales_opportunities').update({ notes: JSON.stringify(opp.notes) }).eq('id', opp._id);
+          const { error } = await sb.from('sales_opportunities').update({ notes: JSON.stringify(opp.notes) }).eq('id', opp._id);
+          if (error) { alert('Save failed: ' + error.message); return; }
+          await loadOpportunities();
         }
-        renderOppNotesManager(opp);
+        const refreshedOpp = (sb && opp._id) ? opportunities.find((o) => o._id === opp._id) || opp : opp;
+        renderOppNotesManager(refreshedOpp);
+        if (selectedOppIndex !== null && opportunities[selectedOppIndex]?._id === refreshedOpp._id) {
+          opportunities[selectedOppIndex] = refreshedOpp;
+        }
         editOppModalBtn.textContent = "\u270f\ufe0f";
         editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         oppNoteForm.reset();
@@ -1310,8 +1316,7 @@
         selectedAccountName = account.name;
 
         if (sb && account._id) {
-          const typeMap = { 'Community College': 'individual_college', 'K-12 Secondary': 'other', 'Industry': 'whale_institute' };
-          await sb.from('sales_accounts').update({ name: account.name, account_type: typeMap[account.type] || account.type, lead_status: account.lead_status, website: account.website }).eq('id', account._id);
+          await sb.from('sales_accounts').update({ name: account.name, account_type: account.type, lead_status: account.lead_status, website: account.website }).eq('id', account._id);
         }
 
         isEditingAccount = false;
@@ -1421,10 +1426,13 @@
           account.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
         if (sb && account._id) {
-          await sb.from('sales_accounts').update({ notes: JSON.stringify(account.notes) }).eq('id', account._id);
+          const { error } = await sb.from('sales_accounts').update({ notes: JSON.stringify(account.notes) }).eq('id', account._id);
+          if (error) { alert('Save failed: ' + error.message); return; }
+          await loadAccounts();
         }
-        renderAccountNotes(account);
-        renderNotesManager(account);
+        const refreshedAccount = (sb && account._id) ? accounts.find((a) => a._id === account._id) || account : account;
+        renderAccountNotes(refreshedAccount);
+        renderNotesManager(refreshedAccount);
         addNoteForm.reset();
         addNoteForm.elements.namedItem('editIndex').value = '-1';
       });
@@ -1441,10 +1449,9 @@
       document.getElementById('addAccountForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
-        const typeMap = { 'Community College': 'individual_college', 'K-12 Secondary': 'other', 'Industry': 'whale_institute' };
         const payload = {
           name: fd.get('name'),
-          account_type: typeMap[fd.get('type')] || 'other',
+          account_type: fd.get('type') || 'other',
           owner_user_id: currentUserId,
           website: fd.get('website') || null
         };
