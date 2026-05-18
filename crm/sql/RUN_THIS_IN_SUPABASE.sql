@@ -19,7 +19,7 @@ returns boolean language sql stable as $$
 create table if not exists revenue.sales_accounts (
   id uuid primary key default gen_random_uuid(),
   name text not null,
-  account_type text not null check (account_type in ('individual_college','state_system','whale_institute','other')),
+  account_type text not null check (account_type in ('individual_college','state_system','whale_institute','partner','other')),
   website text,
   country text not null default 'US',
   state_region text,
