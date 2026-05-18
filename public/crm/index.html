@@ -99,7 +99,7 @@
 
           <div class="footer">
             <a class="btn primary" href="/select-discipline">Back to Demo Site</a>
-            <a class="btn" href="https://supabase.com/dashboard/project/_/sql/new" target="_blank" rel="noopener noreferrer">Open Supabase SQL Editor</a>
+            <button id="logoutBtn" class="btn" type="button">Log Out</button>
           </div>
         </section>
       </main>
@@ -653,6 +653,7 @@
       const emailContactForm = document.getElementById('emailContactForm');
       const emailContactTo = document.getElementById('emailContactTo');
       const emailContactContext = document.getElementById('emailContactContext');
+      const logoutBtn = document.getElementById('logoutBtn');
       let selectedAccountName = null;
       let selectedAccountIndex = null;
       let selectedOppIndex = null;
@@ -1353,6 +1354,11 @@
         emailContactTo.selectedIndex = 0;
         openModal(emailContactModal);
       }
+
+
+      logoutBtn.addEventListener('click', () => {
+        window.location.href = '/.netlify/functions/auth-logout';
+      });
 
       crmInit();
       document.getElementById('oppsCard').addEventListener('click', () => { renderOpps(); openModal(oppsModal); });
