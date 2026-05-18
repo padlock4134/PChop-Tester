@@ -77,27 +77,22 @@
         <section class="content">
           <div class="grid">
             <button id="accountsCard" class="kpi clickable" type="button" style="all:unset; display:block; border:2px solid #d1d5db; border-radius:12px; padding:14px; cursor:pointer;">
-              <span>Accounts</span><b id="accountsCount">42</b>
+              <span>Accounts</span><b id="accountsCount">0</b>
             </button>
-            <button id="oppsCard" class="kpi clickable" type="button" style="all:unset; display:block; border:2px solid #d1d5db; border-radius:12px; padding:14px; cursor:pointer;"><span>Open Opportunities</span><b id="oppsCount">14</b></button>
-            <div class="kpi"><span>Pipeline Value</span><b>$428K</b></div>
-            <div class="kpi"><span>Overdue Tasks</span><b>6</b></div>
-            <div class="kpi"><span>Won This Month</span><b>3</b></div>
+            <button id="oppsCard" class="kpi clickable" type="button" style="all:unset; display:block; border:2px solid #d1d5db; border-radius:12px; padding:14px; cursor:pointer;"><span>Open Opportunities</span><b id="oppsCount">0</b></button>
+            <div class="kpi"><span>Pipeline Value</span><b id="pipelineValue">$0</b></div>
+            <div class="kpi"><span>Overdue Tasks</span><b id="overdueTasksCount">0</b></div>
+            <div class="kpi"><span>Won This Month</span><b id="wonThisMonth">0</b></div>
           </div>
 
           <div class="sections">
             <article class="panel">
-              <h3>Task List</h3>
-              <ul id="dashboardTaskList" class="list"></ul>
+              <h3>Today's Focus</h3>
+              <div id="dashboardTaskList"></div>
             </article>
             <article class="panel">
               <h3>Stage Mix</h3>
-              <ul class="list">
-                <li>Discovery: 4</li>
-                <li>Demo Delivered: 5</li>
-                <li>Pilot Active: 3</li>
-                <li>Procurement: 2</li>
-              </ul>
+              <div id="stageMix"><p style="color:#64748b;font-size:14px;margin:8px 0;">No deals yet. Add an opportunity to see stage breakdown.</p></div>
             </article>
           </div>
 
@@ -191,10 +186,11 @@
             <input name="dueDate" type="date" required />
             <select name="status" required>
               <option value="">Select status</option>
-              <option>open</option>
-              <option>in_progress</option>
-              <option>blocked</option>
-              <option>done</option>
+              <option value="todo">To Do</option>
+              <option value="in_progress">In Progress</option>
+              <option value="blocked">Blocked</option>
+              <option value="done">Done</option>
+              <option value="cancelled">Cancelled</option>
             </select>
           </div>
           <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Task</button></div>
@@ -426,25 +422,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
-      const opportunities = [
-        { name: 'SUNY Pilot FY27', account: 'SUNY Culinary', stage: 'demo_delivered', amount: '$120,000', notes: [], tasks: [], assets: [], contacts: [
-          { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
-          { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
-        ]},
-        { name: 'CIA Rollout', account: 'CIA Hyde Park', stage: 'pilot_active', amount: '$300,000', notes: [], tasks: [], assets: [], contacts: [
-          { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
-        ]}
-      ];
+      const opportunities = [];
 
-      const accounts = [
-        { name: 'SUNY Culinary', type: 'Community College', owner: 'Chris', website: 'suny.edu', state: 'NY', notes: [], tasks: [], assets: [], contacts: [
-          { name: 'Lena Ortiz', title: 'Program Director', email: 'lena@suny.edu', role: 'decision_maker' },
-          { name: 'Mark Ives', title: 'Procurement', email: 'mark@suny.edu', role: 'procurement' }
-        ]},
-        { name: 'CIA Hyde Park', type: 'Industry', owner: 'Chris', website: 'cia.edu', state: 'NY', notes: [], tasks: [], assets: [], contacts: [
-          { name: 'Dana Reed', title: 'Dean', email: 'dana@cia.edu', role: 'champion' }
-        ]}
-      ];
+      const accounts = [];
 
       const accountsCard = document.getElementById('accountsCard');
       const accountsModal = document.getElementById('accountsModal');
@@ -617,20 +597,47 @@
       function renderDashboardTasks() {
         const dashboardTaskList = document.getElementById('dashboardTaskList');
         if (!dashboardTaskList) return;
+        const today = new Date().toISOString().slice(0, 10);
         const taskItems = [];
         accounts.forEach((account) => {
           (account.tasks || []).forEach((task) => {
-            taskItems.push({ account: account.name, title: task.title, dueDate: task.dueDate, status: task.status });
+            if (task.status === 'done' || task.status === 'cancelled') return;
+            taskItems.push({ account: account.name, title: task.title, dueDate: task.dueDate, status: task.status || 'todo', priority: task.priority || '' });
           });
         });
 
         if (!taskItems.length) {
-          dashboardTaskList.innerHTML = '<li>No tasks yet. Add tasks from an account.</li>';
+          dashboardTaskList.innerHTML = '<p style="color:#64748b;font-size:14px;margin:8px 0;">No open tasks. Add tasks from an account.</p>';
           return;
         }
 
-        const sorted = taskItems.sort((a, b) => String(a.dueDate || '').localeCompare(String(b.dueDate || '')));
-        dashboardTaskList.innerHTML = sorted.map((t) => `<li><b>${t.title}</b> — ${t.account} · ${t.dueDate || 'No due date'} · ${t.status || 'open'}</li>`).join('');
+        const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3, '': 4 };
+        const sorted = taskItems.sort((a, b) => {
+          const overdueA = a.dueDate && a.dueDate < today ? -1 : 0;
+          const overdueB = b.dueDate && b.dueDate < today ? -1 : 0;
+          if (overdueA !== overdueB) return overdueA - overdueB;
+          return (priorityOrder[a.priority] ?? 4) - (priorityOrder[b.priority] ?? 4);
+        });
+
+        dashboardTaskList.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead><tr style="color:var(--maine-blue);border-bottom:2px solid #e5e7eb;">
+            <th style="text-align:left;padding:4px 6px;">Task</th>
+            <th style="text-align:left;padding:4px 6px;">Account</th>
+            <th style="text-align:left;padding:4px 6px;">Due</th>
+            <th style="text-align:left;padding:4px 6px;">Status</th>
+          </tr></thead>
+          <tbody>${sorted.map((t) => {
+            const overdue = t.dueDate && t.dueDate < today;
+            const rowStyle = overdue ? 'background:#fff1f0;' : '';
+            const dueDisplay = t.dueDate ? (overdue ? `<span style="color:#dc2626;font-weight:700;">${t.dueDate} ⚠</span>` : t.dueDate) : '<span style="color:#94a3b8;">—</span>';
+            return `<tr style="border-bottom:1px solid #f1f5f9;${rowStyle}">
+              <td style="padding:6px 6px;font-weight:600;">${t.title}</td>
+              <td style="padding:6px 6px;color:#475569;">${t.account}</td>
+              <td style="padding:6px 6px;">${dueDisplay}</td>
+              <td style="padding:6px 6px;"><span style="font-size:11px;padding:2px 7px;border-radius:999px;background:#e0f2fe;color:#0369a1;">${t.status}</span></td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>`;
       }
 
       function renderAccounts() {
@@ -1124,6 +1131,7 @@
           status: String(fd.get('status') || '')
         });
         renderAccountTasks(account);
+        renderDashboardTasks();
         closeModal(addTaskModal);
       });
 

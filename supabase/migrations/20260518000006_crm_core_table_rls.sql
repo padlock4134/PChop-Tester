@@ -1,5 +1,5 @@
 -- Standalone CRM: Row-Level Security for core sales tables
--- Depends on: 001_sales_schema.sql (revenue.is_admin defined there)
+-- Depends on: 20260518000001_crm_sales_schema.sql (revenue.is_admin defined there)
 --
 -- Access model: team-wide reads, owner-scoped writes.
 --   - Any authenticated user can SELECT all rows (full team visibility)
