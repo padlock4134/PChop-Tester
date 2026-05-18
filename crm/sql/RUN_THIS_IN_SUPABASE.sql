@@ -19,7 +19,7 @@ returns boolean language sql stable as $$
 create table if not exists revenue.sales_accounts (
   id uuid primary key default gen_random_uuid(),
   name text not null,
-  account_type text not null check (account_type in ('individual_college','state_system','whale_institute','other')),
+  account_type text not null check (account_type in ('individual_college','state_system','whale_institute','partner','other')),
   website text,
   country text not null default 'US',
   state_region text,
@@ -61,6 +61,7 @@ create table if not exists revenue.sales_opportunities (
   next_step text not null,
   next_step_due_date date,
   loss_reason text,
+  notes text,
   discipline_focus text check (discipline_focus is null or discipline_focus in ('culinary','nursing','automotive','cosmetology','hvac','welding','plumbing','barbering','other')),
   source_channel text check (source_channel is null or source_channel in ('cold_email','cold_call','linkedin','partner_referral','inbound_demo_request','conference_event','content_webinar','existing_network','other')),
   pilot_required boolean not null default true,
