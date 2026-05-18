@@ -510,7 +510,7 @@
             stage: row.stage,
             amount: row.amount ? '$' + Number(row.amount).toLocaleString() : '$0',
             _rawAmount: row.amount || 0,
-            notes: [],
+            notes: tryParseJson(row.notes, []),
             tasks: [],
             assets: [],
             contacts: oppContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', role: c.role_in_deal || '' }))
@@ -910,10 +910,13 @@
         });
 
         notesManagerRows.querySelectorAll('[data-note-close-index]').forEach((btn) => {
-          btn.addEventListener('click', () => {
+          btn.addEventListener('click', async () => {
             const idx = Number(btn.dataset.noteCloseIndex);
             if (Number.isNaN(idx)) return;
             rows.splice(idx, 1);
+            if (sb && account._id) {
+              await sb.from('sales_accounts').update({ notes: JSON.stringify(account.notes) }).eq('id', account._id);
+            }
             renderAccountNotes(account);
             renderNotesManager(account);
             addNoteForm.reset();
@@ -1214,7 +1217,7 @@
         renderOppAssets(opp);
       });
 
-      oppNoteForm.addEventListener('submit', (e) => {
+      oppNoteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
         const opp = opportunities[selectedOppIndex];
@@ -1228,8 +1231,11 @@
         } else {
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
+        if (sb && opp._id) {
+          await sb.from('sales_opportunities').update({ notes: JSON.stringify(opp.notes) }).eq('id', opp._id);
+        }
         renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "✏️";
+        editOppModalBtn.textContent = "\u270f\ufe0f";
         editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
