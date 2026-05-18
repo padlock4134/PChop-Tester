@@ -329,11 +329,11 @@
             <input name="name" placeholder="Account name" required />
             <select name="type" required>
               <option value="">Select account type</option>
-              <option>Community College</option>
-              <option>K-12 Secondary</option>
-              <option>Industry</option>
-              <option>Association</option>
-              <option>Partner</option>
+              <option value="individual_college">Community College</option>
+              <option value="other">K-12 Secondary</option>
+              <option value="whale_institute">Industry</option>
+              <option value="state_system">Association</option>
+              <option value="partner">Partner</option>
             </select>
             <input name="owner" placeholder="Owner" required />
             <input name="website" placeholder="Website" />
@@ -643,7 +643,7 @@
       function renderAccountDetails(account) {
         if (!account) return;
         accountDetailRows.innerHTML = isEditingAccount ? `
-                    <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option ${account.type === 'Community College' ? 'selected' : ''}>Community College</option><option ${account.type === 'K-12 Secondary' ? 'selected' : ''}>K-12 Secondary</option><option ${account.type === 'Industry' ? 'selected' : ''}>Industry</option><option ${account.type === 'Association' ? 'selected' : ''}>Association</option><option ${account.type === 'Partner' ? 'selected' : ''}>Partner</option></select></td></tr>
+                    <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option value="individual_college" ${account.type === 'individual_college' ? 'selected' : ''}>Community College</option><option value="other" ${account.type === 'other' ? 'selected' : ''}>K-12 Secondary</option><option value="whale_institute" ${account.type === 'whale_institute' ? 'selected' : ''}>Industry</option><option value="state_system" ${account.type === 'state_system' ? 'selected' : ''}>Association</option><option value="partner" ${account.type === 'partner' ? 'selected' : ''}>Partner</option></select></td></tr>
           <tr><th>Lead Status</th><td><select data-inline-account-field="lead_status" style="width:100%;"><option value="new" ${account.lead_status === 'new' ? 'selected' : ''}>New</option><option value="contacted" ${account.lead_status === 'contacted' ? 'selected' : ''}>Contacted</option><option value="qualified" ${account.lead_status === 'qualified' ? 'selected' : ''}>Qualified</option><option value="demo_scheduled" ${account.lead_status === 'demo_scheduled' ? 'selected' : ''}>Demo Scheduled</option><option value="proposal_sent" ${account.lead_status === 'proposal_sent' ? 'selected' : ''}>Proposal Sent</option><option value="nurturing" ${account.lead_status === 'nurturing' ? 'selected' : ''}>Nurturing</option><option value="lost" ${account.lead_status === 'lost' ? 'selected' : ''}>Lost</option></select></td></tr>
           <tr><th>Owner</th><td><input data-inline-account-field="owner" value="${account.owner || ''}" style="width:100%;" /></td></tr>
           <tr><th>Website</th><td><input data-inline-account-field="website" value="${account.website || ''}" style="width:100%;" /></td></tr>
@@ -1312,8 +1312,7 @@
         selectedAccountName = account.name;
 
         if (sb && account._id) {
-          const typeMap = { 'Community College': 'individual_college', 'K-12 Secondary': 'other', 'Industry': 'whale_institute', 'Association': 'state_system', 'Partner': 'partner' };
-          await sb.from('sales_accounts').update({ name: account.name, account_type: typeMap[account.type] || account.type, lead_status: account.lead_status, website: account.website }).eq('id', account._id);
+          await sb.from('sales_accounts').update({ name: account.name, account_type: account.type, lead_status: account.lead_status, website: account.website }).eq('id', account._id);
         }
 
         isEditingAccount = false;
@@ -1443,10 +1442,9 @@
       document.getElementById('addAccountForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
-        const typeMap = { 'Community College': 'individual_college', 'K-12 Secondary': 'other', 'Industry': 'whale_institute', 'Association': 'state_system', 'Partner': 'partner' };
         const payload = {
           name: fd.get('name'),
-          account_type: typeMap[fd.get('type')] || 'other',
+          account_type: fd.get('type') || 'other',
           owner_user_id: currentUserId,
           website: fd.get('website') || null
         };
