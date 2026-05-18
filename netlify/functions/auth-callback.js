@@ -123,6 +123,7 @@ exports.handler = async (event) => {
       userId: userinfo.sub,
       tenantId: userinfo.tnt_id,
       email: userinfo.email,
+      userName: userinfo.name || userinfo.email || 'User',
       tenantDomainName: resolvedTenantDomainName,
       ...(tenantCustomDomainParam && { tenantCustomDomain: tenantCustomDomainParam }),
       ...(customState && { customState }),

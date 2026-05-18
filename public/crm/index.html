@@ -429,6 +429,15 @@
 
       let sb = null;
       let currentUserId = null;
+      let currentUserName = 'You';
+
+      const TYPE_LABELS = { individual_college: 'Community College', state_system: 'State System', whale_institute: 'Industry', other: 'K-12 Secondary' };
+      const STATUS_LABELS = { new: 'New', contacted: 'Contacted', qualified: 'Qualified', demo_scheduled: 'Demo Scheduled', proposal_sent: 'Proposal Sent', nurturing: 'Nurturing', lost: 'Lost' };
+      const ownerNames = {};
+
+      function displayType(key) { return TYPE_LABELS[key] || key || '—'; }
+      function displayStatus(key) { return STATUS_LABELS[key] || key || 'New'; }
+      function displayOwner(id) { return ownerNames[id] || id || '—'; }
 
       function tryParseJson(str, fallback) {
         try { return str ? JSON.parse(str) : fallback; } catch { return fallback; }
@@ -444,6 +453,8 @@
           const cfg = await res.json();
           console.log('[CRM] init OK, userId:', cfg.userId, 'hasToken:', !!cfg.supabaseToken);
           currentUserId = cfg.userId;
+          currentUserName = cfg.userName || 'You';
+          ownerNames[currentUserId] = currentUserName;
           sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
             global: {
               headers: { Authorization: 'Bearer ' + cfg.supabaseToken }
@@ -634,9 +645,9 @@
           <tr><th>Website</th><td><input data-inline-account-field="website" value="${account.website || ''}" style="width:100%;" /></td></tr>
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
         ` : `
-                    <tr><th>Type</th><td>${account.type || '—'}</td></tr>
-          <tr><th>Lead Status</th><td>${account.lead_status || 'New'}</td></tr>
-          <tr><th>Owner</th><td>${account.owner || '—'}</td></tr>
+                    <tr><th>Type</th><td>${displayType(account.type)}</td></tr>
+          <tr><th>Lead Status</th><td>${displayStatus(account.lead_status)}</td></tr>
+          <tr><th>Owner</th><td>${displayOwner(account.owner)}</td></tr>
           <tr><th>Website</th><td>${account.website || '—'}</td></tr>
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
         `;
@@ -794,9 +805,9 @@
           <tr>
             <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
             <td>${a.name}</td>
-            <td>${a.type}</td>
-            <td>${a.lead_status || 'new'}</td>
-            <td>${a.owner}</td>
+            <td>${displayType(a.type)}</td>
+            <td>${displayStatus(a.lead_status)}</td>
+            <td>${displayOwner(a.owner)}</td>
           </tr>`).join('');
 
         accountsRows.querySelectorAll('[data-account-open-index]').forEach(btn => {

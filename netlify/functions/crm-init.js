@@ -25,7 +25,8 @@ exports.handler = async (event) => {
         supabaseUrl: process.env.VITE_SUPABASE_URL,
         supabaseAnonKey: process.env.VITE_SUPABASE_ANON_KEY,
         supabaseToken: session.supabaseToken,
-        userId: session.userId
+        userId: session.userId,
+        userName: session.userName || 'You'
       })
     };
   } catch (error) {
