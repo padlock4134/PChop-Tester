@@ -67,6 +67,7 @@ create table if not exists revenue.sales_opportunities (
   next_step text not null,
   next_step_due_date date,
   loss_reason text,
+  notes text,
   discipline_focus text check (
     discipline_focus is null or discipline_focus in (
       'culinary','nursing','automotive','cosmetology',
