@@ -441,12 +441,17 @@
             return;
           }
           const cfg = await res.json();
+          console.log('[CRM] init OK, userId:', cfg.userId, 'hasToken:', !!cfg.supabaseToken);
           currentUserId = cfg.userId;
           sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
-            accessToken: async () => cfg.supabaseToken,
+            global: {
+              headers: { Authorization: 'Bearer ' + cfg.supabaseToken }
+            },
+            auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
             db: { schema: 'revenue' }
           });
           await loadAll();
+          console.log('[CRM] loaded', accounts.length, 'accounts,', opportunities.length, 'opps');
         } catch (err) {
           console.error('CRM init failed:', err);
         }
