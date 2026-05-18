@@ -1,4 +1,6 @@
 -- Standalone CRM: task write rules (add + complete, no delete) and save guarantees
+-- Note: revenue.set_updated_at() and revenue.is_admin() are defined in 001_sales_schema.sql.
+-- The create or replace below is kept for idempotency only (safe to re-run).
 
 -- 1) Utility trigger to keep updated_at current
 create or replace function revenue.set_updated_at()
@@ -75,16 +77,8 @@ before delete on revenue.sales_tasks
 for each row execute function revenue.prevent_sales_task_delete();
 
 -- 4) RLS: insert/update/select allowed by owner/admin, no delete policy
+-- revenue.is_admin() is defined in 001_sales_schema.sql.
 alter table revenue.sales_tasks enable row level security;
-
--- Optional helper: read user role from JWT app_metadata.role
-create or replace function revenue.is_admin()
-returns boolean
-language sql
-stable
-as $$
-  select coalesce((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin', false);
-$$;
 
 drop policy if exists sales_tasks_select_policy on revenue.sales_tasks;
 create policy sales_tasks_select_policy

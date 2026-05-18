@@ -1,17 +1,18 @@
 -- The Chop Shop CRM: external partner deal submissions
+-- Depends on: 001_sales_schema.sql (revenue schema, set_updated_at, is_admin)
 
 create table if not exists revenue.partner_deal_submissions (
   id uuid primary key default gen_random_uuid(),
   partner_company_name text not null,
   partner_contact_name text not null,
-  partner_contact_email text not null,
+  partner_contact_email text not null check (partner_contact_email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$'),
   referred_org_name text not null,
   referred_contact_name text,
-  referred_contact_email text,
+  referred_contact_email text check (referred_contact_email is null or referred_contact_email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$'),
   deal_summary text not null,
   estimated_value numeric(12,2) check (estimated_value is null or estimated_value >= 0),
   notes text,
-  consent_confirmed boolean not null default false,
+  consent_confirmed boolean not null default false check (consent_confirmed = true),
 
   status text not null default 'new' check (status in ('new','qualified','converted_to_opportunity','rejected')),
   assigned_owner_user_id uuid references auth.users(id) on delete set null,

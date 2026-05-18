@@ -1,6 +1,27 @@
 -- Standalone CRM: Sales-only schema
 create schema if not exists revenue;
 
+-- Shared utility: auto-update updated_at on every row mutation.
+-- Defined here (migration 001) so all later migrations can use it safely.
+create or replace function revenue.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+-- Helper: read caller role from Wristband/Supabase JWT app_metadata.
+create or replace function revenue.is_admin()
+returns boolean
+language sql
+stable
+as $$
+  select coalesce((auth.jwt() -> 'app_metadata' ->> 'role') = 'admin', false);
+$$;
+
 create table if not exists revenue.sales_accounts (
   id uuid primary key default gen_random_uuid(),
   name text not null,
@@ -46,13 +67,26 @@ create table if not exists revenue.sales_opportunities (
   next_step text not null,
   next_step_due_date date,
   loss_reason text,
-  discipline_focus text,
-  source_channel text,
+  discipline_focus text check (
+    discipline_focus is null or discipline_focus in (
+      'culinary','nursing','automotive','cosmetology',
+      'hvac','welding','plumbing','barbering','other'
+    )
+  ),
+  source_channel text check (
+    source_channel is null or source_channel in (
+      'cold_email','cold_call','linkedin','partner_referral',
+      'inbound_demo_request','conference_event','content_webinar',
+      'existing_network','other'
+    )
+  ),
   pilot_required boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
+-- sales_activities: intentionally append-only (no updated_at).
+-- Log a new activity row rather than editing past records.
 create table if not exists revenue.sales_activities (
   id uuid primary key default gen_random_uuid(),
   opportunity_id uuid not null references revenue.sales_opportunities(id) on delete cascade,
@@ -90,3 +124,9 @@ create index if not exists idx_sales_opps_owner_stage on revenue.sales_opportuni
 create index if not exists idx_sales_opps_close_date on revenue.sales_opportunities(close_date_target);
 create index if not exists idx_sales_activities_opp_time on revenue.sales_activities(opportunity_id, activity_at desc);
 create index if not exists idx_sales_files_opp on revenue.sales_files(opportunity_id);
+
+-- Allow authenticated users to access the revenue schema.
+-- RLS policies (migration 006) control row-level visibility.
+grant usage on schema revenue to authenticated;
+grant select, insert, update on all tables in schema revenue to authenticated;
+grant usage, select on all sequences in schema revenue to authenticated;

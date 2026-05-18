@@ -1,4 +1,5 @@
 -- The Chop Shop CRM: Gmail outreach integration schema
+-- Depends on: 001_sales_schema.sql (revenue schema, set_updated_at, is_admin)
 
 create table if not exists revenue.gmail_accounts (
   id uuid primary key default gen_random_uuid(),
@@ -31,7 +32,7 @@ create table if not exists revenue.email_outreach (
   subject text not null,
   body_text text,
   body_html text,
-  to_recipients jsonb not null,
+  to_recipients jsonb not null check (jsonb_array_length(to_recipients) > 0),
   cc_recipients jsonb,
   bcc_recipients jsonb,
   gmail_message_id text,
