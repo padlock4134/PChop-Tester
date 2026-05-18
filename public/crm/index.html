@@ -420,11 +420,132 @@
       </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
       const opportunities = [];
-
       const accounts = [];
+
+      let sb = null;
+      let currentUserId = null;
+
+      function tryParseJson(str, fallback) {
+        try { return str ? JSON.parse(str) : fallback; } catch { return fallback; }
+      }
+
+      async function crmInit() {
+        try {
+          const res = await fetch('/.netlify/functions/crm-init');
+          if (!res.ok) {
+            document.querySelector('.content').innerHTML = '<p style="padding:40px;text-align:center;color:#64748b;font-size:16px;">Please <a href="/.netlify/functions/auth-login" style="color:var(--maine-blue);font-weight:700;">log in</a> to access the CRM.</p>';
+            return;
+          }
+          const cfg = await res.json();
+          currentUserId = cfg.userId;
+          sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
+            accessToken: async () => cfg.supabaseToken,
+            db: { schema: 'revenue' }
+          });
+          await loadAll();
+        } catch (err) {
+          console.error('CRM init failed:', err);
+        }
+      }
+
+      async function loadAll() {
+        await Promise.all([loadAccounts(), loadOpportunities()]);
+        renderDashboardTasks();
+        renderKPIs();
+        renderStageMix();
+      }
+
+      async function loadAccounts() {
+        const { data, error } = await sb.from('sales_accounts').select('*').order('name');
+        if (error) { console.error('loadAccounts:', error); return; }
+
+        const { data: allContacts } = await sb.from('sales_contacts').select('*');
+        const { data: allTasks } = await sb.from('sales_tasks').select('*');
+
+        accounts.length = 0;
+        for (const row of data) {
+          const myContacts = (allContacts || []).filter(c => c.account_id === row.id);
+          const myTasks = (allTasks || []).filter(t => t.account_id === row.id);
+          accounts.push({
+            _id: row.id,
+            name: row.name,
+            type: row.account_type || '',
+            owner: row.owner_user_id || '',
+            website: row.website || '',
+            state: row.state_region || '',
+            notes: tryParseJson(row.notes, []),
+            tasks: myTasks.map(t => ({ _id: t.id, title: t.title, dueDate: t.due_date, status: t.status, priority: t.priority || 'medium' })),
+            assets: [],
+            contacts: myContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', role: c.role_in_deal || '' }))
+          });
+        }
+      }
+
+      async function loadOpportunities() {
+        const { data, error } = await sb.from('sales_opportunities').select('*, sales_accounts(name), sales_contacts(first_name, last_name, title, email, role_in_deal)').order('created_at', { ascending: false });
+        if (error) { console.error('loadOpps:', error); return; }
+
+        const { data: allContacts } = await sb.from('sales_contacts').select('*');
+
+        opportunities.length = 0;
+        for (const row of data) {
+          const acctName = row.sales_accounts?.name || '';
+          const oppContacts = (allContacts || []).filter(c => c.account_id === row.account_id);
+          opportunities.push({
+            _id: row.id,
+            name: row.name,
+            account: acctName,
+            account_id: row.account_id,
+            stage: row.stage,
+            amount: row.amount ? '$' + Number(row.amount).toLocaleString() : '$0',
+            _rawAmount: row.amount || 0,
+            notes: [],
+            tasks: [],
+            assets: [],
+            contacts: oppContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', role: c.role_in_deal || '' }))
+          });
+        }
+      }
+
+      function renderKPIs() {
+        document.getElementById('accountsCount').textContent = String(accounts.length);
+        document.getElementById('oppsCount').textContent = String(opportunities.length);
+
+        const totalPipeline = opportunities.reduce((sum, o) => sum + Number(o._rawAmount || 0), 0);
+        document.getElementById('pipelineValue').textContent = '$' + (totalPipeline >= 1000 ? Math.round(totalPipeline / 1000) + 'K' : totalPipeline);
+
+        const today = new Date().toISOString().slice(0, 10);
+        let overdueCount = 0;
+        accounts.forEach(a => (a.tasks || []).forEach(t => {
+          if (t.dueDate && t.dueDate < today && t.status !== 'done' && t.status !== 'cancelled') overdueCount++;
+        }));
+        document.getElementById('overdueTasksCount').textContent = String(overdueCount);
+
+        const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0,0,0,0);
+        const wonThisMonth = opportunities.filter(o => o.stage === 'closed_won').length;
+        document.getElementById('wonThisMonth').textContent = String(wonThisMonth);
+      }
+
+      function renderStageMix() {
+        const stageMixEl = document.getElementById('stageMix');
+        const counts = {};
+        opportunities.forEach(o => {
+          if (o.stage !== 'closed_won' && o.stage !== 'closed_lost') {
+            const label = o.stage.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            counts[label] = (counts[label] || 0) + 1;
+          }
+        });
+        const entries = Object.entries(counts);
+        if (!entries.length) {
+          stageMixEl.innerHTML = '<p style="color:#64748b;font-size:14px;margin:8px 0;">No open deals yet.</p>';
+          return;
+        }
+        stageMixEl.innerHTML = '<ul class="list">' + entries.map(([label, count]) => `<li>${label}: ${count}</li>`).join('') + '</ul>';
+      }
 
       const accountsCard = document.getElementById('accountsCard');
       const accountsModal = document.getElementById('accountsModal');
@@ -574,22 +695,39 @@
         });
       }
 
-      function applyImportedAccounts(rows, mapping) {
+      async function applyImportedAccounts(rows, mapping) {
         let importedCount = 0;
         const existing = new Set(accounts.map(a => String(a.name || '').trim().toLowerCase()));
+        const toInsert = [];
 
         rows.forEach((raw) => {
           const mapped = mapAccountRow(raw, mapping);
           if (!mapped.name) return;
           const key = mapped.name.toLowerCase();
           if (existing.has(key)) return;
-          accounts.push(mapped);
           existing.add(key);
+          toInsert.push(mapped);
           importedCount += 1;
         });
 
+        if (sb && toInsert.length) {
+          const payload = toInsert.map(m => ({
+            name: m.name,
+            account_type: 'other',
+            owner_user_id: currentUserId,
+            website: m.website || null,
+            state_region: m.state || null
+          }));
+          const { error } = await sb.from('sales_accounts').insert(payload);
+          if (error) { alert('Import failed: ' + error.message); return; }
+          await loadAccounts();
+        } else {
+          toInsert.forEach(m => accounts.push(m));
+        }
+
         renderAccounts();
         renderDashboardTasks();
+        renderKPIs();
         populateOppAccountOptions();
         alert(importedCount ? `Imported ${importedCount} accounts.` : 'No accounts were imported. Check required columns like Account Name.');
       }
@@ -940,13 +1078,17 @@
 
       contactPicker.addEventListener('change', fillContactFormFromSelection);
 
-      editContactForm.addEventListener('submit', (e) => {
+      editContactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (selectedAccountIndex === null) return;
         const account = accounts[selectedAccountIndex];
         const idx = Number(contactPicker.value);
+        const fullName = editContactForm.elements.namedItem('name').value.trim();
+        const nameParts = fullName.split(/\s+/);
+        const firstName = nameParts[0] || '';
+        const lastName = nameParts.slice(1).join(' ') || '—';
         const updated = {
-          name: editContactForm.elements.namedItem('name').value.trim(),
+          name: fullName,
           title: editContactForm.elements.namedItem('title').value.trim() || '—',
           email: editContactForm.elements.namedItem('email').value.trim(),
           role: editContactForm.elements.namedItem('role').value.trim() || 'champion'
@@ -955,16 +1097,29 @@
           alert('Name and Email are required.');
           return;
         }
-        if (idx >= 0 && account.contacts[idx]) account.contacts[idx] = updated;
-        else account.contacts.push(updated);
-        renderAccountDetails(account);
-        renderAccountContacts(account);
+        if (sb && account._id) {
+          const roleMap = { 'champion': 'champion', 'decision_maker': 'decision_maker', 'influencer': 'influencer', 'procurement': 'procurement', 'legal': 'legal', 'finance': 'finance', 'technical_reviewer': 'technical_reviewer' };
+          const dbRole = roleMap[updated.role] || 'champion';
+          if (idx >= 0 && account.contacts[idx] && account.contacts[idx]._id) {
+            const { error } = await sb.from('sales_contacts').update({ first_name: firstName, last_name: lastName, title: updated.title, email: updated.email, role_in_deal: dbRole }).eq('id', account.contacts[idx]._id);
+            if (error) { alert('Update failed: ' + error.message); return; }
+          } else {
+            const { error } = await sb.from('sales_contacts').insert({ account_id: account._id, first_name: firstName, last_name: lastName, title: updated.title, email: updated.email, role_in_deal: dbRole, owner_user_id: currentUserId });
+            if (error) { alert('Save failed: ' + error.message); return; }
+          }
+          await loadAccounts();
+        } else {
+          if (idx >= 0 && account.contacts[idx]) account.contacts[idx] = updated;
+          else account.contacts.push(updated);
+        }
+        renderAccountDetails(accounts[selectedAccountIndex]);
+        renderAccountContacts(accounts[selectedAccountIndex]);
         closeModal(editContactModal);
       });
 
 
 
-      editOppModalBtn.addEventListener('click', () => {
+      editOppModalBtn.addEventListener('click', async () => {
         if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
         const opp = opportunities[selectedOppIndex];
         const isEditing = oppDetailRows.querySelector('[data-opp-edit-field="name"]');
@@ -984,6 +1139,11 @@
         opp.account = oppDetailRows.querySelector('[data-opp-edit-field="account"]').value.trim() || opp.account;
         opp.stage = oppDetailRows.querySelector('[data-opp-edit-field="stage"]').value.trim() || opp.stage;
         opp.amount = oppDetailRows.querySelector('[data-opp-edit-field="amount"]').value.trim() || opp.amount;
+        if (sb && opp._id) {
+          const rawAmount = String(opp.amount).replace(/[$,]/g, '');
+          await sb.from('sales_opportunities').update({ name: opp.name, stage: opp.stage, amount: parseFloat(rawAmount) || 0 }).eq('id', opp._id);
+          opp._rawAmount = parseFloat(rawAmount) || 0;
+        }
         oppDetailRows.innerHTML = `
           <tr><th>Opportunity</th><td>${opp.name || '—'}</td></tr>
           <tr><th>Account</th><td>${opp.account || '—'}</td></tr>
@@ -994,6 +1154,8 @@
         editOppModalBtn.textContent = '✏️';
         editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         renderOpps();
+        renderKPIs();
+        renderStageMix();
         if (selectedAccountIndex !== null) renderAccountOpportunities(accounts[selectedAccountIndex]);
       });
 
@@ -1074,12 +1236,12 @@
         openModal(emailContactModal);
       }
 
-      renderDashboardTasks();
+      crmInit();
       document.getElementById('oppsCard').addEventListener('click', () => { renderOpps(); openModal(oppsModal); });
       accountsCard.addEventListener('click', () => { renderAccounts(); openModal(accountsModal); });
       document.getElementById('addAccountBtn').addEventListener('click', () => openModal(addAccountModal));
 
-      editAccountBtn.addEventListener('click', () => {
+      editAccountBtn.addEventListener('click', async () => {
         if (selectedAccountIndex === null) return;
         const account = accounts[selectedAccountIndex];
 
@@ -1102,6 +1264,11 @@
         account.website = websiteField?.value?.trim() || account.website;
         selectedAccountName = account.name;
 
+        if (sb && account._id) {
+          const typeMap = { 'Community College': 'individual_college', 'K-12 Secondary': 'other', 'Industry': 'whale_institute' };
+          await sb.from('sales_accounts').update({ name: account.name, account_type: typeMap[account.type] || account.type, website: account.website }).eq('id', account._id);
+        }
+
         isEditingAccount = false;
         editAccountBtn.textContent = '👤';
         editAccountBtn.setAttribute('aria-label', 'Edit Account');
@@ -1119,19 +1286,30 @@
         openModal(addTaskModal);
       });
 
-      addTaskForm.addEventListener('submit', (e) => {
+      addTaskForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (selectedAccountIndex === null) return;
         const account = accounts[selectedAccountIndex];
-        if (!Array.isArray(account.tasks)) account.tasks = [];
         const fd = new FormData(addTaskForm);
-        account.tasks.unshift({
+        const payload = {
           title: String(fd.get('title') || '').trim(),
-          dueDate: String(fd.get('dueDate') || ''),
-          status: String(fd.get('status') || '')
-        });
-        renderAccountTasks(account);
+          due_date: String(fd.get('dueDate') || '') || null,
+          status: String(fd.get('status') || 'todo'),
+          owner_user_id: currentUserId,
+          created_by_user_id: currentUserId,
+          account_id: account._id || null
+        };
+        if (sb && account._id) {
+          const { error } = await sb.from('sales_tasks').insert(payload);
+          if (error) { alert('Save failed: ' + error.message); return; }
+          await loadAccounts();
+        } else {
+          if (!Array.isArray(account.tasks)) account.tasks = [];
+          account.tasks.unshift({ title: payload.title, dueDate: payload.due_date, status: payload.status, priority: 'medium' });
+        }
+        renderAccountTasks(accounts[selectedAccountIndex]);
         renderDashboardTasks();
+        renderKPIs();
         closeModal(addTaskModal);
       });
 
@@ -1164,7 +1342,7 @@
         closeModal(emailContactModal);
       });
 
-      addNoteForm.addEventListener('submit', (e) => {
+      addNoteForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (selectedAccountIndex === null) return;
         const noteText = addNoteForm.elements.namedItem('note').value.trim();
@@ -1177,6 +1355,9 @@
           account.notes[editIndex].when = new Date().toLocaleString();
         } else {
           account.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+        }
+        if (sb && account._id) {
+          await sb.from('sales_accounts').update({ notes: JSON.stringify(account.notes) }).eq('id', account._id);
         }
         renderAccountNotes(account);
         renderNotesManager(account);
@@ -1193,38 +1374,53 @@
         openModal(addOppModal);
       });
 
-      document.getElementById('addAccountForm').addEventListener('submit', (e) => {
+      document.getElementById('addAccountForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
-        accounts.push({
+        const typeMap = { 'Community College': 'individual_college', 'K-12 Secondary': 'other', 'Industry': 'whale_institute' };
+        const payload = {
           name: fd.get('name'),
-          type: fd.get('type'),
-          owner: fd.get('owner'),
-          website: fd.get('website'),
-          state: '',
-          notes: [],
-          contacts: []
-        });
+          account_type: typeMap[fd.get('type')] || 'other',
+          owner_user_id: currentUserId,
+          website: fd.get('website') || null
+        };
+        if (sb) {
+          const { error } = await sb.from('sales_accounts').insert(payload);
+          if (error) { alert('Save failed: ' + error.message); return; }
+          await loadAccounts();
+        }
         e.target.reset();
         closeModal(addAccountModal);
         renderAccounts();
+        renderKPIs();
         renderDashboardTasks();
       });
 
-      document.getElementById('addOppForm').addEventListener('submit', (e) => {
+      document.getElementById('addOppForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const fd = new FormData(e.target);
-        opportunities.push({
+        const acctName = fd.get('account');
+        const acct = accounts.find(a => a.name === acctName);
+        const rawAmount = String(fd.get('amount') || '0').replace(/[$,]/g, '');
+        const payload = {
           name: fd.get('name'),
-          account: fd.get('account'),
+          account_id: acct ? acct._id : null,
           stage: fd.get('stage'),
-          amount: fd.get('amount'),
-          notes: [],
-          contacts: []
-        });
+          amount: parseFloat(rawAmount) || 0,
+          owner_user_id: currentUserId,
+          next_step: 'TBD'
+        };
+        if (!payload.account_id) { alert('Select a valid account.'); return; }
+        if (sb) {
+          const { error } = await sb.from('sales_opportunities').insert(payload);
+          if (error) { alert('Save failed: ' + error.message); return; }
+          await loadOpportunities();
+        }
         e.target.reset();
         closeModal(addOppModal);
         renderOpps();
+        renderKPIs();
+        renderStageMix();
         if (selectedAccountIndex !== null) {
           renderAccountOpportunities(accounts[selectedAccountIndex]);
         }
