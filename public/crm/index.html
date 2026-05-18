@@ -1245,9 +1245,15 @@
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
         if (sb && opp._id) {
-          await sb.from('sales_opportunities').update({ notes: JSON.stringify(opp.notes) }).eq('id', opp._id);
+          const { error } = await sb.from('sales_opportunities').update({ notes: JSON.stringify(opp.notes) }).eq('id', opp._id);
+          if (error) { alert('Save failed: ' + error.message); return; }
+          await loadOpportunities();
         }
-        renderOppNotesManager(opp);
+        const refreshedOpp = (sb && opp._id) ? opportunities.find((o) => o._id === opp._id) || opp : opp;
+        renderOppNotesManager(refreshedOpp);
+        if (selectedOppIndex !== null && opportunities[selectedOppIndex]?._id === refreshedOpp._id) {
+          opportunities[selectedOppIndex] = refreshedOpp;
+        }
         editOppModalBtn.textContent = "\u270f\ufe0f";
         editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         oppNoteForm.reset();
@@ -1420,10 +1426,13 @@
           account.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
         if (sb && account._id) {
-          await sb.from('sales_accounts').update({ notes: JSON.stringify(account.notes) }).eq('id', account._id);
+          const { error } = await sb.from('sales_accounts').update({ notes: JSON.stringify(account.notes) }).eq('id', account._id);
+          if (error) { alert('Save failed: ' + error.message); return; }
+          await loadAccounts();
         }
-        renderAccountNotes(account);
-        renderNotesManager(account);
+        const refreshedAccount = (sb && account._id) ? accounts.find((a) => a._id === account._id) || account : account;
+        renderAccountNotes(refreshedAccount);
+        renderNotesManager(refreshedAccount);
         addNoteForm.reset();
         addNoteForm.elements.namedItem('editIndex').value = '-1';
       });
