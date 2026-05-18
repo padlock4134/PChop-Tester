@@ -54,6 +54,13 @@
       .form-grid input, .form-grid select { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px 10px; }
       .subtle { color: #64748b; font-size: 13px; margin: 8px 0 0; }
 
+      .asset-ticker { flex: 1 1 360px; min-width: 280px; max-width: 100%; border: 2px solid var(--maine-blue); border-radius: 10px; background: #0f172a; color: #e2e8f0; height: 44px; display: flex; align-items: center; overflow: hidden; position: relative; }
+      .asset-ticker-label { flex: 0 0 auto; background: #dc2626; color: #fff; font-weight: 800; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 8px 10px; height: 100%; display:flex; align-items:center; border-right: 2px solid #991b1b; }
+      .asset-ticker-track { white-space: nowrap; display: inline-block; padding-left: 100%; animation: ticker-scroll 28s linear infinite; font-weight: 600; }
+      .asset-ticker-item { margin-right: 34px; }
+      @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+
       @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); } }
       @media (max-width: 760px) {
         .sections { grid-template-columns: 1fr; }
@@ -100,6 +107,16 @@
           <div class="footer">
             <a class="btn primary" href="/select-discipline">Back to Demo Site</a>
             <button id="logoutBtn" class="btn" type="button">Log Out</button>
+            <div class="asset-ticker" aria-label="Announcements ticker">
+              <div class="asset-ticker-label">Updates</div>
+              <div class="asset-ticker-track" id="assetTickerTrack">
+                <span class="asset-ticker-item">📣 Welcome to the CRM ticker — share assets and announcements here.</span>
+                <span class="asset-ticker-item">📁 New training deck uploaded: Q3 District Outreach Playbook.</span>
+                <span class="asset-ticker-item">🗓️ Team call Friday 2:00 PM ET — Pipeline review + new partner updates.</span>
+                <span class="asset-ticker-item">🚀 Pilot kickoff: Central Valley College starts next Monday.</span>
+              </div>
+            </div>
+
           </div>
         </section>
       </main>
