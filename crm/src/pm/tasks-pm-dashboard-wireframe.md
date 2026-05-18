@@ -1,5 +1,9 @@
 # Tasks / PM Dashboard Wireframe
 
+## Today's Focus
+- All tasks due today (no limit), sorted by priority
+- Overdue tasks also shown here (past due_date, not done/cancelled)
+
 ## Top row cards
 - Open Tasks (todo + in_progress)
 - Overdue (past due_date, not done/cancelled)
