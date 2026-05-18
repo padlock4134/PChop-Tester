@@ -140,6 +140,7 @@
               <button id="addNoteBtn" class="btn" type="button" aria-label="Add/Edit Note" title="Add/Edit Note" style="padding:6px 0; min-height:32px;">📝</button>
               <button id="addOppFromAccountBtn" class="btn" type="button" aria-label="Add/Edit Opportunity" title="Add/Edit Opportunity" style="padding:6px 0; min-height:32px;">🎯</button>
               <button id="emailAccountContactBtn" class="btn" type="button" aria-label="Email Contact" title="Email Contact" style="padding:6px 0; min-height:32px;">📧</button>
+              <button id="deleteAccountBtn" class="btn" type="button" aria-label="Delete Account" title="Delete Account" style="padding:6px 0; min-height:32px; color:#dc2626;">🗑️</button>
             </div>
           </div>
         </div>
@@ -614,6 +615,7 @@
       const editOppModalBtn = document.getElementById('editOppModalBtn');
       const uploadOppAssetBtn = document.getElementById('uploadOppAssetBtn');
       const emailAccountContactBtn = document.getElementById('emailAccountContactBtn');
+      const deleteAccountBtn = document.getElementById('deleteAccountBtn');
       const emailOppContactBtn = document.getElementById('emailOppContactBtn');
       const oppAssetFileInput = document.getElementById('oppAssetFileInput');
       const uploadAssetBtn = document.getElementById('uploadAssetBtn');
@@ -1375,6 +1377,24 @@
 
       addContactBtn.addEventListener('click', () => openContactEditor());
       emailAccountContactBtn.addEventListener('click', () => openEmailContactModal('account'));
+
+      deleteAccountBtn.addEventListener('click', async () => {
+        if (selectedAccountIndex === null) return;
+        const account = accounts[selectedAccountIndex];
+        if (!confirm(`Delete account "${account.name}"? This cannot be undone.`)) return;
+        if (sb && account._id) {
+          const { error } = await sb.from('sales_accounts').delete().eq('id', account._id);
+          if (error) { alert('Delete failed: ' + error.message); return; }
+          await loadAccounts();
+        } else {
+          accounts.splice(selectedAccountIndex, 1);
+        }
+        closeModal(accountDetailModal);
+        renderAccounts();
+        renderKPIs();
+        selectedAccountIndex = null;
+        selectedAccountName = null;
+      });
       emailOppContactBtn.addEventListener('click', () => openEmailContactModal('opportunity'));
 
       emailContactForm.addEventListener('submit', (e) => {
