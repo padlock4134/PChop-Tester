@@ -622,6 +622,7 @@
             accountDetailTitle.textContent = account.name;
             isEditingAccount = false;
             editAccountBtn.textContent = '👤';
+        editAccountBtn.setAttribute('aria-label', 'Edit Account');
             renderAccountDetails(account);
             renderAccountContacts(account);
             renderAccountOpportunities(account);
@@ -754,6 +755,7 @@
         renderOppNotesManager(opp);
         renderOppAssets(opp);
         editOppModalBtn.textContent = "✏️";
+        editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         openModal(oppContactsModal);
       }
 
@@ -793,6 +795,7 @@
             rows.splice(idx, 1);
             renderOppNotesManager(opp);
         editOppModalBtn.textContent = "✏️";
+        editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
             oppNoteForm.reset();
             oppNoteForm.elements.namedItem('editIndex').value = '-1';
           });
@@ -938,6 +941,7 @@
             <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
           `;
           editOppModalBtn.textContent = '💾';
+          editOppModalBtn.setAttribute('aria-label', 'Save Opportunity');
           return;
         }
         opp.name = oppDetailRows.querySelector('[data-opp-edit-field="name"]').value.trim() || opp.name;
@@ -952,6 +956,7 @@
           <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
         `;
         editOppModalBtn.textContent = '✏️';
+        editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         renderOpps();
         if (selectedAccountIndex !== null) renderAccountOpportunities(accounts[selectedAccountIndex]);
       });
@@ -998,6 +1003,7 @@
         }
         renderOppNotesManager(opp);
         editOppModalBtn.textContent = "✏️";
+        editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
       });
@@ -1019,6 +1025,7 @@
         if (!isEditingAccount) {
           isEditingAccount = true;
           editAccountBtn.textContent = '💾';
+          editAccountBtn.setAttribute('aria-label', 'Save Account');
           renderAccountDetails(account);
           return;
         }
@@ -1036,6 +1043,7 @@
 
         isEditingAccount = false;
         editAccountBtn.textContent = '👤';
+        editAccountBtn.setAttribute('aria-label', 'Edit Account');
         accountDetailTitle.textContent = account.name;
         renderAccountDetails(account);
         renderAccounts();
