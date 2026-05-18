@@ -226,6 +226,28 @@
       </div>
     </div>
 
+    <div id="addOppNoteModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addOppNoteTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="addOppNoteTitle" class="modal-title">Add Opportunity Note</h2>
+          <button class="close" type="button" data-close="addOppNoteModal">×</button>
+        </div>
+        <div style="max-height:180px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px;">
+          <table class="table" style="margin:0;">
+            <thead><tr><th>When</th><th>Note</th><th>Actions</th></tr></thead>
+            <tbody id="oppNotesManagerRows"></tbody>
+          </table>
+        </div>
+        <form id="addOppNoteForm">
+          <input type="hidden" name="editIndex" value="-1" />
+          <div class="form-grid" style="grid-template-columns:1fr;">
+            <textarea name="note" placeholder="Enter opportunity note" required style="width:100%; min-height:120px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+          </div>
+          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="closeOppNoteModalEditorBtn" class="btn" type="button">Close</button><button class="btn primary" type="submit">Save Note</button></div>
+        </form>
+      </div>
+    </div>
+
     <div id="oppsModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppsTitle">
         <div class="modal-header">
@@ -249,7 +271,7 @@
             <button id="uploadOppAssetBtn" class="btn" type="button" aria-label="Upload Asset" title="Upload Asset" style="padding:6px 0; min-height:32px;">📎</button>
             <input id="oppAssetFileInput" type="file" multiple style="display:none;" />
             <button id="editOppModalBtn" class="btn" type="button" aria-label="Edit Opportunity" title="Edit Opportunity" style="padding:6px 0; min-height:32px;">✏️</button>
-            <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm" aria-label="Edit/Add Note" title="Edit/Add Note" style="padding:6px 0; min-height:32px;">📝</button>
+            <button id="saveOppNoteBtn" class="btn primary" type="button" aria-label="Edit/Add Note" title="Edit/Add Note" style="padding:6px 0; min-height:32px;">📝</button>
             <button id="closeOppNoteEditorBtn" class="btn" type="button" aria-label="Clear Note" title="Clear Note" style="padding:6px 0; min-height:32px;">🧹</button>
             <button id="emailOppContactBtn" class="btn" type="button" aria-label="Email Contact" title="Email Contact" style="padding:6px 0; min-height:32px;">📧</button>
           </div>
@@ -613,6 +635,10 @@
       const notesManagerRows = document.getElementById('notesManagerRows');
       const closeNoteEditorBtn = document.getElementById('closeNoteEditorBtn');
       const oppNoteForm = document.getElementById('oppNoteForm');
+      const addOppNoteForm = document.getElementById('addOppNoteForm');
+      const oppNotesManagerRows = document.getElementById('oppNotesManagerRows');
+      const closeOppNoteModalEditorBtn = document.getElementById('closeOppNoteModalEditorBtn');
+      const saveOppNoteBtn = document.getElementById('saveOppNoteBtn');
       const closeOppNoteEditorBtn = document.getElementById('closeOppNoteEditorBtn');
       const editOppModalBtn = document.getElementById('editOppModalBtn');
       const uploadOppAssetBtn = document.getElementById('uploadOppAssetBtn');
@@ -980,6 +1006,7 @@
             </td>
           </tr>
         `).join('') : '<tr><td colspan="3">No notes yet.</td></tr>';
+        if (oppNotesManagerRows) oppNotesManagerRows.innerHTML = oppNotesRows.innerHTML;
 
         oppNotesRows.querySelectorAll('[data-opp-note-edit-index]').forEach((btn) => {
           btn.addEventListener('click', () => {
@@ -988,6 +1015,7 @@
             if (!note) return;
             oppNoteForm.elements.namedItem('editIndex').value = String(idx);
             oppNoteForm.elements.namedItem('note').value = note.text || '';
+            if (addOppNoteForm) { addOppNoteForm.elements.namedItem('editIndex').value = String(idx); addOppNoteForm.elements.namedItem('note').value = note.text || ''; }
             oppNoteForm.elements.namedItem('note').focus();
           });
         });
@@ -1192,6 +1220,20 @@
         if (selectedAccountIndex !== null) renderAccountOpportunities(accounts[selectedAccountIndex]);
       });
 
+      saveOppNoteBtn.addEventListener('click', () => {
+        if (selectedOppIndex === null || !opportunities[selectedOppIndex]) { alert('Open an opportunity first.'); return; }
+        const opp = opportunities[selectedOppIndex];
+        addOppNoteForm.reset();
+        addOppNoteForm.elements.namedItem('editIndex').value = '-1';
+        renderOppNotesManager(opp);
+        openModal(addOppNoteModal);
+      });
+
+      closeOppNoteModalEditorBtn.addEventListener('click', () => {
+        addOppNoteForm.reset();
+        addOppNoteForm.elements.namedItem('editIndex').value = '-1';
+      });
+
       closeOppNoteEditorBtn.addEventListener('click', () => {
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
@@ -1228,6 +1270,32 @@
           });
         }
         renderOppAssets(opp);
+      });
+
+      addOppNoteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+        const opp = opportunities[selectedOppIndex];
+        if (!Array.isArray(opp.notes)) opp.notes = [];
+        const noteText = addOppNoteForm.elements.namedItem('note').value.trim();
+        if (!noteText) return;
+        const editIndex = Number(addOppNoteForm.elements.namedItem('editIndex').value || '-1');
+        if (editIndex >= 0 && opp.notes[editIndex]) {
+          opp.notes[editIndex].text = noteText;
+          opp.notes[editIndex].when = new Date().toLocaleString();
+        } else {
+          opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+        }
+        if (sb && opp._id) {
+          const { error } = await sb.from('sales_opportunities').update({ notes: JSON.stringify(opp.notes) }).eq('id', opp._id);
+          if (error) { alert('Save failed: ' + error.message); return; }
+          await loadOpportunities();
+        }
+        const refreshedOpp = (sb && opp._id) ? opportunities.find((o) => o._id === opp._id) || opp : opp;
+        renderOppNotesManager(refreshedOpp);
+        addOppNoteForm.reset();
+        addOppNoteForm.elements.namedItem('editIndex').value = '-1';
+        closeModal(addOppNoteModal);
       });
 
       oppNoteForm.addEventListener('submit', async (e) => {
