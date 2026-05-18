@@ -1013,15 +1013,21 @@
         assetFileInput.click();
       });
 
-      assetFileInput.addEventListener('change', (e) => {
+      assetFileInput.addEventListener('change', async (e) => {
         const files = Array.from(e.target.files || []);
-        files.forEach((file) => {
+        for (const file of files) {
+          const path = `general/${Date.now()}_${file.name}`;
+          if (sb) {
+            const { error } = await sb.storage.from('sales-files').upload(path, file);
+            if (error) { alert('Upload failed: ' + error.message); continue; }
+          }
           assetsBucket.push({
             name: file.name,
             size: `${Math.max(1, Math.round(file.size / 1024))} KB`,
-            addedAt: new Date().toLocaleString()
+            addedAt: new Date().toLocaleString(),
+            storagePath: path
           });
-        });
+        }
         renderAssets();
       });
 
@@ -1175,18 +1181,25 @@
         oppAssetFileInput.click();
       });
 
-      oppAssetFileInput.addEventListener('change', (e) => {
+      oppAssetFileInput.addEventListener('change', async (e) => {
         if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
         const opp = opportunities[selectedOppIndex];
         if (!Array.isArray(opp.assets)) opp.assets = [];
         const files = Array.from(e.target.files || []);
-        files.forEach((file) => {
+        for (const file of files) {
+          const folder = opp._id ? `opportunities/${opp._id}` : 'opportunities/unsaved';
+          const path = `${folder}/${Date.now()}_${file.name}`;
+          if (sb) {
+            const { error } = await sb.storage.from('sales-files').upload(path, file);
+            if (error) { alert('Upload failed: ' + error.message); continue; }
+          }
           opp.assets.push({
             name: file.name,
             size: `${Math.max(1, Math.round(file.size / 1024))} KB`,
-            addedAt: new Date().toLocaleString()
+            addedAt: new Date().toLocaleString(),
+            storagePath: path
           });
-        });
+        }
         renderOppAssets(opp);
       });
 
