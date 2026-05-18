@@ -753,7 +753,7 @@
         `).join('');
         renderOppNotesManager(opp);
         renderOppAssets(opp);
-        editOppModalBtn.textContent = "Edit Opportunity";
+        editOppModalBtn.textContent = "✏️";
         openModal(oppContactsModal);
       }
 
@@ -792,7 +792,7 @@
             if (Number.isNaN(idx)) return;
             rows.splice(idx, 1);
             renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "Edit Opportunity";
+        editOppModalBtn.textContent = "✏️";
             oppNoteForm.reset();
             oppNoteForm.elements.namedItem('editIndex').value = '-1';
           });
@@ -937,7 +937,7 @@
             <tr><th>Amount</th><td><input data-opp-edit-field="amount" value="${opp.amount || ''}" style="width:100%;" /></td></tr>
             <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
           `;
-          editOppModalBtn.textContent = 'Save Opportunity';
+          editOppModalBtn.textContent = '💾';
           return;
         }
         opp.name = oppDetailRows.querySelector('[data-opp-edit-field="name"]').value.trim() || opp.name;
@@ -951,7 +951,7 @@
           <tr><th>Amount</th><td>${opp.amount || '—'}</td></tr>
           <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
         `;
-        editOppModalBtn.textContent = 'Edit Opportunity';
+        editOppModalBtn.textContent = '✏️';
         renderOpps();
         if (selectedAccountIndex !== null) renderAccountOpportunities(accounts[selectedAccountIndex]);
       });
@@ -997,7 +997,7 @@
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
         renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "Edit Opportunity";
+        editOppModalBtn.textContent = "✏️";
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
       });
