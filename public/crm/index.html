@@ -241,9 +241,8 @@
     </div>
 
     <div id="oppContactsModal" class="modal-backdrop" aria-hidden="true">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppContactsTitle" style="max-width:700px; overflow:auto;">
-        <div class="modal-header">
-          <h2 id="oppContactsTitle" class="modal-title">Opportunity Details</h2>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppContactsTitle" style="max-width:700px; overflow:visible;">
+        <div style="display:flex; justify-content:flex-end; position:sticky; top:0; z-index:4; background:#fff; padding-top:4px;">
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
         <div style="position:sticky; top:10px; z-index:7; width:0; height:0;">
@@ -255,8 +254,11 @@
             <button id="closeOppNoteEditorBtn" class="btn" type="button" aria-label="Clear Note" style="padding:6px 0; min-height:32px;">🧹</button>
           </div>
         </div>
+        <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
+          <h3 id="oppContactsTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;">Opportunity Details</h3>
+          <hr style="border:0; border-top:3px solid #cbd5e1; margin:0 0 12px;" />
+        </div>
         <div style="max-height:72vh; overflow:auto; padding-right:4px;">
-        <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 12px;" />
         <table class="table">
           <tbody id="oppDetailRows"></tbody>
         </table>
