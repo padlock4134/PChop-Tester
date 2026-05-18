@@ -42,7 +42,7 @@
       .modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,.55); display: none; align-items: center; justify-content: center; padding: 18px; z-index: 1000; }
       .modal-backdrop.open { display: flex; }
       .modal { width: 100%; max-width: 880px; background: #fff; border: 4px solid var(--maine-blue); border-radius: 14px; padding: 16px; max-height: 88vh; overflow: auto; }
-      .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+      .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; position: sticky; top: 0; z-index: 3; background: #fff; padding: 0 0 10px; border-bottom: 2px solid #cbd5e1; }
       .modal-title { margin: 0; color: var(--maine-blue); }
       .close { border: 0; background: transparent; font-size: 24px; cursor: pointer; color: #334155; }
       .table { width: 100%; border-collapse: collapse; font-size: 14px; }
@@ -115,7 +115,12 @@
           <h2 id="accountsTitle" class="modal-title">Accounts</h2>
           <button class="close" type="button" data-close="accountsModal">×</button>
         </div>
-        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;"><button id="assetsBtn" class="btn" type="button">Assets</button><button id="importAccountsBtn" class="btn" type="button">Import Accounts</button><input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" /><button id="addAccountBtn" class="btn primary" type="button">+ Add Account</button></div>
+        <div class="right" style="display:flex; gap:8px; justify-content:flex-end;">
+          <button id="assetsBtn" class="btn" type="button" aria-label="Assets" title="Assets">🏷️</button>
+          <button id="importAccountsBtn" class="btn" type="button" aria-label="Import Accounts" title="Import Accounts">📥</button>
+          <input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" />
+          <button id="addAccountBtn" class="btn primary" type="button" aria-label="Add Account" title="Add Account">➕</button>
+        </div>
         <table class="table">
           <thead><tr><th>Open</th><th>Account</th><th>Type</th><th>Owner</th></tr></thead>
           <tbody id="accountsRows"></tbody>
@@ -128,21 +133,25 @@
 
     <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px; overflow:visible;">
-        <div style="position:sticky; top:0; z-index:3; width:0; height:0;">
-          <div style="transform:translateX(-178px); border-left:3px solid #1f3a5f; background:#fff; padding:8px 8px 8px 8px; width:170px; box-shadow:0 2px 8px rgba(15,23,42,.12); border-radius:0 10px 10px 0;">
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <button id="editAccountBtn" class="btn" type="button">Edit Account</button>
-              <button id="addTaskBtn" class="btn" type="button">Add/Edit Task</button>
-              <button id="addNoteBtn" class="btn" type="button">Add/Edit Note</button>
-              <button id="addOppFromAccountBtn" class="btn" type="button">Add/Edit Opp</button>
+        <div style="display:flex; justify-content:flex-end; position:sticky; top:0; z-index:4; background:#fff; padding-top:4px;">
+          <button class="close" type="button" data-close="accountDetailModal">×</button>
+        </div>
+        <div style="position:sticky; top:10px; z-index:7; width:0; height:0;">
+          <div style="position:relative; z-index:7; transform:translateX(-66px); border:2px solid #1f3a5f; border-left-width:0; border-right-width:0; background:linear-gradient(180deg,#f8fafc 0%, #ffffff 85%); padding:4px; width:64px; box-shadow:none; border-radius:0;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <button id="editAccountBtn" class="btn" type="button" aria-label="Edit Account" title="Edit Account" style="padding:6px 0; min-height:32px;">👤</button>
+              <button id="addTaskBtn" class="btn" type="button" aria-label="Add/Edit Task" title="Add/Edit Task" style="padding:6px 0; min-height:32px;">🗓️</button>
+              <button id="addNoteBtn" class="btn" type="button" aria-label="Add/Edit Note" title="Add/Edit Note" style="padding:6px 0; min-height:32px;">📝</button>
+              <button id="addOppFromAccountBtn" class="btn" type="button" aria-label="Add/Edit Opportunity" title="Add/Edit Opportunity" style="padding:6px 0; min-height:32px;">🎯</button>
+              <button id="emailAccountContactBtn" class="btn" type="button" aria-label="Email Contact" title="Email Contact" style="padding:6px 0; min-height:32px;">📧</button>
             </div>
           </div>
-          <div style="transform:translateX(0); display:flex; justify-content:flex-end; padding-top:8px;"><button class="close" type="button" data-close="accountDetailModal">×</button></div>
         </div>
         <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
+          <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
           <hr style="border:0; border-top:3px solid #cbd5e1; margin:0 0 12px;" />
         </div>
-        <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
+        <div style="max-height:72vh; overflow:auto; padding-right:4px;">
         <table class="table">
           <tbody id="accountDetailRows"></tbody>
         </table>
@@ -166,6 +175,7 @@
           <thead><tr><th>Task</th><th>Due</th><th>Status</th></tr></thead>
           <tbody id="accountTaskRows"></tbody>
         </table>
+        </div>
       </div>
     </div>
 
@@ -233,20 +243,24 @@
 
     <div id="oppContactsModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppContactsTitle" style="max-width:700px; overflow:visible;">
-        <div class="modal-header">
-          <h2 id="oppContactsTitle" class="modal-title">Opportunity Details</h2>
+        <div style="display:flex; justify-content:flex-end; position:sticky; top:0; z-index:4; background:#fff; padding-top:4px;">
           <button class="close" type="button" data-close="oppContactsModal">×</button>
         </div>
-        <div style="position:sticky; top:0; z-index:3; width:0; height:0;">
-          <div style="transform:translateX(-178px); border-left:3px solid #1f3a5f; background:#fff; padding:8px; width:170px; box-shadow:0 2px 8px rgba(15,23,42,.12); border-radius:0 10px 10px 0; display:flex; flex-direction:column; gap:8px;">
-            <button id="uploadOppAssetBtn" class="btn" type="button">Upload Asset</button>
+        <div style="position:sticky; top:10px; z-index:7; width:0; height:0;">
+          <div style="position:relative; z-index:7; transform:translateX(-66px); border:2px solid #1f3a5f; border-left-width:0; border-right-width:0; background:linear-gradient(180deg,#f8fafc 0%, #ffffff 85%); padding:4px; width:64px; box-shadow:none; border-radius:0; display:flex; flex-direction:column; gap:4px;">
+            <button id="uploadOppAssetBtn" class="btn" type="button" aria-label="Upload Asset" title="Upload Asset" style="padding:6px 0; min-height:32px;">📎</button>
             <input id="oppAssetFileInput" type="file" multiple style="display:none;" />
-            <button id="editOppModalBtn" class="btn" type="button">Edit Opportunity</button>
-            <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm">Edit/Add Note</button>
-            <button id="closeOppNoteEditorBtn" class="btn" type="button">Clear Note</button>
+            <button id="editOppModalBtn" class="btn" type="button" aria-label="Edit Opportunity" title="Edit Opportunity" style="padding:6px 0; min-height:32px;">✏️</button>
+            <button id="saveOppNoteBtn" class="btn primary" type="submit" form="oppNoteForm" aria-label="Edit/Add Note" title="Edit/Add Note" style="padding:6px 0; min-height:32px;">📝</button>
+            <button id="closeOppNoteEditorBtn" class="btn" type="button" aria-label="Clear Note" title="Clear Note" style="padding:6px 0; min-height:32px;">🧹</button>
+            <button id="emailOppContactBtn" class="btn" type="button" aria-label="Email Contact" title="Email Contact" style="padding:6px 0; min-height:32px;">📧</button>
           </div>
         </div>
-        <hr style="border:0; border-top:3px solid #cbd5e1; margin:10px 0 12px;" />
+        <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
+          <h3 id="oppContactsTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;">Opportunity Details</h3>
+          <hr style="border:0; border-top:3px solid #cbd5e1; margin:0 0 12px;" />
+        </div>
+        <div style="max-height:72vh; overflow:auto; padding-right:4px;">
         <table class="table">
           <tbody id="oppDetailRows"></tbody>
         </table>
@@ -273,6 +287,7 @@
             <thead><tr><th>Uploaded Assets</th><th>Size</th><th>Added</th></tr></thead>
             <tbody id="oppAssetRows"></tbody>
           </table>
+        </div>
         </div>
       </div>
     </div>
@@ -388,6 +403,27 @@
       </div>
     </div>
 
+    <div id="emailContactModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="emailContactTitle" style="max-width:760px;">
+        <div class="modal-header">
+          <h2 id="emailContactTitle" class="modal-title">Email Contact</h2>
+          <button class="close" type="button" data-close="emailContactModal">×</button>
+        </div>
+        <p class="subtle" id="emailContactContext" style="margin-bottom:10px;">Compose from connected Google account (integration stub).</p>
+        <form id="emailContactForm">
+          <div class="form-grid" style="grid-template-columns:1fr;">
+            <select id="emailContactTo" name="to" required></select>
+            <input name="subject" placeholder="Subject" required />
+            <textarea name="body" placeholder="Write your email" required style="width:100%; min-height:140px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+          </div>
+          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+            <button class="btn" type="button" data-close="emailContactModal">Cancel</button>
+            <button class="btn primary" type="submit">Send (Google Stub)</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script>
       const opportunities = [
@@ -422,6 +458,7 @@
       const assetsModal = document.getElementById('assetsModal');
       const importAccountsMapModal = document.getElementById('importAccountsMapModal');
       const editContactModal = document.getElementById('editContactModal');
+      const emailContactModal = document.getElementById('emailContactModal');
       const accountsRows = document.getElementById('accountsRows');
       const oppsRows = document.getElementById('oppsRows');
       const oppContactsRows = document.getElementById('oppContactsRows');
@@ -456,10 +493,15 @@
       const closeOppNoteEditorBtn = document.getElementById('closeOppNoteEditorBtn');
       const editOppModalBtn = document.getElementById('editOppModalBtn');
       const uploadOppAssetBtn = document.getElementById('uploadOppAssetBtn');
+      const emailAccountContactBtn = document.getElementById('emailAccountContactBtn');
+      const emailOppContactBtn = document.getElementById('emailOppContactBtn');
       const oppAssetFileInput = document.getElementById('oppAssetFileInput');
       const uploadAssetBtn = document.getElementById('uploadAssetBtn');
       const assetFileInput = document.getElementById('assetFileInput');
       const assetsRows = document.getElementById('assetsRows');
+      const emailContactForm = document.getElementById('emailContactForm');
+      const emailContactTo = document.getElementById('emailContactTo');
+      const emailContactContext = document.getElementById('emailContactContext');
       let selectedAccountName = null;
       let selectedAccountIndex = null;
       let selectedOppIndex = null;
@@ -608,7 +650,8 @@
             selectedAccountName = account.name;
             accountDetailTitle.textContent = account.name;
             isEditingAccount = false;
-            editAccountBtn.textContent = 'Edit Account';
+            editAccountBtn.textContent = '👤';
+        editAccountBtn.setAttribute('aria-label', 'Edit Account');
             renderAccountDetails(account);
             renderAccountContacts(account);
             renderAccountOpportunities(account);
@@ -740,7 +783,8 @@
         `).join('');
         renderOppNotesManager(opp);
         renderOppAssets(opp);
-        editOppModalBtn.textContent = "Edit Opportunity";
+        editOppModalBtn.textContent = "✏️";
+        editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         openModal(oppContactsModal);
       }
 
@@ -779,7 +823,8 @@
             if (Number.isNaN(idx)) return;
             rows.splice(idx, 1);
             renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "Edit Opportunity";
+        editOppModalBtn.textContent = "✏️";
+        editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
             oppNoteForm.reset();
             oppNoteForm.elements.namedItem('editIndex').value = '-1';
           });
@@ -924,7 +969,8 @@
             <tr><th>Amount</th><td><input data-opp-edit-field="amount" value="${opp.amount || ''}" style="width:100%;" /></td></tr>
             <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
           `;
-          editOppModalBtn.textContent = 'Save Opportunity';
+          editOppModalBtn.textContent = '💾';
+          editOppModalBtn.setAttribute('aria-label', 'Save Opportunity');
           return;
         }
         opp.name = oppDetailRows.querySelector('[data-opp-edit-field="name"]').value.trim() || opp.name;
@@ -938,7 +984,8 @@
           <tr><th>Amount</th><td>${opp.amount || '—'}</td></tr>
           <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
         `;
-        editOppModalBtn.textContent = 'Edit Opportunity';
+        editOppModalBtn.textContent = '✏️';
+        editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         renderOpps();
         if (selectedAccountIndex !== null) renderAccountOpportunities(accounts[selectedAccountIndex]);
       });
@@ -946,6 +993,11 @@
       closeOppNoteEditorBtn.addEventListener('click', () => {
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
+        const noteField = oppNoteForm.elements.namedItem('note');
+        if (noteField) {
+          noteField.value = '';
+          noteField.focus();
+        }
       });
 
       uploadOppAssetBtn.addEventListener('click', () => {
@@ -984,7 +1036,8 @@
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
         }
         renderOppNotesManager(opp);
-        editOppModalBtn.textContent = "Edit Opportunity";
+        editOppModalBtn.textContent = "✏️";
+        editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
         oppNoteForm.reset();
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
       });
@@ -992,6 +1045,26 @@
       function populateOppAccountOptions() {
 
         oppAccountSelect.innerHTML = '<option value="">Select account</option>' + accounts.map(a => `<option value="${a.name}">${a.name}</option>`).join('');
+      }
+
+      function openEmailContactModal(source) {
+        const useOpp = source === 'opportunity';
+        const contactPool = useOpp && selectedOppIndex !== null && opportunities[selectedOppIndex]
+          ? (opportunities[selectedOppIndex].contacts || [])
+          : (selectedAccountIndex !== null && accounts[selectedAccountIndex] ? (accounts[selectedAccountIndex].contacts || []) : []);
+        const withEmail = contactPool.filter((c) => c && c.email);
+        if (!withEmail.length) {
+          alert('No contacts with email found for this record.');
+          return;
+        }
+        const contextName = useOpp && selectedOppIndex !== null && opportunities[selectedOppIndex]
+          ? opportunities[selectedOppIndex].name
+          : (selectedAccountIndex !== null && accounts[selectedAccountIndex] ? accounts[selectedAccountIndex].name : 'Current Record');
+        emailContactContext.textContent = `Compose from connected Google account (integration stub) • ${contextName}`;
+        emailContactTo.innerHTML = withEmail.map((c) => `<option value="${c.email}">${c.name || c.email} (${c.email})</option>`).join('');
+        emailContactForm.reset();
+        emailContactTo.selectedIndex = 0;
+        openModal(emailContactModal);
       }
 
       renderDashboardTasks();
@@ -1005,7 +1078,8 @@
 
         if (!isEditingAccount) {
           isEditingAccount = true;
-          editAccountBtn.textContent = 'Save Account';
+          editAccountBtn.textContent = '💾';
+          editAccountBtn.setAttribute('aria-label', 'Save Account');
           renderAccountDetails(account);
           return;
         }
@@ -1022,7 +1096,8 @@
         selectedAccountName = account.name;
 
         isEditingAccount = false;
-        editAccountBtn.textContent = 'Edit Account';
+        editAccountBtn.textContent = '👤';
+        editAccountBtn.setAttribute('aria-label', 'Edit Account');
         accountDetailTitle.textContent = account.name;
         renderAccountDetails(account);
         renderAccounts();
@@ -1067,6 +1142,18 @@
       closeNoteEditorBtn.addEventListener('click', () => {
         addNoteForm.reset();
         addNoteForm.elements.namedItem('editIndex').value = '-1';
+      });
+
+      emailAccountContactBtn.addEventListener('click', () => openEmailContactModal('account'));
+      emailOppContactBtn.addEventListener('click', () => openEmailContactModal('opportunity'));
+
+      emailContactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const to = String(emailContactForm.elements.namedItem('to').value || '').trim();
+        const subject = String(emailContactForm.elements.namedItem('subject').value || '').trim();
+        if (!to || !subject) return;
+        alert(`Google email integration stub:\nTo: ${to}\nSubject: ${subject}`);
+        closeModal(emailContactModal);
       });
 
       addNoteForm.addEventListener('submit', (e) => {
@@ -1135,7 +1222,7 @@
         }
       });
 
-      [accountsModal, accountDetailModal, addAccountModal, addOppModal, addNoteModal, addTaskModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal].forEach(backdrop => {
+      [accountsModal, accountDetailModal, addAccountModal, addOppModal, addNoteModal, addTaskModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal, emailContactModal].forEach(backdrop => {
         backdrop.addEventListener('click', (e) => {
           if (e.target === backdrop) closeModal(backdrop);
         });
