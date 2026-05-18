@@ -154,7 +154,7 @@
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
         <table class="table">
-          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
+          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Phone</th></tr></thead>
           <tbody id="accountDetailContactsRows"></tbody>
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
@@ -264,7 +264,7 @@
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
         <table class="table">
-          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Role</th></tr></thead>
+          <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Phone</th></tr></thead>
           <tbody id="oppContactsRows"></tbody>
         </table>
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
@@ -396,7 +396,7 @@
             <input name="name" placeholder="Contact name" required />
             <input name="title" placeholder="Title" />
             <input name="email" placeholder="Email" required />
-            <input name="role" placeholder="Role" />
+            <input name="phone" placeholder="Phone" />
           </div>
           <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Contact</button></div>
         </form>
@@ -501,7 +501,7 @@
             notes: tryParseJson(row.notes, []),
             tasks: myTasks.map(t => ({ _id: t.id, title: t.title, dueDate: t.due_date, status: t.status, priority: t.priority || 'medium' })),
             assets: [],
-            contacts: myContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', role: c.role_in_deal || '' }))
+            contacts: myContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', phone: c.phone || '' }))
           });
         }
       }
@@ -527,7 +527,7 @@
             notes: tryParseJson(row.notes, []),
             tasks: [],
             assets: [],
-            contacts: oppContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', role: c.role_in_deal || '' }))
+            contacts: oppContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', phone: c.phone || '' }))
           });
         }
       }
@@ -836,7 +836,7 @@
 
       function renderAccountContacts(account) {
         accountDetailContactsRows.innerHTML = account.contacts.map(c => `
-          <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+          <tr><td>${c.name}</td><td>${c.title || '—'}</td><td>${c.email}</td><td>${c.phone || '—'}</td></tr>
         `).join('');
       }
 
@@ -866,7 +866,7 @@
         editContactForm.elements.namedItem('name').value = contact.name || '';
         editContactForm.elements.namedItem('title').value = contact.title || '';
         editContactForm.elements.namedItem('email').value = contact.email || '';
-        editContactForm.elements.namedItem('role').value = contact.role || '';
+        editContactForm.elements.namedItem('phone').value = contact.phone || '';
       }
 
       function renderAssets() {
@@ -953,7 +953,7 @@
           <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
         `;
         oppContactsRows.innerHTML = opp.contacts.map(c => `
-          <tr><td>${c.name}</td><td>${c.title}</td><td>${c.email}</td><td>${c.role}</td></tr>
+          <tr><td>${c.name}</td><td>${c.title || '—'}</td><td>${c.email}</td><td>${c.phone || '—'}</td></tr>
         `).join('');
         renderOppNotesManager(opp);
         renderOppAssets(opp);
@@ -1124,22 +1124,20 @@
         const lastName = nameParts.slice(1).join(' ') || '—';
         const updated = {
           name: fullName,
-          title: editContactForm.elements.namedItem('title').value.trim() || '—',
+          title: editContactForm.elements.namedItem('title').value.trim(),
           email: editContactForm.elements.namedItem('email').value.trim(),
-          role: editContactForm.elements.namedItem('role').value.trim() || 'champion'
+          phone: editContactForm.elements.namedItem('phone').value.trim()
         };
         if (!updated.name || !updated.email) {
           alert('Name and Email are required.');
           return;
         }
         if (sb && account._id) {
-          const roleMap = { 'champion': 'champion', 'decision_maker': 'decision_maker', 'influencer': 'influencer', 'procurement': 'procurement', 'legal': 'legal', 'finance': 'finance', 'technical_reviewer': 'technical_reviewer' };
-          const dbRole = roleMap[updated.role] || 'champion';
           if (idx >= 0 && account.contacts[idx] && account.contacts[idx]._id) {
-            const { error } = await sb.from('sales_contacts').update({ first_name: firstName, last_name: lastName, title: updated.title, email: updated.email, role_in_deal: dbRole }).eq('id', account.contacts[idx]._id);
+            const { error } = await sb.from('sales_contacts').update({ first_name: firstName, last_name: lastName, title: updated.title || '—', email: updated.email, phone: updated.phone || null, role_in_deal: 'champion' }).eq('id', account.contacts[idx]._id);
             if (error) { alert('Update failed: ' + error.message); return; }
           } else {
-            const { error } = await sb.from('sales_contacts').insert({ account_id: account._id, first_name: firstName, last_name: lastName, title: updated.title, email: updated.email, role_in_deal: dbRole, owner_user_id: currentUserId });
+            const { error } = await sb.from('sales_contacts').insert({ account_id: account._id, first_name: firstName, last_name: lastName, title: updated.title || '—', email: updated.email, phone: updated.phone || null, role_in_deal: 'champion', owner_user_id: currentUserId });
             if (error) { alert('Save failed: ' + error.message); return; }
           }
           await loadAccounts();
