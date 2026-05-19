@@ -4,7 +4,7 @@
   functions = "netlify/functions"
 
 [functions."crm-lead-hunter"]
-  timeout = 26
+  timeout = 60
 
 [functions."crm-lead-hunter-import"]
   timeout = 26
