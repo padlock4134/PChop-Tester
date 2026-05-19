@@ -81,18 +81,18 @@ exports.handler = async (event) => {
     const ALL_DISCIPLINES = ['Culinary','Plumbing','Automotive','Construction','Electrical','HVAC','Manufacturing','Logistics','Welding'];
 
     const prompt = isAll
-      ? `Find up to ${safeCount} ${instType}s ${location} with CTE or vocational/trade programs (any of: ${ALL_DISCIPLINES.join(', ')}). Return as many as you can find, up to ${safeCount}.
+      ? `Search for "${role} CTE vocational trades ${instType} staff directory ${location}" to find real people with their name, title, email, and phone number who run CTE/vocational programs (${ALL_DISCIPLINES.join(', ')}) at ${instType}s.
 
-For each, find the ${role} or equivalent senior vocational contact. Note which trade programs they offer.
+Find up to ${safeCount} real people. For each person, note which trade programs their institution offers.
 
-OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT. Each object:
-[{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name or Department Name","title":"Job Title","email":"email@institution.edu or empty string","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}]`
-      : `Find up to ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program. Return as many as you can find, up to ${safeCount}.
+OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
+[{"institution":"Name","website":"url","contactName":"REAL PERSON NAME","title":"Their Actual Title","email":"their@email.edu","phone":"(xxx) xxx-xxxx","city":"City","state":"ST","type":"${instType}","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}]`
+      : `Search for "${role} ${discipline} program ${instType} staff directory ${location}" to find real people with their name, title, email, and phone number.
 
-Search institutional websites and staff directories for real, verified contact information. Only include contacts where you can find a real name and title.
+Find up to ${safeCount} real ${role}s at ${instType}s ${location} who run ${discipline} programs. Search staff directory pages and faculty listings on .edu sites.
 
-OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT. Each object:
-[{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name or Department Name","title":"Job Title","email":"email@institution.edu or empty string","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}"}]`;
+OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
+[{"institution":"Name","website":"url","contactName":"REAL PERSON NAME","title":"Their Actual Title","email":"their@email.edu","phone":"(xxx) xxx-xxxx","city":"City","state":"ST","type":"${instType}"}]`;
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 55000);
@@ -111,7 +111,7 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT. Each object:
           model: 'claude-haiku-4-5-20251001',
           max_tokens: Math.min(1500 * safeCount, 8000),
           tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
-          system: 'You are a B2B lead data extractor. OUTPUT FORMAT: You must respond with ONLY a raw JSON array. No text before it. No text after it. No markdown fences. No explanations. JUST the [ ... ] array. If you cannot find a specific contact name, use the department name (e.g. "CTE Department"). If you cannot find an email, use an empty string. NEVER write sentences or paragraphs. Your output must start with [ and end with ].',
+          system: 'You are a B2B lead data extractor. You MUST respond with ONLY a raw JSON array starting with [ and ending with ]. No text before. No text after. No markdown. No explanations. Every contact MUST have a real human name in contactName — never use department names. Search staff directories on .edu sites to find actual people. If you find fewer than requested, return what you found. NEVER write sentences.',
           messages: [{ role: 'user', content: prompt }]
         }),
         signal: controller.signal
