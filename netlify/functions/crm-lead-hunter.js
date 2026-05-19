@@ -94,12 +94,58 @@ Find up to ${safeCount} real ${role}s at ${instType}s ${location} who run ${disc
 OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
 [{"institution":"Name","website":"url","contactName":"REAL PERSON NAME","title":"Their Actual Title","email":"their@email.edu","phone":"(xxx) xxx-xxxx","city":"City","state":"ST","type":"${instType}"}]`;
 
-    // ── Single call: training data + prefill forces JSON output ────────────────
+    // ── STEP 1: Web search — find real institutions + staff/about pages ────────
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 45000);
+
+    let searchResponse;
+    try {
+      searchResponse = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': apiKey,
+          'content-type': 'application/json',
+          'anthropic-version': '2023-06-01',
+          'anthropic-beta': 'web-search-2025-03-05'
+        },
+        body: JSON.stringify({
+          model: 'claude-haiku-4-5-20251001',
+          max_tokens: 4000,
+          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 5 }],
+          system: 'You are a lead researcher. For each institution you find, visit their staff page, about us page, or faculty listing to get real contact names, titles, emails and phone numbers. Report everything you find — institution names, URLs, and any staff contact details from those pages.',
+          messages: [{ role: 'user', content: prompt }]
+        }),
+        signal: controller.signal
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
+
+    if (!searchResponse.ok) {
+      const errText = await searchResponse.text();
+      let detail = errText;
+      try { detail = JSON.parse(errText)?.error?.message || errText; } catch {}
+      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: `Anthropic ${searchResponse.status}: ${detail}` }) };
+    }
+
+    const searchData = await searchResponse.json();
+    const rawText = (searchData.content || []).filter(b => b.type === 'text').map(b => b.text || '').join('\n');
+    console.log('Step 1 raw (first 500):', rawText.slice(0, 500));
+
+    if (!rawText || rawText.length < 20) {
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leads: [], debug: 'Web search returned no text.', quota: null })
+      };
+    }
+
+    // ── STEP 2: Format into JSON. Use web search data first, fill gaps from training data ──
     const jsonSchema = isAll
-      ? '{"institution":"Name","website":"https://school.edu","contactName":"John Smith","title":"Department Chair, CTE","email":"jsmith@school.edu","phone":"(555) 123-4567","city":"City","state":"ST","type":"' + instType + '","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}'
+      ? '{"institution":"Name","website":"https://school.edu","contactName":"John Smith","title":"Dept Chair","email":"jsmith@school.edu","phone":"(555) 123-4567","city":"City","state":"ST","type":"' + instType + '","disciplines":"Culinary, HVAC","disciplineCount":2}'
       : '{"institution":"Name","website":"https://school.edu","contactName":"John Smith","title":"' + role + '","email":"jsmith@school.edu","phone":"(555) 123-4567","city":"City","state":"ST","type":"' + instType + '"}';
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const formatResponse = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'x-api-key': apiKey,
@@ -109,24 +155,21 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: Math.min(1500 * safeCount, 8000),
-        system: `You have encyclopedic knowledge of US educational institutions and their staff from publicly posted staff directories, About Us pages, and faculty listings. You provide real names, titles, emails, and phone numbers of actual staff members. Output ONLY JSON.`,
+        system: 'You format research data into JSON arrays. PRIORITY: Use any contact names, emails, titles, and phones found in the research data. FALLBACK: If the research has an institution but no contact details, fill in from your knowledge of that institution staff page. Output ONLY a JSON array. Start with [ end with ].',
         messages: [
-          { role: 'user', content: prompt + `\n\nEach object in the array must match this schema:\n${jsonSchema}\n\nRules:\n- contactName must be a REAL person's full name (never a department name)\n- email must use the institution's actual domain\n- phone should be their direct line or the department number\n- website must be the institution's real URL\n- Return exactly ${safeCount} results` },
+          { role: 'user', content: `Format this research into a JSON array of up to ${safeCount} leads.\n\nSchema: ${jsonSchema}\n\nRules:\n- USE contact info from the research below if present (this is from live web search)\n- ONLY fill in contacts from your knowledge if the research has NO contact for that institution\n- contactName = real person name, NEVER a department\n- email = real email at the institution domain\n- phone = number found or empty string\n\nResearch:\n${rawText}` },
           { role: 'assistant', content: '[' }
         ]
       })
     });
 
-    if (!response.ok) {
-      const errText = await response.text();
-      let detail = errText;
-      try { detail = JSON.parse(errText)?.error?.message || errText; } catch {}
-      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: `Anthropic ${response.status}: ${detail}` }) };
+    if (!formatResponse.ok) {
+      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Format step failed' }) };
     }
 
-    const data = await response.json();
-    const jsonText = '[' + ((data.content || []).filter(b => b.type === 'text').map(b => b.text || '').join(''));
-    console.log('Response JSON (first 500):', jsonText.slice(0, 500));
+    const formatData = await formatResponse.json();
+    const jsonText = '[' + ((formatData.content || []).filter(b => b.type === 'text').map(b => b.text || '').join(''));
+    console.log('Step 2 JSON (first 500):', jsonText.slice(0, 500));
 
     const leads = parseLeadsFromText(jsonText).slice(0, safeCount);
 
@@ -134,7 +177,7 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ leads: [], debug: jsonText.slice(0, 1000), quota: null })
+        body: JSON.stringify({ leads: [], debug: `Raw: ${rawText.slice(0, 400)}\nJSON: ${jsonText.slice(0, 400)}`, quota: null })
       };
     }
 
