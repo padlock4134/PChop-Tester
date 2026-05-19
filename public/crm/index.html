@@ -1,1898 +1,3790 @@
 <!doctype html>
+
 <html lang="en">
+
   <head>
+
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>The Chop Shop</title>
+
     <style>
+
       :root {
+
         --maine-blue: #1f3a5f;
+
         --seafoam: #9fe3d0;
+
         --sand: #f8f2e6;
+
       }
+
       * { box-sizing: border-box; }
+
       body {
+
         margin: 0;
+
         font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
         background: var(--sand);
+
         color: #1f2937;
+
       }
+
       .wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+
       .card { width: 100%; max-width: 980px; background: #fff; border: 4px solid var(--maine-blue); border-radius: 16px; box-shadow: 0 12px 30px rgba(31,58,95,.18); overflow: hidden; }
+
       .top { background: linear-gradient(135deg, var(--maine-blue), #2b4f7f); color: #fff; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; }
+
       .brand { display: flex; gap: 14px; align-items: center; }
+
       .brand img { width: 48px; height: 48px; border-radius: 8px; background: #fff; padding: 3px; }
+
       .brand h1 { margin: 0; font-size: 24px; }
+
       .brand p { margin: 2px 0 0; opacity: .9; font-size: 14px; }
+
       .pill { background: var(--seafoam); color: var(--maine-blue); font-weight: 700; padding: 6px 12px; border-radius: 999px; font-size: 12px; }
+
       .content { padding: 24px; }
+
       .grid { display: grid; grid-template-columns: repeat(5, minmax(140px, 1fr)); gap: 14px; margin-bottom: 20px; }
+
       .kpi { border: 2px solid #d1d5db; border-radius: 12px; padding: 14px; }
+
       .kpi b { color: var(--maine-blue); font-size: 22px; display: block; }
+
       .kpi.clickable { cursor: pointer; }
+
       .kpi.clickable:hover { border-color: var(--maine-blue); }
+
       .sections { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; }
+
       .panel { border: 2px solid #e5e7eb; border-radius: 12px; padding: 14px; }
+
       .panel h3 { margin: 0 0 10px; color: var(--maine-blue); }
+
       .list { margin: 0; padding-left: 18px; line-height: 1.6; }
+
       .footer { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+
       .btn { border: 2px solid var(--maine-blue); background: #fff; color: var(--maine-blue); text-decoration: none; font-weight: 700; border-radius: 10px; padding: 10px 14px; cursor: pointer; }
+
       .btn.primary { background: var(--maine-blue); color: #fff; }
 
+
+
       .modal-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,.55); display: none; align-items: center; justify-content: center; padding: 18px; z-index: 1000; }
+
       .modal-backdrop.open { display: flex; }
+
       #addOppNoteModal { z-index: 3000; }
+
       .modal { width: 100%; max-width: 880px; background: #fff; border: 4px solid var(--maine-blue); border-radius: 14px; padding: 16px; max-height: 88vh; overflow: auto; }
+
       .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; position: sticky; top: 0; z-index: 3; background: #fff; padding: 0 0 10px; border-bottom: 2px solid #cbd5e1; }
+
       .modal-title { margin: 0; color: var(--maine-blue); }
+
       .close { border: 0; background: transparent; font-size: 24px; cursor: pointer; color: #334155; }
+
       .table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
       .table th, .table td { text-align: left; border-bottom: 1px solid #e5e7eb; padding: 10px 8px; }
+
       .table th { color: var(--maine-blue); }
+
       .right { text-align: right; }
+
       .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+
       .form-grid input, .form-grid select { width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 9px 10px; }
+
       .subtle { color: #64748b; font-size: 13px; margin: 8px 0 0; }
 
+
+
       .asset-ticker { flex: 1 1 360px; min-width: 280px; max-width: 100%; border: 2px solid var(--maine-blue); border-radius: 10px; background: #0f172a; color: #e2e8f0; height: 44px; display: flex; align-items: center; overflow: hidden; position: relative; }
+
       .asset-ticker-body { flex: 1 1 auto; height: 100%; overflow: hidden; display:flex; align-items:center; }
+
       .asset-ticker-label { flex: 0 0 auto; background: #dc2626; color: #fff; font-weight: 800; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 8px 10px; height: 100%; display:flex; align-items:center; border-right: 2px solid #991b1b; }
+
       .asset-ticker-track { white-space: nowrap; display: inline-block; padding-left: 100%; animation: ticker-scroll 28s linear infinite; font-weight: 600; }
+
       .asset-ticker-item { margin-right: 34px; }
+
       @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
 
+
+
+
       /* ── Lead Hunter ────────────────────────────────────────── */
+
       .lh-quota-badge { display:inline-flex; align-items:center; padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; white-space:nowrap; }
+
       .lh-quota-badge.ok   { background:#dcfce7; color:#15803d; }
+
       .lh-quota-badge.warn { background:#fef9c3; color:#854d0e; }
+
       .lh-quota-badge.empty{ background:#fee2e2; color:#991b1b; }
+
       #lhFilters .lh-form-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:0; }
+
       #lhFilters .lh-form-grid label { display:flex; flex-direction:column; gap:4px; font-size:13px; font-weight:600; color:#374151; }
+
       #lhFilters .lh-form-grid select, #lhFilters .lh-form-grid input[type=range] { width:100%; border:1px solid #cbd5e1; border-radius:8px; padding:8px 10px; font-size:13px; }
+
       #lhSpinner { text-align:center; padding:32px 20px; color:var(--maine-blue); font-weight:600; }
+
       .lh-spinner-ring { display:inline-block; width:32px; height:32px; border:3px solid #e2e8f0; border-top-color:var(--maine-blue); border-radius:50%; animation:lh-spin 0.8s linear infinite; }
+
       @keyframes lh-spin { to { transform:rotate(360deg); } }
+
       #lhResultsTable td { font-size:13px; }
+
       @media (max-width:700px) { #lhFilters .lh-form-grid { grid-template-columns:1fr 1fr; } }
 
+
+
       @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); } }
+
       @media (max-width: 760px) {
+
         .sections { grid-template-columns: 1fr; }
+
         .grid { grid-template-columns: 1fr; }
+
         .form-grid { grid-template-columns: 1fr; }
+
       }
+
     </style>
+
   </head>
+
   <body>
+
     <div class="wrap">
+
       <main class="card">
+
         <section class="top">
+
           <div class="brand">
+
             <img src="/logo.png" alt="The Chop Shop" />
+
             <div>
+
               <h1>The Chop Shop</h1>
+
               <p>Direct Sales + Tasks Dashboard</p>
+
             </div>
+
           </div>
+
           <div style="display:flex;align-items:center;gap:10px;">
+
             <button id="leadHunterBtn" class="btn" type="button" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.5);font-size:13px;padding:6px 14px;">🪵 The Lumber Mill</button>
+
             <span class="pill">The Chop Shop CRM</span>
+
           </div>
+
         </section>
+
         <section class="content">
+
           <div class="grid">
+
             <button id="accountsCard" class="kpi clickable" type="button" style="all:unset; display:block; border:2px solid #d1d5db; border-radius:12px; padding:14px; cursor:pointer;">
+
               <span>Accounts</span><b id="accountsCount">0</b>
+
             </button>
+
             <button id="oppsCard" class="kpi clickable" type="button" style="all:unset; display:block; border:2px solid #d1d5db; border-radius:12px; padding:14px; cursor:pointer;"><span>Open Opportunities</span><b id="oppsCount">0</b></button>
+
             <div class="kpi"><span>Pipeline Value</span><b id="pipelineValue">$0</b></div>
+
             <div class="kpi"><span>Overdue Tasks</span><b id="overdueTasksCount">0</b></div>
+
             <div class="kpi"><span>Won This Month</span><b id="wonThisMonth">0</b></div>
+
           </div>
+
+
 
           <div class="sections">
+
             <article class="panel">
+
               <h3>Today's Focus</h3>
+
               <div id="dashboardTaskList"></div>
+
             </article>
+
             <article class="panel">
+
               <h3>Stage Mix</h3>
+
               <div id="stageMix"><p style="color:#64748b;font-size:14px;margin:8px 0;">No deals yet. Add an opportunity to see stage breakdown.</p></div>
+
             </article>
+
           </div>
+
+
 
           <div class="footer">
+
             <a class="btn primary" href="/select-discipline">Back to Demo Site</a>
+
             <button id="logoutBtn" class="btn" type="button">Log Out</button>
+
             <div class="asset-ticker" aria-label="Announcements ticker">
+
               <div class="asset-ticker-label">Updates</div>
+
               <div class="asset-ticker-body">
+
                 <div class="asset-ticker-track" id="assetTickerTrack">
+
                 <span class="asset-ticker-item">📣 Welcome to the CRM ticker — share assets and announcements here.</span>
+
                 <span class="asset-ticker-item">📁 New training deck uploaded: Q3 District Outreach Playbook.</span>
+
                 <span class="asset-ticker-item">🗓️ Team call Friday 2:00 PM ET — Pipeline review + new partner updates.</span>
+
                 <span class="asset-ticker-item">🚀 Pilot kickoff: Central Valley College starts next Monday.</span>
+
                 </div>
+
               </div>
+
             </div>
 
+
+
           </div>
+
         </section>
+
       </main>
+
     </div>
 
+
+
     <div id="accountsModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountsTitle">
+
         <div class="modal-header">
+
           <h2 id="accountsTitle" class="modal-title">Accounts</h2>
+
           <button class="close" type="button" data-close="accountsModal">×</button>
+
         </div>
+
         <div class="right" style="display:flex; gap:8px; justify-content:flex-end;">
+
           <button id="assetsBtn" class="btn" type="button" aria-label="Assets" title="Assets">🏷️</button>
+
           <button id="importAccountsBtn" class="btn" type="button" aria-label="Import Accounts" title="Import Accounts">📥</button>
+
           <input id="importAccountsFileInput" type="file" accept=".csv,.xlsx,.xls,.tsv,.txt" style="display:none;" />
+
           <button id="addAccountBtn" class="btn primary" type="button" aria-label="Add Account" title="Add Account">➕</button>
+
         </div>
+
         <table class="table">
+
           <thead><tr><th>Open</th><th>Account</th><th>Type</th><th>Lead Status</th><th>Owner</th></tr></thead>
+
           <tbody id="accountsRows"></tbody>
+
         </table>
+
         <p class="subtle">Click “Contacts” to open second-level contact information for an account.</p>
+
       </div>
+
     </div>
+
+
+
+
 
 
 
     <div id="accountDetailModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="accountDetailTitle" style="max-width:760px; overflow:visible;">
+
         <div style="display:flex; justify-content:flex-end; position:sticky; top:0; z-index:4; background:#fff; padding-top:4px;">
+
           <button class="close" type="button" data-close="accountDetailModal">×</button>
+
         </div>
+
         <div style="position:sticky; top:10px; z-index:7; width:0; height:0;">
+
           <div style="position:relative; z-index:7; transform:translateX(-66px); border:2px solid #1f3a5f; border-left-width:0; border-right-width:0; background:linear-gradient(180deg,#f8fafc 0%, #ffffff 85%); padding:4px; width:64px; box-shadow:none; border-radius:0;">
+
             <div style="display:flex; flex-direction:column; gap:4px;">
+
               <button id="editAccountBtn" class="btn" type="button" aria-label="Edit Account" title="Edit Account" style="padding:6px 0; min-height:32px;">👤</button>
+
               <button id="addContactBtn" class="btn" type="button" aria-label="Add/Edit Contact" title="Add/Edit Contact" style="padding:6px 0; min-height:32px;">👥</button>
+
               <button id="addTaskBtn" class="btn" type="button" aria-label="Add/Edit Task" title="Add/Edit Task" style="padding:6px 0; min-height:32px;">🗓️</button>
+
               <button id="addNoteBtn" class="btn" type="button" aria-label="Add/Edit Note" title="Add/Edit Note" style="padding:6px 0; min-height:32px;">📝</button>
+
               <button id="addOppFromAccountBtn" class="btn" type="button" aria-label="Add/Edit Opportunity" title="Add/Edit Opportunity" style="padding:6px 0; min-height:32px;">🎯</button>
+
               <button id="emailAccountContactBtn" class="btn" type="button" aria-label="Email Contact" title="Email Contact" style="padding:6px 0; min-height:32px;">📧</button>
+
               <button id="deleteAccountBtn" class="btn" type="button" aria-label="Delete Account" title="Delete Account" style="padding:6px 0; min-height:32px; color:#dc2626;">🗑️</button>
+
             </div>
+
           </div>
+
         </div>
+
         <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
+
           <h3 id="accountDetailTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;"></h3>
+
           <hr style="border:0; border-top:3px solid #cbd5e1; margin:0 0 12px;" />
+
         </div>
+
         <div style="max-height:72vh; overflow:auto; padding-right:4px;">
+
         <table class="table">
+
           <tbody id="accountDetailRows"></tbody>
+
         </table>
+
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+
         <table class="table">
+
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Phone</th></tr></thead>
+
           <tbody id="accountDetailContactsRows"></tbody>
+
         </table>
+
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+
         <table class="table">
+
           <thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
+
           <tbody id="accountDetailOppRows"></tbody>
+
         </table>
+
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+
         <table class="table">
+
           <thead><tr><th>When</th><th>Note</th></tr></thead>
+
           <tbody id="accountNotesRows"></tbody>
+
         </table>
+
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+
         <table class="table">
+
           <thead><tr><th>Task</th><th>Due</th><th>Status</th></tr></thead>
+
           <tbody id="accountTaskRows"></tbody>
+
         </table>
+
         </div>
+
       </div>
+
     </div>
 
+
+
     <div id="addTaskModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addTaskTitle" style="max-width:760px;">
+
         <div class="modal-header">
+
           <h2 id="addTaskTitle" class="modal-title">Add Account Task</h2>
+
           <button class="close" type="button" data-close="addTaskModal">×</button>
+
         </div>
+
         <form id="addTaskForm">
+
           <div class="form-grid">
+
             <input name="title" placeholder="Task title" required />
+
             <input name="dueDate" type="date" required />
+
             <select name="status" required>
+
               <option value="">Select status</option>
+
               <option value="todo">To Do</option>
+
               <option value="in_progress">In Progress</option>
+
               <option value="blocked">Blocked</option>
+
               <option value="done">Done</option>
+
               <option value="cancelled">Cancelled</option>
+
             </select>
+
           </div>
+
           <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Task</button></div>
+
         </form>
+
       </div>
+
     </div>
+
+
 
     
 
 
 
+
+
+
+
     <div id="addNoteModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addNoteTitle" style="max-width:760px;">
+
         <div class="modal-header">
+
           <h2 id="addNoteTitle" class="modal-title">Add Account Note</h2>
+
           <button class="close" type="button" data-close="addNoteModal">×</button>
+
         </div>
+
         <div style="max-height:180px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px;">
+
           <table class="table" style="margin:0;">
+
             <thead><tr><th>When</th><th>Note</th><th>Actions</th></tr></thead>
+
             <tbody id="notesManagerRows"></tbody>
+
           </table>
+
         </div>
+
         <form id="addNoteForm">
+
           <input type="hidden" name="editIndex" value="-1" />
+
           <div class="form-grid" style="grid-template-columns:1fr;">
+
             <textarea name="note" placeholder="Enter account note" required style="width:100%; min-height:120px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+
           </div>
+
           <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="closeNoteEditorBtn" class="btn" type="button">Close</button><button class="btn primary" type="submit">Save Note</button></div>
+
         </form>
+
       </div>
+
     </div>
+
+
 
     <div id="addOppNoteModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addOppNoteTitle" style="max-width:760px;">
+
         <div class="modal-header">
+
           <h2 id="addOppNoteTitle" class="modal-title">Add Opportunity Note</h2>
+
           <button class="close" type="button" data-close="addOppNoteModal">×</button>
+
         </div>
+
         <div style="max-height:180px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px;">
+
           <table class="table" style="margin:0;">
+
             <thead><tr><th>When</th><th>Note</th><th>Actions</th></tr></thead>
+
             <tbody id="oppNotesManagerRows"></tbody>
+
           </table>
+
         </div>
+
         <form id="addOppNoteForm">
+
           <input type="hidden" name="editIndex" value="-1" />
+
           <div class="form-grid" style="grid-template-columns:1fr;">
+
             <textarea name="note" placeholder="Enter opportunity note" required style="width:100%; min-height:120px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+
           </div>
+
           <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;"><button id="closeOppNoteModalEditorBtn" class="btn" type="button">Close</button><button class="btn primary" type="submit">Save Note</button></div>
+
         </form>
+
       </div>
+
     </div>
+
+
 
     <div id="oppsModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppsTitle">
+
         <div class="modal-header">
+
           <h2 id="oppsTitle" class="modal-title">Open Opportunities</h2>
+
           <button class="close" type="button" data-close="oppsModal">×</button>
+
         </div>
+
         <table class="table">
+
           <thead><tr><th>Open</th><th>Opportunity</th><th>Account</th><th>Stage</th><th>Amount</th><th>Contacts</th></tr></thead>
+
           <tbody id="oppsRows"></tbody>
+
         </table>
+
       </div>
+
     </div>
 
+
+
     <div id="oppContactsModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="oppContactsTitle" style="max-width:700px; overflow:visible;">
+
         <div style="display:flex; justify-content:flex-end; position:sticky; top:0; z-index:4; background:#fff; padding-top:4px;">
+
           <button class="close" type="button" data-close="oppContactsModal">×</button>
+
         </div>
+
         <div style="position:sticky; top:10px; z-index:7; width:0; height:0;">
+
           <div style="position:relative; z-index:7; transform:translateX(-66px); border:2px solid #1f3a5f; border-left-width:0; border-right-width:0; background:linear-gradient(180deg,#f8fafc 0%, #ffffff 85%); padding:4px; width:64px; box-shadow:none; border-radius:0; display:flex; flex-direction:column; gap:4px;">
+
             <button id="uploadOppAssetBtn" class="btn" type="button" aria-label="Upload Asset" title="Upload Asset" style="padding:6px 0; min-height:32px;">📎</button>
+
             <input id="oppAssetFileInput" type="file" multiple style="display:none;" />
+
             <button id="editOppModalBtn" class="btn" type="button" aria-label="Edit Opportunity" title="Edit Opportunity" style="padding:6px 0; min-height:32px;">✏️</button>
+
             <button id="saveOppNoteBtn" class="btn primary" type="button" aria-label="Edit/Add Note" title="Edit/Add Note" style="padding:6px 0; min-height:32px;">📝</button>
+
             <button id="closeOppNoteEditorBtn" class="btn" type="button" aria-label="Clear Note" title="Clear Note" style="padding:6px 0; min-height:32px;">🧹</button>
+
             <button id="emailOppContactBtn" class="btn" type="button" aria-label="Email Contact" title="Email Contact" style="padding:6px 0; min-height:32px;">📧</button>
+
           </div>
+
         </div>
+
         <div style="position:sticky; top:0; z-index:2; background:#fff; padding:0 0 12px;">
+
           <h3 id="oppContactsTitle" style="text-align:center; color:var(--maine-blue); margin: 0 0 10px;">Opportunity Details</h3>
+
           <hr style="border:0; border-top:3px solid #cbd5e1; margin:0 0 12px;" />
+
         </div>
+
         <div style="max-height:72vh; overflow:auto; padding-right:4px;">
+
         <table class="table">
+
           <tbody id="oppDetailRows"></tbody>
+
         </table>
+
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+
         <table class="table">
+
           <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Phone</th></tr></thead>
+
           <tbody id="oppContactsRows"></tbody>
+
         </table>
+
         <hr style="border:0; border-top:1px solid #e5e7eb; margin:14px 0;" />
+
         <div style="max-height:180px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:10px;">
+
           <table class="table" style="margin:0;">
+
             <thead><tr><th>When</th><th>Note</th><th>Actions</th></tr></thead>
+
             <tbody id="oppNotesRows"></tbody>
+
           </table>
+
         </div>
+
         <form id="oppNoteForm">
+
           <input type="hidden" name="editIndex" value="-1" />
+
           <div class="form-grid" style="grid-template-columns:1fr;">
+
             <textarea name="note" placeholder="Enter opportunity note" required style="width:100%; min-height:100px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+
           </div>
+
         </form>
+
         <div style="max-height:140px; overflow:auto; border:1px solid #e5e7eb; border-radius:8px; margin-top:10px;">
+
           <table class="table" style="margin:0;">
+
             <thead><tr><th>Uploaded Assets</th><th>Size</th><th>Added</th></tr></thead>
+
             <tbody id="oppAssetRows"></tbody>
+
           </table>
+
         </div>
+
         </div>
+
       </div>
+
     </div>
+
+
+
+
 
 
 
     <div id="addOppModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addOppTitle" style="max-width:760px;">
+
         <div class="modal-header">
+
           <h2 id="addOppTitle" class="modal-title">Add Opportunity</h2>
+
           <button class="close" type="button" data-close="addOppModal">×</button>
+
         </div>
+
         <form id="addOppForm">
+
           <div class="form-grid">
+
             <input name="name" placeholder="Opportunity name" required />
+
             <select name="account" id="oppAccountSelect" required></select>
+
             <select name="stage" required>
+
               <option value="">Select stage</option>
+
               <option>lead_identified</option>
+
               <option>discovery_scheduled</option>
+
               <option>discovery_complete</option>
+
               <option>demo_delivered</option>
+
               <option>pilot_active</option>
+
               <option>procurement_security</option>
+
             </select>
+
             <input name="amount" placeholder="$ Amount" required />
+
           </div>
+
           <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Opportunity</button></div>
+
         </form>
+
       </div>
+
     </div>
 
+
+
     <div id="addAccountModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addAccountTitle" style="max-width:760px;">
+
         <div class="modal-header">
+
           <h2 id="addAccountTitle" class="modal-title">Add Account</h2>
+
           <button class="close" type="button" data-close="addAccountModal">×</button>
+
         </div>
+
         <form id="addAccountForm">
+
           <div class="form-grid">
+
             <input name="name" placeholder="Account name" required />
+
             <select name="type" required>
+
               <option value="">Select account type</option>
+
               <option value="individual_college">Community College</option>
+
               <option value="other">K-12 Secondary</option>
+
               <option value="whale_institute">Industry</option>
+
               <option value="state_system">Association</option>
+
               <option value="partner">Partner</option>
+
             </select>
+
             <input name="owner" placeholder="Owner" required />
+
             <input name="website" placeholder="Website" />
+
           </div>
+
           <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Account</button></div>
+
         </form>
+
       </div>
+
     </div>
+
+
+
+
 
 
 
     <div id="assetsModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="assetsTitle" style="max-width:760px;">
+
         <div class="modal-header">
+
           <h2 id="assetsTitle" class="modal-title">Assets Bucket</h2>
+
           <button class="close" type="button" data-close="assetsModal">×</button>
+
         </div>
+
         <p class="subtle" style="margin-bottom:10px;">Store sales materials and files for quick access.</p>
+
         <div class="right" style="display:flex; gap:8px; justify-content:flex-end; margin-bottom:10px;">
+
           <button id="uploadAssetBtn" class="btn" type="button">Upload Material</button>
+
           <input id="assetFileInput" type="file" multiple style="display:none;" />
+
         </div>
+
         <table class="table">
+
           <thead><tr><th>File</th><th>Size</th><th>Added</th></tr></thead>
+
           <tbody id="assetsRows"></tbody>
+
         </table>
+
       </div>
+
     </div>
 
+
+
     <div id="importAccountsMapModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="importAccountsMapTitle" style="max-width:760px;">
+
         <div class="modal-header">
+
           <h2 id="importAccountsMapTitle" class="modal-title">Import Accounts: Map Fields</h2>
+
           <button class="close" type="button" data-close="importAccountsMapModal">×</button>
+
         </div>
+
         <p class="subtle" style="margin-bottom:10px;">Map your file columns to CRM account fields, then import.</p>
+
         <form id="importAccountsMapForm">
+
           <div class="form-grid">
+
             <label>Account Name<select id="mapAccountName" required></select></label>
+
             <label>Type<select id="mapAccountType"></select></label>
+
             <label>Owner<select id="mapAccountOwner"></select></label>
+
             <label>Website<select id="mapAccountWebsite"></select></label>
+
             <label>State<select id="mapAccountState"></select></label>
+
           </div>
+
           <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Import Accounts</button></div>
+
         </form>
+
       </div>
+
     </div>
+
+
+
 
 
     <div id="editContactModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="editContactTitle" style="max-width:760px;">
+
         <div class="modal-header">
+
           <h2 id="editContactTitle" class="modal-title">Add/Edit Contact</h2>
+
           <button class="close" type="button" data-close="editContactModal">×</button>
+
         </div>
+
         <form id="editContactForm">
+
           <div class="form-grid">
+
             <select id="contactPicker" name="contactIndex"></select>
+
             <input name="name" placeholder="Contact name" required />
+
             <input name="title" placeholder="Title" />
+
             <input name="email" placeholder="Email" required />
+
             <input name="phone" placeholder="Phone" />
+
           </div>
+
           <div class="right" style="margin-top:12px;"><button class="btn primary" type="submit">Save Contact</button></div>
+
         </form>
+
       </div>
+
     </div>
+
+
 
     <div id="emailContactModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="emailContactTitle" style="max-width:760px;">
+
         <div class="modal-header">
+
           <h2 id="emailContactTitle" class="modal-title">Email Contact</h2>
+
           <button class="close" type="button" data-close="emailContactModal">×</button>
+
         </div>
+
         <p class="subtle" id="emailContactContext" style="margin-bottom:10px;">Compose from connected Google account (integration stub).</p>
+
         <form id="emailContactForm">
+
           <div class="form-grid" style="grid-template-columns:1fr;">
+
             <select id="emailContactTo" name="to" required></select>
+
             <input name="subject" placeholder="Subject" required />
+
             <textarea name="body" placeholder="Write your email" required style="width:100%; min-height:140px; border:1px solid #cbd5e1; border-radius:8px; padding:9px 10px;"></textarea>
+
           </div>
+
           <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+
             <button class="btn" type="button" data-close="emailContactModal">Cancel</button>
+
             <button class="btn primary" type="submit">Send (Google Stub)</button>
+
           </div>
+
         </form>
+
       </div>
+
     </div>
+
+
 
     <!-- ── Lead Hunter Modal ───────────────────────────────────── -->
+
     <div id="leadHunterModal" class="modal-backdrop" aria-hidden="true">
+
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="leadHunterTitle" style="max-width:900px;">
+
         <div class="modal-header" style="background:#0f172a;color:#e2e8f0;border-radius:12px 12px 0 0;">
+
           <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+
             <h2 id="leadHunterTitle" class="modal-title" style="color:#e2e8f0;">🪵 The Lumber Mill</h2>
+
             <span id="lhQuotaBadge" class="lh-quota-badge ok">— / 25 cuts remaining today</span>
+
           </div>
+
           <button class="close" type="button" data-close="leadHunterModal">×</button>
+
         </div>
+
+
 
         <!-- Filters panel -->
+
         <div id="lhFilters">
+
           <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#64748b;margin:0 0 10px;">Set Your Cut</p>
+
           <div class="lh-form-grid">
+
             <label>Discipline
+
               <select id="lhDiscipline">
+
                 <option value="All Disciplines">All Disciplines (ranked by fit)</option>
+
                 <option>Culinary</option>
+
                 <option>Plumbing</option>
+
                 <option>Automotive</option>
+
                 <option>Construction</option>
+
                 <option>Electrical</option>
+
                 <option>HVAC</option>
+
                 <option>Manufacturing</option>
+
                 <option>Logistics</option>
+
                 <option>Welding</option>
+
               </select>
+
             </label>
+
             <label>Institution Type
+
               <select id="lhInstitutionType">
+
                 <option>Community College</option>
+
                 <option>Technical College</option>
+
                 <option>4-Year University</option>
+
                 <option>State System / District</option>
+
                 <option>K-12 Secondary</option>
+
               </select>
+
             </label>
+
             <label>Contact Role
+
               <select id="lhContactRole">
+
                 <option>Department Chair</option>
+
                 <option>Program Director</option>
+
                 <option>Dean</option>
+
                 <option>Coordinator</option>
+
                 <option>Instructor</option>
+
               </select>
+
             </label>
+
             <label>Geography Scope
+
               <select id="lhGeoScope">
+
                 <option value="National">National</option>
+
                 <option value="Region">Region</option>
+
                 <option value="State">State</option>
+
               </select>
+
             </label>
+
             <label id="lhGeoValueWrap" style="display:none;">Location
+
               <select id="lhGeoValue"></select>
+
             </label>
+
             <label>Lead Count: <span id="lhCountDisplay" style="color:var(--maine-blue);font-weight:700;">10</span>
+
               <input type="range" id="lhCount" min="5" max="25" value="10" style="padding:4px 0;" />
+
             </label>
+
           </div>
+
           <div style="text-align:right;margin-top:16px;">
+
             <button id="lhHuntBtn" class="btn primary" type="button" style="font-size:15px;padding:10px 24px;">🪨 Run the Mill</button>
+
           </div>
+
           <div id="lhSpinner" style="display:none;">
+
             <div class="lh-spinner-ring"></div>
+
             <p style="margin-top:10px;font-size:14px;">Milling through the web…</p>
+
           </div>
+
         </div>
+
+
 
         <!-- Results panel -->
+
         <div id="lhResults" style="display:none;">
+
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+
             <button id="lhBackBtn" class="btn" type="button">← New Cut</button>
+
             <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+
               <input type="checkbox" id="lhSelectAll" /> Select All
+
             </label>
+
             <button id="lhImportBtn" class="btn primary" type="button" disabled>Send to the Yard (0)</button>
+
           </div>
+
           <div style="overflow:auto;">
+
             <table class="table" id="lhResultsTable">
+
               <thead><tr>
+
                 <th style="width:32px;">✓</th>
+
                 <th>Institution</th>
+
                 <th>Contact</th>
+
                 <th>Title</th>
+
                 <th>Email</th>
+
                 <th>Phone</th>
+
                 <th>State</th>
+
                 <th>Type</th>
+
               </tr></thead>
+
               <tbody id="lhResultsBody"></tbody>
+
             </table>
+
           </div>
+
           <p id="lhNoResults" class="subtle" style="display:none;text-align:center;padding:20px;">Nothing came out of the mill. Adjust your cut and try again.</p>
+
         </div>
 
+
+
       </div>
+
     </div>
+
     <!-- ── End Lead Hunter Modal ─────────────────────────────────── -->
 
+
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
     <script>
+
       const opportunities = [];
+
       const accounts = [];
 
+
+
       let sb = null;
+
       let currentUserId = null;
+
       let currentUserName = 'You';
 
+
+
       const TYPE_LABELS = { individual_college: 'Community College', state_system: 'Association', whale_institute: 'Industry', partner: 'Partner', other: 'K-12 Secondary' };
+
       const STATUS_LABELS = { new: 'New', contacted: 'Contacted', qualified: 'Qualified', demo_scheduled: 'Demo Scheduled', proposal_sent: 'Proposal Sent', nurturing: 'Nurturing', lost: 'Lost' };
+
       const ownerNames = {};
 
+
+
       function displayType(key) { return TYPE_LABELS[key] || key || '—'; }
+
       function displayStatus(key) { return STATUS_LABELS[key] || key || 'New'; }
+
       function displayOwner(id) { return ownerNames[id] || id || '—'; }
 
+
+
       function tryParseJson(str, fallback) {
+
         try { return str ? JSON.parse(str) : fallback; } catch { return fallback; }
+
       }
+
+
 
       async function crmInit() {
+
         try {
+
           const res = await fetch('/.netlify/functions/crm-init');
+
           if (!res.ok) {
+
             document.querySelector('.content').innerHTML = '<p style="padding:40px;text-align:center;color:#64748b;font-size:16px;">Please <a href="/.netlify/functions/auth-login" style="color:var(--maine-blue);font-weight:700;">log in</a> to access the CRM.</p>';
+
             return;
+
           }
+
           const cfg = await res.json();
+
           console.log('[CRM] init OK, userId:', cfg.userId, 'hasToken:', !!cfg.supabaseToken);
+
           currentUserId = cfg.userId;
+
           currentUserName = cfg.userName || 'You';
+
           ownerNames[currentUserId] = currentUserName;
+
           sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
+
             global: {
+
               headers: { Authorization: 'Bearer ' + cfg.supabaseToken }
+
             },
+
             auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+
             db: { schema: 'revenue' }
+
           });
+
           await loadAll();
+
           console.log('[CRM] loaded', accounts.length, 'accounts,', opportunities.length, 'opps');
+
         } catch (err) {
+
           console.error('CRM init failed:', err);
+
         }
+
       }
+
+
 
       async function loadAll() {
+
         await Promise.all([loadAccounts(), loadOpportunities()]);
+
         renderDashboardTasks();
+
         renderKPIs();
+
         renderStageMix();
+
       }
+
+
 
       async function loadAccounts() {
+
         const { data, error } = await sb.from('sales_accounts').select('*').order('name');
+
         if (error) { console.error('loadAccounts:', error); return; }
+
         if (!data) return;
 
+
+
         const { data: allContacts } = await sb.from('sales_contacts').select('*');
+
         const { data: allTasks } = await sb.from('sales_tasks').select('*');
 
+
+
         accounts.length = 0;
+
         for (const row of data) {
+
           const myContacts = (allContacts || []).filter(c => c.account_id === row.id);
+
           const myTasks = (allTasks || []).filter(t => t.account_id === row.id);
+
           accounts.push({
+
             _id: row.id,
+
             name: row.name,
+
             type: row.account_type || '',
+
             lead_status: row.lead_status || 'new',
+
             owner: row.owner_user_id || '',
+
             website: row.website || '',
+
             state: row.state_region || '',
+
             notes: tryParseJson(row.notes, []),
+
             tasks: myTasks.map(t => ({ _id: t.id, title: t.title, dueDate: t.due_date, status: t.status, priority: t.priority || 'medium' })),
+
             assets: [],
+
             contacts: myContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', phone: c.phone || '' }))
+
           });
+
         }
+
       }
 
+
+
       async function loadOpportunities() {
+
         const { data, error } = await sb.from('sales_opportunities').select('*, sales_accounts(name), sales_contacts(first_name, last_name, title, email, role_in_deal)').order('created_at', { ascending: false });
+
         if (error) { console.error('loadOpps:', error); return; }
+
+
 
         const { data: allContacts } = await sb.from('sales_contacts').select('*');
 
+
+
         opportunities.length = 0;
+
         for (const row of data) {
+
           const acctName = row.sales_accounts?.name || '';
+
           const oppContacts = (allContacts || []).filter(c => c.account_id === row.account_id);
+
           opportunities.push({
+
             _id: row.id,
+
             name: row.name,
+
             account: acctName,
+
             account_id: row.account_id,
+
             stage: row.stage,
+
             amount: row.amount ? '$' + Number(row.amount).toLocaleString() : '$0',
+
             _rawAmount: row.amount || 0,
+
             notes: tryParseJson(row.notes, []),
+
             tasks: [],
+
             assets: [],
+
             contacts: oppContacts.map(c => ({ _id: c.id, name: (c.first_name || '') + ' ' + (c.last_name || ''), title: c.title || '', email: c.email || '', phone: c.phone || '' }))
+
           });
+
         }
+
       }
+
+
 
       function renderKPIs() {
+
         document.getElementById('accountsCount').textContent = String(accounts.length);
+
         document.getElementById('oppsCount').textContent = String(opportunities.length);
 
+
+
         const totalPipeline = opportunities.reduce((sum, o) => sum + Number(o._rawAmount || 0), 0);
+
         document.getElementById('pipelineValue').textContent = '$' + (totalPipeline >= 1000 ? Math.round(totalPipeline / 1000) + 'K' : totalPipeline);
 
+
+
         const today = new Date().toISOString().slice(0, 10);
+
         let overdueCount = 0;
+
         accounts.forEach(a => (a.tasks || []).forEach(t => {
+
           if (t.dueDate && t.dueDate < today && t.status !== 'done' && t.status !== 'cancelled') overdueCount++;
+
         }));
+
         document.getElementById('overdueTasksCount').textContent = String(overdueCount);
 
+
+
         const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0,0,0,0);
+
         const wonThisMonth = opportunities.filter(o => o.stage === 'closed_won').length;
+
         document.getElementById('wonThisMonth').textContent = String(wonThisMonth);
+
       }
+
+
 
       function renderStageMix() {
+
         const stageMixEl = document.getElementById('stageMix');
+
         const counts = {};
+
         opportunities.forEach(o => {
+
           if (o.stage !== 'closed_won' && o.stage !== 'closed_lost') {
+
             const label = o.stage.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+
             counts[label] = (counts[label] || 0) + 1;
+
           }
+
         });
+
         const entries = Object.entries(counts);
+
         if (!entries.length) {
+
           stageMixEl.innerHTML = '<p style="color:#64748b;font-size:14px;margin:8px 0;">No open deals yet.</p>';
+
           return;
+
         }
+
         stageMixEl.innerHTML = '<ul class="list">' + entries.map(([label, count]) => `<li>${label}: ${count}</li>`).join('') + '</ul>';
+
       }
+
+
 
       const accountsCard = document.getElementById('accountsCard');
+
       const accountsModal = document.getElementById('accountsModal');
+
       const oppsModal = document.getElementById('oppsModal');
+
       const addNoteModal = document.getElementById('addNoteModal');
+
       const accountDetailModal = document.getElementById('accountDetailModal');
+
       const addTaskModal = document.getElementById('addTaskModal');
+
       const oppContactsModal = document.getElementById('oppContactsModal');
+
             const addAccountModal = document.getElementById('addAccountModal');
+
       const addOppModal = document.getElementById('addOppModal');
+
       const assetsModal = document.getElementById('assetsModal');
+
       const importAccountsMapModal = document.getElementById('importAccountsMapModal');
+
       const editContactModal = document.getElementById('editContactModal');
+
       const emailContactModal = document.getElementById('emailContactModal');
+
       const accountsRows = document.getElementById('accountsRows');
+
       const oppsRows = document.getElementById('oppsRows');
+
       const oppContactsRows = document.getElementById('oppContactsRows');
+
       const oppDetailRows = document.getElementById('oppDetailRows');
+
       const oppNotesRows = document.getElementById('oppNotesRows');
+
       const oppAssetRows = document.getElementById('oppAssetRows');
+
             const accountDetailRows = document.getElementById('accountDetailRows');
+
       const accountDetailTitle = document.getElementById('accountDetailTitle');
+
       const accountDetailContactsRows = document.getElementById('accountDetailContactsRows');
+
       const accountDetailOppRows = document.getElementById('accountDetailOppRows');
+
       const accountNotesRows = document.getElementById('accountNotesRows');
+
       const accountTaskRows = document.getElementById('accountTaskRows');
+
             const accountsCount = document.getElementById('accountsCount');
+
       const oppsCount = document.getElementById('oppsCount');
+
       const oppContactsTitle = document.getElementById('oppContactsTitle');
+
       const oppAccountSelect = document.getElementById('oppAccountSelect');
+
       const addOppFromAccountBtn = document.getElementById('addOppFromAccountBtn');
+
       const editAccountBtn = document.getElementById('editAccountBtn');
+
       const addContactBtn = document.getElementById('addContactBtn');
+
       const addTaskBtn = document.getElementById('addTaskBtn');
+
       const addNoteBtn = document.getElementById('addNoteBtn');
+
             const assetsBtn = document.getElementById('assetsBtn');
+
       const importAccountsBtn = document.getElementById('importAccountsBtn');
+
       const importAccountsFileInput = document.getElementById('importAccountsFileInput');
+
       const importAccountsMapForm = document.getElementById('importAccountsMapForm');
+
             const editContactForm = document.getElementById('editContactForm');
+
       const contactPicker = document.getElementById('contactPicker');
+
       const addTaskForm = document.getElementById('addTaskForm');
+
       const addNoteForm = document.getElementById('addNoteForm');
+
       const notesManagerRows = document.getElementById('notesManagerRows');
+
       const closeNoteEditorBtn = document.getElementById('closeNoteEditorBtn');
+
       const oppNoteForm = document.getElementById('oppNoteForm');
+
       const addOppNoteForm = document.getElementById('addOppNoteForm');
+
       const oppNotesManagerRows = document.getElementById('oppNotesManagerRows');
+
       const closeOppNoteModalEditorBtn = document.getElementById('closeOppNoteModalEditorBtn');
+
       const saveOppNoteBtn = document.getElementById('saveOppNoteBtn');
+
       const closeOppNoteEditorBtn = document.getElementById('closeOppNoteEditorBtn');
+
       const editOppModalBtn = document.getElementById('editOppModalBtn');
+
       const uploadOppAssetBtn = document.getElementById('uploadOppAssetBtn');
+
       const emailAccountContactBtn = document.getElementById('emailAccountContactBtn');
+
       const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+
       const emailOppContactBtn = document.getElementById('emailOppContactBtn');
+
       const oppAssetFileInput = document.getElementById('oppAssetFileInput');
+
       const uploadAssetBtn = document.getElementById('uploadAssetBtn');
+
       const assetFileInput = document.getElementById('assetFileInput');
+
       const assetsRows = document.getElementById('assetsRows');
+
       const emailContactForm = document.getElementById('emailContactForm');
+
       const emailContactTo = document.getElementById('emailContactTo');
+
       const emailContactContext = document.getElementById('emailContactContext');
+
       const logoutBtn = document.getElementById('logoutBtn');
+
       let selectedAccountName = null;
+
       let selectedAccountIndex = null;
+
       let selectedOppIndex = null;
+
       let isEditingAccount = false;
+
       let pendingImportRows = [];
+
       let pendingImportHeaders = [];
+
       const assetsBucket = [];
 
+
+
       const openModal = (el) => el.classList.add('open');
+
       const closeModal = (el) => el.classList.remove('open');
+
       document.querySelectorAll('[data-close]').forEach(btn => {
+
         btn.addEventListener('click', () => closeModal(document.getElementById(btn.dataset.close)));
+
       });
 
+
+
       function renderAccountDetails(account) {
+
         if (!account) return;
+
         accountDetailRows.innerHTML = isEditingAccount ? `
+
                     <tr><th>Type</th><td><select data-inline-account-field="type" style="width:100%;"><option value="individual_college" ${account.type === 'individual_college' ? 'selected' : ''}>Community College</option><option value="other" ${account.type === 'other' ? 'selected' : ''}>K-12 Secondary</option><option value="whale_institute" ${account.type === 'whale_institute' ? 'selected' : ''}>Industry</option><option value="state_system" ${account.type === 'state_system' ? 'selected' : ''}>Association</option><option value="partner" ${account.type === 'partner' ? 'selected' : ''}>Partner</option></select></td></tr>
+
           <tr><th>Lead Status</th><td><select data-inline-account-field="lead_status" style="width:100%;"><option value="new" ${account.lead_status === 'new' ? 'selected' : ''}>New</option><option value="contacted" ${account.lead_status === 'contacted' ? 'selected' : ''}>Contacted</option><option value="qualified" ${account.lead_status === 'qualified' ? 'selected' : ''}>Qualified</option><option value="demo_scheduled" ${account.lead_status === 'demo_scheduled' ? 'selected' : ''}>Demo Scheduled</option><option value="proposal_sent" ${account.lead_status === 'proposal_sent' ? 'selected' : ''}>Proposal Sent</option><option value="nurturing" ${account.lead_status === 'nurturing' ? 'selected' : ''}>Nurturing</option><option value="lost" ${account.lead_status === 'lost' ? 'selected' : ''}>Lost</option></select></td></tr>
+
           <tr><th>Owner</th><td><input data-inline-account-field="owner" value="${account.owner || ''}" style="width:100%;" /></td></tr>
+
           <tr><th>Website</th><td><input data-inline-account-field="website" value="${account.website || ''}" style="width:100%;" /></td></tr>
+
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
+
         ` : `
+
                     <tr><th>Type</th><td>${displayType(account.type)}</td></tr>
+
           <tr><th>Lead Status</th><td>${displayStatus(account.lead_status)}</td></tr>
+
           <tr><th>Owner</th><td>${displayOwner(account.owner)}</td></tr>
+
           <tr><th>Website</th><td>${account.website || '—'}</td></tr>
+
           <tr><th>Total Contacts</th><td>${account.contacts.length}</td></tr>
+
         `;
+
       }
+
+
 
       function normalizeHeader(value) {
+
         return String(value || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+
       }
+
+
 
       function mapAccountRow(row, mapping) {
+
         const read = (key) => String(row?.[mapping[key]] || '').trim();
+
         return {
+
           name: read('name'),
+
           type: read('type') || 'Community College',
+
           owner: read('owner'),
+
           website: read('website'),
+
           state: read('state'),
+
           notes: [], tasks: [], assets: [], contacts: []
+
         };
+
       }
 
+
+
       function parseDelimited(text) {
+
         const lines = String(text || '').split(/\r?\n/).filter(Boolean);
+
         if (!lines.length) return [];
+
         const delimiter = lines[0].includes('\t') ? '\t' : ',';
+
         const headers = lines[0].split(delimiter).map(h => h.trim());
+
         return lines.slice(1).map(line => {
+
           const cells = line.split(delimiter);
+
           const row = {};
+
           headers.forEach((h, i) => row[h] = cells[i] ?? '');
+
           return row;
+
         });
+
       }
+
+
+
 
 
       function parseImportRowsFromFile(file, ext) {
+
         if (ext === 'csv' || ext === 'tsv' || ext === 'txt') {
+
           return file.text().then(parseDelimited);
+
         }
+
         if (ext === 'xlsx' || ext === 'xls') {
+
           if (typeof XLSX === 'undefined') throw new Error('xlsx_missing');
+
           return file.arrayBuffer().then((buffer) => {
+
             const workbook = XLSX.read(buffer, { type: 'array' });
+
             const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+
             return XLSX.utils.sheet_to_json(firstSheet, { defval: '' });
+
           });
+
         }
+
         throw new Error('unsupported_type');
+
       }
+
+
 
       function renderImportMappingOptions(headers) {
+
         const defaults = {
+
           mapAccountName: ['account', 'account name', 'name', 'company'],
+
           mapAccountType: ['type', 'account type'],
+
           mapAccountOwner: ['owner', 'account owner', 'rep'],
+
           mapAccountWebsite: ['website', 'url', 'domain'],
+
           mapAccountState: ['state']
+
         };
+
         ['mapAccountName','mapAccountType','mapAccountOwner','mapAccountWebsite','mapAccountState'].forEach((id) => {
+
           const el = document.getElementById(id);
+
           el.innerHTML = '<option value="">-- Skip --</option>' + headers.map(h => `<option value="${h}">${h}</option>`).join('');
+
           const normalizedHeaders = headers.map(h => normalizeHeader(h));
+
           const desired = defaults[id].map(normalizeHeader);
+
           const hitIndex = normalizedHeaders.findIndex(h => desired.includes(h));
+
           if (hitIndex >= 0) el.value = headers[hitIndex];
+
         });
+
       }
+
+
 
       async function applyImportedAccounts(rows, mapping) {
+
         let importedCount = 0;
+
         const existing = new Set(accounts.map(a => String(a.name || '').trim().toLowerCase()));
+
         const toInsert = [];
 
+
+
         rows.forEach((raw) => {
+
           const mapped = mapAccountRow(raw, mapping);
+
           if (!mapped.name) return;
+
           const key = mapped.name.toLowerCase();
+
           if (existing.has(key)) return;
+
           existing.add(key);
+
           toInsert.push(mapped);
+
           importedCount += 1;
+
         });
+
+
 
         if (sb && toInsert.length) {
+
           const payload = toInsert.map(m => ({
+
             name: m.name,
+
             account_type: 'other',
+
             owner_user_id: currentUserId,
+
             website: m.website || null,
+
             state_region: m.state || null
+
           }));
+
           const { error } = await sb.from('sales_accounts').insert(payload);
+
           if (error) { alert('Import failed: ' + error.message); return; }
+
           await loadAccounts();
+
         } else {
+
           toInsert.forEach(m => accounts.push(m));
+
         }
+
+
 
         renderAccounts();
+
         renderDashboardTasks();
+
         renderKPIs();
+
         populateOppAccountOptions();
+
         alert(importedCount ? `Imported ${importedCount} accounts.` : 'No accounts were imported. Check required columns like Account Name.');
+
       }
+
+
 
       function renderDashboardTasks() {
+
         const dashboardTaskList = document.getElementById('dashboardTaskList');
+
         if (!dashboardTaskList) return;
+
         const today = new Date().toISOString().slice(0, 10);
+
         const taskItems = [];
+
         accounts.forEach((account) => {
+
           (account.tasks || []).forEach((task) => {
+
             if (task.status === 'done' || task.status === 'cancelled') return;
+
             taskItems.push({ account: account.name, title: task.title, dueDate: task.dueDate, status: task.status || 'todo', priority: task.priority || '' });
+
           });
+
         });
+
+
 
         if (!taskItems.length) {
+
           dashboardTaskList.innerHTML = '<p style="color:#64748b;font-size:14px;margin:8px 0;">No open tasks. Add tasks from an account.</p>';
+
           return;
+
         }
 
+
+
         const priorityOrder = { urgent: 0, high: 1, medium: 2, low: 3, '': 4 };
+
         const sorted = taskItems.sort((a, b) => {
+
           const overdueA = a.dueDate && a.dueDate < today ? -1 : 0;
+
           const overdueB = b.dueDate && b.dueDate < today ? -1 : 0;
+
           if (overdueA !== overdueB) return overdueA - overdueB;
+
           return (priorityOrder[a.priority] ?? 4) - (priorityOrder[b.priority] ?? 4);
+
         });
+
+
 
         dashboardTaskList.innerHTML = `<table style="width:100%;border-collapse:collapse;font-size:13px;">
+
           <thead><tr style="color:var(--maine-blue);border-bottom:2px solid #e5e7eb;">
+
             <th style="text-align:left;padding:4px 6px;">Task</th>
+
             <th style="text-align:left;padding:4px 6px;">Account</th>
+
             <th style="text-align:left;padding:4px 6px;">Due</th>
+
             <th style="text-align:left;padding:4px 6px;">Status</th>
+
           </tr></thead>
+
           <tbody>${sorted.map((t) => {
+
             const overdue = t.dueDate && t.dueDate < today;
+
             const rowStyle = overdue ? 'background:#fff1f0;' : '';
+
             const dueDisplay = t.dueDate ? (overdue ? `<span style="color:#dc2626;font-weight:700;">${t.dueDate} ⚠</span>` : t.dueDate) : '<span style="color:#94a3b8;">—</span>';
+
             return `<tr style="border-bottom:1px solid #f1f5f9;${rowStyle}">
+
               <td style="padding:6px 6px;font-weight:600;">${t.title}</td>
+
               <td style="padding:6px 6px;color:#475569;">${t.account}</td>
+
               <td style="padding:6px 6px;">${dueDisplay}</td>
+
               <td style="padding:6px 6px;"><span style="font-size:11px;padding:2px 7px;border-radius:999px;background:#e0f2fe;color:#0369a1;">${t.status}</span></td>
+
             </tr>`;
+
           }).join('')}</tbody>
+
         </table>`;
+
       }
+
+
 
       function renderAccounts() {
+
         accountsCount.textContent = String(accounts.length);
+
         accountsRows.innerHTML = accounts.map((a, idx) => `
+
           <tr>
+
             <td><button class="btn" type="button" data-account-open-index="${idx}">Open Account</button></td>
+
             <td>${a.name}</td>
+
             <td>${displayType(a.type)}</td>
+
             <td>${displayStatus(a.lead_status)}</td>
+
             <td>${displayOwner(a.owner)}</td>
+
           </tr>`).join('');
 
+
+
         accountsRows.querySelectorAll('[data-account-open-index]').forEach(btn => {
+
           btn.addEventListener('click', () => {
+
             const account = accounts[Number(btn.dataset.accountOpenIndex)];
+
             selectedAccountIndex = Number(btn.dataset.accountOpenIndex);
+
             selectedAccountName = account.name;
+
             accountDetailTitle.textContent = account.name;
+
             isEditingAccount = false;
+
             editAccountBtn.textContent = '👤';
+
         editAccountBtn.setAttribute('aria-label', 'Edit Account');
+
             renderAccountDetails(account);
+
             renderAccountContacts(account);
+
             renderAccountOpportunities(account);
+
             renderAccountNotes(account);
+
             renderAccountTasks(account);
+
             openModal(accountDetailModal);
+
           });
+
         });
+
       }
+
+
+
 
 
       function renderAccountContacts(account) {
+
         accountDetailContactsRows.innerHTML = account.contacts.map(c => `
+
           <tr><td>${c.name}</td><td>${c.title || '—'}</td><td>${c.email}</td><td>${c.phone || '—'}</td></tr>
+
         `).join('');
+
       }
+
+
 
       function openContactEditor() {
+
         if (selectedAccountIndex === null) {
+
           alert('Open an account first.');
+
           return;
+
         }
+
         const account = accounts[selectedAccountIndex];
+
         const options = ['<option value="-1">+ Add New Contact</option>'].concat(
+
           account.contacts.map((c, idx) => `<option value="${idx}">${c.name || `Contact ${idx + 1}`}</option>`)
+
         );
+
         contactPicker.innerHTML = options.join('');
+
         editContactForm.reset();
+
         openModal(editContactModal);
+
       }
+
+
 
       function fillContactFormFromSelection() {
+
         if (selectedAccountIndex === null) return;
+
         const idx = Number(contactPicker.value);
+
         if (idx < 0) {
+
           editContactForm.reset();
+
           return;
+
         }
+
         const contact = accounts[selectedAccountIndex].contacts[idx];
+
         if (!contact) return;
+
         editContactForm.elements.namedItem('name').value = contact.name || '';
+
         editContactForm.elements.namedItem('title').value = contact.title || '';
+
         editContactForm.elements.namedItem('email').value = contact.email || '';
+
         editContactForm.elements.namedItem('phone').value = contact.phone || '';
+
       }
+
+
 
       function renderAssets() {
+
         assetsRows.innerHTML = assetsBucket.length ? assetsBucket.map(item => `
+
           <tr><td>${item.name}</td><td>${item.size}</td><td>${item.addedAt}</td></tr>
+
         `).join('') : '<tr><td colspan="3">No materials uploaded yet.</td></tr>';
+
       }
+
+
 
       function renderAccountTasks(account) {
+
         const rows = account.tasks || [];
+
         accountTaskRows.innerHTML = rows.length ? rows.map(t => `
+
           <tr><td>${t.title}</td><td>${t.dueDate}</td><td>${t.status}</td></tr>
+
         `).join('') : '<tr><td colspan="3">No tasks yet.</td></tr>';
+
       }
+
+
 
       function renderAccountNotes(account) {
+
         const rows = account.notes || [];
+
         accountNotesRows.innerHTML = rows.length ? rows.map(n => `
+
           <tr><td>${n.when}</td><td>${n.text}</td></tr>
+
         `).join('') : '<tr><td colspan="2">No notes yet.</td></tr>';
+
       }
+
+
 
       function renderNotesManager(account) {
+
         const rows = account.notes || [];
+
         notesManagerRows.innerHTML = rows.length ? rows.map((n, idx) => `
+
           <tr>
+
             <td>${n.when}</td>
+
             <td>${n.text}</td>
+
             <td>
+
               <button class="btn" type="button" data-note-open-index="${idx}">Open</button>
+
               <button class="btn" type="button" data-note-edit-index="${idx}">Edit</button>
+
               <button class="btn" type="button" data-note-close-index="${idx}">Close</button>
+
             </td>
+
           </tr>
+
         `).join('') : '<tr><td colspan="3">No saved notes yet.</td></tr>';
 
+
+
         notesManagerRows.querySelectorAll('[data-note-open-index]').forEach((btn) => {
+
           btn.addEventListener('click', () => {
+
             const idx = Number(btn.dataset.noteOpenIndex);
+
             const note = rows[idx];
+
             if (!note) return;
+
             addNoteForm.elements.namedItem('editIndex').value = String(idx);
+
             addNoteForm.elements.namedItem('note').value = note.text || '';
+
           });
+
         });
+
+
 
         notesManagerRows.querySelectorAll('[data-note-edit-index]').forEach((btn) => {
+
           btn.addEventListener('click', () => {
+
             const idx = Number(btn.dataset.noteEditIndex);
+
             const note = rows[idx];
+
             if (!note) return;
+
             addNoteForm.elements.namedItem('editIndex').value = String(idx);
+
             addNoteForm.elements.namedItem('note').value = note.text || '';
+
             addNoteForm.elements.namedItem('note').focus();
+
           });
+
         });
+
+
 
         notesManagerRows.querySelectorAll('[data-note-close-index]').forEach((btn) => {
+
           btn.addEventListener('click', async () => {
+
             const idx = Number(btn.dataset.noteCloseIndex);
+
             if (Number.isNaN(idx)) return;
+
             rows.splice(idx, 1);
+
             if (sb && account._id) {
+
               await sb.from('sales_accounts').update({ notes: JSON.stringify(account.notes) }).eq('id', account._id);
+
             }
+
             renderAccountNotes(account);
+
             renderNotesManager(account);
+
             addNoteForm.reset();
+
             addNoteForm.elements.namedItem('editIndex').value = '-1';
+
           });
+
         });
+
       }
+
+
 
       function openOpportunityContactsModal(oppIndex) {
+
         const opp = opportunities[oppIndex];
+
         if (!opp) return;
+
         selectedOppIndex = oppIndex;
+
         oppContactsTitle.textContent = `${opp.name} Opportunity`;
+
         oppDetailRows.innerHTML = `
+
           <tr><th>Opportunity</th><td>${opp.name || '—'}</td></tr>
+
           <tr><th>Account</th><td>${opp.account || '—'}</td></tr>
+
           <tr><th>Stage</th><td>${opp.stage || '—'}</td></tr>
+
           <tr><th>Amount</th><td>${opp.amount || '—'}</td></tr>
+
           <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
+
         `;
+
         oppContactsRows.innerHTML = opp.contacts.map(c => `
+
           <tr><td>${c.name}</td><td>${c.title || '—'}</td><td>${c.email}</td><td>${c.phone || '—'}</td></tr>
+
         `).join('');
+
         renderOppNotesManager(opp);
+
         renderOppAssets(opp);
+
         editOppModalBtn.textContent = "✏️";
+
         editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
+
         openModal(oppContactsModal);
+
       }
+
+
 
       function renderOppAssets(opp) {
+
         const rows = opp.assets || [];
+
         oppAssetRows.innerHTML = rows.length ? rows.map(a => `
+
           <tr><td>${a.name}</td><td>${a.size}</td><td>${a.addedAt}</td></tr>
+
         `).join('') : '<tr><td colspan="3">No assets uploaded yet.</td></tr>';
+
       }
+
+
 
       function renderOppNotesManager(opp) {
+
         const rows = opp.notes || [];
+
         oppNotesRows.innerHTML = rows.length ? rows.map((n, idx) => `
+
           <tr>
+
             <td>${n.when}</td><td>${n.text}</td>
+
             <td>
+
               <button class="btn" type="button" data-opp-note-edit-index="${idx}">Edit</button>
+
               <button class="btn" type="button" data-opp-note-delete-index="${idx}">Delete</button>
+
             </td>
+
           </tr>
+
         `).join('') : '<tr><td colspan="3">No notes yet.</td></tr>';
+
         if (oppNotesManagerRows) oppNotesManagerRows.innerHTML = oppNotesRows.innerHTML;
 
+
+
         oppNotesRows.querySelectorAll('[data-opp-note-edit-index]').forEach((btn) => {
+
           btn.addEventListener('click', () => {
+
             const idx = Number(btn.dataset.oppNoteEditIndex);
+
             const note = rows[idx];
+
             if (!note) return;
+
             oppNoteForm.elements.namedItem('editIndex').value = String(idx);
+
             oppNoteForm.elements.namedItem('note').value = note.text || '';
+
             if (addOppNoteForm) { addOppNoteForm.elements.namedItem('editIndex').value = String(idx); addOppNoteForm.elements.namedItem('note').value = note.text || ''; }
+
             oppNoteForm.elements.namedItem('note').focus();
+
           });
+
         });
+
         oppNotesRows.querySelectorAll('[data-opp-note-delete-index]').forEach((btn) => {
+
           btn.addEventListener('click', () => {
+
             const idx = Number(btn.dataset.oppNoteDeleteIndex);
+
             if (Number.isNaN(idx)) return;
+
             rows.splice(idx, 1);
+
             renderOppNotesManager(opp);
+
         editOppModalBtn.textContent = "✏️";
+
         editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
+
             oppNoteForm.reset();
+
             oppNoteForm.elements.namedItem('editIndex').value = '-1';
+
           });
+
         });
+
       }
+
+
 
       function renderAccountOpportunities(account) {
+
         const related = opportunities.filter(o => String(o.account || '').trim().toLowerCase() === String(account.name || '').trim().toLowerCase());
+
         accountDetailOppRows.innerHTML = related.length ? related.map((o) => `
+
           <tr><td>${o.name}</td><td>${o.stage}</td><td>${o.amount}</td><td>${o.contacts.length}</td></tr>
+
         `).join('') : '<tr><td colspan="4">No related opportunities for this account.</td></tr>';
+
       }
+
+
 
       function renderOpps() {
+
         oppsCount.textContent = String(opportunities.length);
+
         oppsRows.innerHTML = opportunities.map((o, idx) => `
+
           <tr>
+
             <td><button class="btn" type="button" data-opp-contact-index="${idx}">Open Opp</button></td>
+
             <td>${o.name}</td>
+
             <td>${o.account || "—"}</td>
+
             <td>${o.stage}</td>
+
             <td>${o.amount}</td>
+
             <td>${o.contacts.length}</td>
+
           </tr>`).join('');
 
+
+
         oppsRows.querySelectorAll('[data-opp-contact-index]').forEach(btn => {
+
           btn.addEventListener('click', () => {
+
             const opp = opportunities[Number(btn.dataset.oppContactIndex)];
+
             openOpportunityContactsModal(Number(btn.dataset.oppContactIndex));
+
           });
+
         });
+
       }
 
+
+
       assetsBtn.addEventListener('click', () => {
+
         renderAssets();
+
         openModal(assetsModal);
+
       });
+
+
 
       uploadAssetBtn.addEventListener('click', () => {
+
         assetFileInput.value = '';
+
         assetFileInput.click();
+
       });
 
+
+
       assetFileInput.addEventListener('change', async (e) => {
+
         const files = Array.from(e.target.files || []);
+
         for (const file of files) {
+
           const path = `general/${Date.now()}_${file.name}`;
+
           if (sb) {
+
             const { error } = await sb.storage.from('sales-files').upload(path, file);
+
             if (error) { alert('Upload failed: ' + error.message); continue; }
+
           }
+
           assetsBucket.push({
+
             name: file.name,
+
             size: `${Math.max(1, Math.round(file.size / 1024))} KB`,
+
             addedAt: new Date().toLocaleString(),
+
             storagePath: path
+
           });
+
         }
+
         renderAssets();
+
       });
+
+
 
       importAccountsBtn.addEventListener('click', () => {
 
+
+
         importAccountsFileInput.value = '';
+
         importAccountsFileInput.click();
+
       });
+
+
 
       importAccountsFileInput.addEventListener('change', async (e) => {
+
         const file = e.target.files?.[0];
+
         if (!file) return;
 
+
+
         const ext = (file.name.split('.').pop() || '').toLowerCase();
+
         try {
+
           const rows = await parseImportRowsFromFile(file, ext);
+
           if (!rows.length) {
+
             alert('No rows found in import file.');
+
             return;
+
           }
+
           pendingImportRows = rows;
+
           pendingImportHeaders = Object.keys(rows[0] || {});
+
           renderImportMappingOptions(pendingImportHeaders);
+
           openModal(importAccountsMapModal);
+
         } catch (error) {
+
           if (error.message === 'xlsx_missing') {
+
             alert('Excel parser failed to load. Please try CSV.');
+
             return;
+
           }
+
           if (error.message === 'unsupported_type') {
+
             alert('Unsupported file type. Use CSV, TSV, XLSX, or XLS.');
+
             return;
+
           }
+
           alert('Import failed. Please check your file format and account headers.');
+
         }
+
       });
 
+
+
       importAccountsMapForm.addEventListener('submit', (e) => {
+
         e.preventDefault();
+
         const mapping = {
+
           name: document.getElementById('mapAccountName').value,
+
           type: document.getElementById('mapAccountType').value,
+
           owner: document.getElementById('mapAccountOwner').value,
+
           website: document.getElementById('mapAccountWebsite').value,
+
           state: document.getElementById('mapAccountState').value
+
         };
+
         if (!mapping.name) {
+
           alert('Please map Account Name before importing.');
+
           return;
+
         }
+
         applyImportedAccounts(pendingImportRows, mapping);
+
         closeModal(importAccountsMapModal);
+
       });
+
+
 
       contactPicker.addEventListener('change', fillContactFormFromSelection);
 
+
+
       editContactForm.addEventListener('submit', async (e) => {
+
         e.preventDefault();
+
         if (selectedAccountIndex === null) return;
+
         const account = accounts[selectedAccountIndex];
+
         const idx = Number(contactPicker.value);
+
         const fullName = editContactForm.elements.namedItem('name').value.trim();
+
         const nameParts = fullName.split(/\s+/);
+
         const firstName = nameParts[0] || '';
+
         const lastName = nameParts.slice(1).join(' ') || '—';
+
         const updated = {
+
           name: fullName,
+
           title: editContactForm.elements.namedItem('title').value.trim(),
+
           email: editContactForm.elements.namedItem('email').value.trim(),
+
           phone: editContactForm.elements.namedItem('phone').value.trim()
+
         };
+
         if (!updated.name || !updated.email) {
+
           alert('Name and Email are required.');
+
           return;
+
         }
+
         if (sb && account._id) {
+
           if (idx >= 0 && account.contacts[idx] && account.contacts[idx]._id) {
+
             const { error } = await sb.from('sales_contacts').update({ first_name: firstName, last_name: lastName, title: updated.title || '—', email: updated.email, phone: updated.phone || null, role_in_deal: 'champion' }).eq('id', account.contacts[idx]._id);
+
             if (error) { alert('Update failed: ' + error.message); return; }
+
           } else {
+
             const { error } = await sb.from('sales_contacts').insert({ account_id: account._id, first_name: firstName, last_name: lastName, title: updated.title || '—', email: updated.email, phone: updated.phone || null, role_in_deal: 'champion', owner_user_id: currentUserId });
+
             if (error) { alert('Save failed: ' + error.message); return; }
+
           }
+
           await loadAccounts();
+
         } else {
+
           if (idx >= 0 && account.contacts[idx]) account.contacts[idx] = updated;
+
           else account.contacts.push(updated);
+
         }
+
         renderAccountDetails(accounts[selectedAccountIndex]);
+
         renderAccountContacts(accounts[selectedAccountIndex]);
+
         closeModal(editContactModal);
+
       });
+
+
+
+
 
 
 
       editOppModalBtn.addEventListener('click', async () => {
+
         if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+
         const opp = opportunities[selectedOppIndex];
+
         const isEditing = oppDetailRows.querySelector('[data-opp-edit-field="name"]');
+
         if (!isEditing) {
+
           oppDetailRows.innerHTML = `
+
             <tr><th>Opportunity</th><td><input data-opp-edit-field="name" value="${opp.name || ''}" style="width:100%;" /></td></tr>
+
             <tr><th>Account</th><td><input data-opp-edit-field="account" value="${opp.account || ''}" style="width:100%;" /></td></tr>
+
             <tr><th>Stage</th><td><select data-opp-edit-field="stage" style="width:100%;"><option value="lead_identified" ${opp.stage === 'lead_identified' ? 'selected' : ''}>lead_identified</option><option value="discovery_scheduled" ${opp.stage === 'discovery_scheduled' ? 'selected' : ''}>discovery_scheduled</option><option value="discovery_complete" ${opp.stage === 'discovery_complete' ? 'selected' : ''}>discovery_complete</option><option value="demo_delivered" ${opp.stage === 'demo_delivered' ? 'selected' : ''}>demo_delivered</option><option value="pilot_active" ${opp.stage === 'pilot_active' ? 'selected' : ''}>pilot_active</option><option value="procurement_security" ${opp.stage === 'procurement_security' ? 'selected' : ''}>procurement_security</option><option value="closed_won" ${opp.stage === 'closed_won' ? 'selected' : ''}>closed_won</option><option value="closed_lost" ${opp.stage === 'closed_lost' ? 'selected' : ''}>closed_lost</option></select></td></tr>
+
             <tr><th>Amount</th><td><input data-opp-edit-field="amount" value="${opp.amount || ''}" style="width:100%;" /></td></tr>
+
             <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
+
           `;
+
           editOppModalBtn.textContent = '💾';
+
           editOppModalBtn.setAttribute('aria-label', 'Save Opportunity');
+
           return;
+
         }
+
         opp.name = oppDetailRows.querySelector('[data-opp-edit-field="name"]').value.trim() || opp.name;
+
         opp.account = oppDetailRows.querySelector('[data-opp-edit-field="account"]').value.trim() || opp.account;
+
         opp.stage = oppDetailRows.querySelector('[data-opp-edit-field="stage"]').value.trim() || opp.stage;
+
         opp.amount = oppDetailRows.querySelector('[data-opp-edit-field="amount"]').value.trim() || opp.amount;
+
         if (sb && opp._id) {
+
           const rawAmount = String(opp.amount).replace(/[$,]/g, '');
+
           await sb.from('sales_opportunities').update({ name: opp.name, stage: opp.stage, amount: parseFloat(rawAmount) || 0 }).eq('id', opp._id);
+
           opp._rawAmount = parseFloat(rawAmount) || 0;
+
         }
+
         oppDetailRows.innerHTML = `
+
           <tr><th>Opportunity</th><td>${opp.name || '—'}</td></tr>
+
           <tr><th>Account</th><td>${opp.account || '—'}</td></tr>
+
           <tr><th>Stage</th><td>${opp.stage || '—'}</td></tr>
+
           <tr><th>Amount</th><td>${opp.amount || '—'}</td></tr>
+
           <tr><th>Total Contacts</th><td>${opp.contacts?.length || 0}</td></tr>
+
         `;
+
         editOppModalBtn.textContent = '✏️';
+
         editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
+
         renderOpps();
+
         renderKPIs();
+
         renderStageMix();
+
         if (selectedAccountIndex !== null) renderAccountOpportunities(accounts[selectedAccountIndex]);
+
       });
+
+
 
       saveOppNoteBtn.addEventListener('click', () => {
+
         if (selectedOppIndex === null || !opportunities[selectedOppIndex]) { alert('Open an opportunity first.'); return; }
+
         const opp = opportunities[selectedOppIndex];
+
         addOppNoteForm.reset();
+
         addOppNoteForm.elements.namedItem('editIndex').value = '-1';
+
         renderOppNotesManager(opp);
+
         openModal(addOppNoteModal);
+
       });
+
+
 
       closeOppNoteModalEditorBtn.addEventListener('click', () => {
+
         addOppNoteForm.reset();
+
         addOppNoteForm.elements.namedItem('editIndex').value = '-1';
+
       });
+
+
 
       closeOppNoteEditorBtn.addEventListener('click', () => {
+
         oppNoteForm.reset();
+
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
+
         const noteField = oppNoteForm.elements.namedItem('note');
+
         if (noteField) {
+
           noteField.value = '';
+
           noteField.focus();
+
         }
+
       });
+
+
 
       uploadOppAssetBtn.addEventListener('click', () => {
+
         if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+
         oppAssetFileInput.value = '';
+
         oppAssetFileInput.click();
+
       });
+
+
 
       oppAssetFileInput.addEventListener('change', async (e) => {
+
         if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+
         const opp = opportunities[selectedOppIndex];
+
         if (!Array.isArray(opp.assets)) opp.assets = [];
+
         const files = Array.from(e.target.files || []);
+
         for (const file of files) {
+
           const folder = opp._id ? `opportunities/${opp._id}` : 'opportunities/unsaved';
+
           const path = `${folder}/${Date.now()}_${file.name}`;
+
           if (sb) {
+
             const { error } = await sb.storage.from('sales-files').upload(path, file);
+
             if (error) { alert('Upload failed: ' + error.message); continue; }
+
           }
+
           opp.assets.push({
+
             name: file.name,
+
             size: `${Math.max(1, Math.round(file.size / 1024))} KB`,
+
             addedAt: new Date().toLocaleString(),
+
             storagePath: path
+
           });
+
         }
+
         renderOppAssets(opp);
+
       });
+
+
 
       addOppNoteForm.addEventListener('submit', async (e) => {
+
         e.preventDefault();
+
         if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+
         const opp = opportunities[selectedOppIndex];
+
         if (!Array.isArray(opp.notes)) opp.notes = [];
+
         const noteText = addOppNoteForm.elements.namedItem('note').value.trim();
+
         if (!noteText) return;
+
         const editIndex = Number(addOppNoteForm.elements.namedItem('editIndex').value || '-1');
+
         if (editIndex >= 0 && opp.notes[editIndex]) {
+
           opp.notes[editIndex].text = noteText;
+
           opp.notes[editIndex].when = new Date().toLocaleString();
+
         } else {
+
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+
         }
+
         if (sb && opp._id) {
+
           const { error } = await sb.from('sales_opportunities').update({ notes: JSON.stringify(opp.notes) }).eq('id', opp._id);
+
           if (error) { alert('Save failed: ' + error.message); return; }
+
           await loadOpportunities();
+
         }
+
         const refreshedOpp = (sb && opp._id) ? opportunities.find((o) => o._id === opp._id) || opp : opp;
+
         renderOppNotesManager(refreshedOpp);
+
         addOppNoteForm.reset();
+
         addOppNoteForm.elements.namedItem('editIndex').value = '-1';
+
         closeModal(addOppNoteModal);
+
       });
 
+
+
       oppNoteForm.addEventListener('submit', async (e) => {
+
         e.preventDefault();
+
         if (selectedOppIndex === null || !opportunities[selectedOppIndex]) return;
+
         const opp = opportunities[selectedOppIndex];
+
         if (!Array.isArray(opp.notes)) opp.notes = [];
+
         const noteText = oppNoteForm.elements.namedItem('note').value.trim();
+
         if (!noteText) return;
+
         const editIndex = Number(oppNoteForm.elements.namedItem('editIndex').value || '-1');
+
         if (editIndex >= 0 && opp.notes[editIndex]) {
+
           opp.notes[editIndex].text = noteText;
+
           opp.notes[editIndex].when = new Date().toLocaleString();
+
         } else {
+
           opp.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+
         }
+
         if (sb && opp._id) {
+
           const { error } = await sb.from('sales_opportunities').update({ notes: JSON.stringify(opp.notes) }).eq('id', opp._id);
+
           if (error) { alert('Save failed: ' + error.message); return; }
+
           await loadOpportunities();
+
         }
+
         const refreshedOpp = (sb && opp._id) ? opportunities.find((o) => o._id === opp._id) || opp : opp;
+
         renderOppNotesManager(refreshedOpp);
+
         if (selectedOppIndex !== null && opportunities[selectedOppIndex]?._id === refreshedOpp._id) {
+
           opportunities[selectedOppIndex] = refreshedOpp;
+
         }
+
         editOppModalBtn.textContent = "\u270f\ufe0f";
+
         editOppModalBtn.setAttribute('aria-label', 'Edit Opportunity');
+
         oppNoteForm.reset();
+
         oppNoteForm.elements.namedItem('editIndex').value = '-1';
+
       });
+
+
 
       function populateOppAccountOptions() {
 
+
+
         oppAccountSelect.innerHTML = '<option value="">Select account</option>' + accounts.map(a => `<option value="${a.name}">${a.name}</option>`).join('');
+
       }
 
+
+
       function openEmailContactModal(source) {
+
         const useOpp = source === 'opportunity';
+
         const contactPool = useOpp && selectedOppIndex !== null && opportunities[selectedOppIndex]
+
           ? (opportunities[selectedOppIndex].contacts || [])
+
           : (selectedAccountIndex !== null && accounts[selectedAccountIndex] ? (accounts[selectedAccountIndex].contacts || []) : []);
+
         const withEmail = contactPool.filter((c) => c && c.email);
+
         if (!withEmail.length) {
+
           alert('No contacts with email found for this record.');
+
           return;
+
         }
+
         const contextName = useOpp && selectedOppIndex !== null && opportunities[selectedOppIndex]
+
           ? opportunities[selectedOppIndex].name
+
           : (selectedAccountIndex !== null && accounts[selectedAccountIndex] ? accounts[selectedAccountIndex].name : 'Current Record');
+
         emailContactContext.textContent = `Compose from connected Google account (integration stub) • ${contextName}`;
+
         emailContactTo.innerHTML = withEmail.map((c) => `<option value="${c.email}">${c.name || c.email} (${c.email})</option>`).join('');
+
         emailContactForm.reset();
+
         emailContactTo.selectedIndex = 0;
+
         openModal(emailContactModal);
+
       }
+
+
+
 
 
       logoutBtn.addEventListener('click', () => {
+
         window.location.href = '/.netlify/functions/auth-logout';
+
       });
+
+
 
       crmInit();
+
       document.getElementById('oppsCard').addEventListener('click', () => { renderOpps(); openModal(oppsModal); });
+
       accountsCard.addEventListener('click', () => { renderAccounts(); openModal(accountsModal); });
+
       document.getElementById('addAccountBtn').addEventListener('click', () => openModal(addAccountModal));
 
+
+
       editAccountBtn.addEventListener('click', async () => {
+
         if (selectedAccountIndex === null) return;
+
         const account = accounts[selectedAccountIndex];
+
+
 
         if (!isEditingAccount) {
+
           isEditingAccount = true;
+
           editAccountBtn.textContent = '💾';
+
           editAccountBtn.setAttribute('aria-label', 'Save Account');
+
           renderAccountDetails(account);
+
           return;
+
         }
+
+
 
         const nameField = accountDetailRows.querySelector('[data-inline-account-field="name"]');
+
         const typeField = accountDetailRows.querySelector('[data-inline-account-field="type"]');
+
         const leadStatusField = accountDetailRows.querySelector('[data-inline-account-field="lead_status"]');
+
         const ownerField = accountDetailRows.querySelector('[data-inline-account-field="owner"]');
+
         const websiteField = accountDetailRows.querySelector('[data-inline-account-field="website"]');
 
+
+
         account.name = nameField?.value?.trim() || account.name;
+
         account.type = typeField?.value || account.type;
+
         account.lead_status = leadStatusField?.value || account.lead_status || 'new';
+
         account.owner = ownerField?.value?.trim() || account.owner;
+
         account.website = websiteField?.value?.trim() || account.website;
+
         selectedAccountName = account.name;
 
+
+
         if (sb && account._id) {
+
           await sb.from('sales_accounts').update({ name: account.name, account_type: account.type, lead_status: account.lead_status, website: account.website }).eq('id', account._id);
+
         }
+
+
 
         isEditingAccount = false;
+
         editAccountBtn.textContent = '👤';
+
         editAccountBtn.setAttribute('aria-label', 'Edit Account');
+
         accountDetailTitle.textContent = account.name;
+
         renderAccountDetails(account);
+
         renderAccounts();
+
       });
+
+
 
       addTaskBtn.addEventListener('click', () => {
+
         if (selectedAccountIndex === null) {
+
           alert('Open an account first.');
+
           return;
+
         }
+
         addTaskForm.reset();
+
         openModal(addTaskModal);
+
       });
+
+
 
       addTaskForm.addEventListener('submit', async (e) => {
+
         e.preventDefault();
+
         if (selectedAccountIndex === null) return;
+
         const account = accounts[selectedAccountIndex];
+
         const fd = new FormData(addTaskForm);
+
         const payload = {
+
           title: String(fd.get('title') || '').trim(),
+
           due_date: String(fd.get('dueDate') || '') || null,
+
           status: String(fd.get('status') || 'todo'),
+
           owner_user_id: currentUserId,
+
           created_by_user_id: currentUserId,
+
           account_id: account._id || null
+
         };
+
         if (sb && account._id) {
+
           const { error } = await sb.from('sales_tasks').insert(payload);
+
           if (error) { alert('Save failed: ' + error.message); return; }
+
           await loadAccounts();
+
         } else {
+
           if (!Array.isArray(account.tasks)) account.tasks = [];
+
           account.tasks.unshift({ title: payload.title, dueDate: payload.due_date, status: payload.status, priority: 'medium' });
+
         }
+
         renderAccountTasks(accounts[selectedAccountIndex]);
+
         renderDashboardTasks();
+
         renderKPIs();
+
         closeModal(addTaskModal);
+
       });
+
+
 
       addNoteBtn.addEventListener('click', () => {
+
         if (selectedAccountIndex === null) {
+
           alert('Open an account first.');
+
           return;
+
         }
+
         const account = accounts[selectedAccountIndex];
+
         addNoteForm.reset();
+
         addNoteForm.elements.namedItem('editIndex').value = '-1';
+
         renderNotesManager(account);
+
         openModal(addNoteModal);
+
       });
+
+
 
       closeNoteEditorBtn.addEventListener('click', () => {
+
         addNoteForm.reset();
+
         addNoteForm.elements.namedItem('editIndex').value = '-1';
+
       });
+
+
 
       addContactBtn.addEventListener('click', () => openContactEditor());
+
       emailAccountContactBtn.addEventListener('click', () => openEmailContactModal('account'));
 
+
+
       deleteAccountBtn.addEventListener('click', async () => {
+
         if (selectedAccountIndex === null) return;
+
         const account = accounts[selectedAccountIndex];
+
         if (!confirm(`Delete account "${account.name}"? This cannot be undone.`)) return;
+
         if (sb && account._id) {
+
           const { error } = await sb.from('sales_accounts').delete().eq('id', account._id);
+
           if (error) { alert('Delete failed: ' + error.message); return; }
+
           await loadAccounts();
+
         } else {
+
           accounts.splice(selectedAccountIndex, 1);
+
         }
+
         closeModal(accountDetailModal);
+
         renderAccounts();
+
         renderKPIs();
+
         selectedAccountIndex = null;
+
         selectedAccountName = null;
+
       });
+
       emailOppContactBtn.addEventListener('click', () => openEmailContactModal('opportunity'));
 
+
+
       emailContactForm.addEventListener('submit', (e) => {
+
         e.preventDefault();
+
         const to = String(emailContactForm.elements.namedItem('to').value || '').trim();
+
         const subject = String(emailContactForm.elements.namedItem('subject').value || '').trim();
+
         if (!to || !subject) return;
+
         alert(`Google email integration stub:\nTo: ${to}\nSubject: ${subject}`);
+
         closeModal(emailContactModal);
+
       });
 
+
+
       addNoteForm.addEventListener('submit', async (e) => {
+
         e.preventDefault();
+
         if (selectedAccountIndex === null) return;
+
         const noteText = addNoteForm.elements.namedItem('note').value.trim();
+
         if (!noteText) return;
+
         const editIndex = Number(addNoteForm.elements.namedItem('editIndex').value || '-1');
+
         const account = accounts[selectedAccountIndex];
+
         if (!Array.isArray(account.notes)) account.notes = [];
+
         if (editIndex >= 0 && account.notes[editIndex]) {
+
           account.notes[editIndex].text = noteText;
+
           account.notes[editIndex].when = new Date().toLocaleString();
+
         } else {
+
           account.notes.unshift({ when: new Date().toLocaleString(), text: noteText });
+
         }
+
         if (sb && account._id) {
+
           const { error } = await sb.from('sales_accounts').update({ notes: JSON.stringify(account.notes) }).eq('id', account._id);
+
           if (error) { alert('Save failed: ' + error.message); return; }
+
           await loadAccounts();
+
         }
+
         const refreshedAccount = (sb && account._id) ? accounts.find((a) => a._id === account._id) || account : account;
+
         renderAccountNotes(refreshedAccount);
+
         renderNotesManager(refreshedAccount);
+
         addNoteForm.reset();
+
         addNoteForm.elements.namedItem('editIndex').value = '-1';
+
       });
+
+
 
       addOppFromAccountBtn.addEventListener('click', () => {
 
+
+
         populateOppAccountOptions();
+
         if (selectedAccountName) {
+
           oppAccountSelect.value = selectedAccountName;
+
         }
+
         openModal(addOppModal);
+
       });
+
+
 
       document.getElementById('addAccountForm').addEventListener('submit', async (e) => {
+
         e.preventDefault();
+
         const fd = new FormData(e.target);
+
         const payload = {
+
           name: fd.get('name'),
+
           account_type: fd.get('type') || 'other',
+
           owner_user_id: currentUserId,
+
           website: fd.get('website') || null
+
         };
+
         if (sb) {
+
           const { error } = await sb.from('sales_accounts').insert(payload);
+
           if (error) { alert('Save failed: ' + error.message); return; }
+
           await loadAccounts();
+
         }
+
         e.target.reset();
+
         closeModal(addAccountModal);
+
         renderAccounts();
+
         renderKPIs();
+
         renderDashboardTasks();
+
       });
+
+
 
       document.getElementById('addOppForm').addEventListener('submit', async (e) => {
+
         e.preventDefault();
+
         const fd = new FormData(e.target);
+
         const acctName = fd.get('account');
+
         const acct = accounts.find(a => a.name === acctName);
+
         const rawAmount = String(fd.get('amount') || '0').replace(/[$,]/g, '');
+
         const payload = {
+
           name: fd.get('name'),
+
           account_id: acct ? acct._id : null,
+
           stage: fd.get('stage'),
+
           amount: parseFloat(rawAmount) || 0,
+
           owner_user_id: currentUserId,
+
           next_step: 'TBD'
+
         };
+
         if (!payload.account_id) { alert('Select a valid account.'); return; }
+
         if (sb) {
+
           const { error } = await sb.from('sales_opportunities').insert(payload);
+
           if (error) { alert('Save failed: ' + error.message); return; }
+
           await loadOpportunities();
+
         }
+
         e.target.reset();
+
         closeModal(addOppModal);
+
         renderOpps();
+
         renderKPIs();
+
         renderStageMix();
+
         if (selectedAccountIndex !== null) {
+
           renderAccountOpportunities(accounts[selectedAccountIndex]);
+
         }
+
       });
+
+
 
       [accountsModal, accountDetailModal, addAccountModal, addOppModal, addNoteModal, addTaskModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal, emailContactModal].forEach(backdrop => {
+
         backdrop.addEventListener('click', (e) => {
+
           if (e.target === backdrop) closeModal(backdrop);
+
         });
+
       });
+
+
 
       // ── Lead Hunter ─────────────────────────────────────────────────────────
+
       const leadHunterModal = document.getElementById('leadHunterModal');
+
       const lhGeoScope      = document.getElementById('lhGeoScope');
+
       const lhGeoValueWrap  = document.getElementById('lhGeoValueWrap');
+
       const lhGeoValue      = document.getElementById('lhGeoValue');
+
       const lhCountInput    = document.getElementById('lhCount');
+
       const lhCountDisplay  = document.getElementById('lhCountDisplay');
+
       const lhQuotaBadge    = document.getElementById('lhQuotaBadge');
+
       let lhLeads = [];
 
+
+
       const LH_US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+
       const LH_REGIONS = ['Northeast','Southeast','Midwest','West','Southwest'];
 
+
+
       function lhUpdateQuotaBadge(quota) {
+
         if (!quota) return;
+
         lhQuotaBadge.textContent = `${quota.remaining} / 25 cuts remaining today`;
+
         lhQuotaBadge.className = 'lh-quota-badge ' + (quota.remaining > 10 ? 'ok' : quota.remaining > 0 ? 'warn' : 'empty');
+
         const importBtn = document.getElementById('lhImportBtn');
+
         if (importBtn && quota.remaining <= 0) {
+
           importBtn.disabled = true;
+
           importBtn.title = 'Daily cut limit reached — resets tomorrow at midnight UTC';
+
         }
+
       }
+
+
 
       async function lhLoadQuota() {
+
         try {
+
           const res = await fetch('/.netlify/functions/crm-lead-hunter-import', { method: 'GET' });
+
           if (res.ok) { const d = await res.json(); lhUpdateQuotaBadge(d.quota); }
+
         } catch (e) { console.error('Quota load failed', e); }
+
       }
 
+
+
       document.getElementById('leadHunterBtn').addEventListener('click', () => {
+
         document.getElementById('lhFilters').style.display = '';
+
         document.getElementById('lhResults').style.display = 'none';
+
         document.getElementById('lhSelectAll').checked = false;
+
         lhLeads = [];
+
         openModal(leadHunterModal);
+
         lhLoadQuota();
+
       });
 
+
+
       lhGeoScope.addEventListener('change', () => {
+
         const scope = lhGeoScope.value;
+
         if (scope === 'National') {
+
           lhGeoValueWrap.style.display = 'none';
+
         } else {
+
           lhGeoValueWrap.style.display = '';
+
           const opts = scope === 'State' ? LH_US_STATES : LH_REGIONS;
+
           lhGeoValue.innerHTML = opts.map(o => `<option value="${o}">${o}</option>`).join('');
+
         }
+
       });
+
+
 
       lhCountInput.addEventListener('input', () => { lhCountDisplay.textContent = lhCountInput.value; });
 
+
+
       document.getElementById('lhHuntBtn').addEventListener('click', async () => {
+
         const discipline    = document.getElementById('lhDiscipline').value;
+
         const institutionType = document.getElementById('lhInstitutionType').value;
+
         const contactRole   = document.getElementById('lhContactRole').value;
+
         const geoScope      = lhGeoScope.value;
+
         const geoValue      = geoScope !== 'National' ? lhGeoValue.value : 'National';
+
         const count         = Number(lhCountInput.value);
+
         const spinner       = document.getElementById('lhSpinner');
+
         const huntBtn       = document.getElementById('lhHuntBtn');
+
         spinner.style.display = 'block';
+
         huntBtn.disabled = true;
+
         try {
+
           const res = await fetch('/.netlify/functions/crm-lead-hunter', {
+
             method: 'POST',
+
             headers: { 'Content-Type': 'application/json' },
+
             body: JSON.stringify({ discipline, institutionType, contactRole, geoScope, geoValue, count })
+
           });
+
           const contentType = res.headers.get('content-type') || '';
+
           if (!contentType.includes('application/json')) {
+
             throw new Error(res.status === 504 ? 'Search timed out — try fewer leads or narrower geography.' : `Server error (${res.status}). Check Netlify function logs.`);
+
           }
+
           const data = await res.json();
+
           if (!res.ok) throw new Error(data.error || 'Search failed');
-          lhLeads = data.leads || [];
+
+          lhLeads = (data.leads || []).slice(0, count);
+
           if (data.quota) lhUpdateQuotaBadge(data.quota);
+
           if (!lhLeads.length && data.debug) {
+
             console.log('Claude raw response:', data.debug);
+
             alert('Claude responded but parser found no leads. Check console for raw response.');
+
           }
+
           renderLhResults(lhLeads);
+
           document.getElementById('lhFilters').style.display = 'none';
+
           document.getElementById('lhResults').style.display = '';
+
         } catch (err) {
+
           alert('Lead hunt failed: ' + err.message);
+
         } finally {
+
           spinner.style.display = 'none';
+
           huntBtn.disabled = false;
+
         }
+
       });
+
+
 
       function renderLhResults(leads) {
+
         const tbody     = document.getElementById('lhResultsBody');
+
         const noResults = document.getElementById('lhNoResults');
+
         document.getElementById('lhSelectAll').checked = false;
+
         updateLhImportBtn();
+
         if (!leads.length) {
+
           tbody.innerHTML = '';
+
           noResults.style.display = 'block';
+
           return;
+
         }
+
         noResults.style.display = 'none';
+
         tbody.innerHTML = leads.map((lead, i) => `
+
           <tr>
+
             <td><input type="checkbox" class="lh-check" data-index="${i}" /></td>
+
             <td style="font-weight:600;">${lead.institution || '—'}${lead.disciplines ? `<br><small style="color:#64748b;font-weight:400;font-size:11px;">✓ ${lead.disciplines}${lead.disciplineCount ? ` (${lead.disciplineCount}/9)` : ''}</small>` : ''}</td>
+
             <td>${lead.contactName || '—'}</td>
+
             <td style="color:#475569;">${lead.title || '—'}</td>
+
             <td>${lead.email ? `<a href="mailto:${lead.email}" style="color:var(--maine-blue);">${lead.email}</a>` : '—'}</td>
+
             <td>${lead.phone || '—'}</td>
+
             <td>${lead.state || '—'}</td>
+
             <td style="color:#64748b;">${lead.type || '—'}</td>
+
           </tr>`).join('');
+
         tbody.querySelectorAll('.lh-check').forEach(cb => cb.addEventListener('change', updateLhImportBtn));
+
         updateLhImportBtn();
+
       }
+
+
 
       function updateLhImportBtn() {
+
         const checked = document.querySelectorAll('.lh-check:checked').length;
+
         const btn = document.getElementById('lhImportBtn');
+
         btn.textContent = `Send to the Yard (${checked})`;
+
         btn.disabled = checked === 0;
+
       }
 
+
+
       document.getElementById('lhSelectAll').addEventListener('change', (e) => {
+
         document.querySelectorAll('.lh-check').forEach(cb => { cb.checked = e.target.checked; });
+
         updateLhImportBtn();
+
       });
+
+
 
       document.getElementById('lhBackBtn').addEventListener('click', () => {
+
         document.getElementById('lhFilters').style.display = '';
+
         document.getElementById('lhResults').style.display = 'none';
+
         lhLeads = [];
+
       });
+
+
 
       document.getElementById('lhImportBtn').addEventListener('click', async () => {
+
         const checked = Array.from(document.querySelectorAll('.lh-check:checked'));
+
         const selectedLeads = checked.map(cb => lhLeads[Number(cb.dataset.index)]).filter(Boolean);
+
         if (!selectedLeads.length) return;
+
         const btn = document.getElementById('lhImportBtn');
+
         const origText = btn.textContent;
+
         btn.disabled = true;
+
         btn.textContent = 'Milling…';
+
         try {
+
           const res = await fetch('/.netlify/functions/crm-lead-hunter-import', {
+
             method: 'POST',
+
             headers: { 'Content-Type': 'application/json' },
+
             body: JSON.stringify({ leads: selectedLeads })
+
           });
+
           const data = await res.json();
+
           if (!res.ok) { alert(data.error || 'Import failed'); btn.textContent = origText; btn.disabled = false; return; }
+
           if (data.quota) lhUpdateQuotaBadge(data.quota);
+
           const n = data.imported;
-          let msg = data.capped
+
+          const msg = data.capped
+
             ? `✅ ${n} lead${n !== 1 ? 's' : ''} sent to the yard — daily cut limit reached, resets tomorrow.`
+
             : `✅ ${n} lead${n !== 1 ? 's' : ''} sent to the yard!`;
-          if (data.errors && data.errors.length) {
-            msg += '\n\nErrors:\n' + data.errors.join('\n');
-          }
+
           alert(msg);
+
           await loadAll();
+
           renderAccounts();
+
           closeModal(leadHunterModal);
+
         } catch (err) {
+
           alert('Import failed: ' + err.message);
+
           btn.textContent = origText;
+
           btn.disabled = false;
+
         }
+
       });
 
+
+
       leadHunterModal.addEventListener('click', (e) => {
+
         if (e.target === leadHunterModal) closeModal(leadHunterModal);
+
       });
+
       // ── End Lead Hunter ──────────────────────────────────────────────────────
+
     </script>
+
   </body>
+
 </html>
+
