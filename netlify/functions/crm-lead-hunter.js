@@ -99,7 +99,7 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
 [{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}"}]`;
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 55000);
+    const timeoutId = setTimeout(() => controller.abort(), 22000);
 
     let response;
     try {
@@ -117,7 +117,7 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
           tools: [{
             type: 'web_search_20250305',
             name: 'web_search',
-            max_uses: 5
+            max_uses: 2
           }],
           system: 'You are a B2B lead researcher. Find real contact information by searching institutional websites. Return results ONLY as a valid JSON array with no other text, preamble, or explanation.',
           messages: [{ role: 'user', content: prompt }]
