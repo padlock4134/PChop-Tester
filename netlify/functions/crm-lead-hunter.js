@@ -130,17 +130,26 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
 
     const data = await response.json();
 
+    const contentTypes = (data.content || []).map(b => b.type);
+    console.log('Claude content types:', contentTypes, 'stop:', data.stop_reason);
+
     const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text || '');
-    const fullText = textBlocks.join('\n');
-    console.log('Claude response content types:', (data.content || []).map(b => b.type));
-    console.log('Claude text output (first 500):', fullText.slice(0, 500));
+    let fullText = textBlocks.join('\n');
+
+    if (!fullText) {
+      fullText = JSON.stringify(data.content || []);
+    }
+
     const leads = parseLeadsFromText(fullText).slice(0, safeCount);
 
-    if (!leads.length && fullText.length > 0) {
+    if (!leads.length) {
+      const debugInfo = textBlocks.length
+        ? fullText.slice(0, 1000)
+        : `No text blocks. Types: [${contentTypes}]. stop: ${data.stop_reason}. Raw: ${JSON.stringify(data.content).slice(0, 500)}`;
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ leads: [], debug: fullText.slice(0, 1000), quota: null })
+        body: JSON.stringify({ leads: [], debug: debugInfo, quota: null })
       };
     }
 
