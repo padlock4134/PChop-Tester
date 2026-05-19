@@ -85,14 +85,14 @@ exports.handler = async (event) => {
 
 For each, find the ${role} or equivalent senior vocational contact. Note which trade programs they offer.
 
-Return ONLY a valid JSON array. Each object must have exactly these fields:
-[{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}]`
+OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT. Each object:
+[{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name or Department Name","title":"Job Title","email":"email@institution.edu or empty string","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}]`
       : `Find up to ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program. Return as many as you can find, up to ${safeCount}.
 
 Search institutional websites and staff directories for real, verified contact information. Only include contacts where you can find a real name and title.
 
-Return ONLY a valid JSON array with no other text before or after it. Each object must have exactly these fields:
-[{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}"}]`;
+OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT. Each object:
+[{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name or Department Name","title":"Job Title","email":"email@institution.edu or empty string","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}"}]`;
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 55000);
@@ -110,8 +110,8 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
           max_tokens: Math.min(1500 * safeCount, 8000),
-          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 2 }],
-          system: 'You are a B2B lead researcher. Your PRIMARY goal is finding real contact names and emails from institutional staff directory pages. Search for staff directories and faculty pages. CRITICAL: Your entire response must be ONLY a valid JSON array. No explanations, no apologies, no commentary, no markdown. If you find fewer results than requested, return what you found. Always include contactName and email when possible.',
+          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
+          system: 'You are a B2B lead data extractor. OUTPUT FORMAT: You must respond with ONLY a raw JSON array. No text before it. No text after it. No markdown fences. No explanations. JUST the [ ... ] array. If you cannot find a specific contact name, use the department name (e.g. "CTE Department"). If you cannot find an email, use an empty string. NEVER write sentences or paragraphs. Your output must start with [ and end with ].',
           messages: [{ role: 'user', content: prompt }]
         }),
         signal: controller.signal
