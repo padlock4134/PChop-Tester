@@ -94,12 +94,13 @@ Find up to ${safeCount} real ${role}s at ${instType}s ${location} who run ${disc
 OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
 [{"institution":"Name","website":"url","contactName":"REAL PERSON NAME","title":"Their Actual Title","email":"their@email.edu","phone":"(xxx) xxx-xxxx","city":"City","state":"ST","type":"${instType}"}]`;
 
+    // ── STEP 1: Web search to find raw lead data ──────────────────────────────
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 55000);
+    const timeoutId = setTimeout(() => controller.abort(), 40000);
 
-    let response;
+    let searchResponse;
     try {
-      response = await fetch('https://api.anthropic.com/v1/messages', {
+      searchResponse = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'x-api-key': apiKey,
@@ -109,13 +110,10 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
         },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
-          max_tokens: Math.min(1500 * safeCount, 8000),
+          max_tokens: 4000,
           tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
-          system: 'You are a B2B lead data extractor. You MUST respond with ONLY a raw JSON array starting with [ and ending with ]. No text before. No text after. No markdown. No explanations. Every contact MUST have a real human name in contactName — never use department names. Search staff directories on .edu sites to find actual people. If you find fewer than requested, return what you found. NEVER write sentences.',
-          messages: [
-            { role: 'user', content: prompt },
-            { role: 'assistant', content: '[' }
-          ]
+          system: 'You are a B2B lead researcher. Search institutional staff directories and faculty pages for real contact information. List every person you find with their full name, title, email, phone, institution name, city, and state. Include as much detail as possible.',
+          messages: [{ role: 'user', content: prompt }]
         }),
         signal: controller.signal
       });
@@ -123,36 +121,64 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
       clearTimeout(timeoutId);
     }
 
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error('Anthropic error:', response.status, errText);
+    if (!searchResponse.ok) {
+      const errText = await searchResponse.text();
+      console.error('Anthropic search error:', searchResponse.status, errText);
       let detail = errText;
       try { detail = JSON.parse(errText)?.error?.message || errText; } catch {}
-      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: `Anthropic ${response.status}: ${detail}` }) };
+      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: `Anthropic ${searchResponse.status}: ${detail}` }) };
     }
 
-    const data = await response.json();
+    const searchData = await searchResponse.json();
+    const rawText = (searchData.content || []).filter(b => b.type === 'text').map(b => b.text || '').join('\n');
+    console.log('Step 1 raw text (first 300):', rawText.slice(0, 300));
 
-    const contentTypes = (data.content || []).map(b => b.type);
-    console.log('Claude content types:', contentTypes, 'stop:', data.stop_reason);
-
-    const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text || '');
-    let fullText = '[' + textBlocks.join('\n');
-
-    if (!fullText) {
-      fullText = JSON.stringify(data.content || []);
-    }
-
-    const leads = parseLeadsFromText(fullText).slice(0, safeCount);
-
-    if (!leads.length) {
-      const debugInfo = textBlocks.length
-        ? fullText.slice(0, 1000)
-        : `No text blocks. Types: [${contentTypes}]. stop: ${data.stop_reason}. Raw: ${JSON.stringify(data.content).slice(0, 500)}`;
+    if (!rawText || rawText.length < 20) {
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ leads: [], debug: debugInfo, quota: null })
+        body: JSON.stringify({ leads: [], debug: 'Web search returned no usable text.', quota: null })
+      };
+    }
+
+    // ── STEP 2: Format raw data into JSON (no web search, fast) ──────────────
+    const jsonSchema = isAll
+      ? '[{"institution":"Name","website":"url","contactName":"Person Name","title":"Title","email":"email","phone":"phone","city":"City","state":"ST","type":"' + instType + '","disciplines":"Culinary, HVAC","disciplineCount":2}]'
+      : '[{"institution":"Name","website":"url","contactName":"Person Name","title":"Title","email":"email","phone":"phone","city":"City","state":"ST","type":"' + instType + '"}]';
+
+    const formatResponse = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'content-type': 'application/json',
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: Math.min(1500 * safeCount, 8000),
+        system: 'Convert the provided research data into a JSON array. Output ONLY the JSON array. No other text.',
+        messages: [
+          { role: 'user', content: `Convert this research into a JSON array with this schema:\n${jsonSchema}\n\nRules:\n- contactName must be a real person name (never a department)\n- Use empty string "" for any missing field\n- Include up to ${safeCount} results\n\nResearch data:\n${rawText}` },
+          { role: 'assistant', content: '[' }
+        ]
+      })
+    });
+
+    if (!formatResponse.ok) {
+      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Format step failed' }) };
+    }
+
+    const formatData = await formatResponse.json();
+    const jsonText = '[' + ((formatData.content || []).filter(b => b.type === 'text').map(b => b.text || '').join(''));
+    console.log('Step 2 JSON (first 300):', jsonText.slice(0, 300));
+
+    const leads = parseLeadsFromText(jsonText).slice(0, safeCount);
+
+    if (!leads.length) {
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leads: [], debug: `Step1: ${rawText.slice(0, 500)}\nStep2: ${jsonText.slice(0, 500)}`, quota: null })
       };
     }
 
