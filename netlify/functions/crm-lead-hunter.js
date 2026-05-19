@@ -126,8 +126,10 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
 
     if (!response.ok) {
       const errText = await response.text();
-      console.error('Anthropic error:', errText);
-      return { statusCode: 500, body: JSON.stringify({ error: 'AI search failed', detail: errText }) };
+      console.error('Anthropic error:', response.status, errText);
+      let detail = errText;
+      try { detail = JSON.parse(errText)?.error?.message || errText; } catch {}
+      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: `Anthropic ${response.status}: ${detail}` }) };
     }
 
     const data = await response.json();
