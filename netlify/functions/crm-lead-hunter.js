@@ -94,59 +94,12 @@ Find up to ${safeCount} real ${role}s at ${instType}s ${location} who run ${disc
 OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
 [{"institution":"Name","website":"url","contactName":"REAL PERSON NAME","title":"Their Actual Title","email":"their@email.edu","phone":"(xxx) xxx-xxxx","city":"City","state":"ST","type":"${instType}"}]`;
 
-    // ── STEP 1: Web search to find raw lead data ──────────────────────────────
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 40000);
-
-    let searchResponse;
-    try {
-      searchResponse = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'x-api-key': apiKey,
-          'content-type': 'application/json',
-          'anthropic-version': '2023-06-01',
-          'anthropic-beta': 'web-search-2025-03-05'
-        },
-        body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 4000,
-          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
-          system: 'You are a B2B lead researcher. Search for institutions and look at their About Us pages, Staff pages, Faculty pages, and Leadership pages. List the institution name, website, city, state, and any staff names/titles/emails you find on those pages.',
-          messages: [{ role: 'user', content: prompt }]
-        }),
-        signal: controller.signal
-      });
-    } finally {
-      clearTimeout(timeoutId);
-    }
-
-    if (!searchResponse.ok) {
-      const errText = await searchResponse.text();
-      console.error('Anthropic search error:', searchResponse.status, errText);
-      let detail = errText;
-      try { detail = JSON.parse(errText)?.error?.message || errText; } catch {}
-      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: `Anthropic ${searchResponse.status}: ${detail}` }) };
-    }
-
-    const searchData = await searchResponse.json();
-    const rawText = (searchData.content || []).filter(b => b.type === 'text').map(b => b.text || '').join('\n');
-    console.log('Step 1 raw text (first 300):', rawText.slice(0, 300));
-
-    if (!rawText || rawText.length < 20) {
-      return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ leads: [], debug: 'Web search returned no usable text.', quota: null })
-      };
-    }
-
-    // ── STEP 2: Format raw data into JSON (no web search, fast) ──────────────
+    // ── Single call: training data + prefill forces JSON output ────────────────
     const jsonSchema = isAll
-      ? '[{"institution":"Name","website":"url","contactName":"Person Name","title":"Title","email":"email","phone":"phone","city":"City","state":"ST","type":"' + instType + '","disciplines":"Culinary, HVAC","disciplineCount":2}]'
-      : '[{"institution":"Name","website":"url","contactName":"Person Name","title":"Title","email":"email","phone":"phone","city":"City","state":"ST","type":"' + instType + '"}]';
+      ? '{"institution":"Name","website":"https://school.edu","contactName":"John Smith","title":"Department Chair, CTE","email":"jsmith@school.edu","phone":"(555) 123-4567","city":"City","state":"ST","type":"' + instType + '","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}'
+      : '{"institution":"Name","website":"https://school.edu","contactName":"John Smith","title":"' + role + '","email":"jsmith@school.edu","phone":"(555) 123-4567","city":"City","state":"ST","type":"' + instType + '"}';
 
-    const formatResponse = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'x-api-key': apiKey,
@@ -156,21 +109,24 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: Math.min(1500 * safeCount, 8000),
-        system: 'You have deep knowledge of US educational institution staff from their publicly posted About Us, Staff, and Faculty pages. Given institutions, provide the real person who holds the specified role. Output ONLY a JSON array starting with [ and ending with ].',
+        system: `You have encyclopedic knowledge of US educational institutions and their staff from publicly posted staff directories, About Us pages, and faculty listings. You provide real names, titles, emails, and phone numbers of actual staff members. Output ONLY JSON.`,
         messages: [
-          { role: 'user', content: `For each institution below, who is the ${role} or equivalent person overseeing ${isAll ? 'CTE/vocational programs' : discipline + ' programs'}? Provide their real name, title, email (using the institution\'s domain), and phone if known.\n\nSchema: ${jsonSchema}\n\nRules:\n- contactName = real human name from the institution\'s staff/about/faculty page\n- email = real email at their domain\n- Use empty string for unknown fields\n- Up to ${safeCount} results\n\nInstitutions:\n${rawText}` },
+          { role: 'user', content: prompt + `\n\nEach object in the array must match this schema:\n${jsonSchema}\n\nRules:\n- contactName must be a REAL person's full name (never a department name)\n- email must use the institution's actual domain\n- phone should be their direct line or the department number\n- website must be the institution's real URL\n- Return exactly ${safeCount} results` },
           { role: 'assistant', content: '[' }
         ]
       })
     });
 
-    if (!formatResponse.ok) {
-      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: 'Format step failed' }) };
+    if (!response.ok) {
+      const errText = await response.text();
+      let detail = errText;
+      try { detail = JSON.parse(errText)?.error?.message || errText; } catch {}
+      return { statusCode: 500, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ error: `Anthropic ${response.status}: ${detail}` }) };
     }
 
-    const formatData = await formatResponse.json();
-    const jsonText = '[' + ((formatData.content || []).filter(b => b.type === 'text').map(b => b.text || '').join(''));
-    console.log('Step 2 JSON (first 300):', jsonText.slice(0, 300));
+    const data = await response.json();
+    const jsonText = '[' + ((data.content || []).filter(b => b.type === 'text').map(b => b.text || '').join(''));
+    console.log('Response JSON (first 500):', jsonText.slice(0, 500));
 
     const leads = parseLeadsFromText(jsonText).slice(0, safeCount);
 
@@ -178,7 +134,7 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
       return {
         statusCode: 200,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ leads: [], debug: `Step1: ${rawText.slice(0, 500)}\nStep2: ${jsonText.slice(0, 500)}`, quota: null })
+        body: JSON.stringify({ leads: [], debug: jsonText.slice(0, 1000), quota: null })
       };
     }
 
