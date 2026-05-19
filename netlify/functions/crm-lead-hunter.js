@@ -83,7 +83,7 @@ exports.handler = async (event) => {
     const prompt = isAll
       ? `Find ${safeCount} ${instType}s ${location} with CTE or vocational/trade programs (any of: ${ALL_DISCIPLINES.join(', ')}).
 
-For each, find the Dean of CTE, VP of Workforce, or senior vocational contact. Note which trade programs they offer.
+For each, find the ${role} or equivalent senior vocational contact. Note which trade programs they offer.
 
 Return ONLY a valid JSON array. Each object must have exactly these fields:
 [{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}]`
