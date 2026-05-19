@@ -77,8 +77,21 @@ exports.handler = async (event) => {
 
     const instType = institutionType || 'Community College';
     const role = contactRole || 'Program Director';
+    const isAll = discipline === 'All Disciplines';
+    const ALL_DISCIPLINES = ['Culinary','Plumbing','Automotive','Construction','Electrical','HVAC','Manufacturing','Logistics','Welding'];
 
-    const prompt = `Find ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program.
+    const prompt = isAll
+      ? `Find ${safeCount} ${instType}s ${location} that offer the MOST vocational/trade programs from this list: ${ALL_DISCIPLINES.join(', ')}.
+
+RANKING: Sort results descending by how many of those 9 disciplines the institution offers. An institution with 7 programs ranks above one with 3.
+
+For each institution find the senior-most CTE/vocational contact (Dean of CTE, Director of Workforce Programs, VP of Career Education, or equivalent).
+
+Search institutional websites to verify contact information and program lists.
+
+Return ONLY a valid JSON array sorted by disciplineCount descending. Each object must have exactly these fields:
+[{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}]`
+      : `Find ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program.
 
 Search institutional websites for verified contact information including email addresses and phone numbers. Only include contacts where you can find a real email address.
 

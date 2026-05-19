@@ -12,7 +12,8 @@ function mapInstType(typeName) {
     'Community College': 'individual_college',
     'Technical College': 'individual_college',
     '4-Year University': 'whale_institute',
-    'State System / District': 'state_system'
+    'State System / District': 'state_system',
+    'K-12 Secondary': 'other'
   };
   return map[typeName] || 'individual_college';
 }

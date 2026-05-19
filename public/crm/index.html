@@ -501,6 +501,7 @@
           <div class="lh-form-grid">
             <label>Discipline
               <select id="lhDiscipline">
+                <option value="All Disciplines">All Disciplines (ranked by fit)</option>
                 <option>Culinary</option>
                 <option>Plumbing</option>
                 <option>Automotive</option>
@@ -518,6 +519,7 @@
                 <option>Technical College</option>
                 <option>4-Year University</option>
                 <option>State System / District</option>
+                <option>K-12 Secondary</option>
               </select>
             </label>
             <label>Contact Role
@@ -1813,7 +1815,7 @@
         tbody.innerHTML = leads.map((lead, i) => `
           <tr>
             <td><input type="checkbox" class="lh-check" data-index="${i}" /></td>
-            <td style="font-weight:600;">${lead.institution || '—'}</td>
+            <td style="font-weight:600;">${lead.institution || '—'}${lead.disciplines ? `<br><small style="color:#64748b;font-weight:400;font-size:11px;">✓ ${lead.disciplines}${lead.disciplineCount ? ` (${lead.disciplineCount}/9)` : ''}</small>` : ''}</td>
             <td>${lead.contactName || '—'}</td>
             <td style="color:#475569;">${lead.title || '—'}</td>
             <td>${lead.email ? `<a href="mailto:${lead.email}" style="color:var(--maine-blue);">${lead.email}</a>` : '—'}</td>
