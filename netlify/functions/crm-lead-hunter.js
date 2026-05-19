@@ -114,7 +114,7 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
         body: JSON.stringify({
           model: 'claude-sonnet-4-5-20250929',
           max_tokens: 8000,
-          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
+          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 2 }],
           system: 'You are a B2B lead researcher. Search real institutional websites and staff directories for currently-posted contact information. Only return people and emails you find on actual web pages. Return results ONLY as a valid JSON array with no other text.',
           messages: [{ role: 'user', content: prompt }]
         }),
