@@ -128,47 +128,53 @@ exports.handler = async (event) => {
 
     for (const lead of leadsToImport) {
       try {
-        // Upsert account (ignore duplicates by name)
-        const acctRes = await fetch(`${supabaseUrl}/rest/v1/sales_accounts`, {
-          method: 'POST',
-          headers: {
-            'apikey': anonKey,
-            'Authorization': `Bearer ${supabaseToken}`,
-            'Content-Profile': 'revenue',
-            'Content-Type': 'application/json',
-            'Prefer': 'resolution=ignore-duplicates,return=representation'
-          },
-          body: JSON.stringify({
-            name: lead.institution || 'Unknown Institution',
-            account_type: mapInstType(lead.type),
-            website: lead.website || null,
-            state_region: lead.state || null,
-            owner_user_id: userId,
-            lead_status: 'new'
-          })
-        });
-
+        const instName = lead.institution || 'Unknown Institution';
         let accountId = null;
-        if (acctRes.ok) {
-          const acctData = await acctRes.json();
-          accountId = Array.isArray(acctData) ? acctData[0]?.id : acctData?.id;
+
+        // Check if account already exists by name
+        const findRes = await fetch(
+          `${supabaseUrl}/rest/v1/sales_accounts?name=eq.${encodeURIComponent(instName)}&select=id&limit=1`,
+          {
+            headers: {
+              'apikey': anonKey,
+              'Authorization': `Bearer ${supabaseToken}`,
+              'Accept-Profile': 'revenue'
+            }
+          }
+        );
+        if (findRes.ok) {
+          const found = await findRes.json();
+          accountId = found?.[0]?.id || null;
         }
 
-        // If account already existed (duplicate ignored), look it up by name
-        if (!accountId && lead.institution) {
-          const findRes = await fetch(
-            `${supabaseUrl}/rest/v1/sales_accounts?name=eq.${encodeURIComponent(lead.institution)}&select=id`,
-            {
-              headers: {
-                'apikey': anonKey,
-                'Authorization': `Bearer ${supabaseToken}`,
-                'Accept-Profile': 'revenue'
-              }
-            }
-          );
-          if (findRes.ok) {
-            const found = await findRes.json();
-            accountId = found?.[0]?.id || null;
+        // If no existing account, INSERT a new one
+        if (!accountId) {
+          const acctRes = await fetch(`${supabaseUrl}/rest/v1/sales_accounts`, {
+            method: 'POST',
+            headers: {
+              'apikey': anonKey,
+              'Authorization': `Bearer ${supabaseToken}`,
+              'Content-Profile': 'revenue',
+              'Content-Type': 'application/json',
+              'Prefer': 'return=representation'
+            },
+            body: JSON.stringify({
+              name: instName,
+              account_type: mapInstType(lead.type),
+              website: lead.website || null,
+              state_region: lead.state || null,
+              owner_user_id: userId,
+              lead_status: 'new'
+            })
+          });
+
+          if (acctRes.ok) {
+            const acctData = await acctRes.json();
+            accountId = Array.isArray(acctData) ? acctData[0]?.id : acctData?.id;
+          } else {
+            const errText = await acctRes.text();
+            console.error('Account insert failed:', acctRes.status, errText);
+            continue;
           }
         }
 
@@ -177,14 +183,14 @@ exports.handler = async (event) => {
           const nameParts = (lead.contactName || '').trim().split(/\s+/);
           const firstName = nameParts[0] || '';
           const lastName = nameParts.slice(1).join(' ') || '';
-          await fetch(`${supabaseUrl}/rest/v1/sales_contacts`, {
+          const contactRes = await fetch(`${supabaseUrl}/rest/v1/sales_contacts`, {
             method: 'POST',
             headers: {
               'apikey': anonKey,
               'Authorization': `Bearer ${supabaseToken}`,
               'Content-Profile': 'revenue',
               'Content-Type': 'application/json',
-              'Prefer': 'resolution=ignore-duplicates,return=minimal'
+              'Prefer': 'return=minimal'
             },
             body: JSON.stringify({
               account_id: accountId,
@@ -197,6 +203,10 @@ exports.handler = async (event) => {
               role_in_deal: 'champion'
             })
           });
+          if (!contactRes.ok) {
+            const errText = await contactRes.text();
+            console.error('Contact insert failed:', contactRes.status, errText);
+          }
         }
 
         imported++;
