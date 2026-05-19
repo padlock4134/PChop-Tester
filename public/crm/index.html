@@ -643,6 +643,7 @@
       async function loadAccounts() {
         const { data, error } = await sb.from('sales_accounts').select('*').order('name');
         if (error) { console.error('loadAccounts:', error); return; }
+        if (!data) return;
 
         const { data: allContacts } = await sb.from('sales_contacts').select('*');
         const { data: allTasks } = await sb.from('sales_tasks').select('*');
