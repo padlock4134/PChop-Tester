@@ -81,13 +81,13 @@ exports.handler = async (event) => {
     const ALL_DISCIPLINES = ['Culinary','Plumbing','Automotive','Construction','Electrical','HVAC','Manufacturing','Logistics','Welding'];
 
     const prompt = isAll
-      ? `Find EXACTLY ${safeCount} ${instType}s ${location} with CTE or vocational/trade programs (any of: ${ALL_DISCIPLINES.join(', ')}). Return exactly ${safeCount} results, no more, no less.
+      ? `Find up to ${safeCount} ${instType}s ${location} with CTE or vocational/trade programs (any of: ${ALL_DISCIPLINES.join(', ')}). Return as many as you can find, up to ${safeCount}.
 
 For each, find the ${role} or equivalent senior vocational contact. Note which trade programs they offer.
 
 Return ONLY a valid JSON array. Each object must have exactly these fields:
 [{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}]`
-      : `Find EXACTLY ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program. Return exactly ${safeCount} results, no more, no less.
+      : `Find up to ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program. Return as many as you can find, up to ${safeCount}.
 
 Search institutional websites and staff directories for real, verified contact information. Only include contacts where you can find a real name and title.
 
@@ -111,7 +111,7 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
           model: 'claude-haiku-4-5-20251001',
           max_tokens: Math.min(1500 * safeCount, 8000),
           tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 1 }],
-          system: 'You are a B2B lead researcher. Search real institutional websites and staff directories for currently-posted contact information. Only return people and emails you find on actual web pages. Return results ONLY as a valid JSON array with no other text.',
+          system: 'You are a B2B lead researcher. Search institutional websites and staff directories for contact information. CRITICAL: Your entire response must be ONLY a valid JSON array. No explanations, no apologies, no commentary, no markdown. If you find fewer results than requested, return what you found. Never return an empty response — always return at least the institutions you found even if contact details are incomplete.',
           messages: [{ role: 'user', content: prompt }]
         }),
         signal: controller.signal
