@@ -125,6 +125,7 @@ exports.handler = async (event) => {
     const leadsToImport = leads.slice(0, remaining);
     const capped = leads.length > remaining;
     let imported = 0;
+    const errors = [];
 
     for (const lead of leadsToImport) {
       try {
@@ -174,6 +175,7 @@ exports.handler = async (event) => {
           } else {
             const errText = await acctRes.text();
             console.error('Account insert failed:', acctRes.status, errText);
+            errors.push(`Account "${instName}": ${acctRes.status} ${errText}`);
             continue;
           }
         }
@@ -225,6 +227,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         imported,
         capped,
+        errors: errors.length ? errors : undefined,
         quota: { used: newTotal, remaining: DAILY_CAP - newTotal }
       })
     };

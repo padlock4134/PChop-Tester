@@ -1872,9 +1872,12 @@
           if (!res.ok) { alert(data.error || 'Import failed'); btn.textContent = origText; btn.disabled = false; return; }
           if (data.quota) lhUpdateQuotaBadge(data.quota);
           const n = data.imported;
-          const msg = data.capped
+          let msg = data.capped
             ? `✅ ${n} lead${n !== 1 ? 's' : ''} sent to the yard — daily cut limit reached, resets tomorrow.`
             : `✅ ${n} lead${n !== 1 ? 's' : ''} sent to the yard!`;
+          if (data.errors && data.errors.length) {
+            msg += '\n\nErrors:\n' + data.errors.join('\n');
+          }
           alert(msg);
           await loadAll();
           renderAccounts();
