@@ -110,8 +110,8 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
           max_tokens: Math.min(1500 * safeCount, 8000),
-          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 1 }],
-          system: 'You are a B2B lead researcher. Search institutional websites and staff directories for contact information. CRITICAL: Your entire response must be ONLY a valid JSON array. No explanations, no apologies, no commentary, no markdown. If you find fewer results than requested, return what you found. Never return an empty response — always return at least the institutions you found even if contact details are incomplete.',
+          tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 2 }],
+          system: 'You are a B2B lead researcher. Your PRIMARY goal is finding real contact names and emails from institutional staff directory pages. Search for staff directories and faculty pages. CRITICAL: Your entire response must be ONLY a valid JSON array. No explanations, no apologies, no commentary, no markdown. If you find fewer results than requested, return what you found. Always include contactName and email when possible.',
           messages: [{ role: 'user', content: prompt }]
         }),
         signal: controller.signal
