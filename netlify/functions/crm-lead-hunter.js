@@ -108,7 +108,7 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
           'anthropic-beta': 'web-search-2025-03-05'
         },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-5-20250929',
+          model: 'claude-haiku-4-5-20251001',
           max_tokens: Math.min(1500 * safeCount, 8000),
           tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 1 }],
           system: 'You are a B2B lead researcher. Search real institutional websites and staff directories for currently-posted contact information. Only return people and emails you find on actual web pages. Return results ONLY as a valid JSON array with no other text.',
