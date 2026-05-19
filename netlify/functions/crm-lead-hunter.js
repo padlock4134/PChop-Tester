@@ -1,0 +1,149 @@
+// netlify/functions/crm-lead-hunter.js
+// Scrapes the web for B2B leads using Claude's built-in web search tool.
+const fetch = require('node-fetch');
+const { getSessionFromCookie, isSessionValid } = require('./lib/session-utils.js');
+
+const DAILY_CAP = 25;
+
+async function getQuota(supabaseUrl, anonKey, supabaseToken, userId) {
+  const today = new Date().toISOString().slice(0, 10);
+  try {
+    const res = await fetch(
+      `${supabaseUrl}/rest/v1/lead_hunter_usage?user_id=eq.${userId}&import_date=eq.${today}&select=leads_imported`,
+      {
+        headers: {
+          'apikey': anonKey,
+          'Authorization': `Bearer ${supabaseToken}`,
+          'Accept-Profile': 'revenue'
+        }
+      }
+    );
+    if (!res.ok) return { used: 0, remaining: DAILY_CAP };
+    const rows = await res.json();
+    const used = rows?.[0]?.leads_imported || 0;
+    return { used, remaining: DAILY_CAP - used };
+  } catch {
+    return { used: 0, remaining: DAILY_CAP };
+  }
+}
+
+function parseLeadsFromText(text) {
+  const codeBlockMatch = text.match(/```(?:json)?\s*(\[[\s\S]*?\])\s*```/);
+  if (codeBlockMatch) {
+    try { return JSON.parse(codeBlockMatch[1]); } catch {}
+  }
+  const arrayMatch = text.match(/(\[[\s\S]*\])/);
+  if (arrayMatch) {
+    try { return JSON.parse(arrayMatch[1]); } catch {}
+  }
+  return [];
+}
+
+exports.handler = async (event) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+  }
+
+  try {
+    const session = await getSessionFromCookie(event);
+    if (!isSessionValid(session)) {
+      return {
+        statusCode: 401,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ error: 'Not authenticated' })
+      };
+    }
+
+    let body;
+    try { body = JSON.parse(event.body); } catch {
+      return { statusCode: 400, body: JSON.stringify({ error: 'Invalid JSON' }) };
+    }
+
+    const { discipline, institutionType, contactRole, geoScope, geoValue, count = 10 } = body;
+
+    if (!discipline) {
+      return { statusCode: 400, body: JSON.stringify({ error: 'discipline is required' }) };
+    }
+
+    const safeCount = Math.min(Math.max(Number(count) || 10, 5), 25);
+    const location = geoScope === 'National'
+      ? 'across the United States'
+      : `in the ${geoValue} ${geoScope === 'State' ? 'state' : 'region'}`;
+
+    const apiKey = process.env.ANTHROPIC_CRM_KEY || process.env.ANTHROPIC_CHEF_KEY;
+    if (!apiKey) {
+      return { statusCode: 500, body: JSON.stringify({ error: 'Anthropic API key not configured' }) };
+    }
+
+    const instType = institutionType || 'Community College';
+    const role = contactRole || 'Program Director';
+
+    const prompt = `Find ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program.
+
+Search institutional websites for verified contact information including email addresses and phone numbers. Only include contacts where you can find a real email address.
+
+Return ONLY a valid JSON array with no other text before or after it. Each object must have exactly these fields:
+[{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}"}]`;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 55000);
+
+    let response;
+    try {
+      response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': apiKey,
+          'content-type': 'application/json',
+          'anthropic-version': '2023-06-01',
+          'anthropic-beta': 'web-search-2025-03-05'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-5-20250929',
+          max_tokens: 4000,
+          tools: [{
+            type: 'web_search_20250305',
+            name: 'web_search',
+            max_uses: 5
+          }],
+          system: 'You are a B2B lead researcher. Find real contact information by searching institutional websites. Return results ONLY as a valid JSON array with no other text, preamble, or explanation.',
+          messages: [{ role: 'user', content: prompt }]
+        }),
+        signal: controller.signal
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error('Anthropic error:', errText);
+      return { statusCode: 500, body: JSON.stringify({ error: 'AI search failed', detail: errText }) };
+    }
+
+    const data = await response.json();
+
+    const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text || '');
+    const fullText = textBlocks.join('\n');
+    const leads = parseLeadsFromText(fullText);
+
+    const supabaseUrl = process.env.VITE_SUPABASE_URL;
+    const anonKey = process.env.VITE_SUPABASE_ANON_KEY;
+    const quota = (supabaseUrl && anonKey)
+      ? await getQuota(supabaseUrl, anonKey, session.supabaseToken, session.userId)
+      : { used: 0, remaining: DAILY_CAP };
+
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leads, quota })
+    };
+
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      return { statusCode: 504, body: JSON.stringify({ error: 'Search timed out — try a smaller lead count or narrower geography.' }) };
+    }
+    console.error('Lead hunter error:', err);
+    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+  }
+};

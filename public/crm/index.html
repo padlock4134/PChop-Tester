@@ -62,6 +62,20 @@
       @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
 
+      /* ── Lead Hunter ────────────────────────────────────────── */
+      .lh-quota-badge { display:inline-flex; align-items:center; padding:4px 12px; border-radius:999px; font-size:12px; font-weight:700; white-space:nowrap; }
+      .lh-quota-badge.ok   { background:#dcfce7; color:#15803d; }
+      .lh-quota-badge.warn { background:#fef9c3; color:#854d0e; }
+      .lh-quota-badge.empty{ background:#fee2e2; color:#991b1b; }
+      #lhFilters .lh-form-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:0; }
+      #lhFilters .lh-form-grid label { display:flex; flex-direction:column; gap:4px; font-size:13px; font-weight:600; color:#374151; }
+      #lhFilters .lh-form-grid select, #lhFilters .lh-form-grid input[type=range] { width:100%; border:1px solid #cbd5e1; border-radius:8px; padding:8px 10px; font-size:13px; }
+      #lhSpinner { text-align:center; padding:32px 20px; color:var(--maine-blue); font-weight:600; }
+      .lh-spinner-ring { display:inline-block; width:32px; height:32px; border:3px solid #e2e8f0; border-top-color:var(--maine-blue); border-radius:50%; animation:lh-spin 0.8s linear infinite; }
+      @keyframes lh-spin { to { transform:rotate(360deg); } }
+      #lhResultsTable td { font-size:13px; }
+      @media (max-width:700px) { #lhFilters .lh-form-grid { grid-template-columns:1fr 1fr; } }
+
       @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, minmax(140px, 1fr)); } }
       @media (max-width: 760px) {
         .sections { grid-template-columns: 1fr; }
@@ -81,7 +95,10 @@
               <p>Direct Sales + Tasks Dashboard</p>
             </div>
           </div>
-          <span class="pill">The Chop Shop CRM</span>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <button id="leadHunterBtn" class="btn" type="button" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.5);font-size:13px;padding:6px 14px;">🔍 Hunt Leads</button>
+            <span class="pill">The Chop Shop CRM</span>
+          </div>
         </section>
         <section class="content">
           <div class="grid">
@@ -466,6 +483,104 @@
         </form>
       </div>
     </div>
+
+    <!-- ── Lead Hunter Modal ───────────────────────────────────── -->
+    <div id="leadHunterModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="leadHunterTitle" style="max-width:900px;">
+        <div class="modal-header">
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <h2 id="leadHunterTitle" class="modal-title">🔍 Lead Hunter</h2>
+            <span id="lhQuotaBadge" class="lh-quota-badge ok">— / 25 remaining today</span>
+          </div>
+          <button class="close" type="button" data-close="leadHunterModal">×</button>
+        </div>
+
+        <!-- Filters panel -->
+        <div id="lhFilters">
+          <div class="lh-form-grid">
+            <label>Discipline
+              <select id="lhDiscipline">
+                <option>Culinary</option>
+                <option>Plumbing</option>
+                <option>Automotive</option>
+                <option>Construction</option>
+                <option>Electrical</option>
+                <option>HVAC</option>
+                <option>Manufacturing</option>
+                <option>Logistics</option>
+                <option>Welding</option>
+              </select>
+            </label>
+            <label>Institution Type
+              <select id="lhInstitutionType">
+                <option>Community College</option>
+                <option>Technical College</option>
+                <option>4-Year University</option>
+                <option>State System / District</option>
+              </select>
+            </label>
+            <label>Contact Role
+              <select id="lhContactRole">
+                <option>Department Chair</option>
+                <option>Program Director</option>
+                <option>Dean</option>
+                <option>Coordinator</option>
+                <option>Instructor</option>
+              </select>
+            </label>
+            <label>Geography Scope
+              <select id="lhGeoScope">
+                <option value="National">National</option>
+                <option value="Region">Region</option>
+                <option value="State">State</option>
+              </select>
+            </label>
+            <label id="lhGeoValueWrap" style="display:none;">Location
+              <select id="lhGeoValue"></select>
+            </label>
+            <label>Lead Count: <span id="lhCountDisplay" style="color:var(--maine-blue);font-weight:700;">10</span>
+              <input type="range" id="lhCount" min="5" max="25" value="10" style="padding:4px 0;" />
+            </label>
+          </div>
+          <div style="text-align:right;margin-top:16px;">
+            <button id="lhHuntBtn" class="btn primary" type="button" style="font-size:15px;padding:10px 24px;">🎯 Hunt Leads</button>
+          </div>
+          <div id="lhSpinner" style="display:none;">
+            <div class="lh-spinner-ring"></div>
+            <p style="margin-top:10px;font-size:14px;">Searching the web for leads…</p>
+          </div>
+        </div>
+
+        <!-- Results panel -->
+        <div id="lhResults" style="display:none;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
+            <button id="lhBackBtn" class="btn" type="button">← New Search</button>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+              <input type="checkbox" id="lhSelectAll" /> Select All
+            </label>
+            <button id="lhImportBtn" class="btn primary" type="button" disabled>Import Selected (0)</button>
+          </div>
+          <div style="overflow:auto;">
+            <table class="table" id="lhResultsTable">
+              <thead><tr>
+                <th style="width:32px;">✓</th>
+                <th>Institution</th>
+                <th>Contact</th>
+                <th>Title</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>State</th>
+                <th>Type</th>
+              </tr></thead>
+              <tbody id="lhResultsBody"></tbody>
+            </table>
+          </div>
+          <p id="lhNoResults" class="subtle" style="display:none;text-align:center;padding:20px;">No leads returned. Try adjusting your filters or count.</p>
+        </div>
+
+      </div>
+    </div>
+    <!-- ── End Lead Hunter Modal ─────────────────────────────────── -->
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -1597,6 +1712,172 @@
           if (e.target === backdrop) closeModal(backdrop);
         });
       });
+
+      // ── Lead Hunter ─────────────────────────────────────────────────────────
+      const leadHunterModal = document.getElementById('leadHunterModal');
+      const lhGeoScope      = document.getElementById('lhGeoScope');
+      const lhGeoValueWrap  = document.getElementById('lhGeoValueWrap');
+      const lhGeoValue      = document.getElementById('lhGeoValue');
+      const lhCountInput    = document.getElementById('lhCount');
+      const lhCountDisplay  = document.getElementById('lhCountDisplay');
+      const lhQuotaBadge    = document.getElementById('lhQuotaBadge');
+      let lhLeads = [];
+
+      const LH_US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+      const LH_REGIONS = ['Northeast','Southeast','Midwest','West','Southwest'];
+
+      function lhUpdateQuotaBadge(quota) {
+        if (!quota) return;
+        lhQuotaBadge.textContent = `${quota.remaining} / 25 imports remaining today`;
+        lhQuotaBadge.className = 'lh-quota-badge ' + (quota.remaining > 10 ? 'ok' : quota.remaining > 0 ? 'warn' : 'empty');
+        const importBtn = document.getElementById('lhImportBtn');
+        if (importBtn && quota.remaining <= 0) {
+          importBtn.disabled = true;
+          importBtn.title = 'Daily limit reached — resets tomorrow at midnight UTC';
+        }
+      }
+
+      async function lhLoadQuota() {
+        try {
+          const res = await fetch('/.netlify/functions/crm-lead-hunter-import', { method: 'GET' });
+          if (res.ok) { const d = await res.json(); lhUpdateQuotaBadge(d.quota); }
+        } catch (e) { console.error('Quota load failed', e); }
+      }
+
+      document.getElementById('leadHunterBtn').addEventListener('click', () => {
+        document.getElementById('lhFilters').style.display = '';
+        document.getElementById('lhResults').style.display = 'none';
+        document.getElementById('lhSelectAll').checked = false;
+        lhLeads = [];
+        openModal(leadHunterModal);
+        lhLoadQuota();
+      });
+
+      lhGeoScope.addEventListener('change', () => {
+        const scope = lhGeoScope.value;
+        if (scope === 'National') {
+          lhGeoValueWrap.style.display = 'none';
+        } else {
+          lhGeoValueWrap.style.display = '';
+          const opts = scope === 'State' ? LH_US_STATES : LH_REGIONS;
+          lhGeoValue.innerHTML = opts.map(o => `<option value="${o}">${o}</option>`).join('');
+        }
+      });
+
+      lhCountInput.addEventListener('input', () => { lhCountDisplay.textContent = lhCountInput.value; });
+
+      document.getElementById('lhHuntBtn').addEventListener('click', async () => {
+        const discipline    = document.getElementById('lhDiscipline').value;
+        const institutionType = document.getElementById('lhInstitutionType').value;
+        const contactRole   = document.getElementById('lhContactRole').value;
+        const geoScope      = lhGeoScope.value;
+        const geoValue      = geoScope !== 'National' ? lhGeoValue.value : 'National';
+        const count         = Number(lhCountInput.value);
+        const spinner       = document.getElementById('lhSpinner');
+        const huntBtn       = document.getElementById('lhHuntBtn');
+        spinner.style.display = 'block';
+        huntBtn.disabled = true;
+        try {
+          const res = await fetch('/.netlify/functions/crm-lead-hunter', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ discipline, institutionType, contactRole, geoScope, geoValue, count })
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Search failed');
+          lhLeads = data.leads || [];
+          if (data.quota) lhUpdateQuotaBadge(data.quota);
+          renderLhResults(lhLeads);
+          document.getElementById('lhFilters').style.display = 'none';
+          document.getElementById('lhResults').style.display = '';
+        } catch (err) {
+          alert('Lead hunt failed: ' + err.message);
+        } finally {
+          spinner.style.display = 'none';
+          huntBtn.disabled = false;
+        }
+      });
+
+      function renderLhResults(leads) {
+        const tbody     = document.getElementById('lhResultsBody');
+        const noResults = document.getElementById('lhNoResults');
+        document.getElementById('lhSelectAll').checked = false;
+        updateLhImportBtn();
+        if (!leads.length) {
+          tbody.innerHTML = '';
+          noResults.style.display = 'block';
+          return;
+        }
+        noResults.style.display = 'none';
+        tbody.innerHTML = leads.map((lead, i) => `
+          <tr>
+            <td><input type="checkbox" class="lh-check" data-index="${i}" /></td>
+            <td style="font-weight:600;">${lead.institution || '—'}</td>
+            <td>${lead.contactName || '—'}</td>
+            <td style="color:#475569;">${lead.title || '—'}</td>
+            <td>${lead.email ? `<a href="mailto:${lead.email}" style="color:var(--maine-blue);">${lead.email}</a>` : '—'}</td>
+            <td>${lead.phone || '—'}</td>
+            <td>${lead.state || '—'}</td>
+            <td style="color:#64748b;">${lead.type || '—'}</td>
+          </tr>`).join('');
+        tbody.querySelectorAll('.lh-check').forEach(cb => cb.addEventListener('change', updateLhImportBtn));
+        updateLhImportBtn();
+      }
+
+      function updateLhImportBtn() {
+        const checked = document.querySelectorAll('.lh-check:checked').length;
+        const btn = document.getElementById('lhImportBtn');
+        btn.textContent = `Import Selected (${checked})`;
+        btn.disabled = checked === 0;
+      }
+
+      document.getElementById('lhSelectAll').addEventListener('change', (e) => {
+        document.querySelectorAll('.lh-check').forEach(cb => { cb.checked = e.target.checked; });
+        updateLhImportBtn();
+      });
+
+      document.getElementById('lhBackBtn').addEventListener('click', () => {
+        document.getElementById('lhFilters').style.display = '';
+        document.getElementById('lhResults').style.display = 'none';
+        lhLeads = [];
+      });
+
+      document.getElementById('lhImportBtn').addEventListener('click', async () => {
+        const checked = Array.from(document.querySelectorAll('.lh-check:checked'));
+        const selectedLeads = checked.map(cb => lhLeads[Number(cb.dataset.index)]).filter(Boolean);
+        if (!selectedLeads.length) return;
+        const btn = document.getElementById('lhImportBtn');
+        const origText = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Importing…';
+        try {
+          const res = await fetch('/.netlify/functions/crm-lead-hunter-import', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ leads: selectedLeads })
+          });
+          const data = await res.json();
+          if (!res.ok) { alert(data.error || 'Import failed'); btn.textContent = origText; btn.disabled = false; return; }
+          if (data.quota) lhUpdateQuotaBadge(data.quota);
+          const n = data.imported;
+          const msg = data.capped
+            ? `✅ Imported ${n} lead${n !== 1 ? 's' : ''} (daily cap reached — resets tomorrow).`
+            : `✅ Imported ${n} lead${n !== 1 ? 's' : ''} to Accounts!`;
+          alert(msg);
+          await loadAll();
+          renderAccounts();
+          closeModal(leadHunterModal);
+        } catch (err) {
+          alert('Import failed: ' + err.message);
+          btn.textContent = origText;
+          btn.disabled = false;
+        }
+      });
+
+      leadHunterModal.addEventListener('click', (e) => {
+        if (e.target === leadHunterModal) closeModal(leadHunterModal);
+      });
+      // ── End Lead Hunter ──────────────────────────────────────────────────────
     </script>
   </body>
 </html>
