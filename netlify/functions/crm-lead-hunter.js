@@ -112,7 +112,10 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
           max_tokens: Math.min(1500 * safeCount, 8000),
           tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
           system: 'You are a B2B lead data extractor. You MUST respond with ONLY a raw JSON array starting with [ and ending with ]. No text before. No text after. No markdown. No explanations. Every contact MUST have a real human name in contactName — never use department names. Search staff directories on .edu sites to find actual people. If you find fewer than requested, return what you found. NEVER write sentences.',
-          messages: [{ role: 'user', content: prompt }]
+          messages: [
+            { role: 'user', content: prompt },
+            { role: 'assistant', content: '[' }
+          ]
         }),
         signal: controller.signal
       });
@@ -134,7 +137,7 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
     console.log('Claude content types:', contentTypes, 'stop:', data.stop_reason);
 
     const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text || '');
-    let fullText = textBlocks.join('\n');
+    let fullText = '[' + textBlocks.join('\n');
 
     if (!fullText) {
       fullText = JSON.stringify(data.content || []);
