@@ -164,8 +164,7 @@ exports.handler = async (event) => {
               account_type: mapInstType(lead.type),
               website: lead.website || null,
               state_region: lead.state || null,
-              owner_user_id: userId,
-              lead_status: 'new'
+              owner_user_id: userId
             })
           });
 

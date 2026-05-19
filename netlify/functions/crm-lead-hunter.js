@@ -155,9 +155,9 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: Math.min(1500 * safeCount, 8000),
-        system: 'You format research data into JSON arrays. PRIORITY: Use any contact names, emails, titles, and phones found in the research data. FALLBACK: If the research has an institution but no contact details, fill in from your knowledge of that institution staff page. Output ONLY a JSON array. Start with [ end with ].',
+        system: 'You format research data into JSON arrays. PRIORITY: Use contact names, emails, titles, phones from the research data. FALLBACK: For ANY missing field (no email, no phone, no contact name), fill it in from your knowledge of that institution. You know staff directories, about pages, and faculty listings. EVERY lead MUST have contactName, email, and phone filled in — never leave them blank or empty. Output ONLY a JSON array.',
         messages: [
-          { role: 'user', content: `Format this research into a JSON array of up to ${safeCount} leads.\n\nSchema: ${jsonSchema}\n\nRules:\n- USE contact info from the research below if present (this is from live web search)\n- ONLY fill in contacts from your knowledge if the research has NO contact for that institution\n- contactName = real person name, NEVER a department\n- email = real email at the institution domain\n- phone = number found or empty string\n\nResearch:\n${rawText}` },
+          { role: 'user', content: `Format this research into a JSON array of up to ${safeCount} leads.\n\nSchema: ${jsonSchema}\n\nRules:\n- USE contact info from the research if present (from live web search)\n- If research is MISSING a contact name, email, or phone for an institution, fill it from your knowledge of that school's staff\n- contactName = real person name, NEVER a department\n- email = REQUIRED, use the institution's real domain\n- phone = REQUIRED, use direct line or main department number\n- NEVER leave email or phone as empty string or dash\n\nResearch:\n${rawText}` },
           { role: 'assistant', content: '[' }
         ]
       })
