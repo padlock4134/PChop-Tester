@@ -96,7 +96,7 @@
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:10px;">
-            <button id="leadHunterBtn" class="btn" type="button" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.5);font-size:13px;padding:6px 14px;">🔍 Hunt Leads</button>
+            <button id="leadHunterBtn" class="btn" type="button" style="background:rgba(255,255,255,0.15);color:#fff;border-color:rgba(255,255,255,0.5);font-size:13px;padding:6px 14px;">⚙️ Run the Grinder</button>
             <span class="pill">The Chop Shop CRM</span>
           </div>
         </section>
@@ -487,16 +487,17 @@
     <!-- ── Lead Hunter Modal ───────────────────────────────────── -->
     <div id="leadHunterModal" class="modal-backdrop" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="leadHunterTitle" style="max-width:900px;">
-        <div class="modal-header">
+        <div class="modal-header" style="background:#0f172a;color:#e2e8f0;border-radius:12px 12px 0 0;">
           <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-            <h2 id="leadHunterTitle" class="modal-title">🔍 Lead Hunter</h2>
-            <span id="lhQuotaBadge" class="lh-quota-badge ok">— / 25 remaining today</span>
+            <h2 id="leadHunterTitle" class="modal-title" style="color:#e2e8f0;">⚙️ The Grinder</h2>
+            <span id="lhQuotaBadge" class="lh-quota-badge ok">— / 25 grinds remaining today</span>
           </div>
           <button class="close" type="button" data-close="leadHunterModal">×</button>
         </div>
 
         <!-- Filters panel -->
         <div id="lhFilters">
+          <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#64748b;margin:0 0 10px;">Set Your Grind</p>
           <div class="lh-form-grid">
             <label>Discipline
               <select id="lhDiscipline">
@@ -543,22 +544,22 @@
             </label>
           </div>
           <div style="text-align:right;margin-top:16px;">
-            <button id="lhHuntBtn" class="btn primary" type="button" style="font-size:15px;padding:10px 24px;">🎯 Hunt Leads</button>
+            <button id="lhHuntBtn" class="btn primary" type="button" style="font-size:15px;padding:10px 24px;">🔩 Start Grinding</button>
           </div>
           <div id="lhSpinner" style="display:none;">
             <div class="lh-spinner-ring"></div>
-            <p style="margin-top:10px;font-size:14px;">Searching the web for leads…</p>
+            <p style="margin-top:10px;font-size:14px;">Grinding through the web…</p>
           </div>
         </div>
 
         <!-- Results panel -->
         <div id="lhResults" style="display:none;">
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:12px;">
-            <button id="lhBackBtn" class="btn" type="button">← New Search</button>
+            <button id="lhBackBtn" class="btn" type="button">← New Grind</button>
             <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
               <input type="checkbox" id="lhSelectAll" /> Select All
             </label>
-            <button id="lhImportBtn" class="btn primary" type="button" disabled>Import Selected (0)</button>
+            <button id="lhImportBtn" class="btn primary" type="button" disabled>Crank Into Pipeline (0)</button>
           </div>
           <div style="overflow:auto;">
             <table class="table" id="lhResultsTable">
@@ -575,7 +576,7 @@
               <tbody id="lhResultsBody"></tbody>
             </table>
           </div>
-          <p id="lhNoResults" class="subtle" style="display:none;text-align:center;padding:20px;">No leads returned. Try adjusting your filters or count.</p>
+          <p id="lhNoResults" class="subtle" style="display:none;text-align:center;padding:20px;">Nothing came through. Adjust the grind and try again.</p>
         </div>
 
       </div>
@@ -1728,12 +1729,12 @@
 
       function lhUpdateQuotaBadge(quota) {
         if (!quota) return;
-        lhQuotaBadge.textContent = `${quota.remaining} / 25 imports remaining today`;
+        lhQuotaBadge.textContent = `${quota.remaining} / 25 grinds remaining today`;
         lhQuotaBadge.className = 'lh-quota-badge ' + (quota.remaining > 10 ? 'ok' : quota.remaining > 0 ? 'warn' : 'empty');
         const importBtn = document.getElementById('lhImportBtn');
         if (importBtn && quota.remaining <= 0) {
           importBtn.disabled = true;
-          importBtn.title = 'Daily limit reached — resets tomorrow at midnight UTC';
+          importBtn.title = 'Daily grind limit reached — resets tomorrow at midnight UTC';
         }
       }
 
@@ -1827,7 +1828,7 @@
       function updateLhImportBtn() {
         const checked = document.querySelectorAll('.lh-check:checked').length;
         const btn = document.getElementById('lhImportBtn');
-        btn.textContent = `Import Selected (${checked})`;
+        btn.textContent = `Crank Into Pipeline (${checked})`;
         btn.disabled = checked === 0;
       }
 
@@ -1849,7 +1850,7 @@
         const btn = document.getElementById('lhImportBtn');
         const origText = btn.textContent;
         btn.disabled = true;
-        btn.textContent = 'Importing…';
+        btn.textContent = 'Grinding…';
         try {
           const res = await fetch('/.netlify/functions/crm-lead-hunter-import', {
             method: 'POST',
@@ -1861,8 +1862,8 @@
           if (data.quota) lhUpdateQuotaBadge(data.quota);
           const n = data.imported;
           const msg = data.capped
-            ? `✅ Imported ${n} lead${n !== 1 ? 's' : ''} (daily cap reached — resets tomorrow).`
-            : `✅ Imported ${n} lead${n !== 1 ? 's' : ''} to Accounts!`;
+            ? `✅ ${n} lead${n !== 1 ? 's' : ''} cranked in — daily grind limit reached, resets tomorrow.`
+            : `✅ ${n} lead${n !== 1 ? 's' : ''} cranked into the pipeline!`;
           alert(msg);
           await loadAll();
           renderAccounts();
