@@ -112,7 +112,7 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
           model: 'claude-haiku-4-5-20251001',
           max_tokens: 4000,
           tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
-          system: 'You are a B2B lead researcher. Search institutional staff directories and faculty pages for real contact information. List every person you find with their full name, title, email, phone, institution name, city, and state. Include as much detail as possible.',
+          system: 'You are a B2B lead researcher. Search for institutions and look at their About Us pages, Staff pages, Faculty pages, and Leadership pages. List the institution name, website, city, state, and any staff names/titles/emails you find on those pages.',
           messages: [{ role: 'user', content: prompt }]
         }),
         signal: controller.signal
@@ -156,9 +156,9 @@ OUTPUT MUST START WITH [ AND END WITH ]. NO OTHER TEXT.
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: Math.min(1500 * safeCount, 8000),
-        system: 'Convert the provided research data into a JSON array. Output ONLY the JSON array. No other text.',
+        system: 'You have deep knowledge of US educational institution staff from their publicly posted About Us, Staff, and Faculty pages. Given institutions, provide the real person who holds the specified role. Output ONLY a JSON array starting with [ and ending with ].',
         messages: [
-          { role: 'user', content: `Convert this research into a JSON array with this schema:\n${jsonSchema}\n\nRules:\n- contactName must be a real person name (never a department)\n- Use empty string "" for any missing field\n- Include up to ${safeCount} results\n\nResearch data:\n${rawText}` },
+          { role: 'user', content: `For each institution below, who is the ${role} or equivalent person overseeing ${isAll ? 'CTE/vocational programs' : discipline + ' programs'}? Provide their real name, title, email (using the institution\'s domain), and phone if known.\n\nSchema: ${jsonSchema}\n\nRules:\n- contactName = real human name from the institution\'s staff/about/faculty page\n- email = real email at their domain\n- Use empty string for unknown fields\n- Up to ${safeCount} results\n\nInstitutions:\n${rawText}` },
           { role: 'assistant', content: '[' }
         ]
       })
