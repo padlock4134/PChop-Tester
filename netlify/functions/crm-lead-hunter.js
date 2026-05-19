@@ -93,25 +93,40 @@ Return ONLY a valid JSON array sorted by disciplineCount descending. Each object
 [{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}]`
       : `Find ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program.
 
-Use your knowledge of real US educational institutions, staff directories, and CTE programs. For email, use the institution's standard email format if you know it (e.g. first.last@college.edu) or leave as empty string.
+Search institutional websites and staff directories for real, verified contact information. Only include contacts where you can find a real name and title.
 
 Return ONLY a valid JSON array with no other text before or after it. Each object must have exactly these fields:
 [{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}"}]`;
 
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'x-api-key': apiKey,
-        'content-type': 'application/json',
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5-20250929',
-        max_tokens: 4000,
-        system: 'You are a B2B lead researcher with deep knowledge of US educational institutions. Return results ONLY as a valid JSON array with no other text, preamble, markdown, or explanation.',
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 24000);
+
+    let response;
+    try {
+      response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': apiKey,
+          'content-type': 'application/json',
+          'anthropic-version': '2023-06-01',
+          'anthropic-beta': 'web-search-2025-03-05'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-5-20250929',
+          max_tokens: 4000,
+          tools: [{
+            type: 'web_search_20250305',
+            name: 'web_search',
+            max_uses: 1
+          }],
+          system: 'You are a B2B lead researcher. Search for real contact information from institutional websites and staff directories. Return results ONLY as a valid JSON array with no other text, preamble, or explanation.',
+          messages: [{ role: 'user', content: prompt }]
+        }),
+        signal: controller.signal
+      });
+    } finally {
+      clearTimeout(timeoutId);
+    }
 
     if (!response.ok) {
       const errText = await response.text();
