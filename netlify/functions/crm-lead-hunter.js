@@ -65,7 +65,7 @@ exports.handler = async (event) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'discipline is required' }) };
     }
 
-    const safeCount = Math.min(Math.max(Number(count) || 10, 5), 25);
+    const safeCount = Math.min(Math.max(Number(count) || 5, 1), 25);
     const location = geoScope === 'National'
       ? 'across the United States'
       : `in the ${geoValue} ${geoScope === 'State' ? 'state' : 'region'}`;
@@ -81,13 +81,13 @@ exports.handler = async (event) => {
     const ALL_DISCIPLINES = ['Culinary','Plumbing','Automotive','Construction','Electrical','HVAC','Manufacturing','Logistics','Welding'];
 
     const prompt = isAll
-      ? `Find ${safeCount} ${instType}s ${location} with CTE or vocational/trade programs (any of: ${ALL_DISCIPLINES.join(', ')}).
+      ? `Find EXACTLY ${safeCount} ${instType}s ${location} with CTE or vocational/trade programs (any of: ${ALL_DISCIPLINES.join(', ')}). Return exactly ${safeCount} results, no more, no less.
 
 For each, find the ${role} or equivalent senior vocational contact. Note which trade programs they offer.
 
 Return ONLY a valid JSON array. Each object must have exactly these fields:
 [{"institution":"Full Institution Name","website":"https://institution.edu","contactName":"Full Name","title":"Exact Job Title","email":"email@institution.edu","phone":"(xxx) xxx-xxxx or empty string","city":"City","state":"ST","type":"${instType}","disciplines":"Culinary, HVAC, Welding","disciplineCount":3}]`
-      : `Find ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program.
+      : `Find EXACTLY ${safeCount} real ${role}s at ${instType}s ${location} who oversee a ${discipline} program. Return exactly ${safeCount} results, no more, no less.
 
 Search institutional websites and staff directories for real, verified contact information. Only include contacts where you can find a real name and title.
 
@@ -109,7 +109,7 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-5-20250929',
-          max_tokens: 8000,
+          max_tokens: Math.min(1500 * safeCount, 8000),
           tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 2 }],
           system: 'You are a B2B lead researcher. Search real institutional websites and staff directories for currently-posted contact information. Only return people and emails you find on actual web pages. Return results ONLY as a valid JSON array with no other text.',
           messages: [{ role: 'user', content: prompt }]
@@ -132,7 +132,17 @@ Return ONLY a valid JSON array with no other text before or after it. Each objec
 
     const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text || '');
     const fullText = textBlocks.join('\n');
-    const leads = parseLeadsFromText(fullText);
+    console.log('Claude response content types:', (data.content || []).map(b => b.type));
+    console.log('Claude text output (first 500):', fullText.slice(0, 500));
+    const leads = parseLeadsFromText(fullText).slice(0, safeCount);
+
+    if (!leads.length && fullText.length > 0) {
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leads: [], debug: fullText.slice(0, 1000), quota: null })
+      };
+    }
 
     const supabaseUrl = process.env.VITE_SUPABASE_URL;
     const anonKey = process.env.VITE_SUPABASE_ANON_KEY;

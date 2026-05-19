@@ -1795,6 +1795,10 @@
           if (!res.ok) throw new Error(data.error || 'Search failed');
           lhLeads = data.leads || [];
           if (data.quota) lhUpdateQuotaBadge(data.quota);
+          if (!lhLeads.length && data.debug) {
+            console.log('Claude raw response:', data.debug);
+            alert('Claude responded but parser found no leads. Check console for raw response.');
+          }
           renderLhResults(lhLeads);
           document.getElementById('lhFilters').style.display = 'none';
           document.getElementById('lhResults').style.display = '';
