@@ -3,6 +3,11 @@
 ## Today's Focus
 - All tasks due today (no limit), sorted by priority
 - Overdue tasks also shown here (past due_date, not done/cancelled)
+- Each task row/card includes a clear **Open** action (row click + icon button)
+- Open launches a task modal (or slide-over) with full task detail + edit form
+- Modal supports `Save changes` and `Delete task` actions
+- Deleting requires confirmation (`Type DELETE` or confirm dialog) to prevent mistakes
+- After save/delete, the Today's Focus list refreshes immediately and keeps sort/order
 
 ## Top row cards
 - Open Tasks (todo + in_progress)
