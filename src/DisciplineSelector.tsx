@@ -236,7 +236,7 @@ const DisciplineSelector: React.FC = () => {
               rel="noopener noreferrer"
               className="mt-3 block w-full text-center bg-white text-maineBlue font-bold py-2 px-4 rounded-lg border-2 border-maineBlue hover:bg-maineBlue hover:text-white transition-colors"
             >
-              Open The Chop Shop (New Tab)
+              The Chop Shop
             </a>
           </form>
 
