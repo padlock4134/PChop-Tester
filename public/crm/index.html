@@ -474,6 +474,60 @@
 
     </div>
 
+    <div id="focusTaskModal" class="modal-backdrop" aria-hidden="true">
+
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="focusTaskTitle" style="max-width:760px;">
+
+        <div class="modal-header">
+
+          <h2 id="focusTaskTitle" class="modal-title">Edit Task</h2>
+
+          <button class="close" type="button" data-close="focusTaskModal">×</button>
+
+        </div>
+
+        <form id="focusTaskForm">
+
+          <input type="hidden" name="accountIndex" value="-1" />
+
+          <input type="hidden" name="taskIndex" value="-1" />
+
+          <div class="form-grid">
+
+            <input name="title" placeholder="Task title" required />
+
+            <input name="dueDate" type="date" />
+
+            <select name="status" required>
+
+              <option value="todo">To Do</option>
+
+              <option value="in_progress">In Progress</option>
+
+              <option value="blocked">Blocked</option>
+
+              <option value="done">Done</option>
+
+              <option value="cancelled">Cancelled</option>
+
+            </select>
+
+          </div>
+
+          <div class="right" style="margin-top:12px; display:flex; gap:8px; justify-content:space-between;">
+
+            <button id="focusTaskDeleteBtn" class="btn" type="button" style="color:#dc2626;border-color:#fecaca;">Delete Task</button>
+
+            <button class="btn primary" type="submit">Save Changes</button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
 
 
     
@@ -1471,6 +1525,9 @@
       const accountDetailModal = document.getElementById('accountDetailModal');
 
       const addTaskModal = document.getElementById('addTaskModal');
+      const focusTaskModal = document.getElementById('focusTaskModal');
+      const focusTaskForm = document.getElementById('focusTaskForm');
+      const focusTaskDeleteBtn = document.getElementById('focusTaskDeleteBtn');
 
       const oppContactsModal = document.getElementById('oppContactsModal');
 
@@ -1858,13 +1915,21 @@
 
         const taskItems = [];
 
-        accounts.forEach((account) => {
+        accounts.forEach((account, accountIndex) => {
 
-          (account.tasks || []).forEach((task) => {
+          (account.tasks || []).forEach((task, taskIndex) => {
 
             if (task.status === 'done' || task.status === 'cancelled') return;
 
-            taskItems.push({ account: account.name, title: task.title, dueDate: task.dueDate, status: task.status || 'todo', priority: task.priority || '' });
+            taskItems.push({
+              account: account.name,
+              title: task.title,
+              dueDate: task.dueDate,
+              status: task.status || 'todo',
+              priority: task.priority || '',
+              accountIndex,
+              taskIndex
+            });
 
           });
 
@@ -1909,6 +1974,7 @@
             <th style="text-align:left;padding:4px 6px;">Due</th>
 
             <th style="text-align:left;padding:4px 6px;">Status</th>
+            <th style="text-align:left;padding:4px 6px;">Open</th>
 
           </tr></thead>
 
@@ -1929,6 +1995,7 @@
               <td style="padding:6px 6px;">${dueDisplay}</td>
 
               <td style="padding:6px 6px;"><span style="font-size:11px;padding:2px 7px;border-radius:999px;background:#e0f2fe;color:#0369a1;">${t.status}</span></td>
+              <td style="padding:6px 6px;"><button class="btn" type="button" data-focus-task-open="true" data-focus-account-index="${t.accountIndex}" data-focus-task-index="${t.taskIndex}" style="padding:4px 8px;font-size:12px;">Open</button></td>
 
             </tr>`;
 
@@ -1936,6 +2003,30 @@
 
         </table>`;
 
+        dashboardTaskList.querySelectorAll('[data-focus-task-open="true"]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const accountIndex = Number(btn.getAttribute('data-focus-account-index'));
+            const taskIndex = Number(btn.getAttribute('data-focus-task-index'));
+            openFocusTaskModal(accountIndex, taskIndex);
+          });
+        });
+
+      }
+
+      function openFocusTaskModal(accountIndex, taskIndex) {
+        const account = accounts[accountIndex];
+        const task = account?.tasks?.[taskIndex];
+        if (!account || !task) {
+          alert('Task not found. Refresh and try again.');
+          return;
+        }
+        focusTaskForm.elements.namedItem('accountIndex').value = String(accountIndex);
+        focusTaskForm.elements.namedItem('taskIndex').value = String(taskIndex);
+        focusTaskForm.elements.namedItem('title').value = task.title || '';
+        focusTaskForm.elements.namedItem('dueDate').value = task.dueDate || '';
+        focusTaskForm.elements.namedItem('status').value = task.status || 'todo';
+        document.getElementById('focusTaskTitle').textContent = `Edit Task • ${account.name}`;
+        openModal(focusTaskModal);
       }
 
 
@@ -3152,6 +3243,96 @@
 
       });
 
+      focusTaskForm.addEventListener('submit', async (e) => {
+
+        e.preventDefault();
+
+        const accountIndex = Number(focusTaskForm.elements.namedItem('accountIndex').value);
+
+        const taskIndex = Number(focusTaskForm.elements.namedItem('taskIndex').value);
+
+        const account = accounts[accountIndex];
+
+        const task = account?.tasks?.[taskIndex];
+
+        if (!account || !task) return;
+
+        const fd = new FormData(focusTaskForm);
+
+        const nextTitle = String(fd.get('title') || '').trim();
+
+        const nextDueDate = String(fd.get('dueDate') || '') || null;
+
+        const nextStatus = String(fd.get('status') || 'todo');
+
+        if (sb && task._id) {
+
+          const { error } = await sb.from('sales_tasks').update({ title: nextTitle, due_date: nextDueDate, status: nextStatus }).eq('id', task._id);
+
+          if (error) { alert('Save failed: ' + error.message); return; }
+
+          await loadAccounts();
+
+        } else {
+
+          task.title = nextTitle;
+
+          task.dueDate = nextDueDate;
+
+          task.status = nextStatus;
+
+        }
+
+        renderDashboardTasks();
+
+        renderKPIs();
+
+        if (selectedAccountIndex !== null && accounts[selectedAccountIndex]) renderAccountTasks(accounts[selectedAccountIndex]);
+
+        closeModal(focusTaskModal);
+
+      });
+
+      focusTaskDeleteBtn.addEventListener('click', async () => {
+
+        const accountIndex = Number(focusTaskForm.elements.namedItem('accountIndex').value);
+
+        const taskIndex = Number(focusTaskForm.elements.namedItem('taskIndex').value);
+
+        const account = accounts[accountIndex];
+
+        const task = account?.tasks?.[taskIndex];
+
+        if (!account || !task) return;
+
+        const confirmed = window.prompt('Type DELETE to remove this task permanently.');
+
+        if (confirmed !== 'DELETE') return;
+
+        if (sb && task._id) {
+
+          const { error } = await sb.from('sales_tasks').delete().eq('id', task._id);
+
+          if (error) { alert('Delete failed: ' + error.message); return; }
+
+          await loadAccounts();
+
+        } else {
+
+          account.tasks.splice(taskIndex, 1);
+
+        }
+
+        renderDashboardTasks();
+
+        renderKPIs();
+
+        if (selectedAccountIndex !== null && accounts[selectedAccountIndex]) renderAccountTasks(accounts[selectedAccountIndex]);
+
+        closeModal(focusTaskModal);
+
+      });
+
 
 
       addNoteBtn.addEventListener('click', () => {
@@ -3422,7 +3603,7 @@
 
 
 
-      [accountsModal, accountDetailModal, addAccountModal, addOppModal, addNoteModal, addTaskModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal, emailContactModal].forEach(backdrop => {
+      [accountsModal, accountDetailModal, addAccountModal, addOppModal, addNoteModal, addTaskModal, focusTaskModal, oppsModal, oppContactsModal, assetsModal, importAccountsMapModal, editContactModal, emailContactModal].forEach(backdrop => {
 
         backdrop.addEventListener('click', (e) => {
 
@@ -3785,4 +3966,3 @@
   </body>
 
 </html>
-
