@@ -448,40 +448,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         
         setMarkets(uniqueMarkets);
       } else {
-        // Development mode - use mock data for Portland, Maine
-        const mockMarkets: Market[] = [
-          // Welding supply houses (3)
-          { name: "Maine Oxy", address: "110 Thompsons Pt, Portland, ME 04102", distance: 2.1, type: "grocery", rating: 4.3, isOpen: true },
-          { name: "Maine Welding Supply", address: "185 Warren Ave, Portland, ME 04103", distance: 2.9, type: "grocery", rating: 4.2, isOpen: true },
-          { name: "Airgas Store", address: "551 Riverside St, Portland, ME 04103", distance: 1.8, type: "grocery", rating: 4.5, isOpen: true },
-
-          // Metal suppliers (3)
-          { name: "Metal Supermarkets", address: "85 Eisenhower Dr, Westbrook, ME 04092", distance: 3.1, type: "butcher", rating: 4.6, isOpen: true },
-          { name: "E.S. Boulos Steel", address: "45 Industrial Way, Portland, ME 04103", distance: 2.4, type: "butcher", rating: 4.7, isOpen: true },
-          { name: "Northeast Steel", address: "18 Gendron Dr, Lewiston, ME 04240", distance: 11.8, type: "butcher", rating: 4.4, isOpen: false },
-
-          // Specialty consumables (3)
-          { name: "Weldfabulous Distributor", address: "120 Presumpscot St, Portland, ME 04103", distance: 2.3, type: "seafood", rating: 4.8, isOpen: true },
-          { name: "Arc-Zone Partner Supply", address: "92 Auburn St, Portland, ME 04103", distance: 2.7, type: "seafood", rating: 4.5, isOpen: true },
-          { name: "Gas Lens Depot Outlet", address: "14 Rigby Rd, South Portland, ME 04106", distance: 3.2, type: "seafood", rating: 4.3, isOpen: true },
-
-          // Tools and abrasives (3)
-          { name: "Coastal Tool & Supply", address: "89 Riverside St, Portland, ME 04103", distance: 1.9, type: "produce", rating: 4.6, isOpen: true },
-          { name: "NAPA Industrial Tools", address: "242 St John St, Portland, ME 04102", distance: 2.8, type: "produce", rating: 4.4, isOpen: false },
-          { name: "Precision Abrasives", address: "77 Warren Ave, Westbrook, ME 04092", distance: 4.1, type: "produce", rating: 4.2, isOpen: true },
-
-          // Fabrication and machine support (3)
-          { name: "Portland Fabrication Services", address: "27 Rigby Rd, South Portland, ME 04106", distance: 6.4, type: "farms", rating: 4.7, isOpen: true },
-          { name: "Casco Bay Machine", address: "61 Evergreen Dr, Portland, ME 04103", distance: 5.9, type: "farms", rating: 4.5, isOpen: true },
-          { name: "Pine Tree Fab & Repair", address: "13 Enterprise Dr, Scarborough, ME 04074", distance: 8.7, type: "farms", rating: 4.9, isOpen: true },
-
-          // PPE and safety suppliers (3)
-          { name: "MSC Industrial Supply Counter", address: "66 Gray Rd, Falmouth, ME 04105", distance: 2.1, type: "deli", rating: 4.4, isOpen: false },
-          { name: "Grainger Industrial Supply", address: "41 Riverside Industrial Pkwy, Portland, ME 04103", distance: 2.6, type: "deli", rating: 4.6, isOpen: true },
-          { name: "Safety Works New England", address: "33 Spurwink Ave, Cape Elizabeth, ME 04107", distance: 4.2, type: "deli", rating: 4.8, isOpen: true }
-        ];
-        
-        setMarkets(mockMarkets);
+        setMarkets([]);
       }
     } catch (error) {
       console.error('Error searching markets:', error);

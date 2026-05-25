@@ -86,111 +86,18 @@ const MyPlaybook = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'playbook' | 'collections'>('playbook');
   
   // Assignment data
-  const assignments = [
-    {
-      id: 1,
-      week: "Week 3",
-      title: "CNC Programming & Setup",
-      emoji: "⚙️",
-      dueDate: "Oct 15, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["G-code programming", "Tool setup", "Workpiece fixturing", "Safety protocols"],
-      submission: ["Video demo (3-5 min)", "Program files", "Setup photos", "Quality measurements"],
-      objectives: ["Precision machining", "Code accuracy", "Setup efficiency", "Safety compliance"],
-      studentName: "Sarah Chen",
-      videoTitle: "CNC Setup Demo"
-    },
-    {
-      id: 2,
-      week: "Week 5",
-      title: "Quality Control & Inspection",
-      emoji: "🔍",
-      dueDate: "Oct 29, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Caliper usage", "Surface measurement", "Tolerance verification", "Statistical analysis"],
-      submission: ["Video demonstration", "Measurement logs", "Inspection reports", "Quality charts"],
-      objectives: ["Measurement accuracy", "Tolerance compliance", "Documentation standards", "Process control"],
-      studentName: "Sarah Chen",
-      videoTitle: "Quality Inspection Demo"
-    },
-    {
-      id: 3,
-      week: "Week 7",
-      title: "Lean Manufacturing & Workflow",
-      emoji: "📊",
-      dueDate: "Nov 12, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["5S implementation", "Value stream mapping", "Waste reduction", "Workflow optimization"],
-      submission: ["Process video", "Workflow diagrams", "Efficiency metrics", "Improvement report"],
-      objectives: ["Lean principles", "Waste elimination", "Process efficiency", "Continuous improvement"],
-      studentName: "Sarah Chen",
-      videoTitle: "Lean Process Demo"
-    }
-  ];
+  const assignments: any[] = [];
 
   // Student data
-  const students = [
-    {
-      id: 1,
-      name: "Sarah Chen",
-      email: "sarah.chen@manufacturinginstitute.edu",
-      submittedVideos: {1: "cnc-setup-demo", 2: "quality-inspection"}
-    },
-    {
-      id: 2,
-      name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@manufacturinginstitute.edu", 
-      submittedVideos: {1: "cnc-setup-demo", 3: "lean-process"}
-    },
-    {
-      id: 3,
-      name: "Emma Thompson",
-      email: "emma.thompson@manufacturinginstitute.edu",
-      submittedVideos: {2: "quality-inspection"}
-    },
-    {
-      id: 4,
-      name: "David Kim",
-      email: "david.kim@manufacturinginstitute.edu",
-      submittedVideos: {1: "cnc-setup-demo", 2: "quality-inspection", 3: "lean-process"}
-    }
-  ];
+  const students: any[] = [];
 
   // Mock grades for each student and assignment
-  const mockGrades = {
-    1: { // Sarah Chen
-      1: { total: 89, grade: "A-" }, // Assignment 1
-      2: { total: 92, grade: "A-" }, // Assignment 2
-      3: { total: 85, grade: "B+" }  // Assignment 3
-    },
-    2: { // Marcus Rodriguez
-      1: { total: 78, grade: "C+" },
-      2: { total: 88, grade: "B+" },
-      3: { total: 94, grade: "A" }
-    },
-    3: { // Emma Thompson
-      1: { total: 91, grade: "A-" },
-      2: { total: 87, grade: "B+" },
-      3: { total: 82, grade: "B-" }
-    },
-    4: { // David Kim
-      1: { total: 96, grade: "A" },
-      2: { total: 93, grade: "A" },
-      3: { total: 98, grade: "A+" }
-    }
-  };
+  const mockGrades: any = {};
 
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, processes: string[]} | null>(null);
   const [selectedProcesses, setSelectedProcesses] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', processes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Setup', emoji: '⚡', processes: ['1', '2'] },
-    { id: '3', name: 'Safety First', emoji: '🛡️', processes: ['1', '2', '3', '4', '5'] }
-  ]);
+  const [collections, setCollections] = useState<{id: string, name: string, emoji: string, processes: string[]}[]>([]);
 
   const { user } = useSupabase();
 
@@ -1375,7 +1282,7 @@ const MyPlaybook = () => {
       )}
 
       {/* Video Modal */}
-      {showVideoModal && (
+      {showVideoModal && assignments[currentAssignmentPage] && students[currentStudentIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setShowVideoModal(false)}>
           <div className="relative max-w-4xl w-[90%] mx-4" onClick={(e) => e.stopPropagation()}>
             <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-black">
@@ -1418,7 +1325,7 @@ const MyPlaybook = () => {
       )}
 
       {/* Video Confirmation Modal */}
-      {showVideoConfirmModal && (
+      {showVideoConfirmModal && assignments[currentAssignmentPage] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-2xl border-4 border-black max-w-md w-[90%] mx-4">
             {/* Modal Header */}

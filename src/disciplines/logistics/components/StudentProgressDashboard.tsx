@@ -11,9 +11,7 @@ const StudentProgressDashboard: React.FC = () => {
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: 'is demonstrating' });
   
-  // Mock student progress data
-  // Mock live session data
-  const activeLiveSessions = [
+  const activeLiveSessions: any[] = [/*
     {
       id: '2',
       hostName: 'Mike Torres',
@@ -46,7 +44,7 @@ const StudentProgressDashboard: React.FC = () => {
       viewers: 28,
       thumbnail: '☣️'
     }
-  ];
+  */];
 
   // Auto-scroll state
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
@@ -69,30 +67,10 @@ const StudentProgressDashboard: React.FC = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'live' | 'actions'>('home');
 
   const progressData = {
-    curriculum: {
-      completedLessons: 12,
-      totalLessons: 24,
-      currentLesson: "Route Optimization Fundamentals",
-      timeSpent: "18.5 hours"
-    },
-    skills: {
-      routesAttempted: 8,
-      routesCompleted: 6,
-      currentLevel: "Intermediate",
-      nextMilestone: "Advanced Dispatch Planning"
-    },
-    engagement: {
-      appUsage: "5 days this week",
-      liveSessionsAttended: 3,
-      communityPosts: 7,
-      routesSaved: 15
-    },
-    insights: {
-      strongestArea: "Route Planning",
-      improvementArea: "Dock Timing Coordination",
-      learningVelocity: "Above Average",
-      achievements: ["Safety Certified", "On-Time Specialist", "Team Coordinator"]
-    }
+    curriculum: { completedLessons: 0, totalLessons: 0, currentLesson: "", timeSpent: "" },
+    skills: { routesAttempted: 0, routesCompleted: 0, currentLevel: "", nextMilestone: "" },
+    engagement: { appUsage: "", liveSessionsAttended: 0, communityPosts: 0, routesSaved: 0 },
+    insights: { strongestArea: "", improvementArea: "", learningVelocity: "", achievements: [] }
   };
 
   interface ProgressCardProps {

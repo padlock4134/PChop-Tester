@@ -98,87 +98,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   const [currentLiveSession, setCurrentLiveSession] = useState<LiveSession | null>(null);
   const [isViewer, setIsViewer] = useState(false);
   const [isHost, setIsHost] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
-    {
-      id: '1',
-      hostName: 'Mike Torres',
-      dishName: 'Mini-Split Installation',
-      culture: 'Residential',
-      viewers: 47,
-      isLive: false,
-      isEnded: true,
-      thumbnail: '❄️',
-      description: 'Complete ductless mini-split install — line set routing, flaring, vacuum, and commissioning',
-      ingredients: ['Mini-split unit', 'Line set', 'Flare fittings', 'Mounting bracket', 'Drain line']
-    },
-    {
-      id: '2',
-      hostName: 'Sarah Chen',
-      dishName: 'Heat Pump Troubleshooting',
-      culture: 'Residential',
-      viewers: 23,
-      isLive: true,
-      thumbnail: '🔥',
-      description: 'Diagnosing a heat pump stuck in defrost — reversing valve and defrost board testing',
-      ingredients: ['Multimeter', 'Manifold gauges', 'Thermocouple', 'Wiring diagram']
-    },
-    {
-      id: '3',
-      hostName: 'James Washington',
-      dishName: 'Combustion Analysis',
-      culture: 'Commercial',
-      viewers: 35,
-      isLive: true,
-      thumbnail: '🔧',
-      description: 'Using a combustion analyzer to tune a commercial gas furnace for peak efficiency',
-      ingredients: ['Combustion analyzer', 'Manometer', 'Temperature probe', 'CO detector']
-    },
-    {
-      id: '4',
-      hostName: 'Lisa Martinez',
-      dishName: 'Brazing Fundamentals',
-      culture: 'Service',
-      viewers: 62,
-      isLive: true,
-      thumbnail: '🔥',
-      description: 'Proper nitrogen purge brazing technique for copper-to-copper and copper-to-brass joints',
-      ingredients: ['Nitrogen regulator', 'Silver brazing alloy', 'Oxy-acetylene torch', 'Flux']
-    }
-  ]);
-  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
-    {
-      id: '3',
-      hostName: 'David Kim',
-      dishName: 'Duct Static Pressure Testing',
-      culture: 'Residential',
-      scheduledTime: '2:00 PM EST',
-      description: 'Hands-on manometer readings and duct system diagnostics'
-    },
-    {
-      id: '4',
-      hostName: 'Ahmed Hassan',
-      dishName: 'VRF System Commissioning',
-      culture: 'Commercial',
-      scheduledTime: '4:30 PM EST',
-      description: 'Setting up a multi-zone VRF system with branch controller programming'
-    },
-    {
-      id: '5',
-      hostName: 'Elena Volkov',
-      dishName: 'EPA 608 Study Session',
-      culture: 'Certification',
-      scheduledTime: '6:00 PM EST',
-      description: 'Group study covering Type I, II, and Universal exam prep questions'
-    },
-    {
-      id: '6',
-      hostName: 'Carlos Mendoza',
-      dishName: 'Refrigerant Recovery Demo',
-      culture: 'Service',
-      scheduledTime: '7:30 PM EST',
-      description: 'Live push-pull recovery demonstration on a 5-ton rooftop unit'
-    }
-  ]);
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
+  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {

@@ -98,87 +98,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   const [currentLiveSession, setCurrentLiveSession] = useState<LiveSession | null>(null);
   const [isViewer, setIsViewer] = useState(false);
   const [isHost, setIsHost] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
-    {
-      id: '1',
-      hostName: 'Maria Santos',
-      dishName: 'Authentic Paella Valenciana',
-      culture: 'Spanish',
-      viewers: 47,
-      isLive: false,
-      isEnded: true,
-      thumbnail: '🥘',
-      description: 'Traditional paella from Valencia with saffron and bomba rice',
-      ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
-    },
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      dishName: 'Hand-pulled Ramen',
-      culture: 'Japanese',
-      viewers: 23,
-      isLive: true,
-      thumbnail: '🍜',
-      description: 'Making ramen noodles from scratch with tonkotsu broth',
-      ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      dishName: 'Lebanese Kibbeh',
-      culture: 'Lebanese',
-      viewers: 35,
-      isLive: true,
-      thumbnail: '🧆',
-      description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
-      ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      dishName: 'French Croissants',
-      culture: 'French',
-      viewers: 62,
-      isLive: true,
-      thumbnail: '🥐',
-      description: 'Mastering the art of laminated dough and butter layers',
-      ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
-    }
-  ]);
-  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
-    {
-      id: '3',
-      hostName: 'Priya Sharma',
-      dishName: 'Hyderabadi Biryani',
-      culture: 'Indian',
-      scheduledTime: '2:00 PM EST',
-      description: 'Layered biryani with aromatic spices and basmati rice'
-    },
-    {
-      id: '4',
-      hostName: 'Ahmed Hassan',
-      dishName: 'Moroccan Tagine',
-      culture: 'Moroccan',
-      scheduledTime: '4:30 PM EST',
-      description: 'Slow-cooked tagine with preserved lemons and olives'
-    },
-    {
-      id: '5',
-      hostName: 'Elena Volkov',
-      dishName: 'Russian Borscht',
-      culture: 'Russian',
-      scheduledTime: '6:00 PM EST',
-      description: 'Traditional beetroot soup with sour cream and fresh dill'
-    },
-    {
-      id: '6',
-      hostName: 'Carlos Mendoza',
-      dishName: 'Peruvian Ceviche',
-      culture: 'Peruvian',
-      scheduledTime: '7:30 PM EST',
-      description: 'Fresh fish cured in lime juice with red onions and aji peppers'
-    }
-  ]);
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
+  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {

@@ -146,8 +146,8 @@ const LogisticsSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Logistics & Supply Chain Curriculum",
-    courses: [
+    title: "",
+    courses: [/*
       {
         id: "course-1",
         title: "Term 1: Logistics Fundamentals",
@@ -189,7 +189,7 @@ const LogisticsSchool = () => {
           { id: "lesson-4-4", title: "Career Pathways in Logistics", completed: false, current: false },
         ]
       }
-    ] as SyllabusCourse[]
+    */] as SyllabusCourse[]
   };
 
   const handleLessonClick = (lessonId: string) => {

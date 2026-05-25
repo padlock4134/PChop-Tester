@@ -11,42 +11,7 @@ const StudentProgressDashboard: React.FC = () => {
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
-  // Mock student progress data
-  // Mock live session data from TheCarLift
-  const activeLiveSessions = [
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      serviceName: 'Transmission Overhaul',
-      vehicleType: 'Transmission Service',
-      viewers: 23,
-      thumbnail: '⚙️'
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      serviceName: 'Brake System Upgrade',
-      vehicleType: 'Brake Service',
-      viewers: 35,
-      thumbnail: '🛞'
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      serviceName: 'Suspension Tuning',
-      vehicleType: 'Suspension Service',
-      viewers: 62,
-      thumbnail: '🎯'
-    },
-    {
-      id: '1',
-      hostName: 'Maria Santos',
-      serviceName: 'Engine Rebuild Service',
-      vehicleType: 'Engine Service',
-      viewers: 47,
-      thumbnail: '🔧'
-    }
-  ];
+  const activeLiveSessions: any[] = [];
 
   // Auto-scroll state
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
@@ -69,30 +34,10 @@ const StudentProgressDashboard: React.FC = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'live' | 'actions'>('home');
 
   const progressData = {
-    curriculum: {
-      completedLessons: 12,
-      totalLessons: 24,
-      currentLesson: "Engine Diagnostics: OBD-II Scanner Techniques",
-      timeSpent: "18.5 hours"
-    },
-    skills: {
-      repairsAttempted: 8,
-      repairsCompleted: 6,
-      currentLevel: "Intermediate",
-      nextMilestone: "Advanced Engine Performance"
-    },
-    engagement: {
-      appUsage: "5 days this week",
-      liveSessionsAttended: 3,
-      communityPosts: 7,
-      repairsSaved: 15
-    },
-    insights: {
-      strongestArea: "Engine Diagnostics",
-      improvementArea: "Timing & Multitasking",
-      learningVelocity: "Above Average",
-      achievements: ["Safety Certified", "Repair Specialist", "Community Helper"]
-    }
+    curriculum: { completedLessons: 0, totalLessons: 0, currentLesson: "", timeSpent: "" },
+    skills: { repairsAttempted: 0, repairsCompleted: 0, currentLevel: "", nextMilestone: "" },
+    engagement: { appUsage: "", liveSessionsAttended: 0, communityPosts: 0, repairsSaved: 0 },
+    insights: { strongestArea: "", improvementArea: "", learningVelocity: "", achievements: [] }
   };
 
   interface ProgressCardProps {

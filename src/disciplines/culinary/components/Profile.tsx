@@ -435,11 +435,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   const { t } = useTranslation();
   if (!open) return null;
   
-  const currentClasses = [
-    { icon: '🔪', name: 'Knife Skills Fundamentals', instructor: 'Chef Martinez', time: 'Mon/Wed 9:00 AM' },
-    { icon: '🍲', name: 'Sauce Making Techniques', instructor: 'Chef Johnson', time: 'Tue/Thu 11:00 AM' },
-    { icon: '🧁', name: 'Baking & Pastry Arts', instructor: 'Chef Williams', time: 'Fri 1:00 PM' }
-  ];
+  const currentClasses: any[] = [];
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -657,13 +653,7 @@ const ClassRegistrationModal = ({ open, onClose }: { open: boolean; onClose: () 
   const { t } = useTranslation();
   if (!open) return null;
   
-  const availableClasses = [
-    { name: 'Advanced Knife Skills', instructor: 'Chef Rodriguez', time: 'Mon/Wed 2:00 PM', spots: 8 },
-    { name: 'International Cuisine', instructor: 'Chef Kim', time: 'Tue/Thu 10:00 AM', spots: 12 },
-    { name: 'Pastry Fundamentals', instructor: 'Chef Anderson', time: 'Fri 3:00 PM', spots: 6 },
-    { name: 'Food Safety Certification', instructor: 'Chef Thompson', time: 'Sat 9:00 AM', spots: 15 },
-    { name: 'Restaurant Management', instructor: 'Chef Brown', time: 'Mon/Wed 6:00 PM', spots: 10 }
-  ];
+  const availableClasses: any[] = [];
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -1188,64 +1178,15 @@ const Profile = () => {
     if (format === 'csv') {
       // Generate CSV content
       if (fileName === 'skill-mastery-tracking') {
-        return `Student ID,Student Name,Knife Skills Score,Cooking Techniques Score,Food Safety Certification,Recipe Completion Rate,Overall Progress
-STU001,Alex Johnson,85,78,Certified,80%,81%
-STU002,Maria Garcia,92,88,Certified,95%,92%
-STU003,David Chen,67,72,In Progress,65%,68%
-STU004,Sarah Williams,88,85,Certified,90%,88%
-STU005,Michael Brown,75,80,Certified,75%,77%
-STU006,Emma Davis,90,87,Certified,85%,87%
-STU007,James Wilson,82,79,In Progress,78%,80%
-STU008,Lisa Anderson,95,92,Certified,98%,95%
-STU009,Robert Taylor,70,75,Certified,70%,72%
-STU010,Jennifer Martinez,86,83,Certified,88%,86%`;
+        return `Student ID,Student Name,Overall Progress`;
       } else if (fileName === 'class-performance') {
-        return `Class ID,Class Name,Average Score,Completion Rate,Knowledge Gaps,Assignment Timeliness,Instructor
-CLS001,Fundamentals of Cooking,82,85%,Knife Skills,90%,Chef Martinez
-CLS002,Advanced Culinary Techniques,88,78%,Sauce Making,85%,Chef Johnson
-CLS003,Baking & Pastry Arts,91,92%,Bread Making,95%,Chef Williams
-CLS004,International Cuisine,85,80%,Spice Usage,88%,Chef Chen
-CLS005,Food Safety & Sanitation,94,96%,Temperature Control,98%,Chef Davis
-CLS006,Menu Planning & Costing,79,75%,Cost Analysis,82%,Chef Brown
-CLS007,Restaurant Operations,83,82%,Service Flow,87%,Chef Wilson
-CLS008,Nutrition & Dietary Planning,87,89%,Macro Calculations,91%,Chef Anderson
-CLS009,Culinary Arts Capstone,90,88%,Presentation Skills,93%,Chef Taylor
-CLS010,Professional Kitchen Management,86,84%,Team Leadership,89%,Chef Garcia`;
+        return `Class ID,Class Name,Average Score,Instructor`;
       } else {
-        return `Report Type,${reportTitle}
-Generated Date,${currentDate}
-Sample Data,This is demo data for ${reportTitle}
-Metric 1,85%
-Metric 2,78%
-Metric 3,92%
-Status,Active`;
+        return `Report Type,${reportTitle}\nGenerated Date,${currentDate}`;
       }
     } else {
       // Generate Excel-compatible CSV
-      return `${reportTitle} - Comprehensive Analysis
-Generated: ${currentDate}
-Report Type: Excel Format Demo
-
-Summary Statistics:
-Metric,Value,Target,Status
-Overall Performance,85%,80%,Above Target
-Completion Rate,78%,75%,Above Target
-Student Satisfaction,92%,85%,Excellent
-Engagement Level,88%,80%,Above Target
-
-Detailed Data:
-ID,Name,Score,Status,Notes
-001,Sample Entry 1,85,Good,Demo data
-002,Sample Entry 2,92,Excellent,Demo data
-003,Sample Entry 3,78,Satisfactory,Demo data
-004,Sample Entry 4,88,Good,Demo data
-005,Sample Entry 5,91,Excellent,Demo data
-
-Analysis Notes:
-This is demonstration data for ${reportTitle}
-In production this would contain real student/class data
-Charts and pivot tables would be included
-Automated calculations and formulas would be present`;
+      return `${reportTitle}\nGenerated: ${currentDate}`;
     }
   };
 
@@ -2111,7 +2052,7 @@ Automated calculations and formulas would be present`;
                             if (unlockedTalents.includes(talent.name)) {
                               setCurrentTutorial({
                                 name: talent.name,
-                                videoUrl: `https://www.youtube.com/embed/dQw4w9WgXcQ` // Placeholder video
+                                videoUrl: ``
                               });
                               setTutorialModalOpen(true);
                             } else {

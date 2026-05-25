@@ -3,43 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 interface GroupListing { id: string; lessonId: string; lessonTitle: string; courseName: string; leaderName: string; leaderInitials: string; currentMembers: number; maxMembers: number; note: string; minutesAgo: number; members: string[]; }
 
-const MOCK_COURSES = [
-  { id: 'course-1', title: 'Term 1: Welding Fundamentals', lessons: [
-    { id: 'lesson-1-1', title: 'Welding Safety, PPE, and OSHA Basics' },
-    { id: 'lesson-1-2', title: 'Arc Welding Principles and Joint Types' },
-    { id: 'lesson-1-3', title: 'Blueprint Reading and Weld Symbols' },
-    { id: 'lesson-1-4', title: 'Base Metals, Filler Metals, and Shielding Gases' },
-    { id: 'lesson-1-5', title: 'Fit-Up, Tack Welding, and Distortion Control' },
-  ]},
-  { id: 'course-2', title: 'Term 1: SMAW & GMAW Operations', lessons: [
-    { id: 'lesson-2-1', title: 'SMAW: Machine Setup, Electrodes, and Flat Position' },
-    { id: 'lesson-2-2', title: 'SMAW: Vertical, Overhead, and Open Root Techniques' },
-    { id: 'lesson-2-3', title: 'GMAW: Machine Setup, Transfer Modes, and Flat/Horizontal' },
-    { id: 'lesson-2-4', title: 'GMAW: Vertical, Aluminum, Stainless, and Troubleshooting' },
-  ]},
-  { id: 'course-3', title: 'Term 2: GTAW & Cutting Processes', lessons: [
-    { id: 'lesson-3-1', title: 'GTAW: Machine Setup, Tungsten Prep, and Steel Beads' },
-    { id: 'lesson-3-2', title: 'GTAW: Aluminum, Stainless, and Pipe Welding' },
-    { id: 'lesson-3-3', title: 'Oxy-Fuel Cutting and Plasma Cutting' },
-    { id: 'lesson-3-4', title: 'FCAW: Self-Shielded and Dual-Shield Applications' },
-  ]},
-  { id: 'course-4', title: 'Term 2: Inspection, Codes & Professional Practice', lessons: [
-    { id: 'lesson-4-1', title: 'Weld Inspection: Visual, Destructive, and NDE Methods' },
-    { id: 'lesson-4-2', title: 'WPS, PQR, and Welding Codes (AWS D1.1, ASME IX)' },
-    { id: 'lesson-4-3', title: 'Welding Metallurgy, Preheating, and PWHT' },
-    { id: 'lesson-4-4', title: 'AWS Certification Prep and Career Pathways' },
-  ]}
-];
+const MOCK_COURSES: any[] = [];
 
-const MOCK_GROUPS: GroupListing[] = [
-  { id: 'grp-1', lessonId: 'lesson-1-4', lessonTitle: 'Base Metals, Filler Metals, and Shielding Gases', courseName: 'Term 1: Welding Fundamentals', leaderName: 'Marcus C.', leaderInitials: 'MC', currentMembers: 2, maxMembers: 4, note: 'Studying electrode classifications and gas mixes!', minutesAgo: 3, members: ['Marcus C.', 'Sofia R.'] },
-  { id: 'grp-2', lessonId: 'lesson-2-1', lessonTitle: 'SMAW: Machine Setup, Electrodes, and Flat Position', courseName: 'Term 1: SMAW & GMAW Operations', leaderName: 'James L.', leaderInitials: 'JL', currentMembers: 1, maxMembers: 3, note: 'Need practice partners for 7018 rod running', minutesAgo: 8, members: ['James L.'] },
-  { id: 'grp-3', lessonId: 'lesson-3-1', lessonTitle: 'GTAW: Machine Setup, Tungsten Prep, and Steel Beads', courseName: 'Term 2: GTAW & Cutting Processes', leaderName: 'Priya K.', leaderInitials: 'PK', currentMembers: 3, maxMembers: 5, note: 'Working on TIG walking the cup technique', minutesAgo: 12, members: ['Priya K.', 'Chen W.', 'Aaliyah M.'] },
-  { id: 'grp-4', lessonId: 'lesson-1-3', lessonTitle: 'Blueprint Reading and Weld Symbols', courseName: 'Term 1: Welding Fundamentals', leaderName: 'Devon T.', leaderInitials: 'DT', currentMembers: 4, maxMembers: 4, note: 'Full group — waitlist open', minutesAgo: 20, members: ['Devon T.', 'Riley S.', 'Kenji O.', 'Luna V.'] },
-  { id: 'grp-5', lessonId: 'lesson-4-2', lessonTitle: 'WPS, PQR, and Welding Codes (AWS D1.1, ASME IX)', courseName: 'Term 2: Inspection, Codes & Professional Practice', leaderName: 'Aaliyah M.', leaderInitials: 'AM', currentMembers: 1, maxMembers: 3, note: 'Let\'s review welding procedure specs together!', minutesAgo: 25, members: ['Aaliyah M.'] },
-  { id: 'grp-6', lessonId: 'lesson-2-3', lessonTitle: 'GMAW: Machine Setup, Transfer Modes, and Flat/Horizontal', courseName: 'Term 1: SMAW & GMAW Operations', leaderName: 'Sofia R.', leaderInitials: 'SR', currentMembers: 2, maxMembers: 4, note: 'Short-circuit vs spray transfer practice', minutesAgo: 35, members: ['Sofia R.', 'Marcus C.'] },
-  { id: 'grp-7', lessonId: 'lesson-3-3', lessonTitle: 'Oxy-Fuel Cutting and Plasma Cutting', courseName: 'Term 2: GTAW & Cutting Processes', leaderName: 'Chen W.', leaderInitials: 'CW', currentMembers: 2, maxMembers: 5, note: 'Torch setup and straight-line cutting practice', minutesAgo: 42, members: ['Chen W.', 'Devon T.'] }
-];
+const MOCK_GROUPS: GroupListing[] = [];
 
 const GroupFinder: React.FC = () => {
   const { t } = useTranslation();
@@ -59,7 +25,7 @@ const GroupFinder: React.FC = () => {
   const handleLeave = (groupId: string) => { setGroups(prev => prev.map(g => g.id === groupId ? { ...g, currentMembers: Math.max(0, g.currentMembers - 1), members: g.members.filter(m => m !== 'You') } : g)); setMyGroups(prev => prev.filter(id => id !== groupId)); };
   const handleCreate = () => {
     if (!createCourse || !createLesson) return;
-    const course = MOCK_COURSES.find(c => c.id === createCourse); const lesson = course?.lessons.find(l => l.id === createLesson);
+    const course = MOCK_COURSES.find(c => c.id === createCourse); const lesson = course?.lessons.find((l: { id: string; title: string }) => l.id === createLesson);
     if (!course || !lesson) return;
     const newGroup: GroupListing = { id: `grp-new-${Date.now()}`, lessonId: lesson.id, lessonTitle: lesson.title, courseName: course.title, leaderName: 'You', leaderInitials: 'ME', currentMembers: 1, maxMembers: createMaxSize, note: createNote || 'Looking for group members!', minutesAgo: 0, members: ['You'] };
     setGroups(prev => [newGroup, ...prev]); setMyGroups(prev => [...prev, newGroup.id]);
@@ -94,7 +60,7 @@ const GroupFinder: React.FC = () => {
                 <div className="space-y-3">
                   <h3 className="font-bold text-maineBlue text-lg">➕ {t('groupFinder.createNewGroup', { defaultValue: 'Create New Group' })}</h3>
                   <div><label className="block text-sm font-semibold text-gray-700 mb-1">{t('groupFinder.selectCourse', { defaultValue: 'Course' })}</label><select value={createCourse} onChange={e => { setCreateCourse(e.target.value); setCreateLesson(''); }} className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-maineBlue focus:outline-none"><option value="">-- Select a course --</option>{MOCK_COURSES.map(c => (<option key={c.id} value={c.id}>{c.title}</option>))}</select></div>
-                  {createCourse && (<div><label className="block text-sm font-semibold text-gray-700 mb-1">{t('groupFinder.selectLesson', { defaultValue: 'Lesson' })}</label><select value={createLesson} onChange={e => setCreateLesson(e.target.value)} className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-maineBlue focus:outline-none"><option value="">-- Select a lesson --</option>{selectedCourseObj?.lessons.map(l => (<option key={l.id} value={l.id}>{l.title}</option>))}</select></div>)}
+                  {createCourse && (<div><label className="block text-sm font-semibold text-gray-700 mb-1">{t('groupFinder.selectLesson', { defaultValue: 'Lesson' })}</label><select value={createLesson} onChange={e => setCreateLesson(e.target.value)} className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-maineBlue focus:outline-none"><option value="">-- Select a lesson --</option>{selectedCourseObj?.lessons.map((l: { id: string; title: string }) => (<option key={l.id} value={l.id}>{l.title}</option>))}</select></div>)}
                   <div><label className="block text-sm font-semibold text-gray-700 mb-1">{t('groupFinder.maxSize', { defaultValue: 'Max Group Size' })}: {createMaxSize}</label><input type="range" min={2} max={5} value={createMaxSize} onChange={e => setCreateMaxSize(Number(e.target.value))} className="w-full" /><div className="flex justify-between text-xs text-gray-500"><span>2</span><span>3</span><span>4</span><span>5</span></div></div>
                   <div><label className="block text-sm font-semibold text-gray-700 mb-1">{t('groupFinder.note', { defaultValue: 'Note (optional)' })}</label><input type="text" value={createNote} onChange={e => setCreateNote(e.target.value)} placeholder="e.g. Studying for the exam..." className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-maineBlue focus:outline-none" maxLength={100} /></div>
                   <div className="flex gap-2 mt-2"><button onClick={() => setShowCreate(false)} className="flex-1 py-2 rounded-lg bg-gray-200 text-gray-700 font-bold hover:bg-gray-300 transition-colors">{t('groupFinder.cancel', { defaultValue: 'Cancel' })}</button><button onClick={handleCreate} disabled={!createCourse || !createLesson} className="flex-1 py-2 rounded-lg bg-maineBlue text-seafoam font-bold hover:bg-seafoam hover:text-maineBlue transition-colors border-2 border-black disabled:opacity-50 disabled:cursor-not-allowed">📋 {t('groupFinder.listGroup', { defaultValue: 'List Group' })}</button></div>

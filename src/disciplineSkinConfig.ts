@@ -63,11 +63,8 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     people: {
       facultyTitle: 'Chef',
       defaultProgram: 'Culinary Arts',
-      mockFaculty: [
-        { name: 'Chef Julia Davis', role: 'Head of Culinary Arts', courses: 'Advanced Techniques, Sauce Mastery' },
-        { name: 'Chef Marco Rodriguez', role: 'Pastry Arts Instructor', courses: 'Baking Fundamentals, Cake Decoration' },
-      ],
-      mockAlumniTitles: ['Executive Chef', 'Restaurant Owner', 'Food Network Personality', 'Corporate Food Service Director'],
+      mockFaculty: [],
+      mockAlumniTitles: [],
       emailDomain: 'culinaryschool.edu',
     },
   },
@@ -102,11 +99,8 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     people: {
       facultyTitle: 'Master Plumber',
       defaultProgram: 'Plumbing Technology',
-      mockFaculty: [
-        { name: 'Master Plumber Rick Torres', role: 'Head of Plumbing Technology', courses: 'Pipe Systems, Code Compliance' },
-        { name: 'Master Plumber Linda Hayes', role: 'Drainage Systems Instructor', courses: 'Drain & Waste, Water Heaters' },
-      ],
-      mockAlumniTitles: ['Licensed Master Plumber', 'Plumbing Contractor', 'Facilities Manager', 'Plumbing Inspector'],
+      mockFaculty: [],
+      mockAlumniTitles: [],
       emailDomain: 'plumbingschool.edu',
     },
   },
@@ -141,11 +135,8 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     people: {
       facultyTitle: 'Master Tech',
       defaultProgram: 'Automotive Technology',
-      mockFaculty: [
-        { name: 'Master Tech Dave Kowalski', role: 'Head of Automotive Technology', courses: 'Engine Systems, Diagnostics' },
-        { name: 'Master Tech Sandra Mills', role: 'Electrical Systems Instructor', courses: 'Auto Electrical, Hybrid Systems' },
-      ],
-      mockAlumniTitles: ['ASE Master Technician', 'Shop Owner', 'Dealer Service Manager', 'Fleet Maintenance Director'],
+      mockFaculty: [],
+      mockAlumniTitles: [],
       emailDomain: 'autotech.edu',
     },
   },
@@ -180,11 +171,8 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     people: {
       facultyTitle: 'Foreman',
       defaultProgram: 'Construction Technology',
-      mockFaculty: [
-        { name: 'Foreman Bill Nakamura', role: 'Head of Construction Technology', courses: 'Framing, Blueprint Reading' },
-        { name: 'Foreman Rosa Vasquez', role: 'Masonry Instructor', courses: 'Concrete, Brickwork' },
-      ],
-      mockAlumniTitles: ['General Contractor', 'Site Superintendent', 'Project Manager', 'Construction Inspector'],
+      mockFaculty: [],
+      mockAlumniTitles: [],
       emailDomain: 'buildschool.edu',
     },
   },
@@ -219,11 +207,8 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     people: {
       facultyTitle: 'Master Electrician',
       defaultProgram: 'Electrical Technology',
-      mockFaculty: [
-        { name: 'Master Electrician Tom Walsh', role: 'Head of Electrical Technology', courses: 'NEC Code, Panel Systems' },
-        { name: 'Master Electrician Keisha Brown', role: 'Industrial Systems Instructor', courses: 'Motor Controls, PLC Basics' },
-      ],
-      mockAlumniTitles: ['Licensed Master Electrician', 'Electrical Contractor', 'Building Inspector', 'Facilities Electrician'],
+      mockFaculty: [],
+      mockAlumniTitles: [],
       emailDomain: 'elecschool.edu',
     },
   },
@@ -258,11 +243,8 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     people: {
       facultyTitle: 'HVAC Tech',
       defaultProgram: 'HVAC Technology',
-      mockFaculty: [
-        { name: 'HVAC Tech Gary Odom', role: 'Head of HVAC Technology', courses: 'Refrigeration, Heat Pumps' },
-        { name: 'HVAC Tech Priya Patel', role: 'Air Distribution Instructor', courses: 'Ductwork, Air Balancing' },
-      ],
-      mockAlumniTitles: ['HVAC Service Manager', 'Refrigeration Technician', 'Building Systems Engineer', 'EPA Certified Contractor'],
+      mockFaculty: [],
+      mockAlumniTitles: [],
       emailDomain: 'hvacschool.edu',
     },
   },
@@ -297,11 +279,8 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     people: {
       facultyTitle: 'Lead Engineer',
       defaultProgram: 'Manufacturing Technology',
-      mockFaculty: [
-        { name: 'Lead Engineer Carlos Rivera', role: 'Head of Manufacturing Technology', courses: 'Quality Control, CNC Basics' },
-        { name: 'Lead Engineer Yuki Tanaka', role: 'Lean Systems Instructor', courses: 'Lean Manufacturing, Six Sigma' },
-      ],
-      mockAlumniTitles: ['Production Supervisor', 'Quality Engineer', 'Plant Manager', 'Manufacturing Technician'],
+      mockFaculty: [],
+      mockAlumniTitles: [],
       emailDomain: 'mfgacademy.edu',
     },
   },
@@ -336,11 +315,8 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     people: {
       facultyTitle: 'Logistics Manager',
       defaultProgram: 'Logistics & Supply Chain',
-      mockFaculty: [
-        { name: 'Logistics Manager Dana Scott', role: 'Head of Logistics Technology', courses: 'Supply Chain, DOT Compliance' },
-        { name: 'Logistics Manager Omar Abdullah', role: 'Warehouse Operations Instructor', courses: 'WMS Systems, Forklift Ops' },
-      ],
-      mockAlumniTitles: ['Distribution Center Manager', 'Fleet Coordinator', 'Supply Chain Analyst', 'Warehouse Supervisor'],
+      mockFaculty: [],
+      mockAlumniTitles: [],
       emailDomain: 'logisticsschool.edu',
     },
   },
@@ -375,11 +351,8 @@ export const BASE_DISCIPLINE_SKIN: Record<BaseDisciplineKey, DisciplineSkin> = {
     people: {
       facultyTitle: 'Welding Instructor',
       defaultProgram: 'Welding Technology',
-      mockFaculty: [
-        { name: 'Instructor Phil Grant', role: 'Head of Welding Technology', courses: 'SMAW Foundations, Blueprint Reading' },
-        { name: 'Instructor Ana Flores', role: 'Welding Processes Instructor', courses: 'GMAW, GTAW, FCAW' },
-      ],
-      mockAlumniTitles: ['Certified Welder', 'Welding Fabricator', 'Welding Inspector', 'Welding Engineer'],
+      mockFaculty: [],
+      mockAlumniTitles: [],
       emailDomain: 'weldingschool.edu',
     },
   },

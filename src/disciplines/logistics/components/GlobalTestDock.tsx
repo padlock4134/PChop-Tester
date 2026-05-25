@@ -98,87 +98,8 @@ const GlobalTestDock: React.FC<GlobalTestDockProps> = ({ showcaseRoute }) => {
   const [currentLiveSession, setCurrentLiveSession] = useState<LiveSession | null>(null);
   const [isViewer, setIsViewer] = useState(false);
   const [isHost, setIsHost] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
-    {
-      id: '1',
-      hostName: 'Maria Santos',
-      dishName: 'Site Layout Calibration',
-      culture: 'Truckload',
-      viewers: 47,
-      isLive: false,
-      isEnded: true,
-      thumbnail: '📐',
-      description: 'Calibrating site layout using GPS and total station equipment',
-      items: ['GPS unit', 'Total station', 'Measuring tape', 'Stakes', 'Layout plans']
-    },
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      dishName: 'Precision Assembly Practice',
-      culture: 'Warehousing',
-      viewers: 23,
-      isLive: true,
-      thumbnail: '🔧',
-      description: 'Precision assembly of modular components per engineering specs',
-      items: ['Torque wrench', 'Calipers', 'Assembly jig', 'Fastener kit']
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      dishName: 'System Fit Verification',
-      culture: 'Cold Chain',
-      viewers: 35,
-      isLive: true,
-      thumbnail: '✅',
-      description: 'Verifying system fit and clearances for HVAC ductwork installation',
-      items: ['Duct sections', 'Hangers', 'Sealant', 'Level', 'Tape measure']
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      dishName: 'Blueprint Readthrough Drill',
-      culture: 'Compliance',
-      viewers: 62,
-      isLive: true,
-      thumbnail: '📋',
-      description: 'Reading and interpreting blueprints for structural steel layout',
-      items: ['Blueprint set', 'Scale ruler', 'Highlighters', 'Field notes']
-    }
-  ]);
-  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
-    {
-      id: '3',
-      hostName: 'Priya Sharma',
-      dishName: 'Workflow Timing Challenge',
-      culture: 'Intermodal',
-      scheduledTime: '2:00 PM EST',
-      description: 'Timed workflow drill for multi-step packing and staging operations'
-    },
-    {
-      id: '4',
-      hostName: 'Ahmed Hassan',
-      dishName: 'Quality Control Walkthrough',
-      culture: 'Hazmat',
-      scheduledTime: '4:30 PM EST',
-      description: 'Advanced troubleshooting walkthrough for a real-world field issue'
-    },
-    {
-      id: '5',
-      hostName: 'Elena Volkov',
-      dishName: 'Safety Compliance Drill',
-      culture: 'Last Mile',
-      scheduledTime: '6:00 PM EST',
-      description: 'OSHA-focused safety compliance drill covering PPE and lockout/tagout'
-    },
-    {
-      id: '6',
-      hostName: 'Carlos Mendoza',
-      dishName: 'Final Inspection Run',
-      culture: 'Fleet Management',
-      scheduledTime: '7:30 PM EST',
-      description: 'Final walkthrough inspection of a completed shipment before dispatch'
-    }
-  ]);
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
+  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {

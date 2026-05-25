@@ -94,111 +94,18 @@ const MyCookBook = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
   
   // Assignment data
-  const assignments = [
-    {
-      id: 1,
-      week: "Week 3",
-      title: "French Knife Skills & Mother Sauces",
-      emoji: "🔪",
-      dueDate: "Oct 15, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Julienne cuts (2mm strips)", "Brunoise dice (2mm cubes)", "Chiffonade herbs", "Proper knife grip"],
-      submission: ["Video demo (3-5 min)", "Photos of cuts", "Self-reflection", "Upload to cookbook"],
-      objectives: ["Safety protocols", "Uniform cuts", "Consistent speed", "Mise en place"],
-      studentName: "Sarah Chen",
-      videoTitle: "Knife Skills Demo"
-    },
-    {
-      id: 2,
-      week: "Week 5",
-      title: "Sauce Making & Emulsification",
-      emoji: "🥄",
-      dueDate: "Oct 29, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Hollandaise sauce", "Mayonnaise emulsion", "Beurre blanc", "Pan sauce reduction"],
-      submission: ["Video demonstration", "Sauce samples", "Temperature logs", "Technique notes"],
-      objectives: ["Temperature control", "Emulsion stability", "Flavor balance", "Professional presentation"],
-      studentName: "Sarah Chen",
-      videoTitle: "Sauce Emulsification Demo"
-    },
-    {
-      id: 3,
-      week: "Week 7",
-      title: "Protein Cookery & Temperature Control",
-      emoji: "🥩",
-      dueDate: "Nov 12, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Searing techniques", "Internal temperatures", "Resting periods", "Carryover cooking"],
-      submission: ["Cooking video", "Temperature readings", "Final plating", "Doneness assessment"],
-      objectives: ["Food safety", "Proper doneness", "Texture control", "Flavor development"],
-      studentName: "Sarah Chen",
-      videoTitle: "Protein Cookery Demo"
-    }
-  ];
+  const assignments: any[] = [];
 
   // Student data
-  const students = [
-    {
-      id: 1,
-      name: "Sarah Chen",
-      email: "sarah.chen@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique"}
-    },
-    {
-      id: 2,
-      name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@culinaryschool.edu", 
-      submittedVideos: {1: "knife-skills-demo", 3: "protein-cookery"}
-    },
-    {
-      id: 3,
-      name: "Emma Thompson",
-      email: "emma.thompson@culinaryschool.edu",
-      submittedVideos: {2: "sauce-technique"}
-    },
-    {
-      id: 4,
-      name: "David Kim",
-      email: "david.kim@culinaryschool.edu",
-      submittedVideos: {1: "knife-skills-demo", 2: "sauce-technique", 3: "protein-cookery"}
-    }
-  ];
+  const students: any[] = [];
 
   // Mock grades for each student and assignment
-  const mockGrades = {
-    1: { // Sarah Chen
-      1: { total: 89, grade: "A-" }, // Assignment 1
-      2: { total: 92, grade: "A-" }, // Assignment 2
-      3: { total: 85, grade: "B+" }  // Assignment 3
-    },
-    2: { // Marcus Rodriguez
-      1: { total: 78, grade: "C+" },
-      2: { total: 88, grade: "B+" },
-      3: { total: 94, grade: "A" }
-    },
-    3: { // Emma Thompson
-      1: { total: 91, grade: "A-" },
-      2: { total: 87, grade: "B+" },
-      3: { total: 82, grade: "B-" }
-    },
-    4: { // David Kim
-      1: { total: 96, grade: "A" },
-      2: { total: 93, grade: "A" },
-      3: { total: 98, grade: "A+" }
-    }
-  };
+  const mockGrades: any = {};
 
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Cook', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '3', name: 'Healthy Options', emoji: '🥗', recipes: ['1', '2', '3', '4', '5'] }
-  ]);
+  const [collections, setCollections] = useState<{id: string, name: string, emoji: string, recipes: string[]}[]>([]);
 
   const { user } = useSupabase();
 
@@ -1077,7 +984,7 @@ const MyCookBook = () => {
                               allVideos.push({
                                 name: file.name,
                                 url: urlData.publicUrl,
-                                created_at: file.created_at,
+                                created_at: file.created_at ?? '',
                                 userId: folder.name,
                                 isPublic: isPublic
                               });
@@ -1392,7 +1299,7 @@ const MyCookBook = () => {
       )}
 
       {/* Video Modal */}
-      {showVideoModal && (
+      {showVideoModal && assignments[currentAssignmentPage] && students[currentStudentIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setShowVideoModal(false)}>
           <div className="relative max-w-4xl w-[90%] mx-4" onClick={(e) => e.stopPropagation()}>
             <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-black">
@@ -1435,7 +1342,7 @@ const MyCookBook = () => {
       )}
 
       {/* Video Confirmation Modal */}
-      {showVideoConfirmModal && (
+      {showVideoConfirmModal && assignments[currentAssignmentPage] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-2xl border-4 border-black max-w-md w-[90%] mx-4">
             {/* Modal Header */}

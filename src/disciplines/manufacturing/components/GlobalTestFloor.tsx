@@ -98,87 +98,8 @@ const ProductionLine: React.FC<ProductionLineProps> = ({ showcaseRecipe }) => {
   const [currentLiveSession, setCurrentLiveSession] = useState<LiveSession | null>(null);
   const [isViewer, setIsViewer] = useState(false);
   const [isHost, setIsHost] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
-    {
-      id: '1',
-      hostName: 'Maria Santos',
-      processName: '5S Workplace Organization',
-      industry: 'Lean Manufacturing',
-      viewers: 47,
-      isLive: false,
-      isEnded: true,
-      thumbnail: '🏭',
-      description: 'Implementing 5S methodology on the floor',
-      materials: ['Labels', 'Storage Bins', 'Floor Tape']
-    },
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      processName: 'Quality Control Inspection',
-      industry: 'Quality Assurance',
-      viewers: 23,
-      isLive: true,
-      thumbnail: '✅',
-      description: 'Statistical process control techniques',
-      materials: ['Calipers', 'Micrometer', 'Control Charts']
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      processName: 'Assembly Line Setup',
-      industry: 'Production',
-      viewers: 35,
-      isLive: true,
-      thumbnail: '⚙️',
-      description: 'Efficient assembly line configuration',
-      materials: ['Fasteners', 'Tools', 'Components']
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      processName: 'Safety Protocol Training',
-      industry: 'Safety',
-      viewers: 62,
-      isLive: true,
-      thumbnail: '🔧',
-      description: 'Essential safety procedures and PPE',
-      materials: ['Safety Goggles', 'Gloves', 'Hard Hats']
-    }
-  ]);
-  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
-    {
-      id: '3',
-      hostName: 'Priya Sharma',
-      processName: 'Six Sigma Quality Check',
-      industry: 'Quality Management',
-      scheduledTime: '2:00 PM EST',
-      description: 'Advanced statistical process control and defect reduction'
-    },
-    {
-      id: '4',
-      hostName: 'Ahmed Hassan',
-      processName: 'Preventive Maintenance',
-      industry: 'Maintenance',
-      scheduledTime: '4:30 PM EST',
-      description: 'Scheduled equipment maintenance and lubrication procedures'
-    },
-    {
-      id: '5',
-      hostName: 'Elena Volkov',
-      processName: 'Lean Manufacturing Setup',
-      industry: 'Process Improvement',
-      scheduledTime: '6:00 PM EST',
-      description: 'Implementing Kanban and pull systems for waste reduction'
-    },
-    {
-      id: '6',
-      hostName: 'Carlos Mendoza',
-      processName: 'Tool Calibration Process',
-      industry: 'Quality Control',
-      scheduledTime: '7:30 PM EST',
-      description: 'Precision tool calibration and measurement standards'
-    }
-  ]);
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
+  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {

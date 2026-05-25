@@ -11,42 +11,7 @@ const StudentProgressDashboard: React.FC = () => {
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
-  // Mock student progress data
-  // Mock live session data
-  const activeLiveSessions = [
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      dishName: 'Hand-pulled Ramen',
-      culture: 'Japanese',
-      viewers: 23,
-      thumbnail: '🍜'
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      dishName: 'Lebanese Kibbeh',
-      culture: 'Lebanese',
-      viewers: 35,
-      thumbnail: '🧆'
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      dishName: 'French Croissants',
-      culture: 'French',
-      viewers: 62,
-      thumbnail: '🥐'
-    },
-    {
-      id: '5',
-      hostName: 'Maria Santos',
-      dishName: 'Authentic Paella',
-      culture: 'Spanish',
-      viewers: 28,
-      thumbnail: '🥘'
-    }
-  ];
+  const activeLiveSessions: any[] = [];
 
   // Auto-scroll state
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
@@ -70,28 +35,28 @@ const StudentProgressDashboard: React.FC = () => {
 
   const progressData = {
     curriculum: {
-      completedLessons: 12,
-      totalLessons: 24,
-      currentLesson: "Knife Skills: Julienne Technique",
-      timeSpent: "18.5 hours"
+      completedLessons: 0,
+      totalLessons: 0,
+      currentLesson: "",
+      timeSpent: ""
     },
     skills: {
-      recipesAttempted: 8,
-      recipesCompleted: 6,
-      currentLevel: "Intermediate",
-      nextMilestone: "Advanced Sauces"
+      recipesAttempted: 0,
+      recipesCompleted: 0,
+      currentLevel: "",
+      nextMilestone: ""
     },
     engagement: {
-      appUsage: "5 days this week",
-      liveSessionsAttended: 3,
-      communityPosts: 7,
-      recipesSaved: 15
+      appUsage: "",
+      liveSessionsAttended: 0,
+      communityPosts: 0,
+      recipesSaved: 0
     },
     insights: {
-      strongestArea: "Knife Skills",
-      improvementArea: "Timing & Multitasking",
-      learningVelocity: "Above Average",
-      achievements: ["Safety Certified", "Recipe Creator", "Community Helper"]
+      strongestArea: "",
+      improvementArea: "",
+      learningVelocity: "",
+      achievements: []
     }
   };
 

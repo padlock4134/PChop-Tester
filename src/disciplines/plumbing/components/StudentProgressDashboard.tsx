@@ -11,9 +11,7 @@ const StudentProgressDashboard: React.FC = () => {
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
-  // Mock student progress data
-  // Mock live session data
-  const activeLiveSessions = [
+  const activeLiveSessions: any[] = [/*
     {
       id: '2',
       hostName: 'Kenji Nakamura',
@@ -46,7 +44,7 @@ const StudentProgressDashboard: React.FC = () => {
       viewers: 28,
       thumbnail: '📐'
     }
-  ];
+  */];
 
   // Auto-scroll state
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
@@ -69,34 +67,10 @@ const StudentProgressDashboard: React.FC = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'live' | 'actions'>('home');
 
   const progressData = {
-    curriculum: {
-      completedLessons: 12,
-      totalLessons: 24,
-      currentLesson: t('dashboard.plumbingCurrentLessonValue'),
-      timeSpent: t('dashboard.plumbingTimeSpentValue')
-    },
-    skills: {
-      fitsAttempted: 8,
-      fitsCompleted: 6,
-      currentLevel: t('dashboard.plumbingCurrentLevelValue'),
-      nextMilestone: t('dashboard.plumbingNextMilestoneValue')
-    },
-    engagement: {
-      appUsage: "5 days this week",
-      liveSessionsAttended: 3,
-      communityPosts: 7,
-      fitsSaved: 15
-    },
-    insights: {
-      strongestArea: t('dashboard.plumbingStrongestAreaValue'),
-      improvementArea: t('dashboard.plumbingImprovementAreaValue'),
-      learningVelocity: t('dashboard.plumbingLearningVelocityValue'),
-      achievements: [
-        t('dashboard.plumbingAchievements.safetyCertified'),
-        t('dashboard.plumbingAchievements.codeCompliancePro'),
-        t('dashboard.plumbingAchievements.communityHelper')
-      ]
-    }
+    curriculum: { completedLessons: 0, totalLessons: 0, currentLesson: "", timeSpent: "" },
+    skills: { fitsAttempted: 0, fitsCompleted: 0, currentLevel: "", nextMilestone: "" },
+    engagement: { appUsage: "", liveSessionsAttended: 0, communityPosts: 0, fitsSaved: 0 },
+    insights: { strongestArea: "", improvementArea: "", learningVelocity: "", achievements: [] }
   };
 
   interface ProgressCardProps {

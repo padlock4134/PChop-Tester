@@ -17,7 +17,7 @@ interface TimelinePost {
 }
 
 const SocialTimeline: React.FC = () => {
-  const [posts, setPosts] = useState<TimelinePost[]>([
+  const [posts, setPosts] = useState<TimelinePost[]>([/*
     {
       id: '1',
       author: 'Sofia Rodriguez',
@@ -92,7 +92,7 @@ const SocialTimeline: React.FC = () => {
       isLiked: true,
       tags: ['Zaatar', 'Sumac', 'EasternMarket']
     }
-  ]);
+  */]);
 
   const handleLike = (postId: string) => {
     setPosts(posts.map(post => 

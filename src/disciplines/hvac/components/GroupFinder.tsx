@@ -15,7 +15,7 @@ interface GroupListing {
   members: string[];
 }
 
-const MOCK_COURSES = [
+const MOCK_COURSES: any[] = [/*
   {
     id: 'course-1',
     title: 'Term 1: HVAC Fundamentals',
@@ -57,9 +57,9 @@ const MOCK_COURSES = [
       { id: 'lesson-4-4', title: 'NATE Certification and Career Pathways' },
     ]
   }
-];
+*/];
 
-const MOCK_GROUPS: GroupListing[] = [
+const MOCK_GROUPS: GroupListing[] = [/*
   {
     id: 'grp-1',
     lessonId: 'lesson-1-4',
@@ -151,7 +151,7 @@ const MOCK_GROUPS: GroupListing[] = [
     minutesAgo: 42,
     members: ['Chen W.', 'Devon T.']
   }
-];
+*/];
 
 const GroupFinder: React.FC = () => {
   const { t } = useTranslation();

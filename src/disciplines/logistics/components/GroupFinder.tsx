@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 interface GroupListing { id: string; lessonId: string; lessonTitle: string; courseName: string; leaderName: string; leaderInitials: string; currentMembers: number; maxMembers: number; note: string; minutesAgo: number; members: string[]; }
 
-const MOCK_COURSES = [
+const MOCK_COURSES: any[] = [/*
   { id: 'course-1', title: 'Term 1: Logistics Fundamentals', lessons: [
     { id: 'lesson-1-1', title: 'Workplace Safety and OSHA Basics' },
     { id: 'lesson-1-2', title: 'Supply Chain Overview and Key Players' },
@@ -29,9 +29,9 @@ const MOCK_COURSES = [
     { id: 'lesson-4-3', title: 'Customer Service and Freight Claims' },
     { id: 'lesson-4-4', title: 'Career Pathways in Logistics' },
   ]}
-];
+*/];
 
-const MOCK_GROUPS: GroupListing[] = [
+const MOCK_GROUPS: GroupListing[] = [/*
   { id: 'grp-1', lessonId: 'lesson-1-4', lessonTitle: 'Freight Classification and Rates', courseName: 'Term 1: Logistics Fundamentals', leaderName: 'Marcus C.', leaderInitials: 'MC', currentMembers: 2, maxMembers: 4, note: 'Studying NMFC codes and class tables!', minutesAgo: 3, members: ['Marcus C.', 'Sofia R.'] },
   { id: 'grp-2', lessonId: 'lesson-2-3', lessonTitle: 'Forklift Operation and Dock Safety', courseName: 'Term 1: Warehouse Operations', leaderName: 'James L.', leaderInitials: 'JL', currentMembers: 1, maxMembers: 3, note: 'Need practice partners for dock procedures', minutesAgo: 8, members: ['James L.'] },
   { id: 'grp-3', lessonId: 'lesson-3-2', lessonTitle: 'Route Optimization and Dispatch', courseName: 'Term 2: Transportation & Route Management', leaderName: 'Priya K.', leaderInitials: 'PK', currentMembers: 3, maxMembers: 5, note: 'Working on multi-stop route planning', minutesAgo: 12, members: ['Priya K.', 'Chen W.', 'Aaliyah M.'] },
@@ -39,7 +39,7 @@ const MOCK_GROUPS: GroupListing[] = [
   { id: 'grp-5', lessonId: 'lesson-4-2', lessonTitle: 'KPIs, Scorecards, and Performance Metrics', courseName: 'Term 2: Technology & Professional Practice', leaderName: 'Aaliyah M.', leaderInitials: 'AM', currentMembers: 1, maxMembers: 3, note: 'Let\'s build a scorecard together!', minutesAgo: 25, members: ['Aaliyah M.'] },
   { id: 'grp-6', lessonId: 'lesson-2-1', lessonTitle: 'Receiving, Put-Away, and Inventory Control', courseName: 'Term 1: Warehouse Operations', leaderName: 'Sofia R.', leaderInitials: 'SR', currentMembers: 2, maxMembers: 4, note: 'Cycle counting and ABC analysis practice', minutesAgo: 35, members: ['Sofia R.', 'Marcus C.'] },
   { id: 'grp-7', lessonId: 'lesson-3-4', lessonTitle: 'Load Planning and Cargo Securement', courseName: 'Term 2: Transportation & Route Management', leaderName: 'Chen W.', leaderInitials: 'CW', currentMembers: 2, maxMembers: 5, note: 'Weight distribution and securement methods', minutesAgo: 42, members: ['Chen W.', 'Devon T.'] }
-];
+*/];
 
 const GroupFinder: React.FC = () => {
   const { t } = useTranslation();

@@ -76,7 +76,7 @@ const MyBlueprints = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'cookbook' | 'collections'>('cookbook');
   
   // Assignment data
-  const assignments = [
+  const assignments: any[] = [/*
     {
       id: 1,
       week: "Week 3",
@@ -119,68 +119,18 @@ const MyBlueprints = () => {
       studentName: "Sarah Chen",
       videoTitle: "Finish Carpentry Demo"
     }
-  ];
+  */];
 
   // Student data
-  const students = [
-    {
-      id: 1,
-      name: "Sarah Chen",
-      email: "sarah.chen@buildacademy.edu",
-      submittedVideos: {1: "blueprint-layout-demo", 2: "formwork-prep-demo"}
-    },
-    {
-      id: 2,
-      name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@buildacademy.edu", 
-      submittedVideos: {1: "blueprint-layout-demo", 3: "finish-carpentry-demo"}
-    },
-    {
-      id: 3,
-      name: "Emma Thompson",
-      email: "emma.thompson@buildacademy.edu",
-      submittedVideos: {2: "formwork-prep-demo"}
-    },
-    {
-      id: 4,
-      name: "David Kim",
-      email: "david.kim@buildacademy.edu",
-      submittedVideos: {1: "blueprint-layout-demo", 2: "formwork-prep-demo", 3: "finish-carpentry-demo"}
-    }
-  ];
+  const students: any[] = [];
 
   // Mock grades for each student and assignment
-  const mockGrades = {
-    1: { // Sarah Chen
-      1: { total: 89, grade: "A-" }, // Assignment 1
-      2: { total: 92, grade: "A-" }, // Assignment 2
-      3: { total: 85, grade: "B+" }  // Assignment 3
-    },
-    2: { // Marcus Rodriguez
-      1: { total: 78, grade: "C+" },
-      2: { total: 88, grade: "B+" },
-      3: { total: 94, grade: "A" }
-    },
-    3: { // Emma Thompson
-      1: { total: 91, grade: "A-" },
-      2: { total: 87, grade: "B+" },
-      3: { total: 82, grade: "B-" }
-    },
-    4: { // David Kim
-      1: { total: 96, grade: "A" },
-      2: { total: 93, grade: "A" },
-      3: { total: 98, grade: "A+" }
-    }
-  };
+  const mockGrades: any = {};
 
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, recipes: string[]} | null>(null);
   const [selectedRecipes, setSelectedRecipes] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', recipes: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Builds', emoji: '⚡', recipes: ['1', '2'] },
-    { id: '3', name: 'Code-Ready Plans', emoji: '🧱', recipes: ['1', '2', '3', '4', '5'] }
-  ]);
+  const [collections, setCollections] = useState<{id: string, name: string, emoji: string, recipes: string[]}[]>([]);
 
   const { user } = useSupabase();
 
@@ -1376,7 +1326,7 @@ const MyBlueprints = () => {
       )}
 
       {/* Video Modal */}
-      {showVideoModal && (
+      {showVideoModal && assignments[currentAssignmentPage] && students[currentStudentIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setShowVideoModal(false)}>
           <div className="relative max-w-4xl w-[90%] mx-4" onClick={(e) => e.stopPropagation()}>
             <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-black">
@@ -1419,7 +1369,7 @@ const MyBlueprints = () => {
       )}
 
       {/* Video Confirmation Modal */}
-      {showVideoConfirmModal && (
+      {showVideoConfirmModal && assignments[currentAssignmentPage] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-2xl border-4 border-black max-w-md w-[90%] mx-4">
             {/* Modal Header */}

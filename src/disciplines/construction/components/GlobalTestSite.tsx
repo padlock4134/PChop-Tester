@@ -98,87 +98,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   const [currentLiveSession, setCurrentLiveSession] = useState<LiveSession | null>(null);
   const [isViewer, setIsViewer] = useState(false);
   const [isHost, setIsHost] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
-    {
-      id: '1',
-      hostName: 'Maria Santos',
-      dishName: 'Site Layout Calibration',
-      culture: 'Layout & Surveying',
-      viewers: 47,
-      isLive: false,
-      isEnded: true,
-      thumbnail: '📐',
-      description: 'String-line setup, benchmark checks, and batter board alignment for accurate foundation layout',
-      ingredients: ['Laser level', 'String line', 'Batter boards', 'Tape measure', 'Marking paint']
-    },
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      dishName: 'Precision Assembly Practice',
-      culture: 'Framing',
-      viewers: 23,
-      isLive: true,
-      thumbnail: '🪵',
-      description: 'Wall section assembly with stud spacing verification, corner tie-ins, and anchor checks',
-      ingredients: ['2x4 studs', 'Framing nails', 'Speed square', 'Chalk line']
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      dishName: 'System Fit Verification',
-      culture: 'MEP Coordination',
-      viewers: 35,
-      isLive: true,
-      thumbnail: '🧰',
-      description: 'Cross-trade fit-up check for duct, conduit, and plumbing runs before close-in',
-      ingredients: ['Duct section', 'EMT conduit', 'P-trap assembly', 'Hangers', 'Level']
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      dishName: 'Blueprint Readthrough Drill',
-      culture: 'Plan Reading',
-      viewers: 62,
-      isLive: true,
-      thumbnail: '📘',
-      description: 'Interpreting section cuts, callouts, and detail bubbles to validate build sequence',
-      ingredients: ['Plan set', 'Highlighter', 'Scale ruler', 'RFI template']
-    }
-  ]);
-  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
-    {
-      id: '3',
-      hostName: 'Priya Sharma',
-      dishName: 'Workflow Timing Challenge',
-      culture: 'Production Planning',
-      scheduledTime: '2:00 PM EST',
-      description: 'Balancing crew sequencing and handoffs to reduce idle time during rough-in'
-    },
-    {
-      id: '4',
-      hostName: 'Ahmed Hassan',
-      dishName: 'Quality Control Walkthrough',
-      culture: 'Quality Assurance',
-      scheduledTime: '4:30 PM EST',
-      description: 'Advanced troubleshooting walkthrough for a real-world field issue'
-    },
-    {
-      id: '5',
-      hostName: 'Elena Volkov',
-      dishName: 'Safety Compliance Drill',
-      culture: 'Site Safety',
-      scheduledTime: '6:00 PM EST',
-      description: 'Fall-protection setup, ladder inspection, and daily JSA briefing best practices'
-    },
-    {
-      id: '6',
-      hostName: 'Carlos Mendoza',
-      dishName: 'Final Inspection Run',
-      culture: 'Inspection & Code',
-      scheduledTime: '7:30 PM EST',
-      description: 'Pre-inspection checklist run-through for framing, MEP rough-in, and documentation'
-    }
-  ]);
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
+  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {

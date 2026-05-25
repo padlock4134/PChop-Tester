@@ -98,87 +98,8 @@ const GlobalTestBench: React.FC<GlobalTestBenchProps> = ({ showcaseProject }) =>
   const [currentLiveSession, setCurrentLiveSession] = useState<LiveSession | null>(null);
   const [isViewer, setIsViewer] = useState(false);
   const [isHost, setIsHost] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
-    {
-      id: '1',
-      hostName: 'Maria Santos',
-      sessionName: 'Site Layout Calibration',
-      focusArea: 'Spanish',
-      viewers: 47,
-      isLive: false,
-      isEnded: true,
-      thumbnail: '🧰',
-      description: 'Fixture alignment and setup checklist for repeatable weld prep',
-      materials: ['Fixture clamps', 'Layout square', 'Scribe', 'Feeler gauges', 'Weld map']
-    },
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      sessionName: 'Precision Assembly Practice',
-      focusArea: 'Japanese',
-      viewers: 23,
-      isLive: true,
-      thumbnail: '⚙️',
-      description: 'Dialing in feed speed, voltage, and travel angle for clean beads',
-      materials: ['MIG machine', 'ER70S-6 wire', 'Shielding gas', 'Practice coupons']
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      sessionName: 'System Fit Verification',
-      focusArea: 'Lebanese',
-      viewers: 35,
-      isLive: true,
-      thumbnail: '🔥',
-      description: 'Fit-up verification sequence to reduce distortion and rework',
-      materials: ['Tape measure', 'Level', 'Welding magnets', 'Tack plan']
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      sessionName: 'Blueprint Readthrough Drill',
-      focusArea: 'French',
-      viewers: 62,
-      isLive: true,
-      thumbnail: '📐',
-      description: 'Reading symbols, weld callouts, and tolerances before striking an arc',
-      materials: ['Blueprint set', 'Weld symbol chart', 'Inspection notes']
-    }
-  ]);
-  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
-    {
-      id: '3',
-      hostName: 'Priya Sharma',
-      sessionName: 'Workflow Timing Challenge',
-      focusArea: 'Indian',
-      scheduledTime: '2:00 PM EST',
-      description: 'Cycle-time drill for fitting, tacking, and final pass sequencing'
-    },
-    {
-      id: '4',
-      hostName: 'Ahmed Hassan',
-      sessionName: 'Quality Control Walkthrough',
-      focusArea: 'Moroccan',
-      scheduledTime: '4:30 PM EST',
-      description: 'Advanced troubleshooting walkthrough for a real-world field issue'
-    },
-    {
-      id: '5',
-      hostName: 'Elena Volkov',
-      sessionName: 'Safety Compliance Drill',
-      focusArea: 'Russian',
-      scheduledTime: '6:00 PM EST',
-      description: 'PPE checks and hazard walkthrough for high-heat fabrication bays'
-    },
-    {
-      id: '6',
-      hostName: 'Carlos Mendoza',
-      sessionName: 'Final Inspection Run',
-      focusArea: 'Peruvian',
-      scheduledTime: '7:30 PM EST',
-      description: 'Final QA pass using visual criteria and acceptance standards'
-    }
-  ]);
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
+  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {

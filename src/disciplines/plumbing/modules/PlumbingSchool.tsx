@@ -146,8 +146,8 @@ const PlumbingSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: t('plumbingSchool.curriculumTitle', { defaultValue: 'Plumbing Technology Curriculum' }),
-    courses: [
+    title: "",
+    courses: [/*
       {
         id: "course-1",
         title: t('plumbingSchool.term1Fundamentals', { defaultValue: 'Term 1: Plumbing Fundamentals' }),
@@ -189,7 +189,7 @@ const PlumbingSchool = () => {
           { id: "lesson-4-4", title: t('plumbingSchool.lessonCareerPathways', { defaultValue: 'Career Pathways in Plumbing' }), completed: false, current: false },
         ]
       }
-    ] as SyllabusCourse[]
+    */] as SyllabusCourse[]
   };
 
   const handleLessonClick = (lessonId: string) => {

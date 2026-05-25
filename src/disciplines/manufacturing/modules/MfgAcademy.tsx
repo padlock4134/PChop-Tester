@@ -147,50 +147,8 @@ const MfgAcademy = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Manufacturing Curriculum",
-    courses: [
-      {
-        id: "course-1",
-        title: "Term 1: Manufacturing Foundations",
-        lessons: [
-          { id: "lesson-1-1", title: "Workplace Safety and Procedures", completed: true, current: false },
-          { id: "lesson-1-2", title: "Material Handling and Storage", completed: true, current: false },
-          { id: "lesson-1-3", title: "Introduction to Manufacturing Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Basic Manufacturing Terminology", completed: false, current: true },
-          { id: "lesson-1-5", title: "Measurements, Tolerances, and Conversions", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-2",
-        title: "Term 1: Tool Skills",
-        lessons: [
-          { id: "lesson-2-1", title: "Tool Safety and Maintenance", completed: false, current: false },
-          { id: "lesson-2-2", title: "Basic Tool Operations", completed: false, current: false },
-          { id: "lesson-2-3", title: "Material Preparation", completed: false, current: false },
-          { id: "lesson-2-4", title: "Component Fabrication", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-3",
-        title: "Term 2: Assembly & Quality Control",
-        lessons: [
-          { id: "lesson-3-1", title: "Assembly Techniques", completed: false, current: false },
-          { id: "lesson-3-2", title: "Production Line Setup", completed: false, current: false },
-          { id: "lesson-3-3", title: "Quality Control Procedures", completed: false, current: false },
-          { id: "lesson-3-4", title: "Inspection and Testing", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-4",
-        title: "Term 2: Advanced Manufacturing",
-        lessons: [
-          { id: "lesson-4-1", title: "Process Automation", completed: false, current: false },
-          { id: "lesson-4-2", title: "Lean Manufacturing", completed: false, current: false },
-          { id: "lesson-4-3", title: "Six Sigma Methods", completed: false, current: false },
-          { id: "lesson-4-4", title: "Advanced Quality Systems", completed: false, current: false },
-        ]
-      }
-    ] as SyllabusCourse[]
+    title: "",
+    courses: [] as SyllabusCourse[]
   };
 
   const handleLessonClick = (lessonId: string) => {

@@ -146,50 +146,8 @@ const AutoSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Auto Tech Curriculum",
-    courses: [
-      {
-        id: "course-1",
-        title: "Term 1: Automotive Fundamentals",
-        lessons: [
-          { id: "lesson-1-1", title: "Shop Safety, PPE, and OSHA Basics", completed: true, current: false },
-          { id: "lesson-1-2", title: "Hand Tools, Power Tools, and Shop Equipment", completed: true, current: false },
-          { id: "lesson-1-3", title: "Vehicle Identification and Service Information", completed: true, current: false },
-          { id: "lesson-1-4", title: "Fasteners, Seals, and Gaskets", completed: false, current: true },
-          { id: "lesson-1-5", title: "Automotive Electrical Fundamentals", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-2",
-        title: "Term 1: Engine & Drivetrain",
-        lessons: [
-          { id: "lesson-2-1", title: "Engine Operation and Component ID", completed: false, current: false },
-          { id: "lesson-2-2", title: "Lubrication and Cooling Systems", completed: false, current: false },
-          { id: "lesson-2-3", title: "Fuel and Intake Systems", completed: false, current: false },
-          { id: "lesson-2-4", title: "Transmission and Driveline Basics", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-3",
-        title: "Term 2: Brakes, Suspension & Steering",
-        lessons: [
-          { id: "lesson-3-1", title: "Brake System Fundamentals", completed: false, current: false },
-          { id: "lesson-3-2", title: "Brake Service and Inspection", completed: false, current: false },
-          { id: "lesson-3-3", title: "Suspension and Steering Systems", completed: false, current: false },
-          { id: "lesson-3-4", title: "Wheel Alignment and Tire Service", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-4",
-        title: "Term 2: Diagnostics & Professional Practice",
-        lessons: [
-          { id: "lesson-4-1", title: "OBD-II Diagnostics and Scan Tools", completed: false, current: false },
-          { id: "lesson-4-2", title: "Electrical Diagnostics and Wiring", completed: false, current: false },
-          { id: "lesson-4-3", title: "Repair Order Writing and Customer Service", completed: false, current: false },
-          { id: "lesson-4-4", title: "ASE Certification and Career Pathways", completed: false, current: false },
-        ]
-      }
-    ] as SyllabusCourse[]
+    title: "",
+    courses: [] as SyllabusCourse[]
   };
 
   const handleLessonClick = (lessonId: string) => {

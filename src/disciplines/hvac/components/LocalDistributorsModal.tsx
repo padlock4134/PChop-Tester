@@ -448,40 +448,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         
         setMarkets(uniqueMarkets);
       } else {
-        // Development mode - use mock data for Portland, Maine area
-        const mockMarkets: Market[] = [
-          // General Supply (3)
-          { name: "Johnstone Supply", address: "295 Warren Ave, Portland, ME 04101", distance: 2.1, type: "grocery", rating: 4.3, isOpen: true },
-          { name: "Ferguson Enterprises", address: "87 Marginal Way, Portland, ME 04101", distance: 2.9, type: "grocery", rating: 4.2, isOpen: true },
-          { name: "R.E. Michel Company", address: "580 Brighton Ave, Portland, ME 04102", distance: 1.8, type: "grocery", rating: 4.5, isOpen: true },
-          
-          // Mechanical Supply (3)
-          { name: "Winslow Supply", address: "428 Forest Ave, Portland, ME 04101", distance: 3.1, type: "butcher", rating: 4.6, isOpen: true },
-          { name: "F.W. Webb Company", address: "262 Commercial St, Portland, ME 04101", distance: 2.4, type: "butcher", rating: 4.7, isOpen: true },
-          { name: "Maine Pipe & Supply", address: "1012 Brighton Ave, Portland, ME 04102", distance: 3.8, type: "butcher", rating: 4.4, isOpen: false },
-          
-          // Specialty Supply (3)
-          { name: "Carrier Enterprise", address: "9 Industrial Way, Portland, ME 04101", distance: 2.3, type: "seafood", rating: 4.8, isOpen: true },
-          { name: "Lennox Stores", address: "470 Forest Ave, Portland, ME 04101", distance: 2.7, type: "seafood", rating: 4.5, isOpen: true },
-          { name: "Trane Supply", address: "6 Commerce Dr, Portland, ME 04101", distance: 3.2, type: "seafood", rating: 4.3, isOpen: true },
-          
-          // Tools & Install (3)
-          { name: "Grainger", address: "Monument Square, Portland, ME 04101", distance: 1.9, type: "produce", rating: 4.6, isOpen: true },
-          { name: "TruTech Tools", address: "Industrial Park, Portland, ME 04102", distance: 2.8, type: "produce", rating: 4.4, isOpen: false },
-          { name: "Home Depot Pro", address: "1115 Forest Ave, Portland, ME 04103", distance: 4.1, type: "produce", rating: 4.2, isOpen: true },
-          
-          // Manufacturer Direct (3)
-          { name: "Daikin Comfort Technologies", address: "15 Commerce Dr, New Gloucester, ME 04260", distance: 12.4, type: "farms", rating: 4.7, isOpen: true },
-          { name: "Mitsubishi Electric Distributor", address: "184 Industrial Rd, Freeport, ME 04032", distance: 8.9, type: "farms", rating: 4.5, isOpen: true },
-          { name: "Bosch Thermotechnology", address: "41 Springdale Rd, Freeport, ME 04032", distance: 8.7, type: "farms", rating: 4.9, isOpen: true },
-          
-          // Chemicals & Consumables (3)
-          { name: "National Refrigerants", address: "194 Park Ave, Portland, ME 04102", distance: 2.1, type: "deli", rating: 4.4, isOpen: false },
-          { name: "Nu-Calgon Distributor", address: "75 Commercial St, Portland, ME 04101", distance: 2.6, type: "deli", rating: 4.6, isOpen: true },
-          { name: "A-Gas Refrigerant Supply", address: "45 India St, Portland, ME 04101", distance: 2.2, type: "deli", rating: 4.8, isOpen: true }
-        ];
-        
-        setMarkets(mockMarkets);
+        setMarkets([]);
       }
     } catch (error) {
       console.error('Error searching markets:', error);

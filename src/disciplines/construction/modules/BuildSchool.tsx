@@ -146,50 +146,8 @@ const BuildSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "Construction Technology Curriculum",
-    courses: [
-      {
-        id: "course-1",
-        title: "Term 1: Construction Fundamentals",
-        lessons: [
-          { id: "lesson-1-1", title: "Site Safety, PPE, and OSHA Requirements", completed: true, current: false },
-          { id: "lesson-1-2", title: "Hand Tools, Power Tools, and Equipment", completed: true, current: false },
-          { id: "lesson-1-3", title: "Blueprint Reading and Site Plans", completed: true, current: false },
-          { id: "lesson-1-4", title: "Measurements, Layout, and Math", completed: false, current: true },
-          { id: "lesson-1-5", title: "Material Identification and Estimation", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-2",
-        title: "Term 1: Framing & Structure",
-        lessons: [
-          { id: "lesson-2-1", title: "Foundation Types and Footings", completed: false, current: false },
-          { id: "lesson-2-2", title: "Floor and Wall Framing", completed: false, current: false },
-          { id: "lesson-2-3", title: "Roof Framing and Sheathing", completed: false, current: false },
-          { id: "lesson-2-4", title: "Engineered Lumber and Metal Connectors", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-3",
-        title: "Term 2: Masonry, Concrete & Finishing",
-        lessons: [
-          { id: "lesson-3-1", title: "Concrete Forming and Placement", completed: false, current: false },
-          { id: "lesson-3-2", title: "Masonry and Block Work", completed: false, current: false },
-          { id: "lesson-3-3", title: "Drywall Hanging and Finishing", completed: false, current: false },
-          { id: "lesson-3-4", title: "Doors, Windows, and Trim", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-4",
-        title: "Term 2: Code, Safety & Professional Practice",
-        lessons: [
-          { id: "lesson-4-1", title: "Building Codes and Permits", completed: false, current: false },
-          { id: "lesson-4-2", title: "Fall Protection and Scaffold Safety", completed: false, current: false },
-          { id: "lesson-4-3", title: "Project Documentation and Change Orders", completed: false, current: false },
-          { id: "lesson-4-4", title: "Career Pathways in Construction", completed: false, current: false },
-        ]
-      }
-    ] as SyllabusCourse[]
+    title: "",
+    courses: [] as SyllabusCourse[]
   };
 
   const handleLessonClick = (lessonId: string) => {

@@ -3,12 +3,6 @@
   publish = "dist"
   functions = "netlify/functions"
 
-[functions."crm-lead-hunter"]
-  timeout = 60
-
-[functions."crm-lead-hunter-import"]
-  timeout = 26
-
 [build.environment]
   NODE_VERSION = "18"
 

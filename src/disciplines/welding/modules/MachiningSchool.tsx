@@ -290,93 +290,9 @@ const WeldingSchool = () => {
 
   const mockSyllabusData = {
 
-    title: "Welding Technology Curriculum",
+    title: "",
 
-    courses: [
-
-      {
-
-        id: "course-1",
-
-        title: "Term 1: Welding Fundamentals",
-
-        lessons: [
-
-          { id: "lesson-1-1", title: "Welding Safety, PPE, and OSHA Basics", completed: true, current: false },
-
-          { id: "lesson-1-2", title: "Arc Welding Principles and Joint Types", completed: true, current: false },
-
-          { id: "lesson-1-3", title: "Blueprint Reading and Weld Symbols", completed: true, current: false },
-
-          { id: "lesson-1-4", title: "Base Metals, Filler Metals, and Shielding Gases", completed: false, current: true },
-
-          { id: "lesson-1-5", title: "Fit-Up, Tack Welding, and Distortion Control", completed: false, current: false },
-
-        ]
-
-      },
-
-      {
-
-        id: "course-2",
-
-        title: "Term 1: SMAW & GMAW Operations",
-
-        lessons: [
-
-          { id: "lesson-2-1", title: "SMAW: Machine Setup, Electrodes, and Flat Position", completed: false, current: false },
-
-          { id: "lesson-2-2", title: "SMAW: Vertical, Overhead, and Open Root Techniques", completed: false, current: false },
-
-          { id: "lesson-2-3", title: "GMAW: Machine Setup, Transfer Modes, and Flat/Horizontal", completed: false, current: false },
-
-          { id: "lesson-2-4", title: "GMAW: Vertical, Aluminum, Stainless, and Troubleshooting", completed: false, current: false },
-
-        ]
-
-      },
-
-      {
-
-        id: "course-3",
-
-        title: "Term 2: GTAW & Cutting Processes",
-
-        lessons: [
-
-          { id: "lesson-3-1", title: "GTAW: Machine Setup, Tungsten Prep, and Steel Beads", completed: false, current: false },
-
-          { id: "lesson-3-2", title: "GTAW: Aluminum, Stainless, and Pipe Welding", completed: false, current: false },
-
-          { id: "lesson-3-3", title: "Oxy-Fuel Cutting and Plasma Cutting", completed: false, current: false },
-
-          { id: "lesson-3-4", title: "FCAW: Self-Shielded and Dual-Shield Applications", completed: false, current: false },
-
-        ]
-
-      },
-
-      {
-
-        id: "course-4",
-
-        title: "Term 2: Inspection, Codes & Professional Practice",
-
-        lessons: [
-
-          { id: "lesson-4-1", title: "Weld Inspection: Visual, Destructive, and NDE Methods", completed: false, current: false },
-
-          { id: "lesson-4-2", title: "WPS, PQR, and Welding Codes (AWS D1.1, ASME IX)", completed: false, current: false },
-
-          { id: "lesson-4-3", title: "Welding Metallurgy, Preheating, and PWHT", completed: false, current: false },
-
-          { id: "lesson-4-4", title: "AWS Certification Prep and Career Pathways", completed: false, current: false },
-
-        ]
-
-      }
-
-    ] as SyllabusCourse[]
+    courses: [] as SyllabusCourse[]
 
   };
 

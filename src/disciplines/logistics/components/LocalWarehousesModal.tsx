@@ -449,40 +449,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         
         setMarkets(uniqueMarkets);
       } else {
-        // Development mode - use mock data for Portland, Maine area
-        const mockMarkets: Market[] = [
-          // Warehouses & Distribution (3)
-          { name: "Portland Distribution Center", address: "120 Presumpscot St, Portland, ME 04103", distance: 3.2, type: "warehouse", rating: 4.3, isOpen: true },
-          { name: "MainePort Logistics Hub", address: "58 Commercial St, Portland, ME 04101", distance: 2.1, type: "warehouse", rating: 4.5, isOpen: true },
-          { name: "Scarborough Fulfillment Center", address: "400 Payne Rd, Scarborough, ME 04074", distance: 7.8, type: "warehouse", rating: 4.1, isOpen: true },
-          
-          // Freight Terminals (3)
-          { name: "FedEx Freight Terminal", address: "10 Saunders Way, Westbrook, ME 04092", distance: 5.4, type: "freight", rating: 4.2, isOpen: true },
-          { name: "Old Dominion Freight Line", address: "25 Jetport Blvd, Portland, ME 04102", distance: 4.1, type: "freight", rating: 4.0, isOpen: true },
-          { name: "XPO Logistics", address: "80 Industrial Park Rd, Saco, ME 04072", distance: 9.6, type: "freight", rating: 3.9, isOpen: false },
-          
-          // Cold Storage (3)
-          { name: "Portland Cold Storage Co", address: "88 Fore St, Portland, ME 04101", distance: 2.4, type: "cold_storage", rating: 4.6, isOpen: true },
-          { name: "Atlantic Refrigerated Warehouse", address: "315 Marginal Way, Portland, ME 04101", distance: 3.0, type: "cold_storage", rating: 4.4, isOpen: true },
-          { name: "Northeast Cold Chain Solutions", address: "200 Running Hill Rd, South Portland, ME 04106", distance: 6.2, type: "cold_storage", rating: 4.7, isOpen: true },
-          
-          // Equipment Suppliers (3)
-          { name: "Maine Forklift & Equipment", address: "150 Warren Ave, Portland, ME 04103", distance: 3.8, type: "equipment", rating: 4.5, isOpen: true },
-          { name: "Crown Lift Trucks", address: "75 John Roberts Rd, South Portland, ME 04106", distance: 5.1, type: "equipment", rating: 4.3, isOpen: true },
-          { name: "Portland Pallet Rack Supply", address: "42 Industrial Way, Westbrook, ME 04092", distance: 6.7, type: "equipment", rating: 4.1, isOpen: false },
-          
-          // Packing & Shipping Supply (3)
-          { name: "Uline Portland", address: "500 Riverside St, Portland, ME 04103", distance: 4.5, type: "packing", rating: 4.4, isOpen: true },
-          { name: "Pack & Ship Supply Co", address: "22 Cove St, Portland, ME 04101", distance: 2.8, type: "packing", rating: 4.2, isOpen: true },
-          { name: "Maine Packaging Solutions", address: "60 Industrial Park, Scarborough, ME 04074", distance: 8.3, type: "packing", rating: 4.6, isOpen: true },
-          
-          // Fuel & Truck Stops (3)
-          { name: "Pilot Travel Center", address: "1 Haigis Pkwy, Scarborough, ME 04074", distance: 7.1, type: "fuel", rating: 4.0, isOpen: true },
-          { name: "Irving Maineway", address: "340 Riverside St, Portland, ME 04103", distance: 3.9, type: "fuel", rating: 4.2, isOpen: true },
-          { name: "Dysart's Truck Stop", address: "530 Coldbrook Rd, Hermon, ME 04401", distance: 12.5, type: "fuel", rating: 4.5, isOpen: true }
-        ];
-        
-        setMarkets(mockMarkets);
+        setMarkets([]);
       }
     } catch (error) {
       console.error('Error searching markets:', error);

@@ -15,51 +15,9 @@ interface GroupListing {
   members: string[];
 }
 
-const MOCK_COURSES = [
-  {
-    id: 'course-1',
-    title: 'Term 1: Construction Fundamentals',
-    lessons: [
-      { id: 'lesson-1-1', title: 'Site Safety, PPE, and OSHA Requirements' },
-      { id: 'lesson-1-2', title: 'Hand Tools, Power Tools, and Equipment' },
-      { id: 'lesson-1-3', title: 'Blueprint Reading and Site Plans' },
-      { id: 'lesson-1-4', title: 'Measurements, Layout, and Math' },
-      { id: 'lesson-1-5', title: 'Material Identification and Estimation' },
-    ]
-  },
-  {
-    id: 'course-2',
-    title: 'Term 1: Framing & Structure',
-    lessons: [
-      { id: 'lesson-2-1', title: 'Foundation Types and Footings' },
-      { id: 'lesson-2-2', title: 'Floor and Wall Framing' },
-      { id: 'lesson-2-3', title: 'Roof Framing and Sheathing' },
-      { id: 'lesson-2-4', title: 'Engineered Lumber and Metal Connectors' },
-    ]
-  },
-  {
-    id: 'course-3',
-    title: 'Term 2: Masonry, Concrete & Finishing',
-    lessons: [
-      { id: 'lesson-3-1', title: 'Concrete Forming and Placement' },
-      { id: 'lesson-3-2', title: 'Masonry and Block Work' },
-      { id: 'lesson-3-3', title: 'Drywall Hanging and Finishing' },
-      { id: 'lesson-3-4', title: 'Doors, Windows, and Trim' },
-    ]
-  },
-  {
-    id: 'course-4',
-    title: 'Term 2: Code, Safety & Professional Practice',
-    lessons: [
-      { id: 'lesson-4-1', title: 'Building Codes and Permits' },
-      { id: 'lesson-4-2', title: 'Fall Protection and Scaffold Safety' },
-      { id: 'lesson-4-3', title: 'Project Documentation and Change Orders' },
-      { id: 'lesson-4-4', title: 'Career Pathways in Construction' },
-    ]
-  }
-];
+const MOCK_COURSES: any[] = [];
 
-const MOCK_GROUPS: GroupListing[] = [
+const MOCK_GROUPS: GroupListing[] = [/*
   {
     id: 'grp-1',
     lessonId: 'lesson-1-4',
@@ -151,7 +109,7 @@ const MOCK_GROUPS: GroupListing[] = [
     minutesAgo: 42,
     members: ['Chen W.', 'Devon T.']
   }
-];
+*/];
 
 const GroupFinder: React.FC = () => {
   const { t } = useTranslation();

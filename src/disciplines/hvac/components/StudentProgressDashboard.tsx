@@ -11,9 +11,7 @@ const StudentProgressDashboard: React.FC = () => {
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: 'is demonstrating' });
   
-  // Mock student progress data
-  // Mock live session data
-  const activeLiveSessions = [
+  const activeLiveSessions: any[] = [/*
     {
       id: '2',
       hostName: 'Kenji Nakamura',
@@ -46,7 +44,7 @@ const StudentProgressDashboard: React.FC = () => {
       viewers: 28,
       thumbnail: '📐'
     }
-  ];
+  */];
 
   // Auto-scroll state
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
@@ -69,30 +67,10 @@ const StudentProgressDashboard: React.FC = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'live' | 'actions'>('home');
 
   const progressData = {
-    curriculum: {
-      completedLessons: 12,
-      totalLessons: 24,
-      currentLesson: "Refrigeration Cycle Diagnostics",
-      timeSpent: "18.5 hours"
-    },
-    skills: {
-      projectsAttempted: 8,
-      projectsCompleted: 6,
-      currentLevel: "Intermediate",
-      nextMilestone: "Advanced Load Calculations"
-    },
-    engagement: {
-      appUsage: "5 days this week",
-      liveSessionsAttended: 3,
-      communityPosts: 7,
-      projectsSaved: 15
-    },
-    insights: {
-      strongestArea: "System Diagnostics",
-      improvementArea: "Airflow Balancing",
-      learningVelocity: "Above Average",
-      achievements: ["EPA 608 Ready", "Service Tech", "Team Mentor"]
-    }
+    curriculum: { completedLessons: 0, totalLessons: 0, currentLesson: "", timeSpent: "" },
+    skills: { projectsAttempted: 0, projectsCompleted: 0, currentLevel: "", nextMilestone: "" },
+    engagement: { appUsage: "", liveSessionsAttended: 0, communityPosts: 0, projectsSaved: 0 },
+    insights: { strongestArea: "", improvementArea: "", learningVelocity: "", achievements: [] }
   };
 
   interface ProgressCardProps {

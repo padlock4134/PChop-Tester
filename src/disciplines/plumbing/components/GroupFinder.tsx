@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 interface GroupListing { id: string; lessonId: string; lessonTitle: string; courseName: string; leaderName: string; leaderInitials: string; currentMembers: number; maxMembers: number; note: string; minutesAgo: number; members: string[]; }
 
-const MOCK_COURSES = [
+const MOCK_COURSES: any[] = [/*
   { id: 'course-1', title: 'Term 1: Plumbing Fundamentals', lessons: [
     { id: 'lesson-1-1', title: 'Safety, PPE, and Job Site Procedures' },
     { id: 'lesson-1-2', title: 'Tools, Materials, and Pipe Types' },
@@ -29,9 +29,9 @@ const MOCK_COURSES = [
     { id: 'lesson-4-3', title: 'Customer Service and Job Documentation' },
     { id: 'lesson-4-4', title: 'Career Pathways in Plumbing' },
   ]}
-];
+*/];
 
-const MOCK_GROUPS: GroupListing[] = [
+const MOCK_GROUPS: GroupListing[] = [/*
   { id: 'grp-1', lessonId: 'lesson-1-4', lessonTitle: 'Basic Pipe Fitting and Joining', courseName: 'Term 1: Plumbing Fundamentals', leaderName: 'Marcus C.', leaderInitials: 'MC', currentMembers: 2, maxMembers: 4, note: 'Practicing soldering and ProPress!', minutesAgo: 3, members: ['Marcus C.', 'Sofia R.'] },
   { id: 'grp-2', lessonId: 'lesson-2-3', lessonTitle: 'Water Heater Installation', courseName: 'Term 1: Water Supply Systems', leaderName: 'James L.', leaderInitials: 'JL', currentMembers: 1, maxMembers: 3, note: 'Need practice partners for gas and electric installs', minutesAgo: 8, members: ['James L.'] },
   { id: 'grp-3', lessonId: 'lesson-3-1', lessonTitle: 'DWV System Design', courseName: 'Term 2: Drain, Waste & Vent', leaderName: 'Priya K.', leaderInitials: 'PK', currentMembers: 3, maxMembers: 5, note: 'Working on isometric drawings', minutesAgo: 12, members: ['Priya K.', 'Chen W.', 'Aaliyah M.'] },
@@ -39,7 +39,7 @@ const MOCK_GROUPS: GroupListing[] = [
   { id: 'grp-5', lessonId: 'lesson-4-1', lessonTitle: 'Estimating and Bidding Jobs', courseName: 'Term 2: Professional Practice', leaderName: 'Aaliyah M.', leaderInitials: 'AM', currentMembers: 1, maxMembers: 3, note: 'Let\'s practice material takeoffs together!', minutesAgo: 25, members: ['Aaliyah M.'] },
   { id: 'grp-6', lessonId: 'lesson-2-4', lessonTitle: 'Backflow Prevention and Testing', courseName: 'Term 1: Water Supply Systems', leaderName: 'Sofia R.', leaderInitials: 'SR', currentMembers: 2, maxMembers: 4, note: 'RPZ and DCVA testing procedures', minutesAgo: 35, members: ['Sofia R.', 'Marcus C.'] },
   { id: 'grp-7', lessonId: 'lesson-3-2', lessonTitle: 'Trap and Vent Installation', courseName: 'Term 2: Drain, Waste & Vent', leaderName: 'Chen W.', leaderInitials: 'CW', currentMembers: 2, maxMembers: 5, note: 'Wet vent and common vent configurations', minutesAgo: 42, members: ['Chen W.', 'Devon T.'] }
-];
+*/];
 
 const GroupFinder: React.FC = () => {
   const { t } = useTranslation();

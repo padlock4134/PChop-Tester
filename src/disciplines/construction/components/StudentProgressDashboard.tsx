@@ -11,9 +11,7 @@ const StudentProgressDashboard: React.FC = () => {
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
-  // Mock student progress data
-  // Mock live session data
-  const activeLiveSessions = [
+  const activeLiveSessions: any[] = [/*
     {
       id: '2',
       hostName: 'Kenji Nakamura',
@@ -46,7 +44,7 @@ const StudentProgressDashboard: React.FC = () => {
       viewers: 28,
       thumbnail: '📐'
     }
-  ];
+  */];
 
   // Auto-scroll state
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
@@ -69,30 +67,10 @@ const StudentProgressDashboard: React.FC = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'live' | 'actions'>('home');
 
   const progressData = {
-    curriculum: {
-      completedLessons: 12,
-      totalLessons: 24,
-      currentLesson: "Site Layout: Blueprint Readthrough",
-      timeSpent: "18.5 hours"
-    },
-    skills: {
-      recipesAttempted: 8,
-      recipesCompleted: 6,
-      currentLevel: "Intermediate",
-      nextMilestone: "Advanced Framing Systems"
-    },
-    engagement: {
-      appUsage: "5 days this week",
-      liveSessionsAttended: 3,
-      communityPosts: 7,
-      recipesSaved: 15
-    },
-    insights: {
-      strongestArea: "Blueprint Reading",
-      improvementArea: "Material Estimation",
-      learningVelocity: "Above Average",
-      achievements: ["OSHA Ready", "Blueprint Interpreter", "Crew Collaborator"]
-    }
+    curriculum: { completedLessons: 0, totalLessons: 0, currentLesson: "", timeSpent: "" },
+    skills: { recipesAttempted: 0, recipesCompleted: 0, currentLevel: "", nextMilestone: "" },
+    engagement: { appUsage: "", liveSessionsAttended: 0, communityPosts: 0, recipesSaved: 0 },
+    insights: { strongestArea: "", improvementArea: "", learningVelocity: "", achievements: [] }
   };
 
   interface ProgressCardProps {

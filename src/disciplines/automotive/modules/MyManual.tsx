@@ -101,111 +101,18 @@ const MyManual = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'manual' | 'collections'>('manual');
   
   // Assignment data
-  const assignments = [
-    {
-      id: 1,
-      week: "Week 3",
-      title: "Engine Diagnostics & Tool Skills",
-      emoji: "🔧",
-      dueDate: "Oct 15, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Socket wrench usage", "Torque application", "Diagnostic tool operation", "Proper tool grip"],
-      submission: ["Video demo (3-5 min)", "Photos of work", "Self-reflection", "Upload to manual"],
-      objectives: ["Safety protocols", "Precise measurements", "Consistent technique", "Workspace organization"],
-      studentName: "Sarah Chen",
-      videoTitle: "Tool Skills Demo"
-    },
-    {
-      id: 2,
-      week: "Week 5",
-      title: "Transmission Repair & Fluid Systems",
-      emoji: "⚙️",
-      dueDate: "Oct 29, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Fluid level checks", "Filter replacement", "Seal installation", "Pressure testing"],
-      submission: ["Video demonstration", "Work photos", "Torque specs", "Repair notes"],
-      objectives: ["Fluid safety", "Proper sealing", "Pressure accuracy", "Professional documentation"],
-      studentName: "Sarah Chen",
-      videoTitle: "Transmission Repair Demo"
-    },
-    {
-      id: 3,
-      week: "Week 7",
-      title: "Brake Service & Safety Systems",
-      emoji: "",
-      dueDate: "Nov 12, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Pad replacement", "Rotor resurfacing", "Bleeding procedures", "Safety testing"],
-      submission: ["Video demonstration", "Measurement logs", "Final photos", "Safety reflection"],
-      objectives: ["Brake accuracy", "Safety compliance", "Proper bleeding", "System testing"],
-      studentName: "Sarah Chen",
-      videoTitle: "Brake Service Demo"
-    }
-  ];
+  const assignments: any[] = [];
 
   // Student data
-  const students = [
-    {
-      id: 1,
-      name: "Sarah Chen",
-      email: "sarah.chen@autotech.edu",
-      submittedVideos: {1: "tool-skills-demo", 2: "repair-technique"}
-    },
-    {
-      id: 2,
-      name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@autotech.edu", 
-      submittedVideos: {1: "tool-skills-demo", 3: "parts-assembly"}
-    },
-    {
-      id: 3,
-      name: "Emma Thompson",
-      email: "emma.thompson@autotech.edu",
-      submittedVideos: {2: "repair-technique"}
-    },
-    {
-      id: 4,
-      name: "David Kim",
-      email: "david.kim@autotech.edu",
-      submittedVideos: {1: "tool-skills-demo", 2: "repair-technique", 3: "parts-assembly"}
-    }
-  ];
+  const students: any[] = [];
 
   // Mock grades for each student and assignment
-  const mockGrades = {
-    1: { // Sarah Chen
-      1: { total: 89, grade: "A-" }, // Assignment 1
-      2: { total: 92, grade: "A-" }, // Assignment 2
-      3: { total: 85, grade: "B+" }  // Assignment 3
-    },
-    2: { // Marcus Rodriguez
-      1: { total: 78, grade: "C+" },
-      2: { total: 88, grade: "B+" },
-      3: { total: 94, grade: "A" }
-    },
-    3: { // Emma Thompson
-      1: { total: 91, grade: "A-" },
-      2: { total: 87, grade: "B+" },
-      3: { total: 82, grade: "B-" }
-    },
-    4: { // David Kim
-      1: { total: 96, grade: "A" },
-      2: { total: 93, grade: "A" },
-      3: { total: 98, grade: "A+" }
-    }
-  };
+  const mockGrades: any = {};
 
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, procedures: string[]} | null>(null);
   const [selectedProcedures, setSelectedProcedures] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', procedures: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Fix', emoji: '⚡', procedures: ['1', '2'] },
-    { id: '3', name: 'Green Options', emoji: '🔧', procedures: ['1', '2', '3', '4', '5'] }
-  ]);
+  const [collections, setCollections] = useState<{id: string, name: string, emoji: string, procedures: string[]}[]>([]);
 
   const { user } = useSupabase();
 
@@ -1430,7 +1337,7 @@ const MyManual = () => {
       )}
 
       {/* Video Modal */}
-      {showVideoModal && (
+      {showVideoModal && assignments[currentAssignmentPage] && students[currentStudentIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setShowVideoModal(false)}>
           <div className="relative max-w-4xl w-[90%] mx-4" onClick={(e) => e.stopPropagation()}>
             <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-black">
@@ -1473,7 +1380,7 @@ const MyManual = () => {
       )}
 
       {/* Video Confirmation Modal */}
-      {showVideoConfirmModal && (
+      {showVideoConfirmModal && assignments[currentAssignmentPage] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-2xl border-4 border-black max-w-md w-[90%] mx-4">
             {/* Modal Header */}

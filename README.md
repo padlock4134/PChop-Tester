@@ -1,21 +1,37 @@
 
-A cross-platform cooking app with a 1950s Maine Fish Market theme. Scan your pantry, match recipes, save and edit favorites, connect with chefs, and learn culinary skills—all in one place.
+A white-label LMS for trade schools. Schools upload their own curriculum and the platform adapts — content-agnostic by design, with AI-driven module population and discipline-specific theming out of the box.
 
-## Features
-- **My Kitchen:** Scan ingredients (Google Vision), digital cupboard, recipe matcher (Anthropic Haiku)
-- **My Cook Book:** Save, edit, and organize recipes
-- **Chefs Corner:** Social hub for chefs/home cooks
-- **Culinary School:** Tutorials and guides
-- **Chef Freddie:** Contextual AI chef assistant
+## Supported Disciplines
+- 🍳 **Culinary** — My Kitchen, My Cookbook, Chef's Corner, Culinary School
+- ⚡ **Electrical** — My Panel, My Codebook, Wire Lounge, Elec School
+- ❄️ **HVAC** — My Shop, My Spec Sheets, Tech Talk, HVAC School
+- 🔩 **Plumbing** — My Van, My Pipebook, Pipe Lounge, Plumbing School
+- 📦 **Logistics** — My Dock, My Runbook, Dispatch Lounge, Logistics School
+- 🔧 **Automotive** — My Garage, My Manual, Gearhead Lounge, Auto School
+- 🏗️ **Construction** — My Site, My Blueprints, Hardhat Hub, Build School
+- 🏭 **Manufacturing** — My Floor, My Playbook, Shop Talk, Mfg Academy
+- ⚙️ **Welding** — My Booth, My Weldbook, Welders Hub, Welding School
+- ➕ **Custom disciplines** — configurable via Admin Dashboard + Supabase
+
+## Core Modules (per discipline)
+- **Workspace:** Hands-on practice hub (scans, uploads, job tickets, etc.)
+- **Notebook:** Save and organize discipline-specific content
+- **Community:** Social timeline, group finder, live sessions
+- **School:** Syllabus viewer, lesson progress, bench practice
+- **AI Assistant:** Contextual curriculum assistant (unique persona per discipline)
+- **Admin Dashboard:** School branding, curriculum upload, gradebook, analytics
 
 ## Tech Stack
 - React + TypeScript + Vite
 - TailwindCSS
+- Supabase (database, auth, storage)
+- Wristband (authentication)
+- Anthropic Claude (AI assistants + content processor)
 - Stripe (payments)
-- Supabase (backend/auth)
-- Google Vision API (ingredient scanning)
-- Anthropic Haiku (AI)
-- Unsplash (recipe images)
+- Google Vision API (ingredient/material scanning)
+- Google Places API (local supplier finder)
+- Unsplash (content images)
+- Netlify (hosting + serverless functions)
 
 ## Setup
 1. Clone the repo
@@ -26,7 +42,7 @@ A cross-platform cooking app with a 1950s Maine Fish Market theme. Scan your pan
 
 The React app runs on [http://localhost:3000](http://localhost:3000) (with hot reload), and all user interactions should happen here.
 
-The Netlify functions dev server runs on [http://localhost:8888](http://localhost:8888). Behind the scenes, Vite is configured to proxy all requests to `/.netlify/functions` to the dev server URL.
+The Netlify functions dev server runs on [http://localhost:8888](http://localhost:8888). Vite proxies all `/.netlify/functions` requests to this port automatically.
 
 ## Environment Variables
 See `.env.example` for required keys.

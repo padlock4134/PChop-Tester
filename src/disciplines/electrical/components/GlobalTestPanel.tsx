@@ -98,87 +98,8 @@ const GlobalTestKitchen: React.FC<GlobalTestKitchenProps> = ({ showcaseRecipe })
   const [currentLiveSession, setCurrentLiveSession] = useState<LiveSession | null>(null);
   const [isViewer, setIsViewer] = useState(false);
   const [isHost, setIsHost] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
-    {
-      id: '1',
-      hostName: 'Maria Santos',
-      dishName: 'Site Layout Calibration',
-      culture: 'Spanish',
-      viewers: 47,
-      isLive: false,
-      isEnded: true,
-      thumbnail: '🥘',
-      description: 'Traditional paella from Valencia with saffron and bomba rice',
-      ingredients: ['Bomba rice', 'Saffron', 'Green beans', 'Lima beans', 'Chicken', 'Rabbit']
-    },
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      dishName: 'Precision Assembly Practice',
-      culture: 'Japanese',
-      viewers: 23,
-      isLive: true,
-      thumbnail: '🍜',
-      description: 'Making ramen noodles from scratch with tonkotsu broth',
-      ingredients: ['High-gluten flour', 'Kansui', 'Pork bones', 'Miso paste']
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      dishName: 'System Fit Verification',
-      culture: 'Lebanese',
-      viewers: 35,
-      isLive: true,
-      thumbnail: '🧆',
-      description: 'Hand-forming traditional kibbeh with bulgur and spiced lamb',
-      ingredients: ['Fine bulgur', 'Ground lamb', 'Pine nuts', 'Allspice', 'Cinnamon']
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      dishName: 'Blueprint Readthrough Drill',
-      culture: 'French',
-      viewers: 62,
-      isLive: true,
-      thumbnail: '🥐',
-      description: 'Mastering the art of laminated dough and butter layers',
-      ingredients: ['Bread flour', 'European butter', 'Active dry yeast', 'Milk', 'Sugar']
-    }
-  ]);
-  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
-    {
-      id: '3',
-      hostName: 'Priya Sharma',
-      dishName: 'Workflow Timing Challenge',
-      culture: 'Indian',
-      scheduledTime: '2:00 PM EST',
-      description: 'Layered biryani with aromatic spices and basmati rice'
-    },
-    {
-      id: '4',
-      hostName: 'Ahmed Hassan',
-      dishName: 'Quality Control Walkthrough',
-      culture: 'Moroccan',
-      scheduledTime: '4:30 PM EST',
-      description: 'Advanced troubleshooting walkthrough for a real-world field issue'
-    },
-    {
-      id: '5',
-      hostName: 'Elena Volkov',
-      dishName: 'Safety Compliance Drill',
-      culture: 'Russian',
-      scheduledTime: '6:00 PM EST',
-      description: 'Traditional beetroot soup with sour cream and fresh dill'
-    },
-    {
-      id: '6',
-      hostName: 'Carlos Mendoza',
-      dishName: 'Final Inspection Run',
-      culture: 'Peruvian',
-      scheduledTime: '7:30 PM EST',
-      description: 'Fresh fish cured in lime juice with red onions and aji peppers'
-    }
-  ]);
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
+  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {

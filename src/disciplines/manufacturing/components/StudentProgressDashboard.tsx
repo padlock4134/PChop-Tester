@@ -11,9 +11,7 @@ const StudentProgressDashboard: React.FC = () => {
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
-  // Mock student progress data
-  // Mock live session data
-  const activeLiveSessions = [
+  const activeLiveSessions: any[] = [/*
     {
       id: '2',
       hostName: 'Kenji Nakamura',
@@ -46,7 +44,7 @@ const StudentProgressDashboard: React.FC = () => {
       viewers: 28,
       thumbnail: '🏭'
     }
-  ];
+  */];
 
   // Auto-scroll state
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
@@ -69,30 +67,10 @@ const StudentProgressDashboard: React.FC = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'live' | 'actions'>('home');
 
   const progressData = {
-    curriculum: {
-      completedLessons: 12,
-      totalLessons: 24,
-      currentLesson: "Quality Control: Statistical Process Control",
-      timeSpent: "18.5 hours"
-    },
-    skills: {
-      processesAttempted: 8,
-      processesCompleted: 6,
-      currentLevel: "Intermediate",
-      nextMilestone: "Advanced Assembly Techniques"
-    },
-    engagement: {
-      appUsage: "5 days this week",
-      liveSessionsAttended: 3,
-      communityPosts: 7,
-      processesSaved: 15
-    },
-    insights: {
-      strongestArea: "Safety Procedures",
-      improvementArea: "Process Optimization",
-      learningVelocity: "Above Average",
-      achievements: ["Safety Certified", "5S Champion", "Quality Inspector"]
-    }
+    curriculum: { completedLessons: 0, totalLessons: 0, currentLesson: "", timeSpent: "" },
+    skills: { processesAttempted: 0, processesCompleted: 0, currentLevel: "", nextMilestone: "" },
+    engagement: { appUsage: "", liveSessionsAttended: 0, communityPosts: 0, processesSaved: 0 },
+    insights: { strongestArea: "", improvementArea: "", learningVelocity: "", achievements: [] }
   };
 
   interface ProgressCardProps {

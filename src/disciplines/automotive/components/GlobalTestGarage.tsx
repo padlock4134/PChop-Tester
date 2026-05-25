@@ -98,87 +98,8 @@ const TheCarLift: React.FC<TheCarLiftProps> = ({ showcaseRecipe }) => {
   const [currentLiveSession, setCurrentLiveSession] = useState<LiveSession | null>(null);
   const [isViewer, setIsViewer] = useState(false);
   const [isHost, setIsHost] = useState(false);
-  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([
-    {
-      id: '1',
-      hostName: 'Maria Santos',
-      serviceName: 'Engine Rebuild Service',
-      vehicleType: 'Engine Service',
-      viewers: 47,
-      isLive: false,
-      isEnded: true,
-      thumbnail: '🔧',
-      description: 'Complete engine rebuild with precision torque specifications',
-      parts: ['Engine block', 'Pistons', 'Rings', 'Bearings', 'Gaskets', 'Oil pump']
-    },
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      serviceName: 'Transmission Overhaul',
-      vehicleType: 'Transmission Service',
-      viewers: 23,
-      isLive: true,
-      thumbnail: '⚙️',
-      description: 'Complete transmission disassembly and reassembly with clutch replacement',
-      parts: ['Transmission', 'Clutch kit', 'Torque wrench', 'Seal kit', 'Fluid pump']
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      serviceName: 'Brake System Upgrade',
-      vehicleType: 'Brake Service',
-      viewers: 35,
-      isLive: true,
-      thumbnail: '🛞',
-      description: 'Complete brake system upgrade with performance pads and rotors',
-      parts: ['Brake pads', 'Rotors', 'Calipers', 'Brake fluid', 'Bleeder kit']
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      serviceName: 'Suspension Tuning',
-      vehicleType: 'Suspension Service',
-      viewers: 62,
-      isLive: true,
-      thumbnail: '🎯',
-      description: 'Performance suspension tuning with coilover adjustment and alignment',
-      parts: ['Coilovers', 'Alignment tools', 'Torque wrench', 'Spring compressor', 'Camber gauge']
-    }
-  ]);
-  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([
-    {
-      id: '3',
-      hostName: 'Priya Sharma',
-      serviceName: 'ECU Programming',
-      vehicleType: 'Electrical Service',
-      scheduledTime: '2024-03-25 at 2:00 PM EST',
-      description: 'Advanced ECU tuning and programming for performance optimization'
-    },
-    {
-      id: '4',
-      hostName: 'Ahmed Hassan',
-      serviceName: 'Exhaust System Installation',
-      vehicleType: 'Engine Service',
-      scheduledTime: '2024-03-25 at 4:30 PM EST',
-      description: 'Complete exhaust system installation with performance headers and muffler'
-    },
-    {
-      id: '5',
-      hostName: 'Elena Volkov',
-      serviceName: 'Diagnostics Training',
-      vehicleType: 'Diagnostics',
-      scheduledTime: '2024-03-25 at 6:00 PM EST',
-      description: 'Advanced diagnostic techniques using scan tools and multimeters'
-    },
-    {
-      id: '6',
-      hostName: 'Carlos Mendoza',
-      serviceName: 'Paint Protection Application',
-      vehicleType: 'Other',
-      scheduledTime: '2024-03-25 at 7:30 PM EST',
-      description: 'Professional paint protection film installation with ceramic coating'
-    }
-  ]);
+  const [liveSessions, setLiveSessions] = useState<LiveSession[]>([]);
+  const [upcomingSessions, setUpcomingSessions] = useState<UpcomingSession[]>([]);
   
   // Report function - now logs to database for admin dashboard
   const handleReport = async (sessionId?: string, reason?: string) => {

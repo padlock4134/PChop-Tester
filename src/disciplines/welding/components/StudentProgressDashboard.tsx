@@ -12,42 +12,7 @@ const StudentProgressDashboard: React.FC = () => {
   const clickModuleLabel = t(`dashboard.disciplineCopy.${discipline}.clickModule`, { defaultValue: t('dashboard.clickModule') });
   const liveVerbLabel = t(`dashboard.disciplineCopy.${discipline}.isCooking`, { defaultValue: t('dashboard.isCooking') });
   
-  // Mock student progress data
-  // Mock live session data
-  const activeLiveSessions = [
-    {
-      id: '2',
-      hostName: 'Kenji Nakamura',
-      sessionTopic: 'Root Pass Control',
-      culture: 'Japanese',
-      viewers: 23,
-      thumbnail: '🔥'
-    },
-    {
-      id: '3',
-      hostName: 'Fatima Al-Zahra',
-      sessionTopic: 'MIG Weld Parameter Setup',
-      culture: 'Lebanese',
-      viewers: 35,
-      thumbnail: '⚡'
-    },
-    {
-      id: '4',
-      hostName: 'Jean-Luc Dubois',
-      sessionTopic: 'Vertical-Up Fillet Technique',
-      culture: 'French',
-      viewers: 62,
-      thumbnail: '🔧'
-    },
-    {
-      id: '5',
-      hostName: 'Maria Santos',
-      sessionTopic: 'Weld Symbols Walkthrough',
-      culture: 'Spanish',
-      viewers: 28,
-      thumbnail: '🛡️'
-    }
-  ];
+  const activeLiveSessions: any[] = [];
 
   // Auto-scroll state
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
@@ -70,30 +35,10 @@ const StudentProgressDashboard: React.FC = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'home' | 'live' | 'actions'>('home');
 
   const progressData = {
-    curriculum: {
-      completedLessons: 12,
-      totalLessons: 24,
-      currentLesson: "Welding Setup & Joint Fit-Up",
-      timeSpent: "18.5 hours"
-    },
-    skills: {
-      projectsAttempted: 8,
-      projectsCompleted: 6,
-      currentLevel: "Intermediate",
-      nextMilestone: "Advanced Weld Inspection"
-    },
-    engagement: {
-      appUsage: "5 days this week",
-      liveSessionsAttended: 3,
-      communityPosts: 7,
-      projectsSaved: 15
-    },
-    insights: {
-      strongestArea: "Weld Bead Consistency",
-      improvementArea: "Heat Control",
-      learningVelocity: "Above Average",
-      achievements: ["Welding Safety Certified", "Weld Quality Specialist", "Team Collaborator"]
-    }
+    curriculum: { completedLessons: 0, totalLessons: 0, currentLesson: "", timeSpent: "" },
+    skills: { projectsAttempted: 0, projectsCompleted: 0, currentLevel: "", nextMilestone: "" },
+    engagement: { appUsage: "", liveSessionsAttended: 0, communityPosts: 0, projectsSaved: 0 },
+    insights: { strongestArea: "", improvementArea: "", learningVelocity: "", achievements: [] }
   };
 
   interface ProgressCardProps {

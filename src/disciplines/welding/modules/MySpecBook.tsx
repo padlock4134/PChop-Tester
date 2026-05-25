@@ -71,111 +71,18 @@ const MySpecBook = () => {
   const [activeMobileTab, setActiveMobileTab] = useState<'specbook' | 'collections'>('specbook');
   
   // Assignment data
-  const assignments = [
-    {
-      id: 1,
-      week: "Week 3",
-      title: "SMAW Pad Beads & Joint Fit-Up",
-      emoji: "🔥",
-      dueDate: "Oct 15, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Electrode angle control", "Arc length consistency", "Joint fit-up & gap setting", "Slag removal technique"],
-      submission: ["Welding demo (3-5 min)", "Bead photos", "Welding reflection", "Upload to specbook"],
-      objectives: ["Welding safety protocols", "Bead consistency", "Proper PPE usage", "Workstation preparation"],
-      studentName: "Sarah Chen",
-      videoTitle: "SMAW Pad Beads Demo"
-    },
-    {
-      id: 2,
-      week: "Week 5",
-      title: "MIG Fillet Welds & Parameter Setup",
-      emoji: "⚡",
-      dueDate: "Oct 29, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Wire feed speed adjustment", "Voltage & travel speed optimization", "Fillet weld sizing", "Gas flow rate setting"],
-      submission: ["Video demonstration", "Weld photos", "Parameter logs", "Setup notes"],
-      objectives: ["Heat input management", "Weld penetration control", "Shielding gas coverage", "AWS code compliance"],
-      studentName: "Sarah Chen",
-      videoTitle: "MIG Fillet Welds Demo"
-    },
-    {
-      id: 3,
-      week: "Week 7",
-      title: "TIG Root Pass & Visual Inspection",
-      emoji: "🔧",
-      dueDate: "Nov 12, 2024",
-      points: 100,
-      weight: "15%",
-      techniques: ["Tungsten preparation & selection", "Root pass technique", "Filler rod feeding rhythm", "Visual weld inspection"],
-      submission: ["Root pass video", "Weld cross-section photos", "Inspection report", "Defect analysis notes"],
-      objectives: ["TIG torch safety", "AWS D1.1 standards", "Weld quality acceptance criteria", "Distortion control"],
-      studentName: "Sarah Chen",
-      videoTitle: "TIG Root Pass Demo"
-    }
-  ];
+  const assignments: any[] = [];
 
   // Student data
-  const students = [
-    {
-      id: 1,
-      name: "Sarah Chen",
-      email: "sarah.chen@weldinglab.edu",
-      submittedVideos: {1: "smaw-pad-beads-demo", 2: "mig-fillet-welds-demo"}
-    },
-    {
-      id: 2,
-      name: "Marcus Rodriguez",
-      email: "marcus.rodriguez@weldinglab.edu", 
-      submittedVideos: {1: "smaw-pad-beads-demo", 3: "tig-root-pass-demo"}
-    },
-    {
-      id: 3,
-      name: "Emma Thompson",
-      email: "emma.thompson@weldinglab.edu",
-      submittedVideos: {2: "mig-fillet-welds-demo"}
-    },
-    {
-      id: 4,
-      name: "David Kim",
-      email: "david.kim@weldinglab.edu",
-      submittedVideos: {1: "smaw-pad-beads-demo", 2: "mig-fillet-welds-demo", 3: "tig-root-pass-demo"}
-    }
-  ];
+  const students: any[] = [];
 
   // Mock grades for each student and assignment
-  const mockGrades = {
-    1: { // Sarah Chen
-      1: { total: 89, grade: "A-" }, // Assignment 1
-      2: { total: 92, grade: "A-" }, // Assignment 2
-      3: { total: 85, grade: "B+" }  // Assignment 3
-    },
-    2: { // Marcus Rodriguez
-      1: { total: 78, grade: "C+" },
-      2: { total: 88, grade: "B+" },
-      3: { total: 94, grade: "A" }
-    },
-    3: { // Emma Thompson
-      1: { total: 91, grade: "A-" },
-      2: { total: 87, grade: "B+" },
-      3: { total: 82, grade: "B-" }
-    },
-    4: { // David Kim
-      1: { total: 96, grade: "A" },
-      2: { total: 93, grade: "A" },
-      3: { total: 98, grade: "A+" }
-    }
-  };
+  const mockGrades: any = {};
 
   const [selectedCollection, setSelectedCollection] = useState<{id: string, name: string, emoji: string, projects: string[]} | null>(null);
   const [selectedProjectIds, setSelectedProjectIds] = useState<string[]>([]);
   const [newCollectionName, setNewCollectionName] = useState('');
-  const [collections, setCollections] = useState([
-    { id: '1', name: 'Favorites', emoji: '⭐', projects: ['1', '2', '3'] },
-    { id: '2', name: 'Quick Welds', emoji: '⚡', projects: ['1', '2'] },
-    { id: '3', name: 'Certification Prep', emoji: '📋', projects: ['1', '2', '3', '4', '5'] }
-  ]);
+  const [collections, setCollections] = useState<{id: string, name: string, emoji: string, projects: string[]}[]>([]);
 
   const { user } = useSupabase();
 
@@ -1363,7 +1270,7 @@ const MySpecBook = () => {
       )}
 
       {/* Video Modal */}
-      {showVideoModal && (
+      {showVideoModal && assignments[currentAssignmentPage] && students[currentStudentIndex] && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50" onClick={() => setShowVideoModal(false)}>
           <div className="relative max-w-4xl w-[90%] mx-4" onClick={(e) => e.stopPropagation()}>
             <div className="bg-white rounded-lg overflow-hidden shadow-2xl border-4 border-black">
@@ -1406,7 +1313,7 @@ const MySpecBook = () => {
       )}
 
       {/* Video Confirmation Modal */}
-      {showVideoConfirmModal && (
+      {showVideoConfirmModal && assignments[currentAssignmentPage] && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-2xl border-4 border-black max-w-md w-[90%] mx-4">
             {/* Modal Header */}

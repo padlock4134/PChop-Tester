@@ -385,28 +385,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     totalXP: 0,
     subscriptions: { active: 0, trial: 0, cancelled: 0 }
   });
-  const [users, setUsers] = useState<User[]>([
-    {
-      id: 'mock-1',
-      email: `sarah.johnson@${skin.people.emailDomain}`,
-      username: 'Sarah Johnson',
-      xp: 1250,
-      level: 3,
-      chat_count: 15,
-      last_chat_date: new Date().toISOString(),
-      created_at: new Date().toISOString()
-    },
-    {
-      id: 'mock-2',
-      email: `marcus.chen@${skin.people.emailDomain}`,
-      username: 'Marcus Chen',
-      xp: 2100,
-      level: 4,
-      chat_count: 28,
-      last_chat_date: new Date().toISOString(),
-      created_at: new Date().toISOString()
-    }
-  ]);
+  const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [showExportModal, setShowExportModal] = useState(false);
@@ -611,81 +590,11 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [editingFaculty, setEditingFaculty] = useState<any | null>(null);
   const [showEditAlumniModal, setShowEditAlumniModal] = useState(false);
   const [editingAlumni, setEditingAlumni] = useState<any | null>(null);
-  const [facultyList, setFacultyList] = useState([
-    {
-      id: 'faculty-1',
-      name: skin.people.mockFaculty[0].name,
-      email: `${skin.people.mockFaculty[0].name.split(' ').pop()?.toLowerCase()}.instructor@${skin.people.emailDomain}`,
-      role: skin.people.mockFaculty[0].role,
-      status: 'Active',
-      courses: skin.people.mockFaculty[0].courses,
-      students: 42,
-      lastLogin: 'Today, 9:15 AM',
-      initials: skin.people.mockFaculty[0].name.split(' ').filter((_:string, i:number, a:string[]) => i === 0 || i === a.length - 1).map((w:string) => w[0]).join(''),
-      color: 'bg-blue-500'
-    },
-    {
-      id: 'faculty-2',
-      name: skin.people.mockFaculty[1].name,
-      email: `${skin.people.mockFaculty[1].name.split(' ').pop()?.toLowerCase()}.instructor@${skin.people.emailDomain}`,
-      role: skin.people.mockFaculty[1].role,
-      status: 'Active',
-      courses: skin.people.mockFaculty[1].courses,
-      students: 28,
-      lastLogin: 'Yesterday, 4:30 PM',
-      initials: skin.people.mockFaculty[1].name.split(' ').filter((_:string, i:number, a:string[]) => i === 0 || i === a.length - 1).map((w:string) => w[0]).join(''),
-      color: 'bg-green-500'
-    }
-  ]);
+  const [facultyList, setFacultyList] = useState<any[]>([]);
   const [newFacultyName, setNewFacultyName] = useState('');
   const [newFacultyEmail, setNewFacultyEmail] = useState('');
   const [newFacultyRole, setNewFacultyRole] = useState('Instructor');
-  const [alumniList, setAlumniList] = useState([
-    {
-      id: 'alumni-1',
-      name: 'Maria Santos',
-      email: 'maria.santos@example.com',
-      graduationYear: '2022',
-      position: skin.people.mockAlumniTitles[0],
-      employer: 'Top Industry Employer, New York',
-      salary: '$85,000/year',
-      initials: 'MS',
-      color: 'bg-blue-500'
-    },
-    {
-      id: 'alumni-2',
-      name: 'James Chen',
-      email: 'james.chen@example.com',
-      graduationYear: '2021',
-      position: skin.people.mockAlumniTitles[1],
-      employer: 'Independent Business Owner',
-      salary: '$2.1M annually',
-      initials: 'JC',
-      color: 'bg-green-500'
-    },
-    {
-      id: 'alumni-3',
-      name: 'Ashley Rodriguez',
-      email: 'ashley.rodriguez@example.com',
-      graduationYear: '2023',
-      position: skin.people.mockAlumniTitles[2],
-      employer: 'Industry Media & Consulting',
-      salary: '$120,000/year + endorsements',
-      initials: 'AR',
-      color: 'bg-purple-500'
-    },
-    {
-      id: 'alumni-4',
-      name: 'David Miller',
-      email: 'david.miller@example.com',
-      graduationYear: '2020',
-      position: skin.people.mockAlumniTitles[3],
-      employer: 'Corporate Services Division',
-      salary: '$95,000/year + benefits',
-      initials: 'DM',
-      color: 'bg-orange-500'
-    }
-  ]);
+  const [alumniList, setAlumniList] = useState<any[]>([]);
   const [showAddAlumniModal, setShowAddAlumniModal] = useState(false);
   const [uploadingLogo, setUploadingLogo] = useState(false);
   const [newAlumniName, setNewAlumniName] = useState('');
@@ -776,49 +685,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     }
   };
 
-  // Mock upcoming events data
-  const upcomingEvents = [
-    {
-      id: 'event-1',
-      name: 'Class of 2020 Reunion',
-      date: 'March 15, 2025',
-      time: '6:00 PM',
-      type: 'alumni',
-      emoji: '🎉',
-      registered: 156,
-      color: 'green'
-    },
-    {
-      id: 'career-1',
-      name: 'Spring Career Fair 2025',
-      date: 'March 15, 2025',
-      time: '10:00 AM',
-      type: 'career',
-      emoji: '💼',
-      registered: 89,
-      color: 'purple'
-    },
-    {
-      id: 'career-2',
-      name: 'Resume Workshop',
-      date: 'February 20, 2025',
-      time: '2:00 PM',
-      type: 'career',
-      emoji: '📝',
-      registered: 45,
-      color: 'purple'
-    },
-    {
-      id: 'event-2',
-      name: 'Spring Networking Event',
-      date: 'April 10, 2025',
-      time: '5:00 PM',
-      type: 'alumni',
-      emoji: '🤝',
-      registered: 78,
-      color: 'green'
-    }
-  ];
+  const upcomingEvents: any[] = [];
 
   // CSV Export Helper Functions
   const convertToCSV = (data: any[]) => {

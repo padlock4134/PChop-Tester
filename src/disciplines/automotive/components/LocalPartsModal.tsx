@@ -447,40 +447,7 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
         
         setMarkets(uniqueMarkets);
       } else {
-        // Development mode - use mock data for Portland, Maine
-        const mockMarkets: Market[] = [
-          // Auto Parts Stores (3)
-          { name: "AutoZone", address: "295 Forest Ave, Portland, ME 04101", distance: 2.1, type: "auto_parts", rating: 4.3, isOpen: true },
-          { name: "O'Reilly Auto Parts", address: "87 Marginal Way, Portland, ME 04101", distance: 2.9, type: "auto_parts", rating: 4.2, isOpen: true },
-          { name: "NAPA Auto Parts", address: "580 Brighton Ave, Portland, ME 04102", distance: 1.8, type: "auto_parts", rating: 4.5, isOpen: true },
-          
-          // Tire Shops (3)
-          { name: "Discount Tire", address: "428 Forest Ave, Portland, ME 04101", distance: 3.1, type: "tire_shop", rating: 4.6, isOpen: true },
-          { name: "Sullivan Tire", address: "262 Commercial St, Portland, ME 04101", distance: 2.4, type: "tire_shop", rating: 4.7, isOpen: true },
-          { name: "Town Fair Tire", address: "1012 Brighton Ave, Portland, ME 04102", distance: 3.8, type: "tire_shop", rating: 4.4, isOpen: false },
-          
-          // Salvage Yards (3)
-          { name: "Portland Auto Salvage", address: "120 Presumpscot St, Portland, ME 04103", distance: 4.3, type: "salvage", rating: 4.1, isOpen: true },
-          { name: "LKQ Pick Your Part", address: "470 Riverside St, Portland, ME 04103", distance: 5.7, type: "salvage", rating: 3.9, isOpen: true },
-          { name: "Maine Auto Recyclers", address: "88 Industrial Way, Portland, ME 04103", distance: 6.2, type: "salvage", rating: 4.0, isOpen: true },
-          
-          // Dealers (3)
-          { name: "Rowe Ford", address: "100 Main St, Westbrook, ME 04092", distance: 5.9, type: "dealer", rating: 4.4, isOpen: true },
-          { name: "Lee Toyota", address: "150 Main St, Topsham, ME 04086", distance: 8.8, type: "dealer", rating: 4.3, isOpen: false },
-          { name: "Prime Honda", address: "200 Riverside Dr, Portland, ME 04103", distance: 4.1, type: "dealer", rating: 4.5, isOpen: true },
-          
-          // Tool Suppliers (3)
-          { name: "Harbor Freight Tools", address: "15 Mallside Dr, South Portland, ME 04106", distance: 3.4, type: "tools", rating: 4.2, isOpen: true },
-          { name: "Portland Tool Library", address: "184 Congress St, Portland, ME 04101", distance: 1.9, type: "tools", rating: 4.6, isOpen: true },
-          { name: "True Value Hardware", address: "41 Main St, Gorham, ME 04038", distance: 9.7, type: "tools", rating: 4.3, isOpen: true },
-          
-          // Body Shops (3)
-          { name: "Caliber Collision", address: "194 Park Ave, Portland, ME 04102", distance: 2.1, type: "body_shop", rating: 4.4, isOpen: false },
-          { name: "Maaco Auto Body", address: "75 Warren Ave, Portland, ME 04103", distance: 3.6, type: "body_shop", rating: 4.1, isOpen: true },
-          { name: "Portland Collision Center", address: "45 India St, Portland, ME 04101", distance: 2.2, type: "body_shop", rating: 4.7, isOpen: true }
-        ];
-        
-        setMarkets(mockMarkets);
+        setMarkets([]);
       }
     } catch (error) {
       console.error('Error searching markets:', error);

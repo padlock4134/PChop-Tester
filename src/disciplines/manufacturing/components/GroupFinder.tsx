@@ -3,43 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 interface GroupListing { id: string; lessonId: string; lessonTitle: string; courseName: string; leaderName: string; leaderInitials: string; currentMembers: number; maxMembers: number; note: string; minutesAgo: number; members: string[]; }
 
-const MOCK_COURSES = [
-  { id: 'course-1', title: 'Term 1: Manufacturing Foundations', lessons: [
-    { id: 'lesson-1-1', title: 'Workplace Safety and Procedures' },
-    { id: 'lesson-1-2', title: 'Material Handling and Storage' },
-    { id: 'lesson-1-3', title: 'Introduction to Manufacturing Equipment' },
-    { id: 'lesson-1-4', title: 'Basic Manufacturing Terminology' },
-    { id: 'lesson-1-5', title: 'Measurements, Tolerances, and Conversions' },
-  ]},
-  { id: 'course-2', title: 'Term 1: Tool Skills', lessons: [
-    { id: 'lesson-2-1', title: 'Tool Safety and Maintenance' },
-    { id: 'lesson-2-2', title: 'Basic Tool Operations' },
-    { id: 'lesson-2-3', title: 'Material Preparation' },
-    { id: 'lesson-2-4', title: 'Component Fabrication' },
-  ]},
-  { id: 'course-3', title: 'Term 2: Assembly & Quality Control', lessons: [
-    { id: 'lesson-3-1', title: 'Assembly Techniques' },
-    { id: 'lesson-3-2', title: 'Production Line Setup' },
-    { id: 'lesson-3-3', title: 'Quality Control Procedures' },
-    { id: 'lesson-3-4', title: 'Inspection and Testing' },
-  ]},
-  { id: 'course-4', title: 'Term 2: Advanced Manufacturing', lessons: [
-    { id: 'lesson-4-1', title: 'Process Automation' },
-    { id: 'lesson-4-2', title: 'Lean Manufacturing' },
-    { id: 'lesson-4-3', title: 'Six Sigma Methods' },
-    { id: 'lesson-4-4', title: 'Advanced Quality Systems' },
-  ]}
-];
+const MOCK_COURSES: any[] = [];
 
-const MOCK_GROUPS: GroupListing[] = [
-  { id: 'grp-1', lessonId: 'lesson-1-4', lessonTitle: 'Basic Manufacturing Terminology', courseName: 'Term 1: Manufacturing Foundations', leaderName: 'Marcus C.', leaderInitials: 'MC', currentMembers: 2, maxMembers: 4, note: 'Studying production vocab and acronyms!', minutesAgo: 3, members: ['Marcus C.', 'Sofia R.'] },
-  { id: 'grp-2', lessonId: 'lesson-2-2', lessonTitle: 'Basic Tool Operations', courseName: 'Term 1: Tool Skills', leaderName: 'James L.', leaderInitials: 'JL', currentMembers: 1, maxMembers: 3, note: 'Need practice partners for lathe operations', minutesAgo: 8, members: ['James L.'] },
-  { id: 'grp-3', lessonId: 'lesson-3-3', lessonTitle: 'Quality Control Procedures', courseName: 'Term 2: Assembly & Quality Control', leaderName: 'Priya K.', leaderInitials: 'PK', currentMembers: 3, maxMembers: 5, note: 'Working on SPC charts and control limits', minutesAgo: 12, members: ['Priya K.', 'Chen W.', 'Aaliyah M.'] },
-  { id: 'grp-4', lessonId: 'lesson-1-5', lessonTitle: 'Measurements, Tolerances, and Conversions', courseName: 'Term 1: Manufacturing Foundations', leaderName: 'Devon T.', leaderInitials: 'DT', currentMembers: 4, maxMembers: 4, note: 'Full group — waitlist open', minutesAgo: 20, members: ['Devon T.', 'Riley S.', 'Kenji O.', 'Luna V.'] },
-  { id: 'grp-5', lessonId: 'lesson-4-2', lessonTitle: 'Lean Manufacturing', courseName: 'Term 2: Advanced Manufacturing', leaderName: 'Aaliyah M.', leaderInitials: 'AM', currentMembers: 1, maxMembers: 3, note: 'Let\'s map a value stream together!', minutesAgo: 25, members: ['Aaliyah M.'] },
-  { id: 'grp-6', lessonId: 'lesson-2-4', lessonTitle: 'Component Fabrication', courseName: 'Term 1: Tool Skills', leaderName: 'Sofia R.', leaderInitials: 'SR', currentMembers: 2, maxMembers: 4, note: 'CNC programming practice session', minutesAgo: 35, members: ['Sofia R.', 'Marcus C.'] },
-  { id: 'grp-7', lessonId: 'lesson-3-1', lessonTitle: 'Assembly Techniques', courseName: 'Term 2: Assembly & Quality Control', leaderName: 'Chen W.', leaderInitials: 'CW', currentMembers: 2, maxMembers: 5, note: 'Fixture design and jig setup practice', minutesAgo: 42, members: ['Chen W.', 'Devon T.'] }
-];
+const MOCK_GROUPS: GroupListing[] = [];
 
 const GroupFinder: React.FC = () => {
   const { t } = useTranslation();
