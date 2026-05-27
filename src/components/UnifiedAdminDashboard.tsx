@@ -4307,7 +4307,14 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   ×
                 </button>
               </div>
-              <p className="text-center text-gray-600 mt-2 text-xs sm:text-base">Configure API access and LMS launch settings for your unified dashboard.</p>
+              <a
+                href="https://www.1edtech.org/standards/lti"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-center mt-2 text-xs sm:text-sm text-maineBlue underline hover:text-blue-700 font-medium"
+              >
+                What is LTI 1.3 / Advantage?
+              </a>
             </div>
 
             <div className="flex-1 overflow-y-auto p-3 sm:p-6 space-y-4">
@@ -4351,14 +4358,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     Configure Mapping
                   </button>
                 </div>
-                <a
-                  href="https://www.1edtech.org/standards/lti"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block mt-3 text-xs sm:text-sm text-maineBlue underline hover:text-blue-700 font-medium"
-                >
-                  What is LTI 1.3 / Advantage?
-                </a>
               </div>
             </div>
           </div>
