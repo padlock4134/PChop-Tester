@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { redirectToLogout } from '@wristband/react-client-auth';
 import logo from './disciplines/culinary/images/logo.png';
 import { useSupabase } from './components/DisciplineSupabaseProvider';
 import { supabase } from './disciplines/culinary/api/supabaseClient';
@@ -131,6 +132,11 @@ const DisciplineSelector: React.FC = () => {
     );
   }
 
+
+  const handleSignOut = () => {
+    redirectToLogout('/.netlify/functions/auth-logout');
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedDiscipline) {
@@ -229,6 +235,15 @@ const DisciplineSelector: React.FC = () => {
             >
               Continue
             </button>
+
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="mt-3 w-full bg-white text-maineBlue font-bold py-3 px-6 rounded-lg border-2 border-maineBlue hover:bg-gray-50 transition-colors text-lg"
+            >
+              Sign Out
+            </button>
+
           </form>
 
           {/* Footer text */}
