@@ -4340,7 +4340,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-green-400 bg-green-50 rounded-lg p-3 sm:p-4">
                 <h3 className="font-bold text-green-900 mb-2 text-sm sm:text-base text-center">Integration Workflow</h3>
                 <p className="text-xs sm:text-sm text-green-900 text-center">
-                  Connect <strong>{selectedLtiProvider}</strong> via LTI 1.3/Advantage, then hand off to the WorkBench deployment engine for provisioning and sync.
+                  Connect <strong>{selectedLtiProvider}</strong> via LTI 1.3/Advantage and then let our BenchTech™ Engine take over the provisioning.
                 </p>
               </div>
 
