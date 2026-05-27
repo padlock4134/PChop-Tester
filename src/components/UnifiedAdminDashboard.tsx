@@ -4347,7 +4347,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-3 sm:p-4 text-center">
                 <h3 className="font-bold text-yellow-900 mb-2 text-sm sm:text-base">Automated Token Provisioning</h3>
                 <p className="text-xs sm:text-sm text-yellow-900 mb-3">
-                  When you enable LTI, a token is automatically provisioned for deep-linking, roster sync, and grade passback.
+                  When you enable LTI, a token is automatically provisioned for integration.
                 </p>
                 <div className="flex justify-center">
                   <button
