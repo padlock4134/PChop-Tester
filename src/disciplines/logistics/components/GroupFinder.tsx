@@ -3,43 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 interface GroupListing { id: string; lessonId: string; lessonTitle: string; courseName: string; leaderName: string; leaderInitials: string; currentMembers: number; maxMembers: number; note: string; minutesAgo: number; members: string[]; }
 
-const MOCK_COURSES: any[] = [/*
-  { id: 'course-1', title: 'Term 1: Logistics Fundamentals', lessons: [
-    { id: 'lesson-1-1', title: 'Workplace Safety and OSHA Basics' },
-    { id: 'lesson-1-2', title: 'Supply Chain Overview and Key Players' },
-    { id: 'lesson-1-3', title: 'Freight Documentation and BOLs' },
-    { id: 'lesson-1-4', title: 'Freight Classification and Rates' },
-    { id: 'lesson-1-5', title: 'DOT Regulations and Compliance' },
-  ]},
-  { id: 'course-2', title: 'Term 1: Warehouse Operations', lessons: [
-    { id: 'lesson-2-1', title: 'Receiving, Put-Away, and Inventory Control' },
-    { id: 'lesson-2-2', title: 'Pick, Pack, and Ship Procedures' },
-    { id: 'lesson-2-3', title: 'Forklift Operation and Dock Safety' },
-    { id: 'lesson-2-4', title: 'WMS and Scanning Technology' },
-  ]},
-  { id: 'course-3', title: 'Term 2: Transportation & Route Management', lessons: [
-    { id: 'lesson-3-1', title: 'Carrier Selection and Mode Comparison' },
-    { id: 'lesson-3-2', title: 'Route Optimization and Dispatch' },
-    { id: 'lesson-3-3', title: 'HOS Rules and ELD Compliance' },
-    { id: 'lesson-3-4', title: 'Load Planning and Cargo Securement' },
-  ]},
-  { id: 'course-4', title: 'Term 2: Technology & Professional Practice', lessons: [
-    { id: 'lesson-4-1', title: 'TMS and EDI Fundamentals' },
-    { id: 'lesson-4-2', title: 'KPIs, Scorecards, and Performance Metrics' },
-    { id: 'lesson-4-3', title: 'Customer Service and Freight Claims' },
-    { id: 'lesson-4-4', title: 'Career Pathways in Logistics' },
-  ]}
-*/];
+const MOCK_COURSES: any[] = [];
 
-const MOCK_GROUPS: GroupListing[] = [/*
-  { id: 'grp-1', lessonId: 'lesson-1-4', lessonTitle: 'Freight Classification and Rates', courseName: 'Term 1: Logistics Fundamentals', leaderName: 'Marcus C.', leaderInitials: 'MC', currentMembers: 2, maxMembers: 4, note: 'Studying NMFC codes and class tables!', minutesAgo: 3, members: ['Marcus C.', 'Sofia R.'] },
-  { id: 'grp-2', lessonId: 'lesson-2-3', lessonTitle: 'Forklift Operation and Dock Safety', courseName: 'Term 1: Warehouse Operations', leaderName: 'James L.', leaderInitials: 'JL', currentMembers: 1, maxMembers: 3, note: 'Need practice partners for dock procedures', minutesAgo: 8, members: ['James L.'] },
-  { id: 'grp-3', lessonId: 'lesson-3-2', lessonTitle: 'Route Optimization and Dispatch', courseName: 'Term 2: Transportation & Route Management', leaderName: 'Priya K.', leaderInitials: 'PK', currentMembers: 3, maxMembers: 5, note: 'Working on multi-stop route planning', minutesAgo: 12, members: ['Priya K.', 'Chen W.', 'Aaliyah M.'] },
-  { id: 'grp-4', lessonId: 'lesson-1-3', lessonTitle: 'Freight Documentation and BOLs', courseName: 'Term 1: Logistics Fundamentals', leaderName: 'Devon T.', leaderInitials: 'DT', currentMembers: 4, maxMembers: 4, note: 'Full group — waitlist open', minutesAgo: 20, members: ['Devon T.', 'Riley S.', 'Kenji O.', 'Luna V.'] },
-  { id: 'grp-5', lessonId: 'lesson-4-2', lessonTitle: 'KPIs, Scorecards, and Performance Metrics', courseName: 'Term 2: Technology & Professional Practice', leaderName: 'Aaliyah M.', leaderInitials: 'AM', currentMembers: 1, maxMembers: 3, note: 'Let\'s build a scorecard together!', minutesAgo: 25, members: ['Aaliyah M.'] },
-  { id: 'grp-6', lessonId: 'lesson-2-1', lessonTitle: 'Receiving, Put-Away, and Inventory Control', courseName: 'Term 1: Warehouse Operations', leaderName: 'Sofia R.', leaderInitials: 'SR', currentMembers: 2, maxMembers: 4, note: 'Cycle counting and ABC analysis practice', minutesAgo: 35, members: ['Sofia R.', 'Marcus C.'] },
-  { id: 'grp-7', lessonId: 'lesson-3-4', lessonTitle: 'Load Planning and Cargo Securement', courseName: 'Term 2: Transportation & Route Management', leaderName: 'Chen W.', leaderInitials: 'CW', currentMembers: 2, maxMembers: 5, note: 'Weight distribution and securement methods', minutesAgo: 42, members: ['Chen W.', 'Devon T.'] }
-*/];
+const MOCK_GROUPS: GroupListing[] = [];
 
 const GroupFinder: React.FC = () => {
   const { t } = useTranslation();

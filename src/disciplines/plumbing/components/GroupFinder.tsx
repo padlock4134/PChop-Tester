@@ -3,43 +3,9 @@ import { useTranslation } from 'react-i18next';
 
 interface GroupListing { id: string; lessonId: string; lessonTitle: string; courseName: string; leaderName: string; leaderInitials: string; currentMembers: number; maxMembers: number; note: string; minutesAgo: number; members: string[]; }
 
-const MOCK_COURSES: any[] = [/*
-  { id: 'course-1', title: 'Term 1: Plumbing Fundamentals', lessons: [
-    { id: 'lesson-1-1', title: 'Safety, PPE, and Job Site Procedures' },
-    { id: 'lesson-1-2', title: 'Tools, Materials, and Pipe Types' },
-    { id: 'lesson-1-3', title: 'Introduction to the Plumbing Code' },
-    { id: 'lesson-1-4', title: 'Basic Pipe Fitting and Joining' },
-    { id: 'lesson-1-5', title: 'Measurements, Math, and Conversions' },
-  ]},
-  { id: 'course-2', title: 'Term 1: Water Supply Systems', lessons: [
-    { id: 'lesson-2-1', title: 'Hot and Cold Water Distribution' },
-    { id: 'lesson-2-2', title: 'Shut-Off Valves and Pressure Control' },
-    { id: 'lesson-2-3', title: 'Water Heater Installation' },
-    { id: 'lesson-2-4', title: 'Backflow Prevention and Testing' },
-  ]},
-  { id: 'course-3', title: 'Term 2: Drain, Waste & Vent', lessons: [
-    { id: 'lesson-3-1', title: 'DWV System Design' },
-    { id: 'lesson-3-2', title: 'Trap and Vent Installation' },
-    { id: 'lesson-3-3', title: 'Code-Compliant Drainage' },
-    { id: 'lesson-3-4', title: 'Cleanouts and Drain Camera Basics' },
-  ]},
-  { id: 'course-4', title: 'Term 2: Professional Practice', lessons: [
-    { id: 'lesson-4-1', title: 'Estimating and Bidding Jobs' },
-    { id: 'lesson-4-2', title: 'Permits, Inspections, and Licensing' },
-    { id: 'lesson-4-3', title: 'Customer Service and Job Documentation' },
-    { id: 'lesson-4-4', title: 'Career Pathways in Plumbing' },
-  ]}
-*/];
+const MOCK_COURSES: any[] = [];
 
-const MOCK_GROUPS: GroupListing[] = [/*
-  { id: 'grp-1', lessonId: 'lesson-1-4', lessonTitle: 'Basic Pipe Fitting and Joining', courseName: 'Term 1: Plumbing Fundamentals', leaderName: 'Marcus C.', leaderInitials: 'MC', currentMembers: 2, maxMembers: 4, note: 'Practicing soldering and ProPress!', minutesAgo: 3, members: ['Marcus C.', 'Sofia R.'] },
-  { id: 'grp-2', lessonId: 'lesson-2-3', lessonTitle: 'Water Heater Installation', courseName: 'Term 1: Water Supply Systems', leaderName: 'James L.', leaderInitials: 'JL', currentMembers: 1, maxMembers: 3, note: 'Need practice partners for gas and electric installs', minutesAgo: 8, members: ['James L.'] },
-  { id: 'grp-3', lessonId: 'lesson-3-1', lessonTitle: 'DWV System Design', courseName: 'Term 2: Drain, Waste & Vent', leaderName: 'Priya K.', leaderInitials: 'PK', currentMembers: 3, maxMembers: 5, note: 'Working on isometric drawings', minutesAgo: 12, members: ['Priya K.', 'Chen W.', 'Aaliyah M.'] },
-  { id: 'grp-4', lessonId: 'lesson-1-3', lessonTitle: 'Introduction to the Plumbing Code', courseName: 'Term 1: Plumbing Fundamentals', leaderName: 'Devon T.', leaderInitials: 'DT', currentMembers: 4, maxMembers: 4, note: 'Full group — waitlist open', minutesAgo: 20, members: ['Devon T.', 'Riley S.', 'Kenji O.', 'Luna V.'] },
-  { id: 'grp-5', lessonId: 'lesson-4-1', lessonTitle: 'Estimating and Bidding Jobs', courseName: 'Term 2: Professional Practice', leaderName: 'Aaliyah M.', leaderInitials: 'AM', currentMembers: 1, maxMembers: 3, note: 'Let\'s practice material takeoffs together!', minutesAgo: 25, members: ['Aaliyah M.'] },
-  { id: 'grp-6', lessonId: 'lesson-2-4', lessonTitle: 'Backflow Prevention and Testing', courseName: 'Term 1: Water Supply Systems', leaderName: 'Sofia R.', leaderInitials: 'SR', currentMembers: 2, maxMembers: 4, note: 'RPZ and DCVA testing procedures', minutesAgo: 35, members: ['Sofia R.', 'Marcus C.'] },
-  { id: 'grp-7', lessonId: 'lesson-3-2', lessonTitle: 'Trap and Vent Installation', courseName: 'Term 2: Drain, Waste & Vent', leaderName: 'Chen W.', leaderInitials: 'CW', currentMembers: 2, maxMembers: 5, note: 'Wet vent and common vent configurations', minutesAgo: 42, members: ['Chen W.', 'Devon T.'] }
-*/];
+const MOCK_GROUPS: GroupListing[] = [];
 
 const GroupFinder: React.FC = () => {
   const { t } = useTranslation();
