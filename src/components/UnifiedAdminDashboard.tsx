@@ -8675,50 +8675,19 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 </button>
               </div>
               <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
-                <span className="font-bold text-maineBlue">12 Active Groups</span>
+                <span className="font-bold text-maineBlue">0 Active Groups</span>
                 <span>•</span>
-                <span>34 Students Participating</span>
+                <span>0 Students Participating</span>
                 <span>•</span>
                 <span className="text-green-600 font-semibold">● Live</span>
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              {[
-                { lesson: 'Kitchen Safety and Sanitation', course: 'Culinary Foundations', leader: 'Sarah J.', members: ['Sarah J.', 'Marcus C.', 'Devon T.'], max: 4, time: '3m ago' },
-                { lesson: 'Conduit Bending and Installation', course: 'Wiring Methods & Devices', leader: 'James L.', members: ['James L.', 'Priya K.'], max: 3, time: '5m ago' },
-                { lesson: 'Brake System Fundamentals', course: 'Brakes, Suspension & Steering', leader: 'Chen W.', members: ['Chen W.', 'Luna V.', 'Riley S.', 'Aaliyah M.'], max: 5, time: '8m ago' },
-                { lesson: 'Blueprint Reading and Site Plans', course: 'Construction Fundamentals', leader: 'Devon T.', members: ['Devon T.', 'Sofia R.', 'Kenji O.', 'Marcus C.'], max: 4, time: '12m ago' },
-                { lesson: 'EPA 608 Certification Prep', course: 'HVAC Fundamentals', leader: 'Aaliyah M.', members: ['Aaliyah M.', 'James L.', 'Chen W.'], max: 4, time: '15m ago' },
-                { lesson: 'Freight Classification and Rates', course: 'Logistics Fundamentals', leader: 'Sofia R.', members: ['Sofia R.'], max: 3, time: '18m ago' },
-                { lesson: 'Quality Control Procedures', course: 'Assembly & Quality Control', leader: 'Priya K.', members: ['Priya K.', 'Riley S.', 'Luna V.'], max: 5, time: '22m ago' },
-                { lesson: 'DWV System Design', course: 'Drain, Waste & Vent', leader: 'Kenji O.', members: ['Kenji O.', 'Marcus C.'], max: 4, time: '25m ago' },
-                { lesson: 'GTAW: Machine Setup', course: 'GTAW & Cutting Processes', leader: 'Riley S.', members: ['Riley S.', 'Devon T.', 'Sofia R.'], max: 5, time: '30m ago' },
-                { lesson: 'Residential Load Calculations', course: 'Load Calculations & Code', leader: 'Luna V.', members: ['Luna V.', 'Aaliyah M.'], max: 3, time: '35m ago' },
-                { lesson: 'Lean Manufacturing', course: 'Advanced Manufacturing', leader: 'Marcus C.', members: ['Marcus C.'], max: 4, time: '40m ago' },
-                { lesson: 'Thermostat Wiring and Controls', course: 'Ductwork, Airflow & Controls', leader: 'James L.', members: ['James L.', 'Chen W.', 'Priya K.', 'Kenji O.'], max: 4, time: '45m ago' },
-              ].map((group, idx) => (
-                <div key={idx} className="bg-sand border border-black rounded-lg p-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold text-maineBlue text-sm truncate">{group.lesson}</div>
-                      <div className="text-xs text-gray-500">{group.course}</div>
-                      <div className="flex items-center gap-1 mt-1 flex-wrap">
-                        {group.members.map((m, i) => (
-                          <span key={i} className={`text-xs px-2 py-0.5 rounded-full ${m === group.leader ? 'bg-maineBlue text-white font-bold' : 'bg-gray-200 text-gray-700'}`}>
-                            {m}{m === group.leader ? ' ★' : ''}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="flex flex-col items-end gap-1 shrink-0">
-                      <span className={`text-xs font-bold px-2 py-1 rounded-full ${group.members.length >= group.max ? 'bg-gray-300 text-gray-600' : 'bg-seafoam text-maineBlue'}`}>
-                        👥 {group.members.length}/{group.max}
-                      </span>
-                      <span className="text-xs text-gray-400">{group.time}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+            <div className="flex-1 flex items-center justify-center p-6 sm:p-12">
+              <div className="text-center text-gray-400">
+                <div className="text-5xl mb-4">👥</div>
+                <p className="text-lg font-medium">{t('admin.noDataAvailableYet', { defaultValue: 'No data available yet' })}</p>
+                <p className="text-sm mt-2">{t('admin.studyGroupsComingSoon', { defaultValue: 'Active study groups will appear here in real-time.' })}</p>
+              </div>
             </div>
           </div>
         </div>
