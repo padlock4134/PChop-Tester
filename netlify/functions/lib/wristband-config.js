@@ -7,7 +7,7 @@ const WRISTBAND_CONFIG = {
   clientSecret: process.env.WRISTBAND_CLIENT_SECRET,
   customApplicationLoginPageUrl: '',
   dangerouslyDisableSecureCookies: process.env.WRISTBAND_DANGEROUSLY_DISABLE_SECURE_COOKIES === 'true',
-  isApplicationCustomDomainActive: true,
+  isApplicationCustomDomainActive: false,
   loginStateSecret: process.env.WRISTBAND_LOGIN_STATE_SECRET,
   loginUrl: process.env.WRISTBAND_LOGIN_URL,
   parseTenantFromRootDomain: '',
