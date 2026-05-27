@@ -108,65 +108,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     () => humanizeKeyLikeText(skin.content.table.replace(/^user[._-]?/i, '')),
     [skin.content.table]
   );
-  const disciplineMockContent = useMemo(() => {
-    const byDiscipline: Partial<Record<DisciplineKey, {
-      progressionLabel: string;
-      topPerforming: string[];
-      needsAttention: string[];
-    }>> = {
-      culinary: {
-        progressionLabel: 'Knife Skills & Techniques (52)',
-        topPerforming: ['French Knife Skills', 'Core Skills Mastery', 'Pasta Making Fundamentals'],
-        needsAttention: ['Advanced Plating Techniques', 'Molecular Gastronomy Basics', 'Wine Pairing Fundamentals'],
-      },
-      automotive: {
-        progressionLabel: 'Diagnostic Skills & Repair Procedures (52)',
-        topPerforming: ['Brake System Diagnostics', 'Core Repair Workflow Mastery', 'Engine Performance Fundamentals'],
-        needsAttention: ['Advanced Transmission Diagnostics', 'Hybrid Systems Troubleshooting', 'Electrical Fault Isolation'],
-      },
-      construction: {
-        progressionLabel: 'Site Skills & Build Procedures (52)',
-        topPerforming: ['Blueprint Reading Fundamentals', 'Core Build Workflow Mastery', 'Framing & Layout Basics'],
-        needsAttention: ['Advanced Scheduling & Sequencing', 'Site Logistics Optimization', 'Code Compliance Deep Dive'],
-      },
-      electrical: {
-        progressionLabel: 'Circuit Skills & Safety Procedures (52)',
-        topPerforming: ['Circuit Fundamentals', 'Core Panel Workflow Mastery', 'Conduit Planning Basics'],
-        needsAttention: ['Advanced Motor Controls', 'Service Upgrade Planning', 'Troubleshooting Complex Faults'],
-      },
-      plumbing: {
-        progressionLabel: 'Fit Skills & Installation Procedures (52)',
-        topPerforming: ['Pipe Layout Fundamentals', 'Core Installation Workflow Mastery', 'Fixture Installation Basics'],
-        needsAttention: ['Advanced Backflow Systems', 'Hydronic Balancing', 'Commercial Code Applications'],
-      },
-      hvac: {
-        progressionLabel: 'System Skills & Service Procedures (52)',
-        topPerforming: ['Airflow Fundamentals', 'Core Service Workflow Mastery', 'Refrigeration Cycle Basics'],
-        needsAttention: ['Advanced Controls Integration', 'Load Calculation Deep Dive', 'Commercial Rooftop Diagnostics'],
-      },
-      manufacturing: {
-        progressionLabel: 'Process Skills & Quality Procedures (52)',
-        topPerforming: ['Lean Fundamentals', 'Core Process Workflow Mastery', 'Quality Checkpoint Basics'],
-        needsAttention: ['Advanced SPC Analysis', 'Root Cause Investigation', 'Line Balancing Optimization'],
-      },
-      logistics: {
-        progressionLabel: 'Route Skills & Dispatch Procedures (52)',
-        topPerforming: ['Route Planning Fundamentals', 'Core Dispatch Workflow Mastery', 'Warehouse Coordination Basics'],
-        needsAttention: ['Advanced Last-Mile Optimization', 'Carrier Performance Analysis', 'Demand Volatility Planning'],
-      },
-      machining: {
-        progressionLabel: 'Setup Skills & Precision Procedures (52)',
-        topPerforming: ['Blueprint & Tolerance Basics', 'Core Setup Workflow Mastery', 'Tooling Selection Fundamentals'],
-        needsAttention: ['Advanced CNC Offsets', 'Surface Finish Optimization', 'Complex Fixture Strategy'],
-      },
-    };
-
-    return byDiscipline[selectedDiscipline as DisciplineKey] || {
-      progressionLabel: `${skin.name} Skills & Procedures (52)`,
-      topPerforming: ['Foundations', 'Core Workflow Mastery', 'Applied Fundamentals'],
-      needsAttention: ['Advanced Applications', 'Complex Scenario Practice', 'Performance Optimization'],
-    };
-  }, [selectedDiscipline, skin.name]);
   const disciplineDistributionLabels = useMemo(() => {
     const defaults = {
       workspace: ['Source records → Matching engine feeds', 'Input lists → Workspace inventory', 'Equipment → Setup guides', 'Compliance constraints → Matching filters'],
@@ -3181,7 +3122,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     <p className="text-xs text-green-600">{t('admin.last7Days')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">1,250</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">—</div>
                     <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.avgXPPerStudent')}</p>
                     <p className="text-xs text-purple-600">{t('admin.experiencePoints')}</p>
                   </div>
@@ -3223,7 +3164,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                           <div className="text-xs sm:text-sm text-gray-600 space-y-1">
                             <p>📚 {t('admin.program')}: {skin.people.defaultProgram}</p>
                             <p className="truncate">📧 {user.email}</p>
-                            <p>📞 (555) 123-4567</p>
+                            <p>📞 —</p>
                           </div>
                         </div>
                         <div className="mt-2 flex flex-wrap gap-2">
@@ -3364,22 +3305,22 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">👩‍🏫 {t('admin.facultyOverview')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">12</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">{facultyList.length}</div>
                     <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalFaculty')}</p>
                     <p className="text-xs text-blue-600">{t('admin.activeInstructors')}</p>
                   </div>
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-green-600">8</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">—</div>
                     <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.fullTime')}</p>
                     <p className="text-xs text-green-600">{t('admin.permanentStaff')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">4</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">—</div>
                     <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.partTime')}</p>
                     <p className="text-xs text-purple-600">{t('admin.adjunctInstructors')}</p>
                   </div>
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">95%</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">—</div>
                     <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.activeThisWeek')}</p>
                     <p className="text-xs text-orange-600">{t('admin.platformEngagement')}</p>
                   </div>
@@ -3390,77 +3331,46 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
                 <h3 className="font-bold text-maineBlue text-center mb-3 sm:mb-4 text-sm sm:text-base">👩‍🏫 {t('admin.facultyDirectory')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
-                    <div className="mb-3">
-                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{facultyList[0]?.name || skin.people.mockFaculty[0].name}</h4>
-                      <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
-                        Active
-                      </span>
-                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>📚 Courses: {facultyList[0]?.courses || skin.people.mockFaculty[0].courses}</p>
-                        <p>👥 Students: 42 active</p>
-                        <p>📅 Last Login: Today, 9:15 AM</p>
+                  {facultyList.map((faculty, idx) => (
+                    <div key={faculty.id || idx} className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
+                      <div className="mb-3">
+                        <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{faculty.name}</h4>
+                        <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
+                          {t('admin.active')}
+                        </span>
+                        <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                          <p>📚 {t('admin.courses', { defaultValue: 'Courses' })}: {faculty.courses || '—'}</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            setEditingFaculty(faculty);
+                            setShowEditFacultyModal(true);
+                          }}
+                          className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                        >
+                          {t('admin.edit')}
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (window.confirm(t('admin.confirmRemoveFaculty', { name: faculty.name }))) {
+                              setFacultyList(prev => prev.filter(f => f.id !== faculty.id));
+                              alert(t('admin.facultyRemovedSuccess'));
+                            }
+                          }}
+                          className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                        >
+                          {t('admin.remove')}
+                        </button>
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setEditingFaculty(facultyList[0]);
-                          setShowEditFacultyModal(true);
-                        }}
-                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.edit')}
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (window.confirm(t('admin.confirmRemoveFaculty', { name: facultyList[0]?.name || skin.people.mockFaculty[0].name }))) {
-                            setFacultyList(prev => prev.filter(f => f.id !== facultyList[0].id));
-                            alert(t('admin.facultyRemovedSuccess'));
-                          }
-                        }}
-                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.remove')}
-                      </button>
-                      </div>
+                  ))}
+                  {facultyList.length === 0 && (
+                    <div className="col-span-2 text-center text-gray-400 py-8">
+                      <p className="text-sm">{t('admin.noFacultyAdded', { defaultValue: 'No faculty members added yet.' })}</p>
                     </div>
-                  
-                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
-                    <div className="mb-3">
-                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{facultyList[1]?.name || skin.people.mockFaculty[1].name}</h4>
-                      <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
-                        {t('admin.active')}
-                      </span>
-                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>📚 Courses: {facultyList[1]?.courses || skin.people.mockFaculty[1].courses}</p>
-                        <p>👥 Students: 28 active</p>
-                        <p>📅 Last Login: Yesterday, 4:30 PM</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setEditingFaculty(facultyList[1]);
-                          setShowEditFacultyModal(true);
-                        }}
-                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.edit')}
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (window.confirm(t('admin.confirmRemoveFaculty', { name: facultyList[1]?.name || skin.people.mockFaculty[1].name }))) {
-                            setFacultyList(prev => prev.filter(f => f.id !== facultyList[1].id));
-                            alert(t('admin.facultyRemovedSuccess'));
-                          }
-                        }}
-                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.remove')}
-                      </button>
-                      </div>
-                    </div>
+                  )}
                 </div>
               </div>
 
@@ -3526,29 +3436,28 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 {t('admin.alumniOverview')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">342</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">{alumniList.length}</div>
                     <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalAlumni')}</p>
                     <p className="text-xs text-blue-600">{t('admin.programGraduates')}</p>
                   </div>
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-green-600">89%</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">—</div>
                     <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.employmentRate')}</p>
                     <p className="text-xs text-green-600">{t('admin.within6Months')}</p>
                   </div>
                   <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">$52K</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">—</div>
                     <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.avgStartingSalary')}</p>
                     <p className="text-xs text-purple-600">{t('admin.firstYearPostGrad')}</p>
                   </div>
                   <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">47</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">—</div>
                     <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.businessOwners')}</p>
-                    <p className="text-xs text-orange-600">Started their own businesses</p>
                   </div>
                 </div>
               </div>
 
-              {/* Success Stories */}
+              {/* Alumni Directory */}
               <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
                 <div className="flex flex-col sm:flex-row justify-center items-center mb-3 sm:mb-4 gap-2 sm:gap-0 relative sm:pl-6">
                   <h3 className="font-bold text-maineBlue text-sm sm:text-base">⭐ {t('admin.successStories')}</h3>
@@ -3560,149 +3469,49 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
-                    <div className="mb-3">
-                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Maria Santos</h4>
-                      <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs inline-block mb-2">
-                        Class of 2022
-                      </span>
-                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>🏆 {skin.people.mockAlumniTitles[0]} at top-tier employer</p>
-                        <p>📍 Top industry employer</p>
-                        <p>💰 Salary: $85,000/year</p>
+                  {alumniList.map((alumni, idx) => (
+                    <div key={alumni.id || idx} className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
+                      <div className="mb-3">
+                        <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">{alumni.name}</h4>
+                        {alumni.graduationYear && (
+                          <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs inline-block mb-2">
+                            {t('admin.classOf', { defaultValue: 'Class of' })} {alumni.graduationYear}
+                          </span>
+                        )}
+                        <div className="text-xs sm:text-sm text-gray-600 space-y-1">
+                          {alumni.title && <p>🏆 {alumni.title}</p>}
+                          {alumni.employer && <p>📍 {alumni.employer}</p>}
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            setEditingAlumni(alumni);
+                            setShowEditAlumniModal(true);
+                          }}
+                          className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                        >
+                          {t('admin.edit')}
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (window.confirm(t('admin.confirmRemoveAlumni', { name: alumni.name }))) {
+                              setAlumniList(prev => prev.filter(a => a.id !== alumni.id));
+                              alert(t('admin.alumniRemovedSuccess'));
+                            }
+                          }}
+                          className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
+                        >
+                          {t('admin.remove')}
+                        </button>
                       </div>
                     </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setEditingAlumni(alumniList[0]);
-                          setShowEditAlumniModal(true);
-                        }}
-                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.edit')}
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (window.confirm(t('admin.confirmRemoveAlumni', { name: 'Maria Santos' }))) {
-                            setAlumniList(prev => prev.filter(a => a.id !== alumniList[0].id));
-                            alert(t('admin.alumniRemovedSuccess'));
-                          }
-                        }}
-                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.remove')}
-                      </button>
-                      </div>
+                  ))}
+                  {alumniList.length === 0 && (
+                    <div className="col-span-2 text-center text-gray-400 py-8">
+                      <p className="text-sm">{t('admin.noAlumniAdded', { defaultValue: 'No alumni added yet.' })}</p>
                     </div>
-                  
-                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
-                    <div className="mb-3">
-                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">James Chen</h4>
-                      <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs inline-block mb-2">
-                        Class of 2021
-                      </span>
-                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>🏢 {skin.people.mockAlumniTitles[1]} & Entrepreneur</p>
-                        <p>📍 Multi-location industry business</p>
-                        <p>💰 Revenue: $2.1M annually</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setEditingAlumni(alumniList[1]);
-                          setShowEditAlumniModal(true);
-                        }}
-                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.edit')}
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (window.confirm(t('admin.confirmRemoveAlumni', { name: 'James Chen' }))) {
-                            setAlumniList(prev => prev.filter(a => a.id !== alumniList[1].id));
-                            alert(t('admin.alumniRemovedSuccess'));
-                          }
-                        }}
-                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.remove')}
-                      </button>
-                      </div>
-                    </div>
-                  
-                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
-                    <div className="mb-3">
-                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">Ashley Rodriguez</h4>
-                      <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs inline-block mb-2">
-                        Class of 2023
-                      </span>
-                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>📺 Food Network Personality</p>
-                        <p>📍 Host of "Pastry Perfection"</p>
-                        <p>💰 $120,000/year + endorsements</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setEditingAlumni(alumniList[2]);
-                          setShowEditAlumniModal(true);
-                        }}
-                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.edit')}
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (window.confirm(t('admin.confirmRemoveAlumni', { name: 'Ashley Rodriguez' }))) {
-                            setAlumniList(prev => prev.filter(a => a.id !== alumniList[2].id));
-                            alert(t('admin.alumniRemovedSuccess'));
-                          }
-                        }}
-                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.remove')}
-                      </button>
-                      </div>
-                    </div>
-                  
-                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border-4 border-gray-400">
-                    <div className="mb-3">
-                      <h4 className="font-medium text-gray-900 mb-1 text-sm sm:text-base">David Miller</h4>
-                      <span className="px-2 py-1 bg-orange-100 text-orange-800 rounded text-xs inline-block mb-2">
-                        Class of 2020
-                      </span>
-                      <div className="text-xs sm:text-sm text-gray-600 space-y-1">
-                        <p>🍟 Corporate Food Service Director</p>
-                        <p>📍 Google Campus Dining</p>
-                        <p>💰 $95,000/year + benefits</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => {
-                          setEditingAlumni(alumniList[3]);
-                          setShowEditAlumniModal(true);
-                        }}
-                        className="flex-1 text-maineBlue hover:text-white hover:bg-maineBlue px-3 py-2 border border-maineBlue rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.edit')}
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (window.confirm(t('admin.confirmRemoveAlumni', { name: 'David Miller' }))) {
-                            setAlumniList(prev => prev.filter(a => a.id !== alumniList[3].id));
-                            alert(t('admin.alumniRemovedSuccess'));
-                          }
-                        }}
-                        className="flex-1 text-red-600 hover:text-white hover:bg-red-600 px-3 py-2 border border-red-600 rounded text-xs sm:text-sm transition-colors min-h-[44px]"
-                      >
-                        {t('admin.remove')}
-                      </button>
-                      </div>
-                    </div>
+                  )}
                 </div>
               </div>
 
@@ -3761,160 +3570,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <p className="text-center text-gray-600 text-sm sm:text-base">{t('admin.monitorStudentEngagement')}</p>
             </div>
             
-            {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
-              <div className="space-y-4 sm:space-y-6">
-              {/* Login Patterns */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📅 {t('admin.loginPatterns')}</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">342</div>
-                    <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.dailyLogins')}</p>
-                    <p className="text-xs text-blue-600">↑ 8% {t('admin.vsYesterday')}</p>
-                  </div>
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-green-600">1,847</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.weeklyLogins')}</p>
-                    <p className="text-xs text-green-600">↑ 15% {t('admin.vsLastWeek')}</p>
-                  </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">23 min</div>
-                    <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.avgSession')}</p>
-                    <p className="text-xs text-purple-600">↑ 3 {t('admin.min')} {t('admin.vsLastWeek')}</p>
-                  </div>
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">89%</div>
-                    <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.weeklyActive')}</p>
-                    <p className="text-xs text-orange-600">↑ 4% {t('admin.vsLastWeek')}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Module Usage Breakdown */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 {t('admin.moduleUsageBreakdown')}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
-                    <div className="flex items-center mb-2">
-                      <div className="text-xl sm:text-2xl mr-2">{skin.icon}</div>
-                      <h4 className="font-medium text-blue-800 text-sm sm:text-base">{skin.modules.workspace}</h4>
-                    </div>
-                    <div className="text-center text-xl sm:text-2xl font-bold text-blue-600 mb-1">67%</div>
-                    <p className="text-center text-xs text-blue-600">2,340 {t('admin.sessionsThisWeek')}</p>
-                  </div>
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-3 sm:p-4">
-                    <div className="flex items-center mb-2">
-                      <div className="text-xl sm:text-2xl mr-2">📖</div>
-                      <h4 className="font-medium text-green-800 text-sm sm:text-base">{skin.modules.notebook}</h4>
-                    </div>
-                    <div className="text-center text-xl sm:text-2xl font-bold text-green-600 mb-1">84%</div>
-                    <p className="text-center text-xs text-green-600">1,890 {t('admin.assignmentsViewed')}</p>
-                  </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-3 sm:p-4">
-                    <div className="flex items-center mb-2">
-                      <div className="text-xl sm:text-2xl mr-2">🏫</div>
-                      <h4 className="font-medium text-purple-800 text-sm sm:text-base">{skin.modules.school}</h4>
-                    </div>
-                    <div className="text-center text-xl sm:text-2xl font-bold text-purple-600 mb-1">72%</div>
-                    <p className="text-center text-xs text-purple-600">1,456 {t('admin.techniqueViews')}</p>
-                  </div>
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-3 sm:p-4">
-                    <div className="flex items-center mb-2">
-                      <div className="text-xl sm:text-2xl mr-2">👥</div>
-                      <h4 className="font-medium text-orange-800 text-sm sm:text-base">{skin.modules.community}</h4>
-                    </div>
-                    <div className="text-center text-xl sm:text-2xl font-bold text-orange-600 mb-1">45%</div>
-                    <p className="text-center text-xs text-orange-600">234 {t('admin.liveSessionsJoined')}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Feature Adoption */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🚀 {t('admin.featureAdoptionRates')}</h3>
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
-                      <span className="text-base sm:text-lg mr-2 sm:mr-3">🔍</span>
-                      <span className="font-medium text-xs sm:text-base">Content Matcher</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
-                        <div className="bg-blue-600 h-2 rounded-full" style={{width: '78%'}}></div>
-                      </div>
-                      <span className="text-xs sm:text-sm font-bold text-blue-600">78%</span>
-                      </div>
-                    </div>
-                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
-                      <span className="text-base sm:text-lg mr-2 sm:mr-3">🎥</span>
-                      <span className="font-medium text-xs sm:text-base">{t('admin.videoSubmissions')}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
-                        <div className="bg-green-600 h-2 rounded-full" style={{width: '65%'}}></div>
-                      </div>
-                      <span className="text-xs sm:text-sm font-bold text-green-600">65%</span>
-                      </div>
-                    </div>
-                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
-                      <span className="text-base sm:text-lg mr-2 sm:mr-3">🔴</span>
-                      <span className="font-medium text-xs sm:text-base">Live Skills Lab</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
-                        <div className="bg-orange-600 h-2 rounded-full" style={{width: '42%'}}></div>
-                      </div>
-                      <span className="text-xs sm:text-sm font-bold text-orange-600">42%</span>
-                      </div>
-                    </div>
-                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
-                      <span className="text-base sm:text-lg mr-2 sm:mr-3">📁</span>
-                      <span className="font-medium text-xs sm:text-base">{t('admin.collectionsLibrary')}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
-                        <div className="bg-purple-600 h-2 rounded-full" style={{width: '58%'}}></div>
-                      </div>
-                      <span className="text-xs sm:text-sm font-bold text-purple-600">58%</span>
-                      </div>
-                    </div>
-                  <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
-                      <span className="text-base sm:text-lg mr-2 sm:mr-3">📊</span>
-                      <span className="font-medium text-xs sm:text-base">{t('admin.gradebook')}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <div className="w-16 sm:w-32 bg-gray-200 rounded-full h-2 mr-2 sm:mr-3">
-                        <div className="bg-green-600 h-2 rounded-full" style={{width: '73%'}}></div>
-                      </div>
-                      <span className="text-xs sm:text-sm font-bold text-green-600">73%</span>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-              {/* Inactive Students Alert */}
-              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-red-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ {t('admin.inactiveStudentsAlert')}</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                  <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
-                    <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">23</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.noLoginIn7Days')}</p>
-                  </div>
-                  <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
-                    <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">8</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.noLoginIn14Days')}</p>
-                  </div>
-                  <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
-                    <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">3</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.noLoginIn30Days')}</p>
-                  </div>
-                </div>
-              </div>
+            {/* Content */}
+            <div className="flex-1 flex items-center justify-center p-6 sm:p-12">
+              <div className="text-center text-gray-400">
+                <div className="text-5xl mb-4">📊</div>
+                <p className="text-lg font-medium">{t('admin.noDataAvailableYet', { defaultValue: 'No data available yet' })}</p>
+                <p className="text-sm mt-2">{t('admin.userActivityComingSoon', { defaultValue: 'User activity analytics will appear here once data is collected.' })}</p>
               </div>
             </div>
           </div>
@@ -3939,100 +3600,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <p className="text-center text-gray-600 text-sm sm:text-base">{t('admin.trackProgramCompletion')}</p>
             </div>
             
-            {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
-              <div className="space-y-4 sm:space-y-6">
-              {/* Program Completion Rates */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 {t('admin.programCompletionRates')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-green-600">87%</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.overallCompletion')}</p>
-                    <p className="text-xs text-green-600">↑ 5% {t('admin.vsLastSemester')}</p>
-                  </div>
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">92%</div>
-                    <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.assignmentCompletion')}</p>
-                    <p className="text-xs text-blue-600">↑ 3% {t('admin.vsLastSemester')}</p>
-                  </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">78%</div>
-                    <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.videoSubmissions')}</p>
-                    <p className="text-xs text-purple-600">↑ 12% {t('admin.vsLastSemester')}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Student Satisfaction */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">⭐ {t('admin.studentSatisfactionMetrics')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
-                  <div className="bg-yellow-50 border-4 border-yellow-400 rounded-lg p-3 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-yellow-600">4.2/5</div>
-                    <p className="text-xs sm:text-sm text-yellow-800 font-medium">{t('admin.overallProgramRating')}</p>
-                    <p className="text-xs text-yellow-600">{t('admin.basedOnStudentReviews', { count: 234 })}</p>
-                  </div>
-                  <div className="bg-emerald-50 border-4 border-emerald-400 rounded-lg p-3 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-emerald-600">94%</div>
-                    <p className="text-xs sm:text-sm text-emerald-800 font-medium">{t('admin.wouldRecommend')}</p>
-                    <p className="text-xs text-emerald-600">{t('admin.studentsWhoRecommend')}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Skill Progression Tracking */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 {t('admin.skillProgressionTracking')}</h3>
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">{disciplineMockContent.progressionLabel}</span>
-                      <span className="text-xs sm:text-sm font-bold text-blue-600">{t('admin.averageCompleted', { completed: 38, total: 52 })}</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div className="bg-blue-600 h-3 rounded-full" style={{width: '73%'}}></div>
-                      </div>
-                    </div>
-                  <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">{t('admin.assignmentGrades')}</span>
-                      <span className="text-xs sm:text-sm font-bold text-green-600">{t('admin.average')}: 85.2%</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div className="bg-green-600 h-3 rounded-full" style={{width: '85%'}}></div>
-                      </div>
-                    </div>
-                  <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">{t('admin.videoQualityScores')}</span>
-                      <span className="text-xs sm:text-sm font-bold text-purple-600">{t('admin.average')}: 4.1/5</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div className="bg-purple-600 h-3 rounded-full" style={{width: '82%'}}></div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-              {/* Learning Outcomes Achievement */}
-              <div className="border-4 border-red-400 bg-red-50 rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-red-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ {t('admin.areasNeedingImprovement')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
-                  <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
-                    <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">23%</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.studentsStruggling')}</p>
-                  </div>
-                  <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
-                    <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">15%</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.lateAssignmentSubmissions')}</p>
-                  </div>
-                  <div className="bg-white border border-red-200 rounded-lg p-2 sm:p-3">
-                    <div className="text-center text-xl sm:text-2xl font-bold text-red-600 mb-1">8%</div>
-                    <p className="text-center text-xs sm:text-sm text-red-800">{t('admin.below70GradeAverage')}</p>
-                  </div>
-                </div>
-              </div>
+            {/* Content */}
+            <div className="flex-1 flex items-center justify-center p-6 sm:p-12">
+              <div className="text-center text-gray-400">
+                <div className="text-5xl mb-4">🎓</div>
+                <p className="text-lg font-medium">{t('admin.noDataAvailableYet', { defaultValue: 'No data available yet' })}</p>
+                <p className="text-sm mt-2">{t('admin.programPerformanceComingSoon', { defaultValue: 'Program performance metrics will appear here once data is collected.' })}</p>
               </div>
             </div>
           </div>
@@ -4057,187 +3630,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <p className="text-center text-gray-600 text-sm sm:text-base">{t('admin.monitorEnrollment')}</p>
             </div>
             
-            {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
-              <div className="space-y-4 sm:space-y-6">
-              {/* Current Enrollment Status */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 {t('admin.currentEnrollmentStatus')}</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">247</div>
-                    <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalEnrolled')}</p>
-                    <p className="text-xs text-blue-600">↑ 12 {t('admin.vsLastMonth')}</p>
-                  </div>
-                  <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-green-600">89%</div>
-                    <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.activeStudents')}</p>
-                    <p className="text-xs text-green-600">↑ 3% {t('admin.vsLastMonth')}</p>
-                  </div>
-                  <div className="bg-purple-50 border-4 border-purple-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">300</div>
-                    <p className="text-xs sm:text-sm text-purple-800 font-medium">{t('admin.licenseCapacity')}</p>
-                    <p className="text-xs text-purple-600">82% {t('admin.utilized')}</p>
-                  </div>
-                  <div className="bg-orange-50 border-4 border-orange-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-orange-600">23</div>
-                    <p className="text-xs sm:text-sm text-orange-800 font-medium">{t('admin.newThisMonth')}</p>
-                    <p className="text-xs text-orange-600">↑ 5 {t('admin.vsLastMonth')}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Retention & Completion Rates */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">🎓 {t('admin.retentionCompletionRates')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-6">
-                  <div className="bg-emerald-50 border-4 border-emerald-400 rounded-lg p-3 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-emerald-600">94%</div>
-                    <p className="text-xs sm:text-sm text-emerald-800 font-medium">{t('admin.semesterRetention')}</p>
-                    <p className="text-xs text-emerald-600">{t('admin.studentsContinuing')}</p>
-                  </div>
-                  <div className="bg-teal-50 border-4 border-teal-400 rounded-lg p-3 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-teal-600">87%</div>
-                    <p className="text-xs sm:text-sm text-teal-800 font-medium">{t('admin.programCompletion')}</p>
-                    <p className="text-xs text-teal-600">{t('admin.studentsFinishing')}</p>
-                  </div>
-                  <div className="bg-indigo-50 border-4 border-indigo-400 rounded-lg p-3 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-indigo-600">6%</div>
-                    <p className="text-xs sm:text-sm text-indigo-800 font-medium">{t('admin.dropoutRate')}</p>
-                    <p className="text-xs text-indigo-600">{t('admin.studentsLeavingEarly')}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Enrollment Trends */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📈 {t('admin.enrollmentTrends')}</h3>
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">{t('admin.fallSemesterGrowth')}</span>
-                      <span className="text-xs sm:text-sm font-bold text-green-600">+15% {t('admin.enrollment')}</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div className="bg-green-600 h-3 rounded-full" style={{width: '78%'}}></div>
-                      </div>
-                    </div>
-                  <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">{t('admin.springSemesterProjections')}</span>
-                      <span className="text-xs sm:text-sm font-bold text-blue-600">+8% {t('admin.projectedGrowth')}</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div className="bg-blue-600 h-3 rounded-full" style={{width: '65%'}}></div>
-                      </div>
-                    </div>
-                  <div className="bg-gray-50 rounded-lg p-2 sm:p-3">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-xs sm:text-base">{t('admin.summerProgramInterest')}</span>
-                      <span className="text-xs sm:text-sm font-bold text-purple-600">42 {t('admin.preRegistrations')}</span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3">
-                      <div className="bg-purple-600 h-3 rounded-full" style={{width: '42%'}}></div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-              {/* Class Cohort Performance */}
-              <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">👥 {t('admin.classCohortPerformance')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
-                  <div>
-                    <h4 className="text-center font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.currentCohorts')}</h4>
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{skin.people.defaultProgram} - Fall 2024</p>
-                          <p className="text-xs sm:text-sm text-gray-600">42 students</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-blue-600">95%</p>
-                          <p className="text-xs text-gray-500">{t('admin.retention')}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-green-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">Advanced Program - Fall 2024</p>
-                          <p className="text-xs sm:text-sm text-gray-600">28 students</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-green-600">92%</p>
-                          <p className="text-xs text-gray-500">{t('admin.retention')}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-purple-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.hospitalityManagement')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">35 students</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-purple-600">88%</p>
-                          <p className="text-xs text-gray-500">{t('admin.retention')}</p>
-                        </div>
-                      </div>
-                      </div>
-                    </div>
-                  <div>
-                    <h4 className="text-center font-medium text-gray-800 mb-2 sm:mb-3 text-xs sm:text-base">{t('admin.graduationPipeline')}</h4>
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-emerald-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.graduatingSpring2025')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">38 students</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-emerald-600">{t('admin.onTrack')}</p>
-                          <p className="text-xs text-gray-500">{t('admin.status')}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-yellow-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.atRiskStudents')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">7 students</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-yellow-600">{t('admin.support')}</p>
-                          <p className="text-xs text-gray-500">{t('admin.needed')}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-teal-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{t('admin.alumniNetwork')}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">342 graduates</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-teal-600">{t('admin.active')}</p>
-                          <p className="text-xs text-gray-500">{t('admin.network')}</p>
-                        </div>
-                      </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-              {/* License Utilization Alert */}
-              <div className="border-4 border-yellow-400 bg-yellow-50 rounded-lg p-3 sm:p-6">
-                <h3 className="text-center font-bold text-yellow-900 mb-3 sm:mb-4 text-sm sm:text-base">⚠️ {t('admin.licenseUtilizationStatus')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
-                  <div className="bg-white border border-yellow-200 rounded-lg p-2 sm:p-3">
-                    <div className="text-center text-xl sm:text-2xl font-bold text-yellow-600 mb-1">82%</div>
-                    <p className="text-center text-xs sm:text-sm text-yellow-800">{t('admin.currentUtilization')}</p>
-                  </div>
-                  <div className="bg-white border border-yellow-200 rounded-lg p-2 sm:p-3">
-                    <div className="text-center text-xl sm:text-2xl font-bold text-yellow-600 mb-1">53</div>
-                    <p className="text-center text-xs sm:text-sm text-yellow-800">{t('admin.availableLicenses')}</p>
-                  </div>
-                  <div className="bg-white border border-yellow-200 rounded-lg p-2 sm:p-3">
-                    <div className="text-center text-xl sm:text-2xl font-bold text-yellow-600 mb-1">Q2</div>
-                    <p className="text-center text-xs sm:text-sm text-yellow-800">{t('admin.projectedCapacity')}</p>
-                  </div>
-                </div>
-              </div>
+            {/* Content */}
+            <div className="flex-1 flex items-center justify-center p-6 sm:p-12">
+              <div className="text-center text-gray-400">
+                <div className="text-5xl mb-4">📋</div>
+                <p className="text-lg font-medium">{t('admin.noDataAvailableYet', { defaultValue: 'No data available yet' })}</p>
+                <p className="text-sm mt-2">{t('admin.enrollmentHealthComingSoon', { defaultValue: 'Enrollment health metrics will appear here once data is collected.' })}</p>
               </div>
             </div>
           </div>
@@ -4262,286 +3660,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <p className="text-center text-gray-600 mt-2 sm:mt-3 text-xs sm:text-base">{t('admin.monitorContentPerformance')}</p>
             </div>
             
-            {/* Scrollable Content */}
-            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
-              <div className="space-y-3 sm:space-y-6">
-                {/* Content Performance Overview */}
-                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📊 {t('admin.contentPerformanceOverview')}</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
-                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
-                      <div className="text-2xl sm:text-3xl font-bold text-blue-600">847</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Total Content Views</p>
-                      <p className="text-xs text-blue-600">↑ 12% {t('admin.thisWeek')}</p>
-                    </div>
-                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
-                      <div className="text-2xl sm:text-3xl font-bold text-blue-600">73%</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.completionRate')}</p>
-                      <p className="text-xs text-blue-600">↑ 5% {t('admin.thisWeek')}</p>
-                    </div>
-                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
-                      <div className="text-2xl sm:text-3xl font-bold text-blue-600">4.2</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.avgEngagementScore')}</p>
-                      <p className="text-xs text-blue-600">→ {t('admin.noChange')}</p>
-                    </div>
-                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4 text-center">
-                      <div className="text-2xl sm:text-3xl font-bold text-blue-600">28</div>
-                      <p className="text-xs sm:text-sm text-blue-800 font-medium">Active Content ({skin.content.metricLabel})</p>
-                      <p className="text-xs text-blue-600">↑ 3 {t('admin.newThisWeek')}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Top Performing Content */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6">
-                  <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🏆 Top Performing Content ({skin.content.metricLabel})</h3>
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.topPerforming[0]}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook} • {skin.name}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-blue-600">94%</p>
-                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.topPerforming[1]}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-blue-600">89%</p>
-                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.topPerforming[2]}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-blue-600">76%</p>
-                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                    <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📉 {t('admin.contentNeedingAttention')}</h3>
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.needsAttention[0]}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.notebook}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-blue-600">34%</p>
-                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.needsAttention[1]}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.community}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-blue-600">28%</p>
-                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between p-2 sm:p-3 bg-blue-50 rounded-lg">
-                        <div>
-                          <p className="font-medium text-gray-900 text-xs sm:text-base">{disciplineMockContent.needsAttention[2]}</p>
-                          <p className="text-xs sm:text-sm text-gray-600">{skin.modules.school}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="text-base sm:text-lg font-bold text-blue-600">52%</p>
-                          <p className="text-xs text-gray-500">{t('admin.completion')}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Module-Specific Analytics */}
-                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">📈 {t('admin.moduleSpecificAnalytics')}</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                    <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-3 sm:p-4">
-                      <h4 className="font-medium text-blue-900 mb-2 text-xs sm:text-base">📚 {skin.modules.notebook}</h4>
-                      <div className="space-y-1 text-xs sm:text-sm">
-                      <div className="flex justify-between">
-                        <span>Active {contentSourceLabel}:</span>
-                        <span className="font-medium">18</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('admin.avgCompletion')}:</span>
-                        <span className="font-medium text-blue-600">78%</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('admin.studentEngagement')}:</span>
-                        <span className="font-medium text-blue-600">{t('admin.high')}</span>
-                      </div>
-                      </div>
-                    </div>
-                  
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-900 mb-2">🏫 {skin.modules.school}</h4>
-                    <div className="space-y-1 text-sm">
-                      <div className="flex justify-between">
-                        <span>{t('admin.activeLessons')}:</span>
-                        <span className="font-medium">12</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('admin.avgCompletion')}:</span>
-                        <span className="font-medium text-blue-600">82%</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('admin.studentEngagement')}:</span>
-                        <span className="font-medium text-blue-600">{t('admin.high')}</span>
-                      </div>
-                      </div>
-                    </div>
-                  
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-900 mb-2">👥 {skin.modules.community}</h4>
-                    <div className="space-y-1 text-sm">
-                      <div className="flex justify-between">
-                        <span>{t('admin.activeContent')}:</span>
-                        <span className="font-medium">8</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('admin.avgCompletion')}:</span>
-                        <span className="font-medium text-blue-600">65%</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('admin.studentEngagement')}:</span>
-                        <span className="font-medium text-blue-600">{t('admin.medium')}</span>
-                      </div>
-                      </div>
-                    </div>
-                  
-                  <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-4">
-                    <h4 className="font-medium text-blue-900 mb-2">{skin.icon} {skin.modules.workspace}</h4>
-                    <div className="space-y-1 text-sm">
-                      <div className="flex justify-between">
-                        <span>{t('admin.activeSessions')}:</span>
-                        <span className="font-medium">3</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('admin.avgParticipation')}:</span>
-                        <span className="font-medium text-blue-600">45%</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>{t('admin.studentEngagement')}:</span>
-                        <span className="font-medium text-blue-600">{t('admin.medium')}</span>
-                      </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-                {/* Time-Based Analytics */}
-                <div className="border-4 border-blue-400 bg-blue-50 rounded-lg p-3 sm:p-4">
-                  <h3 className="text-center font-bold text-blue-900 mb-2 sm:mb-3 text-sm sm:text-base">🕰️ {t('admin.timeBasedAnalytics')}</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-                    <div>
-                      <h4 className="font-medium text-gray-800 mb-2 text-xs sm:text-base">{t('admin.peakUsageTimes')}</h4>
-                      <div className="space-y-2 text-xs sm:text-sm">
-                      <div className="flex justify-between">
-                        <span>10:00 AM - 12:00 PM:</span>
-                        <span className="font-medium text-green-600">{t('admin.high')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>2:00 PM - 4:00 PM:</span>
-                        <span className="font-medium text-green-600">{t('admin.high')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>6:00 PM - 8:00 PM:</span>
-                        <span className="font-medium text-yellow-600">{t('admin.medium')}</span>
-                      </div>
-                      </div>
-                    </div>
-                  
-                  <div>
-                    <h4 className="font-medium text-gray-800 mb-2">{t('admin.weeklyTrends')}</h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span>Monday - Wednesday:</span>
-                        <span className="font-medium text-green-600">{t('admin.peak')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Thursday - Friday:</span>
-                        <span className="font-medium text-yellow-600">{t('admin.moderate')}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Weekend:</span>
-                        <span className="font-medium text-red-600">{t('admin.low')}</span>
-                      </div>
-                      </div>
-                    </div>
-                  
-                    <div>
-                      <h4 className="text-center font-medium text-gray-800 mb-2 text-xs sm:text-base">{t('admin.contentFilters')}</h4>
-                      <div className="space-y-2">
-                        <select className="w-full px-2 sm:px-3 py-2 border-4 border-blue-400 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white min-h-[44px]">
-                          <option>{t('admin.last7Days')}</option>
-                          <option>{t('admin.last30Days')}</option>
-                          <option>{t('admin.last3Months')}</option>
-                          <option>{t('admin.allTime')}</option>
-                        </select>
-                        <select className="w-full px-2 sm:px-3 py-2 border-4 border-blue-400 rounded-md text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-maineBlue bg-white min-h-[44px]">
-                          <option>{t('admin.allModules')}</option>
-                          <option>{skin.modules.notebook}</option>
-                          <option>{skin.modules.school}</option>
-                          <option>{skin.modules.community}</option>
-                          <option>{skin.modules.workspace}</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex justify-center">
-                  <button
-                    onClick={async () => {
-                      try {
-                        // Generate analytics report data
-                        const analyticsData = [
-                          { metric: 'Total Content Views', value: 847, change: '+12%' },
-                          { metric: 'Completion Rate', value: '73%', change: '+5%' },
-                          { metric: 'Avg Engagement Score', value: 4.2, change: 'No change' },
-                          { metric: 'Active Content', value: 28, change: '+3 new' },
-                          { metric: `Top ${contentSourceLabel}`, value: disciplineMockContent.topPerforming[0], completion: '94%' },
-                          { metric: 'Needs Attention', value: disciplineMockContent.needsAttention[0], completion: '34%' }
-                        ];
-                        
-                        const csv = convertToCSV(analyticsData);
-                        const timestamp = new Date().toISOString().split('T')[0];
-                        const filename = `content-analytics-${timestamp}.csv`;
-                        downloadFile(csv, filename);
-                        
-                        // Show branded success modal
-                        setDownloadedReportInfo({
-                          type: 'Content Analytics Report',
-                          count: analyticsData.length,
-                          filename: filename
-                        });
-                        setShowDownloadSuccessModal(true);
-                        setShowContentAnalyticsModal(false);
-                      } catch (error: any) {
-                        console.error('Error exporting analytics:', error);
-                        alert(t('admin.failedToExportAnalytics', { defaultValue: 'Failed to export analytics: ' }) + error.message);
-                      }
-                    }}
-                    className="w-full sm:w-auto bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
-                  >
-                    📊 {t('admin.exportAnalyticsReport')}
-                  </button>
-                </div>
+            {/* Content */}
+            <div className="flex-1 flex items-center justify-center p-6 sm:p-12">
+              <div className="text-center text-gray-400">
+                <div className="text-5xl mb-4">🔍</div>
+                <p className="text-lg font-medium">{t('admin.noDataAvailableYet', { defaultValue: 'No data available yet' })}</p>
+                <p className="text-sm mt-2">{t('admin.contentAnalyticsComingSoon', { defaultValue: 'Content analytics will appear here once data is collected.' })}</p>
               </div>
             </div>
           </div>
