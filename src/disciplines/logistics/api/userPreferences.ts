@@ -33,7 +33,7 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
     experienceLevel: (data.cooking_experience as ExperienceLevel) || DEFAULT_EXPERIENCE_LEVEL,
     dietary: data.dietary || [],
     cuisine: data.cuisine || [],
-    dockSetup: data.dock_setup || 'Apartment Dock',
+    dockSetup: data.kitchen_setup || 'Apartment Dock',
     talentTree: (data.level >= 10 && data.selected_talent_tree) ? data.selected_talent_tree : null,
     level: data.level || 1
   };

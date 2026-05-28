@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { getVideoQueriesForRecipe } from './MyPlaybook';
+import { getVideoQueriesForProcess } from './MyPlaybook';
 import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 
-import type { Recipe } from './MyPlaybook';
+import type { Process } from './MyPlaybook';
 
 interface Props {
-  recipe: Recipe;
+  recipe: Process;
   open: boolean;
   onClose: () => void;
 }
@@ -17,7 +17,7 @@ const MyCookBookVideoModals: React.FC<Props> = ({ recipe, open, onClose }) => {
   useEffect(() => {
     if (!open) return;
     setLoading(true);
-    const queries = getVideoQueriesForRecipe(recipe);
+    const queries = getVideoQueriesForProcess(recipe);
     Promise.all(queries.map((q: string) => getTutorialVideo(q)))
       .then(results => setVideoUrls(results.map((r: TutorialVideoResult | undefined) => r?.url || null)))
       .finally(() => setLoading(false));

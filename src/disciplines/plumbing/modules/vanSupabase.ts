@@ -23,7 +23,7 @@ export async function fetchVan(userId: string): Promise<Material[]> {
 
   const { data, error } = await supabase
     .from('user_kitchen')
-    .select('ingredients')
+    .select('materials')
     .eq('user_id', userId)
     .eq('discipline_slug', DISCIPLINE_SLUG)
     .maybeSingle();

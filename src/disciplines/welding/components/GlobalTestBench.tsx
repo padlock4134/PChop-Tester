@@ -18,6 +18,9 @@ interface LiveSession {
   materials: string[];
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
   teacherTag?: string;
+  // Legacy fields still referenced in some UI strings
+  dishName?: string;
+  culture?: string;
 }
 
 interface UpcomingSession {
@@ -29,6 +32,9 @@ interface UpcomingSession {
   description: string;
   sessionType?: 'practice' | 'assignment' | 'demo' | 'showcase';
   teacherTag?: string;
+  // Legacy fields still referenced in some UI strings
+  dishName?: string;
+  culture?: string;
 }
 
 interface GlobalTestBenchProps {
