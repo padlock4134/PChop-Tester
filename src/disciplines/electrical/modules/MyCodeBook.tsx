@@ -1049,7 +1049,7 @@ const MyCodeBook = () => {
                                     allVideos.push({
                                       name: file.name,
                                       url: urlData.publicUrl,
-                                      created_at: file.created_at,
+                                      created_at: file.created_at || new Date().toISOString(),
                                       userId: folder.name,
                                       isPublic: isPublic
                                     });
