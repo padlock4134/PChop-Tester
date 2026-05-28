@@ -205,7 +205,7 @@ const AdminToggleButton: React.FC = () => {
   const { t } = useTranslation();
   const { disciplineConfig } = useDiscipline();
   
-  if (!isAdmin) return null;
+  if (!isAdmin || !disciplineConfig) return null;
 
   const isOnAdmin = location.pathname === '/admin';
   
@@ -239,6 +239,8 @@ const NavBar: React.FC = () => {
   const { t } = useTranslation();
   const { disciplineConfig } = useDiscipline();
   const { isAdminMode } = useAdminToggle();
+
+  if (!disciplineConfig) return null;
   
   return (
     <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md sticky top-0 z-50">
