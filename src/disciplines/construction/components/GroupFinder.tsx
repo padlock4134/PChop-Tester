@@ -47,7 +47,7 @@ const GroupFinder: React.FC = () => {
   const handleCreate = () => {
     if (!createCourse || !createLesson) return;
     const course = MOCK_COURSES.find(c => c.id === createCourse);
-    const lesson = course?.lessons.find(l => l.id === createLesson);
+    const lesson = course?.lessons.find((l: { id: string; title: string }) => l.id === createLesson);
     if (!course || !lesson) return;
     const newGroup: GroupListing = { id: `grp-new-${Date.now()}`, lessonId: lesson.id, lessonTitle: lesson.title, courseName: course.title, leaderName: 'You', leaderInitials: 'ME', currentMembers: 1, maxMembers: createMaxSize, note: createNote || 'Looking for group members!', minutesAgo: 0, members: ['You'] };
     setGroups(prev => [newGroup, ...prev]);
@@ -150,7 +150,7 @@ const GroupFinder: React.FC = () => {
                       <label className="block text-sm font-semibold text-gray-700 mb-1">{t('groupFinder.selectLesson', { defaultValue: 'Lesson' })}</label>
                       <select value={createLesson} onChange={e => setCreateLesson(e.target.value)} className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-maineBlue focus:outline-none">
                         <option value="">-- Select a lesson --</option>
-                        {selectedCourseObj?.lessons.map(l => (<option key={l.id} value={l.id}>{l.title}</option>))}
+                        {selectedCourseObj?.lessons.map((l: { id: string; title: string }) => (<option key={l.id} value={l.id}>{l.title}</option>))}
                       </select>
                     </div>
                   )}

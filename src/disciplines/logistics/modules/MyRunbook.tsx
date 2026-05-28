@@ -26,6 +26,8 @@ export function getVideoQueriesForRoute(recipe: Recipe): string[] {
   ];
 }
 
+export type Route = Recipe;
+
 export interface Recipe {
   id: string;
   name: string;
@@ -783,7 +785,7 @@ const MyRunbook = () => {
                 id: `${filteredRecipes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
                 title: filteredRecipes[currentIndex].name,
                 image: filteredRecipes[currentIndex].photo || '',
-                ingredients: filteredRecipes[currentIndex].ingredients || [],
+                items: filteredRecipes[currentIndex].ingredients || [],
                 instructions: filteredRecipes[currentIndex].instructions || '',
                 equipment: filteredRecipes[currentIndex].equipment || [],
                 tutorials: [
@@ -1060,7 +1062,7 @@ const MyRunbook = () => {
                                     allVideos.push({
                                       name: file.name,
                                       url: urlData.publicUrl,
-                                      created_at: file.created_at,
+                                      created_at: file.created_at || new Date().toISOString(),
                                       userId: folder.name,
                                       isPublic: isPublic
                                     });

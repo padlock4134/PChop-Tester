@@ -37,10 +37,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
     try {
       // For demo: Use pre-built plumbing AR scene (instant load)
-      const defaultLesson = 'Copper Pipe Cut, Deburr, and Dry-Fit Alignment';
+      const defaultLesson = 'Copper Pipe Cut, Deburr, and Dry-Fit Alignment' as keyof typeof defaultARScenes;
       const demoLesson = defaultARScenes[defaultLesson]
         ? defaultLesson
-        : Object.keys(defaultARScenes)[0];
+        : (Object.keys(defaultARScenes)[0] as keyof typeof defaultARScenes);
       
       // Check if we have a default scene
       if (demoLesson && defaultARScenes[demoLesson]) {

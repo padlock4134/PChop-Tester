@@ -59,7 +59,7 @@ const GroupFinder: React.FC = () => {
   const handleCreate = () => {
     if (!createCourse || !createLesson) return;
     const course = MOCK_COURSES.find(c => c.id === createCourse);
-    const lesson = course?.lessons.find(l => l.id === createLesson);
+    const lesson = course?.lessons.find((l: { id: string; title: string }) => l.id === createLesson);
     if (!course || !lesson) return;
 
     const newGroup: GroupListing = {
@@ -263,7 +263,7 @@ const GroupFinder: React.FC = () => {
                         className="w-full border-2 border-gray-300 rounded-lg px-3 py-2 text-sm focus:border-maineBlue focus:outline-none"
                       >
                         <option value="">-- Select a lesson --</option>
-                        {selectedCourseObj?.lessons.map(l => (
+                        {selectedCourseObj?.lessons.map((l: { id: string; title: string }) => (
                           <option key={l.id} value={l.id}>{l.title}</option>
                         ))}
                       </select>

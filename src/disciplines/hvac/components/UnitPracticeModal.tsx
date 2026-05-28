@@ -36,10 +36,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
     try {
       // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Static Pressure Measurement Fundamentals';
-      
+      const demoLesson = Object.keys(defaultARScenes)[0] as keyof typeof defaultARScenes;
+
       // Check if we have a default scene
-      if (defaultARScenes[demoLesson]) {
+      if (demoLesson && defaultARScenes[demoLesson]) {
         console.log('Loading default AR scene for demo');
         setArScene(defaultARScenes[demoLesson]);
         setIsPracticing(true);

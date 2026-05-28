@@ -319,13 +319,13 @@ const LocalMarketsModal: React.FC<LocalMarketsModalProps> = ({ open, onClose, se
     
     // Deduplicate materials (case-insensitive)
     const uniqueIngredients = Array.from(
-      new Set(allIngredients.map(ing => ing.toLowerCase()))
+      new Set(allMaterials.map(ing => ing.toLowerCase()))
     ).map(ing => {
       // Find the original casing from allMaterials
       return allMaterials.find(original => original.toLowerCase() === ing) || ing;
     });
     
-    return groupMaterialsByMarketType(uniqueMaterials);
+    return groupMaterialsByMarketType(uniqueIngredients);
   }, [selectedRecipes]);
 
   const marketCategories = [

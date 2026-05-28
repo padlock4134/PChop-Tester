@@ -184,8 +184,8 @@ const ChallengeOfTheWeek: React.FC = () => {
       ) : (
         <button
           className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 cursor-not-allowed text-2xl border-2 border-black"
-          title={ct('completed')}
-          aria-label={ct('completed')}
+          title={String(ct('completed'))}
+          aria-label={String(ct('completed'))}
           disabled
           style={{ outline: 'none', border: 'none' }}
         >
@@ -205,14 +205,14 @@ const ChallengeOfTheWeek: React.FC = () => {
             <span className="font-bold text-xl text-yellow-800 mb-1">{challenge.title}</span>
             <span className="text-gray-800 mb-2 text-center">{challenge.description}</span>
             <span className="text-sm text-gray-500">
-              {ct('viewDetails')}: <b>{t('challenge.rewardDetails', { xp: challenge.reward.xp, badge: challenge.reward.badge, defaultValue: `${challenge.reward.xp} XP and ${challenge.reward.badge} badge` })}</b>
+              {String(ct('viewDetails'))}: <b>{t('challenge.rewardDetails', { xp: challenge.reward.xp, badge: challenge.reward.badge, defaultValue: `${challenge.reward.xp} XP and ${challenge.reward.badge} badge` })}</b>
             </span>
             <button
               className="mt-4 px-4 py-2 rounded bg-maineBlue hover:bg-seafoam text-seafoam hover:text-maineBlue font-bold shadow border border-black w-full"
               onClick={handleCookMe}
               disabled={loading}
             >
-              {loading ? t('common.loading') : ct('startChallenge', { defaultValue: t('challenge.startChallenge') })}
+              {loading ? String(t('common.loading')) : String(ct('startChallenge', { defaultValue: String(t('challenge.startChallenge')) }))}
             </button>
             {error && <div className="text-red-600 mt-2">{error}</div>}
             <button

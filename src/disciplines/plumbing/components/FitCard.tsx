@@ -33,13 +33,13 @@ const RecipeCardComponent: React.FC<Props> = ({ fit }) => {
         </div>
         <div className="text-xs text-gray-600">
           <div className="font-bold">{t('recipeCard.nutrition', { defaultValue: 'Specifications' })}</div>
-          <div>{t('recipeCard.carbs', { defaultValue: 'Complexity' })}: {recipe.nutrition?.carbs}g</div>
-          <div>{t('recipeCard.protein', { defaultValue: 'Quality' })}: {recipe.nutrition?.protein}g</div>
-          <div>{t('recipeCard.fat', { defaultValue: 'Risk' })}: {recipe.nutrition?.saturatedFat}g</div>
+          <div>{t('recipeCard.carbs', { defaultValue: 'Complexity' })}: {fit.nutrition?.carbs}g</div>
+          <div>{t('recipeCard.protein', { defaultValue: 'Quality' })}: {fit.nutrition?.protein}g</div>
+          <div>{t('recipeCard.fat', { defaultValue: 'Risk' })}: {fit.nutrition?.fiber}g</div>
         </div>
       </div>
       <div className="text-xs text-gray-600">
-        <span className="font-bold">{t('recipeCard.instructions', { defaultValue: 'Procedure' })}:</span> {recipe.instructions}
+        <span className="font-bold">{t('recipeCard.instructions', { defaultValue: 'Procedure' })}:</span> {fit.instructions}
       </div>
     </div>
   );

@@ -1,3 +1,5 @@
-import FlippableSpecBook from '../../welding/components/FlippableSpecBook';
+import React from 'react';
 
-export default FlippableSpecBook;
+const FlippablePipeBook: React.FC = () => null;
+
+export default FlippablePipeBook;

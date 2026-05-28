@@ -282,11 +282,11 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
   ];
 
   const findMatchingRecipes = (userMaterials: string[]) => {
-    const userIngredientSet = new Set(userIngredients.map(ing => ing.toLowerCase()));
+    const userIngredientSet = new Set(userMaterials.map(ing => ing.toLowerCase()));
     
     const recipesWithScores = allRecipes.map(fit => {
       const matchingMaterials = fit.materials.filter(ing => 
-        userMaterialSet.has(ing.toLowerCase())
+        userIngredientSet.has(ing.toLowerCase())
       );
       
       // Calculate match score (percentage of fit materials that match)
@@ -703,7 +703,7 @@ const TestRunModal: React.FC<TestRunModalProps> = ({ isOpen, onClose }) => {
             placeholder="Add an material..."
             value={input}
             onChange={e => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && addIngredient()}
+            onKeyPress={(e) => e.key === 'Enter' && addMaterial()}
           />
           <select
             className="border px-2 py-2 rounded bg-weatheredWhite"

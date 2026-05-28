@@ -12,6 +12,13 @@ export type RouteCard = {
   items: string[];
   instructions: string;
   equipment?: string[];
+  nutrition?: {
+    carbs: number;
+    sugars: number;
+    fiber: number;
+    protein: number;
+    saturatedFat?: number;
+  };
   tutorials?: Array<{
     title: string;
     desc: string;

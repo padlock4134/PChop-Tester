@@ -942,7 +942,7 @@ const MyPipeBook = () => {
                           <li key={i} className="line-clamp-1">{material}</li>
                         ))}
                         {(filteredRecipes[currentIndex].materials?.length || 0) > 6 && (
-                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].ingredients?.length || 0) - 6} {t('myPipeBook.more')}</li>
+                          <li className="text-gray-600 italic font-semibold">+{(filteredRecipes[currentIndex].materials?.length || 0) - 6} {t('myPipeBook.more')}</li>
                         )}
                       </ul>
                     </div>
@@ -1145,7 +1145,7 @@ const MyPipeBook = () => {
                                   allVideos.push({
                                     name: file.name,
                                     url: urlData.publicUrl,
-                                    created_at: file.created_at,
+                                    created_at: file.created_at || new Date().toISOString(),
                                     userId: folder.name,
                                     isPublic: isPublic
                                   });
