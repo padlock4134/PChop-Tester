@@ -47,7 +47,7 @@ export async function askMentorFreddie(userId: string, prompt: string, language:
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      apiKeyIdentifier: 'mentor',
+      apiKeyIdentifier: 'chef',
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
       system: systemPrompt,

@@ -9,9 +9,9 @@ export async function saveBench(userId: string, materials: Material[]) {
   if (!sessionValid || !userId) throw new Error('Not signed in');
 
   const { error } = await supabase
-    .from('user_bench')
+    .from('user_kitchen')
     .upsert([
-      { user_id: userId, discipline_slug: DISCIPLINE_SLUG, materials }
+      { user_id: userId, discipline_slug: DISCIPLINE_SLUG, ingredients: materials }
     ], { onConflict: 'user_id,discipline_slug' });
 
   if (error) throw error;
@@ -22,13 +22,13 @@ export async function fetchBench(userId: string): Promise<Material[]> {
   if (!sessionValid || !userId) throw new Error('Not signed in');
 
   const { data, error } = await supabase
-    .from('user_bench')
-    .select('materials')
+    .from('user_kitchen')
+    .select('ingredients')
     .eq('user_id', userId)
     .eq('discipline_slug', DISCIPLINE_SLUG)
     .maybeSingle();
 
   if (error) throw error;
 
-  return data?.materials || [];
+  return data?.ingredients || [];
 }

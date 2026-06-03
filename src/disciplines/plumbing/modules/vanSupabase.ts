@@ -11,7 +11,7 @@ export async function saveVan(userId: string, materials: Material[]) {
   const { error } = await supabase
     .from('user_kitchen')
     .upsert([
-      { user_id: userId, discipline_slug: DISCIPLINE_SLUG, materials }
+      { user_id: userId, discipline_slug: DISCIPLINE_SLUG, ingredients: materials }
     ], { onConflict: 'user_id,discipline_slug' });
 
   if (error) throw error;
@@ -23,12 +23,12 @@ export async function fetchVan(userId: string): Promise<Material[]> {
 
   const { data, error } = await supabase
     .from('user_kitchen')
-    .select('materials')
+    .select('ingredients')
     .eq('user_id', userId)
     .eq('discipline_slug', DISCIPLINE_SLUG)
     .maybeSingle();
 
   if (error) throw error;
 
-  return data?.materials || [];
+  return data?.ingredients || [];
 }
