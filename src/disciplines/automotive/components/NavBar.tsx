@@ -1,6 +1,6 @@
 import React, { useEffect, useState, createContext, useContext, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Bars3Icon, CogIcon } from '@heroicons/react/24/outline';
+import { CogIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
@@ -162,13 +162,6 @@ const LastBadge = () => {
     </div>
   );
 };
-
-const navItems = [
-  { path: '/my-garage', label: 'My Garage' },
-  { path: '/auto-school', label: 'Auto School' },
-  { path: '/my-manual', label: 'My Manual' },
-  { path: '/gearhead-lounge', label: 'Gearhead Lounge' },
-];
 
 // Language Toggle Button Component
 const LanguageToggleButton: React.FC = () => {

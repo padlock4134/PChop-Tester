@@ -2,6 +2,8 @@ import { supabase } from '../api/supabaseClient';
 import { isSessionValid } from '../api/userSession';
 import type { RecipeCard } from '../components/RecipeMatcherModal';
 
+const DISCIPLINE_SLUG = 'culinary';
+
 export async function saveCookbook(userId: string, recipes: RecipeCard[]) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
@@ -9,8 +11,9 @@ export async function saveCookbook(userId: string, recipes: RecipeCard[]) {
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId,
-      recipes: recipes // Stored as JSONB in Supabase
-    }], { onConflict: 'user_id' });
+      discipline_slug: DISCIPLINE_SLUG,
+      recipes: recipes
+    }], { onConflict: 'user_id,discipline_slug' });
   if (error) throw error;
 }
 
@@ -24,8 +27,9 @@ export async function fetchCookbook(userId: string): Promise<RecipeCard[]> {
     .from('user_cookbook')
     .select('recipes')
     .eq('user_id', userId)
-    .single();
-  if (error && error.code !== 'PGRST116') throw error; // PGRST116: no rows
+    .eq('discipline_slug', DISCIPLINE_SLUG)
+    .maybeSingle();
+  if (error) throw error;
   return (data?.recipes || []) as RecipeCard[];
 }
 
@@ -38,9 +42,10 @@ export async function addRecipeToCookbook(userId: string, recipe: RecipeCard) {
     .from('user_cookbook')
     .select('recipes')
     .eq('user_id', userId)
-    .single();
+    .eq('discipline_slug', DISCIPLINE_SLUG)
+    .maybeSingle();
     
-  if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
+  if (fetchError) throw fetchError;
   
   // Add new recipe if not already present
   const existingRecipes = (data?.recipes || []) as RecipeCard[];
@@ -49,8 +54,9 @@ export async function addRecipeToCookbook(userId: string, recipe: RecipeCard) {
       .from('user_cookbook')
       .upsert([{ 
         user_id: userId, 
-        recipes: [...existingRecipes, recipe] // Stored as JSONB in Supabase
-      }], { onConflict: 'user_id' });
+        discipline_slug: DISCIPLINE_SLUG,
+        recipes: [...existingRecipes, recipe]
+      }], { onConflict: 'user_id,discipline_slug' });
     if (error) throw error;
   }
 }
@@ -63,9 +69,10 @@ export async function removeRecipeFromCookbook(userId: string, recipeId: string)
     .from('user_cookbook')
     .select('recipes')
     .eq('user_id', userId)
-    .single();
+    .eq('discipline_slug', DISCIPLINE_SLUG)
+    .maybeSingle();
     
-  if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
+  if (fetchError) throw fetchError;
   
   const existingRecipes = (data?.recipes || []) as RecipeCard[];
   const updatedRecipes = existingRecipes.filter(r => r.id !== recipeId);
@@ -74,7 +81,8 @@ export async function removeRecipeFromCookbook(userId: string, recipeId: string)
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId, 
+      discipline_slug: DISCIPLINE_SLUG,
       recipes: updatedRecipes
-    }], { onConflict: 'user_id' });
+    }], { onConflict: 'user_id,discipline_slug' });
   if (error) throw error;
 }

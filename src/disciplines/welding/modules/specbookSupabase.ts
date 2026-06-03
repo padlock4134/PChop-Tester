@@ -2,6 +2,8 @@ import { supabase } from '../api/supabaseClient';
 import { isSessionValid } from '../api/userSession';
 import type { ProjectCard } from '../components/PartMatcherModal';
 
+const DISCIPLINE_SLUG = 'welding';
+
 export async function saveSpecBook(userId: string, projects: ProjectCard[]) {
   const sessionValid = await isSessionValid();
   if (!sessionValid || !userId) throw new Error('Not signed in');
@@ -9,8 +11,9 @@ export async function saveSpecBook(userId: string, projects: ProjectCard[]) {
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId,
-      recipes: projects // Stored as JSONB in Supabase
-    }], { onConflict: 'user_id' });
+      discipline_slug: DISCIPLINE_SLUG,
+      recipes: projects
+    }], { onConflict: 'user_id,discipline_slug' });
   if (error) throw error;
 }
 
@@ -24,8 +27,9 @@ export async function fetchSpecBook(userId: string): Promise<ProjectCard[]> {
     .from('user_cookbook')
     .select('recipes')
     .eq('user_id', userId)
-    .single();
-  if (error && error.code !== 'PGRST116') throw error; // PGRST116: no rows
+    .eq('discipline_slug', DISCIPLINE_SLUG)
+    .maybeSingle();
+  if (error) throw error;
   return (data?.recipes || []) as ProjectCard[];
 }
 
@@ -38,9 +42,10 @@ export async function addProjectToSpecBook(userId: string, project: ProjectCard)
     .from('user_cookbook')
     .select('recipes')
     .eq('user_id', userId)
-    .single();
+    .eq('discipline_slug', DISCIPLINE_SLUG)
+    .maybeSingle();
     
-  if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
+  if (fetchError) throw fetchError;
   
   // Add new project if not already present
   const existingProjects = (data?.recipes || []) as ProjectCard[];
@@ -49,8 +54,9 @@ export async function addProjectToSpecBook(userId: string, project: ProjectCard)
       .from('user_cookbook')
       .upsert([{ 
         user_id: userId, 
-        recipes: [...existingProjects, project] // Stored as JSONB in Supabase
-      }], { onConflict: 'user_id' });
+        discipline_slug: DISCIPLINE_SLUG,
+        recipes: [...existingProjects, project]
+      }], { onConflict: 'user_id,discipline_slug' });
     if (error) throw error;
   }
 }
@@ -63,9 +69,10 @@ export async function removeProjectFromSpecBook(userId: string, projectId: strin
     .from('user_cookbook')
     .select('recipes')
     .eq('user_id', userId)
-    .single();
+    .eq('discipline_slug', DISCIPLINE_SLUG)
+    .maybeSingle();
     
-  if (fetchError && fetchError.code !== 'PGRST116') throw fetchError;
+  if (fetchError) throw fetchError;
   
   const existingProjects = (data?.recipes || []) as ProjectCard[];
   const updatedProjects = existingProjects.filter(r => r.id !== projectId);
@@ -74,8 +81,9 @@ export async function removeProjectFromSpecBook(userId: string, projectId: strin
     .from('user_cookbook')
     .upsert([{ 
       user_id: userId, 
+      discipline_slug: DISCIPLINE_SLUG,
       recipes: updatedProjects
-    }], { onConflict: 'user_id' });
+    }], { onConflict: 'user_id,discipline_slug' });
   if (error) throw error;
 }
 
