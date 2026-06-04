@@ -8405,7 +8405,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   const aiSuggestion = currentMapping.aiSuggestion;
 
                   // If syllabus with multiple lessons, insert them directly
-                  if (aiSuggestion?.isSyllabus && aiSuggestion.lessons && aiSuggestion.lessons.length > 0) {
+                  if (aiSuggestion?.isSyllabus && Array.isArray(aiSuggestion.lessons) && aiSuggestion.lessons.length > 0) {
                     const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
                       title: lesson.title,
                       content_type: 'lesson',
