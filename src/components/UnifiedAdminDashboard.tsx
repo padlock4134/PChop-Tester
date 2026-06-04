@@ -923,7 +923,9 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         setUploadProgress(fileProgress + 50);
         const aiSuggestion = processorData.aiSuggestion;
 
-        if (aiSuggestion.isSyllabus && aiSuggestion.lessons && aiSuggestion.lessons.length > 0) {
+        console.log('AI suggestion for', file.name, ':', aiSuggestion);
+
+        if (aiSuggestion?.isSyllabus && aiSuggestion.lessons && aiSuggestion.lessons.length > 0) {
           // Multi-lesson syllabus: insert each lesson into curriculum_content
           const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
             title: lesson.title,
