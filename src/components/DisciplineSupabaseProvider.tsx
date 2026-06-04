@@ -21,8 +21,8 @@ export const useSupabase = () => {
   const disciplineFromPath = getDisciplineFromPath(location.pathname);
   const activeDiscipline = disciplineFromPath || currentDiscipline;
 
-  // If we're on the discipline selector page, use culinary hook
-  if (location.pathname === '/select-discipline') {
+  // If we're on the discipline selector or admin page, use culinary hook
+  if (location.pathname === '/select-discipline' || location.pathname === '/admin') {
     return useCulinarySupabase();
   }
 
@@ -57,8 +57,8 @@ const DisciplineSupabaseProvider: React.FC<{ children: React.ReactNode }> = ({ c
   const disciplineFromPath = getDisciplineFromPath(location.pathname);
   const activeDiscipline = disciplineFromPath || currentDiscipline;
 
-  // If we're on the discipline selector page, use culinary as default
-  if (location.pathname === '/select-discipline') {
+  // If we're on the discipline selector or admin page, use culinary as default
+  if (location.pathname === '/select-discipline' || location.pathname === '/admin') {
     return <CulinarySupabaseProvider>{children}</CulinarySupabaseProvider>;
   }
 
