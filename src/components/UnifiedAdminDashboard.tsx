@@ -925,75 +925,31 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         console.log('AI suggestion for', file.name, ':', aiSuggestion);
 
-        if (aiSuggestion?.isSyllabus && aiSuggestion.lessons && aiSuggestion.lessons.length > 0) {
-          // Multi-lesson syllabus: insert each lesson into curriculum_content
-          const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
-            title: lesson.title,
-            content_type: 'lesson',
-            content_data: {
-              topics: lesson.topics || [],
-              equipment: lesson.equipment || [],
-              difficulty: lesson.difficulty || 'intermediate'
-            },
-            week_number: lesson.weekNumber || null
-          }));
-
-          console.log('Inserting lessons:', lessonsToInsert);
-
-          const { error: curriculumError } = await supabase
-            .from('curriculum_content')
-            .insert(lessonsToInsert);
-
-          if (curriculumError) {
-            console.error('Curriculum insert error:', curriculumError);
-            console.error('Error details:', JSON.stringify(curriculumError, null, 2));
-            showError(`Failed to import lessons from ${file.name}: ${curriculumError.message}`);
-            continue;
-          }
-
-          // Also stage the original syllabus for reference
-          const { error: stagingError } = await supabase
-            .from('content_staging')
-            .insert({
-              file_url: fileUrl,
-              file_name: file.name,
-              ai_suggestion: aiSuggestion,
-              status: 'distributed',
-              uploaded_by: currentUser.id
-            });
-
-          if (stagingError) {
-            console.error('Staging error:', stagingError);
-          }
-
-          showSuccess(`Imported ${lessonsToInsert.length} lessons from ${file.name}`);
-        } else {
-          // Single lesson/document: stage normally
-          const { error: stagingError } = await supabase
-            .from('content_staging')
-            .insert({
-              file_url: fileUrl,
-              file_name: file.name,
-              ai_suggestion: aiSuggestion,
-              status: 'pending',
-              uploaded_by: currentUser.id
-            });
-
-          if (stagingError) {
-            console.error('Staging error:', stagingError);
-            showError(`Failed to stage ${file.name}`);
-            continue;
-          }
-
-          // Step 4: Show mapping review modal for single items
-          setCurrentMapping({
-            fileName: file.name,
-            fileUrl: fileUrl,
-            aiSuggestion: aiSuggestion
+        // Always stage the file and show mapping review for user confirmation
+        const { error: stagingError } = await supabase
+          .from('content_staging')
+          .insert({
+            file_url: fileUrl,
+            file_name: file.name,
+            ai_suggestion: aiSuggestion,
+            status: 'pending',
+            uploaded_by: currentUser.id
           });
-          setShowMappingReviewModal(true);
-          setShowBrowseFilesModal(false);
+
+        if (stagingError) {
+          console.error('Staging error:', stagingError);
+          showError(`Failed to stage ${file.name}`);
+          continue;
         }
+
+        // Show mapping review modal for all uploads
+        setCurrentMapping({
+          fileName: file.name,
+          fileUrl: fileUrl,
+          aiSuggestion: aiSuggestion
+        });
+        setShowMappingReviewModal(true);
+        setShowBrowseFilesModal(false);
 
         setUploadProgress(((i + 1) / totalFiles) * 100);
       }
@@ -8445,9 +8401,39 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 Cancel
               </button>
               <button
-                onClick={() => {
-                  // Populate checkbox state based on AI mapping
-                  const { modules } = currentMapping.aiSuggestion;
+                onClick={async () => {
+                  const aiSuggestion = currentMapping.aiSuggestion;
+
+                  // If syllabus with multiple lessons, insert them directly
+                  if (aiSuggestion?.isSyllabus && aiSuggestion.lessons && aiSuggestion.lessons.length > 0) {
+                    const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
+                      title: lesson.title,
+                      content_type: 'lesson',
+                      content_data: {
+                        topics: lesson.topics || [],
+                        equipment: lesson.equipment || [],
+                        difficulty: lesson.difficulty || 'intermediate'
+                      },
+                      week_number: lesson.weekNumber || null
+                    }));
+
+                    const { error: curriculumError } = await supabase
+                      .from('curriculum_content')
+                      .insert(lessonsToInsert);
+
+                    if (curriculumError) {
+                      console.error('Curriculum insert error:', curriculumError);
+                      showError(`Failed to import lessons: ${curriculumError.message}`);
+                      return;
+                    }
+
+                    showSuccess(`Imported ${lessonsToInsert.length} lessons from ${currentMapping.fileName}`);
+                    setShowMappingReviewModal(false);
+                    return;
+                  }
+
+                  // Single lesson: populate checkbox state based on AI mapping
+                  const { modules } = aiSuggestion;
                   setModuleSelection({
                     workspace: {
                       item1: modules.workspace?.include ?? false,
