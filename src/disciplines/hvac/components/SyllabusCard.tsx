@@ -43,13 +43,13 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
         <h3 className="text-xl">✏️ {title}</h3>
       </div>
       
-      {/* Charcuterie Board Button */}
+      {/* Bench Practice Button */}
       <div className="px-4 pt-4">
         <button
           onClick={onButcherBlockClick}
           className="w-full px-4 py-2 rounded border transition-colors bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200 hover:text-amber-900"
         >
-          🧀 {t('culinarySchool.charcuterieBoard.charcuterieBoardButton')}
+          🔧 {t('hvacSchool.benchPractice', { defaultValue: 'Bench Practice Board' })}
         </button>
       </div>
       

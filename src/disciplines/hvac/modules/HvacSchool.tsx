@@ -146,8 +146,8 @@ const HvacSchool = () => {
 
   // Mock syllabus data
   const mockSyllabusData = {
-    title: "",
-    courses: [/*
+    title: "HVAC Technology Program",
+    courses: [
       {
         id: "course-1",
         title: "Term 1: HVAC Fundamentals",
@@ -189,7 +189,7 @@ const HvacSchool = () => {
           { id: "lesson-4-4", title: "NATE Certification and Career Pathways", completed: false, current: false },
         ]
       }
-    */] as SyllabusCourse[]
+    ] as SyllabusCourse[]
   };
 
   const handleLessonClick = (lessonId: string) => {
