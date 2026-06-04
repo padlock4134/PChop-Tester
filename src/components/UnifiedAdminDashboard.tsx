@@ -911,31 +911,77 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
         const processorData = await processorResponse.json();
 
-        // Step 3: Insert into content_staging table
-        const { error: stagingError } = await supabase
-          .from('content_staging')
-          .insert({
-            file_url: fileUrl,
-            file_name: file.name,
-            ai_suggestion: processorData.aiSuggestion,
-            status: 'pending',
-            uploaded_by: currentUser.id
+        // Step 3: Handle syllabus vs single lesson
+        const aiSuggestion = processorData.aiSuggestion;
+
+        if (aiSuggestion.isSyllabus && aiSuggestion.lessons && aiSuggestion.lessons.length > 0) {
+          // Multi-lesson syllabus: insert each lesson into curriculum_content
+          const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
+            title: lesson.title,
+            content_type: 'lesson',
+            content_data: {
+              topics: lesson.topics || [],
+              equipment: lesson.equipment || [],
+              difficulty: lesson.difficulty || 'intermediate'
+            },
+            week_number: lesson.weekNumber || null,
+            source_file: file.name,
+            created_at: new Date().toISOString()
+          }));
+
+          const { error: curriculumError } = await supabase
+            .from('curriculum_content')
+            .insert(lessonsToInsert);
+
+          if (curriculumError) {
+            console.error('Curriculum insert error:', curriculumError);
+            showError(`Failed to import lessons from ${file.name}`);
+            continue;
+          }
+
+          // Also stage the original syllabus for reference
+          const { error: stagingError } = await supabase
+            .from('content_staging')
+            .insert({
+              file_url: fileUrl,
+              file_name: file.name,
+              ai_suggestion: aiSuggestion,
+              status: 'distributed',
+              uploaded_by: currentUser.id
+            });
+
+          if (stagingError) {
+            console.error('Staging error:', stagingError);
+          }
+
+          showSuccess(`Imported ${lessonsToInsert.length} lessons from ${file.name}`);
+        } else {
+          // Single lesson/document: stage normally
+          const { error: stagingError } = await supabase
+            .from('content_staging')
+            .insert({
+              file_url: fileUrl,
+              file_name: file.name,
+              ai_suggestion: aiSuggestion,
+              status: 'pending',
+              uploaded_by: currentUser.id
+            });
+
+          if (stagingError) {
+            console.error('Staging error:', stagingError);
+            showError(`Failed to stage ${file.name}`);
+            continue;
+          }
+
+          // Step 4: Show mapping review modal for single items
+          setCurrentMapping({
+            fileName: file.name,
+            fileUrl: fileUrl,
+            aiSuggestion: aiSuggestion
           });
-
-        if (stagingError) {
-          console.error('Staging error:', stagingError);
-          showError(`Failed to stage ${file.name}`);
-          continue;
+          setShowMappingReviewModal(true);
+          setShowBrowseFilesModal(false);
         }
-
-        // Step 4: Show mapping review modal
-        setCurrentMapping({
-          fileName: file.name,
-          fileUrl: fileUrl,
-          aiSuggestion: processorData.aiSuggestion
-        });
-        setShowMappingReviewModal(true);
-        setShowBrowseFilesModal(false);
       }
     } catch (error: any) {
       console.error('File upload error:', error);

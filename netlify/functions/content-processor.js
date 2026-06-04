@@ -107,17 +107,23 @@ exports.handler = async (event, context) => {
 
 Analyze the following curriculum content and determine:
 1. Content type (${activeDiscipline.contentTypes})
-2. Which module(s) it belongs to:
+2. Is this a SYLLABUS/CURRICULUM document containing multiple lessons, or a SINGLE lesson/document?
+3. Which module(s) it belongs to:
    - ${mods.workspace.name}: ${mods.workspace.desc}
    - ${mods.notebook.name}: ${mods.notebook.desc}
    - ${mods.school.name}: ${mods.school.desc}
    - ${mods.community.name}: ${mods.community.desc}
-3. Extracted metadata (title, week number, topics, equipment, etc.)
-4. Confidence score (0-100)
+4. Extracted metadata (title, week number, topics, equipment, etc.)
+5. Confidence score (0-100)
+
+If this is a SYLLABUS containing multiple lessons (look for patterns like "Week 1", "Lesson 1", "Module 1", chapter headings, or a table of contents), extract ALL lessons as an array.
 
 Return your analysis as a JSON object with this structure:
+
+For SINGLE lesson/document:
 {
   "contentType": "${activeDiscipline.contentTypes.split(', ')[0]}" | "${activeDiscipline.contentTypes.split(', ')[1]}" | "lesson" | "technique" | "video",
+  "isSyllabus": false,
   "modules": {
     "workspace": { "include": true/false, "reason": "why" },
     "notebook": { "include": true/false, "reason": "why" },
@@ -134,11 +140,44 @@ Return your analysis as a JSON object with this structure:
   "confidence": 0-100
 }
 
+For SYLLABUS with multiple lessons:
+{
+  "contentType": "syllabus",
+  "isSyllabus": true,
+  "modules": {
+    "workspace": { "include": true/false, "reason": "why" },
+    "notebook": { "include": true/false, "reason": "why" },
+    "school": { "include": true/false, "reason": "why" },
+    "community": { "include": true/false, "reason": "why" }
+  },
+  "lessons": [
+    {
+      "title": "Lesson 1 title",
+      "weekNumber": 1,
+      "topics": ["topic1", "topic2"],
+      "equipment": ["equipment1", "equipment2"],
+      "difficulty": "beginner" | "intermediate" | "advanced"
+    },
+    {
+      "title": "Lesson 2 title",
+      "weekNumber": 2,
+      "topics": ["topic1", "topic2"],
+      "equipment": ["equipment1", "equipment2"],
+      "difficulty": "beginner" | "intermediate" | "advanced"
+    }
+  ],
+  "metadata": {
+    "title": "Overall syllabus title",
+    "totalWeeks": number or null
+  },
+  "confidence": 0-100
+}
+
 IMPORTANT: Use the exact module keys "workspace", "notebook", "school", "community" in your JSON response.
 
 Here is the curriculum content to analyze:
 
-${extractedText.substring(0, 4000)}`;
+${extractedText.substring(0, 8000)}`;
 
     // Call Anthropic API via existing proxy
     const anthropicResponse = await fetch(`${event.headers.origin || 'http://localhost:8888'}/.netlify/functions/anthropic-proxy`, {
