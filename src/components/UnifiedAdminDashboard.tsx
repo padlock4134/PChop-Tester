@@ -8402,67 +8402,79 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
               <button
                 onClick={async () => {
-                  const aiSuggestion = currentMapping.aiSuggestion;
+                  try {
+                    console.log('Confirm Mapping clicked');
+                    const aiSuggestion = currentMapping.aiSuggestion;
+                    console.log('AI suggestion:', aiSuggestion);
 
-                  // If syllabus with multiple lessons, insert them directly
-                  if (aiSuggestion?.isSyllabus && Array.isArray(aiSuggestion.lessons) && aiSuggestion.lessons.length > 0) {
-                    const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
-                      title: lesson.title,
-                      content_type: 'lesson',
-                      content_data: {
-                        topics: lesson.topics || [],
-                        equipment: lesson.equipment || [],
-                        difficulty: lesson.difficulty || 'intermediate'
-                      },
-                      week_number: lesson.weekNumber || null
-                    }));
+                    // If syllabus with multiple lessons, insert them directly
+                    if (aiSuggestion?.isSyllabus && Array.isArray(aiSuggestion.lessons) && aiSuggestion.lessons.length > 0) {
+                      console.log('Processing as syllabus with', aiSuggestion.lessons.length, 'lessons');
+                      const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
+                        title: lesson.title,
+                        content_type: 'lesson',
+                        content_data: {
+                          topics: lesson.topics || [],
+                          equipment: lesson.equipment || [],
+                          difficulty: lesson.difficulty || 'intermediate'
+                        },
+                        week_number: lesson.weekNumber || null
+                      }));
 
-                    const { error: curriculumError } = await supabase
-                      .from('curriculum_content')
-                      .insert(lessonsToInsert);
+                      console.log('Inserting lessons:', lessonsToInsert);
+                      const { error: curriculumError } = await supabase
+                        .from('curriculum_content')
+                        .insert(lessonsToInsert);
 
-                    if (curriculumError) {
-                      console.error('Curriculum insert error:', curriculumError);
-                      showError(`Failed to import lessons: ${curriculumError.message}`);
+                      if (curriculumError) {
+                        console.error('Curriculum insert error:', curriculumError);
+                        showError(`Failed to import lessons: ${curriculumError.message}`);
+                        return;
+                      }
+
+                      showSuccess(`Imported ${lessonsToInsert.length} lessons from ${currentMapping.fileName}`);
+                      setShowMappingReviewModal(false);
                       return;
                     }
 
-                    showSuccess(`Imported ${lessonsToInsert.length} lessons from ${currentMapping.fileName}`);
+                    // Single lesson: populate checkbox state based on AI mapping
+                    console.log('Processing as single lesson');
+                    const modules = aiSuggestion?.modules || {};
+                    console.log('Modules:', modules);
+                    setModuleSelection({
+                      workspace: {
+                        item1: modules.workspace?.include ?? false,
+                        item2: modules.workspace?.include ?? false,
+                        item3: modules.workspace?.include ?? false,
+                        item4: modules.workspace?.include ?? false
+                      },
+                      notebook: {
+                        assignments: modules.notebook?.include ?? false,
+                        rubrics: modules.notebook?.include ?? false,
+                        items: modules.notebook?.include ?? false,
+                        video: modules.notebook?.include ?? false
+                      },
+                      school: {
+                        techniques: modules.school?.include ?? false,
+                        syllabus: modules.school?.include ?? false,
+                        lessons: modules.school?.include ?? false,
+                        objectives: modules.school?.include ?? false
+                      },
+                      community: {
+                        videos: modules.community?.include ?? false,
+                        insights: modules.community?.include ?? false,
+                        sessions: modules.community?.include ?? false,
+                        partnerships: modules.community?.include ?? false
+                      }
+                    });
+                    console.log('Module selection set, closing modal');
+                    // Close mapping review modal
                     setShowMappingReviewModal(false);
-                    return;
+                    // Module Integration Modal is already open, checkboxes will now show the mapping
+                  } catch (error) {
+                    console.error('Error in Confirm Mapping:', error);
+                    showError(`Error: ${error}`);
                   }
-
-                  // Single lesson: populate checkbox state based on AI mapping
-                  const modules = aiSuggestion?.modules || {};
-                  setModuleSelection({
-                    workspace: {
-                      item1: modules.workspace?.include ?? false,
-                      item2: modules.workspace?.include ?? false,
-                      item3: modules.workspace?.include ?? false,
-                      item4: modules.workspace?.include ?? false
-                    },
-                    notebook: {
-                      assignments: modules.notebook?.include ?? false,
-                      rubrics: modules.notebook?.include ?? false,
-                      items: modules.notebook?.include ?? false,
-                      video: modules.notebook?.include ?? false
-                    },
-                    school: {
-                      techniques: modules.school?.include ?? false,
-                      syllabus: modules.school?.include ?? false,
-                      lessons: modules.school?.include ?? false,
-                      objectives: modules.school?.include ?? false
-                    },
-                    community: {
-                      videos: modules.community?.include ?? false,
-                      insights: modules.community?.include ?? false,
-                      sessions: modules.community?.include ?? false,
-                      partnerships: modules.community?.include ?? false
-                    }
-                  });
-                  // Close mapping review modal
-                  setShowMappingReviewModal(false);
-                  // Module Integration Modal is already open, checkboxes will now show the mapping
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
