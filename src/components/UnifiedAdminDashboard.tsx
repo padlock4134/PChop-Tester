@@ -897,7 +897,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           body: JSON.stringify({
             fileUrl: fileUrl,
             fileName: file.name,
-            fileType: file.type
+            fileType: file.type,
+            discipline: selectedDiscipline === 'total' ? 'culinary' : selectedDiscipline
           })
         });
 
@@ -4175,7 +4176,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <input 
                     type="file" 
                     multiple 
-                    accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.gif"
+                    accept=".pdf,.doc,.docx,.txt"
                     className="hidden" 
                     id="file-upload"
                     onChange={(e) => {
@@ -4193,7 +4194,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   </label>
                   
                   <p className="text-xs text-gray-500 mt-3 sm:mt-4">
-                    Supported formats: PDF, Word, Excel, PowerPoint, Images (JPG, PNG, GIF)
+                    Supported formats: PDF, Word (DOCX), and Text files
                   </p>
                 </div>
               
