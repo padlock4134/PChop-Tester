@@ -11,6 +11,7 @@ import { KeyNutrients } from '../types/nutrition';
 import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
 import ServiceTimer from '../components/ServiceTimer';
 import UnitPracticeModal from '../components/UnitPracticeModal';
+import { supabase } from '../api/supabaseClient';
 
 const generalLessons = [
   { title: 'EPA 608 Certification Prep', desc: 'Refrigerant handling, recovery, recycling, and reclaiming for EPA 608.' },
@@ -143,54 +144,10 @@ const HvacSchool = () => {
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-
-  // Mock syllabus data
-  const mockSyllabusData = {
+  const [syllabusData, setSyllabusData] = useState<{ title: string; courses: SyllabusCourse[] }>({
     title: "HVAC Technology Program",
-    courses: [
-      {
-        id: "course-1",
-        title: "Term 1: HVAC Fundamentals",
-        lessons: [
-          { id: "lesson-1-1", title: "Safety, PPE, and Refrigerant Handling", completed: true, current: false },
-          { id: "lesson-1-2", title: "Basic Refrigeration Cycle and Theory", completed: true, current: false },
-          { id: "lesson-1-3", title: "Tools, Meters, and Test Equipment", completed: true, current: false },
-          { id: "lesson-1-4", title: "Manifold Gauges and System Pressures", completed: false, current: true },
-          { id: "lesson-1-5", title: "EPA 608 Certification Prep", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-2",
-        title: "Term 1: Equipment & Systems",
-        lessons: [
-          { id: "lesson-2-1", title: "Split Systems and Heat Pumps", completed: false, current: false },
-          { id: "lesson-2-2", title: "Gas Furnaces and Combustion", completed: false, current: false },
-          { id: "lesson-2-3", title: "Mini-Splits and Variable Refrigerant Flow", completed: false, current: false },
-          { id: "lesson-2-4", title: "Commercial and Rooftop Units", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-3",
-        title: "Term 2: Ductwork, Airflow & Controls",
-        lessons: [
-          { id: "lesson-3-1", title: "Duct Design and Static Pressure", completed: false, current: false },
-          { id: "lesson-3-2", title: "Airflow Balancing and Duct Sealing", completed: false, current: false },
-          { id: "lesson-3-3", title: "Thermostat Wiring and Controls", completed: false, current: false },
-          { id: "lesson-3-4", title: "Zone Control and IAQ Systems", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-4",
-        title: "Term 2: Diagnostics & Professional Practice",
-        lessons: [
-          { id: "lesson-4-1", title: "No-Cool and No-Heat Diagnostics", completed: false, current: false },
-          { id: "lesson-4-2", title: "Electrical Component Testing", completed: false, current: false },
-          { id: "lesson-4-3", title: "Preventive Maintenance and Service Agreements", completed: false, current: false },
-          { id: "lesson-4-4", title: "NATE Certification and Career Pathways", completed: false, current: false },
-        ]
-      }
-    ] as SyllabusCourse[]
-  };
+    courses: []
+  });
 
   const handleLessonClick = (lessonId: string) => {
     console.log(`Navigating to lesson: ${lessonId}`);
@@ -199,6 +156,111 @@ const HvacSchool = () => {
   useEffect(() => {
     updateContext({ page: 'HvacSchool' });
   }, [updateContext]);
+
+  // Fetch published curriculum content from DB
+  useEffect(() => {
+    const loadCurriculum = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('curriculum_content')
+          .select('*')
+          .order('week_number', { ascending: true, nullsFirst: false });
+
+        if (error) {
+          console.error('Error loading curriculum:', error);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          // Group lessons by week/term into courses
+          const courseMap: Record<string, { id: string; title: string; lessons: any[] }> = {};
+
+          data.forEach((item: any, index: number) => {
+            const weekNum = item.week_number || 1;
+            const termNum = weekNum <= 8 ? 1 : 2;
+            const courseKey = `term-${termNum}`;
+
+            if (!courseMap[courseKey]) {
+              courseMap[courseKey] = {
+                id: courseKey,
+                title: termNum === 1 ? 'Term 1: Published Curriculum' : 'Term 2: Published Curriculum',
+                lessons: []
+              };
+            }
+
+            courseMap[courseKey].lessons.push({
+              id: item.id || `lesson-${index}`,
+              title: item.title,
+              completed: false,
+              current: index === 0
+            });
+          });
+
+          const courses = Object.values(courseMap) as SyllabusCourse[];
+          if (courses.length > 0) {
+            setSyllabusData({
+              title: "HVAC Technology Program",
+              courses
+            });
+          }
+        }
+
+        // If no published content, use defaults
+        if (!data || data.length === 0) {
+          setSyllabusData({
+            title: "HVAC Technology Program",
+            courses: [
+              {
+                id: "course-1",
+                title: "Term 1: HVAC Fundamentals",
+                lessons: [
+                  { id: "lesson-1-1", title: "Safety, PPE, and Refrigerant Handling", completed: true, current: false },
+                  { id: "lesson-1-2", title: "Basic Refrigeration Cycle and Theory", completed: true, current: false },
+                  { id: "lesson-1-3", title: "Tools, Meters, and Test Equipment", completed: true, current: false },
+                  { id: "lesson-1-4", title: "Manifold Gauges and System Pressures", completed: false, current: true },
+                  { id: "lesson-1-5", title: "EPA 608 Certification Prep", completed: false, current: false },
+                ]
+              },
+              {
+                id: "course-2",
+                title: "Term 1: Equipment & Systems",
+                lessons: [
+                  { id: "lesson-2-1", title: "Split Systems and Heat Pumps", completed: false, current: false },
+                  { id: "lesson-2-2", title: "Gas Furnaces and Combustion", completed: false, current: false },
+                  { id: "lesson-2-3", title: "Mini-Splits and Variable Refrigerant Flow", completed: false, current: false },
+                  { id: "lesson-2-4", title: "Commercial and Rooftop Units", completed: false, current: false },
+                ]
+              },
+              {
+                id: "course-3",
+                title: "Term 2: Ductwork, Airflow & Controls",
+                lessons: [
+                  { id: "lesson-3-1", title: "Duct Design and Static Pressure", completed: false, current: false },
+                  { id: "lesson-3-2", title: "Airflow Balancing and Duct Sealing", completed: false, current: false },
+                  { id: "lesson-3-3", title: "Thermostat Wiring and Controls", completed: false, current: false },
+                  { id: "lesson-3-4", title: "Zone Control and IAQ Systems", completed: false, current: false },
+                ]
+              },
+              {
+                id: "course-4",
+                title: "Term 2: Diagnostics & Professional Practice",
+                lessons: [
+                  { id: "lesson-4-1", title: "No-Cool and No-Heat Diagnostics", completed: false, current: false },
+                  { id: "lesson-4-2", title: "Electrical Component Testing", completed: false, current: false },
+                  { id: "lesson-4-3", title: "Preventive Maintenance and Service Agreements", completed: false, current: false },
+                  { id: "lesson-4-4", title: "NATE Certification and Career Pathways", completed: false, current: false },
+                ]
+              }
+            ] as SyllabusCourse[]
+          });
+        }
+      } catch (err) {
+        console.error('Failed to load curriculum:', err);
+      }
+    };
+
+    loadCurriculum();
+  }, []);
 
   useEffect(() => {
     if (selectedRecipe && !selectedRecipe.nutrition) {
@@ -506,8 +568,8 @@ const HvacSchool = () => {
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
         }`}>
           <SyllabusCard 
-            title={mockSyllabusData.title}
-            courses={mockSyllabusData.courses}
+            title={syllabusData.title}
+            courses={syllabusData.courses}
             onLessonClick={handleLessonClick}
             onButcherBlockClick={() => setBenchPracticeOpen(true)}
           />
