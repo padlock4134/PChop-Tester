@@ -8240,10 +8240,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <h3 className="text-center font-bold text-blue-900 mb-2">📄 {currentMapping.fileName}</h3>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <span className="font-semibold">Content Type:</span> {currentMapping.aiSuggestion.contentType}
+                  <span className="font-semibold">Content Type:</span> {currentMapping.aiSuggestion.contentType || 'N/A'}
                 </div>
                 <div>
-                  <span className="font-semibold">Confidence:</span> {currentMapping.aiSuggestion.confidence}%
+                  <span className="font-semibold">Confidence:</span> {currentMapping.aiSuggestion.confidence || 0}%
                 </div>
               </div>
             </div>
@@ -8252,17 +8252,17 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="bg-green-50 border-4 border-green-400 rounded-lg p-4 mb-6">
               <h3 className="text-center font-bold text-green-900 mb-3">📊 Extracted Data</h3>
               <div className="space-y-2 text-sm">
-                <div><span className="font-semibold">Title:</span> {currentMapping.aiSuggestion.metadata.title}</div>
-                {currentMapping.aiSuggestion.metadata.weekNumber && (
+                <div><span className="font-semibold">Title:</span> {currentMapping.aiSuggestion.metadata?.title || 'N/A'}</div>
+                {currentMapping.aiSuggestion.metadata?.weekNumber && (
                   <div><span className="font-semibold">Week:</span> {currentMapping.aiSuggestion.metadata.weekNumber}</div>
                 )}
-                {currentMapping.aiSuggestion.metadata.topics.length > 0 && (
+                {currentMapping.aiSuggestion.metadata?.topics && currentMapping.aiSuggestion.metadata.topics.length > 0 && (
                   <div><span className="font-semibold">Topics:</span> {currentMapping.aiSuggestion.metadata.topics.join(', ')}</div>
                 )}
-                {currentMapping.aiSuggestion.metadata.equipment.length > 0 && (
+                {currentMapping.aiSuggestion.metadata?.equipment && currentMapping.aiSuggestion.metadata.equipment.length > 0 && (
                   <div><span className="font-semibold">Equipment:</span> {currentMapping.aiSuggestion.metadata.equipment.join(', ')}</div>
                 )}
-                <div><span className="font-semibold">Difficulty:</span> {currentMapping.aiSuggestion.metadata.difficulty}</div>
+                <div><span className="font-semibold">Difficulty:</span> {currentMapping.aiSuggestion.metadata?.difficulty || 'N/A'}</div>
               </div>
             </div>
 
@@ -8433,7 +8433,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   }
 
                   // Single lesson: populate checkbox state based on AI mapping
-                  const { modules } = aiSuggestion;
+                  const modules = aiSuggestion?.modules || {};
                   setModuleSelection({
                     workspace: {
                       item1: modules.workspace?.include ?? false,
