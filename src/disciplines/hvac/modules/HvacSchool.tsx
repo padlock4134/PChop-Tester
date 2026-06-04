@@ -169,6 +169,8 @@ const HvacSchool = () => {
           .select('*')
           .order('week_number', { ascending: true, nullsFirst: false });
 
+        console.log('Curriculum content data:', currData, 'Error:', currError);
+
         if (!currError && currData && currData.length > 0) {
           items = currData;
         } else {
@@ -178,6 +180,8 @@ const HvacSchool = () => {
             .select('*')
             .in('status', ['distributed', 'pending', 'draft'])
             .order('created_at', { ascending: true });
+
+          console.log('Staging data:', stagingData, 'Error:', stagingError);
 
           if (!stagingError && stagingData && stagingData.length > 0) {
             // Transform staging data — AI suggestion has the metadata
@@ -194,6 +198,8 @@ const HvacSchool = () => {
             });
           }
         }
+
+        console.log('Total items loaded:', items.length);
 
         if (items.length > 0) {
           // Group lessons by week/term into courses
