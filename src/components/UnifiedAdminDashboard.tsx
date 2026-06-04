@@ -403,6 +403,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [importStatus, setImportStatus] = useState<'idle' | 'parsing' | 'uploading' | 'complete' | 'error'>('idle');
   const [uploadedFiles, setUploadedFiles] = useState<Array<{name: string, url: string, type: string, size: number}>>([]);
   const [processingFiles, setProcessingFiles] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [showMappingReviewModal, setShowMappingReviewModal] = useState(false);
   const [currentMapping, setCurrentMapping] = useState<any>(null);
   const [moduleSelection, setModuleSelection] = useState({
@@ -863,10 +864,16 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     }
 
     setProcessingFiles(true);
+    setUploadProgress(0);
 
     try {
-      for (const file of files) {
+      const totalFiles = files.length;
+      for (let i = 0; i < totalFiles; i++) {
+        const file = files[i];
+        const fileProgress = ((i) / totalFiles) * 100;
+
         // Step 1: Upload file to Supabase Storage
+        setUploadProgress(fileProgress + 10);
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}_${file.name}`;
         const filePath = `curriculum/${fileName}`;
@@ -889,6 +896,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         const fileUrl = urlData.publicUrl;
 
         // Step 2: Call content processor function
+        setUploadProgress(fileProgress + 30);
         const processorResponse = await fetch('/.netlify/functions/content-processor', {
           method: 'POST',
           headers: {
@@ -912,6 +920,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         const processorData = await processorResponse.json();
 
         // Step 3: Handle syllabus vs single lesson
+        setUploadProgress(fileProgress + 50);
         const aiSuggestion = processorData.aiSuggestion;
 
         if (aiSuggestion.isSyllabus && aiSuggestion.lessons && aiSuggestion.lessons.length > 0) {
@@ -982,12 +991,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
           setShowMappingReviewModal(true);
           setShowBrowseFilesModal(false);
         }
+
+        setUploadProgress(((i + 1) / totalFiles) * 100);
       }
     } catch (error: any) {
       console.error('File upload error:', error);
       showError(`Upload failed: ${error.message}`);
     } finally {
       setProcessingFiles(false);
+      setUploadProgress(0);
     }
   };
 
@@ -4238,7 +4250,23 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   >
                     Choose Files
                   </label>
-                  
+
+                  {/* Upload Progress Bar */}
+                  {processingFiles && (
+                    <div className="mt-3 sm:mt-4">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-xs text-gray-600">Uploading...</span>
+                        <span className="text-xs font-semibold text-maineBlue">{Math.round(uploadProgress)}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-maineBlue h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${uploadProgress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+
                   <p className="text-xs text-gray-500 mt-3 sm:mt-4">
                     Supported formats: PDF, Word (DOCX), and Text files
                   </p>
