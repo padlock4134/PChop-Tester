@@ -68,7 +68,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       }
     } catch (error) {
       console.error('Error generating AR practice:', error);
-      alert(t('culinarySchool.charcuterieBoard.couldNotGenerateAR'));
+      alert('Could not generate AR practice scene');
       setIsPracticing(false);
     } finally {
       setIsGeneratingAR(false);
@@ -116,8 +116,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {/* Banner Header - Left Side Only */}
           <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
-              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🧀</span>
-              {t('culinarySchool.charcuterieBoard.title')}
+              <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🔧</span>
+              Bench Practice
             </h2>
           </div>
           
@@ -126,10 +126,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           {isPracticing && (
             <>
               <h2 className="text-sm sm:text-lg font-bold mb-1 text-center text-amber-800">
-                📚 {t('culinarySchool.charcuterieBoard.virtualPractice')}: {arScene?.lesson || 'HVAC Fundamentals'}
+                📚 Virtual Practice: {arScene?.lesson || 'HVAC Fundamentals'}
               </h2>
               <p className="text-center text-xs text-gray-600 mb-1">
-                {t('culinarySchool.charcuterieBoard.arDemonstration')}
+                AR-guided demonstration mode
               </p>
             </>
           )}
@@ -140,15 +140,15 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               // Generating AR scene
               <div className="text-amber-900 text-center">
                 <div className="text-6xl mb-4 animate-pulse">🧠</div>
-                <p className="text-lg font-bold">{t('culinarySchool.charcuterieBoard.aiGeneratingPractice')}</p>
-                <p className="text-sm opacity-75 mt-2">{t('culinarySchool.charcuterieBoard.creatingVirtualKitchen')}</p>
+                <p className="text-lg font-bold">AI generating practice scene...</p>
+                <p className="text-sm opacity-75 mt-2">Creating virtual workbench</p>
               </div>
             ) : isPracticing && arScene ? (
               // Virtual practice mode - show AR scene
               <ARShopScene 
                 scene={arScene}
                 onComplete={() => {
-                  alert(t('culinarySchool.charcuterieBoard.practiceComplete'));
+                  alert('Practice complete! Great work.');
                   cleanupPractice();
                 }}
                 guideOpen={guideOpen}
@@ -158,9 +158,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             ) : (
               // Not practicing - show placeholder
               <div className="text-amber-900 text-center">
-                <div className="text-4xl mb-2">👨‍🍳</div>
-                <p className="text-sm font-bold">{t('culinarySchool.charcuterieBoard.aiGuidedPracticeLabel')}</p>
-                <p className="text-xs opacity-75">{t('culinarySchool.charcuterieBoard.selectLessonStart')}</p>
+                <div className="text-4xl mb-2">�</div>
+                <p className="text-sm font-bold">AI-Guided Bench Practice</p>
+                <p className="text-xs opacity-75">Select a lesson and press start</p>
               </div>
             )}
             
@@ -168,13 +168,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             {isPracticing && (
               <div className="absolute top-4 left-4 bg-amber-700 text-white text-sm px-3 py-1 rounded-full flex items-center">
                 <span className="w-2 h-2 bg-white rounded-full mr-2 animate-pulse"></span>
-                {t('culinarySchool.charcuterieBoard.practicing')}
+                Practicing
               </div>
             )}
             
             {/* Timer/Progress */}
             <div className="absolute top-4 right-4 bg-black bg-opacity-50 text-white text-sm px-3 py-1 rounded-full">
-              ⏱️ {isPracticing ? '5:23' : t('culinarySchool.charcuterieBoard.notStarted')}
+              ⏱️ {isPracticing ? '5:23' : 'Not started'}
             </div>
           </div>
 
@@ -186,34 +186,34 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onClick={() => setShowDeviceSelection(true)}
                   className="w-full sm:w-auto bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
                 >
-                  📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
+                  � Virtual Practice
                 </button>
                 <select
                   value={selectedLesson}
                   onChange={(e) => setSelectedLesson(e.target.value)}
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
-                  <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
+                  <option value="">Choose a lesson...</option>
+                  <optgroup label="Term 1: HVAC Fundamentals">
                     <option value="lesson-1-1">HVAC Safety and Lockout/Tagout</option>
                     <option value="lesson-1-2">Refrigerant Handling and Recovery Basics</option>
                     <option value="lesson-1-3">Introduction to HVAC Tools and Instruments</option>
                     <option value="lesson-1-4">HVAC Terminology and System Components</option>
                     <option value="lesson-1-5">BTU, CFM, and Pressure Conversions</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
+                  <optgroup label="Term 1: Tools & Techniques">
                     <option value="lesson-2-1">Manifold Gauge Setup and Care</option>
                     <option value="lesson-2-2">Basic Duct Layout and Cutting Techniques</option>
                     <option value="lesson-2-3">Duct Fitting and Transitions</option>
                     <option value="lesson-2-4">Copper Tube Preparation and Brazing Basics</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
+                  <optgroup label="Term 2: Electrical & Controls">
                     <option value="lesson-3-1">Electrical Fundamentals for HVAC</option>
                     <option value="lesson-3-2">Thermostat Setup and Calibration</option>
                     <option value="lesson-3-3">Airflow Balancing Fundamentals</option>
                     <option value="lesson-3-4">Filter Service and Indoor Air Quality Checks</option>
                   </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
+                  <optgroup label="Term 2: Systems & Diagnostics">
                     <option value="lesson-4-1">Heat Pump Operation Fundamentals</option>
                     <option value="lesson-4-2">Troubleshooting No-Cool Calls</option>
                     <option value="lesson-4-3">Troubleshooting No-Heat Calls</option>
@@ -227,7 +227,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   onClick={endPractice}
                   className="w-full sm:w-auto bg-amber-800 text-white px-4 py-2 text-sm rounded font-bold hover:bg-amber-900 transition-colors border border-amber-900"
                 >
-                  ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
+                  ⏹️ End Practice
                 </button>
                 <select
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
@@ -240,22 +240,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             )}
           </div>
 
-          {/* Technique Feedback - below controls */}
-          <div className="mb-2 mx-2 sm:mx-4">
-            <div className="bg-blue-50 border border-blue-200 rounded p-3">
-              <div className="flex items-start space-x-2">
-                <span className="text-lg">🤖</span>
-                <div className="flex-1">
-                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
-                  <p className="text-xs text-blue-800">
-                    {isPracticing 
-                      ? "Great start! Keep your knife angle consistent..."
-                      : "Start practicing to receive real-time AI guidance"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
           
           {modeNotice && (
             <div className="mx-2 sm:mx-0 mb-2 rounded-lg border-2 border-maineBlue bg-sand px-3 py-2 text-xs sm:text-sm text-maineBlue text-center font-semibold">
@@ -269,7 +253,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             className="lg:hidden w-full bg-amber-100 text-amber-800 px-4 py-2 text-sm font-bold border-t-2 border-amber-300 hover:bg-amber-200 transition-colors flex items-center justify-center gap-2"
           >
             <span className="text-lg">📋</span>
-            <span>{instructionsOpen ? t('culinarySchool.charcuterieBoard.hideInstructions') : t('culinarySchool.charcuterieBoard.showInstructions')}</span>
+            <span>{instructionsOpen ? 'Hide Instructions' : 'Show Instructions'}</span>
             <span className="text-xs">{instructionsOpen ? '▼' : '▲'}</span>
           </button>
           
@@ -279,7 +263,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               {/* Instructions Header */}
               <div className="p-3 bg-amber-100 text-amber-800 font-retro text-center border-b-2 border-amber-300">
                 <h3 className="text-base font-bold">
-                  📋 {t('culinarySchool.charcuterieBoard.practiceInstructions')}
+                  📋 Practice Instructions
                 </h3>
               </div>
               
@@ -288,34 +272,34 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Lesson Selection Dropdown */}
                 <div className="mb-3">
                   <label className="block text-xs font-semibold text-amber-800 mb-1">
-                    {t('culinarySchool.charcuterieBoard.selectLessonToPractice')}
+                    Select a lesson to practice:
                   </label>
                   <select
                     value={selectedLesson}
                     onChange={(e) => setSelectedLesson(e.target.value)}
                     className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   >
-                    <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
+                    <option value="">Choose a lesson...</option>
+                    <optgroup label="Term 1: HVAC Fundamentals">
                       <option value="lesson-1-1">HVAC Safety and Lockout/Tagout</option>
                       <option value="lesson-1-2">Refrigerant Handling and Recovery Basics</option>
                       <option value="lesson-1-3">Introduction to HVAC Tools and Instruments</option>
                       <option value="lesson-1-4">HVAC Terminology and System Components</option>
                       <option value="lesson-1-5">BTU, CFM, and Pressure Conversions</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
+                    <optgroup label="Term 1: Tools & Techniques">
                       <option value="lesson-2-1">Manifold Gauge Setup and Care</option>
                       <option value="lesson-2-2">Basic Duct Layout and Cutting Techniques</option>
                       <option value="lesson-2-3">Duct Fitting and Transitions</option>
                       <option value="lesson-2-4">Copper Tube Preparation and Brazing Basics</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
+                    <optgroup label="Term 2: Electrical & Controls">
                       <option value="lesson-3-1">Electrical Fundamentals for HVAC</option>
                       <option value="lesson-3-2">Thermostat Setup and Calibration</option>
                       <option value="lesson-3-3">Airflow Balancing Fundamentals</option>
                       <option value="lesson-3-4">Filter Service and Indoor Air Quality Checks</option>
                     </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
+                    <optgroup label="Term 2: Systems & Diagnostics">
                       <option value="lesson-4-1">Heat Pump Operation Fundamentals</option>
                       <option value="lesson-4-2">Troubleshooting No-Cool Calls</option>
                       <option value="lesson-4-3">Troubleshooting No-Heat Calls</option>
@@ -330,47 +314,46 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   className="w-full mb-3 bg-amber-800 hover:bg-amber-700 text-white rounded-lg shadow border-2 border-amber-600 px-3 py-1.5 text-sm cursor-pointer transition-all flex items-center justify-center gap-2"
                 >
                   <span className="text-base">📋</span>
-                  <span className="text-xs font-bold">{guideOpen ? t('culinarySchool.charcuterieBoard.closeGuide') : t('culinarySchool.charcuterieBoard.openGuide')}</span>
+                  <span className="text-xs font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
                 </button>
                 
-                
-                {/* Practice Steps */}
-                <div className="space-y-2">
-                  <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step1Setup')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step1Desc')}</p>
-                  </div>
-                  
-                  <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step2KnifeGrip')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step2Desc')}</p>
-                  </div>
-                  
-                  <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">{t('culinarySchool.charcuterieBoard.step3FirstCuts')}</div>
-                    <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step3Desc')}</p>
-                  </div>
-
-                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">{t('culinarySchool.charcuterieBoard.step4Validation')}</div>
-                    <p className="text-xs text-gray-600">{t('culinarySchool.charcuterieBoard.step4Desc')}</p>
-                  </div>
-                </div>
-                
-                {/* AI Feedback */}
-                <div className="mt-3 pt-2 border-t border-gray-200">
+                {/* Technique Feedback - below Open Guide */}
+                <div className="mb-3">
                   <div className="bg-blue-50 border border-blue-200 rounded p-2">
                     <div className="flex items-start space-x-2">
                       <span className="text-base">🤖</span>
                       <div className="flex-1">
-                        <div className="font-semibold text-xs text-blue-900 mb-0.5">{t('culinarySchool.charcuterieBoard.aiFeedback')}</div>
+                        <div className="font-semibold text-xs text-blue-900 mb-0.5">Technique Feedback</div>
                         <p className="text-xs text-blue-800">
                           {isPracticing 
-                            ? t('culinarySchool.charcuterieBoard.aiFeedbackActive')
-                            : t('culinarySchool.charcuterieBoard.aiFeedbackInactive')}
+                            ? 'Good form! Maintain consistent probe contact...'
+                            : 'Start practicing to receive real-time AI guidance'}
                         </p>
                       </div>
                     </div>
+                  </div>
+                </div>
+                
+                {/* Practice Steps */}
+                <div className="space-y-2">
+                  <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 1: Setup</div>
+                    <p className="text-xs text-gray-700">Stage your tools and gather required HVAC materials</p>
+                  </div>
+                  
+                  <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 2: Tool Control</div>
+                    <p className="text-xs text-gray-700">Use steady instrument handling and maintain consistent probe contact</p>
+                  </div>
+                  
+                  <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 3: Measurements</div>
+                    <p className="text-xs text-gray-700">Capture and log pressure readings across each test point</p>
+                  </div>
+
+                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
+                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Step 4: Validation</div>
+                    <p className="text-xs text-gray-600">AI will validate your readings for consistency and tolerance</p>
                   </div>
                 </div>
               </div>
@@ -400,6 +383,23 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <span className="text-lg">📋</span>
             <span className="text-sm font-bold">{guideOpen ? 'Close Guide' : 'Open Guide'}</span>
           </button>
+
+          {/* Technique Feedback - below Open Guide */}
+          <div className="mb-4">
+            <div className="bg-blue-50 border border-blue-200 rounded p-3">
+              <div className="flex items-start space-x-2">
+                <span className="text-lg">🤖</span>
+                <div className="flex-1">
+                  <div className="font-semibold text-xs text-blue-900 mb-1">Technique Feedback</div>
+                  <p className="text-xs text-blue-800">
+                    {isPracticing 
+                      ? 'Good form! Maintain consistent probe contact...'
+                      : 'Start practicing to receive real-time AI guidance'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
             {/* Placeholder instructions */}
@@ -438,7 +438,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="flex-1"></div>
             <h3 className="text-xl font-bold text-amber-900 flex items-center gap-2">
               <span>📖</span>
-              <span>{t('culinarySchool.charcuterieBoard.practiceGuide')}</span>
+              <span>Practice Guide</span>
             </h3>
             <div className="flex-1 flex justify-end">
               <button
@@ -455,34 +455,34 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             <div className="space-y-4">
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
-                  <span>🔪</span>
-                  <span>{t('culinarySchool.charcuterieBoard.knifeTechnique')}</span>
+                  <span>�</span>
+                  <span>Instrument Technique</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.knifeTechniqueDesc')}</p>
+                <p className="text-sm text-gray-800">Proper gauge connection, consistent probe placement, and accurate pressure readings.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>📏</span>
-                  <span>{t('culinarySchool.charcuterieBoard.consistency')}</span>
+                  <span>Measurement Consistency</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.consistencyDesc')}</p>
+                <p className="text-sm text-gray-800">Take multiple readings and verify against manufacturer specs for accuracy.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>⚡</span>
-                  <span>{t('culinarySchool.charcuterieBoard.safetyFirst')}</span>
+                  <span>Safety First</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.safetyFirstDesc')}</p>
+                <p className="text-sm text-gray-800">Always verify lockout/tagout, check for live voltage, and wear appropriate PPE.</p>
               </div>
               
               <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
                 <p className="font-semibold text-amber-900 mb-2 flex items-center gap-2">
                   <span>🎯</span>
-                  <span>{t('culinarySchool.charcuterieBoard.focusPoints')}</span>
+                  <span>Focus Points</span>
                 </p>
-                <p className="text-sm text-gray-800">{t('culinarySchool.charcuterieBoard.focusPointsDesc')}</p>
+                <p className="text-sm text-gray-800">Superheat/subcooling targets, static pressure limits, and temperature differential specs.</p>
               </div>
             </div>
           </div>

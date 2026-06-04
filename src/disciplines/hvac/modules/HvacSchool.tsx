@@ -161,29 +161,53 @@ const HvacSchool = () => {
   useEffect(() => {
     const loadCurriculum = async () => {
       try {
-        const { data, error } = await supabase
+        // Try curriculum_content first, fallback to content_staging
+        let items: any[] = [];
+
+        const { data: currData, error: currError } = await supabase
           .from('curriculum_content')
           .select('*')
           .order('week_number', { ascending: true, nullsFirst: false });
 
-        if (error) {
-          console.error('Error loading curriculum:', error);
-          return;
+        if (!currError && currData && currData.length > 0) {
+          items = currData;
+        } else {
+          // Fallback: read from content_staging (where uploads land)
+          const { data: stagingData, error: stagingError } = await supabase
+            .from('content_staging')
+            .select('*')
+            .in('status', ['distributed', 'pending', 'draft'])
+            .order('created_at', { ascending: true });
+
+          if (!stagingError && stagingData && stagingData.length > 0) {
+            // Transform staging data — AI suggestion has the metadata
+            items = stagingData.map((row: any) => {
+              const suggestion = row.ai_suggestion || {};
+              const metadata = suggestion.metadata || {};
+              return {
+                id: row.id,
+                title: metadata.title || row.file_name || 'Untitled Lesson',
+                content_type: suggestion.contentType || 'lesson',
+                week_number: metadata.weekNumber || null,
+                content_data: { topics: metadata.topics || [], equipment: metadata.equipment || [] }
+              };
+            });
+          }
         }
 
-        if (data && data.length > 0) {
+        if (items.length > 0) {
           // Group lessons by week/term into courses
           const courseMap: Record<string, { id: string; title: string; lessons: any[] }> = {};
 
-          data.forEach((item: any, index: number) => {
-            const weekNum = item.week_number || 1;
+          items.forEach((item: any, index: number) => {
+            const weekNum = item.week_number || Math.floor(index / 4) + 1;
             const termNum = weekNum <= 8 ? 1 : 2;
             const courseKey = `term-${termNum}`;
 
             if (!courseMap[courseKey]) {
               courseMap[courseKey] = {
                 id: courseKey,
-                title: termNum === 1 ? 'Term 1: Published Curriculum' : 'Term 2: Published Curriculum',
+                title: termNum === 1 ? 'Term 1: Uploaded Curriculum' : 'Term 2: Uploaded Curriculum',
                 lessons: []
               };
             }
@@ -202,11 +226,12 @@ const HvacSchool = () => {
               title: "HVAC Technology Program",
               courses
             });
+            return; // Found content, skip defaults
           }
         }
 
-        // If no published content, use defaults
-        if (!data || data.length === 0) {
+        // If no published content anywhere, use defaults
+        if (items.length === 0) {
           setSyllabusData({
             title: "HVAC Technology Program",
             courses: [
