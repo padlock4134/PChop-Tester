@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ARShopScene from './ARShopScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
 import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
+import { supabase } from '../api/supabaseClient';
 
 interface BenchPracticeModalProps {
   open: boolean;
@@ -20,7 +21,61 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const [arScene, setArScene] = useState<any>(null);
   const [guideOpen, setGuideOpen] = useState(false);
   const [instructionsOpen, setInstructionsOpen] = useState(false);
+  const [curriculumLessons, setCurriculumLessons] = useState<Array<{ id: string; title: string; weekNumber?: number }>>([]);
   const stopTrackingRef = useRef<(() => void) | null>(null);
+
+  // Fetch curriculum lessons for dropdown
+  useEffect(() => {
+    const loadCurriculum = async () => {
+      try {
+        let items: any[] = [];
+
+        // Try curriculum_content first
+        const { data: currData, error: currError } = await supabase
+          .from('curriculum_content')
+          .select('*')
+          .order('week_number', { ascending: true, nullsFirst: false });
+
+        if (!currError && currData && currData.length > 0) {
+          items = currData;
+        } else {
+          // Fallback to content_staging
+          const { data: stagingData, error: stagingError } = await supabase
+            .from('content_staging')
+            .select('*')
+            .in('status', ['distributed', 'pending', 'draft'])
+            .order('created_at', { ascending: true });
+
+          if (!stagingError && stagingData && stagingData.length > 0) {
+            items = stagingData.map((row: any) => {
+              const suggestion = row.ai_suggestion || {};
+              const metadata = suggestion.metadata || {};
+              return {
+                id: row.id,
+                title: metadata.title || row.file_name || 'Untitled Lesson',
+                week_number: metadata.weekNumber || null
+              };
+            });
+          }
+        }
+
+        if (items.length > 0) {
+          const lessons = items.map((item: any) => ({
+            id: item.id,
+            title: item.title,
+            weekNumber: item.week_number
+          }));
+          setCurriculumLessons(lessons);
+        }
+      } catch (err) {
+        console.error('Failed to load curriculum for dropdown:', err);
+      }
+    };
+
+    if (open) {
+      loadCurriculum();
+    }
+  }, [open]);
 
   if (!open) return null;
 
@@ -194,31 +249,41 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
                   <option value="">Choose a lesson...</option>
-                  <optgroup label="Term 1: HVAC Fundamentals">
-                    <option value="lesson-1-1">HVAC Safety and Lockout/Tagout</option>
-                    <option value="lesson-1-2">Refrigerant Handling and Recovery Basics</option>
-                    <option value="lesson-1-3">Introduction to HVAC Tools and Instruments</option>
-                    <option value="lesson-1-4">HVAC Terminology and System Components</option>
-                    <option value="lesson-1-5">BTU, CFM, and Pressure Conversions</option>
-                  </optgroup>
-                  <optgroup label="Term 1: Tools & Techniques">
-                    <option value="lesson-2-1">Manifold Gauge Setup and Care</option>
-                    <option value="lesson-2-2">Basic Duct Layout and Cutting Techniques</option>
-                    <option value="lesson-2-3">Duct Fitting and Transitions</option>
-                    <option value="lesson-2-4">Copper Tube Preparation and Brazing Basics</option>
-                  </optgroup>
-                  <optgroup label="Term 2: Electrical & Controls">
-                    <option value="lesson-3-1">Electrical Fundamentals for HVAC</option>
-                    <option value="lesson-3-2">Thermostat Setup and Calibration</option>
-                    <option value="lesson-3-3">Airflow Balancing Fundamentals</option>
-                    <option value="lesson-3-4">Filter Service and Indoor Air Quality Checks</option>
-                  </optgroup>
-                  <optgroup label="Term 2: Systems & Diagnostics">
-                    <option value="lesson-4-1">Heat Pump Operation Fundamentals</option>
-                    <option value="lesson-4-2">Troubleshooting No-Cool Calls</option>
-                    <option value="lesson-4-3">Troubleshooting No-Heat Calls</option>
-                    <option value="lesson-4-4">System Commissioning Checklist</option>
-                  </optgroup>
+                  {curriculumLessons.length > 0 ? (
+                    curriculumLessons.map((lesson) => (
+                      <option key={lesson.id} value={lesson.id}>
+                        {lesson.weekNumber ? `Week ${lesson.weekNumber}: ` : ''}{lesson.title}
+                      </option>
+                    ))
+                  ) : (
+                    <>
+                      <optgroup label="Term 1: HVAC Fundamentals">
+                        <option value="lesson-1-1">HVAC Safety and Lockout/Tagout</option>
+                        <option value="lesson-1-2">Refrigerant Handling and Recovery Basics</option>
+                        <option value="lesson-1-3">Introduction to HVAC Tools and Instruments</option>
+                        <option value="lesson-1-4">HVAC Terminology and System Components</option>
+                        <option value="lesson-1-5">BTU, CFM, and Pressure Conversions</option>
+                      </optgroup>
+                      <optgroup label="Term 1: Tools & Techniques">
+                        <option value="lesson-2-1">Manifold Gauge Setup and Care</option>
+                        <option value="lesson-2-2">Basic Duct Layout and Cutting Techniques</option>
+                        <option value="lesson-2-3">Duct Fitting and Transitions</option>
+                        <option value="lesson-2-4">Copper Tube Preparation and Brazing Basics</option>
+                      </optgroup>
+                      <optgroup label="Term 2: Electrical & Controls">
+                        <option value="lesson-3-1">Electrical Fundamentals for HVAC</option>
+                        <option value="lesson-3-2">Thermostat Setup and Calibration</option>
+                        <option value="lesson-3-3">Airflow Balancing Fundamentals</option>
+                        <option value="lesson-3-4">Filter Service and Indoor Air Quality Checks</option>
+                      </optgroup>
+                      <optgroup label="Term 2: Systems & Diagnostics">
+                        <option value="lesson-4-1">Heat Pump Operation Fundamentals</option>
+                        <option value="lesson-4-2">Troubleshooting No-Cool Calls</option>
+                        <option value="lesson-4-3">Troubleshooting No-Heat Calls</option>
+                        <option value="lesson-4-4">System Commissioning Checklist</option>
+                      </optgroup>
+                    </>
+                  )}
                 </select>
               </>
             ) : (
@@ -280,31 +345,41 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                     className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   >
                     <option value="">Choose a lesson...</option>
-                    <optgroup label="Term 1: HVAC Fundamentals">
-                      <option value="lesson-1-1">HVAC Safety and Lockout/Tagout</option>
-                      <option value="lesson-1-2">Refrigerant Handling and Recovery Basics</option>
-                      <option value="lesson-1-3">Introduction to HVAC Tools and Instruments</option>
-                      <option value="lesson-1-4">HVAC Terminology and System Components</option>
-                      <option value="lesson-1-5">BTU, CFM, and Pressure Conversions</option>
-                    </optgroup>
-                    <optgroup label="Term 1: Tools & Techniques">
-                      <option value="lesson-2-1">Manifold Gauge Setup and Care</option>
-                      <option value="lesson-2-2">Basic Duct Layout and Cutting Techniques</option>
-                      <option value="lesson-2-3">Duct Fitting and Transitions</option>
-                      <option value="lesson-2-4">Copper Tube Preparation and Brazing Basics</option>
-                    </optgroup>
-                    <optgroup label="Term 2: Electrical & Controls">
-                      <option value="lesson-3-1">Electrical Fundamentals for HVAC</option>
-                      <option value="lesson-3-2">Thermostat Setup and Calibration</option>
-                      <option value="lesson-3-3">Airflow Balancing Fundamentals</option>
-                      <option value="lesson-3-4">Filter Service and Indoor Air Quality Checks</option>
-                    </optgroup>
-                    <optgroup label="Term 2: Systems & Diagnostics">
-                      <option value="lesson-4-1">Heat Pump Operation Fundamentals</option>
-                      <option value="lesson-4-2">Troubleshooting No-Cool Calls</option>
-                      <option value="lesson-4-3">Troubleshooting No-Heat Calls</option>
-                      <option value="lesson-4-4">System Commissioning Checklist</option>
-                    </optgroup>
+                    {curriculumLessons.length > 0 ? (
+                      curriculumLessons.map((lesson) => (
+                        <option key={lesson.id} value={lesson.id}>
+                          {lesson.weekNumber ? `Week ${lesson.weekNumber}: ` : ''}{lesson.title}
+                        </option>
+                      ))
+                    ) : (
+                      <>
+                        <optgroup label="Term 1: HVAC Fundamentals">
+                          <option value="lesson-1-1">HVAC Safety and Lockout/Tagout</option>
+                          <option value="lesson-1-2">Refrigerant Handling and Recovery Basics</option>
+                          <option value="lesson-1-3">Introduction to HVAC Tools and Instruments</option>
+                          <option value="lesson-1-4">HVAC Terminology and System Components</option>
+                          <option value="lesson-1-5">BTU, CFM, and Pressure Conversions</option>
+                        </optgroup>
+                        <optgroup label="Term 1: Tools & Techniques">
+                          <option value="lesson-2-1">Manifold Gauge Setup and Care</option>
+                          <option value="lesson-2-2">Basic Duct Layout and Cutting Techniques</option>
+                          <option value="lesson-2-3">Duct Fitting and Transitions</option>
+                          <option value="lesson-2-4">Copper Tube Preparation and Brazing Basics</option>
+                        </optgroup>
+                        <optgroup label="Term 2: Electrical & Controls">
+                          <option value="lesson-3-1">Electrical Fundamentals for HVAC</option>
+                          <option value="lesson-3-2">Thermostat Setup and Calibration</option>
+                          <option value="lesson-3-3">Airflow Balancing Fundamentals</option>
+                          <option value="lesson-3-4">Filter Service and Indoor Air Quality Checks</option>
+                        </optgroup>
+                        <optgroup label="Term 2: Systems & Diagnostics">
+                          <option value="lesson-4-1">Heat Pump Operation Fundamentals</option>
+                          <option value="lesson-4-2">Troubleshooting No-Cool Calls</option>
+                          <option value="lesson-4-3">Troubleshooting No-Heat Calls</option>
+                          <option value="lesson-4-4">System Commissioning Checklist</option>
+                        </optgroup>
+                      </>
+                    )}
                   </select>
                 </div>
                 
