@@ -226,58 +226,13 @@ const HvacSchool = () => {
               title: "HVAC Technology Program",
               courses
             });
-            return; // Found content, skip defaults
+          } else {
+            // No content - show empty state
+            setSyllabusData({
+              title: "HVAC Technology Program",
+              courses: []
+            });
           }
-        }
-
-        // If no published content anywhere, use defaults
-        if (items.length === 0) {
-          setSyllabusData({
-            title: "HVAC Technology Program",
-            courses: [
-              {
-                id: "course-1",
-                title: "Term 1: HVAC Fundamentals",
-                lessons: [
-                  { id: "lesson-1-1", title: "Safety, PPE, and Refrigerant Handling", completed: true, current: false },
-                  { id: "lesson-1-2", title: "Basic Refrigeration Cycle and Theory", completed: true, current: false },
-                  { id: "lesson-1-3", title: "Tools, Meters, and Test Equipment", completed: true, current: false },
-                  { id: "lesson-1-4", title: "Manifold Gauges and System Pressures", completed: false, current: true },
-                  { id: "lesson-1-5", title: "EPA 608 Certification Prep", completed: false, current: false },
-                ]
-              },
-              {
-                id: "course-2",
-                title: "Term 1: Equipment & Systems",
-                lessons: [
-                  { id: "lesson-2-1", title: "Split Systems and Heat Pumps", completed: false, current: false },
-                  { id: "lesson-2-2", title: "Gas Furnaces and Combustion", completed: false, current: false },
-                  { id: "lesson-2-3", title: "Mini-Splits and Variable Refrigerant Flow", completed: false, current: false },
-                  { id: "lesson-2-4", title: "Commercial and Rooftop Units", completed: false, current: false },
-                ]
-              },
-              {
-                id: "course-3",
-                title: "Term 2: Ductwork, Airflow & Controls",
-                lessons: [
-                  { id: "lesson-3-1", title: "Duct Design and Static Pressure", completed: false, current: false },
-                  { id: "lesson-3-2", title: "Airflow Balancing and Duct Sealing", completed: false, current: false },
-                  { id: "lesson-3-3", title: "Thermostat Wiring and Controls", completed: false, current: false },
-                  { id: "lesson-3-4", title: "Zone Control and IAQ Systems", completed: false, current: false },
-                ]
-              },
-              {
-                id: "course-4",
-                title: "Term 2: Diagnostics & Professional Practice",
-                lessons: [
-                  { id: "lesson-4-1", title: "No-Cool and No-Heat Diagnostics", completed: false, current: false },
-                  { id: "lesson-4-2", title: "Electrical Component Testing", completed: false, current: false },
-                  { id: "lesson-4-3", title: "Preventive Maintenance and Service Agreements", completed: false, current: false },
-                  { id: "lesson-4-4", title: "NATE Certification and Career Pathways", completed: false, current: false },
-                ]
-              }
-            ] as SyllabusCourse[]
-          });
         }
       } catch (err) {
         console.error('Failed to load curriculum:', err);
