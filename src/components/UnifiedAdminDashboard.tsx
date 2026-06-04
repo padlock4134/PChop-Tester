@@ -935,10 +935,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               equipment: lesson.equipment || [],
               difficulty: lesson.difficulty || 'intermediate'
             },
-            week_number: lesson.weekNumber || null,
-            source_file: file.name,
-            created_at: new Date().toISOString()
+            week_number: lesson.weekNumber || null
           }));
+
+          console.log('Inserting lessons:', lessonsToInsert);
 
           const { error: curriculumError } = await supabase
             .from('curriculum_content')
@@ -946,7 +946,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
           if (curriculumError) {
             console.error('Curriculum insert error:', curriculumError);
-            showError(`Failed to import lessons from ${file.name}`);
+            console.error('Error details:', JSON.stringify(curriculumError, null, 2));
+            showError(`Failed to import lessons from ${file.name}: ${curriculumError.message}`);
             continue;
           }
 
