@@ -3722,7 +3722,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <h3 className="text-base sm:text-xl font-bold text-maineBlue mb-2">Select Files to Upload</h3>
                   <p className="text-xs sm:text-base text-gray-600 mb-3 sm:mb-4">Choose curriculum files, projects, assignments, or lesson plans</p>
                   
-                  <div className="flex gap-2 sm:gap-3">
+                  <div className="flex justify-center gap-2 sm:gap-3">
                     <button
                       onClick={() => setShowTextInputModal(true)}
                       className="bg-gray-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md hover:bg-gray-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
@@ -3770,48 +3770,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     Supported formats: PDF, Word (DOCX), and Text files
                   </p>
                 </div>
-              
-                {/* Recent Files */}
+
+                {/* Recent Uploads */}
                 <div className="border-4 border-maineBlue rounded-lg p-3 sm:p-4">
                   <h3 className="text-center font-bold text-gray-900 mb-3 sm:mb-4 text-sm sm:text-base">📋 Recent Uploads</h3>
-                  <div className="space-y-2">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg gap-2 sm:gap-0">
-                      <div className="flex items-center flex-1">
-                        <span className="text-xl sm:text-2xl mr-2 sm:mr-3">📄</span>
-                        <div className="min-w-0">
-                          <p className="font-medium text-xs sm:text-base truncate">{skin.name} Fundamentals Syllabus.pdf</p>
-                          <p className="text-xs sm:text-sm text-gray-500">2.4 MB • Uploaded 2 hours ago</p>
-                        </div>
-                      </div>
-                      <button className="w-full sm:w-auto text-maineBlue hover:text-blue-700 font-medium text-sm sm:text-base min-h-[44px] px-4 border border-maineBlue rounded sm:border-0">Use</button>
-                    </div>
-                    
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg gap-2 sm:gap-0">
-                      <div className="flex items-center flex-1">
-                        <span className="text-xl sm:text-2xl mr-2 sm:mr-3">🍳</span>
-                        <div className="min-w-0">
-                          <p className="font-medium text-xs sm:text-base truncate">Week 3 - {contentSourceLabel} Materials.docx</p>
-                          <p className="text-xs sm:text-sm text-gray-500">1.8 MB • Uploaded yesterday</p>
-                        </div>
-                      </div>
-                      <button className="w-full sm:w-auto text-maineBlue hover:text-blue-700 font-medium text-sm sm:text-base min-h-[44px] px-4 border border-maineBlue rounded sm:border-0">Use</button>
-                    </div>
-                    
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg gap-2 sm:gap-0">
-                      <div className="flex items-center flex-1">
-                        <span className="text-xl sm:text-2xl mr-2 sm:mr-3">📊</span>
-                        <div className="min-w-0">
-                          <p className="font-medium text-xs sm:text-base truncate">Assignment Rubric Template.xlsx</p>
-                          <p className="text-xs sm:text-sm text-gray-500">456 KB • Uploaded 3 days ago</p>
-                        </div>
-                      </div>
-                      <button className="w-full sm:w-auto text-maineBlue hover:text-blue-700 font-medium text-sm sm:text-base min-h-[44px] px-4 border border-maineBlue rounded sm:border-0">Use</button>
-                    </div>
-                  </div>
-                  <p className="text-xs sm:text-sm text-gray-500 mt-3 sm:mt-4 text-center">
-                    Files are processed immediately after selection
-                  </p>
+                  <p className="text-center text-xs sm:text-sm text-gray-500">No recent uploads yet.</p>
                 </div>
+              
               </div>
             </div>
           </div>
