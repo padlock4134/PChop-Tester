@@ -374,8 +374,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                     <p className="text-xs text-gray-700">Capture and log pressure readings across each test point</p>
                   </div>
 
-                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Validation</div>
+                  <div className="p-2 border-l-4 border-amber-400 bg-amber-50 rounded">
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Validation</div>
                     <p className="text-xs text-gray-600">AI will validate your readings for consistency and tolerance</p>
                   </div>
                 </div>
@@ -441,8 +441,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <p className="text-xs text-gray-700">Capture and log pressure readings across each test point</p>
             </div>
 
-            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Validation</div>
+            <div className="p-3 border-l-4 border-amber-400 bg-amber-50 rounded">
+              <div className="font-semibold text-sm text-amber-900 mb-1">Validation</div>
               <p className="text-xs text-gray-600">AI will validate your readings for consistency and tolerance</p>
             </div>
           </div>

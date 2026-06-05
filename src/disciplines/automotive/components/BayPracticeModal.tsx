@@ -388,8 +388,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <p className="text-xs text-gray-700">Follow systematic diagnostic steps and measurement protocols</p>
             </div>
 
-            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Validation</div>
+            <div className="p-3 border-l-4 border-amber-400 bg-amber-50 rounded">
+              <div className="font-semibold text-sm text-amber-900 mb-1">Validation</div>
               <p className="text-xs text-gray-600">AI will validate procedure accuracy and safety compliance</p>
             </div>
           </div>
