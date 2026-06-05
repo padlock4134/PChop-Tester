@@ -419,6 +419,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [apiKeys, setApiKeys] = useState<Array<{id: string, key: string, name: string, created_at: string}>>([]);
   const [showDownloadSuccessModal, setShowDownloadSuccessModal] = useState(false);
   const [downloadedReportInfo, setDownloadedReportInfo] = useState<{type: string, count: number, filename: string} | null>(null);
+  const [showImportProgressModal, setShowImportProgressModal] = useState(false);
+  const [importProgress, setImportProgressState] = useState({ current: 0, total: 0, status: '' });
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -8413,7 +8415,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   }
 
                   if (aiSuggestion?.isSyllabus && Array.isArray(aiSuggestion.lessons) && aiSuggestion.lessons.length > 0) {
-                    alert(`Processing as syllabus with ${aiSuggestion.lessons.length} lessons`);
                     const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
                       title: lesson.title,
                       content_type: 'lesson',
@@ -8430,8 +8431,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     let insertedCount = 0;
                     let errorOccurred = false;
 
+                    // Show progress modal
+                    setShowImportProgressModal(true);
+                    setImportProgressState({ current: 0, total: lessonsToInsert.length, status: 'Starting import...' });
+                    setShowMappingReviewModal(false);
+
                     const insertBatch = async (batch: any[], batchIndex: number) => {
                       if (errorOccurred) return;
+
+                      setImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Importing batch ${batchIndex + 1}...` });
 
                       const { error } = await supabase
                         .from('curriculum_content')
@@ -8439,12 +8447,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                       if (error) {
                         console.error('Batch insert error:', error);
-                        alert(`Failed to import lessons at batch ${batchIndex + 1}: ${error.message}`);
+                        setImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Error: ${error.message}` });
                         errorOccurred = true;
                         return;
                       }
 
                       insertedCount += batch.length;
+                      setImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Imported ${insertedCount}/${lessonsToInsert.length} lessons` });
                       console.log(`Inserted batch ${batchIndex + 1}: ${insertedCount}/${lessonsToInsert.length} lessons`);
                     };
 
@@ -8461,12 +8470,26 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                       if (!errorOccurred) {
                         console.log('All lessons inserted successfully');
-                        alert(`Imported ${insertedCount} lessons from ${currentMapping.fileName}`);
-                        setShowMappingReviewModal(false);
+                        setImportProgressState({ current: lessonsToInsert.length, total: lessonsToInsert.length, status: 'Complete!' });
+                        // Show success modal after short delay
+                        setTimeout(() => {
+                          setShowImportProgressModal(false);
+                          setDownloadedReportInfo({
+                            type: 'Lessons Imported',
+                            count: lessonsToInsert.length,
+                            filename: `${lessonsToInsert.length} lessons from ${currentMapping.fileName}`
+                          });
+                          setShowDownloadSuccessModal(true);
+                        }, 1000);
+                      } else {
+                        // Show error state longer before closing
+                        setTimeout(() => {
+                          setShowImportProgressModal(false);
+                        }, 3000);
                       }
                     })();
                   } else {
-                    alert('Processing as single lesson (not a syllabus) - inserting into curriculum');
+                    // Single lesson - insert into curriculum
                     const metadata = aiSuggestion?.metadata || {};
                     const lessonToInsert = {
                       title: metadata.title || currentMapping.fileName,
@@ -8480,17 +8503,22 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     };
 
                     console.log('Inserting single lesson:', lessonToInsert);
+                    setShowMappingReviewModal(false);
                     supabase
                       .from('curriculum_content')
                       .insert(lessonToInsert)
                       .then(({ error }) => {
                         if (error) {
                           console.error('Lesson insert error:', error);
-                          alert(`Failed to import lesson: ${error.message}`);
+                          showError(`Failed to import lesson: ${error.message}`);
                         } else {
                           console.log('Lesson inserted successfully');
-                          alert(`Imported lesson from ${currentMapping.fileName}`);
-                          setShowMappingReviewModal(false);
+                          setDownloadedReportInfo({
+                            type: 'Lesson Imported',
+                            count: 1,
+                            filename: `Lesson from ${currentMapping.fileName}`
+                          });
+                          setShowDownloadSuccessModal(true);
                         }
                       });
                   }
@@ -8499,6 +8527,54 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               >
                 ✓ Confirm Mapping
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Import Progress Modal */}
+      {showImportProgressModal && (
+        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-maineBlue p-8 max-w-md w-full">
+            <div className="text-center">
+              {/* Loading Icon */}
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-4">
+                <svg className="animate-spin h-10 w-10 text-maineBlue" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </div>
+
+              {/* Title */}
+              <h2 className="text-3xl font-bold text-maineBlue font-retro mb-2">
+                Importing Lessons
+              </h2>
+
+              {/* PorkChop Branding */}
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <img src="/logo.png" alt="PorkChop" className="w-8 h-8" />
+                <span className="text-lg font-bold text-maineBlue">PorkChop Ed Tech</span>
+              </div>
+
+              {/* Progress Details */}
+              <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-6">
+                <p className="text-gray-700 mb-2">
+                  <span className="font-bold text-blue-700">{importProgress.status}</span>
+                </p>
+                <p className="text-gray-600">
+                  {importProgress.current} / {importProgress.total} lessons
+                </p>
+              </div>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
+                <div
+                  className="bg-maineBlue h-4 rounded-full transition-all duration-300"
+                  style={{ width: `${(importProgress.current / importProgress.total) * 100}%` }}
+                ></div>
+              </div>
+
+              <p className="text-sm text-gray-500">Please wait...</p>
             </div>
           </div>
         </div>
