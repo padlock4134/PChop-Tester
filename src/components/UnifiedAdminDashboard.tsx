@@ -420,7 +420,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showDownloadSuccessModal, setShowDownloadSuccessModal] = useState(false);
   const [downloadedReportInfo, setDownloadedReportInfo] = useState<{type: string, count: number, filename: string} | null>(null);
   const [showImportProgressModal, setShowImportProgressModal] = useState(false);
-  const [importProgress, setImportProgressState] = useState({ current: 0, total: 0, status: '' });
+  const [lessonImportProgress, setLessonImportProgressState] = useState({ current: 0, total: 0, status: '' });
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
   const [showErrorModal, setShowErrorModal] = useState(false);
@@ -8433,13 +8433,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                     // Show progress modal
                     setShowImportProgressModal(true);
-                    setImportProgressState({ current: 0, total: lessonsToInsert.length, status: 'Starting import...' });
+                    setLessonImportProgressState({ current: 0, total: lessonsToInsert.length, status: 'Starting import...' });
                     setShowMappingReviewModal(false);
 
                     const insertBatch = async (batch: any[], batchIndex: number) => {
                       if (errorOccurred) return;
 
-                      setImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Importing batch ${batchIndex + 1}...` });
+                      setLessonImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Importing batch ${batchIndex + 1}...` });
 
                       const { error } = await supabase
                         .from('curriculum_content')
@@ -8447,13 +8447,13 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                       if (error) {
                         console.error('Batch insert error:', error);
-                        setImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Error: ${error.message}` });
+                        setLessonImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Error: ${error.message}` });
                         errorOccurred = true;
                         return;
                       }
 
                       insertedCount += batch.length;
-                      setImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Imported ${insertedCount}/${lessonsToInsert.length} lessons` });
+                      setLessonImportProgressState({ current: insertedCount, total: lessonsToInsert.length, status: `Imported ${insertedCount}/${lessonsToInsert.length} lessons` });
                       console.log(`Inserted batch ${batchIndex + 1}: ${insertedCount}/${lessonsToInsert.length} lessons`);
                     };
 
@@ -8470,7 +8470,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
 
                       if (!errorOccurred) {
                         console.log('All lessons inserted successfully');
-                        setImportProgressState({ current: lessonsToInsert.length, total: lessonsToInsert.length, status: 'Complete!' });
+                        setLessonImportProgressState({ current: lessonsToInsert.length, total: lessonsToInsert.length, status: 'Complete!' });
                         // Show success modal after short delay
                         setTimeout(() => {
                           setShowImportProgressModal(false);
@@ -8559,10 +8559,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               {/* Progress Details */}
               <div className="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-6">
                 <p className="text-gray-700 mb-2">
-                  <span className="font-bold text-blue-700">{importProgress.status}</span>
+                  <span className="font-bold text-blue-700">{lessonImportProgress.status}</span>
                 </p>
                 <p className="text-gray-600">
-                  {importProgress.current} / {importProgress.total} lessons
+                  {lessonImportProgress.current} / {lessonImportProgress.total} lessons
                 </p>
               </div>
 
@@ -8570,7 +8570,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
                 <div
                   className="bg-maineBlue h-4 rounded-full transition-all duration-300"
-                  style={{ width: `${(importProgress.current / importProgress.total) * 100}%` }}
+                  style={{ width: `${(lessonImportProgress.current / lessonImportProgress.total) * 100}%` }}
                 ></div>
               </div>
 
