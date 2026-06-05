@@ -8404,13 +8404,11 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
               <button
                 onClick={() => {
-                  alert('Button clicked!');
                   console.log('=== BUTTON CLICKED ===');
                   const aiSuggestion = currentMapping.aiSuggestion;
                   console.log('AI suggestion:', aiSuggestion);
 
                   if (!aiSuggestion) {
-                    alert('No AI suggestion found!');
                     return;
                   }
 
