@@ -237,14 +237,16 @@ const NavBar: React.FC = () => {
     <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md sticky top-0 z-50">
       <div className="max-w-5xl mx-auto px-4">
         {/* Flex container for all items */}
-        <div className="flex items-center justify-between w-full">
-          <div className="flex items-center space-x-2 ml-[5%]">
+        <div className="flex items-center justify-center sm:justify-between w-full gap-2">
+          <div className="flex items-center space-x-2 sm:ml-[5%]">
             {/* PorkChop Text as Smart Dashboard Link */}
             <Link 
               to={isAdminMode ? "/admin" : (disciplineConfig?.routes.dashboard ?? '/')} 
               className="flex items-center hover:opacity-80 transition-opacity"
             >
-              <img src={logo} alt="PorkChop" className="h-9 w-auto sm:hidden" />
+              <div className="w-10 h-10 rounded-full border-2 border-black bg-white overflow-hidden flex items-center justify-center sm:hidden">
+                <img src={logo} alt="PorkChop" className="w-8 h-8 object-contain" />
+              </div>
               <span className="hidden sm:inline text-4xl font-bold tracking-wider font-retro">PorkChop</span>
             </Link>
           </div>
