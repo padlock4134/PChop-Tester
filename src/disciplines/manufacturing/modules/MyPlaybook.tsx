@@ -999,7 +999,7 @@ const MyPlaybook = () => {
       {/* Gradebook Modal - Book Style */}
       {showGradebookModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={handleCloseGradebook}>
-          <div className="relative w-full max-w-5xl mx-auto h-[85vh] lg:h-[80vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+          <div className="relative w-full max-w-5xl mx-auto flex flex-col" style={{maxHeight: 'calc(100vh - 2rem)'}} onClick={(e) => e.stopPropagation()}>
             {/* Book Container */}
             <div className="relative w-full h-full overflow-hidden">
               {/* Book - Responsive: Stack on mobile, side-by-side on desktop */}
@@ -1383,7 +1383,7 @@ const MyPlaybook = () => {
       {/* Video Library Modal */}
       {showVideoLibraryModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowVideoLibraryModal(false)}>
-          <div className="bg-white rounded-lg shadow-2xl border-4 border-black w-full max-w-4xl max-h-[85vh] lg:max-h-[80vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+          <div className="bg-white rounded-lg shadow-2xl border-4 border-black w-full max-w-4xl max-h-[90vh] overflow-y-auto flex flex-col" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="bg-purple-100 border-b-4 border-purple-400 p-6">
               <div className="flex justify-between items-center mb-4">

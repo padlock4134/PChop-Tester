@@ -148,8 +148,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
   return (
     <>
-    <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-0 sm:p-4">
-      <div className="bg-white rounded-none sm:rounded-lg shadow-lg border-0 sm:border-4 border-black overflow-hidden w-full h-full sm:w-3/4 sm:h-auto sm:max-h-[80vh] lg:w-2/3 lg:max-h-[80vh] relative flex flex-col lg:flex-row">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full max-w-5xl my-auto relative flex flex-col md:flex-row" style={{maxHeight: 'calc(100vh - 2rem)'}}>
         <button
           onClick={() => {
             // Stop camera tracking before closing
@@ -160,16 +160,16 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             setShowDeviceSelection(false);
             onClose();
           }}
-          className="absolute top-2 right-2 w-11 h-11 flex items-center justify-center text-amber-800 hover:text-amber-900 text-2xl z-10"
+          className="absolute top-2 right-2 w-10 h-10 flex items-center justify-center text-amber-800 hover:text-amber-900 text-2xl z-10 bg-white rounded-full shadow"
           aria-label="Close"
         >
           ×
         </button>
         
         {/* Left Side - Practice Area with Banner */}
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
           {/* Banner Header - Left Side Only */}
-          <div className="p-2 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center">
+          <div className="p-3 sm:p-4 bg-amber-100 text-amber-800 font-retro text-center border-b-2 border-amber-200">
             <h2 className="text-base sm:text-xl flex items-center justify-center">
               <span className="text-lg sm:text-2xl mr-1 sm:mr-2">🔧</span>
               Bench Practice
@@ -387,7 +387,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         </div>
         
         {/* Right Side - Instructions/Feedback - Desktop Only */}
-        <div className="hidden lg:flex lg:w-80 border-l-4 border-gray-200 flex-col overflow-hidden">
+        <div className="hidden md:flex md:w-72 lg:w-80 border-l-4 border-gray-200 flex-col overflow-hidden">
           {/* Colored Header for Right Side */}
           <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h3 className="text-lg font-bold">
@@ -424,7 +424,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
             </div>
           </div>
           
-          <div className="space-y-3 max-h-96 overflow-y-auto">
+          <div className="space-y-3">
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
               <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
@@ -455,7 +455,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
     {/* Practice Guide Modal */}
     {guideOpen && (
       <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-60 flex items-center justify-center z-[60] p-4">
-        <div className="bg-white rounded-lg shadow-lg border-4 border-amber-600 max-w-2xl w-full mx-4 relative max-h-[85vh] lg:max-h-[80vh] flex flex-col overflow-hidden">
+        <div className="bg-white rounded-lg shadow-lg border-4 border-amber-600 max-w-2xl w-full mx-4 relative max-h-[90vh] overflow-y-auto flex flex-col">
           {/* Sticky Header */}
           <div className="bg-white p-6 pb-4 border-b-2 border-amber-300 rounded-t-lg flex justify-between items-center">
             <div className="flex-1"></div>

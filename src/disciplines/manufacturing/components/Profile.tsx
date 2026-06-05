@@ -116,7 +116,7 @@ const EditProfileModal = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-md w-full max-h-[85vh] lg:max-h-[80vh] border-4 border-black flex flex-col">
+      <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto border-4 border-black flex flex-col">
         {/* Sticky Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
@@ -257,7 +257,7 @@ const TermsModal = ({ open, onClose, content }: { open: boolean; onClose: () => 
   if (!open) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[90vh] overflow-y-auto flex flex-col">
         {/* Fixed Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200 bg-gray-50">
           <div></div>
@@ -332,7 +332,7 @@ const ClassScheduleModal = ({ open, onClose, onOpenRegistration }: { open: boole
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-md w-full max-h-[80vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-md w-full max-h-[90vh] overflow-y-auto flex flex-col">
         {/* Fixed Header */}
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200">
           <div></div>
@@ -462,7 +462,7 @@ const RequestsModal = ({ open, onClose }: { open: boolean; onClose: () => void }
   
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
+      <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-3xl w-full max-h-[90vh] overflow-y-auto flex flex-col">
         <div className="flex justify-between items-center p-6 pb-4 border-b-2 border-gray-200 bg-gray-50">
           <div></div>
           <div className="text-center">
@@ -1625,7 +1625,7 @@ Automated calculations and formulas would be present`;
   } 
 
   return (
-    <div className="w-[90%] lg:w-[60%] mx-auto mt-4 bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue max-h-[calc(100vh-80px)] flex flex-col student-dashboard-height-lock">
+    <div className="w-[90%] lg:w-[60%] mx-auto mt-4 bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col student-dashboard-height-lock">
       {/* Header: Responsive grid layout - FIXED */}
       <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 items-center mb-6 p-4 sm:p-6 pb-0">
         {/* Column 1: Avatar */}
@@ -2047,7 +2047,7 @@ Automated calculations and formulas would be present`;
       {/* Reports Modal */}
       {showReportsModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 max-w-2xl w-full max-h-[80vh] overflow-hidden flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black p-4 max-w-2xl w-full max-h-[90vh] overflow-y-auto flex flex-col">
             <div className="flex justify-between items-center mb-4">
               <div></div>
               <h2 className="text-2xl font-bold text-maineBlue text-center">Technical Education Reports</h2>
@@ -2119,7 +2119,7 @@ Automated calculations and formulas would be present`;
       {/* Generate Report Modal */}
       {showGenerateModal && selectedReport && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-3xl w-full overflow-hidden flex flex-col">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black max-w-3xl w-full max-h-[90vh] overflow-y-auto flex flex-col">
             <div className="flex justify-between items-center p-4 pb-3">
               <div></div>
               <h2 className="text-2xl font-bold text-maineBlue">Generate Report</h2>

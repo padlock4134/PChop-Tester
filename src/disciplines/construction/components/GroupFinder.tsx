@@ -74,7 +74,7 @@ const GroupFinder: React.FC = () => {
 
       {open && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-40" onClick={() => { setOpen(false); setShowCreate(false); }}>
-          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-lg w-full mx-4 max-h-[80vh] flex flex-col relative z-50" onClick={e => e.stopPropagation()}>
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto flex flex-col relative z-50" onClick={e => e.stopPropagation()}>
             <div className="flex items-center justify-between p-4 pb-3 border-b-2 border-gray-200">
               <div className="flex items-center gap-2">
                 <span className="text-2xl">📋</span>

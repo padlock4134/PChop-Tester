@@ -75,7 +75,7 @@ const PipeBookImportModal: React.FC<PipeBookImportModalProps> = ({
     <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div 
         ref={modalRef} 
-        className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-2xl mx-4 max-h-[85vh] lg:max-h-[80vh] flex flex-col"
+        className="bg-white rounded-lg shadow-xl border-4 border-black w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto flex flex-col"
       >
         <div className="p-4 lg:p-6 pb-0">
           <h2 className="text-xl lg:text-2xl font-bold text-gray-800 mb-2">

@@ -80,26 +80,26 @@ body > #arjsDebugUIContainer {
 
 @media (min-width: 1024px) {
   .desktop-dashboard-frame {
-    height: min(90vh, calc(100vh - 10rem));
-    max-height: min(90vh, calc(100vh - 10rem));
-    overflow-y: auto;
+    height: auto;
+    max-height: none;
+    overflow-y: visible;
   }
 
 
   .student-dashboard-frame {
-    width: 107%;
-    max-width: 107%;
-    margin-left: -3.5%;
-    margin-right: -3.5%;
-    height: min(96.3vh, calc((100vh - 10rem) * 1.07));
-    max-height: min(96.3vh, calc((100vh - 10rem) * 1.07));
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    height: auto;
+    max-height: none;
   }
 
 
   .student-dashboard-height-lock {
-    height: min(96.3vh, calc((100vh - 10rem) * 1.07));
-    max-height: min(96.3vh, calc((100vh - 10rem) * 1.07));
-    overflow-y: auto;
+    height: auto;
+    max-height: none;
+    overflow-y: visible;
   }
 
   .admin-dashboard-frame {
@@ -114,7 +114,7 @@ body > #arjsDebugUIContainer {
 
   .admin-dashboard-frame .admin-dashboard-content {
     width: 100%;
-    zoom: 0.8;
+    zoom: 1;
     transform: none;
     margin-left: auto;
     margin-right: auto;
@@ -270,8 +270,8 @@ body > #arjsDebugUIContainer {
     max-width: min(96.3vw, 1400px);
     margin-left: auto;
     margin-right: auto;
-    height: min(90vh, calc(100vh - 10rem));
-    max-height: min(90vh, calc(100vh - 10rem));
-    overflow-y: auto;
+    height: auto;
+    max-height: none;
+    overflow-y: visible;
   }
 }
