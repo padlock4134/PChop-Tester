@@ -360,22 +360,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Practice Steps */}
                 <div className="space-y-2">
                   <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 1: Setup</div>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Setup</div>
                     <p className="text-xs text-gray-700">Stage your tools and gather required HVAC materials</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 2: Tool Control</div>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Tool Control</div>
                     <p className="text-xs text-gray-700">Use steady instrument handling and maintain consistent probe contact</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 3: Measurements</div>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Measurements</div>
                     <p className="text-xs text-gray-700">Capture and log pressure readings across each test point</p>
                   </div>
 
-                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Step 4: Validation</div>
+                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded">
+                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Validation</div>
                     <p className="text-xs text-gray-600">AI will validate your readings for consistency and tolerance</p>
                   </div>
                 </div>
@@ -427,22 +427,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           <div className="space-y-3">
             {/* Placeholder instructions */}
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 1: Setup</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Setup</div>
               <p className="text-xs text-gray-700">Stage your tools and gather required HVAC materials</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 2: Tool Control</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Tool Control</div>
               <p className="text-xs text-gray-700">Use steady instrument handling and maintain consistent probe contact</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
-              <div className="font-semibold text-sm text-amber-900 mb-1">Step 3: First Cuts</div>
+              <div className="font-semibold text-sm text-amber-900 mb-1">Measurements</div>
               <p className="text-xs text-gray-700">Capture and log pressure readings across each test point</p>
             </div>
 
-            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Step 4: Validation</div>
+            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded">
+              <div className="font-semibold text-sm text-gray-600 mb-1">Validation</div>
               <p className="text-xs text-gray-600">AI will validate your readings for consistency and tolerance</p>
             </div>
           </div>

@@ -419,8 +419,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <p className="text-xs text-gray-700">Guide crane to pick component and place in packaging</p>
             </div>
 
-            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-              <div className="font-semibold text-sm text-gray-600 mb-1">Quality Check</div>
+            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded">
+              <div className="font-semibold text-sm text-gray-600 mb-1">Validation</div>
               <p className="text-xs text-gray-600">AI will verify component placement accuracy</p>
             </div>
           </div>

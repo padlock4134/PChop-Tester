@@ -313,22 +313,22 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 {/* Practice Steps */}
                 <div className="space-y-2">
                   <div className="p-2 border-l-4 border-amber-700 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 1: Site Setup</div>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Site Setup</div>
                     <p className="text-xs text-gray-700">Confirm PPE, staging area, and tool readiness before starting work.</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-600 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 2: Layout Marks</div>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Layout Marks</div>
                     <p className="text-xs text-gray-700">Measure, mark, and verify key reference points with level and square.</p>
                   </div>
                   
                   <div className="p-2 border-l-4 border-amber-500 bg-amber-50 rounded">
-                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Step 3: Execute Task</div>
+                    <div className="font-semibold text-xs text-amber-900 mb-0.5">Execute Task</div>
                     <p className="text-xs text-gray-700">Install or assemble per plan details and maintain target tolerances.</p>
                   </div>
 
-                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
-                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Step 4: Validation</div>
+                  <div className="p-2 border-l-4 border-gray-300 bg-gray-50 rounded">
+                    <div className="font-semibold text-xs text-gray-600 mb-0.5">Validation</div>
                     <p className="text-xs text-gray-600">Complete quality checks and document findings for handoff.</p>
                   </div>
                 </div>
@@ -411,7 +411,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <p className="text-xs text-gray-700">Install or assemble per plan details and maintain target tolerances.</p>
             </div>
 
-            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
+            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded">
               <div className="font-semibold text-sm text-gray-600 mb-1">Validation</div>
               <p className="text-xs text-gray-600">Complete quality checks and document findings for handoff.</p>
             </div>

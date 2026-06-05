@@ -418,7 +418,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <p className="text-xs text-gray-700">Make 1-2mm slices perpendicular to board</p>
             </div>
 
-            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
+            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded">
               <div className="font-semibold text-sm text-gray-600 mb-1">Validation</div>
               <p className="text-xs text-gray-600">AI will check your cuts for accuracy</p>
             </div>

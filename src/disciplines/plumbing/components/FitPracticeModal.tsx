@@ -421,7 +421,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <p className="text-xs text-gray-700">{t('culinarySchool.charcuterieBoard.step3Desc')}</p>
             </div>
 
-            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-70">
+            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded">
               <div className="font-semibold text-sm text-gray-700 mb-1">{t('culinarySchool.charcuterieBoard.step4Validation')}</div>
               <p className="text-xs text-gray-600">{t('culinarySchool.charcuterieBoard.step4Desc')}</p>
             </div>

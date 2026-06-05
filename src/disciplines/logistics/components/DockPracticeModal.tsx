@@ -399,18 +399,22 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
           
           <div className="space-y-3 max-h-96 overflow-y-auto">
             <div className="p-3 border-l-4 border-amber-700 bg-amber-50 rounded">
+              <div className="font-semibold text-sm text-amber-900 mb-1">Dock Review</div>
               <p className="text-xs text-gray-700">Review the load plan and inspect dock area</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-600 bg-amber-50 rounded">
+              <div className="font-semibold text-sm text-amber-900 mb-1">Freight Check</div>
               <p className="text-xs text-gray-700">Verify freight is properly secured and labeled</p>
             </div>
             
             <div className="p-3 border-l-4 border-amber-500 bg-amber-50 rounded">
+              <div className="font-semibold text-sm text-amber-900 mb-1">Loading</div>
               <p className="text-xs text-gray-700">Stage pallets and load trailer per the shipping plan</p>
             </div>
 
-            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded opacity-50">
+            <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded">
+              <div className="font-semibold text-sm text-gray-600 mb-1">Validation</div>
               <p className="text-xs text-gray-600">AI will verify load accuracy and weight distribution</p>
             </div>
           </div>
