@@ -130,7 +130,7 @@ CRITICAL: If the document contains ANY of these patterns, it IS a syllabus with 
 - Multiple numbered sections with distinct topics
 - "Assignments" section with multiple units/modules
 
-When you detect a syllabus, you MUST extract ALL lessons as an array in the "lessons" field. Extract each unit, module, week, or chapter as a separate lesson. If the document contains multiple courses, extract all units from all courses.
+MANDATORY: When you detect a syllabus, you MUST set "isSyllabus": true and extract ALL lessons as an array in the "lessons" field. DO NOT return a single lesson structure for a syllabus. Extract each unit, module, week, or chapter as a separate lesson. If the document contains multiple courses, extract all units from all courses.
 
 Return your analysis as a JSON object with this structure:
 
