@@ -8402,8 +8402,74 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               </button>
               <button
                 onClick={() => {
-                  console.log('BUTTON CLICKED');
                   alert('Button clicked!');
+                  console.log('=== BUTTON CLICKED ===');
+                  const aiSuggestion = currentMapping.aiSuggestion;
+                  console.log('AI suggestion:', aiSuggestion);
+
+                  if (!aiSuggestion) {
+                    alert('No AI suggestion found!');
+                    return;
+                  }
+
+                  if (aiSuggestion?.isSyllabus && Array.isArray(aiSuggestion.lessons) && aiSuggestion.lessons.length > 0) {
+                    alert(`Processing as syllabus with ${aiSuggestion.lessons.length} lessons`);
+                    const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
+                      title: lesson.title,
+                      content_type: 'lesson',
+                      content_data: {
+                        topics: lesson.topics || [],
+                        equipment: lesson.equipment || [],
+                        difficulty: lesson.difficulty || 'intermediate'
+                      },
+                      week_number: lesson.weekNumber || null
+                    }));
+
+                    console.log('Inserting lessons:', lessonsToInsert);
+                    supabase
+                      .from('curriculum_content')
+                      .insert(lessonsToInsert)
+                      .then(({ error }) => {
+                        if (error) {
+                          console.error('Curriculum insert error:', error);
+                          alert(`Failed to import lessons: ${error.message}`);
+                        } else {
+                          console.log('Lessons inserted successfully');
+                          alert(`Imported ${lessonsToInsert.length} lessons from ${currentMapping.fileName}`);
+                          setShowMappingReviewModal(false);
+                        }
+                      });
+                  } else {
+                    alert('Processing as single lesson (not a syllabus)');
+                    const modules = aiSuggestion?.modules || {};
+                    setModuleSelection({
+                      workspace: {
+                        item1: modules.workspace?.include ?? false,
+                        item2: modules.workspace?.include ?? false,
+                        item3: modules.workspace?.include ?? false,
+                        item4: modules.workspace?.include ?? false
+                      },
+                      notebook: {
+                        assignments: modules.notebook?.include ?? false,
+                        rubrics: modules.notebook?.include ?? false,
+                        items: modules.notebook?.include ?? false,
+                        video: modules.notebook?.include ?? false
+                      },
+                      school: {
+                        techniques: modules.school?.include ?? false,
+                        syllabus: modules.school?.include ?? false,
+                        lessons: modules.school?.include ?? false,
+                        objectives: modules.school?.include ?? false
+                      },
+                      community: {
+                        videos: modules.community?.include ?? false,
+                        insights: modules.community?.include ?? false,
+                        sessions: modules.community?.include ?? false,
+                        partnerships: modules.community?.include ?? false
+                      }
+                    });
+                    setShowMappingReviewModal(false);
+                  }
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
               >
