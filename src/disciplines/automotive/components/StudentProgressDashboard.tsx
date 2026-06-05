@@ -458,8 +458,8 @@ const StudentProgressDashboard: React.FC = () => {
       {/* Live Session Modal */}
       {liveSessionModalOpen && currentLiveSession && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full max-w-5xl my-auto relative flex flex-col overflow-y-auto" style={{maxHeight: 'calc(100vh - 2rem)'}}>
-            <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full max-w-5xl my-auto relative flex flex-col max-h-[90vh] overflow-y-auto">
+            <div className="flex-1 flex flex-col">
               <div className="p-4 bg-lobsterRed text-black font-retro text-center sticky top-0 z-20">
                 <div className="text-center relative">
                   <h2 className="text-xl sm:text-2xl font-bold">🔴 LIVE: {currentLiveSession.serviceName}</h2>

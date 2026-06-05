@@ -94,7 +94,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   return (
     <>
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full max-w-5xl my-auto relative flex flex-col md:flex-row" style={{maxHeight: 'calc(100vh - 2rem)'}}>
+      <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full max-w-5xl my-auto relative flex flex-col md:flex-row max-h-[90vh]">
         <button
           onClick={() => {
             // Stop camera tracking before closing
@@ -364,7 +364,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         </div>
         
         {/* Right Side - Instructions/Feedback - Desktop Only */}
-        <div className="hidden md:flex md:w-72 lg:w-80 border-l-4 border-gray-200 flex-col overflow-hidden">
+        <div className="hidden md:flex md:w-72 lg:w-80 border-l-4 border-gray-200 flex-col overflow-y-auto">
           {/* Colored Header for Right Side */}
           <div className="p-4 bg-amber-100 text-amber-800 font-retro text-center">
             <h3 className="text-lg font-bold">

@@ -984,7 +984,7 @@ END:VCALENDAR`;
       {/* Live Session Modal */}
       {liveSessionModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full max-w-5xl my-auto relative flex flex-col lg:flex-row overflow-y-auto" style={{maxHeight: 'calc(100vh - 2rem)'}}>
+          <div className="bg-white rounded-lg shadow-lg border-4 border-black w-full max-w-5xl my-auto relative flex flex-col lg:flex-row max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setLiveSessionModalOpen(false)}
               className="absolute top-2 right-2 text-white hover:text-white/80 text-2xl font-bold z-30 drop-shadow"

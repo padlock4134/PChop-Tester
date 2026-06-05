@@ -1054,9 +1054,9 @@ const MyManual = () => {
       {/* Gradebook Modal - Book Style */}
       {showGradebookModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={handleCloseGradebook}>
-          <div className="relative w-full max-w-5xl mx-auto flex flex-col" style={{maxHeight: 'calc(100vh - 2rem)'}} onClick={(e) => e.stopPropagation()}>
+          <div className="relative w-full max-w-5xl mx-auto flex flex-col max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             {/* Book Container */}
-            <div className="relative w-full h-full overflow-hidden">
+            <div className="relative w-full">
               {/* Book - Responsive: Stack on mobile, side-by-side on desktop */}
               <div className="relative w-full h-full bg-gradient-to-br from-amber-100 to-amber-200 rounded-lg shadow-2xl border-4 border-black flex flex-col">
                 
