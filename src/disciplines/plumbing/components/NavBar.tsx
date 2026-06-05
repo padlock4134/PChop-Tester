@@ -244,7 +244,8 @@ const NavBar: React.FC = () => {
               to={isAdminMode ? "/admin" : (disciplineConfig?.routes.dashboard || '/plumbing/dashboard')} 
               className="flex items-center hover:opacity-80 transition-opacity"
             >
-              <span className="text-3xl sm:text-4xl font-bold tracking-wider font-retro">PorkChop</span>
+              <img src={logo} alt="PorkChop" className="h-9 w-auto sm:hidden" />
+              <span className="hidden sm:inline text-4xl font-bold tracking-wider font-retro">PorkChop</span>
             </Link>
           </div>
 
