@@ -342,6 +342,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
   const [showFacultyManagementModal, setShowFacultyManagementModal] = useState(false);
   const [showAlumniManagementModal, setShowAlumniManagementModal] = useState(false);
   const [showBrowseFilesModal, setShowBrowseFilesModal] = useState(false);
+  const [showTextInputModal, setShowTextInputModal] = useState(false);
+  const [textContent, setTextContent] = useState('');
   const [showApiKeyModal, setShowApiKeyModal] = useState(false);
   const [showLtiIntegrationModal, setShowLtiIntegrationModal] = useState(false);
   const [showExitAdminModal, setShowExitAdminModal] = useState(false);
@@ -4192,25 +4194,33 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                   <h3 className="text-base sm:text-xl font-bold text-maineBlue mb-2">Select Files to Upload</h3>
                   <p className="text-xs sm:text-base text-gray-600 mb-3 sm:mb-4">Choose curriculum files, projects, assignments, or lesson plans</p>
                   
-                  <input 
-                    type="file" 
-                    multiple 
-                    accept=".pdf,.doc,.docx,.txt"
-                    className="hidden" 
-                    id="file-upload"
-                    onChange={(e) => {
-                      const files = Array.from(e.target.files || []);
-                      if (files.length > 0) {
-                        handleFileUpload(files);
-                      }
-                    }}
-                  />
-                  <label 
-                    htmlFor="file-upload" 
-                    className="bg-maineBlue text-white px-6 sm:px-8 py-2 sm:py-3 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
-                  >
-                    Choose Files
-                  </label>
+                  <div className="flex gap-2 sm:gap-3">
+                    <button
+                      onClick={() => setShowTextInputModal(true)}
+                      className="bg-gray-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-md hover:bg-gray-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
+                    >
+                      📝 Paste Text
+                    </button>
+                    <input
+                      type="file"
+                      multiple
+                      accept=".pdf,.doc,.docx,.txt"
+                      className="hidden"
+                      id="file-upload"
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        if (files.length > 0) {
+                          handleFileUpload(files);
+                        }
+                      }}
+                    />
+                    <label
+                      htmlFor="file-upload"
+                      className="bg-maineBlue text-white px-6 sm:px-8 py-2 sm:py-3 rounded-md hover:bg-blue-700 font-retro cursor-pointer inline-block text-sm sm:text-base min-h-[44px] flex items-center justify-center"
+                    >
+                      Choose Files
+                    </label>
+                  </div>
 
                   {/* Upload Progress Bar */}
                   {processingFiles && (
@@ -4274,6 +4284,89 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     Files are processed immediately after selection
                   </p>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Text Input Modal */}
+      {showTextInputModal && (
+        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue max-w-4xl w-full max-h-[85vh] lg:max-h-[80vh] flex flex-col">
+            {/* Sticky Header */}
+            <div className="p-3 sm:p-6 pb-3 sm:pb-4 border-b-2 border-gray-200">
+              <div className="text-center relative">
+                <h2 className="text-lg sm:text-2xl font-bold text-maineBlue font-retro">📝 Paste Curriculum Text</h2>
+                <button
+                  onClick={() => setShowTextInputModal(false)}
+                  className="absolute top-0 right-0 text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                  aria-label="Close Text Input Modal"
+                >
+                  ×
+                </button>
+              </div>
+            </div>
+
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-6">
+              <div className="space-y-3 sm:space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Paste your curriculum content, syllabus, or lesson text below:
+                  </label>
+                  <textarea
+                    value={textContent}
+                    onChange={(e) => setTextContent(e.target.value)}
+                    placeholder="Paste your syllabus, lesson plan, or curriculum content here..."
+                    className="w-full h-64 sm:h-96 p-4 border-2 border-gray-300 rounded-lg focus:border-maineBlue focus:ring-2 focus:ring-blue-200 resize-none text-sm sm:text-base"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="p-3 sm:p-6 pt-3 sm:pt-4 border-t-2 border-gray-200">
+              <div className="flex justify-center gap-2 sm:gap-4">
+                <button
+                  onClick={() => {
+                    setShowTextInputModal(false);
+                    setTextContent('');
+                  }}
+                  className="bg-gray-300 text-gray-700 px-6 py-2 rounded-md hover:bg-gray-400 font-retro text-sm sm:text-base min-h-[44px]"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={async () => {
+                    if (!textContent.trim()) {
+                      showError('Please enter some text content');
+                      return;
+                    }
+
+                    setShowTextInputModal(false);
+                    setProcessingFiles(true);
+                    setUploadProgress(50);
+
+                    try {
+                      // Create a temporary file from the text
+                      const textBlob = new Blob([textContent], { type: 'text/plain' });
+                      const textFile = new File([textBlob], 'pasted-text.txt', { type: 'text/plain' });
+
+                      await handleFileUpload([textFile]);
+                    } catch (error) {
+                      console.error('Error processing text:', error);
+                      showError('Failed to process text content');
+                    } finally {
+                      setProcessingFiles(false);
+                      setUploadProgress(0);
+                      setTextContent('');
+                    }
+                  }}
+                  className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro text-sm sm:text-base min-h-[44px]"
+                >
+                  Process Text
+                </button>
               </div>
             </div>
           </div>
