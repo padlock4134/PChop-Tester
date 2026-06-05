@@ -234,19 +234,19 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
           </div>
 
           {/* Simple Controls */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mt-1 mb-1 px-2 sm:px-0">
+          <div className="flex flex-col gap-2 mt-1 mb-1 px-2">
             {!isPracticing ? (
               <>
                 <button 
                   onClick={() => setShowDeviceSelection(true)}
-                  className="w-full sm:w-auto bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
+                  className="w-full bg-amber-600 text-amber-50 px-6 py-2 text-sm rounded font-bold hover:bg-amber-700 transition-colors border border-amber-900"
                 >
                   � Virtual Practice
                 </button>
                 <select
                   value={selectedLesson}
                   onChange={(e) => setSelectedLesson(e.target.value)}
-                  className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
                   <option value="">Choose a lesson...</option>
                   {curriculumLessons.length > 0 ? (
@@ -264,12 +264,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
               <>
                 <button 
                   onClick={endPractice}
-                  className="w-full sm:w-auto bg-amber-800 text-white px-4 py-2 text-sm rounded font-bold hover:bg-amber-900 transition-colors border border-amber-900"
+                  className="w-full bg-amber-800 text-white px-4 py-2 text-sm rounded font-bold hover:bg-amber-900 transition-colors border border-amber-900"
                 >
                   ⏹️ End Practice
                 </button>
                 <select
-                  className="w-full sm:w-auto px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
