@@ -116,7 +116,21 @@ Analyze the following curriculum content and determine:
 4. Extracted metadata (title, week number, topics, equipment, etc.)
 5. Confidence score (0-100)
 
-If this is a SYLLABUS containing multiple lessons (look for patterns like "Week 1", "Lesson 1", "Module 1", chapter headings, or a table of contents), extract ALL lessons as an array.
+CRITICAL: If the document contains ANY of these patterns, it IS a syllabus with multiple lessons:
+- "Week" or "Week #" followed by content
+- "Lesson" or "Lesson #" followed by content  
+- "Module" or "Module #" followed by content
+- "Chapter" or "Chapter #" followed by content
+- "Unit" or "Unit #" followed by content
+- "Term" or "Term #" followed by content
+- Course numbers or codes (e.g., "101", "201", "HVAC", etc.)
+- Table of contents
+- Course outline
+- Schedule
+- Multiple numbered sections with distinct topics
+- "Assignments" section with multiple units/modules
+
+When you detect a syllabus, you MUST extract ALL lessons as an array in the "lessons" field. Extract each unit, module, week, or chapter as a separate lesson. If the document contains multiple courses, extract all units from all courses.
 
 Return your analysis as a JSON object with this structure:
 

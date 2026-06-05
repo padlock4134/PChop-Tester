@@ -8425,50 +8425,74 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       week_number: lesson.weekNumber || null
                     }));
 
-                    console.log('Inserting lessons:', lessonsToInsert);
+                    console.log('Inserting lessons in batches:', lessonsToInsert.length);
+                    const batchSize = 50;
+                    let insertedCount = 0;
+                    let errorOccurred = false;
+
+                    const insertBatch = async (batch: any[], batchIndex: number) => {
+                      if (errorOccurred) return;
+
+                      const { error } = await supabase
+                        .from('curriculum_content')
+                        .insert(batch);
+
+                      if (error) {
+                        console.error('Batch insert error:', error);
+                        alert(`Failed to import lessons at batch ${batchIndex + 1}: ${error.message}`);
+                        errorOccurred = true;
+                        return;
+                      }
+
+                      insertedCount += batch.length;
+                      console.log(`Inserted batch ${batchIndex + 1}: ${insertedCount}/${lessonsToInsert.length} lessons`);
+                    };
+
+                    // Process in batches
+                    (async () => {
+                      for (let i = 0; i < lessonsToInsert.length; i += batchSize) {
+                        if (errorOccurred) break;
+                        const batch = lessonsToInsert.slice(i, i + batchSize);
+                        const batchIndex = Math.floor(i / batchSize);
+                        await insertBatch(batch, batchIndex);
+                        // Small delay between batches to avoid overwhelming
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                      }
+
+                      if (!errorOccurred) {
+                        console.log('All lessons inserted successfully');
+                        alert(`Imported ${insertedCount} lessons from ${currentMapping.fileName}`);
+                        setShowMappingReviewModal(false);
+                      }
+                    })();
+                  } else {
+                    alert('Processing as single lesson (not a syllabus) - inserting into curriculum');
+                    const metadata = aiSuggestion?.metadata || {};
+                    const lessonToInsert = {
+                      title: metadata.title || currentMapping.fileName,
+                      content_type: 'lesson',
+                      content_data: {
+                        topics: metadata.topics || [],
+                        equipment: metadata.equipment || [],
+                        difficulty: metadata.difficulty || 'intermediate'
+                      },
+                      week_number: metadata.weekNumber || null
+                    };
+
+                    console.log('Inserting single lesson:', lessonToInsert);
                     supabase
                       .from('curriculum_content')
-                      .insert(lessonsToInsert)
+                      .insert(lessonToInsert)
                       .then(({ error }) => {
                         if (error) {
-                          console.error('Curriculum insert error:', error);
-                          alert(`Failed to import lessons: ${error.message}`);
+                          console.error('Lesson insert error:', error);
+                          alert(`Failed to import lesson: ${error.message}`);
                         } else {
-                          console.log('Lessons inserted successfully');
-                          alert(`Imported ${lessonsToInsert.length} lessons from ${currentMapping.fileName}`);
+                          console.log('Lesson inserted successfully');
+                          alert(`Imported lesson from ${currentMapping.fileName}`);
                           setShowMappingReviewModal(false);
                         }
                       });
-                  } else {
-                    alert('Processing as single lesson (not a syllabus)');
-                    const modules = aiSuggestion?.modules || {};
-                    setModuleSelection({
-                      workspace: {
-                        item1: modules.workspace?.include ?? false,
-                        item2: modules.workspace?.include ?? false,
-                        item3: modules.workspace?.include ?? false,
-                        item4: modules.workspace?.include ?? false
-                      },
-                      notebook: {
-                        assignments: modules.notebook?.include ?? false,
-                        rubrics: modules.notebook?.include ?? false,
-                        items: modules.notebook?.include ?? false,
-                        video: modules.notebook?.include ?? false
-                      },
-                      school: {
-                        techniques: modules.school?.include ?? false,
-                        syllabus: modules.school?.include ?? false,
-                        lessons: modules.school?.include ?? false,
-                        objectives: modules.school?.include ?? false
-                      },
-                      community: {
-                        videos: modules.community?.include ?? false,
-                        insights: modules.community?.include ?? false,
-                        sessions: modules.community?.include ?? false,
-                        partnerships: modules.community?.include ?? false
-                      }
-                    });
-                    setShowMappingReviewModal(false);
                   }
                 }}
                 className="bg-maineBlue text-white px-6 py-2 rounded-md hover:bg-blue-700 font-retro"
