@@ -236,7 +236,7 @@ const NavBar: React.FC = () => {
   if (!disciplineConfig) return null;
   
   return (
-    <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md sticky top-0 z-50">
+    <nav className="navbar bg-maineBlue text-weatheredWhite w-full py-1 shadow-md sticky top-0 z-50 border-b-4 border-black">
       <div className="max-w-5xl mx-auto px-4">
         {/* Flex container for all items */}
         <div className="flex items-center justify-center sm:justify-between w-full gap-2">
