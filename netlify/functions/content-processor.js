@@ -191,7 +191,7 @@ IMPORTANT: Use the exact module keys "workspace", "notebook", "school", "communi
 
 Here is the curriculum content to analyze:
 
-${extractedText.substring(0, 8000)}`;
+${extractedText.substring(0, 50000)}`;
 
     // Call Anthropic API via existing proxy
     const anthropicResponse = await fetch(`${event.headers.origin || 'http://localhost:8888'}/.netlify/functions/anthropic-proxy`, {
