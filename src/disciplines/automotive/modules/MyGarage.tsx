@@ -44,7 +44,7 @@ function categorizeIngredient(name: string): string {
 const MyGarage = () => {
   const { t } = useTranslation();
   const { refreshXP } = useLevelProgressContext();
-  const { user } = useSupabase();
+  const { user, isLoading } = useSupabase();
   
   // ...existing state
   const [scanLoading, setScanLoading] = useState(false);
@@ -89,18 +89,24 @@ const MyGarage = () => {
 
   // Save garage inventory to Supabase whenever parts change
   useEffect(() => {
-    if (ingredients.length === 0) return;
-    saveKitchen(user?.id!, ingredients).catch(err => setGarageError('Failed to save your parts inventory.'));
-  }, [ingredients]);
+    if (ingredients.length === 0 || !user?.id) return;
+    saveKitchen(user.id, ingredients).catch(err => setGarageError('Failed to save your parts inventory.'));
+  }, [ingredients, user?.id]);
 
   // Freddie context: set page on mount
   useEffect(() => {
+    if (!user?.id) {
+      setIngredients([]);
+      setManual([]);
+      return;
+    }
+
     // Load both garage inventory and manual data
     const loadData = async () => {
       try {
         const [garageInventory, manualRecipes] = await Promise.all([
-          fetchKitchen(user?.id!),
-          fetchCookbook(user?.id!)
+          fetchKitchen(user.id),
+          fetchCookbook(user.id)
         ]);
         setIngredients(garageInventory);
         setManual(manualRecipes);
@@ -110,7 +116,7 @@ const MyGarage = () => {
       }
     };
     loadData();
-  }, []);
+  }, [user?.id]);
 
   // Filtering logic (only by search text)
   const filteredIngredients = ingredients.filter(ing => {

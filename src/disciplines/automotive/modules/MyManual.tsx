@@ -114,7 +114,7 @@ const MyManual = () => {
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState<{id: string, name: string, emoji: string, procedures: string[]}[]>([]);
 
-  const { user } = useSupabase();
+  const { user, isLoading } = useSupabase();
 
   // Load recipes and set page context on mount
   const { updateContext } = useFreddieContext();
@@ -709,10 +709,10 @@ const MyManual = () => {
           </button>
           <button
             onClick={async () => {
-              if (filteredProcedures.length === 0) return;
+              if (filteredProcedures.length === 0 || !user?.id) return;
               try {
                 const recipeId = filteredProcedures[currentIndex].id;
-                await removeRecipeFromCookbook(user?.id!, recipeId);
+                await removeRecipeFromCookbook(user.id, recipeId);
                 setLocalProcedures(procedures.filter(r => r.id !== recipeId));
                 setCurrentIndex(0);
               } catch (err) {

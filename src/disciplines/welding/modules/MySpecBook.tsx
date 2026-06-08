@@ -84,7 +84,7 @@ const MySpecBook = () => {
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState<{id: string, name: string, emoji: string, projects: string[]}[]>([]);
 
-  const { user } = useSupabase();
+  const { user, isLoading } = useSupabase();
 
   // Load projects and set page context on mount
   const { updateContext } = useFreddieContext();
@@ -248,10 +248,20 @@ const MySpecBook = () => {
   };
   useEffect(() => {
     updateContext({ page: 'MyWeldBook' });
+  }, [updateContext]);
+
+  useEffect(() => {
     const loadProjects = async () => {
+      if (!user?.id) {
+        setLocalProjects([]);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const savedProjects = await fetchSpecBook(user?.id!);
+        setError(null);
+        const savedProjects = await fetchSpecBook(user.id);
         const converted = savedProjects.map(r => ({
           id: r.id,
           name: r.title,
@@ -270,8 +280,9 @@ const MySpecBook = () => {
         setLoading(false);
       }
     };
+
     loadProjects();
-  }, [updateContext]);
+  }, [user?.id]);
 
   // Filter projects based on search term and category
   const filteredProjects = projects.filter(project => {

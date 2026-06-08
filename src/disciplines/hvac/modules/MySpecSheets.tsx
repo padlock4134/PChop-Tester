@@ -182,7 +182,7 @@ const MySpecSheets = () => {
     { id: '3', name: 'Healthy Options', emoji: '🥗', recipes: ['1', '2', '3', '4', '5'] }
   ]);
 
-  const { user } = useSupabase();
+  const { user, isLoading } = useSupabase();
 
   // Load recipes and set page context on mount
   const { updateContext } = useFreddieContext();
@@ -754,10 +754,10 @@ const MySpecSheets = () => {
           </button>
           <button
             onClick={async () => {
-              if (filteredRecipes.length === 0) return;
+              if (filteredRecipes.length === 0 || !user?.id) return;
               try {
                 const recipeId = filteredRecipes[currentIndex].id;
-                await removeRecipeFromCookbook(user?.id!, recipeId);
+                await removeRecipeFromCookbook(user.id, recipeId);
                 setLocalRecipes(recipes.filter(r => r.id !== recipeId));
                 setCurrentIndex(0);
               } catch (err) {

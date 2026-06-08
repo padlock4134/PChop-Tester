@@ -50,7 +50,7 @@ const MyKitchen = () => {
   const { t } = useTranslation();
   const { updateContext } = useFreddieContext();
   const { refreshXP } = useLevelProgressContext();
-  const { user } = useSupabase();
+  const { user, isLoading } = useSupabase();
   
   // ...existing state
   const [scanLoading, setScanLoading] = useState(false);
@@ -96,19 +96,28 @@ const MyKitchen = () => {
 
   // Save kitchen to Supabase whenever ingredients change
   useEffect(() => {
-    if (ingredients.length === 0) return;
-    saveKitchen(user?.id!, ingredients).catch(err => setKitchenError('Failed to save your kitchen.'));
-  }, [ingredients]);
+    if (ingredients.length === 0 || !user?.id) return;
+    saveKitchen(user.id, ingredients).catch(err => setKitchenError('Failed to save your kitchen.'));
+  }, [ingredients, user?.id]);
 
   // Freddie context: set page on mount
   useEffect(() => {
     updateContext({ page: 'MyKitchen' });
+  }, [updateContext]);
+
+  useEffect(() => {
+    if (!user?.id) {
+      setIngredients([]);
+      setCookbook([]);
+      return;
+    }
+
     // Load both kitchen and cookbook data
     const loadData = async () => {
       try {
         const [kitchenIngredients, cookbookRecipes] = await Promise.all([
-          fetchKitchen(user?.id!),
-          fetchCookbook(user?.id!)
+          fetchKitchen(user.id),
+          fetchCookbook(user.id)
         ]);
         setIngredients(kitchenIngredients);
         setCookbook(cookbookRecipes);
@@ -118,7 +127,7 @@ const MyKitchen = () => {
       }
     };
     loadData();
-  }, [updateContext]);
+  }, [user?.id]);
 
   // Filtering logic (only by search text)
   const filteredIngredients = ingredients.filter(ing => {

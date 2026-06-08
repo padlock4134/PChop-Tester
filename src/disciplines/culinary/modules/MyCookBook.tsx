@@ -107,7 +107,7 @@ const MyCookBook = () => {
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState<{id: string, name: string, emoji: string, recipes: string[]}[]>([]);
 
-  const { user } = useSupabase();
+  const { user, isLoading } = useSupabase();
 
   // Load recipes and set page context on mount
   const { updateContext } = useFreddieContext();
@@ -271,10 +271,20 @@ const MyCookBook = () => {
   };
   useEffect(() => {
     updateContext({ page: 'MyCookBook' });
+  }, [updateContext]);
+
+  useEffect(() => {
     const loadRecipes = async () => {
+      if (!user?.id) {
+        setLocalRecipes([]);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        setError(null);
+        const savedRecipes = await fetchCookbook(user.id);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
@@ -294,8 +304,9 @@ const MyCookBook = () => {
         setLoading(false);
       }
     };
+
     loadRecipes();
-  }, [updateContext]);
+  }, [user?.id]);
 
   // Filter recipes based on search term and category
   const filteredRecipes = recipes.filter(recipe => {
@@ -673,10 +684,10 @@ const MyCookBook = () => {
           </button>
           <button
             onClick={async () => {
-              if (filteredRecipes.length === 0) return;
+              if (filteredRecipes.length === 0 || !user?.id) return;
               try {
                 const recipeId = filteredRecipes[currentIndex].id;
-                await removeRecipeFromCookbook(user?.id!, recipeId);
+                await removeRecipeFromCookbook(user.id, recipeId);
                 setLocalRecipes(recipes.filter(r => r.id !== recipeId));
                 setCurrentIndex(0);
               } catch (err) {

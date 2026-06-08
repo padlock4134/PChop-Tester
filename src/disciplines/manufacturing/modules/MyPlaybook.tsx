@@ -99,7 +99,7 @@ const MyPlaybook = () => {
   const [newCollectionName, setNewCollectionName] = useState('');
   const [collections, setCollections] = useState<{id: string, name: string, emoji: string, processes: string[]}[]>([]);
 
-  const { user } = useSupabase();
+  const { user, isLoading } = useSupabase();
 
   // Load processes and set page context on mount
   const { updateContext } = useFreddieContext();
@@ -264,10 +264,20 @@ const MyPlaybook = () => {
   };
   useEffect(() => {
     updateContext({ page: 'MyCookBook' });
+  }, [updateContext]);
+
+  useEffect(() => {
     const loadProcesses = async () => {
+      if (!user?.id) {
+        setLocalProcesses([]);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const savedRecipes = await fetchCookbook(user?.id!);
+        setError(null);
+        const savedRecipes = await fetchCookbook(user.id);
         const converted = savedRecipes.map(r => ({
           id: r.id,
           name: r.title,
@@ -287,8 +297,9 @@ const MyPlaybook = () => {
         setLoading(false);
       }
     };
+
     loadProcesses();
-  }, [updateContext]);
+  }, [user?.id]);
 
   // Filter processes based on search term and category
   const filteredProcesses = processes.filter((process: Process) => {
@@ -653,10 +664,10 @@ const MyPlaybook = () => {
           </button>
           <button
             onClick={async () => {
-              if (filteredProcesses.length === 0) return;
+              if (filteredProcesses.length === 0 || !user?.id) return;
               try {
                 const recipeId = filteredProcesses[currentIndex].id;
-                await removeRecipeFromCookbook(user?.id!, recipeId);
+                await removeRecipeFromCookbook(user.id, recipeId);
                 setLocalProcesses(processes.filter(p => p.id !== recipeId));
                 setCurrentIndex(0);
               } catch (err) {
