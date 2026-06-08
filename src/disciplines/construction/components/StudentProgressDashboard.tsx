@@ -251,14 +251,13 @@ const StudentProgressDashboard: React.FC = () => {
 
           {/* Mobile: Vertical Stacked Live Sessions List */}
           <div className="lg:hidden">
-            {activeLiveSessions.length > 0 && (
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 mb-3">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 mb-3">
                   <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
                   <span className="font-bold text-red-700 text-sm">{t('dashboard.liveNow')} ({activeLiveSessions.length} {t('dashboard.sessions')})</span>
-                </div>
+              </div>
                 
-                {activeLiveSessions.slice(0, 4).map((session, index) => (
+              {activeLiveSessions.length > 0 ? activeLiveSessions.slice(0, 4).map((session, index) => (
                   <div
                     key={session.id}
                     onClick={() => joinLiveSession(session)}
@@ -278,19 +277,33 @@ const StudentProgressDashboard: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
+                )) : (
+                  <div className="bg-red-50 border-4 border-red-400 rounded-lg p-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <div className="font-bold text-red-900 text-sm">{t('dashboard.noLiveLessons', { defaultValue: 'No live lessons yet' })}</div>
+                        <div className="text-red-700 text-xs mt-1">{t('dashboard.checkBackForLessons', { defaultValue: 'Check back for upcoming lessons.' })}</div>
+                      </div>
+                      <div className="bg-red-500 text-white text-xs px-3 py-1.5 rounded-full font-medium whitespace-nowrap opacity-75">
+                        🔴 {t('dashboard.join')}
+                      </div>
+                    </div>
+                  </div>
+              )}
+            </div>
           </div>
 
           {/* Desktop: Horizontal Carousel */}
           <div className="hidden lg:block">
-            {activeLiveSessions.length > 0 && (
-              <div 
-                className="bg-red-50 border-4 border-red-400 rounded-lg p-3 mb-4 cursor-pointer"
+            <div
+                className={`bg-red-50 border-4 border-red-400 rounded-lg p-3 mb-4 ${activeLiveSessions.length > 0 ? 'cursor-pointer' : ''}`}
                 onMouseEnter={() => setIsPaused(true)}
                 onMouseLeave={() => setIsPaused(false)}
-                onClick={() => joinLiveSession(activeLiveSessions[currentSessionIndex])}
+                onClick={() => {
+                  if (activeLiveSessions.length > 0) {
+                    joinLiveSession(activeLiveSessions[currentSessionIndex]);
+                  }
+                }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center mr-3">
@@ -300,14 +313,20 @@ const StudentProgressDashboard: React.FC = () => {
                   </div>
                   <div className="flex-1 text-center">
                     <div className="text-sm text-red-800 transition-all duration-500">
-                      <span>
-                        <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {liveVerbLabel}{' '}
-                        <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
-                      </span>
+                      {activeLiveSessions.length > 0 ? (
+                        <span>
+                          <strong>{activeLiveSessions[currentSessionIndex].hostName}</strong> {liveVerbLabel}{' '}
+                          <strong>{activeLiveSessions[currentSessionIndex].dishName}</strong> • {activeLiveSessions[currentSessionIndex].viewers} {t('dashboard.watching')}
+                        </span>
+                      ) : (
+                        <span>
+                          <strong>{t('dashboard.noLiveLessons', { defaultValue: 'No live lessons yet' })}</strong> • {t('dashboard.checkBackForLessons', { defaultValue: 'Check back for upcoming lessons.' })}
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl">{activeLiveSessions[currentSessionIndex].thumbnail}</span>
+                    <span className="text-2xl">{activeLiveSessions.length > 0 ? activeLiveSessions[currentSessionIndex].thumbnail : '🎓'}</span>
                     <div className="bg-red-500 text-white text-xs px-4 py-2 rounded-full font-medium">
                       🔴 {t('dashboard.join')}
                     </div>
@@ -326,9 +345,8 @@ const StudentProgressDashboard: React.FC = () => {
                       />
                     ))}
                   </div>
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
 
