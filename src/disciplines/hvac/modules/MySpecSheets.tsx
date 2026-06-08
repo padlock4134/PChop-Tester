@@ -1097,16 +1097,6 @@ const MySpecSheets = () => {
                 🎥 {t('mySpecSheets.viewVideos')}
               </button>
             </div>
-            <div className="sticky bottom-0 z-20 flex-shrink-0 border-t-2 border-maineBlue bg-white p-4 pt-2 shadow-[0_-6px_12px_rgba(255,255,255,0.95)]">
-              {/* Create Collection Button - Always visible */}
-              <button
-                type="button"
-                onClick={() => setShowCreateCollectionModal(true)}
-                className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
-              >
-                {t('mySpecSheets.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
-              </button>
-            </div>
           </div>
         </div>
       </div>
