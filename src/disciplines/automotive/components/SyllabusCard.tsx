@@ -39,12 +39,12 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ title, courses, onLessonCli
 
   return (
     <div className="bg-white rounded-lg shadow-lg border-4 border-maineBlue overflow-hidden w-full h-full lg:min-h-[620px] flex flex-col">
-      <div className="p-4 bg-yellow-400 text-maineBlue font-retro">
+      <div className="flex-shrink-0 p-4 bg-yellow-400 text-maineBlue font-retro">
         <h3 className="text-xl">✏️ {title}</h3>
       </div>
       
       {/* Diagnostic Bay Button */}
-      <div className="px-4 pt-4">
+      <div className="flex-shrink-0 px-4 pt-4">
         <button
           onClick={onDiagnosticBayClick}
           className="w-full px-4 py-2 rounded border transition-colors bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200 hover:text-amber-900"

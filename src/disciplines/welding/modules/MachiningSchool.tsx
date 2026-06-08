@@ -430,7 +430,7 @@ const WeldingSchool = () => {
 
           {/* Welding School header */}
 
-          <div className="flex items-center justify-center p-6 pb-4">
+          <div className="flex-shrink-0 flex items-center justify-center p-6 pb-4">
 
             <span className="text-5xl mr-2">🔩</span>
 
@@ -442,7 +442,7 @@ const WeldingSchool = () => {
 
           {/* Sticky Separation line */}
 
-          <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
+          <div className="flex-shrink-0 sticky top-0 bg-weatheredWhite z-10 px-6">
 
             <hr className="border-t-2 border-maineBlue" />
 
@@ -452,7 +452,7 @@ const WeldingSchool = () => {
 
           {/* Scrollable Content */}
 
-          <div className="overflow-y-auto p-6 pt-4">
+          <div className="flex-1 overflow-y-auto p-6 pt-4 min-h-0">
 
         <div className="w-full mx-auto">
 

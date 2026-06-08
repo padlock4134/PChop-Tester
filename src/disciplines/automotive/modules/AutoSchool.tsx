@@ -240,18 +240,18 @@ const AutoSchool = () => {
           activeMobileTab === 'school' ? 'flex' : 'hidden lg:flex'
         }`}>
           {/* Automotive School header - moved back inside the module */}
-          <div className="flex items-center justify-center p-6 pb-4">
+          <div className="flex-shrink-0 flex items-center justify-center p-6 pb-4">
             <span className="text-5xl mr-2">⚙️</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('autoSchool.title')}</h1>
           </div>
 
           {/* Sticky Separation line */}
-          <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
+          <div className="flex-shrink-0 sticky top-0 bg-weatheredWhite z-10 px-6">
             <hr className="border-t-2 border-maineBlue" />
           </div>
 
           {/* Scrollable Content */}
-          <div className="overflow-y-auto p-6 pt-4">
+          <div className="flex-1 overflow-y-auto p-6 pt-4 min-h-0">
         <div className="w-full mx-auto">
         <JobTimer teamSize={teamSize} setTeamSize={setTeamSize} />
         {/* Always render a VideoModal for the currently displayed tutorial list */}
