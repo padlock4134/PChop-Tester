@@ -1,4 +1,5 @@
 import { supabase } from '../api/supabaseClient';
+import { trackCompletion } from '../../../services/integrityMonitoring';
 
 // Standard XP rewards
 export const XP_REWARDS = {
@@ -66,7 +67,14 @@ export const awardXP = async (userId: string, xpAmount: number, action: string) 
       console.warn('Could not log XP award:', logError);
       // Not critical, continue
     }
-    
+
+    if (action.includes('complete')) {
+      const startKey = `integrity_start_${userId}_${action}`;
+      const startedAt = sessionStorage.getItem(startKey) || new Date().toISOString();
+      sessionStorage.removeItem(startKey);
+      trackCompletion({ user_id: userId, discipline: 'hvac', module_type: action, module_id: action, started_at: startedAt, completed_at: new Date().toISOString() });
+    }
+
     return true;
   } catch (error) {
     console.error('Error in awardXP:', error);

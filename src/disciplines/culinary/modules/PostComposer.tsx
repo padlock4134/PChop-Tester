@@ -5,6 +5,7 @@ import { XP_REWARDS } from '../services/xpService';
 import { useLevelProgressContext } from '../components/NavBar';
 import { useSupabase } from '../components/SupabaseProvider';
 import { isSessionValid } from '../api/userSession';
+import { submitText } from '../../../services/integrityMonitoring';
 
 const PostComposer = () => {
   const { t } = useTranslation();
@@ -54,6 +55,8 @@ const PostComposer = () => {
         }
       }
       
+      submitText({ user_id: user.id, discipline: 'culinary', assignment_id: 'social_post', assignment_title: 'Social Post', submission_text: input, word_count: input.trim().split(/\s+/).filter(Boolean).length });
+
       // Reset form
       setInput('');
       setImage(null);
