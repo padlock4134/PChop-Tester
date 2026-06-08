@@ -297,7 +297,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     // Exit Admin Mode icon
     const exitAdminButton = document.createElement('button');
     exitAdminButton.type = 'button';
-    exitAdminButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-lobsterRed hover:bg-red-700 text-white text-lg';
+    exitAdminButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-yellow-400 hover:bg-yellow-500 text-white text-lg';
     exitAdminButton.setAttribute('aria-label', 'Exit Admin Mode');
     exitAdminButton.title = 'Exit Admin Mode';
     exitAdminButton.textContent = '🚪';
