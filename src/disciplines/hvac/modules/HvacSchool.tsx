@@ -16,7 +16,20 @@ import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
 
 function getDefaultTutorials() {
-  return [];
+  return [
+    {
+      title: 'HVAC Safety Basics',
+      desc: 'Learn PPE, electrical safety, refrigerant awareness, and service-call habits.',
+      type: 'service_tutorial',
+      query: 'HVAC safety basics PPE electrical refrigerant service training'
+    },
+    {
+      title: 'System Inspection Basics',
+      desc: 'Practice a beginner-friendly inspection flow for airflow, filters, coils, and thermostat checks.',
+      type: 'service_tutorial',
+      query: 'HVAC system inspection basics airflow filters coils thermostat tutorial'
+    }
+  ];
 }
 
 function getTwoTutorials(recipe: any) {
@@ -26,6 +39,12 @@ function getTwoTutorials(recipe: any) {
       title: `Let\'s Service This System!`,
       desc: `Step-by-step service walkthrough for ${recipe.title}.`,
       type: 'service_tutorial'
+    },
+    {
+      title: 'Diagnostics & Safety Check',
+      desc: `Review diagnostic steps, tools, and safety checks before servicing ${recipe.title}.`,
+      type: 'service_tutorial',
+      query: `${recipe.title} HVAC diagnostics tools safety tutorial`
     }
   ];
 }
@@ -99,6 +118,10 @@ const HvacSchool = () => {
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
+
+    if (tut.query) {
+      return tut.query;
+    }
 
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {

@@ -17,7 +17,20 @@ import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
 
 function getDefaultTutorials() {
-  return [];
+  return [
+    {
+      title: 'Manufacturing Safety Basics',
+      desc: 'Learn PPE, machine guarding, lockout/tagout, and safe floor practices.',
+      type: 'manufacturing_tutorial',
+      query: 'manufacturing safety basics PPE machine guarding lockout tagout training'
+    },
+    {
+      title: 'Lean Workflow Basics',
+      desc: 'Practice quality checks, standard work, 5S, and flow improvement fundamentals.',
+      type: 'manufacturing_tutorial',
+      query: 'lean manufacturing basics 5S standard work quality checks tutorial'
+    }
+  ];
 }
 
 function getTwoTutorials(recipe: any) {
@@ -27,6 +40,12 @@ function getTwoTutorials(recipe: any) {
       title: `Let\'s Build This Process!`,
       desc: `Manufacturing tutorial for ${recipe.title}.`,
       type: 'manufacturing_tutorial'
+    },
+    {
+      title: 'Quality, Tools & Safety',
+      desc: `Review quality checks, tools, and safety steps before running ${recipe.title}.`,
+      type: 'manufacturing_tutorial',
+      query: `${recipe.title} manufacturing quality tools safety tutorial`
     }
   ];
 }
@@ -96,6 +115,10 @@ const MfgAcademy = () => {
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
+
+    if (tut.query) {
+      return tut.query;
+    }
 
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {

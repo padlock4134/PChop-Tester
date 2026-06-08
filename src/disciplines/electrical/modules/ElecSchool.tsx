@@ -16,7 +16,20 @@ import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
 
 function getDefaultTutorials() {
-  return [];
+  return [
+    {
+      title: 'Electrical Safety Basics',
+      desc: 'Learn lockout/tagout, PPE, voltage awareness, and safe circuit habits before wiring.',
+      type: 'cooking_tutorial',
+      query: 'electrical safety basics lockout tagout PPE voltage training'
+    },
+    {
+      title: 'Basic Circuit Wiring',
+      desc: 'Practice reading a simple diagram and wiring basic switches, loads, and connections.',
+      type: 'cooking_tutorial',
+      query: 'basic electrical circuit wiring tutorial switches loads connections'
+    }
+  ];
 }
 
 function getTwoTutorials(recipe: any) {
@@ -26,6 +39,12 @@ function getTwoTutorials(recipe: any) {
       title: `Let\'s Wire This Circuit!`,
       desc: `Step-by-step electrical walkthrough for ${recipe.title}.`,
       type: 'cooking_tutorial'
+    },
+    {
+      title: 'Code, Tools & Safety',
+      desc: `Review code basics, tools, and safety checks before wiring ${recipe.title}.`,
+      type: 'cooking_tutorial',
+      query: `${recipe.title} electrical code tools safety tutorial`
     }
   ];
 }
@@ -95,6 +114,10 @@ const ElecSchool = () => {
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
+
+    if (tut.query) {
+      return tut.query;
+    }
 
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
