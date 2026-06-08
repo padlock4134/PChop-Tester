@@ -1088,7 +1088,7 @@ const MyPipeBook = () => {
                 </div>
               </div>
             </div>
-            <div className="sticky bottom-0 z-20 flex-shrink-0 border-t-2 border-maineBlue bg-white p-4 pt-2 shadow-[0_-6px_12px_rgba(255,255,255,0.95)]">
+            <div className="sticky bottom-0 z-20 flex-shrink-0 bg-white p-4 pt-2 shadow-[0_-6px_12px_rgba(255,255,255,0.95)]">
               {/* Create Collection Button - Always visible */}
               <button
                 type="button"
