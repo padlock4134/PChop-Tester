@@ -159,6 +159,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
                 guideOpen={guideOpen}
                 setGuideOpen={setGuideOpen}
                 onStopTrackingRef={stopTrackingRef}
+                discipline="welding"
+                themeColor="#F59E0B"
               />
             ) : (
               // Not practicing - show placeholder
@@ -218,10 +220,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
                 </button>
                 <select
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  defaultValue=""
+                  value={selectedLesson || 'current-lesson'}
+                  onChange={() => undefined}
+                  aria-label="Lessons Practiced"
                 >
-                  <option value="" disabled>Lessons Practiced</option>
-                  <option value="tee-joint-smaw">Basic Tee Joint — Stick Welding (SMAW)</option>
+                  <option value={selectedLesson || 'current-lesson'}>
+                    {selectedLessonTitle || arScene?.lesson || 'Current Lesson'}
+                  </option>
                 </select>
               </>
             )}

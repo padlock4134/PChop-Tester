@@ -57,8 +57,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          discipline: 'plumbing',
           lessonTitle: demoLesson,
-          lessonContent: 'Traditional Japanese water stone sharpening technique. Includes stone preparation, proper angle maintenance (20 degrees), stroke technique, and burr detection. Old-school method using only water and stone.',
+          lessonContent: 'Copper pipe cutting, deburring, dry-fit alignment, slope checking, joint preparation, leak prevention, and code-aware pipe layout practice.',
         }),
       });
 

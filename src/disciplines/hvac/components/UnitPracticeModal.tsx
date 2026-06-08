@@ -90,7 +90,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
+      // For demo: Use pre-built HVAC AR scene (instant load)
       const demoLesson = Object.keys(defaultARScenes)[0] as keyof typeof defaultARScenes;
 
       // Check if we have a default scene
@@ -108,6 +108,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          discipline: 'hvac',
           lessonTitle: demoLesson,
           lessonContent: 'Static pressure testing workflow for HVAC systems. Includes gauge setup, reference pressure checks, duct traverse technique, and airflow balancing validation.',
         }),
@@ -273,7 +274,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Static Pressure Measurement Fundamentals</option>
+                  <option value="static-pressure">Static Pressure Measurement Fundamentals</option>
                 </select>
               </>
             )}

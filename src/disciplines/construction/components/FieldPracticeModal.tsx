@@ -35,13 +35,15 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built construction AR scene (instant load)
+      const demoLesson = 'Layout, Measurement, and Framing Alignment';
       
+      const defaultScene = defaultARScenes[demoLesson as keyof typeof defaultARScenes];
+
       // Check if we have a default scene
-      if (defaultARScenes[demoLesson]) {
+      if (defaultScene) {
         console.log('Loading default AR scene for demo');
-        setArScene(defaultARScenes[demoLesson]);
+        setArScene(defaultScene);
         setIsPracticing(true);
         return;
       }
@@ -53,8 +55,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          discipline: 'construction',
           lessonTitle: demoLesson,
-          lessonContent: 'Traditional Japanese water stone sharpening technique. Includes stone preparation, proper angle maintenance (20 degrees), stroke technique, and burr detection. Old-school method using only water and stone.',
+          lessonContent: 'Construction layout, measurement, marking, cutting angles, fastener placement, framing alignment, PPE, and site safety practice.',
         }),
       });
 

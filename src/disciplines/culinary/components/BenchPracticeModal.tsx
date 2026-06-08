@@ -35,13 +35,15 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
 
     try {
-      // For demo: Use pre-built whetstone AR scene (instant load)
-      const demoLesson = 'Traditional Whetstone Knife Sharpening';
+      // For demo: Use pre-built culinary AR scene (instant load)
+      const demoLesson = 'Foundational Culinary Technique Practice';
       
+      const defaultScene = defaultARScenes[demoLesson as keyof typeof defaultARScenes];
+
       // Check if we have a default scene
-      if (defaultARScenes[demoLesson]) {
+      if (defaultScene) {
         console.log('Loading default AR scene for demo');
-        setArScene(defaultARScenes[demoLesson]);
+        setArScene(defaultScene);
         setIsPracticing(true);
         return;
       }
@@ -53,8 +55,9 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          discipline: 'culinary',
           lessonTitle: demoLesson,
-          lessonContent: 'Traditional Japanese water stone sharpening technique. Includes stone preparation, proper angle maintenance (20 degrees), stroke technique, and burr detection. Old-school method using only water and stone.',
+          lessonContent: 'Culinary technique practice with mise en place, safe tool handling, timing, temperature awareness, consistency checks, and sanitation cues.',
         }),
       });
 
@@ -234,7 +237,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   defaultValue=""
                 >
                   <option value="" disabled>Lessons Practiced</option>
-                  <option value="whetstone">Traditional Whetstone Knife Sharpening</option>
+                  <option value="culinary-technique">Foundational Culinary Technique Practice</option>
                 </select>
               </>
             )}
