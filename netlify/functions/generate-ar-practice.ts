@@ -144,7 +144,7 @@ REQUIREMENTS:
 Generate the complete AR practice scene now:`;
 
     const message = await (anthropic as any).messages.create({
-      model: 'claude-sonnet-4-5-20250929',
+      model: 'claude-opus-4-5',
       max_tokens: 4000,
       messages: [{ role: 'user', content: prompt }],
     });
@@ -168,7 +168,7 @@ Generate the complete AR practice scene now:`;
         lesson_id: effectiveLessonId,
         lesson_title: lessonTitle,
         scene_json: arScene,
-        model_version: 'claude-sonnet-4-5-20250929',
+        model_version: 'claude-opus-4-5',
         generated_at: new Date().toISOString(),
       }, { onConflict: 'discipline,lesson_id' });
     } catch (_) {
