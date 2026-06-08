@@ -88,7 +88,7 @@ const WeldingSchool = () => {
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
 
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-  const syllabusData = useCurriculumSyllabus(supabase);
+  const syllabusData = useCurriculumSyllabus(supabase, 'welding');
 
 
 

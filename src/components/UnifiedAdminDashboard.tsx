@@ -880,7 +880,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         setUploadProgress(fileProgress + 10);
         const fileExt = file.name.split('.').pop();
         const fileName = `${Date.now()}_${file.name}`;
-        const filePath = `curriculum/${fileName}`;
+        const uploadDiscipline = selectedDiscipline === 'total' ? 'culinary' : selectedDiscipline;
+        const filePath = `curriculum/${uploadDiscipline}/${fileName}`;
 
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('admin_uploads')
@@ -910,7 +911,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             fileUrl: fileUrl,
             fileName: file.name,
             fileType: file.type,
-            discipline: selectedDiscipline === 'total' ? 'culinary' : selectedDiscipline
+            discipline: uploadDiscipline
           })
         });
 
@@ -937,6 +938,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             file_name: file.name,
             ai_suggestion: aiSuggestion,
             status: 'pending',
+            discipline: uploadDiscipline,
             uploaded_by: currentUser.id
           });
 
@@ -950,6 +952,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
         setCurrentMapping({
           fileName: file.name,
           fileUrl: fileUrl,
+          discipline: uploadDiscipline,
           aiSuggestion: aiSuggestion
         });
         setShowMappingReviewModal(true);
@@ -8002,6 +8005,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     const lessonsToInsert = aiSuggestion.lessons.map((lesson: any) => ({
                       title: lesson.title,
                       content_type: 'lesson',
+                      discipline: currentMapping.discipline,
                       content_data: {
                         topics: lesson.topics || [],
                         equipment: lesson.equipment || [],
@@ -8078,6 +8082,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     const lessonToInsert = {
                       title: metadata.title || currentMapping.fileName,
                       content_type: 'lesson',
+                      discipline: currentMapping.discipline,
                       content_data: {
                         topics: metadata.topics || [],
                         equipment: metadata.equipment || [],

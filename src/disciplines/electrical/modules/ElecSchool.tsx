@@ -42,7 +42,7 @@ const ElecSchool = () => {
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-  const syllabusData = useCurriculumSyllabus(supabase);
+  const syllabusData = useCurriculumSyllabus(supabase, 'electrical');
 
   const handleLessonClick = (lessonId: string) => {
     console.log(`Navigating to lesson: ${lessonId}`);

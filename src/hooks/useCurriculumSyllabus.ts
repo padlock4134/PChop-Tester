@@ -21,6 +21,7 @@ export interface CurriculumSyllabusData {
 type SupabaseQuery = {
   select: (columns: string) => SupabaseQuery;
   order: (column: string, options?: Record<string, unknown>) => Promise<{ data: unknown[] | null; error: unknown }>;
+  eq: (column: string, value: string) => SupabaseQuery;
   in: (column: string, values: string[]) => SupabaseQuery;
 };
 
@@ -84,12 +85,13 @@ const toCourses = (items: any[]): CurriculumSyllabusCourse[] => {
   return Array.from(courseMap.values());
 };
 
-export const fetchCurriculumSyllabus = async (supabase: SupabaseClientLike): Promise<CurriculumSyllabusData> => {
+export const fetchCurriculumSyllabus = async (supabase: SupabaseClientLike, discipline: string): Promise<CurriculumSyllabusData> => {
   let items: any[] = [];
 
   const { data: curriculumData, error: curriculumError } = await supabase
     .from('curriculum_content')
     .select('*')
+    .eq('discipline', discipline)
     .order('week_number', { ascending: true, nullsFirst: false });
 
   if (!curriculumError && curriculumData && curriculumData.length > 0) {
@@ -98,6 +100,7 @@ export const fetchCurriculumSyllabus = async (supabase: SupabaseClientLike): Pro
     const { data: stagingData, error: stagingError } = await supabase
       .from('content_staging')
       .select('*')
+      .eq('discipline', discipline)
       .in('status', ['distributed', 'pending', 'draft'])
       .order('created_at', { ascending: true });
 
@@ -114,7 +117,7 @@ export const fetchCurriculumSyllabus = async (supabase: SupabaseClientLike): Pro
   };
 };
 
-export const useCurriculumSyllabus = (supabase: SupabaseClientLike): CurriculumSyllabusData => {
+export const useCurriculumSyllabus = (supabase: SupabaseClientLike, discipline: string): CurriculumSyllabusData => {
   const [syllabusData, setSyllabusData] = useState<CurriculumSyllabusData>(EMPTY_SYLLABUS);
 
   useEffect(() => {
@@ -122,7 +125,7 @@ export const useCurriculumSyllabus = (supabase: SupabaseClientLike): CurriculumS
 
     const loadCurriculum = async () => {
       try {
-        const data = await fetchCurriculumSyllabus(supabase);
+        const data = await fetchCurriculumSyllabus(supabase, discipline);
         if (active) setSyllabusData(data);
       } catch (error) {
         console.error('Failed to load curriculum:', error);
@@ -135,7 +138,7 @@ export const useCurriculumSyllabus = (supabase: SupabaseClientLike): CurriculumS
     return () => {
       active = false;
     };
-  }, [supabase]);
+  }, [supabase, discipline]);
 
   return syllabusData;
 };
