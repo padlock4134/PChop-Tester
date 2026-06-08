@@ -1,8 +1,26 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { createClient } from '@supabase/supabase-js';
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_RECIPE_KEY,
 });
+
+const supabase = createClient(
+  process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || '',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VITE_SUPABASE_ANON_KEY || ''
+);
+
+const DISCIPLINE_CONTEXTS: Record<string, string> = {
+  welding: 'You are an expert welding instructor. Focus on electrode angles, arc length, travel speed, PPE, joint fit-up, machine settings, and bead quality. Use AR overlays for angle guides, motion paths, and amperage readouts.',
+  culinary: 'You are an expert culinary instructor. Focus on knife skills, mise en place, cooking temperatures, timing, plating, and food safety. Use AR overlays for knife angle guides, temperature indicators, and timer overlays.',
+  construction: 'You are an expert construction instructor. Focus on measuring, marking, cutting angles, fastener placement, framing layouts, and safety. Use AR overlays for measurement guides, angle indicators, and layout lines.',
+  automotive: 'You are an expert automotive technician instructor. Focus on diagnostic procedures, torque specs, fluid identification, component locations, and safety. Use AR overlays for torque values, fluid flow diagrams, and component labels.',
+  hvac: 'You are an expert HVAC technician instructor. Focus on refrigerant handling, electrical diagnostics, airflow measurement, system charging, and safety. Use AR overlays for pressure/temperature charts, wiring diagrams, and airflow arrows.',
+  plumbing: 'You are an expert plumbing instructor. Focus on pipe fitting, soldering, slope calculations, drain layouts, pressure testing, and code compliance. Use AR overlays for slope indicators, measurement guides, and solder flow visualization.',
+  electrical: 'You are an expert electrical instructor. Focus on wire sizing, circuit protection, panel layout, conduit bending, voltage testing, and NEC code compliance. Use AR overlays for circuit diagrams, voltage readings, and wire color coding.',
+  manufacturing: 'You are an expert manufacturing instructor. Focus on machine setup, toolpath planning, measurement and inspection, blueprint reading, and process sequences. Use AR overlays for dimension callouts, tolerance indicators, and toolpath visualizations.',
+  logistics: 'You are an expert logistics instructor. Focus on picking procedures, load securing, forklift safety zones, inventory scanning, and documentation. Use AR overlays for pick path indicators, weight limit warnings, and safety zone boundaries.',
+};
 
 interface AROverlay {
   type: 'line' | 'circle' | 'grid' | 'text' | 'arrow' | 'hand' | 'tool';
@@ -44,7 +62,7 @@ export async function handler(event: any) {
   }
 
   try {
-    const { lessonTitle, lessonContent } = JSON.parse(event.body);
+    const { discipline = 'welding', lessonId, lessonTitle, lessonContent } = JSON.parse(event.body);
 
     if (!lessonTitle) {
       return {
@@ -53,19 +71,36 @@ export async function handler(event: any) {
       };
     }
 
-    const prompt = `You are an expert culinary instructor creating an AR (Augmented Reality) practice session for students who don't have access to a kitchen or tools.
+    const effectiveLessonId = lessonId || lessonTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+    // Check cache first — return instantly if already generated
+    try {
+      const { data: cached } = await supabase
+        .from('ar_scenes_cache')
+        .select('scene_json')
+        .eq('discipline', discipline)
+        .eq('lesson_id', effectiveLessonId)
+        .single();
+
+      if (cached?.scene_json) {
+        return {
+          statusCode: 200,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ success: true, scene: cached.scene_json, fromCache: true }),
+        };
+      }
+    } catch (_) {
+      // Cache miss or table not ready — fall through to generation
+    }
+
+    // Generate with discipline-aware prompt
+    const disciplineContext = DISCIPLINE_CONTEXTS[discipline] || DISCIPLINE_CONTEXTS.welding;
+
+    const prompt = `${disciplineContext}
 
 Generate a detailed AR practice scene for this lesson:
 LESSON: ${lessonTitle}
 ${lessonContent ? `CONTENT: ${lessonContent}` : ''}
-
-SPECIAL INSTRUCTIONS FOR KNIFE SHARPENING:
-- Focus on the 20-degree angle (this is critical)
-- Include sensory details (feel of the stone, sound of the blade, visual of water)
-- Emphasize the sweeping motion (heel to tip)
-- Include the burr detection step
-- Make it old-school and traditional (water stone, no gadgets)
-- Use AR overlays for angle guides, motion paths, and stroke counters
 
 Create a JSON response with this structure:
 {
@@ -73,7 +108,7 @@ Create a JSON response with this structure:
   "setup": {
     "workspace": "description of virtual workspace setup",
     "requiredTools": ["tool1", "tool2"],
-    "requiredIngredients": ["ingredient1", "ingredient2"]
+    "requiredIngredients": ["material1", "material2"]
   },
   "steps": [
     {
@@ -86,39 +121,32 @@ Create a JSON response with this structure:
           "position": "center|left|right|top|bottom",
           "angle": 90,
           "color": "#3B82F6",
-          "label": "90° angle",
+          "label": "descriptive label",
           "size": "small|medium|large",
           "coordinates": {"x": 0, "y": 0, "z": 0}
         }
       ],
       "tools": ["tools visible in this step"],
-      "ingredients": ["ingredients visible in this step"],
+      "ingredients": ["materials visible in this step"],
       "keyPoints": ["important things to remember"]
     }
   ],
   "tips": ["mental rehearsal tips", "visualization cues"]
 }
 
-IMPORTANT:
-- This is for students WITHOUT physical tools
-- AR will show virtual kitchen, tools, and ingredients
-- Focus on visualization and mental rehearsal
-- Include sensory details (feel, see, hear)
-- Make it accessible and encouraging
-- Keep steps clear and sequential
-- Include proper technique details
+REQUIREMENTS:
+- Generate 6-10 sequential steps covering the full procedure
+- Students have NO physical tools — AR shows virtual environment
+- Include sensory details (feel, see, hear) at each step
+- Each step must have at least one AR overlay
+- Include safety steps where relevant
 
 Generate the complete AR practice scene now:`;
 
     const message = await (anthropic as any).messages.create({
       model: 'claude-sonnet-4-5-20250929',
       max_tokens: 4000,
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
+      messages: [{ role: 'user', content: prompt }],
     });
 
     const content = message.content[0];
@@ -126,7 +154,6 @@ Generate the complete AR practice scene now:`;
       throw new Error('Unexpected response type');
     }
 
-    // Parse the JSON response from Claude
     const jsonMatch = content.text.match(/\{[\s\S]*\}/);
     if (!jsonMatch) {
       throw new Error('No JSON found in response');
@@ -134,15 +161,24 @@ Generate the complete AR practice scene now:`;
 
     const arScene: ARPracticeScene = JSON.parse(jsonMatch[0]);
 
+    // Save to cache so every subsequent student gets it instantly
+    try {
+      await supabase.from('ar_scenes_cache').upsert({
+        discipline,
+        lesson_id: effectiveLessonId,
+        lesson_title: lessonTitle,
+        scene_json: arScene,
+        model_version: 'claude-sonnet-4-5-20250929',
+        generated_at: new Date().toISOString(),
+      }, { onConflict: 'discipline,lesson_id' });
+    } catch (_) {
+      // Non-fatal — scene still returns even if cache write fails
+    }
+
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        success: true,
-        scene: arScene,
-      }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ success: true, scene: arScene, fromCache: false }),
     };
   } catch (error: any) {
     console.error('Error generating AR practice:', error);

@@ -4,18 +4,21 @@ import ARBenchScene from './ARBenchScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
 import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
+import { SyllabusCourse } from './SyllabusCard';
 
 interface BenchPracticeModalProps {
   open: boolean;
   onClose: () => void;
+  courses?: SyllabusCourse[];
 }
 
-const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
+const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, courses = [] }) => {
   const { t } = useTranslation();
   const [isPracticing, setIsPracticing] = useState(false);
   const [modeNotice, setModeNotice] = useState<string | null>(null);
   const [showDeviceSelection, setShowDeviceSelection] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
+  const [selectedLessonTitle, setSelectedLessonTitle] = useState<string>('');
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
   const [arScene, setArScene] = useState<any>(null);
   const [guideOpen, setGuideOpen] = useState(false);
@@ -26,6 +29,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
   const startVirtualPractice = async (selectedMode: 'ar' | 'vr' = 'ar') => {
     setModeNotice(null);
+
+    const lessonTitle = selectedLessonTitle;
+    if (!lessonTitle) {
+      alert('Please select a lesson first.');
+      return;
+    }
+
     if (selectedMode === 'vr') {
       const vrSupported = await canUseImmersiveVR();
       if (!vrSupported) {
@@ -33,33 +43,28 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
       }
     }
 
+    // Check local default scenes first (instant load)
+    if (defaultARScenes[lessonTitle]) {
+      setArScene(defaultARScenes[lessonTitle]);
+      setIsPracticing(true);
+      return;
+    }
 
+    // Generate via AI (cached on server after first run)
+    setIsGeneratingAR(true);
     try {
-      // For demo: Use pre-built tee joint SMAW AR scene (instant load)
-      const demoLesson = 'Basic Tee Joint — Stick Welding (SMAW)';
-      
-      // Check if we have a default scene
-      if (defaultARScenes[demoLesson]) {
-        console.log('Loading default AR scene for demo');
-        setArScene(defaultARScenes[demoLesson]);
-        setIsPracticing(true);
-        return;
-      }
-
-      // Fallback: AI generation if no default exists
-      setIsGeneratingAR(true);
-      
       const response = await fetch('/.netlify/functions/generate-ar-practice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          lessonTitle: demoLesson,
-          lessonContent: 'Basic tee joint with SMAW (stick welding). Includes PPE inspection, joint preparation, fit-up and tacking, machine setup for E7018, running a fillet weld, slag removal, and visual inspection.',
+          discipline: 'welding',
+          lessonId: selectedLesson,
+          lessonTitle,
         }),
       });
 
       const data = await response.json();
-      
+
       if (data.success && data.scene) {
         setArScene(data.scene);
         setIsPracticing(true);
@@ -190,35 +195,17 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 </button>
                 <select
                   value={selectedLesson}
-                  onChange={(e) => setSelectedLesson(e.target.value)}
+                  onChange={(e) => { setSelectedLesson(e.target.value); setSelectedLessonTitle(e.target.options[e.target.selectedIndex].text); }}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 >
                   <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                  <optgroup label="Term 1: Welding Foundations">
-                    <option value="lesson-1-1">Shop Safety and PPE</option>
-                    <option value="lesson-1-2">Welding Equipment Setup</option>
-                    <option value="lesson-1-3">Reading Welding Symbols</option>
-                    <option value="lesson-1-4">Joint Types and Preparation</option>
-                    <option value="lesson-1-5">Fit-Up and Tacking</option>
-                  </optgroup>
-                  <optgroup label="Term 1: SMAW (Stick)">
-                    <option value="lesson-2-1">Electrode Selection and Storage</option>
-                    <option value="lesson-2-2">Striking the Arc</option>
-                    <option value="lesson-2-3">Running Flat Beads</option>
-                    <option value="lesson-2-4">Fillet Welds — Tee and Lap Joints</option>
-                  </optgroup>
-                  <optgroup label="Term 2: GMAW (MIG)">
-                    <option value="lesson-3-1">MIG Machine Setup and Gas Flow</option>
-                    <option value="lesson-3-2">Wire Feed and Voltage Settings</option>
-                    <option value="lesson-3-3">MIG Flat and Horizontal Welds</option>
-                    <option value="lesson-3-4">MIG Vertical and Overhead Welds</option>
-                  </optgroup>
-                  <optgroup label="Term 2: GTAW (TIG)">
-                    <option value="lesson-4-1">TIG Torch and Tungsten Prep</option>
-                    <option value="lesson-4-2">TIG Bead on Plate</option>
-                    <option value="lesson-4-3">TIG Filler Rod Technique</option>
-                    <option value="lesson-4-4">TIG Aluminum Basics</option>
-                  </optgroup>
+                  {(courses || []).map(course => (
+                    <optgroup key={course.id} label={course.title}>
+                      {course.lessons.map(lesson => (
+                        <option key={lesson.id} value={lesson.id}>{lesson.title}</option>
+                      ))}
+                    </optgroup>
+                  ))}
                 </select>
               </>
             ) : (
@@ -276,35 +263,17 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   </label>
                   <select
                     value={selectedLesson}
-                    onChange={(e) => setSelectedLesson(e.target.value)}
+                    onChange={(e) => { setSelectedLesson(e.target.value); setSelectedLessonTitle(e.target.options[e.target.selectedIndex].text); }}
                     className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                   >
                     <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                    <optgroup label="Term 1: Welding Foundations">
-                      <option value="lesson-1-1">Shop Safety and PPE</option>
-                      <option value="lesson-1-2">Welding Equipment Setup</option>
-                      <option value="lesson-1-3">Reading Welding Symbols</option>
-                      <option value="lesson-1-4">Joint Types and Preparation</option>
-                      <option value="lesson-1-5">Fit-Up and Tacking</option>
-                    </optgroup>
-                    <optgroup label="Term 1: SMAW (Stick)">
-                      <option value="lesson-2-1">Electrode Selection and Storage</option>
-                      <option value="lesson-2-2">Striking the Arc</option>
-                      <option value="lesson-2-3">Running Flat Beads</option>
-                      <option value="lesson-2-4">Fillet Welds — Tee and Lap Joints</option>
-                    </optgroup>
-                    <optgroup label="Term 2: GMAW (MIG)">
-                      <option value="lesson-3-1">MIG Machine Setup and Gas Flow</option>
-                      <option value="lesson-3-2">Wire Feed and Voltage Settings</option>
-                      <option value="lesson-3-3">MIG Flat and Horizontal Welds</option>
-                      <option value="lesson-3-4">MIG Vertical and Overhead Welds</option>
-                    </optgroup>
-                    <optgroup label="Term 2: GTAW (TIG)">
-                      <option value="lesson-4-1">TIG Torch and Tungsten Prep</option>
-                      <option value="lesson-4-2">TIG Bead on Plate</option>
-                      <option value="lesson-4-3">TIG Filler Rod Technique</option>
-                      <option value="lesson-4-4">TIG Aluminum Basics</option>
-                    </optgroup>
+                    {(courses || []).map(course => (
+                      <optgroup key={course.id} label={course.title}>
+                        {course.lessons.map(lesson => (
+                          <option key={lesson.id} value={lesson.id}>{lesson.title}</option>
+                        ))}
+                      </optgroup>
+                    ))}
                   </select>
                 </div>
                 

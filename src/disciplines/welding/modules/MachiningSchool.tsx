@@ -896,6 +896,8 @@ const WeldingSchool = () => {
 
         onClose={() => setBenchPracticeOpen(false)}
 
+        courses={mockSyllabusData.courses}
+
       />
 
     </div>
