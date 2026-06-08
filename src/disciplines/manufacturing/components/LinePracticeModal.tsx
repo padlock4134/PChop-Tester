@@ -53,6 +53,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          discipline: 'manufacturing',
           lessonTitle: demoLesson,
           lessonContent: 'Micro-electronics conveyor belt packaging technique. Includes ESD station setup, tweezers grip, component pick-and-place at 20-degree approach angle, alignment inspection, and final QC check.',
         }),

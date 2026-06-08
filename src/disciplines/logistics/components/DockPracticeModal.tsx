@@ -53,6 +53,7 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          discipline: 'logistics',
           lessonTitle: demoLesson,
           lessonContent: 'Dock loading and freight staging fundamentals. Includes load planning, pallet stacking, weight distribution, trailer loading sequence, and dock door assignment. Standard operating procedures for inbound and outbound freight.',
         }),
