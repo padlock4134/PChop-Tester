@@ -43,7 +43,6 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, benchMaterials, o
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
-  const { setSelectedProject } = useProjectContext();
   const navigate = useNavigate();
 
   const loadingMessages = [
@@ -101,17 +100,6 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, benchMaterials, o
     }
   ];
 }
-
-  const handleRunIt = () => {
-    const fullProject = {
-      ...projects[currentIdx],
-      tutorials: projects[currentIdx].tutorials && projects[currentIdx].tutorials.length === 3
-        ? projects[currentIdx].tutorials
-        : generateTutorials(projects[currentIdx])
-    };
-    setSelectedProject(fullProject);
-    navigate('/welding/welding-school');
-  };
 
   const SKILL_TAGS = [
     { key: 'Safety', label: 'Safety' },
@@ -179,17 +167,14 @@ const ProjectMatcherModal: React.FC<Props> = ({ open, onClose, benchMaterials, o
                 </div>
                 <div className="flex gap-8 mt-2">
                   <button className="bg-lobsterRed text-weatheredWhite px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" onClick={handleSkip}>
-                    ✕
+                    Discard
                   </button>
                   <button 
                     className="bg-seafoam text-maineBlue px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" 
                     onClick={handleLike}
                     disabled={isSaving}
                   >
-                    {isSaving ? '...' : '♥'}
-                  </button>
-                  <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleRunIt}>
-                    {'Run It'}
+                    {isSaving ? '...' : 'Save'}
                   </button>
                 </div>
                 <div className="text-xs mt-4 text-center text-gray-500">{'Swipe through welding project options'}</div>

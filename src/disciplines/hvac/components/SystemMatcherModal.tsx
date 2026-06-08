@@ -55,7 +55,6 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
-  const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
 
   const loadingMessages = [
@@ -113,17 +112,6 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
     }
   ];
 }
-
-  const handleCookMe = () => {
-    const fullRecipe = {
-      ...recipes[currentIdx],
-      tutorials: recipes[currentIdx].tutorials && recipes[currentIdx].tutorials.length === 3
-        ? recipes[currentIdx].tutorials
-        : generateTutorials(recipes[currentIdx])
-    };
-    setSelectedRecipe(fullRecipe);
-    navigate('/hvac/hvac-school');
-  };
 
   const MATCH_TAGS = [
     { label: 'Airflow', check: (r: RecipeCard) => /airflow|cfm|duct|static pressure/i.test(`${r.title} ${r.instructions} ${(r.ingredients || []).join(' ')} ${(r.equipment || []).join(' ')}`) },
@@ -193,17 +181,14 @@ const RecipeMatcherModal: React.FC<Props> = ({ open, onClose, cupboardIngredient
                 </div>
                 <div className="flex gap-8 mt-2">
                   <button className="bg-lobsterRed text-weatheredWhite px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" onClick={handleSkip}>
-                    ✕
+                    Discard
                   </button>
                   <button 
                     className="bg-seafoam text-maineBlue px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" 
                     onClick={handleLike}
                     disabled={isSaving}
                   >
-                    {isSaving ? '...' : '♥'}
-                  </button>
-                  <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    Open in HVAC School
+                    {isSaving ? '...' : 'Save'}
                   </button>
                 </div>
                 <div className="text-xs mt-4 text-center text-gray-500">Review additional spec sheet matches from your inventory.</div>

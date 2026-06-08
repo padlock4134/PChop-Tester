@@ -49,7 +49,6 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
-  const { setSelectedRoute } = useRouteContext();
   const navigate = useNavigate();
 
   const loadingMessages = [
@@ -107,17 +106,6 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
     }
   ];
 }
-
-  const handleCookMe = () => {
-    const fullRoute = {
-      ...routes[currentIdx],
-      tutorials: routes[currentIdx].tutorials && routes[currentIdx].tutorials.length === 3
-        ? routes[currentIdx].tutorials
-        : generateTutorials(routes[currentIdx])
-    };
-    setSelectedRoute(fullRoute);
-    navigate('/logistics-school');
-  };
 
   const SKILL_TAGS = [
     { key: 'Safety', label: t('recipeMatcher.safety', { defaultValue: 'Safety' }) },
@@ -186,17 +174,14 @@ const RouteMatcherModal: React.FC<Props> = ({ open, onClose, inventoryItems, onL
                 </div>
                 <div className="flex gap-8 mt-2">
                   <button className="bg-lobsterRed text-weatheredWhite px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" onClick={handleSkip}>
-                    ✕
+                    Discard
                   </button>
                   <button 
                     className="bg-seafoam text-maineBlue px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" 
                     onClick={handleLike}
                     disabled={isSaving}
                   >
-                    {isSaving ? '...' : '♥'}
-                  </button>
-                  <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {'Run It'}
+                    {isSaving ? '...' : 'Save'}
                   </button>
                 </div>
                 <div className="text-xs mt-4 text-center text-gray-500">{'Swipe through route options'}</div>

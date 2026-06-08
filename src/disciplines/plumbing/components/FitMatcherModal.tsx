@@ -58,7 +58,6 @@ const FitMatcherModal: React.FC<Props> = ({ open, onClose, vanMaterials, onLike,
   const [currentIdx, setCurrentIdx] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
-  const { setSelectedRecipe } = useRecipeContext();
   const navigate = useNavigate();
   const getFallbackImage = (title: string) =>
     `https://source.unsplash.com/1200x800/?plumbing,${encodeURIComponent(title || 'pipe repair')}`;
@@ -118,17 +117,6 @@ function generateTutorials(fit: RecipeCard) {
     }
   ];
 }
-
-  const handleCookMe = () => {
-    const fullRecipe = {
-      ...fits[currentIdx],
-      tutorials: fits[currentIdx].tutorials && fits[currentIdx].tutorials.length === 3
-        ? fits[currentIdx].tutorials
-        : generateTutorials(fits[currentIdx])
-    };
-    setSelectedRecipe(fullRecipe);
-    navigate('/plumbing/plumbing-school');
-  };
 
   const COMPLIANCE_TAGS = [
     { key: 'Heart Healthy', label: t('repairMatcher.safetyCertified') },
@@ -216,17 +204,14 @@ function generateTutorials(fit: RecipeCard) {
                 </div>
                 <div className="flex gap-8 mt-2">
                   <button className="bg-lobsterRed text-weatheredWhite px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" onClick={handleSkip}>
-                    ✕
+                    Discard
                   </button>
                   <button 
                     className="bg-seafoam text-maineBlue px-6 py-2 rounded-full shadow hover:bg-maineBlue hover:text-seafoam text-xl font-bold" 
                     onClick={handleLike}
                     disabled={isSaving}
                   >
-                    {isSaving ? '...' : '♥'}
-                  </button>
-                  <button className="bg-maineBlue text-seafoam px-6 py-2 rounded-full shadow hover:bg-seafoam hover:text-maineBlue text-xl font-bold" onClick={handleCookMe}>
-                    {t('repairMatcher.fixIt')}
+                    {isSaving ? '...' : 'Save'}
                   </button>
                 </div>
                 <div className="text-xs mt-4 text-center text-gray-500">{t('repairMatcher.swipeThrough')}</div>
