@@ -16,7 +16,20 @@ import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
 
 function getDefaultTutorials() {
-  return [];
+  return [
+    {
+      title: 'Warehouse Safety Basics',
+      desc: 'Learn dock safety, PPE, pedestrian awareness, and safe material-handling habits.',
+      type: 'cooking_tutorial',
+      query: 'warehouse safety basics dock PPE material handling training'
+    },
+    {
+      title: 'Load Planning Basics',
+      desc: 'Practice organizing routes, staging freight, checking labels, and planning efficient loads.',
+      type: 'cooking_tutorial',
+      query: 'load planning basics logistics route staging freight labels tutorial'
+    }
+  ];
 }
 
 function getTwoTutorials(route: any) {
@@ -26,6 +39,12 @@ function getTwoTutorials(route: any) {
       title: `Let\'s Move This Shipment!`,
       desc: `Step-by-step logistics walkthrough for ${route.title}.`,
       type: 'cooking_tutorial'
+    },
+    {
+      title: 'Route, Load & Safety Check',
+      desc: `Review route planning, load checks, and safety steps for ${route.title}.`,
+      type: 'cooking_tutorial',
+      query: `${route.title} logistics route load planning safety tutorial`
     }
   ];
 }
@@ -95,6 +114,10 @@ const LogisticsSchool = () => {
   // Helper to call Dispatcher Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(route: any, tut: any, idx: any) {
     let query = '';
+
+    if (tut.query) {
+      return tut.query;
+    }
 
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {

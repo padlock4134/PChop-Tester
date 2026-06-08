@@ -15,8 +15,21 @@ import { supabase } from '../api/supabaseClient';
 import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
 
-function getDefaultTutorials(_t: (key: string, options?: any) => string) {
-  return [];
+function getDefaultTutorials(t: (key: string, options?: any) => string) {
+  return [
+    {
+      title: t('plumbingSchool.safetyBasics', { defaultValue: 'Plumbing Safety Basics' }),
+      desc: t('plumbingSchool.safetyBasicsDesc', { defaultValue: 'Learn PPE, water shutoff, pressure awareness, and safe tool habits before starting a job.' }),
+      type: 'cooking_tutorial',
+      query: 'plumbing safety basics PPE water shutoff pressure tools training'
+    },
+    {
+      title: t('plumbingSchool.pipeFittingBasics', { defaultValue: 'Pipe Fitting Basics' }),
+      desc: t('plumbingSchool.pipeFittingBasicsDesc', { defaultValue: 'Practice measuring, cutting, deburring, fitting, and leak-checking pipe work.' }),
+      type: 'cooking_tutorial',
+      query: 'pipe fitting basics measuring cutting deburring leak check tutorial plumbing'
+    }
+  ];
 }
 
 function getTwoTutorials(fit: any, t: (key: string, options?: any) => string) {
@@ -27,6 +40,12 @@ function getTwoTutorials(fit: any, t: (key: string, options?: any) => string) {
       title: t('plumbingSchool.letsCookThisMeal', { defaultValue: "Let's Work This Job!" }),
       desc: t('plumbingSchool.projectWalkthrough', { defaultValue: `Step-by-step project walkthrough for ${fit.title}.`, title: fit.title }),
       type: 'cooking_tutorial'
+    },
+    {
+      title: t('plumbingSchool.toolsAndSafety', { defaultValue: 'Tools, Materials & Safety' }),
+      desc: t('plumbingSchool.toolsAndSafetyDesc', { defaultValue: `Review the tools, materials, and safety checks needed before starting ${fit.title}.`, title: fit.title }),
+      type: 'cooking_tutorial',
+      query: `${fit.title} plumbing tools materials safety tutorial`
     }
   ];
 }
@@ -96,6 +115,10 @@ const PlumbingSchool = () => {
   // Helper to call Mentor Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(fit: any, tut: any, idx: any) {
     let query = '';
+
+    if (tut.query) {
+      return tut.query;
+    }
 
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {

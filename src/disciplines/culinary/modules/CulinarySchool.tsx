@@ -16,7 +16,20 @@ import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
 
 function getDefaultTutorials() {
-  return [];
+  return [
+    {
+      title: 'Knife Skills & Kitchen Safety',
+      desc: 'Learn safe knife handling, basic cuts, and kitchen safety before cooking a full recipe.',
+      type: 'cooking_tutorial',
+      query: 'basic knife skills kitchen safety tutorial culinary training'
+    },
+    {
+      title: 'Mise en Place Basics',
+      desc: 'Practice organizing ingredients, tools, and timing so a recipe runs smoothly.',
+      type: 'cooking_tutorial',
+      query: 'mise en place basics culinary training tutorial'
+    }
+  ];
 }
 
 function getTwoTutorials(recipe: any) {
@@ -26,6 +39,12 @@ function getTwoTutorials(recipe: any) {
       title: `Let\'s Cook This Meal!`,
       desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
       type: 'cooking_tutorial'
+    },
+    {
+      title: 'Prep, Tools & Timing',
+      desc: `Review prep, tool setup, and timing for ${recipe.title}.`,
+      type: 'cooking_tutorial',
+      query: `${recipe.title} cooking prep tools timing tutorial`
     }
   ];
 }
@@ -95,6 +114,10 @@ const CulinarySchool = () => {
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
+
+    if (tut.query) {
+      return tut.query;
+    }
 
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {

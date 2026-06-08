@@ -30,19 +30,20 @@ import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 // Generate default tutorials including the weekly technique
 
 function getDefaultTutorials() {
-
-
   return [
     {
-
-      title: 'Let\'s Weld This Joint!',
-
-      desc: 'How to approach the main weld for this project.'
-
+      title: 'Welding Safety Basics',
+      desc: 'Learn PPE, ventilation, fire watch, arc safety, and safe setup habits before welding.',
+      type: 'welding_tutorial',
+      query: 'welding safety basics PPE ventilation fire watch arc safety training'
+    },
+    {
+      title: 'Weld Joint Setup Basics',
+      desc: 'Practice joint prep, fit-up, tacking, travel angle, and bead control fundamentals.',
+      type: 'welding_tutorial',
+      query: 'welding joint setup basics fit up tacking travel angle bead control tutorial'
     }
-
   ];
-
 }
 
 
@@ -60,6 +61,17 @@ function getTwoTutorials(project: any) {
       desc: `Step-by-step welding walkthrough for ${project.title}.`,
 
       type: 'welding_tutorial'
+
+    },
+    {
+
+      title: 'Setup, Fit-Up & Safety',
+
+      desc: `Review setup, fit-up, and safety checks before welding ${project.title}.`,
+
+      type: 'welding_tutorial',
+
+      query: `${project.title} welding setup fit up safety tutorial`
 
     }
 
@@ -167,6 +179,14 @@ const WeldingSchool = () => {
   async function getVideoQueryFromJake(project: any, tut: any, idx: any) {
 
     let query = '';
+
+
+
+    if (tut.query) {
+
+      return tut.query;
+
+    }
 
 
 

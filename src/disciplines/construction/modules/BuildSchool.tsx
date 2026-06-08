@@ -16,7 +16,20 @@ import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
 
 function getDefaultTutorials() {
-  return [];
+  return [
+    {
+      title: 'Construction Safety Basics',
+      desc: 'Learn PPE, job-site awareness, ladder safety, and tool safety before starting a build.',
+      type: 'cooking_tutorial',
+      query: 'construction site safety basics PPE ladder tool safety training'
+    },
+    {
+      title: 'Reading Plans & Layout',
+      desc: 'Practice reading blueprints, measuring, marking, and laying out work accurately.',
+      type: 'cooking_tutorial',
+      query: 'construction blueprint reading layout measuring marking basics tutorial'
+    }
+  ];
 }
 
 function getTwoTutorials(recipe: any) {
@@ -26,6 +39,12 @@ function getTwoTutorials(recipe: any) {
       title: `Let\'s Build This Project!`,
       desc: `Step-by-step project walkthrough for ${recipe.title}.`,
       type: 'cooking_tutorial'
+    },
+    {
+      title: 'Tools, Materials & Safety',
+      desc: `Review the tools, materials, and safety steps needed before building ${recipe.title}.`,
+      type: 'cooking_tutorial',
+      query: `${recipe.title} construction tools materials safety tutorial`
     }
   ];
 }
@@ -95,6 +114,10 @@ const BuildSchool = () => {
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
+
+    if (tut.query) {
+      return tut.query;
+    }
 
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {

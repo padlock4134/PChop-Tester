@@ -16,7 +16,20 @@ import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
 
 function getDefaultTutorials() {
-  return [];
+  return [
+    {
+      title: 'Automotive Safety Basics',
+      desc: 'Learn shop safety, PPE, lift awareness, and safe diagnostic habits before starting a repair.',
+      type: 'repair_tutorial',
+      query: 'automotive shop safety basics training PPE lift safety'
+    },
+    {
+      title: 'Basic Vehicle Inspection',
+      desc: 'Practice a beginner-friendly inspection flow for brakes, tires, fluids, battery, and belts.',
+      type: 'repair_tutorial',
+      query: 'basic vehicle inspection checklist training brakes tires fluids battery belts'
+    }
+  ];
 }
 
 function getTwoTutorials(recipe: any) {
@@ -26,6 +39,12 @@ function getTwoTutorials(recipe: any) {
       title: `Let\'s Work This Repair!`,
       desc: `Repair walkthrough for ${recipe.title}.`,
       type: 'repair_tutorial'
+    },
+    {
+      title: 'Tool & Safety Check',
+      desc: `Review the tools, PPE, and safety checks needed before starting ${recipe.title}.`,
+      type: 'repair_tutorial',
+      query: `${recipe.title} automotive repair safety tools tutorial`
     }
   ];
 }
@@ -96,6 +115,10 @@ const AutoSchool = () => {
   // Helper to call Gus the Mechanic backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
+
+    if (tut.query) {
+      return tut.query;
+    }
 
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
