@@ -729,39 +729,6 @@ const MyManual = () => {
           <button
             onClick={() => {
               if (filteredProcedures.length === 0) return;
-              const fullRecipe = {
-                id: `${filteredProcedures[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                title: filteredProcedures[currentIndex].name,
-                image: filteredProcedures[currentIndex].photo || '',
-                ingredients: filteredProcedures[currentIndex].parts || [],
-                instructions: filteredProcedures[currentIndex].instructions || '',
-                equipment: filteredProcedures[currentIndex].tools || [],
-                tutorials: [
-                  {
-                    title: `Equipment: Using the right tools for ${filteredProcedures[currentIndex].name}`,
-                    desc: `Learn how to use the main equipment needed for this job.`
-                  },
-                  {
-                    title: `Parts Prep: Preparing the primary components`,
-                    desc: `How to prep the primary material and tools for this project.`
-                  },
-                  {
-                    title: `Procedure: ${filteredProcedures[currentIndex].name}`,
-                    desc: filteredProcedures[currentIndex].instructions || ''
-                  }
-                ]
-              };
-              setSelectedRecipe(fullRecipe);
-              navigate('/auto-school');
-            }}
-            disabled={filteredProcedures.length === 0}
-            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredProcedures.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
-          >
-            Start Repair
-          </button>
-          <button
-            onClick={() => {
-              if (filteredProcedures.length === 0) return;
               setProcedureToShare(filteredProcedures[currentIndex]);
               setShowShareModal(true);
             }}

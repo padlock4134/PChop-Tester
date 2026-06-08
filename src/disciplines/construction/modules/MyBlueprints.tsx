@@ -730,39 +730,6 @@ const MyBlueprints = () => {
           <button
             onClick={() => {
               if (filteredRecipes.length === 0) return;
-              const fullRecipe = {
-                id: `${filteredRecipes[currentIndex].name.replace(/\s+/g, '-')}-${currentIndex}`,
-                title: filteredRecipes[currentIndex].name,
-                image: filteredRecipes[currentIndex].photo || '',
-                ingredients: filteredRecipes[currentIndex].ingredients || [],
-                instructions: filteredRecipes[currentIndex].instructions || '',
-                equipment: filteredRecipes[currentIndex].equipment || [],
-                tutorials: [
-                  {
-                    title: `Equipment: Using the right tools for ${filteredRecipes[currentIndex].name}`,
-                    desc: `Learn how to use the main equipment needed for this project.`
-                  },
-                  {
-                    title: `Material Prep: Preparing the primary materials`,
-                    desc: `How to prep the primary materials and tools for this project.`
-                  },
-                  {
-                    title: `Procedure: ${filteredRecipes[currentIndex].name}`,
-                    desc: filteredRecipes[currentIndex].instructions || ''
-                  }
-                ]
-              };
-              setSelectedRecipe(fullRecipe);
-              navigate('/construction/build-school');
-            }}
-            disabled={filteredRecipes.length === 0}
-            className={`flex-1 px-2 py-2 rounded border border-black text-xs sm:text-sm font-bold transition-colors text-center ${filteredRecipes.length === 0 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-seafoam text-maineBlue hover:bg-maineBlue hover:text-seafoam'}`}
-          >
-            Build This
-          </button>
-          <button
-            onClick={() => {
-              if (filteredRecipes.length === 0) return;
               setRecipeToShare(filteredRecipes[currentIndex]);
               setShowShareModal(true);
             }}
