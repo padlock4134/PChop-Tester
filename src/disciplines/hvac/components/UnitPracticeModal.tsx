@@ -1,17 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ARShopScene from './ARShopScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
 import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
-import { supabase } from '../api/supabaseClient';
+import PracticeLessonSelect, { getPracticeLessonTitle, PracticeLessonCourse, PracticeLessonHistorySelect } from '../../../components/PracticeLessonSelect';
 
 interface BenchPracticeModalProps {
   open: boolean;
   onClose: () => void;
+  courses?: PracticeLessonCourse[];
 }
 
-const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
+const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, courses = [] }) => {
   const { t } = useTranslation();
   const [isPracticing, setIsPracticing] = useState(false);
   const [modeNotice, setModeNotice] = useState<string | null>(null);
@@ -21,66 +22,18 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
   const [arScene, setArScene] = useState<any>(null);
   const [guideOpen, setGuideOpen] = useState(false);
   const [instructionsOpen, setInstructionsOpen] = useState(false);
-  const [curriculumLessons, setCurriculumLessons] = useState<Array<{ id: string; title: string; weekNumber?: number }>>([]);
   const stopTrackingRef = useRef<(() => void) | null>(null);
-
-  // Fetch curriculum lessons for dropdown
-  useEffect(() => {
-    const loadCurriculum = async () => {
-      try {
-        let items: any[] = [];
-
-        // Try curriculum_content first
-        const { data: currData, error: currError } = await supabase
-          .from('curriculum_content')
-          .select('*')
-          .order('week_number', { ascending: true, nullsFirst: false });
-
-        if (!currError && currData && currData.length > 0) {
-          items = currData;
-        } else {
-          // Fallback to content_staging
-          const { data: stagingData, error: stagingError } = await supabase
-            .from('content_staging')
-            .select('*')
-            .in('status', ['distributed', 'pending', 'draft'])
-            .order('created_at', { ascending: true });
-
-          if (!stagingError && stagingData && stagingData.length > 0) {
-            items = stagingData.map((row: any) => {
-              const suggestion = row.ai_suggestion || {};
-              const metadata = suggestion.metadata || {};
-              return {
-                id: row.id,
-                title: metadata.title || row.file_name || 'Untitled Lesson',
-                week_number: metadata.weekNumber || null
-              };
-            });
-          }
-        }
-
-        if (items.length > 0) {
-          const lessons = items.map((item: any) => ({
-            id: item.id,
-            title: item.title,
-            weekNumber: item.week_number
-          }));
-          setCurriculumLessons(lessons);
-        }
-      } catch (err) {
-        console.error('Failed to load curriculum for dropdown:', err);
-      }
-    };
-
-    if (open) {
-      loadCurriculum();
-    }
-  }, [open]);
 
   if (!open) return null;
 
   const startVirtualPractice = async (selectedMode: 'ar' | 'vr' = 'ar') => {
     setModeNotice(null);
+    const lessonTitle = getPracticeLessonTitle(courses, selectedLesson);
+    if (!lessonTitle) {
+      alert('Please select a lesson first.');
+      return;
+    }
+
     if (selectedMode === 'vr') {
       const vrSupported = await canUseImmersiveVR();
       if (!vrSupported) {
@@ -90,13 +43,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
 
     try {
-      // For demo: Use pre-built HVAC AR scene (instant load)
-      const demoLesson = Object.keys(defaultARScenes)[0] as keyof typeof defaultARScenes;
-
-      // Check if we have a default scene
-      if (demoLesson && defaultARScenes[demoLesson]) {
-        console.log('Loading default AR scene for demo');
-        setArScene(defaultARScenes[demoLesson]);
+      if (defaultARScenes[lessonTitle]) {
+        setArScene(defaultARScenes[lessonTitle]);
         setIsPracticing(true);
         return;
       }
@@ -109,7 +57,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           discipline: 'hvac',
-          lessonTitle: demoLesson,
+          lessonTitle,
           lessonContent: 'Static pressure testing workflow for HVAC systems. Includes gauge setup, reference pressure checks, duct traverse technique, and airflow balancing validation.',
         }),
       });
@@ -244,22 +192,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 >
                   � Virtual Practice
                 </button>
-                <select
+                <PracticeLessonSelect
                   value={selectedLesson}
-                  onChange={(e) => setSelectedLesson(e.target.value)}
+                  onChange={setSelectedLesson}
+                  courses={courses}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                >
-                  <option value="">Choose a lesson...</option>
-                  {curriculumLessons.length > 0 ? (
-                    curriculumLessons.map((lesson) => (
-                      <option key={lesson.id} value={lesson.id}>
-                        {lesson.weekNumber ? `Week ${lesson.weekNumber}: ` : ''}{lesson.title}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="" disabled>No lessons available - upload curriculum first</option>
-                  )}
-                </select>
+                />
               </>
             ) : (
               <>
@@ -269,13 +207,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 >
                   ⏹️ End Practice
                 </button>
-                <select
+                <PracticeLessonHistorySelect
+                  selectedLessonId={selectedLesson}
+                  courses={courses}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  defaultValue=""
-                >
-                  <option value="" disabled>Lessons Practiced</option>
-                  <option value="static-pressure">Static Pressure Measurement Fundamentals</option>
-                </select>
+                />
               </>
             )}
           </div>
@@ -314,22 +250,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <label className="block text-xs font-semibold text-amber-800 mb-1">
                     Select a lesson to practice:
                   </label>
-                  <select
-                    value={selectedLesson}
-                    onChange={(e) => setSelectedLesson(e.target.value)}
-                    className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  >
-                    <option value="">Choose a lesson...</option>
-                    {curriculumLessons.length > 0 ? (
-                      curriculumLessons.map((lesson) => (
-                        <option key={lesson.id} value={lesson.id}>
-                          {lesson.weekNumber ? `Week ${lesson.weekNumber}: ` : ''}{lesson.title}
-                        </option>
-                      ))
-                    ) : (
-                      <option value="" disabled>No lessons available - upload curriculum first</option>
-                    )}
-                  </select>
+                  <PracticeLessonSelect
+                  value={selectedLesson}
+                  onChange={setSelectedLesson}
+                  courses={courses}
+                  className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                />
                 </div>
                 
                 {/* Guide Toggle Button */}

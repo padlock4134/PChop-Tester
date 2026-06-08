@@ -8,121 +8,20 @@ import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainItem } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRouteNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
-import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
+import SyllabusCard from '../components/SyllabusCard';
 import ShipmentTimer from '../components/ShipmentTimer';
 import DockPracticeModal from '../components/DockPracticeModal';
+import { supabase } from '../api/supabaseClient';
+import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
-const generalLessons = [
-  { title: 'DOT Regulations & HOS', desc: 'Hours of Service rules, logbooks, and DOT compliance basics.' },
-  { title: 'Freight Classification & NMFC', desc: 'How to classify freight and read the National Motor Freight Classification.' },
-  { title: 'Route Planning & Optimization', desc: 'How to plan efficient routes to reduce cost and delivery time.' },
-  { title: 'Warehouse Operations Basics', desc: 'Receiving, put-away, picking, packing, and shipping procedures.' },
-  { title: 'Supply Chain Fundamentals', desc: 'From procurement to last-mile delivery — the full chain explained.' },
-  { title: 'Equipment & Technology Care', desc: 'Maintaining scanners, forklifts, and warehouse management systems.' }
-];
 
-// Generate default tutorials including the weekly technique
 function getDefaultTutorials() {
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
-  return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
-    {
-      title: 'Let\'s Move This Shipment!',
-      desc: 'How to approach the main task for this logistics operation.'
-    }
-  ];
-}
-
-// 52 Fundamental Logistics Techniques (one for each week of the year)
-const WEEKLY_TECHNIQUES = [
-  // Freight & Documentation Fundamentals (Weeks 1-13)
-  { title: "Bill of Lading Basics", desc: "Reading, completing, and verifying a BOL for shipment" },
-  { title: "Freight Classification (NMFC)", desc: "Classifying freight by density, stowability, and value" },
-  { title: "Packing List & Commercial Invoice", desc: "Required documents for domestic and international freight" },
-  { title: "Proof of Delivery (POD)", desc: "Capturing and managing delivery confirmation" },
-  { title: "Carrier Selection Basics", desc: "LTL vs. FTL vs. parcel — choosing the right mode" },
-  { title: "Freight Rate Negotiation", desc: "Base rate, accessorial charges, and fuel surcharges" },
-  { title: "Dimensional Weight Calculation", desc: "Calculating dim weight and when it applies" },
-  { title: "Hazmat Shipping Basics", desc: "Placarding, labeling, and documentation for hazardous materials" },
-  { title: "Incoterms Explained", desc: "EXW, FOB, CIF, DDP — risk and responsibility at each point" },
-  { title: "Import/Export Customs Basics", desc: "Customs entry, tariff codes, and broker relationships" },
-  { title: "Chain of Custody Documentation", desc: "Tracking ownership and responsibility through the supply chain" },
-  { title: "Carrier Vetting & Compliance", desc: "FMCSA authority, insurance, and safety rating requirements" },
-  { title: "Load Planning Basics", desc: "Weight distribution, cube utilization, and sequence loading" },
-
-  // Warehouse & Inventory Operations (Weeks 14-26)
-  { title: "Receiving Procedure", desc: "Unloading, inspection, counting, and discrepancy reporting" },
-  { title: "Put-Away Strategy", desc: "Fixed vs. floating locations, slotting, and storage zones" },
-  { title: "Pick, Pack & Ship Workflow", desc: "Order fulfillment sequence for accuracy and speed" },
-  { title: "Barcode & RFID Scanning", desc: "Using WMS scanners for receiving, picking, and shipping" },
-  { title: "Cycle Count Procedures", desc: "ABC cycle counting and inventory reconciliation" },
-  { title: "FIFO vs. FEFO", desc: "First In First Out vs. First Expired First Out for inventory" },
-  { title: "Pallet Building Technique", desc: "Weight limits, stability, stretch wrap, and labeling" },
-  { title: "Forklift Operation Basics", desc: "Pre-operation inspection, load capacity, and safe travel" },
-  { title: "Dock Safety & Procedures", desc: "Dock locks, wheel chocks, and trailer restraint systems" },
-  { title: "Cross-Docking Operations", desc: "Direct transfer from inbound to outbound without storage" },
-  { title: "Returns Management (Reverse Logistics)", desc: "RMA process, inspection, restocking, and disposal" },
-  { title: "Cold Chain Basics", desc: "Temperature-controlled shipping, monitoring, and compliance" },
-  { title: "WMS Navigation", desc: "Using a Warehouse Management System for daily operations" },
-
-  // Transportation & Route Management (Weeks 27-39)
-  { title: "Route Optimization Basics", desc: "Reducing miles and time with optimized delivery sequences" },
-  { title: "DOT Hours of Service Rules", desc: "11-hour driving limit, 14-hour window, and 30-minute break" },
-  { title: "ELD (Electronic Logging Device) Use", desc: "Logging duty status changes and HOS compliance" },
-  { title: "Pre-Trip Vehicle Inspection", desc: "DVIR checklist: brakes, tires, lights, and fluid levels" },
-  { title: "Load Securement Standards", desc: "FMCSA cargo securement rules for flatbed and enclosed" },
-  { title: "Transportation Modes Comparison", desc: "Truckload, rail, ocean, and air — cost and lead time tradeoffs" },
-  { title: "Last-Mile Delivery Strategies", desc: "Urban delivery challenges, BOPIS, and customer communication" },
-  { title: "Intermodal Freight Basics", desc: "Container shipping, drayage, and intermodal transfers" },
-  { title: "Fuel Management & Efficiency", desc: "Idle time, routing, and fuel card programs" },
-  { title: "Driver Communication & Dispatch", desc: "Radio, TMS messaging, and proactive status updates" },
-  { title: "Accessorial Charges Explained", desc: "Detention, liftgate, residential, and inside delivery fees" },
-  { title: "Freight Claims Process", desc: "Filing, documenting, and resolving damage and shortage claims" },
-  { title: "3PL vs. In-House Logistics", desc: "When to outsource and how to manage a 3PL relationship" },
-
-  // Technology, Compliance & Professional Skills (Weeks 40-52)
-  { title: "TMS (Transportation Management System)", desc: "Booking, tracking, and reporting with a TMS" },
-  { title: "EDI Basics", desc: "Electronic Data Interchange — 850, 856, 810, and 214 transaction sets" },
-  { title: "KPI Measurement in Logistics", desc: "On-time delivery, fill rate, order accuracy, and cost per unit" },
-  { title: "OSHA Warehouse Safety", desc: "Forklift safety, racking standards, and PPE requirements" },
-  { title: "DOT Compliance Audits", desc: "What auditors look for and how to stay compliant" },
-  { title: "Carrier Performance Scorecards", desc: "Measuring and communicating carrier performance" },
-  { title: "Supply Chain Disruption Planning", desc: "Building resilience with alternate carriers and safety stock" },
-  { title: "Sustainable Logistics Practices", desc: "Carbon footprint, load consolidation, and green initiatives" },
-  { title: "Customer Service in Logistics", desc: "Proactive communication, issue resolution, and escalation" },
-  { title: "Negotiating Carrier Contracts", desc: "Volume commitments, rate caps, and service level agreements" },
-  { title: "Logistics Technology Trends", desc: "Automation, robotics, AI routing, and blockchain in supply chain" },
-  { title: "Estimating Freight Costs", desc: "Building accurate freight quotes and cost-per-unit analysis" },
-  { title: "Career Pathways", desc: "Dispatcher to logistics manager to supply chain director — the roadmap" }
-];
-
-// Get the technique for current week (1-52)
-function getCurrentWeekTechnique() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1);
-  const weekNumber = Math.ceil((((now.getTime() - start.getTime()) / 86400000) + start.getDay() + 1) / 7);
-  const techniqueIndex = (weekNumber - 1) % 52; // Cycle through 52 techniques
-  return WEEKLY_TECHNIQUES[techniqueIndex];
+  return [];
 }
 
 function getTwoTutorials(route: any) {
   if (!route) return [];
-  
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
   return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
     {
       title: `Let\'s Move This Shipment!`,
       desc: `Step-by-step logistics walkthrough for ${route.title}.`,
@@ -143,54 +42,7 @@ const LogisticsSchool = () => {
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-
-  // Mock syllabus data
-  const mockSyllabusData = {
-    title: "",
-    courses: [/*
-      {
-        id: "course-1",
-        title: "Term 1: Logistics Fundamentals",
-        lessons: [
-          { id: "lesson-1-1", title: "Workplace Safety and OSHA Basics", completed: true, current: false },
-          { id: "lesson-1-2", title: "Supply Chain Overview and Key Players", completed: true, current: false },
-          { id: "lesson-1-3", title: "Freight Documentation and BOLs", completed: true, current: false },
-          { id: "lesson-1-4", title: "Freight Classification and Rates", completed: false, current: true },
-          { id: "lesson-1-5", title: "DOT Regulations and Compliance", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-2",
-        title: "Term 1: Warehouse Operations",
-        lessons: [
-          { id: "lesson-2-1", title: "Receiving, Put-Away, and Inventory Control", completed: false, current: false },
-          { id: "lesson-2-2", title: "Pick, Pack, and Ship Procedures", completed: false, current: false },
-          { id: "lesson-2-3", title: "Forklift Operation and Dock Safety", completed: false, current: false },
-          { id: "lesson-2-4", title: "WMS and Scanning Technology", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-3",
-        title: "Term 2: Transportation & Route Management",
-        lessons: [
-          { id: "lesson-3-1", title: "Carrier Selection and Mode Comparison", completed: false, current: false },
-          { id: "lesson-3-2", title: "Route Optimization and Dispatch", completed: false, current: false },
-          { id: "lesson-3-3", title: "HOS Rules and ELD Compliance", completed: false, current: false },
-          { id: "lesson-3-4", title: "Load Planning and Cargo Securement", completed: false, current: false },
-        ]
-      },
-      {
-        id: "course-4",
-        title: "Term 2: Technology & Professional Practice",
-        lessons: [
-          { id: "lesson-4-1", title: "TMS and EDI Fundamentals", completed: false, current: false },
-          { id: "lesson-4-2", title: "KPIs, Scorecards, and Performance Metrics", completed: false, current: false },
-          { id: "lesson-4-3", title: "Customer Service and Freight Claims", completed: false, current: false },
-          { id: "lesson-4-4", title: "Career Pathways in Logistics", completed: false, current: false },
-        ]
-      }
-    */] as SyllabusCourse[]
-  };
+  const syllabusData = useCurriculumSyllabus(supabase);
 
   const handleLessonClick = (lessonId: string) => {
     console.log(`Navigating to lesson: ${lessonId}`);
@@ -243,7 +95,7 @@ const LogisticsSchool = () => {
   // Helper to call Dispatcher Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(route: any, tut: any, idx: any) {
     let query = '';
-    
+
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
@@ -264,7 +116,7 @@ const LogisticsSchool = () => {
       if (typeof idx === 'number' && idx === 2 && route && route.title) {
         return route.title;
       }
-      
+
       // Use Dispatcher Freddie for complex queries
       const prompt = `
         Given the following project and tutorial step, generate a concise YouTube search query for a relevant trade training video.\n
@@ -290,7 +142,7 @@ const LogisticsSchool = () => {
         query = tut.title + ' ' + (route.title || '');
       }
     }
-    
+
     return query;
   }
 
@@ -307,16 +159,16 @@ const LogisticsSchool = () => {
         try {
           // Use the improved video query generation that handles different tutorial types
           const query = await getVideoQueryFromFreddie(
-            selectedRoute || { title: '', items: [], equipment: [] }, 
-            tut, 
+            selectedRoute || { title: '', items: [], equipment: [] },
+            tut,
             idx
           );
-          
+
           console.log(`[LogisticsSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-          
+
           const result: TutorialVideoResult = await getTutorialVideo(query);
           console.log(`[LogisticsSchool] Tutorial ${idx} result:`, result);
-          
+
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
@@ -324,10 +176,10 @@ const LogisticsSchool = () => {
           console.error(`[LogisticsSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
-      
+
       if (!cancelled) setVideoUrls(newUrls);
     }
-    
+
     fetchVideos();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -358,7 +210,7 @@ const LogisticsSchool = () => {
           📚 {t('logisticsSchool.syllabus')}
         </button>
       </div>
-      
+
       <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
         <div className={`lg:w-[66.666%] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'school' ? 'flex' : 'hidden lg:flex'
@@ -368,7 +220,7 @@ const LogisticsSchool = () => {
             <span className="text-5xl mr-2">🚢</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('logisticsSchool.title')}</h1>
           </div>
-          
+
           {/* Sticky Separation line */}
           <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
             <hr className="border-t-2 border-maineBlue" />
@@ -498,13 +350,13 @@ const LogisticsSchool = () => {
       </div>
           </div>
         </div>
-        
+
         <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
         }`}>
-          <SyllabusCard 
-            title={mockSyllabusData.title}
-            courses={mockSyllabusData.courses}
+          <SyllabusCard
+            title={syllabusData.title}
+            courses={syllabusData.courses}
             onLessonClick={handleLessonClick}
             onButcherBlockClick={() => setBenchPracticeOpen(true)}
           />
@@ -512,9 +364,10 @@ const LogisticsSchool = () => {
       </div>
 
       {/* Bench Practice Modal */}
-      <DockPracticeModal 
+      <DockPracticeModal
         open={benchPracticeOpen}
         onClose={() => setBenchPracticeOpen(false)}
+        courses={syllabusData.courses}
       />
     </div>
   );

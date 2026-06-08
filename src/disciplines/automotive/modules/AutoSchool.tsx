@@ -8,121 +8,20 @@ import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainPart } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
-import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
+import SyllabusCard from '../components/SyllabusCard';
 import JobTimer from '../components/JobTimer';
 import BayPracticeModal from '../components/BayPracticeModal';
+import { supabase } from '../api/supabaseClient';
+import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
-const generalLessons = [
-  { title: 'Engine Diagnostics 101', desc: 'Learn how to use a scan tool and interpret fault codes like a pro.' },
-  { title: 'Brake System Service', desc: 'How to inspect, measure, and replace brake pads and rotors safely.' },
-  { title: 'Electrical Systems Fundamentals', desc: 'Master wiring diagrams, multimeters, and circuit testing.' },
-  { title: 'Oil & Fluid Service', desc: 'Proper procedures for oil changes, flushes, and fluid top-offs.' },
-  { title: 'Tire & Wheel Service', desc: 'How to mount, balance, and perform a four-wheel alignment.' },
-  { title: 'Tool & Equipment Care', desc: 'Cleaning, calibrating, and maintaining your shop tools.' }
-];
 
-// Generate default tutorials including the weekly technique
 function getDefaultTutorials() {
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
-  return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
-    {
-      title: 'Let\'s Work This Repair!',
-      desc: 'How to approach the main task for this repair order.'
-    }
-  ];
-}
-
-// 52 Fundamental Automotive Techniques (one for each week of the year)
-const WEEKLY_TECHNIQUES = [
-  // Diagnostics & Scan Tool Fundamentals (Weeks 1-13)
-  { title: "OBD-II Scan Tool Basics", desc: "Connecting a scanner and reading live data and fault codes" },
-  { title: "Reading a Wiring Diagram", desc: "Tracing circuits from power source to ground" },
-  { title: "Multimeter Mastery", desc: "Measuring voltage, resistance, and current accurately" },
-  { title: "Compression Testing", desc: "Evaluating cylinder health with a compression gauge" },
-  { title: "Vacuum Leak Detection", desc: "Using smoke or propane to find intake leaks" },
-  { title: "Fuel Pressure Testing", desc: "Testing the fuel system for pressure and volume" },
-  { title: "Oscilloscope Basics", desc: "Reading sensor waveforms to find electrical faults" },
-  { title: "TSB & Service Data Research", desc: "Finding and applying technical service bulletins" },
-  { title: "Battery Load Testing", desc: "Verifying battery capacity under load conditions" },
-  { title: "Coolant System Pressure Test", desc: "Finding leaks in the cooling system" },
-  { title: "Fuel Injector Testing", desc: "Balance testing and flow-rate verification" },
-  { title: "MAP vs. MAF Sensors", desc: "Understanding and testing air measurement sensors" },
-  { title: "O2 Sensor Analysis", desc: "Reading oxygen sensor data to diagnose fuel trim issues" },
-
-  // Engine & Drivetrain (Weeks 14-26)
-  { title: "Timing Belt Replacement", desc: "Proper timing marks and tensioner procedures" },
-  { title: "Valve Clearance Adjustment", desc: "Measuring and setting valve lash" },
-  { title: "Head Gasket Diagnosis", desc: "Combustion leak test and coolant analysis" },
-  { title: "Oil Consumption Diagnosis", desc: "Finding causes of excessive oil use" },
-  { title: "Clutch Replacement", desc: "Flywheel inspection and clutch pack installation" },
-  { title: "CV Axle Replacement", desc: "Half-shaft removal, inspection, and installation" },
-  { title: "Differential Service", desc: "Fluid change and backlash inspection" },
-  { title: "Transmission Fluid Service", desc: "Drain, fill, and filter replacement procedures" },
-  { title: "Engine Mount Inspection", desc: "Checking for worn or broken motor mounts" },
-  { title: "Serpentine Belt Service", desc: "Belt routing, tension, and pulley inspection" },
-  { title: "Water Pump Replacement", desc: "Sealing techniques and impeller inspection" },
-  { title: "Thermostat Replacement", desc: "Correct orientation and coolant system bleeding" },
-  { title: "Turbocharger Basics", desc: "Inspection, oil feed, and boost system fundamentals" },
-
-  // Brakes, Suspension & Steering (Weeks 27-39)
-  { title: "Brake Pad & Rotor Replacement", desc: "Measuring rotor thickness and proper bed-in procedure" },
-  { title: "Brake Caliper Service", desc: "Slide pin lubrication and piston retraction" },
-  { title: "Brake Fluid Flush", desc: "Bleeding procedures and DOT fluid specifications" },
-  { title: "ABS System Diagnosis", desc: "Wheel speed sensor testing and module codes" },
-  { title: "Wheel Bearing Replacement", desc: "Hub-style vs. press-in bearing procedures" },
-  { title: "Strut & Shock Replacement", desc: "Spring compressor safety and alignment needs" },
-  { title: "Ball Joint Inspection", desc: "Wear measurement and replacement procedures" },
-  { title: "Tie Rod Replacement", desc: "Inner and outer tie rod procedures and alignment" },
-  { title: "Power Steering Service", desc: "Fluid flush and rack inspection basics" },
-  { title: "Four-Wheel Alignment", desc: "Caster, camber, and toe adjustment fundamentals" },
-  { title: "Tire Rotation Patterns", desc: "Directional vs. non-directional rotation sequences" },
-  { title: "TPMS Service", desc: "Sensor programming and relearn procedures" },
-  { title: "Brake Drum Service", desc: "Measuring drums and adjusting self-adjusters" },
-
-  // Electrical, HVAC & Professional Skills (Weeks 40-52)
-  { title: "Starter & Alternator Testing", desc: "Load testing charging and starting system components" },
-  { title: "A/C System Diagnosis", desc: "Refrigerant recovery, leak detection, and recharge" },
-  { title: "Cabin Air Filter Service", desc: "Locating and replacing HVAC cabin filters" },
-  { title: "Headlight Aim Adjustment", desc: "Proper aiming procedure using a wall pattern" },
-  { title: "Fuse & Relay Diagnosis", desc: "Testing fuses and relays with a multimeter" },
-  { title: "Key Programming Basics", desc: "Transponder key and key fob programming procedures" },
-  { title: "Hybrid Safety Protocols", desc: "High-voltage system shutdown and PPE requirements" },
-  { title: "Service Information Systems", desc: "Using AllData, Mitchell, and OEM portals effectively" },
-  { title: "Repair Order Writing", desc: "Documenting diagnosis, labor, and parts professionally" },
-  { title: "Customer Communication", desc: "Explaining repairs and estimates without jargon" },
-  { title: "Estimating Labor Time", desc: "Using flat-rate manuals and flagging hours" },
-  { title: "ASE Certification Prep", desc: "Test-taking strategies and study resources for ASE exams" },
-  { title: "Career Pathways", desc: "Lube tech to master technician — the ASE roadmap" }
-];
-
-// Get the technique for current week (1-52)
-function getCurrentWeekTechnique() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1);
-  const weekNumber = Math.ceil((((now.getTime() - start.getTime()) / 86400000) + start.getDay() + 1) / 7);
-  const techniqueIndex = (weekNumber - 1) % 52; // Cycle through 52 techniques
-  return WEEKLY_TECHNIQUES[techniqueIndex];
+  return [];
 }
 
 function getTwoTutorials(recipe: any) {
   if (!recipe) return [];
-  
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
   return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
     {
       title: `Let\'s Work This Repair!`,
       desc: `Repair walkthrough for ${recipe.title}.`,
@@ -143,12 +42,7 @@ const AutoSchool = () => {
   const [teamSize, setTeamSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-
-  // Mock syllabus data
-  const mockSyllabusData = {
-    title: "",
-    courses: [] as SyllabusCourse[]
-  };
+  const syllabusData = useCurriculumSyllabus(supabase);
 
   const handleLessonClick = (lessonId: string) => {
     console.log(`Navigating to lesson: ${lessonId}`);
@@ -202,7 +96,7 @@ const AutoSchool = () => {
   // Helper to call Gus the Mechanic backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
-    
+
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
@@ -223,7 +117,7 @@ const AutoSchool = () => {
       if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
         return recipe.title;
       }
-      
+
       // Use Gus the Mechanic for complex queries
       const prompt = `
         Given the following repair and tutorial, generate a concise YouTube search query for a relevant automotive video.\n
@@ -249,7 +143,7 @@ const AutoSchool = () => {
         query = tut.title + ' ' + (recipe.title || '');
       }
     }
-    
+
     return query;
   }
 
@@ -266,16 +160,16 @@ const AutoSchool = () => {
         try {
           // Use the improved video query generation that handles different tutorial types
           const query = await getVideoQueryFromFreddie(
-            selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
-            tut, 
+            selectedRecipe || { title: '', ingredients: [], equipment: [] },
+            tut,
             idx
           );
-          
+
           console.log(`[AutoSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-          
+
           const result: TutorialVideoResult = await getTutorialVideo(query);
           console.log(`[AutoSchool] Tutorial ${idx} result:`, result);
-          
+
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
@@ -283,10 +177,10 @@ const AutoSchool = () => {
           console.error(`[AutoSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
-      
+
       if (!cancelled) setVideoUrls(newUrls);
     }
-    
+
     fetchVideos();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -317,7 +211,7 @@ const AutoSchool = () => {
           📚 {t('autoSchool.syllabus')}
         </button>
       </div>
-      
+
       <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
         <div className={`lg:w-[66.666%] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'school' ? 'flex' : 'hidden lg:flex'
@@ -327,7 +221,7 @@ const AutoSchool = () => {
             <span className="text-5xl mr-2">⚙️</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('autoSchool.title')}</h1>
           </div>
-          
+
           {/* Sticky Separation line */}
           <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
             <hr className="border-t-2 border-maineBlue" />
@@ -456,13 +350,13 @@ const AutoSchool = () => {
       </div>
           </div>
         </div>
-        
+
         <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
         }`}>
-          <SyllabusCard 
-            title={mockSyllabusData.title}
-            courses={mockSyllabusData.courses}
+          <SyllabusCard
+            title={syllabusData.title}
+            courses={syllabusData.courses}
             onLessonClick={handleLessonClick}
             onDiagnosticBayClick={() => setBenchPracticeOpen(true)}
           />
@@ -470,9 +364,10 @@ const AutoSchool = () => {
       </div>
 
       {/* Bench Practice Modal */}
-      <BayPracticeModal 
+      <BayPracticeModal
         open={benchPracticeOpen}
         onClose={() => setBenchPracticeOpen(false)}
+        courses={syllabusData.courses}
       />
     </div>
   );

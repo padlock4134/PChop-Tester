@@ -8,121 +8,20 @@ import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
-import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
+import SyllabusCard from '../components/SyllabusCard';
 import JobTimer from '../components/JobTimer';
 import FieldPracticeModal from '../components/FieldPracticeModal';
+import { supabase } from '../api/supabaseClient';
+import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
-const generalLessons = [
-  { title: 'Blueprint Reading 101', desc: 'Learn how to read architectural and structural drawings like a pro.' },
-  { title: 'Site Safety & OSHA Compliance', desc: 'How to identify hazards and maintain a compliant job site.' },
-  { title: 'Framing Fundamentals', desc: 'Master wall framing, headers, and rough opening layouts.' },
-  { title: 'Concrete & Masonry Basics', desc: 'Mixing, pouring, finishing, and laying block properly.' },
-  { title: 'Measuring & Layout', desc: 'How to use a tape, square, and level for accurate layouts.' },
-  { title: 'Tool & Equipment Care', desc: 'Cleaning, inspecting, and maintaining your hand and power tools.' }
-];
 
-// Generate default tutorials including the weekly technique
 function getDefaultTutorials() {
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
-  return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
-    {
-      title: 'Let\'s Build This Project!',
-      desc: 'How to approach the main task for this build project.'
-    }
-  ];
-}
-
-// 52 Fundamental Construction Techniques (one for each week of the year)
-const WEEKLY_TECHNIQUES = [
-  // Blueprint & Layout (Weeks 1-13)
-  { title: "Reading Architectural Plans", desc: "Interpreting floor plans, elevations, and sections" },
-  { title: "Reading Structural Drawings", desc: "Understanding framing plans, beam schedules, and load paths" },
-  { title: "Site Layout with Batter Boards", desc: "Establishing accurate building corners and elevations" },
-  { title: "Using a Builder's Level", desc: "Setting elevation benchmarks across a job site" },
-  { title: "Squaring a Foundation", desc: "The 3-4-5 method and diagonal checks" },
-  { title: "Reading a Tape Measure", desc: "Fractions, decimals, and the 16-inch module" },
-  { title: "Chalk Line Technique", desc: "Snapping accurate layout lines on floors and walls" },
-  { title: "Using a Speed Square", desc: "Marking rafter cuts and checking square" },
-  { title: "Plumb Bob Use", desc: "Transferring points vertically with accuracy" },
-  { title: "Laser Level Setup", desc: "Leveling and aligning with rotary and line lasers" },
-  { title: "Material Estimation Basics", desc: "Calculating board feet, square feet, and waste factors" },
-  { title: "Reading a Spec Sheet", desc: "Extracting material and performance requirements" },
-  { title: "Working from a Schedule", desc: "Using door, window, and finish schedules on blueprints" },
-
-  // Framing & Structure (Weeks 14-26)
-  { title: "Wall Plate Layout", desc: "Marking stud locations on top and bottom plates" },
-  { title: "Stud Wall Assembly", desc: "Building and standing a standard wood-framed wall" },
-  { title: "Rough Opening Framing", desc: "Headers, king studs, and trimmer sizing" },
-  { title: "Corner Framing Techniques", desc: "California corners vs. three-stud corners for insulation" },
-  { title: "Floor Joist Installation", desc: "Crown side up, hangers, and blocking requirements" },
-  { title: "Subfloor Installation", desc: "Gluing, nailing, and staggering subfloor panels" },
-  { title: "Roof Rafter Layout", desc: "Common rafter math, ridge board, and bird's mouth cuts" },
-  { title: "Engineered Lumber Basics", desc: "LVL, PSL, and I-joist installation requirements" },
-  { title: "Metal Connector Hardware", desc: "Joist hangers, hurricane ties, and post caps" },
-  { title: "Sheathing Installation", desc: "Wall and roof sheathing nailing patterns and gaps" },
-  { title: "Bearing Wall Identification", desc: "Determining load paths before removal" },
-  { title: "Temporary Bracing", desc: "Safe bracing of walls before permanent sheathing" },
-  { title: "Post and Beam Connections", desc: "Notching, bolting, and hardware for heavy timber" },
-
-  // Masonry, Concrete & Finishing (Weeks 27-39)
-  { title: "Concrete Mix Ratios", desc: "Water-to-cement ratio and slump testing basics" },
-  { title: "Form Building", desc: "Setting forms for footings, walls, and slabs" },
-  { title: "Rebar Placement", desc: "Cover requirements, spacing, and tying rebar" },
-  { title: "Concrete Finishing", desc: "Screeding, floating, troweling, and curing" },
-  { title: "Block Laying Technique", desc: "Mortar consistency, joint tooling, and course layout" },
-  { title: "Brick Patterns & Bonds", desc: "Running bond, common bond, and stack bond" },
-  { title: "Waterproofing Foundations", desc: "Dampproofing vs. waterproofing and drainage systems" },
-  { title: "Drywall Hanging", desc: "Panel orientation, screw spacing, and butt joints" },
-  { title: "Drywall Taping & Mudding", desc: "Tape embedding, three-coat finishing, and feathering" },
-  { title: "Exterior Trim Installation", desc: "Flashing, caulking, and proper nailing schedules" },
-  { title: "Door Hanging", desc: "Shimming, squaring, and securing a prehung door" },
-  { title: "Window Installation", desc: "Flashing, sealing, and shimming for weather resistance" },
-  { title: "Flooring Layout", desc: "Squaring the room, expansion gaps, and stagger patterns" },
-
-  // Safety, Code & Professional Skills (Weeks 40-52)
-  { title: "Fall Protection Basics", desc: "Guardrail, personal fall arrest, and safety net requirements" },
-  { title: "Scaffold Erection Safety", desc: "Base plate, bracing, and access requirements" },
-  { title: "Power Tool Safety", desc: "Guards, blade changes, and two-hand operation rules" },
-  { title: "Reading the IBC", desc: "Navigating the International Building Code" },
-  { title: "Fire Blocking Requirements", desc: "Where and how to install fireblocking per code" },
-  { title: "Energy Code Basics", desc: "Insulation values, air barriers, and thermal bridging" },
-  { title: "ADA Accessibility Basics", desc: "Door widths, ramp slopes, and reach ranges" },
-  { title: "Excavation Safety", desc: "Trench protection systems and soil classification" },
-  { title: "Crane & Rigging Signals", desc: "Standard hand signals and rigging inspection" },
-  { title: "Daily Job Logs", desc: "Documenting weather, crew, and progress on site" },
-  { title: "Change Order Process", desc: "Documenting scope changes to protect payment" },
-  { title: "Subcontractor Coordination", desc: "Sequencing trades and avoiding delays" },
-  { title: "Career Pathways", desc: "Apprentice to journeyman to general contractor — the roadmap" }
-];
-
-// Get the technique for current week (1-52)
-function getCurrentWeekTechnique() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1);
-  const weekNumber = Math.ceil((((now.getTime() - start.getTime()) / 86400000) + start.getDay() + 1) / 7);
-  const techniqueIndex = (weekNumber - 1) % 52; // Cycle through 52 techniques
-  return WEEKLY_TECHNIQUES[techniqueIndex];
+  return [];
 }
 
 function getTwoTutorials(recipe: any) {
   if (!recipe) return [];
-  
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
   return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
     {
       title: `Let\'s Build This Project!`,
       desc: `Step-by-step project walkthrough for ${recipe.title}.`,
@@ -143,12 +42,7 @@ const BuildSchool = () => {
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-
-  // Mock syllabus data
-  const mockSyllabusData = {
-    title: "",
-    courses: [] as SyllabusCourse[]
-  };
+  const syllabusData = useCurriculumSyllabus(supabase);
 
   const handleLessonClick = (lessonId: string) => {
     console.log(`Navigating to lesson: ${lessonId}`);
@@ -201,7 +95,7 @@ const BuildSchool = () => {
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
-    
+
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
@@ -222,7 +116,7 @@ const BuildSchool = () => {
       if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
         return recipe.title;
       }
-      
+
       // Use Chef Freddie for complex queries
       const prompt = `
         Given the following project and tutorial step, generate a concise YouTube search query for a relevant trade training video.\n
@@ -248,7 +142,7 @@ const BuildSchool = () => {
         query = tut.title + ' ' + (recipe.title || '');
       }
     }
-    
+
     return query;
   }
 
@@ -265,16 +159,16 @@ const BuildSchool = () => {
         try {
           // Use the improved video query generation that handles different tutorial types
           const query = await getVideoQueryFromFreddie(
-            selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
-            tut, 
+            selectedRecipe || { title: '', ingredients: [], equipment: [] },
+            tut,
             idx
           );
-          
+
           console.log(`[BuildSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-          
+
           const result: TutorialVideoResult = await getTutorialVideo(query);
           console.log(`[BuildSchool] Tutorial ${idx} result:`, result);
-          
+
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
@@ -282,10 +176,10 @@ const BuildSchool = () => {
           console.error(`[BuildSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
-      
+
       if (!cancelled) setVideoUrls(newUrls);
     }
-    
+
     fetchVideos();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -316,7 +210,7 @@ const BuildSchool = () => {
           📚 {t('buildSchool.syllabus')}
         </button>
       </div>
-      
+
       <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
         <div className={`lg:w-[66.666%] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'school' ? 'flex' : 'hidden lg:flex'
@@ -326,7 +220,7 @@ const BuildSchool = () => {
             <span className="text-5xl mr-2">🛠️</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('buildSchool.title')}</h1>
           </div>
-          
+
           {/* Sticky Separation line */}
           <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
             <hr className="border-t-2 border-maineBlue" />
@@ -456,13 +350,13 @@ const BuildSchool = () => {
       </div>
           </div>
         </div>
-        
+
         <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
         }`}>
-          <SyllabusCard 
-            title={mockSyllabusData.title}
-            courses={mockSyllabusData.courses}
+          <SyllabusCard
+            title={syllabusData.title}
+            courses={syllabusData.courses}
             onLessonClick={handleLessonClick}
             onButcherBlockClick={() => setBenchPracticeOpen(true)}
           />
@@ -470,9 +364,10 @@ const BuildSchool = () => {
       </div>
 
       {/* Bench Practice Modal */}
-      <FieldPracticeModal 
+      <FieldPracticeModal
         open={benchPracticeOpen}
         onClose={() => setBenchPracticeOpen(false)}
+        courses={syllabusData.courses}
       />
     </div>
   );

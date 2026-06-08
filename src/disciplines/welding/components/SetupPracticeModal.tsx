@@ -4,12 +4,12 @@ import ARBenchScene from './ARBenchScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
 import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
-import { SyllabusCourse } from './SyllabusCard';
+import PracticeLessonSelect, { getPracticeLessonTitle, PracticeLessonCourse, PracticeLessonHistorySelect } from '../../../components/PracticeLessonSelect';
 
 interface BenchPracticeModalProps {
   open: boolean;
   onClose: () => void;
-  courses?: SyllabusCourse[];
+  courses?: PracticeLessonCourse[];
 }
 
 const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, courses = [] }) => {
@@ -18,7 +18,6 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
   const [modeNotice, setModeNotice] = useState<string | null>(null);
   const [showDeviceSelection, setShowDeviceSelection] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
-  const [selectedLessonTitle, setSelectedLessonTitle] = useState<string>('');
   const [isGeneratingAR, setIsGeneratingAR] = useState(false);
   const [arScene, setArScene] = useState<any>(null);
   const [guideOpen, setGuideOpen] = useState(false);
@@ -30,7 +29,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
   const startVirtualPractice = async (selectedMode: 'ar' | 'vr' = 'ar') => {
     setModeNotice(null);
 
-    const lessonTitle = selectedLessonTitle;
+    const lessonTitle = getPracticeLessonTitle(courses, selectedLesson);
     if (!lessonTitle) {
       alert('Please select a lesson first.');
       return;
@@ -195,20 +194,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
                 >
                   📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
                 </button>
-                <select
+                <PracticeLessonSelect
                   value={selectedLesson}
-                  onChange={(e) => { setSelectedLesson(e.target.value); setSelectedLessonTitle(e.target.options[e.target.selectedIndex].text); }}
+                  onChange={setSelectedLesson}
+                  courses={courses}
+                  placeholder={t('culinarySchool.charcuterieBoard.chooseLesson')}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                >
-                  <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                  {(courses || []).map(course => (
-                    <optgroup key={course.id} label={course.title}>
-                      {course.lessons.map(lesson => (
-                        <option key={lesson.id} value={lesson.id}>{lesson.title}</option>
-                      ))}
-                    </optgroup>
-                  ))}
-                </select>
+                />
               </>
             ) : (
               <>
@@ -218,16 +210,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
                 >
                   ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
                 </button>
-                <select
+                <PracticeLessonHistorySelect
+                  selectedLessonId={selectedLesson}
+                  courses={courses}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  value={selectedLesson || 'current-lesson'}
-                  onChange={() => undefined}
-                  aria-label="Lessons Practiced"
-                >
-                  <option value={selectedLesson || 'current-lesson'}>
-                    {selectedLessonTitle || arScene?.lesson || 'Current Lesson'}
-                  </option>
-                </select>
+                />
               </>
             )}
           </div>
@@ -266,20 +253,13 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, 
                   <label className="block text-xs font-semibold text-amber-800 mb-1">
                     {t('culinarySchool.charcuterieBoard.selectLessonToPractice')}
                   </label>
-                  <select
-                    value={selectedLesson}
-                    onChange={(e) => { setSelectedLesson(e.target.value); setSelectedLessonTitle(e.target.options[e.target.selectedIndex].text); }}
-                    className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  >
-                    <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                    {(courses || []).map(course => (
-                      <optgroup key={course.id} label={course.title}>
-                        {course.lessons.map(lesson => (
-                          <option key={lesson.id} value={lesson.id}>{lesson.title}</option>
-                        ))}
-                      </optgroup>
-                    ))}
-                  </select>
+                  <PracticeLessonSelect
+                  value={selectedLesson}
+                  onChange={setSelectedLesson}
+                  courses={courses}
+                  placeholder={t('culinarySchool.charcuterieBoard.chooseLesson')}
+                  className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                />
                 </div>
                 
                 {/* Guide Toggle Button */}

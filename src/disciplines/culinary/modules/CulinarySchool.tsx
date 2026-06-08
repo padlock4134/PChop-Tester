@@ -8,122 +8,20 @@ import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
-import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
+import SyllabusCard from '../components/SyllabusCard';
 import CookingTimer from '../components/CookingTimer';
 import BenchPracticeModal from '../components/BenchPracticeModal';
+import { supabase } from '../api/supabaseClient';
+import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
-const generalLessons = [
-  { title: 'Knife Skills 101', desc: 'Learn how to chop, dice, and julienne like a pro.' },
-  { title: 'Seafood Handling & Safety', desc: 'How to select, store, and prep fresh seafood safely.' },
-  { title: 'Essential Cooking Techniques', desc: 'Master sautéing, steaming, poaching, and more.' },
-  { title: 'Sanitation & Cross-Contamination', desc: 'Keep your kitchen safe and clean.' },
-  { title: 'Using a Thermometer', desc: 'How to check doneness for seafood, poultry, and meats.' },
-  { title: 'Knife & Equipment Care', desc: 'Cleaning, storing, and maintaining your tools.' }
-];
 
-// Generate default tutorials including the weekly technique
 function getDefaultTutorials() {
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
-  return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
-    {
-      title: 'Let\'s Cook This Meal!',
-      desc: 'How to prepare the main ingredient for this dish.',
-      type: 'cooking_tutorial'
-    }
-  ];
-}
-
-// 52 Fundamental Cooking Techniques (one for each week of the year)
-const WEEKLY_TECHNIQUES = [
-  // Knife & Prep Techniques (Weeks 1-13)
-  { title: "Proper Knife Grip", desc: "How to hold a knife safely and efficiently for better control" },
-  { title: "The Claw Method", desc: "Protecting your fingers while chopping like a pro" },
-  { title: "Sharpening Basics", desc: "Using a honing steel to maintain your knife's edge" },
-  { title: "Brunoise Dice", desc: "Perfect tiny cubes for aromatics and garnishes" },
-  { title: "Chiffonade", desc: "Rolling and slicing herbs without bruising them" },
-  { title: "Julienne Cuts", desc: "Matchstick cuts for even cooking and presentation" },
-  { title: "Bias Cutting", desc: "Angled cuts for better texture and appearance" },
-  { title: "Mise en Place", desc: "Setting up your workspace efficiently before cooking" },
-  { title: "Proper Cutting Board Use", desc: "Stability, safety, and sanitation basics" },
-  { title: "Garlic Crushing", desc: "Using the flat of your knife to release garlic oils" },
-  { title: "Tomato Concassé", desc: "Peeling, seeding, and dicing tomatoes properly" },
-  { title: "Tearless Onion Dicing", desc: "Perfect pieces without the tears" },
-  { title: "Fresh Herb Storage", desc: "Keeping herbs fresh and flavorful longer" },
-
-  // Heat & Temperature (Weeks 14-26)
-  { title: "Pan Temperature Testing", desc: "Water drop test to know when your pan is ready" },
-  { title: "Oil Smoke Points", desc: "Choosing the right oil for different cooking temperatures" },
-  { title: "Resting Meat", desc: "Why and how long to let meat rest for juiciness" },
-  { title: "Carryover Cooking", desc: "Understanding how food continues cooking off heat" },
-  { title: "Proper Preheating", desc: "Getting your oven and pans truly ready" },
-  { title: "Temperature Zones", desc: "Using different heat areas in your pan" },
-  { title: "Gentle Heat Cooking", desc: "Low and slow techniques for tender results" },
-  { title: "Searing vs Browning", desc: "Understanding the difference for better results" },
-  { title: "Steam Control", desc: "Managing moisture while cooking" },
-  { title: "Cold Pan Starts", desc: "When NOT to preheat your pan" },
-  { title: "Oven Hot Spots", desc: "Rotating food for even cooking" },
-  { title: "Thermometer Placement", desc: "Where to insert for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe food cooling techniques" },
-
-  // Flavor Building (Weeks 27-39)
-  { title: "Salt Timing", desc: "When to salt for maximum flavor impact" },
-  { title: "Acid Balance", desc: "Using lemon and vinegar to brighten dishes" },
-  { title: "Blooming Spices", desc: "Toasting spices for deeper flavor" },
-  { title: "Deglazing", desc: "Capturing those delicious brown bits from the pan" },
-  { title: "Layering Flavors", desc: "Adding ingredients in the right order" },
-  { title: "Tasting as You Cook", desc: "Adjusting seasoning throughout the process" },
-  { title: "Umami Enhancement", desc: "Using natural ingredients to boost savory flavor" },
-  { title: "Fat as Flavor Carrier", desc: "Understanding how fat carries and enhances taste" },
-  { title: "Fresh vs Dried Timing", desc: "When to add fresh herbs vs dried spices" },
-  { title: "Reduction Techniques", desc: "Concentrating flavors through evaporation" },
-  { title: "Finishing Salts", desc: "Adding texture and final flavor bursts" },
-  { title: "Aromatics First", desc: "Building a strong flavor foundation" },
-  { title: "Sweet and Savory Balance", desc: "Finding the perfect flavor harmony" },
-
-  // Texture & Technique (Weeks 40-52)
-  { title: "Emulsification Basics", desc: "Making smooth sauces that won't break" },
-  { title: "Proper Whisking", desc: "Incorporating air for light, fluffy results" },
-  { title: "Folding Technique", desc: "Preserving delicate textures in batters" },
-  { title: "Basic Roux Making", desc: "Foundation technique for thick, smooth sauces" },
-  { title: "Pasta Water Magic", desc: "Using starchy water to perfect your sauce" },
-  { title: "Strategic Stirring", desc: "When and how to stir for best results" },
-  { title: "Tempering", desc: "Gradually combining hot and cold ingredients" },
-  { title: "Marinating Time", desc: "How long is enough for flavor penetration" },
-  { title: "Proper Draining", desc: "Getting excess moisture out effectively" },
-  { title: "Seasoning Layers", desc: "Building flavor throughout the cooking process" },
-  { title: "Timing Multiple Dishes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Plating", desc: "Basic presentation techniques for better meals" },
-  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
-];
-
-// Get the technique for current week (1-52)
-function getCurrentWeekTechnique() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1);
-  const weekNumber = Math.ceil((((now.getTime() - start.getTime()) / 86400000) + start.getDay() + 1) / 7);
-  const techniqueIndex = (weekNumber - 1) % 52; // Cycle through 52 techniques
-  return WEEKLY_TECHNIQUES[techniqueIndex];
+  return [];
 }
 
 function getTwoTutorials(recipe: any) {
   if (!recipe) return [];
-  
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
   return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
     {
       title: `Let\'s Cook This Meal!`,
       desc: `Step-by-step cooking tutorial for ${recipe.title}.`,
@@ -144,12 +42,7 @@ const CulinarySchool = () => {
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-
-  // Mock syllabus data
-  const mockSyllabusData = {
-    title: "",
-    courses: [] as SyllabusCourse[]
-  };
+  const syllabusData = useCurriculumSyllabus(supabase);
 
   const handleLessonClick = (lessonId: string) => {
     console.log(`Navigating to lesson: ${lessonId}`);
@@ -202,7 +95,7 @@ const CulinarySchool = () => {
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
-    
+
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
@@ -228,7 +121,7 @@ const CulinarySchool = () => {
       if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
         return recipe.title;
       }
-      
+
       // Use Chef Freddie for complex queries
       const prompt = `
         Given the following recipe and tutorial step, generate a concise YouTube search query for a relevant cooking video.\n
@@ -254,7 +147,7 @@ const CulinarySchool = () => {
         query = tut.title + ' ' + (recipe.title || '');
       }
     }
-    
+
     return query;
   }
 
@@ -271,16 +164,16 @@ const CulinarySchool = () => {
         try {
           // Use the improved video query generation that handles different tutorial types
           const query = await getVideoQueryFromFreddie(
-            selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
-            tut, 
+            selectedRecipe || { title: '', ingredients: [], equipment: [] },
+            tut,
             idx
           );
-          
+
           console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-          
+
           const result: TutorialVideoResult = await getTutorialVideo(query);
           console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
-          
+
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
@@ -288,10 +181,10 @@ const CulinarySchool = () => {
           console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
-      
+
       if (!cancelled) setVideoUrls(newUrls);
     }
-    
+
     fetchVideos();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -322,7 +215,7 @@ const CulinarySchool = () => {
           📚 {t('culinarySchool.syllabus')}
         </button>
       </div>
-      
+
       <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
         <div className={`lg:w-[66.666%] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'school' ? 'flex' : 'hidden lg:flex'
@@ -332,7 +225,7 @@ const CulinarySchool = () => {
             <span className="text-5xl mr-2">🍳</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('culinarySchool.title')}</h1>
           </div>
-          
+
           {/* Sticky Separation line */}
           <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
             <hr className="border-t-2 border-maineBlue" />
@@ -462,13 +355,13 @@ const CulinarySchool = () => {
       </div>
           </div>
         </div>
-        
+
         <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
         }`}>
-          <SyllabusCard 
-            title={mockSyllabusData.title}
-            courses={mockSyllabusData.courses}
+          <SyllabusCard
+            title={syllabusData.title}
+            courses={syllabusData.courses}
             onLessonClick={handleLessonClick}
             onButcherBlockClick={() => setBenchPracticeOpen(true)}
           />
@@ -476,9 +369,10 @@ const CulinarySchool = () => {
       </div>
 
       {/* Bench Practice Modal */}
-      <BenchPracticeModal 
+      <BenchPracticeModal
         open={benchPracticeOpen}
         onClose={() => setBenchPracticeOpen(false)}
+        courses={syllabusData.courses}
       />
     </div>
   );
