@@ -12,8 +12,21 @@ exports.handler = async (event) => {
     };
   }
 
+  // Discipline-specific keyword lists for result prioritization
+  const DISCIPLINE_KEYWORDS = {
+    culinary: ['food', 'ingredient', 'vegetable', 'fruit', 'meat', 'spice', 'herb', 'sauce', 'dairy', 'grain', 'seafood', 'poultry', 'bread', 'cheese', 'oil', 'vinegar', 'flour', 'sugar', 'salt', 'pepper', 'onion', 'garlic', 'tomato', 'potato', 'carrot', 'lettuce', 'mushroom', 'lemon', 'lime', 'butter', 'egg', 'milk', 'cream', 'pasta', 'rice', 'bean', 'nut', 'seed', 'chocolate', 'vanilla'],
+    plumbing: ['pipe', 'fitting', 'valve', 'faucet', 'fixture', 'copper', 'pvc', 'drain', 'supply', 'pressure', 'coupling', 'elbow', 'tee', 'reducer', 'union', 'flange', 'gasket', 'solder', 'flux', 'thread', 'wrench', 'cutter', 'auger', 'sealant', 'teflon', 'toilet', 'sink', 'shower', 'pump', 'water heater'],
+    automotive: ['engine', 'brake', 'tire', 'wheel', 'battery', 'filter', 'fluid', 'belt', 'hose', 'sensor', 'alternator', 'starter', 'radiator', 'exhaust', 'transmission', 'clutch', 'spark plug', 'fuel', 'oil', 'coolant', 'caliper', 'rotor', 'pad', 'strut', 'shock', 'cv joint', 'axle', 'bearing', 'gasket', 'timing'],
+    construction: ['lumber', 'wood', 'concrete', 'brick', 'block', 'rebar', 'nail', 'screw', 'bolt', 'joist', 'stud', 'beam', 'plywood', 'drywall', 'insulation', 'sheathing', 'framing', 'footing', 'foundation', 'hardware', 'anchor', 'strap', 'bracket', 'level', 'saw', 'drill', 'hammer', 'scaffold', 'safety', 'helmet', 'vest'],
+    electrical: ['wire', 'cable', 'conduit', 'outlet', 'switch', 'breaker', 'panel', 'circuit', 'junction', 'connector', 'terminal', 'voltage', 'ampere', 'ground', 'neutral', 'hot', 'romex', 'emt', 'pvc', 'raceway', 'stranded', 'solid', 'gauge', 'relay', 'fuse', 'transformer', 'capacitor', 'resistor', 'meter', 'multimeter'],
+    hvac: ['duct', 'vent', 'register', 'diffuser', 'damper', 'filter', 'coil', 'compressor', 'condenser', 'evaporator', 'refrigerant', 'thermostat', 'blower', 'furnace', 'heat pump', 'air handler', 'insulation', 'flue', 'drain pan', 'linesets', 'freon', 'tonnage', 'seer', 'ahu', 'vav', 'plenum', 'balancing', 'static pressure', 'cfm'],
+    manufacturing: ['fastener', 'bolt', 'nut', 'screw', 'washer', 'rivet', 'bearing', 'shaft', 'gear', 'sprocket', 'chain', 'bushing', 'seal', 'gasket', 'bracket', 'plate', 'stock', 'raw material', 'casting', 'forging', 'machined', 'tolerance', 'drill bit', 'end mill', 'insert', 'coolant', 'lubricant', 'fixture', 'jig', 'gauge'],
+    logistics: ['pallet', 'crate', 'drum', 'container', 'box', 'carton', 'package', 'freight', 'cargo', 'truck', 'trailer', 'forklift', 'dock', 'warehouse', 'shrink wrap', 'strapping', 'label', 'barcode', 'shipping', 'skid', 'tote', 'bin', 'rack', 'lading', 'manifest', 'inventory', 'sku', 'weight', 'dimension'],
+    machining: ['electrode', 'rod', 'wire feed', 'flux', 'slag', 'weld', 'bead', 'joint', 'metal', 'steel', 'aluminum', 'stainless', 'iron', 'alloy', 'grinder', 'angle grinder', 'mask', 'helmet', 'glove', 'clamp', 'magnet', 'square', 'wire brush', 'nozzle', 'tip', 'shielding gas', 'argon', 'co2', 'mig', 'tig', 'stick', 'plasma', 'torch'],
+  };
+
   try {
-    const { base64Image } = JSON.parse(event.body);
+    const { base64Image, discipline } = JSON.parse(event.body);
     
     if (!base64Image) {
       return {
@@ -102,27 +115,20 @@ exports.handler = async (event) => {
     // Start with basic results
     let results = Array.from(new Set(specificResults));
     
-    // Enhanced logistics detection - identify freight and cargo items
-    if (results.length > 0) {
+    // Discipline-aware sorting: relevant terms bubble to the top, everything else still included
+    if (results.length > 0 && discipline && DISCIPLINE_KEYWORDS[discipline]) {
       try {
-        const logisticsTerms = ['pallet', 'crate', 'drum', 'container', 'box', 'carton', 'package', 'freight', 'cargo', 'truck', 'trailer', 'forklift', 'dock', 'warehouse', 'shrink wrap', 'strapping', 'label', 'barcode', 'shipping', 'skid', 'tote', 'bin', 'rack'];
-        const logisticsItems = [];
-        
-        // Tag logistics items if logistics terms detected
-        results.forEach(item => {
-          const lowerItem = item.toLowerCase();
-          if (logisticsTerms.some(term => lowerItem.includes(term))) {
-            logisticsItems.push(item);
-          }
-        });
-        
-        // Add categorization hints
-        if (logisticsItems.length > 0) {
-          results = Array.from(new Set([...results, ...logisticsItems]));
-        }
-      } catch (enhanceError) {
-        console.error('Enhanced detection failed:', enhanceError);
-        // Continue with basic results
+        const keywords = DISCIPLINE_KEYWORDS[discipline];
+        const relevant = results.filter(item =>
+          keywords.some(kw => item.toLowerCase().includes(kw))
+        );
+        const rest = results.filter(item =>
+          !keywords.some(kw => item.toLowerCase().includes(kw))
+        );
+        results = Array.from(new Set([...relevant, ...rest]));
+      } catch (sortError) {
+        console.error('Discipline sort failed:', sortError);
+        // Continue with unsorted results
       }
     }
 

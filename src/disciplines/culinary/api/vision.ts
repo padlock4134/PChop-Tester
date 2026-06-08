@@ -7,7 +7,7 @@ export async function scanImage(base64Image: string): Promise<string[]> {
     const response = await fetch('/.netlify/functions/vision-proxy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ base64Image })
+      body: JSON.stringify({ base64Image, discipline: 'culinary' })
     });
 
     console.log('Vision API response status:', response.status);
