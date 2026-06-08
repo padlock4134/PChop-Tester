@@ -1002,90 +1002,6 @@ const MyRunbook = () => {
                       ))}
                     </div>
                     
-                    {/* Create Collection Button */}
-                    <button
-                      onClick={() => setShowCreateCollectionModal(true)}
-                      className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
-                    >
-                      {t('myRunbook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
-                    </button>
-
-                    {/* View Gradebook Button */}
-                    <button
-                      onClick={handleOpenGradebook}
-                      className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
-                    >
-                      📊 {t('myRunbook.viewGradebook')}
-                    </button>
-
-                    {/* View Videos Button */}
-                    <button
-                      onClick={async () => {
-                        setShowVideoLibraryModal(true);
-                        setLoadingVideos(true);
-                        try {
-                          // Get list of all user folders (to find all users with videos)
-                          const { data: folders, error: foldersError } = await supabase.storage
-                            .from('Practice Videos')
-                            .list('', {
-                              limit: 1000,
-                              offset: 0
-                            });
-                          
-                          if (foldersError) throw foldersError;
-                          
-                          // For each user folder, get their videos
-                          const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
-                          
-                          for (const folder of folders || []) {
-                            if (folder.name) {
-                              const { data: userVideos, error: videosError } = await supabase.storage
-                                .from('Practice Videos')
-                                .list(folder.name, {
-                                  limit: 100,
-                                  offset: 0,
-                                  sortBy: { column: 'created_at', order: 'desc' }
-                                });
-                              
-                              if (!videosError && userVideos) {
-                                for (const file of userVideos) {
-                                  // Get file metadata to check if public
-                                  const isPublic = file.metadata?.isPublic === 'true';
-                                  const isMyVideo = folder.name === user?.id;
-                                  
-                                  // Show if: public OR it's my video
-                                  if (isPublic || isMyVideo) {
-                                    const { data: urlData } = supabase.storage
-                                      .from('Practice Videos')
-                                      .getPublicUrl(`${folder.name}/${file.name}`);
-                                    
-                                    allVideos.push({
-                                      name: file.name,
-                                      url: urlData.publicUrl,
-                                      created_at: file.created_at || new Date().toISOString(),
-                                      userId: folder.name,
-                                      isPublic: isPublic
-                                    });
-                                  }
-                                }
-                              }
-                            }
-                          }
-                          
-                          // Sort by date
-                          allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-                          setSavedVideos(allVideos);
-                        } catch (error) {
-                          console.error('Error loading videos:', error);
-                          alert('Failed to load videos');
-                        } finally {
-                          setLoadingVideos(false);
-                        }
-                      }}
-                      className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
-                    >
-                      🎥 {t('myRunbook.viewVideos')}
-                    </button>
                   </div>
                 ) : (
                   <div className="text-center py-8">
@@ -1095,6 +1011,95 @@ const MyRunbook = () => {
                   </div>
                 )}
               </div>
+            </div>
+            <div className="sticky bottom-0 z-20 flex-shrink-0 border-t-2 border-maineBlue bg-white p-4 pt-2 shadow-[0_-6px_12px_rgba(255,255,255,0.95)]">
+              {/* Create Collection Button - Always visible */}
+              <button
+                type="button"
+                onClick={() => setShowCreateCollectionModal(true)}
+                className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
+              >
+                {t('myRunbook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
+              </button>
+
+              {/* View Gradebook Button - Always visible */}
+              <button
+                type="button"
+                onClick={handleOpenGradebook}
+                className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
+              >
+                📊 {t('myRunbook.viewGradebook')}
+              </button>
+
+              {/* View Videos Button - Always visible */}
+              <button
+                type="button"
+                onClick={async () => {
+                  setShowVideoLibraryModal(true);
+                  setLoadingVideos(true);
+                  try {
+                    // Get list of all user folders (to find all users with videos)
+                    const { data: folders, error: foldersError } = await supabase.storage
+                      .from('Practice Videos')
+                      .list('', {
+                        limit: 1000,
+                        offset: 0
+                      });
+
+                    if (foldersError) throw foldersError;
+
+                    // For each user folder, get their videos
+                    const allVideos: Array<{name: string, url: string, created_at: string, userId: string, isPublic: boolean}> = [];
+
+                    for (const folder of folders || []) {
+                      if (folder.name) {
+                        const { data: userVideos, error: videosError } = await supabase.storage
+                          .from('Practice Videos')
+                          .list(folder.name, {
+                            limit: 100,
+                            offset: 0,
+                            sortBy: { column: 'created_at', order: 'desc' }
+                          });
+
+                        if (!videosError && userVideos) {
+                          for (const file of userVideos) {
+                            // Get file metadata to check if public
+                            const isPublic = file.metadata?.isPublic === 'true';
+                            const isMyVideo = folder.name === user?.id;
+
+                            // Show if: public OR it's my video
+                            if (isPublic || isMyVideo) {
+                              const { data: urlData } = supabase.storage
+                                .from('Practice Videos')
+                                .getPublicUrl(`${folder.name}/${file.name}`);
+
+                              allVideos.push({
+                                name: file.name,
+                                url: urlData.publicUrl,
+                                created_at: file.created_at || new Date().toISOString(),
+                                userId: folder.name,
+                                isPublic: isPublic
+                              });
+                            }
+                          }
+                        }
+                      }
+                    }
+
+                    // Sort by date
+                    allVideos.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                    setSavedVideos(allVideos);
+                  } catch (error) {
+                    console.error('Error loading videos:', error);
+                    alert('Failed to load videos');
+                  } finally {
+                    setLoadingVideos(false);
+                  }
+                }}
+                className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-purple-100 text-purple-700 border-purple-300 hover:bg-purple-200 hover:text-purple-800"
+              >
+                🎥 {t('myRunbook.viewVideos')}
+              </button>
             </div>
           </div>
         </div>
