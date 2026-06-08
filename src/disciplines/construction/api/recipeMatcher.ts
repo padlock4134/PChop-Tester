@@ -429,7 +429,7 @@ Return ONLY the JSON array, no other text.`;
   // Validate recipe format
   recipes = Array.isArray(recipes) ? recipes : [];
   const validRecipes = recipes.filter(r => {
-    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions);
+    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions) && isConstructionLikeProject(r);
     if (!isValid) {
       console.warn('Invalid recipe format:', r);
     }
@@ -450,9 +450,13 @@ Return ONLY the JSON array, no other text.`;
   });
   const images = await Promise.all(imagePromises);
 
+  const constructionRecipes = validRecipes.filter(isConstructionLikeProject);
+  if (constructionRecipes.length === 0) {
+    return localConstructionFallback(ingredients, count);
+  }
+
   // 4. Return RecipeCards
-  return validRecipes
-    .filter(isConstructionLikeProject)
+  return constructionRecipes
     .slice(0, count)
     .map((r, i) => ({
     id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}-${i}`,

@@ -26,6 +26,10 @@ type GarageSetup = keyof typeof GARAGE_EQUIPMENT;
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
+const DEFAULT_AUTOMOTIVE_IMAGE = 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e';
+const AUTOMOTIVE_TAGS = ['Safety Certified', 'Warranty Approved', 'Fuel Efficient', 'Emission Compliant', 'Low Maintenance', 'Performance Tuned', 'Environmentally Friendly', 'Heavy Duty'];
+const CULINARY_TERMS = /(recipe|cook|bake|grill|soup|salad|pasta|bread|kitchen|ingredient|meal|oven|crouton|chef|food|dish|sauce|marinade)/i;
+const AUTOMOTIVE_TERMS = /(automotive|vehicle|car|truck|engine|brake|suspension|tire|wheel|oil|filter|spark|plug|battery|alternator|starter|sensor|obd|diagnostic|torque|lug|rotor|caliper|pad|belt|hose|coolant|transmission|garage|mechanic|repair|maintenance)/i;
 
 const RECIPE_PROMPTS = {
   new_to_automotive: (numRecipes: number, ingredients: string[]) => 
@@ -155,6 +159,47 @@ export interface RecipeMatchOptions {
   kitchenSetup?: string;
   talentsEnabled?: boolean;
   talentTree?: string | null;
+}
+
+function repairText(repair: any): string {
+  const ingredients = Array.isArray(repair?.ingredients) ? repair.ingredients.join(' ') : '';
+  const equipment = Array.isArray(repair?.equipment) ? repair.equipment.join(' ') : '';
+  const instructions = Array.isArray(repair?.instructions) ? repair.instructions.join(' ') : String(repair?.instructions || '');
+  return `${repair?.title || ''} ${ingredients} ${equipment} ${instructions}`;
+}
+
+function isAutomotiveRepair(repair: any): boolean {
+  const text = repairText(repair);
+  return !CULINARY_TERMS.test(text) && AUTOMOTIVE_TERMS.test(text);
+}
+
+function localAutomotiveFallback(ingredients: string[], count: number): RecipeCard[] {
+  const partPool = ingredients.length > 0 ? ingredients : ['oil filter', 'brake pads', 'spark plugs', 'battery terminals'];
+  return Array.from({ length: Math.max(1, count) }).map((_, idx) => {
+    const a = partPool[idx % partPool.length];
+    const b = partPool[(idx + 1) % partPool.length];
+    return {
+      id: `fallback-${Date.now()}-${idx}`,
+      title: `Automotive Repair Guide ${idx + 1}: ${a} + ${b}`,
+      image: DEFAULT_AUTOMOTIVE_IMAGE,
+      ingredients: [a, b],
+      instructions: [
+        'Park on level ground, set the parking brake, disconnect power if needed, and confirm PPE/support points.',
+        `Inspect and stage ${a} and ${b}, then verify fitment against the vehicle application.`,
+        'Remove affected components, install replacements to specification, and torque fasteners in sequence.',
+        'Run functional checks, clear or document diagnostic codes, and road-test or leak-check as appropriate.'
+      ].join('\n'),
+      equipment: ['torque wrench', 'socket set', 'jack stands', 'PPE kit'],
+      healthTags: ['Safety Certified', 'Warranty Approved', 'Low Maintenance'],
+      nutrition: undefined
+    };
+  });
+}
+
+function normalizeAutomotiveTags(tags: unknown): string[] {
+  const parsed = Array.isArray(tags) ? tags.map(String) : [];
+  const valid = parsed.filter(tag => AUTOMOTIVE_TAGS.includes(tag));
+  return valid.length > 0 ? valid.slice(0, 3) : ['Safety Certified', 'Warranty Approved'];
 }
 
 // Helper to estimate recipe nutrition
@@ -322,6 +367,7 @@ ${certifications.length > 0 && certifications[0] !== 'None' ? `Certifications: $
 ${garageSetup ? `Garage setup: ${garageSetup}. Only suggest tools/equipment available in this type of setup.` : ''}
 ${userKitchenSetup ? `Override setup: ${userKitchenSetup}` : ''}
 ${talentTreePrompt}
+CRITICAL: Generate only automotive repair and maintenance guides. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
 
 Return the repair guides as a JSON array with the following structure for each guide:
 {
@@ -393,8 +439,14 @@ Return ONLY the JSON array, no other text.`;
     return generateFallbackRecipes(userId, ingredients, numRecipes);
   }
 
-  // 4. Score and sort recipes based on user's garage parts, garage setup, and talent tree
-  const scoredRecipes = recipes
+  const automotiveRepairs = recipes.filter(isAutomotiveRepair);
+  if (automotiveRepairs.length === 0) {
+    console.warn('Automotive matcher rejected non-automotive/cooking response; using local fallback.');
+    return localAutomotiveFallback(ingredients, numRecipes);
+  }
+
+  // 4. Score and sort repair guides based on user's garage parts, garage setup, and talent tree
+  const scoredRecipes = automotiveRepairs
     .map(recipe => ({
       ...recipe,
       score: scoreRecipe(
@@ -419,10 +471,10 @@ Return ONLY the JSON array, no other text.`;
         `${UNSPLASH_API_URL}?query=${encodeURIComponent(recipe.title + ' automotive repair')}&client_id=${unsplashKey}`
       );
       const data = await res.json();
-      return data.results?.[0]?.urls?.small || '';
+      return data.results?.[0]?.urls?.small || DEFAULT_AUTOMOTIVE_IMAGE;
     } catch (err) {
       console.error('Failed to fetch image:', err);
-      return '';
+      return DEFAULT_AUTOMOTIVE_IMAGE;
     }
   });
 
@@ -455,7 +507,7 @@ Return ONLY the JSON array, no other text.`;
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     instructions: Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '',
     equipment: Array.isArray(recipe.equipment) ? recipe.equipment : [],
-    healthTags: recipe.healthTags,
+    healthTags: normalizeAutomotiveTags(recipe.healthTags),
     nutrition: recipe.nutrition
   }));
 }
@@ -466,16 +518,18 @@ export async function generateFallbackRecipes(userId: string, ingredients: strin
   
   const prompt = `${promptTemplate(count, ingredients)}
 
-Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
+CRITICAL: Generate only automotive repair and maintenance guides. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
+
+Format your response as a JSON array of automotive repair guide objects. Each object MUST have these exact fields:
 {
-  "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2", ...],
+  "title": "Repair Guide Name",
+  "ingredients": ["part 1", "part 2", ...],
   "instructions": ["step 1", "step 2", ...],
   "equipment": ["equipment 1", "equipment 2", ...],
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary automotive tools, machines, or diagnostic instruments needed to complete the repair (e.g., "OBD scanner", "torque wrench", "jack stands", "multimeter").
 Return ONLY the JSON array, no other text.`;
 
   // 2. Call Anthropic API
@@ -499,7 +553,7 @@ Return ONLY the JSON array, no other text.`;
       statusText: anthropicRes.statusText,
       body: await anthropicRes.text()
     });
-    throw new Error(`Anthropic API error: ${anthropicRes.status} ${anthropicRes.statusText}`);
+    return localAutomotiveFallback(ingredients, count);
   }
 
   const anthropicData = await anthropicRes.json();
@@ -525,13 +579,13 @@ Return ONLY the JSON array, no other text.`;
     }
   } catch (error) {
     console.error('Error parsing recipe data:', error);
-    throw new Error('Failed to parse recipe data from API response');
+    return localAutomotiveFallback(ingredients, count);
   }
 
   // Validate recipe format
   recipes = Array.isArray(recipes) ? recipes : [];
   const validRecipes = recipes.filter(r => {
-    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions);
+    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions) && isAutomotiveRepair(r);
     if (!isValid) {
       console.warn('Invalid recipe format:', r);
     }
@@ -540,7 +594,7 @@ Return ONLY the JSON array, no other text.`;
 
   if (validRecipes.length === 0) {
     console.error('No valid recipes found in response');
-    throw new Error('No valid recipes found in API response');
+    return localAutomotiveFallback(ingredients, count);
   }
 
   // 3. For each recipe, call Unsplash in parallel
@@ -548,7 +602,7 @@ Return ONLY the JSON array, no other text.`;
     const q = encodeURIComponent((r.title || r.ingredients?.[0] || 'auto repair') + ' automotive mechanic');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e';
+    return data.results?.[0]?.urls?.regular || DEFAULT_AUTOMOTIVE_IMAGE;
   });
   const images = await Promise.all(imagePromises);
 

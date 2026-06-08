@@ -26,6 +26,10 @@ type KitchenSetup = keyof typeof KITCHEN_EQUIPMENT;
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
+const DEFAULT_ELECTRICAL_IMAGE = 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4';
+const ELECTRICAL_TAGS = ['Safety', 'Precision', 'Efficiency', 'Quality', 'Compliance', 'Documentation'];
+const CULINARY_TERMS = /(recipe|cook|bake|grill|soup|salad|pasta|bread|kitchen|ingredient|meal|oven|crouton|chef|food|dish|sauce|marinade)/i;
+const ELECTRICAL_TERMS = /(electrical|circuit|wire|wiring|breaker|panel|conduit|outlet|receptacle|switch|voltage|current|amp|ground|junction|fixture|multimeter|gfci|afci|load|neutral|hot|romex|emergency stop|motor control|disconnect)/i;
 
 const RECIPE_PROMPTS = {
   new_to_cooking: (numRecipes: number, ingredients: string[]) => 
@@ -155,6 +159,47 @@ export interface RecipeMatchOptions {
   kitchenSetup?: string;
   talentsEnabled?: boolean;
   talentTree?: string | null;
+}
+
+function projectText(project: any): string {
+  const ingredients = Array.isArray(project?.ingredients) ? project.ingredients.join(' ') : '';
+  const equipment = Array.isArray(project?.equipment) ? project.equipment.join(' ') : '';
+  const instructions = Array.isArray(project?.instructions) ? project.instructions.join(' ') : String(project?.instructions || '');
+  return `${project?.title || ''} ${ingredients} ${equipment} ${instructions}`;
+}
+
+function isElectricalProject(project: any): boolean {
+  const text = projectText(project);
+  return !CULINARY_TERMS.test(text) && ELECTRICAL_TERMS.test(text);
+}
+
+function localElectricalFallback(ingredients: string[], count: number): RecipeCard[] {
+  const materialPool = ingredients.length > 0 ? ingredients : ['12/2 NM cable', 'single-pole switch', '20A breaker', 'junction box'];
+  return Array.from({ length: Math.max(1, count) }).map((_, idx) => {
+    const a = materialPool[idx % materialPool.length];
+    const b = materialPool[(idx + 1) % materialPool.length];
+    return {
+      id: `fallback-${Date.now()}-${idx}`,
+      title: `Circuit Work Plan ${idx + 1}: ${a} + ${b}`,
+      image: DEFAULT_ELECTRICAL_IMAGE,
+      ingredients: [a, b],
+      instructions: [
+        'De-energize the circuit, lock/tag as appropriate, and verify absence of voltage with a meter.',
+        `Inspect and stage ${a} and ${b} for the installation or diagnostic task.`,
+        'Make terminations per code, torque devices to specification, and maintain grounding/bonding continuity.',
+        'Re-energize safely, test operation, document readings, and label the circuit.'
+      ].join('\n'),
+      equipment: ['multimeter', 'wire strippers', 'screwdriver set', 'PPE kit'],
+      healthTags: ['Safety', 'Precision', 'Compliance'],
+      nutrition: undefined
+    };
+  });
+}
+
+function normalizeElectricalTags(tags: unknown): string[] {
+  const parsed = Array.isArray(tags) ? tags.map(String) : [];
+  const valid = parsed.filter(tag => ELECTRICAL_TAGS.includes(tag));
+  return valid.length > 0 ? valid.slice(0, 3) : ['Safety', 'Compliance'];
 }
 
 // Helper to estimate recipe nutrition
@@ -317,21 +362,22 @@ export async function fetchRecipesWithImages({
 
   const prompt = `${basePrompt}
 
-${dietaryPrefs.length > 0 ? `Dietary preferences: ${dietaryPrefs.join(', ')}` : ''}
-${cuisinePrefs.length > 0 ? `Cuisine preferences: ${cuisinePrefs.join(', ')}` : ''}
-${userKitchenSetup ? `Kitchen setup: ${userKitchenSetup}` : ''}
+${dietaryPrefs.length > 0 ? `Certification/code focus: ${dietaryPrefs.join(', ')}` : ''}
+${cuisinePrefs.length > 0 ? `Electrical specialization focus: ${cuisinePrefs.join(', ')}` : ''}
+${userKitchenSetup ? `Workspace setup: ${userKitchenSetup}` : ''}
+CRITICAL: Generate only electrical circuit work plans and procedures. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
 ${talentTreePrompt}
 
 Return the projects as a JSON array with the following structure for each project:
 {
-  "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2"],
+  "title": "Electrical Work Plan Name",
+  "ingredients": ["wire/device/material 1", "wire/device/material 2"],
   "instructions": ["Step 1", "Step 2"],
   "equipment": ["equipment 1", "equipment 2"],
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary electrical tools or test instruments needed to complete the project (e.g., "multimeter", "wire strippers", "conduit bender", "torque screwdriver").
 Return ONLY the JSON array, no other text.`;
 
   // 3. Call Anthropic API
@@ -391,8 +437,14 @@ Return ONLY the JSON array, no other text.`;
     return generateFallbackRecipes(userId, ingredients, numRecipes);
   }
 
-  // 4. Score and sort recipes based on user's cupboard, kitchen setup, and talent tree
-  const scoredRecipes = recipes
+  const electricalRecipes = recipes.filter(isElectricalProject);
+  if (electricalRecipes.length === 0) {
+    console.warn('Electrical matcher rejected non-electrical/cooking response; using local fallback.');
+    return localElectricalFallback(ingredients, numRecipes);
+  }
+
+  // 4. Score and sort recipes based on user's materials bin, workspace setup, and talent tree
+  const scoredRecipes = electricalRecipes
     .map(recipe => ({
       ...recipe,
       score: scoreRecipe(
@@ -414,13 +466,13 @@ Return ONLY the JSON array, no other text.`;
   const imagePromises = scoredRecipes.map(async (recipe) => {
     try {
       const res = await fetch(
-        `${UNSPLASH_API_URL}?query=${encodeURIComponent(recipe.title)}&client_id=${unsplashKey}`
+        `${UNSPLASH_API_URL}?query=${encodeURIComponent(`${recipe.title} electrical wiring`)}&client_id=${unsplashKey}`
       );
       const data = await res.json();
-      return data.results?.[0]?.urls?.small || '';
+      return data.results?.[0]?.urls?.small || DEFAULT_ELECTRICAL_IMAGE;
     } catch (err) {
       console.error('Failed to fetch image:', err);
-      return '';
+      return DEFAULT_ELECTRICAL_IMAGE;
     }
   });
 
@@ -453,7 +505,7 @@ Return ONLY the JSON array, no other text.`;
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     instructions: Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '',
     equipment: Array.isArray(recipe.equipment) ? recipe.equipment : [],
-    healthTags: recipe.healthTags,
+    healthTags: normalizeElectricalTags(recipe.healthTags),
     nutrition: recipe.nutrition
   }));
 }
@@ -464,16 +516,18 @@ export async function generateFallbackRecipes(userId: string, ingredients: strin
   
   const prompt = `${promptTemplate(count, ingredients)}
 
-Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
+CRITICAL: Generate only electrical circuit work plans and procedures. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
+
+Format your response as a JSON array of electrical project objects. Each project object MUST have these exact fields:
 {
-  "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2", ...],
+  "title": "Electrical Work Plan Name",
+  "ingredients": ["wire/device/material 1", "wire/device/material 2", ...],
   "instructions": ["step 1", "step 2", ...],
   "equipment": ["equipment 1", "equipment 2", ...],
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary electrical tools or test instruments needed to complete the project (e.g., "multimeter", "wire strippers", "conduit bender", "torque screwdriver").
 Return ONLY the JSON array, no other text.`;
 
   // 2. Call Anthropic API
@@ -497,7 +551,7 @@ Return ONLY the JSON array, no other text.`;
       statusText: anthropicRes.statusText,
       body: await anthropicRes.text()
     });
-    throw new Error(`Anthropic API error: ${anthropicRes.status} ${anthropicRes.statusText}`);
+    return localElectricalFallback(ingredients, count);
   }
 
   const anthropicData = await anthropicRes.json();
@@ -523,13 +577,13 @@ Return ONLY the JSON array, no other text.`;
     }
   } catch (error) {
     console.error('Error parsing recipe data:', error);
-    throw new Error('Failed to parse recipe data from API response');
+    return localElectricalFallback(ingredients, count);
   }
 
   // Validate recipe format
   recipes = Array.isArray(recipes) ? recipes : [];
   const validRecipes = recipes.filter(r => {
-    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions);
+    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions) && isElectricalProject(r);
     if (!isValid) {
       console.warn('Invalid recipe format:', r);
     }
@@ -538,15 +592,15 @@ Return ONLY the JSON array, no other text.`;
 
   if (validRecipes.length === 0) {
     console.error('No valid recipes found in response');
-    throw new Error('No valid recipes found in API response');
+    return localElectricalFallback(ingredients, count);
   }
 
   // 3. For each recipe, call Unsplash in parallel
   const imagePromises = validRecipes.map(async (r) => {
-    const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'meal');
+    const q = encodeURIComponent(`${r.title || r.ingredients?.[0] || 'electrical wiring'} electrical wiring`);
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836';
+    return data.results?.[0]?.urls?.regular || DEFAULT_ELECTRICAL_IMAGE;
   });
   const images = await Promise.all(imagePromises);
 

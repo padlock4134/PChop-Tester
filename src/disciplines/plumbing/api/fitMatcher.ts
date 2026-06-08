@@ -28,6 +28,9 @@ const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
 const getFallbackFitImageUrl = (title: string) =>
   `https://source.unsplash.com/1200x800/?plumbing,${encodeURIComponent(title || 'pipe repair')}`;
+const PLUMBING_TAGS = ['Safety', 'Precision', 'Efficiency', 'Quality', 'Compliance', 'Documentation'];
+const CULINARY_TERMS = /(recipe|cook|bake|grill|soup|salad|pasta|bread|kitchen|ingredient|meal|oven|crouton|chef|food|dish|sauce|marinade)/i;
+const PLUMBING_TERMS = /(plumbing|pipe|pvc|pex|copper|fitting|valve|trap|drain|sewer|supply|fixture|toilet|sink|faucet|water heater|pressure|leak|solder|flux|thread|auger|snake|backflow|vent|cleanout)/i;
 
 const RECIPE_PROMPTS = {
   new_to_trade: (numRecipes: number, materials: string[]) => 
@@ -157,6 +160,47 @@ export interface RecipeMatchOptions {
   vanSetup?: string;
   talentsEnabled?: boolean;
   talentTree?: string | null;
+}
+
+function fitText(fit: any): string {
+  const materials = Array.isArray(fit?.materials) ? fit.materials.join(' ') : '';
+  const equipment = Array.isArray(fit?.equipment) ? fit.equipment.join(' ') : '';
+  const instructions = Array.isArray(fit?.instructions) ? fit.instructions.join(' ') : String(fit?.instructions || '');
+  return `${fit?.title || ''} ${materials} ${equipment} ${instructions}`;
+}
+
+function isPlumbingFit(fit: any): boolean {
+  const text = fitText(fit);
+  return !CULINARY_TERMS.test(text) && PLUMBING_TERMS.test(text);
+}
+
+function localPlumbingFallback(materials: string[], count: number): RecipeCard[] {
+  const materialPool = materials.length > 0 ? materials : ['PVC pipe', 'PEX tubing', 'shutoff valve', 'trap adapter'];
+  return Array.from({ length: Math.max(1, count) }).map((_, idx) => {
+    const a = materialPool[idx % materialPool.length];
+    const b = materialPool[(idx + 1) % materialPool.length];
+    return {
+      id: `fallback-${Date.now()}-${idx}`,
+      title: `Plumbing Procedure ${idx + 1}: ${a} + ${b}`,
+      image: getFallbackFitImageUrl(`${a} ${b}`),
+      materials: [a, b],
+      instructions: [
+        'Shut off water or isolate the fixture, relieve pressure, and set PPE before work begins.',
+        `Inspect, measure, and stage ${a} and ${b} for the plumbing task.`,
+        'Assemble connections with the correct sealant, slope, support, and code-required clearances.',
+        'Pressure-test or leak-check the work, flush debris, and document final inspection results.'
+      ].join('\n'),
+      equipment: ['pipe cutter', 'pipe wrench', 'level', 'PPE kit'],
+      healthTags: ['Safety', 'Quality', 'Compliance'],
+      nutrition: undefined
+    };
+  });
+}
+
+function normalizePlumbingTags(tags: unknown): string[] {
+  const parsed = Array.isArray(tags) ? tags.map(String) : [];
+  const valid = parsed.filter(tag => PLUMBING_TAGS.includes(tag));
+  return valid.length > 0 ? valid.slice(0, 3) : ['Safety', 'Compliance'];
 }
 
 // Helper to estimate fit nutrition
@@ -321,7 +365,7 @@ export async function fetchRecipesWithImages({
 
 You are Pete the Plumber. Generate PLUMBING procedures/projects only.
 Hard constraints:
-- Do NOT return fit, jobs, cooking, nutrition, or plumbing terminology.
+- Do NOT return food, meals, cooking, nutrition, chef, kitchen, or culinary terminology.
 - Every project must be a realistic plumbing task (installation, repair, diagnostics, maintenance, or code-compliance work).
 - Prefer common plumbing materials (e.g., PVC, PEX, copper, fittings, valves, traps, sealants) and plumbing tools (e.g., pipe cutter, press tool, torch, snake, pressure gauge, multimeter for diagnostics).
 - Instructions must reference plumbing actions and safety/code checks.
@@ -400,8 +444,14 @@ Return ONLY the JSON array, no other text.`;
     return generateFallbackRecipes(userId, materials, numRecipes);
   }
 
+  const plumbingFits = fits.filter(isPlumbingFit);
+  if (plumbingFits.length === 0) {
+    console.warn('Plumbing matcher rejected non-plumbing/cooking response; using local fallback.');
+    return localPlumbingFallback(materials, numRecipes);
+  }
+
   // 4. Score and sort fits based on user's locker, van setup, and talent tree
-  const scoredRecipes = fits
+  const scoredRecipes = plumbingFits
     .map(fit => ({
       ...fit,
       score: scoreRecipe(
@@ -424,7 +474,7 @@ Return ONLY the JSON array, no other text.`;
     try {
       if (!unsplashKey) return getFallbackFitImageUrl(fit.title);
       const res = await fetch(
-        `${UNSPLASH_API_URL}?query=${encodeURIComponent(fit.title)}&client_id=${unsplashKey}`
+        `${UNSPLASH_API_URL}?query=${encodeURIComponent(`${fit.title} plumbing repair`)}&client_id=${unsplashKey}`
       );
       if (!res.ok) return getFallbackFitImageUrl(fit.title);
       const data = await res.json();
@@ -464,7 +514,7 @@ Return ONLY the JSON array, no other text.`;
     materials: Array.isArray(fit.materials) ? fit.materials : [],
     instructions: Array.isArray(fit.instructions) ? fit.instructions.join('\n') : '',
     equipment: Array.isArray(fit.equipment) ? fit.equipment : [],
-    healthTags: fit.healthTags,
+    healthTags: normalizePlumbingTags(fit.healthTags),
     nutrition: fit.nutrition
   }));
 }
@@ -477,7 +527,7 @@ export async function generateFallbackRecipes(userId: string, materials: string[
 
 You are Pete the Plumber. Generate PLUMBING procedures/projects only.
 Hard constraints:
-- Do NOT return fit, jobs, cooking, nutrition, or plumbing terminology.
+- Do NOT return food, meals, cooking, nutrition, chef, kitchen, or culinary terminology.
 - Every project must be a realistic plumbing task (installation, repair, diagnostics, maintenance, or code-compliance work).
 - Prefer common plumbing materials (e.g., PVC, PEX, copper, fittings, valves, traps, sealants) and plumbing tools (e.g., pipe cutter, press tool, torch, snake, pressure gauge, multimeter for diagnostics).
 - Instructions must reference plumbing actions and safety/code checks.
@@ -515,7 +565,7 @@ Return ONLY the JSON array, no other text.`;
       statusText: anthropicRes.statusText,
       body: await anthropicRes.text()
     });
-    throw new Error(`Anthropic API error: ${anthropicRes.status} ${anthropicRes.statusText}`);
+    return localPlumbingFallback(materials, count);
   }
 
   const anthropicData = await anthropicRes.json();
@@ -541,13 +591,13 @@ Return ONLY the JSON array, no other text.`;
     }
   } catch (error) {
     console.error('Error parsing fit data:', error);
-    throw new Error('Failed to parse fit data from API response');
+    return localPlumbingFallback(materials, count);
   }
 
   // Validate fit format
   fits = Array.isArray(fits) ? fits : [];
   const validRecipes = fits.filter(r => {
-    const isValid = r && r.title && Array.isArray(r.materials) && Array.isArray(r.instructions);
+    const isValid = r && r.title && Array.isArray(r.materials) && Array.isArray(r.instructions) && isPlumbingFit(r);
     if (!isValid) {
       console.warn('Invalid fit format:', r);
     }
@@ -556,7 +606,7 @@ Return ONLY the JSON array, no other text.`;
 
   if (validRecipes.length === 0) {
     console.error('No valid fits found in response');
-    throw new Error('No valid fits found in API response');
+    return localPlumbingFallback(materials, count);
   }
 
   // 3. For each fit, call Unsplash in parallel

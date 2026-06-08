@@ -27,6 +27,10 @@ type WorkshopSetup = keyof typeof WORKSHOP_EQUIPMENT;
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
+const DEFAULT_MANUFACTURING_IMAGE = 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c';
+const MANUFACTURING_TAGS = ['Safety First', 'Quality Control', 'Efficiency', 'Precision', 'Documentation'];
+const CULINARY_TERMS = /(recipe|cook|bake|grill|soup|salad|pasta|bread|kitchen|ingredient|meal|oven|crouton|chef|food|dish|sauce|marinade)/i;
+const MANUFACTURING_TERMS = /(manufacturing|sop|standard operating|production|assembly|quality|inspection|caliper|gauge|cnc|lathe|mill|machine|fixture|jig|torque|workcell|line|kanban|lean|5s|process|operator|work instruction|part|component|fastener|tooling)/i;
 
 const SOP_PROMPTS = {
   new_to_manufacturing: (numSOPs: number, materials: string[]) => 
@@ -156,6 +160,47 @@ export interface RecipeMatchOptions {
   kitchenSetup?: string;
   talentsEnabled?: boolean;
   talentTree?: string | null;
+}
+
+function sopText(sop: any): string {
+  const ingredients = Array.isArray(sop?.ingredients) ? sop.ingredients.join(' ') : '';
+  const equipment = Array.isArray(sop?.equipment) ? sop.equipment.join(' ') : '';
+  const instructions = Array.isArray(sop?.instructions) ? sop.instructions.join(' ') : String(sop?.instructions || '');
+  return `${sop?.title || ''} ${ingredients} ${equipment} ${instructions}`;
+}
+
+function isManufacturingSop(sop: any): boolean {
+  const text = sopText(sop);
+  return !CULINARY_TERMS.test(text) && MANUFACTURING_TERMS.test(text);
+}
+
+function localManufacturingFallback(ingredients: string[], count: number): RecipeCard[] {
+  const materialPool = ingredients.length > 0 ? ingredients : ['workpiece', 'fasteners', 'inspection gauge', 'fixture'];
+  return Array.from({ length: Math.max(1, count) }).map((_, idx) => {
+    const a = materialPool[idx % materialPool.length];
+    const b = materialPool[(idx + 1) % materialPool.length];
+    return {
+      id: `fallback-${Date.now()}-${idx}`,
+      title: `Manufacturing SOP ${idx + 1}: ${a} + ${b}`,
+      image: DEFAULT_MANUFACTURING_IMAGE,
+      ingredients: [a, b],
+      instructions: [
+        'Review the work instruction, PPE, quality checkpoints, and required documentation before starting.',
+        `Stage ${a} and ${b}, verify revision level, and confirm lot/serial traceability.`,
+        'Run the assembly or machining steps using approved tooling, torque values, and in-process checks.',
+        'Perform final inspection, record measurements, tag nonconformances, and update production status.'
+      ].join('\n'),
+      equipment: ['calipers', 'torque wrench', 'fixture', 'PPE kit'],
+      healthTags: ['Safety First', 'Quality Control', 'Documentation'],
+      nutrition: undefined
+    };
+  });
+}
+
+function normalizeManufacturingTags(tags: unknown): string[] {
+  const parsed = Array.isArray(tags) ? tags.map(String) : [];
+  const valid = parsed.filter(tag => MANUFACTURING_TAGS.includes(tag));
+  return valid.length > 0 ? valid.slice(0, 3) : ['Safety First', 'Quality Control'];
 }
 
 // Helper to estimate recipe nutrition
@@ -322,6 +367,7 @@ ${dietaryPrefs.length > 0 ? `Quality requirements: ${dietaryPrefs.join(', ')}` :
 ${cuisinePrefs.length > 0 ? `Process preferences: ${cuisinePrefs.join(', ')}` : ''}
 ${workshopSetup ? `Workshop setup: ${workshopSetup}` : ''}
 ${talentTreePrompt}
+CRITICAL: Generate only manufacturing SOPs, work instructions, and production-floor procedures. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
 
 Return the SOPs as a JSON array with the following structure for each SOP:
 {
@@ -392,8 +438,14 @@ Return ONLY the JSON array, no other text.`;
     return generateFallbackRecipes(userId, ingredients, numRecipes);
   }
 
-  // 4. Score and sort recipes based on user's cupboard, kitchen setup, and talent tree
-  const scoredRecipes = recipes
+  const manufacturingSops = recipes.filter(isManufacturingSop);
+  if (manufacturingSops.length === 0) {
+    console.warn('Manufacturing matcher rejected non-manufacturing/cooking response; using local fallback.');
+    return localManufacturingFallback(ingredients, numRecipes);
+  }
+
+  // 4. Score and sort SOPs based on user's materials bin, workshop setup, and specialization
+  const scoredRecipes = manufacturingSops
     .map(recipe => ({
       ...recipe,
       score: scoreRecipe(
@@ -415,13 +467,13 @@ Return ONLY the JSON array, no other text.`;
   const imagePromises = scoredRecipes.map(async (recipe) => {
     try {
       const res = await fetch(
-        `${UNSPLASH_API_URL}?query=${encodeURIComponent(recipe.title)}&client_id=${unsplashKey}`
+        `${UNSPLASH_API_URL}?query=${encodeURIComponent(`${recipe.title} manufacturing production`)}&client_id=${unsplashKey}`
       );
       const data = await res.json();
-      return data.results?.[0]?.urls?.small || '';
+      return data.results?.[0]?.urls?.small || DEFAULT_MANUFACTURING_IMAGE;
     } catch (err) {
       console.error('Failed to fetch image:', err);
-      return '';
+      return DEFAULT_MANUFACTURING_IMAGE;
     }
   });
 
@@ -454,7 +506,7 @@ Return ONLY the JSON array, no other text.`;
     ingredients: Array.isArray(recipe.ingredients) ? recipe.ingredients : [],
     instructions: Array.isArray(recipe.instructions) ? recipe.instructions.join('\n') : '',
     equipment: Array.isArray(recipe.equipment) ? recipe.equipment : [],
-    healthTags: recipe.healthTags,
+    healthTags: normalizeManufacturingTags(recipe.healthTags),
     nutrition: recipe.nutrition
   }));
 }
@@ -465,16 +517,18 @@ export async function generateFallbackRecipes(userId: string, ingredients: strin
   
   const prompt = `${promptTemplate(count, ingredients)}
 
-Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
+CRITICAL: Generate only manufacturing SOPs, work instructions, and production-floor procedures. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
+
+Format your response as a JSON array of manufacturing SOP objects. Each object MUST have these exact fields:
 {
-  "title": "Project Name",
-  "ingredients": ["ingredient 1", "ingredient 2", ...],
+  "title": "Manufacturing SOP Name",
+  "ingredients": ["material/component 1", "material/component 2", ...],
   "instructions": ["step 1", "step 2", ...],
   "equipment": ["equipment 1", "equipment 2", ...],
   "healthTags": ["tag 1", "tag 2"]
 }
 
-For equipment, list all necessary tools, machines, or instruments needed to complete the project (e.g., "multimeter", "torque wrench", "drill", "caliper").
+For equipment, list all necessary manufacturing tools, fixtures, machines, or instruments needed to complete the SOP (e.g., "torque wrench", "drill press", "CNC machine", "calipers").
 Return ONLY the JSON array, no other text.`;
 
   // 2. Call Anthropic API
@@ -498,7 +552,7 @@ Return ONLY the JSON array, no other text.`;
       statusText: anthropicRes.statusText,
       body: await anthropicRes.text()
     });
-    throw new Error(`Anthropic API error: ${anthropicRes.status} ${anthropicRes.statusText}`);
+    return localManufacturingFallback(ingredients, count);
   }
 
   const anthropicData = await anthropicRes.json();
@@ -524,13 +578,13 @@ Return ONLY the JSON array, no other text.`;
     }
   } catch (error) {
     console.error('Error parsing recipe data:', error);
-    throw new Error('Failed to parse recipe data from API response');
+    return localManufacturingFallback(ingredients, count);
   }
 
   // Validate recipe format
   recipes = Array.isArray(recipes) ? recipes : [];
   const validRecipes = recipes.filter(r => {
-    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions);
+    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions) && isManufacturingSop(r);
     if (!isValid) {
       console.warn('Invalid recipe format:', r);
     }
@@ -539,15 +593,15 @@ Return ONLY the JSON array, no other text.`;
 
   if (validRecipes.length === 0) {
     console.error('No valid recipes found in response');
-    throw new Error('No valid recipes found in API response');
+    return localManufacturingFallback(ingredients, count);
   }
 
   // 3. For each recipe, call Unsplash in parallel
   const imagePromises = validRecipes.map(async (r) => {
-    const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'meal');
+    const q = encodeURIComponent(`${r.title || r.ingredients?.[0] || 'manufacturing production'} manufacturing production`);
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504674900247-0877df9cc836';
+    return data.results?.[0]?.urls?.regular || DEFAULT_MANUFACTURING_IMAGE;
   });
   const images = await Promise.all(imagePromises);
 
