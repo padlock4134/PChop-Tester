@@ -4,19 +4,21 @@ import ARGarageScene from './ARGarageScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
 import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
+import PracticeLessonSelect, { getPracticeLessonTitle, PracticeLessonCourse, PracticeLessonHistorySelect } from '../../../components/PracticeLessonSelect';
 
 interface BenchPracticeModalProps {
   open: boolean;
   onClose: () => void;
+  courses?: PracticeLessonCourse[];
 }
 
-const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
+const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, courses = [] }) => {
   const { t } = useTranslation();
   const [isPracticing, setIsPracticing] = useState(false);
   const [modeNotice, setModeNotice] = useState<string | null>(null);
   const [showDeviceSelection, setShowDeviceSelection] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState<string>('');
-    const [arScene, setArScene] = useState<any>(null);
+  const [arScene, setArScene] = useState<any>(null);
   const [guideOpen, setGuideOpen] = useState(false);
   const [instructionsOpen, setInstructionsOpen] = useState(false);
   const stopTrackingRef = useRef<(() => void) | null>(null);
@@ -25,6 +27,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
   const startVirtualPractice = async (selectedMode: 'ar' | 'vr' = 'ar') => {
     setModeNotice(null);
+    const lessonTitle = getPracticeLessonTitle(courses, selectedLesson);
+    if (!lessonTitle) {
+      alert('Please select a lesson first.');
+      return;
+    }
+
     if (selectedMode === 'vr') {
       const vrSupported = await canUseImmersiveVR();
       if (!vrSupported) {
@@ -34,13 +42,8 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
 
     try {
-      // For demo: Use pre-built diagnostic AR scene (instant load)
-      const demoLesson = 'Basic OBD-II Diagnostic Scan';
-      
-      // Check if we have a default scene
-      if (defaultARScenes[demoLesson]) {
-        console.log('Loading default AR scene for demo');
-        setArScene(defaultARScenes[demoLesson]);
+      if (defaultARScenes[lessonTitle]) {
+        setArScene(defaultARScenes[lessonTitle]);
         setIsPracticing(true);
         return;
       }
@@ -158,38 +161,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 >
                   � {t('autoSchool.diagnosticBay.virtualPracticeButton')}
                 </button>
-                <select
+                <PracticeLessonSelect
                   value={selectedLesson}
-                  onChange={(e) => setSelectedLesson(e.target.value)}
+                  onChange={setSelectedLesson}
+                  courses={courses}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                >
-                  <option value="">{t('autoSchool.diagnosticBay.chooseLesson')}</option>
-                  <optgroup label="Term 1 - Automotive Foundations">
-                    <option value="lesson-1-1">Garage Safety and Procedures</option>
-                    <option value="lesson-1-2">Tool Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Automotive Equipment</option>
-                    <option value="lesson-1-4">Basic Automotive Terminology</option>
-                    <option value="lesson-1-5">Torque Specifications and Conversions</option>
-                  </optgroup>
-                  <optgroup label="Term 2 - Engine Systems">
-                    <option value="lesson-2-1">Engine Safety and Maintenance</option>
-                    <option value="lesson-2-2">Basic Engine Diagnostics</option>
-                    <option value="lesson-2-3">Engine Component Identification</option>
-                    <option value="lesson-2-4">Engine Repair Procedures</option>
-                  </optgroup>
-                  <optgroup label="Term 3 - Brake Systems">
-                    <option value="lesson-3-1">Brake Safety and Procedures</option>
-                    <option value="lesson-3-2">Brake System Diagnostics</option>
-                    <option value="lesson-3-3">Brake Repair Techniques</option>
-                    <option value="lesson-3-4">ABS System Fundamentals</option>
-                  </optgroup>
-                  <optgroup label="Term 4 - Electrical Systems">
-                    <option value="lesson-4-1">Electrical Safety and Procedures</option>
-                    <option value="lesson-4-2">Basic Electrical Diagnostics</option>
-                    <option value="lesson-4-3">Wiring Diagram Reading</option>
-                    <option value="lesson-4-4">Electrical Component Testing</option>
-                  </optgroup>
-                </select>
+                />
               </>
             ) : (
               <>
@@ -199,13 +176,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 >
                   ⏹️ {t('autoSchool.diagnosticBay.endPractice')}
                 </button>
-                <select
+                <PracticeLessonHistorySelect
+                  selectedLessonId={selectedLesson}
+                  courses={courses}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  defaultValue=""
-                >
-                  <option value="" disabled>Lessons Practiced</option>
-                  <option value="obd-scan">Basic OBD-II Diagnostic Scan</option>
-                </select>
+                />
               </>
             )}
           </div>
@@ -244,38 +219,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <label className="block text-xs font-semibold text-amber-800 mb-1">
                     {t('autoSchool.diagnosticBay.selectLessonToPractice')}
                   </label>
-                  <select
-                    value={selectedLesson}
-                    onChange={(e) => setSelectedLesson(e.target.value)}
-                    className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  >
-                    <option value="">{t('autoSchool.diagnosticBay.chooseLesson')}</option>
-                    <optgroup label="Term 1 - Automotive Foundations">
-                      <option value="lesson-1-1">Garage Safety and Procedures</option>
-                      <option value="lesson-1-2">Tool Handling and Storage</option>
-                      <option value="lesson-1-3">Introduction to Automotive Equipment</option>
-                      <option value="lesson-1-4">Basic Automotive Terminology</option>
-                      <option value="lesson-1-5">Torque Specifications and Conversions</option>
-                    </optgroup>
-                    <optgroup label="Term 2 - Engine Systems">
-                      <option value="lesson-2-1">Engine Safety and Maintenance</option>
-                      <option value="lesson-2-2">Basic Engine Diagnostics</option>
-                      <option value="lesson-2-3">Engine Component Identification</option>
-                      <option value="lesson-2-4">Engine Repair Procedures</option>
-                    </optgroup>
-                    <optgroup label="Term 3 - Brake Systems">
-                      <option value="lesson-3-1">Brake Safety and Procedures</option>
-                      <option value="lesson-3-2">Brake System Diagnostics</option>
-                      <option value="lesson-3-3">Brake Repair Techniques</option>
-                      <option value="lesson-3-4">ABS System Fundamentals</option>
-                    </optgroup>
-                    <optgroup label="Term 4 - Electrical Systems">
-                      <option value="lesson-4-1">Electrical Safety and Procedures</option>
-                      <option value="lesson-4-2">Basic Electrical Diagnostics</option>
-                      <option value="lesson-4-3">Wiring Diagram Reading</option>
-                      <option value="lesson-4-4">Electrical Component Testing</option>
-                    </optgroup>
-                  </select>
+                  <PracticeLessonSelect
+                  value={selectedLesson}
+                  onChange={setSelectedLesson}
+                  courses={courses}
+                  className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                />
                 </div>
                 
                 {/* Guide Toggle Button */}

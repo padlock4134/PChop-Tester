@@ -9,121 +9,20 @@ import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
-import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
+import SyllabusCard from '../components/SyllabusCard';
 import ProductionTimer from '../components/ProductionTimer';
 import LinePracticeModal from '../components/LinePracticeModal';
+import { supabase } from '../api/supabaseClient';
+import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
-const generalLessons = [
-  { title: 'Workplace Safety 101', desc: 'Learn essential PPE usage and safety protocols.' },
-  { title: 'Tool Handling & Safety', desc: 'How to select, store, and maintain manufacturing tools safely.' },
-  { title: 'Essential Manufacturing Techniques', desc: 'Master assembly, quality control, and process optimization.' },
-  { title: '5S Methodology', desc: 'Keep your workspace organized and efficient.' },
-  { title: 'Quality Control Tools', desc: 'How to use calipers, gauges, and measurement equipment.' },
-  { title: 'Equipment Maintenance', desc: 'Cleaning, storing, and maintaining your manufacturing equipment.' }
-];
 
-// Generate default tutorials including the weekly technique
 function getDefaultTutorials() {
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
-  return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
-    {
-      title: 'Let\'s Build This Process!',
-      desc: 'How to execute the main technique for this process.'
-    }
-  ];
-}
-
-// 52 Fundamental Manufacturing Techniques (one for each week of the year)
-const WEEKLY_TECHNIQUES = [
-  // Safety & PPE Techniques (Weeks 1-13)
-  { title: "Proper Tool Grip", desc: "How to hold tools safely and efficiently for better control" },
-  { title: "Machine Guarding", desc: "Protecting yourself while operating machinery" },
-  { title: "PPE Inspection Basics", desc: "Using inspection checklists to maintain safety equipment" },
-  { title: "Workstation Organization", desc: "Creating efficient and safe work areas" },
-  { title: "Safety Signage", desc: "Understanding and implementing safety warnings" },
-  { title: "Tool Selection", desc: "Choosing the right tool for the manufacturing task" },
-  { title: "Measuring Techniques", desc: "Precision measurement for quality outcomes" },
-  { title: "Workstation Setup", desc: "Setting up your workspace efficiently before production" },
-  { title: "Proper Equipment Use", desc: "Stability, safety, and efficiency basics" },
-  { title: "Material Handling", desc: "Safe and efficient material movement techniques" },
-  { title: "Quality Inspection", desc: "Proper inspection procedures and checkpoints" },
-  { title: "Documentation Basics", desc: "Accurate record-keeping for production tracking" },
-  { title: "Tool Storage", desc: "Keeping tools organized and in good condition" },
-
-  // Process Control & Quality (Weeks 14-26)
-  { title: "Machine Calibration", desc: "Setting up equipment for optimal performance" },
-  { title: "Process Temperature Control", desc: "Managing temperature in manufacturing processes" },
-  { title: "Quality Sampling", desc: "Why and when to take quality samples" },
-  { title: "Process Stabilization", desc: "Understanding how processes stabilize over time" },
-  { title: "Equipment Warm-up", desc: "Getting machinery truly ready for production" },
-  { title: "Process Zones", desc: "Using different areas in your production line" },
-  { title: "Gentle Processing", desc: "Low and slow techniques for delicate materials" },
-  { title: "Rapid vs Controlled Processing", desc: "Understanding the difference for better results" },
-  { title: "Moisture Control", desc: "Managing humidity in manufacturing processes" },
-  { title: "Cold Process Starts", desc: "When NOT to preheat your equipment" },
-  { title: "Equipment Hot Spots", desc: "Monitoring for consistent processing" },
-  { title: "Sensor Placement", desc: "Where to place sensors for accurate readings" },
-  { title: "Proper Cooling", desc: "Safe product cooling techniques" },
-
-  // Process Optimization (Weeks 27-39)
-  { title: "Quality Timing", desc: "When to inspect for maximum quality impact" },
-  { title: "pH Balance", desc: "Managing chemical properties in manufacturing processes" },
-  { title: "Process Enhancement", desc: "Optimizing processes for better efficiency" },
-  { title: "Waste Reduction", desc: "Capturing and reducing waste in production" },
-  { title: "Process Layering", desc: "Adding processes in the right order" },
-  { title: "Testing as You Produce", desc: "Adjusting processes throughout production" },
-  { title: "Efficiency Enhancement", desc: "Using natural methods to boost productivity" },
-  { title: "Energy as Process Driver", desc: "Understanding how energy drives manufacturing processes" },
-  { title: "Automated vs Manual Timing", desc: "When to use automation vs manual processes" },
-  { title: "Optimization Techniques", desc: "Improving efficiency through process analysis" },
-  { title: "Final Quality Checks", desc: "Adding final quality assurance procedures" },
-  { title: "Foundation Processes", desc: "Building a strong process foundation" },
-  { title: "Cost and Quality Balance", desc: "Finding the perfect production harmony" },
-
-  // Advanced Manufacturing (Weeks 40-52)
-  { title: "Mixing Fundamentals", desc: "Creating consistent blends that won't separate" },
-  { title: "Proper Agitation", desc: "Incorporating air for consistent material properties" },
-  { title: "Layering Technique", desc: "Preserving material properties in composites" },
-  { title: "Basic Process Control", desc: "Foundation technique for stable, consistent processes" },
-  { title: "Material Flow Magic", desc: "Using material properties to perfect your process" },
-  { title: "Strategic Process Control", desc: "When and how to control processes for best results" },
-  { title: "Heat Treatment", desc: "Gradually combining hot and cold materials" },
-  { title: "Curing Time", desc: "How long is enough for material penetration" },
-  { title: "Proper Drying", desc: "Getting excess moisture out effectively" },
-  { title: "Quality Layers", desc: "Building quality throughout the manufacturing process" },
-  { title: "Timing Multiple Processes", desc: "Getting everything ready at the same time" },
-  { title: "Simple Packaging", desc: "Basic presentation techniques for better products" },
-  { title: "Clean as You Go", desc: "Maintaining an efficient, functional workspace" }
-];
-
-// Get the technique for current week (1-52)
-function getCurrentWeekTechnique() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1);
-  const weekNumber = Math.ceil((((now.getTime() - start.getTime()) / 86400000) + start.getDay() + 1) / 7);
-  const techniqueIndex = (weekNumber - 1) % 52; // Cycle through 52 techniques
-  return WEEKLY_TECHNIQUES[techniqueIndex];
+  return [];
 }
 
 function getTwoTutorials(recipe: any) {
   if (!recipe) return [];
-  
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
   return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
     {
       title: `Let\'s Build This Process!`,
       desc: `Manufacturing tutorial for ${recipe.title}.`,
@@ -144,12 +43,7 @@ const MfgAcademy = () => {
   const [orderSize, setOrderSize] = useState(100);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-
-  // Mock syllabus data
-  const mockSyllabusData = {
-    title: "",
-    courses: [] as SyllabusCourse[]
-  };
+  const syllabusData = useCurriculumSyllabus(supabase, 'manufacturing');
 
   const handleLessonClick = (lessonId: string) => {
     console.log(`Navigating to lesson: ${lessonId}`);
@@ -202,7 +96,7 @@ const MfgAcademy = () => {
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
-    
+
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
@@ -223,7 +117,7 @@ const MfgAcademy = () => {
       if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
         return recipe.title;
       }
-      
+
       // Use Floor Freddie for complex queries
       const prompt = `
         Given the following process and tutorial, generate a concise YouTube search query for a relevant manufacturing video.\n
@@ -249,7 +143,7 @@ const MfgAcademy = () => {
         query = tut.title + ' ' + (recipe.title || '');
       }
     }
-    
+
     return query;
   }
 
@@ -266,16 +160,16 @@ const MfgAcademy = () => {
         try {
           // Use the improved video query generation that handles different tutorial types
           const query = await getVideoQueryFromFreddie(
-            selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
-            tut, 
+            selectedRecipe || { title: '', ingredients: [], equipment: [] },
+            tut,
             idx
           );
-          
+
           console.log(`[CulinarySchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-          
+
           const result: TutorialVideoResult = await getTutorialVideo(query);
           console.log(`[CulinarySchool] Tutorial ${idx} result:`, result);
-          
+
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
@@ -283,10 +177,10 @@ const MfgAcademy = () => {
           console.error(`[CulinarySchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
-      
+
       if (!cancelled) setVideoUrls(newUrls);
     }
-    
+
     fetchVideos();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -317,7 +211,7 @@ const MfgAcademy = () => {
           📚 {t('mfgAcademy.syllabus')}
         </button>
       </div>
-      
+
       <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
         <div className={`lg:w-[66.666%] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'school' ? 'flex' : 'hidden lg:flex'
@@ -327,7 +221,7 @@ const MfgAcademy = () => {
             <span className="text-5xl mr-2">🏭</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('mfgAcademy.title')}</h1>
           </div>
-          
+
           {/* Sticky Separation line */}
           <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
             <hr className="border-t-2 border-maineBlue" />
@@ -457,13 +351,13 @@ const MfgAcademy = () => {
       </div>
           </div>
         </div>
-        
+
         <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
         }`}>
-          <SyllabusCard 
-            title={mockSyllabusData.title}
-            courses={mockSyllabusData.courses}
+          <SyllabusCard
+            title={syllabusData.title}
+            courses={syllabusData.courses}
             onLessonClick={handleLessonClick}
             onButcherBlockClick={() => setBenchPracticeOpen(true)}
           />
@@ -471,9 +365,10 @@ const MfgAcademy = () => {
       </div>
 
       {/* Bench Practice Modal */}
-      <LinePracticeModal 
+      <LinePracticeModal
         open={benchPracticeOpen}
         onClose={() => setBenchPracticeOpen(false)}
+        courses={syllabusData.courses}
       />
     </div>
   );

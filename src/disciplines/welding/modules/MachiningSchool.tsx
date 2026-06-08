@@ -14,29 +14,16 @@ import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 
 // mainSelectors not used - welding helpers defined locally
 
-import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
+import SyllabusCard from '../components/SyllabusCard';
 
 import CycleTimer from '../components/CycleTimer';
 
 import SetupPracticeModal from '../components/SetupPracticeModal';
+import { supabase } from '../api/supabaseClient';
+import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
 
 
-const generalLessons = [
-
-  { title: 'Welding Safety & PPE', desc: 'Proper use of helmets, gloves, jackets, respirators, and shop ventilation.' },
-
-  { title: 'SMAW (Stick) Fundamentals', desc: 'Electrode selection, arc striking, bead placement, and slag removal.' },
-
-  { title: 'GMAW (MIG) Basics', desc: 'Wire feed setup, shielding gas selection, and flat/horizontal welding.' },
-
-  { title: 'GTAW (TIG) Fundamentals', desc: 'Tungsten selection, torch angle, filler rod feeding, and gas coverage.' },
-
-  { title: 'Blueprint Reading for Welders', desc: 'Weld symbols, joint types, and reading fabrication drawings.' },
-
-  { title: 'Weld Inspection & Testing', desc: 'Visual inspection, bend tests, and understanding AWS D1.1 acceptance criteria.' }
-
-];
 
 
 
@@ -44,24 +31,8 @@ const generalLessons = [
 
 function getDefaultTutorials() {
 
-  const weeklyTechnique = getCurrentWeekTechnique();
-
-  
 
   return [
-
-    {
-
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-
-      desc: weeklyTechnique.desc,
-
-      type: 'weekly_technique',
-
-      techniqueData: weeklyTechnique
-
-    },
-
     {
 
       title: 'Let\'s Weld This Joint!',
@@ -76,178 +47,12 @@ function getDefaultTutorials() {
 
 
 
-// 52 Fundamental Welding Techniques (one for each week of the year)
-
-const WEEKLY_TECHNIQUES = [
-
-  // Safety & Fundamentals (Weeks 1-13)
-
-  { title: "Welding Safety & PPE", desc: "Helmet auto-darkening, leather gloves, FR jackets, and ventilation" },
-
-  { title: "Arc Welding Principles", desc: "How the electric arc melts base metal and filler to form a weld" },
-
-  { title: "Joint Types & Fit-Up", desc: "Butt, lap, tee, corner, and edge joints — preparation and alignment" },
-
-  { title: "Weld Symbols", desc: "Reading AWS weld symbols on fabrication drawings" },
-
-  { title: "Electrode Classification", desc: "Understanding E6010, E6013, E7018, and their applications" },
-
-  { title: "Shielding Gas Basics", desc: "Argon, CO2, 75/25 mix, and tri-mix — when to use each" },
-
-  { title: "Base Metal ID", desc: "Spark test, magnet test, and identifying mild steel, stainless, and aluminum" },
-
-  { title: "Filler Metal Selection", desc: "Matching filler to base metal — ER70S-6, ER308L, ER4043" },
-
-  { title: "Welding Positions", desc: "Flat (1G/1F), horizontal (2G/2F), vertical (3G/3F), overhead (4G/4F)" },
-
-  { title: "Tack Welding", desc: "Proper tack size, spacing, and sequence to prevent distortion" },
-
-  { title: "Distortion Control", desc: "Pre-setting, back-stepping, and clamping to manage weld shrinkage" },
-
-  { title: "Heat Input Basics", desc: "Amps × volts ÷ travel speed — why it matters for weld quality" },
-
-  { title: "Shop Math for Welders", desc: "Angles, area, volume, and weight calculations for fabrication" },
-
-
-
-  // SMAW / Stick Welding (Weeks 14-20)
-
-  { title: "SMAW Machine Setup", desc: "Polarity selection (DCEP/DCEN), amperage range, and lead connections" },
-
-  { title: "Arc Striking & Control", desc: "Scratch start vs. tap start, arc length, and travel angle" },
-
-  { title: "Stringer Beads (Flat)", desc: "Running consistent flat-position beads with E7018" },
-
-  { title: "Weave Patterns", desc: "C-weave, Z-weave, and figure-8 for wider passes" },
-
-  { title: "Vertical Up (3G Stick)", desc: "Shelf technique and keyhole method for vertical welding" },
-
-  { title: "Overhead Stick (4G)", desc: "Short arc, tight weave, and body positioning for overhead" },
-
-  { title: "Open Root with 6010", desc: "Keyhole technique, root penetration, and hot pass" },
-
-
-
-  // GMAW / MIG Welding (Weeks 21-28)
-
-  { title: "MIG Machine Setup", desc: "Wire speed, voltage, gas flow rate, and contact tip selection" },
-
-  { title: "MIG Flat & Horizontal", desc: "Push vs. drag technique, travel speed, and bead appearance" },
-
-  { title: "MIG Vertical Up", desc: "Triangle weave and proper heat management climbing vertical" },
-
-  { title: "Short Circuit vs. Spray Transfer", desc: "When to use each transfer mode and parameter ranges" },
-
-  { title: "Flux-Core (FCAW)", desc: "Self-shielded vs. dual-shield, slag removal, and applications" },
-
-  { title: "MIG Aluminum", desc: "Spool gun setup, push technique, and cleaning requirements" },
-
-  { title: "MIG Stainless Steel", desc: "Tri-mix gas, heat control, and avoiding sugaring" },
-
-  { title: "MIG Troubleshooting", desc: "Porosity, bird-nesting, burn-through, and lack of fusion fixes" },
-
-
-
-  // GTAW / TIG Welding (Weeks 29-38)
-
-  { title: "TIG Machine Setup", desc: "Tungsten selection, cup size, gas flow, and AC/DC settings" },
-
-  { title: "TIG Flat Beads (Steel)", desc: "Torch angle, filler dipping rhythm, and puddle control" },
-
-  { title: "TIG Fillet Welds", desc: "Equal-leg fillets on tee joints with proper tie-in" },
-
-  { title: "TIG Walking the Cup", desc: "Pipe welding technique for consistent root and fill passes" },
-
-  { title: "TIG Aluminum (AC)", desc: "Cleaning action, balance control, and crater fill" },
-
-  { title: "TIG Stainless Steel", desc: "Back purging, heat control, and maintaining color" },
-
-  { title: "TIG Pipe — 2G Roll", desc: "Root, hot, fill, and cap passes on rolled pipe" },
-
-  { title: "TIG Pipe — 6G Fixed", desc: "Open root technique on 6G fixed-position pipe" },
-
-  { title: "Tungsten Prep & Grinding", desc: "Proper taper, point angle, and avoiding contamination" },
-
-  { title: "TIG Troubleshooting", desc: "Tungsten inclusions, porosity, underfill, and gas coverage issues" },
-
-
-
-  // Advanced & Professional (Weeks 39-52)
-
-  { title: "Oxy-Fuel Cutting", desc: "Torch setup, preheat, and cutting mild steel plate and pipe" },
-
-  { title: "Plasma Cutting", desc: "Machine setup, consumables, and cutting various thicknesses" },
-
-  { title: "Weld Inspection (Visual)", desc: "Undercut, porosity, overlap, incomplete fusion — what to look for" },
-
-  { title: "Destructive Testing", desc: "Bend tests, break tests, and macro etch procedures" },
-
-  { title: "Non-Destructive Testing Intro", desc: "PT, MT, UT, RT — overview of NDE methods" },
-
-  { title: "WPS & PQR", desc: "Understanding Welding Procedure Specifications and qualification records" },
-
-  { title: "AWS D1.1 Overview", desc: "Structural steel welding code — scope, prequalified joints, and acceptance" },
-
-  { title: "Pipe Welding Codes", desc: "ASME Section IX, API 1104, and qualification requirements" },
-
-  { title: "Preheating & PWHT", desc: "When and why to preheat, interpass temps, and post-weld heat treatment" },
-
-  { title: "Welding Metallurgy Basics", desc: "HAZ, grain structure, and how heat affects base metal properties" },
-
-  { title: "Fabrication Layout", desc: "Measuring, marking, and fitting structural members for welding" },
-
-  { title: "AWS Certification Prep", desc: "Study strategies for AWS CW, CWI, and performance qualifications" },
-
-  { title: "Welder Career Pathways", desc: "Apprentice to journeyman to CWI — the roadmap" },
-
-  { title: "Specialty Processes", desc: "SAW, ESW, brazing, soldering — niche processes and applications" }
-
-];
-
-
-
-// Get the technique for current week (1-52)
-
-function getCurrentWeekTechnique() {
-
-  const now = new Date();
-
-  const start = new Date(now.getFullYear(), 0, 1);
-
-  const weekNumber = Math.ceil((((now.getTime() - start.getTime()) / 86400000) + start.getDay() + 1) / 7);
-
-  const techniqueIndex = (weekNumber - 1) % 52; // Cycle through 52 techniques
-
-  return WEEKLY_TECHNIQUES[techniqueIndex];
-
-}
-
-
-
 function getTwoTutorials(project: any) {
 
   if (!project) return [];
 
-  
-
-  const weeklyTechnique = getCurrentWeekTechnique();
-
-  
 
   return [
-
-    {
-
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-
-      desc: weeklyTechnique.desc,
-
-      type: 'weekly_technique',
-
-      techniqueData: weeklyTechnique
-
-    },
-
     {
 
       title: `Let\'s Weld This Joint!`,
@@ -283,18 +88,7 @@ const WeldingSchool = () => {
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
 
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-
-
-
-  // Mock syllabus data
-
-  const mockSyllabusData = {
-
-    title: "",
-
-    courses: [] as SyllabusCourse[]
-
-  };
+  const syllabusData = useCurriculumSyllabus(supabase, 'welding');
 
 
 
@@ -374,7 +168,7 @@ const WeldingSchool = () => {
 
     let query = '';
 
-    
+
 
     // Handle different tutorial types
 
@@ -416,7 +210,7 @@ const WeldingSchool = () => {
 
       }
 
-      
+
 
       // Use Jake the Welder for complex queries
 
@@ -468,7 +262,7 @@ const WeldingSchool = () => {
 
     }
 
-    
+
 
     return query;
 
@@ -502,25 +296,25 @@ const WeldingSchool = () => {
 
           const query = await getVideoQueryFromJake(
 
-            selectedProject || { title: '', ingredients: [], equipment: [] }, 
+            selectedProject || { title: '', ingredients: [], equipment: [] },
 
-            tut, 
+            tut,
 
             idx
 
           );
 
-          
+
 
           console.log(`[WeldingSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
 
-          
+
 
           const result: TutorialVideoResult = await getTutorialVideo(query);
 
           console.log(`[WeldingSchool] Tutorial ${idx} result:`, result);
 
-          
+
 
           if (result && result.url) {
 
@@ -536,13 +330,13 @@ const WeldingSchool = () => {
 
       }));
 
-      
+
 
       if (!cancelled) setVideoUrls(newUrls);
 
     }
 
-    
+
 
     fetchVideos();
 
@@ -604,7 +398,7 @@ const WeldingSchool = () => {
 
       </div>
 
-      
+
 
       <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
 
@@ -624,7 +418,7 @@ const WeldingSchool = () => {
 
           </div>
 
-          
+
 
           {/* Sticky Separation line */}
 
@@ -862,7 +656,7 @@ const WeldingSchool = () => {
 
         </div>
 
-        
+
 
         <div className={`lg:w-[28.333%] lg:h-full ${
 
@@ -870,11 +664,11 @@ const WeldingSchool = () => {
 
         }`}>
 
-          <SyllabusCard 
+          <SyllabusCard
 
-            title={mockSyllabusData.title}
+            title={syllabusData.title}
 
-            courses={mockSyllabusData.courses}
+            courses={syllabusData.courses}
 
             onLessonClick={handleLessonClick}
 
@@ -890,13 +684,13 @@ const WeldingSchool = () => {
 
       {/* Bench Practice Modal */}
 
-      <SetupPracticeModal 
+      <SetupPracticeModal
 
         open={benchPracticeOpen}
 
         onClose={() => setBenchPracticeOpen(false)}
 
-        courses={mockSyllabusData.courses}
+        courses={syllabusData.courses}
 
       />
 

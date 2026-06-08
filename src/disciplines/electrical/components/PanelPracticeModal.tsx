@@ -4,13 +4,15 @@ import ARPanelScene from './ARPanelScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
 import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
+import PracticeLessonSelect, { getPracticeLessonTitle, PracticeLessonCourse, PracticeLessonHistorySelect } from '../../../components/PracticeLessonSelect';
 
 interface BenchPracticeModalProps {
   open: boolean;
   onClose: () => void;
+  courses?: PracticeLessonCourse[];
 }
 
-const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }) => {
+const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose, courses = [] }) => {
   const { t } = useTranslation();
   const practiceTitle = 'The Panel Lab';
   const [isPracticing, setIsPracticing] = useState(false);
@@ -27,6 +29,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
   const startVirtualPractice = async (selectedMode: 'ar' | 'vr' = 'ar') => {
     setModeNotice(null);
+    const lessonTitle = getPracticeLessonTitle(courses, selectedLesson);
+    if (!lessonTitle) {
+      alert('Please select a lesson first.');
+      return;
+    }
+
     if (selectedMode === 'vr') {
       const vrSupported = await canUseImmersiveVR();
       if (!vrSupported) {
@@ -36,16 +44,10 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
 
 
     try {
-      // For demo: Use pre-built electrical AR scene (instant load)
-      const defaultLesson = 'Panel Circuit Identification and Safe Isolation';
-      const demoLesson = (defaultARScenes[defaultLesson]
-        ? defaultLesson
-        : Object.keys(defaultARScenes)[0]) as keyof typeof defaultARScenes;
-      
-      // Check if we have a default scene
-      if (defaultARScenes[demoLesson]) {
-        console.log('Loading default AR scene for demo');
-        setArScene(defaultARScenes[demoLesson]);
+      const defaultScene = defaultARScenes[lessonTitle as keyof typeof defaultARScenes];
+      if (defaultScene) {
+        console.log('Loading default AR scene');
+        setArScene(defaultScene);
         setIsPracticing(true);
         return;
       }
@@ -58,7 +60,7 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           discipline: 'electrical',
-          lessonTitle: demoLesson,
+          lessonTitle,
           lessonContent: 'Panel circuit identification, safe isolation, lockout verification, voltage testing, wire tracing, breaker labeling, and NEC-aware panel workflow practice.',
         }),
       });
@@ -193,38 +195,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 >
                   📚 {t('culinarySchool.charcuterieBoard.virtualPracticeButton')}
                 </button>
-                <select
+                <PracticeLessonSelect
                   value={selectedLesson}
-                  onChange={(e) => setSelectedLesson(e.target.value)}
+                  onChange={setSelectedLesson}
+                  courses={courses}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                >
-                  <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                    <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                    <option value="lesson-1-2">Food Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                    <option value="lesson-1-4">Basic Cooking Terminology</option>
-                    <option value="lesson-1-5">Weights, Measures, and Conversions</option>
-                  </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                    <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                    <option value="lesson-2-2">Basic Knife Cuts</option>
-                    <option value="lesson-2-3">Vegetable Fabrication</option>
-                    <option value="lesson-2-4">Meat and Fish Fabrication</option>
-                  </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                    <option value="lesson-3-1">Egg Cookery</option>
-                    <option value="lesson-3-2">Breakfast Preparations</option>
-                    <option value="lesson-3-3">Cold Food Preparation</option>
-                    <option value="lesson-3-4">Salads and Dressings</option>
-                  </optgroup>
-                  <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                    <option value="lesson-4-1">Basic Dough and Batters</option>
-                    <option value="lesson-4-2">Quick Breads and Muffins</option>
-                    <option value="lesson-4-3">Yeast Breads</option>
-                    <option value="lesson-4-4">Basic Pastry and Desserts</option>
-                  </optgroup>
-                </select>
+                />
               </>
             ) : (
               <>
@@ -234,13 +210,11 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                 >
                   ⏹️ {t('culinarySchool.charcuterieBoard.endPractice')}
                 </button>
-                <select
+                <PracticeLessonHistorySelect
+                  selectedLessonId={selectedLesson}
+                  courses={courses}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  defaultValue=""
-                >
-                  <option value="" disabled>Lessons Practiced</option>
-                  <option value="panel-isolation">Panel Circuit Identification and Safe Isolation</option>
-                </select>
+                />
               </>
             )}
           </div>
@@ -278,38 +252,12 @@ const BenchPracticeModal: React.FC<BenchPracticeModalProps> = ({ open, onClose }
                   <label className="block text-xs font-semibold text-amber-800 mb-1">
                     {t('culinarySchool.charcuterieBoard.selectLessonToPractice')}
                   </label>
-                  <select
-                    value={selectedLesson}
-                    onChange={(e) => setSelectedLesson(e.target.value)}
-                    className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  >
-                    <option value="">{t('culinarySchool.charcuterieBoard.chooseLesson')}</option>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1Foundations')}>
-                      <option value="lesson-1-1">Kitchen Safety and Sanitation</option>
-                      <option value="lesson-1-2">Food Handling and Storage</option>
-                      <option value="lesson-1-3">Introduction to Kitchen Equipment</option>
-                      <option value="lesson-1-4">Basic Cooking Terminology</option>
-                      <option value="lesson-1-5">Weights, Measures, and Conversions</option>
-                    </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term1KnifeSkills')}>
-                      <option value="lesson-2-1">Knife Safety and Maintenance</option>
-                      <option value="lesson-2-2">Basic Knife Cuts</option>
-                      <option value="lesson-2-3">Vegetable Fabrication</option>
-                      <option value="lesson-2-4">Meat and Fish Fabrication</option>
-                    </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Breakfast')}>
-                      <option value="lesson-3-1">Egg Cookery</option>
-                      <option value="lesson-3-2">Breakfast Preparations</option>
-                      <option value="lesson-3-3">Cold Food Preparation</option>
-                      <option value="lesson-3-4">Salads and Dressings</option>
-                    </optgroup>
-                    <optgroup label={t('culinarySchool.charcuterieBoard.term2Baking')}>
-                      <option value="lesson-4-1">Basic Dough and Batters</option>
-                      <option value="lesson-4-2">Quick Breads and Muffins</option>
-                      <option value="lesson-4-3">Yeast Breads</option>
-                      <option value="lesson-4-4">Basic Pastry and Desserts</option>
-                    </optgroup>
-                  </select>
+                  <PracticeLessonSelect
+                  value={selectedLesson}
+                  onChange={setSelectedLesson}
+                  courses={courses}
+                  className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                />
                 </div>
                 
                 {/* Guide Toggle Button */}

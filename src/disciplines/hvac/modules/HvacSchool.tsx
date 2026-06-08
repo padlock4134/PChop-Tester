@@ -8,122 +8,20 @@ import { getTutorialVideo, TutorialVideoResult } from '../utils/videoSearch';
 import { getMainEquipment, getMainIngredient } from '../utils/mainSelectors';
 import { fetchNutritionData, calculateRecipeNutrition } from '../api/nutritionService';
 import { KeyNutrients } from '../types/nutrition';
-import SyllabusCard, { SyllabusCourse } from '../components/SyllabusCard';
+import SyllabusCard from '../components/SyllabusCard';
 import ServiceTimer from '../components/ServiceTimer';
 import UnitPracticeModal from '../components/UnitPracticeModal';
 import { supabase } from '../api/supabaseClient';
+import { useCurriculumSyllabus } from '../../../hooks/useCurriculumSyllabus';
 
-const generalLessons = [
-  { title: 'EPA 608 Certification Prep', desc: 'Refrigerant handling, recovery, recycling, and reclaiming for EPA 608.' },
-  { title: 'Refrigeration Cycle Basics', desc: 'How compression, condensation, expansion, and evaporation work.' },
-  { title: 'Duct Design & Airflow', desc: 'Manual D basics, static pressure, and proper airflow balancing.' },
-  { title: 'Heat Load Calculations', desc: 'Manual J residential load calculations for proper equipment sizing.' },
-  { title: 'Electrical Troubleshooting', desc: 'Reading wiring diagrams and diagnosing HVAC electrical faults.' },
-  { title: 'Tool & Equipment Care', desc: 'Maintaining manifold gauges, vacuum pumps, and test equipment.' }
-];
 
-// Generate default tutorials including the weekly technique
 function getDefaultTutorials() {
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
-  return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
-    {
-      title: 'Let\'s Service This System!',
-      desc: 'How to approach the main task for this HVAC service call.'
-    }
-  ];
-}
-
-// 52 Fundamental HVAC Techniques (one for each week of the year)
-const WEEKLY_TECHNIQUES = [
-  // Refrigeration & Safety Fundamentals (Weeks 1-13)
-  { title: "Refrigerant Safety Handling", desc: "PPE, recovery cylinders, and safe refrigerant procedures" },
-  { title: "Refrigeration Cycle Walkthrough", desc: "Tracing the cycle from evaporator to compressor to condenser" },
-  { title: "Manifold Gauge Set Usage", desc: "Connecting, reading, and interpreting high and low side pressures" },
-  { title: "Superheat Measurement", desc: "Calculating and adjusting superheat at the evaporator" },
-  { title: "Subcooling Measurement", desc: "Calculating and adjusting subcooling at the condenser" },
-  { title: "Refrigerant Identification", desc: "R-22, R-410A, R-32, R-454B — properties and applications" },
-  { title: "Refrigerant Recovery Procedure", desc: "Push-pull recovery and connecting a recovery machine" },
-  { title: "System Evacuation", desc: "Deep vacuum procedure and micron gauge readings" },
-  { title: "Refrigerant Charging Methods", desc: "Charging by weight, superheat, and subcooling" },
-  { title: "Leak Detection Techniques", desc: "Electronic leak detectors, UV dye, and bubble solution" },
-  { title: "EPA 608 Core Concepts", desc: "Laws, regulations, and certification requirements" },
-  { title: "EPA 608 Type I (Small Appliance)", desc: "Recovery techniques for appliances under 5 lbs" },
-  { title: "EPA 608 Type II (High-Pressure)", desc: "Recovery and handling for R-410A systems" },
-
-  // Equipment & Systems (Weeks 14-26)
-  { title: "Split System Components", desc: "Identifying and understanding every component" },
-  { title: "Heat Pump Operation", desc: "Cooling and heating mode — reversing valve function" },
-  { title: "Mini-Split Installation", desc: "Line set routing, flaring, and commissioning" },
-  { title: "Gas Furnace Components", desc: "Heat exchanger, inducer, ignitor, and pressure switches" },
-  { title: "Gas Furnace Sequence of Operation", desc: "Step-by-step from thermostat call to burner ignition" },
-  { title: "Furnace Heat Exchanger Inspection", desc: "Crack detection and CO safety testing" },
-  { title: "Combustion Analysis", desc: "Using a combustion analyzer for efficiency and safety" },
-  { title: "Package Unit vs. Split System", desc: "Comparing configurations and installation requirements" },
-  { title: "Geothermal Basics", desc: "Ground loops, water source heat pumps, and efficiency" },
-  { title: "Commercial Rooftop Unit Basics", desc: "RTU components and preventive maintenance" },
-  { title: "Chiller System Basics", desc: "Centrifugal vs. scroll chillers and building cooling" },
-  { title: "Boiler System Basics", desc: "Hydronic heating, expansion tanks, and zone valves" },
-  { title: "VRF/VRV System Basics", desc: "Variable refrigerant flow — components and zoning" },
-
-  // Ductwork, Airflow & Controls (Weeks 27-39)
-  { title: "Duct System Design Basics", desc: "Manual D, trunk-and-branch vs. radial systems" },
-  { title: "Static Pressure Measurement", desc: "Using a manometer to diagnose duct system issues" },
-  { title: "Airflow Balancing", desc: "Adjusting dampers and registers for balanced delivery" },
-  { title: "Sheet Metal Fabrication", desc: "Cutting, bending, and connecting rectangular duct" },
-  { title: "Flex Duct Installation", desc: "Proper stretch, support, and sealing of flexible duct" },
-  { title: "Duct Sealing & Insulation", desc: "Mastic, foil tape, and insulation wrap procedures" },
-  { title: "Thermostat Wiring", desc: "Reading wiring diagrams and connecting standard thermostats" },
-  { title: "Smart Thermostat Setup", desc: "Configuring Nest, Ecobee, and communicating stats" },
-  { title: "Zone Control Systems", desc: "Zone boards, bypass dampers, and pressure balancing" },
-  { title: "BAS/DDC Controls Basics", desc: "Direct digital controls and building automation fundamentals" },
-  { title: "IAQ Sensors & Ventilation", desc: "CO2 monitoring, ERV, and fresh air ventilation requirements" },
-  { title: "Air Handler Components", desc: "Blower motor, coil, filter rack, and drain pan" },
-  { title: "Condenser Coil Cleaning", desc: "Chemical coil cleaning and fin straightening" },
-
-  // Diagnostics, Code & Professional Skills (Weeks 40-52)
-  { title: "No-Cool Diagnostic Procedure", desc: "Systematic approach to diagnosing a cooling failure" },
-  { title: "No-Heat Diagnostic Procedure", desc: "Systematic approach to diagnosing a heating failure" },
-  { title: "Electrical Motor Testing", desc: "Testing capacitors, contactors, and motor windings" },
-  { title: "Compressor Diagnostics", desc: "Amp draw, compression ratio, and failure modes" },
-  { title: "Metering Device Selection", desc: "TXV vs. fixed orifice — selection and adjustment" },
-  { title: "Preventive Maintenance Checklist", desc: "Complete seasonal PM procedure for residential systems" },
-  { title: "Refrigerant Regulations Update", desc: "AIM Act, A2L refrigerants, and phase-down timeline" },
-  { title: "NATE Certification Prep", desc: "Study strategies and key topic areas for NATE exams" },
-  { title: "Service Call Professionalism", desc: "Customer communication, documentation, and callbacks" },
-  { title: "Warranty and Flat-Rate Pricing", desc: "Using flat-rate books and explaining costs to customers" },
-  { title: "Business Development Basics", desc: "Service agreements, referrals, and reputation management" },
-  { title: "Safety Data Sheets", desc: "Reading SDS for refrigerants and chemicals" },
-  { title: "Career Pathways", desc: "Apprentice to journeyman to master HVAC technician — the roadmap" }
-];
-
-// Get the technique for current week (1-52)
-function getCurrentWeekTechnique() {
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 1);
-  const weekNumber = Math.ceil((((now.getTime() - start.getTime()) / 86400000) + start.getDay() + 1) / 7);
-  const techniqueIndex = (weekNumber - 1) % 52; // Cycle through 52 techniques
-  return WEEKLY_TECHNIQUES[techniqueIndex];
+  return [];
 }
 
 function getTwoTutorials(recipe: any) {
   if (!recipe) return [];
-  
-  const weeklyTechnique = getCurrentWeekTechnique();
-  
   return [
-    {
-      title: `Technique of the Week: ${weeklyTechnique.title}`,
-      desc: weeklyTechnique.desc,
-      type: 'weekly_technique',
-      techniqueData: weeklyTechnique
-    },
     {
       title: `Let\'s Service This System!`,
       desc: `Step-by-step service walkthrough for ${recipe.title}.`,
@@ -144,10 +42,7 @@ const HvacSchool = () => {
   const [servingSize, setServingSize] = useState(2);
   const [benchPracticeOpen, setBenchPracticeOpen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'school' | 'syllabus'>('school');
-  const [syllabusData, setSyllabusData] = useState<{ title: string; courses: SyllabusCourse[] }>({
-    title: "HVAC Technology Program",
-    courses: []
-  });
+  const syllabusData = useCurriculumSyllabus(supabase, 'hvac');
 
   const handleLessonClick = (lessonId: string) => {
     console.log(`Navigating to lesson: ${lessonId}`);
@@ -157,96 +52,6 @@ const HvacSchool = () => {
     updateContext({ page: 'HvacSchool' });
   }, [updateContext]);
 
-  // Fetch published curriculum content from DB
-  useEffect(() => {
-    const loadCurriculum = async () => {
-      try {
-        // Try curriculum_content first, fallback to content_staging
-        let items: any[] = [];
-
-        const { data: currData, error: currError } = await supabase
-          .from('curriculum_content')
-          .select('*')
-          .order('week_number', { ascending: true, nullsFirst: false });
-
-        console.log('Curriculum content data:', currData, 'Error:', currError);
-
-        if (!currError && currData && currData.length > 0) {
-          items = currData;
-        } else {
-          // Fallback: read from content_staging (where uploads land)
-          const { data: stagingData, error: stagingError } = await supabase
-            .from('content_staging')
-            .select('*')
-            .in('status', ['distributed', 'pending', 'draft'])
-            .order('created_at', { ascending: true });
-
-          console.log('Staging data:', stagingData, 'Error:', stagingError);
-
-          if (!stagingError && stagingData && stagingData.length > 0) {
-            // Transform staging data — AI suggestion has the metadata
-            items = stagingData.map((row: any) => {
-              const suggestion = row.ai_suggestion || {};
-              const metadata = suggestion.metadata || {};
-              return {
-                id: row.id,
-                title: metadata.title || row.file_name || 'Untitled Lesson',
-                content_type: suggestion.contentType || 'lesson',
-                week_number: metadata.weekNumber || null,
-                content_data: { topics: metadata.topics || [], equipment: metadata.equipment || [] }
-              };
-            });
-          }
-        }
-
-        console.log('Total items loaded:', items.length);
-
-        if (items.length > 0) {
-          // Group lessons by week/term into courses
-          const courseMap: Record<string, { id: string; title: string; lessons: any[] }> = {};
-
-          items.forEach((item: any, index: number) => {
-            const weekNum = item.week_number || Math.floor(index / 4) + 1;
-            const termNum = weekNum <= 8 ? 1 : 2;
-            const courseKey = `term-${termNum}`;
-
-            if (!courseMap[courseKey]) {
-              courseMap[courseKey] = {
-                id: courseKey,
-                title: termNum === 1 ? 'Term 1: Uploaded Curriculum' : 'Term 2: Uploaded Curriculum',
-                lessons: []
-              };
-            }
-
-            courseMap[courseKey].lessons.push({
-              id: item.id || `lesson-${index}`,
-              title: item.title,
-              completed: false,
-              current: index === 0
-            });
-          });
-
-          const courses = Object.values(courseMap) as SyllabusCourse[];
-          if (courses.length > 0) {
-            setSyllabusData({
-              title: "HVAC Technology Program",
-              courses
-            });
-          } else {
-            // No content - show empty state
-            setSyllabusData({
-              title: "HVAC Technology Program",
-              courses: []
-            });
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load curriculum:', err);
-      }
-    };
-
-    loadCurriculum();
-  }, []);
 
   useEffect(() => {
     if (selectedRecipe && !selectedRecipe.nutrition) {
@@ -294,7 +99,7 @@ const HvacSchool = () => {
   // Helper to call Chef Freddie backend for a smart search query
   async function getVideoQueryFromFreddie(recipe: any, tut: any, idx: any) {
     let query = '';
-    
+
     // Handle different tutorial types
     if (tut.type === 'weekly_technique') {
       // For technique of the week, search for the specific technique
@@ -315,7 +120,7 @@ const HvacSchool = () => {
       if (typeof idx === 'number' && idx === 2 && recipe && recipe.title) {
         return recipe.title;
       }
-      
+
       // Use Cool Cal for complex queries
       const prompt = `
         Given the following HVAC project and tutorial step, generate a concise YouTube search query for a relevant HVAC training video.\n
@@ -341,7 +146,7 @@ const HvacSchool = () => {
         query = tut.title + ' ' + (recipe.title || '');
       }
     }
-    
+
     return query;
   }
 
@@ -358,16 +163,16 @@ const HvacSchool = () => {
         try {
           // Use the improved video query generation that handles different tutorial types
           const query = await getVideoQueryFromFreddie(
-            selectedRecipe || { title: '', ingredients: [], equipment: [] }, 
-            tut, 
+            selectedRecipe || { title: '', ingredients: [], equipment: [] },
+            tut,
             idx
           );
-          
+
           console.log(`[HvacSchool] Tutorial ${idx} (${tut.type || 'legacy'}) query:`, query);
-          
+
           const result: TutorialVideoResult = await getTutorialVideo(query);
           console.log(`[HvacSchool] Tutorial ${idx} result:`, result);
-          
+
           if (result && result.url) {
             newUrls[idx] = result.url;
           }
@@ -375,10 +180,10 @@ const HvacSchool = () => {
           console.error(`[HvacSchool] Error fetching video for tutorial ${idx}:`, error);
         }
       }));
-      
+
       if (!cancelled) setVideoUrls(newUrls);
     }
-    
+
     fetchVideos();
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -409,7 +214,7 @@ const HvacSchool = () => {
           📚 {t('hvacSchool.syllabus')}
         </button>
       </div>
-      
+
       <div className="flex flex-col lg:flex-row gap-6 lg:h-full lg:justify-center">
         <div className={`lg:w-[66.666%] bg-weatheredWhite rounded-xl shadow-lg border-4 border-maineBlue flex flex-col h-full lg:min-h-[620px] ${
           activeMobileTab === 'school' ? 'flex' : 'hidden lg:flex'
@@ -419,7 +224,7 @@ const HvacSchool = () => {
             <span className="text-5xl mr-2">❄️</span>
             <h1 className="text-3xl font-retro text-maineBlue mb-0">{t('hvacSchool.title')}</h1>
           </div>
-          
+
           {/* Sticky Separation line */}
           <div className="sticky top-0 bg-weatheredWhite z-10 px-6">
             <hr className="border-t-2 border-maineBlue" />
@@ -549,11 +354,11 @@ const HvacSchool = () => {
       </div>
           </div>
         </div>
-        
+
         <div className={`lg:w-[28.333%] lg:h-full ${
           activeMobileTab === 'syllabus' ? 'block' : 'hidden lg:block'
         }`}>
-          <SyllabusCard 
+          <SyllabusCard
             title={syllabusData.title}
             courses={syllabusData.courses}
             onLessonClick={handleLessonClick}
@@ -563,9 +368,10 @@ const HvacSchool = () => {
       </div>
 
       {/* Bench Practice Modal */}
-      <UnitPracticeModal 
+      <UnitPracticeModal
         open={benchPracticeOpen}
         onClose={() => setBenchPracticeOpen(false)}
+        courses={syllabusData.courses}
       />
     </div>
   );

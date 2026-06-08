@@ -4,13 +4,15 @@ import ARDockScene from './ARDockScene';
 import { defaultARScenes } from '../data/defaultARScenes';
 import { canUseImmersiveVR } from '../../../utils/xrSupport';
 import DeviceSelectionModal from '../../../components/DeviceSelectionModal';
+import PracticeLessonSelect, { getPracticeLessonTitle, PracticeLessonCourse, PracticeLessonHistorySelect } from '../../../components/PracticeLessonSelect';
 
 interface DockPracticeModalProps {
   open: boolean;
   onClose: () => void;
+  courses?: PracticeLessonCourse[];
 }
 
-const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) => {
+const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose, courses = [] }) => {
   const { t } = useTranslation();
   const [isPracticing, setIsPracticing] = useState(false);
   const [modeNotice, setModeNotice] = useState<string | null>(null);
@@ -26,6 +28,12 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
 
   const startVirtualPractice = async (selectedMode: 'ar' | 'vr' = 'ar') => {
     setModeNotice(null);
+    const lessonTitle = getPracticeLessonTitle(courses, selectedLesson);
+    if (!lessonTitle) {
+      alert('Please select a lesson first.');
+      return;
+    }
+
     if (selectedMode === 'vr') {
       const vrSupported = await canUseImmersiveVR();
       if (!vrSupported) {
@@ -35,13 +43,8 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
 
 
     try {
-      // For demo: Use pre-built dock AR scene (instant load)
-      const demoLesson = 'Dock Loading & Freight Staging';
-      
-      // Check if we have a default scene
-      if (defaultARScenes[demoLesson]) {
-        console.log('Loading default AR scene for demo');
-        setArScene(defaultARScenes[demoLesson]);
+      if (defaultARScenes[lessonTitle]) {
+        setArScene(defaultARScenes[lessonTitle]);
         setIsPracticing(true);
         return;
       }
@@ -54,7 +57,7 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           discipline: 'logistics',
-          lessonTitle: demoLesson,
+          lessonTitle,
           lessonContent: 'Dock loading and freight staging fundamentals. Includes load planning, pallet stacking, weight distribution, trailer loading sequence, and dock door assignment. Standard operating procedures for inbound and outbound freight.',
         }),
       });
@@ -189,38 +192,12 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
                 >
                   📚 {t('logisticsSchool.dockPractice.virtualPracticeButton')}
                 </button>
-                <select
+                <PracticeLessonSelect
                   value={selectedLesson}
-                  onChange={(e) => setSelectedLesson(e.target.value)}
+                  onChange={setSelectedLesson}
+                  courses={courses}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                >
-                  <option value="">{t('logisticsSchool.dockPractice.chooseLesson')}</option>
-                  <optgroup label={t('logisticsSchool.dockPractice.term1Foundations')}>
-                    <option value="lesson-1-1">Dock Safety and Sanitation</option>
-                    <option value="lesson-1-2">Freight Handling and Storage</option>
-                    <option value="lesson-1-3">Introduction to Dock Equipment</option>
-                    <option value="lesson-1-4">Basic Freight Terminology</option>
-                    <option value="lesson-1-5">Weights, Dimensions, and Freight Class</option>
-                  </optgroup>
-                  <optgroup label={t('logisticsSchool.dockPractice.term1FreightDocs')}>
-                    <option value="lesson-2-1">BOL Preparation and Review</option>
-                    <option value="lesson-2-2">Freight Classification (NMFC)</option>
-                    <option value="lesson-2-3">Shipping Labels and Hazmat Marking</option>
-                    <option value="lesson-2-4">Customs and Import Documentation</option>
-                  </optgroup>
-                  <optgroup label={t('logisticsSchool.dockPractice.term2RoutePlanning')}>
-                    <option value="lesson-3-1">Route Optimization Basics</option>
-                    <option value="lesson-3-2">Multi-Stop Planning</option>
-                    <option value="lesson-3-3">Temperature-Controlled Shipping</option>
-                    <option value="lesson-3-4">Last-Mile Delivery Strategy</option>
-                  </optgroup>
-                  <optgroup label={t('logisticsSchool.dockPractice.term2WarehouseOps')}>
-                    <option value="lesson-4-1">Receiving and Put-Away</option>
-                    <option value="lesson-4-2">Pick, Pack, and Ship</option>
-                    <option value="lesson-4-3">Inventory Cycle Counting</option>
-                    <option value="lesson-4-4">Cross-Docking Operations</option>
-                  </optgroup>
-                </select>
+                />
               </>
             ) : (
               <>
@@ -230,13 +207,11 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
                 >
                   ⏹️ {t('logisticsSchool.dockPractice.endPractice')}
                 </button>
-                <select
+                <PracticeLessonHistorySelect
+                  selectedLessonId={selectedLesson}
+                  courses={courses}
                   className="w-full px-3 py-2 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  defaultValue=""
-                >
-                  <option value="" disabled>Lessons Practiced</option>
-                  <option value="dock-loading">Dock Operations</option>
-                </select>
+                />
               </>
             )}
           </div>
@@ -275,38 +250,12 @@ const DockPracticeModal: React.FC<DockPracticeModalProps> = ({ open, onClose }) 
                   <label className="block text-xs font-semibold text-amber-800 mb-1">
                     {t('logisticsSchool.dockPractice.selectLessonToPractice')}
                   </label>
-                  <select
-                    value={selectedLesson}
-                    onChange={(e) => setSelectedLesson(e.target.value)}
-                    className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  >
-                    <option value="">{t('logisticsSchool.dockPractice.chooseLesson')}</option>
-                    <optgroup label={t('logisticsSchool.dockPractice.term1Foundations')}>
-                      <option value="lesson-1-1">Dock Safety and Sanitation</option>
-                      <option value="lesson-1-2">Freight Handling and Storage</option>
-                      <option value="lesson-1-3">Introduction to Dock Equipment</option>
-                      <option value="lesson-1-4">Basic Freight Terminology</option>
-                      <option value="lesson-1-5">Weights, Dimensions, and Freight Class</option>
-                    </optgroup>
-                    <optgroup label={t('logisticsSchool.dockPractice.term1FreightDocs')}>
-                      <option value="lesson-2-1">BOL Preparation and Review</option>
-                      <option value="lesson-2-2">Freight Classification (NMFC)</option>
-                      <option value="lesson-2-3">Shipping Labels and Hazmat Marking</option>
-                      <option value="lesson-2-4">Customs and Import Documentation</option>
-                    </optgroup>
-                    <optgroup label={t('logisticsSchool.dockPractice.term2RoutePlanning')}>
-                      <option value="lesson-3-1">Route Optimization Basics</option>
-                      <option value="lesson-3-2">Multi-Stop Planning</option>
-                      <option value="lesson-3-3">Temperature-Controlled Shipping</option>
-                      <option value="lesson-3-4">Last-Mile Delivery Strategy</option>
-                    </optgroup>
-                    <optgroup label={t('logisticsSchool.dockPractice.term2WarehouseOps')}>
-                      <option value="lesson-4-1">Receiving and Put-Away</option>
-                      <option value="lesson-4-2">Pick, Pack, and Ship</option>
-                      <option value="lesson-4-3">Inventory Cycle Counting</option>
-                      <option value="lesson-4-4">Cross-Docking Operations</option>
-                    </optgroup>
-                  </select>
+                  <PracticeLessonSelect
+                  value={selectedLesson}
+                  onChange={setSelectedLesson}
+                  courses={courses}
+                  className="w-full px-2 py-1.5 text-sm border-2 border-amber-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                />
                 </div>
                 
                 {/* Guide Toggle Button */}
