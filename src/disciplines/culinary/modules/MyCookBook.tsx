@@ -923,25 +923,28 @@ const MyCookBook = () => {
                 )}
               </div>
             </div>
-            <div className="p-4 pt-2">
-              {/* Create Collection Button */}
+            <div className="sticky bottom-0 z-20 flex-shrink-0 bg-white p-4 pt-2 shadow-[0_-6px_12px_rgba(255,255,255,0.95)]">
+              {/* Create Collection Button - Always visible */}
               <button
+                type="button"
                 onClick={() => setShowCreateCollectionModal(true)}
                 className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-seafoam text-maineBlue border-maineBlue hover:bg-maineBlue hover:text-seafoam"
               >
                 {t('myCookbook.createCollectionSelected', { count: selectedRecipes.length }).replace('{count}', selectedRecipes.length.toString())}
               </button>
 
-              {/* View Gradebook Button */}
+              {/* View Gradebook Button - Always visible */}
               <button
+                type="button"
                 onClick={handleOpenGradebook}
                 className="w-full mt-2 px-4 py-2 rounded border transition-colors bg-emerald-100 text-emerald-700 border-emerald-300 hover:bg-emerald-200 hover:text-emerald-800"
               >
                 📊 {t('myCookbook.viewGradebook')}
               </button>
 
-              {/* View Videos Button */}
+              {/* View Videos Button - Always visible */}
               <button
+                type="button"
                 onClick={async () => {
                   setShowVideoLibraryModal(true);
                   setLoadingVideos(true);
