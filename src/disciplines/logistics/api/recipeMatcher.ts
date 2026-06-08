@@ -24,6 +24,9 @@ type DockSetup = keyof typeof DOCK_EQUIPMENT;
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
+const DEFAULT_LOGISTICS_IMAGE = 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d';
+const CULINARY_TERMS = /(recipe|cook|bake|grill|soup|salad|pasta|bread|kitchen|ingredient|meal|oven|crouton|chef|food|dish|sauce|marinade)/i;
+const LOGISTICS_TERMS = /(logistics|freight|truck|trucking|warehouse|dock|shipment|shipping|cargo|pallet|forklift|carrier|route|dispatch|bol|load|ltl|ftl|cross-dock|inventory|supply chain|rf scanner|dock leveler|reefer|hazmat|yard|delivery)/i;
 
 const ROUTE_PROMPTS = {
   new_to_logistics: (numRoutes: number, items: string[]) => 
@@ -158,6 +161,40 @@ export interface RouteMatchOptions {
   talentTree?: string | null;
 }
 
+function routeText(route: any): string {
+  const items = Array.isArray(route?.items) ? route.items.join(' ') : '';
+  const equipment = Array.isArray(route?.equipment) ? route.equipment.join(' ') : '';
+  const instructions = Array.isArray(route?.instructions) ? route.instructions.join(' ') : String(route?.instructions || '');
+  return `${route?.title || ''} ${items} ${equipment} ${instructions}`;
+}
+
+function isLogisticsRoute(route: any): boolean {
+  const text = routeText(route);
+  return !CULINARY_TERMS.test(text) && LOGISTICS_TERMS.test(text);
+}
+
+function localLogisticsFallback(items: string[], count: number): RouteCard[] {
+  const itemPool = items.length > 0 ? items : ['palletized freight', 'shipping labels', 'stretch wrap', 'BOL packet'];
+  return Array.from({ length: Math.max(1, count) }).map((_, idx) => {
+    const a = itemPool[idx % itemPool.length];
+    const b = itemPool[(idx + 1) % itemPool.length];
+    return {
+      id: `fallback-${Date.now()}-${idx}`,
+      title: `Freight Procedure ${idx + 1}: ${a} + ${b}`,
+      image: DEFAULT_LOGISTICS_IMAGE,
+      items: [a, b],
+      instructions: [
+        'Verify shipment paperwork, PPE, dock assignment, and trailer condition before handling freight.',
+        `Stage ${a} and ${b}, confirm labels, dimensions, weight, and freight class.`,
+        'Build and secure the load with proper pallet pattern, wrap, straps, and weight distribution.',
+        'Complete BOL/status updates, scan freight, and document exceptions or damage.'
+      ].join('\n'),
+      equipment: ['pallet jack', 'RF scanner', 'stretch wrapper', 'dock plate'],
+      healthTags: ['Safety', 'DOT Compliance', 'Documentation']
+    };
+  });
+}
+
 function getHealthTags(items: string[]): string[] {
   const normalized = items.map(item => item.toLowerCase());
   const tags = new Set<string>();
@@ -222,6 +259,7 @@ export async function fetchRoutesWithImages({
 
 ${userDockSetup ? `Dock setup: ${userDockSetup}` : ''}
 ${talentTreePrompt}
+CRITICAL: Generate only trucking, freight, warehouse, shipping, or supply-chain logistics procedures. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
 
 Return the procedures as a JSON array with the following structure for each procedure:
 {
@@ -292,8 +330,14 @@ Return ONLY the JSON array, no other text.`;
     return generateFallbackRoutes(userId, items, numRoutes);
   }
 
+  const logisticsRoutes = routes.filter(isLogisticsRoute);
+  if (logisticsRoutes.length === 0) {
+    console.warn('Logistics matcher rejected non-logistics/cooking response; using local fallback.');
+    return localLogisticsFallback(items, numRoutes);
+  }
+
   // 4. Score and sort routes based on user's inventory, dock setup, and talent tree
-  const scoredRoutes = routes
+  const scoredRoutes = logisticsRoutes
     .map(route => ({
       ...route,
       score: scoreRoute(
@@ -318,10 +362,10 @@ Return ONLY the JSON array, no other text.`;
         `${UNSPLASH_API_URL}?query=${encodeURIComponent(route.title + ' warehouse logistics')}&client_id=${unsplashKey}`
       );
       const data = await res.json();
-      return data.results?.[0]?.urls?.small || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d';
+      return data.results?.[0]?.urls?.small || DEFAULT_LOGISTICS_IMAGE;
     } catch (err) {
       console.error('Failed to fetch image:', err);
-      return '';
+      return DEFAULT_LOGISTICS_IMAGE;
     }
   });
 
@@ -350,6 +394,8 @@ export async function generateFallbackRoutes(userId: string, items: string[], co
   const promptTemplate = ROUTE_PROMPTS[experienceLevel] || ROUTE_PROMPTS[DEFAULT_EXPERIENCE_LEVEL];
   
   const prompt = `${promptTemplate(count, items)}
+
+CRITICAL: Generate only trucking, freight, warehouse, shipping, or supply-chain logistics procedures. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
 
 Format your response as a JSON array of shipping procedure objects. Each object MUST have these exact fields:
 {
@@ -384,7 +430,7 @@ Return ONLY the JSON array, no other text.`;
       statusText: anthropicRes.statusText,
       body: await anthropicRes.text()
     });
-    throw new Error(`Anthropic API error: ${anthropicRes.status} ${anthropicRes.statusText}`);
+    return localLogisticsFallback(items, count);
   }
 
   const anthropicData = await anthropicRes.json();
@@ -410,13 +456,13 @@ Return ONLY the JSON array, no other text.`;
     }
   } catch (error) {
     console.error('Error parsing route data:', error);
-    throw new Error('Failed to parse route data from API response');
+    return localLogisticsFallback(items, count);
   }
 
   // Validate route format
   routes = Array.isArray(routes) ? routes : [];
   const validRoutes = routes.filter(r => {
-    const isValid = r && r.title && Array.isArray(r.items) && Array.isArray(r.instructions);
+    const isValid = r && r.title && Array.isArray(r.items) && Array.isArray(r.instructions) && isLogisticsRoute(r);
     if (!isValid) {
       console.warn('Invalid route format:', r);
     }
@@ -425,7 +471,7 @@ Return ONLY the JSON array, no other text.`;
 
   if (validRoutes.length === 0) {
     console.error('No valid routes found in response');
-    throw new Error('No valid routes found in API response');
+    return localLogisticsFallback(items, count);
   }
 
   // 3. For each route, call Unsplash in parallel
@@ -433,7 +479,7 @@ Return ONLY the JSON array, no other text.`;
     const q = encodeURIComponent(r.title || r.items?.[0] || 'freight truck loading dock');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d';
+    return data.results?.[0]?.urls?.regular || DEFAULT_LOGISTICS_IMAGE;
   });
   const images = await Promise.all(imagePromises);
 

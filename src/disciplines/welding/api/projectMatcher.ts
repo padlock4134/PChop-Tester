@@ -24,6 +24,9 @@ type ShopSetup = keyof typeof SHOP_EQUIPMENT;
 const ANTHROPIC_API_URL = '/.netlify/functions/anthropic-proxy';
 const UNSPLASH_API_URL = 'https://api.unsplash.com/search/photos';
 const unsplashKey = (import.meta as any).env.VITE_UNSPLASH_ACCESS_KEY;
+const DEFAULT_WELDING_IMAGE = 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1';
+const CULINARY_TERMS = /(recipe|cook|bake|grill|soup|salad|pasta|bread|kitchen|ingredient|meal|oven|crouton|chef|food|dish|sauce|marinade)/i;
+const WELDING_TERMS = /(weld|welding|mig|tig|stick|flux|bead|joint|fillet|butt|lap|tack|arc|electrode|filler|steel|aluminum|stainless|torch|grinder|helmet|wps|aws|fabrication|plasma|cutting|heat affected|penetration)/i;
 
 const PROJECT_PROMPTS = {
   new_to_welding: (numRecipes: number, ingredients: string[]) => 
@@ -155,6 +158,40 @@ export interface ProjectMatchOptions {
   talentTree?: string | null;
 }
 
+function projectText(project: any): string {
+  const ingredients = Array.isArray(project?.ingredients) ? project.ingredients.join(' ') : '';
+  const equipment = Array.isArray(project?.equipment) ? project.equipment.join(' ') : '';
+  const instructions = Array.isArray(project?.instructions) ? project.instructions.join(' ') : String(project?.instructions || '');
+  return `${project?.title || ''} ${ingredients} ${equipment} ${instructions}`;
+}
+
+function isWeldingProject(project: any): boolean {
+  const text = projectText(project);
+  return !CULINARY_TERMS.test(text) && WELDING_TERMS.test(text);
+}
+
+function localWeldingFallback(materials: string[], count: number): ProjectCard[] {
+  const materialPool = materials.length > 0 ? materials : ['mild steel coupon', 'filler wire', 'angle stock', 'practice plate'];
+  return Array.from({ length: Math.max(1, count) }).map((_, idx) => {
+    const a = materialPool[idx % materialPool.length];
+    const b = materialPool[(idx + 1) % materialPool.length];
+    return {
+      id: `fallback-${Date.now()}-${idx}`,
+      title: `Welding Procedure ${idx + 1}: ${a} + ${b}`,
+      image: DEFAULT_WELDING_IMAGE,
+      ingredients: [a, b],
+      instructions: [
+        'Inspect PPE, ventilation, fire watch needs, and machine setup before striking an arc.',
+        `Clean, fit up, and tack ${a} and ${b} with the required joint gap and alignment.`,
+        'Run the weld using the selected process, controlling travel speed, heat input, and bead profile.',
+        'Clean slag/spatter, visually inspect the weld, and document defects or rework.'
+      ].join('\n'),
+      equipment: ['welding helmet', 'MIG welder', 'angle grinder', 'clamps'],
+      healthTags: ['Safety', 'Weld Quality', 'Inspection']
+    };
+  });
+}
+
 // Assign welding skill tags based on material/project keywords
 function getHealthTags(ingredients: string[]): string[] {
   const tags: string[] = [];
@@ -205,6 +242,7 @@ export async function fetchProjectsWithImages({
 
 ${userShopSetup ? `Shop setup: ${userShopSetup}` : ''}
 ${talentTreePrompt}
+CRITICAL: Generate only welding/fabrication projects. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
 
 Return the projects as a JSON array with the following structure for each project:
 {
@@ -275,8 +313,14 @@ Return ONLY the JSON array, no other text.`;
     return generateFallbackProjects(userId, materials, numProjects);
   }
 
+  const weldingProjects = projects.filter(isWeldingProject);
+  if (weldingProjects.length === 0) {
+    console.warn('Welding matcher rejected non-welding/cooking response; using local fallback.');
+    return localWeldingFallback(materials, numProjects);
+  }
+
   // 4. Score and sort projects based on user's inventory, shop setup, and talent tree
-  const scoredProjects = projects
+  const scoredProjects = weldingProjects
     .map((proj: any) => ({
       ...proj,
       score: scoreProject(
@@ -301,10 +345,10 @@ Return ONLY the JSON array, no other text.`;
         `${UNSPLASH_API_URL}?query=${encodeURIComponent(proj.title)}&client_id=${unsplashKey}`
       );
       const data = await res.json();
-      return data.results?.[0]?.urls?.small || '';
+      return data.results?.[0]?.urls?.small || DEFAULT_WELDING_IMAGE;
     } catch (err) {
       console.error('Failed to fetch image:', err);
-      return '';
+      return DEFAULT_WELDING_IMAGE;
     }
   });
 
@@ -337,7 +381,9 @@ export async function generateFallbackProjects(userId: string, materials: string
   
   const prompt = `${promptTemplate(count, materials)}
 
-Format your response as a JSON array of project objects. Each project object MUST have these exact fields:
+CRITICAL: Generate only welding/fabrication projects. Do NOT generate food, meal, cooking, chef, kitchen, or culinary content.
+
+Format your response as a JSON array of welding project objects. Each project object MUST have these exact fields:
 {
   "title": "Project Name",
   "ingredients": ["material 1", "material 2", ...],
@@ -370,7 +416,7 @@ Return ONLY the JSON array, no other text.`;
       statusText: anthropicRes.statusText,
       body: await anthropicRes.text()
     });
-    throw new Error(`Anthropic API error: ${anthropicRes.status} ${anthropicRes.statusText}`);
+    return localWeldingFallback(materials, count);
   }
 
   const anthropicData = await anthropicRes.json();
@@ -396,13 +442,13 @@ Return ONLY the JSON array, no other text.`;
     }
   } catch (error) {
     console.error('Error parsing project data:', error);
-    throw new Error('Failed to parse project data from API response');
+    return localWeldingFallback(materials, count);
   }
 
   // Validate project format
   parsedProjects = Array.isArray(parsedProjects) ? parsedProjects : [];
   const validProjects = parsedProjects.filter(r => {
-    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions);
+    const isValid = r && r.title && Array.isArray(r.ingredients) && Array.isArray(r.instructions) && isWeldingProject(r);
     if (!isValid) {
       console.warn('Invalid project format:', r);
     }
@@ -411,7 +457,7 @@ Return ONLY the JSON array, no other text.`;
 
   if (validProjects.length === 0) {
     console.error('No valid projects found in response');
-    throw new Error('No valid projects found in API response');
+    return localWeldingFallback(materials, count);
   }
 
   // 3. For each project, call Unsplash in parallel
@@ -419,7 +465,7 @@ Return ONLY the JSON array, no other text.`;
     const q = encodeURIComponent(r.title || r.ingredients?.[0] || 'welding');
     const res = await fetch(`${UNSPLASH_API_URL}?query=${q}&client_id=${unsplashKey}&orientation=landscape&per_page=1`);
     const data = await res.json();
-    return data.results?.[0]?.urls?.regular || 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1';
+    return data.results?.[0]?.urls?.regular || DEFAULT_WELDING_IMAGE;
   });
   const images = await Promise.all(imagePromises);
 

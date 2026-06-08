@@ -59,6 +59,8 @@ const RECIPE_PROMPTS = {
     6. Add relevant skill tags from: Safety, Precision, Efficiency, Quality, Compliance, Documentation`
 };
 
+const CULINARY_TERMS = /(recipe|cook|bake|grill|soup|salad|pasta|bread|kitchen|ingredient|meal|oven|crouton|chef|food|dish|sauce|marinade)/i;
+
 const HVAC_DOMAIN_TERMS = [
   'hvac', 'airflow', 'duct', 'static pressure', 'cfm', 'register', 'diffuser',
   'refrigerant', 'superheat', 'subcool', 'compressor', 'evaporator', 'condenser',
@@ -69,7 +71,7 @@ const HVAC_DOMAIN_TERMS = [
 
 function isHVACProject(recipe: any): boolean {
   const text = `${recipe?.title || ''} ${(recipe?.ingredients || []).join(' ')} ${(recipe?.equipment || []).join(' ')} ${Array.isArray(recipe?.instructions) ? recipe.instructions.join(' ') : recipe?.instructions || ''}`.toLowerCase();
-  return HVAC_DOMAIN_TERMS.some(term => text.includes(term));
+  return !CULINARY_TERMS.test(text) && HVAC_DOMAIN_TERMS.some(term => text.includes(term));
 }
 
 function buildDefaultHvacProjects(seedIngredients: string[], count: number) {
@@ -517,7 +519,7 @@ Return ONLY the JSON array, no other text.`;
       statusText: anthropicRes.statusText,
       body: await anthropicRes.text()
     });
-    throw new Error(`Anthropic API error: ${anthropicRes.status} ${anthropicRes.statusText}`);
+    return buildDefaultHvacProjects(ingredients, count);
   }
 
   const anthropicData = await anthropicRes.json();
@@ -543,7 +545,7 @@ Return ONLY the JSON array, no other text.`;
     }
   } catch (error) {
     console.error('Error parsing recipe data:', error);
-    throw new Error('Failed to parse recipe data from API response');
+    return buildDefaultHvacProjects(ingredients, count);
   }
 
   // Validate recipe format
