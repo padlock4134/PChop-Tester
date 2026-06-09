@@ -279,16 +279,16 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     // Study Groups Monitor icon
     const studyGroupsButton = document.createElement('button');
     studyGroupsButton.type = 'button';
-    studyGroupsButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-blue-100 hover:bg-blue-200 text-2xl';
+    studyGroupsButton.className = 'relative flex items-center justify-center w-12 h-12 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-blue-100 hover:bg-blue-200 text-2xl';
     studyGroupsButton.setAttribute('aria-label', 'Study Groups Monitor');
     studyGroupsButton.title = 'Study Groups Monitor';
-    studyGroupsButton.textContent = '👥';
+    studyGroupsButton.textContent = '🪶';
     studyGroupsButton.onclick = () => setShowStudyGroupMonitorModal(true);
 
     // WorkBench Connector icon
     const connectorButton = document.createElement('button');
     connectorButton.type = 'button';
-    connectorButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-seafoam hover:bg-teal-400 text-black text-lg';
+    connectorButton.className = 'relative flex items-center justify-center w-12 h-12 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-seafoam hover:bg-teal-400 text-black text-lg';
     connectorButton.setAttribute('aria-label', 'WorkBench Connector');
     connectorButton.title = 'WorkBench Connector';
     connectorButton.textContent = '🔗';
@@ -297,7 +297,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
     // Exit Admin Mode icon
     const exitAdminButton = document.createElement('button');
     exitAdminButton.type = 'button';
-    exitAdminButton.className = 'relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-yellow-400 hover:bg-yellow-500 text-white text-lg';
+    exitAdminButton.className = 'relative flex items-center justify-center w-12 h-12 rounded-full shadow cursor-pointer transition-colors border-2 border-black bg-yellow-400 hover:bg-yellow-500 text-white text-lg';
     exitAdminButton.setAttribute('aria-label', 'Exit Admin Mode');
     exitAdminButton.title = 'Exit Admin Mode';
     exitAdminButton.textContent = '🚪';
