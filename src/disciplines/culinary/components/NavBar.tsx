@@ -170,7 +170,7 @@ const LanguageToggleButton: React.FC = () => {
   return (
     <button
       onClick={toggleLanguage}
-      className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow text-2xl cursor-pointer transition-colors border-2 border-black ${
+      className={`relative flex items-center justify-center w-12 h-12 rounded-full shadow text-2xl cursor-pointer transition-colors border-2 border-black ${
         isSpanish 
           ? 'bg-orange-200 hover:bg-orange-300' 
           : 'bg-white hover:bg-gray-100'
@@ -178,7 +178,7 @@ const LanguageToggleButton: React.FC = () => {
       aria-label={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
       title={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
     >
-      <span className={`w-8 h-6 ${isSpanish ? 'fi fi-es' : 'fi fi-us'}`} aria-label={isSpanish ? 'Spanish' : 'English'}></span>
+      <span className={`w-10 h-7.5 ${isSpanish ? 'fi fi-es' : 'fi fi-us'}`} aria-label={isSpanish ? 'Spanish' : 'English'}></span>
     </button>
   );
 };
@@ -206,7 +206,7 @@ const AdminToggleButton: React.FC = () => {
           navigate('/admin');
         }
       }}
-      className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
+      className={`relative flex items-center justify-center w-12 h-12 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
         isOnAdmin 
           ? 'bg-lobsterRed hover:bg-red-700' 
           : 'bg-white hover:bg-gray-100'
@@ -214,7 +214,7 @@ const AdminToggleButton: React.FC = () => {
       aria-label={isOnAdmin ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
       title={isOnAdmin ? t('nav.switchToStudentView') : t('nav.switchToAdminView')}
     >
-      <CogIcon className={`h-6 w-6 ${isOnAdmin ? 'text-white' : 'text-black'}`} />
+      <CogIcon className={`h-7 w-7 ${isOnAdmin ? 'text-white' : 'text-black'}`} />
     </button>
   );
 };
@@ -253,14 +253,14 @@ const NavBar: React.FC = () => {
             {/* Profile Avatar */}
             <Link
               to={location.pathname.includes('/profile') ? (disciplineConfig?.routes.dashboard || '/culinary/dashboard') : (disciplineConfig?.routes.profile || '/culinary/profile')}
-              className={`relative flex items-center justify-center w-10 h-10 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
+              className={`relative flex items-center justify-center w-12 h-12 rounded-full shadow cursor-pointer transition-colors border-2 border-black ${
                 location.pathname === '/profile'
                   ? 'bg-seafoam hover:bg-teal-400'
                   : 'bg-white hover:bg-gray-100'
               }`}
               aria-label={location.pathname === '/profile' ? t('nav.dashboard') : t('nav.profile')}
             >
-              <UserCircleIcon className="h-7 w-7 text-black" />
+              <UserCircleIcon className="h-8 w-8 text-black" />
             </Link>
             
             {/* Language Toggle */}
