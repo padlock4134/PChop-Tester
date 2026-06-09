@@ -66,7 +66,7 @@ const GroupFinder: React.FC = () => {
   return (
     <>
       <button className="relative flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 hover:bg-blue-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black" title={t('groupFinder.title', { defaultValue: 'Crew Finder' })} aria-label={t('groupFinder.title', { defaultValue: 'Crew Finder' })} onClick={() => setOpen(true)}>
-        <span role="img" aria-label="Group">👥</span>
+        <span role="img" aria-label="Group">🪶</span>
         {groups.filter(g => g.currentMembers < g.maxMembers).length > 0 && (
           <span className="absolute -top-1 -right-1 bg-lobsterRed text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">{groups.filter(g => g.currentMembers < g.maxMembers).length}</span>
         )}
@@ -101,7 +101,7 @@ const GroupFinder: React.FC = () => {
                             {group.note && <div className="text-xs text-gray-600 italic mt-1">"{group.note}"</div>}
                           </div>
                           <div className="flex flex-col items-end gap-1 shrink-0">
-                            <span className={`text-xs font-bold px-2 py-1 rounded-full ${group.currentMembers >= group.maxMembers ? 'bg-gray-300 text-gray-600' : 'bg-seafoam text-maineBlue'}`}>👥 {group.currentMembers}/{group.maxMembers}</span>
+                            <span className={`text-xs font-bold px-2 py-1 rounded-full ${group.currentMembers >= group.maxMembers ? 'bg-gray-300 text-gray-600' : 'bg-seafoam text-maineBlue'}`}>🪶 {group.currentMembers}/{group.maxMembers}</span>
                             {myGroups.includes(group.id) ? (<span className="text-xs text-seafoam font-bold bg-maineBlue px-2 py-1 rounded">✓ Joined</span>) : group.currentMembers >= group.maxMembers ? (<span className="text-xs text-gray-500 font-bold px-2 py-1">Full</span>) : (<button onClick={() => handleJoin(group.id)} className="text-xs font-bold bg-seafoam text-maineBlue px-3 py-1 rounded hover:bg-maineBlue hover:text-seafoam transition-colors border border-black">Join</button>)}
                           </div>
                         </div>
@@ -123,7 +123,7 @@ const GroupFinder: React.FC = () => {
               )}
               {activeTab === 'my' && (
                 <>{myGroups.length === 0 ? (<div className="text-center text-gray-400 italic py-8">{t('groupFinder.noMyGroups', { defaultValue: "You haven't joined or created any groups yet." })}</div>) : (<div className="space-y-3">{groups.filter(g => myGroups.includes(g.id)).map(group => (
-                  <div key={group.id} className="bg-sand border border-black rounded-lg p-3"><div className="flex items-start justify-between gap-2"><div className="flex-1 min-w-0"><div className="font-bold text-maineBlue text-sm truncate">{group.lessonTitle}</div><div className="text-xs text-gray-500">{group.courseName}</div><div className="text-xs text-gray-600 mt-1">👥 {group.members.join(', ')}</div>{group.note && <div className="text-xs text-gray-600 italic mt-1">"{group.note}"</div>}</div><div className="flex flex-col items-end gap-1 shrink-0"><span className="text-xs font-bold px-2 py-1 rounded-full bg-seafoam text-maineBlue">👥 {group.currentMembers}/{group.maxMembers}</span>{group.leaderName === 'You' ? (<button onClick={() => handleDisband(group.id)} className="text-xs font-bold bg-lobsterRed text-white px-3 py-1 rounded hover:bg-red-700 transition-colors">Disband</button>) : (<button onClick={() => handleLeave(group.id)} className="text-xs font-bold bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400 transition-colors">Leave</button>)}</div></div></div>
+                  <div key={group.id} className="bg-sand border border-black rounded-lg p-3"><div className="flex items-start justify-between gap-2"><div className="flex-1 min-w-0"><div className="font-bold text-maineBlue text-sm truncate">{group.lessonTitle}</div><div className="text-xs text-gray-500">{group.courseName}</div><div className="text-xs text-gray-600 mt-1">🪶 {group.members.join(', ')}</div>{group.note && <div className="text-xs text-gray-600 italic mt-1">"{group.note}"</div>}</div><div className="flex flex-col items-end gap-1 shrink-0"><span className="text-xs font-bold px-2 py-1 rounded-full bg-seafoam text-maineBlue">🪶 {group.currentMembers}/{group.maxMembers}</span>{group.leaderName === 'You' ? (<button onClick={() => handleDisband(group.id)} className="text-xs font-bold bg-lobsterRed text-white px-3 py-1 rounded hover:bg-red-700 transition-colors">Disband</button>) : (<button onClick={() => handleLeave(group.id)} className="text-xs font-bold bg-gray-300 text-gray-700 px-3 py-1 rounded hover:bg-gray-400 transition-colors">Leave</button>)}</div></div></div>
                 ))}</div>)}</>
               )}
             </div>

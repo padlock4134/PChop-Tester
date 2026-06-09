@@ -101,7 +101,7 @@ const GroupFinder: React.FC = () => {
         aria-label={t('groupFinder.title', { defaultValue: 'Crew Finder' })}
         onClick={() => setOpen(true)}
       >
-        <span role="img" aria-label="Group">👥</span>
+        <span role="img" aria-label="Group">🪶</span>
         {groups.filter(g => g.currentMembers < g.maxMembers).length > 0 && (
           <span className="absolute -top-1 -right-1 bg-lobsterRed text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
             {groups.filter(g => g.currentMembers < g.maxMembers).length}
@@ -202,7 +202,7 @@ const GroupFinder: React.FC = () => {
                                   ? 'bg-gray-300 text-gray-600'
                                   : 'bg-seafoam text-maineBlue'
                               }`}>
-                                👥 {group.currentMembers}/{group.maxMembers}
+                                🪶 {group.currentMembers}/{group.maxMembers}
                               </span>
                               {myGroups.includes(group.id) ? (
                                 <span className="text-xs text-seafoam font-bold bg-maineBlue px-2 py-1 rounded">✓ Joined</span>
@@ -342,7 +342,7 @@ const GroupFinder: React.FC = () => {
                               <div className="font-bold text-maineBlue text-sm truncate">{group.lessonTitle}</div>
                               <div className="text-xs text-gray-500">{group.courseName}</div>
                               <div className="text-xs text-gray-600 mt-1">
-                                👥 {group.members.join(', ')}
+                                🪶 {group.members.join(', ')}
                               </div>
                               {group.note && (
                                 <div className="text-xs text-gray-600 italic mt-1">"{group.note}"</div>
@@ -350,7 +350,7 @@ const GroupFinder: React.FC = () => {
                             </div>
                             <div className="flex flex-col items-end gap-1 shrink-0">
                               <span className="text-xs font-bold px-2 py-1 rounded-full bg-seafoam text-maineBlue">
-                                👥 {group.currentMembers}/{group.maxMembers}
+                                🪶 {group.currentMembers}/{group.maxMembers}
                               </span>
                               {group.leaderName === 'You' ? (
                                 <button
