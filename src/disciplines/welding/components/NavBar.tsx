@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CogIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
-import 'flag-icons/css/flag-icons.min.css';
 import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
 import { supabase } from '../api/supabaseClient';
 import ChallengeOfTheWeek from './ChallengeOfTheWeek';

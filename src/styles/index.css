@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import 'flag-icons/css/flag-icons.min.css';
+
 body {
   background-color: theme('colors.sand');
   font-family: theme('fontFamily.retro');
