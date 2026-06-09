@@ -96,7 +96,7 @@ const GroupFinder: React.FC = () => {
   return (
     <>
       <button
-        className="relative flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 hover:bg-blue-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black"
+        className="relative flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 hover:bg-blue-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black"
         title={t('groupFinder.title', { defaultValue: 'Crew Finder' })}
         aria-label={t('groupFinder.title', { defaultValue: 'Crew Finder' })}
         onClick={() => setOpen(true)}

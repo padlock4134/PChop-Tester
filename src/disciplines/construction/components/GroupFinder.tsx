@@ -65,7 +65,7 @@ const GroupFinder: React.FC = () => {
 
   return (
     <>
-      <button className="relative flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 hover:bg-blue-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black" title={t('groupFinder.title', { defaultValue: 'Crew Finder' })} aria-label={t('groupFinder.title', { defaultValue: 'Crew Finder' })} onClick={() => setOpen(true)}>
+      <button className="relative flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 hover:bg-blue-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black" title={t('groupFinder.title', { defaultValue: 'Crew Finder' })} aria-label={t('groupFinder.title', { defaultValue: 'Crew Finder' })} onClick={() => setOpen(true)}>
         <span role="img" aria-label="Group">👥</span>
         {groups.filter(g => g.currentMembers < g.maxMembers).length > 0 && (
           <span className="absolute -top-1 -right-1 bg-lobsterRed text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">{groups.filter(g => g.currentMembers < g.maxMembers).length}</span>

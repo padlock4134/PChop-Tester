@@ -380,7 +380,7 @@ const ChallengeOfTheWeek: React.FC = () => {
     <>
       {!alreadyClaimed ? (
         <button
-          className="relative flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100 hover:bg-yellow-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black"
+          className="relative flex items-center justify-center w-12 h-12 rounded-full bg-yellow-100 hover:bg-yellow-200 shadow text-2xl cursor-pointer transition-colors border-2 border-black"
           title={ct('challengeOfTheWeek') + ": " + challenge.title}
           aria-label={ct('challengeOfTheWeek') + ": " + challenge.title}
           onClick={() => setOpen(true)}
@@ -389,7 +389,7 @@ const ChallengeOfTheWeek: React.FC = () => {
         </button>
       ) : (
         <button
-          className="relative flex items-center justify-center w-10 h-10 rounded-full bg-gray-300 cursor-not-allowed text-2xl border-2 border-black"
+          className="relative flex items-center justify-center w-12 h-12 rounded-full bg-gray-300 cursor-not-allowed text-2xl border-2 border-black"
           title={ct('completed')}
           aria-label={ct('completed')}
           disabled
