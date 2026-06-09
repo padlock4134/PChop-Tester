@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CogIcon } from '@heroicons/react/24/outline';
 import { UserCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
+import 'flag-icons/css/flag-icons.min.css';
 import { LEVEL_TITLES_AND_ICONS, getXPProgress } from '../utils/leveling';
 import { supabase } from '../api/supabaseClient';
 import ChallengeOfTheWeek from './ChallengeOfTheWeek';
@@ -185,7 +186,7 @@ const LanguageToggleButton: React.FC = () => {
       aria-label={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
       title={isSpanish ? 'Switch to English' : 'Cambiar a Español'}
     >
-      <span className="font-bold text-sm text-black" aria-label={isSpanish ? 'Spanish' : 'English'}>{isSpanish ? 'ES' : 'EN'}</span>
+      <span className={`w-6 h-4 ${isSpanish ? 'fi fi-es' : 'fi fi-us'}`} aria-label={isSpanish ? 'Spanish' : 'English'}></span>
     </button>
   );
 };
