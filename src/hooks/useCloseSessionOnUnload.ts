@@ -64,9 +64,10 @@ const removeTab = (tabId: string) => {
   const tabs = getActiveTabs();
   delete tabs[tabId];
   writeActiveTabs(tabs);
+  return tabs;
 };
 
-const hasOtherActiveTabs = (tabs = getActiveTabs()) => Object.keys(tabs).length > 0;
+const hasActiveTabs = (tabs = getActiveTabs()) => Object.keys(tabs).length > 0;
 
 const getNavigationType = () => {
   const [navigationEntry] = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
@@ -78,15 +79,13 @@ const redirectToLogout = () => {
 };
 
 /**
- * Enforces the product requirement that closing one tab must not log the user
- * out, but reopening the app after the browser/app session is gone must not
- * silently reuse a browser-restored session cookie.
+ * Enforces browser-session logout without treating React remounts as tab closes.
  *
- * Browsers can restore session cookies after a full quit, so the server cookie
- * cannot be the only source of truth. sessionStorage is scoped to a live tab and
- * is lost when that tab/browser session is gone. localStorage is used only as a
- * short-lived registry of sibling app tabs so a brand-new tab can join an
- * already-open browser session without forcing logout.
+ * The important distinction is that React effect cleanup is not a browser/tab
+ * close. The active-tab registry is only cleared from the real `pagehide` event;
+ * cleanup only removes event listeners and timers. This prevents first-login
+ * route changes, provider remounts, and React StrictMode remounts from deleting
+ * the current tab and immediately logging the user out.
  */
 export const useCloseSessionOnUnload = (enabled: boolean) => {
   useEffect(() => {
@@ -97,15 +96,17 @@ export const useCloseSessionOnUnload = (enabled: boolean) => {
     const existingTabId = sessionStorage.getItem(TAB_ID_KEY);
     const activeTabs = getActiveTabs();
     const isReload = getNavigationType() === 'reload';
-    const isColdTabStart = !existingTabId;
-    const isRestoredClosedTab = !!existingTabId && !activeTabs[existingTabId] && !hasOtherActiveTabs(activeTabs) && !isReload;
+    const hasCloseMarker = !!localStorage.getItem(CLOSE_MARKER_KEY);
 
     if (isFreshLogin) {
       localStorage.removeItem(CLOSE_MARKER_KEY);
       sessionStorage.setItem(TAB_SESSION_KEY, 'true');
       url.searchParams.delete(FRESH_LOGIN_PARAM);
       window.history.replaceState({}, document.title, `${url.pathname}${url.search}${url.hash}`);
-    } else if ((isColdTabStart && !hasOtherActiveTabs(activeTabs)) || isRestoredClosedTab) {
+    } else if (!isReload && hasCloseMarker && !hasActiveTabs(activeTabs)) {
+      redirectToLogout();
+      return;
+    } else if (!existingTabId && !hasActiveTabs(activeTabs)) {
       localStorage.setItem(CLOSE_MARKER_KEY, String(now()));
       redirectToLogout();
       return;
@@ -120,8 +121,16 @@ export const useCloseSessionOnUnload = (enabled: boolean) => {
 
     const heartbeatId = window.setInterval(() => markTabActive(tabId), HEARTBEAT_INTERVAL_MS);
 
-    const handlePageHide = () => removeTab(tabId);
-    const handlePageShow = () => markTabActive(tabId);
+    const handlePageHide = () => {
+      const remainingTabs = removeTab(tabId);
+      if (!hasActiveTabs(remainingTabs)) {
+        localStorage.setItem(CLOSE_MARKER_KEY, String(now()));
+      }
+    };
+    const handlePageShow = () => {
+      localStorage.removeItem(CLOSE_MARKER_KEY);
+      markTabActive(tabId);
+    };
 
     window.addEventListener('pagehide', handlePageHide);
     window.addEventListener('pageshow', handlePageShow);
@@ -130,7 +139,6 @@ export const useCloseSessionOnUnload = (enabled: boolean) => {
       window.clearInterval(heartbeatId);
       window.removeEventListener('pagehide', handlePageHide);
       window.removeEventListener('pageshow', handlePageShow);
-      removeTab(tabId);
     };
   }, [enabled]);
 };
