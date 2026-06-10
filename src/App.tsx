@@ -133,6 +133,7 @@ import { setSupabaseJwt as setMachiningSupabaseJwt } from './disciplines/welding
 import { useDeviceDetect, getResponsiveClasses } from './disciplines/culinary/utils/responsiveUtils';
 import InactivityWarningModal from './disciplines/culinary/components/InactivityWarningModal';
 import { useAutoLogout } from './disciplines/culinary/hooks/useAutoLogout';
+import { useCloseSessionOnUnload } from './hooks/useCloseSessionOnUnload';
 import UnifiedAdminDashboard from './components/UnifiedAdminDashboard';
 
 // Admin toggle context
@@ -352,6 +353,7 @@ const AppRoutes = () => {
 
   // Auto logout functionality
   const { showWarning, countdown, stayLoggedIn, logoutNow } = useAutoLogout();
+  useCloseSessionOnUnload(authStatus === AuthStatus.AUTHENTICATED && !!user && !isLoading);
   
   // Render logic happens AFTER hooks
   console.log('AppRoutes - isLoading:', isLoading, 'user:', !!user, 'path:', location.pathname);
