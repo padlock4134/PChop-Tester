@@ -2,7 +2,7 @@
 // Session endpoint to get current user session data
 const { clearCsrfCookie, isCsrfValid, setCsrfCookie } = require('./lib/csrf-utils.js');
 const { clearSessionCookie, getSessionFromCookie, isSessionValid, setSessionCookie } = require('./lib/session-utils.js');
-const { isActiveSessionCurrent, registerActiveSession, touchActiveSession } = require('./lib/active-session-utils.js');
+const { isActiveSessionCurrent, touchActiveSession } = require('./lib/active-session-utils.js');
 const { createErrorResponse, createOkResponseWithBody } = require('./lib/http-utils.js');
 
 // Main handler function
