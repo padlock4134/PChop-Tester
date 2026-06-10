@@ -12,6 +12,11 @@ const { createSupabaseJwt } = require('./lib/supabase-utils.js');
 
 const LOGIN_REQUIRED_ERROR = 'login_required';
 
+function appendFreshLoginParam (url) {
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}fresh_login=1`;
+}
+
 function validateQueryParams (query = {}) {
   const { code, state, error, error_description: errorDescription, tenant_custom_domain: tenantCustomDomain } = query;
 
@@ -142,7 +147,7 @@ exports.handler = async (event) => {
 
     // Return successful response with session and CSRF cookies
     const cookiesToSet = [loginStateCookieToClear, sessionCookie, csrfCookie];
-    const redirectTo = returnUrl || process.env.WRISTBAND_POST_CALLBACK_LANDING_URL || '/';
+    const redirectTo = appendFreshLoginParam(returnUrl || process.env.WRISTBAND_POST_CALLBACK_LANDING_URL || '/');
     return createRedirectResponse(redirectTo, cookiesToSet);
   } catch (error) {
     console.error('Wristband callback error:', error);
