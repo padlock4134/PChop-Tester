@@ -4,12 +4,19 @@ const { WRISTBAND_CONFIG, validateWristbandConfig } = require('./lib/wristband-c
 const { resolveTenantDomainName } = require('./lib/wristband-utils.js');
 const { createErrorResponse, createRedirectResponse } = require('./lib/http-utils.js');
 const { setSessionCookie } = require('./lib/session-utils.js');
+const { createSessionId, registerActiveSession } = require('./lib/active-session-utils.js');
 const { createCsrfToken, setCsrfCookie } = require('./lib/csrf-utils.js');
 const { clearLoginStateCookie, getLoginStateCookieData } = require('./lib/login-state-utils.js');
 const { exchangeAuthCodeForTokens, getUserinfo, InvalidGrantError } = require('./lib/wristband-api.js');
 const { createSupabaseJwt } = require('./lib/supabase-utils.js');
 
 const LOGIN_REQUIRED_ERROR = 'login_required';
+
+function appendFreshLoginParam (url) {
+  const [urlWithoutHash, hash = ''] = url.split('#');
+  const separator = urlWithoutHash.includes('?') ? '&' : '?';
+  return `${urlWithoutHash}${separator}fresh_login=1${hash ? `#${hash}` : ''}`;
+}
 
 function validateQueryParams (query = {}) {
   const { code, state, error, error_description: errorDescription, tenant_custom_domain: tenantCustomDomain } = query;
@@ -116,6 +123,7 @@ exports.handler = async (event) => {
     const csrfToken = createCsrfToken();
     const sessionData = {
       isAuthenticated: true,
+      activeSessionId: createSessionId(),
       accessToken: tokenResponse.access_token,
       refreshToken: tokenResponse.refresh_token,
       // Convert the "expiresIn" seconds into milliseconds from the epoch.
@@ -132,12 +140,15 @@ exports.handler = async (event) => {
       // This token will be used in React when the browser needs to make requests to Supabase.
       supabaseToken: createSupabaseJwt(userinfo.sub, userinfo.tnt_id)
     };
+    // New login wins: this overwrites any prior active session for the same user and tenant.
+    await registerActiveSession(sessionData, event);
+
     const sessionCookie = await setSessionCookie(sessionData);
     const csrfCookie = setCsrfCookie(csrfToken);
 
     // Return successful response with session and CSRF cookies
     const cookiesToSet = [loginStateCookieToClear, sessionCookie, csrfCookie];
-    const redirectTo = returnUrl || process.env.WRISTBAND_POST_CALLBACK_LANDING_URL || '/';
+    const redirectTo = appendFreshLoginParam(returnUrl || process.env.WRISTBAND_POST_CALLBACK_LANDING_URL || '/');
     return createRedirectResponse(redirectTo, cookiesToSet);
   } catch (error) {
     console.error('Wristband callback error:', error);
