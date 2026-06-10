@@ -18,22 +18,26 @@ CREATE INDEX IF NOT EXISTS idx_active_user_sessions_last_seen_at
 
 ALTER TABLE public.active_user_sessions ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can insert own active session" ON public.active_user_sessions;
 CREATE POLICY "Users can insert own active session"
   ON public.active_user_sessions
   FOR INSERT
   WITH CHECK (user_id = (auth.jwt() ->> 'sub'));
 
+DROP POLICY IF EXISTS "Users can view own active session" ON public.active_user_sessions;
 CREATE POLICY "Users can view own active session"
   ON public.active_user_sessions
   FOR SELECT
   USING (user_id = (auth.jwt() ->> 'sub'));
 
+DROP POLICY IF EXISTS "Users can update own active session" ON public.active_user_sessions;
 CREATE POLICY "Users can update own active session"
   ON public.active_user_sessions
   FOR UPDATE
   USING (user_id = (auth.jwt() ->> 'sub'))
   WITH CHECK (user_id = (auth.jwt() ->> 'sub'));
 
+DROP POLICY IF EXISTS "Users can delete own active session" ON public.active_user_sessions;
 CREATE POLICY "Users can delete own active session"
   ON public.active_user_sessions
   FOR DELETE

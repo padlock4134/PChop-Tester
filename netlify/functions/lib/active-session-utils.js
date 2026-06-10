@@ -61,12 +61,22 @@ async function registerActiveSession (sessionData, event) {
   return true;
 }
 
+/**
+ * Check whether the session cookie's activeSessionId is still the current one.
+ *
+ * Returns a tri-state string:
+ *   'current'    – IDs match; session is valid.
+ *   'orphaned'   – No DB row exists at all (e.g. beacon deleted it on page reload).
+ *                  Safe to re-register and continue.
+ *   'superseded' – A DB row exists but with a different session ID, meaning another
+ *                  device/login has taken over. Must reject with 401.
+ */
 async function isActiveSessionCurrent (sessionData) {
   const { activeSessionId, userId, tenantId, supabaseToken } = sessionData;
 
   if (!userId || !tenantId || !supabaseToken) {
     console.warn('Session is missing user, tenant, or Supabase token tracking data.');
-    return false;
+    return 'superseded';
   }
 
   const supabase = getSupabase(supabaseToken);
@@ -79,17 +89,25 @@ async function isActiveSessionCurrent (sessionData) {
 
   if (error) {
     if (shouldFailOpen(error)) {
-      return true;
+      return 'current';
     }
     throw error;
   }
 
-  if (!activeSessionId) {
-    console.warn('Session is missing active session id. Allowing only when no newer active session is registered.');
-    return !data;
+  if (!data) {
+    if (!activeSessionId) {
+      console.warn('Session is missing active session id and no DB row found.');
+      return 'orphaned';
+    }
+    return 'orphaned';
   }
 
-  return data?.active_session_id === activeSessionId;
+  if (!activeSessionId) {
+    console.warn('Session is missing active session id. Superseded by existing DB record.');
+    return 'superseded';
+  }
+
+  return data.active_session_id === activeSessionId ? 'current' : 'superseded';
 }
 
 async function touchActiveSession (sessionData, event) {
