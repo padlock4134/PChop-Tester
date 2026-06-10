@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const CLOSE_MARKER_KEY = 'porkchop-session-closed';
 const TAB_SESSION_KEY = 'porkchop-tab-session-active';
@@ -7,6 +7,7 @@ const ACTIVE_TABS_KEY = 'porkchop-active-tabs';
 const FRESH_LOGIN_PARAM = 'fresh_login';
 const HEARTBEAT_INTERVAL_MS = 5_000;
 const STALE_TAB_MS = 20_000;
+const VISIBILITY_TIMEOUT_MS = 5 * 60 * 1000; // 5 minutes
 
 type ActiveTabs = Record<string, number>;
 
@@ -79,16 +80,16 @@ const redirectToLogout = () => {
 };
 
 /**
- * Keeps post-login client bookkeeping from old browser-close experiments out of
- * the auth-critical path.
+ * Uses Page Visibility API to detect when tab is hidden for extended period.
+ * When tab becomes hidden (user switches tabs, minimizes browser, closes tab),
+ * starts a 5-minute timer. If tab becomes visible again before timeout, cancels timer.
+ * If timeout completes, calls close-session endpoint to invalidate server session.
  *
- * This hook intentionally does not redirect, call logout, or mutate server-side
- * session state from unload/page lifecycle events. Browser close detection via
- * `pagehide`/heartbeats has repeatedly been able to misclassify login redirects,
- * reloads, and React remounts as a closed browser, causing instant logout after
- * sign-in. Login stability wins here.
+ * This is more reliable than unload events and doesn't trigger on reloads.
  */
 export const useCloseSessionOnUnload = (enabled: boolean) => {
+  const visibilityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
     if (!enabled) return;
 
@@ -108,5 +109,40 @@ export const useCloseSessionOnUnload = (enabled: boolean) => {
       url.searchParams.delete(FRESH_LOGIN_PARAM);
       window.history.replaceState({}, document.title, `${url.pathname}${url.search}${url.hash}`);
     }
+
+    // Visibility API for tab close detection
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        // Tab became hidden - start 5-minute timer
+        if (visibilityTimeoutRef.current) {
+          clearTimeout(visibilityTimeoutRef.current);
+        }
+        visibilityTimeoutRef.current = setTimeout(async () => {
+          try {
+            await fetch('/.netlify/functions/auth-close-session', {
+              method: 'POST',
+              keepalive: true
+            });
+          } catch (error) {
+            console.warn('Failed to close session on visibility timeout:', error);
+          }
+        }, VISIBILITY_TIMEOUT_MS);
+      } else if (document.visibilityState === 'visible') {
+        // Tab became visible again - cancel timer
+        if (visibilityTimeoutRef.current) {
+          clearTimeout(visibilityTimeoutRef.current);
+          visibilityTimeoutRef.current = null;
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      if (visibilityTimeoutRef.current) {
+        clearTimeout(visibilityTimeoutRef.current);
+      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, [enabled]);
 };

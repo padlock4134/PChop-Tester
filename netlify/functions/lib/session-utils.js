@@ -48,12 +48,13 @@ async function getSessionFromCookie(event) {
 // Create or update the session cookie string
 async function setSessionCookie(sessionData) {
   const encryptedSession = await encryptSession(sessionData);
-  // No maxAge — cookie is session-scoped and dies when the browser closes.
+  // 15-minute maxAge to defeat Chrome's session restore and provide hard timeout
   return createCookieString('session', encryptedSession, {
     path: '/',
     httpOnly: true,
     secure: !WRISTBAND_CONFIG.dangerouslyDisableSecureCookies,
-    sameSite: 'Lax'
+    sameSite: 'Lax',
+    maxAge: 15 * 60 // 15 minutes in seconds
   });
 }
 
