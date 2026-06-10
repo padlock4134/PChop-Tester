@@ -327,6 +327,8 @@ const AppRoutes = () => {
   const { currentDiscipline } = useDiscipline();
   const hasRedirected = useRef(false);
 
+  useCloseSessionOnUnload(authStatus === AuthStatus.AUTHENTICATED && !!user && !isLoading);
+
   // Post-auth routing useEffect - ALWAYS at top level
   useEffect(() => {
     if (!user || isLoading) return;

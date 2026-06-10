@@ -13,8 +13,9 @@ const { createSupabaseJwt } = require('./lib/supabase-utils.js');
 const LOGIN_REQUIRED_ERROR = 'login_required';
 
 function appendFreshLoginParam (url) {
-  const separator = url.includes('?') ? '&' : '?';
-  return `${url}${separator}fresh_login=1`;
+  const [urlWithoutHash, hash = ''] = url.split('#');
+  const separator = urlWithoutHash.includes('?') ? '&' : '?';
+  return `${urlWithoutHash}${separator}fresh_login=1${hash ? `#${hash}` : ''}`;
 }
 
 function validateQueryParams (query = {}) {
