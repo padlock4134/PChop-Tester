@@ -4,6 +4,7 @@ const { WRISTBAND_CONFIG, validateWristbandConfig } = require('./lib/wristband-c
 const { resolveTenantDomainName } = require('./lib/wristband-utils.js');
 const { createErrorResponse, createRedirectResponse } = require('./lib/http-utils.js');
 const { setSessionCookie } = require('./lib/session-utils.js');
+const { createSessionId, registerActiveSession } = require('./lib/active-session-utils.js');
 const { createCsrfToken, setCsrfCookie } = require('./lib/csrf-utils.js');
 const { clearLoginStateCookie, getLoginStateCookieData } = require('./lib/login-state-utils.js');
 const { exchangeAuthCodeForTokens, getUserinfo, InvalidGrantError } = require('./lib/wristband-api.js');
@@ -116,6 +117,7 @@ exports.handler = async (event) => {
     const csrfToken = createCsrfToken();
     const sessionData = {
       isAuthenticated: true,
+      activeSessionId: createSessionId(),
       accessToken: tokenResponse.access_token,
       refreshToken: tokenResponse.refresh_token,
       // Convert the "expiresIn" seconds into milliseconds from the epoch.
@@ -132,6 +134,9 @@ exports.handler = async (event) => {
       // This token will be used in React when the browser needs to make requests to Supabase.
       supabaseToken: createSupabaseJwt(userinfo.sub, userinfo.tnt_id)
     };
+    // New login wins: this overwrites any prior active session for the same user and tenant.
+    await registerActiveSession(sessionData, event);
+
     const sessionCookie = await setSessionCookie(sessionData);
     const csrfCookie = setCsrfCookie(csrfToken);
 

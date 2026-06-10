@@ -2,6 +2,7 @@
 const { getSessionFromCookie, clearSessionCookie } = require('./lib/session-utils');
 const { WRISTBAND_CONFIG, validateWristbandConfig } = require('./lib/wristband-config.js');
 const { clearCsrfCookie } = require('./lib/csrf-utils.js');
+const { clearActiveSession } = require('./lib/active-session-utils.js');
 const { createErrorResponse, createRedirectResponse } = require('./lib/http-utils.js');
 const { revokeRefreshToken } = require('./lib/wristband-api.js');
 
@@ -31,6 +32,8 @@ exports.handler = async (event) => {
     // Get session from cookie
     const sessionData = await getSessionFromCookie(event);
     const { refreshToken } = sessionData;
+
+    await clearActiveSession(sessionData);
 
     const sessionCookieToClear = clearSessionCookie();
     const csrfCookieToClear = clearCsrfCookie();
