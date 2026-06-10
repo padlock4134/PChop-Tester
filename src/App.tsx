@@ -133,6 +133,7 @@ import { setSupabaseJwt as setMachiningSupabaseJwt } from './disciplines/welding
 import { useDeviceDetect, getResponsiveClasses } from './disciplines/culinary/utils/responsiveUtils';
 import InactivityWarningModal from './disciplines/culinary/components/InactivityWarningModal';
 import { useAutoLogout } from './disciplines/culinary/hooks/useAutoLogout';
+import { useCloseSessionOnUnload } from './hooks/useCloseSessionOnUnload';
 import UnifiedAdminDashboard from './components/UnifiedAdminDashboard';
 
 // Admin toggle context
@@ -325,6 +326,8 @@ const AppRoutes = () => {
   const { isAdminMode } = useAdminToggle();
   const { currentDiscipline } = useDiscipline();
   const hasRedirected = useRef(false);
+
+  useCloseSessionOnUnload(authStatus === AuthStatus.AUTHENTICATED && !!user && !isLoading);
 
   // Post-auth routing useEffect - ALWAYS at top level
   useEffect(() => {
