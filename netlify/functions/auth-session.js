@@ -2,7 +2,7 @@
 // Session endpoint to get current user session data
 const { clearCsrfCookie, isCsrfValid, setCsrfCookie } = require('./lib/csrf-utils.js');
 const { clearSessionCookie, getSessionFromCookie, isSessionValid, setSessionCookie } = require('./lib/session-utils.js');
-const { isActiveSessionCurrent, registerActiveSession, touchActiveSession } = require('./lib/active-session-utils.js');
+const { isActiveSessionCurrent, touchActiveSession } = require('./lib/active-session-utils.js');
 const { createErrorResponse, createOkResponseWithBody } = require('./lib/http-utils.js');
 
 // Main handler function
@@ -29,10 +29,7 @@ exports.handler = async (event) => {
       return createErrorResponse(401, 'Session superseded by another login', null, [clearSessionCookie(), clearCsrfCookie()]);
     }
     if (activeSessionStatus === 'orphaned') {
-      // No DB row exists (e.g. the tab-close beacon fired during a page reload and
-      // deleted the row before this request arrived). Re-register so the reload
-      // succeeds; a true close will be caught by the localStorage marker on next open.
-      await registerActiveSession(session, event);
+      return createErrorResponse(401, 'Session closed', null, [clearSessionCookie(), clearCsrfCookie()]);
     }
 
     await touchActiveSession(session, event);
