@@ -31,7 +31,7 @@ exports.handler = async (event) => {
     if (activeSessionStatus === 'orphaned') {
       // No DB row exists (e.g. the tab-close beacon fired during a page reload and
       // deleted the row before this request arrived). Re-register so the reload
-      // succeeds; a true close will be caught by the localStorage marker on next open.
+      // succeeds; a true close will be caught by the client-side close marker on next open.
       await registerActiveSession(session, event);
     }
 
