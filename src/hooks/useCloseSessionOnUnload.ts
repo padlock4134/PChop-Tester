@@ -79,13 +79,14 @@ const redirectToLogout = () => {
 };
 
 /**
- * Enforces browser-session logout without treating React remounts as tab closes.
+ * Keeps post-login client bookkeeping from old browser-close experiments out of
+ * the auth-critical path.
  *
- * The important distinction is that React effect cleanup is not a browser/tab
- * close. The active-tab registry is only cleared from the real `pagehide` event;
- * cleanup only removes event listeners and timers. This prevents first-login
- * route changes, provider remounts, and React StrictMode remounts from deleting
- * the current tab and immediately logging the user out.
+ * This hook intentionally does not redirect, call logout, or mutate server-side
+ * session state from unload/page lifecycle events. Browser close detection via
+ * `pagehide`/heartbeats has repeatedly been able to misclassify login redirects,
+ * reloads, and React remounts as a closed browser, causing instant logout after
+ * sign-in. Login stability wins here.
  */
 export const useCloseSessionOnUnload = (enabled: boolean) => {
   useEffect(() => {
@@ -98,47 +99,14 @@ export const useCloseSessionOnUnload = (enabled: boolean) => {
     const isReload = getNavigationType() === 'reload';
     const hasCloseMarker = !!localStorage.getItem(CLOSE_MARKER_KEY);
 
+    localStorage.removeItem(CLOSE_MARKER_KEY);
+    localStorage.removeItem(ACTIVE_TABS_KEY);
+    sessionStorage.removeItem(TAB_ID_KEY);
+    sessionStorage.setItem(TAB_SESSION_KEY, 'true');
+
     if (isFreshLogin) {
-      localStorage.removeItem(CLOSE_MARKER_KEY);
-      sessionStorage.setItem(TAB_SESSION_KEY, 'true');
       url.searchParams.delete(FRESH_LOGIN_PARAM);
       window.history.replaceState({}, document.title, `${url.pathname}${url.search}${url.hash}`);
-    } else if (!isReload && hasCloseMarker && !hasActiveTabs(activeTabs)) {
-      redirectToLogout();
-      return;
-    } else if (!existingTabId && !hasActiveTabs(activeTabs)) {
-      localStorage.setItem(CLOSE_MARKER_KEY, String(now()));
-      redirectToLogout();
-      return;
-    } else {
-      localStorage.removeItem(CLOSE_MARKER_KEY);
-      sessionStorage.setItem(TAB_SESSION_KEY, 'true');
     }
-
-    const tabId = existingTabId || createTabId();
-    sessionStorage.setItem(TAB_ID_KEY, tabId);
-    markTabActive(tabId);
-
-    const heartbeatId = window.setInterval(() => markTabActive(tabId), HEARTBEAT_INTERVAL_MS);
-
-    const handlePageHide = () => {
-      const remainingTabs = removeTab(tabId);
-      if (!hasActiveTabs(remainingTabs)) {
-        localStorage.setItem(CLOSE_MARKER_KEY, String(now()));
-      }
-    };
-    const handlePageShow = () => {
-      localStorage.removeItem(CLOSE_MARKER_KEY);
-      markTabActive(tabId);
-    };
-
-    window.addEventListener('pagehide', handlePageHide);
-    window.addEventListener('pageshow', handlePageShow);
-
-    return () => {
-      window.clearInterval(heartbeatId);
-      window.removeEventListener('pagehide', handlePageHide);
-      window.removeEventListener('pageshow', handlePageShow);
-    };
   }, [enabled]);
 };
