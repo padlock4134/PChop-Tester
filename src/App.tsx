@@ -355,6 +355,7 @@ const AppRoutes = () => {
 
   // Auto logout functionality
   const { showWarning, countdown, stayLoggedIn, logoutNow } = useAutoLogout();
+  useCloseSessionOnUnload(authStatus === AuthStatus.AUTHENTICATED && !!user && !isLoading);
   
   // Render logic happens AFTER hooks
   console.log('AppRoutes - isLoading:', isLoading, 'user:', !!user, 'path:', location.pathname);
