@@ -38,8 +38,8 @@ function createCookieString (name, value, options = {}) {
   return cookieString;
 }
 
-function createErrorResponse (statusCode, message, devMessage = null) {
-  return {
+function createErrorResponse (statusCode, message, devMessage = null, cookies = []) {
+  const response = {
     statusCode,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -47,6 +47,14 @@ function createErrorResponse (statusCode, message, devMessage = null) {
       ...(process.env.NODE_ENV === 'development' && devMessage && { message: devMessage })
     })
   };
+
+  if (cookies.length > 0) {
+    response.multiValueHeaders = {
+      'Set-Cookie': cookies
+    };
+  }
+
+  return response;
 }
 
 function createRedirectResponse (location, cookies = []) {

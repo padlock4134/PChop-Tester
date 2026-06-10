@@ -8,8 +8,10 @@
  */
 const { validateWristbandConfig } = require('./lib/wristband-config.js');
 const { refreshTokenIfExpired } = require('./lib/wristband-api.js');
-const { getSessionFromCookie, setSessionCookie } = require('./lib/session-utils.js');
-const { createErrorResponse } = require('./lib/http-utils');
+const { clearCsrfCookie, isCsrfValid, setCsrfCookie } = require('./lib/csrf-utils.js');
+const { clearSessionCookie, getSessionFromCookie, isSessionValid, setSessionCookie } = require('./lib/session-utils.js');
+const { isActiveSessionCurrent, touchActiveSession } = require('./lib/active-session-utils.js');
+const { createErrorResponse, createOkResponseWithBody } = require('./lib/http-utils');
 
 // Main handler function
 exports.handler = async (event) => {
@@ -31,6 +33,13 @@ exports.handler = async (event) => {
     if (!isCsrfValid(event, csrfToken)) {
       return createErrorResponse(403);
     }
+
+    const activeSessionIsCurrent = await isActiveSessionCurrent(session);
+    if (!activeSessionIsCurrent) {
+      return createErrorResponse(401, 'Session superseded by another login', null, [clearSessionCookie(), clearCsrfCookie()]);
+    }
+
+    await touchActiveSession(session, event);
 
     // Check if we should refresh the token
     let currentSessionData = session;
