@@ -6036,10 +6036,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       onChange={(e) => setSelectedEventId(e.target.value)}
                       className="flex-1 border-4 border-green-400 rounded-lg p-2 sm:p-3 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white text-sm sm:text-base min-h-[44px]"
                     >
-                      <option value="">-- View Existing Event --</option>
-                      <option value="event-1">Class of 2020 Reunion - March 15, 2025</option>
-                      <option value="event-2">Spring Networking Event - April 10, 2025</option>
-                      <option value="event-3">Annual Gala 2025 - May 20, 2025</option>
+                      <option value="">-- No events scheduled yet --</option>
                     </select>
                     <button
                       onClick={() => {
@@ -6480,154 +6477,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
             <div className="flex-1 overflow-y-auto p-3 sm:p-6">
               <div className="space-y-3 sm:space-y-4">
                 <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50">
-                  <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Partners (4):</h3>
-                  <div className="max-h-[400px] overflow-y-auto pr-2">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 sm:gap-3">
-                      <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <p className="font-semibold text-gray-900 text-sm sm:text-base">The French Laundry</p>
-                            <p className="text-xs text-gray-600">Yountville, CA</p>
-                          </div>
-                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Active</span>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs mt-2 sm:mt-3">
-                          <div>
-                            <p className="text-gray-600">Students Hired: <strong>12</strong></p>
-                          </div>
-                          <div>
-                            <p className="text-gray-600">Open Positions: <strong>3</strong></p>
-                          </div>
-                          <div>
-                            <p className="text-gray-600">Partnership Since: <strong>2020</strong></p>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => {
-                            setEditingPartnerId('partner-1');
-                            setIsEditMode(true);
-                            setPartnerName('The French Laundry');
-                            setPartnerLocation('Yountville, CA');
-                            setPartnerEmail('contact@frenchlaundry.com');
-                            setPartnerPhone('(707) 944-2380');
-                            setPartnerStudentsHired('12');
-                            setPartnerOpenPositions('3');
-                            setPartnershipYear('2020');
-                          }}
-                          className="mt-2 sm:mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-xs sm:text-sm border-2 border-yellow-400 min-h-[44px]"
-                        >
-                          ✏️ Edit Partner
-                        </button>
-                      </div>
-                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <p className="font-semibold text-gray-900 text-base sm:text-lg">{skin.name} Employer Prime</p>
-                        <p className="text-xs sm:text-sm text-gray-600">New York, NY</p>
-                      </div>
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm mt-3">
-                      <div>
-                        <p className="text-gray-600">Students Hired: <strong>8</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Open Positions: <strong>2</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Partnership Since: <strong>2019</strong></p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => {
-                        setEditingPartnerId('partner-2');
-                        setIsEditMode(true);
-                        setPartnerName(`${skin.name} Employer Prime`);
-                        setPartnerLocation('New York, NY');
-                        setPartnerEmail(`partners@${skin.people.emailDomain}`);
-                        setPartnerPhone('(212) 889-0905');
-                        setPartnerStudentsHired('8');
-                        setPartnerOpenPositions('2');
-                        setPartnershipYear('2019');
-                      }}
-                      className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
-                    >
-                      ✏️ Edit Partner
-                    </button>
-                  </div>
-                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <p className="font-semibold text-gray-900 text-base sm:text-lg">{skin.name} Employer A</p>
-                        <p className="text-xs sm:text-sm text-gray-600">Chicago, IL</p>
-                      </div>
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm mt-3">
-                      <div>
-                        <p className="text-gray-600">Students Hired: <strong>15</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Open Positions: <strong>5</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Partnership Since: <strong>2018</strong></p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => {
-                        setEditingPartnerId('partner-3');
-                        setIsEditMode(true);
-                        setPartnerName(`${skin.name} Employer A`);
-                        setPartnerLocation('Chicago, IL');
-                        setPartnerEmail(`careers@${skin.people.emailDomain}`);
-                        setPartnerPhone('(312) 867-0110');
-                        setPartnerStudentsHired('15');
-                        setPartnerOpenPositions('5');
-                        setPartnershipYear('2018');
-                      }}
-                      className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
-                    >
-                      ✏️ Edit Partner
-                    </button>
-                  </div>
-                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3 sm:p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <p className="font-semibold text-gray-900 text-base sm:text-lg">{skin.name} Employer B</p>
-                        <p className="text-xs sm:text-sm text-gray-600">New York, NY</p>
-                      </div>
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs sm:text-sm mt-3">
-                      <div>
-                        <p className="text-gray-600">Students Hired: <strong>10</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Open Positions: <strong>4</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Partnership Since: <strong>2021</strong></p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => {
-                        setEditingPartnerId('partner-4');
-                        setIsEditMode(true);
-                        setPartnerName(`${skin.name} Employer B`);
-                        setPartnerLocation('New York, NY');
-                        setPartnerEmail(`hiring@${skin.people.emailDomain}`);
-                        setPartnerPhone('(212) 554-1515');
-                        setPartnerStudentsHired('10');
-                        setPartnerOpenPositions('4');
-                        setPartnershipYear('2021');
-                      }}
-                      className="mt-3 w-full bg-yellow-100 text-yellow-800 px-4 py-2 rounded-md hover:bg-yellow-200 font-retro text-sm border-2 border-yellow-400 min-h-[44px]"
-                    >
-                      ✏️ Edit Partner
-                    </button>
-                  </div>
-                    </div>
+                  <h3 className="font-bold text-blue-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Partners:</h3>
+                  <div className="text-center py-8 text-gray-500">
+                    <p className="text-base font-medium">No partners added yet.</p>
+                    <p className="text-sm mt-2">Use the form below to add your first industry partner.</p>
                   </div>
                 </div>
                 <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4">
@@ -6825,15 +6678,15 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4">
                   <div className="border-4 border-purple-400 rounded-lg p-2 sm:p-4 bg-purple-50 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">24</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">0</div>
                     <p className="text-xs sm:text-sm text-purple-800 font-medium mt-1">Active Internships</p>
                   </div>
                   <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-4 bg-blue-50 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">8</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">0</div>
                     <p className="text-xs sm:text-sm text-blue-800 font-medium mt-1">Job Fairs Scheduled</p>
                   </div>
                   <div className="border-4 border-green-400 rounded-lg p-2 sm:p-4 bg-green-50 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-green-600">156</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">0</div>
                     <p className="text-xs sm:text-sm text-green-800 font-medium mt-1">Students Counseled</p>
                   </div>
                 </div>
@@ -6845,10 +6698,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     onChange={(e) => setSelectedCareerEventId(e.target.value)}
                       className="flex-1 border-4 border-purple-400 rounded-lg p-2 sm:p-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white min-h-[44px]"
                     >
-                      <option value="">-- View Existing Event --</option>
-                      <option value="career-1">Spring Career Fair 2025 - March 15, 2025</option>
-                      <option value="career-2">Resume Workshop - February 20, 2025</option>
-                      <option value="career-3">Interview Prep Session - April 5, 2025</option>
+                      <option value="">-- No events scheduled yet --</option>
                     </select>
                     <button
                       onClick={() => {
@@ -7259,32 +7109,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-4">
                 {/* Event Info */}
                 <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4 bg-green-50">
-                  <h3 className="font-bold text-green-800 mb-2 sm:mb-3 text-sm sm:text-lg">
-                    {selectedEventId === 'event-1' && 'Class of 2020 Reunion'}
-                    {selectedEventId === 'event-2' && 'Spring Networking Event'}
-                    {selectedEventId === 'event-3' && 'Annual Gala 2025'}
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
-                    <div>
-                      <p className="text-gray-600"><strong>Date:</strong> 
-                        {selectedEventId === 'event-1' && ' March 15, 2025'}
-                        {selectedEventId === 'event-2' && ' April 10, 2025'}
-                        {selectedEventId === 'event-3' && ' May 20, 2025'}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600"><strong>Time:</strong> 6:00 PM - 9:00 PM</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600"><strong>Location:</strong> Grand Ballroom, Downtown</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600"><strong>Type:</strong> 
-                        {selectedEventId === 'event-1' && ' Reunion Dinner'}
-                        {selectedEventId === 'event-2' && ' Networking Event'}
-                        {selectedEventId === 'event-3' && ' Fundraising Gala'}
-                      </p>
-                    </div>
+                  <div className="text-center py-4 text-gray-500">
+                    <p className="text-sm font-medium">No event selected.</p>
                   </div>
                 </div>
 
@@ -7311,81 +7137,10 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 {/* Certification Types */}
                 <div className="border-4 border-orange-400 rounded-lg p-3 sm:p-4">
                   <h3 className="font-bold text-orange-800 mb-2 sm:mb-3 text-sm sm:text-base">Certification Types Tracked:</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
-                    <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-2 sm:p-3">
-                      <div className="flex justify-between items-center gap-2">
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 text-xs sm:text-sm">🏅 Core Safety Certification</p>
-                          <p className="text-xs text-gray-600">Core program safety requirement</p>
-                        </div>
-                        <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">📄 Licensing Permit</p>
-                        <p className="text-xs text-gray-600">State-required professional permit</p>
-                      </div>
-                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">⚠️ Risk Management Training</p>
-                        <p className="text-xs text-gray-600">Safety hazard awareness</p>
-                      </div>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">✅ Client Service Certification</p>
-                        <p className="text-xs text-gray-600">Professional customer-service standards</p>
-                      </div>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">🧰 Equipment Operations Certification</p>
-                        <p className="text-xs text-gray-600">Tool and equipment operation standards</p>
-                      </div>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">🍺 Brewing Certification</p>
-                        <p className="text-xs text-gray-600">Craft brewing & beer knowledge</p>
-                      </div>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">❤️ CPR/First Aid</p>
-                        <p className="text-xs text-gray-600">Emergency response</p>
-                      </div>
-                      <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">🎂 Specialized Culinary</p>
-                        <p className="text-xs text-gray-600">Pastry, Sommelier, etc.</p>
-                      </div>
-                      <span className="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
+                  <div className="text-center py-4 text-gray-500">
+                    <p className="text-sm">No certifications tracked yet.</p>
+                  </div>
                 </div>
-              </div>
 
                 {/* RSVP List */}
                 <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4">
@@ -7403,7 +7158,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                     
                     try {
-                      // Send reminders to No Response alumni (158 people based on modal stats)
                       const { error } = await supabase
                         .from('notifications')
                         .insert({
@@ -7419,8 +7173,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       // Show branded success modal
                       setDownloadedReportInfo({
                         type: 'Event Reminders Sent',
-                        count: 158,
-                        filename: '158 alumni notified'
+                        count: 0,
+                        filename: 'Reminder sent'
                       });
                       setShowDownloadSuccessModal(true);
                       setShowViewEventModal(false);
@@ -7441,9 +7195,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       const csv = convertToCSV(attendeeData);
                       const timestamp = new Date().toISOString().split('T')[0];
-                      const eventName = selectedEventId === 'event-1' ? 'class-2020-reunion' : 
-                                       selectedEventId === 'event-2' ? 'spring-networking' : 'annual-gala';
-                      const filename = `${eventName}-attendees-${timestamp}.csv`;
+                      const filename = `event-attendees-${timestamp}.csv`;
                       downloadFile(csv, filename);
                       
                       // Show branded success modal
@@ -7493,51 +7245,23 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-4">
                 {/* Event Info */}
                 <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50">
-                  <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-lg">
-                    {selectedCareerEventId === 'career-1' && 'Spring Career Fair 2025'}
-                    {selectedCareerEventId === 'career-2' && 'Resume Workshop'}
-                    {selectedCareerEventId === 'career-3' && 'Interview Prep Session'}
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm">
-                    <div>
-                      <p className="text-gray-600"><strong>Date:</strong> 
-                        {selectedCareerEventId === 'career-1' && ' March 15, 2025'}
-                        {selectedCareerEventId === 'career-2' && ' February 20, 2025'}
-                        {selectedCareerEventId === 'career-3' && ' April 5, 2025'}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600"><strong>Time:</strong> 
-                        {selectedCareerEventId === 'career-1' && ' 10:00 AM - 4:00 PM'}
-                        {selectedCareerEventId === 'career-2' && ' 2:00 PM - 4:00 PM'}
-                        {selectedCareerEventId === 'career-3' && ' 1:00 PM - 3:00 PM'}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600"><strong>Location:</strong> Main Campus Auditorium</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600"><strong>Type:</strong> 
-                        {selectedCareerEventId === 'career-1' && ' Career Fair'}
-                        {selectedCareerEventId === 'career-2' && ' Workshop'}
-                        {selectedCareerEventId === 'career-3' && ' Interview Prep'}
-                      </p>
-                    </div>
+                  <div className="text-center py-4 text-gray-500">
+                    <p className="text-sm font-medium">No event selected.</p>
                   </div>
                 </div>
 
                 {/* Registration Stats */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
                   <div className="border-4 border-blue-400 rounded-lg p-2 sm:p-3 bg-blue-50 text-center">
-                    <div className="text-xl sm:text-2xl font-bold text-blue-600">89</div>
+                    <div className="text-xl sm:text-2xl font-bold text-blue-600">0</div>
                     <p className="text-xs text-blue-800 font-medium">Registered</p>
                   </div>
                   <div className="border-4 border-green-400 rounded-lg p-2 sm:p-3 bg-green-50 text-center">
-                    <div className="text-xl sm:text-2xl font-bold text-green-600">12</div>
+                    <div className="text-xl sm:text-2xl font-bold text-green-600">0</div>
                     <p className="text-xs text-green-800 font-medium">Employers</p>
                   </div>
                   <div className="border-4 border-purple-400 rounded-lg p-2 sm:p-3 bg-purple-50 text-center">
-                    <div className="text-xl sm:text-2xl font-bold text-purple-600">45</div>
+                    <div className="text-xl sm:text-2xl font-bold text-purple-600">0</div>
                     <p className="text-xs text-purple-800 font-medium">Open Positions</p>
                   </div>
                 </div>
@@ -7546,26 +7270,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
                   <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-base">Registered Students:</h3>
                   <div className="max-h-48 overflow-y-auto space-y-2">
-                    <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">Sarah Johnson</p>
-                        <p className="text-xs text-gray-600 truncate">{skin.people.defaultProgram} - Class of 2025</p>
-                      </div>
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Confirmed</span>
-                    </div>
-                    <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">Michael Chen</p>
-                        <p className="text-xs text-gray-600 truncate">Advanced Program - Class of 2025</p>
-                      </div>
-                      <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">Confirmed</span>
-                    </div>
-                    <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3 flex justify-between items-center gap-2">
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-gray-900 text-xs sm:text-sm">Emma Rodriguez</p>
-                        <p className="text-xs text-gray-600 truncate">Culinary Management - Class of 2026</p>
-                      </div>
-                      <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded whitespace-nowrap">Pending</span>
+                    <div className="text-center py-4 text-gray-500">
+                      <p className="text-sm">No students registered yet.</p>
                     </div>
                   </div>
                 </div>
@@ -7580,7 +7286,6 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                     }
                     
                     try {
-                      // Send reminders to registered students (89 people based on modal stats)
                       const { error } = await supabase
                         .from('notifications')
                         .insert({
@@ -7596,8 +7301,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       // Show branded success modal
                       setDownloadedReportInfo({
                         type: 'Career Event Reminders Sent',
-                        count: 89,
-                        filename: '89 students notified'
+                        count: 0,
+                        filename: 'Reminder sent'
                       });
                       setShowDownloadSuccessModal(true);
                       setShowViewCareerEventModal(false);
@@ -7618,9 +7323,7 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                       
                       const csv = convertToCSV(attendeeData);
                       const timestamp = new Date().toISOString().split('T')[0];
-                      const eventName = selectedCareerEventId === 'career-1' ? 'spring-career-fair' : 
-                                       selectedCareerEventId === 'career-2' ? 'resume-workshop' : 'interview-prep';
-                      const filename = `${eventName}-attendees-${timestamp}.csv`;
+                      const filename = `career-event-attendees-${timestamp}.csv`;
                       downloadFile(csv, filename);
                       
                       // Show branded success modal
@@ -7691,79 +7394,8 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 {/* Certification Types */}
                 <div className="border-4 border-orange-400 rounded-lg p-3 sm:p-4">
                   <h3 className="font-bold text-orange-800 mb-2 sm:mb-3 text-sm sm:text-base">Certification Types Tracked:</h3>
-                  <div className="grid grid-cols-1 gap-2 sm:gap-3">
-                    <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-2 sm:p-3">
-                      <div className="flex justify-between items-center gap-2">
-                        <div className="flex-1 min-w-0">
-                          <p className="font-semibold text-gray-900 text-xs sm:text-sm">🏅 Core Safety Certification</p>
-                          <p className="text-xs text-gray-600">Core program safety requirement</p>
-                        </div>
-                        <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded whitespace-nowrap">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">📄 Licensing Permit</p>
-                        <p className="text-xs text-gray-600">State-required professional permit</p>
-                      </div>
-                      <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">⚠️ Risk Management Training</p>
-                        <p className="text-xs text-gray-600">Safety hazard awareness</p>
-                      </div>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">✅ Client Service Certification</p>
-                        <p className="text-xs text-gray-600">Professional customer-service standards</p>
-                      </div>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">🧰 Equipment Operations Certification</p>
-                        <p className="text-xs text-gray-600">Tool and equipment operation standards</p>
-                      </div>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">🍺 Brewing Certification</p>
-                        <p className="text-xs text-gray-600">Craft brewing & beer knowledge</p>
-                      </div>
-                      <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">❤️ CPR/First Aid</p>
-                        <p className="text-xs text-gray-600">Emergency response</p>
-                      </div>
-                      <span className="text-sm bg-yellow-100 text-yellow-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
-                  <div className="bg-orange-50 border-2 border-orange-300 rounded-lg p-3">
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <p className="font-semibold text-gray-900">🎂 Specialized Culinary</p>
-                        <p className="text-xs text-gray-600">Pastry, Sommelier, etc.</p>
-                      </div>
-                      <span className="text-sm bg-purple-100 text-purple-800 px-2 py-1 rounded">— certified</span>
-                      </div>
-                    </div>
+                  <div className="text-center py-4 text-gray-500">
+                    <p className="text-sm">No certifications tracked yet.</p>
                   </div>
                 </div>
 
