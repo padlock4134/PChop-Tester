@@ -2665,12 +2665,12 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
                 <h3 className="text-center font-bold text-maineBlue mb-3 sm:mb-4 text-sm sm:text-base">📊 {t('admin.studentOverview')}</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                   <div className="bg-blue-50 border-4 border-blue-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">{Math.max(users.length, 2)}</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">{users.length}</div>
                     <p className="text-xs sm:text-sm text-blue-800 font-medium">{t('admin.totalStudents')}</p>
                     <p className="text-xs text-blue-600">{t('admin.currentlyEnrolled')}</p>
                   </div>
                   <div className="bg-green-50 border-4 border-green-400 rounded-lg p-2 sm:p-4 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-green-600">{Math.max(users.length, 2)}</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">{users.length}</div>
                     <p className="text-xs sm:text-sm text-green-800 font-medium">{t('admin.activeStudents')}</p>
                     <p className="text-xs text-green-600">{t('admin.last7Days')}</p>
                   </div>
@@ -5462,62 +5462,42 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-4">
               <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4 bg-green-50">
                 <h3 className="font-bold text-green-800 mb-2 sm:mb-3 text-xs sm:text-base">Faculty Members:</h3>
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="bg-white border-2 border-green-300 rounded-lg p-2 sm:p-3">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
-                      <div>
-                        <p className="font-semibold text-gray-900 text-sm sm:text-base">{facultyList[0]?.name || skin.people.mockFaculty[0].name}</p>
-                        <p className="text-xs text-gray-600">julia.martinez@{skin.people.emailDomain}</p>
+                {facultyList.length === 0 ? (
+                  <div className="text-center py-4 text-gray-500">
+                    <p className="text-sm">No faculty members added yet.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-2 sm:space-y-3">
+                    {facultyList.map((f, idx) => (
+                      <div key={f.id || idx} className="bg-white border-2 border-green-300 rounded-lg p-2 sm:p-3">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
+                          <div>
+                            <p className="font-semibold text-gray-900 text-sm sm:text-base">{f.name}</p>
+                          </div>
+                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block w-fit">{f.role || 'Instructor'}</span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                          <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                            <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                            <span className="text-gray-700">Grade Assignments</span>
+                          </label>
+                          <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                            <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                            <span className="text-gray-700">Manage Students</span>
+                          </label>
+                          <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                            <input type="checkbox" className="mr-2 w-5 h-5" />
+                            <span className="text-gray-700">Edit Curriculum</span>
+                          </label>
+                          <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
+                            <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
+                            <span className="text-gray-700">View Reports</span>
+                          </label>
+                        </div>
                       </div>
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block w-fit">{facultyList[0]?.role || skin.people.mockFaculty[0].role}</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
-                        <span className="text-gray-700">Grade Assignments</span>
-                      </label>
-                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
-                        <span className="text-gray-700">Manage Students</span>
-                      </label>
-                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                        <input type="checkbox" className="mr-2 w-5 h-5" />
-                        <span className="text-gray-700">Edit Curriculum</span>
-                      </label>
-                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
-                        <span className="text-gray-700">View Reports</span>
-                      </label>
-                      </div>
-                    </div>
-                  <div className="bg-white border-2 border-green-300 rounded-lg p-2 sm:p-3">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
-                      <div>
-                        <p className="font-semibold text-gray-900 text-sm sm:text-base">{facultyList[1]?.name || skin.people.mockFaculty[1].name}</p>
-                        <p className="text-xs text-gray-600">marcus.chen@{skin.people.emailDomain}</p>
-                      </div>
-                      <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded inline-block w-fit">{facultyList[1]?.role || skin.people.mockFaculty[1].role}</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
-                        <span className="text-gray-700">Grade Assignments</span>
-                      </label>
-                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
-                        <span className="text-gray-700">Manage Students</span>
-                      </label>
-                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
-                        <span className="text-gray-700">Edit Curriculum</span>
-                      </label>
-                      <label className="flex items-center text-xs sm:text-sm min-h-[44px]">
-                        <input type="checkbox" className="mr-2 w-5 h-5" defaultChecked />
-                        <span className="text-gray-700">View Reports</span>
-                      </label>
-                      </div>
-                    </div>
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="flex justify-end">
                 <button
@@ -5571,73 +5551,41 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
                 <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50 text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-purple-600">5</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-purple-600">{facultyList.length}</div>
                   <p className="text-xs sm:text-sm text-purple-800 font-medium mt-1">Active Faculty</p>
                 </div>
                 <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50 text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-blue-600">142</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-blue-600">—</div>
                   <p className="text-xs sm:text-sm text-blue-800 font-medium mt-1">Students Taught</p>
                 </div>
                 <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4 bg-green-50 text-center">
-                  <div className="text-2xl sm:text-3xl font-bold text-green-600">4.7</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-green-600">—</div>
                   <p className="text-xs sm:text-sm text-green-800 font-medium mt-1">Avg. Rating</p>
                 </div>
               </div>
               <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
                 <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-xs sm:text-base">Faculty Performance:</h3>
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
-                      <p className="font-semibold text-gray-900 text-sm sm:text-base">{facultyList[0]?.name || skin.people.mockFaculty[0].name}</p>
-                      <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded inline-block w-fit">Excellent</span>
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 text-xs">
-                      <div>
-                        <p className="text-gray-600">Students: <strong>45</strong></p>
+                {facultyList.length === 0 ? (
+                  <div className="text-center py-6 text-gray-500">
+                    <p className="text-sm">No faculty data available yet.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-2 sm:space-y-3">
+                    {facultyList.map((f, idx) => (
+                      <div key={f.id || idx} className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
+                          <p className="font-semibold text-gray-900 text-sm sm:text-base">{f.name}</p>
+                          <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded inline-block w-fit">Active</span>
+                        </div>
+                        <div className="grid grid-cols-3 gap-2 text-xs">
+                          <div><p className="text-gray-600">Courses: <strong>{f.courses || '—'}</strong></p></div>
+                          <div><p className="text-gray-600">Students: <strong>—</strong></p></div>
+                          <div><p className="text-gray-600">Rating: <strong>—</strong></p></div>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-gray-600">Courses: <strong>3</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Rating: <strong>4.9/5</strong></p>
-                      </div>
-                      </div>
-                    </div>
-                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
-                      <p className="font-semibold text-gray-900 text-sm sm:text-base">{facultyList[1]?.name || skin.people.mockFaculty[1].name}</p>
-                      <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded inline-block w-fit">Excellent</span>
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 text-xs">
-                      <div>
-                        <p className="text-gray-600">Students: <strong>52</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Courses: <strong>4</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Rating: <strong>4.8/5</strong></p>
-                      </div>
-                      </div>
-                    </div>
-                  <div className="bg-purple-50 border-2 border-purple-300 rounded-lg p-2 sm:p-3">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 gap-1 sm:gap-0">
-                      <p className="font-semibold text-gray-900 text-sm sm:text-base">{skin.people.facultyTitle} Sarah Williams</p>
-                      <span className="text-xs sm:text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block w-fit">Good</span>
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 text-xs">
-                      <div>
-                        <p className="text-gray-600">Students: <strong>38</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Courses: <strong>2</strong></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Rating: <strong>4.5/5</strong></p>
-                      </div>
-                      </div>
-                    </div>
-                </div>
+                    ))}
+                  </div>
+                )}
               </div>
               <div className="flex justify-end">
                 <button
@@ -6197,42 +6145,23 @@ const UnifiedAdminDashboard: React.FC<AdminDashboardProps> = ({ onClose }) => {
               <div className="space-y-3 sm:space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-4">
                   <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">$45,000</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-purple-600">$0</div>
                     <p className="text-xs sm:text-sm text-purple-800 font-medium mt-1">Total Raised</p>
                   </div>
                   <div className="border-4 border-blue-400 rounded-lg p-3 sm:p-4 bg-blue-50 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">127</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600">0</div>
                     <p className="text-xs sm:text-sm text-blue-800 font-medium mt-1">Donors</p>
                   </div>
                   <div className="border-4 border-green-400 rounded-lg p-3 sm:p-4 bg-green-50 text-center">
-                    <div className="text-2xl sm:text-3xl font-bold text-green-600">$354</div>
+                    <div className="text-2xl sm:text-3xl font-bold text-green-600">$0</div>
                     <p className="text-xs sm:text-sm text-green-800 font-medium mt-1">Avg. Donation</p>
                   </div>
                 </div>
                 <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4 bg-purple-50">
                   <h3 className="font-bold text-purple-800 mb-2 sm:mb-3 text-sm sm:text-base">Active Campaigns:</h3>
-                  <div className="space-y-2 sm:space-y-3">
-                    <div className="bg-white border-2 border-purple-300 rounded-lg p-2 sm:p-3">
-                      <div className="flex justify-between items-center mb-2">
-                        <p className="font-semibold text-gray-900 text-xs sm:text-base">Scholarship Fund 2025</p>
-                        <span className="text-xs sm:text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Active</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                        <div className="bg-purple-600 h-2 rounded-full" style={{width: '75%'}}></div>
-                      </div>
-                      <p className="text-xs text-gray-600">$22,500 of $30,000 goal</p>
-                    </div>
-                    <div className="bg-white border-2 border-purple-300 rounded-lg p-2 sm:p-3">
-                      <div className="flex justify-between items-center mb-2">
-                        <p className="font-semibold text-gray-900 text-xs sm:text-base">New Lab Equipment</p>
-                        <span className="text-xs sm:text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">In Progress</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
-                        <div className="bg-purple-600 h-2 rounded-full" style={{width: '45%'}}></div>
-                      </div>
-                      <p className="text-xs text-gray-600">$13,500 of $30,000 goal</p>
-                      </div>
-                    </div>
+                  <div className="text-center py-4 text-gray-500">
+                    <p className="text-sm">No active campaigns yet. Use the form below to create one.</p>
+                  </div>
                 </div>
                 <div className="border-4 border-purple-400 rounded-lg p-3 sm:p-4">
                   <h3 className="font-bold text-purple-800 mb-2 text-sm sm:text-base">Create New Campaign:</h3>
