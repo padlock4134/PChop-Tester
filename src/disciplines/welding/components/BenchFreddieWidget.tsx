@@ -22,7 +22,7 @@ const getProactiveMessage = (page: string, t: any) => {
     case 'WeldingSchool':
       return "Welcome to Welding School — I can help you prep for AWS certifications or find welding technique videos.";
     default:
-      return "Hey! I'm Jake the Welder, your AI welding assistant. Ask me anything about weld processes, filler metals, or AWS codes.";
+      return "Hey! I'm Ironworker Jake, your AI welding assistant. Ask me anything about weld processes, filler metals, or AWS codes.";
   }
 };
 
@@ -110,11 +110,11 @@ const BenchFreddieWidget = () => {
       <button
         className="fixed bottom-6 right-6 bg-maineBlue text-seafoam rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:bg-seafoam hover:text-maineBlue transition-colors"
         onClick={() => setOpen(o => !o)}
-        aria-label="Open Jake the Welder AI Assistant"
+        aria-label="Open Ironworker Jake AI Assistant"
       >
         <img
           src={jakeWelderPng}
-          alt="Jake the Welder"
+          alt="Ironworker Jake"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />
       </button>
@@ -123,7 +123,7 @@ const BenchFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Jake the Welder</span>
+              <span className="font-bold text-maineBlue">Ironworker Jake</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);

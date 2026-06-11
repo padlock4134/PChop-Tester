@@ -22,7 +22,7 @@ const getProactiveMessage = (page: string, t: any) => {
     case 'LogisticsSchool':
       return "Welcome to Logistics School — I can help you prep for DOT compliance exams or find supply chain technique videos.";
     default:
-      return "Hey! I'm Lou the Dispatcher, your AI logistics assistant. Ask me anything about routing, freight classification, or DOT compliance.";
+      return "Hey! I'm Gear Jamming Daniel, your AI logistics assistant. Ask me anything about routing, freight classification, or DOT compliance.";
   }
 };
 
@@ -110,11 +110,11 @@ const DockFreddieWidget = () => {
       <button
         className="fixed bottom-6 right-6 bg-maineBlue text-seafoam rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:bg-seafoam hover:text-maineBlue transition-colors"
         onClick={() => setOpen(o => !o)}
-        aria-label="Open Lou the Dispatcher AI Assistant"
+        aria-label="Open Gear Jamming Daniel AI Assistant"
       >
         <img
           src={dispatcherFreddiePng}
-          alt="Lou the Dispatcher"
+          alt="Gear Jamming Daniel"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />
       </button>
@@ -123,7 +123,7 @@ const DockFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Lou the Dispatcher</span>
+              <span className="font-bold text-maineBlue">Gear Jamming Daniel</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);

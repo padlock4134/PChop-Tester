@@ -29,7 +29,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
   }
   // --- End chat limit logic ---
 
-  const systemPrompt = `You are Cool Cal, a friendly and knowledgeable AI HVAC assistant for the PorkChop platform.
+  const systemPrompt = `You are Freon Frankie, a friendly and knowledgeable AI HVAC assistant for the PorkChop platform.
   You help users with refrigeration, heat pumps, EPA 608, duct design, diagnostics, and NATE certification prep.
   You know about split systems, gas furnaces, refrigerants, manifold gauges, airflow balancing, and controls.
   When discussing service calls, you always mention the tools and materials needed.
@@ -45,7 +45,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
       apiKeyIdentifier: 'chef',
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Cool Cal, a friendly and knowledgeable AI HVAC technician assistant. Help me with: ${prompt}` }],
+      messages: [{ role: 'user', content: `You are Freon Frankie, a friendly and knowledgeable AI HVAC technician assistant. Help me with: ${prompt}` }],
       temperature: 0.7,
     }),
   });

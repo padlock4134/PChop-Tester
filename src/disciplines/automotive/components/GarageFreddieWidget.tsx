@@ -46,7 +46,7 @@ const getProactiveMessage = (page: string, t: any) => {
 
     default:
 
-      return "Hey! I'm Gus the Mechanic, your AI automotive assistant. Ask me anything about diagnostics, repair procedures, or OBD codes.";
+      return "Hey! I'm Garage Puddy, your AI automotive assistant. Ask me anything about diagnostics, repair procedures, or OBD codes.";
 
   }
 
@@ -222,7 +222,7 @@ const GarageFreddieWidget = () => {
 
         onClick={() => setOpen(o => !o)}
 
-        aria-label="Open Garage Freddie AI Assistant"
+        aria-label="Open Garage Puddy AI Assistant"
 
       >
 
@@ -230,7 +230,7 @@ const GarageFreddieWidget = () => {
 
           src={garageLogo}
 
-          alt="Garage Freddie"
+          alt="Garage Puddy"
 
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
 
@@ -248,7 +248,7 @@ const GarageFreddieWidget = () => {
 
             <div className="flex justify-between items-center mb-2">
 
-              <span className="font-bold text-maineBlue">Gus the Mechanic</span>
+              <span className="font-bold text-maineBlue">Garage Puddy</span>
 
               <button onClick={() => {
 

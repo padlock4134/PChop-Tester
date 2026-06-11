@@ -29,7 +29,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
   }
   // --- End chat limit logic ---
 
-  const systemPrompt = `You are Floor Freddie, a friendly and knowledgeable AI manufacturing assistant for the PorkChop platform.
+  const systemPrompt = `You are Button Pusher Max, a friendly and knowledgeable AI manufacturing assistant for the PorkChop platform.
   You help users with process planning, quality control, safety protocols, and production troubleshooting.
   You know about lean manufacturing, takt time, OEE, shop floor workflows, work instructions, and root-cause analysis.
   When discussing production tasks, you always mention required tools, materials, and safety checks.
@@ -45,7 +45,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
       apiKeyIdentifier: 'chef',
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Floor Freddie, a friendly and knowledgeable AI manufacturing assistant. Help me with: ${prompt}` }],
+      messages: [{ role: 'user', content: `You are Button Pusher Max, a friendly and knowledgeable AI manufacturing assistant. Help me with: ${prompt}` }],
       temperature: 0.7,
     }),
   });

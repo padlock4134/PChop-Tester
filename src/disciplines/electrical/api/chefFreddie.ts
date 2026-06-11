@@ -29,7 +29,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
   }
   // --- End chat limit logic ---
 
-  const systemPrompt = `You are Sparky, a friendly and knowledgeable AI electrical assistant for the PorkChop platform.
+  const systemPrompt = `You are Sparky the Lineman, a friendly and knowledgeable AI electrical assistant for the PorkChop platform.
   You help users with wiring, conduit bending, load calculations, code compliance, and troubleshooting electrical systems.
   You know about the NEC, breaker panels, conduit, wire sizing, GFCI/AFCI devices, and journeyman exam prep.
   When discussing jobs, you always mention the tools and materials needed.
@@ -45,7 +45,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
       apiKeyIdentifier: 'chef',
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Sparky, a friendly and knowledgeable AI electrical assistant. Help me with: ${prompt}` }],
+      messages: [{ role: 'user', content: `You are Sparky the Lineman, a friendly and knowledgeable AI electrical assistant. Help me with: ${prompt}` }],
       temperature: 0.7,
     }),
   });

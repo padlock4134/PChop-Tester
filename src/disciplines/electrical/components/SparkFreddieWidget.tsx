@@ -110,11 +110,11 @@ const SparkFreddieWidget = () => {
       <button
         className="fixed bottom-6 right-6 bg-maineBlue text-seafoam rounded-full w-16 h-16 flex items-center justify-center shadow-lg z-50 hover:bg-seafoam hover:text-maineBlue transition-colors"
         onClick={() => setOpen(o => !o)}
-        aria-label="Open Sparky AI Assistant"
+        aria-label="Open Sparky the Lineman AI Assistant"
       >
         <img
           src={chefFreddiePng}
-          alt="Sparky"
+          alt="Sparky the Lineman"
           className="w-12 h-12 rounded-full object-cover border-2 border-seafoam bg-white"
         />
       </button>
@@ -123,7 +123,7 @@ const SparkFreddieWidget = () => {
         <React.Fragment>
           <div className="fixed bottom-24 right-6 bg-white border-4 border-maineBlue rounded shadow-lg p-4 w-80 z-50 flex flex-col max-h-[60vh]">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-bold text-maineBlue">Sparky</span>
+              <span className="font-bold text-maineBlue">Sparky the Lineman</span>
               <button onClick={() => {
                 setOpen(false);
                 setMessages([]);

@@ -29,7 +29,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
   }
   // --- End chat limit logic ---
 
-  const systemPrompt = `You are Chef Freddie, a friendly and knowledgeable AI chef assistant for the PorkChop cooking app.
+  const systemPrompt = `You are Tojimaster Kito, a friendly and knowledgeable AI chef assistant for the PorkChop cooking app.
   You help users with recipe suggestions, cooking tips, and kitchen equipment advice.
   You know about common kitchen equipment like pots, pans, knives, cutting boards, mixers, blenders, etc.
   When discussing recipes, you always mention what equipment is needed.
@@ -45,7 +45,7 @@ export async function askChefFreddie(userId: string, prompt: string): Promise<st
       apiKeyIdentifier: 'chef',
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Chef Freddie, a friendly and knowledgeable AI chef assistant. Help me with: ${prompt}` }],
+      messages: [{ role: 'user', content: `You are Tojimaster Kito, a friendly and knowledgeable AI chef assistant. Help me with: ${prompt}` }],
       temperature: 0.7,
     }),
   });

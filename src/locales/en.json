@@ -471,7 +471,7 @@
     "manageAlumni": "Manage Alumni",
     "trackAlumniSuccess": "Track alumni success, employment, and engagement",
     "viewAlumni": "View Alumni",
-    "chefFreddie": "Chef Freddie - Curriculum Assistant",
+    "chefFreddie": "Tojimaster Kito - Curriculum Assistant",
     "aiCurriculumHelper": "AI-powered curriculum creation and lesson planning",
     "chatWithFreddie": "Chat with Freddie",
     "uploadAndMap": "Upload and map curriculum files to modules",
@@ -610,7 +610,7 @@
     "browseFiles": "Browse Files",
     "generateAPIKey": "Generate API Key",
     "generating": "Generating...",
-    "askChefFreddie": "Ask Chef Freddie",
+    "askChefFreddie": "Ask Tojimaster Kito",
     "supportsFileTypes": "Supports: PDF, Word, Excel, PowerPoint, Images",
     "contentDistribution": "Content Distribution",
     "chooseContentDestination": "Choose which parts of your uploaded content go to each module:",
@@ -713,9 +713,9 @@
     "welcomeChefsCorner": "Ready to connect with fellow cooks or share your latest creation? Ask me anything!",
     "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through our Culinary School!",
     "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you cook up something great!",
-    "errorContacting": "Error contacting Chef Freddie.",
-    "askChefFreddie": "Ask Chef Freddie...",
-    "chatWithFreddie": "Chat with Chef Freddie"
+    "errorContacting": "Error contacting Tojimaster Kito.",
+    "askChefFreddie": "Ask Tojimaster Kito...",
+    "chatWithFreddie": "Chat with Tojimaster Kito"
   },
   "profile": {
     "title": "Profile",
@@ -1024,7 +1024,7 @@
   "recipeMatcher": {
     "recipeMatcher": "Recipe Matcher",
     "findingRecipes": "Finding recipes...",
-    "loadingMessage1": "Chef Freddie Taking A Look...",
+    "loadingMessage1": "Tojimaster Kito Taking A Look...",
     "loadingMessage2": "Preparing Your Meals...",
     "loadingMessage3": "Almost Ready...",
     "noMoreSuggestions": "No more suggestions.",
@@ -1541,9 +1541,9 @@
   "garageMatcher": {
     "garageMatcher": "Repair Guide Matcher",
     "findingGuides": "Finding repair guides...",
-    "loadingMessage1": "Gus the Mechanic is looking at your garage inventory…",
-    "loadingMessage2": "Gus the Mechanic is matching repair procedures…",
-    "loadingMessage3": "Gus the Mechanic is finding the best repair guide for you…",
+    "loadingMessage1": "Garage Puddy is looking at your garage inventory…",
+    "loadingMessage2": "Garage Puddy is matching repair procedures…",
+    "loadingMessage3": "Garage Puddy is finding the best repair guide for you…",
     "noMoreSuggestions": "No more suggestions.",
     "tryUpdatingGarage": "Try updating your garage!",
     "fixIt": "Fix It",
@@ -1744,9 +1744,9 @@
     "welcomeChefsCorner": "Ready to connect with fellow gearheads or share your latest build? Ask me anything!",
     "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through Auto School!",
     "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you wrench it out!",
-    "errorContacting": "Error contacting Garage Freddie.",
-    "askChefFreddie": "Ask Garage Freddie...",
-    "chatWithFreddie": "Chat with Garage Freddie"
+    "errorContacting": "Error contacting Garage Puddy.",
+    "askChefFreddie": "Ask Garage Puddy...",
+    "chatWithFreddie": "Chat with Garage Puddy"
   },
   "siteFreddie": {
     "welcomeMyKitchen": "Welcome to My Site! Need help tracking materials for your build?",
@@ -1754,9 +1754,9 @@
     "welcomeChefsCorner": "Ready to connect with fellow builders or share your latest project? Ask me anything!",
     "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through Build School!",
     "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you build it right!",
-    "errorContacting": "Error contacting Site Freddie.",
-    "askChefFreddie": "Ask Site Freddie...",
-    "chatWithFreddie": "Chat with Site Freddie"
+    "errorContacting": "Error contacting Foreman Frank.",
+    "askChefFreddie": "Ask Foreman Frank...",
+    "chatWithFreddie": "Chat with Foreman Frank"
   },
   "sparkFreddie": {
     "welcomeMyKitchen": "Welcome to My Panel! Need help identifying components for your wiring job?",
@@ -1764,9 +1764,9 @@
     "welcomeChefsCorner": "Ready to connect with fellow electricians or share your latest project? Ask me anything!",
     "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through Elec School!",
     "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you wire it up!",
-    "errorContacting": "Error contacting Spark Freddie.",
-    "askChefFreddie": "Ask Spark Freddie...",
-    "chatWithFreddie": "Chat with Spark Freddie"
+    "errorContacting": "Error contacting Sparky the Lineman.",
+    "askChefFreddie": "Ask Sparky the Lineman...",
+    "chatWithFreddie": "Chat with Sparky the Lineman"
   },
   "shopFreddie": {
     "welcomeMyKitchen": "Welcome to My Shop! Need help tracking components for your HVAC job?",
@@ -1774,9 +1774,9 @@
     "welcomeChefsCorner": "Ready to connect with fellow techs or share your latest install? Ask me anything!",
     "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through HVAC School!",
     "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you keep it cool!",
-    "errorContacting": "Error contacting Shop Freddie.",
-    "askChefFreddie": "Ask Shop Freddie...",
-    "chatWithFreddie": "Chat with Shop Freddie"
+    "errorContacting": "Error contacting Freon Frankie.",
+    "askChefFreddie": "Ask Freon Frankie...",
+    "chatWithFreddie": "Chat with Freon Frankie"
   },
   "floorFreddie": {
     "welcomeMyKitchen": "Welcome to My Floor! Need help tracking materials for your production run?",
@@ -1784,9 +1784,9 @@
     "welcomeChefsCorner": "Ready to connect with fellow operators or share your latest setup? Ask me anything!",
     "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through Mfg Academy!",
     "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you run it right!",
-    "errorContacting": "Error contacting Floor Freddie.",
-    "askChefFreddie": "Ask Floor Freddie...",
-    "chatWithFreddie": "Chat with Floor Freddie"
+    "errorContacting": "Error contacting Button Pusher Max.",
+    "askChefFreddie": "Ask Button Pusher Max...",
+    "chatWithFreddie": "Chat with Button Pusher Max"
   },
   "dockFreddie": {
     "welcomeMyKitchen": "Welcome to My Dock! Need help tracking supplies for your shipment?",
@@ -1794,9 +1794,9 @@
     "welcomeChefsCorner": "Ready to connect with fellow dispatchers or share your latest route? Ask me anything!",
     "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through Logistics School!",
     "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you ship it out!",
-    "errorContacting": "Error contacting Dock Freddie.",
-    "askChefFreddie": "Ask Dock Freddie...",
-    "chatWithFreddie": "Chat with Dock Freddie"
+    "errorContacting": "Error contacting Gear Jamming Daniel.",
+    "askChefFreddie": "Ask Gear Jamming Daniel...",
+    "chatWithFreddie": "Chat with Gear Jamming Daniel"
   },
   "benchFreddie": {
     "welcomeMyKitchen": "Welcome to My Booth! Need help finding the right process and materials for your weld job?",
@@ -1804,9 +1804,9 @@
     "welcomeChefsCorner": "Ready to connect with fellow welders or share your latest piece? Ask me anything!",
     "welcomeCulinarySchool": "Curious about learning new skills or earning badges? I can guide you through Welding School!",
     "welcomeDefault": "Need a hand with anything on PorkChop? I'm always here to help you weld it right!",
-    "errorContacting": "Error contacting Bench Freddie.",
-    "askChefFreddie": "Ask Bench Freddie...",
-    "chatWithFreddie": "Chat with Bench Freddie"
+    "errorContacting": "Error contacting Ironworker Jake.",
+    "askChefFreddie": "Ask Ironworker Jake...",
+    "chatWithFreddie": "Chat with Ironworker Jake"
   },
   "plumbingSchool": {
     "title": "Plumbing School",

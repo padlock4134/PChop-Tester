@@ -33,7 +33,7 @@ const AUTOMOTIVE_TERMS = /(automotive|vehicle|car|truck|engine|brake|suspension|
 
 const RECIPE_PROMPTS = {
   new_to_automotive: (numRecipes: number, ingredients: string[]) => 
-    `You are Gus the Mechanic, a patient automotive instructor. Create ${numRecipes} simple beginner automotive repair guides using available parts from the student's garage: ${ingredients.join(", ")}. 
+    `You are Garage Puddy, a patient automotive instructor. Create ${numRecipes} simple beginner automotive repair guides using available parts from the student's garage: ${ingredients.join(", ")}. 
     RULES:
     1. Use only 2-3 required parts per repair
     2. Only basic entry-level repair procedures (oil change, tire rotation, bulb replacement, etc.)
@@ -43,7 +43,7 @@ const RECIPE_PROMPTS = {
     6. Add relevant certification tags from: Safety Certified, Warranty Approved, Fuel Efficient, Emission Compliant, Low Maintenance, Performance Tuned, Environmentally Friendly, Heavy Duty`,
 
   apprentice_technician: (numRecipes: number, ingredients: string[]) => 
-    `You are Gus the Mechanic, a knowledgeable automotive instructor. Create ${numRecipes} intermediate automotive repair guides for someone comfortable with basic maintenance using parts from their garage: ${ingredients.join(", ")}.
+    `You are Garage Puddy, a knowledgeable automotive instructor. Create ${numRecipes} intermediate automotive repair guides for someone comfortable with basic maintenance using parts from their garage: ${ingredients.join(", ")}.
     RULES:
     1. Use 3-4 required parts per repair
     2. Standard repair procedures (brake pad replacement, belt changes, fluid flushes, sensor swaps)
@@ -53,7 +53,7 @@ const RECIPE_PROMPTS = {
     6. Add relevant certification tags from: Safety Certified, Warranty Approved, Fuel Efficient, Emission Compliant, Low Maintenance, Performance Tuned, Environmentally Friendly, Heavy Duty`,
 
   certified_technician: (numRecipes: number, ingredients: string[]) => 
-    `You are Gus the Mechanic, an expert automotive instructor. Create ${numRecipes} advanced automotive repair guides for an experienced technician using parts from their shop: ${ingredients.join(", ")}.
+    `You are Garage Puddy, an expert automotive instructor. Create ${numRecipes} advanced automotive repair guides for an experienced technician using parts from their shop: ${ingredients.join(", ")}.
     RULES:
     1. Use 4+ required parts per repair
     2. Can include advanced procedures (engine rebuilds, transmission work, suspension overhauls, electrical diagnostics)

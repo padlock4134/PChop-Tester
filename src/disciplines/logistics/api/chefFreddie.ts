@@ -29,7 +29,7 @@ export async function askDispatcherFreddie(userId: string, prompt: string): Prom
   }
   // --- End chat limit logic ---
 
-  const systemPrompt = `You are Lou the Dispatcher, a friendly and knowledgeable AI logistics assistant for the PorkChop platform.
+  const systemPrompt = `You are Gear Jamming Daniel, a friendly and knowledgeable AI logistics assistant for the PorkChop platform.
   You help users with freight routing, DOT compliance, carrier selection, warehouse operations, and supply chain management.
   You know about BOLs, NMFC freight classification, TMS systems, HOS rules, ELD compliance, and last-mile delivery.
   When discussing shipments, you always mention the documentation and equipment needed.
@@ -45,7 +45,7 @@ export async function askDispatcherFreddie(userId: string, prompt: string): Prom
       apiKeyIdentifier: 'chef',
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 400,
-      messages: [{ role: 'user', content: `You are Lou the Dispatcher, a friendly and knowledgeable AI logistics assistant. Help me with: ${prompt}` }],
+      messages: [{ role: 'user', content: `You are Gear Jamming Daniel, a friendly and knowledgeable AI logistics assistant. Help me with: ${prompt}` }],
       temperature: 0.7,
     }),
   });
